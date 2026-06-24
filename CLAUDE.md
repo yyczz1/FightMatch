@@ -1,3 +1,25 @@
+# Flow Puzzle 关卡工具 — 项目规则
+
+## 项目身份
+
+- 本项目是 **Unity 2022.3.18f1** 项目。
+- 目标是开发 **Flow Free / Numberlink 类 Flow Puzzle 自动化关卡工具**。
+- 未来功能：关卡生成、求解、唯一解验证、难度评估、编辑器交互、批量生成、导出。
+
+## 开发优先级
+
+1. **简单** — 最少代码解决问题，不过度设计。
+2. **可验证** — 每阶段都能运行并检验结果。
+3. **可回滚** — 小步提交，出问题能快速回退。
+4. **可维护** — 代码清晰、职责分离、后来者能看懂。
+
+## 工作节奏
+
+- 每完成一个明确阶段，必须运行可用验证（编译通过、测试通过、手动验证）。
+- 验证通过后立即 `git commit`，提交信息准确描述本次变更。
+
+---
+
 ## Architecture and Design Rules
 
 This is a Unity project. Prefer simple, maintainable, testable code over speculative architecture.
@@ -23,6 +45,14 @@ Before adding an interface, base class, manager, service, factory, event bus, or
 5. Can the same result be achieved with a simpler class or method?
 
 If the answer is mostly no, do not add the abstraction.
+
+### Runtime / Editor separation
+
+- Runtime 代码和 Editor 工具代码必须分离。
+- Runtime 逻辑放在 `Assets/Scripts/`（或合适的 Runtime 目录），Editor 工具放在 `Assets/Editor/`。
+- Editor 代码可以依赖 Runtime 代码，但 Runtime 代码绝对不能依赖 Editor 代码。
+- 不要把 Generator、Solver、Validator、DifficultyEvaluator、Editor UI 全部塞进一个大类。
+- 每个核心职责（生成、求解、验证、评估、UI）至少应该有独立的类，通过清晰接口协作。
 
 ### Existing architecture priority
 
