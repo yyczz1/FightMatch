@@ -48,44 +48,135 @@ namespace FlowPuzzle.Tests.Generation
             a.levelData.pairs.All(p => b.levelData.pairs.Any(q => DeepEquals(p, q))) &&
             a.solutionData.paths.All(p => b.solutionData.paths.Any(q => DeepEquals(p, q)));
 
+        // ── seed-preservation immediate failures ──
+
         [Test]
-        public void Generate_SameSeed_DeeplyEqual()
+        public void Generate_InvalidDimensions_PreservesSeedAndZeroAttempts()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(0, 5, 2, seed: 77);
+            var r = g.Generate(1, cfg);
+            Assert.IsFalse(r.success);
+            Assert.AreEqual(77, r.usedSeed);
+            Assert.AreEqual(0, r.attemptCount);
+            Assert.AreEqual("InvalidDimensions", r.diagnostic.errorCode);
+        }
+
+        [Test]
+        public void Generate_InvalidCoverageRange_PreservesSeedAndZeroAttempts()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(5, 5, 2, 1.5f, 2f, seed: 88);
+            var r = g.Generate(1, cfg);
+            Assert.IsFalse(r.success);
+            Assert.AreEqual(88, r.usedSeed);
+            Assert.AreEqual(0, r.attemptCount);
+            Assert.AreEqual("ImpossibleCoverageRange", r.diagnostic.errorCode);
+        }
+
+        [Test]
+        public void Generate_InvalidPathLengthRange_PreservesSeedAndZeroAttempts()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(5, 5, 2, minLen: 5, maxLen: 2, seed: 99);
+            var r = g.Generate(1, cfg);
+            Assert.IsFalse(r.success);
+            Assert.AreEqual(99, r.usedSeed);
+            Assert.AreEqual(0, r.attemptCount);
+            Assert.AreEqual("InvalidPathLengthRange", r.diagnostic.errorCode);
+        }
+
+        [Test]
+        public void Generate_InvalidAttemptBudget_PreservesSeedAndZeroAttempts()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(5, 5, 2, seed: 55);
+            cfg.maxLevelAttempt = 0;
+            var r = g.Generate(1, cfg);
+            Assert.IsFalse(r.success);
+            Assert.AreEqual(55, r.usedSeed);
+            Assert.AreEqual(0, r.attemptCount);
+            Assert.AreEqual("InvalidAttemptBudget", r.diagnostic.errorCode);
+        }
+
+        // ── deterministic reproduction ──
+
+        [Test]
+        public void Generate_SameSeed_3x_DeeplyEqual()
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(5, 5, 2, seed: 42);
 
             var r1 = g.Generate(1001, cfg);
-            var r2 = g.Generate(1001, cfg);
-
             Assert.IsTrue(r1.success);
-            Assert.IsTrue(r2.success);
-            Assert.IsTrue(DeepEquals(r1.generatedLevel, r2.generatedLevel));
+
+            for (var i = 0; i < 2; i++)
+            {
+                var r = g.Generate(1001, cfg);
+                Assert.IsTrue(r.success);
+                Assert.IsTrue(DeepEquals(r1.generatedLevel, r.generatedLevel),
+                    $"Run {i + 2} not deeply equal to run 1");
+            }
         }
 
         [Test]
-        public void Generate_RecordsLevelIdAndSeed()
+        public void Generate_DifferentSeeds_DifferentLayouts()
         {
             var g = MakeGenerator();
-            var cfg = MakeConfig(5, 5, 2, seed: 77);
+            var r1 = g.Generate(1, MakeConfig(6, 6, 3, seed: 42, maxLevel: 30));
+            var r2 = g.Generate(1, MakeConfig(6, 6, 3, seed: 123, maxLevel: 30));
 
-            var r = g.Generate(2001, cfg);
-
-            Assert.IsTrue(r.success);
-            Assert.AreEqual(2001, r.levelId);
-            Assert.AreEqual(77, r.usedSeed);
-            Assert.AreEqual(2001, r.generatedLevel.levelData.levelId);
+            Assert.IsTrue(r1.success);
+            Assert.IsTrue(r2.success);
+            Assert.IsFalse(DeepEquals(r1.generatedLevel, r2.generatedLevel));
         }
+
+        // ── board size coverage ──
 
         [Test]
         public void Generate_5x5_Succeeds()
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(5, 5, 2, seed: 42, maxLevel: 50);
-
             var r = g.Generate(1, cfg);
-
             Assert.IsTrue(r.success);
             Assert.IsNotNull(r.generatedLevel);
+        }
+
+        [Test]
+        public void Generate_6x6_Succeeds()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(6, 6, 3, seed: 42, minLen: 2, maxLen: 6, maxLevel: 40);
+            var r = g.Generate(1, cfg);
+            Assert.IsTrue(r.success);
+            Assert.AreEqual(6, r.generatedLevel.levelData.width);
+            Assert.AreEqual(6, r.generatedLevel.levelData.height);
+        }
+
+        [Test]
+        public void Generate_7x7_Succeeds()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(7, 7, 3, seed: 42, minLen: 2, maxLen: 8, maxLevel: 50);
+            var r = g.Generate(1, cfg);
+            Assert.IsTrue(r.success);
+            Assert.AreEqual(7, r.generatedLevel.levelData.width);
+            Assert.AreEqual(7, r.generatedLevel.levelData.height);
+        }
+
+        // ── result contracts ──
+
+        [Test]
+        public void Generate_RecordsLevelIdAndSeed()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(5, 5, 2, seed: 77);
+            var r = g.Generate(2001, cfg);
+            Assert.IsTrue(r.success);
+            Assert.AreEqual(2001, r.levelId);
+            Assert.AreEqual(77, r.usedSeed);
+            Assert.AreEqual(2001, r.generatedLevel.levelData.levelId);
         }
 
         [Test]
@@ -94,27 +185,36 @@ namespace FlowPuzzle.Tests.Generation
             var g = MakeGenerator();
             var validator = new FlowSolutionValidator();
             var cfg = MakeConfig(5, 5, 2, seed: 42, maxLevel: 30);
-
             var r = g.Generate(1, cfg);
-
             Assert.IsTrue(r.success);
             var v = validator.Validate(r.generatedLevel.levelData, r.generatedLevel.solutionData);
             Assert.IsTrue(v.isValid, $"Validation failed: {v.errorCode} — {v.errorMessage}");
         }
 
         [Test]
+        public void Generate_DifficultySyncedToLevelData()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(5, 5, 2, seed: 42, maxLevel: 30);
+            var r = g.Generate(1, cfg);
+            Assert.IsTrue(r.success);
+            Assert.AreEqual(r.generatedLevel.difficultyReport.difficulty,
+                r.generatedLevel.levelData.difficulty);
+            Assert.AreEqual(r.generatedLevel.difficultyReport.totalScore,
+                r.generatedLevel.levelData.difficultyScore);
+        }
+
+        // ── range enforcement ──
+
+        [Test]
         public void Generate_CoverageInRange()
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(5, 5, 2, 0.3f, 0.7f, seed: 42, maxLevel: 30);
-
             var r = g.Generate(1, cfg);
-
             Assert.IsTrue(r.success);
-            Assert.IsTrue(r.generatedLevel.coverageRatio >= 0.3f,
-                $"Coverage {r.generatedLevel.coverageRatio} < 0.3");
-            Assert.IsTrue(r.generatedLevel.coverageRatio <= 0.7f,
-                $"Coverage {r.generatedLevel.coverageRatio} > 0.7");
+            Assert.IsTrue(r.generatedLevel.coverageRatio >= 0.3f);
+            Assert.IsTrue(r.generatedLevel.coverageRatio <= 0.7f);
         }
 
         [Test]
@@ -122,14 +222,12 @@ namespace FlowPuzzle.Tests.Generation
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(5, 5, 2, minLen: 2, maxLen: 5, seed: 42, maxLevel: 30);
-
             var r = g.Generate(1, cfg);
-
             Assert.IsTrue(r.success);
             foreach (var path in r.generatedLevel.solutionData.paths)
             {
-                Assert.IsTrue(path.cells.Count >= 2, $"Path too short: {path.cells.Count}");
-                Assert.IsTrue(path.cells.Count <= 5, $"Path too long: {path.cells.Count}");
+                Assert.IsTrue(path.cells.Count >= 2);
+                Assert.IsTrue(path.cells.Count <= 5);
             }
         }
 
@@ -138,9 +236,7 @@ namespace FlowPuzzle.Tests.Generation
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(5, 5, 3, seed: 42, maxLevel: 30);
-
             var r = g.Generate(1, cfg);
-
             Assert.IsTrue(r.success);
             var pairIds = r.generatedLevel.levelData.pairs.Select(p => p.colorId).ToList();
             var pathIds = r.generatedLevel.solutionData.paths.Select(p => p.colorId).ToList();
@@ -150,15 +246,49 @@ namespace FlowPuzzle.Tests.Generation
         }
 
         [Test]
+        public void Generate_TargetScoreRange_Inclusive_Success()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(5, 5, 2, seed: 42, maxLevel: 30);
+
+            // Get baseline score
+            var baseline = g.Generate(1, cfg);
+            Assert.IsTrue(baseline.success);
+            var score = baseline.generatedLevel.difficultyReport.totalScore;
+
+            // Set inclusive range around the score
+            cfg.useTargetScoreRange = true;
+            cfg.minTargetDifficultyScore = score;
+            cfg.maxTargetDifficultyScore = score;
+
+            var r = g.Generate(1, cfg);
+            Assert.IsTrue(r.success, "Should succeed when target score matches");
+        }
+
+        [Test]
+        public void Generate_TargetScoreRange_NonContaining_Exhausts()
+        {
+            var g = MakeGenerator();
+            var cfg = MakeConfig(3, 3, 1, 0.2f, 0.5f, 2, 3, seed: 42, maxLevel: 5);
+
+            // Set impossible score range
+            cfg.useTargetScoreRange = true;
+            cfg.minTargetDifficultyScore = 9999f;
+            cfg.maxTargetDifficultyScore = 99999f;
+
+            var r = g.Generate(1, cfg);
+            Assert.IsFalse(r.success);
+            Assert.AreEqual(5, r.attemptCount);
+        }
+
+        [Test]
         public void Generate_TargetDifficultyMismatch_ExhaustsAttempts()
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(3, 3, 1, 0.2f, 0.5f, 2, 3, seed: 42, maxLevel: 5);
             cfg.useTargetDifficulty = true;
-            cfg.targetDifficulty = FlowDifficultyTier.Expert; // impossible on 3x3
-
+            cfg.targetDifficulty = FlowDifficultyTier.Expert;
             var r = g.Generate(1, cfg);
-
             Assert.IsFalse(r.success);
             Assert.AreEqual(5, r.attemptCount);
         }
@@ -168,11 +298,7 @@ namespace FlowPuzzle.Tests.Generation
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(3, 3, 5, minLen: 5, maxLevel: 5);
-            // 5 colors * 5 minLen = 25 = 3*3 capacity, need 25 cells for 5 paths of 5 each
-            // But feasibleMax = min(9, 5*5) = 9, feasibleMin = 5*5=25 > 9 → impossible
-
             var r = g.Generate(1, cfg);
-
             Assert.IsFalse(r.success);
             Assert.IsNotNull(r.diagnostic);
         }
@@ -182,9 +308,7 @@ namespace FlowPuzzle.Tests.Generation
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(5, 5, 2, 1.5f, 2f, seed: 42);
-
             var r = g.Generate(1, cfg);
-
             Assert.IsFalse(r.success);
             Assert.IsNotNull(r.diagnostic);
         }
@@ -194,15 +318,8 @@ namespace FlowPuzzle.Tests.Generation
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(5, 5, 2, 0.2f, 0.5f, seed: 42, maxLevel: 30);
-
             var r = g.Generate(1, cfg);
-
             Assert.IsTrue(r.success);
-            var board = new FlowBoard(5, 5);
-            foreach (var path in r.generatedLevel.solutionData.paths)
-            foreach (var cell in path.cells)
-                board.Set(cell, path.colorId);
-            // not all cells occupied → coverage < 1.0
             Assert.IsTrue(r.generatedLevel.coverageRatio < 1.0f);
         }
 
@@ -218,7 +335,6 @@ namespace FlowPuzzle.Tests.Generation
         {
             var g = MakeGenerator();
             var cfg = MakeConfig(6, 6, 3, seed: 123, maxLevel: 30);
-
             for (var i = 0; i < 3; i++)
             {
                 var r = g.Generate(1, cfg);

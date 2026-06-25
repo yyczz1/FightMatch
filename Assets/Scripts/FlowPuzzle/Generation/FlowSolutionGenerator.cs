@@ -33,30 +33,31 @@ namespace FlowPuzzle.Generation
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
 
-            // Configuration checks
+            // Resolve seed before configuration checks
+            var resolvedSeed = config.useRandomSeed
+                ? Environment.TickCount ^ (levelId * 9973)
+                : config.seed;
+
+            // Configuration checks — use resolvedSeed and attemptCount==0
             if (config.width <= 0 || config.height <= 0 || config.colorCount <= 0)
-                return FlowGenerationResult.Failure(levelId, 0, 0,
+                return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
                     "InvalidDimensions", "Width, height, and colorCount must be positive.");
 
             if (config.minCoverageRatio < 0f || config.maxCoverageRatio > 1f ||
                 config.minCoverageRatio > config.maxCoverageRatio)
-                return FlowGenerationResult.Failure(levelId, 0, 0,
+                return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
                     "ImpossibleCoverageRange",
                     $"Coverage range [{config.minCoverageRatio}, {config.maxCoverageRatio}] is impossible.");
 
             if (config.minPathLength < 2 || config.minPathLength > config.maxPathLength)
-                return FlowGenerationResult.Failure(levelId, 0, 0,
+                return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
                     "InvalidPathLengthRange",
                     $"Path length range [{config.minPathLength}, {config.maxPathLength}] is invalid.");
 
             if (config.maxPathAttempt <= 0 || config.maxLevelAttempt <= 0)
-                return FlowGenerationResult.Failure(levelId, 0, 0,
+                return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
                     "InvalidAttemptBudget", "maxPathAttempt and maxLevelAttempt must be positive.");
 
-            // Resolve seed
-            var resolvedSeed = config.useRandomSeed
-                ? Environment.TickCount ^ (levelId * 9973)
-                : config.seed;
             var random = new SystemFlowRandom(resolvedSeed);
 
             var boardCapacity = config.width * config.height;
@@ -155,6 +156,10 @@ namespace FlowPuzzle.Generation
 
                 // Evaluate difficulty
                 var difficultyReport = difficultyEvaluator.Evaluate(levelData, solutionData);
+
+                // Sync difficulty summary into level data
+                levelData.difficulty = difficultyReport.difficulty;
+                levelData.difficultyScore = difficultyReport.totalScore;
 
                 // Target difficulty filter
                 if (config.useTargetDifficulty)

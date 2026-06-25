@@ -23,7 +23,7 @@ namespace FlowPuzzle.Generation
 
         public float NextFloat(float minInclusive, float maxInclusive)
         {
-            if (minInclusive > maxInclusive)
+            if (minInclusive >= maxInclusive)
                 throw new ArgumentOutOfRangeException(nameof(minInclusive),
                     $"minInclusive ({minInclusive}) must not be greater than maxInclusive ({maxInclusive}).");
 

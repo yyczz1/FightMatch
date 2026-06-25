@@ -73,6 +73,13 @@ namespace FlowPuzzle.Tests.Generation
         }
 
         [Test]
+        public void SystemFlowRandom_NextFloat_RejectsEqualBounds()
+        {
+            var r = new SystemFlowRandom(1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => r.NextFloat(3f, 3f));
+        }
+
+        [Test]
         public void SystemFlowRandom_NextInt_EmptyRange_Rejected()
         {
             var r = new SystemFlowRandom(1);
@@ -211,6 +218,19 @@ namespace FlowPuzzle.Tests.Generation
             Assert.AreEqual(12, result.allocatedUsedCellCount);
             Assert.IsNull(result.diagnostic);
             Assert.IsTrue(lengths.SequenceEqual(result.pathLengthsByColorId));
+
+            // prove list-copy ownership: mutate source, verify result unaffected
+            var oldSum = result.allocatedUsedCellCount;
+            var oldOrder = new List<int>(result.generationOrderColorIds);
+            lengths[0] = 999;
+            lengths.Add(99);
+
+            Assert.AreEqual(oldSum, result.allocatedUsedCellCount,
+                "mutating source list should not affect result");
+            Assert.IsTrue(oldOrder.SequenceEqual(result.generationOrderColorIds),
+                "generation order should be stable after source mutation");
+            Assert.AreNotSame(lengths, result.pathLengthsByColorId);
+            Assert.AreNotSame(lengths, result.generationOrderColorIds);
         }
 
         [Test]
