@@ -43,7 +43,7 @@ Compile/import check after source files exist:
 EditMode tests after a project test assembly exists:
 
 ```powershell
-& $env:UNITY_EXE -batchmode -nographics -quit `
+& $env:UNITY_EXE -batchmode -nographics `
   -projectPath 'D:\Unity\UnityProj\FightMatch' `
   -runTests -testPlatform EditMode `
   -testResults 'D:\Unity\UnityProj\FightMatch\TestResults.xml' `
@@ -138,7 +138,8 @@ Codex does **not** directly invoke DeepSeek, Claude, Claude Code, or another ext
 
 ## 7. External DeepSeek worker boundary
 
-DeepSeek is an external, low-cost implementation worker. It receives one approved task packet at a time.
+DeepSeek is an external, low-cost implementation worker. It receives either
+one approved task packet or one approved ordered task group.
 
 DeepSeek may:
 
@@ -159,11 +160,24 @@ DeepSeek may not:
 - claim completion without verification;
 - guess when blocked.
 
+For an approved grouped delivery, the user may send DeepSeek one task-group
+manifest containing multiple ordered task packets. In that mode:
+
+- each packet remains an independent scope, verification, review, and rollback unit;
+- DeepSeek must execute packets in the declared order;
+- DeepSeek may create one local commit per accepted-for-execution packet only
+  when the group manifest explicitly permits local commits;
+- DeepSeek must never push, merge, rebase, amend, reset history, or combine
+  multiple packets into one commit;
+- a blocking failure stops all dependent packets in that group.
+
 The required external-worker prompt is [`.agent/DEEPSEEK_WORKER_PROMPT.md`](.agent/DEEPSEEK_WORKER_PROMPT.md).
 
 ## 8. Task and review requirements
 
 - One task packet must produce one coherent result.
+- One task group may contain multiple ordered task packets, but cannot weaken
+  any packet's whitelist, acceptance criteria, verification, or output contract.
 - New files must be explicitly listed.
 - Changes to public APIs, dependencies, configuration, assets, generated files, persistence, or serialization require explicit permission in the packet.
 - DeepSeek must list changed files and report each acceptance criterion.

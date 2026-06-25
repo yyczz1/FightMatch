@@ -13,6 +13,12 @@ One packet must perform one coherent task.
 
 **Status:** `APPROVED_FOR_WORKER`
 
+**Group ID:** `<GROUP-ID or NONE>`
+
+**Order in group:** `<number or N/A>`
+
+**Depends on:** `<task IDs or NONE>`
+
 **Goal:**
 
 `<One sentence describing the single result to produce.>`
@@ -101,6 +107,15 @@ Anything not explicitly allowed to modify or create is forbidden.
 
 If the task cannot fit this budget, return `BLOCKED` before expanding scope.
 
+## Git checkpoint permission
+
+**Local commit allowed:** `YES | NO`
+
+**Required commit message:** `<exact message or N/A>`
+
+When `YES`, commit only this packet after its verification passes. Never push,
+merge, rebase, amend, squash, reset history, or include another packet's work.
+
 ## Acceptance criteria
 
 - [ ] `<Observable criterion>`
@@ -150,6 +165,11 @@ SELF-CHECK:
 
 PATCH:
 <unified diff preferred; if edits were applied directly, provide a concise diff summary>
+
+LOCAL COMMIT:
+- Created: YES/NO
+- Hash: <hash or N/A>
+- Message: <message or N/A>
 
 BLOCKER:
 <required only when STATUS is BLOCKED>

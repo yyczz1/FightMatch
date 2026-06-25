@@ -62,6 +62,32 @@ clean up the architecture
 
 High-risk generator, solver, threading, serialization, and UI lifecycle tasks should be split more aggressively than simple DTO work.
 
+### Grouped delivery
+
+Codex may place multiple approved packets into one task group when:
+
+- packets have an explicit execution order;
+- dependencies between packets are documented;
+- each packet remains independently reviewable and revertible;
+- the group has an integration verification step;
+- a failure policy identifies which later packets must stop.
+
+Recommended group size:
+
+- low-risk DTO and pure utility work: `2-4` packets;
+- ordinary deterministic algorithm work: `2-3` packets;
+- persistence, Editor UI, threading, or solver work: `1-2` packets.
+
+Do not group unrelated modules merely to reduce handoffs.
+
+When local worker commits are authorized:
+
+- one packet equals one commit;
+- use the exact commit message from the packet;
+- never amend or squash;
+- never push;
+- report the start commit and every resulting commit hash.
+
 ## 4. Allowed and forbidden files
 
 Codex derives file scope from:
@@ -119,7 +145,7 @@ Codex runs broader integration verification at checkpoints.
 Codex produces:
 
 1. the fixed `DEEPSEEK_WORKER_PROMPT.md`;
-2. one completed task packet;
+2. either one completed task packet or one task-group manifest plus its packets;
 3. only necessary file excerpts or repository access instructions.
 
 The user manually sends them to external DeepSeek.
@@ -137,6 +163,10 @@ When the user returns a patch:
 6. run integration validation when warranted;
 7. use `REVIEW_CHECKLIST.md`;
 8. return `ACCEPT`, `NEEDS_FIX`, or `REJECT`.
+
+For a group, Codex first returns a verdict for every packet, then a group
+integration verdict. One failed packet does not invalidate earlier independent
+accepted commits.
 
 ## 9. Failed patches
 
@@ -213,6 +243,15 @@ Preferred workflow:
 4. Codex reviews and validates;
 5. one focused commit after `ACCEPT`;
 6. revert the single commit if regression appears.
+
+Grouped variant:
+
+1. clean baseline and recorded start commit;
+2. packets executed in dependency order;
+3. one local commit per packet;
+4. Codex reviews commit-by-commit;
+5. Codex runs group integration verification;
+6. only the user or Codex may push after the group is accepted.
 
 Git is currently valid, but branch, worktree, commit, merge, and push operations still require user authorization. Until such authorization is given:
 

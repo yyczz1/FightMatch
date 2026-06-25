@@ -103,7 +103,7 @@ After a project test assembly exists:
 
 ```powershell
 & $env:UNITY_EXE `
-  -batchmode -nographics -quit `
+  -batchmode -nographics `
   -projectPath 'D:\Unity\UnityProj\FightMatch' `
   -runTests -testPlatform EditMode `
   -testResults 'D:\Unity\UnityProj\FightMatch\TestResults.xml' `
@@ -116,6 +116,10 @@ Expected:
 - XML reports zero failed tests.
 
 Do not claim tests pass merely because the log file exists.
+
+Do not add `-quit` to a `-runTests` invocation. Unity Test Framework exits after
+the run; `-quit` can terminate the Editor during an initial import or domain
+reload before the test runner writes its result XML.
 
 ## 7. Static scope validation
 

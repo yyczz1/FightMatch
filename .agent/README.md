@@ -13,6 +13,7 @@ DeepSeek is used manually in another environment. Codex does not call it automat
 | [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) | Verified project facts, approved plans, and unknowns |
 | [`CODING_RULES.md`](CODING_RULES.md) | Engineering and Unity-specific change rules |
 | [`TASK_PACKET_TEMPLATE.md`](TASK_PACKET_TEMPLATE.md) | Template Codex fills for one external-worker task |
+| [`TASK_GROUP_TEMPLATE.md`](TASK_GROUP_TEMPLATE.md) | Template for sending several ordered task packets in one worker session |
 | [`DEEPSEEK_WORKER_PROMPT.md`](DEEPSEEK_WORKER_PROMPT.md) | Fixed prompt copied to the external DeepSeek environment |
 | [`REVIEW_CHECKLIST.md`](REVIEW_CHECKLIST.md) | Mandatory Codex review procedure |
 | [`VALIDATION.md`](VALIDATION.md) | Known validation commands and evidence rules |
@@ -36,12 +37,33 @@ DeepSeek is used manually in another environment. Codex does not call it automat
    - `NEEDS_FIX` plus a smaller corrective task packet; or
    - `REJECT` with the reason and rollback scope.
 
+## Grouped delivery workflow
+
+Use grouped delivery when several already-designed tasks share one dependency
+chain and can be implemented in one external-worker session.
+
+1. Codex creates one task-group manifest plus two or more complete task packets.
+2. The user sends the fixed worker prompt, the group manifest, and all packets
+   to external DeepSeek.
+3. DeepSeek executes packets in order.
+4. Each packet keeps its own whitelist, tests, output, and optional local
+   checkpoint commit.
+5. DeepSeek stops dependent work when a packet is `BLOCKED` or its verification
+   fails.
+6. The user returns the group report, commit hashes or diffs, and test evidence.
+7. Codex reviews every packet separately, then issues one group integration
+   verdict.
+
+Grouped delivery reduces handoff latency. It does not authorize a broad
+unreviewable patch.
+
 ## Token-saving rules
 
 - Do not send the full conversation to DeepSeek.
 - Do not send all project documentation when a short current-context summary is enough.
 - Prefer exact file paths and narrow excerpts.
-- One worker task should modify only a few files.
+- Group low-risk data-contract tasks more aggressively; keep generator, solver,
+  threading, persistence, and Editor lifecycle packets smaller.
 - DeepSeek output should be patch-first and concise.
 - Store stable project facts in `PROJECT_CONTEXT.md`; repeat only task-specific facts.
 - After a rejected patch, create a smaller correction packet instead of discussing the entire project again.

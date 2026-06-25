@@ -12,6 +12,13 @@ Codex must inspect the actual patch and repository state. Do not accept the work
 
 If any required input is missing, return `NEEDS_FIX` or `REJECT`; do not infer the missing patch.
 
+For grouped delivery also require:
+
+- approved task-group manifest;
+- recorded group start commit;
+- one diff or commit per packet;
+- group integration verification output.
+
 ## 1. Scope gate
 
 - [ ] Every changed file is listed by the worker.
@@ -86,6 +93,23 @@ See [`VALIDATION.md`](VALIDATION.md).
 - [ ] Contaminating unrelated changes are identified.
 - [ ] Any portions that must be discarded are listed by file/hunk.
 - [ ] A failed patch will not be repaired through uncontrolled scope growth.
+
+## 9. Group review gate
+
+For each packet:
+
+- [ ] Commit/diff contains only that packet's allowed scope.
+- [ ] Commit order matches declared dependencies.
+- [ ] The exact packet verification passed.
+- [ ] A later packet did not silently repair or rewrite an earlier packet.
+
+For the whole group:
+
+- [ ] Integration verification passed.
+- [ ] No commit was pushed by the external worker.
+- [ ] Accepted commits can be retained if a later packet needs correction.
+
+Return one packet verdict per task ID, followed by one group verdict.
 
 ## Review verdict
 
