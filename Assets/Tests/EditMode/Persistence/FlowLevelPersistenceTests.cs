@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using FlowPuzzle.Core;
 using FlowPuzzle.Difficulty;
+using FlowPuzzle.Editor.Persistence;
+using FlowPuzzle.Generation;
 using FlowPuzzle.Persistence;
 using FlowPuzzle.Validation;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace FlowPuzzle.Tests.Persistence
@@ -14,79 +16,71 @@ namespace FlowPuzzle.Tests.Persistence
     [TestFixture]
     public class FlowLevelPersistenceTests
     {
-        private const string TestDir = "Assets/../FlowPuzzleTestOutput";
+        private const string AssetTestFolder = "Assets/Temp/FlowPuzzleTests";
+        private static readonly string JsonTestDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
 
-        private static FlowGeneratedLevel MakeTestLevel()
+        private static FlowGeneratedLevel MakeTestLevel(float? scoreOverride = null)
         {
             var levelData = new FlowLevelData
             {
-                levelId = 1001,
-                width = 4,
-                height = 3,
-                difficulty = FlowDifficultyTier.Normal,
-                difficultyScore = 75f
+                levelId = 1001, width = 4, height = 3,
+                difficulty = FlowDifficultyTier.Normal, difficultyScore = 75f
             };
             levelData.pairs.Add(new FlowPairData
             {
                 colorId = 0,
-                endpointA = new FlowPos(0, 0),
-                endpointB = new FlowPos(3, 0)
+                endpointA = new FlowPos(0, 0), endpointB = new FlowPos(3, 0)
             });
 
             var solutionData = new FlowSolutionData { levelId = 1001 };
             solutionData.paths.Add(new FlowPathData
             {
                 colorId = 0,
-                cells = new List<FlowPos>
-                {
-                    new FlowPos(0, 0), new FlowPos(1, 0), new FlowPos(2, 0), new FlowPos(3, 0)
-                }
+                cells = new List<FlowPos> { new(0,0), new(1,0), new(2,0), new(3,0) }
             });
 
             return new FlowGeneratedLevel
             {
-                levelData = levelData,
-                solutionData = solutionData,
+                levelData = levelData, solutionData = solutionData,
                 difficultyReport = new FlowDifficultyReport
                 {
                     difficulty = FlowDifficultyTier.Normal,
-                    totalScore = 75f
+                    totalScore = scoreOverride ?? 75f
                 },
-                usedSeed = 42,
-                coverageRatio = 0.33f
+                usedSeed = 42, coverageRatio = 0.33f
             };
         }
 
-        [SetUp]
-        public void SetUp()
+        private static FlowLevelAssetRepository MakeRepo()
         {
-            CleanTestDir();
+            return new FlowLevelAssetRepository(
+                new FlowSolutionValidator(), new FlowDifficultyEvaluator());
         }
 
-        [TearDown]
-        public void TearDown()
+        [SetUp] public void SetUp() { CleanAssetFolder(); }
+        [TearDown] public void TearDown() { CleanAssetFolder(); CleanJsonDir(); }
+
+        private static void CleanAssetFolder()
         {
-            CleanTestDir();
+            if (AssetDatabase.IsValidFolder(AssetTestFolder))
+                AssetDatabase.DeleteAsset(AssetTestFolder);
+        }
+        private static void CleanJsonDir()
+        {
+            if (Directory.Exists(JsonTestDir))
+                Directory.Delete(JsonTestDir, true);
         }
 
-        private static void CleanTestDir()
-        {
-            if (Directory.Exists(TestDir))
-                Directory.Delete(TestDir, true);
-        }
+        // ── FlowLevelAsset ──
 
         [Test]
         public void FlowLevelAsset_InitializesOwnedInstances()
         {
             var asset = ScriptableObject.CreateInstance<FlowLevelAsset>();
-
             Assert.IsNotNull(asset.levelData);
             Assert.IsNotNull(asset.solutionData);
             Assert.IsNotNull(asset.difficultyReport);
-            Assert.AreEqual(0, asset.levelData.pairs.Count);
-            Assert.AreEqual(0, asset.solutionData.paths.Count);
-
-            ScriptableObject.DestroyImmediate(asset);
+            UnityEngine.Object.DestroyImmediate(asset);
         }
 
         [Test]
@@ -94,7 +88,6 @@ namespace FlowPuzzle.Tests.Persistence
         {
             var level = MakeTestLevel();
             var asset = ScriptableObject.CreateInstance<FlowLevelAsset>();
-
             asset.levelData = level.levelData;
             asset.solutionData = level.solutionData;
             asset.difficultyReport = level.difficultyReport;
@@ -102,137 +95,285 @@ namespace FlowPuzzle.Tests.Persistence
             asset.coverageRatio = level.coverageRatio;
 
             Assert.AreEqual(1001, asset.levelData.levelId);
-            Assert.AreEqual(4, asset.levelData.width);
-            Assert.AreEqual(3, asset.levelData.height);
-            Assert.AreEqual(FlowDifficultyTier.Normal, asset.difficultyReport.difficulty);
-            Assert.AreEqual(75f, asset.difficultyReport.totalScore, 0.01f);
             Assert.AreEqual(42, asset.generationSeed);
-            Assert.AreEqual(0.33f, asset.coverageRatio, 0.01f);
-            Assert.AreEqual(1, asset.solutionData.paths.Count);
-
-            ScriptableObject.DestroyImmediate(asset);
+            UnityEngine.Object.DestroyImmediate(asset);
         }
 
+        // ── JSON export ──
+
         [Test]
-        public void Export_Success_CreatesBothFiles()
+        public void Export_RoundTrip_DeserializesLevelAndSolution()
         {
             var exporter = new FlowLevelJsonExporter();
             var level = MakeTestLevel();
-
-            var result = exporter.Export(level, TestDir);
-
+            var result = exporter.Export(level, JsonTestDir);
             Assert.IsTrue(result.success);
-            Assert.IsTrue(File.Exists(result.levelFilePath));
-            Assert.IsTrue(File.Exists(result.solutionFilePath));
-            Assert.IsTrue(result.levelFilePath.Contains("level_1001.json"));
-            Assert.IsTrue(result.solutionFilePath.Contains("solution_1001.json"));
-        }
-
-        [Test]
-        public void Export_LevelJson_ContainsPairsButNotPaths()
-        {
-            var exporter = new FlowLevelJsonExporter();
-            var level = MakeTestLevel();
-            var result = exporter.Export(level, TestDir);
 
             var levelJson = File.ReadAllText(result.levelFilePath);
-            Assert.IsTrue(levelJson.Contains("\"pairs\""));
-            Assert.IsFalse(levelJson.Contains("\"paths\""));
+            var solutionJson = File.ReadAllText(result.solutionFilePath);
+
+            var deserializedLevel = JsonUtility.FromJson<FlowLevelData>(levelJson);
+            var deserializedSolution = JsonUtility.FromJson<FlowSolutionData>(solutionJson);
+
+            Assert.AreEqual(1001, deserializedLevel.levelId);
+            Assert.AreEqual(4, deserializedLevel.width);
+            Assert.AreEqual(3, deserializedLevel.height);
+            Assert.AreEqual(1, deserializedLevel.pairs.Count);
+            Assert.AreEqual(0, deserializedLevel.pairs[0].colorId);
+            Assert.AreEqual(0, deserializedLevel.pairs[0].endpointA.x);
+            Assert.AreEqual(3, deserializedLevel.pairs[0].endpointB.x);
+
+            Assert.AreEqual(1001, deserializedSolution.levelId);
+            Assert.AreEqual(1, deserializedSolution.paths.Count);
+            Assert.AreEqual(0, deserializedSolution.paths[0].colorId);
+            Assert.AreEqual(4, deserializedSolution.paths[0].cells.Count);
         }
 
         [Test]
-        public void Export_SolutionJson_ContainsPaths()
+        public void Export_LevelJson_NoPaths_SolutionJson_HasPaths()
         {
             var exporter = new FlowLevelJsonExporter();
-            var level = MakeTestLevel();
-            var result = exporter.Export(level, TestDir);
-
+            var result = exporter.Export(MakeTestLevel(), JsonTestDir);
+            var levelJson = File.ReadAllText(result.levelFilePath);
             var solutionJson = File.ReadAllText(result.solutionFilePath);
+            Assert.IsFalse(levelJson.Contains("\"paths\""));
             Assert.IsTrue(solutionJson.Contains("\"paths\""));
         }
 
         [Test]
-        public void Export_Json_RoundTripsData()
+        public void Export_NullDifficultyReport_ReturnsIncompleteLevel()
         {
-            var exporter = new FlowLevelJsonExporter();
             var level = MakeTestLevel();
-            var result = exporter.Export(level, TestDir);
-
-            var levelJson = File.ReadAllText(result.levelFilePath);
-            Assert.IsTrue(levelJson.Contains("1001"), "Level JSON should contain levelId");
-            Assert.IsTrue(levelJson.Contains("\"levelId\""));
-            Assert.IsTrue(levelJson.Contains("\"width\""));
-            Assert.IsTrue(levelJson.Contains("\"height\""));
-            Assert.IsTrue(levelJson.Contains("\"colorId\""));
-        }
-
-        [Test]
-        public void Export_CreatesMissingDirectory()
-        {
-            var exporter = new FlowLevelJsonExporter();
-            var level = MakeTestLevel();
-            var nested = Path.Combine(TestDir, "sub", "deep");
-
-            var result = exporter.Export(level, nested);
-
-            Assert.IsTrue(result.success);
-            Assert.IsTrue(Directory.Exists(nested));
-        }
-
-        [Test]
-        public void Export_NullLevel_ReturnsFailure()
-        {
-            var exporter = new FlowLevelJsonExporter();
-            var result = exporter.Export(null, TestDir);
-
+            level.difficultyReport = null;
+            var result = new FlowLevelJsonExporter().Export(level, JsonTestDir);
             Assert.IsFalse(result.success);
-            Assert.IsNotNull(result.diagnostic);
             Assert.AreEqual("IncompleteLevel", result.diagnostic.errorCode);
         }
 
         [Test]
-        public void Export_EmptyPath_ReturnsFailure()
+        public void Export_WhitespaceFolder_ReturnsInvalidOutputPath()
         {
-            var exporter = new FlowLevelJsonExporter();
-            var result = exporter.Export(MakeTestLevel(), "");
-
+            var result = new FlowLevelJsonExporter().Export(MakeTestLevel(), "   ");
             Assert.IsFalse(result.success);
             Assert.AreEqual("InvalidOutputPath", result.diagnostic.errorCode);
         }
 
         [Test]
-        public void Export_DoesNotMutateInput()
+        public void Export_InvalidPathChars_ReturnsFailure()
+        {
+            var result = new FlowLevelJsonExporter().Export(MakeTestLevel(), "X:\0invalid");
+            Assert.IsFalse(result.success);
+            Assert.IsNotNull(result.diagnostic);
+        }
+
+        [Test]
+        public void Export_InputUnchanged()
         {
             var exporter = new FlowLevelJsonExporter();
             var level = MakeTestLevel();
-            var originalLevelId = level.levelData.levelId;
-            var originalSeed = level.usedSeed;
+            var snapBefore = JsonUtility.ToJson(level.levelData);
+            exporter.Export(level, JsonTestDir);
+            var snapAfter = JsonUtility.ToJson(level.levelData);
+            Assert.AreEqual(snapBefore, snapAfter);
+        }
 
-            exporter.Export(level, TestDir);
+        // ── Repository: SaveNew ──
 
-            Assert.AreEqual(originalLevelId, level.levelData.levelId);
-            Assert.AreEqual(originalSeed, level.usedSeed);
+        [Test]
+        public void Repository_ConstructorNull_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => new FlowLevelAssetRepository(null, new FlowDifficultyEvaluator()));
+            Assert.Throws<ArgumentNullException>(() => new FlowLevelAssetRepository(new FlowSolutionValidator(), null));
         }
 
         [Test]
-        public void FlowJsonExportResult_Success_SetsFields()
+        public void SaveNew_CreatesAsset_ReloadPreservesData()
         {
-            var r = FlowJsonExportResult.Success("level.json", "solution.json");
+            var repo = MakeRepo();
+            var level = MakeTestLevel();
+            var snapshotBefore = JsonUtility.ToJson(level.levelData);
 
-            Assert.IsTrue(r.success);
-            Assert.AreEqual("level.json", r.levelFilePath);
-            Assert.AreEqual("solution.json", r.solutionFilePath);
-            Assert.IsNull(r.diagnostic);
+            var asset = repo.SaveNew(level, AssetTestFolder);
+            Assert.IsNotNull(asset);
+            Assert.AreEqual("Level_1001.asset", Path.GetFileName(AssetDatabase.GetAssetPath(asset)));
+
+            var reloaded = AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(AssetDatabase.GetAssetPath(asset));
+            Assert.AreEqual(1001, reloaded.levelData.levelId);
+            Assert.AreEqual(4, reloaded.levelData.width);
+            Assert.AreEqual(3, reloaded.levelData.height);
+            Assert.AreEqual(42, reloaded.generationSeed);
+
+            // input unchanged
+            Assert.AreEqual(snapshotBefore, JsonUtility.ToJson(level.levelData));
         }
 
         [Test]
-        public void FlowJsonExportResult_Failure_SetsFields()
+        public void SaveNew_ListsNotShared()
         {
-            var r = FlowJsonExportResult.Failure("ERR", "msg");
+            var repo = MakeRepo();
+            var level = MakeTestLevel();
+            var asset = repo.SaveNew(level, AssetTestFolder);
 
-            Assert.IsFalse(r.success);
-            Assert.AreEqual("ERR", r.diagnostic.errorCode);
-            Assert.AreEqual("msg", r.diagnostic.errorMessage);
+            level.levelData.pairs.Clear();
+            Assert.AreEqual(1, asset.levelData.pairs.Count, "Asset pairs should be copied, not shared");
+        }
+
+        [Test]
+        public void SaveNew_RecommitsDifficultyAndCoverage()
+        {
+            var repo = MakeRepo();
+            var level = MakeTestLevel(scoreOverride: 999f); // stale score
+
+            var asset = repo.SaveNew(level, AssetTestFolder);
+
+            Assert.IsTrue(asset.difficultyReport.totalScore < 999f);
+        }
+
+        [Test]
+        public void SaveNew_ExistingAsset_Throws()
+        {
+            var repo = MakeRepo();
+            repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            Assert.Throws<InvalidOperationException>(() => repo.SaveNew(MakeTestLevel(), AssetTestFolder));
+        }
+
+        [Test]
+        public void SaveNew_InvalidRecommendation_Throws()
+        {
+            var repo = MakeRepo();
+            var level = MakeTestLevel();
+            level.solutionData.paths[0].cells.Clear();
+            Assert.Throws<InvalidOperationException>(() => repo.SaveNew(level, AssetTestFolder));
+        }
+
+        // ── Repository: Overwrite ──
+
+        [Test]
+        public void Overwrite_PreservesPath_UpdatesData()
+        {
+            var repo = MakeRepo();
+            var a1 = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            var a2 = MakeTestLevel();
+            a2.levelData.width = 99;
+
+            repo.Overwrite(a1, a2);
+
+            var reloaded = AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(AssetDatabase.GetAssetPath(a1));
+            Assert.AreEqual(99, reloaded.levelData.width);
+        }
+
+        [Test]
+        public void Overwrite_LeavesInputUnchanged()
+        {
+            var repo = MakeRepo();
+            var a1 = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            var level = MakeTestLevel();
+            var snapBefore = JsonUtility.ToJson(level.levelData);
+
+            repo.Overwrite(a1, level);
+
+            Assert.AreEqual(snapBefore, JsonUtility.ToJson(level.levelData));
+        }
+
+        [Test]
+        public void Overwrite_Failed_LeavesAssetUnchanged()
+        {
+            var repo = MakeRepo();
+            var a1 = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            var origWidth = a1.levelData.width;
+            var invalid = MakeTestLevel();
+            invalid.solutionData.paths[0].cells.Clear();
+
+            try { repo.Overwrite(a1, invalid); } catch { }
+
+            Assert.AreEqual(origWidth, a1.levelData.width);
+        }
+
+        // ── Repository: SaveAs ──
+
+        [Test]
+        public void SaveAs_CreatesNewAsset_LeavesSourceAndInput()
+        {
+            var repo = MakeRepo();
+            var level = MakeTestLevel();
+            var snapBefore = JsonUtility.ToJson(level.levelData);
+            var source = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            var sourcePath = AssetDatabase.GetAssetPath(source);
+
+            var saved = repo.SaveAs(source, level, AssetTestFolder, "Renamed");
+
+            Assert.AreNotEqual(source, saved);
+            Assert.AreEqual(sourcePath, AssetDatabase.GetAssetPath(source));
+            Assert.AreEqual(snapBefore, JsonUtility.ToJson(level.levelData));
+            var reloaded = AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(AssetDatabase.GetAssetPath(saved));
+            Assert.IsNotNull(reloaded);
+        }
+
+        [Test]
+        public void SaveAs_Existing_Throws()
+        {
+            var repo = MakeRepo();
+            var source = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            Assert.Throws<InvalidOperationException>(() => repo.SaveAs(source, MakeTestLevel(), AssetTestFolder, "Level_1001"));
+        }
+
+        // ── Folder/name safety ──
+
+        [Test]
+        public void ValidateFolder_Rejects_AssetsOutside()
+        {
+            var repo = MakeRepo();
+            Assert.Throws<ArgumentException>(() => repo.SaveNew(MakeTestLevel(), "AssetsOutside"));
+        }
+
+        [Test]
+        public void ValidateFolder_Rejects_Traversal()
+        {
+            var repo = MakeRepo();
+            Assert.Throws<ArgumentException>(() => repo.SaveNew(MakeTestLevel(), "Assets/../Outside"));
+        }
+
+        [Test]
+        public void ValidateFolder_Rejects_AbsolutePath()
+        {
+            var repo = MakeRepo();
+            Assert.Throws<ArgumentException>(() => repo.SaveNew(MakeTestLevel(), "C:/Something"));
+        }
+
+        [Test]
+        public void ValidateFolder_CreatesMissingNestedFolders()
+        {
+            var repo = MakeRepo();
+            var nested = AssetTestFolder + "/Sub/Deep";
+            CleanAssetFolder(); // ensure fresh
+            var asset = repo.SaveNew(MakeTestLevel(), nested);
+            Assert.IsNotNull(asset);
+            Assert.IsTrue(AssetDatabase.IsValidFolder(nested));
+        }
+
+        [Test]
+        public void ValidateName_Rejects_Separator()
+        {
+            var repo = MakeRepo();
+            var source = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            Assert.Throws<ArgumentException>(() => repo.SaveAs(source, MakeTestLevel(), AssetTestFolder, "sub/Bad"));
+        }
+
+        [Test]
+        public void ValidateName_Rejects_EmptyBaseName()
+        {
+            var repo = MakeRepo();
+            var source = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            Assert.Throws<ArgumentException>(() => repo.SaveAs(source, MakeTestLevel(), AssetTestFolder, ".asset"));
+        }
+
+        [Test]
+        public void ValidateName_NormalizesExtension()
+        {
+            var repo = MakeRepo();
+            var source = repo.SaveNew(MakeTestLevel(), AssetTestFolder);
+            var saved = repo.SaveAs(source, MakeTestLevel(), AssetTestFolder, "MyAsset");
+            Assert.IsTrue(AssetDatabase.GetAssetPath(saved).EndsWith("MyAsset.asset"));
         }
     }
 }

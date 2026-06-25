@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FlowPuzzle.Core;
 using FlowPuzzle.Difficulty;
 using FlowPuzzle.Persistence;
@@ -30,14 +31,11 @@ namespace FlowPuzzle.Editor.Persistence
         {
             if (level == null)
                 throw new ArgumentNullException(nameof(level));
-            if (string.IsNullOrEmpty(folder))
-                throw new ArgumentException("Folder is null or empty.", nameof(folder));
-            if (!folder.StartsWith("Assets"))
-                throw new ArgumentException("Folder must be under Assets.", nameof(folder));
+            ValidateFolder(folder);
 
-            ValidateAndPrepare(level);
+            var canonical = BuildCanonical(level);
 
-            var assetName = $"Level_{level.levelData.levelId}.asset";
+            var assetName = $"Level_{canonical.levelData.levelId}.asset";
             var assetPath = Path.Combine(folder, assetName).Replace('\\', '/');
 
             if (AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(assetPath) != null)
@@ -46,7 +44,7 @@ namespace FlowPuzzle.Editor.Persistence
             EnsureFolderExists(folder);
 
             var asset = ScriptableObject.CreateInstance<FlowLevelAsset>();
-            PopulateAsset(asset, level);
+            PopulateAsset(asset, canonical);
 
             AssetDatabase.CreateAsset(asset, assetPath);
             EditorUtility.SetDirty(asset);
@@ -65,14 +63,14 @@ namespace FlowPuzzle.Editor.Persistence
             if (level == null)
                 throw new ArgumentNullException(nameof(level));
 
-            ValidateAndPrepare(level);
+            var canonical = BuildCanonical(level);
 
             var assetPath = AssetDatabase.GetAssetPath(asset);
             if (string.IsNullOrEmpty(assetPath))
                 throw new ArgumentException("Asset has no valid path.", nameof(asset));
 
             Undo.RecordObject(asset, "Overwrite Flow Level");
-            PopulateAsset(asset, level);
+            PopulateAsset(asset, canonical);
 
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssets();
@@ -89,12 +87,10 @@ namespace FlowPuzzle.Editor.Persistence
                 throw new ArgumentNullException(nameof(source));
             if (level == null)
                 throw new ArgumentNullException(nameof(level));
-            if (string.IsNullOrEmpty(folder) || !folder.StartsWith("Assets"))
-                throw new ArgumentException("Folder must be under Assets.", nameof(folder));
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentException("Name must not be empty.", nameof(name));
+            ValidateFolder(folder);
+            ValidateAssetName(name);
 
-            ValidateAndPrepare(level);
+            var canonical = BuildCanonical(level);
 
             var fileName = name.EndsWith(".asset") ? name : $"{name}.asset";
             var assetPath = Path.Combine(folder, fileName).Replace('\\', '/');
@@ -105,7 +101,7 @@ namespace FlowPuzzle.Editor.Persistence
             EnsureFolderExists(folder);
 
             var newAsset = ScriptableObject.CreateInstance<FlowLevelAsset>();
-            PopulateAsset(newAsset, level);
+            PopulateAsset(newAsset, canonical);
 
             AssetDatabase.CreateAsset(newAsset, assetPath);
             EditorUtility.SetDirty(newAsset);
@@ -115,7 +111,10 @@ namespace FlowPuzzle.Editor.Persistence
             return newAsset;
         }
 
-        private void ValidateAndPrepare(FlowGeneratedLevel level)
+        /// <summary>
+        /// Builds a canonical deep-copied value from the input without mutating it.
+        /// </summary>
+        private FlowGeneratedLevel BuildCanonical(FlowGeneratedLevel level)
         {
             if (level.levelData == null || level.solutionData == null || level.difficultyReport == null)
                 throw new InvalidOperationException("Generated level has missing data.");
@@ -125,34 +124,78 @@ namespace FlowPuzzle.Editor.Persistence
                 throw new InvalidOperationException(
                     $"Recommendation is invalid: {validation.errorCode} — {validation.errorMessage}.");
 
-            // Recalculate difficulty
             var report = difficultyEvaluator.Evaluate(level.levelData, level.solutionData);
 
-            // Sync into level data
-            level.levelData.difficulty = report.difficulty;
-            level.levelData.difficultyScore = report.totalScore;
-
-            // Recalculate coverage
             var board = new FlowBoard(level.levelData.width, level.levelData.height);
             foreach (var path in level.solutionData.paths)
                 foreach (var cell in path.cells)
                     board.Set(cell, path.colorId);
-
-            level.coverageRatio = (float)board.OccupiedCellCount
+            var coverage = (float)board.OccupiedCellCount
                 / (level.levelData.width * level.levelData.height);
-            level.difficultyReport = report;
+
+            // Build canonical deep copy with recalculated values
+            var levelData = DeepCopyLevelData(level.levelData);
+            levelData.difficulty = report.difficulty;
+            levelData.difficultyScore = report.totalScore;
+
+            return new FlowGeneratedLevel
+            {
+                levelData = levelData,
+                solutionData = DeepCopySolutionData(level.solutionData),
+                difficultyReport = DeepCopyReport(report),
+                usedSeed = level.usedSeed,
+                coverageRatio = coverage
+            };
         }
 
-        private static void PopulateAsset(FlowLevelAsset asset, FlowGeneratedLevel level)
+        private static void PopulateAsset(FlowLevelAsset asset, FlowGeneratedLevel canonical)
         {
-            asset.levelData = DeepCopy(level.levelData);
-            asset.solutionData = DeepCopy(level.solutionData);
-            asset.difficultyReport = DeepCopy(level.difficultyReport);
-            asset.generationSeed = level.usedSeed;
-            asset.coverageRatio = level.coverageRatio;
+            asset.levelData = canonical.levelData;
+            asset.solutionData = canonical.solutionData;
+            asset.difficultyReport = canonical.difficultyReport;
+            asset.generationSeed = canonical.usedSeed;
+            asset.coverageRatio = canonical.coverageRatio;
         }
 
-        private static FlowLevelData DeepCopy(FlowLevelData src)
+        private static void ValidateFolder(string folder)
+        {
+            if (string.IsNullOrEmpty(folder))
+                throw new ArgumentException("Folder is null or empty.", nameof(folder));
+
+            var normalized = folder.Replace('\\', '/');
+
+            if (normalized != "Assets" && !normalized.StartsWith("Assets/"))
+                throw new ArgumentException("Folder must be exactly Assets or begin with Assets/.", nameof(folder));
+
+            var segments = normalized.Split('/');
+            foreach (var seg in segments)
+            {
+                if (string.IsNullOrEmpty(seg))
+                    throw new ArgumentException("Folder contains empty path segment.", nameof(folder));
+                if (seg == "." || seg == "..")
+                    throw new ArgumentException("Folder must not contain . or .. segments.", nameof(folder));
+            }
+        }
+
+        private static void ValidateAssetName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name must not be empty or whitespace.", nameof(name));
+
+            var invalidChars = Path.GetInvalidFileNameChars();
+            if (name.Any(c => invalidChars.Contains(c)))
+                throw new ArgumentException("Name contains invalid characters.", nameof(name));
+
+            var normalized = name.Replace('\\', '/');
+            if (normalized.Contains("/") || normalized.Contains("\\") || normalized.Contains(".."))
+                throw new ArgumentException("Name must not contain path separators or traversal.", nameof(name));
+
+            var baseName = name.EndsWith(".asset") ? name.Substring(0, name.Length - 6) : name;
+            if (string.IsNullOrWhiteSpace(baseName))
+                throw new ArgumentException("Asset base name must not be empty.", nameof(name));
+        }
+
+        private static FlowLevelData DeepCopyLevelData(FlowLevelData src)
         {
             var copy = new FlowLevelData
             {
@@ -166,13 +209,13 @@ namespace FlowPuzzle.Editor.Persistence
                 copy.pairs.Add(new FlowPairData
                 {
                     colorId = p.colorId,
-                    endpointA = p.endpointA,
-                    endpointB = p.endpointB
+                    endpointA = new FlowPos(p.endpointA.x, p.endpointA.y),
+                    endpointB = new FlowPos(p.endpointB.x, p.endpointB.y)
                 });
             return copy;
         }
 
-        private static FlowSolutionData DeepCopy(FlowSolutionData src)
+        private static FlowSolutionData DeepCopySolutionData(FlowSolutionData src)
         {
             var copy = new FlowSolutionData { levelId = src.levelId };
             foreach (var p in src.paths)
@@ -180,16 +223,12 @@ namespace FlowPuzzle.Editor.Persistence
                 var cellsCopy = new List<FlowPos>(p.cells.Count);
                 foreach (var c in p.cells)
                     cellsCopy.Add(new FlowPos(c.x, c.y));
-                copy.paths.Add(new FlowPathData
-                {
-                    colorId = p.colorId,
-                    cells = cellsCopy
-                });
+                copy.paths.Add(new FlowPathData { colorId = p.colorId, cells = cellsCopy });
             }
             return copy;
         }
 
-        private static FlowDifficultyReport DeepCopy(FlowDifficultyReport src)
+        private static FlowDifficultyReport DeepCopyReport(FlowDifficultyReport src)
         {
             return new FlowDifficultyReport
             {
@@ -217,7 +256,7 @@ namespace FlowPuzzle.Editor.Persistence
                 return;
 
             var parts = folder.Split('/');
-            var current = parts[0]; // "Assets"
+            var current = parts[0];
             for (var i = 1; i < parts.Length; i++)
             {
                 var next = current + "/" + parts[i];

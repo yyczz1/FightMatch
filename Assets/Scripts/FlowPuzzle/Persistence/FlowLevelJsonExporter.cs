@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using FlowPuzzle.Core;
 using UnityEngine;
@@ -10,13 +11,14 @@ namespace FlowPuzzle.Persistence
             FlowGeneratedLevel level,
             string outputFolder)
         {
-            if (level == null || level.levelData == null || level.solutionData == null)
+            if (level == null || level.levelData == null ||
+                level.solutionData == null || level.difficultyReport == null)
                 return FlowJsonExportResult.Failure(
-                    "IncompleteLevel", "Generated level is null or has missing data.");
+                    "IncompleteLevel", "Generated level has null or missing data.");
 
-            if (string.IsNullOrEmpty(outputFolder))
+            if (string.IsNullOrWhiteSpace(outputFolder))
                 return FlowJsonExportResult.Failure(
-                    "InvalidOutputPath", "Output folder is null or empty.");
+                    "InvalidOutputPath", "Output folder is null or whitespace-only.");
 
             try
             {
@@ -38,7 +40,22 @@ namespace FlowPuzzle.Persistence
 
                 return FlowJsonExportResult.Success(levelPath, solutionPath);
             }
-            catch (System.Exception ex)
+            catch (ArgumentException ex)
+            {
+                return FlowJsonExportResult.Failure(
+                    "InvalidOutputPath", $"Invalid path: {ex.Message}");
+            }
+            catch (NotSupportedException ex)
+            {
+                return FlowJsonExportResult.Failure(
+                    "InvalidOutputPath", $"Invalid path: {ex.Message}");
+            }
+            catch (PathTooLongException ex)
+            {
+                return FlowJsonExportResult.Failure(
+                    "InvalidOutputPath", $"Path too long: {ex.Message}");
+            }
+            catch (Exception ex)
             {
                 return FlowJsonExportResult.Failure(
                     "JsonExportFailed", $"Export failed: {ex.Message}");
