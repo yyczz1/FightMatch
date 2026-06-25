@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-BATCH-001`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `NEEDS_FIX`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -196,3 +196,15 @@ Use the repository task packet response contract.
 ## What to do if blocked
 
 Return `BLOCKED` and make no commit.
+
+## Review record
+
+- Worker commit: `793f22d`
+- Verification: Unity EditMode `215/215` passed.
+- Production implementation: provisionally retained.
+- Codex verdict: `NEEDS_FIX`
+- Corrective task: `FLOW-GROUP-04-FIX-02`
+- Remaining gaps are test-contract coverage:
+  - repeatability does not compare generated layouts or difficulty data;
+  - overflow/negative seed, complete input immutability, failure messages, and
+    instance ownership are unverified.

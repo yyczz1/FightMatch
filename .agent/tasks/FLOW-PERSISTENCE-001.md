@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-PERSISTENCE-001`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `NEEDS_FIX`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -203,3 +203,14 @@ check evidence.
 ## What to do if blocked
 
 Return `BLOCKED`, make no commit, and do not begin `FLOW-PERSISTENCE-002`.
+
+## Review record
+
+- Worker commit: `d492954`
+- Verification: Unity EditMode suite later reached `215/215` passed.
+- Codex verdict: `NEEDS_FIX`
+- Corrective task: `FLOW-GROUP-04-FIX-01`
+- Remaining gaps:
+  - JSON round-trip test does not deserialize or compare endpoints/cells;
+  - incomplete level and invalid/whitespace path cases are incomplete;
+  - test output folder is fixed rather than unique.

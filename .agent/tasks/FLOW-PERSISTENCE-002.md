@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-PERSISTENCE-002`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `NEEDS_FIX`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -215,3 +215,14 @@ asset paths that were cleaned.
 ## What to do if blocked
 
 Return `BLOCKED`, make no commit, and do not begin `FLOW-BATCH-001`.
+
+## Review record
+
+- Worker commit: `d045abc`
+- Codex verdict: `NEEDS_FIX`
+- Corrective task: `FLOW-GROUP-04-FIX-01`
+- Remaining gaps:
+  - repository changes the supplied generated level during preparation;
+  - no direct repository tests were added;
+  - folder/name validation does not safely reject prefix confusion or
+    traversal.

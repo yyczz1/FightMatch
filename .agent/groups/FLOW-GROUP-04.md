@@ -1,6 +1,6 @@
 # External DeepSeek Task Group
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `NEEDS_FIX`
 
 ## Group metadata
 
@@ -111,3 +111,39 @@ CHANGED FILES BY PACKET:
 BLOCKER:
 <required for PARTIAL or BLOCKED>
 ```
+
+## Review record
+
+- `FLOW-PERSISTENCE-001` commit: `d492954`
+- `FLOW-PERSISTENCE-002` commit: `d045abc`
+- `FLOW-BATCH-001` commit: `793f22d`
+- Codex independently parsed `Logs/FLOW-GROUP-04-final.xml`:
+  - result: `Passed`
+  - total: `215`
+  - passed: `215`
+  - failed: `0`
+  - failed test cases: `0`
+  - failed suites: `0`
+- Codex verdicts:
+  - `FLOW-PERSISTENCE-001`: `NEEDS_FIX`
+  - `FLOW-PERSISTENCE-002`: `NEEDS_FIX`
+  - `FLOW-BATCH-001`: `NEEDS_FIX`
+  - Group: `NEEDS_FIX`
+- Corrective sequence:
+  1. `FLOW-GROUP-04-FIX-01`
+  2. `FLOW-GROUP-04-FIX-02`
+- Findings:
+  - repository preparation mutates the supplied generated level, despite the
+    no-input-mutation requirement;
+  - the repository packet added no SaveNew, Overwrite, or SaveAs tests;
+  - folder prefix validation accepts paths such as `AssetsOutside` and does
+    not reject traversal/name separators;
+  - JSON “round-trip” tests only search text and do not deserialize endpoints
+    or solution cells;
+  - incomplete and invalid JSON input cases are not fully tested;
+  - batch repeatability tests compare only item metadata, not generated level
+    data;
+  - batch overflow/negative seed, complete config immutability, failure
+    message, and instance-ownership contracts are not tested.
+- Assembly boundaries, commit ordering, pure-C# Generation references, and the
+  basic single-asset/dual-JSON/batch architecture otherwise passed review.
