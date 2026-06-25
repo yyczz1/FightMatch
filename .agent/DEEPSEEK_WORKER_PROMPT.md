@@ -43,6 +43,8 @@ TASK_PACKETs in an attached TASK_GROUP, exactly.
 25. `.claude/settings.local.json` may be modified automatically as the user
     approves Claude CLI permissions. Treat it as user-managed local state:
     never stage, commit, reset, or report it as a packet change.
+26. After returning a packet or group response, stop all work. Do not create a
+    late fix or commit unless Codex issues a new corrective task packet.
 
 ## Stop conditions
 

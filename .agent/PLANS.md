@@ -87,6 +87,8 @@ When local worker commits are authorized:
 - never amend or squash;
 - never push;
 - report the start commit and every resulting commit hash.
+- stop changing the repository after returning the group report; late commits
+  require a new corrective packet.
 
 The tracked `.claude/settings.local.json` file is a special user-managed local
 permission state. User-approved permission additions may remain as an

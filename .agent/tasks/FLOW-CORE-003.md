@@ -331,6 +331,8 @@ Return `BLOCKED` with the exact missing information. Make no local commit.
 
 - Worker status: `COMPLETED`
 - Codex verdict: `ACCEPT`
-- Commit: `994c1f143db2276b98fad5335b50d5fdf4a7ec10`
+- Primary commit: `994c1f143db2276b98fad5335b50d5fdf4a7ec10`
+- Corrective test commit:
+  `aca299c5e5f4e67d1540cbaf2414d5f88dd896cd`
 - Group integration verification: Unity EditMode `78/78` passed; compiler
   errors `0`

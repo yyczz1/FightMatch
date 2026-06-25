@@ -110,6 +110,8 @@ For the whole group:
 - [ ] Accepted commits can be retained if a later packet needs correction.
 - [ ] Any `.claude/settings.local.json` difference is user-approved local
       permission state and is absent from packet commits.
+- [ ] No unreported commit was created after the worker returned its group
+      report.
 
 Return one packet verdict per task ID, followed by one group verdict.
 

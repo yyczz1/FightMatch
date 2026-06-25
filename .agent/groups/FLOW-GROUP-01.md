@@ -137,6 +137,7 @@ BLOCKER:
 - Start commit: `7a007d967ff959c1fa5e828082cbd674dea8b00d`
 - `FLOW-CORE-002` commit: `865715e82cef7c996453453f7b1e221cb6b84011`
 - `FLOW-CORE-003` commit: `994c1f143db2276b98fad5335b50d5fdf4a7ec10`
+- Corrective test commit: `aca299c5e5f4e67d1540cbaf2414d5f88dd896cd`
 - `FLOW-CORE-002` verdict: `ACCEPT`
 - `FLOW-CORE-003` verdict: `ACCEPT`
 - Group verdict: `ACCEPT`
@@ -149,3 +150,7 @@ BLOCKER:
   - Core Unity references: none
 - `.claude/settings.local.json` remained uncommitted as user-approved local
   permission state.
+- The worker's returned report omitted the later corrective commit. Codex
+  independently reviewed it: the original L-shaped path had zero detour under
+  `moves - endpoint Manhattan distance`; the corrected fixture has four moves,
+  endpoint distance two, and expected detour two.
