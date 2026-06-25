@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-VALIDATION-001`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-02`
 
@@ -325,3 +325,11 @@ BLOCKER:
 
 Return `BLOCKED`, make no local commit, and do not begin
 `FLOW-DIFFICULTY-001`.
+
+## Completion record
+
+- Primary commit: `8c7ed5b6fdf1e5317ec2993c9342f1dc25f92685`
+- Corrective commit:
+  `009b0abc006bfcc4acaae8b3561d041def90b1ae`
+- Final Codex verdict: `ACCEPT`
+- Group verification: Unity EditMode `136/136` passed
