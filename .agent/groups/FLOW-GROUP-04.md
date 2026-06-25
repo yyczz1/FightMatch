@@ -147,3 +147,26 @@ BLOCKER:
     message, and instance-ownership contracts are not tested.
 - Assembly boundaries, commit ordering, pure-C# Generation references, and the
   basic single-asset/dual-JSON/batch architecture otherwise passed review.
+
+### Corrective review 1
+
+- `FLOW-GROUP-04-FIX-01` commit: `83d08c9`
+- `FLOW-GROUP-04-FIX-02` commit: `ce2d896`
+- Verification XML: `Logs/FLOW-FIX-01.xml`
+  - result: `Passed`
+  - total: `230`
+  - passed: `230`
+  - failed: `0`
+- Codex verdict: `NEEDS_FIX`
+- Final bounded corrective task: `FLOW-GROUP-04-FIX-03`
+- Remaining findings:
+  - repository validates normalized folders but continues using the original
+    separators for creation and asset paths;
+  - SaveAs does not normalize repeated or case-varied `.asset` suffixes to
+    exactly one extension;
+  - JSON and repository tests still do not prove complete DTO/caller-state
+    contracts;
+  - batch overflow and full config immutability tests do not perform what their
+    names claim;
+  - test execution leaves untracked `Assets/Temp.meta` and an empty parent
+    folder.

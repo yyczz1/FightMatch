@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-GROUP-04-FIX-01`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `NEEDS_FIX`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -257,3 +257,17 @@ Use the repository task packet response contract.
 
 Return `BLOCKED` with the exact reason. Do not make a partial commit and do not
 begin `FLOW-GROUP-04-FIX-02`.
+
+## Review record
+
+- Worker commit: `83d08c9`
+- Verification XML: `230/230` passed.
+- Codex verdict: `NEEDS_FIX`
+- Follow-up task: `FLOW-GROUP-04-FIX-03`
+- Production canonical-copy correction is retained.
+- Remaining issues:
+  - normalized folder value is not used downstream;
+  - repeated/case-varied `.asset` suffixes are not normalized;
+  - JSON round-trip does not compare complete endpoints or cells;
+  - complete input immutability and exact recalculated values are not proven;
+  - tests leave untracked `Assets/Temp.meta`.

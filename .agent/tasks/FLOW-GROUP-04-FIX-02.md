@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-GROUP-04-FIX-02`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `NEEDS_FIX`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -187,3 +187,15 @@ Use the repository task packet response contract.
 ## What to do if blocked
 
 Return `BLOCKED` with the exact reason and no commit.
+
+## Review record
+
+- Worker commit: `ce2d896`
+- Verification XML: `230/230` passed.
+- Codex verdict: `NEEDS_FIX`
+- Follow-up task: `FLOW-GROUP-04-FIX-03`
+- Remaining test issues:
+  - the declared overflow case does not overflow;
+  - request/config immutability checks only a subset and contains a tautology;
+  - deep equality omits diagnostic symmetry, solution level ID, report tier,
+    and explicit cell counts.
