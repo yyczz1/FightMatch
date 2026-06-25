@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-PERSISTENCE-001`
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -214,3 +214,9 @@ Return `BLOCKED`, make no commit, and do not begin `FLOW-PERSISTENCE-002`.
   - JSON round-trip test does not deserialize or compare endpoints/cells;
   - incomplete level and invalid/whitespace path cases are incomplete;
   - test output folder is fixed rather than unique.
+
+### Final resolution
+
+- Corrective commits: `83d08c9`, `f07d8aa`, `ef054f8`
+- Final Codex verdict: `ACCEPT`
+- Final integration verification: Unity EditMode `238/238` passed.

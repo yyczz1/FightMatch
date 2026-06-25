@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-GROUP-04-FIX-02`
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -199,3 +199,9 @@ Return `BLOCKED` with the exact reason and no commit.
   - request/config immutability checks only a subset and contains a tautology;
   - deep equality omits diagnostic symmetry, solution level ID, report tier,
     and explicit cell counts.
+
+### Final resolution
+
+- Follow-up commits: `f07d8aa`, `ef054f8`
+- Final Codex verdict: `ACCEPT`
+- Final verification: Unity EditMode `238/238` passed.

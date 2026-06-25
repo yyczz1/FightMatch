@@ -1,6 +1,6 @@
 # External DeepSeek Task Group
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 ## Group metadata
 
@@ -189,3 +189,24 @@ BLOCKER:
   - complete config immutability snapshots are only partially asserted;
   - valid regression tests were removed while the total fell by one;
   - batch equality omits two required aggregate/data fields.
+
+### Final corrective completion
+
+- Final test corrective commit: `ef054f8`
+- `FLOW-PERSISTENCE-001` final verdict: `ACCEPT`
+- `FLOW-PERSISTENCE-002` final verdict: `ACCEPT`
+- `FLOW-BATCH-001` final verdict: `ACCEPT`
+- All four corrective tasks final verdict: `ACCEPT`
+- Group final verdict: `ACCEPT`
+- Final verification XML: `Logs/FLOW-FIX-04.xml`
+  - result: `Passed`
+  - total: `238`
+  - passed: `238`
+  - failed: `0`
+  - skipped: `0`
+  - failed test cases: `0`
+  - failed suites: `0`
+- Persistence contains no UnityEditor reference.
+- Generation remains pure C# and does not reference Persistence.
+- No `Assets/Temp.meta` or `Assets/Temp/` test artifact remains.
+- Only user-managed `.claude/settings.local.json` remains locally modified.

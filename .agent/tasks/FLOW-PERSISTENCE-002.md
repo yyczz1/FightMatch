@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-PERSISTENCE-002`
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -226,3 +226,10 @@ Return `BLOCKED`, make no commit, and do not begin `FLOW-BATCH-001`.
   - no direct repository tests were added;
   - folder/name validation does not safely reject prefix confusion or
     traversal.
+
+### Final resolution
+
+- Corrective commits: `83d08c9`, `f07d8aa`, `ef054f8`
+- Final Codex verdict: `ACCEPT`
+- Repository canonical copying, path normalization, save operations, failure
+  atomicity, and caller-data preservation passed final review.

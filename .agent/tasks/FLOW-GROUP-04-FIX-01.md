@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-GROUP-04-FIX-01`
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -271,3 +271,9 @@ begin `FLOW-GROUP-04-FIX-02`.
   - JSON round-trip does not compare complete endpoints or cells;
   - complete input immutability and exact recalculated values are not proven;
   - tests leave untracked `Assets/Temp.meta`.
+
+### Final resolution
+
+- Follow-up commits: `f07d8aa`, `ef054f8`
+- Final Codex verdict: `ACCEPT`
+- Final verification: Unity EditMode `238/238` passed.

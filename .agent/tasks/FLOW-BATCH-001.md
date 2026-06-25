@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-BATCH-001`
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-04`
 
@@ -208,3 +208,9 @@ Return `BLOCKED` and make no commit.
   - repeatability does not compare generated layouts or difficulty data;
   - overflow/negative seed, complete input immutability, failure messages, and
     instance ownership are unverified.
+
+### Final resolution
+
+- Corrective commits: `ce2d896`, `f07d8aa`, `ef054f8`
+- Final Codex verdict: `ACCEPT`
+- Final integration verification: Unity EditMode `238/238` passed.
