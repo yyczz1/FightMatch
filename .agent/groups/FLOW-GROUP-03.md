@@ -1,6 +1,6 @@
 # External DeepSeek Task Group
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `NEEDS_FIX`
 
 ## Group metadata
 
@@ -101,3 +101,32 @@ CHANGED FILES BY PACKET:
 BLOCKER:
 <required for PARTIAL or BLOCKED>
 ```
+
+## Review record
+
+- `FLOW-GENERATION-001` commit:
+  `2981fa9`
+- `FLOW-GENERATION-002` commit:
+  `b82d8f2`
+- `FLOW-GENERATION-003` commit:
+  `67d33fa`
+- Worker verification: Unity EditMode `181/181` passed.
+- Codex independently parsed `Logs/FLOW-GROUP-03-p3.xml`:
+  - result: `Passed`
+  - total: `181`
+  - passed: `181`
+  - failed: `0`
+- Codex verdict: `NEEDS_FIX`
+- Corrective task: `FLOW-GROUP-03-FIX-01`
+- Findings:
+  - `SystemFlowRandom.NextFloat` accepts an empty range although packet 1
+    requires empty ranges to throw;
+  - immediate generator configuration failures record seed `0` instead of
+    the resolved seed required in every result;
+  - generated `FlowLevelData.difficulty` and `difficultyScore` remain default
+    values instead of matching the evaluated report;
+  - packet-required `6x6`, `7x7`, representative different-seed, exact
+    immediate-failure, list-copy ownership, inclusive score-range, and
+    three-run deep-equality coverage is absent or weaker than required.
+- Scope, commit boundaries, deterministic collection usage, DFS rollback, and
+  prohibited-reference checks otherwise passed review.
