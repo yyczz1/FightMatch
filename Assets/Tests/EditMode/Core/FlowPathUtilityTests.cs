@@ -146,15 +146,17 @@ namespace FlowPuzzle.Tests.Core
         [Test]
         public void GetDetour_LPath_ReturnsExtraMoves()
         {
+            // (0,0)→(1,0)→(1,1)→(1,2)→(0,2): moves=4, manhattan(0,0→0,2)=2, detour=2
             var cells = new List<FlowPos>
             {
                 new FlowPos(0, 0),
                 new FlowPos(1, 0),
                 new FlowPos(1, 1),
-                new FlowPos(1, 2)
+                new FlowPos(1, 2),
+                new FlowPos(0, 2)
             };
 
-            Assert.AreEqual(1, FlowPathUtility.GetDetour(cells));
+            Assert.AreEqual(2, FlowPathUtility.GetDetour(cells));
         }
 
         [Test]
