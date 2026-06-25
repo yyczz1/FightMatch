@@ -108,6 +108,8 @@ For the whole group:
 - [ ] Integration verification passed.
 - [ ] No commit was pushed by the external worker.
 - [ ] Accepted commits can be retained if a later packet needs correction.
+- [ ] Any `.claude/settings.local.json` difference is user-approved local
+      permission state and is absent from packet commits.
 
 Return one packet verdict per task ID, followed by one group verdict.
 

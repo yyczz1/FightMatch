@@ -88,6 +88,11 @@ When local worker commits are authorized:
 - never push;
 - report the start commit and every resulting commit hash.
 
+The tracked `.claude/settings.local.json` file is a special user-managed local
+permission state. User-approved permission additions may remain as an
+uncommitted change throughout a group. Workers must exclude it from commits,
+and Codex ignores only this exact file when evaluating group cleanliness.
+
 ## 4. Allowed and forbidden files
 
 Codex derives file scope from:

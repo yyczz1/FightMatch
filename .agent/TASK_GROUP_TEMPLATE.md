@@ -28,7 +28,8 @@ one external DeepSeek session.
 
 1. Read the manifest and every packet before changing files.
 2. Begin only when `HEAD` equals the required start commit and the working tree
-   is clean.
+   has no changes except an optional user-approved
+   `.claude/settings.local.json` modification.
 3. Execute packets in order.
 4. Apply each packet's whitelist independently.
 5. Run packet verification before creating its local commit.
@@ -37,6 +38,8 @@ one external DeepSeek session.
 8. If a packet is blocked or fails verification, stop every dependent packet.
 9. Do not use a later packet to repair an earlier packet.
 10. Run group integration verification only after all packets complete.
+11. Never stage or commit `.claude/settings.local.json`; it is user-managed
+    local permission state.
 
 ## Group integration verification
 

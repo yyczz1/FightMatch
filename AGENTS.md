@@ -12,6 +12,11 @@ Detailed procedures and reusable templates live under [`.agent/`](.agent/README.
 - There is currently no verified CI, lint command, or Player build script.
 - Git is initialized on `master` with remote `origin`; do not commit, push, create branches, or create worktrees unless the user authorizes that action.
 - `CLAUDE.md` contains existing Claude-specific architecture guidance and must be read when work is performed through Claude/Claude Code.
+- `.claude/settings.local.json` is a user-managed local permission file. The
+  user may approve new Claude CLI permissions during grouped work. Its local
+  modification is not worker scope contamination when it is excluded from
+  packet commits. Do not stage, commit, reset, or push it unless the user
+  explicitly requests that exact action.
 - Approved product documents:
   - `docs/superpowers/specs/2026-06-24-flow-puzzle-level-tool-design.md`
   - `docs/superpowers/plans/2026-06-24-flow-puzzle-level-tool-implementation.md`
@@ -170,6 +175,8 @@ manifest containing multiple ordered task packets. In that mode:
 - DeepSeek must never push, merge, rebase, amend, reset history, or combine
   multiple packets into one commit;
 - a blocking failure stops all dependent packets in that group.
+- user-approved `.claude/settings.local.json` permission changes may remain
+  outside commits and do not make an otherwise clean group invalid.
 
 The required external-worker prompt is [`.agent/DEEPSEEK_WORKER_PROMPT.md`](.agent/DEEPSEEK_WORKER_PROMPT.md).
 

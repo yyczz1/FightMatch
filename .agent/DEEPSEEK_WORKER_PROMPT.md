@@ -40,6 +40,9 @@ TASK_PACKETs in an attached TASK_GROUP, exactly.
     `Local commit allowed: YES`; use its exact commit message.
 23. Never push, merge, rebase, amend, squash, reset history, or rewrite commits.
 24. If one packet blocks, do not execute packets that depend on it.
+25. `.claude/settings.local.json` may be modified automatically as the user
+    approves Claude CLI permissions. Treat it as user-managed local state:
+    never stage, commit, reset, or report it as a packet change.
 
 ## Stop conditions
 

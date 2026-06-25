@@ -1,5 +1,7 @@
 # External DeepSeek Task Group
 
+**Status:** `ACCEPTED`
+
 ## Group metadata
 
 **Group ID:** `FLOW-GROUP-01`
@@ -26,8 +28,9 @@ supplies the exact hash in the handoff message.
 ## Group rules
 
 1. Read this manifest and both task packets before changing files.
-2. Begin only when `HEAD` equals the required start commit and `git status
-   --short` is empty.
+2. Begin only when `HEAD` equals the required start commit and the working tree
+   has no changes except an optional user-approved
+   `.claude/settings.local.json` modification.
 3. Execute `FLOW-CORE-002` before `FLOW-CORE-003`.
 4. Apply each packet's whitelist independently.
 5. Follow the red-green test sequence required by each packet.
@@ -39,6 +42,7 @@ supplies the exact hash in the handoff message.
 10. If `FLOW-CORE-002` is blocked or fails verification, do not begin
     `FLOW-CORE-003`.
 11. Do not use `FLOW-CORE-003` to repair or rewrite `FLOW-CORE-002`.
+12. Never stage or commit `.claude/settings.local.json`.
 
 ## Group integration verification
 
@@ -127,3 +131,21 @@ CHANGED FILES BY PACKET:
 BLOCKER:
 <required for PARTIAL or BLOCKED>
 ```
+
+## Completion record
+
+- Start commit: `7a007d967ff959c1fa5e828082cbd674dea8b00d`
+- `FLOW-CORE-002` commit: `865715e82cef7c996453453f7b1e221cb6b84011`
+- `FLOW-CORE-003` commit: `994c1f143db2276b98fad5335b50d5fdf4a7ec10`
+- `FLOW-CORE-002` verdict: `ACCEPT`
+- `FLOW-CORE-003` verdict: `ACCEPT`
+- Group verdict: `ACCEPT`
+- Independent verification:
+  - Unity EditMode result: `Passed`
+  - Total: `78`
+  - Passed: `78`
+  - Failed: `0`
+  - C# compiler errors: `0`
+  - Core Unity references: none
+- `.claude/settings.local.json` remained uncommitted as user-approved local
+  permission state.

@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-CORE-003`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-01`
 
@@ -326,3 +326,11 @@ BLOCKER:
 ## What to do if blocked
 
 Return `BLOCKED` with the exact missing information. Make no local commit.
+
+## Completion record
+
+- Worker status: `COMPLETED`
+- Codex verdict: `ACCEPT`
+- Commit: `994c1f143db2276b98fad5335b50d5fdf4a7ec10`
+- Group integration verification: Unity EditMode `78/78` passed; compiler
+  errors `0`
