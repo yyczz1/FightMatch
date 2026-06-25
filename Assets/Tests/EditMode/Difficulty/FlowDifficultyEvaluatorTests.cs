@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using FlowPuzzle.Core;
 using FlowPuzzle.Difficulty;
 using NUnit.Framework;
@@ -100,7 +101,7 @@ namespace FlowPuzzle.Tests.Difficulty
         public void MultiTurnPath_CountsEachTurn()
         {
             var level = MakeLevel(5, 5, (0, 0, 0, 3, 2));
-            // path with 3 turns
+            // path with 4 direction changes (5 segments)
             var solution = MakeSolution((0, new[]
             {
                 new FlowPos(0, 0), new FlowPos(1, 0), // right
@@ -166,38 +167,39 @@ namespace FlowPuzzle.Tests.Difficulty
         }
 
         [Test]
-        public void Bottleneck_EndpointCellsExcluded()
+        public void Bottleneck_2x1_OnlyEndpoints_CountZero()
         {
-            // one straight path on a 3x3 board; endpoints at (0,0) and (2,0)
-            var level = MakeLevel(3, 3, (0, 0, 0, 2, 0));
+            // 2x1 board: only cells are (0,0) and (1,0), both are endpoints
+            var level = MakeLevel(2, 1, (0, 0, 0, 1, 0));
+            var solution = MakeSolution((0, new[] { new FlowPos(0, 0), new FlowPos(1, 0) }));
+
+            var report = new FlowDifficultyEvaluator().Evaluate(level, solution);
+
+            Assert.AreEqual(0, report.bottleneckCount);
+        }
+
+        [Test]
+        public void Bottleneck_3x1_StraightPath_CountOne()
+        {
+            // 3x1 board: endpoints at (0,0) and (2,0), middle cell (1,0) is occupied non-endpoint
+            var level = MakeLevel(3, 1, (0, 0, 0, 2, 0));
             var solution = MakeSolution((0, new[] { new FlowPos(0, 0), new FlowPos(1, 0), new FlowPos(2, 0) }));
 
             var report = new FlowDifficultyEvaluator().Evaluate(level, solution);
 
-            Assert.IsTrue(report.bottleneckCount >= 0);
+            Assert.AreEqual(1, report.bottleneckCount);
         }
 
         [Test]
-        public void Bottleneck_OccupiedCellsDetected()
+        public void Bottleneck_2x2_TwoEmptyCells_CountTwo()
         {
-            // 2x2 board, straight path through (0,0)→(1,0), endpoints (0,0) and (1,0)
-            var level = MakeLevel(2, 2, (0, 0, 0, 1, 0));
-            var solution = MakeSolution((0, new[] { new FlowPos(0, 0), new FlowPos(1, 0) }));
+            // 2x2 board: bottom row (0,1)→(1,1) is endpoints, top row (0,0) and (1,0) are empty
+            var level = MakeLevel(2, 2, (0, 0, 1, 1, 1));
+            var solution = MakeSolution((0, new[] { new FlowPos(0, 1), new FlowPos(1, 1) }));
 
             var report = new FlowDifficultyEvaluator().Evaluate(level, solution);
 
-            Assert.IsTrue(report.bottleneckCount >= 0);
-        }
-
-        [Test]
-        public void Bottleneck_EmptyCellsDetected()
-        {
-            var level = MakeLevel(2, 2, (0, 0, 0, 1, 0));
-            var solution = MakeSolution((0, new[] { new FlowPos(0, 0), new FlowPos(1, 0) }));
-
-            var report = new FlowDifficultyEvaluator().Evaluate(level, solution);
-
-            Assert.IsTrue(report.bottleneckCount >= 0);
+            Assert.AreEqual(2, report.bottleneckCount);
         }
 
         [Test]
@@ -377,6 +379,50 @@ namespace FlowPuzzle.Tests.Difficulty
             Assert.AreEqual(report1.difficulty, report2.difficulty);
             Assert.AreEqual(report1.boardSizeScore, report2.boardSizeScore, 0.001f);
             Assert.AreEqual(report1.bottleneckCount, report2.bottleneckCount);
+        }
+
+        private static FlowDifficultyTier ClassifyViaReflection(float score)
+        {
+            var type = typeof(FlowDifficultyEvaluator);
+            var method = type.GetMethod("ClassifyScore",
+                BindingFlags.NonPublic | BindingFlags.Static);
+            return (FlowDifficultyTier)method.Invoke(null, new object[] { score });
+        }
+
+        [Test]
+        public void ClassifyScore_59_999_IsEasy()
+        {
+            Assert.AreEqual(FlowDifficultyTier.Easy, ClassifyViaReflection(59.999f));
+        }
+
+        [Test]
+        public void ClassifyScore_60_IsNormal()
+        {
+            Assert.AreEqual(FlowDifficultyTier.Normal, ClassifyViaReflection(60f));
+        }
+
+        [Test]
+        public void ClassifyScore_119_999_IsNormal()
+        {
+            Assert.AreEqual(FlowDifficultyTier.Normal, ClassifyViaReflection(119.999f));
+        }
+
+        [Test]
+        public void ClassifyScore_120_IsHard()
+        {
+            Assert.AreEqual(FlowDifficultyTier.Hard, ClassifyViaReflection(120f));
+        }
+
+        [Test]
+        public void ClassifyScore_199_999_IsHard()
+        {
+            Assert.AreEqual(FlowDifficultyTier.Hard, ClassifyViaReflection(199.999f));
+        }
+
+        [Test]
+        public void ClassifyScore_200_IsExpert()
+        {
+            Assert.AreEqual(FlowDifficultyTier.Expert, ClassifyViaReflection(200f));
         }
     }
 }

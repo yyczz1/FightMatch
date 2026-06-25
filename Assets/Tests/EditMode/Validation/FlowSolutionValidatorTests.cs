@@ -327,6 +327,63 @@ namespace FlowPuzzle.Tests.Validation
         }
 
         [Test]
+        public void ExtraPathColor_FirstUnknownByPathOrder()
+        {
+            var level = MakeLevel(3, 3, (0, 0, 0, 2, 0));
+            // two unknown colors: 9 appears first in path list
+            var solution = MakeSolution(
+                (9, new[] { new FlowPos(0, 1), new FlowPos(1, 1) }),
+                (8, new[] { new FlowPos(0, 2), new FlowPos(1, 2) }),
+                (0, new[] { new FlowPos(0, 0), new FlowPos(1, 0), new FlowPos(2, 0) }));
+
+            var result = new FlowSolutionValidator().Validate(level, solution);
+
+            Assert.IsFalse(result.isValid);
+            Assert.AreEqual("ExtraPathColor", result.errorCode);
+            Assert.IsTrue(result.errorMessage.Contains("9"));
+        }
+
+        [Test]
+        public void ForeignEndpointBeforeLaterInvalidAdjacency()
+        {
+            // color 0 path uses (1,1) which is color 1's endpoint → ForeignEndpointTraversal
+            // color 2 has diagonal step, but ForeignEndpoint should fire first
+            var level = MakeLevel(4, 4,
+                (0, 0, 0, 3, 0),
+                (1, 1, 1, 1, 2),
+                (2, 2, 1, 2, 3));
+            var solution = MakeSolution(
+                (0, new[] { new FlowPos(0, 0), new FlowPos(1, 0), new FlowPos(1, 1), new FlowPos(2, 1),
+                    new FlowPos(2, 0), new FlowPos(3, 0) }),
+                (1, new[] { new FlowPos(1, 1), new FlowPos(1, 2) }),
+                (2, new[] { new FlowPos(2, 1), new FlowPos(2, 3) }));
+
+            var result = new FlowSolutionValidator().Validate(level, solution);
+
+            Assert.IsFalse(result.isValid);
+            Assert.AreEqual("ForeignEndpointTraversal", result.errorCode);
+        }
+
+        [Test]
+        public void InvalidAdjacencyBeforeSelfIntersection()
+        {
+            // cell (0,0) repeated via non-adjacent step (1,1)→(0,0) → InvalidAdjacency, not SelfIntersection
+            var level = MakeLevel(4, 4, (0, 0, 0, 2, 2));
+            var solution = MakeSolution((0, new[]
+            {
+                new FlowPos(0, 0), new FlowPos(1, 0),   // valid
+                new FlowPos(1, 1),                       // valid
+                new FlowPos(0, 0),                       // diagonal from (1,1) AND (0,0) already visited → InvalidAdjacency
+                new FlowPos(2, 2)                        // would reach endpoint, but shouldn't get here
+            }));
+
+            var result = new FlowSolutionValidator().Validate(level, solution);
+
+            Assert.IsFalse(result.isValid);
+            Assert.AreEqual("InvalidAdjacency", result.errorCode);
+        }
+
+        [Test]
         public void FlowValidationResult_Valid_Factory()
         {
             var r = FlowValidationResult.Valid();

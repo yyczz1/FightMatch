@@ -27,15 +27,12 @@ namespace FlowPuzzle.Difficulty
 
             // Build board from paths
             var board = new FlowBoard(level.width, level.height);
-            var pathByColor = new Dictionary<int, FlowPathData>();
 
             foreach (var path in solution.paths)
             {
                 if (path.cells == null)
                     throw new ArgumentException(
                         $"Path cells for colorId {path.colorId} is null.", nameof(solution));
-
-                pathByColor[path.colorId] = path;
 
                 for (var i = 0; i < path.cells.Count; i++)
                     board.Set(path.cells[i], path.colorId);
@@ -151,15 +148,7 @@ namespace FlowPuzzle.Difficulty
                              + endpointDistanceScore
                              + bottleneckScore;
 
-            FlowDifficultyTier tier;
-            if (totalScore < 60f)
-                tier = FlowDifficultyTier.Easy;
-            else if (totalScore < 120f)
-                tier = FlowDifficultyTier.Normal;
-            else if (totalScore < 200f)
-                tier = FlowDifficultyTier.Hard;
-            else
-                tier = FlowDifficultyTier.Expert;
+            var tier = ClassifyScore(totalScore);
 
             return new FlowDifficultyReport
             {
@@ -179,6 +168,17 @@ namespace FlowPuzzle.Difficulty
                 totalEndpointManhattanDistance = totalEndpointManhattanDistance,
                 bottleneckCount = bottleneckCount
             };
+        }
+
+        private static FlowDifficultyTier ClassifyScore(float totalScore)
+        {
+            if (totalScore < 60f)
+                return FlowDifficultyTier.Easy;
+            if (totalScore < 120f)
+                return FlowDifficultyTier.Normal;
+            if (totalScore < 200f)
+                return FlowDifficultyTier.Hard;
+            return FlowDifficultyTier.Expert;
         }
 
         private static void CheckBottleneckNeighbor(

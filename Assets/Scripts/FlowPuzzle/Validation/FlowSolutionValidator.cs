@@ -61,7 +61,7 @@ namespace FlowPuzzle.Validation
                         $"Duplicate path colorId: {path.colorId}.");
             }
 
-            // 9. MissingPath & 10. ExtraPathColor
+            // 9. MissingPath
             foreach (var pair in level.pairs)
             {
                 if (!pathColorSet.Contains(pair.colorId))
@@ -69,15 +69,24 @@ namespace FlowPuzzle.Validation
                         $"No path for pair colorId: {pair.colorId}.");
             }
 
-            foreach (var colorId in pathColorSet)
+            // 10. ExtraPathColor — iterate paths in list order for deterministic error
+            foreach (var path in solution.paths)
             {
-                if (!pairByColor.ContainsKey(colorId))
+                if (!pairByColor.ContainsKey(path.colorId))
                     return FlowValidationResult.Invalid("ExtraPathColor",
-                        $"Path colorId {colorId} has no matching pair.");
+                        $"Path colorId {path.colorId} has no matching pair.");
             }
 
-            // 11. Per-path geometry checks
-            var occupiedCells = new Dictionary<FlowPos, int>();
+            // Build endpoint coordinate set (used for ForeignEndpointTraversal)
+            var endpointCoords = new HashSet<FlowPos>();
+            foreach (var pair in level.pairs)
+            {
+                endpointCoords.Add(pair.endpointA);
+                endpointCoords.Add(pair.endpointB);
+            }
+
+            // Per-color geometry in level.pairs list order
+            var globalOccupied = new Dictionary<FlowPos, int>();
 
             foreach (var pair in level.pairs)
             {
@@ -97,7 +106,7 @@ namespace FlowPuzzle.Validation
                     return FlowValidationResult.Invalid("EndpointMismatch",
                         $"Path for colorId {pair.colorId} does not start/end at its endpoints.");
 
-                // Per-cell checks
+                // Per-cell geometry: CellOutOfBounds → InvalidAdjacency → SelfIntersection
                 var pathCellSet = new HashSet<FlowPos>();
 
                 for (var i = 0; i < path.cells.Count; i++)
@@ -109,40 +118,23 @@ namespace FlowPuzzle.Validation
                         return FlowValidationResult.Invalid("CellOutOfBounds",
                             $"Cell {cell.x},{cell.y} in colorId {pair.colorId} is out of bounds.");
 
-                    // SelfIntersection
-                    if (!pathCellSet.Add(cell))
-                        return FlowValidationResult.Invalid("SelfIntersection",
-                            $"Path for colorId {pair.colorId} self-intersects at {cell.x},{cell.y}.");
-
-                    // InvalidAdjacency (check consecutive)
+                    // InvalidAdjacency (before SelfIntersection)
                     if (i > 0)
                     {
                         if (!FlowPathUtility.AreAdjacent(path.cells[i - 1], cell))
                             return FlowValidationResult.Invalid("InvalidAdjacency",
                                 $"Non-adjacent step in colorId {pair.colorId} at {cell.x},{cell.y}.");
                     }
+
+                    // SelfIntersection
+                    if (!pathCellSet.Add(cell))
+                        return FlowValidationResult.Invalid("SelfIntersection",
+                            $"Path for colorId {pair.colorId} self-intersects at {cell.x},{cell.y}.");
                 }
-            }
 
-            // ForeignEndpointTraversal & PathOverlap — need per-cell occupancy lookup
-            // Build endpoint coordinate set
-            var endpointCoords = new HashSet<FlowPos>();
-            foreach (var pair in level.pairs)
-            {
-                endpointCoords.Add(pair.endpointA);
-                endpointCoords.Add(pair.endpointB);
-            }
-
-            // Walk all paths again to check foreign endpoint and overlap
-            var globalOccupied = new Dictionary<FlowPos, int>();
-
-            foreach (var pair in level.pairs)
-            {
-                var path = FindPath(solution, pair.colorId);
-
+                // ForeignEndpointTraversal & PathOverlap for this color
                 foreach (var cell in path.cells)
                 {
-                    // ForeignEndpointTraversal: a non-endpoint cell or wrong endpoint
                     if (endpointCoords.Contains(cell))
                     {
                         var isOwnEndpoint =
@@ -152,7 +144,6 @@ namespace FlowPuzzle.Validation
                                 $"Path for colorId {pair.colorId} crosses foreign endpoint at {cell.x},{cell.y}.");
                     }
 
-                    // PathOverlap: another color already occupies this cell
                     if (globalOccupied.TryGetValue(cell, out var existingColor))
                     {
                         if (existingColor != pair.colorId)
