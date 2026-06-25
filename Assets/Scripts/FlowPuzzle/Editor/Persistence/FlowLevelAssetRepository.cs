@@ -31,17 +31,17 @@ namespace FlowPuzzle.Editor.Persistence
         {
             if (level == null)
                 throw new ArgumentNullException(nameof(level));
-            ValidateFolder(folder);
+            var normalized = NormalizeFolder(folder);
 
             var canonical = BuildCanonical(level);
 
             var assetName = $"Level_{canonical.levelData.levelId}.asset";
-            var assetPath = Path.Combine(folder, assetName).Replace('\\', '/');
+            var assetPath = normalized + "/" + assetName;
 
             if (AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(assetPath) != null)
                 throw new InvalidOperationException($"Asset already exists at {assetPath}.");
 
-            EnsureFolderExists(folder);
+            EnsureFolderExists(normalized);
 
             var asset = ScriptableObject.CreateInstance<FlowLevelAsset>();
             PopulateAsset(asset, canonical);
@@ -87,18 +87,17 @@ namespace FlowPuzzle.Editor.Persistence
                 throw new ArgumentNullException(nameof(source));
             if (level == null)
                 throw new ArgumentNullException(nameof(level));
-            ValidateFolder(folder);
-            ValidateAssetName(name);
+            var normalizedFolder = NormalizeFolder(folder);
+            var normalizedName = NormalizeAssetName(name);
 
             var canonical = BuildCanonical(level);
 
-            var fileName = name.EndsWith(".asset") ? name : $"{name}.asset";
-            var assetPath = Path.Combine(folder, fileName).Replace('\\', '/');
+            var assetPath = normalizedFolder + "/" + normalizedName;
 
             if (AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(assetPath) != null)
                 throw new InvalidOperationException($"Asset already exists at {assetPath}.");
 
-            EnsureFolderExists(folder);
+            EnsureFolderExists(normalizedFolder);
 
             var newAsset = ScriptableObject.CreateInstance<FlowLevelAsset>();
             PopulateAsset(newAsset, canonical);
@@ -111,9 +110,6 @@ namespace FlowPuzzle.Editor.Persistence
             return newAsset;
         }
 
-        /// <summary>
-        /// Builds a canonical deep-copied value from the input without mutating it.
-        /// </summary>
         private FlowGeneratedLevel BuildCanonical(FlowGeneratedLevel level)
         {
             if (level.levelData == null || level.solutionData == null || level.difficultyReport == null)
@@ -133,7 +129,6 @@ namespace FlowPuzzle.Editor.Persistence
             var coverage = (float)board.OccupiedCellCount
                 / (level.levelData.width * level.levelData.height);
 
-            // Build canonical deep copy with recalculated values
             var levelData = DeepCopyLevelData(level.levelData);
             levelData.difficulty = report.difficulty;
             levelData.difficultyScore = report.totalScore;
@@ -157,7 +152,7 @@ namespace FlowPuzzle.Editor.Persistence
             asset.coverageRatio = canonical.coverageRatio;
         }
 
-        private static void ValidateFolder(string folder)
+        private static string NormalizeFolder(string folder)
         {
             if (string.IsNullOrEmpty(folder))
                 throw new ArgumentException("Folder is null or empty.", nameof(folder));
@@ -175,9 +170,11 @@ namespace FlowPuzzle.Editor.Persistence
                 if (seg == "." || seg == "..")
                     throw new ArgumentException("Folder must not contain . or .. segments.", nameof(folder));
             }
+
+            return normalized;
         }
 
-        private static void ValidateAssetName(string name)
+        private static string NormalizeAssetName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name must not be empty or whitespace.", nameof(name));
@@ -187,23 +184,27 @@ namespace FlowPuzzle.Editor.Persistence
                 throw new ArgumentException("Name contains invalid characters.", nameof(name));
 
             var normalized = name.Replace('\\', '/');
-            if (normalized.Contains("/") || normalized.Contains("\\") || normalized.Contains(".."))
+            if (normalized.Contains("/") || normalized.Contains(".."))
                 throw new ArgumentException("Name must not contain path separators or traversal.", nameof(name));
 
-            var baseName = name.EndsWith(".asset") ? name.Substring(0, name.Length - 6) : name;
-            if (string.IsNullOrWhiteSpace(baseName))
+            // Strip all trailing .asset suffixes (case-insensitive)
+            while (normalized.Length >= 6 &&
+                   string.Equals(normalized.Substring(normalized.Length - 6), ".asset",
+                       StringComparison.OrdinalIgnoreCase))
+                normalized = normalized.Substring(0, normalized.Length - 6);
+
+            if (string.IsNullOrWhiteSpace(normalized))
                 throw new ArgumentException("Asset base name must not be empty.", nameof(name));
+
+            return normalized + ".asset";
         }
 
         private static FlowLevelData DeepCopyLevelData(FlowLevelData src)
         {
             var copy = new FlowLevelData
             {
-                levelId = src.levelId,
-                width = src.width,
-                height = src.height,
-                difficulty = src.difficulty,
-                difficultyScore = src.difficultyScore
+                levelId = src.levelId, width = src.width, height = src.height,
+                difficulty = src.difficulty, difficultyScore = src.difficultyScore
             };
             foreach (var p in src.pairs)
                 copy.pairs.Add(new FlowPairData
@@ -232,18 +233,13 @@ namespace FlowPuzzle.Editor.Persistence
         {
             return new FlowDifficultyReport
             {
-                difficulty = src.difficulty,
-                totalScore = src.totalScore,
-                boardSizeScore = src.boardSizeScore,
-                colorCountScore = src.colorCountScore,
-                coverageScore = src.coverageScore,
-                turnScore = src.turnScore,
-                detourScore = src.detourScore,
-                interactionScore = src.interactionScore,
+                difficulty = src.difficulty, totalScore = src.totalScore,
+                boardSizeScore = src.boardSizeScore, colorCountScore = src.colorCountScore,
+                coverageScore = src.coverageScore, turnScore = src.turnScore,
+                detourScore = src.detourScore, interactionScore = src.interactionScore,
                 endpointDistanceScore = src.endpointDistanceScore,
                 bottleneckScore = src.bottleneckScore,
-                totalTurnCount = src.totalTurnCount,
-                totalDetour = src.totalDetour,
+                totalTurnCount = src.totalTurnCount, totalDetour = src.totalDetour,
                 differentColorAdjacentCount = src.differentColorAdjacentCount,
                 totalEndpointManhattanDistance = src.totalEndpointManhattanDistance,
                 bottleneckCount = src.bottleneckCount
@@ -252,9 +248,7 @@ namespace FlowPuzzle.Editor.Persistence
 
         private static void EnsureFolderExists(string folder)
         {
-            if (AssetDatabase.IsValidFolder(folder))
-                return;
-
+            if (AssetDatabase.IsValidFolder(folder)) return;
             var parts = folder.Split('/');
             var current = parts[0];
             for (var i = 1; i < parts.Length; i++)

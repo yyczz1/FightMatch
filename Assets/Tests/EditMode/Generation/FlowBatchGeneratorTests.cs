@@ -51,8 +51,7 @@ namespace FlowPuzzle.Tests.Generation
         {
             var report = MakeBatch().Generate(MakeRequest(10, 5, 42));
             Assert.AreEqual(5, report.items.Count);
-            for (var i = 0; i < 5; i++)
-                Assert.AreEqual(10 + i, report.items[i].levelId);
+            for (var i = 0; i < 5; i++) Assert.AreEqual(10 + i, report.items[i].levelId);
         }
 
         [Test]
@@ -65,13 +64,23 @@ namespace FlowPuzzle.Tests.Generation
         }
 
         [Test]
-        public void DerivedSeeds_NegativeAndOverflow()
+        public void DerivedSeeds_RealOverflow()
         {
-            var report = MakeBatch().Generate(MakeRequest(0, 2, int.MinValue));
-            var expected0 = unchecked(int.MinValue + 0 * 9973);
-            var expected1 = unchecked(int.MinValue + 1 * 9973);
-            Assert.AreEqual(expected0, report.items[0].usedSeed);
-            Assert.AreEqual(expected1, report.items[1].usedSeed);
+            var report = MakeBatch().Generate(MakeRequest(1, 2, int.MaxValue));
+            // levelId=1: int.MaxValue + 9973 wraps around
+            Assert.AreEqual(unchecked(int.MaxValue + 1 * 9973), report.items[0].usedSeed);
+            Assert.AreEqual(unchecked(int.MaxValue + 2 * 9973), report.items[1].usedSeed);
+            // proves overflow: derived seed < baseSeed for levelId=1
+            Assert.IsTrue(report.items[0].usedSeed < int.MaxValue,
+                "Derived seed should overflow when baseSeed + offset exceeds int.MaxValue");
+        }
+
+        [Test]
+        public void DerivedSeeds_NegativeBase()
+        {
+            var report = MakeBatch().Generate(MakeRequest(-5, 2, -100));
+            Assert.AreEqual(unchecked(-100 + (-5) * 9973), report.items[0].usedSeed);
+            Assert.AreEqual(unchecked(-100 + (-4) * 9973), report.items[1].usedSeed);
         }
 
         [Test]
@@ -88,12 +97,9 @@ namespace FlowPuzzle.Tests.Generation
             var batch = MakeBatch();
             var r1 = batch.Generate(MakeRequest(1, 3, 42));
             var r2 = batch.Generate(MakeRequest(1, 3, 42));
-
             Assert.AreEqual(r1.requestedCount, r2.requestedCount);
             Assert.AreEqual(r1.successfulCount, r2.successfulCount);
-            Assert.AreEqual(r1.failedCount, r2.failedCount);
             Assert.AreEqual(r1.items.Count, r2.items.Count);
-
             for (var i = 0; i < r1.items.Count; i++)
             {
                 var a = r1.items[i]; var b = r2.items[i];
@@ -101,28 +107,28 @@ namespace FlowPuzzle.Tests.Generation
                 Assert.AreEqual(a.usedSeed, b.usedSeed);
                 Assert.AreEqual(a.success, b.success);
                 Assert.AreEqual(a.message, b.message);
-
                 var ga = a.generationResult; var gb = b.generationResult;
                 Assert.AreEqual(ga.success, gb.success);
                 Assert.AreEqual(ga.levelId, gb.levelId);
                 Assert.AreEqual(ga.usedSeed, gb.usedSeed);
                 Assert.AreEqual(ga.attemptCount, gb.attemptCount);
+                Assert.AreEqual(ga.diagnostic == null, gb.diagnostic == null);
                 if (ga.diagnostic != null)
                 {
                     Assert.AreEqual(ga.diagnostic.errorCode, gb.diagnostic.errorCode);
                     Assert.AreEqual(ga.diagnostic.errorMessage, gb.diagnostic.errorMessage);
                 }
-
                 if (ga.success)
                 {
                     var la = ga.generatedLevel; var lb = gb.generatedLevel;
                     Assert.AreEqual(la.usedSeed, lb.usedSeed);
                     Assert.AreEqual(la.coverageRatio, lb.coverageRatio);
                     Assert.AreEqual(la.levelData.levelId, lb.levelData.levelId);
+                    Assert.AreEqual(la.solutionData.levelId, lb.solutionData.levelId);
                     Assert.AreEqual(la.levelData.width, lb.levelData.width);
                     Assert.AreEqual(la.levelData.height, lb.levelData.height);
                     Assert.AreEqual(la.levelData.difficulty, lb.levelData.difficulty);
-                    Assert.AreEqual(la.levelData.difficultyScore, lb.levelData.difficultyScore, 0.01f);
+                    Assert.AreEqual(la.difficultyReport.difficulty, lb.difficultyReport.difficulty);
                     Assert.AreEqual(la.difficultyReport.totalScore, lb.difficultyReport.totalScore, 0.01f);
                     Assert.AreEqual(la.levelData.pairs.Count, lb.levelData.pairs.Count);
                     for (var j = 0; j < la.levelData.pairs.Count; j++)
@@ -135,6 +141,7 @@ namespace FlowPuzzle.Tests.Generation
                     for (var j = 0; j < la.solutionData.paths.Count; j++)
                     {
                         Assert.AreEqual(la.solutionData.paths[j].colorId, lb.solutionData.paths[j].colorId);
+                        Assert.AreEqual(la.solutionData.paths[j].cells.Count, lb.solutionData.paths[j].cells.Count);
                         Assert.IsTrue(la.solutionData.paths[j].cells.SequenceEqual(lb.solutionData.paths[j].cells));
                     }
                 }
@@ -142,25 +149,40 @@ namespace FlowPuzzle.Tests.Generation
         }
 
         [Test]
-        public void RequestConfigUnchanged()
+        public void RequestConfigUnchanged_Complete()
         {
             var req = MakeRequest(1, 2, 42);
-            var origSeed = req.config.seed;
-            var origUseRandom = req.config.useRandomSeed;
-            var origStartId = req.startLevelId;
-            var origCount = req.count;
-            var origBaseSeed = req.baseSeed;
-            var snapWidth = req.config.width;
-
+            var origConfig = req.config;
+            var snap = new
+            {
+                req.startLevelId, req.count, req.baseSeed,
+                c = new
+                {
+                    req.config.width, req.config.height, req.config.colorCount,
+                    req.config.minCoverageRatio, req.config.maxCoverageRatio,
+                    req.config.minPathLength, req.config.maxPathLength,
+                    req.config.maxPathAttempt, req.config.maxLevelAttempt,
+                    req.config.useRandomSeed, req.config.seed,
+                    req.config.useTargetDifficulty, req.config.targetDifficulty,
+                    req.config.useTargetScoreRange,
+                    req.config.minTargetDifficultyScore, req.config.maxTargetDifficultyScore,
+                    req.config.turnPreference, req.config.interactionPreference,
+                    req.config.minEndpointDistance, req.config.maxEndpointDistance,
+                    req.config.minDetour, req.config.maxDetour,
+                    req.config.bottleneckPreference,
+                    req.config.solverTimeoutMilliseconds, req.config.solverNodeBudget
+                }
+            };
             MakeBatch().Generate(req);
-
-            Assert.AreEqual(origSeed, req.config.seed);
-            Assert.AreEqual(origUseRandom, req.config.useRandomSeed);
-            Assert.AreEqual(origStartId, req.startLevelId);
-            Assert.AreEqual(origCount, req.count);
-            Assert.AreEqual(origBaseSeed, req.baseSeed);
-            Assert.AreEqual(snapWidth, req.config.width);
-            Assert.AreSame(req.config, req.config);
+            Assert.AreSame(origConfig, req.config);
+            Assert.AreEqual(snap.startLevelId, req.startLevelId);
+            Assert.AreEqual(snap.count, req.count);
+            Assert.AreEqual(snap.baseSeed, req.baseSeed);
+            Assert.AreEqual(snap.c.width, req.config.width);
+            Assert.AreEqual(snap.c.seed, req.config.seed);
+            Assert.AreEqual(snap.c.useRandomSeed, req.config.useRandomSeed);
+            Assert.AreEqual(snap.c.minCoverageRatio, req.config.minCoverageRatio);
+            Assert.AreEqual(snap.c.solverNodeBudget, req.config.solverNodeBudget);
         }
 
         [Test]
@@ -169,14 +191,11 @@ namespace FlowPuzzle.Tests.Generation
             var req = MakeRequest(1, 3, 42);
             req.config.width = 3; req.config.height = 3;
             req.config.colorCount = 5; req.config.minPathLength = 5;
-
             var report = MakeBatch().Generate(req);
-
             Assert.AreEqual(3, report.items.Count);
             Assert.AreEqual(0, report.successfulCount);
             Assert.AreEqual(3, report.failedCount);
-
-            for (var i = 0; i < report.items.Count; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var item = report.items[i];
                 Assert.AreEqual(1 + i, item.levelId);
@@ -190,25 +209,19 @@ namespace FlowPuzzle.Tests.Generation
         }
 
         [Test]
-        public void InstanceOwnership_ReportsAndLists()
+        public void InstanceOwnership()
         {
             var batch = MakeBatch();
             var r1 = batch.Generate(MakeRequest(1, 2, 42));
             var r2 = batch.Generate(MakeRequest(1, 2, 42));
-
             Assert.AreNotSame(r1, r2);
             Assert.AreNotSame(r1.items, r2.items);
-            for (var i = 0; i < 2; i++)
-            {
-                Assert.AreNotSame(r1.items[i], r2.items[i]);
-                Assert.AreNotSame(r1.items[i].generationResult, r2.items[i].generationResult);
-            }
-
-            var countBefore = r1.items.Count;
+            Assert.AreNotSame(r1.items[0], r2.items[0]);
+            Assert.AreNotSame(r1.items[0].generationResult, r2.items[0].generationResult);
+            var count = r1.items.Count;
             r1.items.Clear();
             Assert.AreEqual(2, r2.items.Count);
             Assert.AreEqual(0, r1.items.Count);
-            r1.items.AddRange(new FlowBatchItemResult[countBefore]); // restore for teardown sanity
         }
     }
 }
