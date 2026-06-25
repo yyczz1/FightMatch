@@ -170,3 +170,22 @@ BLOCKER:
     names claim;
   - test execution leaves untracked `Assets/Temp.meta` and an empty parent
     folder.
+
+### Corrective review 2
+
+- `FLOW-GROUP-04-FIX-03` commit: `f07d8aa`
+- Verification XML: `Logs/FLOW-FIX-03b.xml`
+  - result: `Passed`
+  - total: `229`
+  - passed: `229`
+  - failed: `0`
+- Path normalization, extension normalization, true seed overflow, and test
+  artifact cleanup passed review.
+- Codex verdict: `NEEDS_FIX`
+- Final test-only corrective task: `FLOW-GROUP-04-FIX-04`
+- Remaining findings:
+  - persistence input snapshots use an unsupported anonymous JsonUtility
+    wrapper and can be empty;
+  - complete config immutability snapshots are only partially asserted;
+  - valid regression tests were removed while the total fell by one;
+  - batch equality omits two required aggregate/data fields.
