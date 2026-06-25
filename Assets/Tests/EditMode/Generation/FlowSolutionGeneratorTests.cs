@@ -42,11 +42,47 @@ namespace FlowPuzzle.Tests.Generation
             a.colorId == b.colorId && DeepEquals(a.endpointA, b.endpointA) && DeepEquals(a.endpointB, b.endpointB);
         private static bool DeepEquals(FlowPathData a, FlowPathData b) =>
             a.colorId == b.colorId && a.cells.SequenceEqual(b.cells);
-        private static bool DeepEquals(FlowGeneratedLevel a, FlowGeneratedLevel b) =>
-            a.usedSeed == b.usedSeed && a.coverageRatio == b.coverageRatio &&
-            a.levelData.width == b.levelData.width && a.levelData.height == b.levelData.height &&
-            a.levelData.pairs.All(p => b.levelData.pairs.Any(q => DeepEquals(p, q))) &&
-            a.solutionData.paths.All(p => b.solutionData.paths.Any(q => DeepEquals(p, q)));
+        private static bool DeepEquals(FlowGeneratedLevel a, FlowGeneratedLevel b)
+        {
+            if (a == null || b == null) return a == b;
+            if (a.usedSeed != b.usedSeed) return false;
+            if (a.coverageRatio != b.coverageRatio) return false;
+            if (a.levelData.levelId != b.levelData.levelId) return false;
+            if (a.solutionData.levelId != b.solutionData.levelId) return false;
+            if (a.levelData.width != b.levelData.width) return false;
+            if (a.levelData.height != b.levelData.height) return false;
+            if (a.levelData.difficulty != b.levelData.difficulty) return false;
+            if (a.levelData.difficultyScore != b.levelData.difficultyScore) return false;
+            if (a.difficultyReport.difficulty != b.difficultyReport.difficulty) return false;
+            if (a.difficultyReport.totalScore != b.difficultyReport.totalScore) return false;
+
+            if (a.levelData.pairs.Count != b.levelData.pairs.Count) return false;
+            for (var i = 0; i < a.levelData.pairs.Count; i++)
+                if (!DeepEquals(a.levelData.pairs[i], b.levelData.pairs[i])) return false;
+
+            if (a.solutionData.paths.Count != b.solutionData.paths.Count) return false;
+            for (var i = 0; i < a.solutionData.paths.Count; i++)
+                if (!DeepEquals(a.solutionData.paths[i], b.solutionData.paths[i])) return false;
+
+            return true;
+        }
+
+        private static bool LayoutsEqual(FlowGeneratedLevel a, FlowGeneratedLevel b)
+        {
+            if (a == null || b == null) return a == b;
+            if (a.levelData.width != b.levelData.width) return false;
+            if (a.levelData.height != b.levelData.height) return false;
+
+            if (a.levelData.pairs.Count != b.levelData.pairs.Count) return false;
+            for (var i = 0; i < a.levelData.pairs.Count; i++)
+                if (!DeepEquals(a.levelData.pairs[i], b.levelData.pairs[i])) return false;
+
+            if (a.solutionData.paths.Count != b.solutionData.paths.Count) return false;
+            for (var i = 0; i < a.solutionData.paths.Count; i++)
+                if (!DeepEquals(a.solutionData.paths[i], b.solutionData.paths[i])) return false;
+
+            return true;
+        }
 
         // ── seed-preservation immediate failures ──
 
@@ -128,7 +164,7 @@ namespace FlowPuzzle.Tests.Generation
 
             Assert.IsTrue(r1.success);
             Assert.IsTrue(r2.success);
-            Assert.IsFalse(DeepEquals(r1.generatedLevel, r2.generatedLevel));
+            Assert.IsFalse(LayoutsEqual(r1.generatedLevel, r2.generatedLevel));
         }
 
         // ── board size coverage ──
