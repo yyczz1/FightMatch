@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-GENERATION-003`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-03`
 
@@ -194,3 +194,17 @@ evidence.
 ## What to do if blocked
 
 Return `BLOCKED` and make no commit.
+
+## Completion record
+
+- Worker commit: `67d33fa`
+- Corrective implementation commit: `07300ce`
+- Corrective test commit: `c211081`
+- Final Codex verdict: `ACCEPT`
+- Final integration verification:
+  - XML result: `Passed`
+  - total: `192`
+  - passed: `192`
+  - failed: `0`
+- Fixed-seed deep equality and different-seed layout comparison now verify
+  their actual contracts.

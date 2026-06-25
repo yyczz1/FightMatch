@@ -1,6 +1,6 @@
 # External DeepSeek Task Group
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 ## Group metadata
 
@@ -142,3 +142,23 @@ BLOCKER:
   - fixed-seed deep equality does not compare all required metadata or ordered
     lists;
   - different-seed layout comparison can pass solely because seeds differ.
+
+### Final corrective completion
+
+- Test corrective commit: `c211081`
+- `FLOW-GENERATION-001` final verdict: `ACCEPT`
+- `FLOW-GENERATION-002` final verdict: `ACCEPT`
+- `FLOW-GENERATION-003` final verdict: `ACCEPT`
+- `FLOW-GROUP-03-FIX-01` final verdict: `ACCEPT`
+- `FLOW-GROUP-03-FIX-02` final verdict: `ACCEPT`
+- Group final verdict: `ACCEPT`
+- Final verification XML: `Logs/FLOW-FIX-02.xml`
+  - result: `Passed`
+  - total: `192`
+  - passed: `192`
+  - failed: `0`
+  - skipped: `0`
+  - failed test cases: `0`
+  - failed suites: `0`
+- Only the user-managed `.claude/settings.local.json` remains modified outside
+  accepted commits.

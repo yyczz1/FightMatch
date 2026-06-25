@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-GENERATION-001`
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-03`
 
@@ -231,3 +231,11 @@ and local commit hash.
 ## What to do if blocked
 
 Return `BLOCKED`, make no commit, and do not begin `FLOW-GENERATION-002`.
+
+## Completion record
+
+- Worker commit: `2981fa9`
+- Final corrective commits: `07300ce`, `c211081`
+- Final Codex verdict: `ACCEPT`
+- Final integration verification: Unity EditMode `192/192` passed.
+- Static prohibited-reference check: no matches.

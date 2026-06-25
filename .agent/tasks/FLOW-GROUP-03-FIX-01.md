@@ -4,7 +4,7 @@
 
 **Task ID:** `FLOW-GROUP-03-FIX-01`
 
-**Status:** `NEEDS_FIX`
+**Status:** `ACCEPTED`
 
 **Group ID:** `FLOW-GROUP-03`
 
@@ -289,3 +289,11 @@ create a commit.
     pair/path counts, and ordered list comparison;
   - the different-seed “different layouts” test compares `usedSeed`, so it
     can pass even when the actual layouts are identical.
+
+### Final resolution
+
+- Follow-up commit: `c211081`
+- Final task verdict: `ACCEPT`
+- Final verification: Unity EditMode `192/192` passed.
+- Production corrections from `07300ce` and strengthened determinism tests
+  from `c211081` are retained.
