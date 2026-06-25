@@ -130,3 +130,15 @@ BLOCKER:
     three-run deep-equality coverage is absent or weaker than required.
 - Scope, commit boundaries, deterministic collection usage, DFS rollback, and
   prohibited-reference checks otherwise passed review.
+
+### Corrective review 1
+
+- Corrective commit: `07300ce`
+- Verification: Unity EditMode `192/192` passed.
+- Production fixes: accepted.
+- Corrective task verdict: `NEEDS_FIX`
+- Follow-up task: `FLOW-GROUP-03-FIX-02`
+- Remaining issue is test-only:
+  - fixed-seed deep equality does not compare all required metadata or ordered
+    lists;
+  - different-seed layout comparison can pass solely because seeds differ.
