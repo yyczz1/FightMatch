@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FlowPuzzle.Application;
 using FlowPuzzle.Core;
 using FlowPuzzle.Difficulty;
@@ -29,12 +30,16 @@ namespace FlowPuzzle.Editor
         private Button saveCurrentBtn, exportJsonBtn, validateCurrentBtn, clearPreviewBtn;
 
         private FlowGeneratedLevel currentLevel;
+        private List<string> batchSaveErrors;
 
         [MenuItem("Tools/Flow Puzzle/Level Generator")]
         public static void Open() => GetWindow<FlowLevelGeneratorWindow>("Flow Puzzle Generator");
 
         private void CreateGUI()
         {
+            // Clear old tree to avoid duplication on rebuild
+            rootVisualElement.Clear();
+
             generationService = new FlowLevelGenerationService();
             var validator = new FlowSolutionValidator();
             repository = new FlowLevelAssetRepository(validator, new FlowDifficultyEvaluator());
@@ -73,7 +78,15 @@ namespace FlowPuzzle.Editor
         }
 
         private FlowGenerationConfig ReadConfig() => paramPanel.ReadConfig();
-        private bool ConfigValid(FlowGenerationConfig c) => c.width > 0 && c.height > 0 && c.colorCount > 0 && c.minPathLength >= 2;
+
+        private bool ConfigValid(FlowGenerationConfig c)
+        {
+            return c.width > 0 && c.height > 0 && c.colorCount > 0
+                && c.minPathLength >= 2 && c.minPathLength <= c.maxPathLength
+                && c.minCoverageRatio <= c.maxCoverageRatio
+                && c.minCoverageRatio >= 0f && c.maxCoverageRatio <= 1f
+                && c.maxPathAttempt > 0 && c.maxLevelAttempt > 0;
+        }
 
         private void OnApplyPreset()
         {
@@ -87,20 +100,21 @@ namespace FlowPuzzle.Editor
         private void OnGenerateOne()
         {
             var config = ReadConfig();
-            if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration."); return; }
+            if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration — check dimensions, path lengths, and coverage range."); return; }
             try
             {
                 var result = generationService.GenerateOne(paramPanel.levelIdField.value, config);
                 if (result.success) { SetCurrentLevel(result.generatedLevel); diagnosticsPanel.Clear(); }
                 else diagnosticsPanel.ShowError($"Generation failed: {result.diagnostic?.errorCode}");
             }
-            catch (Exception ex) { diagnosticsPanel.ShowError($"Error: {ex.Message}"); }
+            catch (InvalidOperationException ex) { diagnosticsPanel.ShowError($"Error: {ex.Message}"); }
         }
 
         private void OnGenerateBatch()
         {
             var config = ReadConfig();
             if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration."); return; }
+            batchSaveErrors = new List<string>();
             try
             {
                 var req = new FlowBatchRequest
@@ -114,13 +128,15 @@ namespace FlowPuzzle.Editor
                     if (item.success && item.generationResult?.success == true)
                     {
                         try { repository.SaveNew(item.generationResult.generatedLevel, paramPanel.outputFolderField.value); }
-                        catch (Exception) { /* continue-on-failure */ }
+                        catch (InvalidOperationException ex) { batchSaveErrors.Add($"Level {item.levelId} save failed: {ex.Message}"); item.message += " [SAVE FAILED]"; }
                     }
                 }
                 batchPanel.Show(report);
-                diagnosticsPanel.ShowInfo($"Batch: {report.successfulCount}/{report.requestedCount} succeeded.");
+                if (batchSaveErrors.Count > 0)
+                    diagnosticsPanel.ShowError($"Batch: {report.successfulCount}/{report.requestedCount} succeeded. {batchSaveErrors.Count} save failures.");
+                else diagnosticsPanel.ShowInfo($"Batch: {report.successfulCount}/{report.requestedCount} succeeded.");
             }
-            catch (Exception ex) { diagnosticsPanel.ShowError($"Batch error: {ex.Message}"); }
+            catch (InvalidOperationException ex) { diagnosticsPanel.ShowError($"Batch error: {ex.Message}"); }
         }
 
         private void OnSaveCurrent()
@@ -131,7 +147,7 @@ namespace FlowPuzzle.Editor
                 repository.SaveNew(currentLevel, paramPanel.outputFolderField.value);
                 diagnosticsPanel.ShowInfo($"Saved to {paramPanel.outputFolderField.value}");
             }
-            catch (Exception ex) { diagnosticsPanel.ShowError($"Save failed: {ex.Message}"); }
+            catch (InvalidOperationException ex) { diagnosticsPanel.ShowError($"Save failed: {ex.Message}"); }
         }
 
         private void OnExportJson()
@@ -139,13 +155,9 @@ namespace FlowPuzzle.Editor
             if (currentLevel == null) { diagnosticsPanel.ShowError("No current result."); return; }
             var folder = paramPanel.outputFolderField.value;
             if (string.IsNullOrWhiteSpace(folder)) folder = "FlowPuzzleExport";
-            try
-            {
-                var r = jsonExporter.Export(currentLevel, folder);
-                if (r.success) diagnosticsPanel.ShowInfo($"Exported: {r.levelFilePath}\n{r.solutionFilePath}");
-                else diagnosticsPanel.ShowError($"Export failed: {r.diagnostic?.errorCode}");
-            }
-            catch (Exception ex) { diagnosticsPanel.ShowError($"Export error: {ex.Message}"); }
+            var r = jsonExporter.Export(currentLevel, folder);
+            if (r.success) diagnosticsPanel.ShowInfo($"Exported: {r.levelFilePath}\n{r.solutionFilePath}");
+            else diagnosticsPanel.ShowError($"Export failed: {r.diagnostic?.errorCode}");
         }
 
         private void OnValidateCurrent()
@@ -175,6 +187,8 @@ namespace FlowPuzzle.Editor
         {
             var has = currentLevel != null;
             saveCurrentBtn?.SetEnabled(has); exportJsonBtn?.SetEnabled(has); validateCurrentBtn?.SetEnabled(has);
+            var valid = ConfigValid(ReadConfig());
+            generateOneBtn?.SetEnabled(valid); generateBatchBtn?.SetEnabled(valid);
         }
     }
 }

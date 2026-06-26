@@ -37,8 +37,8 @@ namespace FlowPuzzle.Application
         public FlowValidationResult Validate(
             FlowGeneratedLevel level)
         {
-            if (level == null || level.levelData == null || level.solutionData == null)
-                return FlowValidationResult.Invalid("InvalidInput", "Level or solution data is null.");
+            if (level == null)
+                return FlowValidationResult.Invalid("NullLevel", "Level is null.");
             return validator.Validate(level.levelData, level.solutionData);
         }
     }
