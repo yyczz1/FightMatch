@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using FlowPuzzle.Application;
 using FlowPuzzle.Core;
 using FlowPuzzle.Difficulty;
@@ -9,19 +8,16 @@ using FlowPuzzle.Generation;
 using FlowPuzzle.Persistence;
 using FlowPuzzle.Validation;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace FlowPuzzle.Editor
 {
     public sealed class FlowLevelGeneratorWindow : EditorWindow
     {
-        // Services
         private FlowLevelGenerationService generationService;
         private FlowLevelAssetRepository repository;
         private FlowLevelJsonExporter jsonExporter;
 
-        // UI
         private FlowParameterPanel paramPanel;
         private FlowResultPanel resultPanel;
         private FlowDiagnosticsPanel diagnosticsPanel;
@@ -29,13 +25,10 @@ namespace FlowPuzzle.Editor
         private FlowBoardView boardView;
         private VisualElement boardContainer;
 
-        // Buttons
         private Button applyPresetBtn, generateOneBtn, generateBatchBtn;
         private Button saveCurrentBtn, exportJsonBtn, validateCurrentBtn, clearPreviewBtn;
 
-        // State
         private FlowGeneratedLevel currentLevel;
-        private FlowDifficultyPreset selectedPreset = FlowDifficultyPreset.Custom;
 
         [MenuItem("Tools/Flow Puzzle/Level Generator")]
         public static void Open() => GetWindow<FlowLevelGeneratorWindow>("Flow Puzzle Generator");
@@ -43,64 +36,44 @@ namespace FlowPuzzle.Editor
         private void CreateGUI()
         {
             generationService = new FlowLevelGenerationService();
-            repository = new FlowLevelAssetRepository(new FlowSolutionValidator(), new FlowDifficultyEvaluator());
+            var validator = new FlowSolutionValidator();
+            repository = new FlowLevelAssetRepository(validator, new FlowDifficultyEvaluator());
             jsonExporter = new FlowLevelJsonExporter();
 
             var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
                 "Assets/Scripts/FlowPuzzle/Editor/UI/FlowLevelGeneratorWindow.uxml");
             uxml.CloneTree(rootVisualElement);
-
             var uss = AssetDatabase.LoadAssetAtPath<StyleSheet>(
                 "Assets/Scripts/FlowPuzzle/Editor/UI/FlowLevelGeneratorWindow.uss");
             rootVisualElement.styleSheets.Add(uss);
 
-            // Parameter panel
-            var paramRoot = rootVisualElement.Q<VisualElement>("param-panel");
             paramPanel = new FlowParameterPanel();
-            paramPanel.Build(paramRoot);
+            paramPanel.Build(rootVisualElement.Q("param-panel"));
 
-            // Board
-            boardContainer = rootVisualElement.Q<VisualElement>("board-container");
-            boardView = new FlowBoardView();
-            boardView.style.flexGrow = 1f;
+            boardContainer = rootVisualElement.Q("board-container");
+            boardView = new FlowBoardView { style = { flexGrow = 1f } };
             boardContainer.Add(boardView);
 
-            // Result
-            var resultRoot = rootVisualElement.Q<VisualElement>("result-panel");
-            resultPanel = new FlowResultPanel();
-            resultPanel.Build(resultRoot);
+            resultPanel = new FlowResultPanel(); resultPanel.Build(rootVisualElement.Q("result-panel"));
+            diagnosticsPanel = new FlowDiagnosticsPanel(); diagnosticsPanel.Build(rootVisualElement.Q("result-panel"));
+            batchPanel = new FlowBatchReportPanel(); batchPanel.Build(rootVisualElement.Q("batch-panel"));
 
-            // Diagnostics
-            var diagRoot = rootVisualElement.Q<VisualElement>("result-panel");
-            diagnosticsPanel = new FlowDiagnosticsPanel();
-            diagnosticsPanel.Build(diagRoot);
+            var bar = new VisualElement(); bar.AddToClassList("action-bar"); rootVisualElement.Add(bar);
 
-            // Batch
-            var batchRoot = rootVisualElement.Q<VisualElement>("batch-panel");
-            batchPanel = new FlowBatchReportPanel();
-            batchPanel.Build(batchRoot);
-
-            // Action buttons
-            var actionBar = new VisualElement();
-            actionBar.AddToClassList("action-bar");
-            rootVisualElement.Add(actionBar);
-
-            applyPresetBtn = new Button(() => OnApplyPreset()) { text = "Apply Preset", name = "apply-preset" };
-            generateOneBtn = new Button(() => OnGenerateOne()) { text = "Generate One", name = "generate-one" };
-            generateBatchBtn = new Button(() => OnGenerateBatch()) { text = "Generate Batch", name = "generate-batch" };
-            saveCurrentBtn = new Button(() => OnSaveCurrent()) { text = "Save Current", name = "save-current" };
-            exportJsonBtn = new Button(() => OnExportJson()) { text = "Export JSON", name = "export-json" };
-            validateCurrentBtn = new Button(() => OnValidateCurrent()) { text = "Validate Current", name = "validate-current" };
-            clearPreviewBtn = new Button(() => OnClearPreview()) { text = "Clear Preview", name = "clear-preview" };
-
-            actionBar.Add(applyPresetBtn); actionBar.Add(generateOneBtn); actionBar.Add(generateBatchBtn);
-            actionBar.Add(saveCurrentBtn); actionBar.Add(exportJsonBtn);
-            actionBar.Add(validateCurrentBtn); actionBar.Add(clearPreviewBtn);
+            void AddBtn(string name, Action a) { var b = new Button(a) { text = name, name = name.ToLower().Replace(" ", "-") }; bar.Add(b); }
+            AddBtn("Apply Preset", () => OnApplyPreset()); applyPresetBtn = (Button)bar[bar.childCount - 1];
+            AddBtn("Generate One", () => OnGenerateOne()); generateOneBtn = (Button)bar[bar.childCount - 1];
+            AddBtn("Generate Batch", () => OnGenerateBatch()); generateBatchBtn = (Button)bar[bar.childCount - 1];
+            AddBtn("Save Current", () => OnSaveCurrent()); saveCurrentBtn = (Button)bar[bar.childCount - 1];
+            AddBtn("Export JSON", () => OnExportJson()); exportJsonBtn = (Button)bar[bar.childCount - 1];
+            AddBtn("Validate Current", () => OnValidateCurrent()); validateCurrentBtn = (Button)bar[bar.childCount - 1];
+            AddBtn("Clear Preview", () => OnClearPreview()); clearPreviewBtn = (Button)bar[bar.childCount - 1];
 
             UpdateButtonStates();
         }
 
-        // ── Actions (shell — P5 will complete these) ──
+        private FlowGenerationConfig ReadConfig() => paramPanel.ReadConfig();
+        private bool ConfigValid(FlowGenerationConfig c) => c.width > 0 && c.height > 0 && c.colorCount > 0 && c.minPathLength >= 2;
 
         private void OnApplyPreset()
         {
@@ -109,53 +82,99 @@ namespace FlowPuzzle.Editor
             var config = new FlowGenerationConfig();
             FlowDifficultyPresetLibrary.Apply(preset, config);
             paramPanel.ApplyPresetValues(config);
-            selectedPreset = preset;
         }
 
         private void OnGenerateOne()
         {
-            diagnosticsPanel.ShowInfo("Generate One — not wired (P5)");
+            var config = ReadConfig();
+            if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration."); return; }
+            try
+            {
+                var result = generationService.GenerateOne(paramPanel.levelIdField.value, config);
+                if (result.success) { SetCurrentLevel(result.generatedLevel); diagnosticsPanel.Clear(); }
+                else diagnosticsPanel.ShowError($"Generation failed: {result.diagnostic?.errorCode}");
+            }
+            catch (Exception ex) { diagnosticsPanel.ShowError($"Error: {ex.Message}"); }
         }
 
         private void OnGenerateBatch()
         {
-            diagnosticsPanel.ShowInfo("Generate Batch — not wired (P5)");
+            var config = ReadConfig();
+            if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration."); return; }
+            try
+            {
+                var req = new FlowBatchRequest
+                {
+                    startLevelId = paramPanel.levelIdField.value, count = paramPanel.batchCountField.value,
+                    baseSeed = paramPanel.seedField.value, config = config
+                };
+                var report = generationService.GenerateBatch(req);
+                foreach (var item in report.items)
+                {
+                    if (item.success && item.generationResult?.success == true)
+                    {
+                        try { repository.SaveNew(item.generationResult.generatedLevel, paramPanel.outputFolderField.value); }
+                        catch (Exception) { /* continue-on-failure */ }
+                    }
+                }
+                batchPanel.Show(report);
+                diagnosticsPanel.ShowInfo($"Batch: {report.successfulCount}/{report.requestedCount} succeeded.");
+            }
+            catch (Exception ex) { diagnosticsPanel.ShowError($"Batch error: {ex.Message}"); }
         }
 
         private void OnSaveCurrent()
         {
-            if (currentLevel == null) { diagnosticsPanel.ShowError("No current result to save."); return; }
-            diagnosticsPanel.ShowInfo("Save — not wired (P5)");
+            if (currentLevel == null) { diagnosticsPanel.ShowError("No current result."); return; }
+            try
+            {
+                repository.SaveNew(currentLevel, paramPanel.outputFolderField.value);
+                diagnosticsPanel.ShowInfo($"Saved to {paramPanel.outputFolderField.value}");
+            }
+            catch (Exception ex) { diagnosticsPanel.ShowError($"Save failed: {ex.Message}"); }
         }
 
         private void OnExportJson()
         {
-            if (currentLevel == null) { diagnosticsPanel.ShowError("No current result to export."); return; }
-            diagnosticsPanel.ShowInfo("Export — not wired (P5)");
+            if (currentLevel == null) { diagnosticsPanel.ShowError("No current result."); return; }
+            var folder = paramPanel.outputFolderField.value;
+            if (string.IsNullOrWhiteSpace(folder)) folder = "FlowPuzzleExport";
+            try
+            {
+                var r = jsonExporter.Export(currentLevel, folder);
+                if (r.success) diagnosticsPanel.ShowInfo($"Exported: {r.levelFilePath}\n{r.solutionFilePath}");
+                else diagnosticsPanel.ShowError($"Export failed: {r.diagnostic?.errorCode}");
+            }
+            catch (Exception ex) { diagnosticsPanel.ShowError($"Export error: {ex.Message}"); }
         }
 
         private void OnValidateCurrent()
         {
-            if (currentLevel == null) { diagnosticsPanel.ShowError("No current result to validate."); return; }
-            diagnosticsPanel.ShowInfo("Validate — not wired (P5)");
+            if (currentLevel == null) { diagnosticsPanel.ShowError("No current result."); return; }
+            var v = generationService.Validate(currentLevel);
+            if (v.isValid) diagnosticsPanel.ShowInfo("Recommendation is valid.");
+            else diagnosticsPanel.ShowError($"Invalid: {v.errorCode} — {v.errorMessage}");
         }
 
         private void OnClearPreview()
         {
             currentLevel = null;
-            boardView.ClearData();
-            resultPanel.Clear();
-            diagnosticsPanel.Clear();
-            batchPanel.Clear();
+            boardView.ClearData(); resultPanel.Clear(); diagnosticsPanel.Clear(); batchPanel.Clear();
+            UpdateButtonStates();
+        }
+
+        private void SetCurrentLevel(FlowGeneratedLevel level)
+        {
+            currentLevel = level;
+            boardView.SetData(level.levelData, level.solutionData);
+            resultPanel.Show(level);
             UpdateButtonStates();
         }
 
         private void UpdateButtonStates()
         {
-            var hasResult = currentLevel != null;
-            saveCurrentBtn.SetEnabled(hasResult);
-            exportJsonBtn.SetEnabled(hasResult);
-            validateCurrentBtn.SetEnabled(hasResult);
+            var has = currentLevel != null;
+            saveCurrentBtn?.SetEnabled(has); exportJsonBtn?.SetEnabled(has); validateCurrentBtn?.SetEnabled(has);
         }
     }
 }
