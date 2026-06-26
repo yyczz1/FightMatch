@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:TwoPaneSplitView fixed-pane-index="0" fixed-pane-width="340" orientation="Horizontal">
+        <ui:ScrollView name="param-scroll">
+            <ui:VisualElement name="param-panel" />
+        </ui:ScrollView>
+        <ui:VisualElement name="right-pane">
+            <ui:VisualElement name="board-container" style="flex-grow:1;" />
+            <ui:HelpBox name="status-helpbox" visible="false" />
+            <ui:ProgressBar name="progress-bar" visible="false" />
+            <ui:Label name="status-label" />
+            <ui:VisualElement name="result-panel" />
+            <ui:VisualElement name="batch-panel" />
+        </ui:VisualElement>
+    </ui:TwoPaneSplitView>
+</ui:UXML>
