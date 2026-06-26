@@ -54,6 +54,18 @@ namespace FlowPuzzle.Editor
 
             paramPanel = new FlowParameterPanel();
             paramPanel.Build(rootVisualElement.Q("param-panel"));
+            // Live config validation: refresh button states on parameter changes
+            var onConfigChanged = (EventCallback<ChangeEvent<int>>)(_ => UpdateButtonStates());
+            paramPanel.widthField.RegisterValueChangedCallback(onConfigChanged);
+            paramPanel.heightField.RegisterValueChangedCallback(onConfigChanged);
+            paramPanel.colorCountField.RegisterValueChangedCallback(onConfigChanged);
+            paramPanel.minPathLenField.RegisterValueChangedCallback(onConfigChanged);
+            paramPanel.maxPathLenField.RegisterValueChangedCallback(onConfigChanged);
+            paramPanel.pathAttemptField.RegisterValueChangedCallback(onConfigChanged);
+            paramPanel.levelAttemptField.RegisterValueChangedCallback(onConfigChanged);
+            var onFloatChanged = (EventCallback<ChangeEvent<float>>)(_ => UpdateButtonStates());
+            paramPanel.minCoverageField.RegisterValueChangedCallback(onFloatChanged);
+            paramPanel.maxCoverageField.RegisterValueChangedCallback(onFloatChanged);
 
             boardContainer = rootVisualElement.Q("board-container");
             boardView = new FlowBoardView { style = { flexGrow = 1f } };

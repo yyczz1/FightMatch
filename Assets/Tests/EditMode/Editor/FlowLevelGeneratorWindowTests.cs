@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using FlowPuzzle.Core;
 using FlowPuzzle.Editor;
 using FlowPuzzle.Editor.UI;
@@ -18,36 +17,13 @@ namespace FlowPuzzle.Tests.Editor
         private static readonly string JsonTestDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
 
         [SetUp] public void SetUp() { if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder); }
-        [TearDown] public void TearDown() { if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder); if (Directory.Exists(JsonTestDir)) Directory.Delete(JsonTestDir, true); }
+        [TearDown] public void TearDown() { if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder); if (AssetDatabase.IsValidFolder("Assets/Temp") && AssetDatabase.GetSubFolders("Assets/Temp").Length == 0) AssetDatabase.DeleteAsset("Assets/Temp"); if (Directory.Exists(JsonTestDir)) Directory.Delete(JsonTestDir, true); }
 
         // ── Parameter panel ──
 
         [Test] public void Panel_ReadConfig_Defaults() { var p = new FlowParameterPanel(); p.Build(new VisualElement()); var c = p.ReadConfig(); Assert.AreEqual(5, c.width); Assert.AreEqual(42, c.seed); }
 
-        [Test] public void Panel_ApplyPreset_FullValues()
-        {
-            var p = new FlowParameterPanel(); p.Build(new VisualElement());
-            var cfg = new FlowGenerationConfig
-            {
-                width = 6, height = 6, colorCount = 3,
-                minCoverageRatio = 0.3f, maxCoverageRatio = 0.7f,
-                minPathLength = 2, maxPathLength = 7,
-                turnPreference = 0.5f, interactionPreference = -0.3f,
-                maxPathAttempt = 250, maxLevelAttempt = 100,
-                useRandomSeed = false, seed = 99,
-                useTargetDifficulty = true, targetDifficulty = FlowDifficultyTier.Normal,
-                useTargetScoreRange = true,
-                minTargetDifficultyScore = 60f, maxTargetDifficultyScore = 119.999f
-            };
-            p.ApplyPresetValues(cfg);
-            Assert.AreEqual(6, p.widthField.value); Assert.AreEqual(99, p.seedField.value);
-            Assert.IsTrue(p.targetTierToggle.value); Assert.AreEqual(FlowDifficultyTier.Normal, p.targetTierField.value);
-            Assert.AreEqual(250, p.pathAttemptField.value); Assert.AreEqual(60f, p.minScoreField.value, 0.001f);
-            Assert.AreEqual(119.999f, p.maxScoreField.value, 0.001f);
-            Assert.AreEqual(100, p.levelAttemptField.value);
-            Assert.IsFalse(p.useRandomSeedToggle.value);
-            Assert.AreEqual(0.5f, p.turnPrefField.value, 0.001f);
-        }
+        [Test] public void Panel_ApplyPreset_FullValues() { var p = new FlowParameterPanel(); p.Build(new VisualElement()); var cfg = new FlowGenerationConfig { width = 6, height = 6, colorCount = 3, minCoverageRatio = 0.3f, maxCoverageRatio = 0.7f, minPathLength = 2, maxPathLength = 7, turnPreference = 0.5f, interactionPreference = -0.3f, maxPathAttempt = 250, maxLevelAttempt = 100, useRandomSeed = false, seed = 99, useTargetDifficulty = true, targetDifficulty = FlowDifficultyTier.Normal, useTargetScoreRange = true, minTargetDifficultyScore = 60f, maxTargetDifficultyScore = 119.999f }; p.ApplyPresetValues(cfg); Assert.AreEqual(6, p.widthField.value); Assert.AreEqual(99, p.seedField.value); Assert.IsTrue(p.targetTierToggle.value); Assert.AreEqual(FlowDifficultyTier.Normal, p.targetTierField.value); Assert.AreEqual(250, p.pathAttemptField.value); Assert.AreEqual(60f, p.minScoreField.value, 0.001f); Assert.AreEqual(119.999f, p.maxScoreField.value, 0.001f); Assert.AreEqual(100, p.levelAttemptField.value); Assert.IsFalse(p.useRandomSeedToggle.value); Assert.AreEqual(0.5f, p.turnPrefField.value, 0.001f); Assert.AreEqual(-0.3f, p.interactionPrefField.value, 0.001f); }
 
         // ── Board geometry ──
 
