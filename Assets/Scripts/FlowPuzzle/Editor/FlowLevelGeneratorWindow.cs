@@ -15,29 +15,29 @@ namespace FlowPuzzle.Editor
 {
     public sealed class FlowLevelGeneratorWindow : EditorWindow
     {
+        // NOTE: internal visibility for test access
         private FlowLevelGenerationService generationService;
         private FlowLevelAssetRepository repository;
         private FlowLevelJsonExporter jsonExporter;
 
-        private FlowParameterPanel paramPanel;
-        private FlowResultPanel resultPanel;
-        private FlowDiagnosticsPanel diagnosticsPanel;
-        private FlowBatchReportPanel batchPanel;
-        private FlowBoardView boardView;
-        private VisualElement boardContainer;
+        internal FlowParameterPanel paramPanel;
+        internal FlowResultPanel resultPanel;
+        internal FlowDiagnosticsPanel diagnosticsPanel;
+        internal FlowBatchReportPanel batchPanel;
+        internal FlowBoardView boardView;
+        internal VisualElement boardContainer;
 
-        private Button applyPresetBtn, generateOneBtn, generateBatchBtn;
-        private Button saveCurrentBtn, exportJsonBtn, validateCurrentBtn, clearPreviewBtn;
+        internal Button applyPresetBtn, generateOneBtn, generateBatchBtn;
+        internal Button saveCurrentBtn, exportJsonBtn, validateCurrentBtn, clearPreviewBtn;
 
-        private FlowGeneratedLevel currentLevel;
+        internal FlowGeneratedLevel currentLevel;
         private List<string> batchSaveErrors;
 
         [MenuItem("Tools/Flow Puzzle/Level Generator")]
         public static void Open() => GetWindow<FlowLevelGeneratorWindow>("Flow Puzzle Generator");
 
-        private void CreateGUI()
+        internal void CreateGUI()
         {
-            // Clear old tree to avoid duplication on rebuild
             rootVisualElement.Clear();
 
             generationService = new FlowLevelGenerationService();
@@ -64,9 +64,8 @@ namespace FlowPuzzle.Editor
             batchPanel = new FlowBatchReportPanel(); batchPanel.Build(rootVisualElement.Q("batch-panel"));
 
             var bar = new VisualElement(); bar.AddToClassList("action-bar"); rootVisualElement.Add(bar);
-
             void AddBtn(string name, Action a) { var b = new Button(a) { text = name, name = name.ToLower().Replace(" ", "-") }; bar.Add(b); }
-            AddBtn("Apply Preset", () => OnApplyPreset()); applyPresetBtn = (Button)bar[bar.childCount - 1];
+            AddBtn("Apply Preset", () => { OnApplyPreset(); UpdateButtonStates(); }); applyPresetBtn = (Button)bar[bar.childCount - 1];
             AddBtn("Generate One", () => OnGenerateOne()); generateOneBtn = (Button)bar[bar.childCount - 1];
             AddBtn("Generate Batch", () => OnGenerateBatch()); generateBatchBtn = (Button)bar[bar.childCount - 1];
             AddBtn("Save Current", () => OnSaveCurrent()); saveCurrentBtn = (Button)bar[bar.childCount - 1];
@@ -97,10 +96,10 @@ namespace FlowPuzzle.Editor
             paramPanel.ApplyPresetValues(config);
         }
 
-        private void OnGenerateOne()
+        internal void OnGenerateOne()
         {
             var config = ReadConfig();
-            if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration — check dimensions, path lengths, and coverage range."); return; }
+            if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration."); return; }
             try
             {
                 var result = generationService.GenerateOne(paramPanel.levelIdField.value, config);
@@ -110,7 +109,7 @@ namespace FlowPuzzle.Editor
             catch (InvalidOperationException ex) { diagnosticsPanel.ShowError($"Error: {ex.Message}"); }
         }
 
-        private void OnGenerateBatch()
+        internal void OnGenerateBatch()
         {
             var config = ReadConfig();
             if (!ConfigValid(config)) { diagnosticsPanel.ShowError("Invalid configuration."); return; }
@@ -128,18 +127,23 @@ namespace FlowPuzzle.Editor
                     if (item.success && item.generationResult?.success == true)
                     {
                         try { repository.SaveNew(item.generationResult.generatedLevel, paramPanel.outputFolderField.value); }
-                        catch (InvalidOperationException ex) { batchSaveErrors.Add($"Level {item.levelId} save failed: {ex.Message}"); item.message += " [SAVE FAILED]"; }
+                        catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException)
+                        {
+                            batchSaveErrors.Add($"Level {item.levelId}: {ex.Message}");
+                            item.success = false;
+                            item.message = $"Save failed: {ex.Message}";
+                        }
                     }
                 }
                 batchPanel.Show(report);
                 if (batchSaveErrors.Count > 0)
-                    diagnosticsPanel.ShowError($"Batch: {report.successfulCount}/{report.requestedCount} succeeded. {batchSaveErrors.Count} save failures.");
+                    diagnosticsPanel.ShowError($"Batch: {report.successfulCount}/{report.requestedCount} generated, {batchSaveErrors.Count} save failures.");
                 else diagnosticsPanel.ShowInfo($"Batch: {report.successfulCount}/{report.requestedCount} succeeded.");
             }
             catch (InvalidOperationException ex) { diagnosticsPanel.ShowError($"Batch error: {ex.Message}"); }
         }
 
-        private void OnSaveCurrent()
+        internal void OnSaveCurrent()
         {
             if (currentLevel == null) { diagnosticsPanel.ShowError("No current result."); return; }
             try
@@ -147,10 +151,11 @@ namespace FlowPuzzle.Editor
                 repository.SaveNew(currentLevel, paramPanel.outputFolderField.value);
                 diagnosticsPanel.ShowInfo($"Saved to {paramPanel.outputFolderField.value}");
             }
-            catch (InvalidOperationException ex) { diagnosticsPanel.ShowError($"Save failed: {ex.Message}"); }
+            catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException)
+            { diagnosticsPanel.ShowError($"Save failed: {ex.Message}"); }
         }
 
-        private void OnExportJson()
+        internal void OnExportJson()
         {
             if (currentLevel == null) { diagnosticsPanel.ShowError("No current result."); return; }
             var folder = paramPanel.outputFolderField.value;
@@ -160,7 +165,7 @@ namespace FlowPuzzle.Editor
             else diagnosticsPanel.ShowError($"Export failed: {r.diagnostic?.errorCode}");
         }
 
-        private void OnValidateCurrent()
+        internal void OnValidateCurrent()
         {
             if (currentLevel == null) { diagnosticsPanel.ShowError("No current result."); return; }
             var v = generationService.Validate(currentLevel);
@@ -168,14 +173,14 @@ namespace FlowPuzzle.Editor
             else diagnosticsPanel.ShowError($"Invalid: {v.errorCode} — {v.errorMessage}");
         }
 
-        private void OnClearPreview()
+        internal void OnClearPreview()
         {
             currentLevel = null;
             boardView.ClearData(); resultPanel.Clear(); diagnosticsPanel.Clear(); batchPanel.Clear();
             UpdateButtonStates();
         }
 
-        private void SetCurrentLevel(FlowGeneratedLevel level)
+        internal void SetCurrentLevel(FlowGeneratedLevel level)
         {
             currentLevel = level;
             boardView.SetData(level.levelData, level.solutionData);
@@ -183,7 +188,7 @@ namespace FlowPuzzle.Editor
             UpdateButtonStates();
         }
 
-        private void UpdateButtonStates()
+        internal void UpdateButtonStates()
         {
             var has = currentLevel != null;
             saveCurrentBtn?.SetEnabled(has); exportJsonBtn?.SetEnabled(has); validateCurrentBtn?.SetEnabled(has);
