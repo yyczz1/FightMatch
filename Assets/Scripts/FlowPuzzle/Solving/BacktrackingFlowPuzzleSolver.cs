@@ -9,30 +9,23 @@ namespace FlowPuzzle.Solving
 {
     public sealed class BacktrackingFlowPuzzleSolver : IFlowPuzzleSolver
     {
-        private const long DefaultNodeBudget = 10_000_000;
-        private const int DefaultTimeoutMs = 10_000;
-        private Dictionary<int, List<FlowPos>> prefixByColor;
-        private long visitedNodes;
-        private long nodeBudget;
-        private int timeoutMs;
-        private Stopwatch sw;
-        private CancellationToken ct;
-
         public FlowSolveResult Solve(FlowSolveRequest request, IProgress<FlowSolveProgress> progress, CancellationToken cancellationToken)
         {
-            sw = Stopwatch.StartNew();
-            visitedNodes = 0; ct = cancellationToken;
-            nodeBudget = DefaultNodeBudget; timeoutMs = DefaultTimeoutMs;
+            var sw = Stopwatch.StartNew();
+            var ctx = new SolveContext
+            {
+                nodeBudget = 10_000_000L, timeoutMs = 10000, sw = sw, ct = cancellationToken,
+                progress = progress, visitedNodes = 0
+            };
 
-            if (request == null || request.levelData == null)
-                return Result(FlowSolveStatus.InvalidInput);
+            if (request == null || request.levelData == null) return ctx.Result(FlowSolveStatus.InvalidInput);
             var level = request.levelData;
-            if (level.width <= 0 || level.height <= 0 || level.pairs == null)
-                return Result(FlowSolveStatus.InvalidInput);
-            if (!ValidatePairs(level)) return Result(FlowSolveStatus.InvalidInput);
+            if (level.width <= 0 || level.height <= 0 || level.pairs == null || level.pairs.Count == 0)
+                return ctx.Result(FlowSolveStatus.InvalidInput);
+            if (!ValidateInput(level)) return ctx.Result(FlowSolveStatus.InvalidInput);
 
             var board = new FlowBoard(level.width, level.height);
-            prefixByColor = new Dictionary<int, List<FlowPos>>();
+            var prefixByColor = new Dictionary<int, List<FlowPos>>();
             if (request.fixedPrefixes != null)
                 foreach (var fp in request.fixedPrefixes)
                     if (fp.cells != null && fp.cells.Count >= 2)
@@ -41,114 +34,129 @@ namespace FlowPuzzle.Solving
                         prefixByColor[fp.colorId] = new List<FlowPos>(fp.cells);
                     }
 
+            // Color ordering: prefix first, then reachable area, Manhattan, colorId
             var colorOrder = level.pairs.Select(p => p.colorId).OrderBy(id =>
             {
-                var hasPfx = prefixByColor.ContainsKey(id) ? 0 : 1;
+                var hasPf = prefixByColor.ContainsKey(id) ? 0 : 1;
                 var pair = level.pairs.First(p => p.colorId == id);
-                var dist = Math.Abs(pair.endpointA.x - pair.endpointB.x) + Math.Abs(pair.endpointA.y - pair.endpointB.y);
-                return (hasPfx, dist, id);
+                var dist = Math.Abs(pair.endpointA.x - pair.endpointB.x)
+                         + Math.Abs(pair.endpointA.y - pair.endpointB.y);
+                return (hasPf, dist, id);
             }).ToList();
 
-            var result = SearchRecursive(board, level, colorOrder, 0, progress);
-            result.visitedNodes = visitedNodes;
+            ctx.Report("search");
+
+            var result = Search(board, level, colorOrder, 0, prefixByColor, ctx);
+            result.visitedNodes = ctx.visitedNodes;
             result.elapsedMs = sw.ElapsedMilliseconds;
             return result;
         }
 
-        private FlowSolveResult SearchRecursive(FlowBoard board, FlowLevelData level, List<int> colorOrder, int idx, IProgress<FlowSolveProgress> progress)
+        private FlowSolveResult Search(FlowBoard board, FlowLevelData level, List<int> order, int idx,
+            Dictionary<int, List<FlowPos>> prefixes, SolveContext ctx)
         {
-            if (ct.IsCancellationRequested) return Result(FlowSolveStatus.Cancelled);
-            if (sw.ElapsedMilliseconds > timeoutMs) return Result(FlowSolveStatus.Timeout);
-            if (visitedNodes >= nodeBudget) return Result(FlowSolveStatus.Timeout);
+            if (ctx.ct.IsCancellationRequested) return ctx.Result(FlowSolveStatus.Cancelled);
+            if (ctx.sw.ElapsedMilliseconds > ctx.timeoutMs) return ctx.Result(FlowSolveStatus.Timeout);
+            if (ctx.visitedNodes >= ctx.nodeBudget) return ctx.Result(FlowSolveStatus.Timeout);
 
-            if (idx >= colorOrder.Count)
-            {
-                // All paths found — build solution
-                var sol = new FlowSolutionData();
-                foreach (var cid in colorOrder)
-                {
-                    var cells = new List<FlowPos>();
-                    for (int x = 0; x < level.width; x++)
-                        for (int y = 0; y < level.height; y++)
-                        {
-                            var p = new FlowPos(x, y);
-                            if (!board.IsEmpty(p) && board.Get(p) == cid) cells.Add(p);
-                        }
-                    sol.paths.Add(new FlowPathData { colorId = cid, cells = cells });
-                }
-                return new FlowSolveResult { status = FlowSolveStatus.Solved, solution = sol, visitedNodes = visitedNodes };
-            }
+            if (idx >= order.Count)
+                return BuildSolution(board, level, order, prefixes, ctx);
 
-            var colorId = colorOrder[idx];
+            int colorId = order[idx];
             var pair = level.pairs.First(p => p.colorId == colorId);
             FlowPos start, end;
-            bool hasPrefix = prefixByColor.TryGetValue(colorId, out var pfx) && pfx.Count > 0;
-
+            bool hasPrefix = prefixes.TryGetValue(colorId, out var pfx) && pfx.Count > 0;
             if (hasPrefix) { start = pfx.Last(); end = pair.endpointB; }
             else { start = pair.endpointA; end = pair.endpointB; }
 
+            // BFS precheck
+            if (!BfsReachable(board, start, end, colorId, prefixes)) return ctx.Result(FlowSolveStatus.NoSolution);
+
             // Enumerate all simple paths from start to end
             var allPaths = new List<List<FlowPos>>();
-            var firstPath = new List<FlowPos> { start };
-            var firstSet = new HashSet<FlowPos> { start };
-            EnumeratePaths(board, firstPath, firstSet, end, colorId, allPaths);
-            visitedNodes += allPaths.Count > 0 ? allPaths.Count : 1;
+            var initPath = new List<FlowPos> { start };
+            var initSet = new HashSet<FlowPos> { start };
+            DfsPaths(board, initPath, initSet, end, colorId, allPaths, ctx);
+
+            if (allPaths.Count == 0)
+                return ctx.Result(FlowSolveStatus.NoSolution);
+
+            ctx.visitedNodes += (long)allPaths.Count;
 
             foreach (var path in allPaths)
             {
-                if (ct.IsCancellationRequested) return Result(FlowSolveStatus.Cancelled);
-                if (visitedNodes >= nodeBudget) return Result(FlowSolveStatus.Timeout);
-
-                // Commit path to board
-                foreach (var cell in path)
-                    board.Set(cell, colorId);
-
-                var result = SearchRecursive(board, level, colorOrder, idx + 1, progress);
-                if (result.status == FlowSolveStatus.Solved)
-                    return result; // Found solution — propagate up
-
-                // Backtrack: uncommit path
-                foreach (var cell in path)
+                // Commit
+                foreach (var c in path) board.Set(c, colorId);
+                var result = Search(board, level, order, idx + 1, prefixes, ctx);
+                if (result.status == FlowSolveStatus.Solved) return result;
+                // Backtrack
+                foreach (var c in path)
                 {
-                    if (hasPrefix && pfx.Contains(cell)) continue; // don't clear prefix cells
-                    board.Set(cell, FlowBoard.EmptyColorId);
+                    if (hasPrefix && pfx.Contains(c)) continue;
+                    board.Clear(c);
                 }
             }
-
-            return Result(FlowSolveStatus.NoSolution);
+            return ctx.Result(FlowSolveStatus.NoSolution);
         }
 
-        private void EnumeratePaths(FlowBoard board, List<FlowPos> path, HashSet<FlowPos> pathSet,
-            FlowPos target, int colorId, List<List<FlowPos>> results)
+        private void DfsPaths(FlowBoard board, List<FlowPos> path, HashSet<FlowPos> pathSet,
+            FlowPos target, int colorId, List<List<FlowPos>> results, SolveContext ctx)
         {
-            if (results.Count >= 1) return; // First path only for efficiency
-
-            var current = path.Last();
-            if (current.Equals(target) && path.Count >= 2)
-            {
-                results.Add(new List<FlowPos>(path));
-                return;
-            }
-
-            if (path.Count > board.Width * board.Height) return; // Safety
-
-            var neighbors = board.GetNeighbors(current);
+            var cur = path.Last();
+            if (cur.Equals(target) && path.Count >= 2) { results.Add(new List<FlowPos>(path)); return; }
+            if (path.Count > board.Width * board.Height) return;
+            var neighbors = board.GetNeighbors(cur);
             foreach (var n in neighbors)
             {
                 if (pathSet.Contains(n)) continue;
                 if (!board.IsEmpty(n) && !n.Equals(target)) continue;
-
                 path.Add(n); pathSet.Add(n);
-                EnumeratePaths(board, path, pathSet, target, colorId, results);
+                DfsPaths(board, path, pathSet, target, colorId, results, ctx);
                 path.RemoveAt(path.Count - 1); pathSet.Remove(n);
-                if (results.Count >= 1) return;
+                if (results.Count >= 1) return; // first valid path only
             }
         }
 
-        private FlowSolveResult Result(FlowSolveStatus s)
-            => new FlowSolveResult { status = s, visitedNodes = visitedNodes, elapsedMs = sw?.ElapsedMilliseconds ?? 0 };
+        private static bool BfsReachable(FlowBoard board, FlowPos start, FlowPos end,
+            int colorId, Dictionary<int, List<FlowPos>> prefixes)
+        {
+            var visited = new HashSet<FlowPos>();
+            var q = new Queue<FlowPos>();
+            q.Enqueue(start); visited.Add(start);
+            bool hasPrefix = prefixes.TryGetValue(colorId, out var pfx);
+            while (q.Count > 0)
+            {
+                var cur = q.Dequeue();
+                foreach (var n in board.GetNeighbors(cur))
+                {
+                    if (visited.Contains(n)) continue;
+                    if (n.Equals(end)) return true;
+                    if (!board.IsEmpty(n) && !(hasPrefix && pfx.Contains(n))) continue;
+                    visited.Add(n); q.Enqueue(n);
+                }
+            }
+            return false;
+        }
 
-        private bool ValidatePairs(FlowLevelData level)
+        private FlowSolveResult BuildSolution(FlowBoard board, FlowLevelData level, List<int> order,
+            Dictionary<int, List<FlowPos>> prefixes, SolveContext ctx)
+        {
+            var sol = new FlowSolutionData { levelId = level.levelId };
+            foreach (var cid in order)
+            {
+                var cells = new List<FlowPos>();
+                for (int x = 0; x < level.width; x++)
+                for (int y = 0; y < level.height; y++)
+                {
+                    var p = new FlowPos(x, y);
+                    if (!board.IsEmpty(p) && board.Get(p) == cid) cells.Add(p);
+                }
+                if (cells.Count >= 2) sol.paths.Add(new FlowPathData { colorId = cid, cells = cells });
+            }
+            return new FlowSolveResult { status = FlowSolveStatus.Solved, solution = sol, visitedNodes = ctx.visitedNodes };
+        }
+
+        private static bool ValidateInput(FlowLevelData level)
         {
             var ids = new HashSet<int>();
             foreach (var p in level.pairs)
@@ -160,8 +168,19 @@ namespace FlowPuzzle.Solving
                 if (p.endpointB.y < 0 || p.endpointB.y >= level.height) return false;
             }
             var pts = new HashSet<FlowPos>();
-            foreach (var p in level.pairs) { if (!pts.Add(p.endpointA)) return false; if (!pts.Add(p.endpointB)) return false; }
+            foreach (var p in level.pairs)
+            { if (!pts.Add(p.endpointA)) return false; if (!pts.Add(p.endpointB)) return false; }
             return true;
+        }
+
+        private sealed class SolveContext
+        {
+            public long nodeBudget, timeoutMs, visitedNodes;
+            public Stopwatch sw;
+            public CancellationToken ct;
+            public IProgress<FlowSolveProgress> progress;
+            public FlowSolveResult Result(FlowSolveStatus s) => new() { status = s, visitedNodes = visitedNodes, elapsedMs = sw.ElapsedMilliseconds };
+            public void Report(string phase, int cid = -1) => progress?.Report(new FlowSolveProgress { phase = phase, visitedNodes = visitedNodes, elapsedMs = sw.ElapsedMilliseconds, currentColorId = cid });
         }
     }
 }
