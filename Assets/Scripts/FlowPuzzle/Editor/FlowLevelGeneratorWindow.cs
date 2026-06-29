@@ -12,6 +12,7 @@ using FlowPuzzle.Generation;
 using FlowPuzzle.Persistence;
 using FlowPuzzle.Validation;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace FlowPuzzle.Editor
@@ -42,6 +43,50 @@ namespace FlowPuzzle.Editor
 
         [MenuItem("Tools/Flow Puzzle/Level Generator")]
         public static void Open() => GetWindow<FlowLevelGeneratorWindow>("Flow Puzzle Generator");
+
+        [SerializeField] private FlowDraftWindowState draftWindowState = new FlowDraftWindowState();
+
+        internal void CaptureDraftWindowState()
+        {
+            if (draftPanel == null) return;
+            draftWindowState.selectedColorId = (int)draftPanel.selectedColorField.value;
+            draftWindowState.selectedTool = (FlowDraftEditTool)draftPanel.toolField.value;
+            draftWindowState.isEndpointA = draftPanel.endpointToggle.value;
+            draftWindowState.saveAsName = draftPanel.saveAsNameField.value;
+            draftWindowState.loadedAssetGuid = loadedAsset != null ? AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(loadedAsset)) : null;
+            draftWindowState.draftJson = currentDraft != null ? JsonUtility.ToJson(currentDraft) : null;
+        }
+
+        internal void RestoreDraftWindowState()
+        {
+            var s = draftWindowState;
+            if (draftPanel == null || s == null) return;
+            draftPanel.selectedColorField.value = s.selectedColorId;
+            draftPanel.toolField.value = s.selectedTool;
+            draftPanel.endpointToggle.value = s.isEndpointA;
+            draftPanel.saveAsNameField.value = s.saveAsName ?? "";
+            commandHistory.Clear();
+            if (!string.IsNullOrEmpty(s.loadedAssetGuid))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(s.loadedAssetGuid);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    loadedAsset = AssetDatabase.LoadAssetAtPath<FlowPuzzle.Persistence.FlowLevelAsset>(path);
+                    draftPanel.assetField.value = loadedAsset;
+                }
+                else { loadedAsset = null; draftPanel.assetField.value = null; }
+            }
+            else { loadedAsset = null; draftPanel.assetField.value = null; }
+            if (!string.IsNullOrEmpty(s.draftJson))
+            {
+                try { currentDraft = JsonUtility.FromJson<FlowLevelDraft>(s.draftJson); }
+                catch { currentDraft = null; }
+            }
+            else currentDraft = null;
+            if (currentDraft != null) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); }
+            else { boardView.ClearData(); }
+            UpdateButtonStates();
+        }
 
         internal void CreateGUI()
         {
@@ -95,6 +140,7 @@ namespace FlowPuzzle.Editor
             AddBtn("Clear Preview", () => OnClearPreview()); clearPreviewBtn = (Button)bar[bar.childCount - 1];
 
             UpdateButtonStates();
+            RestoreDraftWindowState();
         }
 
         private FlowGenerationConfig ReadConfig() => paramPanel.ReadConfig();

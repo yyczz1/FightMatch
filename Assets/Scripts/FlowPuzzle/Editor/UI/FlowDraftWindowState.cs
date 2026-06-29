@@ -9,7 +9,8 @@ namespace FlowPuzzle.Editor.UI
         public int selectedColorId;
         public FlowDraftEditTool selectedTool;
         public bool isEndpointA = true;
-        public string draftJson; // serialized copy via JsonUtility of Draft-like snapshot
+        public string draftJson;
         public string loadedAssetGuid;
+        public string saveAsName;
     }
 }
