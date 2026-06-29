@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FlowPuzzle.Application;
 using FlowPuzzle.Core;
 using FlowPuzzle.Difficulty;
@@ -149,6 +150,24 @@ namespace FlowPuzzle.Editor
             draftPanel.undoBtn.clicked += DoUndo;
             draftPanel.redoBtn.clicked += DoRedo;
             boardView.CellSelected += DoEndpointEdit;
+            boardView.CellStrokeCompleted += (cells) =>
+            {
+                if (currentDraft == null || cells == null || cells.Count == 0) return;
+                int cid = (int)draftPanel.selectedColorField.value;
+                var tool = (FlowDraftEditTool)draftPanel.toolField.value;
+                if (tool == FlowDraftEditTool.DrawConstraint)
+                {
+                    var cmd = new DrawConstraintStrokeCommand(currentDraft, cid, cells.ToList(), false);
+                    if (commandHistory.Execute(cmd)) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); diagnosticsPanel.Clear(); }
+                    else diagnosticsPanel.ShowError("Draw constraint failed.");
+                }
+                else if (tool == FlowDraftEditTool.EraseConstraint)
+                {
+                    var cmd = new DrawConstraintStrokeCommand(currentDraft, cid, cells.ToList(), true);
+                    if (commandHistory.Execute(cmd)) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); diagnosticsPanel.Clear(); }
+                    else diagnosticsPanel.ShowError("Erase constraint failed.");
+                }
+            };
             draftPanel.saveBtn.clicked += DoSaveDraft;
             draftPanel.saveAsBtn.clicked += DoSaveDraftAs;
         }
