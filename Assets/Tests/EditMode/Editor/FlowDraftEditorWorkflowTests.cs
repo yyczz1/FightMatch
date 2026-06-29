@@ -370,12 +370,22 @@ namespace FlowPuzzle.Tests.Editor
             Assert.AreEqual(5, cd.width); Assert.AreEqual(5, cd.height);
             Assert.IsTrue(cd.pairs[0].endpointA.HasValue); Assert.IsTrue(cd.pairs[0].endpointB.HasValue);
             Assert.AreEqual(0, cd.pairs[0].endpointA.Value.x); Assert.AreEqual(4, cd.pairs[0].endpointB.Value.x);
-            // Mutate Draft — must not affect original
-            cd.pairs[0].endpointA = new FlowPos(9, 9);
+            // Deep ownership: mutate Draft — generated source unchanged
+            cd.pairs[0].endpointA = new FlowPos(2, 0);
             Assert.AreEqual(0, genLevel.levelData.pairs[0].endpointA.x, "Generated source immutable");
-            // Can save as — invoke window handler after ensuring folder exists
+            // Restore valid endpoint before save
+            cd.pairs[0].endpointA = new FlowPos(0, 0);
+            // Also prove generated source mutation doesn't affect Draft
+            genLevel.levelData.pairs[0].endpointA = new FlowPos(9, 9);
+            Assert.AreEqual(0, cd.pairs[0].endpointA.Value.x, "Draft unchanged after source mutation");
+            // Can save as
             if (!AssetDatabase.IsValidFolder(TestFolder))
+            {
+                if (!AssetDatabase.IsValidFolder("Assets/Temp"))
+                    AssetDatabase.CreateFolder("Assets", "Temp");
                 AssetDatabase.CreateFolder("Assets/Temp", "FlowPuzzleDraftEditorTests");
+                AssetDatabase.Refresh();
+            }
             PP(w).outputFolderField.value = TestFolder;
             DP(w).saveAsNameField.value = "Gen7001"; dSaveAsM!.Invoke(w, null);
             var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
@@ -416,14 +426,15 @@ namespace FlowPuzzle.Tests.Editor
             PP(w).outputFolderField.value = TestFolder;
             DP(w).saveAsNameField.value = "DupTest";
             var clickInvoke = typeof(Clickable).GetMethod("Invoke", BindingFlags.Instance | BindingFlags.NonPublic)!;
-            // First click
+            // First click — succeeds
             clickInvoke.Invoke(DP(w).saveAsBtn.clickable, new object[] { null });
             var guids1 = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
             Assert.AreEqual(1, guids1.Length, "First click creates one asset");
-            // Second click — should fail (duplicate path) and show Error diagnostic
-            clickInvoke.Invoke(DP(w).saveAsBtn.clickable, new object[] { null });
             var diag = w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w) as FlowDiagnosticsPanel;
-            Assert.IsTrue(diag.helpBox.visible, "Second click should show error (existing asset)");
+            Assert.IsTrue(diag.helpBox.text.Contains("Saved As"), "First click shows Info");
+            // Second click — duplicate path, Error diagnostic
+            clickInvoke.Invoke(DP(w).saveAsBtn.clickable, new object[] { null });
+            Assert.IsTrue(diag.helpBox.visible, "Second click shows error");
             Assert.IsTrue(diag.helpBox.text.Contains("already exists") || diag.helpBox.text.Contains("Save"), "Should show duplicate error");
             var guids2 = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
             Assert.AreEqual(1, guids2.Length, "Only one asset despite duplicate clicks");

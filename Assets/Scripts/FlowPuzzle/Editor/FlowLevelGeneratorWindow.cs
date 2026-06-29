@@ -172,6 +172,7 @@ namespace FlowPuzzle.Editor
                 if (loadedAsset != null) repository.Overwrite(loadedAsset, level);
                 else { loadedAsset = repository.SaveNew(level, paramPanel.outputFolderField.value); draftPanel.assetField.value = loadedAsset; }
                 diagnosticsPanel.ShowInfo("Saved.");
+                draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates();
             }
             catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
         }
@@ -186,6 +187,7 @@ namespace FlowPuzzle.Editor
                 var asset = loadedAsset != null ? repository.SaveAs(loadedAsset, level, paramPanel.outputFolderField.value, name) : repository.SaveAs(level, paramPanel.outputFolderField.value, name);
                 loadedAsset = asset; draftPanel.assetField.value = asset;
                 diagnosticsPanel.ShowInfo($"Saved As {name}.");
+                draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates();
             }
             catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
         }
