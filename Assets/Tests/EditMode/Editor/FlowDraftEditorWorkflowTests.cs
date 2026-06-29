@@ -36,8 +36,21 @@ namespace FlowPuzzle.Tests.Editor
             draftPanelF = t.GetField("draftPanel", b)!;
         }
 
-        [SetUp] public void SetUp() { if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder); }
-        [TearDown] public void TearDown() { if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder); }
+        private bool tempExisted;
+
+        [SetUp] public void SetUp()
+        {
+            tempExisted = AssetDatabase.IsValidFolder("Assets/Temp");
+            if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder);
+        }
+        [TearDown] public void TearDown()
+        {
+            if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder);
+            if (!tempExisted && AssetDatabase.IsValidFolder("Assets/Temp")
+                && AssetDatabase.GetSubFolders("Assets/Temp").Length == 0
+                && System.IO.Directory.GetFiles("Assets/Temp").Length == 0)
+                AssetDatabase.DeleteAsset("Assets/Temp");
+        }
 
         private static FlowLevelGeneratorWindow MakeWindow()
         {
