@@ -15,10 +15,8 @@ namespace FlowPuzzle.Editor.Draft
             return new FlowDraftPairData
             {
                 colorId = colorId,
-                endpointA = endpointA.HasValue
-                    ? new FlowPos(endpointA.Value.x, endpointA.Value.y) : null,
-                endpointB = endpointB.HasValue
-                    ? new FlowPos(endpointB.Value.x, endpointB.Value.y) : null
+                endpointA = endpointA.HasValue ? new FlowPos(endpointA.Value.x, endpointA.Value.y) : null,
+                endpointB = endpointB.HasValue ? new FlowPos(endpointB.Value.x, endpointB.Value.y) : null
             };
         }
     }

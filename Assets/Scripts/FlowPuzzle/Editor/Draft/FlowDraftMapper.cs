@@ -25,21 +25,16 @@ namespace FlowPuzzle.Editor.Draft
                 isValidated = true
             };
 
-            for (int i = 0; i < draft.colorCount; i++)
-            {
-                var p = level.levelData.pairs.FirstOrDefault(x => x.colorId == i);
+            foreach (var p in level.levelData.pairs.OrderBy(p => p.colorId))
                 draft.pairs.Add(new FlowDraftPairData
                 {
-                    colorId = i,
-                    endpointA = p != null ? new FlowPos(p.endpointA.x, p.endpointA.y) : null,
-                    endpointB = p != null ? new FlowPos(p.endpointB.x, p.endpointB.y) : null
+                    colorId = p.colorId,
+                    endpointA = new FlowPos(p.endpointA.x, p.endpointA.y),
+                    endpointB = new FlowPos(p.endpointB.x, p.endpointB.y)
                 });
-            }
 
-            if (level.solutionData != null)
-                draft.currentSolution = DeepCopySolution(level.solutionData);
-            if (level.difficultyReport != null)
-                draft.currentDifficulty = DeepCopyDifficulty(level.difficultyReport);
+            draft.currentSolution = DeepCopySolution(level.solutionData);
+            draft.currentDifficulty = DeepCopyDifficulty(level.difficultyReport);
             draft.isValidated = true;
             draft.isSolutionDirty = false;
 
@@ -71,18 +66,15 @@ namespace FlowPuzzle.Editor.Draft
             if (!draft.isValidated)
                 throw new InvalidOperationException("Draft is not validated.");
 
-            var levelData = new FlowLevelData
-            {
-                levelId = draft.levelId, width = draft.width, height = draft.height
-            };
+            var levelData = new FlowLevelData { levelId = draft.levelId, width = draft.width, height = draft.height };
             foreach (var pair in draft.pairs.OrderBy(p => p.colorId))
             {
                 if (pair.endpointA == null || pair.endpointB == null) continue;
                 levelData.pairs.Add(new FlowPairData
                 {
                     colorId = pair.colorId,
-                    endpointA = pair.endpointA.Value,
-                    endpointB = pair.endpointB.Value
+                    endpointA = new FlowPos(pair.endpointA.Value.x, pair.endpointA.Value.y),
+                    endpointB = new FlowPos(pair.endpointB.Value.x, pair.endpointB.Value.y)
                 });
             }
             if (draft.currentDifficulty != null)
@@ -94,27 +86,29 @@ namespace FlowPuzzle.Editor.Draft
             return new FlowGeneratedLevel
             {
                 levelData = levelData,
-                solutionData = draft.currentSolution,
-                difficultyReport = draft.currentDifficulty,
+                solutionData = DeepCopySolution(draft.currentSolution),
+                difficultyReport = DeepCopyDifficulty(draft.currentDifficulty),
                 usedSeed = draft.seed
             };
         }
 
         private static FlowSolutionData DeepCopySolution(FlowSolutionData src)
         {
+            if (src == null) return null;
             var c = new FlowSolutionData { levelId = src.levelId };
-            if (src.paths == null) return c;
-            foreach (var p in src.paths)
-            {
-                var cc = new List<FlowPos>(p.cells.Count);
-                foreach (var cell in p.cells) cc.Add(new FlowPos(cell.x, cell.y));
-                c.paths.Add(new FlowPathData { colorId = p.colorId, cells = cc });
-            }
+            if (src.paths != null)
+                foreach (var p in src.paths)
+                {
+                    var cc = new List<FlowPos>(p.cells.Count);
+                    foreach (var cell in p.cells) cc.Add(new FlowPos(cell.x, cell.y));
+                    c.paths.Add(new FlowPathData { colorId = p.colorId, cells = cc });
+                }
             return c;
         }
 
         private static FlowDifficultyReport DeepCopyDifficulty(FlowDifficultyReport src)
         {
+            if (src == null) return null;
             return new FlowDifficultyReport
             {
                 difficulty = src.difficulty, totalScore = src.totalScore,

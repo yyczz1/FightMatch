@@ -1,3 +1,4 @@
+using FlowPuzzle.Editor.Commands;
 using FlowPuzzle.Editor.Draft;
 
 namespace FlowPuzzle.Editor.Commands
@@ -6,21 +7,19 @@ namespace FlowPuzzle.Editor.Commands
     {
         private readonly FlowLevelDraft draft;
         private readonly FlowLevelDraft beforeSnapshot;
-        private readonly FlowLevelDraft afterSnapshot;
+        private readonly int newWidth, newHeight;
 
         public string DisplayName => "Resize Board";
 
-        public ResizeBoardCommand(FlowLevelDraft draft, FlowLevelDraft after)
+        public ResizeBoardCommand(FlowLevelDraft draft, int newWidth, int newHeight)
         {
-            this.draft = draft;
+            this.draft = draft; this.newWidth = newWidth; this.newHeight = newHeight;
             beforeSnapshot = draft.Clone();
-            afterSnapshot = after.Clone();
         }
 
         public bool Execute()
         {
-            draft.RestoreFrom(afterSnapshot);
-            return true;
+            return draft.Resize(newWidth, newHeight).success;
         }
 
         public bool Undo()

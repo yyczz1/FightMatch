@@ -17,7 +17,7 @@ namespace FlowPuzzle.Editor.Draft
         public bool isValidated;
 
         public List<FlowDraftPairData> pairs = new List<FlowDraftPairData>();
-        public FlowDraftConstraintData constraint;
+        public List<FlowDraftConstraintData> fixedConstraints = new List<FlowDraftConstraintData>();
         public FlowSolutionData currentSolution;
         public FlowDifficultyReport currentDifficulty;
 
@@ -37,20 +37,17 @@ namespace FlowPuzzle.Editor.Draft
 
         public FlowLevelDraft Clone()
         {
-            var clone = new FlowLevelDraft
+            var c = new FlowLevelDraft
             {
                 levelId = levelId, width = width, height = height,
                 colorCount = colorCount, seed = seed,
-                isSolutionDirty = isSolutionDirty, isValidated = isValidated,
-                constraint = constraint?.Clone()
+                isSolutionDirty = isSolutionDirty, isValidated = isValidated
             };
-            foreach (var pair in pairs)
-                clone.pairs.Add(pair.Clone());
-            if (currentSolution != null)
-                clone.currentSolution = DeepCopySolution(currentSolution);
-            if (currentDifficulty != null)
-                clone.currentDifficulty = DeepCopyDifficulty(currentDifficulty);
-            return clone;
+            foreach (var p in pairs) c.pairs.Add(p.Clone());
+            foreach (var fc in fixedConstraints) c.fixedConstraints.Add(fc.Clone());
+            if (currentSolution != null) c.currentSolution = DeepCopySolution(currentSolution);
+            if (currentDifficulty != null) c.currentDifficulty = DeepCopyDifficulty(currentDifficulty);
+            return c;
         }
 
         public void RestoreFrom(FlowLevelDraft snapshot)
@@ -58,27 +55,132 @@ namespace FlowPuzzle.Editor.Draft
             levelId = snapshot.levelId; width = snapshot.width; height = snapshot.height;
             colorCount = snapshot.colorCount; seed = snapshot.seed;
             isSolutionDirty = snapshot.isSolutionDirty; isValidated = snapshot.isValidated;
-            pairs.Clear();
-            foreach (var p in snapshot.pairs) pairs.Add(p.Clone());
-            constraint = snapshot.constraint?.Clone();
-            currentSolution = snapshot.currentSolution != null
-                ? DeepCopySolution(snapshot.currentSolution) : null;
-            currentDifficulty = snapshot.currentDifficulty != null
-                ? DeepCopyDifficulty(snapshot.currentDifficulty) : null;
+            pairs.Clear(); foreach (var p in snapshot.pairs) pairs.Add(p.Clone());
+            fixedConstraints.Clear(); foreach (var fc in snapshot.fixedConstraints) fixedConstraints.Add(fc.Clone());
+            currentSolution = snapshot.currentSolution != null ? DeepCopySolution(snapshot.currentSolution) : null;
+            currentDifficulty = snapshot.currentDifficulty != null ? DeepCopyDifficulty(snapshot.currentDifficulty) : null;
         }
 
-        public void MarkDirty() { isSolutionDirty = true; isValidated = false; }
+        // ── atomic mutation API ──
+
+        public FlowDraftMutationResult AddColor()
+        {
+            var snapshot = Clone();
+            var newId = LowestUnusedColorId();
+            // Must keep colorCount updated
+            try
+            {
+                pairs.Add(new FlowDraftPairData { colorId = newId });
+                colorCount = Math.Max(colorCount, newId + 1);
+                MarkDirty();
+                return FlowDraftMutationResult.Ok();
+            }
+            catch { RestoreFrom(snapshot); throw; }
+        }
+
+        public FlowDraftMutationResult RemoveColor(int colorId)
+        {
+            var snapshot = Clone();
+            try
+            {
+                var pair = pairs.FirstOrDefault(p => p.colorId == colorId);
+                if (pair == null) return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
+                pairs.Remove(pair);
+                fixedConstraints.RemoveAll(c => c.colorId == colorId);
+                // Recompute colorCount: max ID + 1, or 0 if empty
+                colorCount = pairs.Count == 0 ? 0 : pairs.Max(p => p.colorId) + 1;
+                MarkDirty();
+                return FlowDraftMutationResult.Ok();
+            }
+            catch { RestoreFrom(snapshot); throw; }
+        }
+
+        public FlowDraftMutationResult PlaceEndpoint(int colorId, bool isEndpointA, FlowPos position)
+        {
+            if (!IsInside(position)) return FlowDraftMutationResult.Fail("OutOfBounds", "Position outside board.");
+            var snapshot = Clone();
+            try
+            {
+                var pair = EnsurePair(colorId);
+                // Check overlap with another endpoint
+                foreach (var p in pairs)
+                {
+                    if (p.colorId == colorId) continue;
+                    if ((p.endpointA.HasValue && p.endpointA.Value.Equals(position)) ||
+                        (p.endpointB.HasValue && p.endpointB.Value.Equals(position)))
+                        return FlowDraftMutationResult.Fail("EndpointOverlap", "Position already occupied by another endpoint.");
+                }
+                if (isEndpointA) pair.endpointA = position; else pair.endpointB = position;
+                MarkDirty();
+                return FlowDraftMutationResult.Ok();
+            }
+            catch { RestoreFrom(snapshot); return FlowDraftMutationResult.Fail("UnexpectedError", "Placement failed."); }
+        }
+
+        public FlowDraftMutationResult MoveEndpoint(int colorId, bool isEndpointA, FlowPos position)
+            => PlaceEndpoint(colorId, isEndpointA, position);
+
+        public FlowDraftMutationResult RemoveEndpoint(int colorId, bool isEndpointA)
+        {
+            var pair = pairs.FirstOrDefault(p => p.colorId == colorId);
+            if (pair == null) return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
+            var snapshot = Clone();
+            try
+            {
+                if (isEndpointA) pair.endpointA = null; else pair.endpointB = null;
+                MarkDirty();
+                return FlowDraftMutationResult.Ok();
+            }
+            catch { RestoreFrom(snapshot); return FlowDraftMutationResult.Fail("UnexpectedError", "Removal failed."); }
+        }
+
+        public FlowDraftMutationResult Resize(int newWidth, int newHeight)
+        {
+            if (newWidth <= 0 || newHeight <= 0)
+                return FlowDraftMutationResult.Fail("InvalidDimensions", "New dimensions must be positive.");
+            var snapshot = Clone();
+            try
+            {
+                width = newWidth; height = newHeight;
+                // Remove out-of-bounds endpoints
+                foreach (var p in pairs)
+                {
+                    if (p.endpointA.HasValue && !IsInside(p.endpointA.Value)) p.endpointA = null;
+                    if (p.endpointB.HasValue && !IsInside(p.endpointB.Value)) p.endpointB = null;
+                }
+                // Clear constraints with out-of-bounds cells
+                for (int i = fixedConstraints.Count - 1; i >= 0; i--)
+                {
+                    var fc = fixedConstraints[i];
+                    if (fc.cells == null || fc.cells.Any(cell => !IsInside(cell)))
+                        fixedConstraints.RemoveAt(i);
+                }
+                MarkDirty();
+                return FlowDraftMutationResult.Ok();
+            }
+            catch { RestoreFrom(snapshot); return FlowDraftMutationResult.Fail("UnexpectedError", "Resize failed."); }
+        }
+
+        // ── helpers ──
 
         public int LowestUnusedColorId()
         {
             var used = new HashSet<int>(pairs.Select(p => p.colorId));
-            for (int i = 0; i <= colorCount; i++)
-                if (!used.Contains(i)) return i;
-            return colorCount;
+            for (int i = 0; ; i++) if (!used.Contains(i)) return i;
         }
 
-        public FlowDraftPairData GetPair(int colorId)
-            => pairs.FirstOrDefault(p => p.colorId == colorId);
+        public FlowDraftPairData GetPair(int colorId) => pairs.FirstOrDefault(p => p.colorId == colorId);
+
+        public void MarkDirty() { isSolutionDirty = true; isValidated = false; }
+
+        private bool IsInside(FlowPos pos) => pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
+
+        private FlowDraftPairData EnsurePair(int colorId)
+        {
+            var p = GetPair(colorId);
+            if (p == null) { p = new FlowDraftPairData { colorId = colorId }; pairs.Add(p); return p; }
+            return p;
+        }
 
         private static FlowSolutionData DeepCopySolution(FlowSolutionData src)
         {

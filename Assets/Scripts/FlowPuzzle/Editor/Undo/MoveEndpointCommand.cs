@@ -1,4 +1,5 @@
 using FlowPuzzle.Core;
+using FlowPuzzle.Editor.Commands;
 using FlowPuzzle.Editor.Draft;
 
 namespace FlowPuzzle.Editor.Commands
@@ -44,20 +45,18 @@ namespace FlowPuzzle.Editor.Commands
 
         public bool Execute()
         {
-            draft.MarkDirty();
-            var pair = draft.GetPair(colorId);
-            if (pair == null) return false;
-            if (isEndpointA) pair.endpointA = newPosition; else pair.endpointB = newPosition;
-            return true;
+            var result = newPosition.HasValue
+                ? draft.PlaceEndpoint(colorId, isEndpointA, newPosition.Value)
+                : draft.RemoveEndpoint(colorId, isEndpointA);
+            return result.success;
         }
 
         public bool Undo()
         {
-            draft.MarkDirty();
-            var pair = draft.GetPair(colorId);
-            if (pair == null) return false;
-            if (isEndpointA) pair.endpointA = oldPosition; else pair.endpointB = oldPosition;
-            return true;
+            var result = oldPosition.HasValue
+                ? draft.PlaceEndpoint(colorId, isEndpointA, oldPosition.Value)
+                : draft.RemoveEndpoint(colorId, isEndpointA);
+            return result.success;
         }
     }
 }

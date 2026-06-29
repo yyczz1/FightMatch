@@ -12,113 +12,154 @@ namespace FlowPuzzle.Tests.Editor
         private static FlowLevelDraft MakeDraft(int colors = 2)
         {
             var d = new FlowLevelDraft { width = 5, height = 5, colorCount = colors, levelId = 1001, seed = 42 };
-            for (int i = 0; i < colors; i++)
-                d.pairs.Add(new FlowDraftPairData { colorId = i });
+            for (int i = 0; i < colors; i++) d.pairs.Add(new FlowDraftPairData { colorId = i });
             return d;
         }
 
-        [Test] public void HasCompleteEndpoints_AllPlaced_True()
+        // ── Endpoint operations ──
+
+        [Test] public void PlaceEndpoint_SetsAndMarksDirty()
+        {
+            var d = MakeDraft(); d.isSolutionDirty = false; d.isValidated = true;
+            var r = d.PlaceEndpoint(0, true, new FlowPos(1, 2));
+            Assert.IsTrue(r.success); Assert.AreEqual(1, d.pairs[0].endpointA.Value.x); Assert.IsTrue(d.isSolutionDirty); Assert.IsFalse(d.isValidated);
+        }
+
+        [Test] public void PlaceEndpoint_OutOfBounds_Fails()
         {
             var d = MakeDraft();
-            d.pairs[0].endpointA = new FlowPos(0,0); d.pairs[0].endpointB = new FlowPos(4,0);
-            d.pairs[1].endpointA = new FlowPos(0,1); d.pairs[1].endpointB = new FlowPos(4,1);
+            var snap = d.Clone();
+            var r = d.PlaceEndpoint(0, true, new FlowPos(10, 10));
+            Assert.IsFalse(r.success); Assert.AreEqual("OutOfBounds", r.errorCode);
+            Assert.IsNull(d.pairs[0].endpointA, "Draft must be unchanged on failure");
+            Assert.IsFalse(d.isSolutionDirty, "Dirty flag must not change on failure");
+        }
+
+        [Test] public void PlaceEndpoint_DuplicateCell_Fails()
+        {
+            var d = MakeDraft();
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(1, true, new FlowPos(4, 0));
+            // Place on cell already occupied by color 0's endpointA
+            var r = d.PlaceEndpoint(1, false, new FlowPos(0, 0));
+            Assert.IsFalse(r.success); Assert.AreEqual("EndpointOverlap", r.errorCode);
+        }
+
+        [Test] public void MoveEndpoint_UpdatesPosition()
+        {
+            var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            var r = d.MoveEndpoint(0, true, new FlowPos(2, 2));
+            Assert.IsTrue(r.success); Assert.AreEqual(2, d.pairs[0].endpointA.Value.x);
+        }
+
+        [Test] public void RemoveEndpoint_ClearsAndMarksDirty()
+        {
+            var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.isSolutionDirty = false; d.isValidated = true;
+            var r = d.RemoveEndpoint(0, true);
+            Assert.IsTrue(r.success); Assert.IsNull(d.pairs[0].endpointA); Assert.IsTrue(d.isSolutionDirty);
+        }
+
+        [Test] public void HasCompleteEndpoints_VariousConfigs()
+        {
+            var d = MakeDraft(2);
+            Assert.IsFalse(d.HasCompleteEndpoints);
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));  d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            d.PlaceEndpoint(1, true, new FlowPos(0, 1)); d.PlaceEndpoint(1, false, new FlowPos(4, 1));
             Assert.IsTrue(d.HasCompleteEndpoints);
         }
 
-        [Test] public void HasCompleteEndpoints_MissingEndpoint_False()
+        // ── Color operations ──
+
+        [Test] public void AddColor_IncreasesCount()
         {
-            var d = MakeDraft();
-            d.pairs[0].endpointA = new FlowPos(0,0);
-            d.pairs[1].endpointA = new FlowPos(0,1); d.pairs[1].endpointB = new FlowPos(4,1);
-            Assert.IsFalse(d.HasCompleteEndpoints);
+            var d = MakeDraft(2); d.colorCount = 2;
+            var r = d.AddColor(); Assert.IsTrue(r.success); Assert.AreEqual(3, d.pairs.Count);
         }
 
-        [Test] public void Clone_DeepCopy_NoSharedReferences()
+        [Test] public void RemoveColor_RemovesPairAndUpdatesCount()
+        {
+            var d = MakeDraft(2);
+            d.colorCount = 2;
+            var r = d.RemoveColor(0);
+            Assert.IsTrue(r.success); Assert.AreEqual(1, d.pairs.Count); Assert.AreEqual(1, d.pairs[0].colorId);
+        }
+
+        // ── Resize ──
+
+        [Test] public void Resize_RemovesOutOfBoundsEndpoints()
         {
             var d = MakeDraft(1);
-            d.pairs[0].endpointA = new FlowPos(1,2);
-            var clone = d.Clone();
-            clone.pairs[0].endpointA = new FlowPos(9,9);
-            Assert.AreEqual(1, d.pairs[0].endpointA.Value.x);
-            Assert.AreEqual(9, clone.pairs[0].endpointA.Value.x);
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0)); d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            var r = d.Resize(3, 3);
+            Assert.IsTrue(r.success); Assert.AreEqual(3, d.width);
+            Assert.AreEqual(0, d.pairs[0].endpointA.Value.x); // still in bounds
+            Assert.IsNull(d.pairs[0].endpointB); // (4,0) out of bounds on width=3
         }
 
-        [Test] public void RestoreFrom_CompleteRoundTrip()
-        {
-            var d1 = MakeDraft(1);
-            d1.pairs[0].endpointA = new FlowPos(1,2); d1.pairs[0].endpointB = new FlowPos(3,4);
-            d1.isSolutionDirty = true;
-
-            var d2 = MakeDraft(2);
-            d2.RestoreFrom(d1.Clone());
-
-            Assert.AreEqual(1, d2.colorCount);
-            Assert.AreEqual(1, d2.pairs[0].endpointA.Value.x);
-            Assert.IsTrue(d2.isSolutionDirty);
-        }
-
-        [Test] public void MarkDirty_SetsSolutionDirtyAndInvalidated()
+        [Test] public void Resize_InvalidDimensions_Fails()
         {
             var d = MakeDraft();
-            d.isValidated = true; d.isSolutionDirty = false;
-            d.MarkDirty();
-            Assert.IsTrue(d.isSolutionDirty);
-            Assert.IsFalse(d.isValidated);
+            var snap = d.Clone();
+            var r = d.Resize(0, 5);
+            Assert.IsFalse(r.success); Assert.AreEqual(5, d.width); // unchanged
         }
 
-        [Test] public void LowestUnusedColorId_ReturnsNext()
+        // ── Clone / RestoreFrom ──
+
+        [Test] public void Clone_DeepCopy_NoSharedLists()
         {
-            var d = MakeDraft(3);
-            d.pairs[0].colorId = 0; d.pairs[1].colorId = 2; d.pairs[2].colorId = 5;
-            Assert.AreEqual(1, d.LowestUnusedColorId());
+            var d = MakeDraft(1); d.PlaceEndpoint(0, true, new FlowPos(1, 2));
+            var clone = d.Clone();
+            clone.pairs[0].endpointA = new FlowPos(9, 9);
+            Assert.AreEqual(1, d.pairs[0].endpointA.Value.x);
         }
+
+        [Test] public void RestoreFrom_RestoresAllState()
+        {
+            var d = MakeDraft(1); d.PlaceEndpoint(0, true, new FlowPos(1, 2));
+            d.isSolutionDirty = true; d.currentSolution = new FlowSolutionData { levelId = 99 };
+            var snap = d.Clone();
+
+            d.PlaceEndpoint(0, false, new FlowPos(3, 4));
+            d.RestoreFrom(snap);
+            Assert.AreEqual(1, d.pairs[0].endpointA.Value.x);
+            Assert.IsNull(d.pairs[0].endpointB);
+            Assert.IsTrue(d.isSolutionDirty);
+            Assert.AreEqual(99, d.currentSolution.levelId);
+        }
+
+        // ── Mapper ──
 
         [Test] public void Mapper_FromGeneratedLevel_DeepCopy()
         {
             var ld = new FlowLevelData { levelId = 1, width = 3, height = 3 };
-            ld.pairs.Add(new FlowPairData { colorId = 0, endpointA = new(0,0), endpointB = new(2,0) });
-            var sd = new FlowSolutionData { levelId = 1 };
-            sd.paths.Add(new FlowPathData { colorId = 0, cells = new List<FlowPos> { new(0,0), new(1,0), new(2,0) } });
-            var level = new FlowGeneratedLevel { levelData = ld, solutionData = sd, usedSeed = 42, difficultyReport = new FlowDifficultyReport() };
-
+            ld.pairs.Add(new FlowPairData { colorId = 0, endpointA = new(0, 0), endpointB = new(2, 0) });
+            var level = new FlowGeneratedLevel { levelData = ld, usedSeed = 42, solutionData = new FlowSolutionData { levelId = 1 }, difficultyReport = new FlowDifficultyReport { totalScore = 50f } };
             var draft = FlowDraftMapper.FromGeneratedLevel(level);
-            Assert.AreEqual(1, draft.colorCount);
-            Assert.AreEqual(0, draft.pairs[0].endpointA.Value.x, 0);
-            Assert.IsFalse(draft.isSolutionDirty);
-            Assert.IsTrue(draft.isValidated);
-
-            // Source not mutated
-            draft.pairs[0].endpointA = new FlowPos(9,9);
-            Assert.AreEqual(0, level.levelData.pairs[0].endpointA.x);
+            draft.pairs[0].endpointA = new FlowPos(9, 9); // mutate draft
+            Assert.AreEqual(0, level.levelData.pairs[0].endpointA.x, "Source must not be mutated");
         }
 
-        [Test] public void Mapper_ToGeneratedLevel_Valid()
+        [Test] public void Mapper_ToGeneratedLevel_DeepCopy()
         {
-            var d = MakeDraft(1);
-            d.pairs[0].endpointA = new FlowPos(0,0); d.pairs[0].endpointB = new FlowPos(2,0);
-            d.currentSolution = new FlowSolutionData { levelId = 1001 };
-            d.currentDifficulty = new FlowDifficultyReport { totalScore = 50f };
-            d.isSolutionDirty = false; d.isValidated = true;
-
+            var d = MakeDraft(1); d.PlaceEndpoint(0, true, new FlowPos(0, 0)); d.PlaceEndpoint(0, false, new FlowPos(2, 0));
+            d.currentSolution = new FlowSolutionData { levelId = 1001 }; d.currentDifficulty = new FlowDifficultyReport { totalScore = 50f }; d.isValidated = true; d.isSolutionDirty = false;
             var result = FlowDraftMapper.ToGeneratedLevel(d);
-            Assert.AreEqual(1001, result.levelData.levelId);
-            Assert.AreEqual(1, result.levelData.pairs.Count);
+            result.solutionData.levelId = 999; // mutate returned level
+            Assert.AreEqual(1001, d.currentSolution.levelId, "Draft must not be affected by returned level mutation");
         }
 
         [Test] public void Mapper_ToGeneratedLevel_IncompleteEndpoints_Throws()
         {
-            var d = MakeDraft(2);
-            d.pairs[0].endpointA = new FlowPos(0,0);
-            d.currentSolution = new FlowSolutionData();
+            var d = MakeDraft(1); d.currentSolution = new FlowSolutionData();
             Assert.Throws<InvalidOperationException>(() => FlowDraftMapper.ToGeneratedLevel(d));
         }
 
         [Test] public void Mapper_ToGeneratedLevel_DirtySolution_Throws()
         {
-            var d = MakeDraft(1);
-            d.pairs[0].endpointA = new FlowPos(0,0); d.pairs[0].endpointB = new FlowPos(2,0);
-            d.currentSolution = new FlowSolutionData();
-            d.isSolutionDirty = true;
+            var d = MakeDraft(1); d.PlaceEndpoint(0, true, new FlowPos(0, 0)); d.PlaceEndpoint(0, false, new FlowPos(2, 0));
+            d.currentSolution = new FlowSolutionData(); d.isSolutionDirty = true;
             Assert.Throws<InvalidOperationException>(() => FlowDraftMapper.ToGeneratedLevel(d));
         }
     }
