@@ -494,8 +494,8 @@ namespace FlowPuzzle.Tests.Editor
             typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
             var d = MakeCompleteDraft();
             curDraftF.SetValue(w, d); DP(w).toolField.value = FlowDraftEditTool.DrawConstraint; DP(w).selectedColorField.value = 0;
-            // Drive BoardView stroke through actual pointer path (not DoConstraintStroke)
             var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
+            bv.SetData(d); // feed board data so pointer path can detect valid cells
             bv.GetType().GetField("debugContentRect", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.SetValue(bv, new UnityEngine.Rect(0,0,200,200));
             var DPm = bv.GetType().GetMethod("DoPointerDown", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             var DMm = bv.GetType().GetMethod("DoPointerMove", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
@@ -515,8 +515,8 @@ namespace FlowPuzzle.Tests.Editor
         {
             var w = MakeWindow(); var d = MakeCompleteDraft(2);
             curDraftF.SetValue(w, d); DP(w).toolField.value = FlowDraftEditTool.PlaceEndpoint; DP(w).selectedColorField.value = 1; DP(w).endpointToggle.value = true;
-            // Drive one-cell click through actual BoardView pointer path → CellSelected fires
             var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
+            bv.SetData(d); // feed board data so CellSelected path detects valid cells
             bv.GetType().GetField("debugContentRect", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.SetValue(bv, new UnityEngine.Rect(0,0,200,200));
             var DPm = bv.GetType().GetMethod("DoPointerDown", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             var DUm = bv.GetType().GetMethod("DoPointerUp", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
