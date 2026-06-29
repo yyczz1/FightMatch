@@ -110,6 +110,32 @@ namespace FlowPuzzle.Editor.Persistence
             return newAsset;
         }
 
+        public FlowLevelAsset SaveAs(
+            FlowGeneratedLevel level,
+            string folder,
+            string name)
+        {
+            if (level == null) throw new ArgumentNullException(nameof(level));
+            var normalizedFolder = NormalizeFolder(folder);
+            var normalizedName = NormalizeAssetName(name);
+
+            var canonical = BuildCanonical(level);
+            var assetPath = normalizedFolder + "/" + normalizedName;
+
+            if (AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(assetPath) != null)
+                throw new InvalidOperationException($"Asset already exists at {assetPath}.");
+
+            EnsureFolderExists(normalizedFolder);
+
+            var newAsset = ScriptableObject.CreateInstance<FlowLevelAsset>();
+            PopulateAsset(newAsset, canonical);
+            AssetDatabase.CreateAsset(newAsset, assetPath);
+            EditorUtility.SetDirty(newAsset);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            return newAsset;
+        }
+
         private FlowGeneratedLevel BuildCanonical(FlowGeneratedLevel level)
         {
             if (level.levelData == null || level.solutionData == null || level.difficultyReport == null)
