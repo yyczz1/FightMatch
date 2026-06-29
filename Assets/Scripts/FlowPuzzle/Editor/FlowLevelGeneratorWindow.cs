@@ -114,6 +114,39 @@ namespace FlowPuzzle.Editor
                 boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory);
                 UpdateButtonStates();
             };
+            draftPanel.loadAssetBtn.clicked += () =>
+            {
+                var asset = draftPanel.assetField.value as FlowPuzzle.Persistence.FlowLevelAsset;
+                if (asset == null) { diagnosticsPanel.ShowError("No asset selected."); return; }
+                currentDraft = FlowDraftMapper.FromAsset(asset);
+                loadedAsset = asset; commandHistory.Clear();
+                boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory);
+                UpdateButtonStates();
+            };
+            boardView.CellSelected += (pos) =>
+            {
+                if (currentDraft == null) return;
+                int cid = (int)draftPanel.selectedColorField.value;
+                bool isA = draftPanel.endpointToggle.value;
+                var tool = (FlowDraftEditTool)draftPanel.toolField.value;
+                IFlowEditorCommand cmd = null;
+                if (tool == FlowDraftEditTool.PlaceEndpoint)
+                    cmd = MoveEndpointCommand.Place(currentDraft, cid, isA, pos);
+                else if (tool == FlowDraftEditTool.MoveEndpoint)
+                    cmd = MoveEndpointCommand.Move(currentDraft, cid, isA, pos);
+                else if (tool == FlowDraftEditTool.RemoveEndpoint) {
+                    var pair = currentDraft.GetPair(cid);
+                    var target = isA ? pair?.endpointA : pair?.endpointB;
+                    if (target.HasValue && target.Value.Equals(pos))
+                        cmd = MoveEndpointCommand.Remove(currentDraft, cid, isA);
+                }
+                if (cmd != null)
+                {
+                    if (commandHistory.Execute(cmd))
+                    { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); }
+                    else diagnosticsPanel.ShowError($"Failed to execute {tool} on color {cid}.");
+                }
+            };
             draftPanel.addColorBtn.clicked += () =>
             {
                 if (currentDraft == null) return;

@@ -1,5 +1,7 @@
 using FlowPuzzle.Editor.Draft;
 using FlowPuzzle.Editor.Commands;
+using FlowPuzzle.Persistence;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace FlowPuzzle.Editor.UI
@@ -8,6 +10,7 @@ namespace FlowPuzzle.Editor.UI
     {
         public Button newDraftBtn, loadAssetBtn, addColorBtn, removeColorBtn;
         public Button undoBtn, redoBtn, saveBtn, saveAsBtn, completeBtn;
+        public ObjectField assetField;
         public IntegerField selectedColorField;
         public Toggle endpointToggle;
         public EnumField toolField;
@@ -16,6 +19,7 @@ namespace FlowPuzzle.Editor.UI
         public void Build(VisualElement root)
         {
             newDraftBtn = new Button { text = "New Draft", name = "new-draft" }; root.Add(newDraftBtn);
+            assetField = new ObjectField("Asset") { objectType = typeof(FlowLevelAsset), allowSceneObjects = false }; root.Add(assetField);
             loadAssetBtn = new Button { text = "Load Asset", name = "load-asset" }; root.Add(loadAssetBtn);
             selectedColorField = new IntegerField("Selected Color") { value = 0 }; root.Add(selectedColorField);
             endpointToggle = new Toggle("Endpoint A (else B)") { value = true }; root.Add(endpointToggle);
