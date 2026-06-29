@@ -81,11 +81,19 @@ namespace FlowPuzzle.Tests.Editor
             Assert.AreEqual(0, asset.levelData.pairs[0].endpointA.x);
             cd.pairs[0].endpointA = new FlowPos(9, 9);
             Assert.AreEqual(0, asset.levelData.pairs[0].endpointA.x, "Source asset immutable");
-            // Verify board has Draft data
+            // Verify displayed level data via internal snapshot
             var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
-            Assert.IsNotNull(bv);
+            var lvlField = bv.GetType().GetField("levelData", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var displayLevel = (FlowLevelData)lvlField!.GetValue(bv);
+            Assert.IsNotNull(displayLevel, "Board should have displayed level data");
+            Assert.AreEqual(4, displayLevel.width); Assert.AreEqual(4, displayLevel.height);
+            Assert.AreEqual(1, displayLevel.pairs.Count);
+            Assert.AreEqual(0, displayLevel.pairs[0].colorId);
+            Assert.AreEqual(0, displayLevel.pairs[0].endpointA.x); Assert.AreEqual(0, displayLevel.pairs[0].endpointA.y);
+            Assert.AreEqual(3, displayLevel.pairs[0].endpointB.x); Assert.AreEqual(0, displayLevel.pairs[0].endpointB.y);
             // Verify Draft panel state
             Assert.IsFalse(DP(w).undoBtn.enabledSelf, "Undo should be disabled after load+clear");
+            Assert.IsFalse(DP(w).redoBtn.enabledSelf, "Redo should be disabled after load+clear");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -175,22 +183,27 @@ namespace FlowPuzzle.Tests.Editor
             UnityEngine.Object.DestroyImmediate(w);
         }
 
-        // ── 8. CreateGUI twice + button click ──
+        // ── 8. CreateGUI twice + real button clicks ──
         [Test] public void CreateGUITwice_EachDraftEditActionExecutesOnce()
         {
             var w = MakeWindow();
             var createMethod = typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!;
-            createMethod.Invoke(w, null);
-            createMethod.Invoke(w, null);
+            createMethod.Invoke(w, null); // 2nd
+            createMethod.Invoke(w, null); // 3rd
             var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 }; d.pairs.Add(new FlowDraftPairData { colorId = 0 });
             curDraftF.SetValue(w, d);
-            // After 3 CreateGUI calls, invoke handler once. Duplicate callbacks would produce >1 result.
-            addColorM.Invoke(w, null);
-            Assert.AreEqual(2, CD(w).pairs.Count, "After 3 CreateGUI calls, AddColor must produce 2 pairs (exactly 1 execution)");
+
+            // Invoke the actual addColorBtn.clickable callback via Clickable.Invoke (Unity internal)
+            var clickInvoke = typeof(Clickable).GetMethod("Invoke", BindingFlags.Instance | BindingFlags.NonPublic)!;
+            clickInvoke.Invoke(DP(w).addColorBtn.clickable, new object[] { null });
+            Assert.AreEqual(2, CD(w).pairs.Count, "After 3 CreateGUI, addColorBtn click must produce exactly 2 pairs (no duplicate callbacks)");
             Assert.IsTrue(CH(w).CanUndo);
-            undoM.Invoke(w, null);
-            Assert.AreEqual(1, CD(w).pairs.Count, "Undo via button click should restore original count");
+
+            // Invoke undoBtn.clickable
+            clickInvoke.Invoke(DP(w).undoBtn.clickable, new object[] { null });
+            Assert.AreEqual(1, CD(w).pairs.Count, "Undo button click must restore original color count");
             Assert.IsFalse(CH(w).CanUndo, "After one Undo click, CanUndo must be false");
+            Assert.IsTrue(CH(w).CanRedo, "After one Undo click, CanRedo must be true");
             UnityEngine.Object.DestroyImmediate(w);
         }
     }
