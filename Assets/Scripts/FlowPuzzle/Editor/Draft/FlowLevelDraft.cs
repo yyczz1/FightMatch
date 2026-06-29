@@ -171,6 +171,9 @@ namespace FlowPuzzle.Editor.Draft
 
         public FlowDraftPairData GetPair(int colorId) => pairs.FirstOrDefault(p => p.colorId == colorId);
 
+        public FlowDraftConstraintData GetConstraint(int colorId)
+            => fixedConstraints.FirstOrDefault(c => c.colorId == colorId);
+
         public void MarkDirty() { isSolutionDirty = true; isValidated = false; }
 
         private bool IsInside(FlowPos pos) => pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
