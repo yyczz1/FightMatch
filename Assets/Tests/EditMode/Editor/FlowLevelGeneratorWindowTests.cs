@@ -233,18 +233,14 @@ namespace FlowPuzzle.Tests.Editor
             Assert.IsNotNull(items, "ListView itemsSource should not be null");
             Assert.AreEqual(2, items.Count, "Should process all 2 items — continuation proof");
 
-            bool anyFailed = false;
+            // Both items must have been processed and marked failed
             for (int i = 0; i < items.Count; i++)
             {
                 var item = (FlowBatchItemResult)items[i];
-                if (!item.success)
-                {
-                    anyFailed = true;
-                    Assert.IsTrue(item.message.Contains("Save failed"),
-                        $"Item {i} failure message should mention save: '{item.message}'");
-                }
+                Assert.IsFalse(item.success, $"Item {i} should be marked failed due to invalid folder");
+                Assert.IsTrue(item.message.Contains("Save failed"),
+                    $"Item {i} message should mention save failure: '{item.message}'");
             }
-            Assert.IsTrue(anyFailed, "At least one item should fail due to invalid output folder");
 
             var diag = GF<FlowDiagnosticsPanel>(w, "diagnosticsPanel");
             Assert.IsTrue(diag.helpBox.visible, "Diagnostics should be visible");
