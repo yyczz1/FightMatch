@@ -11,42 +11,44 @@ namespace FlowPuzzle.Editor.Commands
         private readonly FlowLevelDraft draft;
         private readonly int colorId;
         private readonly List<FlowPos> strokeCells;
-        private FlowDraftConstraintData beforeSnapshot;
-        private bool isErase;
+        private readonly bool isErase;
+        private FlowLevelDraft beforeSnapshot;
+        private FlowLevelDraft afterSnapshot;
 
         public string DisplayName => isErase ? $"Erase Constraint {colorId}" : $"Draw Constraint {colorId}";
 
         public DrawConstraintStrokeCommand(FlowLevelDraft draft, int colorId, List<FlowPos> cells, bool erase)
         {
-            this.draft = draft; this.colorId = colorId; strokeCells = cells ?? new List<FlowPos>();
+            this.draft = draft; this.colorId = colorId;
+            strokeCells = cells != null ? new List<FlowPos>(cells) : new List<FlowPos>();
             isErase = erase;
         }
 
         public bool Execute()
         {
-            beforeSnapshot = draft.fixedConstraints.FirstOrDefault(c => c.colorId == colorId)?.Clone();
+            beforeSnapshot = draft.Clone();
+            bool ok;
             if (isErase)
             {
                 var fc = draft.fixedConstraints.FirstOrDefault(c => c.colorId == colorId);
                 if (fc?.cells == null || strokeCells.Count == 0) return false;
                 int idx = fc.cells.FindIndex(cell => cell.Equals(strokeCells[0]));
                 if (idx < 0) return false;
-                var r = draft.EraseConstraint(colorId, idx);
-                return r.success;
+                ok = draft.EraseConstraint(colorId, idx).success;
             }
             else
             {
-                var r = draft.ApplyConstraint(colorId, strokeCells);
-                return r.success;
+                ok = draft.ApplyConstraint(colorId, strokeCells).success;
             }
+            if (!ok) { draft.RestoreFrom(beforeSnapshot); return false; }
+            afterSnapshot = draft.Clone();
+            return true;
         }
 
         public bool Undo()
         {
-            draft.fixedConstraints.RemoveAll(c => c.colorId == colorId);
-            if (beforeSnapshot != null && beforeSnapshot.cells != null && beforeSnapshot.cells.Count > 0)
-                draft.fixedConstraints.Add(beforeSnapshot.Clone());
-            draft.MarkDirty();
+            if (beforeSnapshot == null) return false;
+            draft.RestoreFrom(beforeSnapshot);
             return true;
         }
     }

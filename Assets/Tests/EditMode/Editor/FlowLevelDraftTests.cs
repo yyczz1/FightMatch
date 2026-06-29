@@ -164,5 +164,63 @@ namespace FlowPuzzle.Tests.Editor
             d.currentSolution = new FlowSolutionData(); d.isSolutionDirty = true;
             Assert.Throws<InvalidOperationException>(() => FlowDraftMapper.ToGeneratedLevel(d));
         }
+
+        // ── RED tests ──
+
+        [Test] public void PlaceEndpoint_UnknownColor_FailsWithoutMutation()
+        {
+            var d = MakeDraft(1);
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.currentSolution = new FlowSolutionData { levelId = 42 };
+            d.currentDifficulty = new FlowDifficultyReport { totalScore = 10f };
+            d.isSolutionDirty = false; d.isValidated = true;
+            var snap = d.Clone();
+            // Place on non-existent color 99
+            var r = d.PlaceEndpoint(99, true, new FlowPos(1, 1));
+            Assert.IsFalse(r.success, "Should reject unknown color");
+            // Verify complete snapshot equality
+            Assert.AreEqual(snap.pairs.Count, d.pairs.Count, "Pair count unchanged");
+            Assert.AreEqual(snap.colorCount, d.colorCount);
+            Assert.IsFalse(d.isSolutionDirty, "dirty flag unchanged");
+            Assert.IsTrue(d.isValidated, "validated flag unchanged");
+            Assert.AreEqual(42, d.currentSolution.levelId, "solution unchanged");
+            Assert.AreEqual(10f, d.currentDifficulty.totalScore, "difficulty unchanged");
+            Assert.AreEqual(snap.fixedConstraints.Count, d.fixedConstraints.Count);
+        }
+
+        [Test] public void RemoveMiddleColor_ClearsStaleSolutionAndDifficulty()
+        {
+            var d = MakeDraft(3); d.colorCount = 3;
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0)); d.PlaceEndpoint(0, false, new FlowPos(2, 0));
+            d.PlaceEndpoint(1, true, new FlowPos(0, 1)); d.PlaceEndpoint(1, false, new FlowPos(2, 1));
+            d.PlaceEndpoint(2, true, new FlowPos(0, 2)); d.PlaceEndpoint(2, false, new FlowPos(2, 2));
+            d.currentSolution = new FlowSolutionData { levelId = 1 };
+            d.isValidated = true; d.isSolutionDirty = false;
+            d.RemoveColor(1); // remove middle
+            Assert.IsNull(d.currentSolution, "Stale solution must be cleared after color removal");
+            Assert.IsNull(d.currentDifficulty, "Stale difficulty must be cleared");
+            Assert.AreEqual(2, d.pairs.Count);
+            Assert.AreEqual(0, d.pairs[0].colorId);
+            Assert.AreEqual(1, d.pairs[1].colorId, "Higher IDs compacted");
+        }
+
+        [Test] public void Mapper_PreservesCoverageAndOwnsAllData()
+        {
+            var ld = new FlowLevelData { levelId = 1, width = 4, height = 3 };
+            ld.pairs.Add(new FlowPairData { colorId = 0, endpointA = new(0, 0), endpointB = new(3, 0) });
+            var sd = new FlowSolutionData { levelId = 1 };
+            sd.paths.Add(new FlowPathData { colorId = 0, cells = new System.Collections.Generic.List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0) } });
+            var level = new FlowGeneratedLevel { levelData = ld, solutionData = sd, usedSeed = 42, coverageRatio = 0.33f, difficultyReport = new FlowDifficultyReport { totalScore = 1f } };
+            var draft = FlowDraftMapper.FromGeneratedLevel(level);
+            var result = FlowDraftMapper.ToGeneratedLevel(draft);
+            Assert.AreEqual(42, result.usedSeed);
+            Assert.AreEqual(0.33f, result.coverageRatio, 0.001f);
+            Assert.AreEqual(1, result.levelData.pairs.Count);
+            // Mutation isolation
+            result.solutionData.levelId = 999;
+            Assert.AreEqual(1, draft.currentSolution.levelId, "Draft must not be mutated");
+            draft.pairs[0].endpointA = new FlowPos(9, 9);
+            Assert.AreEqual(0, result.levelData.pairs[0].endpointA.x, "Result must not be mutated");
+        }
     }
 }

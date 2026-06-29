@@ -13,6 +13,7 @@ namespace FlowPuzzle.Editor.Draft
         public int height;
         public int colorCount;
         public int seed;
+        public float coverage;
         public bool isSolutionDirty;
         public bool isValidated;
 
@@ -36,7 +37,7 @@ namespace FlowPuzzle.Editor.Draft
         public FlowLevelDraft Clone()
         {
             var c = new FlowLevelDraft { levelId = levelId, width = width, height = height,
-                colorCount = colorCount, seed = seed, isSolutionDirty = isSolutionDirty, isValidated = isValidated };
+                colorCount = colorCount, seed = seed, coverage = coverage, isSolutionDirty = isSolutionDirty, isValidated = isValidated };
             foreach (var p in pairs) c.pairs.Add(p.Clone());
             foreach (var fc in fixedConstraints) c.fixedConstraints.Add(fc.Clone());
             c.currentSolution = currentSolution != null ? DeepCopySolution(currentSolution) : null;
@@ -47,7 +48,7 @@ namespace FlowPuzzle.Editor.Draft
         public void RestoreFrom(FlowLevelDraft s)
         {
             levelId = s.levelId; width = s.width; height = s.height;
-            colorCount = s.colorCount; seed = s.seed;
+            colorCount = s.colorCount; seed = s.seed; coverage = s.coverage;
             isSolutionDirty = s.isSolutionDirty; isValidated = s.isValidated;
             pairs.Clear(); foreach (var p in s.pairs) pairs.Add(p.Clone());
             fixedConstraints.Clear(); foreach (var fc in s.fixedConstraints) fixedConstraints.Add(fc.Clone());
@@ -85,6 +86,8 @@ namespace FlowPuzzle.Editor.Draft
                 for (int i = 0; i < fixedConstraints.Count; i++)
                     if (fixedConstraints[i].colorId > colorId) fixedConstraints[i].colorId--;
                 colorCount = pairs.Count == 0 ? 0 : pairs.Max(p => p.colorId) + 1;
+                // Clear stale solution and difficulty after color removal/reindex
+                currentSolution = null; currentDifficulty = null;
                 MarkDirty(); return FlowDraftMutationResult.Ok();
             }
             catch { RestoreFrom(snap); throw; }
@@ -94,7 +97,7 @@ namespace FlowPuzzle.Editor.Draft
         {
             if (!IsInside(pos))
                 return FlowDraftMutationResult.Fail("OutOfBounds", "Position outside board.");
-            var pair = EnsurePair(colorId);
+            var pair = GetPair(colorId);
             if (pair == null)
                 return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
             var snap = Clone();
@@ -171,12 +174,16 @@ namespace FlowPuzzle.Editor.Draft
                 && !(pair.endpointB.HasValue && pair.endpointB.Value.Equals(first)))
                 return FlowDraftMutationResult.Fail("ConstraintNotAnchored", "Must start at its own endpoint.");
 
-            // Must not reach the second endpoint
-            var other = pair.endpointA.HasValue && pair.endpointA.Value.Equals(first)
+            // Must not pass through the second own endpoint at any position after anchor
+            var otherEndpoint = pair.endpointA.HasValue && pair.endpointA.Value.Equals(first)
                 ? pair.endpointB : pair.endpointA;
-            var last = cells.Last();
-            if (other.HasValue && other.Value.Equals(last))
-                return FlowDraftMutationResult.Fail("CompleteEndpointToEndpoint", "Constraint may not reach second endpoint.");
+            if (otherEndpoint.HasValue)
+            {
+                for (int i = 1; i < cells.Count; i++)
+                    if (otherEndpoint.Value.Equals(cells[i]))
+                        return FlowDraftMutationResult.Fail("SecondOwnEndpointTraversal",
+                            "Chain passes through second own endpoint.");
+            }
 
             var seen = new HashSet<FlowPos>();
             for (int i = 0; i < cells.Count; i++)
@@ -236,7 +243,7 @@ namespace FlowPuzzle.Editor.Draft
             var snap = Clone();
             try
             {
-                if (fromIndex == 0) { fixedConstraints.Remove(fc); }
+                if (fromIndex <= 1) { fixedConstraints.Remove(fc); }
                 else
                 {
                     fc.cells = fc.cells.Take(fromIndex).ToList();

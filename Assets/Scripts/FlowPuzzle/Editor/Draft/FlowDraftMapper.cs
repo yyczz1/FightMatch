@@ -21,6 +21,7 @@ namespace FlowPuzzle.Editor.Draft
                 height = level.levelData.height,
                 colorCount = level.levelData.pairs.Count,
                 seed = level.usedSeed,
+                coverage = level.coverageRatio,
                 isSolutionDirty = false,
                 isValidated = true
             };
@@ -88,7 +89,8 @@ namespace FlowPuzzle.Editor.Draft
                 levelData = levelData,
                 solutionData = DeepCopySolution(draft.currentSolution),
                 difficultyReport = DeepCopyDifficulty(draft.currentDifficulty),
-                usedSeed = draft.seed
+                usedSeed = draft.seed,
+                coverageRatio = draft.coverage
             };
         }
 

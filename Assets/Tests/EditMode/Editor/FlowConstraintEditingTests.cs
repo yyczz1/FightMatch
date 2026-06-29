@@ -41,7 +41,7 @@ namespace FlowPuzzle.Tests.Editor
             d.PlaceEndpoint(0, true, new FlowPos(0, 0)); d.PlaceEndpoint(0, false, new FlowPos(3, 0));
             var cells = new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0) };
             var r = d.ApplyConstraint(0, cells);
-            Assert.IsFalse(r.success); Assert.AreEqual("CompleteEndpointToEndpoint", r.errorCode);
+            Assert.IsFalse(r.success); Assert.AreEqual("SecondOwnEndpointTraversal", r.errorCode);
         }
 
         [Test] public void Chain_DuplicateCell_Rejected()
@@ -104,6 +104,59 @@ namespace FlowPuzzle.Tests.Editor
                 new List<FlowPos> { new(1, 1), new(2, 1) }, false); // not anchored
             Assert.IsFalse(cmd.Execute());
             Assert.AreEqual(snap.fixedConstraints.Count, d.fixedConstraints.Count);
+            Assert.AreEqual(snap.isSolutionDirty, d.isSolutionDirty);
+            Assert.AreEqual(snap.isValidated, d.isValidated);
+        }
+
+        // ── RED tests ──
+
+        [Test] public void Constraint_SecondOwnEndpointInMiddle_Rejected()
+        {
+            var d = MakeDraft();
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0)); d.PlaceEndpoint(0, false, new FlowPos(3, 0));
+            // Chain passes through endpointB at index 2, continues to index 3
+            var cells = new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0), new(4, 0) };
+            var r = d.ApplyConstraint(0, cells);
+            Assert.IsFalse(r.success);
+            Assert.IsTrue(r.errorCode.Contains("Endpoint") || r.errorCode.Contains("Foreign"),
+                $"Should reject second endpoint in middle, got: {r.errorCode}");
+        }
+
+        [Test] public void Erase_FirstNonEndpoint_ClearsConstraint()
+        {
+            var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) });
+            // Erase at index 1: remaining would be anchor-only (cell (0,0) alone)
+            var r = d.EraseConstraint(0, 1);
+            Assert.IsTrue(r.success);
+            Assert.AreEqual(0, d.fixedConstraints.Count, "Anchor-only constraint must be cleared");
+        }
+
+        [Test] public void StrokeUndo_RestoresCompletePreCommandState()
+        {
+            var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.currentSolution = new FlowSolutionData { levelId = 99 };
+            d.isSolutionDirty = false; d.isValidated = true;
+            var cmd = new DrawConstraintStrokeCommand(d, 0,
+                new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) }, false);
+            Assert.IsTrue(cmd.Execute());
+            Assert.IsTrue(d.isSolutionDirty);
+            Assert.IsTrue(cmd.Undo());
+            Assert.AreEqual(0, d.fixedConstraints.Count, "Constraint cleared after Undo");
+            Assert.AreEqual(99, d.currentSolution.levelId, "Solution restored");
+        }
+
+        [Test] public void StrokeRedo_RestoresCompletePostCommandState()
+        {
+            var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.currentSolution = new FlowSolutionData { levelId = 99 };
+            var cmd = new DrawConstraintStrokeCommand(d, 0,
+                new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) }, false);
+            Assert.IsTrue(cmd.Execute());
+            Assert.IsTrue(cmd.Undo());
+            Assert.IsTrue(cmd.Execute()); // Redo via re-Execute
+            Assert.AreEqual(1, d.fixedConstraints.Count);
+            Assert.AreEqual(3, d.fixedConstraints[0].cells.Count);
         }
     }
 }
