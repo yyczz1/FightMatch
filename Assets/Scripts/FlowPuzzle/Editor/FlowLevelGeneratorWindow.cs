@@ -81,6 +81,7 @@ namespace FlowPuzzle.Editor
             diagnosticsPanel = new FlowDiagnosticsPanel(); diagnosticsPanel.Build(rootVisualElement.Q("result-panel"));
             batchPanel = new FlowBatchReportPanel(); batchPanel.Build(rootVisualElement.Q("batch-panel"));
             draftPanel = new FlowDraftPanel(); draftPanel.Build(rootVisualElement.Q("result-panel"));
+            WireDraftPanel();
 
             var bar = new VisualElement(); bar.AddToClassList("action-bar"); rootVisualElement.Add(bar);
             void AddBtn(string name, Action a) { var b = new Button(a) { text = name, name = name.ToLower().Replace(" ", "-") }; bar.Add(b); }
@@ -96,6 +97,24 @@ namespace FlowPuzzle.Editor
         }
 
         private FlowGenerationConfig ReadConfig() => paramPanel.ReadConfig();
+
+        private void WireDraftPanel()
+        {
+            draftPanel.newDraftBtn.clicked += () => { currentDraft = new FlowLevelDraft { width = 5, height = 5, colorCount = 2, levelId = 1, seed = 42 }; for (int i = 0; i < 2; i++) currentDraft.pairs.Add(new FlowDraftPairData { colorId = i }); commandHistory.Clear(); loadedAsset = null; boardView.SetData(currentDraft); UpdateButtonStates(); };
+            draftPanel.loadAssetBtn.clicked += () => { diagnosticsPanel.ShowInfo("Load Asset via Asset picker (use test/reflection for automated tests)."); };
+            draftPanel.addColorBtn.clicked += () => { if (currentDraft == null) return; var r = currentDraft.AddColor(); if (r.success) { commandHistory.Clear(); boardView.SetData(currentDraft); UpdateButtonStates(); } else diagnosticsPanel.ShowError(r.errorMessage); };
+            draftPanel.removeColorBtn.clicked += () => { if (currentDraft == null) return; var r = currentDraft.RemoveColor(currentDraft.colorCount - 1); if (r.success) { commandHistory.Clear(); boardView.SetData(currentDraft); UpdateButtonStates(); } else diagnosticsPanel.ShowError(r.errorMessage); };
+            draftPanel.undoBtn.clicked += () => { if (commandHistory.CanUndo) { commandHistory.Undo(); boardView.SetData(currentDraft); UpdateButtonStates(); } };
+            draftPanel.redoBtn.clicked += () => { if (commandHistory.CanRedo) { commandHistory.Redo(); boardView.SetData(currentDraft); UpdateButtonStates(); } };
+            draftPanel.saveBtn.clicked += () => {
+                if (currentDraft == null || !currentDraft.HasCompleteEndpoints || currentDraft.isSolutionDirty || !currentDraft.isValidated) { diagnosticsPanel.ShowError("Draft not ready for save."); return; }
+                try { var level = FlowDraftMapper.ToGeneratedLevel(currentDraft); if (loadedAsset != null) repository.Overwrite(loadedAsset, level); else repository.SaveNew(level, paramPanel.outputFolderField.value); diagnosticsPanel.ShowInfo("Saved."); } catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
+            };
+            draftPanel.saveAsBtn.clicked += () => {
+                if (currentDraft == null || !currentDraft.HasCompleteEndpoints || currentDraft.isSolutionDirty || !currentDraft.isValidated) { diagnosticsPanel.ShowError("Draft not ready for Save As."); return; }
+                try { var level = FlowDraftMapper.ToGeneratedLevel(currentDraft); repository.SaveAs(level, paramPanel.outputFolderField.value, $"Level_{level.levelData.levelId}"); diagnosticsPanel.ShowInfo("Saved As."); } catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
+            };
+        }
 
         private bool ConfigValid(FlowGenerationConfig c)
         {
