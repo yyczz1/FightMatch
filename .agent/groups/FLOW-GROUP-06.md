@@ -1,6 +1,6 @@
 # External DeepSeek Task Group
 
-**Status:** `APPROVED_FOR_WORKER`
+**Status:** `REJECTED_AFTER_REVIEW`
 
 ## Group metadata
 
@@ -127,3 +127,28 @@ MANUAL SMOKE:
 BLOCKER:
 <required for PARTIAL or BLOCKED>
 ```
+
+## Review record
+
+- Submitted start commit: `38a47bb`
+- Submitted end commit: `c74bb00`
+- Reported verification XML:
+  - packet 1: 288 passed, 0 failed
+  - packets 2 through 4: 295 passed, 0 failed
+- Codex verdict: `REJECT`
+- The passing suite does not cover most Packet 3 or Packet 4 requirements.
+- `FLOW-EDITOR-DRAFT-001` did not connect `FlowDraftPanel`, Draft, command
+  history, BoardView, persistence actions, state restoration, or tests to the
+  EditorWindow.
+- `FLOW-CONSTRAINT-001` added only a command that directly replaces one global
+  constraint. It added no legality validation, per-color constraints, erase
+  semantics, pointer lifecycle, rendering, integration, or tests.
+- Draft mutation APIs required by Packet 1 are absent; tests directly mutate
+  public fields instead.
+- `FlowDraftMapper.ToGeneratedLevel` returns mutable solution/difficulty
+  references instead of complete deep copies.
+- failed endpoint commands call `MarkDirty` before detecting failure, so a
+  failed command can mutate Draft state.
+- two required test `.meta` files remain untracked.
+- Corrective execution must complete
+  `.agent/groups/FLOW-GROUP-06-REPAIR.md` before any solver group starts.
