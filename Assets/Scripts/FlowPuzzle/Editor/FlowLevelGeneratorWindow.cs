@@ -149,17 +149,8 @@ namespace FlowPuzzle.Editor
             draftPanel.undoBtn.clicked += DoUndo;
             draftPanel.redoBtn.clicked += DoRedo;
             boardView.CellSelected += DoEndpointEdit;
-            draftPanel.saveBtn.clicked += () =>
-            {
-                if (currentDraft == null || !currentDraft.HasCompleteEndpoints || currentDraft.isSolutionDirty || !currentDraft.isValidated) { diagnosticsPanel.ShowError("Draft not ready for save."); return; }
-                try { var level = FlowDraftMapper.ToGeneratedLevel(currentDraft); if (loadedAsset != null) repository.Overwrite(loadedAsset, level); else repository.SaveNew(level, paramPanel.outputFolderField.value); diagnosticsPanel.ShowInfo("Saved."); } catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
-            };
-            draftPanel.saveAsBtn.clicked += () =>
-            {
-                if (currentDraft == null || !currentDraft.HasCompleteEndpoints || currentDraft.isSolutionDirty || !currentDraft.isValidated) { diagnosticsPanel.ShowError("Draft not ready for Save As."); return; }
-                var name = draftPanel.saveAsNameField.value; if (string.IsNullOrWhiteSpace(name)) name = $"Level_{currentDraft.levelId}";
-                try { var level = FlowDraftMapper.ToGeneratedLevel(currentDraft); var asset = repository.SaveAs(level, paramPanel.outputFolderField.value, name); loadedAsset = asset; diagnosticsPanel.ShowInfo($"Saved As {name}."); } catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
-            };
+            draftPanel.saveBtn.clicked += DoSaveDraft;
+            draftPanel.saveAsBtn.clicked += DoSaveDraftAs;
         }
 
         private bool ConfigValid(FlowGenerationConfig c)
@@ -169,6 +160,34 @@ namespace FlowPuzzle.Editor
                 && c.minCoverageRatio <= c.maxCoverageRatio
                 && c.minCoverageRatio >= 0f && c.maxCoverageRatio <= 1f
                 && c.maxPathAttempt > 0 && c.maxLevelAttempt > 0;
+        }
+
+        internal void DoSaveDraft()
+        {
+            if (currentDraft == null || !currentDraft.HasCompleteEndpoints || currentDraft.currentDifficulty == null || currentDraft.isSolutionDirty || !currentDraft.isValidated)
+            { diagnosticsPanel.ShowError("Draft not ready for save — complete endpoints, solution, difficulty, clean and validated required."); return; }
+            try
+            {
+                var level = FlowDraftMapper.ToGeneratedLevel(currentDraft);
+                if (loadedAsset != null) repository.Overwrite(loadedAsset, level);
+                else { loadedAsset = repository.SaveNew(level, paramPanel.outputFolderField.value); draftPanel.assetField.value = loadedAsset; }
+                diagnosticsPanel.ShowInfo("Saved.");
+            }
+            catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
+        }
+        internal void DoSaveDraftAs()
+        {
+            if (currentDraft == null || !currentDraft.HasCompleteEndpoints || currentDraft.currentDifficulty == null || currentDraft.isSolutionDirty || !currentDraft.isValidated)
+            { diagnosticsPanel.ShowError("Draft not ready for Save As."); return; }
+            var name = draftPanel.saveAsNameField.value; if (string.IsNullOrWhiteSpace(name)) name = $"Level_{currentDraft.levelId}";
+            try
+            {
+                var level = FlowDraftMapper.ToGeneratedLevel(currentDraft);
+                var asset = loadedAsset != null ? repository.SaveAs(loadedAsset, level, paramPanel.outputFolderField.value, name) : repository.SaveAs(level, paramPanel.outputFolderField.value, name);
+                loadedAsset = asset; draftPanel.assetField.value = asset;
+                diagnosticsPanel.ShowInfo($"Saved As {name}.");
+            }
+            catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
         }
 
         private void OnApplyPreset()
@@ -268,8 +287,11 @@ namespace FlowPuzzle.Editor
         {
             currentLevel = level;
             currentDraft = FlowDraftMapper.FromGeneratedLevel(level);
+            loadedAsset = null; commandHistory.Clear();
+            draftPanel.assetField.value = null;
             boardView.SetData(currentDraft);
             resultPanel.Show(level);
+            draftPanel.UpdateDraftState(currentDraft, commandHistory);
             UpdateButtonStates();
         }
 

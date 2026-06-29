@@ -42,7 +42,7 @@ namespace FlowPuzzle.Editor.UI
             bool canSave = false;
             if (draft != null)
                 canSave = draft.HasCompleteEndpoints && draft.currentSolution != null
-                    && !draft.isSolutionDirty && draft.isValidated;
+                    && draft.currentDifficulty != null && !draft.isSolutionDirty && draft.isValidated;
             saveBtn?.SetEnabled(canSave); saveAsBtn?.SetEnabled(canSave);
             undoBtn?.SetEnabled(history?.CanUndo ?? false);
             redoBtn?.SetEnabled(history?.CanRedo ?? false);
