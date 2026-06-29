@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using FlowPuzzle.Application;
 using FlowPuzzle.Core;
 using FlowPuzzle.Difficulty;
+using FlowPuzzle.Editor.Commands;
+using FlowPuzzle.Editor.Draft;
 using FlowPuzzle.Editor.Persistence;
 using FlowPuzzle.Editor.UI;
 using FlowPuzzle.Generation;
@@ -26,6 +28,10 @@ namespace FlowPuzzle.Editor
         internal FlowBatchReportPanel batchPanel;
         internal FlowBoardView boardView;
         internal VisualElement boardContainer;
+        internal FlowDraftPanel draftPanel;
+        internal FlowLevelDraft currentDraft;
+        internal FlowEditorCommandHistory commandHistory = new FlowEditorCommandHistory();
+        internal FlowPuzzle.Persistence.FlowLevelAsset loadedAsset;
 
         internal Button applyPresetBtn, generateOneBtn, generateBatchBtn;
         internal Button saveCurrentBtn, exportJsonBtn, validateCurrentBtn, clearPreviewBtn;
@@ -74,6 +80,7 @@ namespace FlowPuzzle.Editor
             resultPanel = new FlowResultPanel(); resultPanel.Build(rootVisualElement.Q("result-panel"));
             diagnosticsPanel = new FlowDiagnosticsPanel(); diagnosticsPanel.Build(rootVisualElement.Q("result-panel"));
             batchPanel = new FlowBatchReportPanel(); batchPanel.Build(rootVisualElement.Q("batch-panel"));
+            draftPanel = new FlowDraftPanel(); draftPanel.Build(rootVisualElement.Q("result-panel"));
 
             var bar = new VisualElement(); bar.AddToClassList("action-bar"); rootVisualElement.Add(bar);
             void AddBtn(string name, Action a) { var b = new Button(a) { text = name, name = name.ToLower().Replace(" ", "-") }; bar.Add(b); }
@@ -195,7 +202,8 @@ namespace FlowPuzzle.Editor
         internal void SetCurrentLevel(FlowGeneratedLevel level)
         {
             currentLevel = level;
-            boardView.SetData(level.levelData, level.solutionData);
+            currentDraft = FlowDraftMapper.FromGeneratedLevel(level);
+            boardView.SetData(currentDraft);
             resultPanel.Show(level);
             UpdateButtonStates();
         }

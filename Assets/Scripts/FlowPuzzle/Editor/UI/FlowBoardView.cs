@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FlowPuzzle.Core;
+using FlowPuzzle.Editor.Draft;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -33,6 +34,26 @@ namespace FlowPuzzle.Editor.UI
         {
             levelData = level != null ? DeepCopyLevel(level) : null;
             solutionData = solution != null ? DeepCopySolution(solution) : null;
+            MarkDirtyRepaint();
+        }
+
+        public void SetData(FlowLevelDraft draft)
+        {
+            if (draft == null) { ClearData(); return; }
+            // Build temporary display data from Draft
+            var displayLevel = new FlowLevelData { levelId = draft.levelId, width = draft.width, height = draft.height };
+            foreach (var p in draft.pairs)
+            {
+                if (p.endpointA.HasValue || p.endpointB.HasValue)
+                    displayLevel.pairs.Add(new FlowPairData
+                    {
+                        colorId = p.colorId,
+                        endpointA = p.endpointA ?? default,
+                        endpointB = p.endpointB ?? default
+                    });
+            }
+            levelData = DeepCopyLevel(displayLevel);
+            solutionData = draft.currentSolution != null ? DeepCopySolution(draft.currentSolution) : null;
             MarkDirtyRepaint();
         }
 
