@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using FlowPuzzle.Core;
 using FlowPuzzle.Editor;
 using FlowPuzzle.Editor.UI;
+using FlowPuzzle.Generation;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -17,17 +20,25 @@ namespace FlowPuzzle.Tests.Editor
     {
         private const string TestFolder = "Assets/Temp/FlowPuzzleEditorTests";
         private static readonly string JsonTestDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        private bool tempExistedBefore;
 
-        [SetUp] public void SetUp() { if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder); }
-        [TearDown] public void TearDown()
+        [SetUp]
+        public void SetUp()
+        {
+            tempExistedBefore = AssetDatabase.IsValidFolder("Assets/Temp");
+            if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder);
+        }
+
+        [TearDown]
+        public void TearDown()
         {
             if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder);
-            if (AssetDatabase.IsValidFolder("Assets/Temp") && AssetDatabase.GetSubFolders("Assets/Temp").Length == 0)
+            if (!tempExistedBefore && AssetDatabase.IsValidFolder("Assets/Temp") &&
+                AssetDatabase.GetSubFolders("Assets/Temp").Length == 0)
                 AssetDatabase.DeleteAsset("Assets/Temp");
             if (Directory.Exists(JsonTestDir)) Directory.Delete(JsonTestDir, true);
         }
 
-        // Create window without GPU using ScriptableObject.CreateInstance
         private static FlowLevelGeneratorWindow CreateWindow()
         {
             var w = ScriptableObject.CreateInstance<FlowLevelGeneratorWindow>();
@@ -36,8 +47,11 @@ namespace FlowPuzzle.Tests.Editor
             return w;
         }
 
-        private static object GF(object t, string n) => t.GetType().GetField(n, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(t);
-        private static void CM(object t, string n) => t.GetType().GetMethod(n, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(t, null);
+        private static object GF(object t, string n) => t.GetType().GetField(n,
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(t);
+        private static void CM(object t, string n) => t.GetType().GetMethod(n,
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(t, null);
+        private static T GF<T>(object t, string n) => (T)GF(t, n);
 
         // ── Lifecycle ──
 
@@ -60,7 +74,7 @@ namespace FlowPuzzle.Tests.Editor
             CM(w, "CreateGUI"); CM(w, "CreateGUI");
             Assert.AreEqual(1, w.rootVisualElement.Query<Button>("generate-one").ToList().Count);
             var bc = (VisualElement)GF(w, "boardContainer");
-            Assert.IsTrue(bc.childCount <= 1, "Board views should not accumulate");
+            Assert.AreEqual(1, bc.childCount, "Board views should not accumulate");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -70,9 +84,10 @@ namespace FlowPuzzle.Tests.Editor
         public void InvalidConfig_DisablesGenerateButtons()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
+            // Set invalid value, then trigger the window's own state refresh
             param.widthField.value = 0;
-            CM(w, "UpdateButtonStates"); // simulate value-changed callback
+            CM(w, "UpdateButtonStates");
             Assert.IsFalse(w.rootVisualElement.Q<Button>("generate-one").enabledSelf);
             Assert.IsFalse(w.rootVisualElement.Q<Button>("generate-batch").enabledSelf);
             UnityEngine.Object.DestroyImmediate(w);
@@ -82,7 +97,7 @@ namespace FlowPuzzle.Tests.Editor
         public void InvalidConfigThenValidConfig_ReenablesGenerateButtons()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
             param.widthField.value = 0; CM(w, "UpdateButtonStates");
             Assert.IsFalse(w.rootVisualElement.Q<Button>("generate-one").enabledSelf);
             param.widthField.value = 5; CM(w, "UpdateButtonStates");
@@ -96,12 +111,14 @@ namespace FlowPuzzle.Tests.Editor
         public void GenerateOne_CreatesPreviewAndNoAsset()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
             param.widthField.value = 5; param.heightField.value = 5; param.colorCountField.value = 2; param.seedField.value = 42;
+
+            var beforeGuids = new HashSet<string>(AssetDatabase.FindAssets("t:FlowLevelAsset"));
             CM(w, "OnGenerateOne");
-            Assert.IsNotNull(GF(w, "currentLevel"), "Generate One should set currentLevel");
-            var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { "Assets" });
-            Assert.IsFalse(guids.Any(g => AssetDatabase.GUIDToAssetPath(g).Contains("Level_")), "Generate One must not create assets");
+            Assert.IsNotNull(GF(w, "currentLevel"));
+            var afterGuids = new HashSet<string>(AssetDatabase.FindAssets("t:FlowLevelAsset"));
+            Assert.IsTrue(beforeGuids.SetEquals(afterGuids), "Generate One must not create any assets");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -111,16 +128,21 @@ namespace FlowPuzzle.Tests.Editor
         public void SaveCurrent_CreatesCompleteAsset()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
-            param.levelIdField.value = 1001; param.widthField.value = 5; param.heightField.value = 5; param.colorCountField.value = 2; param.seedField.value = 42;
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
+            param.levelIdField.value = 1001; param.widthField.value = 5; param.heightField.value = 5;
+            param.colorCountField.value = 2; param.seedField.value = 42;
             param.outputFolderField.value = TestFolder;
+
             CM(w, "OnGenerateOne"); CM(w, "OnSaveCurrent");
+
             var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
             Assert.AreEqual(1, guids.Length);
-            var asset = AssetDatabase.LoadAssetAtPath<FlowPuzzle.Persistence.FlowLevelAsset>(AssetDatabase.GUIDToAssetPath(guids[0]));
+            var path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            var asset = AssetDatabase.LoadAssetAtPath<FlowPuzzle.Persistence.FlowLevelAsset>(path);
             Assert.AreEqual(1001, asset.levelData.levelId);
             Assert.AreEqual(42, asset.generationSeed);
-            Assert.IsTrue(asset.solutionData.paths.Count >= 1, "Asset should have at least 1 solution path");
+            Assert.IsTrue(asset.solutionData.paths.Count >= 1);
+            Assert.IsNotNull(asset.difficultyReport);
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -130,10 +152,12 @@ namespace FlowPuzzle.Tests.Editor
         public void ExportJson_CreatesLevelAndSolutionJson()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
             param.widthField.value = 5; param.heightField.value = 5; param.colorCountField.value = 2; param.seedField.value = 42;
             param.outputFolderField.value = JsonTestDir;
+
             CM(w, "OnGenerateOne"); CM(w, "OnExportJson");
+
             Assert.IsTrue(File.Exists(Path.Combine(JsonTestDir, "level_1.json")));
             Assert.IsTrue(File.Exists(Path.Combine(JsonTestDir, "solution_1.json")));
             Assert.IsFalse(File.ReadAllText(Path.Combine(JsonTestDir, "level_1.json")).Contains("\"paths\""));
@@ -147,40 +171,83 @@ namespace FlowPuzzle.Tests.Editor
         public void ClearPreview_ClearsCurrentResultButPreservesConfig()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
             param.widthField.value = 7; param.heightField.value = 6; param.colorCountField.value = 3; param.seedField.value = 99;
+
             CM(w, "OnGenerateOne"); Assert.IsNotNull(GF(w, "currentLevel"));
             CM(w, "OnClearPreview");
             Assert.IsNull(GF(w, "currentLevel"));
-            Assert.AreEqual(7, param.widthField.value); Assert.AreEqual(99, param.seedField.value);
+            Assert.AreEqual(7, param.widthField.value);
+            Assert.AreEqual(99, param.seedField.value);
             UnityEngine.Object.DestroyImmediate(w);
         }
 
-        // ── Batch ──
+        // ── Batch success ──
 
         [Test]
         public void GenerateBatch_SavesSuccessfulAssets()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
             param.widthField.value = 5; param.heightField.value = 5; param.colorCountField.value = 2; param.seedField.value = 42;
             param.batchCountField.value = 2; param.outputFolderField.value = TestFolder;
+
             CM(w, "OnGenerateBatch");
+
+            var batchPanel = GF<FlowBatchReportPanel>(w, "batchPanel");
+            var items = (IList)batchPanel.listView.itemsSource;
+            Assert.IsNotNull(items, "ListView itemsSource should not be null");
+            Assert.AreEqual(2, items.Count);
+
             var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.IsTrue(guids.Length > 0, $"Expected at least one asset, got {guids.Length}");
+            int saved = 0;
+            for (int i = 0; i < items.Count; i++)
+            {
+                var item = (FlowBatchItemResult)items[i];
+                if (item.success)
+                {
+                    saved++;
+                    var ig = AssetDatabase.FindAssets($"t:FlowLevelAsset Level_{item.levelId}", new[] { TestFolder });
+                    Assert.IsTrue(ig.Length >= 1, $"Asset should exist for successful level {item.levelId}");
+                }
+            }
+            Assert.AreEqual(guids.Length, saved,
+                $"Saved asset count ({guids.Length}) should equal successful items ({saved})");
             UnityEngine.Object.DestroyImmediate(w);
         }
+
+        // ── Batch failure ──
 
         [Test]
         public void GenerateBatch_SaveFailureMarksItemFailedAndContinues()
         {
             var w = CreateWindow();
-            var param = (FlowParameterPanel)GF(w, "paramPanel");
+            var param = GF<FlowParameterPanel>(w, "paramPanel");
             param.widthField.value = 5; param.heightField.value = 5; param.colorCountField.value = 2; param.seedField.value = 42;
             param.batchCountField.value = 2; param.outputFolderField.value = "AssetsOutside";
+
             CM(w, "OnGenerateBatch");
-            var diag = (FlowDiagnosticsPanel)GF(w, "diagnosticsPanel");
-            Assert.IsTrue(diag.helpBox.visible, "Diagnostics should be visible after batch with save failures");
+
+            var batchPanel = GF<FlowBatchReportPanel>(w, "batchPanel");
+            var items = (IList)batchPanel.listView.itemsSource;
+            Assert.IsNotNull(items, "ListView itemsSource should not be null");
+            Assert.AreEqual(2, items.Count, "Should process all 2 items — continuation proof");
+
+            bool anyFailed = false;
+            for (int i = 0; i < items.Count; i++)
+            {
+                var item = (FlowBatchItemResult)items[i];
+                if (!item.success)
+                {
+                    anyFailed = true;
+                    Assert.IsTrue(item.message.Contains("Save failed"),
+                        $"Item {i} failure message should mention save: '{item.message}'");
+                }
+            }
+            Assert.IsTrue(anyFailed, "At least one item should fail due to invalid output folder");
+
+            var diag = GF<FlowDiagnosticsPanel>(w, "diagnosticsPanel");
+            Assert.IsTrue(diag.helpBox.visible, "Diagnostics should be visible");
             Assert.IsTrue(diag.helpBox.text.Contains("save failure") || diag.helpBox.text.Contains("Batch"));
             UnityEngine.Object.DestroyImmediate(w);
         }
