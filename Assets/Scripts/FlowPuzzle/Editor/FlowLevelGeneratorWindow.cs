@@ -140,6 +140,17 @@ namespace FlowPuzzle.Editor
         }
         internal void DoUndo() { if (commandHistory.CanUndo) { commandHistory.Undo(); boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); } }
         internal void DoRedo() { if (commandHistory.CanRedo) { commandHistory.Redo(); boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); } }
+        internal void DoConstraintStroke(IReadOnlyList<FlowPos> cells)
+        {
+            if (currentDraft == null || cells == null || cells.Count == 0) return;
+            int cid = (int)draftPanel.selectedColorField.value;
+            var tool = (FlowDraftEditTool)draftPanel.toolField.value;
+            bool isErase = tool == FlowDraftEditTool.EraseConstraint;
+            if (tool != FlowDraftEditTool.DrawConstraint && tool != FlowDraftEditTool.EraseConstraint) return;
+            var cmd = new DrawConstraintStrokeCommand(currentDraft, cid, cells.ToList(), isErase);
+            if (commandHistory.Execute(cmd)) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); diagnosticsPanel.Clear(); }
+            else diagnosticsPanel.ShowError(isErase ? "Erase constraint failed." : "Draw constraint failed.");
+        }
 
         private void WireDraftPanel()
         {
@@ -150,24 +161,7 @@ namespace FlowPuzzle.Editor
             draftPanel.undoBtn.clicked += DoUndo;
             draftPanel.redoBtn.clicked += DoRedo;
             boardView.CellSelected += DoEndpointEdit;
-            boardView.CellStrokeCompleted += (cells) =>
-            {
-                if (currentDraft == null || cells == null || cells.Count == 0) return;
-                int cid = (int)draftPanel.selectedColorField.value;
-                var tool = (FlowDraftEditTool)draftPanel.toolField.value;
-                if (tool == FlowDraftEditTool.DrawConstraint)
-                {
-                    var cmd = new DrawConstraintStrokeCommand(currentDraft, cid, cells.ToList(), false);
-                    if (commandHistory.Execute(cmd)) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); diagnosticsPanel.Clear(); }
-                    else diagnosticsPanel.ShowError("Draw constraint failed.");
-                }
-                else if (tool == FlowDraftEditTool.EraseConstraint)
-                {
-                    var cmd = new DrawConstraintStrokeCommand(currentDraft, cid, cells.ToList(), true);
-                    if (commandHistory.Execute(cmd)) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); diagnosticsPanel.Clear(); }
-                    else diagnosticsPanel.ShowError("Erase constraint failed.");
-                }
-            };
+            boardView.CellStrokeCompleted += DoConstraintStroke;
             draftPanel.saveBtn.clicked += DoSaveDraft;
             draftPanel.saveAsBtn.clicked += DoSaveDraftAs;
         }
