@@ -82,7 +82,9 @@ namespace FlowPuzzle.Tests.Editor
             var d = MakeDraft(2);
             d.colorCount = 2;
             var r = d.RemoveColor(0);
-            Assert.IsTrue(r.success); Assert.AreEqual(1, d.pairs.Count); Assert.AreEqual(1, d.pairs[0].colorId);
+            Assert.IsTrue(r.success); Assert.AreEqual(1, d.pairs.Count);
+            // IDs compact: old color 1 moves to 0
+            Assert.AreEqual(0, d.pairs[0].colorId, "Higher IDs must compact after removal");
         }
 
         // ── Resize ──

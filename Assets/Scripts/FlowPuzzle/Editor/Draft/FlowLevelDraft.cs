@@ -26,180 +26,257 @@ namespace FlowPuzzle.Editor.Draft
             get
             {
                 for (int i = 0; i < colorCount; i++)
-                {
-                    var pair = pairs.FirstOrDefault(p => p.colorId == i);
-                    if (pair == null || pair.endpointA == null || pair.endpointB == null)
+                    if (pairs.FirstOrDefault(p => p.colorId == i)?.endpointA == null
+                        || pairs.FirstOrDefault(p => p.colorId == i)?.endpointB == null)
                         return false;
-                }
                 return true;
             }
         }
 
         public FlowLevelDraft Clone()
         {
-            var c = new FlowLevelDraft
-            {
-                levelId = levelId, width = width, height = height,
-                colorCount = colorCount, seed = seed,
-                isSolutionDirty = isSolutionDirty, isValidated = isValidated
-            };
+            var c = new FlowLevelDraft { levelId = levelId, width = width, height = height,
+                colorCount = colorCount, seed = seed, isSolutionDirty = isSolutionDirty, isValidated = isValidated };
             foreach (var p in pairs) c.pairs.Add(p.Clone());
             foreach (var fc in fixedConstraints) c.fixedConstraints.Add(fc.Clone());
-            if (currentSolution != null) c.currentSolution = DeepCopySolution(currentSolution);
-            if (currentDifficulty != null) c.currentDifficulty = DeepCopyDifficulty(currentDifficulty);
+            c.currentSolution = currentSolution != null ? DeepCopySolution(currentSolution) : null;
+            c.currentDifficulty = currentDifficulty != null ? DeepCopyDifficulty(currentDifficulty) : null;
             return c;
         }
 
-        public void RestoreFrom(FlowLevelDraft snapshot)
+        public void RestoreFrom(FlowLevelDraft s)
         {
-            levelId = snapshot.levelId; width = snapshot.width; height = snapshot.height;
-            colorCount = snapshot.colorCount; seed = snapshot.seed;
-            isSolutionDirty = snapshot.isSolutionDirty; isValidated = snapshot.isValidated;
-            pairs.Clear(); foreach (var p in snapshot.pairs) pairs.Add(p.Clone());
-            fixedConstraints.Clear(); foreach (var fc in snapshot.fixedConstraints) fixedConstraints.Add(fc.Clone());
-            currentSolution = snapshot.currentSolution != null ? DeepCopySolution(snapshot.currentSolution) : null;
-            currentDifficulty = snapshot.currentDifficulty != null ? DeepCopyDifficulty(snapshot.currentDifficulty) : null;
+            levelId = s.levelId; width = s.width; height = s.height;
+            colorCount = s.colorCount; seed = s.seed;
+            isSolutionDirty = s.isSolutionDirty; isValidated = s.isValidated;
+            pairs.Clear(); foreach (var p in s.pairs) pairs.Add(p.Clone());
+            fixedConstraints.Clear(); foreach (var fc in s.fixedConstraints) fixedConstraints.Add(fc.Clone());
+            currentSolution = s.currentSolution != null ? DeepCopySolution(s.currentSolution) : null;
+            currentDifficulty = s.currentDifficulty != null ? DeepCopyDifficulty(s.currentDifficulty) : null;
         }
 
         // ── atomic mutation API ──
 
         public FlowDraftMutationResult AddColor()
         {
-            var snapshot = Clone();
-            var newId = LowestUnusedColorId();
-            // Must keep colorCount updated
+            var snap = Clone();
             try
             {
+                var newId = LowestUnusedColorId();
                 pairs.Add(new FlowDraftPairData { colorId = newId });
                 colorCount = Math.Max(colorCount, newId + 1);
-                MarkDirty();
-                return FlowDraftMutationResult.Ok();
+                MarkDirty(); return FlowDraftMutationResult.Ok();
             }
-            catch { RestoreFrom(snapshot); throw; }
+            catch { RestoreFrom(snap); throw; }
         }
 
         public FlowDraftMutationResult RemoveColor(int colorId)
         {
-            var snapshot = Clone();
+            var pair = pairs.FirstOrDefault(p => p.colorId == colorId);
+            if (pair == null) return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
+            var snap = Clone();
             try
             {
-                var pair = pairs.FirstOrDefault(p => p.colorId == colorId);
-                if (pair == null) return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
                 pairs.Remove(pair);
                 fixedConstraints.RemoveAll(c => c.colorId == colorId);
-                // Recompute colorCount: max ID + 1, or 0 if empty
+                // Compact higher IDs
+                for (int i = 0; i < pairs.Count; i++)
+                    if (pairs[i].colorId > colorId) pairs[i].colorId--;
+                for (int i = 0; i < fixedConstraints.Count; i++)
+                    if (fixedConstraints[i].colorId > colorId) fixedConstraints[i].colorId--;
                 colorCount = pairs.Count == 0 ? 0 : pairs.Max(p => p.colorId) + 1;
-                MarkDirty();
-                return FlowDraftMutationResult.Ok();
+                MarkDirty(); return FlowDraftMutationResult.Ok();
             }
-            catch { RestoreFrom(snapshot); throw; }
+            catch { RestoreFrom(snap); throw; }
         }
 
-        public FlowDraftMutationResult PlaceEndpoint(int colorId, bool isEndpointA, FlowPos position)
+        public FlowDraftMutationResult PlaceEndpoint(int colorId, bool isA, FlowPos pos)
         {
-            if (!IsInside(position)) return FlowDraftMutationResult.Fail("OutOfBounds", "Position outside board.");
-            var snapshot = Clone();
+            if (!IsInside(pos))
+                return FlowDraftMutationResult.Fail("OutOfBounds", "Position outside board.");
+            var pair = EnsurePair(colorId);
+            if (pair == null)
+                return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
+            var snap = Clone();
             try
             {
-                var pair = EnsurePair(colorId);
-                // Check overlap with another endpoint
+                // Cross-color overlap
                 foreach (var p in pairs)
                 {
                     if (p.colorId == colorId) continue;
-                    if ((p.endpointA.HasValue && p.endpointA.Value.Equals(position)) ||
-                        (p.endpointB.HasValue && p.endpointB.Value.Equals(position)))
-                        return FlowDraftMutationResult.Fail("EndpointOverlap", "Position already occupied by another endpoint.");
+                    if ((p.endpointA.HasValue && p.endpointA.Value.Equals(pos))
+                        || (p.endpointB.HasValue && p.endpointB.Value.Equals(pos)))
+                        return FlowDraftMutationResult.Fail("EndpointOverlap", "Position occupied by another color.");
                 }
-                if (isEndpointA) pair.endpointA = position; else pair.endpointB = position;
-                MarkDirty();
-                return FlowDraftMutationResult.Ok();
+                // Same-color A/B overlap
+                var other = isA ? pair.endpointB : pair.endpointA;
+                if (other.HasValue && other.Value.Equals(pos))
+                    return FlowDraftMutationResult.Fail("EndpointOverlap", "Endpoints of same color must not overlap.");
+                var old = isA ? pair.endpointA : pair.endpointB;
+                if (isA) pair.endpointA = pos; else pair.endpointB = pos;
+                MarkDirty(); return FlowDraftMutationResult.Ok();
             }
-            catch { RestoreFrom(snapshot); return FlowDraftMutationResult.Fail("UnexpectedError", "Placement failed."); }
+            catch { RestoreFrom(snap); return FlowDraftMutationResult.Fail("Error", "Placement failed."); }
         }
 
-        public FlowDraftMutationResult MoveEndpoint(int colorId, bool isEndpointA, FlowPos position)
-            => PlaceEndpoint(colorId, isEndpointA, position);
+        public FlowDraftMutationResult MoveEndpoint(int colorId, bool isA, FlowPos pos)
+            => PlaceEndpoint(colorId, isA, pos);
 
-        public FlowDraftMutationResult RemoveEndpoint(int colorId, bool isEndpointA)
+        public FlowDraftMutationResult RemoveEndpoint(int colorId, bool isA)
         {
             var pair = pairs.FirstOrDefault(p => p.colorId == colorId);
             if (pair == null) return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
-            var snapshot = Clone();
+            var snap = Clone();
             try
             {
-                if (isEndpointA) pair.endpointA = null; else pair.endpointB = null;
-                MarkDirty();
-                return FlowDraftMutationResult.Ok();
+                if (isA) pair.endpointA = null; else pair.endpointB = null;
+                MarkDirty(); return FlowDraftMutationResult.Ok();
             }
-            catch { RestoreFrom(snapshot); return FlowDraftMutationResult.Fail("UnexpectedError", "Removal failed."); }
+            catch { RestoreFrom(snap); return FlowDraftMutationResult.Fail("Error", "Removal failed."); }
         }
 
-        public FlowDraftMutationResult Resize(int newWidth, int newHeight)
+        public FlowDraftMutationResult Resize(int newW, int newH)
         {
-            if (newWidth <= 0 || newHeight <= 0)
+            if (newW <= 0 || newH <= 0)
                 return FlowDraftMutationResult.Fail("InvalidDimensions", "New dimensions must be positive.");
-            var snapshot = Clone();
+            var snap = Clone();
             try
             {
-                width = newWidth; height = newHeight;
-                // Remove out-of-bounds endpoints
+                width = newW; height = newH;
                 foreach (var p in pairs)
                 {
                     if (p.endpointA.HasValue && !IsInside(p.endpointA.Value)) p.endpointA = null;
                     if (p.endpointB.HasValue && !IsInside(p.endpointB.Value)) p.endpointB = null;
                 }
-                // Clear constraints with out-of-bounds cells
                 for (int i = fixedConstraints.Count - 1; i >= 0; i--)
-                {
-                    var fc = fixedConstraints[i];
-                    if (fc.cells == null || fc.cells.Any(cell => !IsInside(cell)))
+                    if (fixedConstraints[i].cells == null || fixedConstraints[i].cells.Any(c => !IsInside(c)))
                         fixedConstraints.RemoveAt(i);
-                }
-                MarkDirty();
-                return FlowDraftMutationResult.Ok();
+                MarkDirty(); return FlowDraftMutationResult.Ok();
             }
-            catch { RestoreFrom(snapshot); return FlowDraftMutationResult.Fail("UnexpectedError", "Resize failed."); }
+            catch { RestoreFrom(snap); return FlowDraftMutationResult.Fail("Error", "Resize failed."); }
+        }
+
+        // ── constraint validation ──
+
+        public FlowDraftMutationResult ValidateConstraint(int colorId, List<FlowPos> cells)
+        {
+            if (cells == null || cells.Count < 2)
+                return FlowDraftMutationResult.Fail("InvalidConstraint", "Constraint needs at least 2 cells.");
+            var pair = pairs.FirstOrDefault(p => p.colorId == colorId);
+            if (pair == null) return FlowDraftMutationResult.Fail("ColorNotFound", $"Color {colorId} not found.");
+
+            // Must start at own endpoint
+            var first = cells[0];
+            if (!(pair.endpointA.HasValue && pair.endpointA.Value.Equals(first))
+                && !(pair.endpointB.HasValue && pair.endpointB.Value.Equals(first)))
+                return FlowDraftMutationResult.Fail("ConstraintNotAnchored", "Must start at its own endpoint.");
+
+            // Must not reach the second endpoint
+            var other = pair.endpointA.HasValue && pair.endpointA.Value.Equals(first)
+                ? pair.endpointB : pair.endpointA;
+            var last = cells.Last();
+            if (other.HasValue && other.Value.Equals(last))
+                return FlowDraftMutationResult.Fail("CompleteEndpointToEndpoint", "Constraint may not reach second endpoint.");
+
+            var seen = new HashSet<FlowPos>();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                var c = cells[i];
+                if (!IsInside(c))
+                    return FlowDraftMutationResult.Fail("CellOutOfBounds", $"Cell {c.x},{c.y} out of bounds.");
+                if (!seen.Add(c))
+                    return FlowDraftMutationResult.Fail("DuplicateCell", "Constraint has duplicate cell.");
+                if (i > 0 && !FlowPathUtility.AreAdjacent(cells[i - 1], c))
+                    return FlowDraftMutationResult.Fail("InvalidAdjacency", "Cells must be orthogonally adjacent.");
+
+                // May not traverse foreign endpoint
+                foreach (var p in pairs)
+                {
+                    if (p.colorId == colorId) continue;
+                    if ((p.endpointA.HasValue && p.endpointA.Value.Equals(c))
+                        || (p.endpointB.HasValue && p.endpointB.Value.Equals(c)))
+                        return FlowDraftMutationResult.Fail("ForeignEndpointTraversal",
+                            $"Cell crosses foreign endpoint of color {p.colorId}.");
+                }
+                // May not cross other constraints (except own)
+                foreach (var fc in fixedConstraints)
+                {
+                    if (fc.colorId == colorId || fc.cells == null) continue;
+                    if (fc.cells.Any(x => x.Equals(c)))
+                        return FlowDraftMutationResult.Fail("ConstraintOverlap",
+                            $"Overlaps constraint of color {fc.colorId}.");
+                }
+            }
+            return FlowDraftMutationResult.Ok();
+        }
+
+        public FlowDraftMutationResult ApplyConstraint(int colorId, List<FlowPos> cells)
+        {
+            var valid = ValidateConstraint(colorId, cells);
+            if (!valid.success) return valid;
+            var snap = Clone();
+            try
+            {
+                fixedConstraints.RemoveAll(c => c.colorId == colorId);
+                if (cells != null && cells.Count > 0)
+                    fixedConstraints.Add(new FlowDraftConstraintData
+                    { colorId = colorId, cells = new List<FlowPos>(cells) });
+                MarkDirty(); return FlowDraftMutationResult.Ok();
+            }
+            catch { RestoreFrom(snap); return FlowDraftMutationResult.Fail("Error", "Apply failed."); }
+        }
+
+        public FlowDraftMutationResult EraseConstraint(int colorId, int fromIndex)
+        {
+            var fc = fixedConstraints.FirstOrDefault(c => c.colorId == colorId);
+            if (fc == null || fc.cells == null)
+                return FlowDraftMutationResult.Fail("NoConstraint", $"No constraint for color {colorId}.");
+            if (fromIndex < 0 || fromIndex >= fc.cells.Count)
+                return FlowDraftMutationResult.Fail("InvalidIndex", "Index out of range.");
+            var snap = Clone();
+            try
+            {
+                if (fromIndex == 0) { fixedConstraints.Remove(fc); }
+                else
+                {
+                    fc.cells = fc.cells.Take(fromIndex).ToList();
+                }
+                MarkDirty(); return FlowDraftMutationResult.Ok();
+            }
+            catch { RestoreFrom(snap); return FlowDraftMutationResult.Fail("Error", "Erase failed."); }
         }
 
         // ── helpers ──
 
-        public int LowestUnusedColorId()
-        {
-            var used = new HashSet<int>(pairs.Select(p => p.colorId));
-            for (int i = 0; ; i++) if (!used.Contains(i)) return i;
-        }
-
+        public int LowestUnusedColorId() { var u = new HashSet<int>(pairs.Select(p => p.colorId)); int i = 0; while (u.Contains(i)) i++; return i; }
         public FlowDraftPairData GetPair(int colorId) => pairs.FirstOrDefault(p => p.colorId == colorId);
-
-        public FlowDraftConstraintData GetConstraint(int colorId)
-            => fixedConstraints.FirstOrDefault(c => c.colorId == colorId);
-
+        public FlowDraftConstraintData GetConstraint(int colorId) => fixedConstraints.FirstOrDefault(c => c.colorId == colorId);
         public void MarkDirty() { isSolutionDirty = true; isValidated = false; }
-
         private bool IsInside(FlowPos pos) => pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
 
         private FlowDraftPairData EnsurePair(int colorId)
         {
             var p = GetPair(colorId);
-            if (p == null) { p = new FlowDraftPairData { colorId = colorId }; pairs.Add(p); return p; }
+            if (p == null) { p = new FlowDraftPairData { colorId = colorId }; pairs.Add(p); }
             return p;
         }
 
         private static FlowSolutionData DeepCopySolution(FlowSolutionData src)
         {
+            if (src == null) return null;
             var c = new FlowSolutionData { levelId = src.levelId };
-            if (src.paths == null) return c;
-            foreach (var p in src.paths)
-            {
-                var cc = new List<FlowPos>(p.cells.Count);
-                foreach (var cell in p.cells) cc.Add(new FlowPos(cell.x, cell.y));
-                c.paths.Add(new FlowPathData { colorId = p.colorId, cells = cc });
-            }
+            if (src.paths != null) foreach (var p in src.paths)
+                {
+                    var cc = new List<FlowPos>(p.cells.Count);
+                    foreach (var cell in p.cells) cc.Add(new FlowPos(cell.x, cell.y));
+                    c.paths.Add(new FlowPathData { colorId = p.colorId, cells = cc });
+                }
             return c;
         }
 
         private static FlowDifficultyReport DeepCopyDifficulty(FlowDifficultyReport src)
         {
+            if (src == null) return null;
             return new FlowDifficultyReport
             {
                 difficulty = src.difficulty, totalScore = src.totalScore,
