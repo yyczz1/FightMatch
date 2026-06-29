@@ -46,6 +46,9 @@ namespace FlowPuzzle.Editor.UI
         }
         public void ClearData() { levelData = null; solutionData = null; constraintData = null; MarkDirtyRepaint(); }
 
+        internal Rect debugContentRect = Rect.zero;
+        private Rect ContentRect => debugContentRect != Rect.zero ? debugContentRect : contentRect;
+
         // ── Pointer handler that dispatch delegates to shared logic ──
 
         private void OnPointerDown(PointerDownEvent evt) => DoPointerDown(evt.localPosition, evt.pointerId);
@@ -58,16 +61,15 @@ namespace FlowPuzzle.Editor.UI
         internal void DoPointerDown(Vector2 pos, int pointerId)
         {
             if (levelData == null) return;
-            var br = FlowBoardViewGeometry.CalculateBoardRect(contentRect, levelData.width, levelData.height, 4f);
+            var br = FlowBoardViewGeometry.CalculateBoardRect(ContentRect, levelData.width, levelData.height, 4f);
             if (!FlowBoardViewGeometry.TryGetCell(br, levelData.width, levelData.height, pos, out var cell)) return;
             isStrokeActive = true; strokeCells.Clear(); strokeCells.Add(cell); lastStrokeCell = cell;
-            this.CapturePointer(pointerId);
         }
 
         internal void DoPointerMove(Vector2 pos)
         {
             if (levelData == null) return;
-            var br = FlowBoardViewGeometry.CalculateBoardRect(contentRect, levelData.width, levelData.height, 4f);
+            var br = FlowBoardViewGeometry.CalculateBoardRect(ContentRect, levelData.width, levelData.height, 4f);
             if (!FlowBoardViewGeometry.TryGetCell(br, levelData.width, levelData.height, pos, out var cell)) return;
             CellHovered?.Invoke(cell);
             if (!isStrokeActive) return;
@@ -81,11 +83,11 @@ namespace FlowPuzzle.Editor.UI
             // Check if pointer up is on a new valid cell
             if (levelData != null)
             {
-                var br = FlowBoardViewGeometry.CalculateBoardRect(contentRect, levelData.width, levelData.height, 4f);
+                var br = FlowBoardViewGeometry.CalculateBoardRect(ContentRect, levelData.width, levelData.height, 4f);
                 if (FlowBoardViewGeometry.TryGetCell(br, levelData.width, levelData.height, pos, out var cell) && (!lastStrokeCell.HasValue || !lastStrokeCell.Value.Equals(cell)))
                     strokeCells.Add(cell);
             }
-            isStrokeActive = false; this.ReleasePointer(pointerId);
+            isStrokeActive = false;
             if (strokeCells.Count == 1) CellSelected?.Invoke(strokeCells[0]);
             else if (strokeCells.Count > 1) CellStrokeCompleted?.Invoke(strokeCells.AsReadOnly());
             strokeCells.Clear(); lastStrokeCell = null;

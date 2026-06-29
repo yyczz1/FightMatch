@@ -489,31 +489,45 @@ namespace FlowPuzzle.Tests.Editor
 
         [Test] public void CreateGUITwice_BoardStrokeCallbackExecutesOnce()
         {
-            InitB();
             var w = MakeWindow();
             typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
             typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
             var d = MakeCompleteDraft();
             curDraftF.SetValue(w, d); DP(w).toolField.value = FlowDraftEditTool.DrawConstraint; DP(w).selectedColorField.value = 0;
-            constraintStrokeM!.Invoke(w, new object[] { new List<FlowPos> { new(0, 0), new(1, 0) } });
-            Assert.AreEqual(1, CD(w).fixedConstraints.Count); Assert.IsTrue(CH(w).CanUndo);
+            // Drive BoardView stroke through actual pointer path (not DoConstraintStroke)
+            var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
+            bv.GetType().GetField("debugContentRect", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.SetValue(bv, new UnityEngine.Rect(0,0,200,200));
+            var DPm = bv.GetType().GetMethod("DoPointerDown", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var DMm = bv.GetType().GetMethod("DoPointerMove", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var DUm = bv.GetType().GetMethod("DoPointerUp", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            DPm!.Invoke(bv, new object[] { new UnityEngine.Vector2(23, 177), 1 });
+            DMm!.Invoke(bv, new object[] { new UnityEngine.Vector2(62, 177) });
+            DUm!.Invoke(bv, new object[] { new UnityEngine.Vector2(62, 177), 1 });
+            Assert.AreEqual(1, CD(w).fixedConstraints.Count, "Stroke via CellStrokeCompleted must create constraint");
+            Assert.IsTrue(CH(w).CanUndo);
             typeof(FlowLevelGeneratorWindow).GetMethod("DoUndo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
             Assert.AreEqual(0, CD(w).fixedConstraints.Count, "Undo clears constraint");
-            Assert.IsFalse(CH(w).CanUndo, "Exactly 1 undo entry — no duplicate callbacks");
+            Assert.IsFalse(CH(w).CanUndo, "Exactly 1 undo entry — no duplicate callbacks after repeated CreateGUI");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
         [Test] public void EndpointTools_StillUseSingleCellSelectionNotStroke()
         {
-            var w = MakeWindow(); var d = MakeCompleteDraft(2); // 2 colors
+            var w = MakeWindow(); var d = MakeCompleteDraft(2);
             curDraftF.SetValue(w, d); DP(w).toolField.value = FlowDraftEditTool.PlaceEndpoint; DP(w).selectedColorField.value = 1; DP(w).endpointToggle.value = true;
-            // Place endpoint for color 1 via DoEndpointEdit (the real handler behind CellSelected)
-            typeof(FlowLevelGeneratorWindow).GetMethod("DoEndpointEdit", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, new object[] { new FlowPos(0, 1) });
-            Assert.IsNotNull(CD(w).pairs[1].endpointA, "Endpoint for color 1 was placed");
+            // Drive one-cell click through actual BoardView pointer path → CellSelected fires
+            var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
+            bv.GetType().GetField("debugContentRect", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.SetValue(bv, new UnityEngine.Rect(0,0,200,200));
+            var DPm = bv.GetType().GetMethod("DoPointerDown", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var DUm = bv.GetType().GetMethod("DoPointerUp", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            DPm!.Invoke(bv, new object[] { new UnityEngine.Vector2(23, 100), 1 }); // cell (0,1)
+            DUm!.Invoke(bv, new object[] { new UnityEngine.Vector2(23, 100), 1 });
+            Assert.IsNotNull(CD(w).pairs[1].endpointA, "Endpoint for color 1 placed via CellSelected");
             Assert.IsTrue(CH(w).CanUndo, "Endpoint placement creates undo entry");
-            // Multi-stroke should NOT create constraint when endpoint tool selected
-            constraintStrokeM = typeof(FlowLevelGeneratorWindow).GetMethod("DoConstraintStroke", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-            constraintStrokeM!.Invoke(w, new object[] { new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) } });
+            // Multi-stroke must NOT create constraint when endpoint tool selected
+            DPm.Invoke(bv, new object[] { new UnityEngine.Vector2(23, 177), 1 });
+            bv.GetType().GetMethod("DoPointerMove", BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public)!.Invoke(bv, new object[] { new UnityEngine.Vector2(62, 177) });
+            DUm.Invoke(bv, new object[] { new UnityEngine.Vector2(62, 177), 1 });
             Assert.AreEqual(0, CD(w).fixedConstraints.Count, "Stroke while PlaceEndpoint tool active must not create constraint");
             UnityEngine.Object.DestroyImmediate(w);
         }
