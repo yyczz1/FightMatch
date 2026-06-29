@@ -135,28 +135,52 @@ namespace FlowPuzzle.Tests.Editor
         [Test] public void StrokeUndo_RestoresCompletePreCommandState()
         {
             var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
-            d.currentSolution = new FlowSolutionData { levelId = 99 };
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            d.coverage = 0.5f; d.currentSolution = new FlowSolutionData { levelId = 99 };
+            d.currentDifficulty = new FlowDifficultyReport { totalScore = 75f, difficulty = FlowDifficultyTier.Normal };
             d.isSolutionDirty = false; d.isValidated = true;
             var cmd = new DrawConstraintStrokeCommand(d, 0,
                 new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) }, false);
             Assert.IsTrue(cmd.Execute());
-            Assert.IsTrue(d.isSolutionDirty);
             Assert.IsTrue(cmd.Undo());
-            Assert.AreEqual(0, d.fixedConstraints.Count, "Constraint cleared after Undo");
-            Assert.AreEqual(99, d.currentSolution.levelId, "Solution restored");
+            Assert.AreEqual(0, d.fixedConstraints.Count);
+            Assert.AreEqual(0.5f, d.coverage);
+            Assert.IsFalse(d.isSolutionDirty); Assert.IsTrue(d.isValidated);
+            Assert.AreEqual(99, d.currentSolution.levelId);
+            Assert.AreEqual(75f, d.currentDifficulty.totalScore, 0.01f);
+            Assert.AreEqual(FlowDifficultyTier.Normal, d.currentDifficulty.difficulty);
+            Assert.AreEqual(4, d.pairs[0].endpointB.Value.x, "endpointB restored");
         }
 
-        [Test] public void StrokeRedo_RestoresCompletePostCommandState()
+        [Test] public void StrokeRedo_UsesStoredAfterSnapshot()
         {
             var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
             d.currentSolution = new FlowSolutionData { levelId = 99 };
             var cmd = new DrawConstraintStrokeCommand(d, 0,
                 new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) }, false);
-            Assert.IsTrue(cmd.Execute());
-            Assert.IsTrue(cmd.Undo());
-            Assert.IsTrue(cmd.Execute()); // Redo via re-Execute
+            var history = new FlowEditorCommandHistory();
+            Assert.IsTrue(history.Execute(cmd));
+            Assert.IsTrue(history.Undo());
+            Assert.AreEqual(0, d.fixedConstraints.Count);
+            // Mutate draft — Redo must restore stored snapshot, not recalculate
+            d.PlaceEndpoint(0, false, new FlowPos(4, 4));
+            d.currentSolution = new FlowSolutionData { levelId = 123 };
+            Assert.IsTrue(history.Redo());
             Assert.AreEqual(1, d.fixedConstraints.Count);
             Assert.AreEqual(3, d.fixedConstraints[0].cells.Count);
+            Assert.AreEqual(99, d.currentSolution.levelId, "Must restore original solution, not current 123");
+            Assert.IsNull(d.pairs[0].endpointB, "Must restore pre-stroke endpoint state");
+        }
+
+        [Test] public void EraseStroke_UsesEarliestTouchedChainCell()
+        {
+            var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0), new(4, 0) });
+            // Touch cells in reverse order — should trim from earliest index (2)
+            var cmd = new DrawConstraintStrokeCommand(d, 0,
+                new List<FlowPos> { new(3, 0), new(2, 0), new(1, 0) }, true);
+            Assert.IsTrue(cmd.Execute());
+            Assert.AreEqual(0, d.fixedConstraints.Count, "Earliest touched index (1) leaves only anchor → cleared");
         }
     }
 }

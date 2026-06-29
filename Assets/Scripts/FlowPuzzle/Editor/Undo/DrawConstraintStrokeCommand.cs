@@ -14,6 +14,7 @@ namespace FlowPuzzle.Editor.Commands
         private readonly bool isErase;
         private FlowLevelDraft beforeSnapshot;
         private FlowLevelDraft afterSnapshot;
+        private bool executed;
 
         public string DisplayName => isErase ? $"Erase Constraint {colorId}" : $"Draw Constraint {colorId}";
 
@@ -26,15 +27,28 @@ namespace FlowPuzzle.Editor.Commands
 
         public bool Execute()
         {
+            // Redo: restore stored after-snapshot directly, don't recalculate
+            if (executed && afterSnapshot != null)
+            {
+                draft.RestoreFrom(afterSnapshot);
+                return true;
+            }
+
             beforeSnapshot = draft.Clone();
             bool ok;
             if (isErase)
             {
                 var fc = draft.fixedConstraints.FirstOrDefault(c => c.colorId == colorId);
                 if (fc?.cells == null || strokeCells.Count == 0) return false;
-                int idx = fc.cells.FindIndex(cell => cell.Equals(strokeCells[0]));
-                if (idx < 0) return false;
-                ok = draft.EraseConstraint(colorId, idx).success;
+                // Find earliest chain index among all touched cells
+                int minIdx = int.MaxValue;
+                foreach (var cell in strokeCells)
+                {
+                    int idx = fc.cells.FindIndex(c => c.Equals(cell));
+                    if (idx >= 0 && idx < minIdx) minIdx = idx;
+                }
+                if (minIdx == int.MaxValue) return false;
+                ok = draft.EraseConstraint(colorId, minIdx).success;
             }
             else
             {
@@ -42,6 +56,7 @@ namespace FlowPuzzle.Editor.Commands
             }
             if (!ok) { draft.RestoreFrom(beforeSnapshot); return false; }
             afterSnapshot = draft.Clone();
+            executed = true;
             return true;
         }
 

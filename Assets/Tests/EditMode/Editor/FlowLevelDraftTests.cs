@@ -210,17 +210,27 @@ namespace FlowPuzzle.Tests.Editor
             ld.pairs.Add(new FlowPairData { colorId = 0, endpointA = new(0, 0), endpointB = new(3, 0) });
             var sd = new FlowSolutionData { levelId = 1 };
             sd.paths.Add(new FlowPathData { colorId = 0, cells = new System.Collections.Generic.List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0) } });
-            var level = new FlowGeneratedLevel { levelData = ld, solutionData = sd, usedSeed = 42, coverageRatio = 0.33f, difficultyReport = new FlowDifficultyReport { totalScore = 1f } };
+            var report = new FlowDifficultyReport { totalScore = 50f, difficulty = FlowDifficultyTier.Easy, totalTurnCount = 0 };
+            var level = new FlowGeneratedLevel { levelData = ld, solutionData = sd, usedSeed = 42, coverageRatio = 0.33f, difficultyReport = report };
             var draft = FlowDraftMapper.FromGeneratedLevel(level);
+            Assert.AreEqual(0.33f, draft.coverage, 0.001f); Assert.AreEqual(42, draft.seed);
+            Assert.AreEqual(1, draft.pairs.Count);
             var result = FlowDraftMapper.ToGeneratedLevel(draft);
-            Assert.AreEqual(42, result.usedSeed);
-            Assert.AreEqual(0.33f, result.coverageRatio, 0.001f);
-            Assert.AreEqual(1, result.levelData.pairs.Count);
-            // Mutation isolation
+            Assert.AreEqual(42, result.usedSeed); Assert.AreEqual(0.33f, result.coverageRatio, 0.001f);
+            Assert.AreEqual(1, result.levelData.pairs.Count); Assert.AreEqual(1, result.solutionData.paths.Count);
+            Assert.AreEqual(4, result.solutionData.paths[0].cells.Count);
+            Assert.AreEqual(0, result.solutionData.paths[0].cells[0].x);
+            Assert.AreEqual(3, result.solutionData.paths[0].cells[3].x);
+            Assert.AreEqual(FlowDifficultyTier.Easy, result.difficultyReport.difficulty);
+            Assert.AreEqual(50f, result.difficultyReport.totalScore, 0.01f);
+            Assert.AreEqual(0, result.difficultyReport.totalTurnCount);
+            // Mutation isolation both ways
             result.solutionData.levelId = 999;
-            Assert.AreEqual(1, draft.currentSolution.levelId, "Draft must not be mutated");
-            draft.pairs[0].endpointA = new FlowPos(9, 9);
-            Assert.AreEqual(0, result.levelData.pairs[0].endpointA.x, "Result must not be mutated");
+            Assert.AreEqual(1, draft.currentSolution.levelId, "Draft must not be mutated by result change");
+            result.levelData.pairs[0].endpointA = new FlowPos(9, 9);
+            Assert.AreEqual(0, draft.pairs[0].endpointA.Value.x, "Draft pairs must not be mutated");
+            draft.pairs[0].endpointA = new FlowPos(8, 8);
+            Assert.AreEqual(9, result.levelData.pairs[0].endpointA.x, "Draft mutation must not affect result");
         }
     }
 }
