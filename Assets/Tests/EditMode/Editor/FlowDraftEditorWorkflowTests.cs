@@ -549,7 +549,13 @@ namespace FlowPuzzle.Tests.Editor
             Assert.AreEqual(4001, cd2.levelId); Assert.AreEqual(42, cd2.seed);
             Assert.AreEqual(1, cd2.colorCount); Assert.AreEqual(1, cd2.pairs.Count);
             Assert.AreEqual(0, cd2.pairs[0].colorId);
-            Assert.AreEqual(0, cd2.pairs[0].colorId);
+            Assert.IsTrue(cd2.pairs[0].endpointA.HasValue); Assert.AreEqual(0, cd2.pairs[0].endpointA.Value.x); Assert.AreEqual(0, cd2.pairs[0].endpointA.Value.y);
+            Assert.IsTrue(cd2.pairs[0].endpointB.HasValue); Assert.AreEqual(3, cd2.pairs[0].endpointB.Value.x); Assert.AreEqual(0, cd2.pairs[0].endpointB.Value.y);
+            Assert.AreEqual(1, cd2.fixedConstraints.Count); Assert.AreEqual(0, cd2.fixedConstraints[0].colorId);
+            Assert.IsNotNull(cd2.fixedConstraints[0].cells); Assert.AreEqual(3, cd2.fixedConstraints[0].cells.Count);
+            Assert.AreEqual(new FlowPos(0,0), cd2.fixedConstraints[0].cells[0]);
+            Assert.AreEqual(new FlowPos(1,0), cd2.fixedConstraints[0].cells[1]);
+            Assert.AreEqual(new FlowPos(2,0), cd2.fixedConstraints[0].cells[2]);
             Assert.AreEqual(FlowDraftEditTool.DrawConstraint, DP(w).toolField.value);
             Assert.AreEqual(0, DP(w).selectedColorField.value); Assert.IsFalse(DP(w).endpointToggle.value);
             Assert.AreEqual("TestSave", DP(w).saveAsNameField.value);
@@ -557,10 +563,7 @@ namespace FlowPuzzle.Tests.Editor
             Assert.IsFalse(DP(w).undoBtn.enabledSelf); Assert.IsFalse(DP(w).redoBtn.enabledSelf);
             var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
             var gk = typeof(FlowBoardView).GetMethod("GetDebugCellVisualKind", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-            // Constraint enum = 2; if JSON preserves fixedConstraints, cell (1,0) should be Constraint.
-            // If round-trip strips constraint data, fallback: the solution path at (1,0) shows as Solution(1).
-            var kind = (int)gk!.Invoke(bv, new object[] { new FlowPos(1,0) });
-            Assert.AreEqual(2, kind, "Constraint cell (1,0) must be Constraint(2) after restore");
+            Assert.AreEqual(2, (int)gk!.Invoke(bv, new object[] { new FlowPos(1,0) }), "Constraint cell (1,0) must be Constraint(2) after restore");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
