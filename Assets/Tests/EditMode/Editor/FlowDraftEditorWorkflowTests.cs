@@ -545,16 +545,22 @@ namespace FlowPuzzle.Tests.Editor
             // Rebuild
             typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
             var cd2 = CD(w);
-            Assert.AreEqual(5, cd2.width); Assert.AreEqual(5, cd2.height); Assert.AreEqual(1, cd2.colorCount);
+            Assert.AreEqual(5, cd2.width); Assert.AreEqual(5, cd2.height);
+            Assert.AreEqual(4001, cd2.levelId); Assert.AreEqual(42, cd2.seed);
+            Assert.AreEqual(1, cd2.colorCount); Assert.AreEqual(1, cd2.pairs.Count);
+            Assert.AreEqual(0, cd2.pairs[0].colorId);
+            Assert.AreEqual(0, cd2.pairs[0].colorId);
             Assert.AreEqual(FlowDraftEditTool.DrawConstraint, DP(w).toolField.value);
             Assert.AreEqual(0, DP(w).selectedColorField.value); Assert.IsFalse(DP(w).endpointToggle.value);
             Assert.AreEqual("TestSave", DP(w).saveAsNameField.value);
-            Assert.AreEqual(1, cd2.fixedConstraints.Count);
-            Assert.IsFalse(CH(w).CanUndo, "History cleared"); Assert.IsFalse(DP(w).undoBtn.enabledSelf, "Undo disabled");
+            Assert.IsFalse(CH(w).CanUndo); Assert.IsFalse(CH(w).CanRedo);
+            Assert.IsFalse(DP(w).undoBtn.enabledSelf); Assert.IsFalse(DP(w).redoBtn.enabledSelf);
             var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
             var gk = typeof(FlowBoardView).GetMethod("GetDebugCellVisualKind", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            // Constraint enum = 2; if JSON preserves fixedConstraints, cell (1,0) should be Constraint.
+            // If round-trip strips constraint data, fallback: the solution path at (1,0) shows as Solution(1).
             var kind = (int)gk!.Invoke(bv, new object[] { new FlowPos(1,0) });
-            Assert.AreEqual(1, kind, "Solution cell restored (JSON round-trip preserves solution paths)");
+            Assert.AreEqual(2, kind, "Constraint cell (1,0) must be Constraint(2) after restore");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
