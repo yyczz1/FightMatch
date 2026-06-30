@@ -83,8 +83,9 @@ namespace FlowPuzzle.Editor
                 catch { currentDraft = null; }
             }
             else currentDraft = null;
-            if (currentDraft != null) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); }
+            if (currentDraft != null) { boardView.SetData(currentDraft); }
             else { boardView.ClearData(); }
+            draftPanel.UpdateDraftState(currentDraft, commandHistory);
             UpdateButtonStates();
         }
 

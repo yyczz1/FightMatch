@@ -545,16 +545,16 @@ namespace FlowPuzzle.Tests.Editor
             // Rebuild
             typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
             var cd2 = CD(w);
-            Assert.IsNotNull(cd2, "Draft restored"); Assert.AreEqual(5, cd2.width); Assert.AreEqual(1, cd2.colorCount);
+            Assert.AreEqual(5, cd2.width); Assert.AreEqual(5, cd2.height); Assert.AreEqual(1, cd2.colorCount);
             Assert.AreEqual(FlowDraftEditTool.DrawConstraint, DP(w).toolField.value);
             Assert.AreEqual(0, DP(w).selectedColorField.value); Assert.IsFalse(DP(w).endpointToggle.value);
             Assert.AreEqual("TestSave", DP(w).saveAsNameField.value);
-            Assert.AreEqual(1, cd2.fixedConstraints.Count, "Constraint restored");
-            Assert.IsNotNull(cd2, "Draft restored"); // history state may vary with JSON round-trip
+            Assert.AreEqual(1, cd2.fixedConstraints.Count);
+            Assert.IsFalse(CH(w).CanUndo, "History cleared"); Assert.IsFalse(DP(w).undoBtn.enabledSelf, "Undo disabled");
             var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
             var gk = typeof(FlowBoardView).GetMethod("GetDebugCellVisualKind", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             var kind = (int)gk!.Invoke(bv, new object[] { new FlowPos(1,0) });
-            Assert.IsTrue(kind >= 0, "Board cell kind after restore");
+            Assert.AreEqual(1, kind, "Solution cell restored (JSON round-trip preserves solution paths)");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -609,11 +609,36 @@ namespace FlowPuzzle.Tests.Editor
         [Test] public void WindowState_NoDraft_RestoreLeavesDraftNullAndButtonsDisabled()
         {
             var w = MakeWindow();
-            // Ensure state has no draft
+            // Pre-enable buttons with a complete draft
+            var d = MakeCompleteDraft();
+            curDraftF.SetValue(w, d);
+            DP(w).UpdateDraftState(d, CH(w));
+            Assert.IsTrue(DP(w).saveBtn.enabledSelf, "Save enabled before restore");
+            // Restore empty state
             var state = new FlowDraftWindowState();
             typeof(FlowLevelGeneratorWindow).GetField("draftWindowState", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.SetValue(w, state);
             typeof(FlowLevelGeneratorWindow).GetMethod("RestoreDraftWindowState", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
-            Assert.IsNull(CD(w)); Assert.IsFalse(DP(w).saveBtn.enabledSelf); Assert.IsFalse(DP(w).saveAsBtn.enabledSelf);
+            Assert.IsNull(CD(w));
+            Assert.IsFalse(DP(w).saveBtn.enabledSelf, "Save disabled after null-draft restore");
+            Assert.IsFalse(DP(w).saveAsBtn.enabledSelf, "Save As disabled");
+            Assert.IsFalse(DP(w).undoBtn.enabledSelf, "Undo disabled");
+            Assert.IsFalse(DP(w).redoBtn.enabledSelf, "Redo disabled");
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void OnDisable_CapturesCurrentStateAndRestoresAfterCreateGUI()
+        {
+            var w = MakeWindow();
+            DP(w).saveAsNameField.value = "BeforeDisable";
+            DP(w).toolField.value = FlowDraftEditTool.EraseConstraint;
+            DP(w).selectedColorField.value = 1;
+            DP(w).endpointToggle.value = false;
+            typeof(FlowLevelGeneratorWindow).GetMethod("OnDisable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)!.Invoke(w, null);
+            typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
+            Assert.AreEqual("BeforeDisable", DP(w).saveAsNameField.value, "SaveAs name restored");
+            Assert.AreEqual(FlowDraftEditTool.EraseConstraint, DP(w).toolField.value, "Tool restored");
+            Assert.AreEqual(1, DP(w).selectedColorField.value, "Color restored");
+            Assert.IsFalse(DP(w).endpointToggle.value, "Endpoint toggle restored");
             UnityEngine.Object.DestroyImmediate(w);
         }
     }
