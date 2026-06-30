@@ -59,13 +59,13 @@ namespace FlowPuzzle.Editor
 
         internal void RestoreDraftWindowState()
         {
+            commandHistory = new FlowEditorCommandHistory();
             var s = draftWindowState;
             if (draftPanel == null || s == null) return;
             draftPanel.selectedColorField.value = s.selectedColorId;
             draftPanel.toolField.value = s.selectedTool;
             draftPanel.endpointToggle.value = s.isEndpointA;
             draftPanel.saveAsNameField.value = s.saveAsName ?? "";
-            commandHistory.Clear();
             if (!string.IsNullOrEmpty(s.loadedAssetGuid))
             {
                 var path = AssetDatabase.GUIDToAssetPath(s.loadedAssetGuid);
@@ -143,6 +143,16 @@ namespace FlowPuzzle.Editor
             RestoreDraftWindowState();
         }
 
+        private void OnDisable() { CaptureDraftWindowState(); }
+
+        private void RefreshDraft(bool captureState = true)
+        {
+            if (captureState) CaptureDraftWindowState();
+            boardView.SetData(currentDraft);
+            draftPanel.UpdateDraftState(currentDraft, commandHistory);
+            UpdateButtonStates();
+        }
+
         private FlowGenerationConfig ReadConfig() => paramPanel.ReadConfig();
 
         // Draft action handlers (internal for testability)
@@ -151,27 +161,27 @@ namespace FlowPuzzle.Editor
             currentDraft = new FlowLevelDraft { width = paramPanel.widthField.value, height = paramPanel.heightField.value, colorCount = paramPanel.colorCountField.value, levelId = paramPanel.levelIdField.value, seed = paramPanel.seedField.value };
             for (int i = 0; i < currentDraft.colorCount; i++) currentDraft.pairs.Add(new FlowDraftPairData { colorId = i });
             commandHistory.Clear(); loadedAsset = null;
-            boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates();
+            RefreshDraft();
         }
         internal void DoLoadDraft()
         {
             var asset = draftPanel.assetField.value as FlowPuzzle.Persistence.FlowLevelAsset;
             if (asset == null) { diagnosticsPanel.ShowError("No asset selected."); return; }
             currentDraft = FlowDraftMapper.FromAsset(asset); loadedAsset = asset; commandHistory.Clear();
-            boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates();
+            RefreshDraft();
         }
         internal void DoAddColor()
         {
             if (currentDraft == null) return;
             var before = currentDraft.Clone(); var r = currentDraft.AddColor();
-            if (r.success) { commandHistory.Execute(new FlowSnapshotCommand(currentDraft, before, currentDraft.Clone(), "Add Color")); boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); } else diagnosticsPanel.ShowError(r.errorMessage);
+            if (r.success) { commandHistory.Execute(new FlowSnapshotCommand(currentDraft, before, currentDraft.Clone(), "Add Color")); RefreshDraft(); } else diagnosticsPanel.ShowError(r.errorMessage);
         }
         internal void DoRemoveColor()
         {
             if (currentDraft == null) return;
             int cid = (int)draftPanel.selectedColorField.value;
             var before = currentDraft.Clone(); var r = currentDraft.RemoveColor(cid);
-            if (r.success) { commandHistory.Execute(new FlowSnapshotCommand(currentDraft, before, currentDraft.Clone(), $"Remove Color {cid}")); boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); } else diagnosticsPanel.ShowError(r.errorMessage);
+            if (r.success) { commandHistory.Execute(new FlowSnapshotCommand(currentDraft, before, currentDraft.Clone(), $"Remove Color {cid}")); RefreshDraft(); } else diagnosticsPanel.ShowError(r.errorMessage);
         }
         internal void DoEndpointEdit(FlowPos pos)
         {
@@ -182,10 +192,10 @@ namespace FlowPuzzle.Editor
             if (tool == FlowDraftEditTool.PlaceEndpoint) cmd = MoveEndpointCommand.Place(currentDraft, cid, isA, pos);
             else if (tool == FlowDraftEditTool.MoveEndpoint) cmd = MoveEndpointCommand.Move(currentDraft, cid, isA, pos);
             else if (tool == FlowDraftEditTool.RemoveEndpoint) { var p = currentDraft.GetPair(cid); var t = isA ? p?.endpointA : p?.endpointB; if (t.HasValue && t.Value.Equals(pos)) cmd = MoveEndpointCommand.Remove(currentDraft, cid, isA); }
-            if (cmd != null) { if (commandHistory.Execute(cmd)) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); } else diagnosticsPanel.ShowError($"Failed to execute {tool} on color {cid}."); }
+            if (cmd != null) { if (commandHistory.Execute(cmd)) { RefreshDraft(); } else diagnosticsPanel.ShowError($"Failed to execute {tool} on color {cid}."); }
         }
-        internal void DoUndo() { if (commandHistory.CanUndo) { commandHistory.Undo(); boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); } }
-        internal void DoRedo() { if (commandHistory.CanRedo) { commandHistory.Redo(); boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); } }
+        internal void DoUndo() { if (commandHistory.CanUndo) { commandHistory.Undo(); RefreshDraft(); } }
+        internal void DoRedo() { if (commandHistory.CanRedo) { commandHistory.Redo(); RefreshDraft(); } }
         internal void DoConstraintStroke(IReadOnlyList<FlowPos> cells)
         {
             if (currentDraft == null || cells == null || cells.Count == 0) return;
@@ -194,7 +204,7 @@ namespace FlowPuzzle.Editor
             bool isErase = tool == FlowDraftEditTool.EraseConstraint;
             if (tool != FlowDraftEditTool.DrawConstraint && tool != FlowDraftEditTool.EraseConstraint) return;
             var cmd = new DrawConstraintStrokeCommand(currentDraft, cid, cells.ToList(), isErase);
-            if (commandHistory.Execute(cmd)) { boardView.SetData(currentDraft); draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates(); diagnosticsPanel.Clear(); }
+            if (commandHistory.Execute(cmd)) { RefreshDraft(); diagnosticsPanel.Clear(); }
             else diagnosticsPanel.ShowError(isErase ? "Erase constraint failed." : "Draw constraint failed.");
         }
 
@@ -231,7 +241,7 @@ namespace FlowPuzzle.Editor
                 if (loadedAsset != null) repository.Overwrite(loadedAsset, level);
                 else { loadedAsset = repository.SaveNew(level, paramPanel.outputFolderField.value); draftPanel.assetField.value = loadedAsset; }
                 diagnosticsPanel.ShowInfo("Saved.");
-                draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates();
+                RefreshDraft();
             }
             catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
         }
@@ -246,7 +256,7 @@ namespace FlowPuzzle.Editor
                 var asset = loadedAsset != null ? repository.SaveAs(loadedAsset, level, paramPanel.outputFolderField.value, name) : repository.SaveAs(level, paramPanel.outputFolderField.value, name);
                 loadedAsset = asset; draftPanel.assetField.value = asset;
                 diagnosticsPanel.ShowInfo($"Saved As {name}.");
-                draftPanel.UpdateDraftState(currentDraft, commandHistory); UpdateButtonStates();
+                RefreshDraft();
             }
             catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException) { diagnosticsPanel.ShowError(ex.Message); }
         }
@@ -339,9 +349,9 @@ namespace FlowPuzzle.Editor
 
         internal void OnClearPreview()
         {
-            currentLevel = null;
+            currentLevel = null; currentDraft = null;
             boardView.ClearData(); resultPanel.Clear(); diagnosticsPanel.Clear(); batchPanel.Clear();
-            UpdateButtonStates();
+            CaptureDraftWindowState(); UpdateButtonStates();
         }
 
         internal void SetCurrentLevel(FlowGeneratedLevel level)
@@ -350,10 +360,8 @@ namespace FlowPuzzle.Editor
             currentDraft = FlowDraftMapper.FromGeneratedLevel(level);
             loadedAsset = null; commandHistory.Clear();
             draftPanel.assetField.value = null;
-            boardView.SetData(currentDraft);
             resultPanel.Show(level);
-            draftPanel.UpdateDraftState(currentDraft, commandHistory);
-            UpdateButtonStates();
+            RefreshDraft();
         }
 
         internal void UpdateButtonStates()
