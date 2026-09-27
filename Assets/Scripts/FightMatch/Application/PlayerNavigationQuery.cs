@@ -7,6 +7,8 @@ namespace FightMatch.Application
     public sealed partial class PlayerSessionSystem
     {
         private PlayerNavigationSession navigation;
+        internal CandidateApplicationCallResult ReadNavigationResumedIntent(string commit, string operation,
+            out PreparedCandidateApplicationIntent intent) => runtime.QueryResumedIntent(this, commit, operation, out intent);
         public PlayerNavigationSession GetNavigationSession()
         {
             CheckGuard();

@@ -15,15 +15,17 @@ namespace FightMatch.Application
         private PlayerNavigationRoute route = PlayerNavigationRoute.Gate, anchor = PlayerNavigationRoute.MapAdventure;
         private string level, levelVersion, character, definition, selectedCommit, selectedOperation;
         private CandidatePermanentKind detailKind;
-        private long revision, confirmation;
+        private long revision;
+        private readonly PlayerNavigationOperation operation = new PlayerNavigationOperation();
+        private long confirmation => operation.Epoch;
         private bool executing, endConfirmation;
         private PlayerNavigationDraftKind draftKind;
         private uint fromFormat, toFormat;
         private IReadOnlyList<string> slots;
         private PlayerNavigationContext frozenContext;
         private PreparedPlayerPermanentPreview preview;
-        private PreparedCandidateLifecycleRequest request;
-        private CandidateApplicationCallResult result;
+        private PreparedCandidateLifecycleRequest request => operation.Request;
+        private CandidateApplicationCallResult result => operation.Result;
         private CandidateApplicationDiagnostic diagnostic;
         private string status;
         private PlayerNavigationHostRequest host;
@@ -36,36 +38,38 @@ namespace FightMatch.Application
         {
             if (executing) return View("Busy");
             var next = player.QueryNavigation(budget);
+            if (OwnerRefusal(next.Code)) return View(next.Code, next);
             var changed = read == null || !SameHead(read.Head, next.Head) || read.Code != next.Code ||
                 read.Application.Phase != next.Application.Phase || read.Application.PendingOperationId != next.Application.PendingOperationId ||
                 !read.Application.ObservedCandidateCommitIds.SequenceEqual(next.Application.ObservedCandidateCommitIds);
             var headChanged = read != null && !SameHead(read.Head, next.Head);
             read = next;
             if (changed) revision++;
-            if (headChanged && request == null && frozenContext != null)
-            { ClearDraft(); route = PlayerNavigationRoute.Detail; status = "StaleContext"; }
+            if (headChanged && operation.Intent == null && frozenContext != null)
+            { ClearDraft(); operation.Clear(); route = PlayerNavigationRoute.Detail; status = "StaleContext"; }
             if (read.IsAvailable && character != null && read.Head.Business.Roster.Find(character) == null)
             { character = null; ClearDraft(); revision++; }
             var gate = GateReason();
             if (gate != null && !endConfirmation)
                 route = HasRecovery() ? PlayerNavigationRoute.Recovery : PlayerNavigationRoute.Gate;
-            else if (gate == null && (route == PlayerNavigationRoute.Gate || route == PlayerNavigationRoute.Recovery) && request == null)
+            else if (gate == null && (route == PlayerNavigationRoute.Gate || route == PlayerNavigationRoute.Recovery) && operation.Intent == null)
                 ReturnToAnchor();
-            if (request != null && result?.IsCommitted == true && gate == null) route = PlayerNavigationRoute.CommittedResult;
+            if (operation.HasVerifiedResult && !player.CreationPending) route = PlayerNavigationRoute.CommittedResult;
             return View();
         }
         private PlayerNavigationContext Context() => new PlayerNavigationContext(this, revision, read, route, anchor,
             level, levelVersion, character, parents);
-        private PlayerNavigationView View(string overrideStatus = null)
+        private static bool OwnerRefusal(string code) => code == "WrongThread" || code == "Disposed" || code == "Busy";
+        private PlayerNavigationView View(string overrideStatus = null, PlayerNavigationReadResult refusedRead = null)
         {
-            var permanent = read?.IsAvailable == true && character != null ? player.QueryPermanent(character) : null;
+            var permanent = refusedRead == null && read?.IsAvailable == true && character != null ? player.QueryPermanent(character) : null;
             var context = Context();
-            var confirmationView = frozenContext == null && request == null && !endConfirmation ? null :
-                new PlayerNavigationConfirmation(draftKind, preview, slots, fromFormat, toFormat, request?.OperationId, endConfirmation);
-            return new PlayerNavigationView(read, context, new PlayerNavigationToken(this, revision, confirmation), permanent,
-                detailKind, definition, confirmationView, result, diagnostic, overrideStatus ?? status ?? GateReason(),
+            var confirmationView = frozenContext == null && operation.Intent == null && !endConfirmation ? null :
+                new PlayerNavigationConfirmation(draftKind, preview, slots, fromFormat, toFormat, operation.Intent?.OperationId, endConfirmation);
+            return new PlayerNavigationView(refusedRead ?? read, context, new PlayerNavigationToken(this, revision, confirmation), permanent,
+                detailKind, definition, confirmationView, result, refusedRead?.Diagnostic ?? diagnostic, overrideStatus ?? status ?? GateReason(),
                 selectedCommit, selectedOperation, host, Enum.GetValues(typeof(PlayerNavigationAction)).Cast<PlayerNavigationAction>()
-                    .Select(a => new PlayerNavigationOption(a, ActionReason(a))));
+                    .Select(a => new PlayerNavigationOption(a, refusedRead?.Code ?? (executing ? "Busy" : ActionReason(a)))));
         }
         private PlayerNavigationView Refuse(string code, string field = "Navigation")
         { diagnostic = new CandidateApplicationDiagnostic(code, field); status = code; revision++; return View(); }
@@ -83,9 +87,10 @@ namespace FightMatch.Application
         public PlayerNavigationView Navigate(PlayerNavigationTarget target, PlayerNavigationContext context, SaveCodecBudget budget)
         {
             if (executing) return View("Busy");
-            Query(budget);
+            var current = Query(budget); if (OwnerRefusal(current.Read?.Code)) return current;
             if (!Matches(context)) return Refuse("StaleNavigationContext");
             if (target == null) return Refuse("MissingField", "Navigation.Target");
+            if (!Enum.IsDefined(typeof(PlayerNavigationTargetKind), target.Kind)) return Refuse("UnsupportedNavigationTarget");
             if (target.Kind >= PlayerNavigationTargetKind.CreationRequired) return RequestHost(target.Kind);
             if (target.Kind == PlayerNavigationTargetKind.EndConfirmation)
             {
@@ -104,7 +109,7 @@ namespace FightMatch.Application
                     return Refuse("ResolutionRequired", "Navigation.Operation");
                 selectedOperation = target.OperationId; revision++; return View();
             }
-            if (request != null) return View("ResolutionRequired");
+            if (operation.Intent != null) return View("ResolutionRequired");
             if (GateReason() != null) return Refuse(GateReason());
             if (target.Kind == PlayerNavigationTargetKind.SelectCharacter)
             {
@@ -166,9 +171,9 @@ namespace FightMatch.Application
         public PlayerNavigationView Preview(PlayerNavigationDraft draft, PlayerNavigationContext context, SaveCodecBudget budget)
         {
             if (executing) return View("Busy");
-            Query(budget);
+            var current = Query(budget); if (OwnerRefusal(current.Read?.Code)) return current;
             if (!Matches(context)) return Refuse("StaleNavigationContext");
-            if (request != null || GateReason() != null) return Refuse(GateReason() ?? "ResolutionRequired");
+            if (operation.Intent != null || GateReason() != null) return Refuse(GateReason() ?? "ResolutionRequired");
             if (draft == null) return Refuse("MissingField", "Navigation.Draft");
             ClearDraft(); diagnostic = null; status = null;
             if (draft.Kind == PlayerNavigationDraftKind.Formation)
@@ -203,14 +208,18 @@ namespace FightMatch.Application
                 fromFormat = current; toFormat = draft.ToFormat;
             }
             else return Refuse("UnsupportedNavigationDraft");
-            draftKind = draft.Kind; frozenContext = context; confirmation++; revision++;
+            draftKind = draft.Kind; frozenContext = context; revision++;
+            operation.Begin(context.Head, draftKind == PlayerNavigationDraftKind.Permanent ? CandidateApplicationKind.PermanentRequest :
+                draftKind == PlayerNavigationDraftKind.Formation ? CandidateApplicationKind.SetFormation :
+                fromFormat == 2 ? CandidateApplicationKind.MigrateRoster : CandidateApplicationKind.MigratePermanent, preview?.Quote);
             route = PlayerNavigationRoute.Confirmation; return View();
         }
 
         private PlayerNavigationView Confirm(PlayerNavigationToken token, FightMatch.Platform.SaveStoreBudget budget)
         {
-            if (request != null) return Receive(token, lifecycle.QueryOperation(request, budget));
+            if (operation.Intent != null) return Receive(token, application.QueryOperation(operation.Intent, budget));
             if (frozenContext == null || !SameHead(frozenContext.Head, read.Head)) return Refuse("StaleContext");
+            if (!operation.TryConsume(token.Confirmation)) return Refuse("ConfirmationConsumed");
             executing = true;
             try
             {
@@ -222,7 +231,7 @@ namespace FightMatch.Application
                 else prepared = fromFormat == 2 ? player.PrepareRosterMigration(frozenContext.CommitId, budget.Codec) :
                     player.PreparePermanentMigration(frozenContext.CommitId, budget.Codec);
                 if (!prepared.IsAccepted)
-                { ClearDraft(); route = PlayerNavigationRoute.Detail; diagnostic = prepared.Diagnostic; status = prepared.Code; revision++; return View(); }
+                { ClearDraft(); operation.Clear(); route = PlayerNavigationRoute.Detail; diagnostic = prepared.Diagnostic; status = prepared.Code; revision++; return View(); }
                 if (!AcceptPrepared(token, prepared.Request)) return Refuse("StaleNavigationContext");
                 return Receive(token, lifecycle.Submit(request, budget));
             }
@@ -230,19 +239,14 @@ namespace FightMatch.Application
         }
         internal bool AcceptPrepared(PlayerNavigationToken token, PreparedCandidateLifecycleRequest prepared)
         {
-            if (!OriginalToken(token) || prepared == null || request != null || frozenContext == null ||
-                prepared.PlayerId != frozenContext.PlayerId || prepared.Intent.ExpectedCommitId != frozenContext.CommitId) return false;
-            var kind = draftKind == PlayerNavigationDraftKind.Permanent ? CandidateApplicationKind.PermanentRequest :
-                draftKind == PlayerNavigationDraftKind.Formation ? CandidateApplicationKind.SetFormation :
-                fromFormat == 2 ? CandidateApplicationKind.MigrateRoster : CandidateApplicationKind.MigratePermanent;
-            if (prepared.Kind != kind) return false;
-            request = prepared; result = null; route = PlayerNavigationRoute.Recovery; revision++; return true;
+            if (!OriginalToken(token) || !operation.AcceptPrepared(token.Confirmation, prepared)) return false;
+            route = PlayerNavigationRoute.Recovery; revision++; return true;
         }
         private PlayerNavigationView RequestHost(PlayerNavigationTargetKind kind)
         {
             var app = read.Application; var reason = GateReason();
             if (kind == PlayerNavigationTargetKind.CreationRequired)
-            { if (app.Phase != CandidateApplicationPhase.Unconfigured && app.Phase != CandidateApplicationPhase.InitializationReady &&
+            { if (!player.CreationPending && app.Phase != CandidateApplicationPhase.Unconfigured && app.Phase != CandidateApplicationPhase.InitializationReady &&
                 app.Phase != CandidateApplicationPhase.CreationConfirmationRequired) return Refuse("InvalidNavigationTransition"); }
             else if (kind == PlayerNavigationTargetKind.SettlementRequired)
             { if (read.Head?.Continuation == null) return Refuse("InvalidPhase"); }

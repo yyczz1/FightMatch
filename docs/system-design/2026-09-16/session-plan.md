@@ -1,6 +1,6 @@
 # FightMatch 统一系统设计：后续独立会话任务
 
-2026-09-27 · r205 · **SD00只做设计、分发与收件，技术结论由独立R给出。** CONT-B-CODE-C1独立ACCEPT见任务包§359；34功能／31接收／余3（CONT-C、028、029）／51正向交付。CONT-C设计C1已独立ACCEPT见§366，§367正式签发同源导航与准备流程实现及精确工具预算例外；完整Demo未完成。无用户待答；正式返回后直接承接，不主动轮询，五分钟自动任务保持取消。同产品、025/B17/027及未验证边界保持。
+2026-09-28 · r208 · **SD00只做设计、分发与收件。** 当前C已正式STOPPED_FOR_DEVICE_MIGRATION，C/R均已停改；§376～377冻结产品推进，只按用户最新授权完成GitHub版本迁移。34功能／31接收／余3（CONT-C、028、029）／51正向交付，完整Demo未完成。用户当前权限改动不提交；五分钟自动任务保持取消。迁移后等待用户明确恢复。
 
 ## 1. 分工和进入条件
 
@@ -1743,3 +1743,22 @@ C准确turn `01a0e36f-c41b-7dd2-8c61-bc702a903506` 于2026-09-27T15:24:12.983Z�
 Mac端按ProjectSettings/ProjectVersion.txt使用Unity 2022.3.18f1，重新生成本机Library；不迁移Windows Library/Temp/UserSettings或许可证。当前Tools/Invoke-FM025P2Validation.ps1固有D:/工程与Editor路径，不能直接当作Mac验证命令；其平台适配须另签精确范围，且仍复用已有绿测，不能为迁移反复跑旧全量。已有PlayerSave不在本仓库交接范围，不会被Git操作覆盖。
 
 Git包包含代码、资源/meta、包清单、工程配置、设计/任务/交接资料与提交历史。原TestArtifacts/ExternalWork/生成物保留Windows原位置；随附当前CONT-C阻塞和CONT-B-CODE-C1证据副本只支持对应实物追溯，不代完整历史证据归档。Mac导入/编译/Android构建及设备验收仍NOT VERIFIED。
+
+## 156. 迁移包完成后直接续接恢复接口
+
+Git迁移完成见任务包§373：基线ce21901、WIP ade498c，100提交；18,527,414-byte bundle及98项交接证据zip已核，从包克隆复原并fsck成功，1361个项目文件原字节相符。未push，用户本机权限文件未提交；Mac/完整Demo未验收。版本管理不再阻塞开发。
+
+SD00签§374 CONT-C-RCV1最小补签：仅新增旧CandidateApplicationRuntime.cs只读原intent查询≤24行，原26新Assets/唯一工具预算及全部30项保持；新根cont-c-rcv1为146精确路径/8槽，原BLOCKED两稿和22证据全部只读，新交接另命名。恢复测试必须真正丢弃旧request再经生产查询续办；不重跑旧3872基线。原C完成后原R直接审，ACCEPT后按包提交Git并推进028/029，无用户待答。
+
+§374已实际派发原C准确新turn `01a0e3b9-0fa6-7183-8406-8b1a116e5c56`，startedAt=1790526951、inProgress/error=null、正确工程根、显式astra/max。冻结9017 bytes／17c60d6f6f8e082681eef8f7704915f98560ccd49058fb573cebe5f604e90dde，登记§375；当前由原C继续实施，原R待真实完成门，不恢复轮询或自动任务。
+
+## 157. 版本管理完成即停止，等待Mac迁移后恢复
+
+按用户最新明确指示，本机产品任务暂停供设备迁移；此前Git完成后继续派发§374是SD00误解，已纠正并通知原C停改。当前只收当前实际WIP交接、保存最后Git版本和最终迁移包；不再开发、启动Unity或派发审查/后续包。原C已确认停止实施且无本任务仍运行命令，formal封存待收。旧迁移包仍是旧时点快照，最终更新后另给准确文件与commit；用户到Mac后明确恢复再继续。
+
+## 158. 停改交接已收到，完成GitHub迁移交付
+任务包§377登记准确C回合于2026-09-27T16:48:59.077Z正式STOPPED_FOR_DEVICE_MIGRATION；C/R均idle/completed，没有新的代码审查或Unity执行。最新5项源码WIP与两报告保留，本轮未编译/未测试，不能称Demo完成；恢复后仍CONT-C→028→029，计数34/31/3/51保持。
+
+用户已明确要求推送后换设备。本次提交/正常推送目标为GitHub origin/master：`https://github.com/yyczz1/FightMatch.git`；只在实际推送并核远程SHA一致后宣布完成。最新迁移说明及126项交接证据纳入 `docs/migration/2026-09-28/`，Mac从同一仓库clone/pull即可获取源码、文档与该证据副本。§155的旧bundle方式保留为旧快照历史，不再作为唯一交付方式。
+
+Windows产品开发保持暂停，五分钟任务保持取消。Mac仍Unity2022.3.18f1；固定Windows验证路径的适配与Mac/Android实际验证尚未进行，不重复原3872基线，不自动继续产品工作。用户当前本机权限变化和真实PlayerSave不提交。

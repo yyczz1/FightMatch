@@ -130,6 +130,25 @@ namespace FightMatch.Application
             return pending.Intent.CanonicalBytes.SequenceEqual(intent.CanonicalBytes);
         }
 
+        internal CandidateApplicationCallResult QueryResumedIntent(
+            PlayerSessionSystem owner, string commitId, string operationId,
+            out PreparedCandidateApplicationIntent intent)
+        {
+            intent = null;
+            var refusal = Guard(true);
+            if (refusal != null) return refusal;
+            if (owner == null || !ReferenceEquals(owner, playerSession) ||
+                View.Purpose != SavePurpose.PlayerSave)
+                return Reject("InconsistentBinding", "Navigation.Owner");
+            if (playerSession.CreationPending)
+                return Reject("CreationPending", "CreateRecord");
+            if (pending?.Ticket == null || commitId == null || operationId == null ||
+                pending.Ticket.Metadata.CommitId != commitId || pending.Intent.OperationId != operationId)
+                return Reject("StaleContext", "Navigation.ResumedCandidate");
+            intent = pending.Intent;
+            return PendingResult();
+        }
+
         internal CandidateApplicationCallResult QueryView()
         {
             return Guard(false) ?? Result(View.Phase.ToString(), View.Diagnostic);

@@ -1,6 +1,6 @@
 # FightMatch · 下一批独立系统设计任务包
 
-2026-09-27 · r191 · **SD00只做系统设计与分发；代码和审查交原独立任务。** CONT-B-CODE-C1已独立ACCEPT见§359；34功能、31已接收、余3（CONT-C、028、029）、51次正向交付。CONT-C设计C1已独立ACCEPT见§366，§367正式签发同源导航与准备流程实现及精确工具预算例外。完整Demo未完成，无用户待答；按§362正式返回后直接承接，不主动轮询、不恢复五分钟自动任务。025整体/B17/027及同产品/未验证边界保持。
+2026-09-28 · r194 · **SD00只做设计、分发与收件。** 当前C已正式STOPPED_FOR_DEVICE_MIGRATION，C/R均已停改；§376～377冻结产品推进，只按用户最新授权完成GitHub版本迁移。34功能／31接收／余3（CONT-C、028、029）／51正向交付，完整Demo未完成。用户当前权限改动不提交；五分钟自动任务保持取消。迁移后等待用户明确恢复。
 
 ## 1. 所有包共用的执行约束
 
@@ -7305,3 +7305,91 @@ C仅另新写 `docs/system-design/2026-09-17/demo-cont-c-delivery.md`（≤300�
 本次3个CONT-C草稿与2份BLOCKED报告从基线排除，将单独纳入后续WIP提交。WIP包含有意保全的未编译源码（缺Recovery partial/Act等）且暂无对应新meta；克隆最新WIP不能宣称直接可编译。仅需要此前核验过的代码状态时，可在新克隆目录检出上述基线commit；继续导航实施则在含WIP的master沿原任务补完。两者为同一产品的版本，不是另造Demo/Android实现。
 
 迁移验证只检查Git对象/文件清单/字节与可导出性。补充忽略UserSettings_backup以保留本机设置备份；该目录不删。当前C仍停改，下一步技术补签尚未派发。
+
+## 373. Git迁移交付完成（不等于Demo完成）
+
+本次在现有master新增两个本地提交：基线 `ce21901b7b5b42bfef7ef34eb4f46155ddbf9353`，独立WIP `ade498c9aac96c4e00c50d90d1159f380a185571`。截至该WIP共100个提交，完整树1362文件，其中此前已跟踪的旧.claude/settings.local.json保持历史内容；当前用户修改没有stage/commit/reset/push。
+
+`output/migration/2026-09-28/FightMatch-2026-09-28.bundle` 为18527414 bytes，SHA256 `d01ea1285225278593fce46ef5cb4a55a83d399d2bd551bf683f184ef6108b8e`。仅导出refs/heads/master及其完整可达历史，不包含应用内部checkpoint refs或其他worktree refs；不改写或删除原库refs。git bundle verify成功；从该包恢复新克隆并git fsck --full --no-reflogs --no-dangling成功，恢复HEAD等于WIP，1361个项目文件SHA与原工作区一致、克隆干净，本机权限文件保持原SHA。迁移验证时间2026-09-27T16:29:50.4766570Z；无Unity、无远程push。
+
+随附 `FightMatch-handoff-evidence-2026-09-28.zip` 为3009282 bytes／SHA256 `74023a79521352a647d943345b74fdad21bea956ac5cb6908b9a92fd8ee3c609`；仅含CONT-C阻塞根22实物和CONT-B-CODE-C1 manifest所列75项＋manifest自身共76实物，总98项，解压流逐项长度/SHA核符。其他历史TestArtifacts/ExternalWork仍留原机；完整历史证据与Mac实际导入/构建未因此核验。清单与验证结果在同目录。§372和session-plan§155为使用入口。
+
+版本管理已开始。后续正常产品修改仍由原C实施、原R独立审查，Git写入由SD00按已授权范围处理；已验收的单包结果作独立提交，WIP仅按实际交接状态明确记录，不把作者返回或Git提交冒充ACCEPT。当前功能计数34/31/3/51不变；现续接技术缺口，不再以等待版本管理阻断产品任务。
+
+## 374. CONT-C-RCV1恢复接口最小补签与实施续接
+
+状态：APPROVED_FOR_IMPLEMENTATION。用户已批准同一Android产品/内容缩减的首Demo，版本管理阶段已按§373完成；本补签是§367.4真实技术阻塞CONT-C-RCV-01的最小衔接，无新用户决策。执行者仍原C `01a0c403-bfa1-7e90-b503-c0fcd61f23c1`，独立R仍原R `01a0c1cd-dce1-7ac3-8780-06163cb0acfc`，均显式gpt-6-astra/max，禁止ultra/降级/新建任务或代理。原C/R结束回合不重启空等；本次记录新的准确实施turn。SD00不写代码、不运行Unity、不替R审实现。
+
+### 374.1 继承与冻结起点
+
+继承§367冻结正文SHA256 `9b98b275f4066726466df278c683aebecf2cfb073420499533b96cae5533713b`、已独立ACCEPT的C1设计/范围/审查及全部CC01～CC30，只有本节明示的范围、证据根和交接路径调整。旧§367、C1六稿及全部已接收成果不回改、不重开。正式实现起点为WIP commit `ade498c9aac96c4e00c50d90d1159f380a185571`：原776实现/806Assets/425GUID及36DLL-PDB保持；另有3份获准但未编译草稿。当前779实现/809Assets/425GUID；不把草稿算成新的已验收旧实现。首包L1/W/298-byte新档及其正式发布/PlayerSave门不变。
+
+只读增列§370绑定的原BLOCKED两份报告、原cont-c根全部22文件、.gitignore/.gitattributes、本次版本登记；Git只读查询可用，C/R不stage/commit/reset/push，不触.claude/settings.local.json。保全旧报告、旧根及其21项manifest，不把其改成成功，不覆盖旧未运行记录。迁移bundle/zip亦只读。三SD00稿按当前前后身份另列，不归作者源码变化。
+
+### 374.2 唯一新增旧源码改动
+
+在§367原13个cs＋13个meta及唯一旧工具范围外，明确新增可修改 `Assets/Scripts/FightMatch/Application/CandidateApplicationRuntime.cs` 一项：补签起点16629 bytes／SHA256 `8864b0c8d43241962c67eecd0f079ec7837e4717451d5c52accb1c84814f6541`；仅新增≤24物理行、删除0行，最终物理行数≤起点＋24，不改既有行/公开DTO/序列字段/持久协议。只允许报告提出的internal只读QueryResumedIntent(PlayerSessionSystem owner,string commitId,string operationId,out PreparedCandidateApplicationIntent intent)返回CandidateApplicationCallResult契约。
+
+语义：沿原Guard处理Disposed/WrongThread/Busy等；仅真实PlayerSave、同一playerSession owner、已完成建档并且已有pending/ticket，且commit和operation与本次显式ResumeObserved返回匹配时，取回同一个不可变pending.Intent引用及原pending结果。错误owner/commit/operation、F2、创建未完成及不存在匹配候选必须按原拒绝/状态门拒绝。该查询不得创建ID、熵、候选或intent，不Prepare/Submit/Retry/Resolve/End、不写保存、不推进业务/公开状态，不用反射或新partial访问私有字段代替正式接口。
+
+导航仅在自身显式ResumeObserved后按匹配结果取回原引用，普通Query不得接管其他owner的pending。后续仍把同一个原intent交原Application.QueryOperation/Retry/Resolve/End；确认、Back/Cancel/Return/End及通知失败、活动战斗、S17等门保持§367与C1设计。不改变Craft空角色映射及其真实生产BuildPermanentDraft验收。
+
+原8生产/5测试cs各自行数上限、13meta≤12行上限不变。3份草稿可在原26新Assets范围内继续完善，其余23条尚缺路径按原白名单补齐。旧生产修改数为1（上述runtime）、旧测试修改数仍0。唯一旧工具仍Tools/Invoke-FM025P2Validation.ps1：相对当前282行起点新增＋删除≤36、最终≤318、累计/绝对≤230；仅新增固定CONT-C验证阶段以及本补签身份/根/146有限路径/8槽检查，保留旧stage和校验行为，不另造脚本。最终集合仍802实现/832Assets/438GUID/36DLL-PDB；原旧实现除获准runtime及另列工具外保持身份。
+
+### 374.3 新证据根与精确路径集合
+
+唯一新根 `TestArtifacts/FMDemoCONT/cont-c-rcv1`，签发时不存在。允许路径由C1 scope proposedImplementation.evidence.exactAllowedPaths的141条，逐条仅替换前缀TestArtifacts/FMDemoCONT/cont-c/为TestArtifacts/FMDemoCONT/cont-c-rcv1/，再精确增加下列5条构成146条封闭集合，不可放宽为目录通配：
+
+- TestArtifacts/FMDemoCONT/cont-c-rcv1/before-text/Assets/Scripts/FightMatch/Application/CandidateApplicationRuntime.cs.txt
+- TestArtifacts/FMDemoCONT/cont-c-rcv1/after-text/Assets/Scripts/FightMatch/Application/CandidateApplicationRuntime.cs.txt
+- TestArtifacts/FMDemoCONT/cont-c-rcv1/before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs.txt
+- TestArtifacts/FMDemoCONT/cont-c-rcv1/before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs.txt
+- TestArtifacts/FMDemoCONT/cont-c-rcv1/before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs.txt
+
+保留16根元数据叶、001～008各12叶的运行槽契约；新root-identity绑定原§367与本补签冻结SHA、实际新C实施turn、Git基线/WIP、三份C1已验收实物、原BLOCKED两稿/根/manifest及3草稿准确身份。本根before是当前WIP，需另保存与原776/806已验收起点的对应，不谎称3草稿已经验收。运行根manifest只列实际存在文件并排除自身，≤145项、根实际≤146文件，不预造日志/XML/结果/未运行槽。before原文留存，after/运行证据只由本次实际操作产生。
+
+源输入和实现导出集合为C1 scope futureExportInputAndImplementationPaths的921条原集合，精确新增 `.gitignore`、`.gitattributes`、`docs/system-design/2026-09-17/demo-cont-c-delivery.md`、`docs/system-design/2026-09-17/demo-cont-c-code-scope.json` 共925条；新runtime已在原集合，不重复计数。本补签生成的正式交接报告单独列身份，避免自引用。其他根/历史输入保护按C1和原§367继承，原cont-c22实物另列保护，不删除/覆盖失败或历史。有限集合/计数必须由实物推导并在scope逐项核对，不能改个总数宣称完成。
+
+### 374.4 恢复验收与耗时要求
+
+除完整CC01～CC30外，必须新增真正丢弃重建前request引用的PlayerSave对象重建场景：显式ResumeObserved→再次SaveFailed以及CommitUnknown→通过本生产internal查询取回同一原intent→沿原Resolve/Retry/End继续，覆盖各合法恢复分支，核operation/commit/canonical bytes/来源及份额不变。测试不能通过保留旧局部变量掩盖接口缺口，不能重新Prepare或手造正确intent；另核owner/commit/operation错误、普通Query不夺取、F2/WrongThread/Disposed/Busy等拒绝门。测试只写原5个新测试文件，旧已接收恢复测试不改、不删、不跳过。
+
+复用原已接收3872/3872（3867不同fullname）绿基线与当前阻塞实物，不为补签或Git迁移重跑旧全量。先补完源码/测试和静态范围，再固定源码使用唯一工具串行Compile→一次无filter完整EditMode（Tests无-quit）；只有新的失败/修复/源码变化才必要追加槽。记录实际运行耗时、参数、PID/退出/XML/源码/工具/DLL身份与具名多重集合，最终0fail/0skip，旧3872保全、新例单列。长测试中不改被验证源码。
+
+Unity仅原C串行2022.3.18f1；同工程Editor占用按用户既有授权安全处理，Hub保持运行；不强杀、不把IPC错误说成许可证失效，不改许可/权限，不以真实用户存档作探针。Mac适配不在本补签内，也不启动第二套验证通道。
+
+### 374.5 正式交付与自动衔接
+
+C仅另写 `docs/system-design/2026-09-17/demo-cont-c-rcv1-delivery.md`（≤300物理行）与 `demo-cont-c-rcv1-code-scope.json`（≤8388608 bytes）。R仅另写 `demo-cont-c-rcv1-code-review.md`（≤260物理行），原BLOCKED交接及原根只读。C须明确每项CC及本缺口的实际证据、预算、旧输入/新集合、根/manifest和最终验证身份，不以新接口单点通过代CONT-C整体。真正超范围时仅返回准确最小缺口及已保全成果，不重新询问已批准内容。
+
+SD00在本次准确C自然completed＋非异步formal COMPLETED＋正式报告/根/manifest满足后，直接交原R独立代码审查；原R准确completed＋唯一正式ACCEPT/NEEDS_FIX/REJECT＋报告后直接处理。仅ACCEPT时接收CONT-C并作对应Git提交，再028、029止首Demo；NEEDS_FIX签最小纠正交原C/R。实现中正常不重发、不主动状态轮询，取消的五分钟自动任务不恢复；用完成事件衔接，不等待用户重复催促。
+
+计数暂34/31/3/51。物理鼠标/触控/像素、交互式PlayMode、Mac/Player/Android、正式配方→PlayerSave制作、公开AwaitLinks、未覆盖强保存/真实崩溃及§184 NOT VERIFIED只随真实后续证据变化。根本包冻结范围为本节## 374.标题起至下列结束标记止，UTF-8无BOM、CRLF→LF、末尾恰好一LF；SHA另在派发登记中记，不回改本节。
+<!-- CONT-C-RCV1-PACKET-END -->
+
+## 375. CONT-C-RCV1冻结身份与实际派发登记
+
+§374正文按374.5规范冻结为9017 UTF-8/LF bytes，SHA256 `17c60d6f6f8e082681eef8f7704915f98560ccd49058fb573cebe5f604e90dde`；原§367按独占行结束标记核11217 bytes／`9b98b275f4066726466df278c683aebecf2cfb073420499533b96cae5533713b`仍相符。146证据路径和925源输入集合已按精确映射/增列推导核为唯一集合。正文内引用的标记不是结束边界，提取时必须匹配独占行。本补签不回改，后续身份/收件在外部追加；旧BLOCKED报告和cont-c22实物及两个迁移包只读。
+
+§374已实际派发原C，显式gpt-6-astra/max；发送后唯一回执读到新准确turn `01a0e3b9-0fa6-7183-8406-8b1a116e5c56`，startedAt=1790526951，inProgress/error=null、正确工程根。C确认从3草稿续接、先新turn/包/起点绑定、后实现与测试，复用3872基线、源码固定后Compile→全量。没有再次索取用户许可，原R未启动空等；本次正式C完成后直接衔接原R，不主动状态轮询。
+
+## 376. 用户明确要求版本管理后停机迁移
+
+用户最新明确纠正：完成版本管理后要换到Mac mini，不是让Windows继续产品开发。SD00此前在§373后派发§374是对时序的误解，现撤销继续执行的指令；§374正文作为历史设计/授权记录保留，执行状态改为PAUSED_FOR_DEVICE_MIGRATION，未经用户在迁移后明确恢复，不再派发实施、R审查、028/029或Unity验证。
+
+SD00已向原C下达立即停止后续功能和Unity执行、仅封存当前真实改动与最短迁移交接的指令。C已明确答复停止实施、没有本任务仍在运行的命令，仅整理未编译/未完成的证据与恢复入口；等待该次formal停改交接后，SD00把误续接产生的全部实际项目改动另作WIP迁移提交，再生成最终Mac包。本轮不把旧WIP包冒充最新最终包，不启动新实现或R回合。
+
+此前Git基线ce21901及WIP ade498c继续保留。既有远程origin为https://github.com/yyczz1/FightMatch.git，分支master，本机Git 2.53.0.windows.2；尚未push。最终停机快照另登记。用户本机.claude/settings.local.json继续保留未提交；原证据不删、不翻验收，功能34/31/3/51及Mac/Player/完整Demo的NOT VERIFIED不变。五分钟自动任务保持取消。
+
+## 377. 正式停改收件与用户授权推送迁移
+原C准确turn `01a0e3b9-0fa6-7183-8406-8b1a116e5c56` 已于2026-09-27T16:48:59.077Z自然completed/error=null，非异步formal final明确STOPPED_FOR_DEVICE_MIGRATION（WIP）。原R准确设计C1回合保持idle/completed，未启动新审查。§376暂停继续生效，不再派发产品任务，五分钟自动任务保持取消。
+
+停改报告 `demo-cont-c-rcv1-delivery.md` 为5099 bytes／49行／SHA256 `93a8a82d81f66868894b9c731fceb3dac9424f9992d187969258fdf07170a869`；scope为50130 bytes／`c75c1c37216754d04864d53b6f9a6d6a1df266aba79a425e4365d94550eb61a3`。新根root-identity为3301 bytes／`54a19e9418202364cf0d415dcaedf22d1de6a50ee94d0f3657dc09470097cfb0`；manifest为7021 bytes／`e7172046534ef532eaced72a54162488efaea4c5a310fd10ed2c3a873ab55267`，27项及实际28文件的长度/SHA已逐项核符。
+
+当前仅有runtime及Models/Query/Session/Recovery共5项源码变化；作者报告未编译/未测试、无活动命令、未运行Unity，不给COMPLETED/ACCEPT。SD00只核交接身份和保存原字节，不审查实现。完整CONT-C/028/029和Mac/Player/Android等未验证边界保持，功能34/31/3/51不变。
+
+用户追加明确要求“要换设备，至少你要做完推送，我才能拉取”，现授权正常推送既有origin/master。远程只读核得master为9916134a3c4dfad4150ef8e0eeddc3df7473476c，确为当前master祖先；本机权限文件的Git历史blob与该远程相同，用户当前私有改动继续不stage/commit/push。既有ce21901与ade498c历史保持，不force、不重写历史。
+
+本次迁移提交保存5项源码WIP、2份停改报告及三协调稿，并新增 `docs/migration/2026-09-28/README.md`、`evidence-index.json`、`continuation-evidence.zip`。zip为3499065 bytes／SHA256 `3f984a8cffacbe7a3f7f5040dc0225af36363634c3165f4fc684c7be34062808`，126个条目的长度/SHA全符，覆盖当前28＋原CONT-C22＋CONT-B-CODE-C1的76个实物。此迁移文档/证据保存属于用户新增版本管理授权，不放开SD00产品代码/Unity边界。
+
+提交后按用户授权执行正常git push origin master并核远程SHA与本地一致；只有实际成功才向用户宣告可从GitHub获取最新版本。最终SHA/推送核验回执随交付给用户并另存在忽略的output/migration/2026-09-28，避免把预期操作写成已完成。主恢复方式改为GitHub clone/pull，旧bundle只对应旧时点；完整最新bundle作为额外本地备份。迁移后须由用户明确恢复开发。

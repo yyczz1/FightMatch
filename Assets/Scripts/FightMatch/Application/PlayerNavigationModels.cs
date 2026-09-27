@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using FightMatch.Core;
 
 namespace FightMatch.Application
@@ -22,6 +21,46 @@ namespace FightMatch.Application
         Back, Cancel, Confirm, Return, Retry, Resolve, ResumeObserved, End, Refresh, SelectOriginalOperation
     }
     public enum PlayerNavigationDraftKind { Formation, Permanent, Migration }
+
+    // This slot only retains original immutable inputs/results; it cannot build or save.
+    internal sealed class PlayerNavigationOperation
+    {
+        internal long Epoch { get; private set; }
+        internal CandidateApplicationSnapshot Basis { get; private set; }
+        internal CandidateApplicationKind Kind { get; private set; }
+        internal CandidatePermanentQuote Quote { get; private set; }
+        internal PreparedCandidateLifecycleRequest Request { get; private set; }
+        internal PreparedCandidateApplicationIntent Intent { get; private set; }
+        internal CandidateApplicationCallResult Result { get; private set; }
+        internal bool Consumed { get; private set; }
+        internal bool HasVerifiedResult => Result?.IsCommitted == true && Result.OriginalLookup?.IsFound == true &&
+            Result.View.IsPublishedHeadVerified && Result.LookupViewCommitId == Result.View.PublishedSnapshot?.Header.CommitId;
+        internal void Clear()
+        { Epoch++; Basis = null; Quote = null; Request = null; Intent = null; Result = null; Consumed = false; }
+        internal void Begin(CandidateApplicationSnapshot basis, CandidateApplicationKind kind, CandidatePermanentQuote quote)
+        { Clear(); Basis = basis; Kind = kind; Quote = quote; }
+        internal bool TryConsume(long epoch)
+        {
+            if (epoch != Epoch || Consumed || Basis == null) return false;
+            Consumed = true; return true;
+        }
+        internal bool AcceptPrepared(long epoch, PreparedCandidateLifecycleRequest prepared)
+        {
+            if (epoch != Epoch || !Consumed || Intent != null || prepared == null || Basis == null ||
+                prepared.Kind != Kind || prepared.PlayerId != Basis.Business.PlayerId ||
+                prepared.Intent.ExpectedCommitId != Basis.Header.CommitId) return false;
+            Request = prepared; Intent = prepared.Intent; return true;
+        }
+        internal void Adopt(PreparedCandidateApplicationIntent original)
+        { Clear(); Intent = original; Kind = original.Kind; Consumed = true; }
+        internal bool Receive(long epoch, CandidateApplicationCallResult actual)
+        {
+            if (epoch != Epoch || Intent == null || actual?.View.PlayerId != Intent.PlayerId ||
+                actual.OriginalLookup != null && !actual.OriginalLookup.Record.Intent.CanonicalBytes.SequenceEqual(Intent.CanonicalBytes) ||
+                actual.IsCommitted && actual.OriginalCommitId == null) return false;
+            Result = actual; return true;
+        }
+    }
 
     public sealed class PlayerNavigationTarget
     {
