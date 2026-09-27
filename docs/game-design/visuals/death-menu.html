@@ -1,0 +1,72 @@
+<div id="fm-death-demo" aria-label="首次死亡引导和顶部下拉菜单演示">
+<style>
+#fm-death-demo{--d-bg:light-dark(#f4f0e6,#242c29);--d-panel:light-dark(#fffaf1,#303d35);--d-ink:light-dark(#253a30,#edf5e7);--d-muted:light-dark(#596d5f,#b5c8b8);--d-edge:light-dark(#c9d6c8,#556756);--d-gold:light-dark(#795c11,#f3d98b);--d-red:light-dark(#b3454a,#f1a4a6);--d-skin:light-dark(#f8d7b1,#efcfaa);color:var(--d-ink);font:15px/1.5 system-ui,'Microsoft YaHei',sans-serif;max-width:414px;margin:auto}
+#fm-death-demo *{box-sizing:border-box}
+#fm-death-demo button{font:inherit;color:inherit;cursor:pointer;min-height:44px;border:1px solid var(--d-edge);border-radius:11px;padding:8px 12px;background:var(--d-panel)}
+#fm-death-demo button:focus-visible{outline:3px solid var(--d-gold);outline-offset:2px}
+#fm-death-demo .d-phone{position:relative;background:var(--d-bg);border:1px solid var(--d-edge);border-radius:22px;padding:14px;overflow:hidden}
+#fm-death-demo .d-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#fm-death-demo .d-actions{display:flex;gap:6px}
+#fm-death-demo .d-drawer{position:absolute;top:66px;right:14px;width:min(280px,calc(100% - 28px));background:var(--d-panel);border:1px solid var(--d-edge);padding:10px;border-radius:13px;z-index:5;box-shadow:0 12px 28px #0003;display:grid;gap:7px;opacity:0;transform:translateY(-14px) scaleY(.9);transform-origin:top;visibility:hidden;transition:opacity .2s,transform .22s,visibility .22s}
+#fm-death-demo .d-drawer.open{opacity:1;transform:none;visibility:visible}
+#fm-death-demo .d-drawer p{margin:3px 4px;color:var(--d-muted);font-size:13px}
+#fm-death-demo .d-drawer button{text-align:left}
+#fm-death-demo .d-arena{margin:30px 0 14px;min-height:155px;display:flex;align-items:center;justify-content:space-evenly;border-bottom:1px solid var(--d-edge);position:relative}
+#fm-death-demo .d-enemy{text-align:center;color:var(--d-muted)}
+#fm-death-demo .d-monster{font-size:50px;line-height:1.2;color:var(--d-red);display:block}
+#fm-death-demo .d-board{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;aspect-ratio:1.65;margin-bottom:18px;opacity:.6}
+#fm-death-demo .d-board span{border-radius:5px;background:color-mix(in srgb,var(--d-edge) 48%,transparent)}
+#fm-death-demo .d-party{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
+#fm-death-demo .d-card{background:var(--d-panel);border-radius:14px;border:1px solid var(--d-edge);padding:10px 3px;position:relative}
+#fm-death-demo .d-face{position:relative;width:58px;height:64px;margin:0 auto 5px;display:flex;align-items:center;justify-content:center}
+#fm-death-demo .d-head{position:relative;width:48px;height:45px;border-radius:35% 35% 43% 43%;background:var(--d-skin);color:#49392c;border-top:12px solid #698875;box-shadow:0 4px 0 #0002;transition:filter .25s,transform .25s;display:flex;gap:10px;justify-content:center;align-items:center;font-weight:600}
+#fm-death-demo .d-face.mage .d-head{border-color:#8879a7;border-radius:50% 50% 35% 35%}
+#fm-death-demo .d-face.archer .d-head{border-color:#858f52}
+#fm-death-demo .d-bar{height:5px;background:var(--d-edge);border-radius:5px;margin:7px 8px}
+#fm-death-demo .d-bar:before{content:'';display:block;width:80%;height:100%;background:#66a17b;border-radius:5px}
+#fm-death-demo .d-card.dead{color:var(--d-muted)}
+#fm-death-demo .d-card.dead .d-head{filter:grayscale(1);transform:rotate(-6deg)}
+#fm-death-demo .d-card.dead .d-bar:before{width:0}
+#fm-death-demo .d-status{font-size:12px;min-height:18px;color:var(--d-muted)}
+#fm-death-demo .d-flight{position:absolute;z-index:8;background:var(--d-panel);border:1px solid var(--d-gold);color:var(--d-gold);padding:6px 10px;border-radius:10px;opacity:0;pointer-events:none;white-space:nowrap}
+#fm-death-demo .d-note{min-height:48px;color:var(--d-muted);margin:12px 2px}
+#fm-death-demo .d-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+@media(prefers-reduced-motion:reduce){#fm-death-demo *{transition:none!important;animation:none!important}}
+</style>
+<div class="d-phone">
+  <div class="d-top"><span>古林小径 · 战斗中</span><div class="d-actions"><button type="button" data-menu="ad" aria-expanded="false" aria-controls="d-ad">▷ 广告</button><button type="button" data-menu="hint" aria-expanded="false" aria-controls="d-hint">? 提示</button></div></div>
+  <div class="d-drawer" id="d-ad" aria-label="广告菜单"><p>选择希望获得的帮助</p><button type="button" data-revive>演示复活 · 战士</button><p>本演示不播放真实广告</p></div>
+  <div class="d-drawer" id="d-hint" aria-label="提示菜单"><button type="button" data-preview="完整攻略示意：角色 → 目标 → 完整路线 → 行动顺序。">完整攻略 · 本关免费 1 次</button><button type="button" data-preview="通关入口示意：真实游戏中完成广告后按正常胜利结算。">▷ 广告直接通关</button></div>
+  <div class="d-arena"><div class="d-enemy"><span class="d-monster">◆</span>远程敌人<br>下一步：攻击</div><span>→</span><span>己方后排</span></div>
+  <div class="d-board" aria-label="简化棋盘背景"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="d-party">
+    <div class="d-card" data-warrior><div class="d-face"><div class="d-head"><span data-eye>•</span><span data-eye>•</span></div></div><span>战士</span><div class="d-bar"></div><div class="d-status" data-status>存活</div></div>
+    <div class="d-card"><div class="d-face mage"><div class="d-head">• •</div></div><span>法师</span><div class="d-bar"></div><div class="d-status">存活</div></div>
+    <div class="d-card"><div class="d-face archer"><div class="d-head">• •</div></div><span>弓箭手</span><div class="d-bar"></div><div class="d-status">存活</div></div>
+  </div>
+  <span class="d-flight">观看广告复活</span>
+</div>
+<div class="d-controls"><button type="button" data-first>播放首次死亡引导</button><button type="button" data-later>演示后续死亡</button></div>
+<p class="d-note" aria-live="polite">点击按钮观察死亡效果，再打开顶部菜单。点击棋盘空白处或原图标收回菜单。</p>
+<script>
+(()=>{
+ const r=document.getElementById('fm-death-demo'),p=r.querySelector('.d-phone'),c=r.querySelector('[data-warrior]'),f=r.querySelector('.d-flight'),note=r.querySelector('.d-note');
+ let flight;
+ function close(){r.querySelectorAll('.d-drawer').forEach(x=>x.classList.remove('open'));r.querySelectorAll('[data-menu]').forEach(x=>x.setAttribute('aria-expanded','false'));}
+ function dead(v){c.classList.toggle('dead',v);r.querySelectorAll('[data-eye]').forEach(x=>x.textContent=v?'×':'•');r.querySelector('[data-status]').textContent=v?'已倒下':'存活';r.querySelector('[data-revive]').disabled=!v;}
+ function die(first){close();flight?.cancel();dead(true);note.textContent=first?'首次死亡：教学提示飞向广告图标。':'后续死亡：只保留灰色 XX 头像，不重复教学。';
+ if(!first)return;
+ const a=c.getBoundingClientRect(),b=r.querySelector('[data-menu="ad"]').getBoundingClientRect(),q=p.getBoundingClientRect();
+ f.style.left='8px';f.style.top=(a.top-q.top-32)+'px';
+ const dx=b.left-q.left-8-(f.offsetWidth-b.width)/2,dy=b.top-a.top+32;
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)flight=f.animate([{opacity:0,transform:'translate(0,8px)'},{opacity:1,transform:'translate(0,0)',offset:.22},{opacity:1,transform:'translate(0,0)',offset:.42},{opacity:1,transform:`translate(${dx}px,${dy}px) scale(.8)`,offset:.85},{opacity:0,transform:`translate(${dx}px,${dy}px) scale(.5)`}],{duration:1700,easing:'ease-in-out'});
+ }
+ r.querySelector('[data-first]').addEventListener('click',()=>die(true));r.querySelector('[data-later]').addEventListener('click',()=>die(false));
+ r.querySelectorAll('[data-menu]').forEach(b=>b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')==='true';close();if(!open){r.querySelector('#d-'+b.dataset.menu).classList.add('open');b.setAttribute('aria-expanded','true');}}));
+ document.addEventListener('click',e=>{if(!e.target.closest('#fm-death-demo [data-menu],#fm-death-demo .d-drawer'))close();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+ r.querySelector('[data-revive]').addEventListener('click',()=>{dead(false);close();note.textContent='复活效果演示完成。实际复活血量仍需定案，此处不表示数值约定。';});
+ r.querySelectorAll('[data-preview]').forEach(b=>b.addEventListener('click',()=>{close();note.textContent=b.dataset.preview;}));dead(false);
+})();
+</script>
+</div>

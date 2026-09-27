@@ -1,0 +1,44 @@
+classDiagram
+direction TB
+class CharacterSystem {
+  <<QFramework>>
+  UseExperienceCard()
+  UnlockProfessionSkill()
+  ChangeFormation()
+  ApplyRecovery()
+}
+class PlayerModel {
+  <<QFramework>>
+  PlayerState player
+}
+class PlayerState {
+  unlockedProfessions
+  stageProgress
+}
+class CharacterRecord {
+  characterId
+  professionId
+  level
+  experience
+  unlockedSkills
+  recoveryReadyAt
+}
+class FormationState {
+  orderedCharacterIds
+}
+class GrowthRules {
+  <<PureCSharp>>
+  CalculateLevelChange()
+  CanUnlockSkill()
+}
+class RecoveryRules {
+  <<PureCSharp>>
+  IsRecovered(nowUtc)
+}
+CharacterSystem --> PlayerModel : 更新局外状态
+PlayerModel "1" *-- "1" PlayerState
+PlayerState "1" *-- "0..*" CharacterRecord
+PlayerState "1" *-- "1" FormationState
+FormationState --> CharacterRecord : 按 ID 引用最多三人
+CharacterSystem ..> GrowthRules : 成长与解锁判断
+CharacterSystem ..> RecoveryRules : 计算局外恢复

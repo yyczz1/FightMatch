@@ -1,0 +1,43 @@
+classDiagram
+direction TB
+class BattleController {
+  <<Unity>>
+  SubmitCompletedPath()
+  PresentOutcome()
+}
+class SubmitBattleActionCommand {
+  <<QFramework>>
+  Execute()
+}
+class BattleSystem {
+  <<QFramework>>
+  StartBattle()
+  SubmitAction()
+  RewindTo()
+}
+class BattleModel {
+  <<QFramework>>
+  BattleSession currentSession
+}
+class PlayerModel {
+  <<QFramework>>
+  PlayerState player
+}
+class BattleSession {
+  <<PureCSharp>>
+  ApplyAction()
+  RewindTo()
+}
+class BattleOutcome {
+  orderedEvents
+  battleResult
+}
+BattleController ..> SubmitBattleActionCommand : 发送
+SubmitBattleActionCommand ..> BattleSystem : 调用
+BattleSystem --> BattleModel : 获取当前对局
+BattleSystem --> PlayerModel : 开战读取局外数据
+BattleModel "1" *-- "0..1" BattleSession : 唯一当前实例
+BattleSystem ..> BattleSession : 直接调用
+BattleSession ..> BattleOutcome : 返回
+BattleSystem ..> BattleOutcome : 发布事件
+BattleController ..> BattleOutcome : 订阅并播放

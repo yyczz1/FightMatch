@@ -1,0 +1,181 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "回退历史 · 候选流程",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "backend": {
+          "label": "业务与规则"
+        },
+        "frontend": {
+          "label": "界面与工具"
+        },
+        "cloud": {
+          "label": "在线计算"
+        },
+        "database": {
+          "label": "状态数据"
+        },
+        "external": {
+          "label": "接入边界"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "ui",
+      "label": "玩家与表现"
+    },
+    {
+      "id": "app",
+      "label": "QFramework"
+    },
+    {
+      "id": "history",
+      "label": "对局历史"
+    },
+    {
+      "id": "open",
+      "label": "未决分支",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "select",
+    "locate",
+    "range",
+    "restore",
+    "discard",
+    "refresh"
+  ],
+  "nodes": [
+    {
+      "id": "select",
+      "lane": "ui",
+      "col": 0,
+      "type": "frontend",
+      "label": "选择端点或固化线",
+      "sublabel": "定位历史行动",
+      "width": 210
+    },
+    {
+      "id": "locate",
+      "lane": "app",
+      "col": 1,
+      "type": "backend",
+      "label": "BattleSystem",
+      "sublabel": "请求回到指定行动前",
+      "width": 210
+    },
+    {
+      "id": "range",
+      "lane": "history",
+      "col": 2,
+      "type": "backend",
+      "label": "确定回退范围",
+      "sublabel": "目标行动及其后全部行动",
+      "width": 230
+    },
+    {
+      "id": "restore",
+      "lane": "history",
+      "col": 3,
+      "type": "database",
+      "label": "恢复完整战斗状态",
+      "sublabel": "线路 · 生命 · 状态 · 随机",
+      "tag": "含贡献与战术装备次数",
+      "width": 240
+    },
+    {
+      "id": "discard",
+      "lane": "history",
+      "col": 4,
+      "type": "backend",
+      "label": "撤回后续历史",
+      "sublabel": "玩家与敌方行动一起撤回",
+      "width": 230
+    },
+    {
+      "id": "refresh",
+      "lane": "ui",
+      "col": 5,
+      "type": "frontend",
+      "label": "重建当前表现",
+      "sublabel": "相同行动重演保持一致",
+      "width": 220
+    },
+    {
+      "id": "receipt_boundary",
+      "lane": "open",
+      "col": 3,
+      "type": "external",
+      "label": "广告权益交界待定",
+      "sublabel": "复活 / 重来 / 已获攻略",
+      "tag": "C06：需要产品决定",
+      "width": 240
+    }
+  ],
+  "edges": [
+    {
+      "id": "rewind_request",
+      "from": "select",
+      "to": "locate",
+      "label": "回退 Command"
+    },
+    {
+      "id": "history_lookup",
+      "from": "locate",
+      "to": "range",
+      "label": "查找记录"
+    },
+    {
+      "id": "battle_only",
+      "from": "range",
+      "to": "restore",
+      "label": "纯战斗历史",
+      "role": "main"
+    },
+    {
+      "id": "external_events",
+      "from": "range",
+      "to": "receipt_boundary",
+      "label": "涉及广告权益",
+      "role": "branch"
+    },
+    {
+      "id": "truncate_history",
+      "from": "restore",
+      "to": "discard",
+      "label": "恢复完成"
+    },
+    {
+      "id": "rebuild_view",
+      "from": "discard",
+      "to": "refresh",
+      "label": "刷新事件"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "战斗状态只有一个权威来源",
+      "items": [
+        "BattleSession 持有 BattleState；UI 读取结果。",
+        "回退包含 PRD、意图、贡献与战术装备次数。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "未决分支不是限制规则",
+      "items": [
+        "图中未决分支用于暴露设计缺口，不代表禁止回退。",
+        "局外既得等级、物品与现实时间不属于战斗历史。"
+      ]
+    }
+  ]
+}

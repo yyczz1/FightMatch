@@ -1,0 +1,32 @@
+{
+  "schema_version":1,
+  "diagram_type":"architecture",
+  "meta":{"title":"FightMatch · C3 更新、账号与同步交接","locale":"zh-CN","quality_profile":"showcase","viewBox":[1390,860]},
+  "components":[
+    {"id":"startup-entry","type":"frontend","label":"客户端启动入口","sublabel":"固定启动层","tag":"启动本机已可用版本","pos":[45,350],"size":[270,120]},
+    {"id":"application-coordinator","type":"backend","label":"应用流程 · M02","sublabel":"QFramework / C#","tag":"组织业务 · 明确完成点","pos":[495,350],"size":[280,120]},
+    {"id":"update-coordinator","type":"backend","label":"更新与版本切换","sublabel":"新增职责 · 生命周期管理","tag":"配套版本 · 安全生效 · 恢复","pos":[495,65],"size":[280,120]},
+    {"id":"platform-loader","type":"backend","label":"平台加载接入 · M12","sublabel":"代码 / 资源装载能力","tag":"各平台适配 · 不修改玩家业务","pos":[1030,65],"size":[300,120]},
+    {"id":"identity-binding","type":"backend","label":"游客与账号绑定","sublabel":"新增职责 · 身份关联","tag":"接续已有进度 · 绑定防重","pos":[45,65],"size":[270,120]},
+    {"id":"cloud-save-coordinator","type":"backend","label":"云同步与选档","sublabel":"新增职责 · 局外资料交接","tag":"分歧显式选择 · 不迁移半场战斗","pos":[1030,350],"size":[300,120]},
+    {"id":"existing-business-components","type":"backend","label":"既有游戏业务组件","sublabel":"成长 / 背包 / 进度 / 战斗等","tag":"各自拥有状态 · 详见原C3","pos":[45,680],"size":[270,120]},
+    {"id":"device-save-adapter","type":"backend","label":"本机保存 · M12","sublabel":"完整一致版本与中断恢复","tag":"包含当前战斗和完整历史","pos":[495,680],"size":[280,120]},
+    {"id":"entitlement-owner","type":"backend","label":"广告权益 · M08","sublabel":"事实 / 资格 / 使用 / 兑现效果","tag":"一次机会使用时联网校验","pos":[1030,680],"size":[300,120]}
+  ],
+  "boundaries":[{"kind":"region","label":"Unity 客户端内部 · 新职责建议；既有业务为折叠展示","wraps":["startup-entry","application-coordinator","update-coordinator","platform-loader","identity-binding","cloud-save-coordinator","existing-business-components","device-save-adapter","entitlement-owner"],"pad":24}],
+  "connections":[
+    {"id":"enter-local-game","from":"startup-entry","to":"application-coordinator","label":"进入本机游戏","variant":"emphasis","labelDy":12},
+    {"id":"schedule-version-switch","from":"application-coordinator","to":"update-coordinator","label":"安排安全切换"},
+    {"id":"load-matched-packages","from":"update-coordinator","to":"platform-loader","label":"校验并装载配套版本"},
+    {"id":"bind-existing-profile","from":"application-coordinator","to":"identity-binding","label":"绑定已有资料"},
+    {"id":"sync-outside-battle","from":"application-coordinator","to":"cloud-save-coordinator","label":"同步局外进度"},
+    {"id":"apply-selected-profile","from":"application-coordinator","to":"existing-business-components","label":"请求各负责者更新"},
+    {"id":"commit-local-version","from":"application-coordinator","to":"device-save-adapter","label":"保存完整本机状态","labelDy":110},
+    {"id":"reconcile-ad-effects","from":"cloud-save-coordinator","to":"entitlement-owner","label":"核对权益与兑现","labelDy":110}
+  ],
+  "cards":[
+    {"dot":"cyan","title":"原业务边界保留","items":["规则仍是普通C#，供独立局面复用","同步组件不直接改HP或重发奖励"]},
+    {"dot":"emerald","title":"本机与云端分开","items":["本机继续保存完整活动战斗","云端只接续已确认的局外资料"]},
+    {"dot":"amber","title":"权益边界已确认","items":["未用广告机会断网保留，联网使用","已兑现收益的跨档核对继续设计"]}
+  ]
+}

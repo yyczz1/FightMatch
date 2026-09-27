@@ -1,0 +1,146 @@
+{
+  "task": "FM-DEMO-026-G1-C1",
+  "executor": "GLM-external-worker",
+  "deliveredAtUtc": "2026-09-22T04:17:45Z",
+  "contractRef": "system-task-packets.md §170; R report demo-026-g1-code-review.md F1-F5/N1-N3",
+  "status": "COMPLETED",
+  "inputVersions": {
+    "input-presentation.md": { "sha256": "ba1887f2d4b357032b95182bc7866cfd7bcf3dc966e7281454cdf54eebad44f6" },
+    "FlowPos.cs": { "sha256": "52cc1aa7fa88c50b9cd3d17071f3df99098ecad1ada58b9d5636faffe7cb4f6a", "linkMode": "read-only Link" },
+    "FlowPuzzle.Core.asmdef": { "sha256": "9f684e62a102825715d9d6db929fdf9ef0d23a636c6ad38c59bfbc4168c9e3a8" }
+  },
+  "sourceHashes": {
+    "files": [
+      { "path": "Input/GestureModels.cs", "before": "0c021c4726df0708b637de1f8c984fa059ec9f5a868068ae533580e5a150d702", "after": "c18257cdecb0f993b27130380b071e2f092ad5c230311e30bbd559c5218e9464", "bytes": 12570, "lines": 304, "changed": true },
+      { "path": "Input/RouteGesture.cs", "before": "8925591bfdf363f03493fc37b94868e066a1772e3f50be2d8d2867aed84c4391", "after": "51478f0439b92b2d00909e5d468505c69b39034ce2679459f28dcdd1f4d25da4", "bytes": 13753, "lines": 393, "changed": true },
+      { "path": "Input/FightMatch.Input.asmdef", "before": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f", "after": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f", "changed": false },
+      { "path": "Tests/RouteGestureCases.cs", "before": "445e2c9e57cd330068f203b196afeaa090286040446b48d285e9d8d3b0d6aaa2", "after": "21a7fa709f7148126c538954d17a1b79ec0e22798bd36c9426b2f38a89b8cd67", "bytes": 50447, "lines": 1035, "changed": true },
+      { "path": "Verify/Program.cs", "before": "764b26e2c6e0b4cd768e67b163bb683f5d60580ec15932863ae5f0877ad141c8", "after": "764b26e2c6e0b4cd768e67b163bb683f5d60580ec15932863ae5f0877ad141c8", "changed": false },
+      { "path": "Verify/RouteGesture.Verify.csproj", "before": "5b2bd1ab6ab5fdec46a5862c45fe68d7432556e54939fdb21015271a0f660248", "after": "5b2bd1ab6ab5fdec46a5862c45fe68d7432556e54939fdb21015271a0f660248", "changed": false },
+      { "path": "Verify/global.json", "before": "83c970a00a2de414738e4b08b49899ad98789fd760e0e4a03c07e7cfcdf5933a", "after": "83c970a00a2de414738e4b08b49899ad98789fd760e0e4a03c07e7cfcdf5933a", "changed": false },
+      { "path": "Verify/NuGet.Config", "before": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575", "after": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575", "changed": false }
+    ],
+    "linkedReadOnly": { "path": "Assets/Scripts/FlowPuzzle/Core/FlowPos.cs", "sha256": "52cc1aa7fa88c50b9cd3d17071f3df99098ecad1ada58b9d5636faffe7cb4f6a", "modified": false }
+  },
+  "budgetCheck": { "productionLines": 697, "productionLimit": 700, "total3CsLines": 1732, "totalLimit": 1900 },
+  "fixes": {
+    "F1_UpThreshold": {
+      "file": "Input/RouteGesture.cs",
+      "description": "Up now checks ExceedsThreshold on the release sample before deciding, same as Move. If release exceeds threshold, transitions to Dragging and processes cell; only then decides Tap vs route.",
+      "newCases": ["G11A", "G11B", "G11C", "G11D", "G11E"]
+    },
+    "F2_ConstructorVisibilityAndFreeze": {
+      "file": "Input/GestureModels.cs",
+      "description": "GestureIntent constructor narrowed to internal. Both GestureView and GestureIntent constructors copy incoming IReadOnlyList to new array and wrap with Array.AsReadOnly. Read() and BuildRouteIntent() simplified to pass _draft directly (constructor handles copy).",
+      "newCases": ["G12A", "G12B", "G12C"]
+    },
+    "F3_NullPairCheck": {
+      "file": "Input/GestureModels.cs",
+      "description": "GestureContext constructor checks each pairs[i] for null before any Pair property dereference, throwing ArgumentException instead of leaking NullReferenceException.",
+      "newCases": ["G09O"]
+    },
+    "F4_InvalidModeRejection": {
+      "file": "Input/GestureModels.cs",
+      "description": "GestureContext constructor validates mode is Attack or FreeLink, rejecting undefined enum values like (GestureMode)99.",
+      "newCases": ["G09P"]
+    },
+    "F5_OverflowSafeDistance": {
+      "file": "Input/RouteGesture.cs",
+      "description": "Added ExceedsThreshold helper that scales dx/dy by max(|dx|,|dy|) before squaring, avoiding overflow/underflow. Strict greater-than preserved. No epsilon, no float, no Unity-specific API.",
+      "newCases": ["G15A", "G15B"]
+    },
+    "N1_MarkerArchive": {
+      "description": "4 .runguid files archived to runs/98e0.../original-markers/ after SHA verification, then deleted from Verify/ root.",
+      "markers": [
+        { "name": ".runguid", "sha256": "c0a05e90429d94c434d6a3fe9de967c327bcc94b1fca4eb887168db9ef7853e0", "archivedTo": "runs/98e0c5e66d2548afa748042fd6e72982/original-markers/.runguid", "deleted": true },
+        { "name": ".runguid2", "sha256": "69f1286a678576d4a822812f7adcbf69a040efc2ee6b0c96551c19e9d27ab418", "archivedTo": "runs/98e0c5e66d2548afa748042fd6e72982/original-markers/.runguid2", "deleted": true },
+        { "name": ".runguid3", "sha256": "ddbe1d2d8cf3042734ed498e388d46dc813d37ebad9c36ba2c67b102942efbcd", "archivedTo": "runs/98e0c5e66d2548afa748042fd6e72982/original-markers/.runguid3", "deleted": true },
+        { "name": ".runguid4", "sha256": "111f0089fb481ec57f2397b70ca62ca17a86dcec8eadf92d28d0b386a07b507c", "archivedTo": "runs/98e0c5e66d2548afa748042fd6e72982/original-markers/.runguid4", "deleted": true }
+      ]
+    },
+    "N2_MissingWitnesses": {
+      "file": "Tests/RouteGestureCases.cs",
+      "description": "Restored tail-recovery witnesses (G04G3 origin-tail, G04H normal-tail); added isolated adjacent self-intersect (G04I) and locked-mid-cell (G04J); enhanced G01A/G01B/G02 with complete per-cell sequence assertions; added AssertThrowsExact<TException> helper and updated G09A-G09N to use it; 16 new case IDs total.",
+      "newCases": ["G04G3", "G04H", "G04I", "G04J", "G09O", "G09P", "G11A", "G11B", "G11C", "G11D", "G11E", "G12A", "G12B", "G12C", "G15A", "G15B"]
+    },
+    "N3_HistoricalEvidence": {
+      "description": "Original delivery 67 count corrected to 64. Original stderr/UTC/stage-SHA gaps remain NOT VERIFIED; no backfilling. Only current-run evidence recorded."
+    }
+  },
+  "redPhase": {
+    "runGuid": "035cc6dcdc2e476683141d048e9850dd",
+    "productionShaUnchanged": true,
+    "testFileSha": "076ba6048df52b4bca8c536b3b125abd6388b570d96ec3e6448607276bf97b5a",
+    "exits": { "version": 0, "restore": 0, "build": 0, "run": 2 },
+    "result": "total=80 pass=69 fail=11",
+    "failed": ["G04H", "G09O", "G09P", "G11A", "G11B", "G11C", "G12A", "G12B", "G12C", "G15A", "G15B"],
+    "analysis": "9 of 11 are expected F1-F5 probe failures on original production code. G04H (wrong diagonal cell: used (1,1) which is adjacent manhattan=1, not diagonal) and G11C (wrong assertion: expected null instead of TapLocator for exact-threshold) are test bugs, not production bugs."
+  },
+  "greenPhase": {
+    "runGuid": "98e0c5e66d2548afa748042fd6e72982",
+    "cwd": "ExternalWork/FM-DEMO-026-G1/Verify",
+    "env": { "DOTNET_CLI_HOME": "runs/98e0.../.cli", "NUGET_PACKAGES": "runs/98e0.../.nuget", "DOTNET_CLI_TELEMETRY_OPTOUT": "1", "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1" },
+    "dotnetPath": "C:\\Program Files\\dotnet\\dotnet.exe",
+    "sdkVersion": "6.0.412",
+    "steps": [
+      {
+        "step": "01_version",
+        "cmd": "dotnet --version",
+        "exitCode": 0,
+        "stdout": "6.0.412",
+        "artifactDir": "runs/98e0c5e66d2548afa748042fd6e72982/"
+      },
+      {
+        "step": "02_restore",
+        "cmd": "dotnet restore RouteGesture.Verify.csproj --configfile NuGet.Config --packages .nuget -p:BaseIntermediateOutputPath=...\\obj\\ -p:MSBuildProjectExtensionsPath=...\\obj\\",
+        "exitCode": 0,
+        "artifactDir": "runs/98e0c5e66d2548afa748042fd6e72982/"
+      },
+      {
+        "step": "03_build",
+        "cmd": "dotnet build RouteGesture.Verify.csproj --no-restore --configuration Release --output bin -p:BaseIntermediateOutputPath=...\\obj\\ -p:MSBuildProjectExtensionsPath=...\\obj\\ -p:UseSharedCompilation=false",
+        "exitCode": 0,
+        "stdout": "MSBuild 17.3.2; 0 warnings 0 errors; RouteGesture.Verify.dll generated",
+        "artifactDir": "runs/98e0c5e66d2548afa748042fd6e72982/"
+      },
+      {
+        "step": "04_run",
+        "cmd": "dotnet bin\\RouteGesture.Verify.dll",
+        "exitCode": 0,
+        "stdout": "80 [PASS] lines; SUMMARY total=80 pass=80 fail=0",
+        "artifactDir": "runs/98e0c5e66d2548afa748042fd6e72982/"
+      }
+    ],
+    "caseResults": { "total": 80, "pass": 80, "fail": 0, "skipped": 0, "allPass": true }
+  },
+  "allCaseIds": [
+    "G01A","G01B","G01C","G02","G03A","G03B","G03C","G03D","G03E","G03F","G03G",
+    "G04A","G04B","G04C","G04D","G04E","G04F","G04G1","G04G2","G04G3","G04H","G04I","G04J",
+    "G05A","G05B","G05C","G05D","G05E","G05F","G05G","G05H",
+    "G06A","G06B","G06C","G06D","G07A","G07B","G07C","G07D","G07E","G07F",
+    "G08A","G08B","G08C","G08D","G08E","G08F","G08G","G08H","G08I","G08J","G08K",
+    "G09A","G09B","G09C","G09D","G09E","G09F","G09G","G09H","G09I","G09J","G09K","G09L","G09M","G09N","G09O","G09P",
+    "G10A","G10B",
+    "G11A","G11B","G11C","G11D","G11E",
+    "G12A","G12B","G12C",
+    "G15A","G15B"
+  ],
+  "newCaseIds": ["G04G3","G04H","G04I","G04J","G09O","G09P","G11A","G11B","G11C","G11D","G11E","G12A","G12B","G12C","G15A","G15B"],
+  "acceptanceCriteria": { "G01":"PASS","G02":"PASS","G03":"PASS","G04":"PASS","G05":"PASS","G06":"PASS","G07":"PASS","G08":"PASS","G09":"PASS","G10":"PASS" },
+  "testFixesDuringRedPhase": [
+    { "caseId": "G04H", "bug": "Used cell (1,1) from tail (1,0) which is manhattan=1 (adjacent), not diagonal. Changed to (0,1) which is manhattan=2 (diagonal).", "productionCodeChanged": false },
+    { "caseId": "G11C", "bug": "Asserted intent==null for exact-threshold Up on same cell with allowHistoryTap=true. Per §156, exact threshold is not exceeded (strict >), so TapLocator is correct. Fixed assertion to expect TapLocator.", "productionCodeChanged": false }
+  ],
+  "notRun": ["Unity assembly import", "Real mouse/touch input", "Formal scene wiring", "026 full package"],
+  "notVerified": ["Original stderr files for runs 1bf9ed/4c26c6", "Original stage before/after SHA per run", "Original UTC timestamps for delivery 01:33 vs runs 02:42/02:43", "Pre-work full project baseline"],
+  "blocked": false,
+  "selfCheck": {
+    "filesModified": 3,
+    "filesUnchanged": 5,
+    "originalReportsModified": false,
+    "rReportModified": false,
+    "gitWrites": false,
+    "unityRuns": 0,
+    "selfAcceptClaimed": false
+  }
+}

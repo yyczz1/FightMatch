@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FlowPuzzle.Core;
 using FlowPuzzle.Editor.Draft;
 using FlowPuzzle.Editor.Commands;
@@ -62,6 +63,27 @@ namespace FlowPuzzle.Tests.Editor
             h.Execute(MoveEndpointCommand.Remove(draft, 0, true));
             Assert.IsNull(draft.pairs[0].endpointA);
             h.Undo(); Assert.AreEqual(0, draft.pairs[0].endpointA.Value.x);
+        }
+
+        [Test] public void MoveEndpoint_WithConstraint_UndoRedoRestoresWholeDraftState()
+        {
+            var draft = MakeDraft(1);
+            draft.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            draft.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            draft.ApplyConstraint(0, new List<FlowPos> { new FlowPos(0, 0), new FlowPos(1, 0), new FlowPos(2, 0) });
+            var history = new FlowEditorCommandHistory();
+
+            Assert.IsTrue(history.Execute(MoveEndpointCommand.Place(draft, 0, true, new FlowPos(0, 1))));
+            Assert.AreEqual(new FlowPos(0, 1), draft.pairs[0].endpointA.Value);
+            Assert.IsNull(draft.GetConstraint(0));
+
+            Assert.IsTrue(history.Undo());
+            Assert.AreEqual(new FlowPos(0, 0), draft.pairs[0].endpointA.Value);
+            Assert.AreEqual(3, draft.GetConstraint(0).cells.Count);
+
+            Assert.IsTrue(history.Redo());
+            Assert.AreEqual(new FlowPos(0, 1), draft.pairs[0].endpointA.Value);
+            Assert.IsNull(draft.GetConstraint(0));
         }
 
         [Test] public void ResizeBoard_RoundTrip()

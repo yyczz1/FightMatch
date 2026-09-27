@@ -1,0 +1,214 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "养成、战斗与结算 · 候选流程",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "backend": {
+          "label": "业务与规则"
+        },
+        "frontend": {
+          "label": "界面与工具"
+        },
+        "cloud": {
+          "label": "在线计算"
+        },
+        "database": {
+          "label": "状态数据"
+        },
+        "external": {
+          "label": "接入边界"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "ui",
+      "label": "玩家界面"
+    },
+    {
+      "id": "app",
+      "label": "QFramework"
+    },
+    {
+      "id": "domain",
+      "label": "共享规则"
+    },
+    {
+      "id": "failure",
+      "label": "其他结果",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "prepare",
+    "configure",
+    "build",
+    "battle",
+    "reward",
+    "grant",
+    "result"
+  ],
+  "nodes": [
+    {
+      "id": "prepare",
+      "lane": "ui",
+      "col": 0,
+      "type": "frontend",
+      "label": "选关与按需准备",
+      "sublabel": "连续关可沿用当前阵容",
+      "width": 230
+    },
+    {
+      "id": "configure",
+      "lane": "app",
+      "col": 1,
+      "type": "backend",
+      "label": "角色 / 装备 / 关卡系统",
+      "sublabel": "读取与更新 PlayerModel",
+      "width": 240
+    },
+    {
+      "id": "build",
+      "lane": "domain",
+      "col": 2,
+      "type": "backend",
+      "label": "建立本次战斗角色",
+      "sublabel": "等级 · 职业 · 装备 · 技能",
+      "tag": "战术装备从现有库存补充",
+      "width": 230
+    },
+    {
+      "id": "battle",
+      "lane": "domain",
+      "col": 3,
+      "type": "backend",
+      "label": "BattleSession",
+      "sublabel": "运行战斗并记录真实贡献",
+      "width": 230
+    },
+    {
+      "id": "reward",
+      "lane": "domain",
+      "col": 4,
+      "type": "backend",
+      "label": "计算胜利收益",
+      "sublabel": "每名角色独立计算经验",
+      "width": 230
+    },
+    {
+      "id": "grant",
+      "lane": "app",
+      "col": 4,
+      "type": "backend",
+      "label": "SettlementSystem",
+      "sublabel": "收益入账 · 扣除实际用量",
+      "width": 240
+    },
+    {
+      "id": "result",
+      "lane": "ui",
+      "col": 5,
+      "type": "frontend",
+      "label": "三人结算与下一关",
+      "sublabel": "亮眼动画不阻塞下一关",
+      "width": 230
+    },
+    {
+      "id": "lost",
+      "lane": "failure",
+      "col": 3,
+      "type": "frontend",
+      "label": "失败后的选择",
+      "sublabel": "复活 / 重来 / 退出",
+      "tag": "失败物品次数返还规则见正文",
+      "width": 230
+    },
+    {
+      "id": "ad_reward",
+      "lane": "failure",
+      "col": 4,
+      "type": "external",
+      "label": "广告通关口径待定",
+      "sublabel": "必须正常胜利与正常收益",
+      "tag": "C07：评分与生死口径",
+      "width": 240
+    }
+  ],
+  "edges": [
+    {
+      "id": "prepare_command",
+      "from": "prepare",
+      "to": "configure",
+      "label": "准备操作"
+    },
+    {
+      "id": "create_party",
+      "from": "configure",
+      "to": "build",
+      "label": "进入关卡"
+    },
+    {
+      "id": "start_session",
+      "from": "build",
+      "to": "battle",
+      "label": "创建对局"
+    },
+    {
+      "id": "won",
+      "from": "battle",
+      "to": "reward",
+      "label": "正常战胜",
+      "role": "main"
+    },
+    {
+      "id": "lost_branch",
+      "from": "battle",
+      "to": "lost",
+      "label": "失败",
+      "role": "error"
+    },
+    {
+      "id": "ad_branch",
+      "from": "battle",
+      "to": "ad_reward",
+      "label": "广告直接通关",
+      "role": "branch"
+    },
+    {
+      "id": "commit_reward",
+      "from": "reward",
+      "to": "grant",
+      "label": "收益结果"
+    },
+    {
+      "id": "present_reward",
+      "from": "grant",
+      "to": "result",
+      "label": "结算事件"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "角色经验规则",
+      "items": [
+        "基础经验 × 该角色等级修正 × 该角色评分倍率。",
+        "真实贡献不设硬上限；具体曲线与权重待定。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "广告跳关仍需补齐",
+      "items": [
+        "同样正常收益；只扣已经实际使用的战术物品。",
+        "评分替代口径、真实统计与队员生死需要先决定。"
+      ]
+    }
+  ]
+}

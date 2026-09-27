@@ -60,3 +60,23 @@ Crashlytics.Dummy
 # Spec workflow / agent artifacts (keep clean)
 .spec-workflow/
 .agents/
+
+# Local caches, historical validation payloads, and exported artifacts
+/Library_backup/
+/TestArtifacts/
+/ExternalWork/
+/output/
+/outputs/
+/*-EditMode.xml
+/TestResults*.xml
+
+# Local assistant settings and memory (already tracked files stay tracked)
+/.codex/
+/.workbuddy/
+/.claude/settings.local.json
+
+# Standalone validation tool: keep its authored project, not build outputs
+/Tools/**/bin/
+/Tools/**/obj/
+/Tools/**/.cli/
+!/Tools/FMDemoSaveRecovery/FMDemoSaveRecovery.csproj

@@ -111,12 +111,22 @@ namespace FlowPuzzle.Editor.Draft
                         || (p.endpointB.HasValue && p.endpointB.Value.Equals(pos)))
                         return FlowDraftMutationResult.Fail("EndpointOverlap", "Position occupied by another color.");
                 }
+                foreach (var constraint in fixedConstraints)
+                {
+                    if (constraint.colorId == colorId || constraint.cells == null) continue;
+                    if (constraint.cells.Any(cell => cell.Equals(pos)))
+                        return FlowDraftMutationResult.Fail("EndpointOnForeignConstraint",
+                            $"Position occupied by constraint of color {constraint.colorId}.");
+                }
                 // Same-color A/B overlap
                 var other = isA ? pair.endpointB : pair.endpointA;
                 if (other.HasValue && other.Value.Equals(pos))
                     return FlowDraftMutationResult.Fail("EndpointOverlap", "Endpoints of same color must not overlap.");
                 var old = isA ? pair.endpointA : pair.endpointB;
+                if (old.HasValue && old.Value.Equals(pos))
+                    return FlowDraftMutationResult.Ok();
                 if (isA) pair.endpointA = pos; else pair.endpointB = pos;
+                fixedConstraints.RemoveAll(c => c.colorId == colorId);
                 MarkDirty(); return FlowDraftMutationResult.Ok();
             }
             catch { RestoreFrom(snap); return FlowDraftMutationResult.Fail("Error", "Placement failed."); }
@@ -133,6 +143,7 @@ namespace FlowPuzzle.Editor.Draft
             try
             {
                 if (isA) pair.endpointA = null; else pair.endpointB = null;
+                fixedConstraints.RemoveAll(c => c.colorId == colorId);
                 MarkDirty(); return FlowDraftMutationResult.Ok();
             }
             catch { RestoreFrom(snap); return FlowDraftMutationResult.Fail("Error", "Removal failed."); }
@@ -180,9 +191,9 @@ namespace FlowPuzzle.Editor.Draft
             if (otherEndpoint.HasValue)
             {
                 for (int i = 1; i < cells.Count; i++)
-                    if (otherEndpoint.Value.Equals(cells[i]))
+                    if (otherEndpoint.Value.Equals(cells[i]) && i != cells.Count - 1)
                         return FlowDraftMutationResult.Fail("SecondOwnEndpointTraversal",
-                            "Chain passes through second own endpoint.");
+                            "Constraint may end at the second endpoint, but cannot pass through it and continue.");
             }
 
             var seen = new HashSet<FlowPos>();
@@ -243,10 +254,10 @@ namespace FlowPuzzle.Editor.Draft
             var snap = Clone();
             try
             {
-                if (fromIndex <= 1) { fixedConstraints.Remove(fc); }
+                if (fromIndex == 0) { fixedConstraints.Remove(fc); }
                 else
                 {
-                    fc.cells = fc.cells.Take(fromIndex).ToList();
+                    fc.cells = fc.cells.Take(fromIndex + 1).ToList();
                 }
                 MarkDirty(); return FlowDraftMutationResult.Ok();
             }

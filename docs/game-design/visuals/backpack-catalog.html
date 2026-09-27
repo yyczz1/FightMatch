@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="zh-CN" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>FightMatch · 背包与合成目录</title>
+<style>:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, "Segoe UI", sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive > .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align="right"]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align="center"]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget > :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type="file"]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed="true"],
+  [aria-selected="true"],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type="file"]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type="color"] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="time"],
+    [type="week"]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html>body{padding:0}</style>
+</head>
+<body><div id="fm-catalog" aria-label="多物品背包与二十四种配方目录示意">
+<style>
+#fm-catalog{--cg-bg:light-dark(#f5f2e8,#242c24);--cg-paper:light-dark(#fffdf7,#303a30);--cg-soft:light-dark(#e8ecde,#3a4736);--cg-text:light-dark(#2b4031,#edf1e3);--cg-muted:light-dark(#60705f,#b5c3ac);--cg-green:light-dark(#365d40,#bbd5a9);--cg-on:light-dark(#fcfcf6,#21341f);--cg-line:light-dark(#d5dece,#4a5a44);--cg-amber:light-dark(#886124,#e6c380);--cg-amber-bg:light-dark(#eee4cf,#483e2e);--cg-shadow:light-dark(#243a2533,#10191088);color:var(--cg-text);font:14px/1.5 system-ui,'Microsoft YaHei',sans-serif;max-width:420px;margin:auto}
+#fm-catalog *{box-sizing:border-box}#fm-catalog [hidden]{display:none!important}#fm-catalog button,#fm-catalog input,#fm-catalog select{font:inherit;color:inherit}#fm-catalog button{cursor:pointer;-webkit-tap-highlight-color:transparent}#fm-catalog button:disabled{cursor:default;opacity:.4}#fm-catalog button:active:not(:disabled){transform:translateY(1px)}#fm-catalog strong,#fm-catalog b{font-weight:500}#fm-catalog h2,#fm-catalog h3,#fm-catalog p{margin:0}#fm-catalog svg{width:19px;height:19px;flex:none}#fm-catalog .cg-phone{background:var(--cg-bg);border-radius:26px;padding:18px 18px 9px;position:relative;overflow:hidden;min-height:696px;display:flex;flex-direction:column}#fm-catalog .cg-brand{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--cg-muted);margin-bottom:17px;letter-spacing:.06em}#fm-catalog .cg-head{display:flex;align-items:center;gap:9px;min-height:44px;margin-bottom:12px}#fm-catalog .cg-head h2{font-size:25px;letter-spacing:.05em;font-weight:500;flex:1}#fm-catalog .cg-quiet{border:0;background:transparent;color:var(--cg-green);display:inline-flex;justify-content:center;align-items:center;gap:5px;min-height:44px;padding:5px 2px;font-size:12px}#fm-catalog .cg-back{min-width:36px;padding:5px}#fm-catalog .cg-tabs{display:flex;position:relative;width:192px;border-bottom:1px solid var(--cg-line);margin-bottom:16px}#fm-catalog .cg-tabs:after{content:'';position:absolute;left:0;bottom:-1px;width:50%;height:3px;background:var(--cg-green);border-radius:3px;transform:translateX(var(--cg-slide,100%));transition:transform .25s cubic-bezier(.2,.8,.2,1)}#fm-catalog .cg-tabs button{width:50%;border:0;background:transparent;color:var(--cg-muted);min-height:42px}#fm-catalog .cg-tabs button[aria-selected="true"]{color:var(--cg-text);font-weight:500}
+#fm-catalog .cg-search{display:flex;align-items:center;gap:8px;background:var(--cg-paper);border-radius:13px;padding:0 12px;margin-bottom:10px}#fm-catalog .cg-search svg{color:var(--cg-muted);width:17px;height:17px}#fm-catalog .cg-search input{min-width:0;flex:1;width:100%;border:0;background:transparent;min-height:44px;font-size:16px;padding:8px 0}#fm-catalog .cg-search input::placeholder{color:var(--cg-muted);opacity:1;font-size:12px}#fm-catalog .cg-search button{border:0;background:transparent;min-width:32px;min-height:44px;padding:4px;font-size:12px;color:var(--cg-muted)}#fm-catalog .cg-categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:4px 0 10px}#fm-catalog .cg-categories button{min-height:42px;padding:6px 2px;background:transparent;border:0;border-radius:12px;color:var(--cg-muted);font-size:12px}#fm-catalog .cg-categories button[aria-pressed="true"]{background:var(--cg-green);color:var(--cg-on)}#fm-catalog .cg-roles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;margin:6px 0 10px}#fm-catalog .cg-roles button{border:0;background:transparent;min-height:42px;font-size:12px;padding:5px 1px;color:var(--cg-muted);border-radius:11px}#fm-catalog .cg-roles button[aria-pressed="true"]{background:var(--cg-soft);color:var(--cg-text);font-weight:500}#fm-catalog .cg-options{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:42px;margin-bottom:7px;font-size:11px;color:var(--cg-muted)}#fm-catalog .cg-options label{display:flex;align-items:center;gap:6px;min-height:42px;font-size:12px;color:var(--cg-text)}#fm-catalog .cg-options input{accent-color:var(--cg-green);width:16px;height:16px}#fm-catalog .cg-options select{border:0;background:transparent;max-width:140px;min-height:42px;font-size:12px;color:var(--cg-text)}
+#fm-catalog .cg-main{flex:1;min-width:0}#fm-catalog .cg-list{display:grid;gap:0}#fm-catalog .cg-recipe{width:100%;text-align:left;display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:68px;border:0;border-bottom:1px solid var(--cg-line);background:transparent;padding:10px 0}#fm-catalog .cg-token{display:grid;place-items:center;background:var(--cg-soft);color:var(--cg-green);border-radius:12px;width:40px;height:40px;flex:none}#fm-catalog .cg-token svg{width:24px!important;height:24px!important;stroke-width:1.6}#fm-catalog .cg-title{display:block;font-size:14px;font-weight:500}#fm-catalog .cg-sub{display:block;font-size:11px;color:var(--cg-muted);margin-top:3px;line-height:1.5}#fm-catalog .cg-state{text-align:right;font-size:11px;color:var(--cg-green);min-width:54px;white-space:nowrap}#fm-catalog .cg-state small{display:block;font-size:11px;color:var(--cg-muted);margin-bottom:3px}#fm-catalog .cg-state.missing{color:var(--cg-amber)}#fm-catalog .cg-mini{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;color:var(--cg-muted);margin-bottom:4px}#fm-catalog .cg-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}#fm-catalog .cg-cell{position:relative;min-width:0;min-height:84px;border:0;border-radius:13px;background:var(--cg-paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:18px 2px 7px}#fm-catalog .cg-cell svg{width:24px!important;height:24px!important;color:var(--cg-green);stroke-width:1.5}#fm-catalog .cg-cell span{font-size:11px;line-height:1.3;text-align:center;overflow-wrap:anywhere}#fm-catalog .cg-cell b{position:absolute;top:4px;right:7px;font-size:11px;font-variant-numeric:tabular-nums;color:var(--cg-muted)}#fm-catalog .cg-cell.growth svg{color:var(--cg-amber)}#fm-catalog .cg-section{grid-column:1/-1;font-size:11px;color:var(--cg-muted);padding:7px 0 0}#fm-catalog .cg-pager{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;margin-top:14px;font-size:12px;color:var(--cg-muted)}#fm-catalog .cg-pager button{display:grid;place-items:center;min-width:44px;min-height:44px;padding:6px;border:0;background:var(--cg-soft);border-radius:12px;color:var(--cg-green)}#fm-catalog .cg-empty{padding:45px 0;text-align:center;color:var(--cg-muted);font-size:13px}#fm-catalog .cg-empty button{display:block;margin:15px auto 0}
+#fm-catalog .cg-nav{display:flex;justify-content:space-around;gap:7px;border-top:1px solid var(--cg-line);margin-top:14px;padding-top:7px}#fm-catalog .cg-nav button{display:flex;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;min-height:46px;padding:6px 3px;color:var(--cg-muted);font-size:12px}#fm-catalog .cg-nav button[aria-current="page"]{color:var(--cg-green);font-weight:500}#fm-catalog .cg-nav svg{width:17px;height:17px}
+#fm-catalog .cg-hero{display:flex;align-items:center;gap:14px;margin:8px 0 18px}#fm-catalog .cg-hero .cg-token{width:64px;height:64px;border-radius:19px}#fm-catalog .cg-hero .cg-token svg{width:34px!important;height:34px!important}#fm-catalog .cg-hero h3{font-size:23px;font-weight:500}#fm-catalog .cg-effect{font-size:13px;color:var(--cg-muted);line-height:1.8;margin-bottom:18px}#fm-catalog .cg-summary{display:flex;justify-content:space-between;gap:12px;background:var(--cg-soft);padding:12px;border-radius:13px;margin-bottom:18px;font-size:12px}#fm-catalog .cg-summary strong{font-variant-numeric:tabular-nums}#fm-catalog .cg-label{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--cg-muted);margin:18px 0 3px}#fm-catalog .cg-material{display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--cg-line);min-height:55px;font-size:13px}#fm-catalog .cg-material>span:nth-child(2){flex:1}#fm-catalog .cg-material svg{width:18px;height:18px;color:var(--cg-muted)}#fm-catalog .cg-material .cg-count{font-size:12px;font-variant-numeric:tabular-nums}#fm-catalog .cg-material .cg-count.short{color:var(--cg-amber)}#fm-catalog .cg-quantity{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0 16px;font-size:13px}#fm-catalog .cg-stepper{display:flex;align-items:center;background:var(--cg-paper);border-radius:12px;overflow:hidden}#fm-catalog .cg-stepper button{min-height:44px;min-width:38px;border:0;background:none;font-size:19px}#fm-catalog .cg-stepper input{width:44px;min-height:44px;text-align:center;background:transparent;border:0;font-size:16px;appearance:textfield;-moz-appearance:textfield}#fm-catalog .cg-stepper input::-webkit-inner-spin-button{appearance:none}#fm-catalog .cg-primary{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;border:0;border-radius:14px;padding:12px;background:var(--cg-green);color:var(--cg-on);font-weight:500}#fm-catalog .cg-primary.light{background:var(--cg-soft);color:var(--cg-green)}#fm-catalog .cg-detail-links{margin-top:10px;display:flex;justify-content:center;gap:16px}#fm-catalog .cg-disclaimer{font-size:11px;color:var(--cg-muted);margin-top:12px;text-align:center}#fm-catalog .cg-stack-counts{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 22px}#fm-catalog .cg-stack-counts span{background:var(--cg-soft);padding:7px 13px;border-radius:10px;font-size:12px}#fm-catalog .cg-person{display:flex;align-items:center;gap:12px;margin-top:18px}#fm-catalog .cg-person>div:nth-child(2){flex:1}#fm-catalog .cg-slot{display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:var(--cg-paper);border-radius:13px;padding:12px;width:100%;min-height:44px;margin:11px 0 22px;font-size:12px}#fm-catalog .cg-slot.empty{color:var(--cg-muted)}#fm-catalog .cg-slot.empty svg{opacity:.45}#fm-catalog .cg-toast{position:absolute;left:15px;right:15px;bottom:75px;z-index:20;pointer-events:none;background:var(--cg-green);color:var(--cg-on);border-radius:14px;padding:12px;font-size:12px;text-align:center;box-shadow:0 5px 20px var(--cg-shadow)}
+#fm-catalog[data-cards="grid"] .cg-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#fm-catalog[data-cards="grid"] .cg-recipe{grid-template-columns:36px minmax(0,1fr);background:var(--cg-paper);border:0;border-radius:14px;padding:12px 9px;min-height:114px;gap:8px}#fm-catalog[data-cards="grid"] .cg-recipe .cg-token{width:36px;height:36px}#fm-catalog[data-cards="grid"] .cg-recipe .cg-state{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;text-align:left}#fm-catalog[data-cards="grid"] .cg-recipe .cg-title{font-size:12px}#fm-catalog[data-cards="grid"] .cg-recipe .cg-state small{margin:0}#fm-catalog[data-tiles="plain"] .cg-cell{background:transparent}
+@media(max-width:350px){#fm-catalog .cg-phone{padding:16px 12px 8px;border-radius:22px}#fm-catalog .cg-grid{gap:6px}#fm-catalog .cg-cell{min-height:80px}#fm-catalog .cg-recipe{gap:8px;grid-template-columns:34px minmax(0,1fr) auto}#fm-catalog .cg-recipe .cg-token{width:34px;height:36px}#fm-catalog .cg-title{font-size:13px}#fm-catalog .cg-sub{font-size:11px}#fm-catalog .cg-roles{gap:0}#fm-catalog .cg-roles button{font-size:11px}#fm-catalog[data-cards="grid"] .cg-recipe{grid-template-columns:1fr}#fm-catalog[data-cards="grid"] .cg-recipe .cg-token{display:none}#fm-catalog .cg-state{min-width:46px}}
+@media(prefers-reduced-motion:reduce){#fm-catalog *{transition:none!important;animation:none!important}}
+#fm-catalog .catalog-symbol{display:inline-flex;align-items:center;justify-content:center;min-width:1em;font-style:normal}#fm-catalog .cg-token .catalog-symbol{font-size:24px}#fm-catalog .cg-cell .catalog-symbol{font-size:22px;color:var(--cg-green)}
+</style>
+<section class="cg-phone" aria-label="背包目录">
+ <header><div class="cg-brand"><span>FIGHTMATCH</span><span>行囊与补给</span></div><div class="cg-head"><button type="button" class="cg-quiet cg-back" data-act="back" aria-label="返回目录" hidden><span class="catalog-symbol" aria-hidden="true">←</span></button><h2 id="cg-title">背包</h2><button type="button" class="cg-quiet" data-act="sort" hidden><span class="catalog-symbol" aria-hidden="true">≡</span>自动整理</button></div>
+ <div class="cg-tabs" role="tablist" aria-label="背包页面"><button type="button" id="cg-items-tab" role="tab" aria-selected="false" aria-controls="cg-content" data-tab="items">物品</button><button type="button" id="cg-craft-tab" role="tab" aria-selected="true" aria-controls="cg-content" data-tab="craft">合成</button></div></header>
+ <section class="cg-browse" aria-label="目录筛选">
+  <div class="cg-search"><span class="catalog-symbol" aria-hidden="true">⌕</span><input id="cg-search" aria-label="查找物品或配方" type="search" placeholder="找名称、用途或材料" autocomplete="off"><button type="button" data-act="clear-search" aria-label="清除搜索" hidden>清除</button></div>
+  <div class="cg-categories" aria-label="物品分类" hidden></div><div class="cg-roles" aria-label="职业分类"></div><div class="cg-options"></div>
+ </section>
+ <main class="cg-main" id="cg-content" role="tabpanel" aria-labelledby="cg-craft-tab"></main>
+ <nav class="cg-nav" aria-label="主导航"><button type="button" data-nav="map"><span class="catalog-symbol" aria-hidden="true">图</span>冒险</button><button type="button" data-nav="team"><span class="catalog-symbol" aria-hidden="true">队</span>队伍</button><button type="button" data-nav="catalog" aria-current="page"><span class="catalog-symbol" aria-hidden="true">包</span>背包</button></nav>
+ <div class="cg-toast" role="status" aria-live="polite" hidden></div>
+</section>
+<script>
+(()=>{
+ const root=document.getElementById('fm-catalog'),main=root.querySelector('.cg-main'),browse=root.querySelector('.cg-browse'),tabs=root.querySelector('.cg-tabs'),search=root.querySelector('#cg-search'),toast=root.querySelector('.cg-toast');
+ const roles={all:'全部',warrior:'战士',knight:'盾骑士',mage:'法师',archer:'弓箭手'};
+ const groups={all:'全部',tactical:'战术',material:'材料',growth:'成长'};
+ const materials={iron:{name:'铁片',icon:'anvil',stock:237},wood:{name:'木料',icon:'logs',stock:126},venom:{name:'毒囊',icon:'droplet',stock:0},ember:{name:'余烬',icon:'flame',stock:18},frost:{name:'寒晶',icon:'snowflake',stock:0},rune:{name:'符文尘',icon:'sparkles',stock:42},leather:{name:'皮革',icon:'scroll',stock:73},ore:{name:'硬矿',icon:'gem',stock:9},feather:{name:'翎羽',icon:'feather',stock:38},ink:{name:'魔法墨',icon:'flask-conical',stock:11}};
+ const specs=[
+ ['axe','飞斧','warrior','axe','远程补位',{iron:2,wood:1},0],['hookaxe','钩刃飞斧','warrior','axe','牵制目标',{iron:3,leather:1},12],['pierceaxe','破甲飞斧','warrior','axe','削弱护甲',{iron:4,ore:1},21],['fireaxe','燃火飞斧','warrior','flame','追加燃烧',{iron:2,ember:2},8],['iceaxe','寒霜飞斧','warrior','snowflake','附加减速',{iron:2,frost:2},5],['shockaxe','震荡飞斧','warrior','zap','削弱攻击',{iron:2,rune:3},15],
+ ['hammer','飞锤','knight','hammer','远程补位',{iron:3,wood:1},32],['disc','回旋盾','knight','shield','远程打击',{iron:4,leather:2},14],['breakhammer','破甲飞锤','knight','hammer','削弱护甲',{iron:4,ore:2},9],['icehammer','寒铁飞锤','knight','snowflake','附加减速',{iron:3,frost:1},4],['shockhammer','震荡飞锤','knight','zap','削弱攻击',{iron:3,rune:2},17],['guardstone','守护符石','knight','shield-check','加强护盾',{ore:2,rune:4},6],
+ ['firescroll','火焰卷轴','mage','flame','追加火焰',{ink:1,ember:2},11],['icescroll','冰霜卷轴','mage','snowflake','附加减速',{ink:1,frost:2},3],['thunderscroll','雷鸣卷轴','mage','zap','追加雷击',{ink:1,rune:3},22],['dispel','破魔卷轴','mage','scroll-text','削弱魔抗',{ink:2,ore:1},18],['weaken','虚弱卷轴','mage','scroll-text','削弱攻击',{ink:1,venom:1},7],['arcane','奥术晶片','mage','gem','加强法术',{ore:2,rune:5},9],
+ ['poisonarrow','毒箭','archer','arrow-up-right','附加中毒',{wood:1,venom:1},117],['piercearrow','穿甲箭','archer','arrow-up-right','削弱护甲',{wood:1,ore:1},64],['firearrow','燃火箭','archer','flame','追加燃烧',{wood:1,ember:2},47],['icearrow','冰霜箭','archer','snowflake','附加减速',{wood:1,frost:1},19],['shockarrow','震荡箭','archer','zap','削弱攻击',{wood:1,rune:2},83],['huntarrow','追猎箭','archer','crosshair','标记目标',{wood:1,feather:2},56]
+ ];
+ const recipes=specs.map(([id,name,role,icon,effect,cost,stock])=>({id,name,role,icon,effect,cost,stock,group:'tactical',yield:10}));
+ const growth=[{id:'xp',name:'经验卡',icon:'book-open',group:'growth',stock:38,effect:'提升角色等级'},{id:'bigxp',name:'大经验卡',icon:'book-open',group:'growth',stock:6,effect:'提升角色等级'},{id:'proof',name:'职业之证',icon:'badge-check',group:'growth',stock:2,effect:'解锁职业专属技能'}];
+ const entries=[...recipes,...Object.entries(materials).map(([id,m])=>({id,...m,group:'material',effect:'合成材料'})),...growth];
+ const byId=Object.fromEntries(entries.map(item=>[item.id,item]));
+ const equipped={axe:0,poisonarrow:99};
+ const state={page:'catalog',tab:'craft',recipe:null,item:null,batches:1,fromTeam:false,materialBack:null,items:{q:'',category:'all',role:'all',page:0,sort:'default'},craft:{q:'',role:'all',ready:false,page:0}};
+ const design={cards:'list',tiles:'soft'};
+ let timer;
+ const icon=name=>'<span class="catalog-symbol" aria-hidden="true">'+({"sword":"⚔","swords":"⚔","sparkles":"✦","lock":"×","shield-check":"盾","bow-arrow":"弓","timer":"◷","crown":"冠","scroll-text":"卷","anvil":"材","arrow-right":"→","rotate-ccw":"↻","chevron-down":"⌄","flag":"旗","play":"▷","axe":"斧","logs":"木","droplet":"毒","flame":"火","snowflake":"❄","scroll":"皮","gem":"◆","feather":"羽","flask-conical":"墨","hammer":"锤","shield":"盾","zap":"ϟ","arrow-up-right":"↗","crosshair":"◎","book-open":"书","badge-check":"证","chevron-left":"‹","chevron-right":"›","arrow-left":"←","list-filter":"≡","search":"⌕","map":"图","users":"队","backpack":"包"}[name]||'◆')+'</span>';
+ const icons=()=>{if(globalThis.lucide)globalThis.lucide.createIcons({attrs:{width:18,height:18}});};
+ const motion=(el,axis='Y')=>{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&el.animate)el.animate([{transform:`translate${axis}(9px)`,opacity:.5},{transform:`translate${axis}(0)`,opacity:1}],{duration:210,easing:'cubic-bezier(.2,.8,.2,1)'});};
+ function notify(text){clearTimeout(timer);toast.textContent=text;toast.hidden=false;motion(toast);timer=setTimeout(()=>toast.hidden=true,2600);}
+ const maxFor=r=>Math.min(...Object.entries(r.cost).map(([id,n])=>Math.floor(byId[id].stock/n)));
+ const queryMatches=(item,q)=>!q||[item.name,item.effect,roles[item.role]||'',...(item.cost?Object.keys(item.cost).map(id=>byId[id].name):[])].join(' ').includes(q.trim());
+ function recipeResults(){const f=state.craft;return recipes.filter(r=>(f.role==='all'||r.role===f.role)&&(!f.ready||maxFor(r)>0)&&queryMatches(r,f.q));}
+ function itemResults(){const f=state.items;const data=entries.filter(item=>item.stock>0&&(f.category==='all'||item.group===f.category)&&(f.category!=='tactical'||f.role==='all'||item.role===f.role)&&queryMatches(item,f.q));if(f.sort==='quantity')data.sort((a,b)=>b.stock-a.stock);if(f.sort==='name')data.sort((a,b)=>a.name.localeCompare(b.name,'zh-CN'));return data.flatMap(item=>{const stacks=[];for(let n=item.stock;n>0;n-=99)stacks.push({item,n:Math.min(99,n)});return stacks;});}
+ function pager(total,size,page){const pages=Math.max(1,Math.ceil(total/size));return `<div class="cg-pager"><button type="button" data-page-step="-1" aria-label="上一页" ${page===0?'disabled':''}>${icon('chevron-left')}</button><span>${total?`${page*size+1}–${Math.min(total,(page+1)*size)} / ${total}`:'0 项'} · 第 ${page+1}/${pages} 页</span><button type="button" data-page-step="1" aria-label="下一页" ${page>=pages-1?'disabled':''}>${icon('chevron-right')}</button></div>`;}
+ function empty(){return '<div class="cg-empty">没有符合条件的内容<button type="button" class="cg-quiet" data-act="clear-filters">清除筛选</button></div>';}
+ function recipeRow(r){const ready=maxFor(r);return `<button type="button" class="cg-recipe" data-recipe="${r.id}" aria-label="${r.name}，${roles[r.role]}，${r.effect}，库存 ${r.stock}，${ready?'可制作':'缺材料'}"><span class="cg-token">${icon(r.icon)}</span><span><span class="cg-title">${r.name}</span><span class="cg-sub">${roles[r.role]} · ${r.effect}</span></span><span class="cg-state ${ready?'':'missing'}"><small>库存 ${r.stock}</small>${ready?'可制作':'缺材料'}</span></button>`;}
+ function results(animate=true){const craft=state.tab==='craft',f=craft?state.craft:state.items,data=craft?recipeResults():itemResults(),size=craft?6:16;f.page=Math.min(f.page,Math.max(0,Math.ceil(data.length/size)-1));const visible=data.slice(f.page*size,(f.page+1)*size);root.querySelector('.cg-options').innerHTML=craft?`<span>${data.length} / ${recipes.length} 个配方</span><label><input type="checkbox" id="cg-ready" ${f.ready?'checked':''}>仅看可制作</label>`:`<span>${new Set(data.map(x=>x.item.id)).size} 种 · ${data.length} 叠</span><select id="cg-order" aria-label="物品排列顺序"><option value="default" ${f.sort==='default'?'selected':''}>按分类排列</option><option value="quantity" ${f.sort==='quantity'?'selected':''}>数量从多到少</option><option value="name" ${f.sort==='name'?'selected':''}>按名称排列</option></select>`;
+  let body=craft?`<div class="cg-list">${visible.map(recipeRow).join('')}</div>`:`<div class="cg-grid">${visible.map(({item,n})=>`<button type="button" class="cg-cell ${item.group}" data-item="${item.id}" aria-label="${item.name} ${n} 个"><b>${n}</b>${icon(item.icon)}<span>${item.name}</span></button>`).join('')}</div>`;
+  main.innerHTML=(data.length?body:empty())+pager(data.length,size,f.page);root.querySelector('[data-act="clear-search"]').hidden=!f.q;icons();if(animate)motion(main,'X');
+ }
+ function catalog(){const craft=state.tab==='craft',f=craft?state.craft:state.items;tabs.hidden=false;browse.hidden=false;tabs.style.setProperty('--cg-slide',craft?'100%':'0%');root.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===state.tab)));search.value=f.q;search.placeholder=craft?'找配方、用途或所需材料':'找物品名称或用途';root.querySelector('.cg-categories').hidden=craft;root.querySelector('.cg-categories').innerHTML=Object.entries(groups).map(([id,label])=>`<button type="button" data-category="${id}" aria-pressed="${state.items.category===id}">${label}</button>`).join('');root.querySelector('.cg-roles').hidden=!craft&&f.category!=='tactical';root.querySelector('.cg-roles').innerHTML=Object.entries(roles).map(([id,label])=>`<button type="button" data-role="${id}" aria-pressed="${f.role===id}">${label}</button>`).join('');main.setAttribute('role','tabpanel');main.setAttribute('aria-labelledby',craft?'cg-craft-tab':'cg-items-tab');results(false);}
+ function recipeDetail(){const r=byId[state.recipe],n=state.batches,max=maxFor(r);return `<div class="cg-hero"><span class="cg-token">${icon(r.icon)}</span><div><h3>${r.name}</h3><span class="cg-sub">${roles[r.role]}专属 · 每批 ${r.yield} 个</span></div></div><p class="cg-effect">${r.id==='axe'?'攻击超出原本近战射程的目标时自动消耗；普通近战不消耗。':r.effect+' · 战斗中按条件自动使用。'}</p><div class="cg-summary"><span>背包 <strong>${r.stock}</strong></span><span>已携带 <strong>${equipped[r.id]||0}</strong></span></div><div class="cg-label"><span>所需材料</span><span>拥有 / 消耗</span></div>${Object.entries(r.cost).map(([id,c])=>`<div class="cg-material">${icon(byId[id].icon)}<span>${byId[id].name}</span><span class="cg-count ${byId[id].stock<c*n?'short':''}">${byId[id].stock} / ${c*n}</span><button type="button" class="cg-quiet" data-source="${id}">来源</button></div>`).join('')}<div class="cg-quantity"><label for="cg-batches">制作批数</label><div class="cg-stepper"><button type="button" aria-label="减少一批" data-amount="-1" ${n<=1?'disabled':''}>−</button><input type="number" inputmode="numeric" min="1" max="${Math.max(1,max)}" id="cg-batches" value="${n}"><button type="button" aria-label="增加一批" data-amount="1" ${n>=max?'disabled':''}>+</button></div></div><button type="button" class="cg-primary" data-act="craft" ${max<n?'disabled':''}>${icon('hammer')}${max<n?'材料不足':`制作 ${r.yield*n} 个${state.fromTeam?'并返回':''}`}</button><div class="cg-detail-links"><button type="button" class="cg-quiet" data-act="back">${state.fromTeam?'返回战前装配':'返回配方目录'}</button></div><p class="cg-disclaimer">名称、效果与配方均为布局示例</p>`;}
+ function itemDetail(){const item=byId[state.item],stack=[];for(let n=item.stock;n>0;n-=99)stack.push(Math.min(n,99));const used=recipes.filter(r=>r.cost[item.id]);return `<div class="cg-hero"><span class="cg-token">${icon(item.icon)}</span><div><h3>${item.name}</h3><span class="cg-sub">${item.role?roles[item.role]+'专属':groups[item.group]}</span></div></div><p class="cg-effect">${item.effect}</p><div class="cg-summary"><span>背包总量 <strong>${item.stock}</strong></span><span>已携带 <strong>${equipped[item.id]||0}</strong></span></div><div class="cg-label"><span>堆叠明细</span><span>每叠最多 99</span></div><div class="cg-stack-counts">${stack.map(n=>`<span>× ${n}</span>`).join('')}</div>${item.group==='tactical'?`<button type="button" class="cg-primary" data-item-recipe="${item.id}">查看合成配方</button>`:item.group==='material'?`<div class="cg-label"><span>可用于 ${used.length} 种配方</span></div><div class="cg-list">${used.slice(0,3).map(recipeRow).join('')}</div><button type="button" class="cg-quiet" data-used-by="${item.id}">查看全部相关配方 →</button>`:'<button type="button" class="cg-primary" data-nav="team">前往队伍</button>'}`;}
+ function team(){return `<p class="cg-effect">当前阵容 · 战前补给</p>${[['warrior','swords','axe'],['knight','shield',null],['archer','bow-arrow','poisonarrow']].map(([role,symbol,itemId])=>`<div class="cg-person"><span class="cg-token">${icon(symbol)}</span><div><strong>${roles[role]}</strong><span class="cg-sub">战术装备位</span></div></div>${itemId?`<button type="button" class="cg-slot ${Math.min(99,byId[itemId].stock+(equipped[itemId]||0))?'':'empty'}" data-supply="${itemId}">${icon(byId[itemId].icon)}<span>${byId[itemId].name}</span><span>× ${Math.min(99,byId[itemId].stock+(equipped[itemId]||0))}</span>${icon('chevron-right')}</button>`:'<div class="cg-slot"><span>未装配</span></div>'}`).join('')}<p class="cg-effect">出战时从库存补充；缺货保留装配选择。</p><button type="button" class="cg-primary" data-act="start">继续挑战 ${icon('arrow-right')}</button>`;}
+ function render(animate=true){const isCatalog=state.page==='catalog';tabs.hidden=!isCatalog;browse.hidden=!isCatalog;root.querySelector('[data-act="back"]').hidden=isCatalog||['team','map'].includes(state.page);root.querySelector('[data-act="sort"]').hidden=!isCatalog||state.tab!=='items';root.querySelector('#cg-title').textContent=({catalog:'背包',recipe:'制作详情',item:'物品详情',source:'材料来源',team:'队伍',map:'冒险'})[state.page];root.querySelectorAll('[data-nav]').forEach(b=>{const active=['team','map'].includes(state.page)?state.page:'catalog';if(b.dataset.nav===active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});main.setAttribute('role','region');main.setAttribute('aria-labelledby','cg-title');if(isCatalog)catalog();else if(state.page==='recipe')main.innerHTML=recipeDetail();else if(state.page==='item')main.innerHTML=itemDetail();else if(state.page==='team')main.innerHTML=team();else if(state.page==='source')main.innerHTML=`<div class="cg-hero"><span class="cg-token">${icon(byId[state.source].icon)}</span><div><h3>${byId[state.source].name}</h3><span class="cg-sub">关卡掉落</span></div></div><p class="cg-effect">在关卡选择中查看材料掉落，重打已通关关卡获取。</p><button type="button" class="cg-primary" data-nav="map">查看关卡</button><p class="cg-disclaimer">具体掉落关卡待内容配置</p>`;else main.innerHTML='<div class="cg-hero"><span class="cg-token">'+icon('map')+'</span><div><h3>古林小径</h3><span class="cg-sub">关卡选择</span></div></div><p class="cg-effect">本次预览聚焦背包与配方目录。</p><button type="button" class="cg-primary" data-nav="team">战前补给</button><div class="cg-detail-links"><button type="button" class="cg-quiet" data-nav="catalog">返回背包</button></div>';icons();if(animate)motion(main,'X');}
+ function openRecipe(id,fromTeam=false){state.materialBack=state.page==='item'?state.item:null;state.recipe=id;state.batches=1;state.fromTeam=fromTeam;state.page='recipe';render();}
+ function back(){if(state.page==='source'){state.page='recipe';render();return;}if(state.fromTeam){state.page='team';state.fromTeam=false;}else if(state.page==='recipe'&&state.materialBack){state.page='item';state.item=state.materialBack;state.materialBack=null;}else state.page='catalog';render();}
+ root.addEventListener('click',event=>{const b=event.target.closest('button');if(!b||b.disabled)return;const f=state[state.tab];
+  if(b.dataset.tab){state.tab=b.dataset.tab;state.page='catalog';render();return;}
+  if(b.dataset.nav){state.page=b.dataset.nav;state.fromTeam=false;state.materialBack=null;render();return;}
+  if(b.dataset.role){f.role=b.dataset.role;f.page=0;render();return;}
+  if(b.dataset.category){state.items.category=b.dataset.category;state.items.page=0;render();return;}
+  if(b.dataset.pageStep){f.page+=Number(b.dataset.pageStep);results();return;}
+  if(b.dataset.recipe||b.dataset.itemRecipe){openRecipe(b.dataset.recipe||b.dataset.itemRecipe);return;}
+  if(b.dataset.item){state.item=b.dataset.item;state.page='item';render();return;}
+  if(b.dataset.supply){openRecipe(b.dataset.supply,true);return;}
+  if(b.dataset.source){state.source=b.dataset.source;state.page='source';render();return;}
+  if(b.dataset.usedBy){state.tab='craft';state.craft={q:byId[b.dataset.usedBy].name,role:'all',ready:false,page:0};state.page='catalog';render();return;}
+  if(b.dataset.amount){state.batches=Math.max(1,Math.min(Math.max(1,maxFor(byId[state.recipe])),state.batches+Number(b.dataset.amount)));render(false);return;}
+  const action=b.dataset.act;
+  if(action==='back')back();
+  if(action==='clear-search'){f.q='';f.page=0;search.value='';results();search.focus();}
+  if(action==='clear-filters'){f.q='';f.role='all';f.page=0;if(state.tab==='craft')f.ready=false;else f.category='all';render();}
+  if(action==='sort'){state.items.sort='default';state.items.page=0;render();notify('已按分类整理 · 同类合并，每叠最多 99');}
+  if(action==='craft'){const r=byId[state.recipe],n=state.batches;if(n>maxFor(r))return;Object.entries(r.cost).forEach(([id,c])=>byId[id].stock-=c*n);r.stock+=r.yield*n;const returnTeam=state.fromTeam;if(returnTeam){state.page='team';state.fromTeam=false;}state.batches=1;render();notify(`${r.name} +${r.yield*n}${returnTeam?' · 已返回战前补给':''}`);}
+  if(action==='start'){['axe','poisonarrow'].forEach(id=>{const total=byId[id].stock+(equipped[id]||0);equipped[id]=Math.min(99,total);byId[id].stock=total-equipped[id];});render(false);notify(`补给完成 · 飞斧 ${equipped.axe} 把${equipped.axe?'':'，缺货仍可开战'}`);}
+ });
+ search.addEventListener('input',()=>{state[state.tab].q=search.value;state[state.tab].page=0;results(false);});
+ root.addEventListener('change',event=>{if(event.target.id==='cg-ready'){state.craft.ready=event.target.checked;state.craft.page=0;results();}if(event.target.id==='cg-order'){state.items.sort=event.target.value;state.items.page=0;results();}if(event.target.id==='cg-batches'){const n=Number(event.target.value);state.batches=Math.max(1,Math.min(Math.max(1,maxFor(byId[state.recipe])),Number.isFinite(n)?Math.floor(n):1));render(false);}});
+ const apply=()=>{root.dataset.cards=design.cards;root.dataset.tiles=design.tiles;};apply();render(false);
+ if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:apply});tweak.addSelect(design,'cards',{label:'配方目录密度',options:[{label:'紧凑列表',value:'list'},{label:'双列卡片',value:'grid'}]});tweak.addSelect(design,'tiles',{label:'物品格背景',options:[{label:'轻底色',value:'soft'},{label:'无底色',value:'plain'}]});}
+})();
+</script>
+</div>
+<script>new ResizeObserver(()=>parent.postMessage({type:'fightmatch-catalog-height',height:document.body.scrollHeight},'*')).observe(document.body);</script></body></html>

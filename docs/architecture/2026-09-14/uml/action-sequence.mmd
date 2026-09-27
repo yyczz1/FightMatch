@@ -1,0 +1,40 @@
+sequenceDiagram
+autonumber
+participant UI as 棋盘与角色表现
+participant Cmd as SubmitBattleActionCommand
+participant Sys as BattleSystem
+participant Session as BattleSession
+participant Rules as BattleRules
+participant History as BattleHistory
+UI->>Cmd: 配对完成并松手：角色、目标、路径
+Cmd->>Sys: SubmitAction(action)
+Sys->>Session: ApplyAction(action)
+Session->>Rules: 校验存活、路径和当前可用攻击或技能
+alt 行动无效
+  Rules-->>Session: 拒绝原因
+  Session-->>Sys: 未消耗行动
+  Sys-->>UI: 刷新提示
+else 行动有效
+  Session->>History: 保存行动前的完整状态
+  Note over Session,History: 包含 PRD、随机状态、技能 CD、贡献和道具次数
+  Note over Session,Rules: 以下自动技能顺序目前仅确定战士与盾骑士
+  Session->>Rules: 结算可执行的实际攻击及已确定的攻击效果
+  opt 技能已解锁、CD 就绪且满足既有可用条件
+    alt 战士且本次目标已被攻击击杀
+      Rules-->>Session: 跳过嘲讽，不启动新 CD
+    else 战士且本次目标仍存活
+      Rules-->>Session: 自动嘲讽本次目标，启动该技能 CD
+    else 盾骑士
+      Rules-->>Session: 仍给存活队友加盾，按实际施放处理 CD
+    end
+  end
+  Note over Session,Rules: 已有 CD 怎样递减待策划；其他职业条件以后分别讨论
+  alt 本次出手已经获胜
+    Rules-->>Session: 胜利，不再推进敌方阶段
+  else 战斗继续
+    Session->>Rules: 推进敌方阶段并处理状态到期
+  end
+  Session-->>Sys: BattleOutcome 与有序表现事件
+  Sys-->>UI: 发布战况更新
+  Note over UI,Sys: 规则已完成；动画按事件顺序播放
+end

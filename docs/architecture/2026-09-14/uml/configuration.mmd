@@ -1,0 +1,73 @@
+classDiagram
+direction TB
+class ConfigSystem {
+  <<QFrameworkCandidate>>
+  LoadAndValidate()
+  GetCatalog()
+}
+class ConfigCatalog {
+  <<ReadOnlyPureData>>
+  configVersion
+  professions
+  heroLevelStats
+  enemyDefinitions
+  enemyStats
+  encounters
+}
+class ProfessionDefinition {
+  professionId
+  levelStatsId
+  attackRange
+  passiveSkillId
+  professionSkillId
+}
+class HeroLevelStatsRow {
+  levelStatsId
+  level
+  maxHealth
+  combatAttributes
+}
+class EnemyDefinition {
+  enemyTypeId
+  attackType
+  attackRange
+  behaviorKind
+  skillIds
+}
+class EnemyStatsRow {
+  enemyStatsId
+  enemyTypeId
+  maxHealth
+  combatAttributes
+}
+class EncounterEnemyEntry {
+  pairId
+  enemyTypeId
+  enemyStatsId
+  position
+  actionInterval
+  firstActionDelay
+}
+class EncounterDefinition {
+  encounterId
+  boardId
+  recommendedLevel
+  rewardId
+}
+class CombatStatBuilder {
+  <<PureCSharp>>
+  BuildHeroStats()
+  BuildEnemyStats()
+}
+ConfigSystem --> ConfigCatalog : 加载与校验后提供
+ConfigCatalog --> ProfessionDefinition : 按职业 ID 查询
+ConfigCatalog --> EnemyDefinition : 按敌人类型查询
+ConfigCatalog --> EncounterDefinition : 按关卡 ID 查询
+ProfessionDefinition --> HeroLevelStatsRow : 按属性表 ID 和等级查询
+EnemyDefinition --> EnemyStatsRow : 同类型可有多个数值档
+EncounterDefinition "1" *-- "1..*" EncounterEnemyEntry : 固定敌人组
+EncounterEnemyEntry --> EnemyStatsRow : 选择本关实际数值档
+CombatStatBuilder ..> HeroLevelStatsRow : 角色入场属性
+CombatStatBuilder ..> EnemyStatsRow : 敌人入场属性
+note for ConfigCatalog "还包含技能、状态、物品、配方、成长经验和掉落；完整字段目录见对齐清单"
+note for CombatStatBuilder "当前生命、PRD 与 CD 写入独立对局，配置本身保持只读"

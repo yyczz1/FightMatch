@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FightMatch · C3 客户端主要业务组件",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [1390, 780],
+    "legend": {"mode": "auto", "entries": {"frontend": {"label": "客户端表现组件"}, "backend": {"label": "客户端业务 / 规则组件"}}},
+    "views": [
+      {"id": "client-gameplay", "label": "操作与战斗", "focus": ["client-presentation", "client-flow", "shared-battle-rules"], "note": "规则作为客户端内部组件运行，操作经流程组织后进入规则计算。"},
+      {"id": "client-settlement", "label": "长期资料入账", "focus": ["client-flow", "client-settlement", "client-growth", "client-inventory", "client-progression"], "note": "结算组织交接，成长、库存与进度分别修改自己负责的数据。"},
+      {"id": "client-assistance", "label": "攻略与权益", "focus": ["client-flow", "client-entitlements", "client-guides", "shared-battle-rules"], "note": "攻略使用独立验证局面，权益与真实战斗使用历史通过流程交接。"}
+    ]
+  },
+  "components": [
+    {"id": "client-presentation", "type": "frontend", "label": "输入与表现", "sublabel": "组件 · Unity UI / C#", "tag": "提交意图 · 展示已确认结果", "pos": [45, 325], "size": [240, 110]},
+    {"id": "client-flow", "type": "backend", "label": "应用流程", "sublabel": "组件 · QFramework / C#", "tag": "组织步骤与各系统交接", "pos": [380, 325], "size": [250, 110]},
+    {"id": "client-settlement", "type": "backend", "label": "结算协调", "sublabel": "组件 · C#", "tag": "奖励口径 · 一次完成入账", "pos": [770, 325], "size": [250, 110]},
+    {"id": "client-growth", "type": "backend", "label": "角色成长与职业", "sublabel": "组件 · C#", "tag": "等级 · 技能学习 · 局外恢复", "pos": [1100, 65], "size": [250, 110]},
+    {"id": "client-inventory", "type": "backend", "label": "背包与战术装配", "sublabel": "组件 · C#", "tag": "库存 · 合成 · 装配与偏好", "pos": [1100, 325], "size": [250, 110]},
+    {"id": "client-progression", "type": "backend", "label": "关卡进度与教学", "sublabel": "组件 · C#", "tag": "首通 · 教学 · 挑战范围", "pos": [1100, 585], "size": [250, 110]},
+    {"id": "client-entitlements", "type": "backend", "label": "广告权益", "sublabel": "组件 · C#", "tag": "完成事实 · 资格 · 使用范围", "pos": [380, 65], "size": [250, 110]},
+    {"id": "client-guides", "type": "backend", "label": "攻略管理", "sublabel": "组件 · C#", "tag": "默认参考 · 在线结果 · 适用性", "pos": [380, 585], "size": [250, 110]},
+    {"id": "shared-battle-rules", "type": "backend", "label": "战斗规则与历史", "sublabel": "组件 · 普通 C#（共用）", "tag": "HP · 技能 / CD · PRD · 棋盘", "pos": [770, 585], "size": [250, 110]}
+  ],
+  "boundaries": [{"kind": "region", "label": "展开 C2 的 Unity 客户端 / 以下组件都在客户端内部", "wraps": ["client-presentation", "client-flow", "client-settlement", "client-growth", "client-inventory", "client-progression", "client-entitlements", "client-guides", "shared-battle-rules"], "pad": 25}],
+  "connections": [
+    {"id": "submit-client-intent", "from": "client-presentation", "to": "client-flow", "label": "提交操作", "variant": "emphasis"},
+    {"id": "execute-gameplay-rules", "from": "client-flow", "to": "shared-battle-rules", "label": "裁定当局操作", "variant": "emphasis"},
+    {"id": "coordinate-final-result", "from": "client-flow", "to": "client-settlement", "label": "交接最终结果"},
+    {"id": "apply-growth-reward", "from": "client-settlement", "to": "client-growth", "label": "入账经验"},
+    {"id": "apply-inventory-result", "from": "client-settlement", "to": "client-inventory", "label": "入账库存", "labelDy": 14},
+    {"id": "apply-level-result", "from": "client-settlement", "to": "client-progression", "label": "更新进度"},
+    {"id": "redeem-ad-entitlement", "from": "client-flow", "to": "client-entitlements", "label": "申请兑现"},
+    {"id": "request-guide-result", "from": "client-flow", "to": "client-guides", "label": "请求攻略", "labelDy": 85},
+    {"id": "reuse-independent-rules", "from": "client-guides", "to": "shared-battle-rules", "label": "独立局面验证", "labelDy": 32}
+  ],
+  "cards": [
+    {"dot": "cyan", "title": "同一个客户端内部", "items": ["规则组件由客户端流程直接使用", "QFramework 组织，普通 C# 承担规则"]},
+    {"dot": "emerald", "title": "局部组件视图", "items": ["展示主要业务交接，省略结果返回", "配置、存档接入和通用几何见正文"]},
+    {"dot": "amber", "title": "组件级候选", "items": ["方框不是一个类或一个脚本", "具体接口与内部拆分由系统设计细化"]}
+  ]
+}

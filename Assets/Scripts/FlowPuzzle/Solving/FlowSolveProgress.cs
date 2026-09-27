@@ -6,5 +6,6 @@ namespace FlowPuzzle.Solving
         public long visitedNodes;
         public long elapsedMs;
         public int currentColorId;
+        public int candidateCount;
     }
 }

@@ -17,6 +17,7 @@ namespace FlowPuzzle.Editor.Commands
         private bool executed;
 
         public string DisplayName => isErase ? $"Erase Constraint {colorId}" : $"Draw Constraint {colorId}";
+        public string LastErrorMessage { get; private set; }
 
         public DrawConstraintStrokeCommand(FlowLevelDraft draft, int colorId, List<FlowPos> cells, bool erase)
         {
@@ -39,7 +40,11 @@ namespace FlowPuzzle.Editor.Commands
             if (isErase)
             {
                 var fc = draft.fixedConstraints.FirstOrDefault(c => c.colorId == colorId);
-                if (fc?.cells == null || strokeCells.Count == 0) return false;
+                if (fc?.cells == null || strokeCells.Count == 0)
+                {
+                    LastErrorMessage = $"Color {colorId} has no constraint to erase.";
+                    return false;
+                }
                 // Find earliest chain index among all touched cells
                 int minIdx = int.MaxValue;
                 foreach (var cell in strokeCells)
@@ -47,14 +52,23 @@ namespace FlowPuzzle.Editor.Commands
                     int idx = fc.cells.FindIndex(c => c.Equals(cell));
                     if (idx >= 0 && idx < minIdx) minIdx = idx;
                 }
-                if (minIdx == int.MaxValue) return false;
-                ok = draft.EraseConstraint(colorId, minIdx).success;
+                if (minIdx == int.MaxValue)
+                {
+                    LastErrorMessage = "The erase stroke did not touch the selected color's constraint.";
+                    return false;
+                }
+                var result = draft.EraseConstraint(colorId, minIdx);
+                ok = result.success;
+                LastErrorMessage = result.errorMessage;
             }
             else
             {
-                ok = draft.ApplyConstraint(colorId, strokeCells).success;
+                var result = draft.ApplyConstraint(colorId, strokeCells);
+                ok = result.success;
+                LastErrorMessage = result.errorMessage;
             }
             if (!ok) { draft.RestoreFrom(beforeSnapshot); return false; }
+            LastErrorMessage = null;
             afterSnapshot = draft.Clone();
             executed = true;
             return true;

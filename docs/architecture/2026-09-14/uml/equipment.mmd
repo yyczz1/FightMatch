@@ -1,0 +1,51 @@
+classDiagram
+direction TB
+class EquipmentSystem {
+  <<QFramework>>
+  Craft()
+  EquipTacticalItem()
+  PrepareLoadout()
+  OrganizeInventory()
+}
+class InventoryState {
+  itemStacks
+}
+class ItemStack {
+  itemId
+  quantity
+}
+class TacticalLoadout {
+  itemId
+  quantity
+}
+class EquipmentRules {
+  <<PureCSharp>>
+  stackLimit = 99
+  CheckProfessionLimit()
+  RefillFromExistingStock()
+  MergeStacks()
+}
+class RecipeDefinition {
+  ingredients
+  outputItemId
+  outputQuantity
+}
+class TacticalItemDefinition {
+  itemId
+  allowedProfession
+  triggerCondition
+  effect
+}
+class ItemDefinition {
+  itemId
+  itemCategory
+}
+EquipmentSystem --> InventoryState : 通过 PlayerModel 更新
+EquipmentSystem --> TacticalLoadout : 通过角色记录更新
+InventoryState "1" *-- "0..*" ItemStack
+EquipmentSystem ..> EquipmentRules : 守恒整理与装配
+EquipmentSystem ..> RecipeDefinition : 固定配方
+EquipmentRules ..> TacticalItemDefinition : 职业与堆叠限制
+ItemStack --> ItemDefinition : 按 itemId 引用
+TacticalLoadout --> TacticalItemDefinition : 每名角色一槽一叠
+TacticalItemDefinition --> ItemDefinition : 引用基础物品配置

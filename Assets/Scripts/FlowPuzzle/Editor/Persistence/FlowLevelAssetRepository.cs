@@ -36,22 +36,28 @@ namespace FlowPuzzle.Editor.Persistence
             var canonical = BuildCanonical(level);
 
             var assetName = $"Level_{canonical.levelData.levelId}.asset";
-            var assetPath = normalized + "/" + assetName;
-
-            if (AssetDatabase.LoadAssetAtPath<FlowLevelAsset>(assetPath) != null)
-                throw new InvalidOperationException($"Asset already exists at {assetPath}.");
-
             EnsureFolderExists(normalized);
+            var assetPath = GetUniqueAssetPath(normalized, assetName);
 
             var asset = ScriptableObject.CreateInstance<FlowLevelAsset>();
             PopulateAsset(asset, canonical);
 
             AssetDatabase.CreateAsset(asset, assetPath);
-            EditorUtility.SetDirty(asset);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
 
             return asset;
+        }
+
+        private static string GetUniqueAssetPath(string folder, string assetName)
+        {
+            var baseName = Path.GetFileNameWithoutExtension(assetName);
+            var candidate = folder + "/" + assetName;
+            var suffix = 2;
+            while (AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(candidate) != null)
+            {
+                candidate = $"{folder}/{baseName}_{suffix}.asset";
+                suffix++;
+            }
+            return candidate;
         }
 
         public void Overwrite(
@@ -71,10 +77,6 @@ namespace FlowPuzzle.Editor.Persistence
 
             Undo.RecordObject(asset, "Overwrite Flow Level");
             PopulateAsset(asset, canonical);
-
-            EditorUtility.SetDirty(asset);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
         }
 
         public FlowLevelAsset SaveAs(
@@ -103,9 +105,6 @@ namespace FlowPuzzle.Editor.Persistence
             PopulateAsset(newAsset, canonical);
 
             AssetDatabase.CreateAsset(newAsset, assetPath);
-            EditorUtility.SetDirty(newAsset);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
 
             return newAsset;
         }
@@ -130,9 +129,6 @@ namespace FlowPuzzle.Editor.Persistence
             var newAsset = ScriptableObject.CreateInstance<FlowLevelAsset>();
             PopulateAsset(newAsset, canonical);
             AssetDatabase.CreateAsset(newAsset, assetPath);
-            EditorUtility.SetDirty(newAsset);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
             return newAsset;
         }
 

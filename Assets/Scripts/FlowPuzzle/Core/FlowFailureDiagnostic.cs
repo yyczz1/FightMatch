@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace FlowPuzzle.Core
 {
@@ -9,5 +10,11 @@ namespace FlowPuzzle.Core
         public string errorMessage;
         public int usedSeed;
         public int attemptCount;
+
+        /// <summary>
+        /// Zero or more concrete parameter suggestions derived from the error code and configuration.
+        /// May be empty for diagnostics that do not have actionable parameter changes.
+        /// </summary>
+        public List<FlowParameterSuggestion> suggestions = new List<FlowParameterSuggestion>();
     }
 }

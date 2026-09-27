@@ -35,13 +35,14 @@ namespace FlowPuzzle.Tests.Editor
             Assert.AreEqual(0, d.fixedConstraints.Count);
         }
 
-        [Test] public void Chain_ReachesSecondEndpoint_Rejected()
+        [Test] public void Chain_EndsAtSecondEndpoint_AcceptedAsCompleteConstraint()
         {
             var d = MakeDraft();
             d.PlaceEndpoint(0, true, new FlowPos(0, 0)); d.PlaceEndpoint(0, false, new FlowPos(3, 0));
             var cells = new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0) };
             var r = d.ApplyConstraint(0, cells);
-            Assert.IsFalse(r.success); Assert.AreEqual("SecondOwnEndpointTraversal", r.errorCode);
+            Assert.IsTrue(r.success);
+            CollectionAssert.AreEqual(cells, d.fixedConstraints.Single().cells);
         }
 
         [Test] public void Chain_DuplicateCell_Rejected()
@@ -69,14 +70,14 @@ namespace FlowPuzzle.Tests.Editor
             Assert.IsFalse(r.success); Assert.AreEqual("ForeignEndpointTraversal", r.errorCode);
         }
 
-        [Test] public void Erase_TrimsChain_DoesNotFloat()
+        [Test] public void Erase_RewindsChainToClickedCell()
         {
             var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
             d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0) });
             var r = d.EraseConstraint(0, 2); // erase from index 2 (cell (2,0))
             Assert.IsTrue(r.success);
-            Assert.AreEqual(2, d.fixedConstraints[0].cells.Count);
-            Assert.AreEqual(new FlowPos(1, 0), d.fixedConstraints[0].cells.Last());
+            Assert.AreEqual(3, d.fixedConstraints[0].cells.Count);
+            Assert.AreEqual(new FlowPos(2, 0), d.fixedConstraints[0].cells.Last());
         }
 
         [Test] public void Erase_AtAnchor_ClearsChain()
@@ -122,14 +123,31 @@ namespace FlowPuzzle.Tests.Editor
                 $"Should reject second endpoint in middle, got: {r.errorCode}");
         }
 
-        [Test] public void Erase_FirstNonEndpoint_ClearsConstraint()
+        [Test] public void Erase_FirstNonEndpoint_RetainsClickedCell()
         {
             var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
             d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) });
-            // Erase at index 1: remaining would be anchor-only (cell (0,0) alone)
+            // Rewind to index 1: keep the anchor and the clicked cell.
             var r = d.EraseConstraint(0, 1);
             Assert.IsTrue(r.success);
-            Assert.AreEqual(0, d.fixedConstraints.Count, "Anchor-only constraint must be cleared");
+            Assert.AreEqual(2, d.fixedConstraints[0].cells.Count);
+            Assert.AreEqual(new FlowPos(1, 0), d.fixedConstraints[0].cells.Last());
+        }
+
+        [Test] public void StrokeCommand_RewindToClickedCell_UndoRedoRestoresSnapshots()
+        {
+            var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0) });
+            var cmd = new DrawConstraintStrokeCommand(d, 0, new List<FlowPos> { new(2, 0) }, true);
+            var history = new FlowEditorCommandHistory();
+
+            Assert.IsTrue(history.Execute(cmd));
+            Assert.AreEqual(3, d.fixedConstraints[0].cells.Count);
+            Assert.IsTrue(history.Undo());
+            Assert.AreEqual(4, d.fixedConstraints[0].cells.Count);
+            Assert.IsTrue(history.Redo());
+            Assert.AreEqual(3, d.fixedConstraints[0].cells.Count);
+            Assert.AreEqual(new FlowPos(2, 0), d.fixedConstraints[0].cells.Last());
         }
 
         [Test] public void StrokeUndo_RestoresCompletePreCommandState()
@@ -172,15 +190,17 @@ namespace FlowPuzzle.Tests.Editor
             Assert.IsNull(d.pairs[0].endpointB, "Must restore pre-stroke endpoint state");
         }
 
-        [Test] public void EraseStroke_UsesEarliestTouchedChainCell()
+        [Test] public void EraseStroke_RewindsToEarliestTouchedChainCell()
         {
             var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
             d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0), new(3, 0), new(4, 0) });
-            // Touch cells in reverse order — should trim from earliest index (2)
+            // Touch cells in reverse order — rewind to the earliest touched index (1).
             var cmd = new DrawConstraintStrokeCommand(d, 0,
                 new List<FlowPos> { new(3, 0), new(2, 0), new(1, 0) }, true);
             Assert.IsTrue(cmd.Execute());
-            Assert.AreEqual(0, d.fixedConstraints.Count, "Earliest touched index (1) leaves only anchor → cleared");
+            Assert.AreEqual(1, d.fixedConstraints.Count);
+            Assert.AreEqual(2, d.fixedConstraints[0].cells.Count);
+            Assert.AreEqual(new FlowPos(1, 0), d.fixedConstraints[0].cells[1]);
         }
     }
 }

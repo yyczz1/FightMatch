@@ -1,0 +1,62 @@
+classDiagram
+direction TB
+class BattleSession {
+  <<PureCSharp>>
+  ApplyAction(action)
+  RewindTo(actionId)
+}
+class BattleRules {
+  ValidateAction()
+  ResolvePlayerAction()
+  ResolveEnemyPhase()
+}
+class BattleState {
+  phase
+  frozenPaths
+  randomState
+  contributionLedger
+  pendingRewards
+}
+class CombatantState {
+  unitId
+  health
+  statusEffects
+  intent
+  prdByEffect
+  skillStates
+}
+class TacticalStackState {
+  ownerId
+  itemId
+  initialQuantity
+  remainingQuantity
+}
+class BattleHistory {
+  RecordBeforeAction()
+  RestoreAndTruncate()
+}
+class ActionRecord {
+  actionId
+  targetId
+  path
+  beforeState
+}
+class BattleAction {
+  actorId
+  targetId
+  path
+}
+class BattleOutcome {
+  orderedEvents
+  battleResult
+}
+BattleSession "1" *-- "1" BattleState
+BattleSession "1" *-- "1" BattleHistory
+BattleSession --> BattleRules : 执行规则
+BattleSession ..> BattleAction : 接收意图
+BattleSession ..> BattleOutcome : 返回结果
+BattleHistory "1" *-- "0..*" ActionRecord
+ActionRecord --> BattleState : 保存行动前完整状态
+BattleState "1" *-- "1..*" CombatantState
+BattleState "1" *-- "0..3" TacticalStackState
+BattleRules ..> BattleState : 同步更新本次对局

@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "规则共用与工具保留 · 讨论稿",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1250,
+      700
+    ],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "backend": {
+          "label": "业务与规则"
+        },
+        "frontend": {
+          "label": "界面与工具"
+        },
+        "cloud": {
+          "label": "在线计算"
+        },
+        "database": {
+          "label": "状态数据"
+        },
+        "external": {
+          "label": "接入边界"
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "base_editor",
+      "type": "frontend",
+      "label": "基础关卡编辑器",
+      "sublabel": "生成 · 编辑 · 几何补全",
+      "tag": "现有功能保留",
+      "pos": [
+        75,
+        75
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "geometry",
+      "type": "backend",
+      "label": "FlowPuzzle",
+      "sublabel": "通用棋盘、路径与几何求解",
+      "tag": "现有程序集",
+      "pos": [
+        505,
+        75
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "unity_client",
+      "type": "frontend",
+      "label": "Unity 客户端",
+      "sublabel": "QFramework BattleSystem",
+      "tag": "运行玩家真实对局",
+      "pos": [
+        75,
+        315
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "rules_code",
+      "type": "backend",
+      "label": "共享战斗规则代码",
+      "sublabel": "BattleSession · 技能 · 数值",
+      "tag": "各调用方创建独立对局",
+      "pos": [
+        505,
+        315
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "online_search",
+      "type": "cloud",
+      "label": "在线攻略搜索",
+      "sublabel": "尝试角色、目标、路径和顺序",
+      "tag": "协议与部署待定",
+      "pos": [
+        935,
+        315
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "rpg_editor",
+      "type": "frontend",
+      "label": "RPG 编辑器扩展",
+      "sublabel": "敌人配置 · 指定玩家条件验证",
+      "tag": "新增扩展入口待设计",
+      "pos": [
+        505,
+        555
+      ],
+      "size": [
+        240,
+        88
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "base_calls_geometry",
+      "from": "base_editor",
+      "to": "geometry",
+      "label": "使用通用工具"
+    },
+    {
+      "id": "client_uses_rules",
+      "from": "unity_client",
+      "to": "rules_code",
+      "label": "引用并执行",
+      "variant": "emphasis"
+    },
+    {
+      "id": "search_uses_rules",
+      "from": "online_search",
+      "to": "rules_code",
+      "label": "引用并模拟"
+    },
+    {
+      "id": "editor_uses_rules",
+      "from": "rpg_editor",
+      "to": "rules_code",
+      "label": "引用并验证"
+    },
+    {
+      "id": "rules_use_geometry",
+      "from": "rules_code",
+      "to": "geometry",
+      "label": "复用几何能力"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "箭头表示代码依赖",
+      "items": [
+        "不是让服务器调用玩家手机中的对局对象。",
+        "网络请求由 HintSystem 与在线接入处理。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "基础工具继续独立",
+      "items": [
+        "RPG 扩展引用基础棋盘；基础算法不引用 RPG。",
+        "已有几何补全接口继续保留原有语义。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "共用代码还需要一致条件",
+      "items": [
+        "规则版本、配置版本和随机状态必须一致。",
+        "移动端搜索预算、终止证明与部署尚未定案。"
+      ]
+    }
+  ]
+}

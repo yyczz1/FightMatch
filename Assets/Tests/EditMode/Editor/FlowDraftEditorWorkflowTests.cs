@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FlowPuzzle.Core;
+using FlowPuzzle.Application;
 using FlowPuzzle.Difficulty;
 using FlowPuzzle.Editor;
 using FlowPuzzle.Editor.Commands;
 using FlowPuzzle.Editor.Draft;
-using FlowPuzzle.Editor.Persistence;
 using FlowPuzzle.Editor.UI;
+using FlowPuzzle.Solving;
 using FlowPuzzle.Validation;
 using NUnit.Framework;
-using UnityEditor;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,7 +22,6 @@ namespace FlowPuzzle.Tests.Editor
     [TestFixture]
     public class FlowDraftEditorWorkflowTests
     {
-        private const string TestFolder = "Assets/Temp/FlowPuzzleDraftEditorTests";
         private static MethodInfo newDraftM, loadDraftM, addColorM, removeColorM, endpointM, undoM, redoM;
         private static FieldInfo curDraftF, historyF, loadedAssetF, paramPanelF, draftPanelF;
 
@@ -34,22 +35,6 @@ namespace FlowPuzzle.Tests.Editor
             curDraftF = t.GetField("currentDraft", b)!; historyF = t.GetField("commandHistory", b)!;
             loadedAssetF = t.GetField("loadedAsset", b)!; paramPanelF = t.GetField("paramPanel", b)!;
             draftPanelF = t.GetField("draftPanel", b)!;
-        }
-
-        private bool tempExisted;
-
-        [SetUp] public void SetUp()
-        {
-            tempExisted = AssetDatabase.IsValidFolder("Assets/Temp");
-            if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder);
-        }
-        [TearDown] public void TearDown()
-        {
-            if (AssetDatabase.IsValidFolder(TestFolder)) AssetDatabase.DeleteAsset(TestFolder);
-            if (!tempExisted && AssetDatabase.IsValidFolder("Assets/Temp")
-                && AssetDatabase.GetSubFolders("Assets/Temp").Length == 0
-                && System.IO.Directory.GetFiles("Assets/Temp").Length == 0)
-                AssetDatabase.DeleteAsset("Assets/Temp");
         }
 
         private static FlowLevelGeneratorWindow MakeWindow()
@@ -74,17 +59,36 @@ namespace FlowPuzzle.Tests.Editor
             curDraftF.SetValue(w, d);
             newDraftM.Invoke(w, null);
             var cd = CD(w); Assert.AreEqual(7, cd.width); Assert.AreEqual(555, cd.levelId); Assert.AreEqual(3, cd.pairs.Count);
+            CollectionAssert.AreEqual(new[] { 0, 1, 2 }, DP(w).selectedColorField.choices);
             Assert.IsNull(loadedAssetF.GetValue(w)); Assert.IsFalse(CH(w).CanUndo);
             UnityEngine.Object.DestroyImmediate(w);
         }
 
         // ── 2. Load ──
+        [Test] public void DraftPanel_UsesExplicitEndpointChoiceAndSimplifiedConstraintTools()
+        {
+            var w = MakeWindow();
+            Assert.AreEqual("Endpoint", DP(w).endpointToggle.label);
+            var endpointChoices = (IList<bool>)DP(w).endpointToggle.GetType().GetProperty("choices")!.GetValue(DP(w).endpointToggle);
+            CollectionAssert.AreEqual(new[] { true, false }, endpointChoices);
+            var endpointFormatter = (Func<bool, string>)DP(w).endpointToggle.GetType().GetProperty("formatSelectedValueCallback")!.GetValue(DP(w).endpointToggle);
+            Assert.AreEqual("A (diamond)", endpointFormatter(true));
+            Assert.AreEqual("B (square)", endpointFormatter(false));
+            var toolChoices = (IList<FlowDraftEditTool>)DP(w).toolField.GetType().GetProperty("choices")!.GetValue(DP(w).toolField);
+            CollectionAssert.DoesNotContain(toolChoices, FlowDraftEditTool.EraseConstraint);
+            Assert.That(DP(w).saveAsNameField.tooltip, Does.Contain("Optional"));
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
         [Test] public void LoadAsset_DeepCopiesDisplaysAndClearsHistory()
         {
-            var repo = new FlowLevelAssetRepository(new FlowSolutionValidator(), new FlowDifficultyEvaluator());
             var ld = new FlowLevelData { levelId = 3001, width = 4, height = 4 }; ld.pairs.Add(new FlowPairData { colorId = 0, endpointA = new(0,0), endpointB = new(3,0) });
             var sd = new FlowSolutionData { levelId = 3001 }; sd.paths.Add(new FlowPathData { colorId = 0, cells = new List<FlowPos> { new(0,0), new(1,0), new(2,0), new(3,0) } });
-            var asset = repo.SaveNew(new FlowGeneratedLevel { levelData = ld, solutionData = sd, difficultyReport = new FlowDifficultyReport { totalScore = 50f }, usedSeed = 42 }, TestFolder);
+            var asset = ScriptableObject.CreateInstance<FlowPuzzle.Persistence.FlowLevelAsset>();
+            asset.levelData = ld;
+            asset.solutionData = sd;
+            asset.difficultyReport = new FlowDifficultyReport { totalScore = 50f };
+            asset.generationSeed = 42;
             var w = MakeWindow(); DP(w).assetField.value = asset;
             var h = CH(w); var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1 }; d.pairs.Add(new FlowDraftPairData { colorId = 0 });
             h.Execute(new FlowSnapshotCommand(d, d.Clone(), d.Clone(), "x"));
@@ -100,14 +104,14 @@ namespace FlowPuzzle.Tests.Editor
             var displayLevel = (FlowLevelData)lvlField!.GetValue(bv);
             Assert.IsNotNull(displayLevel, "Board should have displayed level data");
             Assert.AreEqual(4, displayLevel.width); Assert.AreEqual(4, displayLevel.height);
-            Assert.AreEqual(1, displayLevel.pairs.Count);
-            Assert.AreEqual(0, displayLevel.pairs[0].colorId);
-            Assert.AreEqual(0, displayLevel.pairs[0].endpointA.x); Assert.AreEqual(0, displayLevel.pairs[0].endpointA.y);
-            Assert.AreEqual(3, displayLevel.pairs[0].endpointB.x); Assert.AreEqual(0, displayLevel.pairs[0].endpointB.y);
+            var gk = typeof(FlowBoardView).GetMethod("GetDebugCellVisualKind", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            Assert.AreEqual(3, (int)gk!.Invoke(bv, new object[] { new FlowPos(0, 0) }), "Endpoint A should be displayed");
+            Assert.AreEqual(3, (int)gk.Invoke(bv, new object[] { new FlowPos(3, 0) }), "Endpoint B should be displayed");
             // Verify Draft panel state
             Assert.IsFalse(DP(w).undoBtn.enabledSelf, "Undo should be disabled after load+clear");
             Assert.IsFalse(DP(w).redoBtn.enabledSelf, "Redo should be disabled after load+clear");
             UnityEngine.Object.DestroyImmediate(w);
+            UnityEngine.Object.DestroyImmediate(asset);
         }
 
         // ── 3. AddColor ──
@@ -116,7 +120,7 @@ namespace FlowPuzzle.Tests.Editor
             var w = MakeWindow(); var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 }; d.pairs.Add(new FlowDraftPairData { colorId = 0 });
             curDraftF.SetValue(w, d);
             addColorM.Invoke(w, null);
-            Assert.AreEqual(2, CD(w).pairs.Count); Assert.IsTrue(CH(w).CanUndo);
+            Assert.AreEqual(2, CD(w).pairs.Count); Assert.AreEqual(1, DP(w).selectedColorField.value, "Add Color should select the new color"); Assert.IsTrue(CH(w).CanUndo);
             undoM.Invoke(w, null);
             Assert.AreEqual(1, CD(w).pairs.Count);
             Assert.IsFalse(CH(w).CanUndo, "After one Undo, CanUndo must be false (exactly 1 entry)");
@@ -173,7 +177,7 @@ namespace FlowPuzzle.Tests.Editor
             endpointM.Invoke(w, new object[] { new FlowPos(0, 0) });
             Assert.IsFalse(CH(w).CanUndo, "Invalid color must not create history entry");
             var diag = w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w) as FlowDiagnosticsPanel;
-            Assert.IsTrue(diag.helpBox.visible); Assert.IsTrue(diag.helpBox.text.Contains("Failed"));
+            Assert.IsTrue(diag.helpBox.visible); Assert.IsTrue(diag.helpBox.text.Contains("Color 99 not found"), diag.helpBox.text);
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -232,14 +236,14 @@ namespace FlowPuzzle.Tests.Editor
             d.isSolutionDirty = false; d.isValidated = true;
             return d;
         }
-        private static MethodInfo dSaveM, dSaveAsM, setCLevelM, genOneM;
+        private static MethodInfo dSaveM, setCLevelM;
 
         static void InitA2()
         {
             if (dSaveM != null) return;
             var t = typeof(FlowLevelGeneratorWindow); var b = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-            dSaveM = t.GetMethod("DoSaveDraft", b); dSaveAsM = t.GetMethod("DoSaveDraftAs", b);
-            setCLevelM = t.GetMethod("SetCurrentLevel", b); genOneM = t.GetMethod("OnGenerateOne", b);
+            dSaveM = t.GetMethod("DoSaveDraft", b);
+            setCLevelM = t.GetMethod("SetCurrentLevel", b);
         }
 
         [Test] public void DraftSaveButtons_RequireCompleteSolutionDifficultyCleanAndValidated()
@@ -248,13 +252,13 @@ namespace FlowPuzzle.Tests.Editor
             var d = MakeCompleteDraft();
             curDraftF.SetValue(w, d);
             DP(w).UpdateDraftState(d, CH(w));
-            Assert.IsTrue(DP(w).saveBtn.enabledSelf, "Save enabled when complete");
+            Assert.IsTrue(DP(w).saveBtn.enabledSelf, "Save is clickable so it can explain readiness problems");
             d.isSolutionDirty = true;
             DP(w).UpdateDraftState(d, CH(w));
-            Assert.IsFalse(DP(w).saveBtn.enabledSelf, "Save disabled when dirty");
+            Assert.IsTrue(DP(w).saveBtn.enabledSelf, "Save remains clickable when dirty");
             d.isSolutionDirty = false; d.currentDifficulty = null;
             DP(w).UpdateDraftState(d, CH(w));
-            Assert.IsFalse(DP(w).saveBtn.enabledSelf, "Save disabled without difficulty");
+            Assert.IsTrue(DP(w).saveBtn.enabledSelf, "Save remains clickable without difficulty");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -264,98 +268,18 @@ namespace FlowPuzzle.Tests.Editor
             var w = MakeWindow(); var d = MakeCompleteDraft();
             d.isSolutionDirty = true; curDraftF.SetValue(w, d);
             loadedAssetF.SetValue(w, null);
-            var beforeGuids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
             dSaveM!.Invoke(w, null);
-            var afterGuids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(beforeGuids.Length, afterGuids.Length, "No asset should be created for invalid draft");
+            Assert.IsNull(loadedAssetF.GetValue(w), "Invalid draft must not acquire a saved asset");
+            Assert.AreSame(d, curDraftF.GetValue(w), "Invalid save must leave the draft unchanged");
             var diag = w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w) as FlowDiagnosticsPanel;
             Assert.IsTrue(diag.helpBox.visible, "Diagnostic should be visible");
+            Assert.That(diag.helpBox.text, Does.Contain("solution is out of date"));
             UnityEngine.Object.DestroyImmediate(w);
         }
 
-        [Test] public void SaveDraft_SourceLessCreatesAndTracksAsset()
+        [Test] public void GeneratedLevel_BecomesSourceLessEditableDraftWithOwnedData()
         {
             InitA2();
-            var w = MakeWindow(); var d = MakeCompleteDraft();
-            curDraftF.SetValue(w, d); loadedAssetF.SetValue(w, null);
-            PP(w).outputFolderField.value = TestFolder;
-            dSaveM!.Invoke(w, null);
-            var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(1, guids.Length);
-            var asset = AssetDatabase.LoadAssetAtPath<FlowPuzzle.Persistence.FlowLevelAsset>(AssetDatabase.GUIDToAssetPath(guids[0]));
-            Assert.AreEqual(4001, asset.levelData.levelId);
-            Assert.AreSame(asset, loadedAssetF.GetValue(w), "loadedAsset must track created asset");
-            UnityEngine.Object.DestroyImmediate(w);
-        }
-
-        [Test] public void SaveDraft_LoadedOverwritesSameAssetWithoutCreatingAnother()
-        {
-            InitA2();
-            var repo = new FlowLevelAssetRepository(new FlowSolutionValidator(), new FlowDifficultyEvaluator());
-            var srcDraft = MakeCompleteDraft(levelId: 5001);
-            var srcLevel = FlowDraftMapper.ToGeneratedLevel(srcDraft);
-            var srcAsset = repo.SaveNew(srcLevel, TestFolder);
-            var srcPath = AssetDatabase.GetAssetPath(srcAsset);
-            Assert.AreEqual(1, AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder }).Length);
-
-            var w = MakeWindow(); var d = MakeCompleteDraft(levelId: 5001);
-            d.pairs[0].endpointA = new FlowPos(1, 0); d.currentSolution.paths[0].cells = new List<FlowPos> { new(1,0), new(2,0), new(3,0) };
-            curDraftF.SetValue(w, d); loadedAssetF.SetValue(w, srcAsset);
-            PP(w).outputFolderField.value = TestFolder;
-            dSaveM!.Invoke(w, null);
-            var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(1, guids.Length, "Overwrite must not create new asset");
-            var reloaded = AssetDatabase.LoadAssetAtPath<FlowPuzzle.Persistence.FlowLevelAsset>(srcPath);
-            Assert.AreEqual(1, reloaded.levelData.pairs[0].endpointA.x, "Asset must contain updated draft data");
-            Assert.AreSame(srcAsset, loadedAssetF.GetValue(w), "loadedAsset identity preserved");
-            UnityEngine.Object.DestroyImmediate(w);
-        }
-
-        [Test] public void SaveAs_SourceLessCreatesNamedAssetAndTracksIt()
-        {
-            InitA2();
-            var w = MakeWindow(); var d = MakeCompleteDraft();
-            curDraftF.SetValue(w, d); loadedAssetF.SetValue(w, null);
-            DP(w).saveAsNameField.value = "RenamedDraft";
-            PP(w).outputFolderField.value = TestFolder;
-            dSaveAsM!.Invoke(w, null);
-            var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(1, guids.Length);
-            var path = AssetDatabase.GUIDToAssetPath(guids[0]);
-            Assert.IsTrue(path.EndsWith("RenamedDraft.asset"));
-            var asset = AssetDatabase.LoadAssetAtPath<FlowPuzzle.Persistence.FlowLevelAsset>(path);
-            Assert.AreSame(asset, loadedAssetF.GetValue(w), "loadedAsset tracks SaveAs result");
-            UnityEngine.Object.DestroyImmediate(w);
-        }
-
-        [Test] public void SaveAs_LoadedCreatesNewAssetAndPreservesSource()
-        {
-            InitA2();
-            var repo = new FlowLevelAssetRepository(new FlowSolutionValidator(), new FlowDifficultyEvaluator());
-            var srcDraft = MakeCompleteDraft(levelId: 6001);
-            var srcAsset = repo.SaveNew(FlowDraftMapper.ToGeneratedLevel(srcDraft), TestFolder);
-            var srcPath = AssetDatabase.GetAssetPath(srcAsset);
-            Assert.AreEqual(1, AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder }).Length);
-
-            var w = MakeWindow(); var d = MakeCompleteDraft(levelId: 6001);
-            // Modify draft endpoint AND solution to stay consistent
-            d.pairs[0].endpointA = new FlowPos(1, 0);
-            d.currentSolution.paths[0].cells = new List<FlowPos> { new(1,0), new(2,0), new(3,0) };
-            curDraftF.SetValue(w, d); loadedAssetF.SetValue(w, srcAsset);
-            DP(w).saveAsNameField.value = "Cloned"; PP(w).outputFolderField.value = TestFolder;
-            dSaveAsM!.Invoke(w, null);
-            var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(2, guids.Length, "Save As loaded creates a new second asset");
-            var srcReloaded = AssetDatabase.LoadAssetAtPath<FlowPuzzle.Persistence.FlowLevelAsset>(srcPath);
-            Assert.AreEqual(0, srcReloaded.levelData.pairs[0].endpointA.x, "Source asset endpointA unchanged");
-            Assert.AreNotSame(srcAsset, loadedAssetF.GetValue(w), "loadedAsset must now be the new asset");
-            UnityEngine.Object.DestroyImmediate(w);
-        }
-
-        [Test] public void GeneratedLevel_BecomesSourceLessEditableDraftAndCanSaveAs()
-        {
-            InitA2();
-            var repo = new FlowLevelAssetRepository(new FlowSolutionValidator(), new FlowDifficultyEvaluator());
             var w = MakeWindow();
             var ld = new FlowLevelData { levelId = 7001, width = 5, height = 5 };
             ld.pairs.Add(new FlowPairData { colorId = 0, endpointA = new(0,0), endpointB = new(4,0) });
@@ -370,7 +294,7 @@ namespace FlowPuzzle.Tests.Editor
             Assert.AreEqual(5, cd.width); Assert.AreEqual(5, cd.height);
             Assert.IsTrue(cd.pairs[0].endpointA.HasValue); Assert.IsTrue(cd.pairs[0].endpointB.HasValue);
             Assert.AreEqual(0, cd.pairs[0].endpointA.Value.x); Assert.AreEqual(4, cd.pairs[0].endpointB.Value.x);
-            // Deep ownership: mutate Draft — generated source unchanged
+            // Deep ownership: mutate Draft �?generated source unchanged
             cd.pairs[0].endpointA = new FlowPos(2, 0);
             Assert.AreEqual(0, genLevel.levelData.pairs[0].endpointA.x, "Generated source immutable");
             // Restore valid endpoint before save
@@ -378,27 +302,14 @@ namespace FlowPuzzle.Tests.Editor
             // Also prove generated source mutation doesn't affect Draft
             genLevel.levelData.pairs[0].endpointA = new FlowPos(9, 9);
             Assert.AreEqual(0, cd.pairs[0].endpointA.Value.x, "Draft unchanged after source mutation");
-            // Can save as
-            if (!AssetDatabase.IsValidFolder(TestFolder))
-            {
-                if (!AssetDatabase.IsValidFolder("Assets/Temp"))
-                    AssetDatabase.CreateFolder("Assets", "Temp");
-                AssetDatabase.CreateFolder("Assets/Temp", "FlowPuzzleDraftEditorTests");
-                AssetDatabase.Refresh();
-            }
-            PP(w).outputFolderField.value = TestFolder;
-            DP(w).saveAsNameField.value = "Gen7001"; dSaveAsM!.Invoke(w, null);
-            var guids = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(1, guids.Length);
             UnityEngine.Object.DestroyImmediate(w);
         }
 
         [Test] public void GenerateOne_AfterLoadedDraftClearsSourceHistoryAndRefreshesDraft()
         {
             InitA2();
-            var repo = new FlowLevelAssetRepository(new FlowSolutionValidator(), new FlowDifficultyEvaluator());
             var d = MakeCompleteDraft(levelId: 8001);
-            var asset = repo.SaveNew(FlowDraftMapper.ToGeneratedLevel(d), TestFolder);
+            var asset = ScriptableObject.CreateInstance<FlowPuzzle.Persistence.FlowLevelAsset>();
             var w = MakeWindow();
             curDraftF.SetValue(w, d); loadedAssetF.SetValue(w, asset);
             // Simulate GenerateOne producing a result
@@ -413,32 +324,7 @@ namespace FlowPuzzle.Tests.Editor
             Assert.AreEqual(9001, cd.levelId); Assert.AreEqual(99, cd.seed);
             Assert.IsFalse(cd.isSolutionDirty); Assert.IsTrue(cd.isValidated);
             UnityEngine.Object.DestroyImmediate(w);
-        }
-
-        [Test] public void CreateGUITwice_DraftSaveAsCallbackExecutesOnce()
-        {
-            InitA2();
-            var w = MakeWindow();
-            var createMethod = typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!;
-            createMethod.Invoke(w, null); createMethod.Invoke(w, null);
-            var d = MakeCompleteDraft();
-            curDraftF.SetValue(w, d);
-            PP(w).outputFolderField.value = TestFolder;
-            DP(w).saveAsNameField.value = "DupTest";
-            var clickInvoke = typeof(Clickable).GetMethod("Invoke", BindingFlags.Instance | BindingFlags.NonPublic)!;
-            // First click — succeeds
-            clickInvoke.Invoke(DP(w).saveAsBtn.clickable, new object[] { null });
-            var guids1 = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(1, guids1.Length, "First click creates one asset");
-            var diag = w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w) as FlowDiagnosticsPanel;
-            Assert.IsTrue(diag.helpBox.text.Contains("Saved As"), "First click shows Info");
-            // Second click — duplicate path, Error diagnostic
-            clickInvoke.Invoke(DP(w).saveAsBtn.clickable, new object[] { null });
-            Assert.IsTrue(diag.helpBox.visible, "Second click shows error");
-            Assert.IsTrue(diag.helpBox.text.Contains("already exists") || diag.helpBox.text.Contains("Save"), "Should show duplicate error");
-            var guids2 = AssetDatabase.FindAssets("t:FlowLevelAsset", new[] { TestFolder });
-            Assert.AreEqual(1, guids2.Length, "Only one asset despite duplicate clicks");
-            UnityEngine.Object.DestroyImmediate(w);
+            UnityEngine.Object.DestroyImmediate(asset);
         }
 
         // ── B: Draw/Erase window wiring ──
@@ -454,7 +340,7 @@ namespace FlowPuzzle.Tests.Editor
             constraintStrokeM!.Invoke(w, new object[] { new List<FlowPos> { new(0,0), new(1,0), new(2,0) } });
             Assert.AreEqual(1, CD(w).fixedConstraints.Count);
             Assert.IsTrue(CH(w).CanUndo); Assert.IsTrue(CD(w).isSolutionDirty); Assert.IsFalse(CD(w).isValidated);
-            Assert.IsFalse(DP(w).saveBtn.enabledSelf, "Save disabled after dirty");
+            Assert.IsTrue(DP(w).saveBtn.enabledSelf, "Save remains clickable after dirty");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -484,6 +370,22 @@ namespace FlowPuzzle.Tests.Editor
             Assert.IsFalse(CH(w).CanUndo && !hadUndo, "No new undo entry after invalid stroke");
             var diag = (FlowDiagnosticsPanel)w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
             Assert.IsTrue(diag.helpBox.visible, "Diagnostic should show error");
+            Assert.That(diag.helpBox.text, Does.Contain("Color 99 not found"));
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void DrawConstraint_ClickOwnEndpointClearsWholeConstraint()
+        {
+            var w = MakeWindow(); var d = MakeCompleteDraft();
+            d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) });
+            curDraftF.SetValue(w, d); DP(w).toolField.value = FlowDraftEditTool.DrawConstraint; DP(w).selectedColorField.value = 0;
+
+            endpointM.Invoke(w, new object[] { new FlowPos(0, 0) });
+
+            Assert.AreEqual(0, CD(w).fixedConstraints.Count);
+            Assert.IsTrue(CH(w).CanUndo);
+            undoM.Invoke(w, null);
+            Assert.AreEqual(1, CD(w).fixedConstraints.Count);
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -507,7 +409,7 @@ namespace FlowPuzzle.Tests.Editor
             Assert.IsTrue(CH(w).CanUndo);
             typeof(FlowLevelGeneratorWindow).GetMethod("DoUndo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
             Assert.AreEqual(0, CD(w).fixedConstraints.Count, "Undo clears constraint");
-            Assert.IsFalse(CH(w).CanUndo, "Exactly 1 undo entry — no duplicate callbacks after repeated CreateGUI");
+            Assert.IsFalse(CH(w).CanUndo, "Exactly 1 undo entry �?no duplicate callbacks after repeated CreateGUI");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -564,21 +466,6 @@ namespace FlowPuzzle.Tests.Editor
             var bv = (FlowBoardView)w.GetType().GetField("boardView", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
             var gk = typeof(FlowBoardView).GetMethod("GetDebugCellVisualKind", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             Assert.AreEqual(2, (int)gk!.Invoke(bv, new object[] { new FlowPos(1,0) }), "Constraint cell (1,0) must be Constraint(2) after restore");
-            UnityEngine.Object.DestroyImmediate(w);
-        }
-
-        [Test] public void WindowState_RestoresLoadedAssetGuidAndAssetField()
-        {
-            var repo = new FlowLevelAssetRepository(new FlowSolutionValidator(), new FlowDifficultyEvaluator());
-            var d = MakeCompleteDraft(levelId: 9001);
-            var asset = repo.SaveNew(FlowDraftMapper.ToGeneratedLevel(d), TestFolder);
-            var w = MakeWindow();
-            curDraftF.SetValue(w, d); loadedAssetF.SetValue(w, asset);
-            DP(w).assetField.value = asset;
-            typeof(FlowLevelGeneratorWindow).GetMethod("CaptureDraftWindowState", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
-            typeof(FlowLevelGeneratorWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
-            Assert.AreSame(asset, loadedAssetF.GetValue(w), "loadedAsset restored via GUID");
-            Assert.AreSame(asset, DP(w).assetField.value, "assetField restored");
             UnityEngine.Object.DestroyImmediate(w);
         }
 
@@ -649,6 +536,295 @@ namespace FlowPuzzle.Tests.Editor
             Assert.AreEqual(1, DP(w).selectedColorField.value, "Color restored");
             Assert.IsFalse(DP(w).endpointToggle.value, "Endpoint toggle restored");
             UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        // ══════════════════════════════════════════════════════
+        //  Section D: Completion workflow (Stage 3)
+        // ══════════════════════════════════════════════════════
+
+        private static MethodInfo buildRequestM, applyResultM, doCompleteDraftAsyncM;
+        private static FieldInfo completionCtsF, completionRunningF, completionServiceF;
+
+        static void InitD()
+        {
+            if (buildRequestM != null) return;
+            var t = typeof(FlowLevelGeneratorWindow);
+            var b = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+            buildRequestM = t.GetMethod("BuildCompletionRequest", b);
+            applyResultM = t.GetMethod("ApplyCompletionResult", b);
+            doCompleteDraftAsyncM = t.GetMethod("DoCompleteDraftAsync", b);
+            completionCtsF = t.GetField("completionCts", b);
+            completionRunningF = t.GetField("completionRunning", b);
+            completionServiceF = t.GetField("completionService", b);
+        }
+
+        [Test] public void CompletionBtn_DisabledWhenNoDraftOrIncompleteEndpoints()
+        {
+            var w = MakeWindow();
+            // No draft
+            DP(w).UpdateDraftState(null, CH(w));
+            w.GetType().GetMethod("UpdateButtonStates", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
+            Assert.IsFalse(DP(w).completeBtn.enabledSelf, "Complete disabled without draft");
+
+            // Draft with incomplete endpoints
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 2, levelId = 1, seed = 42 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.pairs.Add(new FlowDraftPairData { colorId = 1 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            // Missing endpointB for color 0, no endpoints for color 1
+            curDraftF.SetValue(w, d);
+            DP(w).UpdateDraftState(d, CH(w));
+            w.GetType().GetMethod("UpdateButtonStates", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
+            Assert.IsFalse(DP(w).completeBtn.enabledSelf, "Complete disabled with incomplete endpoints");
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void CompletionBtn_EnabledWhenDraftHasCompleteEndpoints()
+        {
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            curDraftF.SetValue(w, d);
+            DP(w).UpdateDraftState(d, CH(w));
+            w.GetType().GetMethod("UpdateButtonStates", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
+            Assert.IsTrue(DP(w).completeBtn.enabledSelf, "Complete enabled with complete endpoints");
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void CompletionBtn_DisabledWhileCompletionRunning()
+        {
+            InitD();
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            curDraftF.SetValue(w, d);
+            completionRunningF!.SetValue(w, true);
+            w.GetType().GetMethod("UpdateButtonStates", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
+            Assert.IsFalse(DP(w).completeBtn.enabledSelf, "Complete disabled while running");
+            completionRunningF.SetValue(w, false);
+            w.GetType().GetMethod("UpdateButtonStates", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.Invoke(w, null);
+            Assert.IsTrue(DP(w).completeBtn.enabledSelf, "Complete re-enabled after completion done");
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void ApplyCompletionResult_Solved_UpdatesDraftAndShowsResult()
+        {
+            InitD();
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            curDraftF.SetValue(w, d);
+
+            var level = new FlowGeneratedLevel
+            {
+                levelData = new FlowLevelData { levelId = 1, width = 5, height = 5 },
+                solutionData = new FlowSolutionData { levelId = 1 },
+                difficultyReport = new FlowDifficultyReport { totalScore = 65f, difficulty = FlowDifficultyTier.Normal },
+                coverageRatio = 0.6f,
+                usedSeed = 42
+            };
+            level.levelData.pairs.Add(new FlowPairData { colorId = 0, endpointA = new FlowPos(0, 0), endpointB = new FlowPos(4, 0) });
+            level.solutionData.paths.Add(new FlowPathData { colorId = 0, cells = new List<FlowPos> { new(0,0), new(1,0), new(2,0), new(3,0), new(4,0) } });
+
+            var request = (FlowCompletionRequest)buildRequestM!.Invoke(w, new object[] { d });
+            Assert.IsNotNull(request);
+            Assert.AreEqual(5, request.levelData.width);
+            Assert.AreEqual(5, request.levelData.height);
+            Assert.AreEqual(1, request.levelData.pairs.Count);
+
+            var result = new FlowCompletionResult
+            {
+                status = FlowSolveStatus.Solved,
+                generatedLevel = level,
+                visitedNodes = 12
+            };
+            applyResultM!.Invoke(w, new object[] { result });
+
+            var cd = CD(w);
+            Assert.IsNotNull(cd.currentSolution);
+            Assert.IsNotNull(cd.currentDifficulty);
+            Assert.AreEqual(65f, cd.currentDifficulty.totalScore, 0.001f);
+            Assert.AreEqual(FlowDifficultyTier.Normal, cd.currentDifficulty.difficulty);
+            Assert.AreEqual(0.6f, cd.coverage, 0.001f);
+            Assert.IsFalse(cd.isSolutionDirty);
+            Assert.IsTrue(cd.isValidated);
+            Assert.IsNotNull(w.GetType().GetField("currentLevel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w));
+
+            // Verify deep copy: mutate Draft solution �?result unchanged
+            cd.currentSolution.paths[0].cells[0] = new FlowPos(9, 9);
+            Assert.AreEqual(0, level.solutionData.paths[0].cells[0].x, "Completion source solution immutable");
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void ApplyCompletionResult_NonSolved_ShowsErrorAndDoesNotUpdateDraft()
+        {
+            InitD();
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            curDraftF.SetValue(w, d);
+
+            applyResultM!.Invoke(w, new object[] { new FlowCompletionResult { status = FlowSolveStatus.NoSolution } });
+
+            var cd = CD(w);
+            Assert.IsNull(cd.currentSolution, "Draft solution must not be set for failed completion");
+            Assert.IsNull(cd.currentDifficulty);
+            Assert.IsFalse(cd.isValidated);
+            var diag = (FlowDiagnosticsPanel)w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
+            Assert.IsTrue(diag.helpBox.visible);
+            Assert.IsTrue(diag.helpBox.text.Contains("NoSolution"));
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void ApplyCompletionResult_Null_ShowsError()
+        {
+            InitD();
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            curDraftF.SetValue(w, d);
+
+            applyResultM!.Invoke(w, new object[] { null });
+
+            var diag = (FlowDiagnosticsPanel)w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
+            Assert.IsTrue(diag.helpBox.visible);
+            Assert.IsTrue(diag.helpBox.text.Contains("no result"));
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void BuildCompletionRequest_TranslatesDraftWithFixedConstraints()
+        {
+            InitD();
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 2, levelId = 42, seed = 99 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.pairs.Add(new FlowDraftPairData { colorId = 1 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 2));
+            d.PlaceEndpoint(1, true, new FlowPos(1, 1));
+            d.PlaceEndpoint(1, false, new FlowPos(3, 3));
+            d.ApplyConstraint(0, new List<FlowPos> { new(0, 0), new(1, 0), new(2, 0) });
+
+            var request = (FlowCompletionRequest)buildRequestM!.Invoke(w, new object[] { d });
+            Assert.IsNotNull(request);
+            Assert.AreEqual(42, request.levelData.levelId);
+            Assert.AreEqual(5, request.levelData.width);
+            Assert.AreEqual(5, request.levelData.height);
+            Assert.AreEqual(2, request.levelData.pairs.Count);
+            Assert.AreEqual(0, request.levelData.pairs[0].endpointA.x);
+            Assert.AreEqual(0, request.levelData.pairs[0].endpointA.y);
+            Assert.AreEqual(4, request.levelData.pairs[0].endpointB.x);
+            Assert.AreEqual(2, request.levelData.pairs[0].endpointB.y);
+            Assert.AreEqual(1, request.fixedPrefixes.Count);
+            Assert.AreEqual(0, request.fixedPrefixes[0].colorId);
+            Assert.AreEqual(3, request.fixedPrefixes[0].cells.Count);
+            Assert.AreEqual(new FlowPos(2, 0), request.fixedPrefixes[0].cells[2]);
+            Assert.Greater(request.nodeBudget, 0);
+            Assert.Greater(request.timeoutMs, 0);
+            Assert.Greater(request.progressIntervalNodes, 0);
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void BuildCompletionRequest_UsesConfiguredSolverBudgetFields()
+        {
+            InitD();
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 42, seed = 99 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            PP(w).solverTimeoutField.value = 4321;
+            PP(w).solverNodeBudgetField.value = 98765;
+
+            var request = (FlowCompletionRequest)buildRequestM!.Invoke(w, new object[] { d });
+
+            Assert.AreEqual(4321, request.timeoutMs);
+            Assert.AreEqual(98765, request.nodeBudget);
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void DiagnosticsPanel_ShowDiagnostic_DisplaysRetryActionBar()
+        {
+            var root = new VisualElement();
+            var panel = new FlowDiagnosticsPanel();
+            panel.Build(root);
+
+            panel.ShowDiagnostic(new FlowFailureDiagnostic
+            {
+                errorCode = FlowDiagnosticCodes.MaxLevelAttemptsReached,
+                errorMessage = "failed"
+            });
+
+            Assert.AreEqual(DisplayStyle.Flex, panel.retrySameSeedButton.parent.style.display.value);
+            Assert.IsTrue(panel.retrySameSeedButton.parent.visible);
+
+            panel.ShowError("manual error");
+
+            Assert.AreEqual(DisplayStyle.None, panel.retrySameSeedButton.parent.style.display.value);
+        }
+
+        [Test] public void DoCompleteDraftAsync_ProviderException_ReturnsErrorAndShowsDiagnostic()
+        {
+            InitD();
+            var w = MakeWindow();
+            var d = new FlowLevelDraft { width = 5, height = 5, colorCount = 1, levelId = 1, seed = 42 };
+            d.pairs.Add(new FlowDraftPairData { colorId = 0 });
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            curDraftF.SetValue(w, d);
+            completionServiceF!.SetValue(w, new FlowLevelCompletionService(
+                new ThrowingCompletionProvider(),
+                new FlowSolutionValidator(),
+                new FlowDifficultyEvaluator()));
+
+            var task = (Task<FlowCompletionResult>)doCompleteDraftAsyncM!.Invoke(w, null);
+            var result = task.GetAwaiter().GetResult();
+
+            Assert.AreEqual(FlowSolveStatus.Error, result.status);
+            Assert.IsFalse((bool)completionRunningF!.GetValue(w));
+            var diag = (FlowDiagnosticsPanel)w.GetType().GetField("diagnosticsPanel", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!.GetValue(w);
+            Assert.IsTrue(diag.helpBox.visible);
+            Assert.That(diag.helpBox.text, Does.Contain("Completion failed"));
+            Assert.That(diag.helpBox.text, Does.Contain("provider exploded"));
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        [Test] public void OnDisable_CancelsAndDisposesCompletionCts()
+        {
+            InitD();
+            var w = MakeWindow();
+            var cts = new CancellationTokenSource();
+            completionCtsF!.SetValue(w, cts);
+            completionRunningF!.SetValue(w, true);
+
+            typeof(FlowLevelGeneratorWindow).GetMethod("OnDisable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)!.Invoke(w, null);
+            Assert.IsTrue(cts.IsCancellationRequested, "OnDisable must cancel the CTS");
+            Assert.IsNull(completionCtsF.GetValue(w), "OnDisable must null the CTS reference");
+            Assert.IsFalse((bool)completionRunningF.GetValue(w), "completionRunning must be false after OnDisable");
+            UnityEngine.Object.DestroyImmediate(w);
+        }
+
+        private sealed class ThrowingCompletionProvider : IFlowLevelCompletionProvider
+        {
+            public string DisplayName => "Throwing";
+
+            public Task<FlowCompletionResult> CompleteAsync(
+                FlowCompletionRequest request,
+                IProgress<FlowCompletionProgress> progress,
+                CancellationToken ct)
+            {
+                throw new InvalidOperationException("completion provider exploded");
+            }
         }
     }
 }

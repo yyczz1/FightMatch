@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FightMatch · 系统职责与协作",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [1390, 770],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "frontend": {"label": "输入与表现"},
+        "backend": {"label": "业务职责与规则"},
+        "database": {"label": "只读配置"},
+        "external": {"label": "平台与保存"}
+      }
+    },
+    "views": [
+      {"id": "battle-and-settlement", "label": "战斗与结算", "focus": ["player-surface", "app-coordination", "battle-authority", "settlement-coordination", "player-progress"], "note": "操作经应用流程组织；战斗裁定结果，结算协调长期入账。"},
+      {"id": "progress-and-rights", "label": "成长与权益", "focus": ["app-coordination", "player-progress", "earned-rights", "platform-storage"], "note": "长期资料按职责分别管理；已获广告事实不会被战斗回退抹去。"},
+      {"id": "rule-reuse", "label": "规则与攻略", "focus": ["battle-authority", "guide-analysis", "content-definitions", "board-capabilities"], "note": "攻略使用独立局面和相同规则，几何能力保持通用。"}
+    ]
+  },
+  "components": [
+    {"id": "player-surface", "type": "frontend", "label": "输入与表现", "sublabel": "选人 · 连线 · 页面 · 动画", "tag": "提出意图，显示已确认结果", "pos": [50, 325], "size": [230, 100]},
+    {"id": "app-coordination", "type": "backend", "label": "应用流程", "sublabel": "入场 · 回退 · 救援 · 退出", "tag": "组织步骤，不包办所有规则", "pos": [390, 325], "size": [250, 100]},
+    {"id": "battle-authority", "type": "backend", "label": "战斗与回退", "sublabel": "技能 · 敌人 · 棋盘 · Boss 面", "tag": "本局状态的最终裁定者", "pos": [770, 325], "size": [250, 100]},
+    {"id": "guide-analysis", "type": "backend", "label": "攻略", "sublabel": "免费默认攻略 · 在线分析", "tag": "验证独立局面，不改真实对局", "pos": [1100, 325], "size": [250, 100]},
+    {"id": "earned-rights", "type": "backend", "label": "广告权益", "sublabel": "完成事实 · 范围 · 使用", "tag": "按用途兑现，避免重复使用", "pos": [50, 70], "size": [230, 110]},
+    {"id": "player-progress", "type": "backend", "label": "玩家长期资料", "sublabel": "成长与职业 · 背包与装配", "tag": "关卡进度 · 教学 · 局外恢复", "pos": [390, 70], "size": [250, 110]},
+    {"id": "settlement-coordination", "type": "backend", "label": "结算协调", "sublabel": "一次结果 → 各负责系统", "tag": "经验 · 库存 · 首通一致入账", "pos": [770, 70], "size": [250, 110]},
+    {"id": "content-definitions", "type": "database", "label": "配置与内容", "sublabel": "职业 · 技能 · 成长 · 敌人", "tag": "物品 · 关卡 · 一致的规则依据", "pos": [770, 595], "size": [250, 110]},
+    {"id": "platform-storage", "type": "external", "label": "平台与保存", "sublabel": "广告接入 · 网络 · 存档", "tag": "提供能力，不代替业务裁定", "pos": [390, 595], "size": [250, 110]},
+    {"id": "board-capabilities", "type": "backend", "label": "通用棋盘能力", "sublabel": "FlowPuzzle · 编辑与校验", "tag": "保留几何职责", "pos": [1100, 595], "size": [250, 110]}
+  ],
+  "connections": [
+    {"id": "submit-intent", "from": "player-surface", "to": "app-coordination", "label": "提交操作", "variant": "emphasis", "labelDy": 28},
+    {"id": "advance-battle", "from": "app-coordination", "to": "battle-authority", "label": "推进对局", "variant": "emphasis"},
+    {"id": "progress-operations", "from": "app-coordination", "to": "player-progress", "label": "局外操作"},
+    {"id": "report-battle-result", "from": "battle-authority", "to": "settlement-coordination", "label": "提供结果", "variant": "emphasis"},
+    {"id": "commit-player-result", "from": "settlement-coordination", "to": "player-progress", "label": "组织入账", "variant": "emphasis"},
+    {"id": "request-earned-benefit", "from": "app-coordination", "to": "earned-rights", "label": "申请权益"},
+    {"id": "request-platform-capability", "from": "app-coordination", "to": "platform-storage", "label": "调用接入", "labelDy": 85},
+    {"id": "verify-guide-with-rules", "from": "guide-analysis", "to": "battle-authority", "label": "独立验证"},
+    {"id": "read-definition-set", "from": "battle-authority", "to": "content-definitions", "label": "读取定义", "labelDy": 85},
+    {"id": "check-board-geometry", "from": "battle-authority", "to": "board-capabilities", "label": "路径校验"}
+  ],
+  "cards": [
+    {"dot": "cyan", "title": "先看主要协作", "items": ["箭头表示关键请求或数据交接", "结算调用由应用流程组织"]},
+    {"dot": "emerald", "title": "长期资料分工", "items": ["成长、背包、进度各自管理状态", "图中合并展示，详见状态归属表"]},
+    {"dot": "amber", "title": "整体架构讨论稿", "items": ["QFramework 组织客户端各项职责", "具体接口与类设计留到后续会话"]}
+  ]
+}

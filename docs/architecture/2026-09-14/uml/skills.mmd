@@ -1,0 +1,58 @@
+classDiagram
+direction TB
+class SkillDefinition {
+  <<ReadOnlyConfig>>
+  skillId
+  category
+  targetRule
+  skillRange
+  effectKind
+}
+class PassiveTriggerDefinition {
+  triggerEvent
+  prdId
+}
+class PrdDefinition {
+  targetAverageRate
+  algorithmParameters
+}
+class ActiveCastDefinition {
+  castOnLineAction
+  unlockCondition
+}
+class CooldownDefinition {
+  <<PerSkillConfig>>
+  length
+  advanceEvent
+  initialReady
+  startTiming
+}
+class SkillRuntimeState {
+  <<PerSkillState>>
+  skillId
+  cooldownRemaining
+}
+class PrdState {
+  effectId
+  accumulation
+}
+class CombatantState {
+  unitId
+  health
+  skillStates
+  prdByEffect
+}
+class BattleState {
+  randomState
+}
+SkillDefinition "1" *-- "0..1" PassiveTriggerDefinition : 被动条件
+SkillDefinition "1" *-- "0..1" ActiveCastDefinition : 专属技能条件
+PassiveTriggerDefinition --> PrdDefinition : 目标概率与算法参数
+ActiveCastDefinition "1" *-- "0..1" CooldownDefinition : 按技能配置，递减口径待策划
+CombatantState "1" *-- "0..*" SkillRuntimeState : 本角色剩余 CD
+CombatantState "1" *-- "0..*" PrdState : 每项随机效果独立积累
+SkillRuntimeState --> SkillDefinition : 只读引用
+PrdState --> PrdDefinition : 只读引用
+BattleState "1" *-- "1..*" CombatantState : 随历史完整回退
+note for SkillDefinition "两种条件按技能分类选用，不建立被动和主动的多层继承树"
+note for BattleState "完整回退包含随机数、PRD 与已采用的冷却状态"

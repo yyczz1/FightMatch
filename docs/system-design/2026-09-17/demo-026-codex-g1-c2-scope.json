@@ -1,0 +1,1271 @@
+{
+  "Task": "FM-DEMO-026-G1-C2",
+  "Executor": "Codex",
+  "Authorization": "User: 由你来修复，不再交接给glm了",
+  "Status": "COMPLETED",
+  "RecordedAtUtc": "2026-09-22T07:14:36.8209265Z",
+  "ImplementationOnly": true,
+  "IndependentReviewOfThisPatch": "NOT RUN: this turn implements and locally verifies",
+  "RunRoot": "D:/Unity/UnityProj/FightMatch/ExternalWork/FM-DEMO-026-G1/Verify/runs/953cfd631d8f43ac98bfd5f4e8e271a3",
+  "ChangedFiles": [
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Input/RouteGesture.cs",
+      "BeforeSHA256": "51478f0439b92b2d00909e5d468505c69b39034ce2679459f28dcdd1f4d25da4",
+      "AfterSHA256": "d6a95368ba46a307bac2cf03120a1c5e7a90ed24b94fe7866d91cb3dd1459e30",
+      "Bytes": 14019,
+      "Lines": 395,
+      "OriginalBytesArchive": "original/ExternalWork/FM-DEMO-026-G1/Input/RouteGesture.cs"
+    },
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Tests/RouteGestureCases.cs",
+      "BeforeSHA256": "21a7fa709f7148126c538954d17a1b79ec0e22798bd36c9426b2f38a89b8cd67",
+      "AfterSHA256": "7e0b1739d7014e645d4456a1178425d6f9e2c988b4480812830fc158676c114c",
+      "Bytes": 53011,
+      "Lines": 1076,
+      "OriginalBytesArchive": "original/ExternalWork/FM-DEMO-026-G1/Tests/RouteGestureCases.cs"
+    }
+  ],
+  "UnchangedImplementationFiles": [
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Input/GestureModels.cs",
+      "Lines": 303,
+      "Bytes": 12570,
+      "SHA256": "c18257cdecb0f993b27130380b071e2f092ad5c230311e30bbd559c5218e9464"
+    },
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Input/FightMatch.Input.asmdef",
+      "Lines": 16,
+      "Bytes": 396,
+      "SHA256": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f"
+    },
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Verify/Program.cs",
+      "Lines": 60,
+      "Bytes": 1802,
+      "SHA256": "764b26e2c6e0b4cd768e67b163bb683f5d60580ec15932863ae5f0877ad141c8"
+    },
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Verify/RouteGesture.Verify.csproj",
+      "Lines": 24,
+      "Bytes": 1020,
+      "SHA256": "5b2bd1ab6ab5fdec46a5862c45fe68d7432556e54939fdb21015271a0f660248"
+    },
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Verify/global.json",
+      "Lines": 7,
+      "Bytes": 104,
+      "SHA256": "83c970a00a2de414738e4b08b49899ad98789fd760e0e4a03c07e7cfcdf5933a"
+    },
+    {
+      "Path": "ExternalWork/FM-DEMO-026-G1/Verify/NuGet.Config",
+      "Lines": 6,
+      "Bytes": 125,
+      "SHA256": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575"
+    }
+  ],
+  "NewReports": [
+    "docs/system-design/2026-09-17/demo-026-codex-g1-c2-delivery.md",
+    "docs/system-design/2026-09-17/demo-026-codex-g1-c2-scope.json"
+  ],
+  "NewOutputs": "Only this unique run root",
+  "Fix": "Convert finite binary64 inputs to exact integer multiples of 2^-1074, then compare squared coordinate differences to squared threshold with BigInteger.",
+  "Budget": {
+    "Baseline": "Archived C1 bytes at start of this user-authorized repair",
+    "ProductionLimit": 700,
+    "OriginalG1ToC1Delta": "NOT VERIFIED",
+    "AllEightFilesLines": 1887,
+    "CurrentDeltaLimit": 420,
+    "Added": 64,
+    "Deleted": 19,
+    "AllEightLimit": 1900,
+    "ProductionLines": 698,
+    "CurrentDelta": 83
+  },
+  "AllCaseIds": [
+    "G01A",
+    "G01B",
+    "G01C",
+    "G02",
+    "G03A",
+    "G03B",
+    "G03C",
+    "G03D",
+    "G03E",
+    "G03F",
+    "G03G",
+    "G04A",
+    "G04B",
+    "G04C",
+    "G04D",
+    "G04E",
+    "G04F",
+    "G04G1",
+    "G04G2",
+    "G04G3",
+    "G04H",
+    "G04I",
+    "G04J",
+    "G05A",
+    "G05B",
+    "G05C",
+    "G05D",
+    "G05E",
+    "G05F",
+    "G05G",
+    "G05H",
+    "G06A",
+    "G06B",
+    "G06C",
+    "G06D",
+    "G07A",
+    "G07B",
+    "G07C",
+    "G07D",
+    "G07E",
+    "G07F",
+    "G08A",
+    "G08B",
+    "G08C",
+    "G08D",
+    "G08E",
+    "G08F",
+    "G08G",
+    "G08H",
+    "G08I",
+    "G08J",
+    "G08K",
+    "G09A",
+    "G09B",
+    "G09C",
+    "G09D",
+    "G09E",
+    "G09F",
+    "G09G",
+    "G09H",
+    "G09I",
+    "G09J",
+    "G09K",
+    "G09L",
+    "G09M",
+    "G09N",
+    "G09O",
+    "G09P",
+    "G10A",
+    "G10B",
+    "G11A",
+    "G11B",
+    "G11C",
+    "G11D",
+    "G11E",
+    "G12A",
+    "G12B",
+    "G12C",
+    "G15A",
+    "G15B",
+    "G15C",
+    "G15D",
+    "G15E"
+  ],
+  "NewCaseIds": [
+    "G15C",
+    "G15D",
+    "G15E"
+  ],
+  "CaseAudit": {
+    "Ids": [
+      "G01A",
+      "G01B",
+      "G01C",
+      "G02",
+      "G03A",
+      "G03B",
+      "G03C",
+      "G03D",
+      "G03E",
+      "G03F",
+      "G03G",
+      "G04A",
+      "G04B",
+      "G04C",
+      "G04D",
+      "G04E",
+      "G04F",
+      "G04G1",
+      "G04G2",
+      "G04G3",
+      "G04H",
+      "G04I",
+      "G04J",
+      "G05A",
+      "G05B",
+      "G05C",
+      "G05D",
+      "G05E",
+      "G05F",
+      "G05G",
+      "G05H",
+      "G06A",
+      "G06B",
+      "G06C",
+      "G06D",
+      "G07A",
+      "G07B",
+      "G07C",
+      "G07D",
+      "G07E",
+      "G07F",
+      "G08A",
+      "G08B",
+      "G08C",
+      "G08D",
+      "G08E",
+      "G08F",
+      "G08G",
+      "G08H",
+      "G08I",
+      "G08J",
+      "G08K",
+      "G09A",
+      "G09B",
+      "G09C",
+      "G09D",
+      "G09E",
+      "G09F",
+      "G09G",
+      "G09H",
+      "G09I",
+      "G09J",
+      "G09K",
+      "G09L",
+      "G09M",
+      "G09N",
+      "G09O",
+      "G09P",
+      "G10A",
+      "G10B",
+      "G11A",
+      "G11B",
+      "G11C",
+      "G11D",
+      "G11E",
+      "G12A",
+      "G12B",
+      "G12C",
+      "G15A",
+      "G15B",
+      "G15C",
+      "G15D",
+      "G15E"
+    ],
+    "RegisteredCount": 83,
+    "UniqueCount": 83,
+    "SwitchMatches": true,
+    "MissingOldIds": [],
+    "NewIds": [
+      "G15C",
+      "G15D",
+      "G15E"
+    ],
+    "Runs": [
+      {
+        "Stage": "red",
+        "Pass": 80,
+        "Fail": 3,
+        "FailedIds": [
+          "G15C",
+          "G15D",
+          "G15E"
+        ],
+        "OrdinalMultisetMatches": true
+      },
+      {
+        "Stage": "green",
+        "Pass": 83,
+        "Fail": 0,
+        "FailedIds": [],
+        "OrdinalMultisetMatches": true
+      }
+    ]
+  },
+  "AcceptanceCriteria": {
+    "G02": "PASS",
+    "F4": "PASS",
+    "G01": "PASS",
+    "G08": "PASS",
+    "G07": "PASS",
+    "G05": "PASS",
+    "N3": "Current C2 evidence PASS; earlier historical gaps NOT VERIFIED",
+    "G09": "PASS",
+    "N1": "Current files PASS; past operation order NOT VERIFIED",
+    "G04": "PASS",
+    "F1": "PASS",
+    "G06": "PASS",
+    "F5": "PASS",
+    "G03": "PASS",
+    "F3": "PASS",
+    "F2": "PASS",
+    "N2": "PASS",
+    "G10": "Current isolation, frozen build and tests PASS; old G1/C1 history NOT VERIFIED"
+  },
+  "Verification": [
+    {
+      "Name": "red",
+      "Inputs": [
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/GestureModels.cs",
+          "Bytes": 12570,
+          "SHA256": "c18257cdecb0f993b27130380b071e2f092ad5c230311e30bbd559c5218e9464"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/RouteGesture.cs",
+          "Bytes": 13753,
+          "SHA256": "51478f0439b92b2d00909e5d468505c69b39034ce2679459f28dcdd1f4d25da4"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/FightMatch.Input.asmdef",
+          "Bytes": 396,
+          "SHA256": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Tests/RouteGestureCases.cs",
+          "Bytes": 53011,
+          "SHA256": "7e0b1739d7014e645d4456a1178425d6f9e2c988b4480812830fc158676c114c"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/Program.cs",
+          "Bytes": 1802,
+          "SHA256": "764b26e2c6e0b4cd768e67b163bb683f5d60580ec15932863ae5f0877ad141c8"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/RouteGesture.Verify.csproj",
+          "Bytes": 1020,
+          "SHA256": "5b2bd1ab6ab5fdec46a5862c45fe68d7432556e54939fdb21015271a0f660248"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/global.json",
+          "Bytes": 104,
+          "SHA256": "83c970a00a2de414738e4b08b49899ad98789fd760e0e4a03c07e7cfcdf5933a"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/NuGet.Config",
+          "Bytes": 125,
+          "SHA256": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575"
+        },
+        {
+          "Path": "docs/system-design/2026-09-16/details/input-presentation.md",
+          "Bytes": 15448,
+          "SHA256": "ba1887f2d4b357032b95182bc7866cfd7bcf3dc966e7281454cdf54eebad44f6"
+        },
+        {
+          "Path": "Assets/Scripts/FlowPuzzle/Core/FlowPos.cs",
+          "Bytes": 893,
+          "SHA256": "52cc1aa7fa88c50b9cd3d17071f3df99098ecad1ada58b9d5636faffe7cb4f6a"
+        },
+        {
+          "Path": "Assets/Scripts/FlowPuzzle/Core/FlowPuzzle.Core.asmdef",
+          "Bytes": 363,
+          "SHA256": "9f684e62a102825715d9d6db929fdf9ef0d23a636c6ad38c59bfbc4168c9e3a8"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-delivery.md",
+          "Bytes": 5748,
+          "SHA256": "1bd9fbccb67082345cf3b8a8c4442e3917e8c55bc917104df5a6c9dee761d7fe"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-scope.json",
+          "Bytes": 10222,
+          "SHA256": "10fa210418876a19f4151e3923e0e832fef7c17abb6dbd8c3dee2fe0866c1031"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-c1-delivery.md",
+          "Bytes": 5356,
+          "SHA256": "1ae00f6def4efaad74ad567e5f640907019431e78cf28960b10e4e6b4b523953"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-c1-scope.json",
+          "Bytes": 10636,
+          "SHA256": "c1edef9db522b877fb28468924e6bc6eb5a3999092de0295f4fa7b871f5a9131"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-g1-code-review.md",
+          "Bytes": 18699,
+          "SHA256": "441393d1c248807284f148abcc719477e806b02443878c519439465bda512725"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-g1-c1-code-review.md",
+          "Bytes": 19182,
+          "SHA256": "b9e299d9df756742a1aa7799471c4d7988d5f29eb1141607827a3e655cb4fc6a"
+        }
+      ],
+      "Steps": [
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' '--version'",
+          "Arguments": [
+            "--version"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:06:50.720153Z",
+          "EndUtc": "2026-09-22T07:06:50.8834035Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [],
+          "StdoutSHA256": "8e8f3de327b236a94094a5d817ec17c72ffcd40d97c85b16c51ac9db19dfebd5",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'restore' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj' '--configfile' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\NuGet.Config' '--packages' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\packages' '-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/' '-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/'",
+          "Arguments": [
+            "restore",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj",
+            "--configfile",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\NuGet.Config",
+            "--packages",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\packages",
+            "-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/",
+            "-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:06:51.1897882Z",
+          "EndUtc": "2026-09-22T07:06:52.249384Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [],
+          "StdoutSHA256": "70e372b8fe688ec1bfb2cc72e18c313c7f6b0511152d4a8adf3289f41e388a6f",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'build' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj' '--no-restore' '--configuration' 'Release' '--output' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\bin' '-p:UseSharedCompilation=false' '-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/' '-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/'",
+          "Arguments": [
+            "build",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj",
+            "--no-restore",
+            "--configuration",
+            "Release",
+            "--output",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\bin",
+            "-p:UseSharedCompilation=false",
+            "-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/",
+            "-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\obj/"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:06:52.5521904Z",
+          "EndUtc": "2026-09-22T07:06:54.8786297Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [
+            {
+              "Path": "red/bin/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "077ff472d5bbe9f256a24780fbf7269c38711286cc4f12ad3e83da17c3d04400"
+            },
+            {
+              "Path": "red/bin/RouteGesture.Verify.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "red/bin/RouteGesture.Verify.pdb",
+              "Bytes": 22424,
+              "SHA256": "4c1b85078e71f22ff72f6abb78df0a555e49f7b563e702c5ae189e6c6c71fab9"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/apphost.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "077ff472d5bbe9f256a24780fbf7269c38711286cc4f12ad3e83da17c3d04400"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/RouteGesture.Verify.pdb",
+              "Bytes": 22424,
+              "SHA256": "4c1b85078e71f22ff72f6abb78df0a555e49f7b563e702c5ae189e6c6c71fab9"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/ref/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/refint/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            }
+          ],
+          "StdoutSHA256": "46823c468d42e052aabb71d7d4ff3162e1e66e468740ce989aa07f000aecc6e6",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\bin\\RouteGesture.Verify.dll'",
+          "Arguments": [
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\bin\\RouteGesture.Verify.dll"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\red\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:06:55.3450917Z",
+          "EndUtc": "2026-09-22T07:06:55.4645936Z",
+          "ExpectedExitCode": 2,
+          "ExitCode": 2,
+          "Products": [
+            {
+              "Path": "red/bin/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "077ff472d5bbe9f256a24780fbf7269c38711286cc4f12ad3e83da17c3d04400"
+            },
+            {
+              "Path": "red/bin/RouteGesture.Verify.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "red/bin/RouteGesture.Verify.pdb",
+              "Bytes": 22424,
+              "SHA256": "4c1b85078e71f22ff72f6abb78df0a555e49f7b563e702c5ae189e6c6c71fab9"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/apphost.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "077ff472d5bbe9f256a24780fbf7269c38711286cc4f12ad3e83da17c3d04400"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/RouteGesture.Verify.pdb",
+              "Bytes": 22424,
+              "SHA256": "4c1b85078e71f22ff72f6abb78df0a555e49f7b563e702c5ae189e6c6c71fab9"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/ref/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            },
+            {
+              "Path": "red/obj/Release/net6.0/refint/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            }
+          ],
+          "StdoutSHA256": "6530725765fa06be22657dfa00d66ea51e3f796e40cdb968b4d535481520ab62",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "Name": "green",
+      "Inputs": [
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/GestureModels.cs",
+          "Bytes": 12570,
+          "SHA256": "c18257cdecb0f993b27130380b071e2f092ad5c230311e30bbd559c5218e9464"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/RouteGesture.cs",
+          "Bytes": 14019,
+          "SHA256": "d6a95368ba46a307bac2cf03120a1c5e7a90ed24b94fe7866d91cb3dd1459e30"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/FightMatch.Input.asmdef",
+          "Bytes": 396,
+          "SHA256": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Tests/RouteGestureCases.cs",
+          "Bytes": 53011,
+          "SHA256": "7e0b1739d7014e645d4456a1178425d6f9e2c988b4480812830fc158676c114c"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/Program.cs",
+          "Bytes": 1802,
+          "SHA256": "764b26e2c6e0b4cd768e67b163bb683f5d60580ec15932863ae5f0877ad141c8"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/RouteGesture.Verify.csproj",
+          "Bytes": 1020,
+          "SHA256": "5b2bd1ab6ab5fdec46a5862c45fe68d7432556e54939fdb21015271a0f660248"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/global.json",
+          "Bytes": 104,
+          "SHA256": "83c970a00a2de414738e4b08b49899ad98789fd760e0e4a03c07e7cfcdf5933a"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/NuGet.Config",
+          "Bytes": 125,
+          "SHA256": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575"
+        },
+        {
+          "Path": "docs/system-design/2026-09-16/details/input-presentation.md",
+          "Bytes": 15448,
+          "SHA256": "ba1887f2d4b357032b95182bc7866cfd7bcf3dc966e7281454cdf54eebad44f6"
+        },
+        {
+          "Path": "Assets/Scripts/FlowPuzzle/Core/FlowPos.cs",
+          "Bytes": 893,
+          "SHA256": "52cc1aa7fa88c50b9cd3d17071f3df99098ecad1ada58b9d5636faffe7cb4f6a"
+        },
+        {
+          "Path": "Assets/Scripts/FlowPuzzle/Core/FlowPuzzle.Core.asmdef",
+          "Bytes": 363,
+          "SHA256": "9f684e62a102825715d9d6db929fdf9ef0d23a636c6ad38c59bfbc4168c9e3a8"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-delivery.md",
+          "Bytes": 5748,
+          "SHA256": "1bd9fbccb67082345cf3b8a8c4442e3917e8c55bc917104df5a6c9dee761d7fe"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-scope.json",
+          "Bytes": 10222,
+          "SHA256": "10fa210418876a19f4151e3923e0e832fef7c17abb6dbd8c3dee2fe0866c1031"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-c1-delivery.md",
+          "Bytes": 5356,
+          "SHA256": "1ae00f6def4efaad74ad567e5f640907019431e78cf28960b10e4e6b4b523953"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-c1-scope.json",
+          "Bytes": 10636,
+          "SHA256": "c1edef9db522b877fb28468924e6bc6eb5a3999092de0295f4fa7b871f5a9131"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-g1-code-review.md",
+          "Bytes": 18699,
+          "SHA256": "441393d1c248807284f148abcc719477e806b02443878c519439465bda512725"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-g1-c1-code-review.md",
+          "Bytes": 19182,
+          "SHA256": "b9e299d9df756742a1aa7799471c4d7988d5f29eb1141607827a3e655cb4fc6a"
+        }
+      ],
+      "Steps": [
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' '--version'",
+          "Arguments": [
+            "--version"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:07:50.4229683Z",
+          "EndUtc": "2026-09-22T07:07:50.5417623Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [],
+          "StdoutSHA256": "8e8f3de327b236a94094a5d817ec17c72ffcd40d97c85b16c51ac9db19dfebd5",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'restore' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj' '--configfile' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\NuGet.Config' '--packages' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\packages' '-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/' '-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/'",
+          "Arguments": [
+            "restore",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj",
+            "--configfile",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\NuGet.Config",
+            "--packages",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\packages",
+            "-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/",
+            "-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:07:50.8209443Z",
+          "EndUtc": "2026-09-22T07:07:51.6832408Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [],
+          "StdoutSHA256": "92c2926b9f1504837c86cb18ceeb9ab128d491b2aae01dd48a3405a9476ba259",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'build' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj' '--no-restore' '--configuration' 'Release' '--output' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\bin' '-p:UseSharedCompilation=false' '-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/' '-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/'",
+          "Arguments": [
+            "build",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\RouteGesture.Verify.csproj",
+            "--no-restore",
+            "--configuration",
+            "Release",
+            "--output",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\bin",
+            "-p:UseSharedCompilation=false",
+            "-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/",
+            "-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\obj/"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:07:52.0026847Z",
+          "EndUtc": "2026-09-22T07:07:54.0584899Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [
+            {
+              "Path": "green/bin/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "27c18c2efb3db5f5135bf88a573ced36f536f19e3f04143d24a81b313709c138"
+            },
+            {
+              "Path": "green/bin/RouteGesture.Verify.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "green/bin/RouteGesture.Verify.pdb",
+              "Bytes": 22416,
+              "SHA256": "85262310fed65c6f126e49fb778986e96f92991685ef1f4bad2492e8605b15b5"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/apphost.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "27c18c2efb3db5f5135bf88a573ced36f536f19e3f04143d24a81b313709c138"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/RouteGesture.Verify.pdb",
+              "Bytes": 22416,
+              "SHA256": "85262310fed65c6f126e49fb778986e96f92991685ef1f4bad2492e8605b15b5"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/ref/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/refint/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            }
+          ],
+          "StdoutSHA256": "86679ef69d377b710b5d04ae2e33a874abcc1909bb9fadc276ea54e1e202f6f0",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\bin\\RouteGesture.Verify.dll'",
+          "Arguments": [
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\bin\\RouteGesture.Verify.dll"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\green\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:07:54.5046875Z",
+          "EndUtc": "2026-09-22T07:07:54.6158046Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [
+            {
+              "Path": "green/bin/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "27c18c2efb3db5f5135bf88a573ced36f536f19e3f04143d24a81b313709c138"
+            },
+            {
+              "Path": "green/bin/RouteGesture.Verify.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "green/bin/RouteGesture.Verify.pdb",
+              "Bytes": 22416,
+              "SHA256": "85262310fed65c6f126e49fb778986e96f92991685ef1f4bad2492e8605b15b5"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/apphost.exe",
+              "Bytes": 147968,
+              "SHA256": "773695709f5cfd00968fb48bc9b99f6d08c71993494683e3f21e0eadf1638012"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/RouteGesture.Verify.dll",
+              "Bytes": 55296,
+              "SHA256": "27c18c2efb3db5f5135bf88a573ced36f536f19e3f04143d24a81b313709c138"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/RouteGesture.Verify.pdb",
+              "Bytes": 22416,
+              "SHA256": "85262310fed65c6f126e49fb778986e96f92991685ef1f4bad2492e8605b15b5"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/ref/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            },
+            {
+              "Path": "green/obj/Release/net6.0/refint/RouteGesture.Verify.dll",
+              "Bytes": 10240,
+              "SHA256": "82a0e5697820841adb04c3155e8091846ab4e93556b738821c6f5bcddcf6facf"
+            }
+          ],
+          "StdoutSHA256": "09864e111419392ffd76ecef5726e1af523cd946fb3ad41795ec7dedf7b6f394",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "Name": "independent",
+      "Inputs": [
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/GestureModels.cs",
+          "Bytes": 12570,
+          "SHA256": "c18257cdecb0f993b27130380b071e2f092ad5c230311e30bbd559c5218e9464"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/RouteGesture.cs",
+          "Bytes": 14019,
+          "SHA256": "d6a95368ba46a307bac2cf03120a1c5e7a90ed24b94fe7866d91cb3dd1459e30"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Input/FightMatch.Input.asmdef",
+          "Bytes": 396,
+          "SHA256": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Tests/RouteGestureCases.cs",
+          "Bytes": 53011,
+          "SHA256": "7e0b1739d7014e645d4456a1178425d6f9e2c988b4480812830fc158676c114c"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/Program.cs",
+          "Bytes": 1802,
+          "SHA256": "764b26e2c6e0b4cd768e67b163bb683f5d60580ec15932863ae5f0877ad141c8"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/RouteGesture.Verify.csproj",
+          "Bytes": 1020,
+          "SHA256": "5b2bd1ab6ab5fdec46a5862c45fe68d7432556e54939fdb21015271a0f660248"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/global.json",
+          "Bytes": 104,
+          "SHA256": "83c970a00a2de414738e4b08b49899ad98789fd760e0e4a03c07e7cfcdf5933a"
+        },
+        {
+          "Path": "ExternalWork/FM-DEMO-026-G1/Verify/NuGet.Config",
+          "Bytes": 125,
+          "SHA256": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575"
+        },
+        {
+          "Path": "docs/system-design/2026-09-16/details/input-presentation.md",
+          "Bytes": 15448,
+          "SHA256": "ba1887f2d4b357032b95182bc7866cfd7bcf3dc966e7281454cdf54eebad44f6"
+        },
+        {
+          "Path": "Assets/Scripts/FlowPuzzle/Core/FlowPos.cs",
+          "Bytes": 893,
+          "SHA256": "52cc1aa7fa88c50b9cd3d17071f3df99098ecad1ada58b9d5636faffe7cb4f6a"
+        },
+        {
+          "Path": "Assets/Scripts/FlowPuzzle/Core/FlowPuzzle.Core.asmdef",
+          "Bytes": 363,
+          "SHA256": "9f684e62a102825715d9d6db929fdf9ef0d23a636c6ad38c59bfbc4168c9e3a8"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-delivery.md",
+          "Bytes": 5748,
+          "SHA256": "1bd9fbccb67082345cf3b8a8c4442e3917e8c55bc917104df5a6c9dee761d7fe"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-scope.json",
+          "Bytes": 10222,
+          "SHA256": "10fa210418876a19f4151e3923e0e832fef7c17abb6dbd8c3dee2fe0866c1031"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-c1-delivery.md",
+          "Bytes": 5356,
+          "SHA256": "1ae00f6def4efaad74ad567e5f640907019431e78cf28960b10e4e6b4b523953"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-glm-g1-c1-scope.json",
+          "Bytes": 10636,
+          "SHA256": "c1edef9db522b877fb28468924e6bc6eb5a3999092de0295f4fa7b871f5a9131"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-g1-code-review.md",
+          "Bytes": 18699,
+          "SHA256": "441393d1c248807284f148abcc719477e806b02443878c519439465bda512725"
+        },
+        {
+          "Path": "docs/system-design/2026-09-17/demo-026-g1-c1-code-review.md",
+          "Bytes": 19182,
+          "SHA256": "b9e299d9df756742a1aa7799471c4d7988d5f29eb1141607827a3e655cb4fc6a"
+        }
+      ],
+      "Steps": [
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' '--version'",
+          "Arguments": [
+            "--version"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:09:00.7091306Z",
+          "EndUtc": "2026-09-22T07:09:00.8403704Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [],
+          "StdoutSHA256": "8e8f3de327b236a94094a5d817ec17c72ffcd40d97c85b16c51ac9db19dfebd5",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'restore' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\Repro.csproj' '--configfile' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\NuGet.Config' '--packages' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\packages' '-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/' '-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/'",
+          "Arguments": [
+            "restore",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\Repro.csproj",
+            "--configfile",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\NuGet.Config",
+            "--packages",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\packages",
+            "-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/",
+            "-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:09:01.1373905Z",
+          "EndUtc": "2026-09-22T07:09:02.074694Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [],
+          "StdoutSHA256": "0334e03ab00b3037503edaaff6d9953aaf1b11fbb3f6edd621a679a0692701a9",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'build' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\Repro.csproj' '--no-restore' '--configuration' 'Release' '--output' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\bin' '-p:UseSharedCompilation=false' '-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/' '-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/'",
+          "Arguments": [
+            "build",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\Repro.csproj",
+            "--no-restore",
+            "--configuration",
+            "Release",
+            "--output",
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\bin",
+            "-p:UseSharedCompilation=false",
+            "-p:BaseIntermediateOutputPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/",
+            "-p:MSBuildProjectExtensionsPath=D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\obj/"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:09:02.3870149Z",
+          "EndUtc": "2026-09-22T07:09:04.2674605Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [
+            {
+              "Path": "independent/bin/Repro.dll",
+              "Bytes": 31744,
+              "SHA256": "241678c033bcc4a7a4f928a606caf9f6e7aef2661bc12347ff7af16675b85ddd"
+            },
+            {
+              "Path": "independent/bin/Repro.exe",
+              "Bytes": 147968,
+              "SHA256": "3f2f5b1332e32adb7eb14c1e1d754f854a7d02c87626596b426a1e0a0e71597d"
+            },
+            {
+              "Path": "independent/bin/Repro.pdb",
+              "Bytes": 17756,
+              "SHA256": "a0ccdc52dd2ea0cf66daf14afaadea77929039fcbec255d89c93af9d3b305b56"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/apphost.exe",
+              "Bytes": 147968,
+              "SHA256": "3f2f5b1332e32adb7eb14c1e1d754f854a7d02c87626596b426a1e0a0e71597d"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/Repro.dll",
+              "Bytes": 31744,
+              "SHA256": "241678c033bcc4a7a4f928a606caf9f6e7aef2661bc12347ff7af16675b85ddd"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/Repro.pdb",
+              "Bytes": 17756,
+              "SHA256": "a0ccdc52dd2ea0cf66daf14afaadea77929039fcbec255d89c93af9d3b305b56"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/ref/Repro.dll",
+              "Bytes": 9728,
+              "SHA256": "e17db57547e8d51cd286c2c4f6f3739b6716fb9f4d2275d780549cfa8fffe5b9"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/refint/Repro.dll",
+              "Bytes": 9728,
+              "SHA256": "e17db57547e8d51cd286c2c4f6f3739b6716fb9f4d2275d780549cfa8fffe5b9"
+            }
+          ],
+          "StdoutSHA256": "1e9fd794d368a900560a7981f73d9e2a932a4f329912183815d51bc66871d03e",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "Command": "& 'C:/Program Files/dotnet/dotnet.exe' 'D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\bin\\Repro.dll'",
+          "Arguments": [
+            "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\bin\\Repro.dll"
+          ],
+          "Cwd": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify",
+          "Environment": {
+            "DOTNET_CLI_HOME": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.cli",
+            "NUGET_PACKAGES": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\packages",
+            "NUGET_HTTP_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\http",
+            "NUGET_PLUGINS_CACHE_PATH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\plugins",
+            "NUGET_SCRATCH": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\.nuget\\scratch",
+            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_UI_LANGUAGE": "en-US",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "TEMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp",
+            "TMP": "D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\runs\\953cfd631d8f43ac98bfd5f4e8e271a3\\independent\\tmp"
+          },
+          "StartUtc": "2026-09-22T07:09:04.6309464Z",
+          "EndUtc": "2026-09-22T07:09:04.7287571Z",
+          "ExpectedExitCode": 0,
+          "ExitCode": 0,
+          "Products": [
+            {
+              "Path": "independent/bin/Repro.dll",
+              "Bytes": 31744,
+              "SHA256": "241678c033bcc4a7a4f928a606caf9f6e7aef2661bc12347ff7af16675b85ddd"
+            },
+            {
+              "Path": "independent/bin/Repro.exe",
+              "Bytes": 147968,
+              "SHA256": "3f2f5b1332e32adb7eb14c1e1d754f854a7d02c87626596b426a1e0a0e71597d"
+            },
+            {
+              "Path": "independent/bin/Repro.pdb",
+              "Bytes": 17756,
+              "SHA256": "a0ccdc52dd2ea0cf66daf14afaadea77929039fcbec255d89c93af9d3b305b56"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/apphost.exe",
+              "Bytes": 147968,
+              "SHA256": "3f2f5b1332e32adb7eb14c1e1d754f854a7d02c87626596b426a1e0a0e71597d"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/Repro.dll",
+              "Bytes": 31744,
+              "SHA256": "241678c033bcc4a7a4f928a606caf9f6e7aef2661bc12347ff7af16675b85ddd"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/Repro.pdb",
+              "Bytes": 17756,
+              "SHA256": "a0ccdc52dd2ea0cf66daf14afaadea77929039fcbec255d89c93af9d3b305b56"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/ref/Repro.dll",
+              "Bytes": 9728,
+              "SHA256": "e17db57547e8d51cd286c2c4f6f3739b6716fb9f4d2275d780549cfa8fffe5b9"
+            },
+            {
+              "Path": "independent/obj/Release/net6.0/refint/Repro.dll",
+              "Bytes": 9728,
+              "SHA256": "e17db57547e8d51cd286c2c4f6f3739b6716fb9f4d2275d780549cfa8fffe5b9"
+            }
+          ],
+          "StdoutSHA256": "bc64595be594dbd7a7ccede2217dfa11d1d489f9911b49b52fa51dccb189d5a4",
+          "StderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ],
+  "IndependentProbeSource": "TestArtifacts/FMDemo026G1Review/c56a5d4bff0340abb085439cd3e91c27/Repro.cs",
+  "IndependentProbeSourceSHA256": "34c20ff41fb4bf22d8d145853e423134faf3e17c0daac647bb911e3d7dd17351",
+  "IndependentProbeResult": {
+    "Pass": 23,
+    "ChangedExpectations": false,
+    "Total": 23,
+    "Fail": 0
+  },
+  "HistoricalCorrections": [
+    "Original G1 had 64 IDs, C1 had 80, C2 has 83.",
+    "Withdraw unsupported definitive blame for old G04G2; returning to retained origin-tail should recover; absent original source prevents reconstruction.",
+    "Old G10B source cannot be reconstructed; previous root-cause claim remains unverified.",
+    "C1 run 2997de21abe748a4a5b4ad3cf4251308 was an omitted 79/80 intermediate stage.",
+    "C1 G04H and G11C test corrections have supporting compiled evidence and are not valid production red failures."
+  ],
+  "NotVerified": [
+    "Original G1/C1 full source history and cumulative addition/deletion budget",
+    "Missing earlier commands, cwd, UTC, stderr and stage freezes",
+    "Historical four-marker copy/verify/delete order"
+  ],
+  "NotRun": [
+    "Unity import/EditMode",
+    "Real mouse/touch",
+    "Scene wiring",
+    "026 full package",
+    "019/G2 integration"
+  ],
+  "NoGitWrites": true,
+  "NoExternalHandoff": true
+}

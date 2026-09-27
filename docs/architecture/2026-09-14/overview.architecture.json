@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FightMatch · 架构讨论稿 0.2",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1360,
+      720
+    ],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "backend": {
+          "label": "业务与规则"
+        },
+        "frontend": {
+          "label": "界面与工具"
+        },
+        "cloud": {
+          "label": "在线计算"
+        },
+        "database": {
+          "label": "状态数据"
+        },
+        "external": {
+          "label": "接入边界"
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "player_ui",
+      "type": "frontend",
+      "label": "界面与战斗表现",
+      "sublabel": "棋盘 · 角色 · 成长 · 装备",
+      "pos": [
+        55,
+        310
+      ],
+      "size": [
+        220,
+        88
+      ]
+    },
+    {
+      "id": "app_systems",
+      "type": "backend",
+      "label": "QFramework 业务系统",
+      "sublabel": "战斗 · 角色 · 装备 · 关卡",
+      "tag": "配置 · 结算 · 提示 · 广告",
+      "pos": [
+        395,
+        310
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "battle_domain",
+      "type": "backend",
+      "label": "战斗对局与规则",
+      "sublabel": "主动技能 · 被动触发 · 敌方阶段",
+      "tag": "CD 口径待定 · 普通 C#",
+      "pos": [
+        765,
+        310
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "flow_geometry",
+      "type": "backend",
+      "label": "FlowPuzzle 几何模块",
+      "sublabel": "棋盘 · 路径 · 几何求解",
+      "tag": "现有代码",
+      "pos": [
+        1130,
+        310
+      ],
+      "size": [
+        210,
+        88
+      ]
+    },
+    {
+      "id": "player_model",
+      "type": "database",
+      "label": "PlayerModel",
+      "sublabel": "成长 · 装备 · 阵容 · 进度",
+      "tag": "持有局外数据",
+      "pos": [
+        395,
+        75
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "platform_ports",
+      "type": "external",
+      "label": "平台接入",
+      "sublabel": "存档 · 网络 · 广告 SDK",
+      "tag": "供应商与协议待定",
+      "pos": [
+        395,
+        555
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "battle_state",
+      "type": "database",
+      "label": "BattleState 与历史",
+      "sublabel": "生命 · 固化线 · PRD · 道具",
+      "tag": "技能剩余 CD（若采用）",
+      "pos": [
+        765,
+        555
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "combat_config",
+      "type": "backend",
+      "label": "数值配置目录",
+      "sublabel": "等级属性 · 敌人数值 · 技能",
+      "tag": "按版本加载 · 共享只读",
+      "pos": [
+        765,
+        75
+      ],
+      "size": [
+        240,
+        88
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "submit_intent",
+      "from": "player_ui",
+      "to": "app_systems",
+      "label": "Command",
+      "variant": "emphasis"
+    },
+    {
+      "id": "apply_action",
+      "from": "app_systems",
+      "to": "battle_domain",
+      "label": "提交行动",
+      "variant": "emphasis"
+    },
+    {
+      "id": "check_geometry",
+      "from": "battle_domain",
+      "to": "flow_geometry",
+      "label": "检查路径"
+    },
+    {
+      "id": "manage_player",
+      "from": "app_systems",
+      "to": "player_model",
+      "label": "读写局外数据"
+    },
+    {
+      "id": "use_platform",
+      "from": "app_systems",
+      "to": "platform_ports",
+      "label": "调用接入",
+      "labelDy": 70
+    },
+    {
+      "id": "own_battle",
+      "from": "battle_domain",
+      "to": "battle_state",
+      "label": "持有与回退",
+      "labelDy": 70
+    },
+    {
+      "id": "use_rules",
+      "from": "battle_domain",
+      "to": "combat_config",
+      "label": "按配置计算"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "完整客户端仍由 QFramework 组织",
+      "items": [
+        "业务系统调用普通 C# 对象；表现通过事件更新。",
+        "成长、装备、职业、关卡与结算均有对应职责。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "共用代码，各自持有状态",
+      "items": [
+        "编辑器验证和在线攻略引用同一套战斗规则。",
+        "基础 FlowPuzzle 编辑器继续使用通用几何能力。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "技能与配置已有展开图",
+      "items": [
+        "被动概率、主动 CD、等级与敌人数值见 UML。",
+        "CD 与结算顺序待确认；本稿尚未批准实施。"
+      ]
+    }
+  ]
+}

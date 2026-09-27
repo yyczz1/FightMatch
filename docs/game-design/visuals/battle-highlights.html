@@ -1,0 +1,261 @@
+<div id="fm-victory" aria-label="战后亮眼时刻示意">
+  <label class="demo-select">亮眼角色 <select data-hero-choice><option value="shield">盾骑士 · 可靠守护</option><option value="warrior">战士 · 破敌先锋</option><option value="archer">弓箭手 · 连射制胜</option></select></label>
+  <style>
+    #fm-victory {
+      --fm-bg: light-dark(#f4f1e9, #192125);
+      --fm-surface: light-dark(#fffcf5, #252f33);
+      --fm-ink: light-dark(#293b38, #f2f2e6);
+      --fm-muted: light-dark(#596a64, #b5c1b8);
+      --fm-edge: light-dark(#d8dfd3, #42514b);
+      --fm-gold: light-dark(#946215, #edc67f);
+      --fm-gold-soft: light-dark(#f7e9c7, #514630);
+      --fm-green: light-dark(#246854, #9fdbbd);
+      --fm-button: light-dark(#285b49, #bddfbc);
+      --fm-on-button: light-dark(#fffdf2, #173829);
+      --fm-warrior: light-dark(#a65540, #e49b81);
+      --fm-shield: light-dark(#39746e, #91c9c0);
+      --fm-archer: light-dark(#6a7150, #c1cf92);
+      --fm-shadow: light-dark(#263c3820, #00000040);
+      --fm-time: 900ms;
+      color: var(--fm-ink);
+      font: 14px/1.45 "Segoe UI", "Microsoft YaHei", sans-serif;
+      width: 100%;
+    }
+    #fm-victory * { box-sizing: border-box; }
+    #fm-victory [hidden] { display: none !important; }
+    #fm-victory button { font: inherit; cursor: pointer; }
+    #fm-victory .fm-screen {
+      max-width: 414px; margin: 0 auto; padding: 20px 18px 18px;
+      border-radius: 24px; background: var(--fm-bg);
+      border: 1px solid var(--fm-edge); overflow: hidden;
+      box-shadow: 0 12px 30px var(--fm-shadow);
+    }
+    #fm-victory .fm-topline {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    #fm-victory .fm-topline { color: var(--fm-muted); font-size: 12px; }
+    #fm-victory .fm-time { display: inline-flex; align-items: center; gap: 5px; }
+    #fm-victory .fm-heading { text-align: center; padding: 16px 0 10px; }
+    #fm-victory .fm-victory-mark {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 30px; letter-spacing: 5px; font-weight: 500;
+    }
+    #fm-victory .fm-victory-mark::before, #fm-victory .fm-victory-mark::after {
+      content: ""; width: 28px; height: 1px; background: var(--fm-gold);
+    }
+    #fm-victory .fm-heading p { margin: 5px 0 0; font-size: 12px; color: var(--fm-muted); }
+    #fm-victory .fm-spotlight {
+      text-align: center; min-height: 66px; padding: 5px 0 18px;
+    }
+    #fm-victory .fm-spotlight strong {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--fm-gold); font-weight: 500; font-size: 18px;
+    }
+    #fm-victory .fm-spotlight p { margin: 3px 0 0; color: var(--fm-muted); font-size: 12px; }
+    #fm-victory .fm-party { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 8px 0 4px; }
+    #fm-victory .fm-hero {
+      position: relative; min-width: 0; border-radius: 15px; padding: 14px 8px 12px;
+      text-align: center; background: var(--fm-surface); border: 1px solid var(--fm-edge);
+      isolation: isolate;
+    }
+    #fm-victory .fm-hero[data-hero="warrior"] { --fm-role: var(--fm-warrior); }
+    #fm-victory .fm-hero[data-hero="shield"] { --fm-role: var(--fm-shield); }
+    #fm-victory .fm-hero[data-hero="archer"] { --fm-role: var(--fm-archer); }
+    #fm-victory .fm-hero.is-highlight {
+      border-color: var(--fm-gold); transform: translateY(-8px);
+      box-shadow: 0 8px 20px var(--fm-shadow); z-index: 2;
+    }
+    #fm-victory .fm-crown {
+      position: absolute; left: 50%; top: -12px; transform: translateX(-50%);
+      display: none; width: 32px; height: 24px; align-items: center; justify-content: center;
+      color: var(--fm-gold); background: var(--fm-gold-soft); border-radius: 9px;
+    }
+    #fm-victory .is-highlight .fm-crown { display: inline-flex; }
+    #fm-victory .fm-portrait {
+      position: relative; margin: 0 auto 8px; width: 58px; height: 62px;
+      display: grid; place-items: center; color: var(--fm-role);
+      border-radius: 18px 18px 23px 23px;
+      background: color-mix(in srgb, var(--fm-role) 12%, var(--fm-surface));
+    }
+    #fm-victory .fm-emblem { display: grid; place-items: center; transform: scale(1.65); }
+    #fm-victory .fm-aura {
+      position: absolute; inset: -12px; border-radius: 50%; opacity: 0;
+      background: radial-gradient(circle, transparent 45%, color-mix(in srgb, var(--fm-gold) 55%, transparent) 49%, transparent 54%);
+      pointer-events: none;
+    }
+    #fm-victory .fm-spark {
+      position: absolute; left: 50%; top: 40%; width: 5px; height: 5px; border-radius: 2px;
+      background: var(--fm-gold); opacity: 0; pointer-events: none;
+    }
+    #fm-victory .fm-spark:nth-of-type(1) { --fm-x: -38px; --fm-y: -28px; }
+    #fm-victory .fm-spark:nth-of-type(2) { --fm-x: 35px; --fm-y: -34px; }
+    #fm-victory .fm-spark:nth-of-type(3) { --fm-x: -32px; --fm-y: 31px; }
+    #fm-victory .fm-spark:nth-of-type(4) { --fm-x: 34px; --fm-y: 28px; }
+    #fm-victory .fm-name { margin: 0; font-size: 14px; font-weight: 500; }
+    #fm-victory .fm-level { color: var(--fm-muted); margin: 3px 0 10px; font-size: 12px; }
+    #fm-victory .fm-level em { font-style: normal; color: var(--fm-green); font-weight: 500; }
+    #fm-victory .fm-xp { font-size: 13px; color: var(--fm-green); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    #fm-victory .fm-xp-track {
+      height: 5px; margin-top: 6px; border-radius: 5px; overflow: hidden;
+      background: color-mix(in srgb, var(--fm-muted) 15%, var(--fm-surface));
+    }
+    #fm-victory .fm-xp-fill { height: 100%; width: var(--fm-end); background: var(--fm-green); border-radius: inherit; }
+    #fm-victory .fm-highlight-label { margin-top: 10px; font-size: 11px; color: var(--fm-muted); white-space: nowrap; }
+    #fm-victory .fm-rewards {
+      display: flex; align-items: center; justify-content: center; gap: 20px; padding: 18px 0 13px;
+    }
+    #fm-victory .fm-reward { display: flex; align-items: center; gap: 7px; font-size: 13px; }
+    #fm-victory .fm-reward i, #fm-victory .fm-reward svg { color: var(--fm-gold); }
+    #fm-victory .fm-primary {
+      width: 100%; min-height: 48px; border: 0; border-radius: 13px;
+      background: var(--fm-button); color: var(--fm-on-button); font-weight: 500;
+      display: flex; justify-content: center; align-items: center; gap: 9px;
+    }
+    #fm-victory .fm-secondary {
+      min-height: 44px; padding: 8px 3px; border: 0; border-radius: 8px;
+      color: var(--fm-muted); background: transparent;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px;
+    }
+    #fm-victory .fm-secondary:hover { color: var(--fm-ink); }
+    #fm-victory .fm-actions { display: flex; justify-content: space-between; gap: 8px; margin-top: 4px; }
+    #fm-victory .fm-details { border-top: 1px solid var(--fm-edge); padding-top: 8px; }
+    #fm-victory .fm-details table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+    #fm-victory .fm-details th { font-weight: 500; }
+    #fm-victory .fm-details th, #fm-victory .fm-details td { text-align: right; padding: 7px 2px; }
+    #fm-victory .fm-details th:first-child, #fm-victory .fm-details td:first-child { text-align: left; color: var(--fm-muted); }
+    #fm-victory .fm-next { padding: 70px 0; text-align: center; }
+    #fm-victory .fm-next h3 { font-size: 26px; font-weight: 500; margin: 16px 0 24px; }
+    #fm-victory .fm-next p { color: var(--fm-muted); }
+    #fm-victory .fm-running .is-highlight { animation: fm-card-rise var(--fm-time) ease-out both; }
+    #fm-victory .fm-running .is-highlight .fm-emblem { animation: fm-emblem-hit var(--fm-time) ease-out both; }
+    #fm-victory .fm-running .is-highlight .fm-aura { animation: fm-guard-wave var(--fm-time) ease-out both; }
+    #fm-victory .fm-running .is-highlight .fm-spark { animation: fm-gold-spark var(--fm-time) ease-out both; }
+    #fm-victory .fm-running .fm-xp-fill { animation: fm-xp-rise var(--fm-time) cubic-bezier(.2,.6,.3,1) both; }
+    #fm-victory .fm-running .fm-spotlight strong { animation: fm-title-rise var(--fm-time) ease-out both; }
+    @keyframes fm-card-rise {
+      0% { transform: translateY(0) scale(1); }
+      25% { transform: translateY(-4px) scale(.97); }
+      52% { transform: translateY(-15px) scale(1.04); }
+      100% { transform: translateY(-8px) scale(1); }
+    }
+    @keyframes fm-emblem-hit {
+      0%,100% { transform: scale(1.65) rotate(0); }
+      28% { transform: scale(1.45) rotate(-8deg); }
+      52% { transform: scale(1.95) rotate(6deg); }
+      73% { transform: scale(1.6) rotate(-2deg); }
+    }
+    @keyframes fm-guard-wave {
+      0%,28% { opacity: 0; transform: scale(.4); }
+      47% { opacity: .85; }
+      100% { opacity: 0; transform: scale(1.6); }
+    }
+    @keyframes fm-gold-spark {
+      0%,35% { opacity: 0; transform: translate(0,0) scale(.3); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--fm-x),var(--fm-y)) rotate(90deg) scale(.4); }
+    }
+    @keyframes fm-xp-rise { from { width: var(--fm-start); } to { width: var(--fm-end); } }
+    @keyframes fm-title-rise { 0% { transform: translateY(5px) scale(.97); } 50% { transform: translateY(-2px) scale(1.03); } 100% { transform: none; } }
+    @media (max-width: 360px) {
+      #fm-victory .fm-screen { padding: 17px 12px 14px; border-radius: 19px; }
+      #fm-victory .fm-party { gap: 6px; }
+      #fm-victory .fm-hero { padding-left: 5px; padding-right: 5px; }
+      #fm-victory .fm-portrait { width: 51px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #fm-victory .fm-running .is-highlight,
+      #fm-victory .fm-running .is-highlight .fm-emblem,
+      #fm-victory .fm-running .is-highlight .fm-aura,
+      #fm-victory .fm-running .is-highlight .fm-spark,
+      #fm-victory .fm-running .fm-xp-fill,
+      #fm-victory .fm-running .fm-spotlight strong { animation: none; }
+    }
+  </style>
+  <section class="fm-screen" aria-label="胜利结算">
+    <div class="fm-result">
+      <div class="fm-topline"><span>第 09 关 · 古林小径</span><span class="fm-time"><span class="doc-symbol" aria-hidden="true">◷</span> 00:15</span></div>
+      <div class="fm-heading"><div class="fm-victory-mark">胜利</div><p>小队凯旋</p></div>
+      <div class="fm-spotlight" aria-live="polite"><strong><span class="doc-symbol" aria-hidden="true">✦</span><span class="fm-award">可靠守护</span></strong><p class="fm-award-detail">盾骑士 · 为队友抵挡 340 点伤害</p></div>
+      <div class="fm-party">
+        <article class="fm-hero" data-hero="warrior" aria-label="战士，获得120经验">
+          <span class="fm-crown"><span class="doc-symbol" aria-hidden="true">冠</span></span>
+          <div class="fm-portrait"><div class="fm-aura"></div><span class="fm-spark"></span><span class="fm-spark"></span><span class="fm-spark"></span><span class="fm-spark"></span><div class="fm-emblem"><span class="doc-symbol" aria-hidden="true">⚔</span></div></div>
+          <p class="fm-name">战士</p><div class="fm-level">Lv.5</div><div class="fm-xp">+120 EXP</div>
+          <div class="fm-xp-track" role="progressbar" aria-label="战士等级经验进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><div class="fm-xp-fill" style="--fm-start:32%;--fm-end:68%"></div></div><div class="fm-highlight-label">暴击 ×1</div>
+        </article>
+        <article class="fm-hero is-highlight" data-hero="shield" aria-label="盾骑士，本场亮眼角色，获得154经验，升至6级">
+          <span class="fm-crown"><span class="doc-symbol" aria-hidden="true">冠</span></span>
+          <div class="fm-portrait"><div class="fm-aura"></div><span class="fm-spark"></span><span class="fm-spark"></span><span class="fm-spark"></span><span class="fm-spark"></span><div class="fm-emblem"><span class="doc-symbol" aria-hidden="true">盾</span></div></div>
+          <p class="fm-name">盾骑士</p><div class="fm-level">Lv.5 <em>→ 6</em></div><div class="fm-xp">+154 EXP</div>
+          <div class="fm-xp-track" role="progressbar" aria-label="盾骑士升级后的经验进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25"><div class="fm-xp-fill" style="--fm-start:0%;--fm-end:25%"></div></div><div class="fm-highlight-label">守护队友 ×2</div>
+        </article>
+        <article class="fm-hero" data-hero="archer" aria-label="弓箭手，获得108经验">
+          <span class="fm-crown"><span class="doc-symbol" aria-hidden="true">冠</span></span>
+          <div class="fm-portrait"><div class="fm-aura"></div><span class="fm-spark"></span><span class="fm-spark"></span><span class="fm-spark"></span><span class="fm-spark"></span><div class="fm-emblem"><span class="doc-symbol" aria-hidden="true">弓</span></div></div>
+          <p class="fm-name">弓箭手</p><div class="fm-level">Lv.4</div><div class="fm-xp">+108 EXP</div>
+          <div class="fm-xp-track" role="progressbar" aria-label="弓箭手等级经验进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="74"><div class="fm-xp-fill" style="--fm-start:40%;--fm-end:74%"></div></div><div class="fm-highlight-label">连射 ×1</div>
+        </article>
+      </div>
+      <div class="fm-rewards"><span class="fm-reward"><span class="doc-symbol" aria-hidden="true">卷</span>经验卡 ×2</span><span class="fm-reward"><span class="doc-symbol" aria-hidden="true">材</span>精铁 ×3</span></div>
+      <button type="button" class="fm-primary" data-action="next">下一关<span class="doc-symbol" aria-hidden="true">→</span></button>
+      <div class="fm-actions"><button type="button" class="fm-secondary" data-action="replay"><span class="doc-symbol" aria-hidden="true">↻</span>重播亮眼时刻</button><button type="button" class="fm-secondary" data-action="details" aria-expanded="false" aria-controls="fm-victory-stats">详细统计<span class="doc-symbol" aria-hidden="true">⌄</span></button></div>
+      <div class="fm-details" id="fm-victory-stats" hidden><table aria-label="战斗贡献详情"><thead><tr><th>贡献</th><th>战士</th><th>盾骑士</th><th>弓箭手</th></tr></thead><tbody><tr><td>有效伤害</td><td>650</td><td>130</td><td>420</td></tr><tr><td>实际承伤</td><td>110</td><td>180</td><td>40</td></tr><tr><td>防护减伤</td><td>0</td><td>340</td><td>0</td></tr><tr><td>克制击杀</td><td>1</td><td>0</td><td>1</td></tr></tbody></table></div>
+    </div>
+    <div class="fm-next" hidden aria-live="polite"><span class="doc-symbol" aria-hidden="true">旗</span><p>下一段冒险</p><h3>第 10 关</h3><button type="button" class="fm-primary" data-action="back">返回结算示意</button></div>
+  </section>
+  <script>
+    (() => {
+      const root = document.getElementById('fm-victory');
+      const result = root.querySelector('.fm-result');
+      const next = root.querySelector('.fm-next');
+      const details = root.querySelector('.fm-details');
+      const detailButton = root.querySelector('[data-action="details"]');
+      const state = { hero: 'shield', duration: 900 };
+      const heroes = {
+        warrior: { name: '战士', award: '破敌先锋', detail: '战士 · 打出 650 点有效伤害', xp: '120' },
+        shield: { name: '盾骑士', award: '可靠守护', detail: '盾骑士 · 为队友抵挡 340 点伤害', xp: '154' },
+        archer: { name: '弓箭手', award: '连射制胜', detail: '弓箭手 · 连射追击，完成克制击杀', xp: '108' }
+      };
+      let playTimer = 0;
+      function stop() { clearTimeout(playTimer); result.classList.remove('fm-running'); }
+      function render() {
+        stop();
+        root.style.setProperty('--fm-time', state.duration + 'ms');
+        root.querySelector('.fm-award').textContent = heroes[state.hero].award;
+        root.querySelector('.fm-award-detail').textContent = heroes[state.hero].detail;
+        root.querySelectorAll('.fm-hero').forEach(card => {
+          const key = card.dataset.hero;
+          const chosen = key === state.hero;
+          card.classList.toggle('is-highlight', chosen);
+          card.setAttribute('aria-label', heroes[key].name + (chosen ? '，本场亮眼角色' : '') + '，获得' + heroes[key].xp + '经验' + (key === 'shield' ? '，升至6级' : ''));
+        });
+      }
+      function replay() {
+        stop();
+        void result.offsetWidth;
+        result.classList.add('fm-running');
+        playTimer = setTimeout(() => result.classList.remove('fm-running'), state.duration + 50);
+      }
+      root.querySelector('[data-action="replay"]').addEventListener('click', replay);
+      detailButton.addEventListener('click', () => {
+        details.hidden = !details.hidden;
+        detailButton.setAttribute('aria-expanded', String(!details.hidden));
+      });
+      root.querySelector('[data-action="next"]').addEventListener('click', () => {
+        stop(); result.hidden = true; next.hidden = false;
+        root.querySelector('[data-action="back"]').focus();
+      });
+      root.querySelector('[data-action="back"]').addEventListener('click', () => {
+        next.hidden = true; result.hidden = false;
+        root.querySelector('[data-action="replay"]').focus();
+      });
+      root.querySelector('[data-hero-choice]').addEventListener('change',e=>{state.hero=e.target.value;render();replay();});
+      render();
+      if (globalThis.Tweak) {
+        const tweak = new Tweak({ container: root, onChange: render });
+        tweak.addSelect(state, 'hero', { label: '亮眼角色', options: [{ label: '盾骑士 · 可靠守护', value: 'shield' }, { label: '战士 · 破敌先锋', value: 'warrior' }, { label: '弓箭手 · 连射制胜', value: 'archer' }] });
+        tweak.addSlider(state, 'duration', { label: '亮眼动画时长', min: 500, max: 1400, step: 100, unit: 'ms' });
+      }
+    })();
+  </script>
+</div>

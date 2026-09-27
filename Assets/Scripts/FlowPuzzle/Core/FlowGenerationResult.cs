@@ -34,8 +34,20 @@ namespace FlowPuzzle.Core
             int usedSeed,
             int attemptCount,
             string errorCode,
-            string errorMessage)
+            string errorMessage,
+            FlowGenerationConfig config = null)
         {
+            var diagnostic = new FlowFailureDiagnostic
+            {
+                errorCode = errorCode,
+                errorMessage = errorMessage,
+                usedSeed = usedSeed,
+                attemptCount = attemptCount
+            };
+
+            if (config != null)
+                diagnostic.suggestions = FlowDiagnosticMapper.Map(errorCode, config);
+
             return new FlowGenerationResult
             {
                 success = false,
@@ -43,13 +55,7 @@ namespace FlowPuzzle.Core
                 usedSeed = usedSeed,
                 attemptCount = attemptCount,
                 generatedLevel = null,
-                diagnostic = new FlowFailureDiagnostic
-                {
-                    errorCode = errorCode,
-                    errorMessage = errorMessage,
-                    usedSeed = usedSeed,
-                    attemptCount = attemptCount
-                }
+                diagnostic = diagnostic
             };
         }
     }

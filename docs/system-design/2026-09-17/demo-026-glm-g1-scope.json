@@ -1,0 +1,176 @@
+{
+  "task": "FM-DEMO-026-G1",
+  "executor": "GLM-external-worker",
+  "deliveredAtUtc": "2026-09-22T01:33:00Z",
+  "contractRef": "system-task-packets.md §155–157",
+  "status": "COMPLETED",
+  "inputVersions": {
+    "input-presentation.md": {
+      "path": "docs/system-design/2026-09-16/details/input-presentation.md",
+      "sha256": "ba1887f2d4b357032b95182bc7866cfd7bcf3dc966e7281454cdf54eebad44f6",
+      "verified": true
+    },
+    "FlowPos.cs": {
+      "path": "Assets/Scripts/FlowPuzzle/Core/FlowPos.cs",
+      "sha256": "52cc1aa7fa88c50b9cd3d17071f3df99098ecad1ada58b9d5636faffe7cb4f6a",
+      "verified": true,
+      "linkMode": "read-only Link in csproj, not copied/modified"
+    },
+    "FlowPuzzle.Core.asmdef": {
+      "path": "Assets/Scripts/FlowPuzzle/Core/FlowPuzzle.Core.asmdef",
+      "sha256": "9f684e62a102825715d9d6db929fdf9ef0d23a636c6ad38c59bfbc4168c9e3a8",
+      "verified": true
+    }
+  },
+  "env": {
+    "dotnetSdk": "6.0.412",
+    "dotnetRuntimePack": "6.0.20",
+    "dotnetPath": "C:\\Program Files\\dotnet\\dotnet.exe",
+    "cwd": "ExternalWork/FM-DEMO-026-G1/Verify",
+    "envVars": {
+      "DOTNET_CLI_HOME": "Verify/.cli (process-local only)",
+      "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+      "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1"
+    },
+    "systemEnvChanged": false
+  },
+  "sourceHashes": {
+    "note": "All 8 files are new; before=null. after=final frozen SHA post-fix. Production code unchanged by test fixes.",
+    "files": [
+      {"path": "Input/GestureModels.cs", "before": null, "after": "0c021c4726df0708b637de1f8c984fa059ec9f5a868068ae533580e5a150d702", "bytes": 11591, "category": "production"},
+      {"path": "Input/RouteGesture.cs", "before": null, "after": "8925591bfdf363f03493fc37b94868e066a1772e3f50be2d8d2867aed84c4391", "bytes": 12863, "category": "production"},
+      {"path": "Input/FightMatch.Input.asmdef", "before": null, "after": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f", "bytes": 396, "category": "assembly-def"},
+      {"path": "Tests/RouteGestureCases.cs", "before": null, "after": "445e2c9e57cd330068f203b196afeaa090286040446b48d285e9d8d3b0d6aaa2", "bytes": 37072, "category": "test"},
+      {"path": "Verify/Program.cs", "before": null, "after": "764b26e2c6e0b4cd768e67b163bb683f5d60580ec15932863ae5f0877ad141c8", "bytes": 1802, "category": "verify"},
+      {"path": "Verify/RouteGesture.Verify.csproj", "before": null, "after": "5b2bd1ab6ab5fdec46a5862c45fe68d7432556e54939fdb21015271a0f660248", "bytes": 1020, "category": "verify"},
+      {"path": "Verify/global.json", "before": null, "after": "83c970a00a2de414738e4b08b49899ad98789fd760e0e4a03c07e7cfcdf5933a", "bytes": 104, "category": "verify"},
+      {"path": "Verify/NuGet.Config", "before": null, "after": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575", "bytes": 125, "category": "verify"}
+    ],
+    "linkedReadOnly": {
+      "path": "Assets/Scripts/FlowPuzzle/Core/FlowPos.cs",
+      "sha256": "52cc1aa7fa88c50b9cd3d17071f3df99098ecad1ada58b9d5636faffe7cb4f6a",
+      "modified": false
+    }
+  },
+  "changeList": {
+    "newFiles": 8,
+    "modifiedProjectFiles": 0,
+    "modifiedMeta": 0,
+    "gitWrites": 0,
+    "unityRuns": 0,
+    "files": [
+      {"path": "ExternalWork/FM-DEMO-026-G1/Input/GestureModels.cs", "futureMapping": "Assets/Scripts/FightMatch/Input/GestureModels.cs"},
+      {"path": "ExternalWork/FM-DEMO-026-G1/Input/RouteGesture.cs", "futureMapping": "Assets/Scripts/FightMatch/Input/RouteGesture.cs"},
+      {"path": "ExternalWork/FM-DEMO-026-G1/Input/FightMatch.Input.asmdef", "futureMapping": "Assets/Scripts/FightMatch/Input/FightMatch.Input.asmdef"},
+      {"path": "ExternalWork/FM-DEMO-026-G1/Tests/RouteGestureCases.cs", "futureMapping": "Independent EditMode test directory"},
+      {"path": "ExternalWork/FM-DEMO-026-G1/Verify/Program.cs", "futureMapping": "Offline verify only"},
+      {"path": "ExternalWork/FM-DEMO-026-G1/Verify/RouteGesture.Verify.csproj", "futureMapping": "Offline verify only"},
+      {"path": "ExternalWork/FM-DEMO-026-G1/Verify/global.json", "futureMapping": "Offline verify only"},
+      {"path": "ExternalWork/FM-DEMO-026-G1/Verify/NuGet.Config", "futureMapping": "Offline verify only"}
+    ]
+  },
+  "commands": [
+    {
+      "step": "01_version",
+      "cmd": "& 'C:\\Program Files\\dotnet\\dotnet.exe' --version",
+      "exitCode": 0,
+      "stdout": "6.0.412\n",
+      "stderr": "",
+      "artifactDir": "Verify/runs/4c26c6bab7a1494781db79cefd625de2/"
+    },
+    {
+      "step": "02_restore",
+      "cmd": "& 'C:\\Program Files\\dotnet\\dotnet.exe' restore '.\\RouteGesture.Verify.csproj' --configfile '.\\NuGet.Config' --packages '.\\.nuget'",
+      "exitCode": 0,
+      "stdout": "  正在确定要还原的项目…\n  所有项目均是最新的，无法还原。\n",
+      "stderr": "",
+      "artifactDir": "Verify/runs/4c26c6bab7a1494781db79cefd625de2/"
+    },
+    {
+      "step": "03_build",
+      "cmd": "& 'C:\\Program Files\\dotnet\\dotnet.exe' build '.\\RouteGesture.Verify.csproj' --no-restore --configuration Release",
+      "exitCode": 0,
+      "stdout": "MSBuild version 17.3.2+561848881 for .NET\n  RouteGesture.Verify -> D:\\Unity\\UnityProj\\FightMatch\\ExternalWork\\FM-DEMO-026-G1\\Verify\\bin\\Release\\net6.0\\RouteGesture.Verify.dll\n\n已成功生成。\n    0 个警告\n    0 个错误\n\n已用时间 00:00:01.94\n",
+      "stderr": "",
+      "artifactDir": "Verify/runs/4c26c6bab7a1494781db79cefd625de2/"
+    },
+    {
+      "step": "04_run",
+      "cmd": "& 'C:\\Program Files\\dotnet\\dotnet.exe' '.\\bin\\Release\\net6.0\\RouteGesture.Verify.dll'",
+      "exitCode": 0,
+      "stdout": "[PASS] G01A\n[PASS] G01B\n[PASS] G01C\n[PASS] G02\n[PASS] G03A\n[PASS] G03B\n[PASS] G03C\n[PASS] G03D\n[PASS] G03E\n[PASS] G03F\n[PASS] G03G\n[PASS] G04A\n[PASS] G04B\n[PASS] G04C\n[PASS] G04D\n[PASS] G04E\n[PASS] G04F\n[PASS] G04G1\n[PASS] G04G2\n[PASS] G05A\n[PASS] G05B\n[PASS] G05C\n[PASS] G05D\n[PASS] G05E\n[PASS] G05F\n[PASS] G05G\n[PASS] G05H\n[PASS] G06A\n[PASS] G06B\n[PASS] G06C\n[PASS] G06D\n[PASS] G07A\n[PASS] G07B\n[PASS] G07C\n[PASS] G07D\n[PASS] G07E\n[PASS] G07F\n[PASS] G08A\n[PASS] G08B\n[PASS] G08C\n[PASS] G08D\n[PASS] G08E\n[PASS] G08F\n[PASS] G08G\n[PASS] G08H\n[PASS] G08I\n[PASS] G08J\n[PASS] G08K\n[PASS] G09A\n[PASS] G09B\n[PASS] G09C\n[PASS] G09D\n[PASS] G09E\n[PASS] G09F\n[PASS] G09G\n[PASS] G09H\n[PASS] G09I\n[PASS] G09J\n[PASS] G09K\n[PASS] G09L\n[PASS] G09M\n[PASS] G09N\n[PASS] G10A\n[PASS] G10B\n---- SUMMARY ----\ntotal=64 pass=64 fail=0\n",
+      "stderr": "",
+      "artifactDir": "Verify/runs/4c26c6bab7a1494781db79cefd625de2/"
+    }
+  ],
+  "caseResults": {
+    "total": 64,
+    "pass": 64,
+    "fail": 0,
+    "skipped": 0,
+    "caseIds": ["G01A","G01B","G01C","G02","G03A","G03B","G03C","G03D","G03E","G03F","G03G","G04A","G04B","G04C","G04D","G04E","G04F","G04G1","G04G2","G05A","G05B","G05C","G05D","G05E","G05F","G05G","G05H","G06A","G06B","G06C","G06D","G07A","G07B","G07C","G07D","G07E","G07F","G08A","G08B","G08C","G08D","G08E","G08F","G08G","G08H","G08I","G08J","G08K","G09A","G09B","G09C","G09D","G09E","G09F","G09G","G09H","G09I","G09J","G09K","G09L","G09M","G09N","G10A","G10B"],
+    "allPass": true
+  },
+  "acceptanceCriteria": {
+    "G01": "PASS",
+    "G02": "PASS",
+    "G03": "PASS",
+    "G04": "PASS",
+    "G05": "PASS",
+    "G06": "PASS",
+    "G07": "PASS",
+    "G08": "PASS",
+    "G09": "PASS",
+    "G10": "PASS"
+  },
+  "freezeRecords": {
+    "productionCodeUnchangedByTestFixes": true,
+    "note": "RouteGesture.cs and GestureModels.cs SHA identical before and after test-only fixes (G04G2, G10B). Only RouteGestureCases.cs SHA changed across fix iterations.",
+    "routeGestureCasesShaHistory": [
+      {"stage": "pre-fix-attempt2", "sha256": "121af88a1b611841688782bed72414caba1d18c928cadb7c2b2a4aa08d5abf32", "result": "63 pass / 1 fail (G10B)"},
+      {"stage": "after-G04G2-fix", "sha256": "82425f8b828c809ebaa6b77c48b25fa2c9c809862ea56ad03c6e4036231e732e"},
+      {"stage": "after-G10B-fix-final", "sha256": "445e2c9e57cd330068f203b196afeaa090286040446b48d285e9d8d3b0d6aaa2", "result": "64 pass / 0 fail"}
+    ],
+    "runGuidFinal": "4c26c6bab7a1494781db79cefd625de2",
+    "priorRunGuids": ["76586f585ee94b4f81fda4b762d918c3", "6f83b2bd41c14443933e38e2f1ed49eb", "1bf9ed24309b459298224599d618f854"]
+  },
+  "failureRecords": [
+    {
+      "caseId": "G04G2",
+      "attempt": "attempt2",
+      "symptom": "Test asserted returning to tail cell (0,0) clears invalid flag, but after diagonal-invalid the draft=[(0,0)] so tail IS origin — cannot 'return to tail'.",
+      "rootCause": "Test logic error, not production bug.",
+      "fix": "Changed G04G2 to backspace-to-second-last scenario: cross-cell invalid then return to second-last cell (1,0) pops tail, clears flag, restores draft. Matches §156 '回尾或合法退格后才可恢复'.",
+      "productionCodeChanged": false
+    },
+    {
+      "caseId": "G10B",
+      "attempt": "attempt2",
+      "symptom": "Test asserted Down on non-endpoint cell (1,2) captures origin, but RouteGesture.Down correctly ignores non-endpoint cells per §156.",
+      "rootCause": "Test used wrong cell; production behavior correct.",
+      "fix": "Changed G10B to use valid endpoint new FlowPos(0,0) and assert OriginCell.Equals(endpoint).",
+      "productionCodeChanged": false
+    }
+  ],
+  "notRun": [
+    "Unity assembly import (offline net6.0 console only, does not prove Unity import passes)",
+    "Real mouse/touch input (simulated by hand-written cases, no real input device)",
+    "Formal scene wiring (G1 does not create Adapter/DemoView/fake-save/fake-battle)",
+    "026 full package (G1 is gesture/draft module only; 026-G2 awaits G1+019 independent acceptance)"
+  ],
+  "blocked": false,
+  "blockedReasons": [],
+  "selfCheck": {
+    "oldProjectFilesModified": false,
+    "metaFilesModified": false,
+    "gitWrites": false,
+    "unityRuns": 0,
+    "dependenciesInstalled": 0,
+    "frameworkIntegrated": false,
+    "tasksOrSubagentsCreated": false,
+    "productionNamespacesUsed": ["System", "System.Collections.Generic", "System.Numerics", "FlowPuzzle.Core"],
+    "noPackageReference": true,
+    "noNet6ApiInProduction": true,
+    "selfAcceptClaimed": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FightMatch · C1 系统上下文",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [1390, 730],
+    "legend": {"mode": "auto", "entries": {"backend": {"label": "目标软件系统"}, "external": {"label": "人 / 外部软件系统"}}}
+  },
+  "components": [
+    {"id": "context-player", "type": "external", "label": "玩家", "sublabel": "人", "tag": "闯关 · 培养队伍 · 查看攻略", "pos": [60, 110], "size": [270, 120]},
+    {"id": "context-author", "type": "external", "label": "内容制作人员", "sublabel": "人", "tag": "制作关卡 · 配置 · 验证内容", "pos": [60, 505], "size": [270, 120]},
+    {"id": "fightmatch-product", "type": "backend", "label": "FightMatch", "sublabel": "目标软件系统", "tag": "连线战斗 · 成长 · 内容与攻略", "pos": [590, 300], "size": [290, 130]},
+    {"id": "rewarded-ad-platform", "type": "external", "label": "激励广告平台", "sublabel": "外部软件系统", "tag": "供应商待选；报告广告完成", "pos": [1100, 300], "size": [250, 130]}
+  ],
+  "connections": [
+    {"id": "play-product", "from": "context-player", "to": "fightmatch-product", "label": "游玩与获取帮助", "variant": "emphasis"},
+    {"id": "author-product-content", "from": "context-author", "to": "fightmatch-product", "label": "制作并验证内容"},
+    {"id": "integrate-rewarded-ads", "from": "fightmatch-product", "to": "rewarded-ad-platform", "label": "请求激励广告"}
+  ],
+  "cards": [
+    {"dot": "cyan", "title": "C1 回答什么", "items": ["谁使用 FightMatch", "它与哪个外部系统合作"]},
+    {"dot": "emerald", "title": "产品范围", "items": ["游戏客户端、内容工具及攻略能力", "内部如何划分，展开到 C2 查看"]},
+    {"dot": "amber", "title": "设计状态", "items": ["目标架构；不表示已经实现", "未选定广告或在线服务供应商"]}
+  ]
+}

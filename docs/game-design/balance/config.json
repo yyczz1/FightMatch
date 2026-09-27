@@ -1,0 +1,609 @@
+{
+  "version": "0.2.1",
+  "revision": "2026-09-15-entry16-tutorial-v4",
+  "boss": {
+    "level_cases": [
+      [
+        5,
+        4
+      ],
+      [
+        5,
+        5
+      ],
+      [
+        7,
+        6
+      ],
+      [
+        7,
+        7
+      ]
+    ],
+    "taunt_cd": 2,
+    "shell": {
+      "hp": 60,
+      "physical_defense": 25,
+      "magic_defense": 15
+    },
+    "core": {
+      "hp": 90,
+      "physical_defense": 10,
+      "magic_defense": 5
+    },
+    "mechanic": {
+      "hp": 18,
+      "physical_defense": 0,
+      "magic_defense": 0,
+      "attack": 4,
+      "heal_fraction": "1/10",
+      "heal_charges": 2,
+      "heal_every_enemy_phases": 2
+    },
+    "soldier": {
+      "hp": 20,
+      "physical_defense": 10,
+      "magic_defense": 5,
+      "attack": 16,
+      "heavy_coefficient": "8/5",
+      "cycle": [
+        "charge",
+        "melee"
+      ]
+    },
+    "boss": {
+      "ranged_attack": 26,
+      "melee_attack": 12,
+      "melee_coefficient": "8/5",
+      "core_vulnerability": "5/4",
+      "ranged_range": 3,
+      "melee_range": 1
+    },
+    "phase_1_cycle": [
+      "ranged",
+      "charge",
+      "melee",
+      "rest"
+    ],
+    "phase_2_cycle": [
+      "charge",
+      "melee",
+      "rest",
+      "ranged"
+    ],
+    "time_budget": {
+      "seconds_per_action": 4,
+      "intro": 3,
+      "flip": 1,
+      "second_board_read": 3,
+      "free_lines_allowance": 2
+    },
+    "assumptions": [
+      "All attacks are deterministic. Passive PRD, items, fireball and damage-over-time are disabled.",
+      "Living order controls range: warrior 1, mage 2. Warrior is the front ally.",
+      "Mechanics attempt winding every even numbered phase enemy turn while charges remain. Only positive healing on a living shell spends a charge; full or dead shell leaves the attempt idle with charges preserved.",
+      "After heal charges are exhausted, mechanics use their low attack on subsequent phases.",
+      "Death leaves visual slots fixed. Attack range still counts living order. Enemy resolution retains original slot order: mechanic A, mechanic B, shell; then soldier, core.",
+      "All legal attack lines and death-completion lines are assumed drawable. No board/path verification is represented.",
+      "A completed action produces one enemy phase even when all enemies have died; no living actors attack.",
+      "Cooldown decreases after every later completed team round, including the phase-ending round; cast round does not decrease.",
+      "Mandatory free lines are assumed completed before transition. Neither free lines nor flip advances cooldown or enemies.",
+      "The same encounter preserves party HP and taunt cooldown across the phase boundary.",
+      "Taunt only lasts the immediately following enemy phase and applies automatically to the same still-living target.",
+      "Actual killing normal attacks suppress taunt and new cooldown.",
+      "Core vulnerability applies to only the next player action after its heavy attack, before rest.",
+      "Damage floors after all modifiers; effective damage caps at pre-hit HP. Healing caps at missing HP.",
+      "Displayed HP is rounded to 2 decimals, calculation uses exact rational arithmetic.",
+      "Prescribed plans stop early when a phase dies; dead targets are omitted without advancing actions. This is not a search for optimal actions."
+    ]
+  },
+  "boss_plans": {
+    "clear_first_correct_taunt": {
+      "taunt_enabled": true,
+      "phase_1": [
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "W",
+          "A"
+        ],
+        [
+          "M",
+          "B"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ]
+      ],
+      "phase_2": [
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "soldier"
+        ],
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ]
+      ],
+      "meaning": "Clear both mechanics before wounding shell; save ready taunt for the ranged intent on both faces."
+    },
+    "leave_healer_one_real_heal": {
+      "taunt_enabled": true,
+      "phase_1": [
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "W",
+          "A"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "W",
+          "B"
+        ],
+        [
+          "M",
+          "shell"
+        ]
+      ],
+      "phase_2": [
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "soldier"
+        ],
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ]
+      ],
+      "meaning": "Leave mechanic B alive through action 4: one actual shell heal. Clear it before the final shell hit."
+    },
+    "waste_taunt_on_both_rests": {
+      "taunt_enabled": true,
+      "phase_1": [
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "W",
+          "A"
+        ],
+        [
+          "M",
+          "B"
+        ],
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ]
+      ],
+      "phase_2": [
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "soldier"
+        ],
+        [
+          "W",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ]
+      ],
+      "meaning": "Use warrior when ready during each rest, causing cooldown to prevent the immediately following ranged redirection."
+    },
+    "miss_one_ranged_after_first_rest": {
+      "taunt_enabled": true,
+      "phase_1": [
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "W",
+          "A"
+        ],
+        [
+          "M",
+          "B"
+        ],
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ]
+      ],
+      "phase_2": [
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "soldier"
+        ],
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ]
+      ],
+      "meaning": "Waste taunt on the first face rest only; one ranged hit reaches the mage. Reserve taunt correctly on face two."
+    },
+    "no_taunt_clear_first": {
+      "taunt_enabled": false,
+      "phase_1": [
+        [
+          "W",
+          "A"
+        ],
+        [
+          "M",
+          "B"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "W",
+          "shell"
+        ]
+      ],
+      "phase_2": [
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "soldier"
+        ],
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ]
+      ],
+      "meaning": "Counterfactual pressure comparison only, not an approved first-entry tutorial route. No skill-only opening; accepts legal ranged hits on the mage."
+    },
+    "full_health_retained_then_two_heals": {
+      "taunt_enabled": true,
+      "phase_1": [
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "W",
+          "A"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "W",
+          "B"
+        ],
+        [
+          "M",
+          "shell"
+        ]
+      ],
+      "phase_2": [
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "soldier"
+        ],
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ]
+      ],
+      "meaning": "Underlevelled M3 boundary branch: full-health attempt on action 2 preserves charges, so B can restore 6 HP on both actions 4 and 6 before being killed."
+    },
+    "kill_shell_before_winding": {
+      "taunt_enabled": true,
+      "phase_1": [
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "W",
+          "A"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "W",
+          "shell"
+        ],
+        [
+          "M",
+          "shell"
+        ],
+        [
+          "W",
+          "B"
+        ]
+      ],
+      "phase_2": [
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "soldier"
+        ],
+        [
+          "M",
+          "core"
+        ],
+        [
+          "W",
+          "core"
+        ],
+        [
+          "M",
+          "core"
+        ]
+      ],
+      "meaning": "Kill shell on action 6 while B still has one winding charge. The scheduled winding idles without spending or changing to an attack; B is killed next."
+    }
+  },
+  "progression": {
+    "base_offset": 18,
+    "base_per_stage": 2,
+    "boss_xp_multiplier": 3,
+    "xp_card": 50,
+    "hp_growth": 0.08,
+    "attack_growth": 0.06,
+    "defense_growth": 1.5,
+    "xp_level_base": 60,
+    "xp_level_linear": 20,
+    "xp_level_quadratic": 5,
+    "overlevel_grace": 1,
+    "overlevel_factor": 0.75,
+    "score_floor": 0.5,
+    "score_log_scale": 0.5,
+    "contribution_divisor": 2,
+    "first_entry_proof_stage": 16,
+    "first_clear_proof_stage": 16,
+    "proof_item": "general",
+    "skill_learning_level": 5,
+    "material_tin_share": 0.75
+  },
+  "ads": {
+    "multipliers": [
+      2,
+      2.2,
+      2.5,
+      2.8,
+      3
+    ],
+    "weights": [
+      0.35,
+      0.25,
+      0.2,
+      0.15,
+      0.05
+    ],
+    "resource_daily_limit": 3,
+    "resource_unlock_stage": 8,
+    "revive_hp_fraction": 1,
+    "recovery_seconds": 180
+  },
+  "roles": [
+    {
+      "id": "W",
+      "name": "战士",
+      "hp": 100,
+      "attack": 20,
+      "pdef": 10,
+      "mdef": 6,
+      "range": 1,
+      "unlock": 0,
+      "passive": "暴击",
+      "p0": 0.2,
+      "p_per_level": 0.005,
+      "p_cap": 0.35,
+      "effect": 1.5,
+      "cd": 2
+    },
+    {
+      "id": "M",
+      "name": "法师",
+      "hp": 72,
+      "attack": 22,
+      "pdef": 4,
+      "mdef": 12,
+      "range": 2,
+      "unlock": 8,
+      "passive": "奥术穿透",
+      "p0": 0.2,
+      "p_per_level": 0.005,
+      "p_cap": 0.35,
+      "effect": 0.5,
+      "cd": 2
+    },
+    {
+      "id": "K",
+      "name": "盾骑士",
+      "hp": 125,
+      "attack": 16,
+      "pdef": 16,
+      "mdef": 8,
+      "range": 1,
+      "unlock": 21,
+      "passive": "物理格挡",
+      "p0": 0.25,
+      "p_per_level": 0.005,
+      "p_cap": 0.4,
+      "effect": 0.5,
+      "cd": 3
+    },
+    {
+      "id": "A",
+      "name": "精灵弓箭手",
+      "hp": 80,
+      "attack": 19,
+      "pdef": 5,
+      "mdef": 5,
+      "range": 3,
+      "unlock": 37,
+      "passive": "双射",
+      "p0": 0.25,
+      "p_per_level": 0.005,
+      "p_cap": 0.4,
+      "effect": 1,
+      "cd": 3
+    }
+  ],
+  "skill_numbers": {
+    "fireball_center": 0.8,
+    "fireball_neighbor": 0.4,
+    "group_shield_attack": 0.8,
+    "poison_attack": 0.15,
+    "burn_attack": 0.15,
+    "poison_ticks": 3,
+    "burn_ticks": 2,
+    "weakness": 1.5,
+    "resistance": 0.5,
+    "normal": 1
+  },
+  "normal_time": {
+    "fixed_seconds": 3.2,
+    "seconds_per_action": 3.95
+  },
+  "notes": [
+    "All newly filled role/passive/skill parameters are first-playtest candidates.",
+    "Chapter-one replay disables passive procs, items, fireball and DOT.",
+    "Entry16 revision: one generic proof on first entry, player-confirmed level-5 taunt learning and explanation before battle, one second generic proof on first whole-encounter victory. No stage-14/15 proof or separate taunt practice.",
+    "Tutorial persistence and confirmation are requirements, not implemented storage. No-taunt simulations are counterfactual pressure comparisons, not approved first-entry routes.",
+    "Scoring in the first-chapter replay includes damage and taunt protection only."
+  ]
+}

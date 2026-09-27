@@ -1,0 +1,203 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "完整战斗攻略 · 候选流程",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "backend": {
+          "label": "业务与规则"
+        },
+        "frontend": {
+          "label": "界面与工具"
+        },
+        "cloud": {
+          "label": "在线计算"
+        },
+        "database": {
+          "label": "状态数据"
+        },
+        "external": {
+          "label": "接入边界"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "ui",
+      "label": "玩家界面"
+    },
+    {
+      "id": "app",
+      "label": "HintSystem"
+    },
+    {
+      "id": "provider",
+      "label": "攻略提供"
+    },
+    {
+      "id": "other",
+      "label": "其他结果",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "ask",
+    "snapshot",
+    "provide",
+    "verify",
+    "unlock",
+    "show"
+  ],
+  "nodes": [
+    {
+      "id": "ask",
+      "lane": "ui",
+      "col": 0,
+      "type": "frontend",
+      "label": "请求完整攻略",
+      "sublabel": "免费权益 / 广告权益",
+      "width": 220
+    },
+    {
+      "id": "snapshot",
+      "lane": "app",
+      "col": 1,
+      "type": "backend",
+      "label": "取得局面与配置版本",
+      "sublabel": "队伍 · 血量 · 路径 · 随机",
+      "width": 240
+    },
+    {
+      "id": "provide",
+      "lane": "provider",
+      "col": 2,
+      "type": "external",
+      "label": "IBattleGuideProvider",
+      "sublabel": "在线搜索 / 离线保存参考",
+      "width": 240
+    },
+    {
+      "id": "verify",
+      "lane": "provider",
+      "col": 3,
+      "type": "backend",
+      "label": "验证内容与适用条件",
+      "sublabel": "用共享规则重演完整行动",
+      "width": 240
+    },
+    {
+      "id": "unlock",
+      "lane": "app",
+      "col": 4,
+      "type": "backend",
+      "label": "确认权益并解锁内容",
+      "sublabel": "广告提示在内容就绪后发起",
+      "width": 240
+    },
+    {
+      "id": "show",
+      "lane": "ui",
+      "col": 5,
+      "type": "frontend",
+      "label": "展示角色、目标、路线",
+      "sublabel": "完整顺序；同关重开可重看",
+      "width": 250
+    },
+    {
+      "id": "unknown",
+      "lane": "other",
+      "col": 2,
+      "type": "external",
+      "label": "暂未取得有效攻略",
+      "sublabel": "超时 / 网络失败 / 不适用",
+      "tag": "不消耗权益",
+      "width": 240
+    },
+    {
+      "id": "reference",
+      "lane": "other",
+      "col": 3,
+      "type": "backend",
+      "label": "寻找适用重开参考",
+      "sublabel": "已证无解或当前参考不适用",
+      "tag": "需要独立标注重开条件",
+      "width": 240
+    }
+  ],
+  "edges": [
+    {
+      "id": "ask_snapshot",
+      "from": "ask",
+      "to": "snapshot",
+      "label": "提示请求"
+    },
+    {
+      "id": "provide_request",
+      "from": "snapshot",
+      "to": "provide",
+      "label": "完整请求"
+    },
+    {
+      "id": "candidate",
+      "from": "provide",
+      "to": "verify",
+      "label": "候选攻略",
+      "role": "main"
+    },
+    {
+      "id": "unknown_result",
+      "from": "provide",
+      "to": "unknown",
+      "label": "尚无有效内容",
+      "role": "error"
+    },
+    {
+      "id": "restart_guide",
+      "from": "provide",
+      "to": "reference",
+      "label": "需要重开参考",
+      "role": "branch"
+    },
+    {
+      "id": "reference_validate",
+      "from": "reference",
+      "to": "verify",
+      "label": "验证参考条件"
+    },
+    {
+      "id": "verified",
+      "from": "verify",
+      "to": "unlock",
+      "label": "确认有效"
+    },
+    {
+      "id": "guide_unlocked",
+      "from": "unlock",
+      "to": "show",
+      "label": "权益完成"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "攻略必须覆盖战斗",
+      "items": [
+        "几何走通不能证明队伍能赢；验证必须重演战斗。",
+        "每次搜索使用独立状态，不修改玩家当前对局。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "待定 C05 / C06",
+      "items": [
+        "离线任意阵容覆盖、偏离后重算与计次口径待定。",
+        "超时不等于无解；无解必须具备对应搜索范围的证明。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FightMatch · C2 应用与数据存储",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [1390, 835],
+    "legend": {"mode": "auto", "entries": {"frontend": {"label": "客户端 / 工具应用"}, "backend": {"label": "在线应用候选"}, "database": {"label": "数据存储"}, "external": {"label": "人 / 外部系统"}}}
+  },
+  "components": [
+    {"id": "container-player", "type": "external", "label": "玩家", "sublabel": "人", "tag": "手机游玩", "pos": [30, 145], "size": [210, 110]},
+    {"id": "container-author", "type": "external", "label": "内容制作人员", "sublabel": "人", "tag": "关卡与数值维护", "pos": [30, 610], "size": [210, 110]},
+    {"id": "container-ads", "type": "external", "label": "激励广告平台", "sublabel": "外部软件系统", "tag": "供应商待选", "pos": [30, 380], "size": [210, 110]},
+    {"id": "unity-game-client", "type": "frontend", "label": "Unity 客户端", "sublabel": "移动应用 · Unity / C#", "tag": "QFramework 组织客户端模块", "pos": [410, 145], "size": [270, 120]},
+    {"id": "rpg-content-editor", "type": "frontend", "label": "内容编辑与验证", "sublabel": "工具应用 · Unity Editor / C#", "tag": "扩展现有 FlowPuzzle 工具", "pos": [410, 610], "size": [270, 120]},
+    {"id": "online-analysis-app", "type": "backend", "label": "在线解析应用（候选）", "sublabel": "网络应用 · 技术 / 托管待选", "tag": "求剩余步骤 · 用同版规则验证", "pos": [1030, 145], "size": [300, 120]},
+    {"id": "local-player-save", "type": "database", "label": "本地玩家存档", "sublabel": "数据存储 · 格式待选", "tag": "长期资料 · 对局恢复 · 权益", "pos": [410, 380], "size": [270, 120]},
+    {"id": "published-game-content", "type": "database", "label": "关卡与规则内容", "sublabel": "数据存储 · 发布方式待选", "tag": "配置 · 关卡 · 默认完整攻略", "pos": [1030, 610], "size": [300, 120]}
+  ],
+  "boundaries": [{"kind": "region", "label": "FightMatch 软件系统 / 推荐的目标结构", "wraps": ["unity-game-client", "rpg-content-editor", "online-analysis-app", "local-player-save", "published-game-content"], "pad": 32}],
+  "connections": [
+    {"id": "use-mobile-app", "from": "container-player", "to": "unity-game-client", "label": "游玩", "variant": "emphasis"},
+    {"id": "use-content-editor", "from": "container-author", "to": "rpg-content-editor", "label": "制作内容"},
+    {"id": "call-online-analysis", "from": "unity-game-client", "to": "online-analysis-app", "label": "请求解析 / 协议待选", "variant": "dashed"},
+    {"id": "persist-player-data", "from": "unity-game-client", "to": "local-player-save", "label": "文件读写", "labelDy": 65},
+    {"id": "request-ad-playback", "from": "unity-game-client", "to": "container-ads", "label": "广告接入 / SDK 待选"},
+    {"id": "publish-validated-content", "from": "rpg-content-editor", "to": "published-game-content", "label": "校验后导出", "labelDy": 28},
+    {"id": "load-client-content", "from": "unity-game-client", "to": "published-game-content", "label": "加载只读内容"},
+    {"id": "load-analysis-content", "from": "online-analysis-app", "to": "published-game-content", "label": "加载同版内容", "labelDy": 200}
+  ],
+  "cards": [
+    {"dot": "cyan", "title": "C2 的 Container", "items": ["一个应用程序，或一处数据存储", "QFramework 和规则库属于内部代码"]},
+    {"dot": "emerald", "title": "共享代码的位置", "items": ["同一 C# 规则可供多个应用使用", "内容可以随应用发布，未规定中心库"]},
+    {"dot": "amber", "title": "在线能力仍需选型", "items": ["在线应用是本图推荐的运行边界", "自建 / 托管 / 服务接入尚未决定"]}
+  ]
+}

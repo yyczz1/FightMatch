@@ -1,0 +1,413 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FightMatch · 系统协作基线 r1</title><style>:root{color-scheme:light dark;--bg:#f4f7f9;--paper:#fff;--ink:#173247;--muted:#52677a;--line:#d6e1e8;--accent:#08756e;--tint:#e8f4f1}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 'Microsoft YaHei UI','Microsoft YaHei',sans-serif}a{color:var(--accent);text-underline-offset:3px}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.top{max-width:1420px;margin:auto;padding:25px 32px 17px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.brand{font-weight:800;letter-spacing:.08em}.status{color:var(--muted);font-size:14px}.layout{max-width:1420px;margin:auto;display:grid;grid-template-columns:205px minmax(0,1fr);gap:30px;padding:0 32px 55px}.side{position:sticky;top:24px;align-self:start;padding-top:24px}.side p{font-size:12px;color:var(--muted);letter-spacing:.08em}.side a{display:block;text-decoration:none;padding:9px 0;line-height:1.6;font-size:14px}.side .diagram-link{margin-top:18px;padding:12px;background:var(--tint);border-radius:8px;font-weight:700}article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px 36px 36px}h1{font-size:30px;line-height:1.4;margin:0 0 18px}h2{font-size:22px;line-height:1.5;border-top:1px solid var(--line);margin:38px 0 17px;padding-top:24px;scroll-margin-top:20px}p{margin:12px 0 18px}li{margin:10px 0}strong{font-weight:700}.table-wrap{margin:20px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:14px;line-height:1.75}th,td{border:1px solid var(--line);padding:12px 13px;text-align:left;vertical-align:top;overflow-wrap:anywhere}th{background:var(--tint);font-weight:700}th:first-child,td:first-child{width:21%}code{font-family:Consolas,monospace;font-size:.95em}.foot{border-top:1px solid var(--line);margin-top:30px;padding-top:16px;color:var(--muted);font-size:13px}.foot a{margin-right:18px}@media(prefers-color-scheme:dark){:root{--bg:#0d1821;--paper:#15232f;--ink:#e4edf4;--muted:#b2c3cf;--line:#354b5b;--accent:#73d2c6;--tint:#203c3e}}@media(max-width:980px){.layout{grid-template-columns:1fr}.side{position:static;display:flex;flex-wrap:wrap;gap:4px 20px;padding-top:0}.side p{width:100%;margin:0}.side a{padding:4px 0}.side .diagram-link{margin:0;padding:5px 10px}article{padding:24px}}@media(max-width:600px){.top,.layout{padding-left:14px;padding-right:14px}.layout{gap:16px}article{padding:19px 15px}h1{font-size:25px}h2{font-size:20px}table{font-size:12px;line-height:1.65}th,td{padding:8px 6px}body{font-size:15px}}</style></head><body><header class="top"><span class="brand">FIGHTMATCH / ARCHITECTURE</span><span class="status">2026.09.16 · 推荐基线 r1 · 系统内部设计另行展开</span></header><div class="layout"><nav class="side" aria-label="阅读目录"><p>架构与交接</p><a href="#section-1">1. 怎样读这张系统图</a><a href="#section-2">2. 系统划分建议</a><a href="#section-3">3. 状态归属表</a><a href="#section-4">4. 跨系统冲突检查清单</a><a href="#section-5">5. 用四段流程检查职责能否接起来</a><a href="#section-6">6. 之前的图怎样继续使用</a><a href="#section-7">7. 本轮收敛结果与下一阶段</a><a class="diagram-link" href="systems.html">打开交互系统关系图 ↗</a></nav><article><h1>FightMatch 整体架构 · 系统协作基线 r1</h1>
+<p>2026-09-16 · <strong>架构会话整理的推荐基线，供下一阶段系统设计使用</strong>。已按最新策划检查职责覆盖和跨系统协作，补齐原稿中未明确的交接；这不表示用户逐项批准了内部技术方案，也不构成实施授权。后续先在新会话统一各系统设计和交互契约，再按系统分发到独立会话做详细设计与执行。</p>
+<p><a href="systems.html">打开交互系统关系图</a> · <a href="../2026-09-16-architecture-scope-and-system-collaboration.md">架构职责与依据</a> · <a href="../2026-09-15-content-requirements-sync-reply.md">最新策划接收记录</a></p>
+<p>本次继续工作后的结果与取舍见第 7 节；新会话的输入、交互清单和完成条件见<a href="../../handoffs/2026-09-16-system-design.md">系统设计交接稿</a>。</p>
+<h2 id="section-1">1. 怎样读这张系统图</h2>
+<p>先看“输入与表现 → 应用流程 → 战斗与回退 → 结算协调 → 玩家长期资料”这条主线：玩家提出操作，应用流程组织步骤，战斗裁定当局结果，结算协调各负责系统完成长期入账。</p>
+<p>箭头标明的是主要请求或数据交接，并非全部调用与返回。“战斗 → 结算”表示结果交接，结算调用由应用流程组织；“攻略 → 战斗”表示在独立局面中复用规则验证，不是让攻略操作玩家正在玩的对局。各业务读取配置、返回结果、保存数据的共性关系未全部画线，避免把职责图画成完整调用图。</p>
+<p>“玩家长期资料”是图上的合并展示，其中<strong>成长、背包、关卡进度仍分别有负责者</strong>；不是新建一个万能系统。长期资料及配置在开战时提供入场依据，进行中的战斗拥有自己的局面。QFramework 继续组织 Unity 客户端，具体类与接口在后续系统设计中确定。</p>
+<p>通用棋盘能力保留 FlowPuzzle 的几何职责；RPG 玩法组合它与战斗规则。编辑器与攻略可以使用这些规则验证内容，但不能因此修改真实玩家进度。图中“配置与内容”还涵盖内容生产入口，正文单列“内容编辑与验证”的职责；10 个展示节点不是实现模块数量。</p>
+<h2 id="section-2">2. 系统划分建议</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>系统职责</th>
+<th>主要负责</th>
+<th>与邻近职责的区别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入与表现</td>
+<td>接收选人、连线和页面操作，显示状态及动画</td>
+<td>不直接决定伤害、胜负、技能释放或发奖。</td>
+</tr>
+<tr>
+<td>应用流程</td>
+<td>组织入场、教学返回、对局、救援、退出与结算的交接</td>
+<td>调用负责模块，自己不重算战斗规则或另存一套库存。</td>
+</tr>
+<tr>
+<td>角色成长与职业</td>
+<td>等级、经验、职业获得、技能学习、阵容和局外恢复</td>
+<td>按配置提供角色基础属性，处理经验积累与升级；本场 HP、CD、异常归战斗。</td>
+</tr>
+<tr>
+<td>背包与战术装配</td>
+<td>物品与材料数量、合成操作、槽位与装配数量</td>
+<td>按配置中的配方处理合成，维护真实库存；与本局携带量交接并保持数量守恒。</td>
+</tr>
+<tr>
+<td>关卡进度与教学</td>
+<td>关卡开放、首通、教学条件与步骤、一次性领取记录、挑战延续范围</td>
+<td>判断教学与开战条件；应用流程组织赠证／学习，库存与成长各自修改数据。Boss 翻面不算新关。</td>
+</tr>
+<tr>
+<td>战斗与回退</td>
+<td>敌我状态、技能、行动、棋盘、面与阶段结果、完整历史</td>
+<td>裁定同一对局中的规则；不直接改长期等级或发奖励。</td>
+</tr>
+<tr>
+<td>结算协调</td>
+<td>按已定奖励规则确定应得经验／掉落，组织消耗、首通和收益入账</td>
+<td>战斗提供实际贡献，成长负责经验积累与升级；基础收益和后续自愿广告增益分别确认，均不重复入账。</td>
+</tr>
+<tr>
+<td>广告权益</td>
+<td>已完成广告对应的资格、适用对象、范围与使用状态</td>
+<td>与广告播放接入分开；与战斗配合处理一次复活使用及撤销。</td>
+</tr>
+<tr>
+<td>攻略</td>
+<td>免费默认内容、当前局面分析、结果验证与适用性</td>
+<td>使用独立局面和相同规则，不改变真实对局；失败不丢失已获在线权益。</td>
+</tr>
+<tr>
+<td>配置与内容</td>
+<td>职业、成长、技能、状态、敌人、关卡、物品、配方与奖励定义</td>
+<td>提供一致的规则依据；不保存玩家当前 HP、库存或剩余 CD。</td>
+</tr>
+<tr>
+<td>内容编辑与验证</td>
+<td>编辑 RPG 内容，组合棋盘校验与战斗验证，产出带适用条件的关卡／默认攻略</td>
+<td>保留基础 FlowPuzzle 编辑能力；使用独立验证局面，不接入真实玩家成长、库存或权益。</td>
+</tr>
+<tr>
+<td>平台与保存</td>
+<td>广告／网络接入，以及已确认数据的保存与恢复</td>
+<td>提供能力，不越过业务负责者直接作出新的游戏结果。</td>
+</tr>
+<tr>
+<td>通用棋盘能力</td>
+<td>棋盘、路径、编辑与几何校验</td>
+<td>RPG 胜利还要经战斗规则验证，几何完成不等于任意队伍能获胜。</td>
+</tr>
+</tbody></table></div>
+<p>这是职责划分建议，具体实现为几个 QFramework System、普通 C# 模块或接入类留到后续设计。</p>
+<p>技能在这套划分中有三个明确落点：<strong>配置</strong>定义主动／被动、触发条件、概率、CD 和效果参数；<strong>成长</strong>记录角色获得了什么职业、学会了什么技能；<strong>战斗</strong>统一处理当前技能是否可用、自动施放、被动触发、CD 与 PRD 变化。道具同样由配置定义、背包持有、战斗消费。首版装备仍是职业专属战术消耗品，永久装备与强化维持延期。</p>
+<p>属性交接也只计算一次：成长按已定配置口径提供入场基础属性，战斗在此基础上管理本局状态及效果。不能让 UI、战斗和攻略各再套一遍成长公式；敌人的种类、档位与关卡实例来自配置，由战斗建立本局敌人状态。具体表结构与字段交给系统设计。</p>
+<h2 id="section-3">3. 状态归属表</h2>
+<p>“负责者”表示有权判断并提交该状态变化的业务职责。其他系统可提出请求或读取结果，UI 缓存和存档副本不获得第二份修改权。长期状态、当局状态和外部事实可能保存在同一存档中，回退范围仍然不同。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>状态或事实</th>
+<th>唯一负责者</th>
+<th>谁可以请求变化</th>
+<th>战斗回退与结束时的约束</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>长期等级、经验、已获得职业、已学技能</td>
+<td>角色成长与职业</td>
+<td>培养／学习流程、结算协调</td>
+<td>不随战斗回退；入场资料与进行中的战斗明确交接。</td>
+</tr>
+<tr>
+<td>阵容与局外恢复</td>
+<td>角色成长与职业</td>
+<td>队伍流程、战斗结束流程</td>
+<td>战斗中的倒下由对局记录，结束时按规则交接为局外恢复。</td>
+</tr>
+<tr>
+<td>背包、材料与局外装配数量</td>
+<td>背包与战术装配</td>
+<td>装配／合成／学习流程、结算协调</td>
+<td>当局操作不逐次改这份长期账；已交给对局使用的同批物品不能在局外重复花费。</td>
+</tr>
+<tr>
+<td>本局携带和剩余消耗品</td>
+<td>战斗与回退</td>
+<td>合法战斗操作、回退或结束流程</td>
+<td>可随历史恢复；等待救援不返还，真正结束后与长期库存对齐。</td>
+</tr>
+<tr>
+<td>道具自动使用开关</td>
+<td>背包与战术装配</td>
+<td>玩家主动切换</td>
+<td>保留当前偏好，撤销数量时不擅自重新开启。</td>
+</tr>
+<tr>
+<td>本局敌我实例、原阵位、HP、CD、PRD、异常、意图与能力次数</td>
+<td>战斗与回退</td>
+<td>合法行动、复活、回退等业务请求</td>
+<td>原阵位与存活射程按既定规则分别使用；整体状态一致变化，表现坐标不决定技能目标。</td>
+</tr>
+<tr>
+<td>本面棋盘、固化线、待补线、面序号和战斗阶段结果</td>
+<td>战斗与回退</td>
+<td>操作流程提出有效请求</td>
+<td>两面属于同一对局，历史可跨面；应用流程依据其结果开放操作。</td>
+</tr>
+<tr>
+<td>真实贡献、已用物品与本场待结算结果</td>
+<td>战斗与回退</td>
+<td>规则计算</td>
+<td>只记录实际发生的内容；回退恢复对应历史，广告跳过部分不虚构贡献或消耗。</td>
+</tr>
+<tr>
+<td>基础结算、失败返还与可选结算增益的办理结果</td>
+<td>结算协调</td>
+<td>应用结束／奖励流程</td>
+<td>各步骤可辨认是否已完成；增益不重发基础奖励，不重复解锁职业或发首通证，失败返还也只交接一次。</td>
+</tr>
+<tr>
+<td>关卡开放、首通与教学步骤、首次赠证记录</td>
+<td>关卡进度与教学</td>
+<td>入场教学流程、结算协调</td>
+<td>战前赠证与最终首通分别记账；退出保留教学，战斗回退不撤销已确认的学习。</td>
+</tr>
+<tr>
+<td>尚未通关的一次挑战及其延续关系</td>
+<td>关卡进度与教学</td>
+<td>应用入场／重来／退出流程、结算协调</td>
+<td>按既定玩法跨重来和退出继续，通关后关闭；与本局尝试区分，供在线权益判断范围，不保存第二份战斗状态。</td>
+</tr>
+<tr>
+<td>广告已完成事实与已获权益</td>
+<td>广告权益</td>
+<td>接入报告完成事实，相关业务申请兑现</td>
+<td>完成事实不随战斗回退；权益按适用对象和范围使用，延迟回调不能误作用于另一场战斗。</td>
+</tr>
+<tr>
+<td>本局一次复活的使用经过</td>
+<td>战斗与回退</td>
+<td>复活流程</td>
+<td>回退跨过该使用时，向权益负责者交接恢复对应一次机会；战斗不另设一份独立可用权益账。</td>
+</tr>
+<tr>
+<td>攻略内容及其适用局面</td>
+<td>攻略</td>
+<td>提示流程、网络分析返回</td>
+<td>默认内容永久免费；旧状态的分析不能自动宣称适合新状态，验证不写真实对局。</td>
+</tr>
+<tr>
+<td>职业、技能、数值、敌人与关卡定义</td>
+<td>配置与内容</td>
+<td>受控内容维护流程</td>
+<td>一场对局及其回退、重演、验证使用一致依据；运行状态不回写配置。</td>
+</tr>
+<tr>
+<td>内容编辑草稿与验证结果</td>
+<td>内容编辑与验证</td>
+<td>内容制作操作</td>
+<td>草稿不能悄悄替换进行中对局的依据；验证结果带适用条件，不作为真实玩家的通关记录。</td>
+</tr>
+<tr>
+<td>当前页面及跨系统流程的办理阶段</td>
+<td>应用流程</td>
+<td>用户操作及已确认业务结果</td>
+<td>组织未完成交接的继续或终止；不从画面推断业务成功，不复制各系统的库存、学习或通关结论。</td>
+</tr>
+<tr>
+<td>当前选中对象、动画播放进度</td>
+<td>输入与表现</td>
+<td>用户操作及已确认业务结果</td>
+<td>只是呈现状态，不能据血条或动画回调自行判胜负和改库存。</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-4">4. 跨系统冲突检查清单</h2>
+<p>以下是本版<strong>拟采用的架构约束与验收场景</strong>，不是已运行的游戏测试，也不是重新让用户选择玩法。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>场景与涉及系统</th>
+<th>最终裁定与交接</th>
+<th>必须守住的结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A01</td>
+<td>普攻、技能、DOT、护盾及动画共同影响 HP</td>
+<td>战斗统一结算；表现读取结果</td>
+<td>同一伤害不重复扣血，播放顺序不决定死亡结果。</td>
+</tr>
+<tr>
+<td>A02</td>
+<td>Boss 清第一面、双方全倒、免费补线与救援</td>
+<td>战斗确定面与阶段结果；应用流程开放补线、翻面、救援或结算</td>
+<td>第一面全倒先补线再翻面救援；最终面可补线后胜利；整关只结算一次。</td>
+</tr>
+<tr>
+<td>A03</td>
+<td>回退跨过技能、道具与广告复活</td>
+<td>战斗恢复历史；权益负责者处理撤回的一次使用</td>
+<td>恢复对应一次复活机会；不撤销看完广告事实、战前学习与用卡，也不变成无限复活。</td>
+</tr>
+<tr>
+<td>A04</td>
+<td>道具消耗后全灭等待、复活继续、退出或重开</td>
+<td>战斗报告实际消耗和结束情况；结算／退出流程与库存交接</td>
+<td>等待救援不返还；结束才恢复或扣除对应数量；同批物品不被两边重复使用。</td>
+</tr>
+<tr>
+<td>A05</td>
+<td>正常胜利／广告通关、后续结算增益与重复通知</td>
+<td>结算协调区分基础结果和自愿增益，组织成长、库存、关卡进度入账</td>
+<td>基础奖励不多发；增益只作用已定奖励范围，不重发首通证；广告直接通关的经验不套表现评分。</td>
+</tr>
+<tr>
+<td>A06</td>
+<td>广告完成回调晚于退出、重开或切换页面</td>
+<td>接入报告原用途；权益与相关业务校验对象和当前条件</td>
+<td>保留已经获得的权益，不盲目复活当前页面里的另一个角色或给另一场战斗发奖。</td>
+</tr>
+<tr>
+<td>A07</td>
+<td>攻略计算期间玩家继续行动、撤销或重开</td>
+<td>攻略核对结果适用性；规则在独立局面中验证</td>
+<td>过时结果不覆盖新局面；失败／超时／已证明无解分开；分析失败不再次收费。</td>
+</tr>
+<tr>
+<td>A08</td>
+<td>配置数值变化、客户端运行与在线验证</td>
+<td>配置提供一致依据；消费者明确本局采用的依据</td>
+<td>同一局面不因使用不同定义得到不同结论；不在本轮选择格式、算法或部署方式。</td>
+</tr>
+<tr>
+<td>A09</td>
+<td>16 教学时战士等级与卡不足，返回旧关升级后再进入</td>
+<td>教学保留步骤；地图允许回刷；成长／库存各自保存；重新检查开战条件</td>
+<td>G01 指定见证可回刷恢复；不重复赠证、不锁死地图、不免等级、不强制广告。UI／存档和正式关卡仍待实际验收。</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>赠证、用卡／用证学习、合成在交接中中断或重复确认</td>
+<td>应用流程组织操作；成长、库存和进度各自校验并修改负责数据</td>
+<td>不能扣卡却丢经验、扣证却未学会、标记已领却未到账，重试也不能多领或多扣；完成判定与恢复办法须在共同契约中说明。</td>
+</tr>
+<tr>
+<td>A11</td>
+<td>编辑器验证、默认攻略制作与真实游戏使用同一规则</td>
+<td>内容编辑与验证组合几何能力和独立战斗局面；配置提供一致定义</td>
+<td>几何可解不冒充 RPG 可通关；模拟不花玩家物品、发奖励或消费广告权益；既有通用编辑器仍可独立使用。</td>
+</tr>
+<tr>
+<td>A12</td>
+<td>入场属性、战内道具开关与回退后重新行动</td>
+<td>成长提供基础资料；应用流程传入当前操作条件；战斗统一计算</td>
+<td>成长不重复套算；战斗不直接读取可变的局外模型；开关偏好保留，验证与重演须包含本次操作条件，不能只比较 HP 和线路。</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-5">5. 用四段流程检查职责能否接起来</h2>
+<ol>
+<li><strong>入场：</strong> 应用流程向进度／教学取得条件 → 组织成长、背包、进度完成已确认操作 → 从当前资料和配置建立对局。每一步是否已经完成必须可识别；资料尚未交接完整时不能对外宣称已开战。回到地图也不能丢失已完成教学。</li>
+<li><strong>行动：</strong> 输入提交意图 → 应用流程检查当前是否允许操作 → 战斗判断合法性并完成规则计算 → 表现播放已确认结果，流程按阶段开放下一次操作。动画与无效操作不推进回合。</li>
+<li><strong>回退：</strong> 应用流程向对局提出撤销请求 → 对局恢复对应的完整历史并报告相关权益使用变化 → 权益负责者按已定规则处理一次机会 → 表现刷新。长期养成、已完成广告及当前开关偏好各按自己的范围保留。</li>
+<li><strong>结束：</strong> 对局提供最终结果或确认结束尝试 → 应用流程调用结算协调 → 成长、背包、进度各自处理 → 保存一致结果并确认完成 → 展示结算或返回地图。补线、第一面完成及等待救援都不能提前触发整关结算。后续自愿结算广告作用于这次已确定的奖励依据，不能重做整场基础结算；界面动画不成为下一关的业务等待条件。</li>
+</ol>
+<p>这些是职责交接，不是方法调用时序或存储算法。系统设计会话再把请求、结果、生效时机、失败及重复处理写成双方共同遵守的具体契约。</p>
+<p><strong>依赖方向采用以下约束。</strong> 这里说的是职责如何使用彼此的能力，程序集和接口定义的放置另行设计。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发起方</th>
+<th>使用什么能力</th>
+<th>必须保持的方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入与表现</td>
+<td>向应用流程提交业务意图，读取已确认结果</td>
+<td>不直接改成长、库存、战斗数据；血条／动画没有第二套裁定。</td>
+</tr>
+<tr>
+<td>应用流程与结算协调</td>
+<td>调用相应业务负责者和保存／平台能力</td>
+<td>关键步骤有明确先后及完成判断，不靠事件监听顺序完成扣卡、学习或发奖。</td>
+</tr>
+<tr>
+<td>各数据负责者</td>
+<td>使用配置和交接来的资料处理自身规则</td>
+<td>不相互修改内部状态；需要多方同时完成的操作交由对应流程组织。</td>
+</tr>
+<tr>
+<td>战斗规则</td>
+<td>使用本局资料、操作条件、只读规则定义和通用几何能力</td>
+<td>不反向读取 UI、真实背包、广告接入或存档，也不调用结算发奖。</td>
+</tr>
+<tr>
+<td>攻略及内容验证</td>
+<td>在独立局面中使用同一战斗规则与几何能力</td>
+<td>不能访问真实玩家的修改入口；默认参考与当前局面验证结果分开。</td>
+</tr>
+<tr>
+<td>平台与保存</td>
+<td>报告外部事实，存取业务确认的数据</td>
+<td>不因收到广告回调或读到文件就自行升级角色、复活当前场景或裁定胜利。</td>
+</tr>
+</tbody></table></div>
+<p>道具开关是一个跨边界例子：玩家偏好归背包与装配，应用流程在行动提交时交给战斗本次采用的开关条件；战斗用它计算实际消耗，不主动查询局外模型。回退保留当前偏好。规则一致性比较的是相同局面、操作条件、配置与随机依据，而不是只比较相同路线。</p>
+<p>一次<strong>挑战</strong>按已定在线权益范围延续到该关通关，一次<strong>尝试</strong>在重来时结束并重新建立；Boss 翻面和等待救援仍在原尝试内。关卡进度维护挑战关系，战斗维护尝试内状态，权益维护资格；应用流程组织交接。退出时按既定规则结束当前尝试并返还消耗，未完成挑战的在线权益仍保留；下次入场条件、恢复行为与权益适用性由各负责者共同契约说明，不用一个“是否在战斗中”替代所有范围。</p>
+<h2 id="section-6">6. 之前的图怎样继续使用</h2>
+<p>之前的工作保留了职责发现、代码复用方向、状态分离和关键场景；本轮调整的是阅读层级与规则版本，不删除原稿。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>原有材料</th>
+<th>保留价值</th>
+<th>当前处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="../2026-09-14/overview.html">总架构图</a>、<a href="../2026-09-14/reuse.html">代码复用图</a></td>
+<td>QFramework 组织客户端、共享战斗规则、基础几何能力独立</td>
+<td>保留方向；本轮用新系统图讨论职责与协作。旧 CD 等标签不能作为当前玩法依据。</td>
+</tr>
+<tr>
+<td><a href="../2026-09-14/action.html">行动流程</a>、<a href="../2026-09-14/rollback.html">回退流程</a>、<a href="../2026-09-14/progression.html">养成与结算</a></td>
+<td>跨系统行动、历史与资源交接场景</td>
+<td>保留流程素材；按最新技能、DOT、两面、救援、权益与 G01 修订时再复用，当前不能直接当作定稿。</td>
+</tr>
+<tr>
+<td><a href="../2026-09-14/guide.html">攻略流程</a></td>
+<td>默认参考、在线验证与权益职责</td>
+<td>保留职责思路；旧免费次数／权益口径已被永久免费默认攻略与当前挑战在线权益覆盖。</td>
+</tr>
+<tr>
+<td><a href="../2026-09-14/index.html">模块 UML 总览</a>中的客户端、角色、装备、技能、配置等类图</td>
+<td>已发现的数据与职责、候选关系</td>
+<td>移交系统设计会话作为候选输入；类名、字段与接口尚未定稿，不按旧类图直接开工。</td>
+</tr>
+<tr>
+<td><a href="../2026-09-15-planning-alignment.md">历史 Q01～Q13 问题单</a></td>
+<td>需求来源与冲突发现记录</td>
+<td>现行结论看<a href="../2026-09-15-content-requirements-sync-reply.md">接收记录</a>，不重开已回答的问题。</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-7">7. 本轮收敛结果与下一阶段</h2>
+<p>本次按最新主策划、Q01～Q13 接收记录及 G01 补充逐项检查。技能、配置、成长、战术装配、敌人与棋盘、教学、广告、攻略、结算和保存都有对应职责；永久装备／强化继续延期，火球倍率等参数继续由策划校准。没有把候选数值写成架构定值。</p>
+<p>原稿中的五处交接已明确：教学判断与执行协调分开；结算奖励计算与成长升级分开；基础结算与后续广告增益分开；挑战与战斗尝试分开；内容编辑验证有独立职责。另补充入场属性及开关条件的交接，避免共用规则通过全局对象偷读另一系统的数据。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>架构选择</th>
+<th>当前推荐</th>
+<th>需要承担的代价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本局结果由谁裁定</td>
+<td>战斗统一裁定技能、道具、DOT、死亡及阶段结果，内部可继续分模块</td>
+<td>需要完整表达入场资料、操作条件和结果，表现不能方便地直接扣血。</td>
+</tr>
+<tr>
+<td>长期资料怎样分工</td>
+<td>成长、库存、进度各自负责，跨系统操作由明确流程协调</td>
+<td>学习、入场和结算必须共同设计中断／重复处理，不能各系统独立宣布成功。</td>
+</tr>
+<tr>
+<td>关键步骤怎样连接</td>
+<td>明确组织必要的业务交接，完成后的事实通知供表现等读取</td>
+<td>协调流程需要维护，但能看清谁负责把一次操作办完。</td>
+</tr>
+<tr>
+<td>工具和攻略怎样复用</td>
+<td>QFramework 组织客户端，共用规则供独立局面验证，基础几何能力保持通用</td>
+<td>规则输入和配置依据必须完整；纯几何求解不能直接替代战斗验证。</td>
+</tr>
+</tbody></table></div>
+<p>按文档层检查，本轮已具备整体架构的四项交付：职责覆盖、状态归属、依赖方向和跨系统冲突场景。<strong>接下来由新的系统设计会话把这些约束落实为共同契约</strong>，先解决跨系统交互，再分发各系统的详细设计。具体方法、字段、快照方案、文件格式、网络协议和服务选择尚未选定。</p>
+<p><a href="../../handoffs/2026-09-16-system-design.md">系统设计交接稿</a>列出 10 组必须共同设计的交互、每组覆盖的冲突场景、文档范围及新会话启动文本。它是下一阶段设计任务的准备材料，尚未下发实现任务或启动其他会话。实施前仍须完成策划／配置／架构联合复核及相应实施授权。</p>
+<p>本轮未实施游戏逻辑，也未改动旧图文件。图稿检查和文档审阅只能证明产物可读、表述相互对应，不能替代 Unity、存档、正式关卡或真机验收。</p>
+<footer class="foot"><a href="review.md">Markdown 源文档</a><a href="systems.architecture.json">可维护图源</a><a href="validation.md">验证记录</a><p>图上的分组不规定实现类数量。先明确共同约束，再统一系统设计和接口，最后按系统分发执行。</p></footer></article></div></body></html>

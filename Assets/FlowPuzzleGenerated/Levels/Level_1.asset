@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcb9ae6be5b6b549ac73bfdfbc57c94, type: 3}
+  m_Name: Level_1
+  m_EditorClassIdentifier: 
+  levelData:
+    levelId: 1
+    width: 5
+    height: 5
+    difficulty: 1
+    difficultyScore: 78.05
+    pairs:
+    - colorId: 0
+      endpointA:
+        x: 0
+        y: 3
+      endpointB:
+        x: 0
+        y: 1
+    - colorId: 1
+      endpointA:
+        x: 3
+        y: 2
+      endpointB:
+        x: 2
+        y: 1
+  solutionData:
+    levelId: 1
+    paths:
+    - colorId: 0
+      cells:
+      - x: 0
+        y: 3
+      - x: 0
+        y: 2
+      - x: 1
+        y: 2
+      - x: 1
+        y: 1
+      - x: 0
+        y: 1
+    - colorId: 1
+      cells:
+      - x: 3
+        y: 2
+      - x: 4
+        y: 2
+      - x: 4
+        y: 1
+      - x: 3
+        y: 1
+      - x: 2
+        y: 1
+  difficultyReport:
+    difficulty: 1
+    totalScore: 78.05
+    boardSizeScore: 6.25
+    colorCountScore: 12
+    coverageScore: 18
+    turnScore: 12.5
+    detourScore: 8
+    interactionScore: 1.5
+    endpointDistanceScore: 4.8
+    bottleneckScore: 15
+    totalTurnCount: 5
+    totalDetour: 4
+    differentColorAdjacentCount: 1
+    totalEndpointManhattanDistance: 4
+    bottleneckCount: 10
+  generationSeed: 10015
+  coverageRatio: 0.4

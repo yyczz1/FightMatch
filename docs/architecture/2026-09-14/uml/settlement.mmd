@@ -1,0 +1,43 @@
+classDiagram
+direction TB
+class SettlementSystem {
+  <<QFramework>>
+  SettleVictory()
+  CloseFailedAttempt()
+}
+class RewardCalculator {
+  <<PureCSharp>>
+  CalculatePerCharacterExperience()
+  CalculateConfiguredDrops()
+}
+class SettlementResult {
+  experienceByCharacter
+  earnedItems
+  actualTacticalConsumption
+  stageCompletion
+  actualHighlights
+}
+class BattleSession {
+  currentState
+  attemptIdentity
+}
+class PlayerModel {
+  <<QFramework>>
+  PlayerState player
+}
+class PlayerState {
+  characters
+  inventory
+  stageProgress
+}
+class EncounterDefinition {
+  recommendedLevel
+  rewardDefinition
+}
+SettlementSystem ..> BattleSession : 读取真实战况与本局消耗
+SettlementSystem ..> RewardCalculator : 胜利计算
+RewardCalculator ..> EncounterDefinition : 读取关卡收益配置
+RewardCalculator ..> SettlementResult : 产生结算数据
+SettlementSystem ..> SettlementResult : 一次入账
+SettlementSystem --> PlayerModel : 提交局外变更
+PlayerModel "1" *-- "1" PlayerState

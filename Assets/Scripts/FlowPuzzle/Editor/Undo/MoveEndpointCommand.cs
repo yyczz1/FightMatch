@@ -11,6 +11,11 @@ namespace FlowPuzzle.Editor.Commands
         private readonly bool isEndpointA;
         private readonly FlowPos? newPosition;
         private readonly FlowPos? oldPosition;
+        private readonly FlowLevelDraft beforeSnapshot;
+        private FlowLevelDraft afterSnapshot;
+        private bool executed;
+
+        public string LastErrorMessage { get; private set; }
 
         public string DisplayName => oldPosition == null
             ? $"Place Endpoint {colorId}"
@@ -23,6 +28,7 @@ namespace FlowPuzzle.Editor.Commands
         {
             this.draft = draft; this.colorId = colorId; this.isEndpointA = isEndpointA;
             oldPosition = from; newPosition = to;
+            beforeSnapshot = draft.Clone();
         }
 
         public static MoveEndpointCommand Place(FlowLevelDraft draft, int colorId, bool isEndpointA, FlowPos position)
@@ -45,18 +51,29 @@ namespace FlowPuzzle.Editor.Commands
 
         public bool Execute()
         {
+            if (executed && afterSnapshot != null)
+            {
+                draft.RestoreFrom(afterSnapshot);
+                return true;
+            }
+
             var result = newPosition.HasValue
                 ? draft.PlaceEndpoint(colorId, isEndpointA, newPosition.Value)
                 : draft.RemoveEndpoint(colorId, isEndpointA);
+            LastErrorMessage = result.success ? null : result.errorMessage;
+            if (!result.success)
+                return false;
+            afterSnapshot = draft.Clone();
+            executed = true;
             return result.success;
         }
 
         public bool Undo()
         {
-            var result = oldPosition.HasValue
-                ? draft.PlaceEndpoint(colorId, isEndpointA, oldPosition.Value)
-                : draft.RemoveEndpoint(colorId, isEndpointA);
-            return result.success;
+            if (!executed) return false;
+            draft.RestoreFrom(beforeSnapshot);
+            LastErrorMessage = null;
+            return true;
         }
     }
 }

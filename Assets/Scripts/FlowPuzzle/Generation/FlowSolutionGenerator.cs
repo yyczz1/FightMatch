@@ -41,22 +41,26 @@ namespace FlowPuzzle.Generation
             // Configuration checks — use resolvedSeed and attemptCount==0
             if (config.width <= 0 || config.height <= 0 || config.colorCount <= 0)
                 return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
-                    "InvalidDimensions", "Width, height, and colorCount must be positive.");
+                    FlowDiagnosticCodes.InvalidDimensions,
+                    "Width, height, and colorCount must be positive.", config);
 
             if (config.minCoverageRatio < 0f || config.maxCoverageRatio > 1f ||
                 config.minCoverageRatio > config.maxCoverageRatio)
                 return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
-                    "ImpossibleCoverageRange",
-                    $"Coverage range [{config.minCoverageRatio}, {config.maxCoverageRatio}] is impossible.");
+                    FlowDiagnosticCodes.ImpossibleCoverageRange,
+                    $"Coverage range [{config.minCoverageRatio}, {config.maxCoverageRatio}] is impossible.",
+                    config);
 
             if (config.minPathLength < 2 || config.minPathLength > config.maxPathLength)
                 return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
                     "InvalidPathLengthRange",
-                    $"Path length range [{config.minPathLength}, {config.maxPathLength}] is invalid.");
+                    $"Path length range [{config.minPathLength}, {config.maxPathLength}] is invalid.",
+                    config);
 
             if (config.maxPathAttempt <= 0 || config.maxLevelAttempt <= 0)
                 return FlowGenerationResult.Failure(levelId, resolvedSeed, 0,
-                    "InvalidAttemptBudget", "maxPathAttempt and maxLevelAttempt must be positive.");
+                    "InvalidAttemptBudget", "maxPathAttempt and maxLevelAttempt must be positive.",
+                    config);
 
             var random = new SystemFlowRandom(resolvedSeed);
 
@@ -78,7 +82,8 @@ namespace FlowPuzzle.Generation
                 if (!allocResult.success)
                 {
                     return FlowGenerationResult.Failure(levelId, resolvedSeed, attempt,
-                        allocResult.diagnostic.errorCode, allocResult.diagnostic.errorMessage);
+                        allocResult.diagnostic.errorCode, allocResult.diagnostic.errorMessage,
+                        config);
                 }
 
                 // Generate paths in allocation generation order
@@ -195,10 +200,11 @@ namespace FlowPuzzle.Generation
             }
 
             return FlowGenerationResult.Failure(levelId, resolvedSeed, config.maxLevelAttempt,
-                "MaxLevelAttemptsReached",
+                FlowDiagnosticCodes.MaxLevelAttemptsReached,
                 lastRejection != null
                     ? $"Failed after {config.maxLevelAttempt} attempts. Last rejection: {lastRejection}."
-                    : $"Failed after {config.maxLevelAttempt} attempts.");
+                    : $"Failed after {config.maxLevelAttempt} attempts.",
+                config);
         }
     }
 }

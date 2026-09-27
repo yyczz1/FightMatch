@@ -1,4 +1,5 @@
 using FlowPuzzle.Core;
+using FlowPuzzle.Solving;
 using UnityEngine.UIElements;
 
 namespace FlowPuzzle.Editor.UI
@@ -31,11 +32,11 @@ namespace FlowPuzzle.Editor.UI
             levelIdField = new IntegerField("Level ID") { value = 1 }; root.Add(levelIdField);
             widthField = new IntegerField("Width") { value = 5 }; root.Add(widthField);
             heightField = new IntegerField("Height") { value = 5 }; root.Add(heightField);
-            colorCountField = new IntegerField("Colors") { value = 2 }; root.Add(colorCountField);
+            colorCountField = new IntegerField("Color Count") { value = 2, tooltip = "Number of endpoint pairs/colors in the generated level." }; root.Add(colorCountField);
             minCoverageField = new FloatField("Min Coverage") { value = 0.25f }; root.Add(minCoverageField);
             maxCoverageField = new FloatField("Max Coverage") { value = 0.5f }; root.Add(maxCoverageField);
-            minPathLenField = new IntegerField("Min Path Len") { value = 2 }; root.Add(minPathLenField);
-            maxPathLenField = new IntegerField("Max Path Len") { value = 5 }; root.Add(maxPathLenField);
+            minPathLenField = new IntegerField("Min Recommended Path Cells") { value = 2, tooltip = "Minimum cells in each generated recommended solution path, including both endpoints." }; root.Add(minPathLenField);
+            maxPathLenField = new IntegerField("Max Recommended Path Cells") { value = 5, tooltip = "Maximum cells in each generated recommended solution path. This guides generation and is not a player restriction." }; root.Add(maxPathLenField);
             seedField = new IntegerField("Seed") { value = 42 }; root.Add(seedField);
             useRandomSeedToggle = new Toggle("Use Random Seed"); root.Add(useRandomSeedToggle);
             pathAttemptField = new IntegerField("Max Path Attempt") { value = 250 }; root.Add(pathAttemptField);
@@ -55,8 +56,18 @@ namespace FlowPuzzle.Editor.UI
             minDetourField = new IntegerField("Min Detour"); advancedFoldout.Add(minDetourField);
             maxDetourField = new IntegerField("Max Detour"); advancedFoldout.Add(maxDetourField);
             bottleneckPrefField = new FloatField("Bottleneck Pref"); advancedFoldout.Add(bottleneckPrefField);
-            solverTimeoutField = new IntegerField("Solver Timeout"); advancedFoldout.Add(solverTimeoutField);
-            solverNodeBudgetField = new IntegerField("Solver Budget"); advancedFoldout.Add(solverNodeBudgetField);
+            solverTimeoutField = new IntegerField("Solver Timeout (ms)")
+            {
+                value = FlowSolveRequest.DefaultTimeoutMs,
+                tooltip = "Maximum completion search time in milliseconds (10000 = 10 seconds). If time expires after candidates are found, Perfect Complete uses the best candidate found so far."
+            };
+            advancedFoldout.Add(solverTimeoutField);
+            solverNodeBudgetField = new IntegerField("Solver Budget")
+            {
+                value = (int)FlowSolveRequest.DefaultNodeBudget,
+                tooltip = "Maximum search nodes. This is a second safety limit in addition to Solver Timeout."
+            };
+            advancedFoldout.Add(solverNodeBudgetField);
             root.Add(advancedFoldout);
         }
 
@@ -100,6 +111,12 @@ namespace FlowPuzzle.Editor.UI
             scoreRangeToggle.value = config.useTargetScoreRange;
             minScoreField.value = config.minTargetDifficultyScore;
             maxScoreField.value = config.maxTargetDifficultyScore;
+            solverTimeoutField.value = config.solverTimeoutMilliseconds > 0
+                ? config.solverTimeoutMilliseconds
+                : FlowSolveRequest.DefaultTimeoutMs;
+            solverNodeBudgetField.value = config.solverNodeBudget > 0
+                ? config.solverNodeBudget
+                : (int)FlowSolveRequest.DefaultNodeBudget;
         }
     }
 }

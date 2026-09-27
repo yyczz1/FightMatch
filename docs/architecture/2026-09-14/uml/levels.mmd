@@ -1,0 +1,60 @@
+classDiagram
+direction TB
+class FlowLevelGeneratorWindow {
+  <<ExistingEditor>>
+}
+class IFlowEditorExtension {
+  <<ProposedInterface>>
+  CreatePanel()
+  ValidateDraft()
+}
+class FightMatchEditorExtension {
+  <<EditorOnly>>
+  EditEnemyBindings()
+  ValidateBattleReference()
+}
+class FightMatchLevelAsset {
+  <<ProposedUnityAsset>>
+  enemyBindings
+  rewardDefinition
+  savedBattleGuides
+}
+class FlowLevelAsset {
+  <<ExistingUnityAsset>>
+}
+class FlowLevelData {
+  <<ExistingPureData>>
+}
+class EncounterDefinition {
+  <<PureCSharp>>
+  enemyByPairId
+  recommendedLevel
+  rewardDefinition
+  configVersion
+}
+class EncounterEnemyEntry {
+  pairId
+  enemyTypeId
+  enemyStatsId
+  position
+  actionInterval
+  firstActionDelay
+}
+class BattleGuideVerifier {
+  VerifyByReplay()
+}
+class LevelSystem {
+  <<QFramework>>
+  SelectStage()
+  LoadEncounter()
+}
+FlowLevelGeneratorWindow --> IFlowEditorExtension : 候选新增扩展入口
+IFlowEditorExtension <|.. FightMatchEditorExtension
+FightMatchEditorExtension --> FightMatchLevelAsset : 编辑 RPG 配置
+FightMatchLevelAsset --> FlowLevelAsset : 引用基础关卡
+FlowLevelAsset --> FlowLevelData : 现有几何数据
+FightMatchLevelAsset ..> EncounterDefinition : 导出运行数据
+EncounterDefinition --> FlowLevelData : 使用基础棋盘与配对
+EncounterDefinition "1" *-- "1..*" EncounterEnemyEntry : 配对绑定与敌人数值引用
+FightMatchEditorExtension ..> BattleGuideVerifier : 指定阵容验证参考攻略
+LevelSystem --> EncounterDefinition : 运行时加载关卡数据

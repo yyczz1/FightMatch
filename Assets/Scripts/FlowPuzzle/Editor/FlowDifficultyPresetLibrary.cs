@@ -1,5 +1,6 @@
 using System;
 using FlowPuzzle.Core;
+using FlowPuzzle.Solving;
 
 namespace FlowPuzzle.Editor
 {
@@ -53,6 +54,8 @@ namespace FlowPuzzle.Editor
             target.useTargetDifficulty = false;
             target.targetDifficulty = tier;
             target.useTargetScoreRange = false;
+            target.solverTimeoutMilliseconds = FlowSolveRequest.DefaultTimeoutMs;
+            target.solverNodeBudget = (int)FlowSolveRequest.DefaultNodeBudget;
             // Set score range matching tier
             switch (tier)
             {

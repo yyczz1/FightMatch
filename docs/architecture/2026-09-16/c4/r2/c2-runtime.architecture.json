@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FightMatch · C2 应用与数据 · 扩展稿",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [1390, 835]
+  },
+  "components": [
+    {"id":"runtime-player","type":"external","label":"玩家","sublabel":"游客先玩 · 之后绑定账号","pos":[30,325],"size":[230,110]},
+    {"id":"content-workbench","type":"frontend","label":"内容制作与发布工具","sublabel":"Unity Editor / 构建工具","tag":"关卡验证 · 代码及资源发布","pos":[30,65],"size":[230,120]},
+    {"id":"game-client","type":"frontend","label":"FightMatch 客户端","sublabel":"Android 优先 · iOS / 小游戏后续","tag":"QFramework 组织 · 本机战斗","pos":[425,325],"size":[300,120]},
+    {"id":"distribution-store","type":"database","label":"版本与更新包存储","sublabel":"代码 · 资源 · 配置 · 发布清单","tag":"按平台匹配 · 服务商待选","pos":[425,65],"size":[300,120]},
+    {"id":"player-account-service","type":"backend","label":"账号与同步服务","sublabel":"身份关联 · 选档 · 权益核对","tag":"推荐一个后端应用 · 供应商待选","pos":[1030,325],"size":[300,120]},
+    {"id":"cloud-player-data","type":"database","label":"云端玩家资料","sublabel":"局外进度 · 权益及兑现凭据","tag":"不提供进行中战斗的跨端续局","pos":[1030,630],"size":[300,120]},
+    {"id":"device-player-data","type":"database","label":"本机完整存档","sublabel":"局外资料 · 活动战斗 · 回退历史","tag":"游客 / 离线 · 同设备恢复","pos":[425,630],"size":[300,120]},
+    {"id":"guide-analysis-service","type":"backend","label":"在线攻略解析应用","sublabel":"候选搜索 · 同版本规则验证","tag":"部署与预算待选","pos":[1030,65],"size":[300,120]}
+  ],
+  "boundaries":[{"kind":"region","label":"FightMatch 目标结构 · 应用与存储边界建议","wraps":["game-client","distribution-store","player-account-service","cloud-player-data","device-player-data","guide-analysis-service"],"pad":26}],
+  "connections":[
+    {"id":"player-uses-client","from":"runtime-player","to":"game-client","label":"游玩","variant":"emphasis"},
+    {"id":"author-publishes-packages","from":"content-workbench","to":"distribution-store","label":"验证后发布"},
+    {"id":"client-loads-updates","from":"game-client","to":"distribution-store","label":"检查 / 下载更新"},
+    {"id":"client-syncs-profile","from":"game-client","to":"player-account-service","label":"绑定 / 同步局外进度","variant":"emphasis","labelDy":16},
+    {"id":"service-writes-account-data","from":"player-account-service","to":"cloud-player-data","label":"核对后保存","labelDy":100},
+    {"id":"client-persists-locally","from":"game-client","to":"device-player-data","label":"一致保存 / 恢复","labelDy":100},
+    {"id":"client-requests-analysis","from":"game-client","to":"guide-analysis-service","label":"请求剩余攻略"},
+    {"id":"analysis-loads-exact-rules","from":"guide-analysis-service","to":"distribution-store","label":"读取匹配版本"}
+  ],
+  "cards":[
+    {"dot":"cyan","title":"离线主循环","items":["战斗与养成在客户端运行","核心玩法不等待每步云端确认"]},
+    {"dot":"emerald","title":"同步边界","items":["普通进度冲突由玩家选一份","广告权益与兑现不能随选档丢失"]},
+    {"dot":"amber","title":"扩展视图","items":["广告接入与业务细分沿用原C1/C3","热更新适用范围须按平台核实"]}
+  ]
+}

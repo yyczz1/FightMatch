@@ -1,0 +1,59 @@
+classDiagram
+direction TB
+class ProfessionDefinition {
+  professionId
+  levelStatsId
+  attackRange
+  passiveSkillId
+  professionSkillId
+}
+class SkillDefinition {
+  skillId
+  category
+  targetRule
+  skillRange
+  effectKind
+  effectParameters
+}
+class SkillResolver {
+  CheckAvailability()
+  ResolveTrigger()
+  ResolveAutoCastAfterAttack()
+  ResolveEffect()
+}
+class ISkillEffect {
+  <<interface>>
+  CanApply(context)
+  Resolve(context)
+}
+class DamageEffect {
+  damageType
+  CanApply(context)
+  Resolve(context)
+}
+class TauntEffect {
+  CanApply(context)
+  Resolve(context)
+}
+class ShieldEffect {
+  CanApply(context)
+  Resolve(context)
+}
+class CombatStatBuilder {
+  <<PureCSharp>>
+  BuildHeroStats()
+}
+class BattleRules {
+  ResolvePlayerAction()
+  ResolveEnemyPhase()
+}
+ProfessionDefinition --> SkillDefinition : 被动与职业技能配置
+SkillResolver ..> SkillDefinition : 读取分类与效果参数
+SkillResolver ..> ISkillEffect : 按效果类型选择实现
+ISkillEffect <|.. DamageEffect
+ISkillEffect <|.. TauntEffect
+ISkillEffect <|.. ShieldEffect
+CombatStatBuilder ..> ProfessionDefinition : 按职业和等级读取属性表
+BattleRules ..> SkillResolver : 统一检查触发和执行效果
+note for TauntEffect "本次目标已被攻击击杀则跳过，不启动新 CD"
+note for ShieldEffect "按存活队友判断；不因本次击杀目标而跳过"

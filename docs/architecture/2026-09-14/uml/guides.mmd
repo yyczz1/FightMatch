@@ -1,0 +1,47 @@
+classDiagram
+direction TB
+class HintSystem {
+  <<QFramework>>
+  RequestGuide()
+  UnlockVerifiedGuide()
+  ReopenAcquiredGuide()
+}
+class IBattleGuideProvider {
+  <<interface>>
+  FindGuideAsync(request)
+}
+class OnlineBattleGuideProvider {
+  FindGuideAsync(request)
+}
+class SavedBattleGuideProvider {
+  FindGuideAsync(request)
+}
+class BattleGuideRequest {
+  battleSnapshot
+  ruleVersion
+  configVersion
+}
+class BattleGuide {
+  fullActionSequence
+  applicability
+  verifiedOutcome
+}
+class BattleGuideVerifier {
+  VerifyByReplay()
+}
+class BattleSession {
+  ApplyAction()
+}
+class HintAccessState {
+  acquiredGuides
+  freeAccessUsage
+}
+HintSystem --> IBattleGuideProvider : 选择可用来源
+IBattleGuideProvider <|.. OnlineBattleGuideProvider
+IBattleGuideProvider <|.. SavedBattleGuideProvider
+IBattleGuideProvider ..> BattleGuideRequest : 接收完整查询条件
+IBattleGuideProvider ..> BattleGuide : 返回候选攻略
+HintSystem ..> BattleGuideVerifier : 先验证有效内容
+BattleGuideVerifier ..> BattleSession : 在独立副本重演
+BattleGuideVerifier ..> BattleGuide : 检查适用性与胜利
+HintSystem --> HintAccessState : 再登记已获权益

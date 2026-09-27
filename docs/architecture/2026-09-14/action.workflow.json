@@ -1,0 +1,204 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "一次连线行动 · 候选流程",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "backend": {
+          "label": "业务与规则"
+        },
+        "frontend": {
+          "label": "界面与工具"
+        },
+        "cloud": {
+          "label": "在线计算"
+        },
+        "database": {
+          "label": "状态数据"
+        },
+        "external": {
+          "label": "接入边界"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "ui",
+      "label": "输入与表现"
+    },
+    {
+      "id": "app",
+      "label": "QFramework"
+    },
+    {
+      "id": "rules",
+      "label": "战斗规则"
+    },
+    {
+      "id": "invalid",
+      "label": "无效操作",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "submit",
+    "route",
+    "validate",
+    "player",
+    "enemy",
+    "commit",
+    "present"
+  ],
+  "nodes": [
+    {
+      "id": "submit",
+      "lane": "ui",
+      "col": 0,
+      "type": "frontend",
+      "label": "选角色并完成连线",
+      "sublabel": "手指松开才提交",
+      "width": 210
+    },
+    {
+      "id": "route",
+      "lane": "app",
+      "col": 1,
+      "type": "backend",
+      "label": "BattleSystem",
+      "sublabel": "接收行动 Command",
+      "width": 210
+    },
+    {
+      "id": "validate",
+      "lane": "rules",
+      "col": 1,
+      "type": "backend",
+      "label": "检查行动是否合法",
+      "sublabel": "存活 · 路径 · 攻击/技能距离",
+      "width": 240
+    },
+    {
+      "id": "player",
+      "lane": "rules",
+      "col": 2,
+      "type": "backend",
+      "label": "执行玩家行动",
+      "sublabel": "攻击/技能 · PRD · 击杀固化",
+      "tag": "保留行动前完整状态",
+      "width": 240
+    },
+    {
+      "id": "enemy",
+      "lane": "rules",
+      "col": 3,
+      "type": "backend",
+      "label": "推进敌方阶段",
+      "sublabel": "合法目标 · 行动 · 状态到期",
+      "width": 240
+    },
+    {
+      "id": "commit",
+      "lane": "app",
+      "col": 4,
+      "type": "backend",
+      "label": "接收行动结果",
+      "sublabel": "历史已记录；发布胜负状态",
+      "width": 240
+    },
+    {
+      "id": "present",
+      "lane": "ui",
+      "col": 5,
+      "type": "frontend",
+      "label": "播放结果并更新界面",
+      "sublabel": "继续操作 / 胜利 / 失败",
+      "width": 240
+    },
+    {
+      "id": "reject",
+      "lane": "invalid",
+      "col": 1,
+      "type": "frontend",
+      "label": "提示无效操作",
+      "sublabel": "不产生行动、不推进敌方",
+      "width": 240
+    }
+  ],
+  "edges": [
+    {
+      "id": "submit_route",
+      "from": "submit",
+      "to": "route",
+      "label": "提交"
+    },
+    {
+      "id": "route_validate",
+      "from": "route",
+      "to": "validate",
+      "label": "调用对局"
+    },
+    {
+      "id": "valid_action",
+      "from": "validate",
+      "to": "player",
+      "label": "合法",
+      "role": "main"
+    },
+    {
+      "id": "invalid_action",
+      "from": "validate",
+      "to": "reject",
+      "label": "不合法",
+      "role": "error"
+    },
+    {
+      "id": "enemy_phase",
+      "from": "player",
+      "to": "enemy",
+      "label": "战斗继续",
+      "role": "main"
+    },
+    {
+      "id": "early_win",
+      "from": "player",
+      "to": "commit",
+      "label": "已经胜利",
+      "role": "branch"
+    },
+    {
+      "id": "resolved",
+      "from": "enemy",
+      "to": "commit",
+      "label": "阶段结束"
+    },
+    {
+      "id": "events",
+      "from": "commit",
+      "to": "present",
+      "label": "有序结果事件"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "规则已确定",
+      "items": [
+        "一条线一次行动，思考与画线不推进回合。",
+        "仅技能可达时执行技能；未杀消线、击杀固化。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "待定 C03 / C04",
+      "items": [
+        "攻击、技能、状态与递归触发的精确顺序待定。",
+        "历史记录形式及动画期间的回退交互待定。"
+      ]
+    }
+  ]
+}

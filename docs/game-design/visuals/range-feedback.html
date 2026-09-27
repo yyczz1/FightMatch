@@ -1,0 +1,154 @@
+<div id="fm-range-study" aria-label="连线端点的攻击与技能距离示意">
+  <style>
+    #fm-range-study{--fm-bg:light-dark(#f3f1eb,#202626);--fm-panel:light-dark(#fffdf7,#2b3332);--fm-ink:light-dark(#263632,#edf3ed);--fm-sub:light-dark(#52645d,#bacbc3);--fm-line:light-dark(#cdd7cf,#50615a);--fm-board:light-dark(#e7eee4,#222d26);--fm-cell:light-dark(#d4dfd2,#39483e);--fm-red:light-dark(#be3b48,#ff8790);--fm-red-fill:light-dark(#f6c4c5,#692f38);--fm-red-ink:light-dark(#6c1828,#ffe5e6);--fm-off:light-dark(#737f79,#a8b2ac);--fm-off-fill:light-dark(#d9dfda,#45504a);--fm-shadow:light-dark(#becac14d,#00000030);color:var(--fm-ink);font-family:system-ui,"Microsoft YaHei",sans-serif;max-width:620px;margin:0 auto;box-sizing:border-box}
+    #fm-range-study *{box-sizing:border-box}
+    #fm-range-study button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    #fm-range-study button:focus-visible{outline:3px solid var(--fm-red);outline-offset:3px}
+    #fm-range-study .fm-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+    #fm-range-study .fm-heading strong{font-weight:500}
+    #fm-range-study .fm-sub{color:var(--fm-sub)}
+    #fm-range-study .fm-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+    #fm-range-study .fm-option{appearance:none;border:1px solid var(--fm-line);background:var(--fm-panel);border-radius:14px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;min-height:120px}
+    #fm-range-study .fm-option[aria-pressed=true]{border:2px solid var(--fm-red);padding:11px 3px;box-shadow:0 3px 10px var(--fm-shadow)}
+    #fm-range-study .fm-option-label{white-space:nowrap}
+    #fm-range-study .fm-endpoint{position:relative;width:64px;height:64px;display:block;flex-shrink:0;--fm-pair:var(--fm-red);--fm-fill:var(--fm-red-fill);--fm-glyph:var(--fm-red-ink)}
+    #fm-range-study .fm-core{position:absolute;inset:15px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--fm-fill);color:var(--fm-glyph);border:1px solid color-mix(in srgb,var(--fm-pair) 38%,transparent);z-index:2}
+    #fm-range-study .fm-core svg{width:22px;height:22px}
+    #fm-range-study .fm-attack{position:absolute;inset:9px;border:2px solid var(--fm-pair);border-radius:10px;visibility:hidden}
+    #fm-range-study .fm-skill{position:absolute;inset:2px;border:2px dashed var(--fm-pair);border-radius:50%;visibility:hidden}
+    #fm-range-study [data-attack="true"] .fm-attack{visibility:visible}
+    #fm-range-study [data-skill="true"] .fm-skill{visibility:visible}
+    #fm-range-study .fm-lock{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:3;color:var(--fm-off)}
+    #fm-range-study .fm-lock svg{width:20px;height:20px}
+    #fm-range-study [data-attack="false"][data-skill="false"]{--fm-pair:var(--fm-off);--fm-fill:var(--fm-off-fill);--fm-glyph:var(--fm-off)}
+    #fm-range-study [data-attack="false"][data-skill="false"] .fm-core>svg{visibility:hidden}
+    #fm-range-study [data-attack="false"][data-skill="false"] .fm-lock{display:flex}
+    #fm-range-study .fm-badge{position:absolute;bottom:3px;display:none;width:23px;height:23px;align-items:center;justify-content:center;border:1px solid var(--fm-line);border-radius:7px;background:var(--fm-panel);color:var(--fm-off);z-index:4}
+    #fm-range-study .fm-badge svg{width:14px;height:14px}
+    #fm-range-study .fm-badge-a{left:3px}#fm-range-study .fm-badge-s{right:3px}
+    #fm-range-study [data-attack="true"] .fm-badge-a,#fm-range-study [data-skill="true"] .fm-badge-s{color:var(--fm-pair);border-color:var(--fm-pair)}
+    #fm-range-study .fm-endpoint[data-attack="false"] .fm-badge-a:after,#fm-range-study .fm-endpoint[data-skill="false"] .fm-badge-s:after{content:"";position:absolute;width:16px;height:1px;background:var(--fm-off);transform:rotate(-45deg)}
+    #fm-range-study[data-style="badges"] .fm-badge{display:flex}
+    #fm-range-study[data-style="badges"] .fm-attack,#fm-range-study[data-style="badges"] .fm-skill{visibility:hidden}
+    #fm-range-study .fm-phone{max-width:380px;margin:0 auto;border-radius:22px;background:var(--fm-bg);border:1px solid var(--fm-line);padding:16px;box-shadow:0 8px 24px var(--fm-shadow)}
+    #fm-range-study .fm-gamebar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+    #fm-range-study .fm-role{display:flex;align-items:center;gap:8px}
+    #fm-range-study .fm-role>svg{width:20px;height:20px}
+    #fm-range-study .fm-target{display:flex;align-items:center;gap:8px;color:var(--fm-sub)}
+    #fm-range-study .fm-dot{width:10px;height:10px;border-radius:4px;background:var(--fm-red);display:inline-block}
+    #fm-range-study .fm-board{position:relative;aspect-ratio:1;background-color:var(--fm-board);background-image:linear-gradient(to right,var(--fm-cell) 1px,transparent 1px),linear-gradient(to bottom,var(--fm-cell) 1px,transparent 1px);background-size:20% 20%;border:1px solid var(--fm-cell);border-radius:12px;overflow:hidden}
+    #fm-range-study .fm-route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+    #fm-range-study .fm-route path{fill:none;stroke:var(--fm-red);stroke-linecap:round;stroke-linejoin:round}
+    #fm-range-study .fm-route .fm-guide{stroke-width:9;stroke-opacity:.18;stroke-dasharray:2 18}
+    #fm-range-study .fm-route .fm-trace{stroke-width:10;stroke-opacity:0;stroke-dasharray:600;stroke-dashoffset:600}
+    #fm-range-study .fm-point{position:absolute;appearance:none;border:0;background:transparent;padding:0;display:flex;justify-content:center;align-items:center;width:20%;height:20%;min-width:44px;min-height:44px}
+    #fm-range-study .fm-point-a{left:0;top:60%}
+    #fm-range-study .fm-point-b{left:80%;top:20%}
+    #fm-range-study .fm-point .fm-endpoint{width:min(64px,100%);height:auto;aspect-ratio:1}
+    #fm-range-study .fm-point .fm-core{inset:23%}
+    #fm-range-study .fm-point .fm-attack{inset:14%}
+    #fm-range-study .fm-point .fm-skill{inset:3%}
+    #fm-range-study .fm-point[aria-disabled=true]{cursor:not-allowed}
+    #fm-range-study .fm-prediction{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;min-height:44px;padding:12px 0 0}
+    #fm-range-study .fm-prediction strong{font-weight:500}
+    #fm-range-study .fm-effects{display:flex;gap:10px;align-items:center}
+    #fm-range-study .fm-effect{display:inline-flex;gap:4px;align-items:center}
+    #fm-range-study .fm-effect svg{width:16px;height:16px}
+    #fm-range-study .fm-effect[data-on=false]{color:var(--fm-sub);text-decoration:line-through}
+    #fm-range-study .fm-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+    #fm-range-study .fm-play{display:inline-flex;align-items:center;gap:6px;min-height:44px;border:1px solid var(--fm-line);border-radius:10px;background:var(--fm-panel);padding:8px 12px}
+    #fm-range-study .fm-play:disabled{opacity:.5;cursor:not-allowed}
+    #fm-range-study .fm-play svg{width:16px;height:16px}
+    #fm-range-study .fm-message{color:var(--fm-sub);flex:1;min-width:100px}
+    #fm-range-study .fm-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 22px;margin-top:14px;color:var(--fm-sub)}
+    #fm-range-study .fm-key{display:inline-flex;gap:7px;align-items:center}
+    #fm-range-study .fm-key-mark{display:inline-block;width:18px;height:18px;border:2px solid var(--fm-red);border-radius:4px}
+    #fm-range-study .fm-key-mark.skill{border-style:dashed;border-radius:50%}
+    #fm-range-study .fm-signal{position:absolute;inset:2px;border:2px solid var(--fm-pair);border-radius:50%;opacity:0;pointer-events:none;z-index:5}
+    #fm-range-study .fm-phone.fm-playing .fm-trace{animation:fm-draw 1.25s ease-in-out both}
+    #fm-range-study .fm-phone.fm-playing[data-action="attack"] .fm-trace{animation:fm-hit 1.25s ease-in-out both}
+    #fm-range-study .fm-phone.fm-playing[data-action="both"] .fm-trace{animation:fm-hit 1.25s ease-in-out both}
+    #fm-range-study .fm-phone.fm-playing:is([data-action="attack"],[data-action="both"]) .fm-point :is(.fm-core,.fm-attack){animation:fm-endpoint-hit 1.25s ease-in-out both}
+    #fm-range-study .fm-phone.fm-playing[data-action="skill"] .fm-trace{stroke-width:6;animation:fm-cast 1.25s ease-in-out both}
+    #fm-range-study .fm-phone.fm-playing[data-action="both"] .fm-signal,#fm-range-study .fm-phone.fm-playing[data-action="skill"] .fm-signal{animation:fm-wave .7s ease-out .6s both}
+    #fm-range-study .fm-phone.fm-settled .fm-trace{stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stroke-width:13}
+    @keyframes fm-draw{0%{stroke-opacity:1;stroke-dashoffset:600}50%{stroke-dashoffset:0;stroke-opacity:1}100%{stroke-dashoffset:0;stroke-opacity:0}}
+    @keyframes fm-hit{0%{stroke-opacity:1;stroke-dashoffset:600;stroke-width:10}40%{stroke-dashoffset:0;stroke-width:10}58%{stroke-width:23;stroke-opacity:1}100%{stroke-width:1;stroke-opacity:0;stroke-dashoffset:0}}
+    @keyframes fm-endpoint-hit{0%,35%,100%{transform:scale(1);box-shadow:0 0 0 0 transparent}44%{transform:scale(.86);box-shadow:0 0 0 0 transparent}58%{transform:scale(1.22);box-shadow:0 0 0 3px color-mix(in srgb,var(--fm-pair) 45%,transparent)}72%{transform:scale(.95);box-shadow:0 0 0 0 transparent}86%{transform:scale(1.03);box-shadow:0 0 0 0 transparent}}
+    @keyframes fm-cast{0%{stroke-opacity:1;stroke-dashoffset:600}50%{stroke-dashoffset:0;stroke-opacity:.85}100%{stroke-dashoffset:-600;stroke-opacity:0}}
+    @keyframes fm-wave{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.42);opacity:0}}
+    @media(max-width:480px){#fm-range-study .fm-options{grid-template-columns:repeat(2,minmax(0,1fr))}#fm-range-study .fm-option{flex-direction:row;justify-content:center;min-height:90px;padding:10px 4px;gap:2px}#fm-range-study .fm-option[aria-pressed=true]{padding:9px 3px}#fm-range-study .fm-option .fm-endpoint{width:56px;height:56px}#fm-range-study .fm-phone{padding:12px}}
+    @media(prefers-reduced-motion:reduce){#fm-range-study *,#fm-range-study *:before,#fm-range-study *:after{animation:none!important;transition:none!important}}
+  </style>
+  <label class="demo-select">结算效果 <select data-outcome><option value="survive">未击杀 · 线路消失</option><option value="defeat">击杀 · 线路固化</option></select></label><div class="fm-heading"><strong>同一组端点 · 四种可达状态</strong><span class="fm-sub">剑图标＝当前职业</span></div>
+  <div class="fm-options" role="group" aria-label="选择可达状态">
+    <button class="fm-option" type="button" data-state="both" aria-pressed="true"><span class="fm-endpoint" data-attack="true" data-skill="true"><span class="fm-attack"></span><span class="fm-skill"></span><span class="fm-core"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-a"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-s"><span class="doc-symbol" aria-hidden="true">✦</span></span></span><span class="fm-option-label">攻击＋技能</span></button>
+    <button class="fm-option" type="button" data-state="attack" aria-pressed="false"><span class="fm-endpoint" data-attack="true" data-skill="false"><span class="fm-attack"></span><span class="fm-skill"></span><span class="fm-core"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-a"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-s"><span class="doc-symbol" aria-hidden="true">✦</span></span></span><span class="fm-option-label">仅攻击</span></button>
+    <button class="fm-option" type="button" data-state="skill" aria-pressed="false"><span class="fm-endpoint" data-attack="false" data-skill="true"><span class="fm-attack"></span><span class="fm-skill"></span><span class="fm-core"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-a"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-s"><span class="doc-symbol" aria-hidden="true">✦</span></span></span><span class="fm-option-label">仅技能</span></button>
+    <button class="fm-option" type="button" data-state="none" aria-pressed="false"><span class="fm-endpoint" data-attack="false" data-skill="false"><span class="fm-attack"></span><span class="fm-skill"></span><span class="fm-core"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-lock"><span class="doc-symbol" aria-hidden="true">✦</span></span><span class="fm-badge fm-badge-a"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-s"><span class="doc-symbol" aria-hidden="true">✦</span></span></span><span class="fm-option-label">均不可达</span></button>
+  </div>
+  <section class="fm-phone" data-action="both" aria-label="棋盘端点与结算特效预览">
+    <div class="fm-gamebar"><span class="fm-role"><span class="doc-symbol" aria-hidden="true">⚔</span>职业图标预览</span><span class="fm-target"><span class="fm-dot"></span>同色目标</span></div>
+    <div class="fm-board" aria-label="五乘五棋盘，一组红色端点">
+      <svg class="fm-route" viewBox="0 0 500 500" aria-hidden="true"><path class="fm-guide" d="M50 350 H150 V250 H350 V150 H450"></path><path class="fm-trace" d="M50 350 H150 V250 H350 V150 H450"></path></svg>
+      <button class="fm-point fm-point-a" type="button" aria-label="预览红色端点的连线效果" aria-disabled="false"><span class="fm-endpoint" data-attack="true" data-skill="true"><span class="fm-attack"></span><span class="fm-skill"></span><span class="fm-core"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-lock"><span class="doc-symbol" aria-hidden="true">✦</span></span><span class="fm-badge fm-badge-a"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-s"><span class="doc-symbol" aria-hidden="true">✦</span></span><span class="fm-signal"></span></span></button>
+      <button class="fm-point fm-point-b" type="button" aria-label="预览另一端红色端点的连线效果" aria-disabled="false"><span class="fm-endpoint" data-attack="true" data-skill="true"><span class="fm-attack"></span><span class="fm-skill"></span><span class="fm-core"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-lock"><span class="doc-symbol" aria-hidden="true">✦</span></span><span class="fm-badge fm-badge-a"><span class="doc-symbol" aria-hidden="true">⚔</span></span><span class="fm-badge fm-badge-s"><span class="doc-symbol" aria-hidden="true">✦</span></span><span class="fm-signal"></span></span></button>
+    </div>
+    <div class="fm-prediction" aria-live="polite"><strong class="fm-state-title">可连线</strong><span class="fm-effects"><span class="fm-effect" data-effect="attack" data-on="true"><span class="doc-symbol" aria-hidden="true">⚔</span>攻击</span><span class="fm-effect" data-effect="skill" data-on="true"><span class="doc-symbol" aria-hidden="true">✦</span><span class="fm-skill-label">技能</span></span></span></div>
+    <div class="fm-foot"><span class="fm-message" aria-live="polite">攻击与技能均可达</span><button class="fm-play" type="button"><span class="doc-symbol" aria-hidden="true">▷</span>播放效果</button></div>
+  </section>
+  <div class="fm-legend" aria-label="距离提示图例"><span class="fm-key"><span class="fm-key-mark"></span><span class="fm-attack-key">实线内框＝攻击</span></span><span class="fm-key"><span class="fm-key-mark skill"></span><span class="fm-skill-key">虚线外环＝技能</span></span></div>
+  <script>
+    (()=>{
+      const root=document.getElementById('fm-range-study');
+      const phone=root.querySelector('.fm-phone');
+      const state={current:'both',style:'rings',result:'survive'};
+      const modes={both:{attack:true,skill:true,label:'攻击与技能均可达'},attack:{attack:true,skill:false,label:'仅攻击可达'},skill:{attack:false,skill:true,label:'仅技能可达 · 不造成攻击伤害'},none:{attack:false,skill:false,label:'攻击与技能均不可达'}};
+      let timer=0;
+      const message=root.querySelector('.fm-message');
+      const playButton=root.querySelector('.fm-play');
+      const trace=root.querySelector('.fm-trace');
+      const routeLength=trace.getTotalLength();
+      trace.style.strokeDasharray=String(routeLength);
+      function stop(){clearTimeout(timer);phone.classList.remove('fm-playing','fm-settled');}
+      function render(){
+        stop();
+        const mode=modes[state.current];
+        root.dataset.style=state.style;
+        phone.dataset.action=state.current;
+        root.querySelectorAll('.fm-option').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.state===state.current)));
+        phone.querySelectorAll('.fm-endpoint').forEach(e=>{e.dataset.attack=String(mode.attack);e.dataset.skill=String(mode.skill);});
+        phone.querySelectorAll('.fm-point').forEach(b=>b.setAttribute('aria-disabled',String(!mode.attack&&!mode.skill)));
+        phone.querySelector('[data-effect="attack"]').dataset.on=String(mode.attack);
+        phone.querySelector('[data-effect="skill"]').dataset.on=String(mode.skill);
+        phone.querySelector('.fm-state-title').textContent=mode.attack||mode.skill?'可连线':'无法连线';
+        message.textContent=mode.label;
+        playButton.disabled=!mode.attack&&!mode.skill;
+        root.querySelector('.fm-guide').style.visibility=mode.attack||mode.skill?'visible':'hidden';
+        root.querySelector('.fm-attack-key').textContent=state.style==='rings'?'实线内框＝攻击':'剑角标＝攻击';
+        root.querySelector('.fm-skill-key').textContent=state.style==='rings'?'虚线外环＝技能':'星芒角标＝技能';
+      }
+      function play(){
+        const mode=modes[state.current];
+        if(!mode.attack&&!mode.skill){message.textContent='射程不足 · 端点保留占格';return;}
+        stop();
+        void phone.offsetWidth;
+        const killed=mode.attack&&state.result==='defeat';
+        message.textContent=mode.attack?(mode.skill?'端点与线路重击＋技能光波':'端点与线路同步重击'):'技能光波 · 无攻击重击';
+        phone.classList.add('fm-playing');
+        const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        timer=setTimeout(()=>{phone.classList.remove('fm-playing');if(killed)phone.classList.add('fm-settled');message.textContent=killed?'击杀 · 线路固化占格':mode.attack?'未击杀 · 线路收缩消失':'技能结算 · 线路消失';},reduced?0:1300);
+      }
+      root.querySelectorAll('.fm-option').forEach(b=>b.addEventListener('click',()=>{state.current=b.dataset.state;render();}));
+      phone.querySelectorAll('.fm-point').forEach(b=>b.addEventListener('click',play));
+      playButton.addEventListener('click',play);
+      root.querySelector('[data-outcome]').addEventListener('change',e=>{state.result=e.target.value;render();});
+      render();
+      if(globalThis.Tweak){
+        const tweak=new Tweak({container:root,onChange:render});
+        tweak.addSelect(state,'style',{label:'距离提示样式',options:[{label:'双层轮廓（推荐）',value:'rings'},{label:'双图标角标',value:'badges'}]});
+        tweak.addSelect(state,'result',{label:'攻击结算预览',options:[{label:'未击杀：消线',value:'survive'},{label:'击杀：固化',value:'defeat'}]});
+      }
+    })();
+  </script>
+</div>

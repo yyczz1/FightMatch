@@ -1,0 +1,39 @@
+classDiagram
+direction TB
+class RewardedAdSystem {
+  <<QFramework>>
+  RequestRewardedAd(purpose)
+}
+class RewardedAdGateway {
+  <<SDKAdapter>>
+  ShowAsync()
+}
+class AdCompletion {
+  requestId
+  purpose
+  completed
+}
+class PlayerSaveUtility {
+  <<UnityAdapter>>
+  Load()
+  Save(playerState)
+}
+class PlayerState {
+  persistentData
+}
+class HintSystem {
+  ApplyGuideAccess()
+}
+class BattleSystem {
+  ApplyRevival()
+}
+class CharacterSystem {
+  SkipRecovery()
+}
+RewardedAdSystem --> RewardedAdGateway : 调用选定 SDK
+RewardedAdGateway ..> AdCompletion : 完成结果
+RewardedAdSystem ..> AdCompletion : 核对请求与完成状态
+HintSystem ..> RewardedAdSystem : 有效攻略确认后请求
+BattleSystem ..> RewardedAdSystem : 请求本局复活
+CharacterSystem ..> RewardedAdSystem : 请求跳过局外恢复
+PlayerSaveUtility ..> PlayerState : 读取和保存局外数据

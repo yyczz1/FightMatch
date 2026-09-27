@@ -1,0 +1,69 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FightMatch · C4 架构阅读</title><style>
+:root{color-scheme:light dark;--bg:#f4f7f9;--paper:#fff;--ink:#173247;--muted:#546c7e;--line:#d8e3eb;--accent:#08766d}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 'Microsoft YaHei UI','Microsoft YaHei',sans-serif}main{max-width:1500px;margin:30px auto;padding:32px 40px;background:var(--paper);border:1px solid var(--line);border-radius:14px}h1{font-size:32px;line-height:1.4}h2{font-size:24px;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);scroll-margin-top:22px}p{max-width:1100px}a{color:var(--accent);text-underline-offset:3px}nav{display:flex;flex-wrap:wrap;gap:12px 24px;margin:24px 0}picture,img{display:block;width:100%;height:auto}picture{margin:24px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:12px;border:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--bg)}code{font-family:Consolas,monospace}footer{margin-top:36px;color:var(--muted);font-size:13px}@media(prefers-color-scheme:dark){:root{--bg:#0c1721;--paper:#15232e;--ink:#e4edf3;--muted:#aec0cd;--line:#354b5b;--accent:#77d4c7}}@media(max-width:650px){body{font-size:15px}main{margin:0;padding:22px 16px;border:0;border-radius:0}h1{font-size:26px}h2{font-size:21px}th,td{padding:8px}nav{gap:8px 16px}}
+</style></head><body><main><nav aria-label="层级导航"><a href="#section-1">C1 整个产品</a><a href="#section-2">C2 应用与存储</a><a href="#section-3">C3 客户端内部</a><a href="../index.html">系统协作基线</a></nav><h1>FightMatch · 用 C4 看整体架构</h1>
+<p>2026-09-16 · 目标架构视图。依据<a href="../review.md">系统协作基线 r1</a>整理，用于进入统一系统设计前的阅读；在线运行边界及组件拆分仍是推荐方案，不表示已经实现。</p>
+<p>C4 用逐层放大的方式描述架构：<strong>整个软件系统 → 应用与数据存储 → 一个应用内部的组件 → 一个组件内部的代码</strong>。每次展开上一层的一个方框，所以不会把产品、运行程序、业务模块和类混在同一层。<a href="https://c4model.com/">C4 官方介绍</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>这一层回答什么</th>
+<th>FightMatch 对应内容</th>
+<th>当前阅读入口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C1 · Context</td>
+<td>谁使用产品？它与哪些外部系统合作？</td>
+<td>玩家、内容制作人员、FightMatch、激励广告平台</td>
+<td><a href="c1-context.html">C1 交互图</a></td>
+</tr>
+<tr>
+<td>C2 · Container</td>
+<td>产品由哪些应用与数据存储组成？它们如何交互？</td>
+<td>Unity 客户端、内容工具、在线解析应用候选、本地存档与发布内容</td>
+<td><a href="c2-containers.html">C2 交互图</a></td>
+</tr>
+<tr>
+<td>C3 · Component</td>
+<td>一个应用内部由哪些职责组件协作？</td>
+<td>展开 Unity 客户端，看应用流程、战斗、成长、背包、进度、结算、权益与攻略</td>
+<td><a href="c3-client.html">C3 交互图</a></td>
+</tr>
+<tr>
+<td>C4 · Code</td>
+<td>某个组件内部怎样由类、接口等实现？</td>
+<td>例如战斗内部的技能、行动与历史实现</td>
+<td>后续按需要设计，当前不绘制</td>
+</tr>
+</tbody></table></div>
+<p>这里的 Container 指一个应用程序或数据存储。Component 表示封装相关功能的一组代码；一个方框可以由多个类实现，同一应用中的组件在该应用内运行。C3 和代码层按需要使用，无需为了凑齐四层而提前完成所有类图。<a href="https://c4model.com/diagrams/container">Container 定义</a>、<a href="https://c4model.com/abstractions/component">Component 定义</a>、<a href="https://c4model.com/diagrams/code">Code 层用途</a></p>
+<h2 id="section-1">C1：先看整个产品</h2>
+<p>这一层把 FightMatch 当成一个软件系统。玩家使用游戏，内容制作人员维护关卡、配置和参考攻略，产品接入外部激励广告平台。此处产品范围包含客户端、内容工具及攻略能力，具体如何运行在 C2 展开。</p>
+<p><picture><source media="(prefers-color-scheme: dark)" srcset="c1-context.dark.png"><img src="c1-context.light.png" alt="C1 系统上下文" loading="lazy"></picture></p>
+<p><a href="c1-context.html">打开 C1 交互图</a> · <a href="c1-context.light.svg">浅色 SVG</a> · <a href="c1-context.dark.svg">深色 SVG</a></p>
+<h2 id="section-2">C2：打开 FightMatch，看应用与数据</h2>
+<p>橙色边界内是这次推荐的产品结构。Unity 客户端负责玩家实际游玩；内容编辑工具运行在 Unity Editor 中；本地玩家存档与只读内容承担不同用途。</p>
+<p>“在线解析应用”用来表达已定的联网分析能力，<strong>独立应用是本图提出的运行边界候选</strong>。自建、托管还是接入现成服务、实际语言与协议均未选定。若最终由外部系统承担，后续应相应调整 C1／C2 的归属，不能把此图当作已批准的服务器部署图。</p>
+<p><picture><source media="(prefers-color-scheme: dark)" srcset="c2-containers.dark.png"><img src="c2-containers.light.png" alt="C2 应用与数据存储" loading="lazy"></picture></p>
+<p><a href="c2-containers.html">打开 C2 交互图</a> · <a href="c2-containers.light.svg">浅色 SVG</a> · <a href="c2-containers.dark.svg">深色 SVG</a></p>
+<p>“关卡与规则内容”是同一批已发布内容的逻辑表示：客户端和验证程序需要使用一致依据，可以各自持有发布副本；此图没有要求建立中央在线数据库，也没有要求客户端每次战斗联网读表。存档的文件格式、内容发布方式和编辑来源由后续系统设计决定。</p>
+<p><strong>QFramework 和战斗规则库不在这一层各画成一个应用。</strong> QFramework 组织客户端代码；普通 C# 战斗规则可以直接运行在客户端内，同时由内容工具和在线验证程序复用。代码职责独立与独立运行、独立部署是不同的划分。</p>
+<h2 id="section-3">C3：打开 Unity 客户端，看主要业务组件</h2>
+<p>下面橙色边界里的组件都位于客户端内部。它是针对主要业务协作的局部 C3 视图，仍需由系统设计落实具体对外能力；一个方框不等于一个 MonoBehaviour、QFramework System 或程序集。</p>
+<p><picture><source media="(prefers-color-scheme: dark)" srcset="c3-client.dark.png"><img src="c3-client.light.png" alt="C3 客户端主要业务组件" loading="lazy"></picture></p>
+<p><a href="c3-client.html">打开 C3 交互图</a> · <a href="c3-client.light.svg">浅色 SVG</a> · <a href="c3-client.dark.svg">深色 SVG</a></p>
+<p>先读两条关系：</p>
+<ol>
+<li><strong>输入与表现 → 应用流程 → 战斗规则与历史</strong>：一次连线进入规则计算，客户端显示得到的结果。技能、CD、被动概率和当局 HP 都在战斗规则的职责内。</li>
+<li><strong>应用流程 → 结算协调 → 成长／背包／进度</strong>：战斗结果经流程交接，结算按规则组织各负责者入账；结算不会取得第二份可独立修改的角色经验或库存。</li>
+</ol>
+<p>图中省略了结果返回、成长／学习流程对长期资料的请求，以及配置读取、平台／保存接入、通用几何等共性关系。这些职责仍保留在<a href="../review.md">完整职责与状态表</a>，并非被删去。攻略使用独立验证局面，不把真实玩家正在进行的战斗用作试算对象；客户端是否承担重搜索、在线如何部署由后续方案与性能证据决定。</p>
+<h2 id="section-4">与现有图和下一阶段的关系</h2>
+<p>原<a href="../systems.html">系统关系图</a>继续作为跨系统协作总览。它混合展示业务职责、共用能力和数据交接，之前没有声称是严格的 C4 分层图；本次增加明确的层级和范围，让“产品包含哪些应用”和“客户端内部有哪些模块”分别表达。</p>
+<p>C4 帮助说明静态结构；多系统冲突仍需用状态归属、调用约束与具体流程检查。因此保留基线中的 18 行状态归属、A01～A12 场景及<a href="../../../handoffs/2026-09-16-system-design.md">系统设计交接的 H01～H10</a>。进入下一会话后先完善 C3 的对外能力和交互契约，必要时增加时序／状态图；组件内部的完整 UML 留到相应系统详细设计。</p>
+<p>当前最值得先看的是：C2 中哪些东西独立运行，以及 C3 中谁拥有长期资料、谁裁定当前战斗。QFramework 继续是客户端采用方向；C4 是表达这些安排的方法，Archify 是绘图工具。</p>
+<h2 id="section-5">图稿与验证</h2>
+<p>三份图源均通过 Archify showcase <strong>9/9</strong>，组合错误 0、警告 0；已冻结图源并生成 HTML。静态 PNG／SVG 从交付 HTML 中的图形离线生成，适配了静态阅读字号，六张明暗图均已实际查看。</p>
+<p>受本会话此前本地页面的浏览器安全限制，本次没有调用浏览器或使用替代浏览器访问路径；这些图像不是浏览器截图。HTML 的响应式布局和交互未在本次验证。完整哈希与证据范围见<a href="handoff.json">交付记录</a>、<a href="static-receipt.json">静态图生成收据</a>与<a href="validation.md">验证说明</a>。</p>
+<footer>图源为本目录 *.architecture.json。静态阅读图与交互 HTML 分别维护证据；本页不加载外部脚本或字体。</footer></main></body></html>

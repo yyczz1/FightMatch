@@ -23,13 +23,46 @@ namespace FlowPuzzle.Application
 
         public async Task<FlowCompletionResult> CompleteAsync(FlowCompletionRequest request, IProgress<FlowCompletionProgress> progress, CancellationToken ct)
         {
-            var result = await provider.CompleteAsync(request, progress, ct);
+            FlowCompletionResult result;
+            try
+            {
+                result = await provider.CompleteAsync(request, progress, ct);
+            }
+            catch (OperationCanceledException)
+            {
+                return new FlowCompletionResult
+                {
+                    status = FlowSolveStatus.Cancelled,
+                    errorCode = "Cancelled",
+                    errorMessage = "Completion was cancelled."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new FlowCompletionResult
+                {
+                    status = FlowSolveStatus.Error,
+                    errorCode = "ProviderException",
+                    errorMessage = ex.Message
+                };
+            }
+
+            if (result == null)
+                return new FlowCompletionResult
+                {
+                    status = FlowSolveStatus.Error,
+                    errorCode = "NullProviderResult",
+                    errorMessage = "Completion provider returned no result."
+                };
+
             if (result.status == FlowSolveStatus.Solved && result.generatedLevel != null)
             {
                 var v = validator.Validate(result.generatedLevel.levelData, result.generatedLevel.solutionData);
                 if (!v.isValid)
                 {
                     result.status = FlowSolveStatus.Error;
+                    result.errorCode = "InvalidCompletedSolution";
+                    result.errorMessage = $"{v.errorCode}: {v.errorMessage}";
                     return result;
                 }
                 var report = evaluator.Evaluate(result.generatedLevel.levelData, result.generatedLevel.solutionData);

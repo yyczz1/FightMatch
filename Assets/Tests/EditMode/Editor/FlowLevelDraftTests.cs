@@ -52,12 +52,58 @@ namespace FlowPuzzle.Tests.Editor
             Assert.IsTrue(r.success); Assert.AreEqual(2, d.pairs[0].endpointA.Value.x);
         }
 
+        [Test] public void MoveEndpoint_ClearsOwnConstraint()
+        {
+            var d = MakeDraft(1);
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            d.ApplyConstraint(0, new List<FlowPos> { new FlowPos(0, 0), new FlowPos(1, 0), new FlowPos(2, 0) });
+
+            var r = d.MoveEndpoint(0, true, new FlowPos(0, 1));
+
+            Assert.IsTrue(r.success);
+            Assert.AreEqual(new FlowPos(0, 1), d.pairs[0].endpointA.Value);
+            Assert.IsNull(d.GetConstraint(0), "Moving an endpoint invalidates that color's fixed constraint");
+        }
+
+        [Test] public void PlaceEndpoint_OnForeignConstraint_FailsWithoutMutation()
+        {
+            var d = MakeDraft(2);
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            d.ApplyConstraint(0, new List<FlowPos> { new FlowPos(0, 0), new FlowPos(1, 0), new FlowPos(2, 0) });
+            d.isSolutionDirty = false;
+            d.isValidated = true;
+
+            var r = d.PlaceEndpoint(1, true, new FlowPos(1, 0));
+
+            Assert.IsFalse(r.success);
+            Assert.AreEqual("EndpointOnForeignConstraint", r.errorCode);
+            Assert.IsNull(d.pairs[1].endpointA);
+            Assert.AreEqual(3, d.GetConstraint(0).cells.Count);
+            Assert.IsFalse(d.isSolutionDirty);
+            Assert.IsTrue(d.isValidated);
+        }
+
         [Test] public void RemoveEndpoint_ClearsAndMarksDirty()
         {
             var d = MakeDraft(); d.PlaceEndpoint(0, true, new FlowPos(0, 0));
             d.isSolutionDirty = false; d.isValidated = true;
             var r = d.RemoveEndpoint(0, true);
             Assert.IsTrue(r.success); Assert.IsNull(d.pairs[0].endpointA); Assert.IsTrue(d.isSolutionDirty);
+        }
+
+        [Test] public void RemoveEndpoint_ClearsOwnConstraint()
+        {
+            var d = MakeDraft(1);
+            d.PlaceEndpoint(0, true, new FlowPos(0, 0));
+            d.PlaceEndpoint(0, false, new FlowPos(4, 0));
+            d.ApplyConstraint(0, new List<FlowPos> { new FlowPos(0, 0), new FlowPos(1, 0) });
+
+            var r = d.RemoveEndpoint(0, true);
+
+            Assert.IsTrue(r.success);
+            Assert.IsNull(d.GetConstraint(0));
         }
 
         [Test] public void HasCompleteEndpoints_VariousConfigs()
