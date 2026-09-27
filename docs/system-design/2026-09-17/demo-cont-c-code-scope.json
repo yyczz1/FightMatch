@@ -1,0 +1,1001 @@
+{
+  "schemaVersion": 1,
+  "stageId": "CONT-C",
+  "status": "BLOCKED",
+  "deliveryKind": "INCOMPLETE_IMPLEMENTATION_HANDOFF",
+  "authorTaskId": "01a0c403-bfa1-7e90-b503-c0fcd61f23c1",
+  "authorTurnId": "01a0e382-ea66-76f3-a0a0-7be71598b4cd",
+  "authorNativeCompletion": "Not prefilled; SD00 must inspect native completion after formal BLOCKED final.",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "max",
+  "capturedAtUtc": "2026-09-27T16:14:37.545168+00:00",
+  "packet": {
+    "path": "docs/system-design/2026-09-17/system-task-packets.md",
+    "section": 367,
+    "bytes": 11217,
+    "sha256": "9b98b275f4066726466df278c683aebecf2cfb073420499533b96cae5533713b"
+  },
+  "acceptedDesignInputs": [
+    {
+      "path": "docs/system-design/2026-09-17/demo-cont-c-design-c1.md",
+      "exists": true,
+      "bytes": 51912,
+      "sha256": "ca8d9d1a50ed2590cf09de69368642e7d900e6374b37324820dc02b4af30d182"
+    },
+    {
+      "path": "docs/system-design/2026-09-17/demo-cont-c-design-c1-scope.json",
+      "exists": true,
+      "bytes": 270091,
+      "sha256": "dd9a2557dff4db1bb652877f1f643201d1515c311f9f62ca106abf85f20d6cb7"
+    },
+    {
+      "path": "docs/system-design/2026-09-17/demo-cont-c-design-c1-review.md",
+      "exists": true,
+      "bytes": 7838,
+      "sha256": "fea59bcacbab27b9f8bebfaacce9367c4bf7db85da8236128f486e001b29a04f"
+    }
+  ],
+  "implementationStart": {
+    "path": "docs/system-design/2026-09-17/demo-cont-b-code-c1-scope.json",
+    "exists": true,
+    "bytes": 2260361,
+    "sha256": "3bd9e932aeeabf3f152833baa1e575f75d9e1f92e5eac8492da422ebfab0fc87"
+  },
+  "rootIdentity": {
+    "path": "TestArtifacts/FMDemoCONT/cont-c/root-identity.json",
+    "exists": true,
+    "bytes": 1525,
+    "sha256": "4de12a9a70ddf6234564c17b0c1277943e189ae74cce8d0964bba7763db6751c"
+  },
+  "readManifest": {
+    "path": "TestArtifacts/FMDemoCONT/cont-c/read-manifest.json",
+    "exists": true,
+    "bytes": 5289,
+    "sha256": "934d390f7e8e5997a200f306a8221963ed278f878e0ee59f06b956cc1f1de165"
+  },
+  "evidenceActualFiles": 22,
+  "evidenceManifestEntriesExcludingSelf": 21,
+  "exactAllowedEvidencePaths": [
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerNavigationController.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerNavigationController.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerNavigationView.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerNavigationView.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerPermanentDetailView.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Presentation/PlayerPermanentDetailView.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationPermanentFlowTests.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationPermanentFlowTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationPresentationTests.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationPresentationTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationSessionTests.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationSessionTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/after-text/Tools/Invoke-FM025P2Validation.ps1.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/assets-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/assets-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/before-text/Tools/Invoke-FM025P2Validation.ps1.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/case-evidence.json",
+    "TestArtifacts/FMDemoCONT/cont-c/dll-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/dll-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/guid-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/guid-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/implementation-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/implementation-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/inputs-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/inputs-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/named-tests-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/named-tests-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/read-manifest.json",
+    "TestArtifacts/FMDemoCONT/cont-c/root-identity.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/001/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/002/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/003/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/004/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/005/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/006/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/007/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c/runs/008/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c/scope-audit.json",
+    "TestArtifacts/FMDemoCONT/cont-c/storage-plan.json"
+  ],
+  "rootEvidenceIdentities": [
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs.txt",
+      "exists": true,
+      "bytes": 8447,
+      "sha256": "681f6c7a7d3e43f8ca02dd0a6bbf93bdd2100a2b3590ba27c9f2ba2361e08405"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs.txt",
+      "exists": true,
+      "bytes": 2422,
+      "sha256": "85ead859202b68186242499b4d30316ce932acc00fb4a4170a9b6d800a29aa35"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/after-text/Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs.txt",
+      "exists": true,
+      "bytes": 18210,
+      "sha256": "18b22cbd0b1e93de70c6d1581c588cb3c6501b20f0b3236923a22ce946c704ee"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/after-text/Tools/Invoke-FM025P2Validation.ps1.txt",
+      "exists": true,
+      "bytes": 23509,
+      "sha256": "503007904ba9cdbe29652c3e3defccdf6fb47fccd697e9c19815d00425e717e2"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/assets-after.json",
+      "exists": true,
+      "bytes": 198386,
+      "sha256": "7dee5ab85fc40e6e7adad9934efe2ad9e0e4f861bcb6a5f8d6a4e2f9fd0eb027"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/assets-before.json",
+      "exists": true,
+      "bytes": 174847,
+      "sha256": "5b9bff31312f0294bdf16ddfdbd5e9c5c484c21ff39703f15192fb62a0cc7efa"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/before-text/Tools/Invoke-FM025P2Validation.ps1.txt",
+      "exists": true,
+      "bytes": 23509,
+      "sha256": "503007904ba9cdbe29652c3e3defccdf6fb47fccd697e9c19815d00425e717e2"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/case-evidence.json",
+      "exists": true,
+      "bytes": 26806,
+      "sha256": "43ff4da4511ac6d6012c499591c7c9aba55344fb2a2205f79f395701fbde31a2"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/dll-after.json",
+      "exists": true,
+      "bytes": 7590,
+      "sha256": "2e68147114ce5165bd28796c3fce5b58dd9374ffd44789f02fb644ee3710235b"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/dll-before.json",
+      "exists": true,
+      "bytes": 7525,
+      "sha256": "2aca92ebcee47bb310480d7d3f868c72e90a5f8a6b42133e1b6608e141b57233"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/guid-after.json",
+      "exists": true,
+      "bytes": 125157,
+      "sha256": "43f211ebe22874bc68629f5829600a99b54160fce8317ea586d30be3de627d64"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/guid-before.json",
+      "exists": true,
+      "bytes": 113662,
+      "sha256": "d166d02278fc451894c9869985e82eb36b67c4069f5f96d42cffbfcacb37d11b"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/implementation-after.json",
+      "exists": true,
+      "bytes": 191887,
+      "sha256": "4f517a51d15f1f902b6f315a00e93cc4e99247bcb629a92f81840a327f7876fa"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/implementation-before.json",
+      "exists": true,
+      "bytes": 168840,
+      "sha256": "e19eddb9a3f604e5b29c11a0bc304876d02dbbd09c5640b7c2ff8f61ed918bf6"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/inputs-after.json",
+      "exists": true,
+      "bytes": 223032,
+      "sha256": "0bbe505a84f057488d954e47f487b0a81279112f1056e88efb045b46cef0b772"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/inputs-before.json",
+      "exists": true,
+      "bytes": 199544,
+      "sha256": "63fa1fa4f6beeb366f7395f39f918c272002e69c401796b7a47fa36f50226b66"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/named-tests-after.json",
+      "exists": true,
+      "bytes": 921,
+      "sha256": "2772b5a9cf1bb36fe33a80cca00205cfbb508c76282deac512bc6567346813f5"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/named-tests-before.json",
+      "exists": true,
+      "bytes": 665238,
+      "sha256": "358a376996ced3e161fe37784a56cf9a0f945f2c07b855900fbffc5d0f9760ac"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/root-identity.json",
+      "exists": true,
+      "bytes": 1525,
+      "sha256": "4de12a9a70ddf6234564c17b0c1277943e189ae74cce8d0964bba7763db6751c"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/scope-audit.json",
+      "exists": true,
+      "bytes": 4309,
+      "sha256": "9aca13af8fb8cd4c9d499247359525a6729727a3c4d6bc645269de3fcd5e6c19"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c/storage-plan.json",
+      "exists": true,
+      "bytes": 11372,
+      "sha256": "732732cc0cc5d3e5d9cf46df10e37db98bf1f1ab63aa0db9c944e5167a96ab0a"
+    }
+  ],
+  "inputBefore": {
+    "path": "TestArtifacts/FMDemoCONT/cont-c/inputs-before.json",
+    "exists": true,
+    "bytes": 199544,
+    "sha256": "63fa1fa4f6beeb366f7395f39f918c272002e69c401796b7a47fa36f50226b66"
+  },
+  "inputAfter": {
+    "path": "TestArtifacts/FMDemoCONT/cont-c/inputs-after.json",
+    "exists": true,
+    "bytes": 223032,
+    "sha256": "0bbe505a84f057488d954e47f487b0a81279112f1056e88efb045b46cef0b772"
+  },
+  "scopeAudit": {
+    "capturedAtUtc": "2026-09-27T16:14:37.545168+00:00",
+    "status": "PARTIAL_WITHIN_SCOPE_BLOCKED_NOT_DELIVERABLE",
+    "frozenPacketBytes": 11217,
+    "frozenPacketSha256": "9b98b275f4066726466df278c683aebecf2cfb073420499533b96cae5533713b",
+    "actualImplementation": 779,
+    "targetImplementation": 802,
+    "actualAssets": 809,
+    "targetAssets": 832,
+    "actualGuid": 425,
+    "targetGuid": 438,
+    "dllMetadataCount": 36,
+    "exportInputCount": 921,
+    "oldImplementationUnchanged": 776,
+    "oldAssetsUnchanged": 806,
+    "oldGuidsUnchanged": 425,
+    "oldDllMetadataUnchanged": 36,
+    "oldTestsModified": 0,
+    "existingSourceFilesModified": 0,
+    "tool": {
+      "path": "Tools/Invoke-FM025P2Validation.ps1",
+      "changed": false,
+      "added": 0,
+      "deleted": 0,
+      "physicalLines": 282,
+      "priorCumulative": 194,
+      "authorizedCumulativeCap": 230,
+      "extensionStillNotImplemented": true
+    },
+    "newProductionFiles": [
+      {
+        "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs",
+        "exists": true,
+        "bytes": 8447,
+        "sha256": "681f6c7a7d3e43f8ca02dd0a6bbf93bdd2100a2b3590ba27c9f2ba2361e08405",
+        "physicalLines": 161
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs",
+        "exists": true,
+        "bytes": 2422,
+        "sha256": "85ead859202b68186242499b4d30316ce932acc00fb4a4170a9b6d800a29aa35",
+        "physicalLines": 46
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs",
+        "exists": true,
+        "bytes": 18210,
+        "sha256": "18b22cbd0b1e93de70c6d1581c588cb3c6501b20f0b3236923a22ce946c704ee",
+        "physicalLines": 259
+      }
+    ],
+    "newProductionPhysicalLines": 466,
+    "newTestFiles": 0,
+    "newNaturalMetaFiles": 0,
+    "missingAuthorizedNewPaths": [
+      "Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs.meta",
+      "Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs.meta",
+      "Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs",
+      "Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs.meta",
+      "Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs.meta",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationController.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationController.cs.meta",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs.meta",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationView.cs.meta",
+      "Assets/Scripts/FightMatch/Presentation/PlayerPermanentDetailView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerPermanentDetailView.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationPermanentFlowTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationPermanentFlowTests.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationPresentationTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationPresentationTests.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationSessionTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationSessionTests.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs.meta"
+    ],
+    "coordinationChangedPaths": [
+      "docs/system-design/2026-09-16/session-plan.md",
+      "docs/system-design/2026-09-17/integration-review.md",
+      "docs/system-design/2026-09-17/system-task-packets.md"
+    ],
+    "forbiddenInputChanges": [],
+    "noAgents": true,
+    "noGitWrites": true,
+    "noUnityRuns": true,
+    "noSlotConsumed": true,
+    "newCodeReadyToCompile": false,
+    "knownPartialDependencies": [
+      "Recovery partial missing: GateReason, ReturnToAnchor, ActionReason, OriginalToken, Receive and other members unresolved.",
+      "Act, Presentation files and new tests not implemented."
+    ],
+    "reviewVerdict": null,
+    "coordinationAttribution": "Independent coordination-document changes; excluded from implementation authorship and immutable-input comparison."
+  },
+  "blockers": [
+    {
+      "id": "CONT-C-RCV-01",
+      "status": "BLOCKED_SCOPE_SUPPLEMENT_REQUIRED",
+      "criteria": [
+        "CC14",
+        "CC15",
+        "CC17",
+        "CC19"
+      ],
+      "trigger": "Application/PlayerSession rebuild loses the original request reference. Explicit ResumeObserved then fails during another write/readback, retaining pending inside runtime. Navigation cannot obtain the exact intent required for original QueryOperation/Retry/Resolve/End.",
+      "evidenceType": "Fresh static trace and two accepted prior regression cases; no new runtime test",
+      "proof": [
+        {
+          "path": "Assets/Scripts/FightMatch/Application/CandidateApplicationRecovery.cs",
+          "lines": [
+            42,
+            217,
+            254,
+            256
+          ],
+          "fact": "Restore returns PendingResult when pending exists; repeated ResumeObserved/EndObserved returns Busy. Resumption assigns decoded last.Intent to private pending before WriteOriginal.",
+          "identity": {
+            "path": "Assets/Scripts/FightMatch/Application/CandidateApplicationRecovery.cs",
+            "exists": true,
+            "bytes": 18655,
+            "sha256": "693dc152e6c6c7304e3aec41476a969cddcd75333304652a901c4763b3bf3638",
+            "physicalLines": 301
+          }
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Application/CandidateApplicationRuntime.cs",
+          "lines": [
+            13,
+            36,
+            101,
+            254,
+            264,
+            276,
+            303
+          ],
+          "fact": "Original intent is private; original Resolve/Retry/End require it. PendingResult supplies neither intent nor OriginalLookup.",
+          "identity": {
+            "path": "Assets/Scripts/FightMatch/Application/CandidateApplicationRuntime.cs",
+            "exists": true,
+            "bytes": 16629,
+            "sha256": "8864b0c8d43241962c67eecd0f079ec7837e4717451d5c52accb1c84814f6541",
+            "physicalLines": 327
+          }
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Application/CandidateApplicationModels.cs",
+          "lines": [
+            62,
+            90
+          ],
+          "fact": "Public view/result expose pending IDs and committed snapshot, not the uncommitted canonical intent.",
+          "identity": {
+            "path": "Assets/Scripts/FightMatch/Application/CandidateApplicationModels.cs",
+            "exists": true,
+            "bytes": 8351,
+            "sha256": "abcc17e38b31ee806f46f940f30fd8a0a38a625edb80d453f2a37ab6314ad6d0",
+            "physicalLines": 181
+          }
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Application/FightMatchDemoArchitecture.cs",
+          "lines": [
+            53,
+            63,
+            66,
+            69,
+            72,
+            75,
+            80
+          ],
+          "fact": "Existing wrappers have no exact observed commit -> original pending intent read interface.",
+          "identity": {
+            "path": "Assets/Scripts/FightMatch/Application/FightMatchDemoArchitecture.cs",
+            "exists": true,
+            "bytes": 3978,
+            "sha256": "d9fe0bdb0461271e092ce37176ec52f1656b5ef12b1a83841c50fcc77448d11d",
+            "physicalLines": 83
+          }
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/CandidateApplicationRecoveryTests.cs",
+          "lines": [
+            257,
+            261,
+            264,
+            271,
+            274,
+            275,
+            279
+          ],
+          "fact": "Resumed failure regression retains pre-rebuild intent in a test local, verifies OriginalLookup is null, then uses that retained intent for Resolve/Retry.",
+          "identity": {
+            "path": "Assets/Tests/EditMode/FightMatch/CandidateApplicationRecoveryTests.cs",
+            "exists": true,
+            "bytes": 19760,
+            "sha256": "fed7128d2213c0428fbd32f1492315023d4595d698733eb8a8231fc6cbbf3d8b",
+            "physicalLines": 376
+          }
+        }
+      ],
+      "unavailableAlternatives": [
+        "The uncommitted operation is absent from previous published Records; the snapshot may be null after rebuild.",
+        "Restore returns pending only; repeated observed actions are Busy.",
+        "Reflection, undeclared runtime partial/private access, direct candidate parsing, a new intent or UI journal are not approved.",
+        "Closing/reopening the application to discard the current pending owner is not a valid adapter recovery path."
+      ],
+      "smallestSupplement": {
+        "modifyExistingOnly": "Assets/Scripts/FightMatch/Application/CandidateApplicationRuntime.cs",
+        "maxAddedLines": 24,
+        "maxDeletedLines": 0,
+        "signature": "internal CandidateApplicationCallResult QueryResumedIntent(PlayerSessionSystem owner, string commitId, string operationId, out PreparedCandidateApplicationIntent intent)",
+        "checks": [
+          "Original WrongThread/Disposed/Busy guard",
+          "Exact PlayerSession owner and PlayerSave purpose",
+          "Reject CreationPending",
+          "Existing pending ticket, exact selected commit and returned operation IDs",
+          "Return the original immutable pending.Intent reference only"
+        ],
+        "consumerConstraint": "Only this navigation session's explicitly initiated ResumeObserved may capture the returned matching pending intent. Do not adopt another owner's pending through ordinary Query. Forward unchanged intent to existing Application.QueryOperation/Retry/Resolve/End.",
+        "permittedNewConsumers": [
+          "Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs",
+          "Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs",
+          "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs"
+        ],
+        "unchanged": [
+          "Existing public DTO properties",
+          "Serialization and persistence format/protocol",
+          "Prepare/build/write/ID/clock behavior",
+          "Existing new file list/line budgets and sole validation tool"
+        ],
+        "implemented": false
+      },
+      "resumeVerification": [
+        "Real PlayerSave rebuild discarding the old request reference",
+        "Resume fails again as SaveFailed/CommitUnknown, then original Resolve/Retry/End",
+        "Original operation/commit/canonical bytes/source portions preserved; no replacement build",
+        "Wrong owner/commit/operation, F2, thread/disposal/busy and other-owner rejection",
+        "Complete all authorized code/tests before fixed Compile then unfiltered full EditMode"
+      ],
+      "acceptedRegressionCases": [
+        {
+          "name": "FightMatch.Core.Tests.CandidateApplicationRecoveryTests.A06_ResumedFailureKeepsOriginalSlotForResolveRetryAndNeverRebuilds(\"SaveFailed\")",
+          "result": "Passed"
+        },
+        {
+          "name": "FightMatch.Core.Tests.CandidateApplicationRecoveryTests.A06_ResumedFailureKeepsOriginalSlotForResolveRetryAndNeverRebuilds(\"CommitUnknown\")",
+          "result": "Passed"
+        }
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "id": "CC01",
+      "area": "边界/同源",
+      "evidence": "实会话＋静态",
+      "acceptance": "N0～N10只消费同一PlayerSession/Application；六首包、298字节新档配方和原W/L1/三槽身份不变；无demo分支/临时档/页面业务写。",
+      "location": "PlayerNavigationSessionTests.cs／范围核验",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC02",
+      "area": "N0/F2",
+      "evidence": "实会话",
+      "acceptance": "原记录未候选、候选未知、头已成待确认、Active四态分别进入原创建/恢复/Ready；坏记录不当Absent；未确认新写/End/EndObserved全拒，重复确认不倒退当前头。仅补导航门断言，原F2矩阵沿3872回归。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC03",
+      "area": "N1/Query",
+      "evidence": "实会话",
+      "acceptance": "QueryNavigation准确取当前head的For绑定；下载V2而仍用V1不换目录；Query/Refresh/查看/返回零ID/熵/写入/时间推进；混合两头投影拒StaleContext。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC04",
+      "area": "N1→N2",
+      "evidence": "实会话",
+      "acceptance": "只列原精确LevelId/Version及原Progression关系；篡改目标绑定、缺定义不进入可确认状态；锁定关可读但准备不冒称H02成功；不猜MapId/关卡16或补角色。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC05",
+      "area": "N2/交接",
+      "evidence": "实会话",
+      "acceptance": "Preparation显示真实3槽/恢复/负载；BattleSelectionRequested同token一次、携原精确上下文，零H02/时间采样/熵；Active/S17按原因转原宿主，不能普通新入场。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC06",
+      "area": "N3/Formation",
+      "evidence": "实会话；多角色为隔离",
+      "acceptance": "本地三槽编辑/Back/Cancel零写；全空不补位；Confirm经原PrepareFormation/Submit后才变化；重复/未持有/错revision全拒，合法明确设置可查回Unchanged。真实W移槽/清空；多人换位不得伪称首包多人。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC07",
+      "area": "N4/Bag",
+      "evidence": "实会话",
+      "acceptance": "全局库存及各角色负载来自同头，无角色时可只读余额；装配/偏好须显式角色；空装配与同Item L0不同；不借他人L或活动R、不自动卸装。原数量语义复用已接收C1回归。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC08",
+      "area": "N5/空内容",
+      "evidence": "实会话",
+      "acceptance": "真实首包RecipeAvailability/Preview显示NoPublishedDefinition；零余额与未发布定义分开；不能出现隔离配方、Craft确认成功、虚构输出或教学赠物。",
+      "location": "PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC09",
+      "area": "N6/制作",
+      "evidence": "共用生产Draft输入＋隔离同核＋真实拒绝",
+      "acceptance": "查询/返回上下文SelectedCharacterId非空时，调用页面共用的生产BuildPermanentDraft构造实际Craft PlayerPermanentDraft，断言CharacterId=null且ExpectedCommitId/RecipeId→DefinitionId/Quantity/SelectedInputs保持原意；将这一个实际Draft经原Copy送CandidatePermanentProtocol.Preview的合法隔离定义/普通来源，断言报价CharacterId/ClassId均null、原合法形状/来源及固定产出成立。保留CostSelectionRequired、合法明确份额、完整成本/输出显示及零UI重算；不得以手填正确报价后Receive/AcceptPrepared替代这段输入验证。真实PlayerSession缺配方NoPublishedDefinition单列且不注入正式配方。",
+      "location": "PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC10",
+      "area": "N6/N7取消",
+      "evidence": "实会话＋隔离转移",
+      "acceptance": "从Preparation/Bag/Team三种锚各走Back、Cancel；退层数准确，未确认零提交；旧报价token失效；重复Back/Cancel不多退层，已确认Cancel不丢原request。",
+      "location": "PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC11",
+      "area": "N7/一次确认",
+      "evidence": "实会话Formation；制作生产Draft→隔离核→转移",
+      "acceptance": "保留实会话Formation的双击/同步重入/重复回调至多一次成功Prepare/原Submit、先存原request后提交及旧owner/flow/token拒绝。制作分支从非空查询/返回角色开始，走页面共用生产BuildPermanentDraft→同一实际Draft.Copy()→原隔离永久核，先断言实际Draft.CharacterId=null、报价CharacterId/ClassId=null和原合法来源/固定产出，再测确认槽及AcceptPrepared/Receive一次消费；已有request不再ConfirmPermanent。只手填正确报价/请求的后置纯转移不能满足本项；真实PlayerSession缺配方拒绝另列，无正式配方注入/新测试友元/信任后门。",
+      "location": "PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC12",
+      "area": "版本/失效",
+      "evidence": "实会话＋隔离转移",
+      "acceptance": "确认前更改头/目标角色/三槽/批数/份额/相关owner修订/用途使旧token失效；调用后改原列表不改被冻结值；V2仅下载不影响V1；确认后头变化仍先查询原operation，不能再报价。",
+      "location": "PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC13",
+      "area": "N9→N10",
+      "evidence": "实会话Formation；制作为隔离同核",
+      "acceptance": "原实际IsCommitted/Lookup/Commit到达才显示结果；返回原Preparation或Bag/Team后重查当前头；结果只留历史摘要，新T/L/R/F由query得；Return双击只消费一次，锚失效回合法根。",
+      "location": "PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC14",
+      "area": "N8/Prepare与Write失败",
+      "evidence": "实会话阵容/迁移＋原M12故障",
+      "acceptance": "Prepare失败无ticket仍保留原request并允许原Retry；明确Write失败保留原op/candidate/来源/bytes，Retry不重Prepare/build；当前已提交视图全旧或完整新头。",
+      "location": "PlayerNavigationRecoveryTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "blockingIssue": "CONT-C-RCV-01"
+    },
+    {
+      "id": "CC15",
+      "area": "N8/CommitUnknown",
+      "evidence": "实会话＋原M12故障",
+      "acceptance": "marker前/后及回执丢失分别Resolve；已成取原结果、ConfirmedNotCommitted才可原Retry，未知保持N8；不得用新ID/份额/时间绕过。故障证据与对象重建不称真实崩溃。",
+      "location": "PlayerNavigationRecoveryTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "blockingIssue": "CONT-C-RCV-01"
+    },
+    {
+      "id": "CC16",
+      "area": "页面重建",
+      "evidence": "实会话",
+      "acceptance": "销毁/重绑view和controller，GetNavigationSession仍同owner、保留冻结请求与锚；旧UI epoch回调零效果；Back/Cancel/Detach不End、不再次Submit，不丢pending。",
+      "location": "PlayerNavigationPresentationTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC17",
+      "area": "Application重建/Observed",
+      "evidence": "实会话＋原M12故障",
+      "acceptance": "重建原Application/PlayerSession后先Open/Restore；显式选择原Observed commit续办，原intent/commit/bytes保持；多候选不自动逐个提交。路由内存丢失回Map，缺原候选/包保持真实诊断，不推测原操作。",
+      "location": "PlayerNavigationRecoveryTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "blockingIssue": "CONT-C-RCV-01"
+    },
+    {
+      "id": "CC18",
+      "area": "原结果优先",
+      "evidence": "实会话＋隔离同核",
+      "acceptance": "保存后回执丢失、当前头后移、余额变化时从原Records选准确Intent查询原op/Commit；与LookupViewCommit/current头分列。ObservedAlreadyCommitted无Lookup时按准确commit反查，禁止取最后一条假冒；同ID异意图仍冲突。",
+      "location": "PlayerNavigationRecoveryTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC19",
+      "area": "End与Cancel",
+      "evidence": "实会话＋原M12故障",
+      "acceptance": "End需独立确认；原未成才结束，已成返回原完成，未知不结束；F2禁止，其他owner不接管，S17不删保留结算；Cancel End提示仅回N8。Ended且恢复失败不能释放成Ready。",
+      "location": "PlayerNavigationRecoveryTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "blockingIssue": "CONT-C-RCV-01"
+    },
+    {
+      "id": "CC20",
+      "area": "活动战斗门",
+      "evidence": "实会话拒绝；合法制作隔离同核",
+      "acceptance": "活动期间Map/Bag只读、阵容/Equip/新入场关闭；Craft和明确SetPreference沿原准入。永久提交不改入场成员/Stats/HP/RNG/carry/Restart基线；缺正式内容仍拒，非成功代用品。",
+      "location": "PlayerNavigationSessionTests.cs／PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC21",
+      "area": "演出token",
+      "evidence": "实会话＋现有presentation",
+      "acceptance": "同Attempt/Scene的永久提交或导航Query不清原token、不重放；菜单Attach/Detach不调用原playback Close/Dispose/ReportPresentationCompleted；旧战斗输入取消手势归原controller。",
+      "location": "PlayerNavigationPresentationTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC22",
+      "area": "S17/028",
+      "evidence": "实会话",
+      "acceptance": "Continuation/ReservedOperationId/FinalReport保留；进入菜单只显示SettlementRequired，明确交接同token一次；零PrepareVictory/H06/Exit/Restart，原operation结果仍可查。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC23",
+      "area": "明确迁移",
+      "evidence": "实会话",
+      "acceptance": "schema2先原局外2→3，schema3明确3→4，各自确认/原request/提交；Query/Back不迁移；旧活动2不强退，合法活动3可原迁移；v4 Format/IsMaterialized及原创建锚不变。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC24",
+      "area": "错误/信任",
+      "evidence": "实会话",
+      "acceptance": "缺原精确包/root、恢复不完整、错误player/purpose、WrongThread/Disposed/Busy/Limit均传播原原因，按钮不能绕门；任意builder仍正式拒且回调0；只读数据不授写权。",
+      "location": "PlayerNavigationSessionTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC25",
+      "area": "通知失败",
+      "evidence": "实会话＋原M12结果",
+      "acceptance": "IsCommitted已真而NotificationFailure存在时只刷新真实头/原结果，不能Retry为新业务；Closed view未收到回调后重绑仍得准确原结果。",
+      "location": "PlayerNavigationRecoveryTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC26",
+      "area": "UI Adapter",
+      "evidence": "EditMode实际view/controller回调",
+      "acceptance": "按钮名/稳定行键绑定精确Level/Character/Recipe/source元组，多个来源不按当前数组下标换身份；回调调用生产Interface，关闭解除自身订阅且不销毁session；所有拒绝/空集合可见。事件回调测试不冒称物理鼠标/触控。",
+      "location": "PlayerNavigationPresentationTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC27",
+      "area": "预算/纯转移",
+      "evidence": "静态＋同Module测试",
+      "acceptance": "路由≤5、一个确认槽、原集合/规范整数预算；负数/极大数/超预算零业务效果，不能float/clamp/重复新建队列；内部纯转移Seam与生产调用一致且不能授PlayerSave权限。",
+      "location": "PlayerNavigationPermanentFlowTests.cs",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC28",
+      "area": "C1继承",
+      "evidence": "仅未来规定全量回归",
+      "acceptance": "原3872具名多重集合含卡优先/首证、空装配、M03顺序、学习唯一键及合法教学补记完整保留，不改旧测试/来源/配方/首包；不为本设计额外重跑这些已通过核验。",
+      "location": "原3872／范围核验",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": true,
+      "currentStaticEvidence": "All old implementation/Assets/GUID/test-source identities and accepted 3872 named multiset/XML unchanged; no current-source full test."
+    },
+    {
+      "id": "CC29",
+      "area": "宿主/Android边界",
+      "evidence": "静态计划；物理项NOT VERIFIED",
+      "acceptance": "同Application/Presentation源码，无Android业务分叉；移交028/029的HostRequest语义可测；实际场景、设备Back/触控/像素/生命周期/Player与正式配方整链单独留待准确授权证据。",
+      "location": "PlayerNavigationPresentationTests.cs／宿主交接",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "remaining": "Finish authorized implementation and applicable tests after recovery seam is signed."
+    },
+    {
+      "id": "CC30",
+      "area": "交付/有限证据",
+      "evidence": "未来实现验证",
+      "acceptance": "获准工具例外后固定CONT-C Compile→无filter全部EditMode，原3872＋新例全通过0skip；同源802实现/832Assets/438GUID/36DLL及预算核对，8槽141路径实际manifest/所有失败保全，无新脚本或越界写。",
+      "location": "固定工具/XML/scope",
+      "status": "BLOCKED_NOT_VERIFIED",
+      "newExecutionEvidence": [],
+      "priorAcceptedBaselineReused": false,
+      "currentStaticEvidence": "Scope checkpoint only; no CONT-C run/XML or final validated-source equality."
+    }
+  ],
+  "baselineReused": {
+    "sourceXml": {
+      "path": "TestArtifacts/FMDemoCONT/cont-b-code-c1/runs/003/tests.xml",
+      "bytes": 2858121,
+      "sha256": "32a056f5246777c76da8cdd3125c8d7f0b0aa97c7a6dbbefe68baaf65599089d"
+    },
+    "total": 3872,
+    "distinctNames": 3867,
+    "multisetSha256": "c914390d8e368da8ea61dd29c0b5f842b8fc2672ea4f16e3f96e59a3367de455",
+    "acceptedGreenNotRepeated": true,
+    "currentCodePassed": false
+  },
+  "validation": {
+    "compile": "NOT_RUN_IMPLEMENTATION_BLOCKED",
+    "editMode": "NOT_RUN_IMPLEMENTATION_BLOCKED",
+    "contCRuns": [],
+    "compileAfterEqualsTestsBeforeEqualsTestsAfterEqualsDelivered": false,
+    "reason": "Incomplete source with unresolved partial members; no fake test result or diagnostic log generated."
+  },
+  "notVerified": [
+    "All 30 CONT-C implementation acceptance criteria remain unaccepted; metadata preservation and blocker trace checked only.",
+    "New source compilation, new tests, full current-source EditMode and natural metas",
+    "Formal published recipe -> PlayerSave Craft end-to-end",
+    "Physical mouse/touch/pixels, interactive PlayMode, Player/Android, host 028/029",
+    "Public AwaitLinks, uncovered strong-save faults/real crashes and §184"
+  ],
+  "preservedPartialSource": [
+    {
+      "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs",
+      "exists": true,
+      "bytes": 8447,
+      "sha256": "681f6c7a7d3e43f8ca02dd0a6bbf93bdd2100a2b3590ba27c9f2ba2361e08405",
+      "physicalLines": 161
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs",
+      "exists": true,
+      "bytes": 2422,
+      "sha256": "85ead859202b68186242499b4d30316ce932acc00fb4a4170a9b6d800a29aa35",
+      "physicalLines": 46
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs",
+      "exists": true,
+      "bytes": 18210,
+      "sha256": "18b22cbd0b1e93de70c6d1581c588cb3c6501b20f0b3236923a22ce946c704ee",
+      "physicalLines": 259
+    }
+  ],
+  "nextWork": "SD00 signs minimal read seam; resume current source/root/start without baseline rerun, finish implementation/tool/tests and fixed serial validation. Preserve this blocker record while refreshing final snapshots.",
+  "reviewVerdict": null,
+  "deliveryReport": {
+    "path": "docs/system-design/2026-09-17/demo-cont-c-delivery.md",
+    "exists": true,
+    "bytes": 7275,
+    "sha256": "ad4820e39674e09113113933506eb045534c149e171eae9ad31031abe4c171bb",
+    "physicalLines": 74
+  },
+  "selfSha256": "Bound only by formal final; not embedded in itself.",
+  "authoringChecks": [
+    {
+      "result": "corrected-before-any-write",
+      "detail": "Initial packet extraction matched the inline end-marker mention; assertion aborted before writes. Corrected to the standalone newline-prefixed frozen end marker and matched 11217 bytes/SHA."
+    },
+    {
+      "result": "corrected-before-execution",
+      "detail": "One tool orchestration syntax error occurred before any shell/file operation."
+    },
+    {
+      "result": "coordination-exception-recorded",
+      "detail": "Final metadata comparison observed a concurrent session-plan.md update. Refreshed coordination before/after attribution; source/evidence remained unchanged."
+    }
+  ]
+}

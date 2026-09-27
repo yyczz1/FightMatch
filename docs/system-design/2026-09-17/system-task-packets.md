@@ -7297,3 +7297,11 @@ C仅另新写 `docs/system-design/2026-09-17/demo-cont-c-delivery.md`（≤300�
 先用一个提交记录与已接收起点相符的代码和工程/设计资料，排除当前3份未编译草稿与2份BLOCKED交接报告；随后用独立WIP提交保全这5份文件和准确交接状态。WIP不是可运行Demo或独立ACCEPT。不改写旧历史，不创建第二套产品；现有历史完整保留在同一master。生成本地Git bundle并验证可读性与导出字节，不因版本整理运行Unity或重跑旧测试。Mac实机导入/编译/Player尚未验证，既有验证脚本固定Windows工程和Editor路径，迁移后须另签平台适配，不能声称已经跨平台验证。
 
 完整TestArtifacts及Library_backup留在原机且不删除、不加入Git；Git包不是全机备份。当前正式报告、证据路径/哈希保留于受版本管理的docs；缺少原始证据时不得在Mac假称重新核验过。当前交接证据可另以精确manifest副本随包携带，历史大目录需要时另行迁移，不递归收集进源码仓库。
+
+## 372. Git迁移基线已建与WIP边界
+
+本地基线commit `ce21901b7b5b42bfef7ef34eb4f46155ddbf9353`（chore: checkpoint FightMatch reviewed code for Mac migration）已建立于原master，保留全部既有历史。入库1356个项目文件逐一核Git blob与当前工作区原字节一致；完整树另保留此前已跟踪的旧.claude/settings.local.json，不包含该文件当前用户修改。806个Assets及425个meta、776项旧实现与已接收CONT-B-CODE-C1入口长度/SHA全部相符；未重跑3872绿基线，未验证Mac。
+
+本次3个CONT-C草稿与2份BLOCKED报告从基线排除，将单独纳入后续WIP提交。WIP包含有意保全的未编译源码（缺Recovery partial/Act等）且暂无对应新meta；克隆最新WIP不能宣称直接可编译。仅需要此前核验过的代码状态时，可在新克隆目录检出上述基线commit；继续导航实施则在含WIP的master沿原任务补完。两者为同一产品的版本，不是另造Demo/Android实现。
+
+迁移验证只检查Git对象/文件清单/字节与可导出性。补充忽略UserSettings_backup以保留本机设置备份；该目录不删。当前C仍停改，下一步技术补签尚未派发。

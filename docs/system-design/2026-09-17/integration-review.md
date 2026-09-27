@@ -2124,3 +2124,9 @@ SD00直接另签§367精确实施包与唯一工具累计230例外，C仅原任�
 当前C准确turn `01a0e382-ea66-76f3-a0a0-7be71598b4cd` 于2026-09-27T16:15:30.207Z自然completed/正式BLOCKED并停改；两份交接与root/manifest身份登记§370，SD00核21项manifest长度/SHA全部相符。3份未编译草稿、未用8槽、30项实施NOT VERIFIED如实保留；没有新的独立代码ACCEPT，也没有新的Unity或许可错误结论。
 
 用户指定的版本管理优先执行§371：代码基线与WIP分别记录，所有现有产品文件保留字节，历史证据不删。Git提交或bundle可恢复性检查仅证明版本/迁移实物，不代替产品代码审查、编译、Mac/Android/Player验证；34/31/3/51及其余NOT VERIFIED保持。
+
+## 149. 迁移基线字节核验
+
+基线commit `ce21901b7b5b42bfef7ef34eb4f46155ddbf9353` 已记录：1356个计划文件的Git blob与工作区原字节逐项一致；C前置776实现和806Assets、425meta保持既有验收身份。原暂存区为空；本机.claude/settings.local.json用户变更始终排除。Git旧换行规范化对象中SampleScene.unity和CLAUDE.md已仅在索引重读原字节，工作区内容未改。
+
+后续独立WIP提交保存3份已知未编译草稿和2份阻塞报告，不能把该提交或Git完整性校验当成CONT-C独立ACCEPT。当前仍没有新Unity验证；Mac与完整Demo边界保持，技术补签待版本交接完成后继续。

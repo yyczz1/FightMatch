@@ -1733,3 +1733,13 @@ C准确turn `01a0e36f-c41b-7dd2-8c61-bc702a903506` 于2026-09-27T15:24:12.983Z�
 准确C turn于2026-09-27T16:15:30.207Z正式BLOCKED/completed，实施交接见任务包§370。3份未编译导航草稿保留；30项实施未完成，无新Unity验证，旧3872绿基线未重跑。恢复接口最小补签由SD00继续处理，当前无新用户裁决；先落实用户授权的版本管理。
 
 按§371补Git忽略与保留字节规则，先记录已接收代码基线，再单独WIP提交草稿和BLOCKED报告；沿现有master保留历史，生成可携带的本地bundle。用户本机.claude/settings.local.json保持未提交；历史测试大目录/缓存保留原机，不混入源码版本。Mac仍使用ProjectVersion.txt指定的2022.3.18f1；Mac导入/编译及现有Windows验证工具适配尚未完成，不将迁移快照标成Demo验收。
+
+## 155. Mac迁移使用说明与恢复入口
+
+已记录代码基线 `ce21901b7b5b42bfef7ef34eb4f46155ddbf9353`，其806 Assets/425 meta及776旧实现与既有验收证据相符。当前CONT-C的3份未编译草稿和BLOCKED报告另作WIP提交保全；最新WIP不是可运行Demo。正式余项仍CONT-C→028→029，内容/代码继续与Android共用。
+
+本地迁移输出位于 `output/migration/2026-09-28/`。完成bundle校验后，把该目录中的Git bundle和交接证据包复制到Mac；可在Mac终端以 `git clone -b master /实际路径/FightMatch-2026-09-28.bundle FightMatch` 恢复同一仓库。该clone的origin会指向本地bundle，确认使用既有远程时执行 `git remote set-url origin https://github.com/yyczz1/FightMatch.git`；当前没有上传远程。需要只查看此前已验证代码时，在新克隆中 `git switch --detach ce21901b7b5b42bfef7ef34eb4f46155ddbf9353`，继续WIP回 `git switch master`。这些是迁移操作说明，本机未替Mac执行。
+
+Mac端按ProjectSettings/ProjectVersion.txt使用Unity 2022.3.18f1，重新生成本机Library；不迁移Windows Library/Temp/UserSettings或许可证。当前Tools/Invoke-FM025P2Validation.ps1固有D:/工程与Editor路径，不能直接当作Mac验证命令；其平台适配须另签精确范围，且仍复用已有绿测，不能为迁移反复跑旧全量。已有PlayerSave不在本仓库交接范围，不会被Git操作覆盖。
+
+Git包包含代码、资源/meta、包清单、工程配置、设计/任务/交接资料与提交历史。原TestArtifacts/ExternalWork/生成物保留Windows原位置；随附当前CONT-C阻塞和CONT-B-CODE-C1证据副本只支持对应实物追溯，不代完整历史证据归档。Mac导入/编译/Android构建及设备验收仍NOT VERIFIED。
