@@ -3,12 +3,18 @@
 This file is the authoritative entry point for AI-assisted work in this repository.
 Detailed procedures and reusable templates live under [`.agent/`](.agent/README.md).
 
+**New chats, device migration, and resumed FightMatch work:** read
+[`START_HERE.md`](START_HERE.md) before choosing the next task. It identifies the
+current delivery, approved decisions, role context, and remaining work without
+requiring the original Windows chat history. Reading it does not itself authorize
+resuming paused work or creating new chats; use the user's actual request.
+
 ## 1. Repository context
 
 - Project type: Unity project.
 - Unity version: `2022.3.18f1`.
-- Current repository content is minimal: one sample scene and approved Flow Puzzle design/implementation documents.
-- Unity Test Framework `1.1.33` is present through package dependencies, but no project test assembly exists yet.
+- The repository contains FlowPuzzle and FightMatch source, assembly definitions, EditMode tests, and design/delivery records. Current acceptance and unfinished WIP are indexed in `START_HERE.md`.
+- Unity Test Framework `1.1.33` is present through package dependencies; project test assemblies exist under `Assets/Tests/EditMode/`.
 - There is currently no verified CI, lint command, or Player build script.
 - Git is initialized on `master` with remote `origin`; do not commit, push, create branches, or create worktrees unless the user authorizes that action.
 - `CLAUDE.md` contains existing Claude-specific architecture guidance and must be read when work is performed through Claude/Claude Code.
@@ -23,7 +29,11 @@ Detailed procedures and reusable templates live under [`.agent/`](.agent/README.
 
 Read [`.agent/PROJECT_CONTEXT.md`](.agent/PROJECT_CONTEXT.md) before planning or changing code.
 
-## 2. Current commands
+## 2. Windows command reference
+
+These are Windows reference commands, not Mac commands or permission to rerun
+accepted validation. Current task packets specify the permitted validation tool,
+evidence paths, and sequence. Read `START_HERE.md` before adapting them on Mac.
 
 Set the Unity executable for this machine:
 
@@ -37,7 +47,7 @@ Open the project:
 & $env:UNITY_EXE -projectPath 'D:\Unity\UnityProj\FightMatch'
 ```
 
-Compile/import check after source files exist:
+Compile/import reference:
 
 ```powershell
 & $env:UNITY_EXE -batchmode -nographics -quit `
@@ -45,7 +55,7 @@ Compile/import check after source files exist:
   -logFile 'D:\Unity\UnityProj\FightMatch\Logs\AICompile.log'
 ```
 
-EditMode tests after a project test assembly exists:
+EditMode test reference:
 
 ```powershell
 & $env:UNITY_EXE -batchmode -nographics `
@@ -125,6 +135,14 @@ If two instructions conflict, stop and report the conflict. Do not silently choo
 See [`.agent/CODING_RULES.md`](.agent/CODING_RULES.md) for detailed rules.
 
 ## 6. Codex responsibilities
+
+The current FightMatch workflow divides responsibility between SD00 (design,
+dispatch, and receipt), C (implementation and serial Unity validation), and R
+(independent review), as recorded in `START_HERE.md` and the signed task packets.
+SD00 does not write product code, execute Unity, or replace R's code review.
+The user-authorized C/R coordination is distinct from the external DeepSeek
+manual-transfer workflow below. Create or message replacement chats only when
+the user has actually authorized that coordination, and record their identities.
 
 Codex acts as project analyst, planner, architect, task splitter, and reviewer.
 

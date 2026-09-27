@@ -2,6 +2,10 @@
 
 本次保存同一 FightMatch 项目的最新开发进度。Windows 开发已停止，迁移后等待用户明确恢复。Demo 与 Android 共用项目、代码和产品流程；Demo 尚未完成。
 
+**没有旧会话时，先读根目录 [START_HERE.md](../../../START_HERE.md)。** 其中提供系统设计、架构、策划三个接续入口，以及可直接发给 Mac 新会话的完整启动消息。代码迁移快照 `4be170fd65051eeac5a523817f534e725526c4c6` 已推到既有 GitHub；本次追加上下文不要求重新克隆，已有仓库正常 pull 即可获取。
+
+本次另补回内容策划工作树中的21份原文/CSV，[来源索引](content-source-index.json)列出路径与SHA；[会话回执摘录](conversation-receipts.json)保留三条选定正式最终答复及其历史解释。这是可移植的项目上下文，不是导入 Codex 原生聊天记录。历史候选、待答和旧设备路径以根入口说明及后续实际登记为准。
+
 ## 获取项目
 
 - 远程：`origin`，GitHub 仓库 `https://github.com/yyczz1/FightMatch.git`

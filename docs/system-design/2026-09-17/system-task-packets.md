@@ -1,6 +1,6 @@
 # FightMatch · 下一批独立系统设计任务包
 
-2026-09-28 · r194 · **SD00只做设计、分发与收件。** 当前C已正式STOPPED_FOR_DEVICE_MIGRATION，C/R均已停改；§376～377冻结产品推进，只按用户最新授权完成GitHub版本迁移。34功能／31接收／余3（CONT-C、028、029）／51正向交付，完整Demo未完成。用户当前权限改动不提交；五分钟自动任务保持取消。迁移后等待用户明确恢复。
+2026-09-28 · r195 · **SD00只做设计、分发与收件。** 产品停改见§376～377，代码迁移快照4be170fd已推GitHub。§378补可移植上下文与遗漏策划材料，入口为根START_HERE.md；不恢复Windows产品开发。34功能／31接收／余3（CONT-C、028、029）／51正向交付，完整Demo未完成。本机权限修改不提交；五分钟自动任务保持取消。Mac收到用户明确恢复后接续。
 
 ## 1. 所有包共用的执行约束
 
@@ -7393,3 +7393,15 @@ SD00已向原C下达立即停止后续功能和Unity执行、仅封存当前真�
 本次迁移提交保存5项源码WIP、2份停改报告及三协调稿，并新增 `docs/migration/2026-09-28/README.md`、`evidence-index.json`、`continuation-evidence.zip`。zip为3499065 bytes／SHA256 `3f984a8cffacbe7a3f7f5040dc0225af36363634c3165f4fc684c7be34062808`，126个条目的长度/SHA全符，覆盖当前28＋原CONT-C22＋CONT-B-CODE-C1的76个实物。此迁移文档/证据保存属于用户新增版本管理授权，不放开SD00产品代码/Unity边界。
 
 提交后按用户授权执行正常git push origin master并核远程SHA与本地一致；只有实际成功才向用户宣告可从GitHub获取最新版本。最终SHA/推送核验回执随交付给用户并另存在忽略的output/migration/2026-09-28，避免把预期操作写成已完成。主恢复方式改为GitHub clone/pull，旧bundle只对应旧时点；完整最新bundle作为额外本地备份。迁移后须由用户明确恢复开发。
+
+## 378. Mac新会话的项目上下文补齐
+
+用户发现换到Mac后无法依靠原系统设计、架构、策划会话接续。本次按迁移上下文请求增加根 `START_HERE.md`，在 `docs/migration/2026-09-28/` 增加 SYSTEM_DESIGN_CONTEXT.md、ARCHITECTURE_CONTEXT.md、PLANNING_CONTEXT.md、conversation-receipts.json、content-source-index.json；AGENTS.md 与 .agent/PROJECT_CONTEXT.md 修正“无代码/测试”的过期描述并接入根入口，原迁移README增加使用路径。此文档范围属于用户当前迁移请求，不放开SD00产品实现或Unity权限。
+
+原代码迁移已实际提交/推送：master与GitHub origin/master均为 `4be170fd65051eeac5a523817f534e725526c4c6`，正常快进，无强推；上轮从GitHub独立克隆验证1367个项目文件原字节及Git对象完整性，回执在忽略的 output/migration/2026-09-28/final-github-migration-verification.json。当前用户可以先pull这版；上下文补充另作纯文档提交并正常推送，实际新commit与远程核验随最终交付，不在本节预写成功。
+
+只读核原“Review architecture discussion”“规划游戏后续开发”“FightMatch 内容策划与数值关卡设计”选定completed回合，保存公开正式final及准确ID/时间，不导出隐藏推理、工具输出、原生会话库或凭据。从 `C:/Users/YYC/.codex/worktrees/9db2/FightMatch` 原字节补回21份遗漏策划文档/CSV，总467739 bytes，完整路径/长度/SHA在content-source-index.json。旧广告回复16962 bytes／SHA256 `b5dccc7a2a90d428f906547cc6f2298d99099d3282942d66b63d7da1782d82d5`与原签收一致；旧待答/候选及绝对链接保留历史，后续主稿与实际接收优先。补齐资料不增加功能、不发布内容、不重复接收。
+
+根入口保留§271～272同一Android产品/少量内容的决定、CONT-C-RCV1的5文件未编译WIP、冻结§367/§374、C/R准确完成门、旧3872复用及源码固定后必要全量、CONT-C→028→029和原NOT VERIFIED边界。用户旧§269问题已经批准，不重问。Mac工具/路径与实际执行者映射仍须在用户恢复后精确补签；历史C/R ID仅溯源，不能假装可跨设备调用。入口给用户可发送的恢复消息，只有其实际发送才构成在Mac创建替代C/R及持续分发的授权。
+
+本次Windows继续停改，不派发/重启C/R、不运行Unity、不新增产品ACCEPT、不恢复五分钟自动任务/主动轮询。产品源、资源/meta、Packages/ProjectSettings、冻结包和既有报告/126项证据保持原字节；本机.claude/settings.local.json当前用户修改继续排除。只验证文档入口、来源身份和Git迁移交付；完成后用户在同一仓库pull即可，不要求重新克隆。

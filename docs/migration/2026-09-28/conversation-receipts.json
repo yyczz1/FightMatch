@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "capturedFor": "2026-09-28 Mac project context handoff",
+  "source": "Codex read_thread: selected completed-turn public final answers from original accessible threads",
+  "notIncluded": [
+    "hidden reasoning",
+    "tool outputs",
+    "native session database",
+    "credentials",
+    "complete chat history"
+  ],
+  "authority": "Historical provenance only. Later explicit user decisions and actual registered task/acceptance records take precedence.",
+  "receipts": [
+    {
+      "threadTitle": "Review architecture discussion",
+      "threadId": "01a0a020-2283-7580-abf1-fc3c9e4ef08e",
+      "turnId": "01a0ad90-45eb-7e33-9596-53934e8f94be",
+      "status": "completed",
+      "completedAtUtc": "2026-09-17T04:19:32.000Z",
+      "scope": "Selected public final answer only; historical source, not a current instruction.",
+      "finalAnswer": "确定：**进行中的战斗不做跨设备同步。**\n\n设计按这个范围推进：\n\n- 原设备保留本机存档，可以继续战斗。\n- 换设备接续已同步的局外进度，不接续原来那场战斗。\n- 广告权益仍按之前确认的规则保留。\n\n已写入[架构交接记录](D:/Unity/UnityProj/FightMatch/docs/handoffs/2026-09-17-system-design.md)，并直接通知统一系统设计任务按此继续。",
+      "currentInterpretation": "The no-cross-device-sync decision for an ongoing battle remains recorded. Read later SD00 contracts for exact platform/save behavior."
+    },
+    {
+      "threadTitle": "FightMatch 内容策划与数值关卡设计",
+      "threadId": "01a0a3e3-396f-70f3-97a0-b2eae0b8e831",
+      "turnId": "01a0aa49-d9b6-7033-8e70-7241d3ec2206",
+      "status": "completed",
+      "completedAtUtc": "2026-09-16T13:02:24.000Z",
+      "scope": "Selected public final answer only; historical source, not a current instruction.",
+      "finalAnswer": "已读取第 6～7 节并完成核对，实际回复已写入：\n\n[广告权益最新决定同步回复](C:/Users/YYC/.codex/worktrees/9db2/FightMatch/docs/game-design/2026-09-16-ad-entitlements-decision-sync-reply.md)\n\n本次同步的关键结果：\n\n- **R01：** 正常使用仍算已用；回退或重来撤销对应使用时，恢复原机会一次。退出不清除未用机会。\n- **R03：** 未用通关机会不会因原关已通关而失效，可以在**原关后续合法尝试，包括新挑战**中手动使用；不重复发放旧尝试奖励。\n- **R02：** 内容与架构对原入场状态重来的解释一致，主策划实际归档仍待完成。\n\n已更新原 **35 个场景**的预期，并在旧回复和内容交接中加入最新状态说明。原 R01／R03 二选一不再待答；在线攻略的交付与续用细节单独保留待讨论。\n\n文档检查通过。本轮未修改正式主稿、配表或实现；新回复仍待 SD00 实际读取签收。",
+      "currentInterpretation": "The pending R02/main-planner receipt and unreceived status described here are historical. Later primary reply H, planning-review-receipt, and integration-review section 19 record closure."
+    },
+    {
+      "threadTitle": "规划游戏后续开发",
+      "threadId": "01a09ee3-77ec-70a0-8c80-7ec5a8cffb79",
+      "turnId": "01a0b9b1-d2de-7103-94d0-aec8e93fbb85",
+      "status": "completed",
+      "completedAtUtc": "2026-09-19T12:45:13.000Z",
+      "scope": "Selected public final answer only; historical source, not a current instruction.",
+      "finalAnswer": "当前任务 **「规划游戏后续开发」负责策划案、内容配置和数值校准**。最近几轮是在核对它与系统设计的交接，阶段说明确实有些混乱。\n\n**现在已切换到「FightMatch 统一系统设计」**，接续说明已发送，并确认该任务开始执行。它会继续收束系统接口、状态交接和共同流程。\n\n这里保留为后续策划与校准的接收方；你接下来直接在「FightMatch 统一系统设计」继续即可，无需复制消息或新开任务。",
+      "currentInterpretation": "This records the handoff from primary planning to SD00. The old thread navigation is not a command to open or resume a Windows thread on Mac."
+    }
+  ]
+}
