@@ -67,7 +67,7 @@ namespace FightMatch.Core.Tests
             var root = NewCase();
             if (existingDirectory)
             {
-                var storage = new WindowsEditorSaveStorage(root, "player:015b", SavePurpose.CandidateValidation);
+                var storage = CreateStorage(root, "player:015b", SavePurpose.CandidateValidation);
                 using (LocalSaveTestFiles.Open(storage)) { }
             }
             using (var r = new ApplicationRuntimeRig(root))
@@ -500,7 +500,7 @@ namespace FightMatch.Core.Tests
                 r.Storage.AfterMarkerEnumeration = null;
                 // Build a later real M12 commit in an independent test directory, then
                 // inject its pair as external disk advancement while this runtime resolves.
-                var other = new WindowsEditorSaveStorage(NewCase(), "player:015b", SavePurpose.CandidateValidation);
+                var other = CreateStorage(NewCase(), "player:015b", SavePurpose.CandidateValidation);
                 SaveCommittedReference latest;
                 using (var writer = LocalSaveTestFiles.Open(other))
                 {

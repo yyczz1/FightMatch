@@ -46,7 +46,7 @@ namespace FightMatch.Application
             if (action == PlayerNavigationAction.Return) return operation.HasVerifiedResult ? null : "ResultRequired";
             if (action == PlayerNavigationAction.SelectOriginalOperation)
                 return selectedOperation != null && read.Application.IsPublishedHeadVerified ? null : "OperationSelectionRequired";
-            if (action == PlayerNavigationAction.End) return endConfirmation ? EndReason() : "EndConfirmationRequired";
+            if (action == PlayerNavigationAction.End) return player.CreationPending ? "CreationPending" : endConfirmation ? EndReason() : "EndConfirmationRequired";
             if (action == PlayerNavigationAction.Confirm)
                 return endConfirmation ? "EndConfirmationRequired" : operation.Intent != null ? null :
                     frozenContext == null ? "PreviewRequired" : GateReason();
@@ -71,7 +71,10 @@ namespace FightMatch.Application
             { level = levelVersion = null; anchor = PlayerNavigationRoute.MapAdventure; }
             if (anchor == PlayerNavigationRoute.Preparation && level != null) parents.Add(PlayerNavigationRoute.MapAdventure);
             else if (anchor == PlayerNavigationRoute.Preparation) anchor = PlayerNavigationRoute.MapAdventure;
+            else if (anchor == PlayerNavigationRoute.Team)
+            { parents.Add(PlayerNavigationRoute.MapAdventure); if (level != null) parents.Add(PlayerNavigationRoute.Preparation); }
             route = anchor;
+            if (route == PlayerNavigationRoute.Team) anchor = level == null ? PlayerNavigationRoute.MapAdventure : PlayerNavigationRoute.Preparation;
         }
         private void LeaveUnconfirmed(bool cancel)
         {
@@ -83,9 +86,14 @@ namespace FightMatch.Application
                 var confirmationPage = route == PlayerNavigationRoute.Confirmation;
                 ClearDraft(); operation.Clear();
                 if (cancel) ReturnToAnchor();
-                else if (confirmationPage) route = PlayerNavigationRoute.Detail;
+                else if (confirmationPage) route = draftPage;
                 else if (parents.Count != 0)
-                { route = parents[parents.Count - 1]; parents.RemoveAt(parents.Count - 1); }
+                {
+                    route = parents[parents.Count - 1]; parents.RemoveAt(parents.Count - 1);
+                    if (route == PlayerNavigationRoute.MapAdventure) { level = levelVersion = null; anchor = route; }
+                    else if (route == PlayerNavigationRoute.Team || route == PlayerNavigationRoute.Preparation)
+                        anchor = level == null ? PlayerNavigationRoute.MapAdventure : PlayerNavigationRoute.Preparation;
+                }
                 else if (GateReason() == null) RequestHost(PlayerNavigationTargetKind.RootBackRequested);
             }
             revision++;
@@ -114,6 +122,7 @@ namespace FightMatch.Application
             { LeaveUnconfirmed(action == PlayerNavigationAction.Cancel); return Query(budget.Codec); }
             if (action == PlayerNavigationAction.Return)
             {
+                lastResult = result;
                 ClearDraft(); operation.Clear(); diagnostic = null; status = null; selectedOperation = null;
                 route = PlayerNavigationRoute.ReturnRevalidate; ReturnToAnchor(); revision++; return Query(budget.Codec);
             }

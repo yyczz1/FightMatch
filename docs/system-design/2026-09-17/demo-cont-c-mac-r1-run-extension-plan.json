@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "id": "CONT-C-MAC-R1-RUN-EXT1",
+  "status": "APPROVED_AFTER_RUN008_TERMINAL",
+  "authoritySection": 417,
+  "stageId": "CONT-C-MAC-R1",
+  "projectRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "evidenceRoot": "TestArtifacts/FMDemoCONT/cont-c-mac-r1",
+  "authorTaskId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+  "originalAuthorTurnId": "01a0e410-3e6f-7400-b58c-34cebde8d28c",
+  "currentResumedTurnId": "01a0e63c-ec16-7551-b71c-dee6bd67c93e",
+  "rootIdentity": {
+    "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1/root-identity.json",
+    "bytes": 17532,
+    "sha256": "b4dc15b859685ddac2b13255c8d8254685103708727ba3298cc8378fcd9999e5"
+  },
+  "preExtensionTool": {
+    "path": "Tools/Invoke-FM025P2Validation.ps1",
+    "bytes": 33103,
+    "sha256": "69fb007f3ae2f9bdef5eea6087ce2831ef125deae0de8c58ba834f2e78a84a01",
+    "physicalLines": 389
+  },
+  "toolChangeBudget": {
+    "addedPlusDeletedLinesMax": 80,
+    "finalPhysicalLinesMax": 449
+  },
+  "newRunModes": {
+    "009": "Compile",
+    "010": "Tests"
+  },
+  "maximumRunNumber": 10,
+  "originalAllowedEvidencePathCount": 156,
+  "addedAllowedEvidencePaths": [
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/009/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/tests.xml"
+  ],
+  "effectiveAllowedEvidencePathCount": 180,
+  "effectiveManifestMaxRowsExcludingSelf": 179,
+  "constraints": [
+    "Do not modify source, tool or DLLs while run008 is live.",
+    "Require the actual run008 terminal and wrapper exit before applying this extension.",
+    "Keep original root identity and all historical runs byte-for-byte.",
+    "Do not add product files, dependencies or settings under this extension.",
+    "Authorize only original CONT-C navigation-scope repairs separately confirmed by SD00.",
+    "Use the sole validation tool and exact external PowerShell and Unity already approved.",
+    "Keep same-version Compile to Tests, full unfiltered EditMode without quit, process safety and no-overwrite run evidence.",
+    "Preserve the original 156-path root list; effective evidence membership is its union with the exact 24 added paths.",
+    "Preserve pre-extension tool text and identity in the existing scope audit before editing.",
+    "Keep historical source and input restoration evidence; do not repeat unrelated restoration."
+  ]
+}

@@ -1,6 +1,6 @@
 # FightMatch · 下一批独立系统设计任务包
 
-2026-09-28 · r195 · **SD00只做设计、分发与收件。** 产品停改见§376～377，代码迁移快照4be170fd已推GitHub。§378补可移植上下文与遗漏策划材料，入口为根START_HERE.md；不恢复Windows产品开发。34功能／31接收／余3（CONT-C、028、029）／51正向交付，完整Demo未完成。本机权限修改不提交；五分钟自动任务保持取消。Mac收到用户明确恢复后接续。
+2026-09-28 · r225 · **SD00只做设计、分发与收件。** 安卓APK首Demo目标尚未完成；用户要求本次提交推送后暂停以重启电脑。CONT-C-MAC-R1已完成C正式交付及R独立ACCEPT（§430～431）：最终013编译/015完整EditMode为3956/3956通过，0失败/跳过；历史异常和失败保留，不追加无关测试。当前仅完成本接收单元提交/推送；明确恢复后再028→029，现不派发；真实APK、iQOO Neo5与BlueStacks流程/冷启动尚未验收。34功能／32接收／余2／52正向交付；这不是可玩完成率。C/R沿已授权替代会话，Unity仍由C串行，五分钟自动任务保持取消，本机权限/缓存/凭据/真实玩家存档不提交。
 
 ## 1. 所有包共用的执行约束
 
@@ -7405,3 +7405,769 @@ SD00已向原C下达立即停止后续功能和Unity执行、仅封存当前真�
 根入口保留§271～272同一Android产品/少量内容的决定、CONT-C-RCV1的5文件未编译WIP、冻结§367/§374、C/R准确完成门、旧3872复用及源码固定后必要全量、CONT-C→028→029和原NOT VERIFIED边界。用户旧§269问题已经批准，不重问。Mac工具/路径与实际执行者映射仍须在用户恢复后精确补签；历史C/R ID仅溯源，不能假装可跨设备调用。入口给用户可发送的恢复消息，只有其实际发送才构成在Mac创建替代C/R及持续分发的授权。
 
 本次Windows继续停改，不派发/重启C/R、不运行Unity、不新增产品ACCEPT、不恢复五分钟自动任务/主动轮询。产品源、资源/meta、Packages/ProjectSettings、冻结包和既有报告/126项证据保持原字节；本机.claude/settings.local.json当前用户修改继续排除。只验证文档入口、来源身份和Git迁移交付；完成后用户在同一仓库pull即可，不要求重新克隆。
+
+
+## 379. Mac明确恢复、Goal与替代C/R映射
+
+2026-09-28用户在当前Mac明确授权恢复START_HERE第4节，以SD00持续协调CONT-C→028→029至首Demo既定验收；沿同一Android产品代码/规则/存档/正式流程，完成后止，不恢复五分钟任务。用户授权替代C/R、持续派发/接回、独立接收后正常提交推送；不强推或改写历史。Goal已实际创建为active，目标绑定可运行Demo、规定实际验收、独立结果、启动试玩说明及正常推送，未预称完成。
+
+| 角色 | 新host / thread | 首准备turn | 旧来源 |
+| --- | --- | --- | --- |
+| SD00 | local / 01a0e401-511d-79f2-b47f-3ab0ade1681b | 01a0e401-95c0-7512-88f1-bc07adb5dd6a | 01a0ad71-fdc6-7811-a60d-b908d5111b5e |
+| C | local / 01a0e404-d89d-7ab2-bece-3cd1df3fbc52 | 01a0e404-d981-75b3-bd06-4baaa3d2373b | 01a0c403-bfa1-7e90-b503-c0fcd61f23c1 |
+| R | local / 01a0e404-e8ee-7310-8388-9260babd53f1 | 01a0e404-e9d4-7ce2-99e9-48895130b0d3 | 01a0c1cd-dce1-7ac3-8780-06163cb0acfc |
+
+两个替代会话均已实际以gpt-6-astra/max创建在当前FightMatch local工程；不另建代理/会话。C首轮只读核环境/工具适配和WIP，R首轮只读恢复审查门，不是实施或代码ACCEPT。SD00用wait_threads的完成等待和准确turn接回；不凭文件出现判完成。本条不把准备回合当实施回合，精确Mac执行补签与实施身份另记。
+
+开始时master HEAD=adaffdc4d7e8329fb4e8ee663ed8918c78ad8f0c，工作区干净。git pull --ff-only origin master实际因GitHub443连接超时失败；本地WIP保全，网络衔接继续处理，不宣称远程已核。continuation-evidence.zip已核3499065 bytes/3f984a8cffacbe7a3f7f5040dc0225af36363634c3165f4fc684c7be34062808，并按evidence-index逐项恢复126文件，全部长度/SHA相符。§367/§374冻结哈希及C1设计/范围/review、RCV1停改两报告身份再次核符。
+
+准备期间外部导入新出现Packages/manifest.json和packages-lock.json的macos-x86_64-linux-x86_64 2.0.11条目及4份PlayerNavigation自然meta；非SD00操作，先保全、只读核来源，不擅自回退或纳入实现验收。实现继续前签精确平台工具/路径/新根补充。SD00不写产品代码、不运行Unity、不代R审查。当前34功能/31接收/余3/51正向交付保持。
+
+
+## 380. CONT-C-MAC-R1：Mac工具适配与同源导航续接
+
+状态：APPROVED_FOR_IMPLEMENTATION。依据用户本轮明确恢复和持续完成首Demo的授权，继承冻结§367/§374与已ACCEPT的CONT-C设计C1，以下仅补Mac执行环境、身份/证据及精确工具范围。原冻结正文、原失败/停改记录不改写。执行C=local/01a0e404-d89d-7ab2-bece-3cd1df3fbc52，R=local/01a0e404-e8ee-7310-8388-9260babd53f1，均gpt-6-astra/max；不得新增会话/代理。SD00负责设计、分发、证据收件和独立接收后的Git，C唯一写产品并串行Unity，R只读独立审查。
+
+### 380.1 起点、授权和保护
+
+当前master=adaffdc4d7e8329fb4e8ee663ed8918c78ad8f0c。SD00经系统既有HTTP代理127.0.0.1:7897执行仅本命令的git -c http.proxy=... pull --ff-only origin master成功，结果Already up to date；未改Git/系统网络配置。起点仍包含5项未验证WIP，与原RCV1快照逐字节一致，不丢弃或称已验收。C准备turn 01a0e404-d981-75b3-bd06-4baaa3d2373b已completed/error=null并交formal只读准备；本包实施用新准确turn，外部登记，不复用准备身份。
+
+规范：§367 SHA9b98b275f4066726466df278c683aebecf2cfb073420499533b96cae5533713b；§374 SHA17c60d6f6f8e082681eef8f7704915f98560ccd49058fb573cebe5f604e90dde；C1设计ca8d9d1a50ed2590cf09de69368642e7d900e6374b37324820dc02b4af30d182、scope dd9a2557dff4db1bb652877f1f643201d1515c311f9f62ca106abf85f20d6cb7、review fea59bcacbab27b9f8bebfaacce9367c4bf7db85da8236128f486e001b29a04f。§271～272共同流程、全部CC01～CC30和§374恢复附加验收完整继承。
+
+新增只读上下文为AGENTS/START_HERE/.agent当前规则、docs/migration/2026-09-28四入口及evidence-index/continuation-evidence.zip/conversation-receipts/content-source-index、§379及本节、原RCV1停改两报告和恢复126份证据。三SD00协调稿、START_HERE及PROJECT_CONTEXT的当次状态更新按独立写者前后身份单列。不能机械给原有限输入总数加若干便宣称导出齐全；新身份与历史来源各列实际路径/存在性/长度/SHA。
+
+外部Editor已自然生成Models/Query/Session/Recovery四个.cs.meta，属于原13meta白名单；保留当前GUID/原字节，不重新生成或手写。当前实际784实现/814Assets/429GUID，终态仍802/832/438；36 DLL/PDB按同一相对路径记录Mac实际字节，起点尚缺者记exists=false，不能伪称与Windows DLL相同。
+
+外部UPM新增的精确平台条目在本补签中作为Mac工具环境输入保留：Packages/manifest.json仅新增com.unity.toolchain.macos-x86_64-linux-x86_64=2.0.11；packages-lock仅新增该同版本registry/depth0项，依赖既有sysroot2.0.10/linux-x86_64 2.0.9，不改其他条目。本次允许这两项准确既存差异进入独立平台范围审查，C不得再编辑或升级任何依赖。当前manifest=1775 bytes/8b35703a20ded99f05e847753312b1014a9a0666cc9e2c641ef87979d1596baf；lock=11101 bytes/25367af624aad0b94d396484422db4e74d19844da974598da51398a89ab356c0。日志仅证实添加请求，发起者未知，不归C作者；R核精确差异与实际平台用途，SD00仅在独立接收后记录版本，不静默夹入其他包变化。
+
+### 380.2 实现与工具精确白名单
+
+产品仅原§367表13cs/13自然meta，逐文件和总预算原样保持；原5项WIP继续完善，已观察PlayerNavigationSession.cs的CS0136在该白名单内修正。唯一原生产改动仍CandidateApplicationRuntime.cs的internal QueryResumedIntent，累计相对ce21901/原16629-byte起点只增≤24、删0、旧行不改；当前已增19行计入额度，不另加24。旧测试修改数0，不改Core/DTO/序列字段/持久协议、正式内容/场景/asmdef/ProjectSettings/用户权限/真实存档。普通Query不接管其他owner；真正丢弃旧request的ResumeObserved→再次SaveFailed/CommitUnknown→生产只读取原intent→原Resolve/Retry/End及所有拒绝门必须有见证。Craft实际Draft角色和报价角色均null的生产输入测试保持。
+
+唯一工具仍Tools/Invoke-FM025P2Validation.ps1，起点282行/23509 bytes/SHA503007904ba9cdbe29652c3e3defccdf6fb47fccd697e9c19815d00425e717e2；不用新验证脚本或旁路。为原CONT-C stage加Mac适配，本包明确将工具本轮新增+删除上限调整为144，最终≤390物理行，累计/绝对预算由原194起点调整为≤338。只允许下列必要变化，禁止以压缩行规避：
+
+- 新固定Stage=CONT-C-MAC-R1，仅Compile/Tests，根和身份按本节；既有Windows stage、固定命令和历史身份保持原行为。
+- Mac工程根固定/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch；Editor固定/Volumes/WD_BLACK_SN7100_2TB_Media/application/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity，版本2022.3.18f1，实际x86_64/Rosetta。禁止静默换Unity版本或目标产品。
+- 路径边界按实际目录分隔符/大小写规则检查，继续拒绝绝对/越界/空/.. /重解析或符号链接逃逸；保持SHA自检与根owner/本包冻结SHA/实际实施turn验证。
+- 移除Mac不支持的WindowStyle参数仅限Mac分支，参数安全传递、stdout/stderr、PID/start/end/实际exit/异常失败取证保持；不把进程句柄/日志存在当成功。
+- Mac进程检查必须真实可用；无权限或查询失败按预检拒绝，不能当无Editor。每次只有C启动一个Unity，任何同工程Editor占用则先安全处理，不强杀。Hub及许可证配置保持。
+- source/assets/GUID/36DLL路径按C1精确集合，保护首包和旧源码/具名测试；Windows DLL哈希只是历史参考。新增Mac输入、Package两项与历史未迁移路径的存在性独立报告；后者不能假称已核，也不能用缺失的无关历史证据强迫重跑旧测试。
+
+PowerShell运行时由SD00按Microsoft官方binary archive方式在/private/tmp/fightmatch-powershell-7.6.6准备；这是本机验证工具，不是项目依赖或Git内容。官方asset=70604356 bytes，SHA256 6df833d094ebac1c1a74340d7b3437f4aaf5e03ce640484a1c4359f3ce8b3db1；真正校验并成功读取版本后才用，运行路径单独登记。C使用其pwsh -NoLogo -NoProfile -NonInteractive -File后接原工具参数；不自行安装其他运行时或改系统安全设置。SD00可在临时目录下载/校验/解压此官方工具并只做版本/语法预检，不执行Unity。
+
+### 380.3 新证据根和报告
+
+唯一新运行根TestArtifacts/FMDemoCONT/cont-c-mac-r1。精确集合以原RCV1 scope.exactAllowedEvidencePaths 146条逐项只替换cont-c-rcv1前缀，再增以下10条为156条封闭路径（不改旧两根）：
+
+1. platform-environment.json。
+2. before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs.txt。
+3. before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs.meta.txt。
+4. before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationQuery.cs.meta.txt。
+5. before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs.meta.txt。
+6. before-text/Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs.meta.txt。
+7. before-text/Packages/manifest.json.txt。
+8. before-text/Packages/packages-lock.json.txt。
+9. after-text/Packages/manifest.json.txt。
+10. after-text/Packages/packages-lock.json.txt。
+
+以上相对新根；root实际≤156，manifest排除自身≤155，只列实际产物，不伪造未运行槽、结果、日志或XML。沿原001～008、每槽12叶，无覆盖和删除旧失败。平台环境叶记准确Mac/Unity/PowerShell/工具来源/进程与包变化及历史证据恢复事实。root-identity先绑定本包/§367/§374哈希、实际新C thread/turn、adaffdc4与已接收ce21901、C1三稿、RCV1停改两稿/根/manifest与5项WIP/4meta起点。before是当前Mac现场，原已接收起点另作对应，不把WIP视作已验收。
+
+C正式输出另新建docs/system-design/2026-09-17/demo-cont-c-mac-r1-delivery.md（≤300行）和demo-cont-c-mac-r1-code-scope.json（≤8388608 bytes）。R唯一新建同目录demo-cont-c-mac-r1-code-review.md（≤260行）。不覆盖原CONT-C/RCV1的BLOCKED或STOPPED报告。C交付逐项CC01～CC30/恢复附加验收、预算、scope、工具与平台差异、输入存在性、新旧测试名多重集合和NOT VERIFIED；只允许COMPLETED或准确BLOCKED，不能自签ACCEPT。
+
+### 380.4 验证顺序及完成门
+
+先完成全部源码/测试/工具，再做语法和静态范围核对、固定源码。原3872/3872（3867不同fullname）证据复用，不重复起跑旧基线。必要的只读PowerShell AST语法、路径与身份拒绝预检可先进行，并记platform-environment/scope；不借预检运行Unity或写任意物理玩家probe。
+
+C仅用上述唯一工具与新stage串行Compile→一次无filter完整EditMode，Tests无-quit。只有新失败/修复/源码变化才追加必要槽，旧测试不删改跳过；终态0fail/0skip、旧3872具名多重集合全保留、新例单列。每槽记录精确参数/PID/时间/exit/日志/XML/源码/Assets/工具/DLL；最终Compile后=Tests前=Tests后=交付，测试中不改被测源码。Mac初次导入允许Unity自然生成缓存与原白名单meta，C不手改缓存或生成工程文件；任何新受保护文件变化停止受影响步骤并报最小实际差异，不私扩范围。
+
+实现完成门=准确新C turn completed/error=null＋非异步formal COMPLETED＋两正式报告/root/manifest/实际验证。随后SD00立即将当前精确交付交R；独立门=准确新R turn completed＋唯一ACCEPT/NEEDS_FIX/REJECT＋正式报告身份。仅ACCEPT接收CONT-C并由SD00正常提交/推送，再028、029；NEEDS_FIX签更小纠正给现C/R。文件先出现/作者声明/旧测试/源码哈希不能代替完成门。用wait_threads等待事件并保留cursor，不恢复自动任务，不主动轮询未变状态，不等用户逐包催促。
+
+功能计数暂34/31/3/51。UI Toolkit回调和EditMode证明范围不越至物理鼠标/触控/像素、交互式PlayMode、Mac Player/Android、正式配方→PlayerSave整链、公开AwaitLinks或真实崩溃；这些在028/029按实际证据维护。首Demo验收须实际正式玩家入口、地图/队伍/背包→战斗→真实结算→返回/重打与关闭重开恢复，含可运行交付和启动试玩说明；不预称完整安卓版完成。
+
+本节从标题到以下独占结束标记按UTF-8无BOM、CRLF→LF、末尾恰一LF冻结，哈希及派发/完成登记另列。普通技术续接由SD00处理；只有真实产品决策或必须人工操作才在独立工作完成后集中向用户说明。
+<!-- CONT-C-MAC-R1-PACKET-END -->
+
+
+## 381. CONT-C-MAC-R1冻结派发与新增平台预检发现
+
+§380冻结10695 UTF-8/LF bytes，SHA256 7e472c5e1d554e8b15df50847e84aa3db993d43edec563d61ca10bae0ff34e71；156证据路径由原146精确增10可推导。已实际派发C，新准确实施turn=01a0e410-3e6f-7400-b58c-34cebde8d28c，startedAt=1790532664，inProgress/error=null，显式gpt-6-astra/max。C先源码/测试/工具和静态工作，PowerShell就绪及平台预检补签前不启动Unity。
+
+R准备turn 01a0e404-e9d4-7ce2-99e9-48895130b0d3已completed/error=null，formal审查就绪；确认126迁移证据及旧XML具名多重集合有效，并指出WindowsEditorSaveStorage拒绝非Windows、旧夹具和发布探针依赖Windows固定路径。原925输入有18项未迁移历史实物，不能宣称全部在场。这是平台实际技术缺口，不是新的产品方向待答；SD00继续只读核范围并签最小补充，C已获通知保留旧测试、禁止skip/删例/降低保证，不因等待此项停止独立源码工作。新平台改动尚未授权，不能以§380工具范围自动改Platform或旧测试。
+
+用户再次确认希望睡眠期间继续推进；未要求暂停。Goal保持active，按已授权C/R持续接回，不重开五分钟任务。Git代理仅本命令生效的pull已成功，HEAD仍adaffdc4。PowerShell官方下载遇到TLS连接失败，继续按官方来源处理，不关闭证书校验或改安全设置。
+
+
+## 382. Mac验证运行时已就绪与平台补签咨询身份
+
+PowerShell官方7.6.6 ARM64 binary archive按Microsoft安装文档 https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell-on-macos 及PowerShell官方GitHub v7.6.6 release获取。网络中断后续传，最终实物70604356 bytes/SHA256 6df833d094ebac1c1a74340d7b3437f4aaf5e03ce640484a1c4359f3ce8b3db1与官方asset digest一致，才解压613项至/private/tmp/fightmatch-powershell-7.6.6。未全局安装、不关闭证书校验、不改Gatekeeper/许可证/用户权限或系统代理。
+
+实际工具/private/tmp/fightmatch-powershell-7.6.6/pwsh，exe SHA256 86966ef5e53763c0d7cac9981b9b36c30245185dc347ca69ddfb815c665bf515。SD00仅运行版本/架构读取：POWERSHELL_TELEMETRY_OPTOUT=1配合-NoLogo -NoProfile -NonInteractive，返回7.6.6与Arm64、exit0。已通知C运行时就绪，可静态解析唯一PS1；未执行Unity，平台补签门仍保持。
+
+R平台补签咨询为准确turn 01a0e412-e8ff-7230-b43e-47afd8c79a32，startedAt=1790532839，gpt-6-astra/max；只读审最小平台I/O/旧夹具/缺失输入方案，不实施或提前给在写源码ACCEPT。初步发现三项缺失P1冻结JSON由全量测试直接读取，不能归无关历史；SD00正在核可否由已有确定性生成入口恢复原字节并与原已签SHA严格匹配。若可恢复须明确当前恢复来源，不改期望/随机种子/旧报告，不补造历史执行。原Git全部历史路径查询未发现这三个文件；其他独立实施持续。
+
+工程所在卷实际mount记录为/dev/disk7s1，apfs/local/nodev/nosuid/journaled/noowners；这只确认当前卷来源，不代替Mac保存协议或崩溃保证验收。
+
+
+## 383. CONT-C-MAC-R1-PLATFORM：真实 Mac 存储、原测试接线与冻结输入恢复
+
+状态：APPROVED_FOR_IMPLEMENTATION。这是§380启动前发现的普通平台技术续接，依据用户持续实施授权和已完成的R只读设计咨询签发，不改变CONT-C/028/029的产品边界。C/R仍为§379两个替代会话、gpt-6-astra/max，SD00不写产品或运行Unity；不新增会话/代理。继承§367/§374/§380全部未被本节明确替换的约束、CC01～CC30、独立审查与准确完成门。咨询不是对C产品实现的ACCEPT。
+
+### 383.1 最小源码白名单和预算
+
+精确路径及签发实物身份见同目录demo-cont-c-mac-platform-plan.json；该JSON由SD00签发，只读，不由C改写。只新增三个cs和各自一份Unity自然meta，共6个Assets：
+
+| 新文件（仓库相对路径） | 最大物理行 |
+| --- | ---: |
+| Assets/Scripts/FightMatch/Platform/MacEditorSaveStorage.cs | 380 |
+| Assets/Scripts/FightMatch/Platform/MacContentPublicationStorage.cs | 200 |
+| Assets/Tests/EditMode/FightMatch/MacStorageTests.cs | 400 |
+| 上述三个cs各自的.cs.meta | 每份12 |
+
+生产类分别实现既有ILocalSaveStorage/IContentPublicationStorage。必要的少量Mac路径与租约共用代码放在这两个新增文件内部，不加依赖、asmdef或改现有接口；允许新实现类的必要构造器和接口方法。不改WindowsEditorSaveStorage、WindowsContentPublicationStorage、保存协议、序列格式、业务核、发布内容、Windows进程恢复工具。原13个导航cs/meta及runtime只增≤24行的预算保持独立；本新增不能挤占或绕过原预算。
+
+旧测试仅允许以下8份最小接线，保留原fullname/TestCase参数/断言/故障注入点/旧3872用例多重集合，不skip/Ignore/删例/改期望：
+
+- Assets/Tests/EditMode/FightMatch/LocalSaveStoreTests.cs：共用LocalSaveTestFiles增加Mac平台选择、固定隔离根及存储工厂，FaultStorage底层类型改为ILocalSaveStorage；新增≤100/删除≤30行。
+- Assets/Tests/EditMode/FightMatch/SaveCommitMarkerTests.cs：原构造器接入共用工厂，非法路径/UTF-16/冲突/Flush断言保留；新增+删除≤40行。
+- Assets/Tests/EditMode/FightMatch/SaveRecoveryTests.cs：构造器/包装器接线，Mac RecoveryRig同时替换Windows NewRun/Safe调用；Windows分支仍走原辅助方法；新增+删除≤60行。
+- Assets/Tests/EditMode/FightMatch/SavePendingRecoveryTests.cs：PendingRig及包装器接线，TestRoot原委托语义保持；新增+删除≤32行。
+- Assets/Tests/EditMode/FightMatch/CandidateApplicationRuntimeTestData.cs：RuntimeRig及ApplicationFaultStorage接线；新增+删除≤24行。
+- Assets/Tests/EditMode/FightMatch/CandidateApplicationRuntimeTests.cs：两处直接构造接线；新增+删除≤16行。
+- Assets/Tests/EditMode/FightMatch/CandidateLifecycleTestData.cs：生命周期夹具接线；新增+删除≤16行。
+- Assets/Tests/EditMode/FightMatch/PublishedContentCatalogTests.cs：原物理探针按平台选择存储和Mac新隔离根，全部断言及含Windows字样的历史fullname保持；输出标明真实后端；新增+删除≤40行。
+
+另唯一新增旧生产例外Assets/Scripts/FightMatch/Content/PublishedContentAuthoring.cs：新增≤36/删除≤16行，仅Mac上先拒绝与原固定授权值不符的CLI参数，再进入原物理路径校验，避免Windows绝对路径遮蔽原source/review/operation/release四个拒绝用例。Windows既有校验行为保持。FirstReleaseContentStorageTests.cs完全不改；不开放Mac内容发布/激活/导出、不增加根注入公共API。9份旧文件签发起点长度/SHA/行数在plan逐项冻结，禁止其他清理重排。
+
+### 383.2 Mac 存储语义与真实探针
+
+Mac适配器只接受本机Mac绝对规范路径和本地卷，拒绝相对/Windows驱动器或设备路径/逃逸。路径用Ordinal规范检查，不能照搬Windows忽略大小写规则。玩家目录继续按原始UTF-16码元散列，含NUL、空格、未配对代理项等，不做UTF-8替代或归一化；purpose与PlayerSave门不变。检查祖先、末端及悬空symlink，创建目录前后都检查；未知I/O不能由File.Exists=false解释为不存在。
+
+租约必须由本机Unity Mono真实获得跨进程非阻塞排他锁，持有句柄直至释放，writer.lock保持零字节且不得删锁解锁。允许新增Mac文件内范围受限的Darwin flock及为准确拒绝符号链接必需的readlink/lstat调用；不引入二进制插件或平台权限变更。只有明确EWOULDBLOCK锁争用可映射Busy，其余真实I/O失败关闭操作并保留错误，不全部吞成Busy。flock仅对协作进程提供互斥，不能宣称阻止任意外部写入。
+
+work须CreateNew；提升保持同目录/卷、无替换、目标存在即拒绝，禁止先删/覆盖拷贝/覆盖重命名。Flush只接受本实例拥有的真实FileStream并调用Flush(true)，失败不能伪报成功。现有快照、commit、工作文件和不可变发布blob语义保持。FaultModel只声明EditorProcessCrash，不声称PowerLossDurable或Android已实现；本包不新宣称真实崩溃矩阵通过。
+
+所有Mac物理测试I/O只在TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/io内，以32位小写GUID隔离每一case/run，再按原p-<64hex>/(candidate|player)/协议文件布局。原发布探针在独立GUID子根使用writer.lock和64个a的blob/work。新symlink/错误路径/Flush探针仅在本隔离case下创建有限fixture叶，不访问真实存档、用户目录或Windows历史探针根。独立I/O清单记录实际所有目录/文件/链接及目标与身份；这类测试对象不是有限报告叶，不混称56项证据。总case目录≤4096、文件/链接≤40000；不得递归清理历史，fixture清理仅测试自己刚创建的对象且保留必要证据。
+
+MacStorageTests至少覆盖：释放后重取；Unity持锁时另一进程拒绝；另一进程持锁时Unity返回真实争用且释放后成功；原物理发布00010203/幂等/异值拒绝/零字节锁/无work；提升冲突保留两边；外来Stream拒绝Flush；祖先/末端/悬空symlink拒绝；非缺失I/O不当不存在。原旧测试保留完整物理故障注入，不以MemoryStorage替换。
+
+有限子进程仅允许MacStorageTests通过ProcessStartInfo启动已有/opt/homebrew/bin/python3，内联固定脚本仅对本case指定锁用fcntl.flock(LOCK_EX|LOCK_NB)，或创建本case的symlink/错误fixture；不得任意shell、安装依赖、启动第二Unity或运行Windows强制终止工具。进程按stdout ready/结果与stdin释放协议握手，有≤15秒自退出上限，正常关闭输入/等待退出，不用Kill；记录PID、实际exit、争用/重取结果进NUnit输出。锁路径必须由本case根派生并边界校验，不能从外部任意命令传入。CoreCLR成功不代替此Unity Mono实际探针。
+
+### 383.3 四份冻结输入的受哈希门恢复
+
+四个原路径、原长度/SHA在plan.goldenInputs精确列明，分别为source-ledger.json 34768、prd-candidates.json 96954、replay-evidence.json 12528619、replay-cohort.json 10458字节。前三个属原18缺失，第四个为额外直接输入；其余15项历史缺失继续NOT VERIFIED，不为补齐旧日志重跑旧阶段。
+
+允许新工具Tools/Restore-FMDemoMacInputs.ps1（≤240物理行），仅恢复这些确定性输入，不执行Unity、不产生测试通过结论、不成为第二Unity验证通道。只能用已核PowerShell7.6.6、当前Compile产出的现有测试/运行DLL和必要NUnit依赖，通过反射调用原未改方法：
+
+- FightMatch.Core.Tests.DemoContentCompilerTests.BothCoordinatesAndLevelsHaveIndependentFingerprintsAndSourceLedger
+- FightMatch.Core.Tests.DemoContentParameterTests.ExportCandidatesAndBothHistoricalTwentyPercentTexts
+- FightMatch.Core.Tests.DemoContentReplayTests.ExportOriginalStatesFactsWordsRejectionGroupsReportsAndRewards
+- FightMatch.Core.Tests.DemoContentReplayTests.PredeterminedSixtyFourSourceCohortCoversDeadTargetSkipAndSurvivorRepeat
+
+方法必须是原无参测试方法；核对原测试源码、确定性生成算法与CONT-B-CODE-C1已接收快照一致，准确登记当前所载DLL/依赖和工具SHA。源输入固定为plan.sourceInputs的11个原相对路径，拷贝前后逐个与签发身份核符；R已核另一个审批文档不属于生成器读取的输入，不额外拷入。
+
+工作目录仅为本新平台证据根的staging，内含精确11输入副本和4个生成结果。原生成器的scope不存在分支仅在这个全新隔离目录自然成立；绝不删除、隐藏、移动实际仓库的scope，也不改DemoContentTestData.WriteEvidence。正式源码/内容/测试期望/种子完全不变。不下载或手拼测试输出，不将新结果当新期望。
+
+生成后每份必须同时等于原长度和SHA，四份全核符才按CreateNew把缺失文件恢复原路径；原路径如已经存在先核身份，相符复用、不符停止，不覆盖。失败结果、退出和新来源如实记录，不能记为原历史执行。该恢复阶段只能声明固定输入恢复，随后本机Unity全量仍逐字比较并运行原测试。若真实程序集加载或重算失败，保全证据并回报精确最小技术缺口，不能跳过原测试或悄悄修改原哈希。
+
+### 383.4 工具、精确证据和顺序
+
+原唯一Unity工具Tools/Invoke-FM025P2Validation.ps1继续§380固定Stage/版本/根/owner/turn/8槽/无filter规则，仅允许补充本新增6Assets、9旧源码例外、输入存在性及平台包冻结身份。工具本轮相对282行起点新增+删除上限从144调整至190，最终≤440物理行，累计相对原194行新增+删除≤384；不能压缩行绕预算。原路径/symlink/进程检查fail-closed，所有真实执行退出/源码/Assets/工具/DLL身份保持。另新增恢复工具仅前节职责，不调用Unity。
+
+新平台证据根TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform，plan.exactAllowedEvidencePaths精确封闭55条：15元数据/日志叶、9个旧文件before-text、16个after-text（9旧+6新Assets+恢复工具）、staging内11输入+4输出。manifest只列实际存在且排除自身，≤54；不预造成功/未执行文件。GUID I/O根由383.2另列，单独io-inventory，不把它冒充有限报告叶。旧主根156路径及8槽不变；主scope同时列两组精确路径和全部实际身份，不能仅改总数。
+
+root-identity先绑定§380/本包/plan哈希、当前C真实thread/turn、R咨询回合与Mac/工具，before-text保存9份原文件签发原字节，原13导航WIP的本轮继续保存在主根。新增6Assets后，最终精确集合为808实现/838Assets/441GUID，36DLL/PDB相对路径保持、按Mac实物核。9旧例外需逐项diff/预算/旧测试保留证明；原其他源码继续保护。原恢复126实物、15历史缺失、4本次恢复分别列明，不宣称原925齐备。
+
+正式C/R报告沿§380既定路径，不增新完成门；C scope允许至12582912 bytes，以实际闭合数组和身份为准，delivery≤360行，Rreview≤300行。本包增加的平台验收编号MC01路径身份、MC02租约、MC03物理写入/Flush/提升、MC04拒绝和故障、MC05原用例接线、MC06冻结输入恢复、MC07全量多重集合、MC08范围与平台身份，逐项指向真实证据。
+
+实际执行顺序：完成全部源/测试/工具→静态与预算/原用例核对→固定源码→唯一工具Compile→恢复四份输入（CoreCLR只做恢复）→同一工具一次无filter完整EditMode（包含Mac Mono探针）→核0失败/0跳过、旧3872多重集合全保留和新增例。若恢复所需DLL仅Tests才生成，先报告准确编译实物，不擅自启动一次注定缺输入的全量。源码固定后不并行更改；新编译失败或新失败修复才允许额外必要槽，旧已通过基线不重复跑。内联恢复不算Unity测试替代，也不以CoreCLR结论冒充Mono。
+
+本包解除C的“平台补签前不启动Unity”门，但C必须先满足上述源码/静态/工具就绪步骤与进程安全门。R现在空闲，等C准确completed+formal COMPLETED及证据齐备才独立审查实际补丁。SD00随后自动处理NEEDS_FIX或ACCEPT并继续028/029，不需用户重复确认普通技术问题。
+
+从本节标题至以下独占行按UTF-8无BOM、CRLF→LF、末尾一LF冻结；hash和派发登记外置。历史§367/374/380不回改。
+<!-- CONT-C-MAC-PLATFORM-PACKET-END -->
+
+
+## 384. Mac平台补签实际派发与咨询完成接收
+
+R只读咨询turn 01a0e412-e8ff-7230-b43e-47afd8c79a32已completed/error=null，completedAt=1790533830，formal给出2存储实现/8旧测试接线/1生产CLI拒绝顺序修正/4输入恢复及Unity Mono跨进程探针建议。没有代码审查verdict，不计功能接收。原18缺失中3直接输入，加清单外replay-cohort构成4；其余15继续缺失且与本轮直接执行无关。R在内存重算prd-candidates已核原哈希，其他三份仍须本轮实算后才能恢复，不能预称通过。
+
+§383按独占结束标记冻结12551 UTF-8/LF bytes／SHA256 61dc54bd8949d5408a663371a13b9a6276aaf5f8d72bbfd73a55dc0301045f43。SD00 plan为12714 bytes／072a87610890fd8eca9d66be5803ce5875a19135adae5a24ab9d929f72b4a0d7，确列55条平台证据路径、6新Assets、9旧例外和4原输入。§383.2提及“不混称56项”的例子不增加授权路径；精确55条以383.4及plan数组为准。§367/374/380哈希再核全部保持。
+
+已实际发送同一C thread 01a0e404-d89d-7ab2-bece-3cd1df3fbc52，显式gpt-6-astra/max；工具成功返回原ID，仍是当前实施turn 01a0e410-3e6f-7400-b58c-34cebde8d28c，未新开会话。C先完成CONT-C全部源码/测试与本平台补签，再静态固定→Compile→四输入受哈希门恢复→完整EditMode。Unity只由C，SD00保持只读设计与收件。R已空闲，后续接实际C完成门，不空转、不重复咨询或重审未变已接收算法。计数34/31/3/51与Goal active保持。
+
+
+## 385. 后继设计准备与临时防休眠记录
+
+不越过当前接收门，SD00创建demo-029-mac-host-plan-draft.md作为029正式宿主/试玩证据草案，状态PREPARED_NOT_DISPATCHED；028的接口事实咨询已派同一R、gpt-6-astra/max，准确turn=01a0e42c-930e-7883-af5a-f559d246d71b，startedAt=1790534521。该轮只读设计核对，不写产品、不运行Unity、不提前审CONT-C；后继实现仍须当前包独立接收。
+
+按用户希望睡眠期间持续推进，SD00启动临时/usr/bin/caffeinate -i -t 43200，工具session97899、实际pid23728；2026-09-28 02:44:19 +0800的pmset -g assertions已确认其PreventUserIdleSystemSleep断言。未修改系统长期设置、不强制保持显示屏；目标结束时结束本轮自有辅助进程，最迟12小时自动释放。Codex内部界面不能由CUA控制的边界保持，未绕过。
+
+
+## 386. CONT-C-MAC-R1-PLATFORM-C1：补回第12个真实生成输入
+
+状态APPROVED_FOR_IMPLEMENTATION。当前C发现原DemoContentTestData.MakeInput确实读取docs/system-design/2026-09-16/details/content-validation.md并把SHA写入Sources；SD00实读约第108行并核P1/P1-C1原scope，确认§383.3将第12项误判为非生成输入。此为SD00计划错误，及时最小补签，不改冻结历史、不需要用户重复决策。
+
+新增唯一源输入docs/system-design/2026-09-16/details/content-validation.md，原字节30962，SHA256 b430f3384aeb20bf5742bf29c5949af13cf25eb4eaea31bedbbac5da8beeafc9。只读原文件，仅增加新平台根staging/docs/system-design/2026-09-16/details/content-validation.md副本叶。来源和副本必须逐字节核符；不得修改该旧设计文件、原生成器、scope、种子或四个golden哈希。
+
+精确继承与替换数组由demo-cont-c-mac-platform-c1-plan.json提供：sourceInputs=原11+此1，共12；exactAllowedEvidencePaths=原55+此1，共56，manifest排除自身≤55。其他路径/预算/资产808-838-441/36DLL/9旧源码/输入恢复及全量顺序完全不变。原plan保持12714bytes/072a87610890fd8eca9d66be5803ce5875a19135adae5a24ab9d929f72b4a0d7；新C1plan身份在下一登记处另列。§383中相关11/55计数及“另一个审批文档不属生成器”的判断仅由本节明确取代，其余保持。
+
+当前C继续同一thread/turn，自主补齐这个输入后按原Compile→恢复四输入→完整EditMode；其他实现无需停工。新平台root-identity/scope须并列绑定§383、§386和两个plan，准确记录修正来源，不覆盖已保存原9文件和历史证据。从标题至以下独占行按UTF-8无BOM、CRLF→LF、末尾一LF冻结。
+<!-- CONT-C-MAC-PLATFORM-C1-PACKET-END -->
+
+
+## 387. 平台C1冻结身份登记
+
+§386正文1804 UTF-8/LF bytes／31574c112594376e40e603e35b379b5c46f6c7abb455790ef779d9ec89e533bc。demo-cont-c-mac-platform-c1-plan.json为10238 bytes／49651fb0a711c6e7821213635f502e420e10e233f5ab519c1547eb2a9f4bdbe7，12来源/56有限证据路径均唯一。派发沿当前C，不新建会话，未改变原四golden长度/SHA。
+
+
+## 388. 028接口咨询已完成与后继草案
+
+R准确turn 01a0e42c-930e-7883-af5a-f559d246d71b已completed/error=null，completedAt1790534990，formal仅给接口事实/设计缺口，无产品verdict。SD00据实际接口编写demo-028-mac-design-draft.md，修订029草案使正常H02办理归028唯一会话，029只宿主路由。两稿PREPARED_NOT_DISPATCHED；当前CONT-C未接收，不越级实施。五个新生产文件、五个旧接口最小改动及原结算/参考只读语义已有明确方案，最终白名单/预算/源身份和证据在当前独立接收后冻结派发。
+
+
+## 389. 后继设计修正及CONT-C原入场交接契约澄清
+
+R有限设计审阅turn 01a0e43d-5499-7640-8e0a-0bb15a1f1b41已completed/error=null，completedAt1790535940，发现五项文字缺口。SD00已改两份未冻结后继草案：HostRequest按Kind准入、三个控制器由宿主持有、参考叠加精确适用门、真正空根/F2/schema2衔接及真实冷启动、多项历史与补线只按合法实际到达记证据。咨询不算产品源码verdict，不放行028/029实现。
+
+同时核已ACCEPT的CONT-C设计C1第43/67行及CC05：BattleSelectionRequested只移交选择；真正关卡锁、到期恢复和实际参与者由028原H02检查。Lifecycle.Enter.NoReadyMember可以提前展示，不能阻断已到期但尚待H02联合办理恢复的明确移交；也不能把“能够移交”标成“已准入”。C须在原PlayerNavigationSession/View和原新增测试白名单/预算内证明该边界，仍拒活动局/S17/未决/错误owner等实际门，且导航不调用H02、不采时间/熵、不创建操作。该条只是明确原C1要求，不扩源码/证据范围或改变已接受业务规则。
+
+若当前Unity还在运行，保持源码固定；当前进程结束后再处理必要修正并重新编译，避免在源码变化前启动一次无效长全量。正式R代码审查仍须准确C完成后独立进行；SD00此处是设计交接，不代R签源码结论。
+
+
+## 390. 首次工具审批阻塞收件（Goal未完成）
+
+2026-09-27T19:09:42Z，当前C thread 01a0e404-d89d-7ab2-bece-3cd1df3fbc52 / turn 01a0e410-3e6f-7400-b58c-34cebde8d28c仍inProgress，wait_threads cursor 6f62ce94-846e-4797-862d-9d8d87676592:38持续返回waitingOnApproval。协调接口未提供待批命令/理由；没有收到auto-review拒绝文本，不能假称被安全审查拒绝、许可证失效或代码编译失败。已向C请求具体动作/原因并保留现有权限边界，不能从其他通道绕过审批。用户异步问题已说明需在C会话处理审批或提供卡片具体命令。
+
+C已报告导航/平台源码和静态范围完成；该作者报告不是R代码ACCEPT。运行槽001为Unity启动前隐藏.gitignore读取缺少-Force的预检失败，已保留failure/result并修正工具。槽002实际Unity pid24291（pwsh父24288）于2026-09-27T18:59:44.3681992Z启动固定2022.3.18f1/Rosetta，许可握手成功；19:09:42Z只读核compile.log仍2378bytes/SHA3cd1de363a8395a6c918977cd70b5d08111c1475adad4dad5cdbe8b680e607c8，末行Successfully changed project path，result/failure均尚不存在。不能把该槽算Compile成功。SD00未执行Unity、未强杀或更改许可/权限。
+
+不依赖该审批的后继工作已完成到可接续状态：R两轮接口/设计咨询准确completed，028/029草案及五处设计修正已落盘；§389原入场交接契约已告知C，须当前Unity自然结束后再处理必要源码修正并重编译，不能直接进入旧源码长全量。四份冻结输入恢复和本机全量尚未执行，CONT-C正式交付/独立审查/接收、028/029实施、首Demo体验及Git提交推送均未完成。当前master仍adaffdc4，工作成果保存在工作区，不称已推送新实现。
+
+Goal保持active，不以本次阻塞冒充完成或擅自paused。此为该审批条件第一次目标回合阻塞记录；只有按工具规定连续三回合仍同一外部条件且确实无独立进展时才可设blocked。暂不恢复任何五分钟任务。caffeinate临时断言pid23728/session97899仍应保留供当前运行与待续接，12小时自动释放；目标真正结束时结束该自有助手进程。
+
+
+## 391. Mac启动只读诊断咨询与目标续接
+
+2026-09-27T19:19:26Z，SD00通过wait_threads fresh核C仍为原turn/inProgress/waitingOnApproval，cursor仍:38；无正式完成或待批命令详情。槽002 compile.log仍2378bytes/SHA3cd1de363a8395a6c918977cd70b5d08111c1475adad4dad5cdbe8b680e607c8，result/failure缺失。随后只读ps核pwsh24288、Unity24291及UPM24326均存活，Unity已运行约20分钟；该live状态只支持继续观察，不构成Compile成功或进程已停止。临时防休眠23728亦存活。
+
+当前有独立可做的环境定位工作，故没有仅因审批再次出现便把Goal设blocked。SD00已向同一R、gpt-6-astra/max派有限只读咨询，准确turn=01a0e450-54cc-7f00-9fb2-c3dc641e7996、startedAt=1790536864，当前inProgress/error=null。只读当前Unity/UPM日志、上述PID关联状态及必要只读窗口信息，查实际启动阻塞；不得操作审批、启停Unity、改环境/源码/证据、运行测试或新增代理。该咨询不是CONT-C产品代码审查，不给ACCEPT，不改变C完成后才正式交R的门。
+
+前一用户回合已按请求安装grill-me及其直接依赖grilling并读取规则；项目授权不因此撤销。访谈只提出尚待用户回答的交付平台明确化（029现草案为Mac App，是否必须含安卓APK），没有把未答当批准或重开已决定的同源代码/流程/内容规则。该问题不阻断已授权CONT-C实施和本次只读定位；029草案仍PREPARED_NOT_DISPATCHED。目标保持完整，正式实施/独立验收/实际试玩/Git推送均未宣称完成。
+
+
+## 392. 连续审批阻塞核定与Goal受阻
+
+2026-09-27T19:25:07+00:00，本线程Goal工具实际返回status=blocked，完整首Demo目标不变，未标complete或paused。该条件已跨§390首次阻塞、用户安装技能回合及本次目标续接持续三回合；安装/已知进程核验/独立诊断派发均已完成独立可做部分，当前仍不能越过工具审批继续C实施。
+
+状态变更前单独fresh核C：thread=01a0e404-d89d-7ab2-bece-3cd1df3fbc52、turn=01a0e410-3e6f-7400-b58c-34cebde8d28c、inProgress/error=null、waitingOnApproval、cursor=6f62ce94-846e-4797-862d-9d8d87676592:38。R诊断也进入同类人工门：thread=01a0e404-e8ee-7310-8388-9260babd53f1、turn=01a0e450-54cc-7f00-9fb2-c3dc641e7996、inProgress/error=null、waitingOnApproval、cursor=dfe07616-8bc7-46f3-b532-5d7000a29ac6:38。R尚未正式返回，不能把咨询或审批等待当诊断结论，更不能当独立ACCEPT。协调接口仍无两条待批命令的详情，也没有auto-review拒绝文字。
+
+所需外部动作是用户在C与R会话查看并处理具体审批卡片；无法由SD00代批或改变安全设置。审批解除后恢复Goal，从这两个原thread/turn及既有槽002继续核实际状态：若原Unity尚存活只接回原进程；仅有真实终态后再按§389修正/编译、冻结输入恢复与全量、正式C/R门推进。不重启或强杀已知Unity，不虚报日志不动意味着进程死亡，不另建会话或自动任务。用户恢复blocked Goal时依工具规则重新开始阻塞回合审计。
+
+源码、原失败/证据、028/029未冻结草案及现有Git历史均保留；暂无本轮产品提交/推送。临时防休眠继续服务仍存活的原编译，12小时自行释放；Goal实际结束时再结束自有助手。首Demo可运行物、实际正式流程/冷启动证据、独立ACCEPT和正常推送仍缺，不能缩小目标或以本次文档更新代替完成。
+
+
+## 393. 更正工具等待判定、原编译终态与实际续接
+
+2026-09-28T01:17Z，C从原工具等待返回并报告准确来源：cua.getApp("Unity")最终返回Computer Use server error -10005: timeoutReached，没有取得界面或处理审批/权限。R原诊断turn 01a0e450-54cc-7f00-9fb2-c3dc641e7996已completed/error=null、completedAt1790558090，formal亦说明界面读取超时、未取得弹窗证据。§390～392当时据waitingOnApproval状态推断必须用户处理审批卡片，证据不足，现撤回该人工操作前置；保留历史记录，不把接口标志等同实际权限决策或auto-review拒绝。早期长时间启动停滞的具体原因仍未知，不倒填为许可失效或已确认系统弹窗。
+
+槽002自然结束：Unity PID24291、actualExitCode1、endedAtUtc2026-09-28T01:12:18.2461580Z；SaveRecoveryTests新增LocalSaveTestFiles引用共8个不同CS0103位置。result/failure各4766bytes、SHA7b9c74ad726329a0ae8a0157fb9f952e99768192a548539ea7a1616eb9c43380；compile.log73049bytes、SHA3001b045943df5849122461f14e63e0dd9dfa78465e28a68e351da8b027238be。UPM后来连接成功且许可解析成功；C/R均无强杀或重启该进程。R诊断不构成CONT-C源码verdict。
+
+C在原白名单内修复接线并落实§389后，新槽003已实际Compile通过：PID29230、actualExitCode0、passedtrue、compilerErrors空，2026-09-28T01:15:31.5692040Z～01:16:01.2508270Z。result1107bytes、SHAb2df100edafce7c1367e95c8860fff3141cff57551bf6fa6a19689044d855cd0；日志1132104bytes、SHAbdf9cd35a28d6d79991f25af80329e8ed5439bcd6b0592c69788e04abf1da133。此证明仅当前Compile，不是测试或首Demo完成。fresh C仍原turn/inProgress，activeFlags已空，cursor:40。SD00继续原授权协调，不要求用户重新批准开发。
+
+首次四输入恢复失败：当前原工具129行/9341bytes/SHA6bcdb361dee254bf7901dece39fe6108564e8fef6e971e980b446adf9aabefe6，在CoreCLR调用原NUnit首方法时因System.Runtime.Remoting.Messaging.CallContext缺失抛TypeLoadException。平台根restore-result9551bytes/SHA3368bc5abdc7df8d5a726c51b597dbf52b3f58e33a3cbcf14861a8aef9401e89、stdout145bytes/SHAeae1c61ff11e843cbe918990a59e436d973b7f068375713b201980e64708b26d、stderr480bytes/SHA7ecd04c24184609910360be32e6f39fcbcbdaf4f720f0824ddf491e593f157a7均保留。12输入已在staging，四golden均未生成/恢复，完整EditMode尚未开始。C已提交自带Mono+csharp反射原方法的最小补签建议；同一R另作只读可行性咨询，不修改NUnit/断言、不以shim绕过。明确补签后才重试，新记录叶不得覆盖本失败。
+
+Goal工具get_goal仍返回旧blocked；工具不支持由SD00改回active，因此不伪报状态恢复，也不重建/缩小目标。实际C/R等待已经解除，本轮持续完成已授权工作，不以控件旧状态充当技术停工理由。Goal界面的恢复属于用户控制，但不是本轮已授权编译/恢复/测试的前置。正式完成条件、C/R独立门、后继028/029范围与平台待答均保持。
+
+
+## 394. CONT-C-MAC-R1-PLATFORM-MONO：原冻结输入的同版Mono恢复补签
+
+状态APPROVED_FOR_IMPLEMENTATION。依据用户原持续实施授权、§393真实CoreCLR失败及R两次有限只读咨询。R turn 01a0e597-fdc4-78e0-a7ea-f805ac013135与01a0e5a0-0f31-7242-97bb-a0177454d400均已completed/error=null，completedAt分别1790558805/1790558970；仅设计事实，不是CONT-C产品ACCEPT。C/R仍§379两个原替代会话、gpt-6-astra/max，C当前原turn=01a0e410-3e6f-7400-b58c-34cebde8d28c，SD00不写产品或执行Unity。继承§367/374/380/383/386/389其余边界、CC/MC验收及准确完成门。
+
+本补签只替换§383.3的CoreCLR反射执行部分：由同一PowerShell7.6.6父工具启动本Unity自带Mono编译并执行固定控制台runner。仍只重现四份历史冻结输入，不构成Unity或NUnit测试通过，不改已验收算法/原断言/NUnit/Packages/平台接口/PlayerSave/正式内容。原失败、12输入、四golden及源身份完整保留。
+
+### 394.1 冻结计划与唯一源码范围
+
+SD00计划docs/system-design/2026-09-17/demo-cont-c-mac-platform-mono-plan.json=16595bytes/SHA256=3ea544f4cef042f61f8ad8a6253736eb209f0533e774e0f3aa4004fb92530b75。其中逐项冻结原平台/C1计划、Compile003的result/after、原失败三件、原恢复工具、四生成器源码、七项目/NUnit DLL、四运行时文件、12输入、四golden及64精确证据路径。C只读此计划和历史包，不修改SD00合同。
+
+C唯一可变源码仍Tools/Restore-FMDemoMacInputs.ps1，保持最终≤240物理行；起点129行/9341bytes/SHA6bcdb361dee254bf7901dece39fe6108564e8fef6e971e980b446adf9aabefe6，先以CreateNew原字节保全到下列before-text。允许内嵌固定runner文本并只写到下列隔离.cs，runner≤80物理行，禁止压行规避。当前产品808源码/838Assets/441GUID/36DLL保持槽003after逐项身份，不改变Unity验证工具，不重新编译未变产品。原根root-identity及失败记录不改写，新result绑定其原身份及本补签/计划。
+
+### 394.2 固定Mono编译和原方法执行
+
+只能通过ProcessStartInfo.ArgumentList、UseShellExecute=false直接启动计划中的绝对MonoBleedingEdge/bin/mono。编译参数固定为该Mono启动同目录lib/mono/4.5/mcs.exe，使用-noconfig -target:exe -debug- -out:<本根restore-mono-runner.exe绝对路径>及唯一restore-mono-runner.cs绝对路径。不经shell/PATH/bin/csharp壳/csharp REPL，不使用响应文件、通配符、-pkg或外部编译器。编译前exe必须不存在，不能把mcs的输出当CreateNew；源码使用UTF-8无BOM和CreateNew，先记录其完整身份。mcs.exe.config/mcs.rsp当前不存在，执行前确认并记录；有新配置即报真实差异，不自动采用。实际编译exit0、指定exe存在并冻结身份后，才可启动同一mono执行唯一exe。核无额外.mdb/.pdb或叶。
+
+编译和runner的WorkingDirectory均为已批准平台根/staging，runner在Main内核完全一致。只依赖该Unity自带BCL；固定加载计划七个项目/NUnit DLL，核实际Assembly.Location和身份，不按外部请求任意查找，不加载其他项目/Editor/第三方程序集。记录实际mscorlib及已用BCL来源；启动前核计划运行时哈希，记录有限相关运行配置/子进程环境，避免用户Mono路径/注入配置改变来源。不改全局环境、HOME/CODEX_HOME、许可、权限或系统配置；发现影响来源的实际环境差异先报告最小方案。
+
+runner仅以固定顺序调用计划四个完整类型/方法名，各为Public Instance无参返回void；每次新建该原测试类型，Invoke成功返回后输出一次具名完成标记。Main全部完成return0；任意异常保留内部异常及栈并return1。不得修改原方法、禁用/替换Assert、伪造CallContext、捕获后继续下一个方法、合成期望输出或改黄金值。若确需计划外项目依赖，保留失败并报最小具体缺口，不旁路加载。
+
+父工具异步排空各进程stdout/stderr，分别记录实际命令/参数、PID、起止、真实ExitCode、日志身份和生成exe身份。不得把句柄/正常REPL退出/文件存在当成功；本方案不使用REPL。实际exit与语义status分开记录，失败不倒填虚构exit。输入/程序集/源码/工具在执行前后逐项重核；固定Compile003原快照，不选任意最近通过版本。
+
+### 394.3 原失败保留与八个新增叶
+
+平台根仍TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform，原56条保持，精确追加：
+
+- before-text/Tools/Restore-FMDemoMacInputs.ps1.txt
+- restore-mono-runner.cs
+- restore-mono-runner.exe
+- restore-mono-compile.stdout.txt
+- restore-mono-compile.stderr.txt
+- restore-mono.stdout.txt
+- restore-mono.stderr.txt
+- restore-mono-result.json
+
+总root≤64，manifest排除自身≤63；物理Mac探针io仍按原独立规则。每个新日志及result≤4MiB，runner.cs≤65536bytes且≤80行，exe≤1048576bytes。保全副本必须与9341byte原工具完全一致。原restore-result/stdout/stderr保持计划冻结字节，不覆盖失败、不清空staging。现12源输入已存在则复核，不重写；四staging输出首次执行前必须不存在。若中途出现输出或失败，保留并报告，不自行清除/挪走来重试。
+
+只有真实编译exit0、runner exit0、四个完成标记完整唯一且顺序正确、四份staging输出全部匹配原长度/SHA后，才按原CreateNew规则恢复缺失历史四输入；目标已存在则只核原身份。不能只恢复部分便称全成。既有golden-recovery.json仅成功后首次生成，新restore-mono-result无论成功/失败均保存真实结果和计划/原失败/源码/DLL/运行时绑定。新根清单与最终scope闭合这八项，工具after-text使用原已授权路径记录新工具，原失败副本单列。
+
+### 394.4 后继顺序与接收
+
+本恢复不启动Unity/Editor，不运行旧进程强杀矩阵，不触真实玩家根。产品源码/36DLL未变可沿用槽003Compile；恢复成功后由C沿唯一Tools/Invoke-FM025P2Validation.ps1启动一次无filter完整EditMode，Tests无-quit，严格继承MC/CC/旧3872具名多重集合及零失败/零跳过门。源变化/新失败才追加必要验证，先固定源码，不重复已有效旧长测试。
+
+正式C报告≤360行、scope≤12582912bytes、R报告≤300行不变，MC06明确区分CoreCLR失败与本次Mono实际结果，不能把本恢复称Unity测试通过。C准确completed/error=null＋formal COMPLETED及报告/证据齐备后，R审实际最终工具/产品/范围/本次运行并给唯一ACCEPT/NEEDS_FIX/REJECT；SD00仅据独立接收继续028/029及正常Git提交推送。本包不改变目标或重启五分钟自动任务。
+
+CONT-C-MAC-MONO-PACKET-END
+
+
+## 395. Mono补签派发身份及路径表记法最小更正
+
+状态APPROVED_FOR_IMPLEMENTATION。§394已实际派发同一C、gpt-6-astra/max，原turn仍01a0e410-3e6f-7400-b58c-34cebde8d28c。§394冻结范围6807bytes/SHAbdbfb79aeb1a0f0838c6445146c533baef12b65a318b8d3335b7481f469712f5，原Mono计划16595bytes/SHA3ea544f4cef042f61f8ad8a6253736eb209f0533e774e0f3aa4004fb92530b75保持原字节。R的两次技术咨询完成身份已在原计划/§394，不作为产品ACCEPT。
+
+SD00派发后静态核发现原Mono计划exactAllowedEvidencePaths前56项沿项目相对路径、新8项写成平台根相对路径，记法不一致。§394正文已经把8项明确限定在既定平台根内；本节只修正清单记法，不改变任何实际允许位置、总数、源码、预算、运行器或验证门，不重写已冻结原计划。
+
+新的SD00只读计划docs/system-design/2026-09-17/demo-cont-c-mac-platform-mono-c1-plan.json=7515bytes/SHA256=683d2aa0358bc8b7281b6197ccd2b2dccf7315ed0d5b4050590907801d1fb74c，只替换原Mono计划的exactAllowedEvidencePaths字段；其64项均为项目相对路径，前56项逐项等于原C1列表，新增8项精确加TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/前缀。原additionalEvidencePaths仍为根相对名称，可供构造已授权目标，不能直接混入项目相对清单。C执行前核本更正与原计划身份，最终scope/manifest按统一64项闭合。任何失败不覆盖旧失败，所有golden/输入/运行时/程序集/Compile003身份仍完全沿§394原计划。
+
+补签生效不要求SD00整轮任务completed；只有C的正式交付与R的正式审查需各自准确completed及formal门。C只需读取已实际签发的§394/本节及精确计划即可继续原授权实施，不应以等待SD00整体完成作为工作前置。SD00继续通过原C/R完成返回衔接，不新增会话、自动任务或用户逐包确认；当前尚无Mono恢复或完整EditMode成功证据。
+
+CONT-C-MAC-MONO-C1-PACKET-END
+
+
+## 396. Mono输入恢复实物收件与槽004全量启动
+
+2026-09-28T01:56:07Z，SD00收到C中间进度后只读核实新实物：restore-mono-result.json与golden-recovery.json均22388bytes/SHA89c3df6867220b729db547da0b90e8f3df56d32934588ad56135e7aaea8488c4，status=FrozenInputsRestored。固定编译PID30655于01:54:17.4772450Z～01:54:19.7369600Z真实exit0；固定runner PID30660于01:54:19.7395130Z～01:54:28.9750660Z真实exit0，四个原方法完成标记按原序具名返回。run/source/日志身份已在结果中保存。
+
+SD00另直接复读历史目标四golden：34768/96954/12528619/10458bytes及各原SHA全部匹配§383/386/394。这只接收输入恢复事实，不把Mono反射运行写成Unity测试通过或产品ACCEPT。runner源码4687bytes/SHA860bbcbce93204bc4ed04f691486365258582f0c72471fc83798ba475d4b57ee、exe10240bytes/SHA801e2ce8b148cf3d1aef7533662a10c8251a3d3be52ad86da4bedacd43116a2d；实际BCL来源日志为同Unity的net_4_x-macos及gac，不能倒填为只加载4.5路径。最终原恢复工具226行/SHA c38bb8102703729a59cdbe022dcb7cc5198674bc94b1d901364d5784d64b0da7及75行runner由C报告，完整范围及执行语义仍交正式R审查。
+
+槽004已沿唯一工具实际启动完整EditMode，run.json绑定同一C原turn和工具SHA69fb007f3ae2f9bdef5eea6087ce2831ef125deae0de8c58ba834f2e78a84a01。Unity PID30770，startedAtUtc01:55:11.4844490Z、processStartUtc01:55:14.7772642Z；固定参数为batchmode/nographics/runTests/testPlatform EditMode及本槽tests.xml/log，无filter且无quit。当前未取得result或XML终态，不预报全绿。C仍原turn/inProgress、activeFlags为空、cursor:42；完整交付及独立R尚未发生，不在运行中改产品源码。
+
+028草案现已补B01～B12可观察验收矩阵，仍PREPARED_NOT_DISPATCHED；不得越过本段准确C completed/formal/实物与R唯一verdict门。Goal控件旧blocked没有重新写成active；本轮通过原会话实际返回继续既有完整目标，不新增自动任务。
+
+
+## 397. 运行中发现的原范围返回父链修正与版本边界
+
+C在槽004期间静态核CC10/CC13及已接收C1第80/91行，发现ReturnToAnchor清空parents后仅恢复Preparation→Map；带选中Level的Team装配锚取消或提交返回后丢失Map→Preparation父链，下一次Back会误发RootBackRequested。C已提出原PlayerNavigationRecovery和PlayerNavigationPermanentFlowTests内的两级父链修复及取消/提交参数化实会话回归，属于原文件/预算/验收范围，不新增权限或等待用户批准。SD00已回执：004运行中保持源码不动，自然终态后合并全部已知修正，再按原剩余槽Compile→完整EditMode，保留004原结果。
+
+§394固定Compile003身份仅约束已结束的那次Mono历史输入恢复。后续原范围导航修复后，MC06仍准确绑定003原运行/旧测试DLL，不倒填为最终DLL相同；原四生成器/其算法源码未变且四golden保全时，无需为无关导航修复再跑输入恢复。最终产品交付另绑定修后Compile/Tests同版，旧失败及真实变化链完整保留。此条澄清阶段身份，不能豁免最终测试或R独立接收。
+
+
+## 398. 临时防休眠状态核实与替代助手
+
+2026-09-28本轮fresh ps确认Tests004的Unity PID30770持续存活并运算（观察点elapsed21:10、CPU99.1%），原防休眠PID23728已不存在，旧exec97899亦返回Unknown process id；不把原12小时计划当仍有效的证据。pmset另证实Unity批处理自身已有PreventUserIdleSystemSleep断言。
+
+为覆盖测试结束后的修正/审查间隙，SD00按用户持续推进授权建立新的有时限自有助手：/usr/bin/caffeinate -i -t 43200，PID31678、exec session29040；已核其PreventUserIdleSystemSleep断言。没有启停或替换Unity。目标真正完成或用户要求停止时，先核该PID仍属这个助手，再结束它；12小时到期自动退出，不碰其他进程或用户电源偏好。
+
+
+## 399. 完整待修清单、后继验收设计咨询与Goal控制状态
+
+2026-09-28T02:34Z，fresh wait_threads确认C仍原turn 01a0e410-3e6f-7400-b58c-34cebde8d28c/inProgress/error=null/activeFlags空，cursor:58；没有正式完成。C在原scope-audit.json的plannedPost004Repair留存七份修前源码，收敛六项：Team父链、精确Null图形关窗预期日志、活动局装配按钮与已开详情拒绝、Ended后Restore失败的Recovery门、旧owner/token及已确认原operation边界、关闭view/controller后通知失败的原完成恢复。均在原13个导航文件及预算内；004自然终态前不改源码，之后合并真实失败一次修正再编译/全量。SD00回执不增加范围、不删旧断言、不授权全局忽略日志。
+
+同一R已接新的只读设计可执行性咨询，准确turn 01a0e5de-a14e-7bc3-adee-e93189a36cde、startedAt1790562967、当前inProgress/error=null，仍gpt-6-astra/max。只核028/029准备稿新增B01～B12、M01～M10及必需接口/范围/实际证据缺口，不编辑、不运行Unity或Player、不操作界面、不新增会话；不替代待C正式完成后的CONT-C独立代码审查。两稿仍PREPARED_NOT_DISPATCHED，交付平台澄清保持待答。
+
+get_goal本次仍返回旧blocked。SD00已再次明确撤回旧审批卡片要求，并通过异步问题请用户使用本会话/goal resume或Goal恢复操作，恢复自动续接；这是模型无权限执行的Goal生命周期控制，不是重新申请已获开发授权，也不是当前C测试前置。现有工具只允许模型标complete/paused/blocked，不能自行改active；不改内部状态文件、不另建目标或定时任务绕过。实际工作继续接回原C/R事件，首Demo完成条件保持。
+
+
+## 400. 后继设计咨询正式接回与准备稿修订
+
+R turn 01a0e5de-a14e-7bc3-adee-e93189a36cde已completed/error=null，startedAt1790562967、completedAt1790563600、duration632301ms。SD00已读正式回复及对应源码接口：Core历史Locate只找当前面，ReadRange已能读有效anchor；输入确认仅接受Locator；导航原结果仅显示编号；Playback.Finish先Changed后报告token，Lifecycle.Submit对SettleVictory不阻止该瞬间重入。此为后继设计咨询，无CONT-C产品verdict。
+
+028准备稿已补准确历史锚点选择→原ReadRange→同input确认/提交，拟增加两处旧文件例外：CandidateBattleApplicationSystem增≤56/删0、CandidateBoardInputController累计增删≤90；Core历史算法不变，原手势保留。另在028新session/controller定义只读原战斗收据重开，029宿主消费导航已核原结果，不隐式修改CONT-C导航文件；完整重建无内存请求的收据回归具名覆盖。结算执行入口须在取时间/准备前核权威PresentationToken解除，并覆盖首次Changed重入零准备/提交。
+
+029准备稿已把P2明确为重打→重来→退出→再次入场→非终局已提交行动→正常关闭，P3先核原状态再输入。两次真实冷启动仍用三进程；WPS/S17对象重建另有028用例，未实际做的WPS进程冷启动不冒称已测。两稿仍PREPARED_NOT_DISPATCHED，待CONT-C及028依序独立接收，正式基线/范围/证据与平台决定仍须落定。没有因此改当前C产品源码或重跑测试。
+
+
+## 401. 用户明确安卓APK目标与外置盘环境准备
+
+用户侧会话01a0e5ed-168e-7203-b03c-0a0dff49146c明确转达最新决定：首个Demo最终交付为安卓APK，Mac只是开发机；029与最终验收必须包含Android适配、安装、正常流程及关闭重开，不得以Mac App完成Goal。SD00已确认并撤回旧Mac App/APK选择题，不再要求用户重选；原主线目标、同源业务/保存/正式内容连续性、CONT-C→028→029顺序保持。029准备稿已实际改为APK范围，旧文件路径仅保留引用；旧文中的平台待答与Android排除项被本明确决定取代。现有CONT-C固定源码和004测试不打断，不把平台变更混入当前白名单。
+
+侧会话按用户最新授权已建立唯一环境会话：FightMatch Android 环境准备，thread01a0e5f8-216e-7a01-a649-5799010e2c8f、host local、gpt-5.6-sol/high；首turn01a0e5f8-2284-7803-a7ef-5508382565a2，startedAt1790564639，当前inProgress。此为原仅C/R限制的单项环境例外，其余不增会话/代理。它不改产品、Packages、ProjectSettings或Git，不运行FightMatch Unity验证；C仍唯一串行执行Unity。SD00没有重复建立环境会话。
+
+环境侧2026-09-28T03:05Z只读报告：现有2022.3.18f1的AndroidPlayer缺失，常见SDK/Android Studio缺失，只有Temurin21；Unity AndroidSdkRoot为旧带空格卷名的不存在路径。外置盘约23GiB、系统盘约12GiB可用。该时点Unity PID30770已运行约1:10、CPU99.7%，004未终态。安装清单与峰值空间仍核定中，这些观察不等于环境安装完成。
+
+用户随后在SD00本会话明确：“得让他尽量安装在外置硬盘，我内置硬盘空间不足了”。SD00已实际转达环境会话：模块沿当前外置Editor，SDK/NDK/JDK、下载/解包暂存、Gradle大型缓存及确有必要的镜像/AVD优先外置；使用受支持明确路径，禁止以HOME/CODEX_HOME改指向、迁移/清理用户数据来腾空间，内置仅必要小配置。先核下载+解包+安装+后续构建峰值，不无故安装Android Studio/模拟器；实际设备通路待核。当前只隔离准备；修改正在用的Editor、Preferences或切平台/启动Unity前需SD00与C交接空闲窗口，不能只见某一轮Unity退出就自行抢占。
+
+029 Android内容读取使用原六件及同一Content系统，APK/JAR读取需对应平台路径；Android真实存储适配、触摸UI、固定包身份/ABI/后端/API/签名与设备冷启动均须本轮证据。Mac模块/路径旧预检只留作开发机事实，不是APK验收。Goal工具旧blocked问题与平台决定分开；未达到APK实际验收、独立ACCEPT、说明及正常推送条件前绝不标complete。
+
+
+## 402. Goal恢复active及外置盘要求实际收件
+
+用户本轮外置盘指示后，SD00 fresh get_goal已返回status=active、updatedAt1790564991；完整首Demo目标保持，具体产物按§401明确为安卓APK。不推断由何种界面操作恢复，只记录工具实际状态。旧§392 blocked及§393～401控制状态均为此前时点；SD00已告知用户不再需要此前请求的/goal resume操作，不能继续把旧blocked当停工理由。
+
+Android环境会话原turn01a0e5f8-2284-7803-a7ef-5508382565a2仍inProgress/error=null，cursor5dc0843b-1120-4731-80e8-7b1160422eab:5；已实际回执按外置盘布置模块、SDK/NDK/OpenJDK、下载暂存和Gradle大缓存，先核官方组件真实尺寸与峰值，再下载。当前无安装完成声明。C仍原turn/inProgress/activeFlags空，cursor:69，004完整测试尚未终态。继续原实现→独立审查→必要修正→下一包及唯一串行Unity，不新增定时任务。
+
+
+## 403. 槽004真实终态与Android安装窗口交接
+
+槽004已自然结束，Unity PID30770实际exit2，01:55:11.4844490Z～03:07:54.6944540Z，共4363.210005秒；C包装会话20315实际exit1。SD00直接读result/failure各1488bytes/SHA bdd691fcca83566907d5e9f034dd5f2a23dff51c56c6a58c052a0ae24180e48a；XML2926292bytes/SHA f42a8db479e54b5c888db8afd8863fa89d70300c8bfc9b95b7a0858fc1f83d4f；tests.log1736368bytes/SHA bdce2eecde847f1218de6f52e9f1fcca058bad9c754ee59004c250dd57e51d8f。无compilerErrors，3937 total、3934 passed、3 failed、0 skipped/inconclusive。三个失败具名CC26_ActualFormationButtonsCommitOnceAndOldDetachedButtonCannotSubmit、CC26_ActualPanelButtonsFollowMapTeamBagAndRealEmptyRecipes、CC27_QuantityParserRejectsNegativeNoncanonicalAndOversizedWithoutWrites，均为No graphic device is available to initialize the view的未声明关闭日志。旧3872全通过及Mac探针9/9由C中间回报，正式具名多重集合与范围仍交R核；本次全量不称通过。
+
+C原turn仍inProgress，七文件/六项合并修正进行中。C已明确确认不再持有Unity/验证会话，且在SD00释放前不启动005/后续Unity；继续源码和静态检查。SD00 fresh全进程只读ps也未发现Unity Editor。基于此已实际向环境会话01a0e5f8-216e-7a01-a649-5799010e2c8f放行独占安装窗口：只装同版配套Android模块/SDK/NDK/OpenJDK与精确外置路径偏好，不改产品/Packages/ProjectSettings/Git，不自行打开FightMatch。完成/失败均要报告所有安装进程终态和窗口释放，由SD00才恢复C的Compile→完整EditMode。不能仅以某一PID消失推断后续无C运行。
+
+环境侧已核官方元数据：下载2.633GB/2.452GiB，安装约7.326GB/6.823GiB，含解包按约14GiB峰值；配套SDK tools26.1.1、Build Tools32.0.0、Platform Tools32.0.0、API31/32、NDK r23b/23.1.7779620、cmdline-tools6.0、OpenJDK11.0.14.1+1。03:14:18Z外置盘fresh可用约167GiB，较此前增加，环境会话声明未清理，SD00不推断来源。实际安装结果未到，不把元数据当已安装；用户外置盘优先继续有效。
+
+同一R另作Android最小适配只读咨询，turn01a0e5ff-e5ed-76f3-8cd4-d91d373ba1d3、startedAt1790565148、当前inProgress/error=null；不改文件、不启动Unity/Player/设备操作/安装、不新增代理。该咨询不替代CONT-C正式代码审查。Goal已active，现并行的是C源码修正、环境安装、R只读设计，Unity验证没有并行。
+
+
+## 404. 真机与模拟器明确范围、源码冻结及安装恢复
+
+用户已在本会话Q2答复“真机，iqoo neo 5”；首APK最终真机验收指定iQOO Neo5。Android版本/API/ABI由实际连接后读取，不按上市规格猜测。随后用户明确“模拟器也需要，或许现在系统已经装有了？”；此最新要求取代先前SD00不安装模拟器的判断。环境会话先只读核已有Android Emulator/AVD或第三方安卓模拟器，优先复用；不足时准备最小所需模拟器及镜像/AVD，尽量外置盘，不无故安装整套Android Studio。模拟器可辅助开发预检，不能替代已指定真机的最终验收。两项决定均已实际发给环境会话与当前R Android咨询，不改CONT-C范围。
+
+C原turn明确回执：七文件六项修正及三项新增测试均已完成并固定；预算生产1177/1860、测试1067/1670、meta143/156，静态diff检查通过。003.after=004.before=004.after及七份原源码保全；实装备API原拒绝码AttemptActive保持，UI显示ActiveAttemptConflict。此为作者源码冻结回执，不是修后编译/测试或独立ACCEPT。C继续等待明确释放005/006，不启动Unity。
+
+环境首轮Hub实际exit1，Android Build Support官方CDN返回ERR_CONNECTION_CLOSED；据环境回报尚未安装任何组件，Hub/Unity均已退出，已下载子包及NDK半包留在外置下载目录。环境fresh核同一官方URL经IPv4返回200、ETag/MD5与官方元数据吻合，按精确660850714-byte包/MD5 e5d81424f214686209685257ac3b59e0恢复下载、校验后让Hub续装。保留首轮失败及已下载内容，仍占独占窗口。触及Unity/SDK的安装结束、真实安装进程终态及原Unity/Mono身份核对后，由SD00明确释放C；如仅剩独立模拟器镜像/AVD且不触及正在用的Editor/SDK，可单独继续环境准备，避免无故占用C验证窗口。
+
+
+## 405. Android咨询准确完成与029边界收敛
+
+R Android主咨询turn01a0e5ff-e5ed-76f3-8cd4-d91d373ba1d3已completed/error=null，1790565148～1790565955，807716ms；正式回复msg_0d29bf8d726d8dc0016ab9de0e46fc87d0bcd4243ba2f83d6f。设备补充turn01a0e60d-a76a-7343-8927-290b92dc27e8及模拟器修正turn01a0e60e-a8ca-7c02-8f21-55ab762526d7亦已completed/error=null；后者1790566115～1790566144，最新cursor dfe07616-8bc7-46f3-b532-5d7000a29ac6:67。R当前idle；没有CONT-C产品verdict。
+
+029准备稿已收入最小Android两存储实现与StreamingAssets loader建议、IL2CPP原生fd不能用SafeFileHandle强转、合作写者租约下File.Move非覆盖前提、EditorProcessCrash=1字节不变、系统可信根与子树链接边界、接收期间有界六件读取及目标AOT验证。SD00已直接复读所指本机IL2CPP源码并核官方Android路径/ARM64后端资料。隔离存储双进程故障与正式P1/P2/P3分别取证，模拟器不得替代指定真机。仍PREPARED_NOT_DISPATCHED，具体范围/预算与运行计划待前包准确接收后冻结，不先授权源码、Unity或设备写入。
+
+
+## 406. 外部Finder元数据最小保全处置
+
+C在证据闭合发现唯一越表叶TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/.DS_Store；SD00 fresh lstat/长度/SHA复核为常规文件、6148bytes、087940810306d36853392f1e0d0ced48d88190bc50e4aa95b7038e15301ed750，birth1790564848.658298、mtime1790564875.618827。该Mac目录元数据不是C验证产物，不扩进64证据白名单，不悄悄忽略计数。
+
+授权原C在继续等待Unity安装窗口时做唯一可逆保全：重新核此准确源叶未变且非符号链接，创建/private/tmp/fightmatch-cont-c-platform-metadata-20260928（fresh已不存在），以CreateNew/不得覆盖保存为DS_Store-087940810306d36853392f1e0d0ced48d88190bc50e4aa95b7038e15301ed750.bin；目标完整长度/SHA吻合且源fresh仍同身份后，仅移除该源叶，按移动保全记录操作/前后身份。若源改变或目标已存在而不吻合，保留并回报，不扫描/删除其他Finder文件、不停Finder、不改变用户偏好。此6148字节临时保全是必要小型证据记录，不迁移大型缓存；不改源码、不触发Unity或重跑测试。将准确路径、时间、SHA与结果写入原scope-audit/交付报告，最终R核原证据64项范围与外来元数据排除理由。
+
+
+§406执行回执：C原turn报告于2026-09-28T03:34:06.802Z～03:34:06.890Z按CreateNew完成目标保全，6148bytes/SHA087940810306d36853392f1e0d0ced48d88190bc50e4aa95b7038e15301ed750核符，源fresh长度/SHA/dev/inode/mtime保持后只移除准确源叶，目标复核相同、源现不存在。原scope-audit.externalFinderMetadataPreservation与platform-environment已登记。平台64表当前61实物、3终态汇总叶待生成；该计数为作者中间回执，最终由R独立核。未启动Unity，安装窗口仍未释放。
+
+
+## 407. Android模块安装真实终态与C验证窗口恢复
+
+SD00已直接读取环境原turn中的commandExecution exec-64c0b09e-6815-4561-8cfc-fdaaf0a58f8b：官方Hub安装命令实际completed/exit0、duration329333ms、CLI PID39614，九组件成功；前一exit1及网络恢复保留。环境随后真实执行内嵌工具得到adb1.0.41/32.0.0、OpenJDK11.0.14.1、sdkmanager6.0、aapt2及apksigner版本；NDK r23b/23.1.7779620的ndk-build在本机arm64直接调用失败，经arch -x86_64运行GNU Make4.3.90及clang12.0.8成功，与当前Intel Unity使用Rosetta一致。adb沙箱5037绑定失败在获准非沙箱重试后exit0、devices为空；这些环境失败均不得隐去。AndroidPlayer实际位于外置Editor兄弟目录PlaybackEngines/AndroidPlayer，约6.9GiB。Gradle7.2库已在模块内，构建执行尚未发生。
+
+Unity Preferences只把旧卷名的AndroidSdkRoot改为/Volumes/WD_BLACK_SN7100_2TB_Media/application/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK，SdkUseEmbedded/NdkUseEmbedded/GradleUseEmbedded保持1。外置缓存目录为/Volumes/WD_BLACK_SN7100_2TB_Media/application/Unity/AndroidBuildCache/FightMatch下gradle-user-home、android-user-home、avd；实际构建须显式带对应环境变量，不把仅建目录当已迁移缓存。未改项目配置/Packages/产品，未启动FightMatch。
+
+SD00fresh非沙箱ps核无Unity Editor、CLI安装器或系统installer；仅既有GUI Unity Hub PID6715仍在，不能说所有Hub都退出，也不结束用户GUI。直接长度/SHA核原Editor主程序与Mono五件：Unity86759760/71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f；mono5051536/7cdee666f010ff74fcbfaead36dee27e95790562248a1e5aa1dc22df76619538；mcs.exe1820672/62e592af7240289060da6df5617d3cb30cb2b199c82ccf90fe1f6068a14accd2；mscorlib.dll4612608/c5968d3e8e6ef34249853aa908d29497fa8d5af441e1d25e982c3233f50595fa；Mono.CSharp.dll1354752/0a56f7789746732c9dafe2d479099a50f8da1baa3b624c0992ee24e36ae466cd，与原恢复及环境安装前身份一致。
+
+基于真实安装终态与fresh身份/进程，SD00现明确收回环境独占安装窗口、恢复原C串行Unity：固定七文件修后源码，用原stage/唯一工具按005 Compile→成功后006完整EditMode，保留所有旧运行/输入恢复/失败。环境后续仅继续BlueStacks/adb与独立镜像盘点，不得在C窗口再写Unity/同SDK/Unity Preferences或启动FightMatch；若确需新SDK写入先报告，另交接。无需等环境整个回合完成或总控回合结束。当前环境waitingOnApproval标签没有具体拒绝/人工作业证据，不当成全目标阻塞。
+
+
+## 408. Mac会话中断后的原范围继续与真实运行身份
+
+本轮fresh原生状态已确认C turn01a0e410-3e6f-7400-b58c-34cebde8d28c为interrupted/error=null，completedAt1790566793；不是正式COMPLETED，也不是代码失败。最后编译包装命令exec-585e02c8-d2fc-4c51-8d5b-1c929945bf99为failed、exitCode=-1、duration6422ms。磁盘槽005只存在空目录，006不存在；SD00非沙箱ps进一步确认Unity Editor、原pwsh验证包装和自有caffeinate均不在。不存在活过程时才恢复，观察中断本身从未当成可重启依据。
+
+继续使用同一个C会话01a0e404-d89d-7ab2-bece-3cd1df3fbc52、gpt-6-astra/max，在新准确turn续办，不新建会话。保留005空槽及控制面中断事实：在原允许005/failure.json记录真实观察、命令调用ID、-1包装终态、未见run/before/Unity PID/结果，标为编译未得到执行证据；不得造Unity退出码/测试XML，不删目录抢回005。唯一工具自然使用下一空槽006 Compile→成功同版后007完整EditMode；008保留实际需要时使用，未授权额外长测。先复核固定七源码与工具SHA、全部旧运行和同工程进程；存在新外来改动时保全并只报告真实差异。
+
+原root-identity/工具冻结作者turn继续表达原包创建身份，不重写001～004及恢复阶段身份。准确接续turn、startedAt、前一中断turn与006/007实际运行映射，新增记录在现有platform-environment.json与scope-audit.json及正式交付中；每个新run的原authorTurn字段明确为原包作者，实际执行turn由本接续映射与准确完成回执绑定，不假称新运行仍发生于中断turn。工具不因本次行政接续改产品/命令或放松原范围。最终门改为此次准确接续C turn completed/error=null＋正式COMPLETED＋实际报告/证据，随后R另用准确新回合独立审查。
+
+§407已恢复C串行Unity窗口仍有效；环境仅继续独立BlueStacks/adb准备，不写Unity/SDK/偏好。环境原生fresh显示新turn01a0e63b-4caa-7c60-880d-92ec0cfd480b inProgress、startedAt1790569041，具体恢复原因不推断。Goal保持active，无新定时任务。
+
+
+§408准确接续身份：C新turn01a0e63c-ec16-7551-b71c-dee6bd67c93e，startedAt1790569147，inProgress/error=null、activeFlags空，cursor796ef24b-7128-4b50-8355-3df976a835ba:4；已回执保留005、准备006/007。环境当前准确turn01a0e63c-fcb4-77b0-ba24-ab0604f39fe8，startedAt1790569151，inProgress/error=null，cursor a451aec7-0eab-434e-8c9e-f0f0c248ea88:5。前一环境恢复turn与当前turn不得混用。
+
+环境中间回报已有BlueStacks已完整启动并通过adb识别，实例emulator-5554及本机端口别名，Android13/API33/arm64-v8a，模型标识SM-G998B；此是模拟器报告身份，不是iQOO Neo5、不是两台已验真机。实际磁盘落点与容量仍待正式交付，无需因用户要模拟器而再下载一套；最终真机门保持。
+
+
+## 409. 临时运行时缺失后的外置盘同版恢复
+
+C接续fresh复核七文件、四golden和旧运行均保持，但/private/tmp/fightmatch-powershell-7.6.6及§406临时元数据副本不再存在；SD00只读再次确认，无可用PATH pwsh。无法据此推断由谁清理。临时.DS_Store副本记TEMP_COPY_NO_LONGER_AVAILABLE，保留当时完整保全/移出记录及当前缺失，不造替身；该外来元数据不是产品/验证产物，不据此重跑测试。
+
+按用户外置盘优先和持续开发授权，由SD00恢复同一Microsoft官方PowerShell7.6.6 ARM64 binary archive，改放持久外置路径/Volumes/WD_BLACK_SN7100_2TB_Media/application/CodexTools/PowerShell/7.6.6，下载保存同一父目录downloads/powershell-7.6.6-osx-arm64.tar.gz。官方来源https://github.com/PowerShell/PowerShell/releases/tag/v7.6.6与Microsoft安装文档已重新读取，官方SHA仍6df833d094ebac1c1a74340d7b3437f4aaf5e03ce640484a1c4359f3ce8b3db1、原长度70604356。先完整核验，再安全解包，核pwsh原身份并只运行版本/架构读取；不全局安装、不关闭证书/Gatekeeper、不改系统代理/许可或项目依赖。
+
+本项只替换C调用现有PS1的pwsh绝对路径，原唯一工具69fb007f3ae2f9bdef5eea6087ce2831ef125deae0de8c58ba834f2e78a84a01与Unity参数/源码/验证顺序保持。C记录新运行时路径/实际SHA及版本到原platform-environment/scope/正式交付。SD00交回真实就绪前不启动Unity；就绪后继续006→007，不再次等待总控回合结束。
+
+
+## 410. Android环境与模拟器正式接收
+
+环境会话准确turn01a0e63c-fcb4-77b0-ba24-ab0604f39fe8已completed/error=null，1790569151～1790569374，223234ms；正式final msg_05dcf1711c4d56ee016ab9eb9b8a8c87d093518ae16e413556，cursor a451aec7-0eab-434e-8c9e-f0f0c248ea88:8。SD00接收§407实际安装/版本/原Unity与Mono身份及本次模拟器可用事实；只完成环境子项，不是产品独立ACCEPT。
+
+现有BlueStacks Air5.21.735.7518已完整启动并经adb实测，emulator-5554与localhost:5555是同一实例的连接标识；Android13/API33/arm64-v8a/model SM-G998B。验证后已正常退出并清理离线adb连接，避免占用C资源。现有应用约2.3GiB、/Users/Shared/Library/Application Support/BlueStacks约5.4GiB（data.qcow2约5.73GB）位于系统盘；本次未新装或迁移既有用户数据。新AndroidPlayer约6.9GiB和构建缓存目录均外置。环境回报当前外置约161GiB、系统卷约19GiB可用，容量为该时点事实。
+
+当前adb设备列表为空，iQOO Neo5尚未连接；其系统/API/ABI/页大小及调试授权仍待实际读取，不能套用模拟器参数。后继029优先使用同源ARM64 APK作模拟器预检并完成指定真机正式流程；无需再安装Android Studio或另一套模拟器。真机连接必要操作等可运行APK与独立可做部分完成后集中说明。
+
+
+§409运行时恢复已核就绪：两次官方下载中断exit18后续传，最终70604356bytes/SHA6df833d094ebac1c1a74340d7b3437f4aaf5e03ce640484a1c4359f3ce8b3db1与原官方一致；安全解包613项至外置固定目录，不覆盖既存安装。新pwsh完整路径/Volumes/WD_BLACK_SN7100_2TB_Media/application/CodexTools/PowerShell/7.6.6/pwsh，158640bytes/SHA86966ef5e53763c0d7cac9981b9b36c30245185dc347ca69ddfb815c665bf515；仅版本/架构读取实际exit0、输出7.6.6/Arm64、stderr空。C可立即用新前缀续006Compile→007全量，不必重跑历史输入恢复；根/源码/工具原SHA保持。归档与解包均留外置盘，不依赖系统临时目录。
+
+本轮恢复后旧防休眠PID31678已不在；SD00创建新的12小时自有/usr/bin/caffeinate -i -t43200，exec session62019，fresh ps准确PID17622。目标真正完成/用户停止时只结束这个已核自有进程；不更改系统电源设置或停止用户进程。
+
+
+## 411. 原Unity的Intel执行环境故障与最小恢复窗口
+
+接续槽006仅产生before.json、compile.stdout.txt、compile.stderr.txt、failure.json；唯一PS1包装实际exit1，Start-Process在创建Unity前返回Bad CPU type in executable。failure为2026-09-28T04:27:08.4008560Z～04:27:14.5969660Z，processId=null、actualExitCode=null、HarnessFailure；SD00实读该文件473bytes/SHA43a50ad2b83e6da5e8570915587476ab9bd2074ada9bf80cd4b718620b21f472。这是启动环境失败，不写成Unity编译错误/测试失败或通过。
+
+C fresh核Unity仍86759760bytes/SHA71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f、Mach-O x86_64；本机uname=arm64，pkgutil未找到com.apple.pkg.RosettaUpdateAuto，arch -x86_64 /usr/bin/true也报Bad CPU type。原先003/004和Android工具曾在对应时点成功，不能由历史成功覆盖此次缺失，也不推断变化原因。C核进程列表912行且无Unity/pwsh；保留006并冻结源码，不空重试。
+
+交同一Android环境会话先用获准非沙箱的无害x86 true探针及收据排除沙箱差异，若确缺则仅按Apple官方方法恢复必要Rosetta运行时；Apple说明https://support.apple.com/en-us/102527已由SD00读取，受支持命令为softwareupdate --install-rosetta。不得换Unity、改源码/SDK/许可或升级整个macOS，不关闭安全机制；若系统确需人工认证，保留真实错误并报告具体必要动作，不推测。用户外置盘优先仍适用，Rosetta若必须随系统安装仅记录此必要例外，不伪称可移到外置。C暂停Unity启动，源码/报告独立工作继续。
+
+系统环境恢复且非沙箱x86探针实际通过、安装进程真实结束后，由SD00明确放行007Compile→成功同版后008完整EditMode（原八槽内）；当前未放行，原006绝不覆盖。现有原root/工具字节及§408实际接续回合映射保持。该故障是可独立处理的技术环境问题，不重问产品方向，不标Goal完成或提前blocked。
+
+
+## 412. Rosetta恢复实证与007/008正式放行
+
+环境已回传非沙箱真实初始x86 true exit1/Bad CPU type、无Rosetta收据；执行Apple官方softwareupdate --install-rosetta --agree-to-license实际exit0、Install of Rosetta 2 finished successfully。修复后x86 true与配套x86 OpenJDK版本探针均exit0，Unity仍原x86_64及SHA71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f。未执行Unity，未改Unity/SDK/项目。Rosetta属于必要系统盘组件，作为用户“尽量外置”要求下的明确必要例外，不移动到外置或另换Unity。
+
+SD00又实际执行非沙箱x86 true得到exit0、stderr空，pkgutil读取com.apple.pkg.RosettaUpdateAuto收据成功，并检查无仍在执行的Rosetta安装CLI。基于此现在明确释放环境修复窗口，放行C原接续turn继续007 Compile→成功且同版后008无filter完整EditMode；使用§409外置pwsh与原唯一工具69fb007…及八槽范围。006保持HarnessFailure/noUnityPID，不覆盖；所有源码、输入恢复和旧失败保全。无需等环境整个回合或SD00回合结束。
+
+
+§412运行进展：SD00直接读槽007/run.json，Unity实际PID23700、processStartUtc2026-09-28T04:32:18.2808170Z、startedAtUtc04:32:11.9215290Z，固定CONT-C-MAC-R1/Compile；当前没有result，不预报通过。C准确接续turn仍01a0e63c-ec16-7551-b71c-dee6bd67c93e/inProgress/error=null，cursor796ef24b-7128-4b50-8355-3df976a835ba:17。Rosetta环境修复执行于环境turn01a0e643-993e-71e3-a047-abb9a258c676（startedAt1790569584）；该环境回合还有其他工作，阶段修复已实际终态并交接，不把整个回合提前称completed。SD00自验收据version1.0.0.0.1788432274、install-time1790569793、volume/location为系统根。
+
+
+## 413. 最终源码编译通过、完整008启动与后继执行设计咨询
+
+SD00已直接核槽007/result：1105bytes/SHA2d85256d0bd0cadaa7ba45a2964f3aae843f49a64de9abd742ebfc16a0f29848；Unity PID23700实际exit0、compilerErrors空、passed=true，04:32:11.9215290Z～04:33:35.3680420Z，共83.446513s。compile.log98022bytes/SHAef01bef0d9e9173723c0446a7b26516eaeea4cbc437f251cf9b02ce390883bad，stdout/stderr均0bytes。不是只凭C口头绿灯。
+
+槽008/run实物已存在，Unity PID24278、startedAtUtc2026-09-28T04:34:06.9251750Z、processStartUtc04:34:11.0468162Z；完整EditMode，无filter、无quit，仍工具33103bytes/SHA69fb007f3ae2f9bdef5eea6087ce2831ef125deae0de8c58ba834f2e78a84a01。run.authorTurnId保持原包创建身份01a0e410…，实际执行为接续turn01a0e63c-ec16-7551-b71c-dee6bd67c93e，按§408映射，不能误报中断turn仍运行。目前没有测试终态或正式交付，CONT-C尚未独立接收。
+
+R先前准确末turn已completed，SD00向同一R会话继续有限只读029可执行性咨询：核本机UTF1.1.33对Android目标测试的支持、最小同UID双PID/故障QA通路、拟新增精确文件/asmdef/设置例外和真实手机与模拟器分工。禁止改文件/运行Unity或Player/adb/安装/新增代理，不是CONT-C正式代码审查、不出产品verdict。028/029仍PREPARED_NOT_DISPATCHED，正式C/R完成门不变。
+
+
+§413 R只读咨询准确身份：turn01a0e64c-ddca-70d3-8bb1-ffc0117d78e2，startedAt1790570192，inProgress/error=null、activeFlags空；cursor c3a66b18-e496-419a-a195-29111a177b55:2。C回执007.after与008.before的808实现/838Assets/36DLL-PDB逐项相同；此仍为运行中来源绑定，完整测试终态及最终R代码审查未到。SD00补具体化029六件接收预算，沿原单件min(16MiB,MaxRecordBytes)/总32MiB，当前六件实物总38452bytes，产品原内容未修改。
+
+
+## 414. 008运行中新增返回锚缺口与集中静态核查
+
+C在整理可达验收路径时发现：从队伍装备页逐层Back至Preparation，页面已回准备页但anchor仍为Team，此时从准备页发起迁移后取消/返回可能错误回队伍。该发现尚待作者精确函数/用例方案和独立R最终复核，不把当前测试运行预称通过。源码与工具继续冻结，008自然运行，不终止Unity。
+
+SD00已要求原C将精确当前源全文/SHA、最小方法/文件/用例及预算记录在原scope-audit.plannedPost008Repair，集中静态核原导航所有可达Back/父链/锚与迁移取消/提交后的返回路径，合并实际同类缺口。只在原13导航白名单内处理，不新增功能，不假借核查重构。008结束后需因真实源码修正追加必要验证；原8槽届时用尽，009Compile/010全量的封闭扩展、唯一工具最小变更和版本映射将另签，当前尚未授权写新槽或改变运行中工具。
+
+
+## 415. Android执行设计咨询正式接收
+
+R turn01a0e64c-ddca-70d3-8bb1-ffc0117d78e2于1790570852 completed/error=null，duration659830ms，formal msg_0d29bf8d726d8dc0016ab9f124141c87d08caa9d945dd08ba3；已实读完整正式回复。029准备稿收入精确候选源文件/asmdef/场景/设置JSON、UTF1.1.33 Android实际入口及architecture字符串、严格guard的QA build modifier、临时测试包/engine stripping/单份InitTestScene工具生成物边界、run-as fd9/toybox flock真实双PID通路与同QA APK分阶段恢复。
+
+正式APK单独验证Minimal/AOT、真实玩法和指定iQOO Neo5 P1/P2/P3；模拟器预检与QA矩阵不替代最终手机证据。BuildPipeline显式场景默认无需更改EditorBuildSettings，包名/ARM64/TargetSDK32为工程建议，正式白名单/预算/签名保全仍待签发。字体与直接宿主测试路径也尚需精确列出，不能把本咨询写成029已就绪执行或CONT-C代码ACCEPT。当前Ridle；C008仍运行并集中静态核§414返回锚，未得到最终产品交付。
+
+
+## 416. 返回锚语义的独立只读事实咨询
+
+为在当前008等待窗口一次收敛§414窄修，SD00向已完成Android咨询的同一R追加只读事实核查：对照原§367/374与C1设计，核anchor是当前正常页面还是原操作起点、parent链/确认owner/token在各阶段的关系；检查已发现Back→Preparation及同类取消/提交/原结果返回路径，给最小语义修正位置和必要可达见证。R只读当前四个导航应用文件及直接测试，不改文件、不运行Unity/测试/设备，不给产品verdict或替C实现。
+
+此事实咨询不开放正式CONT-C代码验收，不改变准确C completed＋修后最终测试/报告之后才正式独立审查的门。原C继续自己的集中静态核查、008自然运行。SD00在两方事实汇合后签原文件/预算内小修及009/010有限运行扩展；不以临时文件出现或当前008可能通过冒称已完成。
+
+
+## 417. 008终态后的最小009/010验证扩展
+
+状态APPROVED_AFTER_RUN008_TERMINAL；这是§414真实源码修正所需的两槽能力补签，不授权运行中改码/改工具，也不扩大原13导航产品范围。原C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52继续gpt-6-astra/max，当前实际接续turn01a0e63c-ec16-7551-b71c-dee6bd67c93e；旧作者turn/root保持历史身份。返回锚具体修正须等C/R事实收敛后另由SD00确认，不能凭本段自行增功能或改旧Core。
+
+SD00新增并冻结docs/system-design/2026-09-17/demo-cont-c-mac-r1-run-extension-plan.json，3862bytes/SHAa4b02650313488f4b3679daa5c1d73a78e9dfc77d3c327da2489b5597db31b55。C仅可读取，不能编辑此计划。原root-identity为17532bytes/SHA b4dc15b859685ddac2b13255c8d8254685103708727ba3298cc8378fcd9999e5，其156条原列表不重写；有效本轮证据集为原156与计划中新增24路径的并集180，manifest排自身最多179条，只列实际产物。新路径仅runs/009与runs/010各12固定叶，逐项继承008同名模板；不允许其他运行号、通配根或覆盖已有失败。
+
+唯一C工具可写例外仍Tools/Invoke-FM025P2Validation.ps1：本段起点33103bytes/SHA69fb007f3ae2f9bdef5eea6087ce2831ef125deae0de8c58ba834f2e78a84a01、389行；相对这个起点新增＋删除≤80行、最终≤449行，不压缩行规避。只为CONT-C-MAC-R1核本冻结计划SHA、原root/owner/阶段和24条精确额外路径、把最大运行号从8扩到10，并明确009只Compile、010只Tests。其他旧stage行为保持；不得把原root的156条改为180来覆盖历史身份。必要时把此计划作为新增只读平台输入单列，原925保护清单和既存来源保持原含义，不机械重写历史计数。
+
+修改前将当前工具完整文本/长度/SHA存入原scope-audit.plannedPost008Repair；保全008当前source/tool/DLL和实际终态。实际008 Unity与包装进程均已结束、原范围源码修正及全部静态检查完成后才固定新工具和源码，串行009Compile→成功且source/Assets/工具/36DLL与010前一致→一次无filter完整EditMode（无quit）。照原保留PID、时间、实际exit、日志/XML、前后身份，010之后再次核与最终交付同版。新增测试必须保留全部旧具名多重集合；因008终态未到，本段不虚构总数或通过状态。源修/工具变化之外无理由的额外长测不授权。
+
+现有platform-environment/scope-audit/正式交付记录本计划、准确实际执行turn→009/010映射、最终有效180路径集合及扩展原因；不新建第二证据根，不把新文件写入旧源文本或伪造未执行槽。主平台64证据表、四golden输入与003支持的旧恢复保持，不重跑无关恢复。全部运行后仍需准确接续C completed/error=null＋formal COMPLETED＋正式两报告与实物；R正式独立审查后才可能接收/推送CONT-C。
+
+本段到下方独占标记按UTF8、CRLF→LF、末尾恰一LF冻结；冻结摘要与派发登记放在段外。
+<!-- CONT-C-MAC-R1-RUN-EXT1-PACKET-END -->
+
+
+§417冻结：3079 UTF8/LF bytes、SHA256 723b8c25a546b6fbcfff7a223694965c2d83a6a77747fc618a5487e914d2040e；运行扩展计划3862bytes/SHAa4b02650313488f4b3679daa5c1d73a78e9dfc77d3c327da2489b5597db31b55，仅正式终态后生效，尚无009/010执行。
+
+
+## 418. 返回锚与确认发起页的集中窄修
+
+状态APPROVED_AFTER_RUN008_TERMINAL；原C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52、当前turn01a0e63c-ec16-7551-b71c-dee6bd67c93e继续实施，gpt-6-astra/max。原008自然运行，Unity与包装进程真实终态收齐后方可修改源码/工具；不杀进程、不覆盖008。工具和009/010证据扩展严格执行冻结§417，本段只确认§414所需产品窄修及验收。
+
+事实来源：C在原scope-audit.plannedPost008Repair中已保存两生产文件和PermanentFlowTests的当前全文、SHA、拟议差分与七个新增测试见证；R只读咨询turn01a0e65c-1283-7b02-a907-83b6ff6660b8于1790571776 completed/error=null，duration587164ms，正式msg_0d29bf8d726d8dc0016ab9f4d00d4c87d08dc799985eb99a1b。R未给产品verdict。SD00实读C1§4～6，确认ReturnAnchor是本子流取消/完成目的地，Route是当前页，Parents是普通Back链，确认还须保留进入前的真实编辑页；不能一律把锚设置为当前页。
+
+只允许以下原导航白名单文件发生本次产品变化，不新增文件/meta/API/持久字段：
+
+| 文件 | 008当前bytes / SHA256 | 最终原预算 |
+| --- | --- | --- |
+| Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs | 19936 / e5860da39bb01fe7bb1634bc1004aae2d8011a8a5da814f0fcc1fe652975d7a9 | ≤350行 |
+| Assets/Scripts/FightMatch/Application/PlayerNavigationRecovery.cs | 12336 / cca0cf92fc60b9e6bf57d692e61c742ee4911bdbee339ec1dfd4e0e95d6aebc7 | ≤240行 |
+| Assets/Tests/EditMode/FightMatch/PlayerNavigationPermanentFlowTests.cs | 19439 / 87ee3298ed5fcb30fa6f278d029d0366cb8789804b392f74ea15b05438b85e40 | ≤360行 |
+| Assets/Tests/EditMode/FightMatch/PlayerNavigationSessionTests.cs | 15547 / d10f420e09183dc38540fd0fcaef9450950e9df63c89a39f58a4418947099a12 | ≤350行；仅原测试文件容量确有需要时使用 |
+
+原总预算生产1860/测试1670/meta156行不增加。其他源码与所有旧Core、格式、业务规则、Query/Models、UI、平台适配、已恢复golden、Packages/ProjectSettings均不因本补签改变。若008发现与本窄修无关的新失败，先保全精确实证并报告，再决定最小补签，不凭两槽授权扩范围。
+
+必须一次合并的语义与见证：
+
+1. 普通Back跨出Team装备详情后恢复Team外层上下文；继续Back到Preparation时锚为Preparation，父链只含Map。后续直接Cancel、迁移Back/Cancel/提交Return、选准确原operation后结果Return均不能再误回Team；原结果查看/Return零再提交且原Commit与当前头分列。
+2. 装备Cancel或已提交Return的实际落点仍为Team，保持当前所选角色及真实父链；该装备子流结束后，Team中新发起的阵容/迁移使用其外层上下文，从Preparation来的阵容Cancel回Preparation，从Map来的Team路径回其外层Map。不能让已结束的装备子流决定下一操作；同一旧token也不能重复弹栈。
+3. Confirmation Back、未确认头变化、换角色失效、Prepare拒绝统一回实际发起页和匹配父链，只刷新当前已核头，不恢复旧业务头。可在两个原partial内保留一个私有内存draftPage或同等最小状态；重复Preview须保留第一次实际编辑页，不能把Confirmation记为发起页。替换预览失败时亦回编辑页并拒旧token，避免残留孤立确认。
+4. 保留Preparation→Bag→制作的Preparation锚、Bag根制作的Bag锚、Team装配落点，以及未确认Back逐层路径。覆盖至少Map/Preparation/Team/Bag/CraftList/Detail迁移确认的可达发起页，重点断言页面、完整父链、ReturnAnchor、LevelId/Version与无多余保存；适当扩展原用例而不新建测试框架。
+5. 已准备原request/intent优先、End独立确认、owner/epoch/revision、重复Confirm查原结果、pending/恢复、页面重绑保留请求与完整Application重建回Map均保持。补非Map锚的实际见证；不改Core返回码、不把UI路由问题宣称为数据损坏。
+
+C先在原plannedPost008Repair中合并上述独立事实、追加必要原文件before全文/SHA及最终小方案，保留原拟议版本来源，不覆盖007/008身份。008终态后按本段实施并完成所有静态/预算/具名多重集合检查，固定源码与§417新工具，再执行009Compile→同版010完整EditMode。无需为普通实现选择等SD00再次放行；若实际前置或范围不符，先给精确缺口。验证后所有报告/快照/脚本SHA/回合映射使用实际最终版本，不能沿用007/008旧成功标记或69fb007工具摘要。最终仍必须C准确completed＋正式COMPLETED＋两报告，随后R正式独立审查；本咨询和补签不等于ACCEPT。
+
+本段至下方标记以UTF8、CRLF→LF、末尾恰一LF冻结；派发摘要置于段外。
+<!-- CONT-C-MAC-R1-ANCHOR-C1-PACKET-END -->
+
+§418冻结：4866 UTF8/LF bytes、SHA256 65b20be285d2dedde960ff8f14c0793c0fbdebd94c92b71d63cb0f2cf30e2a02；原四文件预算内窄修，008终态后生效；不是产品ACCEPT。
+
+
+## 419. 029最小宿主边界与直接测试只读咨询
+
+SD00在§418窄修派发后，向同一R追加一次窄范围设计事实咨询：现有创建/F2/OpenExisting接口、单一QFramework拥有者、导航与026/027绑定、028拟议桥接、新Host与独立Editor tests程序集。仅给最小精确文件/方法边界、预算建议与真实API缺口，核重复创建/孤儿数据/原locator恢复、重复HostRequest、完整原结果桥接和页面detach寿命的可测路径；字体只核Unity2022.3正常资源连接，不下载资源或新研究许可。只读源码/准备稿，不写文件、不运行Unity/测试/设备、不给产品verdict、不将028拟议接口当作已有。实际新turn01a0e66b-3294-7cb2-b9dc-e9bb96293b60，startedAt1790572180，已核inProgress/error=null；不创建新会话，C继续008与已签后续窄修，029仍PREPARED_NOT_DISPATCHED。
+
+
+## 420. §418对应的单行UI测试期望补签
+
+APPROVED_AFTER_RUN008_TERMINAL。原C及准确接续turn不变，§417/418全部前置、源码冻结、预算与最终独立审查门保持。仅向§418四文件表补一个原13导航白名单中的精确测试例外：Assets/Tests/EditMode/FightMatch/PlayerNavigationPresentationTests.cs，当前12782bytes/SHA b3d9ccdd37591ddbdedda629732a6772e70b8826bb0da127cc8eb9d31e47a979、206行，原≤260行预算不增。
+
+只修改CC26_ActualFormationButtonsCommitOnceAndOldDetachedButtonCannotSubmit内当前第67行的返回目的地断言：save-Return之后期待PlayerNavigationRoute.MapAdventure，替代PlayerNavigationRoute.Team。该用例从Map进入Team并提交阵容，按C1父页及§418明确语义回Map；这里不是装备子流。只允许这一个标识替换，新增/删除各1行，不删除断言、不改测试名/属性/旧按钮与记录数/持久字节断言，不新增用例。拟议结果12790bytes/SHA e11aa719161d157957683a8cd59267de9a2cd1bf41efa73e8809599948c9b500、仍206行，C已在plannedPost008Repair.pendingPresentationAssertionScope保存完整before与精确差分，SD00已实读原行与前置路径。
+
+待008真实自然终态后，与§418一次合并实施；此前仍不改被测版本。最终旧具名多重集合保持，009/010及正式报告绑定实际新版本。本段不授权其他Presentation/UI源码变化，也不改变原产品测试覆盖或宣称完成。
+<!-- CONT-C-MAC-R1-ANCHOR-UI-ASSERTION-PACKET-END -->
+
+§420冻结：1525 UTF8/LF bytes、SHA256 e857cafbb0f892dedb6f5c850e102e6f733214a625642a5d6be11a41cb851ea0。
+
+
+## 421. 029宿主咨询正式收件与字体来源收敛
+
+R turn01a0e66b-3294-7cb2-b9dc-e9bb96293b60已于1790572679 completed/error=null，duration499130ms，正式msg_0d29bf8d726d8dc0016ab9f843f9f887d091eaf86e74f69e79。SD00完整实读并收入029准备稿：实际LocalPlayerProfileLocator、PrepareNewRosterProfile、孤儿根保全、原创建对象/F2、单一架构寿命、Changed→HostRequested重入边界、当前CommittedResult而非历史Result桥接、独立Host/Editor测试精确文件与有限预算。028待兑现的借用Bind/Detach和原完整收据入口仍明确为前置，未假称存在。
+
+字体来源另由SD00只读HTTPS完整流核Sans2.004/commit523d033d6cb47f4a80c58a35753646f5c3608a78：NotoSansCJKsc-Regular.otf 16437364bytes/SHA2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b；同提交根LICENSE 4301bytes/SHA6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2。两个读取均未安装或写Assets；错误Sans/LICENSE 404已纠正到真实根路径。029方案收敛为随包字体/许可和内置TextCore Dynamic资产，许可可查看、资源/主题候选路径预算已入稿，Android显示仍待实测。029保持PREPARED_NOT_DISPATCHED，当前仅C008与其后§417/418/420窄修验证；R暂无产品verdict。
+
+
+## 422. CONT-C最终独立代码审查准备门（未派发）
+
+PREPARED_NOT_DISPATCHED。仅待C准确实际接续turn completed/error=null、非异步正式COMPLETED、demo-cont-c-mac-r1-delivery.md与demo-cont-c-mac-r1-code-scope.json齐备，SD00核实物身份后才向原R thread01a0e404-e8ee-7310-8388-9260babd53f1派发gpt-6-astra/max正式审查。008仍运行时不能用本节开启审查或预签结果。实际最终C/R回合、最终报告/源码/工具/XML身份届时追加冻结，不填写猜测测试总数。
+
+R唯一可写产品审查报告仍docs/system-design/2026-09-17/demo-cont-c-mac-r1-code-review.md（≤300行）；其余仅只读，不改源码/测试/工具/输入/证据，不运行Unity、不建立聊天/代理、不提交或推送。按.agent/REVIEW_CHECKLIST.md独立检查实际补丁与正式证据，唯一verdict为ACCEPT、NEEDS_FIX或REJECT。C作者“passed/COMPLETED”和先前R设计咨询都不能代替此审查。
+
+重点覆盖原C1与§367/374/380全部CC01～CC30、平台补签及MC边界，并纳入§417/418/420实际修正。核同一PlayerSession所有权、同头上下文和确认epoch、Craft空角色映射、Formation/Equip/Craft各自准入、原request先保留后Submit、重复Confirm/通知失败/后移头原结果、ResumeObserved精确原intent、Ended真实恢复门、原End/SaveFailed/Unknown、UI整树重绑与晚到按钮，以及Back/父链/子流锚/确认发起页在连续操作后的实际语义。新修正只在已签五文件，单行UI期望变化不削弱原保存/旧按钮断言。
+
+Mac平台只按实际适配范围验收：UTF16目录身份、链接/非缺失I/O拒绝、CreateNew/提升/本实例Flush、真实flock争用与释放、原FaultModel不夸大为掉电持久性；Android适配和真机流程留029，不能把其尚未实施当作本导航包已完成，也不能误作本包扩大条件。Packages两项例外、八个旧测试及一处内容CLI的最小改动、原runtime窄桥接须对准确已接收起点核差分；不靠Git当前WIP起点漏掉继承草稿的累计变更。
+
+独立核最终Compile→Tests→交付同版链、真实Unity/包装终态/PID/时间/exit、无filter/无quit完整XML、全部旧具名测试多重集合与新增具名用例；测试覆盖必须实际对应上述路径，不能仅按绿色计数签收。保全001～008真实历史失败/中断与006未启动事实，最终成功只绑定实跑的009/010或以后另签纠正，不能回写旧槽。原root156不改，§417追加24精确路径形成180有效集合，manifest排自身≤179；原平台64集合与925历史保护清单含义不伪改。原authorTurn保持历史身份，实际接续执行turn另有准确映射。
+
+四冻结恢复输入核真实SHA及其003来源链，不要求因导航变更重跑不相干恢复；旧15历史缺失与消失的Finder临时副本准确NOT VERIFIED，不补造。R按最终scope核808/838/441/36等实际有限集合、原GUID/meta与六件首包保全、作者范围和独立SD00准备稿变化分列。必要缺口给具体文件/行/反例与最小修复，不把已接受业务方向重新变成用户问题。正式R完成且ACCEPT后SD00才接收本包、精确提交/正常推送，并签028；NEEDS_FIX只回原C小纠正，保持原失败证据和可复用验证。
+
+
+## 423. 008实际通过、修正落地及009/010同版验证
+
+008真实自然终态：Unity PID24278 exit0，04:34:06.9251750Z～05:49:50.3428090Z，4543.417634秒；原包装调用exec-b90a6f81-ca38-4d43-83b7-3db9d46b72e1也已completed/exit0、duration4555396ms。SD00实读控制面记录与XML，3940个test-case全部Passed，0失败/跳过；result.json1480bytes/SHA d9107df19ec70e863c58157d0127a4a40f6ab90524ecca7213f23c7c5f6e079e，XML2924656bytes/SHA3bedbd87c686b7c773a99cf9e5599f8c1e6466af87659a4ecfb31dcf6f9d20cd，log1737080bytes/SHA34f0b9c21b56877c3476b90cf9cc60d5dce8d44de9e1af9a8c7b8d2c4cf91f34。007after=008before=008after的808源码/838资产/36DLL-PDB逐项长度与SHA相同；SD00另核已接收旧3872次测试/3867不同名称的多重集合在008中无缺失且全部通过，008相对该旧集新增68次；该版本仍有已登记返回锚缺口，不能据这次绿测接收最终产品。
+
+C在05:51:09.363283Z核实终态前置后，于05:52:21.485331Z应用§418/420五文件与§417工具扩展。SD00逐件读取后核五个实际文件匹配审计最终身份：NavigationSession19789bytes/c3d89a3f7b61ff7ce91a9ad7b02d1293a86d5707d10a79f6efbaf51099128fde；NavigationRecovery12542/7673e073c8419b8423f165917c93c1689e967a71c75fd70cdc751fd672253314；PermanentFlowTests27308/005988ca407a489c3896ec81f2d1968904a94259d01324f372e63afd3e5dee93；SessionTests23713/3aba27326ab47654aaff6d695e971be497b1943679183a8d1c1378716c80e6ed；PresentationTests12790/e11aa719161d157957683a8cd59267de9a2cd1bf41efa73e8809599948c9b500。精确完整路径仍以§418/420和scope-audit.appliedFileIdentities为准；源码审查仍归R。
+
+工具最终35821bytes/SHA237eae178197d218fd9c049c2ac9bfd0fd76850898f976f7a6c91b1cb2d6df48、413行，相对§417起点新增27/删除3，保留原root156与新增24并集180，009仅Compile/010仅Tests。C实际静态检查记录预算、PowerShell语法、旧具名声明保全及差异空白均通过，生产1180/1860、测试1251/1670行，16个新增用例待本次XML证明；不预称这些新用例已通过。
+
+009真实Compile：PID29654 exit0、compilerErrors空，05:53:21.0630450Z～05:53:43.8218580Z，22.758813秒；result1105bytes/SHAca3a52e3c88f8ccf22f39d33899a7b15138e2d2172745fb2a33c51aa944b02db，log63987bytes/SHAac3f6df892a599c27b5568e2c5f07cf9402ca571f78de07ae4ad73883056ac92。
+
+010已实际启动无filter完整EditMode（无quit）：Unity PID29836，startedAt05:54:37.3172920Z，processStart05:54:40.7885550Z；run.json1310bytes/SHA899b37947383b1bbaa49acc520e6e1947dabd1add95ea7505af0de40675f58e6。SD00独立核009after=010before的808/838/36逐项同版、script均为237eae178…，当前源码/工具继续冻结。实际执行仍映射C接续turn01a0e63c-ec16-7551-b71c-dee6bd67c93e；run.authorTurn保留旧包作者身份，不误称旧中断回合仍活跃。
+
+010尚无终态，准确C仍inProgress；正式双报告/COMPLETED和R产品verdict未到。后续按§422完成门收件审查，保留所有早前失败/环境恢复与输入来源，不增加未授权运行，不推送未接收版本。
+
+
+## 424. Mac重启后的010证据保全与同C会话接续
+
+当前Goal已再次要求继续。2026-09-28T06:58:41Z的SD00实查：原Unity PID29836、包装PID29826和防休眠PID17622均不存在；全进程只读过滤也未见任何Unity Editor。C原接续turn01a0e63c-ec16-7551-b71c-dee6bd67c93e已interrupted/error=null，最新回执仍是010约52分钟时的运行状态；没有正式COMPLETED。010无result.json/failure.json/tests.xml。等待工具cell102已不存在，这不单独作为测试终态；上述进程与系统实证才证明旧执行已结束。
+
+实际系统kern.boottime为sec1790578428，即2026-09-28 14:53:48 +0800（06:53:48Z），uptime约7分钟，确认Mac在010期间重启，具体重启触发原因未确定。010未取得实际Unity/包装退出码或NUnit终态，不填写猜测失败数/退出码，不把008绿测顶替。Rosetta官方收据仍在，x86 true实际exit0；外置pwsh仍158640bytes/SHA86966ef5e53763c0d7cac9981b9b36c30245185dc347ca69ddfb815c665bf515，Unity仍86759760bytes/SHA71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f，均与原已核版本一致，当前无需重装。临时/private/tmp/fightmatch-cont-c-finalize.py已消失，可据现有审计重建报告辅助，不能把临时消失当源码回退。
+
+授权原C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52以gpt-6-astra/max在新的准确回合接续；实际新turn通过工具记录。先仅做只读预检、010原目录保全和原平台/范围审计补记，不修改产品源码/既存meta/Packages，不覆盖历史根/作者身份，不运行Unity。核当前五源与工具237eae178…、009after/010before/current的808/838/36身份、现有完整输入和实际环境；不因宿主重启重做无关golden恢复。新验证槽与唯一工具最小扩展另签后才运行。
+
+允许在010原有限白名单内以CreateNew写一份failure.json，明确为HostRestart/Interrupted/NoTestResult，并记录实际检测时间、boot time、原PID/原turn/原run descriptor及留存日志摘要。actualExitCode、真实endedAt、NUnit计数均用null/unknown，不伪造Unity失败或通过；现存before/run/log/stdout/stderr保全。重启后源码/程序集的观察另写现有scope-audit/platform-environment，不冒充未完成包装器的after/result回调。C若查到实际终态新证据先报告，不覆盖它。最终源修五文件保持§418/420；只有新实证缺口才再决定技术修正。
+
+这是已授权目标内的运行恢复，不要求用户重复产品决策；SD00同时恢复必要防休眠进程。010中断不算最终测试，仍须同版完整结果、C准确completed＋正式两报告、R唯一verdict，之后才能接收并推进028。
+
+
+## 425. CONT-C-MAC-R1 重启恢复有限验证补签（RUN-EXT2）
+
+状态：APPROVED_AFTER_RUN010_HOST_RESTART。仅原C会话local/01a0e404-d89d-7ab2-bece-3cd1df3fbc52执行，gpt-6-astra/max；当前准确接续turn为01a0e6d3-38f8-7b92-9c3c-6a3df6b258fe，startedAt1790578997（2026-09-28T07:03:17Z），工具已核inProgress/error=null。原包作者turn01a0e410-3e6f-7400-b58c-34cebde8d28c与中断执行turn01a0e63c-ec16-7551-b71c-dee6bd67c93e均保留，不能相互替换。无产品新修正授权，无028提前实现。
+
+SD00已独立逐文件核009after=010before=current的808源、838 Assets、36 DLL/PDB完全相同；五源仍为§423固定身份，工具35821bytes/413行/SHA237eae178197d218fd9c049c2ac9bfd0fd76850898f976f7a6c91b1cb2d6df48。C的§424预检同时核12来源、4golden、12暂存来源、4暂存产物原身份及126迁移文件不变。010实际HostRestart/Interrupted/NoTestResult记录为2712bytes/SHA2716cb0bb96bd1c44d2fe4cbe0b38e7b8e322f7f29d6b1c31ccd200a801cf87c；run descriptor仍1310bytes/SHA899b37947383b1bbaa49acc520e6e1947dabd1add95ea7505af0de40675f58e6。没有result/after/XML或真实exit，不能补造。其原before/run/log/stdout/stderr与新failure现冻结。
+
+新增只读有限计划 `docs/system-design/2026-09-17/demo-cont-c-mac-r1-run-extension2-plan.json`，5232bytes/SHA34c9d372fe8da2c551de46d126e29326577e176d40bb01f7ce7d40952fbf34ed。原根17532bytes/SHA b4dc15b859685ddac2b13255c8d8254685103708727ba3298cc8378fcd9999e5、原156精确路径及§417计划3862bytes/SHAa4b02650313488f4b3679daa5c1d73a78e9dfc77d3c327da2489b5597db31b55均不改。有效白名单为原156＋EXT1的24＋EXT2明确列出的24，共204个精确文件；manifest排除自身最多203项。平台独立根64路径保持。EXT2只增加011和012各12个既有模板叶；最大run number为12，011仅Compile、012仅Tests，旧001～010不得复用。
+
+仅可最小修改 `Tools/Invoke-FM025P2Validation.ps1` 接入以上身份/范围/模式/快照核验及§425冻结段绑定。修改前将本轮237eae完整文本/身份追加保存到已有scope-audit，不覆盖§417之前文本。相对当前413行工具增加＋删除不超过56行，最终不超过469行；累计Mac工具增加＋删除总上限由384明确补到440。不能借此改其余stage行为、放宽原目录/输入/作者/冻结段检查、允许并行Unity或取消同版门。将EXT2计划纳入platformInputs。最终报告、范围记录及manifest同步204/203有效并集，原根身份文本不变。
+
+先完成上述有限工具变更及静态检查，再固定源码/工具；确认Unity空闲后由C串行执行011 Compile→012完整无筛选EditMode，Tests不加-quit。沿用外置pwsh与Unity；不重装环境，不重复golden恢复，不因重启重跑旧阶段。已通过009证明产品源码可编译，但工具已变，此次011用于形成同一最终工具版本的Compile→Tests链。每槽完整保留原命令、进程ID、实际起止、实际exit、log/XML/SHA及前后源/Assets/DLL检查；发生失败或新外部变化先保全并报告，不自动开第13槽或另修产品。
+
+允许重建消失的临时报告辅助，并完成原已授权根内metadata、`demo-cont-c-mac-r1-delivery.md`（不超过360行）和`demo-cont-c-mac-r1-code-scope.json`（不超过12MiB），不新增别处证据、不伪造历史after/result或重写原作者。最终C输出非异步正式COMPLETED及准确报告/真实测试数字，SD00核该准确回合completed/error=null后按§422进入R独立审查；R唯一verdict和准确终态之后才可接收、正常提交推送并推进028。当前仍非ACCEPT、非Demo完成。
+
+<!-- CONT-C-MAC-R1-RUN-EXT2-PACKET-END -->
+
+
+## 426. 重启恢复011编译实证与012同版完整测试启动
+
+SD00已直接读取011的run/result/log与012的run/before，并独立比较011after=012before：808源、838 Assets、36 DLL/PDB及工具完全相同。当前工具为38665bytes/439行/SHA8fcc90a5f742b2d37f7a705c94f1a02bea070c5143c803633bed50d6a991c9f8；C记录相对§425前版新增29/删除3行，32≤56、439≤469，PowerShell语法检查实际exit0。原产品和001～010证据保持，EXT2只补有限运行。
+
+011：Unity PID11743、actualExitCode0、compilerErrors空、passed=true，2026-09-28T07:22:49.9047740Z至07:23:32.1082530Z，42.203479秒。result.json为1105bytes/SHAd291db342e705dcb058f2a7009f12b66199b836ee2c0a183402e902536eb0fc5；compile.log为58053bytes/SHA9bbf642bd000f4ef12869229558f28364dcbaf147db25d0658fc8379af7b404a，stdout/stderr均0bytes。原包装command exec-800d2215-2d50-41ca-987d-99d63b2fea2c已由原生read_thread核completed/exit0/duration48555ms，不是仅凭result文件。
+
+012：无筛选EditMode，命令无-quit；startedAt07:24:42.3305390Z、Unity PID12110实际processStart07:24:46.1569468Z。run.json为1310bytes/SHA44a6b92b19d572d1c3d689b9c81b1767caeeb2d3687e5b78b43e438d2c62f899。SD00只读ps实见该PID运行约2分23秒、CPU100.1%、父PID12076；本会话caffeinate PID6967也在运行。当前没有012完整XML/result/实际exit，绝不把008或011当最终测试。C当前准确turn仍01a0e6d3-38f8-7b92-9c3c-6a3df6b258fe/inProgress/error=null，最后启动说明msg_0d179092dafe07fa016aba168fa36c87d09c60b65fcbe49be4；仍须该准确回合正式COMPLETED和两报告后才开R。
+
+实际重启后系统sw_vers为macOS27.0/build26A428，SD00已复核，旧平台记录26.3作为历史保留。系统变化与重启触发原因未确定；外置Unity/pwsh字节、Rosetta执行与源码同版预检保持，011已在当前系统实际成功。不能将旧系统下模拟器可连或008通过扩大为新系统上的APK验收；正式Android阶段仍以实际两目标运行证明。
+
+本阶段继续源/工具冻结与等待完成事件；SD00仅维护设计/接续记录，没有运行Unity或提前接收C。029草案补齐剩余Android/Editor/QA文件候选预算与55个Assets成员预计范围，仍PREPARED_NOT_DISPATCHED，不影响当前验收或授予C新产品范围。34功能/31接收/余3/51正向交付与Goal active保持。
+
+
+## 427. 012异常终态、外置工具目录整理及环境冻结交接
+
+012已实际结束：Unity12110 exit134，包装exit1，2026-09-28T07:24:42.3305390Z至08:49:44.9596220Z，共5102.629083秒；compilerErrors空，但无tests.xml、无完整NUnit计数，passed=false。result和failure各1107bytes/SHAde3c8e0cadbd8523f53fbaa12cadd1696854145f3d32fd4ed70671928e66e588；log1746773bytes/SHAa0e7899921f375b685750c91b15543ab8c6b3263357d45e7d644ec88a5c4d859；stdout1724bytes/SHA37568421e332ec67b48585130de7c449ecd11502c8a6524671b023a57175ceb4；stderr0bytes。SD00逐项实核011after=012after，808源/838 Assets/36 DLL/PDB没有变化。该运行不能当测试通过或推算通过数量。
+
+实际fatal在旧FlowPuzzle.Tests.Editor.FlowCompletionUndoAndDropTests.ApplyCompletionResult_Solved_IsOneUndoableCommand创建ObjectField、取得类型缩略图时，CachedReader::OutOfBoundsError→abort；日志称旧application路径的unity editor resources损坏。SD00只读检查发现整个小写application目录已不存在，而Applications下同版Unity与pwsh存在且二进制SHA与原版相同。原环境会话当前另有应用整理工作，turn01a0e713-442c-7132-bb02-01e29eddf2a8明确记录application→Applications和download→Downloads的目录合并。它发生于本轮运行期间的会话，精确文件搬移时点若未取得则未知；不杜撰时间或归责。
+
+新Unity包的CodeResources为17475144bytes/SHA906a96db17553584a2bac2edf1de619418227a56a003c203bd85bf28ee6f2b4c。三个资源与该随包清单中的SHA1/SHA256均逐字节匹配：unity editor resources 164501368bytes/SHA557ee9dc4005865d461d81ef4427cd6bb30e09e060c54061a6d117037665cb19；unity default resources 2884268bytes/SHA8717b5b858573a524547ceb303d5f290bda62a4c50ce3537e5091abedc4c4dae；unity_builtin_extra 148117148bytes/SHA17c30f540ead961db9fc66a7faa051b134b5653c1eb1f23d5315c2e689f5ce7e。此为清单哈希核验，不伪称执行了整包codesign验证；现有证据支持修正移动后的绝对路径，未支持删除/重装资源或改产品代码。
+
+环境会话message msg_05dcf1711c4d56ee016aba2badb1fc87d0bf38ef85f307c36e已明确确认冻结Applications/Unity、Applications/CodexTools和AndroidBuildCache，不再移动/更新；C继续唯一串行Unity拥有者。其他已授权应用整理不扩入FightMatch源码范围。旧application路径作为历史命令/身份保留，新执行采用实际Applications，不重建小写目录、不回写历史计划、根身份和旧run。
+
+旧008 XML中上述准确用例真实Passed/0.337055秒，只用于选取当前失败调用路径的短诊断；不能以其历史通过代替本轮。先走§428新路径编译和单例诊断，确认实际资源路径可用后再做必要完整验证；没有新失败不得继续增加长测试。
+
+
+## 428. CONT-C-MAC-R1 工具目录接续与有限诊断验证补签（RUN-EXT3）
+
+状态APPROVED_AFTER_RUN012_TOOL_DIRECTORY_RELOCATION。执行人仍C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52、local、gpt-6-astra/max；当前接续参考turn01a0e6d3-38f8-7b92-9c3c-6a3df6b258fe，实际后续执行回合单列。原作者turn01a0e410-3e6f-7400-b58c-34cebde8d28c与原根/历史run均不改。§427环境冻结确认已到，不需要用户再批准普通路径恢复。
+
+新增只读计划 `docs/system-design/2026-09-17/demo-cont-c-mac-r1-run-extension3-plan.json` 为10804bytes/SHA01baa41ea6420835a1ed830c80b0eac76d9bb6a1d25f00b0aa282158f60d6016，固定当前Applications下Unity2022.3.18f1和PowerShell7.6.6的绝对路径以及六个运行/资源文件身份。Unity仍86759760bytes/SHA71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f，pwsh仍158640bytes/SHA86966ef5e53763c0d7cac9981b9b36c30245185dc347ca69ddfb815c665bf515。只允许对唯一验证工具的Mac CONT-C执行路径作此精确接续；不改版本/架构、不升级或重装、不删除报错资源、不写Unity Preferences、不修产品/测试/meta/Packages。
+
+原156路径＋EXT1的24＋EXT2的24＋本计划36精确新路径＝240，manifest排自身最多239项；平台根64不变。只新增013/014/015各十二个原模板叶，最大槽15；013只能Compile，014/015只能Tests。001～012、原EXT1/2计划和根身份字节保留。旧工具Tools/Restore-FMDemoMacInputs.ps1及原Mono/输入恢复记录是历史证据，本次不执行、不因目录搬移重做golden恢复。
+
+唯一可改 `Tools/Invoke-FM025P2Validation.ps1`：先把当前38665bytes/439行/SHA8fcc90a5f742b2d37f7a705c94f1a02bea070c5143c803633bed50d6a991c9f8完整文本/身份追加到现有scope-audit；再接EXT3身份/精确路径并集/冻结段/新runtime路径和身份校验、有限模式/探针门、platformInputs快照。相对当前工具新增＋删除≤96行，最终≤535行，累计Mac新增＋删除上限补为536。不得改其他阶段行为、弱化既有作者/路径/冻段/同版/Unity空闲/失败保全检查；不引入任意路径或任意testFilter参数。
+
+执行顺序：静态/PowerShell语法及实际新runtime预检通过→013 Compile→014唯一精确过滤 `FlowPuzzle.Tests.Editor.FlowCompletionUndoAndDropTests.ApplyCompletionResult_Solved_IsOneUndoableCommand` →015完整无筛选EditMode。沿原-batchmode/-nographics，Tests不加-quit。014运行/结果必须明确purpose=diagnostic-editor-resource-probe、diagnosticOnly=true、准确testFilter；只有真实Unity/包装exit0、XML中准确唯一fullname且1/1 Passed、0失败/其他，015才准入。014只是单例诊断，不能覆盖最终具名测试清单或冒充整个回归；015明确purpose=full-unfiltered-acceptance、diagnosticOnly=false，无test/category/assembly过滤，所有原测试和最新导航测试按完整XML证明。
+
+013→014→015的源/Assets/工具/DLL同版门保持，产品仍808/838/441/36有限集合，六件首包、旧GUID/meta及golden原身份保留。运行前确认环境冻结及Unity空闲，核计划中的新运行文件/资源身份；若探针失败，保全并停止后继，不自动开16槽或再作盲目完整长跑。允许仅在已有scope-audit/platform-environment中单列路径搬移和实际turn/run映射，旧观察字段不重写。
+
+最终仍完成原两报告（delivery≤360行、code-scope≤12MiB）和有限metadata，提供真实包装/Unity终态、全量XML及完整具名多重集合。当前C准确回合completed/error=null＋正式COMPLETED及报告实物齐备才交R；独立唯一verdict到齐才接收、正常提交推送并推进028。当前不存在CONT-C ACCEPT或Demo完成，不能把资源核验或短探针代替最终验收。
+
+<!-- CONT-C-MAC-R1-RUN-EXT3-PACKET-END -->
+
+
+## 429. Applications路径编译/诊断通过与015完整测试实启
+
+SD00已独立读取013/014实际run/result及014 XML，并核原生C command终态。当前唯一验证工具45816bytes/499行/SHA33a99396c2ccf39ced3c1fdf25fcec27824e9bb08719849b239d47ce165222e9；C工具变更为新增65/删除5行，70≤96、499≤535，六个新路径运行文件/资源与001～012共74个旧文件保全核对已到。C实际接续turn继续01a0e6d3-38f8-7b92-9c3c-6a3df6b258fe/inProgress/error=null，原作者字段继续保留。
+
+013 Compile：Unity25300 exit0、0编译错误，09:07:37.8424080Z至09:08:39.4826980Z，61.64029秒。result1178bytes/SHA39d5e8ca2fb77ec16c17f1ad8da843c71cd600a94c213eb57f26fe2db5276ec7；log106224bytes/SHA3e55c99902e6fff2ad9ef64e5a37ae0cc98198dc2b271669c597503afbbceb6e。包装exec-4870a556-cc69-4c28-94a9-dbec0138f88d实际completed/exit0/68494ms。
+
+014诊断：准确唯一fullname FlowPuzzle.Tests.Editor.FlowCompletionUndoAndDropTests.ApplyCompletionResult_Solved_IsOneUndoableCommand，XML真实1/1 Passed、0失败/其他。Unity26586 exit0，09:09:36.0013880Z至09:10:01.1234320Z，25.122044秒；purpose=diagnostic-editor-resource-probe、diagnosticOnly=true及精确filter均在run/result。XML3380bytes/SHA3c01aa8c585102596b64a07ce60e233c8cbf2d68a1f4878cb9283ffa624b73e4；result1666bytes/SHAa6d343a0db79b1598d9fe9826a1490904763d6db0232546f0dfce59c6fcb11d5；log87963bytes/SHA83247ce1dcb5866f51ec79e4b38eb8d29ffab52e79c2513f3a0550eb85e083ef。包装exec-e89d727f-e1bd-40fe-9aaa-efb828797a31实际completed/exit0/37921ms。新路径已实际通过本次出错调用路径，仍不等于全量验收。
+
+015完整无筛选EditMode已启动：started09:11:14.1708960Z，Unity26925 processStart09:11:19.2959980Z，实际可执行路径为Applications下2022.3.18f1，命令无test/category/assembly过滤且无-quit，purpose=full-unfiltered-acceptance、diagnosticOnly=false、testFilter=null。run.json1403bytes/SHA62f706b55a4715aa58434dd3674838245178a6cae5630dcb3042186af7563ef3。SD00逐项核013after=014after=015before的808源、838 Assets、36 DLL/PDB及工具一致；原测试与最新导航测试的最终数量仍以015实际XML为准。
+
+012包装exec-91588ad4-b73a-4f5a-8d31-0fa04f66d914也已补核failed/exit1/5114650ms，与原Unity134及无XML记录一致，旧文件不回写。原环境目录冻结确认继续有效；不修改在用程序、源码、工具或DLL，不开启其他Unity。015真实终态→C正式两报告及准确completed→R正式唯一verdict仍为接收门；尚无ACCEPT、新Git提交/推送或首Demo成品。
+
+
+## 430. CONT-C-MAC-R1最终正式交付收件与独立审查启用
+
+APPROVED_FOR_INDEPENDENT_REVIEW。§422准备门现已满足，只启用当前CONT-C的正式独立R审查，不预签ACCEPT，不放行028/029实施。C仍为thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local/gpt-6-astra/max；准确最终turn01a0e6d3-38f8-7b92-9c3c-6a3df6b258fe已自然completed/error=null，startedAt1790578997、completedAt1790591819、duration12822416ms。formal final msg_0d179092dafe07fa016aba4343295087d0b21cacf236efbeb7明确COMPLETED。
+
+C正式报告demo-cont-c-mac-r1-delivery.md为18470bytes/142行/SHA8c033f90615c9be394178a32c327e043091ab1b933fdbb8892d17f5e8de0eb01；demo-cont-c-mac-r1-code-scope.json为5303941bytes/SHA972947ab4d7d41bd385d16c60eb928b3ee6c83328101dd809b3a43e8622614d9，均在本目录。SD00已直接读取报告及实际验证，不把作者状态当独立判定。
+
+015实际Unity26925与包装exec-c5034ee2-3dea-41d0-90df-d5d3bc6751be均exit0；包装5025708ms，Unity运行窗口09:11:14.170896Z～10:34:45.541878Z、5011.370982秒。原XML3956/3956 Passed、0失败/不确定/跳过，XML自身4979.6116068秒；原008的3940个fullname多重集合全部保留，新16次单列。result1572bytes/SHA53b507fbbcf7c6d00c48b1dbd0a5d90aff68016712c184a230d08752cf1d773d；XML2936492/940e5393444d96013c25a8d8d68a1f6f1f685188c9b088ebe42441e0241d6c2a；log1737073/384bb49386b4cdd403ebaedaae1f0c3ae8d3b9037c6c41e23fa6502bb22eb45a。015purpose为full-unfiltered-acceptance，diagnosticOnly=false、testFilter=null，Tests无-quit。
+
+SD00逐件实核013after=014after=015before=015after=current的808实现、838Assets、36DLL/PDB、15内容及6运行文件身份。工具45816bytes/499行/SHA33a99396c2ccf39ced3c1fdf25fcec27824e9bb08719849b239d47ce165222e9。001～012失败/中断、014单例诊断仍按真实状态保留，002的6小时12分启动/编译异常不记作正常测试计算，010/012无XML不编造计数。
+
+当前有效主根精确路径并集为原156+EXT1的24+EXT2的24+EXT3的36=240；实际157，read-manifest列156、自身排除。read-manifest33662bytes/SHA5d31e0992e975d9b8f2034636523b258eccfa3921ad0bfaa81c2f4f9dd28b5dc；平台manifest15955/SHA9a8b8d106e42d0687f723eadef3627c4a1c3c43ea93792a7c2326de5b350b500列63、metadata实物64。两清单所有列出文件长度/SHA由SD00逐件复核零差异。平台io/为已签真实隔离I/O区，由独立ioInventory与有限case/文件/链接预算核验，不能误并为64个元数据叶或忽略其独立约束。
+
+派同一R thread01a0e404-e8ee-7310-8388-9260babd53f1/local，以gpt-6-astra/max执行。沿§422全部CC01～CC30/RCV1/MC审查要求，最终输入扩展至§424～428和本节；基线仍ce21901b7b5b42bfef7ef34eb4f46155ddbf9353，不仅比较WIP HEAD。完整核真实代码差异、平台例外、原多重集合、报告和证据链；C声明、设计咨询或测试绿灯都不是预定结论。
+
+R唯一写入仍本目录demo-cont-c-mac-r1-code-review.md，≤300行；其他只读，不写代码/测试/工具/输入/证据，不执行Unity或新增测试，不建新聊天/代理，不进行Git变更。正式输出唯一ACCEPT、NEEDS_FIX或REJECT，列可行动问题、对应文件/要求/影响、已核证据和未核边界。准确R turn completed/error=null、formal唯一verdict及实际报告齐备后，SD00才收件；ACCEPT才正常提交/推送并签028，NEEDS_FIX只签最小纠正。审查资料解释或文档更正不触发无关长测试。
+
+Android APK、iQOO Neo5和BlueStacks的实际试玩/冷启动仍属028/029，不能称本轮已完成，也不将后续未实施项目当CONT-C新增验收条件。完整Goal继续active。本节规范化UTF8/LF、末尾恰一LF到下方标记冻结，实际R派发回合另记在段外。
+<!-- CONT-C-MAC-R1-FINAL-REVIEW-PACKET-END -->
+
+§430冻结：3814 UTF8/LF bytes，SHA256 23a6d9dd2a87a18403d9af723659f28720b716e44031f9adae32686f052ec4c1。
+
+§430实际派发：R thread01a0e404-e8ee-7310-8388-9260babd53f1/local，gpt-6-astra/max；新准确审查turn01a0e79b-546f-7672-9d5b-cd3015901b56，startedAt1790592111，已核inProgress/error=null。正式报告尚待返回，未预签verdict。
+
+
+## 431. CONT-C-MAC-R1独立ACCEPT与源码接收
+
+R准确turn01a0e79b-546f-7672-9d5b-cd3015901b56于1790593425自然completed/error=null，startedAt1790592111、duration1313300ms；formal final msg_0d29bf8d726d8dc0016aba498ae33c87d0b5891739c76c054d唯一VERDICT: ACCEPT。SD00完整读取正式报告并核实20203bytes/138行/SHA8012b192379f2a2d23d2b00afa997c645e0ac94c66a07dcf6de69ff6d9e1a807；C两报告仍为§430的8c033f90…与972947ab…原身份。准确C/R完成门全部满足，现正式接收CONT-C导航/恢复编排与已签Mac适配，不扩大为首Demo或Android已验收。
+
+R独立核CC01～CC30、RCV1、MC01～MC08、全补丁、范围、旧425个GUID/meta、最终3956/3956和两组有限证据及2605个物理I/O case，未发现可行动阻塞项。无需纠正包或无关复测。保留旧15个缺失历史路径、Finder临时副本丢失、010未知退出等真实未核边界；真实宿主/物理输入/安卓APK/设备关闭重开仍交028/029。功能登记34/32/2，正向交付52，不作为可玩完成率。
+
+按既有授权由SD00精确提交已接收源码、工具、自然meta、两Packages例外、正式报告/计划及必要协调上下文后正常推送origin/master；不强推、不改写历史，不包含本机权限/缓存/凭据/真实玩家数据。Git实际命令、退出和远端SHA在完成后续记，不预写已推送。PROJECT_CONTEXT此时由SD00依据新稳定证据刷新，属于接收后的协调资料更新，不归C产品差分。028准备稿同步明确旧Mac测试固定I/O根的有界追加与128条新证据叶，未派发实现。
+
+
+暂停边界：用户于2026-09-28明确要求“这次处理完先暂停一下，我需要重启电脑”。当前只收尾已ACCEPT的CONT-C提交/推送与接续保存；不得启动028、029或新验证。后续必须等用户明确恢复，不能仅因Goal原目标、读取START_HERE或发现未完成范围而自动继续。

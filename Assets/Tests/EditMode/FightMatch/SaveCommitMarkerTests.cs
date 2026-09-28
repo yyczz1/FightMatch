@@ -122,7 +122,7 @@ namespace FightMatch.Core.Tests
             foreach (var player in new[] { "\ud800", "\ufffd", " A中\udfff\0 ", " " })
                 foreach (var purpose in new[] { SavePurpose.CandidateValidation, SavePurpose.PlayerSave })
                 {
-                    var storage = new WindowsEditorSaveStorage(root, player, purpose);
+                    var storage = CreateStorage(root, player, purpose);
                     var units = new byte[player.Length * 2];
                     for (var i = 0; i < player.Length; i++) { units[2 * i] = (byte)player[i]; units[2 * i + 1] = (byte)(player[i] >> 8); }
                     Assert.AreEqual(Path.Combine(root, "p-" + Hex(Hash(units)), purpose == SavePurpose.PlayerSave ? "player" : "candidate"), storage.Profile.DirectoryPath);
@@ -137,14 +137,14 @@ namespace FightMatch.Core.Tests
 
         [TestCase("relative/path")] [TestCase(@"\\server\share")] [TestCase(@"\\?\C:\device")] [TestCase(@"\\.\C:\device")]
         public void UnprovenOrDeviceRootsAreRejectedBeforeAnyDirectoryCreation(string root)
-        { Assert.Throws<ArgumentException>(() => new WindowsEditorSaveStorage(root, "p", SavePurpose.CandidateValidation)); }
+        { Assert.Throws<ArgumentException>(() => CreateStorage(root, "p", SavePurpose.CandidateValidation)); }
 
         [Test]
         public void StorageNamesCannotEscapeOrOverwriteAndFlushRequiresTheActualOwnedFileStream()
         {
             using (var rig = new SaveRig())
             {
-                var real = new WindowsEditorSaveStorage(rig.Root, "p", SavePurpose.CandidateValidation);
+                var real = CreateStorage(rig.Root, "p", SavePurpose.CandidateValidation);
                 Assert.Throws<ArgumentException>(() => real.CreateWork("../outside"));
                 Assert.Throws<ArgumentException>(() => real.OpenRead("C:/outside"));
                 Assert.Throws<ArgumentException>(() => real.DeleteUncommitted("writer.lock"));

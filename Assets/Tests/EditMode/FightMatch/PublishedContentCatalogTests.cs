@@ -190,12 +190,13 @@ namespace FightMatch.Core.Tests
         }
         [Test] public void WindowsExactAuthorizedProbeUsesRealLeaseFlushPromotionAndReadBack()
         {
-            const string root = "D:/Unity/UnityProj/FightMatch/TestArtifacts/FMDemo025P2/p2b-prepare/io-probe";
+            var root = LocalSaveTestFiles.IsMac ? LocalSaveTestFiles.NewCase() : "D:/Unity/UnityProj/FightMatch/TestArtifacts/FMDemo025P2/p2b-prepare/io-probe";
             var beforeBlob = File.Exists(root + "/" + new string('a', 64) + ".blob"); var key = new string('a', 64); var bytes = new byte[] { 0, 1, 2, 3 };
-            var store = new WindowsContentPublicationStorage(root);
+            Func<IContentPublicationStorage> create = () => LocalSaveTestFiles.IsMac ? (IContentPublicationStorage)new MacContentPublicationStorage(root) : new WindowsContentPublicationStorage(root);
+            var store = create(); TestContext.WriteLine("Physical backend: " + store.GetType().FullName);
             using (store.AcquireWriter())
             {
-                Assert.Throws<IOException>(() => new WindowsContentPublicationStorage(root).AcquireWriter());
+                Assert.Throws<IOException>(() => create().AcquireWriter());
                 store.WriteImmutable(key, bytes, 4); CollectionAssert.AreEqual(bytes, store.Read(key, 4));
                 store.WriteImmutable(key, bytes, 4); CollectionAssert.AreEqual(bytes, store.Read(key, 4));
                 Assert.Throws<ContentStorageException>(() => store.WriteImmutable(key, new byte[] { 3, 2, 1, 0 }, 4));

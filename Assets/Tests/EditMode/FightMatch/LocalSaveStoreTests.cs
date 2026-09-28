@@ -143,7 +143,7 @@ namespace FightMatch.Core.Tests
                 Bad(rig.Store.EndUncommitted(ticket, B()), "AlreadyCommitted");
                 rig.Store.Dispose(); Bad(rig.Store.Write(ticket, B()), "Disposed");
             }
-            var root = NewCase(); var storage = new WindowsEditorSaveStorage(root, "p", SavePurpose.CandidateValidation);
+            var root = NewCase(); var storage = CreateStorage(root, "p", SavePurpose.CandidateValidation);
             Bad(LocalSaveStore.Open(storage, "p", SavePurpose.CandidateValidation, SaveOpenMode.Existing, SaveFaultModel.EditorProcessCrash, B()), "NoSave");
             Assert.IsFalse(Directory.Exists(storage.Profile.DirectoryPath));
             Directory.CreateDirectory(storage.Profile.DirectoryPath);
@@ -157,13 +157,13 @@ namespace FightMatch.Core.Tests
         [Test]
         public void LeaseIsARealExclusiveHandleAndCapabilitiesAreCheckedBeforeWriting()
         {
-            var root = NewCase(); var storage = new FaultStorage(new WindowsEditorSaveStorage(root, "p", SavePurpose.CandidateValidation));
+            var root = NewCase(); var storage = new FaultStorage(CreateStorage(root, "p", SavePurpose.CandidateValidation));
             Bad(LocalSaveStore.Open(storage, "p", SavePurpose.CandidateValidation, SaveOpenMode.CreateNew, SaveFaultModel.PowerLossDurable, B()), "StorageCapabilityUnavailable");
             Assert.AreEqual(0, storage.Calls); Assert.IsFalse(Directory.Exists(storage.Profile.DirectoryPath));
             Bad(LocalSaveStore.Open(storage, "other", SavePurpose.CandidateValidation, SaveOpenMode.CreateNew, SaveFaultModel.EditorProcessCrash, B()), "InconsistentBinding");
             using (var first = Open(storage))
             {
-                var other = new WindowsEditorSaveStorage(root, "p", SavePurpose.CandidateValidation);
+                var other = CreateStorage(root, "p", SavePurpose.CandidateValidation);
                 Bad(LocalSaveStore.Open(other, "p", SavePurpose.CandidateValidation, SaveOpenMode.Existing, SaveFaultModel.EditorProcessCrash, B()), "Busy");
                 Assert.IsTrue(File.Exists(Path.Combine(storage.Profile.DirectoryPath, "writer.lock")));
             }
@@ -427,17 +427,27 @@ namespace FightMatch.Core.Tests
 
     internal static class LocalSaveTestFiles
     {
+        internal static bool IsMac => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX);
+        internal const string MacIoRoot = "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/io";
         private static readonly string Project = System.IO.Path.GetFullPath(@"D:\Unity\UnityProj\FightMatch");
-        internal static readonly string RunRoot = System.IO.Path.Combine(Project, "TestArtifacts", "FMDemoB12", Guid.NewGuid().ToString("N"));
+        internal static readonly string RunRoot = IsMac ? MacIoRoot : System.IO.Path.Combine(Project, "TestArtifacts", "FMDemoB12", Guid.NewGuid().ToString("N"));
+        internal static ILocalSaveStorage CreateStorage(string root, string player, SavePurpose purpose)
+        { return IsMac ? (ILocalSaveStorage)new MacEditorSaveStorage(root, player, purpose) : new WindowsEditorSaveStorage(root, player, purpose); }
         internal static string NewCase()
         {
             var path = System.IO.Path.GetFullPath(System.IO.Path.Combine(RunRoot, Guid.NewGuid().ToString("N")));
-            Safe(path); Directory.CreateDirectory(path); TestContext.Out.WriteLine("FMDemoB12 case: " + path); return path;
+            Safe(path); Directory.CreateDirectory(path); TestContext.Out.WriteLine((IsMac ? "Mac storage case: " : "FMDemoB12 case: ") + path); return path;
         }
         internal static string Safe(string path)
         {
             var full = System.IO.Path.GetFullPath(path);
-            Assert.IsTrue(full.StartsWith(RunRoot + System.IO.Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), full);
+            Assert.IsTrue(full.StartsWith(RunRoot + System.IO.Path.DirectorySeparatorChar, IsMac ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase), full);
+            if (IsMac)
+            {
+                var first = full.Substring(RunRoot.Length + 1).Split('/')[0];
+                Assert.IsTrue(Guid.TryParseExact(first, "N", out var parsed) && first == parsed.ToString("N"), full);
+                Assert.AreEqual(full, path, "canonical fixture path");
+            }
             for (var p = full; !string.IsNullOrEmpty(p); p = System.IO.Path.GetDirectoryName(p))
                 if (File.Exists(p) || Directory.Exists(p)) Assert.AreEqual((FileAttributes)0, File.GetAttributes(p) & FileAttributes.ReparsePoint, p);
             return full;
@@ -487,7 +497,7 @@ namespace FightMatch.Core.Tests
         internal readonly FaultStorage Storage;
         internal LocalSaveStore Store;
         internal SaveRig(string player = "p")
-        { Root = NewCase(); Storage = new FaultStorage(new WindowsEditorSaveStorage(Root, player, SavePurpose.CandidateValidation)); Store = Open(Storage); }
+        { Root = NewCase(); Storage = new FaultStorage(CreateStorage(Root, player, SavePurpose.CandidateValidation)); Store = Open(Storage); }
         internal SaveCommitTicket Prepare(SnapshotDescriptor head, IReadOnlyList<string> operations)
         { var budget = B(); return Ok(Store.Prepare(head, operations, m => Empty(m, budget.Codec), budget), "Prepared"); }
         internal SaveCommittedReference Commit(SnapshotDescriptor head, string operation)
@@ -501,14 +511,14 @@ namespace FightMatch.Core.Tests
     // Every operation delegates to real System.IO storage. Faults never synthesize an in-memory filesystem.
     internal sealed class FaultStorage : ILocalSaveStorage
     {
-        private readonly WindowsEditorSaveStorage real;
+        private readonly ILocalSaveStorage real;
         private string point, target;
         private bool published;
         internal bool FaultUsed, FailEnumerationAfterFault, FailEnumerationAlways, FailDeleteOnce;
         internal int Calls, WriteCalls, RealFlushes, SnapshotAndMarkerPromotions;
         private readonly Dictionary<string, int> markerPromotions = new Dictionary<string, int>(StringComparer.Ordinal);
         public SaveStorageProfile Profile => real.Profile;
-        internal FaultStorage(WindowsEditorSaveStorage real) { this.real = real; }
+        internal FaultStorage(ILocalSaveStorage real) { this.real = real; }
         internal void Arm(string point, string commit) { this.point = point; target = commit; FaultUsed = false; published = false; }
         internal void ArmHeadRead(string point, string commit) { Arm(point, commit); published = true; }
         internal bool Take(string key)

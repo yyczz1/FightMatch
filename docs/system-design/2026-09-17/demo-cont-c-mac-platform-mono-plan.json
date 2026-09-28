@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "stage": "CONT-C-MAC-R1-PLATFORM-MONO",
+  "sourcePacket": "system-task-packets.md §394",
+  "supersedesOnly": "§383.3 CoreCLR reflection recovery runtime; §386 finite platform evidence count 56 becomes 64",
+  "projectPath": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "evidenceRoot": "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform",
+  "cThread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+  "cTurnAtIssue": "01a0e410-3e6f-7400-b58c-34cebde8d28c",
+  "rConsultations": [
+    {
+      "turn": "01a0e597-fdc4-78e0-a7ea-f805ac013135",
+      "completedAt": 1790558805
+    },
+    {
+      "turn": "01a0e5a0-0f31-7242-97bb-a0177454d400",
+      "completedAt": 1790558970
+    }
+  ],
+  "basePlan": {
+    "path": "docs/system-design/2026-09-17/demo-cont-c-mac-platform-plan.json",
+    "bytes": 12714,
+    "sha256": "072a87610890fd8eca9d66be5803ce5875a19135adae5a24ab9d929f72b4a0d7"
+  },
+  "c1Plan": {
+    "path": "docs/system-design/2026-09-17/demo-cont-c-mac-platform-c1-plan.json",
+    "bytes": 10238,
+    "sha256": "49651fb0a711c6e7821213635f502e420e10e233f5ab519c1547eb2a9f4bdbe7"
+  },
+  "sourceTool": {
+    "path": "Tools/Restore-FMDemoMacInputs.ps1",
+    "bytes": 9341,
+    "sha256": "6bcdb361dee254bf7901dece39fe6108564e8fef6e971e980b446adf9aabefe6"
+  },
+  "failedAttempt": [
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/restore-result.json",
+      "bytes": 9551,
+      "sha256": "3368bc5abdc7df8d5a726c51b597dbf52b3f58e33a3cbcf14861a8aef9401e89"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/restore.stdout.txt",
+      "bytes": 145,
+      "sha256": "eae1c61ff11e843cbe918990a59e436d973b7f068375713b201980e64708b26d"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/restore.stderr.txt",
+      "bytes": 480,
+      "sha256": "7ecd04c24184609910360be32e6f39fcbcbdaf4f720f0824ddf491e593f157a7"
+    }
+  ],
+  "compile003": [
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/003/result.json",
+      "bytes": 1107,
+      "sha256": "b2df100edafce7c1367e95c8860fff3141cff57551bf6fa6a19689044d855cd0"
+    },
+    {
+      "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/003/after.json",
+      "bytes": 710210,
+      "sha256": "5001f3d732630c37696f098fe1fe3563f1a63ea41aa351c108a8a419a3a2cc6d"
+    }
+  ],
+  "runtimeInputs": [
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/application/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MonoBleedingEdge/bin/mono",
+      "bytes": 5051536,
+      "sha256": "7cdee666f010ff74fcbfaead36dee27e95790562248a1e5aa1dc22df76619538"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/application/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/mcs.exe",
+      "bytes": 1820672,
+      "sha256": "62e592af7240289060da6df5617d3cb30cb2b199c82ccf90fe1f6068a14accd2"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/application/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/mscorlib.dll",
+      "bytes": 4612608,
+      "sha256": "c5968d3e8e6ef34249853aa908d29497fa8d5af441e1d25e982c3233f50595fa"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/application/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/Mono.CSharp.dll",
+      "bytes": 1354752,
+      "sha256": "0a56f7789746732c9dafe2d479099a50f8da1baa3b624c0992ee24e36ae466cd"
+    }
+  ],
+  "managedAssemblies": [
+    {
+      "path": "Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll",
+      "bytes": 329728,
+      "sha256": "e388e140954de12970384331d1730e95b4613ef53c3326b6f8fa0fffdbc9314f"
+    },
+    {
+      "path": "Library/ScriptAssemblies/FlowPuzzle.Core.dll",
+      "bytes": 19456,
+      "sha256": "fc8aa64bb111cd8f100c518b8018eaeec692f1b34b6b73544d52aae231412de6"
+    },
+    {
+      "path": "Library/ScriptAssemblies/FlowPuzzle.Validation.dll",
+      "bytes": 10240,
+      "sha256": "dec7214bfefec901dae21f6577968459319504a9b412fabb22a9ef16724f9b97"
+    },
+    {
+      "path": "Library/ScriptAssemblies/FightMatch.Core.dll",
+      "bytes": 749568,
+      "sha256": "2c01d7e08e98a910832ca5f4a4d5f35759a868639569f9dced4107432cdb9ea6"
+    },
+    {
+      "path": "Library/ScriptAssemblies/FightMatch.Platform.dll",
+      "bytes": 102912,
+      "sha256": "c5057deefd4237d8214c72bbf35141adb38d16ffc757ea7807b27a0c1d62e863"
+    },
+    {
+      "path": "Library/ScriptAssemblies/FightMatch.Content.dll",
+      "bytes": 154624,
+      "sha256": "b7c373703900f6858ec7ff9ab3a64f254e03b7cb950363e19eae8ed3fec2d5c6"
+    },
+    {
+      "path": "Library/ScriptAssemblies/FightMatch.Core.Tests.dll",
+      "bytes": 1453568,
+      "sha256": "b7f053bdd195474404e62a8b512ad7359534bfb27b443a0ab697321fc82a6e0d"
+    }
+  ],
+  "generatorSources": [
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/DemoContentTestData.cs",
+      "bytes": 14796,
+      "sha256": "bda26e5cc4837bb8379d8f42a1219132bd7eebcbb001e0ee61b50e2eed743af3"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/DemoContentCompilerTests.cs",
+      "bytes": 14594,
+      "sha256": "b7dc6beba1ea2084c0e859845ed8617f1358269d3bdfeaffdebb13189020d325"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/DemoContentParameterTests.cs",
+      "bytes": 8290,
+      "sha256": "73bcef8828da4d9a59a2b1166a06a254f539f396d3f582577417d1a71ab9b0c1"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/DemoContentReplayTests.cs",
+      "bytes": 10329,
+      "sha256": "d869f9d246a7e8adf94a6f2c77a52c520d1e3d6752657470a6b52ae38f2cb44d"
+    }
+  ],
+  "sourceInputs": [
+    {
+      "path": "docs/game-design/balance/config.json",
+      "bytes": 13243,
+      "sha256": "4e815411914bf86fe9e1a046ee80b86c24d048bd8455a1d4bb55a088255aa7f3",
+      "physicalLines": 609
+    },
+    {
+      "path": "docs/game-design/balance/results/boards.json",
+      "bytes": 13598,
+      "sha256": "671467caf72c52eb83a03b396ad82f5557a47b2f9cbd3f9da6d0ec560a7d2aad",
+      "physicalLines": 1056
+    },
+    {
+      "path": "docs/game-design/balance/chapter_model.py",
+      "bytes": 13694,
+      "sha256": "2052792ccc3aae007f6a23a2f799d4d724c3ecfde97644d9731e4d706bbec390",
+      "physicalLines": 239
+    },
+    {
+      "path": "docs/game-design/balance/calibrate.py",
+      "bytes": 13827,
+      "sha256": "698cf18f125a7e63b27e1212f32f1985c16118a1adf09a6ffe6e559790976052",
+      "physicalLines": 186
+    },
+    {
+      "path": "docs/game-design/balance/README.md",
+      "bytes": 43441,
+      "sha256": "8216072dcbd0904b14e3a412ad73eb050cfc5534c5b8cf31286dacdf7d1d5548",
+      "physicalLines": 364
+    },
+    {
+      "path": "docs/game-design/balance/2026-09-19-calibration-inputs.md",
+      "bytes": 13246,
+      "sha256": "9664ed3b923e71720ea2d08ace678e3e5033c4929ee809451576cb81a2984494",
+      "physicalLines": 121
+    },
+    {
+      "path": "docs/game-design/balance/results/stages.csv",
+      "bytes": 1394,
+      "sha256": "814536d3b9de969f0f85673985e9b188857166c83967bf67af74eaa6e3a9db2d",
+      "physicalLines": 17
+    },
+    {
+      "path": "docs/game-design/balance/results/enemies.csv",
+      "bytes": 1142,
+      "sha256": "238493bec0bd293b12d0cfdb0395d4246fbb379e59573ec94a590e5dc25ec9d9",
+      "physicalLines": 43
+    },
+    {
+      "path": "docs/game-design/balance/results/prd.csv",
+      "bytes": 1646,
+      "sha256": "d3bfa67735d31b493deb14838d3097f4dec77e9d3f434a3881abc840bbe855bf",
+      "physicalLines": 17
+    },
+    {
+      "path": "docs/game-design/balance/results/progression.csv",
+      "bytes": 22027,
+      "sha256": "d67e7fb3f6dee1799e521d03724472a2b1997e775f531753040c12b48aaceb18",
+      "physicalLines": 81
+    },
+    {
+      "path": "docs/game-design/balance/results/manifest.json",
+      "bytes": 531,
+      "sha256": "6e8ec70888fd67f7978ad8d7d6b2da8f61c514c9576db1eec32dc57fb7bba127",
+      "physicalLines": 12
+    },
+    {
+      "path": "docs/system-design/2026-09-16/details/content-validation.md",
+      "bytes": 30962,
+      "sha256": "b430f3384aeb20bf5742bf29c5949af13cf25eb4eaea31bedbbac5da8beeafc9",
+      "physicalLines": 180
+    }
+  ],
+  "goldenInputs": [
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/source-ledger.json",
+      "bytes": 34768,
+      "sha256": "049a70ddc1ad5314ab39f10e490010737ef806e73f3b04b4a263099bad3b492b"
+    },
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/prd-candidates.json",
+      "bytes": 96954,
+      "sha256": "1469ae1833d7d9709264c10b29ca065b6bf53c0425bc42ae0ed64fb6c338d3f4"
+    },
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/replay-evidence.json",
+      "bytes": 12528619,
+      "sha256": "d5117507ca3bc8e44ce26d6708049e5198a886b90056af28bdeb042c8129aa08"
+    },
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/replay-cohort.json",
+      "bytes": 10458,
+      "sha256": "dda7ee268a043772f0adb5c98e3514b59a9d0dc7f19a732b141a40231f2fc86c"
+    }
+  ],
+  "methods": [
+    "FightMatch.Core.Tests.DemoContentCompilerTests.BothCoordinatesAndLevelsHaveIndependentFingerprintsAndSourceLedger",
+    "FightMatch.Core.Tests.DemoContentParameterTests.ExportCandidatesAndBothHistoricalTwentyPercentTexts",
+    "FightMatch.Core.Tests.DemoContentReplayTests.ExportOriginalStatesFactsWordsRejectionGroupsReportsAndRewards",
+    "FightMatch.Core.Tests.DemoContentReplayTests.PredeterminedSixtyFourSourceCohortCoversDeadTargetSkipAndSurvivorRepeat"
+  ],
+  "additionalEvidencePaths": [
+    "before-text/Tools/Restore-FMDemoMacInputs.ps1.txt",
+    "restore-mono-runner.cs",
+    "restore-mono-runner.exe",
+    "restore-mono-compile.stdout.txt",
+    "restore-mono-compile.stderr.txt",
+    "restore-mono.stdout.txt",
+    "restore-mono.stderr.txt",
+    "restore-mono-result.json"
+  ],
+  "exactAllowedEvidencePaths": [
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/root-identity.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/read-manifest.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/source-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/source-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/old-test-inventory-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/old-test-inventory-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/golden-recovery.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/inputs-before.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/inputs-after.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/io-inventory.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/mac-probe-summary.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/manifest.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/restore.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/restore.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/restore-result.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/LocalSaveStoreTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/SaveCommitMarkerTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/SaveRecoveryTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/SavePendingRecoveryTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/CandidateApplicationRuntimeTestData.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/CandidateApplicationRuntimeTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/CandidateLifecycleTestData.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Tests/EditMode/FightMatch/PublishedContentCatalogTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/before-text/Assets/Scripts/FightMatch/Content/PublishedContentAuthoring.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/LocalSaveStoreTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/SaveCommitMarkerTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/SaveRecoveryTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/SavePendingRecoveryTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/CandidateApplicationRuntimeTestData.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/CandidateApplicationRuntimeTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/CandidateLifecycleTestData.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/PublishedContentCatalogTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Scripts/FightMatch/Content/PublishedContentAuthoring.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Scripts/FightMatch/Platform/MacEditorSaveStorage.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Scripts/FightMatch/Platform/MacEditorSaveStorage.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Scripts/FightMatch/Platform/MacContentPublicationStorage.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Scripts/FightMatch/Platform/MacContentPublicationStorage.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/MacStorageTests.cs.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Assets/Tests/EditMode/FightMatch/MacStorageTests.cs.meta.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/after-text/Tools/Restore-FMDemoMacInputs.ps1.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/config.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/results/boards.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/chapter_model.py",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/calibrate.py",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/README.md",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/2026-09-19-calibration-inputs.md",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/results/stages.csv",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/results/enemies.csv",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/results/prd.csv",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/results/progression.csv",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/game-design/balance/results/manifest.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/source-ledger.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/prd-candidates.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/replay-evidence.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/replay-cohort.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/staging/docs/system-design/2026-09-16/details/content-validation.md",
+    "before-text/Tools/Restore-FMDemoMacInputs.ps1.txt",
+    "restore-mono-runner.cs",
+    "restore-mono-runner.exe",
+    "restore-mono-compile.stdout.txt",
+    "restore-mono-compile.stderr.txt",
+    "restore-mono.stdout.txt",
+    "restore-mono.stderr.txt",
+    "restore-mono-result.json"
+  ]
+}

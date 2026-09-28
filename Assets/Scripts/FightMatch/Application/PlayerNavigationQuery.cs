@@ -39,7 +39,8 @@ namespace FightMatch.Application
                     roster, inventory, progression, life, null);
             }
             catch (Refusal error)
-            { return new PlayerNavigationReadResult(q.View, null, null, null, null, null, null, error.Diagnostic); }
+            { return new PlayerNavigationReadResult(q.View, null, null, null, null, null, null,
+                error.Diagnostic.Code == "ResolutionRequired" ? q.Diagnostic ?? q.View.Diagnostic ?? error.Diagnostic : error.Diagnostic); }
             catch (ExactMathLimitException error)
             { return new PlayerNavigationReadResult(q.View, null, null, null, null, null, null,
                 CandidateApplicationDiagnostic.From("Limit", "Navigation.Query", error)); }

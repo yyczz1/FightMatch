@@ -31,7 +31,7 @@ namespace FightMatch.Core.Tests
         internal ApplicationRuntimeRig(string root = null)
         {
             Root = root ?? NewCase();
-            Storage = new ApplicationFaultStorage(new WindowsEditorSaveStorage(Root, "player:015b", SavePurpose.CandidateValidation));
+            Storage = new ApplicationFaultStorage(CreateStorage(Root, "player:015b", SavePurpose.CandidateValidation));
             Architecture = FightMatchDemoArchitecture.Interface;
             System = Architecture.GetSystem<CandidateApplicationSystem>();
             Model = Architecture.GetModel<CandidateApplicationModel>();
@@ -282,7 +282,7 @@ namespace FightMatch.Core.Tests
         internal bool FailLeaseClose;
         internal string PublishedCommit;
         internal int PostMarkerEnumerations, Deletes, LeaseCloses;
-        internal ApplicationFaultStorage(WindowsEditorSaveStorage real) { Base = new FaultStorage(real); }
+        internal ApplicationFaultStorage(ILocalSaveStorage real) { Base = new FaultStorage(real); }
         public SaveStorageProfile Profile => Base.Profile;
         public IDisposable AcquireWriterLease(bool createDirectory)
         { return new Lease(this, Base.AcquireWriterLease(createDirectory)); }

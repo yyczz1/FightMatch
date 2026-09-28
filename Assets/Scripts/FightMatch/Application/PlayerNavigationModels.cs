@@ -56,8 +56,10 @@ namespace FightMatch.Application
         internal bool Receive(long epoch, CandidateApplicationCallResult actual)
         {
             if (epoch != Epoch || Intent == null || actual?.View.PlayerId != Intent.PlayerId ||
-                actual.OriginalLookup != null && !actual.OriginalLookup.Record.Intent.CanonicalBytes.SequenceEqual(Intent.CanonicalBytes) ||
-                actual.IsCommitted && actual.OriginalCommitId == null) return false;
+                actual.OriginalLookup?.IsFound == true && !actual.OriginalLookup.Record.Intent.CanonicalBytes.SequenceEqual(Intent.CanonicalBytes) ||
+                actual.IsCommitted && (actual.OriginalLookup?.IsFound != true ||
+                    actual.OriginalCommitId != actual.OriginalLookup.OriginalCommitId ||
+                    !actual.View.IsPublishedHeadVerified || actual.LookupViewCommitId != actual.View.PublishedSnapshot?.Header.CommitId)) return false;
             Result = actual; return true;
         }
     }

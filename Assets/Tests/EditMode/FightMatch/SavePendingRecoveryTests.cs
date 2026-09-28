@@ -653,7 +653,7 @@ namespace FightMatch.Core.Tests
             SavePurpose purpose = SavePurpose.CandidateValidation, SaveOpenMode mode = SaveOpenMode.CreateNew)
         {
             root = root ?? SavePendingRecoveryProcessCases.TestRoot();
-            Storage = new PendingFaultStorage(new WindowsEditorSaveStorage(root, player, purpose));
+            Storage = new PendingFaultStorage(CreateStorage(root, player, purpose));
             Store = Open(Storage, mode);
         }
         internal string Path(string name) { return System.IO.Path.Combine(Storage.Profile.DirectoryPath, name); }
@@ -762,7 +762,7 @@ namespace FightMatch.Core.Tests
         internal readonly FaultStorage Base;
         internal Action<string> Hook;
         internal int Deletes;
-        internal PendingFaultStorage(WindowsEditorSaveStorage real) { Base = new FaultStorage(real); }
+        internal PendingFaultStorage(ILocalSaveStorage real) { Base = new FaultStorage(real); }
         public SaveStorageProfile Profile => Base.Profile;
         public IDisposable AcquireWriterLease(bool createDirectory) { return Base.AcquireWriterLease(createDirectory); }
         public IEnumerable<string> EnumerateNames() { Hook?.Invoke("Enumerate"); return Base.EnumerateNames(); }

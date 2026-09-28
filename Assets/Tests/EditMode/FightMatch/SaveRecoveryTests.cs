@@ -1,4 +1,5 @@
 using System;
+using LocalSaveTestFiles = FightMatch.Core.Tests.LocalSaveTestFiles;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -313,7 +314,7 @@ namespace FightMatch.Tests
             using (var r = new RecoveryRig())
             {
                 var first = r.Commit(); var view = Ok(r.Store.ReadRecovery(Budget()), "RecoveryObserved");
-                var second = LocalSaveStore.Open(new WindowsEditorSaveStorage(r.Root, r.Storage.Profile.PlayerId, SavePurpose.CandidateValidation),
+                var second = LocalSaveStore.Open(LocalSaveTestFiles.CreateStorage(r.Root, r.Storage.Profile.PlayerId, SavePurpose.CandidateValidation),
                     r.Storage.Profile.PlayerId, SavePurpose.CandidateValidation, SaveOpenMode.Existing, SaveFaultModel.EditorProcessCrash, Budget()); Bad(second, "Busy");
                 using (var held = new FileStream(r.Path("c-" + first.Descriptor.CommitId + ".snapshot"), FileMode.Open, FileAccess.ReadWrite, FileShare.None))
                 { Bad(r.Store.Load(Budget()), "StorageFailure"); Bad(r.Store.ReadRecovery(Budget()), "StorageFailure"); }
@@ -495,33 +496,33 @@ namespace FightMatch.Tests
 
     internal sealed class RecoveryRig : IDisposable
     {
-        private static readonly string RunRoot = NewRun();
+        private static readonly string RunRoot = LocalSaveTestFiles.IsMac ? LocalSaveTestFiles.RunRoot : NewRun();
         internal readonly string Root;
         internal readonly RecoveryFaultStorage Storage;
         internal LocalSaveStore Store;
         private int sequence;
         internal RecoveryRig(string player = "b13-player")
         {
-            Root = Safe(RunRoot, System.IO.Path.Combine(RunRoot, Guid.NewGuid().ToString("N"))); Directory.CreateDirectory(Root);
+            Root = LocalSaveTestFiles.IsMac ? LocalSaveTestFiles.NewCase() : Safe(RunRoot, System.IO.Path.Combine(RunRoot, Guid.NewGuid().ToString("N"))); Directory.CreateDirectory(Root);
             TestContext.Out.WriteLine("FMDemoB13 case: " + Root);
-            Storage = new RecoveryFaultStorage(new WindowsEditorSaveStorage(Root, player, SavePurpose.CandidateValidation)); Store = Open(Storage);
+            Storage = new RecoveryFaultStorage(LocalSaveTestFiles.CreateStorage(Root, player, SavePurpose.CandidateValidation)); Store = Open(Storage);
         }
         internal SaveCommitTicket Prepare(SnapshotDescriptor head)
         { return Ok(Store.Prepare(head, new[] { "op:" + ++sequence }, SaveRecoveryTests.Raw, Budget()), "Prepared"); }
         internal SaveCommittedReference Commit(SnapshotDescriptor head = null) { return Ok(Store.Write(Prepare(head), Budget()), "Committed"); }
         internal SaveCommittedReference[] Four()
         { var result = new List<SaveCommittedReference>(); SnapshotDescriptor head = null; for (var i = 0; i < 4; i++) { var c = Commit(head); result.Add(c); head = c.CurrentHead; } return result.ToArray(); }
-        internal string Path(string name) { return Safe(RunRoot, System.IO.Path.Combine(Storage.Profile.DirectoryPath, name)); }
+        internal string Path(string name) { var path = System.IO.Path.Combine(Storage.Profile.DirectoryPath, name); return LocalSaveTestFiles.IsMac ? LocalSaveTestFiles.Safe(path) : Safe(RunRoot, path); }
         internal void Put(string name, byte[] bytes) { File.WriteAllBytes(Path(name), bytes); }
         internal void Reopen() { Store.Dispose(); Store = Open(Storage, SaveOpenMode.Existing); }
         public void Dispose() { Store.Dispose(); }
     }
     internal sealed class RecoveryFaultStorage : ILocalSaveStorage
     {
-        internal readonly WindowsEditorSaveStorage Real;
+        internal readonly ILocalSaveStorage Real;
         internal Action<string> Hook;
         internal int Deletes;
-        internal RecoveryFaultStorage(WindowsEditorSaveStorage real) { Real = real; }
+        internal RecoveryFaultStorage(ILocalSaveStorage real) { Real = real; }
         public SaveStorageProfile Profile => Real.Profile;
         public IDisposable AcquireWriterLease(bool createDirectory) { return Real.AcquireWriterLease(createDirectory); }
         public IEnumerable<string> EnumerateNames() { Hook?.Invoke("Enumerate"); var names = Real.EnumerateNames().ToArray(); Hook?.Invoke("Enumerate.after"); return names; }

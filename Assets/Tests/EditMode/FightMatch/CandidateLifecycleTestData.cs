@@ -36,7 +36,7 @@ namespace FightMatch.Core.Tests
             {
                 Profile = Accepted(System.PrepareNewProfile(Content, new CandidateApplicationInitializeInput { CharacterId = "W", ClassId = "warrior",
                     InitialLevel = 1, InitialExperience = experience, OriginalSlot = 2 }, B().Codec));
-                Storage = new ApplicationFaultStorage(new WindowsEditorSaveStorage(Root, Profile.PlayerId, SavePurpose.CandidateValidation));
+                Storage = new ApplicationFaultStorage(CreateStorage(Root, Profile.PlayerId, SavePurpose.CandidateValidation));
                 var coverage = new ApplicationScenario(level); coverage.Enter(); coverage.Win(); coverage.Settle(); Caps = ApplicationRuntimeRig.Caps(coverage.Envelope);
                 if (initialize) Is(System.OpenNewProfile(Profile, Storage, Caps, B()), "Completed");
             }

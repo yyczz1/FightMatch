@@ -1,8 +1,10 @@
 # Project Context
 
-Last context refresh: 2026-09-28 (repository and delivery records; not a new Unity or Mac validation).
+Last context refresh: 2026-09-28 (CONT-C-MAC-R1 completed; independent R ACCEPT recorded in task packet §431).
 
 This file separates observed repository facts from approved future design and unresolved information.
+
+Current user boundary: finish the accepted CONT-C commit/push, then pause for a Mac restart. Do not start 028/029 until the user explicitly resumes. The first Android Demo goal is not complete.
 Do not convert assumptions into facts.
 
 For a new chat or device, start with [`START_HERE.md`](../START_HERE.md). It links
@@ -13,7 +15,9 @@ handoff. The old description of an empty project no longer applies.
 
 ### Project and tooling
 
-- Repository path used during verification: `D:\Unity\UnityProj\FightMatch`.
+- Historical Windows repository path: `D:\Unity\UnityProj\FightMatch`.
+- Current Mac repository: `/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch`.
+- Current Mac Unity executable: `/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity` (x86_64/Rosetta).
 - Project type: Unity project.
 - Unity Editor version: `2022.3.18f1`.
 - Product name in `ProjectSettings/ProjectSettings.asset`: `FightMatch`.
@@ -28,7 +32,8 @@ handoff. The old description of an empty project no longer applies.
 - Project test assemblies exist under `Assets/Tests/EditMode/`, including FlowPuzzle, FightMatch.Core.Tests, and FightMatch.QFramework.Tests.
 - QFramework is present under `Assets/ThirdParty/QFramework/`.
 - Design, task, delivery, review, and selected migration evidence are versioned under `docs/`.
-- CONT-C-RCV1 is unfinished WIP: the latest product snapshot is commit `4be170fd65051eeac5a523817f534e725526c4c6`, with 5 source changes not compiled or tested. Follow `START_HERE.md` for exact receipts and the CONT-C → 028 → 029 continuation.
+- CONT-C-MAC-R1 is accepted after C formal completion and independent R ACCEPT (§430–431). Final Compile013 and unfiltered EditMode015 passed: 3956/3956, no failures or skips. The original 3872 named occurrences remain.
+- `4be170fd65051eeac5a523817f534e725526c4c6` is the historical pre-resumption WIP, not the current delivery. Remaining product stages are 028 and 029; a runnable Android APK and physical/emulator gameplay acceptance are still pending.
 - The accepted CONT-B-CODE-C1 Windows evidence reports 3872/3872 tests passing, with no failures or skips. It does not validate the later WIP or Mac.
 - There is no verified CI configuration.
 - There is no verified lint or formatting command.
@@ -41,7 +46,7 @@ handoff. The old description of an empty project no longer applies.
 - Current branch: `master`.
 - Current remote: `origin` at `https://github.com/yyczz1/FightMatch.git`.
 - At the time of verification, `master` tracked `origin/master`.
-- Product work was frozen for device migration and pushed through `4be170fd65051eeac5a523817f534e725526c4c6`; later context-only commits do not mean product work resumed.
+- The migration starting HEAD is `adaffdc4d7e8329fb4e8ee663ed8918c78ad8f0c`. The user explicitly resumed Mac work and authorized normal commits/pushes after independent acceptance. See the current task-packet receipts for actual accepted commit and remote verification; do not infer a push from a report alone.
 - Preserve `.claude/settings.local.json` as user-managed local permissions. Its current local modification is not part of the migration commits.
 - `.gitattributes` disables text conversion to preserve hash-bound source/evidence bytes across platforms; do not normalize line endings as incidental cleanup.
 - Do not commit, push, branch, merge, or create a worktree unless the user authorizes the action.
@@ -89,12 +94,12 @@ External workers must read only the portions relevant to their assigned task.
 
 ## Unknown or unresolved
 
-- Mac import/compilation and Player/Android build/device acceptance are not established by the Windows evidence or Git migration. Android is the product direction; the first Demo's exact acceptance is in the current packets.
-- `Tools/Invoke-FM025P2Validation.ps1` has fixed Windows paths. Mac adaptation needs a precise continuation supplement after inspecting the actual environment, without rewriting frozen packets or replaying every historical test stage.
+- Mac compilation/EditMode for final CONT-C are established by this round's actual evidence. Player/Android build and iQOO Neo5/BlueStacks normal flows and cold restarts remain unverified; toolchain/emulator preparation is not gameplay evidence.
+- `Tools/Invoke-FM025P2Validation.ps1` now has an accepted fixed CONT-C-MAC-R1 stage with serial process, script SHA and same-version checks. The canonical external runtime directory is `Applications`, not the former `application`. New 028/029 stages still require their own explicit packets; reuse valid evidence and preserve old failure/input records.
 - CI provider and CI commands.
 - Repository-wide code style beyond rules defined here.
 - Whether a formatter or analyzer will be adopted.
-- New Mac host/thread/turn mappings are not known until the user resumes there. Old IDs remain provenance, not proof that those chats are callable on the new device.
+- Current authorized local C thread: `01a0e404-d89d-7ab2-bece-3cd1df3fbc52`; R thread: `01a0e404-e8ee-7310-8388-9260babd53f1`, both gpt-6-astra/max. Actual completed author/review turns and formal messages are recorded in §430–431. Old Windows IDs remain historical provenance.
 - Full historical raw test artifacts, local caches, credentials, real player saves, and native Codex chat databases are not included in the selected migration archive.
 
 ## Updating this file

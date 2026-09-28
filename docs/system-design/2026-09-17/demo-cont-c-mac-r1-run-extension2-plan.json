@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "id": "CONT-C-MAC-R1-RUN-EXT2",
+  "status": "APPROVED_AFTER_RUN010_HOST_RESTART",
+  "authoritySection": 425,
+  "stageId": "CONT-C-MAC-R1",
+  "projectRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "evidenceRoot": "TestArtifacts/FMDemoCONT/cont-c-mac-r1",
+  "authorTaskId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+  "originalAuthorTurnId": "01a0e410-3e6f-7400-b58c-34cebde8d28c",
+  "currentResumedTurnId": "01a0e6d3-38f8-7b92-9c3c-6a3df6b258fe",
+  "rootIdentity": {
+    "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1/root-identity.json",
+    "bytes": 17532,
+    "sha256": "b4dc15b859685ddac2b13255c8d8254685103708727ba3298cc8378fcd9999e5"
+  },
+  "previousExtensionPlan": {
+    "path": "docs/system-design/2026-09-17/demo-cont-c-mac-r1-run-extension-plan.json",
+    "bytes": 3862,
+    "sha256": "a4b02650313488f4b3679daa5c1d73a78e9dfc77d3c327da2489b5597db31b55"
+  },
+  "preExtensionTool": {
+    "path": "Tools/Invoke-FM025P2Validation.ps1",
+    "bytes": 35821,
+    "sha256": "237eae178197d218fd9c049c2ac9bfd0fd76850898f976f7a6c91b1cb2d6df48",
+    "physicalLines": 413
+  },
+  "interruptedRun": {
+    "runNumber": "010",
+    "runDescriptor": {
+      "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/run.json",
+      "bytes": 1310,
+      "sha256": "899b37947383b1bbaa49acc520e6e1947dabd1add95ea7505af0de40675f58e6"
+    },
+    "failureEvidence": {
+      "path": "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/010/failure.json",
+      "bytes": 2712,
+      "sha256": "2716cb0bb96bd1c44d2fe4cbe0b38e7b8e322f7f29d6b1c31ccd200a801cf87c"
+    },
+    "actualExitCode": null,
+    "testResult": null,
+    "hostBootEpochSeconds": 1790578428
+  },
+  "toolChangeBudget": {
+    "addedPlusDeletedLinesMax": 56,
+    "finalPhysicalLinesMax": 469,
+    "cumulativeMacAddedPlusDeletedLinesMax": 440
+  },
+  "newRunModes": {
+    "011": "Compile",
+    "012": "Tests"
+  },
+  "maximumRunNumber": 12,
+  "originalAllowedEvidencePathCount": 156,
+  "previousEffectiveAllowedEvidencePathCount": 180,
+  "addedAllowedEvidencePaths": [
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/011/tests.xml",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/after.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/before.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/compile.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/compile.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/compile.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/failure.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/result.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/run.json",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/tests.log",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/tests.stderr.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/tests.stdout.txt",
+    "TestArtifacts/FMDemoCONT/cont-c-mac-r1/runs/012/tests.xml"
+  ],
+  "effectiveAllowedEvidencePathCount": 204,
+  "effectiveManifestMaxRowsExcludingSelf": 203,
+  "constraints": [
+    "Only recover the interrupted run on the unchanged approved source; no product, test, meta, package, dependency or settings edits.",
+    "Keep the original root identity, prior extension plan and all runs 001 through 010 byte-for-byte, including the preserved HostRestart failure evidence.",
+    "Bind this plan and signed section 425 by exact identity; preserve existing ownership, packet, path and process-safety checks.",
+    "Preserve the full pre-extension validation tool text and identity in the existing scope audit before the sole tool edit.",
+    "Add exactly the 24 listed paths; effective membership is original 156 plus extension1 24 plus extension2 24, with no wildcard or replacement root identity.",
+    "Use the sole validation tool with already approved external PowerShell, Unity 2022.3.18f1 and Rosetta; no reinstallation or new runtime.",
+    "Run 011 Compile then 012 full unfiltered EditMode without quit, after same-source assets tool and DLL checks; never overwrite or reuse a run slot.",
+    "Preserve valid historical validation and recovered golden inputs; do not repeat unrelated restoration or old stages.",
+    "Record the actual new execution turn separately; do not rewrite original package-author or historical run-author fields.",
+    "Final report and manifest must include both extensions and real terminal evidence; interruption is neither pass nor a fabricated NUnit failure."
+  ]
+}

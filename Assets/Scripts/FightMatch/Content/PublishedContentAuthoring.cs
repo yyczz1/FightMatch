@@ -112,6 +112,9 @@ namespace FightMatch.Content
             if (mode == "publish") { expected.Add("-fmSource", SourcePath); expected.Add("-fmReview", ReviewPath); }
             else { expected.Add("-fmScope", Scope); expected.Add("-fmReleaseSetId", ReleaseId); expected.Add("-fmReleaseRoot", ReleaseRoot); }
             Need(values.Count == expected.Count && expected.Keys.All(values.ContainsKey), "InvalidValue", "Arguments");
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX))
+                foreach (var item in expected)
+                    Need(string.Equals(values[item.Key], item.Value, StringComparison.Ordinal), "UnsupportedBinding", item.Key);
             foreach (var item in expected)
             {
                 var path = item.Key.EndsWith("Root", StringComparison.Ordinal) || item.Key == "-fmSource" || item.Key == "-fmReview";

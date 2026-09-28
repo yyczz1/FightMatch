@@ -20,12 +20,14 @@ namespace FightMatch.Application
         private long confirmation => operation.Epoch;
         private bool executing, endConfirmation;
         private PlayerNavigationDraftKind draftKind;
+        private PlayerNavigationRoute draftPage;
         private uint fromFormat, toFormat;
         private IReadOnlyList<string> slots;
         private PlayerNavigationContext frozenContext;
         private PreparedPlayerPermanentPreview preview;
         private PreparedCandidateLifecycleRequest request => operation.Request;
         private CandidateApplicationCallResult result => operation.Result;
+        private CandidateApplicationCallResult lastResult;
         private CandidateApplicationDiagnostic diagnostic;
         private string status;
         private PlayerNavigationHostRequest host;
@@ -46,7 +48,7 @@ namespace FightMatch.Application
             read = next;
             if (changed) revision++;
             if (headChanged && operation.Intent == null && frozenContext != null)
-            { ClearDraft(); operation.Clear(); route = PlayerNavigationRoute.Detail; status = "StaleContext"; }
+            { ClearDraft(); operation.Clear(); route = draftPage; status = "StaleContext"; }
             if (read.IsAvailable && character != null && read.Head.Business.Roster.Find(character) == null)
             { character = null; ClearDraft(); revision++; }
             var gate = GateReason();
@@ -67,7 +69,7 @@ namespace FightMatch.Application
             var confirmationView = frozenContext == null && operation.Intent == null && !endConfirmation ? null :
                 new PlayerNavigationConfirmation(draftKind, preview, slots, fromFormat, toFormat, operation.Intent?.OperationId, endConfirmation);
             return new PlayerNavigationView(refusedRead ?? read, context, new PlayerNavigationToken(this, revision, confirmation), permanent,
-                detailKind, definition, confirmationView, result, refusedRead?.Diagnostic ?? diagnostic, overrideStatus ?? status ?? GateReason(),
+                detailKind, definition, confirmationView, result ?? lastResult, refusedRead?.Diagnostic ?? diagnostic ?? read?.Diagnostic, overrideStatus ?? status ?? GateReason(),
                 selectedCommit, selectedOperation, host, Enum.GetValues(typeof(PlayerNavigationAction)).Cast<PlayerNavigationAction>()
                     .Select(a => new PlayerNavigationOption(a, refusedRead?.Code ?? (executing ? "Busy" : ActionReason(a)))));
         }
@@ -114,7 +116,9 @@ namespace FightMatch.Application
             if (target.Kind == PlayerNavigationTargetKind.SelectCharacter)
             {
                 if (read.Head.Business.Roster.Find(target.CharacterId) == null) return Refuse("InconsistentBinding", "CharacterId");
-                character = target.CharacterId; ClearDraft(); revision++; return View();
+                character = target.CharacterId; ClearDraft(); operation.Clear();
+                if (route == PlayerNavigationRoute.Confirmation) route = draftPage;
+                revision++; return View();
             }
             if (target.Kind == PlayerNavigationTargetKind.Preparation)
             {
@@ -131,7 +135,9 @@ namespace FightMatch.Application
                 parents.Clear();
                 if (level != null) { parents.Add(PlayerNavigationRoute.MapAdventure); parents.Add(PlayerNavigationRoute.Preparation); }
                 route = target.Kind == PlayerNavigationTargetKind.Team ? PlayerNavigationRoute.Team : PlayerNavigationRoute.Bag;
-                anchor = level == null ? route : PlayerNavigationRoute.Preparation;
+                if (route == PlayerNavigationRoute.Team && level == null) parents.Add(PlayerNavigationRoute.MapAdventure);
+                anchor = level != null ? PlayerNavigationRoute.Preparation :
+                    route == PlayerNavigationRoute.Team ? PlayerNavigationRoute.MapAdventure : PlayerNavigationRoute.Bag;
             }
             else if (target.Kind == PlayerNavigationTargetKind.CraftList)
             {
@@ -147,6 +153,7 @@ namespace FightMatch.Application
                 if (target.PermanentKind == CandidatePermanentKind.Craft &&
                     player.QueryPermanent(character).Definitions?.Find(CandidatePermanentDefinitionKind.Recipe, target.DefinitionId) == null)
                     return Refuse("NoPublishedDefinition", "Permanent.Definition");
+                if (route == PlayerNavigationRoute.Team) anchor = PlayerNavigationRoute.Team;
                 parents.Add(route); route = PlayerNavigationRoute.Detail; detailKind = target.PermanentKind; definition = target.DefinitionId;
             }
             else return Refuse("UnsupportedNavigationTarget");
@@ -174,8 +181,9 @@ namespace FightMatch.Application
             var current = Query(budget); if (OwnerRefusal(current.Read?.Code)) return current;
             if (!Matches(context)) return Refuse("StaleNavigationContext");
             if (operation.Intent != null || GateReason() != null) return Refuse(GateReason() ?? "ResolutionRequired");
+            if (route != PlayerNavigationRoute.Confirmation) draftPage = route;
+            ClearDraft(); route = draftPage; diagnostic = null; status = null;
             if (draft == null) return Refuse("MissingField", "Navigation.Draft");
-            ClearDraft(); diagnostic = null; status = null;
             if (draft.Kind == PlayerNavigationDraftKind.Formation)
             {
                 if (read.Roster.UnavailabilityReason != null) return Refuse(read.Roster.UnavailabilityReason);
@@ -201,11 +209,11 @@ namespace FightMatch.Application
             }
             else if (draft.Kind == PlayerNavigationDraftKind.Migration)
             {
-                var current = (uint)read.Head.Business.Format;
-                if (draft.FromFormat != current || draft.ToFormat != current + 1 || current < 2 || current > 3)
+                var format = (uint)read.Head.Business.Format;
+                if (draft.FromFormat != format || draft.ToFormat != format + 1 || format < 2 || format > 3)
                     return Refuse("UnsupportedSchema", "Navigation.Migration");
-                if (current == 2 && read.Head.Business.ActiveHistory != null) return Refuse("ActiveAttemptConflict");
-                fromFormat = current; toFormat = draft.ToFormat;
+                if (format == 2 && read.Head.Business.ActiveHistory != null) return Refuse("ActiveAttemptConflict");
+                fromFormat = format; toFormat = draft.ToFormat;
             }
             else return Refuse("UnsupportedNavigationDraft");
             draftKind = draft.Kind; frozenContext = context; revision++;
@@ -231,7 +239,8 @@ namespace FightMatch.Application
                 else prepared = fromFormat == 2 ? player.PrepareRosterMigration(frozenContext.CommitId, budget.Codec) :
                     player.PreparePermanentMigration(frozenContext.CommitId, budget.Codec);
                 if (!prepared.IsAccepted)
-                { ClearDraft(); operation.Clear(); route = PlayerNavigationRoute.Detail; diagnostic = prepared.Diagnostic; status = prepared.Code; revision++; return View(); }
+                { ClearDraft(); operation.Clear(); route = draftPage;
+                    diagnostic = prepared.Diagnostic; status = prepared.Code; revision++; return View(); }
                 if (!AcceptPrepared(token, prepared.Request)) return Refuse("StaleNavigationContext");
                 return Receive(token, lifecycle.Submit(request, budget));
             }
@@ -253,8 +262,9 @@ namespace FightMatch.Application
             else
             {
                 if (reason != null) return Refuse(reason);
-                if (kind == PlayerNavigationTargetKind.BattleSelectionRequested && (level == null || read.Lifecycle.Enter.Reason != null))
-                    return Refuse(read.Lifecycle.Enter.Reason ?? "LevelSelectionRequired");
+                if (kind == PlayerNavigationTargetKind.BattleSelectionRequested && level == null) return Refuse("LevelSelectionRequired");
+                if (kind == PlayerNavigationTargetKind.BattleSelectionRequested && read.Head.Business.ActiveHistory != null)
+                    return Refuse("ActiveAttemptConflict");
                 if (kind == PlayerNavigationTargetKind.ResumeBattleRequested && read.Head.Business.ActiveHistory == null) return Refuse("NoActiveBattle");
             }
             revision++; host = new PlayerNavigationHostRequest(kind, Context(), app); status = kind.ToString(); return View();
