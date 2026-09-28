@@ -4,7 +4,7 @@ Last context refresh: 2026-09-28 (CONT-C-MAC-R1 completed; independent R ACCEPT 
 
 This file separates observed repository facts from approved future design and unresolved information.
 
-Current user boundary: finish the accepted CONT-C commit/push, then pause for a Mac restart. Do not start 028/029 until the user explicitly resumes. The first Android Demo goal is not complete.
+Current user boundary: the accepted CONT-C source commit `7464efd10e4d2ed5341bbc1e2d179364dd94489c` has been pushed and verified; preserve this checkpoint and pause for a Mac restart. Do not start 028/029 until the user explicitly resumes. The first Android Demo goal is not complete.
 Do not convert assumptions into facts.
 
 For a new chat or device, start with [`START_HERE.md`](../START_HERE.md). It links
@@ -46,7 +46,7 @@ handoff. The old description of an empty project no longer applies.
 - Current branch: `master`.
 - Current remote: `origin` at `https://github.com/yyczz1/FightMatch.git`.
 - At the time of verification, `master` tracked `origin/master`.
-- The migration starting HEAD is `adaffdc4d7e8329fb4e8ee663ed8918c78ad8f0c`. The user explicitly resumed Mac work and authorized normal commits/pushes after independent acceptance. See the current task-packet receipts for actual accepted commit and remote verification; do not infer a push from a report alone.
+- The migration starting HEAD was `adaffdc4d7e8329fb4e8ee663ed8918c78ad8f0c`. Accepted CONT-C source commit `7464efd10e4d2ed5341bbc1e2d179364dd94489c` was pushed normally to origin/master and independently verified by ls-remote at 2026-09-28T11:15:07Z. A following documentation-only checkpoint does not change that accepted source. See task packet §432; read actual HEAD when resuming.
 - Preserve `.claude/settings.local.json` as user-managed local permissions. Its current local modification is not part of the migration commits.
 - `.gitattributes` disables text conversion to preserve hash-bound source/evidence bytes across platforms; do not normalize line endings as incidental cleanup.
 - Do not commit, push, branch, merge, or create a worktree unless the user authorizes the action.

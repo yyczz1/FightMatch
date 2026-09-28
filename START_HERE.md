@@ -1,19 +1,19 @@
 # FightMatch：新会话与 Mac 开发接续入口
 
-> 当前停点（2026-09-28）：CONT-C-MAC-R1已通过最终3956/3956验证与独立R ACCEPT。用户要求完成当前提交推送后暂停，准备重启电脑；028/029尚未启动，必须等用户明确恢复。本页及旧Goal目标不构成恢复授权。安卓APK和设备试玩仍未完成。
+> 当前停点（2026-09-28）：CONT-C-MAC-R1已通过最终3956/3956验证与独立R ACCEPT，已提交并核实推送 `7464efd10e4d2ed5341bbc1e2d179364dd94489c`。用户要求本次收尾后暂停以重启电脑；028/029尚未启动，必须等用户明确恢复。本页及旧Goal目标不构成恢复授权。安卓APK和设备试玩仍未完成。
 
 **最终交付平台已明确：安卓 APK。Mac 仅作开发环境；029必须包含 Android 平台适配、安装、正常流程及关闭重开验收。旧 Mac App/APK 选择题已撤回。Android 环境准备新增会话与外置盘要求见任务包§401。**
 
 更新：2026-09-28。适用于没有 Windows 聊天历史的新会话。先读本页，再按角色读取下方资料；项目决定、任务包和交付证据已经落入仓库，不要求先恢复旧聊天。
 
-**当前停点：CONT-C-MAC-R1已通过015同版完整测试3956/3956、C正式交付及独立R ACCEPT；当前仅收尾提交推送后暂停，首Demo尚未完成。** 迁移起点为 `adaffdc4d7e8329fb4e8ee663ed8918c78ad8f0c`，产品快照 `4be170fd65051eeac5a523817f534e725526c4c6` 的历史WIP已由本轮接收取代，不能再作为待验收状态。新 SD00/C/R 身份与当前接续见 [任务包 §379～381](docs/system-design/2026-09-17/system-task-packets.md#379-mac明确恢复goal与替代cr映射)。原Goal目标仍为完整安卓APK首Demo，但用户最新要求本次版本收尾后暂停；恢复授权前不得推进下一包；原 Windows 停改记录保留为历史。
+**当前停点：CONT-C-MAC-R1已通过015同版完整测试3956/3956、C正式交付及独立R ACCEPT；已完成源码提交推送，按用户要求保存接续并暂停，首Demo尚未完成。** 迁移起点为 `adaffdc4d7e8329fb4e8ee663ed8918c78ad8f0c`，产品快照 `4be170fd65051eeac5a523817f534e725526c4c6` 的历史WIP已由本轮接收取代，不能再作为待验收状态。新 SD00/C/R 身份与当前接续见 [任务包 §379～381](docs/system-design/2026-09-17/system-task-packets.md#379-mac明确恢复goal与替代cr映射)。原Goal目标仍为完整安卓APK首Demo，但用户最新要求本次版本收尾后暂停；恢复授权前不得推进下一包；原 Windows 停改记录保留为历史。
 
 ## 1. 先确认这些事实
 
 | 项目 | 当前事实 |
 | --- | --- |
 | 同一个产品 | Demo 是安卓版开发路上的一个小版本；代码、业务规则、存档语义与正式流程连续建设，只减少发布内容。允许必要的平台适配。 |
-| Git | `master` / `origin`，`https://github.com/yyczz1/FightMatch.git`。先读取当前 HEAD 和本地修改，保留用户工作。 |
+| Git | `master` / `origin`，`https://github.com/yyczz1/FightMatch.git`。CONT-C源码提交 `7464efd10e4d2ed5341bbc1e2d179364dd94489c` 已于2026-09-28T11:15:07Z核远端一致；其后允许仅接续文档提交。恢复时先核实际HEAD和本地修改。 |
 | Unity | `ProjectSettings/ProjectVersion.txt` 指定 **2022.3.18f1**。本轮Mac最终013 Compile和015完整EditMode通过，3956/3956、0失败/跳过；C正式完成、独立R已ACCEPT，Player/Android尚未验收。 |
 | 已接收起点 | `ce21901b7b5b42bfef7ef34eb4f46155ddbf9353`；CONT-B-CODE-C1 的旧基线为 3872/3872、0 失败/跳过。 |
 | 本轮接收 | CONT-C-MAC-R1已于§431正式接收，最终3956/3956及独立R ACCEPT；`4be170fd...`是恢复前历史WIP，不再代表当前停点。 |
