@@ -20,24 +20,49 @@ namespace FightMatch.Presentation
         private IVisualElementScheduledItem scheduled;
         private long epoch, scheduledGeneration = -1;
         private double lastTick;
-        private bool closed = true, disposed, memorySubscribed;
+        private bool closed = true, disposed, memorySubscribed, borrowed;
+        private Button skip;
+        private long bindingEpoch;
 
         public CandidateBattlePlaybackView()
         {
             name = "candidate-playback-view"; style.flexGrow = 1;
             Add(hp); Add(intent); Add(beat); Add(stage); Add(diagnostic); Add(InputView);
-            Add(new Button(SkipToFinal) { name = "skip-playback", text = "跳到当前战局" });
-            RegisterCallback<DetachFromPanelEvent>(e => Close());
-            RegisterCallback<BlurEvent>(e => { if (e.relatedTarget is VisualElement target && Contains(target)) return; SkipToFinal(); }, TrickleDown.TrickleDown);
+            skip = new Button(SkipToFinal) { name = "skip-playback", text = "跳到当前战局" }; Add(skip);
+            RegisterCallback<DetachFromPanelEvent>(e => { if (borrowed) Detach(); else Close(); });
+            RegisterCallback<BlurEvent>(e => { if (borrowed || e.relatedTarget is VisualElement target && Contains(target)) return; SkipToFinal(); }, TrickleDown.TrickleDown);
         }
         public void Attach(CandidateBattleApplicationSystem system, SaveStoreBudget budget)
         {
             if (disposed) throw new ObjectDisposedException(nameof(CandidateBattlePlaybackView));
-            Close(); InputView.Attach(system, budget); InputView.SetEnabled(true); closed = false;
-            Controller = new CandidateBattlePlaybackController(InputView.Controller, system); Controller.Changed += Render;
+            Close(); borrowed = false; InputView.Attach(system, budget); InputView.SetEnabled(true); closed = false;
+            Controller = new CandidateBattlePlaybackController(InputView.Controller, system); BindSkip(); Controller.Changed += Render;
             UnityEngine.Application.lowMemory += OnLowMemory; memorySubscribed = true;
             // Explicit new-page takeover is the only unconditional 019 RebuildLatest use in this host.
             InputView.Controller.RebuildLatest(); Render();
+        }
+        public void Bind(CandidateBoardInputController input, CandidateBattlePlaybackController playback)
+        {
+            if (disposed) throw new ObjectDisposedException(nameof(CandidateBattlePlaybackView));
+            if (input == null || playback == null) throw new ArgumentNullException();
+            if (borrowed) Detach(); else Close();
+            borrowed = true; InputView.Bind(input); InputView.SetEnabled(true); closed = false;
+            Controller = playback; BindSkip(); Controller.Changed += Render;
+            UnityEngine.Application.lowMemory += OnLowMemory; memorySubscribed = true; Render();
+        }
+        public void Detach()
+        {
+            if (!borrowed) { Close(); return; }
+            closed = true; bindingEpoch++; StopSchedule();
+            if (memorySubscribed) { UnityEngine.Application.lowMemory -= OnLowMemory; memorySubscribed = false; }
+            if (Controller != null) Controller.Changed -= Render;
+            InputView.Board?.ClearPlaybackOverride(); InputView.Detach(); Controller = null;
+        }
+        private void BindSkip()
+        {
+            var owner = Controller; var binding = ++bindingEpoch; var index = IndexOf(skip); skip.RemoveFromHierarchy();
+            skip = new Button(() => { if (ReferenceEquals(owner, Controller) && binding == bindingEpoch) SkipToFinal(); })
+            { name = "skip-playback", text = "跳到当前战局" }; Insert(index, skip);
         }
         public void Advance(double deltaMilliseconds)
         { lastTick = Time.realtimeSinceStartupAsDouble; Controller?.Advance(deltaMilliseconds); }
@@ -77,12 +102,13 @@ namespace FightMatch.Presentation
         }
         public void Close()
         {
+            if (borrowed) { Controller?.SkipToFinal(); Detach(); return; }
             closed = true; StopSchedule();
             if (memorySubscribed) { UnityEngine.Application.lowMemory -= OnLowMemory; memorySubscribed = false; }
             InputView.Board?.ClearPlaybackOverride();
             if (Controller != null) { Controller.Changed -= Render; Controller.Dispose(); }
             InputView.Board?.ClearPlaybackOverride(); InputView.Close(); InputView.SetEnabled(false); Render();
         }
-        public void Dispose() { if (disposed) return; Close(); disposed = true; }
+        public void Dispose() { if (disposed) return; if (borrowed) Detach(); else Close(); disposed = true; }
     }
 }

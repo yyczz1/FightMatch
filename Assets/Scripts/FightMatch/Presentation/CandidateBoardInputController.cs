@@ -19,6 +19,7 @@ namespace FightMatch.Presentation
         private CandidateDemoView pressedView;
         private CandidateDemoView confirmationView;
         private CandidateHistoryLocator confirmationLocator;
+        private string confirmationAnchor;
         private CandidatePresentationToken deliveredToken;
 
         public CandidateDemoView View { get; private set; }
@@ -194,7 +195,8 @@ namespace FightMatch.Presentation
             Refresh();
             if (range == null || RollbackPreview != range || !SameHead(basis, View) || !View.Rollback.IsAvailable)
             { ClearConfirmation(); Status = "StaleContext"; Changed?.Invoke(); return null; }
-            var checkedRange = system.PreviewRollback(locator, basis.CommitId, budget.Codec);
+            var checkedRange = confirmationAnchor == null ? system.PreviewRollback(locator, basis.CommitId, budget.Codec) :
+                system.PreviewHistoryRollback(confirmationAnchor, basis.CommitId, budget.Codec);
             if (!checkedRange.IsAccepted || checkedRange.Range.AttemptId != range.AttemptId || checkedRange.Range.SceneRevision != range.SceneRevision ||
                 checkedRange.Range.OperationId != range.OperationId || checkedRange.Range.HistoryAnchorId != range.HistoryAnchorId ||
                 !checkedRange.Range.Entries.Select(x => x.OperationId).SequenceEqual(range.Entries.Select(x => x.OperationId)))
@@ -208,7 +210,26 @@ namespace FightMatch.Presentation
         }
 
         public void CancelRollback() { ClearConfirmation(); Status = null; Changed?.Invoke(); }
-        private void ClearConfirmation() { RollbackPreview = null; confirmationView = null; confirmationLocator = null; }
+        private void ClearConfirmation() { RollbackPreview = null; confirmationView = null; confirmationLocator = null; confirmationAnchor = null; }
+
+        public CandidateBattlePreviewResult SelectHistoryAnchor(string anchor, string expectedCommitId)
+        {
+            Refresh();
+            LastPreview = system.PreviewHistoryRollback(anchor, expectedCommitId, budget.Codec);
+            Status = LastPreview.Code; Apply(LastPreview.View);
+            if (!LastPreview.IsAccepted) { Changed?.Invoke(); return LastPreview; }
+            CancelGesture(); ClearConfirmation();
+            RollbackPreview = LastPreview.Range; confirmationView = View; confirmationAnchor = anchor;
+            Status = "RollbackConfirmationRequired"; Changed?.Invoke();
+            RollbackConfirmationRequired?.Invoke(RollbackPreview); return LastPreview;
+        }
+
+        public CandidateBattleCallResult ConfirmRollback(CandidateRollbackRange expected)
+        {
+            if (expected == null || !ReferenceEquals(expected, RollbackPreview))
+            { Status = "StaleContext"; Changed?.Invoke(); return null; }
+            return ConfirmRollback();
+        }
 
         private static CandidateBattleDraft Draft(CandidateDemoView basis)
         {

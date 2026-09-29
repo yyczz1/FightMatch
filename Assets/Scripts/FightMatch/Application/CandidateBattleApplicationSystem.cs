@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FightMatch.Core;
 using FightMatch.Platform;
 using QFramework;
@@ -110,6 +111,30 @@ namespace FightMatch.Application
 
         private static CandidateBattlePreviewResult PreviewRejected(CandidateDemoView view, string code, string path)
         { return new CandidateBattlePreviewResult(view, null, new CandidateApplicationDiagnostic(code, path, stage: "Preview")); }
+
+        public CandidateBattlePreviewResult PreviewHistoryRollback(string anchor, string expectedCommitId, SaveCodecBudget budget)
+        {
+            var view = QueryView();
+            if (view.Code == "WrongThread" || view.Code == "Disposed" || view.Code == "Busy")
+                return PreviewRejected(view, view.Code, "Application");
+            if (budget == null) throw new ArgumentNullException(nameof(budget));
+            if (!view.IsPublishedHeadVerified || view.Phase != CandidateApplicationPhase.Ready)
+                return PreviewRejected(view, "ResolutionRequired", "Application.View");
+            if (view.CommitId != expectedCommitId) return PreviewRejected(view, "StaleContext", "ExpectedCommitId");
+            if (!view.Rollback.IsAvailable) return PreviewRejected(view, view.Rollback.Reason, "Rollback");
+            if (anchor == null || !view.History.EffectiveAnchors.Contains(anchor))
+                return PreviewRejected(view, "StaleContext", "HistoryAnchorId");
+            try
+            {
+                var range = CandidateHistoryOperations.ReadRange(view.History, new CandidateHistoryRangeRequest {
+                    PlayerId = view.ApplicationView.PlayerId, AttemptId = view.BattleSnapshot.Baseline.Entry.AttemptId,
+                    ExpectedSceneRevision = view.BattleSnapshot.SceneRevision, HistoryAnchorId = anchor }, budget.Math);
+                return range.IsAccepted ? new CandidateBattlePreviewResult(view, range.Range) :
+                    PreviewRejected(view, range.RejectionCode.ToString(), range.FieldPath);
+            }
+            catch (ExactMathLimitException error)
+            { return new CandidateBattlePreviewResult(view, null, CandidateApplicationDiagnostic.From("Limit", "Preview", error)); }
+        }
 
         public CandidateBattleCallResult ReportPresentationCompleted(CandidatePresentationToken token)
         {

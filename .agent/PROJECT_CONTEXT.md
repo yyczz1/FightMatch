@@ -1,10 +1,10 @@
 # Project Context
 
-Last context refresh: 2026-09-28 (CONT-C-MAC-R1 completed; independent R ACCEPT recorded in task packet §431).
+Last context refresh: 2026-09-29 (CONT-C accepted; 028 independently ACCEPTed in442 on full0064010/4011 plus corrected focused1/1; latest overnight scope extension recorded in §438).
 
 This file separates observed repository facts from approved future design and unresolved information.
 
-Current user boundary: the accepted CONT-C source commit `7464efd10e4d2ed5341bbc1e2d179364dd94489c` has been pushed and verified; preserve this checkpoint and pause for a Mac restart. Do not start 028/029 until the user explicitly resumes. The first Android Demo goal is not complete.
+Current user boundary: the goal remains active. The latest user instruction relayed through the Codex side conversation (§438) extends work beyond the first Demo: preserve a playable candidate/accepted version with source, APK identity, normal push, version marker, review, acceptance evidence and guide, then continue the existing approved Android plan. Keep useful work moving over the next approximately seven hours. Preserve any physical-device or approval gaps truthfully and continue independent work; do not silently mark those gates passed. SD00 decides ordinary reversible technical choices and necessary version isolation. Current 028 section434 and original runs001–006 remain immutable. Section440 completed fresh compilation and the corrected test1/1 with unchanged product and verified source/DLL identities; independent R accepted the whole028 patch and this combined evidence in section442; do not rerun unchanged CONT-C. Android Demo acceptance is still incomplete.
 Do not convert assumptions into facts.
 
 For a new chat or device, start with [`START_HERE.md`](../START_HERE.md). It links
@@ -33,7 +33,7 @@ handoff. The old description of an empty project no longer applies.
 - QFramework is present under `Assets/ThirdParty/QFramework/`.
 - Design, task, delivery, review, and selected migration evidence are versioned under `docs/`.
 - CONT-C-MAC-R1 is accepted after C formal completion and independent R ACCEPT (§430–431). Final Compile013 and unfiltered EditMode015 passed: 3956/3956, no failures or skips. The original 3872 named occurrences remain.
-- `4be170fd65051eeac5a523817f534e725526c4c6` is the historical pre-resumption WIP, not the current delivery. Remaining product stages are 028 and 029; a runnable Android APK and physical/emulator gameplay acceptance are still pending.
+- `4be170fd65051eeac5a523817f534e725526c4c6` is the historical pre-resumption WIP, not the current delivery. 028 is now independently accepted (§442). The remaining first-Demo stage is029; later Android work continues under the newer §438 instruction; a runnable Android APK and physical/emulator gameplay acceptance are still pending.
 - The accepted CONT-B-CODE-C1 Windows evidence reports 3872/3872 tests passing, with no failures or skips. It does not validate the later WIP or Mac.
 - There is no verified CI configuration.
 - There is no verified lint or formatting command.
@@ -95,7 +95,7 @@ External workers must read only the portions relevant to their assigned task.
 ## Unknown or unresolved
 
 - Mac compilation/EditMode for final CONT-C are established by this round's actual evidence. Player/Android build and iQOO Neo5/BlueStacks normal flows and cold restarts remain unverified; toolchain/emulator preparation is not gameplay evidence.
-- `Tools/Invoke-FM025P2Validation.ps1` now has an accepted fixed CONT-C-MAC-R1 stage with serial process, script SHA and same-version checks. The canonical external runtime directory is `Applications`, not the former `application`. New 028/029 stages still require their own explicit packets; reuse valid evidence and preserve old failure/input records.
+- `Tools/Invoke-FM025P2Validation.ps1` now has an accepted fixed CONT-C-MAC-R1 stage with serial process, script SHA and same-version checks. The canonical external runtime directory is `Applications`, not the former `application`. 028 has its signed §434 packet, §440 focused supplement and §442 independent acceptance; 029 still needs its own explicit packet. Reuse valid evidence and preserve old failure/input records.
 - CI provider and CI commands.
 - Repository-wide code style beyond rules defined here.
 - Whether a formatter or analyzer will be adopted.

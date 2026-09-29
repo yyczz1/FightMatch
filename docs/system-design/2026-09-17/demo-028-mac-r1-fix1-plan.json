@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 1,
+  "stageId": "DEMO-028-MAC-R1-FIX1",
+  "status": "APPROVED_FOR_VALIDATION",
+  "authoritySection": 440,
+  "createdAtUtc": "2026-09-28T17:17:18.406026+00:00",
+  "projectRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "evidenceRoot": "TestArtifacts/FMDemo028/mac-r1-fix1",
+  "authorTaskId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+  "reviewTaskId": "01a0e404-e8ee-7310-8388-9260babd53f1",
+  "hostId": "local",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "max",
+  "authorTurnBinding": "Bind the new actual turn returned by the app after dispatch; mapping is recorded outside the frozen packet. Do not reuse the completed original C turn.",
+  "completedOriginalAuthor": {
+    "turnId": "01a0e7e1-94a9-76c3-89cc-3a00f910b2c7",
+    "startedAt": 1790596715,
+    "completedAt": 1790615593,
+    "status": "completed",
+    "verdict": "BLOCKED"
+  },
+  "head": "14f0bd76776a211ed588561691616b3523f73395",
+  "frozenInputs": [
+    {
+      "path": "docs/system-design/2026-09-17/demo-028-mac-r1-plan.json",
+      "bytes": 205569,
+      "sha256": "037692abd5c262d7cd4efa40dcc93a2d74235fcd9f02c6c46e83ae5ea8725fe6"
+    },
+    {
+      "path": "docs/system-design/2026-09-17/demo-028-mac-design-draft.md",
+      "bytes": 25827,
+      "sha256": "3b2eb4e8863ebc0cc8842f98c425520af78c8df5ddd765242e7f6f8a513a0b39"
+    },
+    {
+      "path": "docs/system-design/2026-09-17/demo-028-mac-r1-delivery.md",
+      "bytes": 20995,
+      "sha256": "90576580eb216d04bbe5dd3539549c67ad996a14e1b1ee58e9aab03e1486a145"
+    },
+    {
+      "path": "docs/system-design/2026-09-17/demo-028-mac-r1-code-scope.json",
+      "bytes": 932632,
+      "sha256": "bc437b9eec5d484402ea1586c03d1b02dbde0d0384cb30d11532ba2eaf22f06a"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/read-manifest.json",
+      "bytes": 25429,
+      "sha256": "5930b9dac600893fbce7d259e5c3511372586277e6acec4ffd65e07841089417"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/implementation-after.json",
+      "bytes": 191499,
+      "sha256": "68a0a631cd3df234fd08219ea3dcedfe647e8eb7433056d7d0060dd2a36366c0"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/assets-after.json",
+      "bytes": 197694,
+      "sha256": "c366237fd40af29946eca1a6d03c818bfa9dfe204147f996af8b3908109864cd"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/dll-after.json",
+      "bytes": 11855,
+      "sha256": "b64e66e2a67af9f9691a61da2ae206bba5cc853eaa387fbb92421eea7940bd8d"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/inputs-after.json",
+      "bytes": 209942,
+      "sha256": "9121ef9c85532943eba4f635ff50a2ce48f38afc921f1a28843f45648c693663"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/io-after.json",
+      "bytes": 7146510,
+      "sha256": "404b157b2e5679369e6e7e523154e8ec98b8cced893187714dbb6a5e83502291"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/runs/006/after.json",
+      "bytes": 724611,
+      "sha256": "5b4cd0fdf1e45e3bd5fc0f3da3de9b956cbe2a6e88bc87388731288d25ba919a"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/runs/006/tests.xml",
+      "bytes": 2981076,
+      "sha256": "a60fcb79d970b1b51357ef412e66fe89f792012703e50dc8b377137be6e962e5"
+    },
+    {
+      "path": "TestArtifacts/FMDemo028/mac-r1/runs/006/result.json",
+      "bytes": 1645,
+      "sha256": "41f717b029d60c58c84f45e9e8f7fad06bad414e9f2017fda1cf2e2abe25e1ef"
+    },
+    {
+      "path": "Tools/Invoke-FM025P2Validation.ps1",
+      "bytes": 57515,
+      "sha256": "32b5cfac5c830e043af32f91be32946432b2fe5eb999e35e62a2ecf8bd86fed9"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattleRecoveryTests.cs",
+      "bytes": 18640,
+      "sha256": "6e75264ab8e4e9b25b03ec7e277f0ed38c7d646d66386b2836ed44b2b23512b9"
+    }
+  ],
+  "originalPacket": {
+    "section": 434,
+    "bytes": 13458,
+    "sha256": "08988b13282b1dafa4fcc0a095b66721a0a6bd98c79532c57d9543da1e11d06c"
+  },
+  "sourceFreeze": {
+    "implementationInventory": "TestArtifacts/FMDemo028/mac-r1/implementation-after.json",
+    "implementationCount": 828,
+    "assetInventory": "TestArtifacts/FMDemo028/mac-r1/assets-after.json",
+    "assetCount": 858,
+    "guidCount": 451,
+    "protectedInventory": "TestArtifacts/FMDemo028/mac-r1/inputs-after.json",
+    "protectedCount": 933,
+    "historicallyMissingCount": 15,
+    "allSourceAssetsMetaPackagesSettingsFrozen": true,
+    "coordinatorOnlyMutableMetadata": [
+      "START_HERE.md",
+      ".agent/PROJECT_CONTEXT.md",
+      "docs/system-design/2026-09-17/system-task-packets.md",
+      "docs/system-design/2026-09-16/session-plan.md",
+      "docs/system-design/2026-09-17/integration-review.md"
+    ],
+    "onlyDifferenceFrom006": "One already-applied test argument at PlayerBattleRecoveryTests.cs:123; reverse the exact replacement and match the 006 identity. No further test changes permitted."
+  },
+  "canonicalRuntime": {
+    "newPrefix": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications",
+    "unityVersion": "2022.3.18f1",
+    "powerShellVersion": "7.6.6",
+    "powerShellExecutable": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/CodexTools/PowerShell/7.6.6/pwsh",
+    "unityExecutable": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+    "exactFileIdentities": [
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/CodexTools/PowerShell/7.6.6/pwsh",
+        "bytes": 158640,
+        "sha256": "86966ef5e53763c0d7cac9981b9b36c30245185dc347ca69ddfb815c665bf515"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "bytes": 86759760,
+        "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/_CodeSignature/CodeResources",
+        "bytes": 17475144,
+        "sha256": "906a96db17553584a2bac2edf1de619418227a56a003c203bd85bf28ee6f2b4c"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Resources/unity editor resources",
+        "bytes": 164501368,
+        "sha256": "557ee9dc4005865d461d81ef4427cd6bb30e09e060c54061a6d117037665cb19"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Resources/unity default resources",
+        "bytes": 2884268,
+        "sha256": "8717b5b858573a524547ceb303d5f290bda62a4c50ce3537e5091abedc4c4dae"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Resources/unity_builtin_extra",
+        "bytes": 148117148,
+        "sha256": "17c30f540ead961db9fc66a7faa051b134b5653c1eb1f23d5315c2e689f5ce7e"
+      }
+    ]
+  },
+  "frozenGoldenInputs": [
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/source-ledger.json",
+      "bytes": 34768,
+      "sha256": "049a70ddc1ad5314ab39f10e490010737ef806e73f3b04b4a263099bad3b492b"
+    },
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/prd-candidates.json",
+      "bytes": 96954,
+      "sha256": "1469ae1833d7d9709264c10b29ca065b6bf53c0425bc42ae0ed64fb6c338d3f4"
+    },
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/replay-evidence.json",
+      "bytes": 12528619,
+      "sha256": "d5117507ca3bc8e44ce26d6708049e5198a886b90056af28bdeb042c8129aa08"
+    },
+    {
+      "path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/replay-cohort.json",
+      "bytes": 10458,
+      "sha256": "dda7ee268a043772f0adb5c98e3514b59a9d0dc7f19a732b141a40231f2fc86c"
+    }
+  ],
+  "dllPolicy": {
+    "beforeCompileInventory": "TestArtifacts/FMDemo028/mac-r1/dll-after.json",
+    "paths": [
+      "Library/ScriptAssemblies/FightMatch.Application.dll",
+      "Library/ScriptAssemblies/FightMatch.Application.pdb",
+      "Library/ScriptAssemblies/FightMatch.Content.dll",
+      "Library/ScriptAssemblies/FightMatch.Content.pdb",
+      "Library/ScriptAssemblies/FightMatch.Core.Tests.dll",
+      "Library/ScriptAssemblies/FightMatch.Core.Tests.pdb",
+      "Library/ScriptAssemblies/FightMatch.Core.dll",
+      "Library/ScriptAssemblies/FightMatch.Core.pdb",
+      "Library/ScriptAssemblies/FightMatch.Input.dll",
+      "Library/ScriptAssemblies/FightMatch.Input.pdb",
+      "Library/ScriptAssemblies/FightMatch.Platform.dll",
+      "Library/ScriptAssemblies/FightMatch.Platform.pdb",
+      "Library/ScriptAssemblies/FightMatch.Presentation.dll",
+      "Library/ScriptAssemblies/FightMatch.Presentation.pdb",
+      "Library/ScriptAssemblies/FightMatch.QFramework.Tests.dll",
+      "Library/ScriptAssemblies/FightMatch.QFramework.Tests.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Application.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Application.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Core.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Core.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Difficulty.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Difficulty.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Editor.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Editor.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Generation.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Generation.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Persistence.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Persistence.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Solving.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Solving.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Tests.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Tests.pdb",
+      "Library/ScriptAssemblies/FlowPuzzle.Validation.dll",
+      "Library/ScriptAssemblies/FlowPuzzle.Validation.pdb",
+      "Library/ScriptAssemblies/QFramework.dll",
+      "Library/ScriptAssemblies/QFramework.pdb"
+    ],
+    "compileMayRegenerateOnly": [
+      "Library/ScriptAssemblies/FightMatch.Core.Tests.dll",
+      "Library/ScriptAssemblies/FightMatch.Core.Tests.pdb"
+    ],
+    "remaining34MustMatch006": true,
+    "testsMustMatchSuccessfulCompileAll36": true
+  },
+  "createReports": [
+    {
+      "path": "docs/system-design/2026-09-17/demo-028-mac-r1-fix1-delivery.md",
+      "maxLines": 180
+    },
+    {
+      "path": "docs/system-design/2026-09-17/demo-028-mac-r1-fix1-code-scope.json",
+      "maxBytes": 2097152
+    }
+  ],
+  "modifyExistingFiles": [],
+  "evidence": {
+    "exactAllowedPaths": [
+      "TestArtifacts/FMDemo028/mac-r1-fix1/root-identity.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/validation-runner.py",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/scope-audit.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/io-before.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/io-after.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/read-manifest.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/run.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/before.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/after.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/result.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/failure.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/compile.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/compile.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/compile.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/tests.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/tests.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/tests.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/001/tests.xml",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/run.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/before.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/after.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/result.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/failure.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/compile.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/compile.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/compile.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/tests.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/tests.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/tests.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/002/tests.xml",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/run.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/before.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/after.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/result.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/failure.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/compile.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/compile.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/compile.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/tests.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/tests.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/tests.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/003/tests.xml",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/run.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/before.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/after.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/result.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/failure.json",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/compile.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/compile.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/compile.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/tests.log",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/tests.stdout.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/tests.stderr.txt",
+      "TestArtifacts/FMDemo028/mac-r1-fix1/runs/004/tests.xml"
+    ],
+    "maxActualFiles": 54,
+    "runnerMaxLines": 320,
+    "runnerMaxBytes": 32768,
+    "jsonSnapshotMaxBytes": 2097152,
+    "ioInventoryMaxBytes": 12582912,
+    "logMaxBytes": 83886080,
+    "noSymlinks": true,
+    "createNewRunDirectories": true,
+    "preserveAllPriorEvidence": true,
+    "manifestExcludesOnlyItself": true
+  },
+  "validation": {
+    "oneOffDirectUnityException": true,
+    "existingToolReadOnly": true,
+    "initialCompileRun": "001",
+    "initialFocusedRun": "002",
+    "conditionalReplacementCompileRun": "003",
+    "conditionalReplacementFocusedRun": "004",
+    "replacementAllowedOnly": "A new observed runner/compile failure, corrected solely in the optional evidence-only runner, and no source changes. No repeat after a successful Compile plus focused test. A product or assertion failure returns BLOCKED for a new smallest packet.",
+    "filter": "FightMatch.Core.Tests.PlayerBattleRecoveryTests.B06_B07_RebuiltS17CandidateKeepsReservedIdAndCannotBeEndedOrNavigatedAway",
+    "expectedTestOccurrences": 1,
+    "fullTestRerunAuthorized": false,
+    "compileArgv": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+      "-batchmode",
+      "-nographics",
+      "-quit",
+      "-projectPath",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "-logFile",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FMDemo028/mac-r1-fix1/runs/{compileRun}/compile.log"
+    ],
+    "testArgv": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+      "-batchmode",
+      "-nographics",
+      "-projectPath",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "-runTests",
+      "-testPlatform",
+      "EditMode",
+      "-testFilter",
+      "FightMatch.Core.Tests.PlayerBattleRecoveryTests.B06_B07_RebuiltS17CandidateKeepsReservedIdAndCannotBeEndedOrNavigatedAway",
+      "-testResults",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FMDemo028/mac-r1-fix1/runs/{testRun}/tests.xml",
+      "-logFile",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FMDemo028/mac-r1-fix1/runs/{testRun}/tests.log"
+    ],
+    "safety": "C alone runs serial Unity. Inspect live process command lines before launch; no other Unity uses this project. No kill/restart. Capture actual PID/argv/UTC/exit/stdout/stderr, source/assets/protected/runtime/tool/DLL identities before and after. Wait for natural exit and real XML, never infer success from log existence.",
+    "readOnlyDiagnosisAtMinutes": 10,
+    "evidenceRunner": "Optional standard-library Python only in the exact allowed root; bounded identity/inventory/process recording and these exact argv only. Record its own hash before launches; no installs, global config changes or new general validation stage."
+  },
+  "inheritedIo": {
+    "root": "TestArtifacts/FMDemoCONT/cont-c-mac-r1-platform/io",
+    "frozenBaseline": {
+      "path": "TestArtifacts/FMDemo028/mac-r1/io-after.json",
+      "bytes": 7146510,
+      "sha256": "404b157b2e5679369e6e7e523154e8ec98b8cced893187714dbb6a5e83502291"
+    },
+    "existingCases": 3719,
+    "existingEntries": 28188,
+    "maxCaseDirectories": 4096,
+    "maxFilesAndLinks": 40000,
+    "maxNewCasesThisSupplement": 8,
+    "maxNewFilesAndLinksThisSupplement": 128,
+    "policy": "Inventory with lstat/no symlink following; every existing case/entry remains byte/type/target identical. Only the exact authorized test may create its own new GUID cases using accepted fixture semantics. No deletion/cleanup/cap raise. The 768/8192 reserve applies to full tests, which are not authorized here; check this supplement headroom instead."
+  },
+  "acceptance": [
+    "All frozen inputs and original 103 manifest rows verify; source/assets differ from006 only by the already-applied exact single test argument.",
+    "Fresh compile exits0 with no compiler errors; only the two permitted test assembly outputs may regenerate. No product-source or production-DLL change.",
+    "The exact single test executes once and passes, zero failures/skips/other occurrences; its post-migration zero-write and original S17 Retry/receipt/one-reward assertions remain intact and actually execute.",
+    "Focused run source/assets/all36 DLLs/tool/runtime match the successful compile; original inputs and old I/O/evidence preserved.",
+    "Report combined evidence honestly: full0064010/4011 plus fresh corrected case1/1 on unchanged product. Never label the focused run a fresh full4011 pass. R independently reviews reuse adequacy and all original B01-B12 requirements."
+  ],
+  "forbidden": [
+    "Product, test, meta, asset, package, ProjectSettings, existing tool, original plan/report/evidence modifications",
+    "Full or broader filtered tests, CONT-C replay, golden restoration, builds, installs, process kills, Git writes, new chats/agents/timers"
+  ],
+  "reviewOutput": {
+    "path": "docs/system-design/2026-09-17/demo-028-mac-r1-code-review.md",
+    "writer": "R after C formal completion and SD00 explicit dispatch",
+    "maxLines": 300
+  },
+  "selfHashPolicy": "Plan file identity and frozen section440 identity are recorded outside the frozen packet and in C root identity; no self-referential hash."
+}

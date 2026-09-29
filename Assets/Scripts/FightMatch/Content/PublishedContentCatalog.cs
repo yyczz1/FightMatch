@@ -131,7 +131,7 @@ namespace FightMatch.Content
             var review = PublishedContentCodec.Decode<ContentReviewEvidence>(reviewBytes, 65536, consumer, budget.Math);
             CheckReview(review, expected, r.DraftId, r.Revision, original.Length, r.SourceSha256, payload.Length, r.PayloadSha256,
                 validationBytes.Length, r.ValidationSha256, built.LevelBindings, budget.Math);
-            return new ResolvedPublication(built.Definitions, built.Profile, index, built.Replays[0].Candidate.Parameters);
+            return new ResolvedPublication(built.Definitions, built.Profile, index, built.Replays[0].Candidate.Parameters, built.Replays);
         }
         private byte[] ReadHash(string kind, string sha, ContentStoreBudget budget)
         {

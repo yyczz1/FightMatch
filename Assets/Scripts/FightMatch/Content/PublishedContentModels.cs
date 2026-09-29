@@ -212,6 +212,8 @@ namespace FightMatch.Content
     }
     public sealed class ResolvedPublication
     {
+        private readonly IReadOnlyList<DemoContentReplayResult> defaultReferences;
+        public IReadOnlyList<DemoContentReplayResult> GetDefaultReferences() => defaultReferences;
         public ContentBinding Binding => Definitions.Binding;
         public PublishedRuleDefinitions Definitions { get; }
         public NewProfileDefinition NewProfile { get; }
@@ -219,9 +221,11 @@ namespace FightMatch.Content
         public IReadOnlyList<DemoParameterEvidence> Parameters { get; }
         internal ResolvedPublication(PublishedRuleDefinitions definitions, NewProfileDefinition profile, byte[] receipt)
             : this(definitions, profile, receipt, Array.Empty<DemoParameterEvidence>()) { }
-        internal ResolvedPublication(PublishedRuleDefinitions definitions, NewProfileDefinition profile, byte[] receipt, IReadOnlyList<DemoParameterEvidence> parameters)
+        internal ResolvedPublication(PublishedRuleDefinitions definitions, NewProfileDefinition profile, byte[] receipt,
+            IReadOnlyList<DemoParameterEvidence> parameters, IReadOnlyList<DemoContentReplayResult> references = null)
         { Definitions = definitions; NewProfile = profile; ReceiptBytes = Array.AsReadOnly(receipt);
-            Parameters = new List<DemoParameterEvidence>(parameters).AsReadOnly(); }
+            Parameters = new List<DemoParameterEvidence>(parameters).AsReadOnly();
+            defaultReferences = new List<DemoContentReplayResult>(references ?? Array.Empty<DemoContentReplayResult>()).AsReadOnly(); }
     }
     public sealed class ContentPublicationOutcome
     {

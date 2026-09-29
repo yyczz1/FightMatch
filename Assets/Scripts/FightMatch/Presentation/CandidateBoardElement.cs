@@ -18,13 +18,23 @@ namespace FightMatch.Presentation
         private float cell, panelScale;
         private bool geometryKnown, geometryValid, listening;
         private int? captured;
+        private bool detaching;
 
         public CandidateBattlePlaybackFrame PlaybackOverride { get; private set; }
+        public CandidateBattlePlaybackFrame ReferenceOverride { get; private set; }
         public void SetPlaybackOverride(CandidateBattlePlaybackFrame frame)
         { PlaybackOverride = frame ?? throw new ArgumentNullException(nameof(frame)); MarkDirtyRepaint(); }
         public void ClearPlaybackOverride() { PlaybackOverride = null; MarkDirtyRepaint(); }
+        public bool SetReferenceOverride(CandidateBattlePlaybackFrame frame)
+        {
+            var face = controller.View.BattleSnapshot?.Board.Face;
+            if (frame?.Face == null || face == null || PlaybackOverride != null || controller.View.PresentationToken != null ||
+                face.FaceId != frame.Face.FaceId || face.Width != frame.Face.Width || face.Height != frame.Face.Height) return false;
+            ReferenceOverride = frame; MarkDirtyRepaint(); return true;
+        }
+        public void ClearReferenceOverride() { ReferenceOverride = null; MarkDirtyRepaint(); }
 
-        public CandidateBoardElement(CandidateBoardInputController controller)
+        public CandidateBoardElement(CandidateBoardInputController controller, bool borrowed = false)
         {
             this.controller = controller ?? throw new ArgumentNullException(nameof(controller));
             name = "candidate-board"; focusable = true;
@@ -35,21 +45,24 @@ namespace FightMatch.Presentation
             RegisterCallback<PointerUpEvent>(OnUp);
             RegisterCallback<PointerCancelEvent>(e => { if (controller.Gesture.ActivePointerId == e.pointerId) controller.CancelGesture(); });
             RegisterCallback<PointerCaptureOutEvent>(e => {
-                if (controller.Gesture.ActivePointerId == e.pointerId && !this.HasPointerCapture(e.pointerId)) controller.CancelGesture();
+                if (!detaching && controller.Gesture.ActivePointerId == e.pointerId && !this.HasPointerCapture(e.pointerId)) controller.CancelGesture();
             });
             RegisterCallback<BlurEvent>(e => controller.CancelGesture());
             RegisterCallback<GeometryChangedEvent>(e => { geometryKnown = false; controller.CancelGesture(); MarkDirtyRepaint(); });
             RegisterCallback<AttachToPanelEvent>(e => { if (!listening) { controller.Changed += OnChanged; listening = true; } OnChanged(); });
             RegisterCallback<DetachFromPanelEvent>(e => {
-                controller.CancelGesture(); Release();
+                detaching = borrowed;
+                if (!borrowed) controller.CancelGesture(); Release(); ClearReferenceOverride();
                 if (listening) { controller.Changed -= OnChanged; listening = false; }
                 geometryKnown = false;
+                detaching = false;
             });
             generateVisualContent += Draw;
         }
 
         private void OnChanged()
         {
+            if (controller.Gesture.Stage == GestureStage.Dragging) ClearReferenceOverride();
             if (captured.HasValue && controller.Gesture.ActivePointerId != captured) Release();
             MarkDirtyRepaint();
         }
@@ -140,7 +153,7 @@ namespace FightMatch.Presentation
         {
             if (!Geometry()) return;
             var state = controller.View.BattleSnapshot; var painter = context.painter2D;
-            var overlay = PlaybackOverride;
+            var overlay = PlaybackOverride ?? ReferenceOverride;
             var face = overlay?.Face ?? state.Board.Face;
             var lockedRoutes = overlay?.LockedRoutes ?? state.Board.LockedRoutes;
             var pendingLinks = overlay?.PendingLinks ?? state.Board.PendingLinks;

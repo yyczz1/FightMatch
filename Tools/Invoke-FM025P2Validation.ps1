@@ -2,11 +2,11 @@
 param(
     [Parameter(Mandatory=$true)][ValidateSet('Compile','Tests','Prepare','Publish','ActivateExport','VerifyRelease')][string]$Mode,
     [Parameter(Mandatory=$true)][string]$ExpectedScriptSha256,
-    [ValidateSet('025-P2A','025-P2B-PREPARE','025-P2B-PREPARE-C1','025-P2B-PREPARE-C2','025-P2B-PUBLISH','025-P2C','CONT-A','CONT-B','CONT-B-CODE-C1','CONT-C-MAC-R1')][string]$Stage = '025-P2A'
+    [ValidateSet('025-P2A','025-P2B-PREPARE','025-P2B-PREPARE-C1','025-P2B-PREPARE-C2','025-P2B-PUBLISH','025-P2C','CONT-A','CONT-B','CONT-B-CODE-C1','CONT-C-MAC-R1','DEMO-028-MAC')][string]$Stage = '025-P2A'
 )
 $ErrorActionPreference = 'Stop'
 $project = 'D:/Unity/UnityProj/FightMatch'
-$mac = $Stage -eq 'CONT-C-MAC-R1'
+$demo028 = $Stage -eq 'DEMO-028-MAC'; $contMac = $Stage -eq 'CONT-C-MAC-R1'; $mac = $contMac -or $demo028
 if ($mac) { $project = '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch' }
 $evidence = 'TestArtifacts/FMDemo025P2/p2a'
 if ($Stage -eq '025-P2B-PREPARE') { $evidence = 'TestArtifacts/FMDemo025P2/p2b-prepare' }
@@ -26,6 +26,7 @@ $executable = 'D:/Unity/UnityClient/2022.3.18f1/Editor/Unity.exe'
 if ($mac) {
     if (-not $IsMacOS -or $Mode -notin @('Compile','Tests')) { throw 'CONT-C-MAC-R1 requires macOS Compile/Tests.' }
     $evidence = 'TestArtifacts/FMDemoCONT/cont-c-mac-r1'
+    if ($demo028) { $evidence = 'TestArtifacts/FMDemo028/mac-r1' }
     $executable = '/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity'
 }
 $scriptPath = 'Tools/Invoke-FM025P2Validation.ps1'
@@ -145,7 +146,7 @@ if ($Stage -in @('CONT-A','CONT-B','CONT-B-CODE-C1')) {
     if ($Stage -in @('CONT-B','CONT-B-CODE-C1') -and ($sourcePaths.Count -ne 776 -or $assetPaths.Count -ne 806 -or $protectedPaths.Count -ne 880 -or $dllPaths.Count -ne 36)) { throw 'CONT-B finite input membership mismatch' }
 }
 if ($Stage -eq 'CONT-B-CODE-C1') { $protectedPaths += @('docs/system-design/2026-09-17/demo-cont-b-delivery.md','docs/system-design/2026-09-17/demo-cont-b-scope.json','docs/system-design/2026-09-17/demo-cont-b-code-review.md','TestArtifacts/FMDemoCONT/cont-b/root-identity.json','TestArtifacts/FMDemoCONT/cont-b/read-manifest.json') }
-if ($mac) {
+if ($contMac) {
     $scopePath = 'docs/system-design/2026-09-17/demo-cont-c-design-c1-scope.json'
     if ((Identity $scopePath).sha256 -cne 'dd9a2557dff4db1bb652877f1f643201d1515c311f9f62ca106abf85f20d6cb7') { throw 'Mac C1 scope SHA mismatch' }
     $continuity = Get-Content -Raw -LiteralPath (Path-InProject $scopePath) | ConvertFrom-Json
@@ -166,7 +167,78 @@ if ($mac) {
         (Identity 'Packages/packages-lock.json').sha256 -cne '25367af624aad0b94d396484422db4e74d19844da974598da51398a89ab356c0') { throw 'Mac package input changed' }
 }
 $rootIdentity = Get-Content -Raw -LiteralPath (Path-InProject ($evidence+'/root-identity.json')) | ConvertFrom-Json
-if ($mac) {
+if ($demo028) {
+    $demoPlanPath = 'docs/system-design/2026-09-17/demo-028-mac-r1-plan.json'; $demoPlanIdentity = Identity $demoPlanPath
+    if ($demoPlanIdentity.bytes -ne 205569 -or $demoPlanIdentity.sha256 -cne '037692abd5c262d7cd4efa40dcc93a2d74235fcd9f02c6c46e83ae5ea8725fe6') { throw '028 plan identity mismatch' }
+    $demoPlan = Get-Content -Raw -LiteralPath (Path-InProject $demoPlanPath) | ConvertFrom-Json
+    if ($rootIdentity.stageId -cne $Stage -or $rootIdentity.projectRoot -cne $project -or $rootIdentity.evidenceRoot -cne $evidence -or
+        $rootIdentity.authorTaskId -cne '01a0e404-d89d-7ab2-bece-3cd1df3fbc52' -or $rootIdentity.authorTurnId -cne '01a0e7e1-94a9-76c3-89cc-3a00f910b2c7' -or
+        $rootIdentity.authorTurnStartedAt -ne 1790596715 -or $rootIdentity.plan.sha256 -cne $demoPlanIdentity.sha256 -or
+        (Identity ($evidence+'/root-identity.json')).sha256 -cne 'a1d036a804bd716dfebf769d54b10df7ed8a1b061089c527f89ec9389a7e4482') { throw '028 evidence owner mismatch' }
+    $packetText = [IO.File]::ReadAllText((Path-InProject 'docs/system-design/2026-09-17/system-task-packets.md')).Replace("`r`n","`n")
+    $packet = [regex]::Match($packetText,'(?ms)^## 434\..*?^<!-- DEMO-028-MAC-R1-PACKET-END -->$'); $sha = [Security.Cryptography.SHA256]::Create()
+    try { $packetBytes=[Text.Encoding]::UTF8.GetBytes($packet.Value.TrimEnd("`n")+"`n"); $digest=[Convert]::ToHexString($sha.ComputeHash($packetBytes)).ToLowerInvariant() } finally { $sha.Dispose() }
+    if (-not $packet.Success -or $packetBytes.Length -ne 13458 -or $digest -cne '08988b13282b1dafa4fcc0a095b66721a0a6bd98c79532c57d9543da1e11d06c' -or
+        -not $packetText.Substring($packet.Index+$packet.Length).Contains('新准确作者turn'+$rootIdentity.authorTurnId+'，startedAt1790596715')) { throw '028 frozen packet/actual turn mapping mismatch' }
+    if ($demoPlan.canonicalRuntime.unityExecutable -cne $executable -or $demoPlan.canonicalRuntime.powerShellExecutable -cne (Join-Path $PSHOME 'pwsh')) { throw '028 runtime path mismatch' }
+    $sourcePaths=@($demoPlan.futureImplementationPaths); $assetPaths=@($demoPlan.futureAssetPaths); $dllPaths=@($demoPlan.dllPaths); $protectedPaths=@($demoPlan.protectedInputPaths)
+    $contentPaths=@($assetPaths | Where-Object { $_ -match '^Assets/(FightMatchContent|StreamingAssets)/' }); $allowed=@($demoPlan.evidence.exactAllowedPaths)
+    if ($sourcePaths.Count -ne 828 -or $assetPaths.Count -ne 858 -or $dllPaths.Count -ne 36 -or $protectedPaths.Count -ne 933 -or
+        $allowed.Count -ne 128 -or @($allowed | Sort-Object -Unique -CaseSensitive).Count -ne 128 -or
+        @(Compare-Object -CaseSensitive ($allowed | Sort-Object) ($rootIdentity.exactAllowedEvidencePaths | Sort-Object)).Count) { throw '028 finite membership mismatch' }
+    foreach ($path in $allowed) { $null=Path-InProject $path }
+    foreach ($frozen in @($rootIdentity.inputs)+@($demoPlan.frozenGoldenInputs)+@($demoPlan.inheritedIo.baselineInventory,$demoPlan.baseline.namedTestsXml)) {
+        $actual=Identity $frozen.path; if ($actual.bytes -ne $frozen.bytes -or $actual.sha256 -cne $frozen.sha256) { throw ('028 frozen input changed: '+$frozen.path) }
+    }
+    function Mac-RuntimeInputs {
+        if (@($demoPlan.canonicalRuntime.exactFileIdentities).Count -ne 6) { throw '028 runtime membership mismatch' }
+        foreach ($frozen in $demoPlan.canonicalRuntime.exactFileIdentities) {
+            $f=Get-Item -LiteralPath $frozen.path -Force -ErrorAction Stop; $digest=(Get-FileHash -LiteralPath $frozen.path -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($f.PSIsContainer -or $f.LinkType -or ($f.Attributes -band [IO.FileAttributes]::ReparsePoint) -or $f.Length -ne $frozen.bytes -or $digest -cne $frozen.sha256) { throw '028 runtime/resource changed' }
+            [pscustomobject]@{path=$frozen.path; exists=$true; bytes=$f.Length; sha256=$digest; lastWriteUtc=$f.LastWriteTimeUtc.ToString('o')}
+        }
+    }
+    function Demo-IO {
+        $ioRoot=Path-InProject $demoPlan.inheritedIo.root; $baseline=Get-Content -Raw -LiteralPath (Path-InProject $demoPlan.inheritedIo.beforeInventory) | ConvertFrom-Json
+        $rows=[Collections.Generic.Dictionary[string,object]]::new([StringComparer]::Ordinal); $oldRows=[Collections.Generic.Dictionary[string,object]]::new([StringComparer]::Ordinal)
+        foreach ($r in $baseline.entries) { $oldRows.Add($r.relativePath,$r) }
+        $cases=@(Get-ChildItem -LiteralPath $ioRoot -Force); $files=0; $links=0; $dirs=0
+        if ($cases.Count -gt 4096 -or @($cases | Where-Object { -not $_.PSIsContainer -or $_.LinkType -or $_.Name -cnotmatch '^[0-9a-f]{32}$' }).Count) { throw '028 invalid IO case root/capacity' }
+        $queue=[Collections.Generic.Stack[string]]::new(); $queue.Push($ioRoot)
+        while ($queue.Count) { foreach ($f in Get-ChildItem -LiteralPath $queue.Pop() -Force) {
+            $relative=$f.FullName.Substring($ioRoot.Length+1); $row=[ordered]@{relativePath=$relative}
+            if ($f.LinkType -or ($f.Attributes -band [IO.FileAttributes]::ReparsePoint)) { $links++; $row.type='symlink'; $row.target=[string]$f.LinkTarget }
+            elseif ($f.PSIsContainer) { $dirs++; $row.type='directory'; $queue.Push($f.FullName) }
+            else { $files++; $row.type='file'; $row.bytes=$f.Length; $row.sha256=(Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash.ToLowerInvariant() }
+            if ($files+$links -gt 40000) { throw '028 IO file/link capacity exceeded' }; $rows.Add($relative,[pscustomobject]$row)
+        } }
+        foreach ($r in $baseline.entries) {
+            $actual=$rows[$r.relativePath]
+            if ($null -eq $actual -or $actual.type -cne $r.type -or $actual.bytes -ne $r.bytes -or $actual.sha256 -cne $r.sha256 -or $actual.target -cne $r.target) { throw ('028 old IO entry changed: '+$r.relativePath) }
+        }
+        foreach ($path in $rows.Keys) { if ($path.Split('/')[0] -cin $baseline.caseDirectories -and -not $oldRows.ContainsKey($path)) { throw '028 entry added inside old case' } }
+        if ($Mode -eq 'Tests' -and -not $process -and (4096-$cases.Count -lt 768 -or 40000-$files-$links -lt 8192)) { throw '028 insufficient full-test IO headroom' }
+        return [pscustomobject]@{root=$demoPlan.inheritedIo.root; cases=$cases.Count; directories=$dirs; files=$files; symlinks=$links; originalEntriesUnchanged=$baseline.entries.Count; newEntries=$rows.Count-$oldRows.Count}
+    }
+    function Demo-CheckFiles($snapshot) {
+        $mutable=@($demoPlan.modify.production.path)+@($scriptPath)+@($demoPlan.coordinatorOnlyMutableMetadata)
+        foreach ($name in @('implementation','assets','inputs')) {
+            $baseline=Get-Content -Raw -LiteralPath (Path-InProject ($evidence+'/'+$name+'-before.json')) | ConvertFrom-Json
+            foreach ($oldFile in $baseline.files) { if ($oldFile.path -cin $mutable) { continue }; $actual=Identity $oldFile.path
+                if ($actual.exists -ne $oldFile.exists -or $actual.bytes -ne $oldFile.bytes -or $actual.sha256 -cne $oldFile.sha256) { throw ('028 protected file changed: '+$oldFile.path) }
+            }
+        }
+        $missing=@($snapshot.sourceFiles | Where-Object { -not $_.exists }); $newMeta=@($demoPlan.create.naturalMeta)
+        if (@($missing | Where-Object { $Mode -ne 'Compile' -or $_.path -cnotin $newMeta }).Count) { throw '028 required implementation file missing' }
+        $guids=@($snapshot.assetFiles | Where-Object { $_.exists -and $_.path.EndsWith('.meta') } | ForEach-Object {
+            $text=[IO.File]::ReadAllText((Path-InProject $_.path)); $match=[regex]::Match($text,'(?m)^guid: ([0-9a-f]{32})\r?$')
+            if (-not $match.Success) { throw '028 invalid GUID' }; $match.Groups[1].Value
+        })
+        if ($guids.Count -ne 451-$missing.Count -or @($guids | Sort-Object -Unique -CaseSensitive).Count -ne $guids.Count) { throw '028 GUID count/uniqueness mismatch' }
+        return $guids.Count
+    }
+    $null=@(Mac-RuntimeInputs); $platformPlan=[pscustomobject]@{goldenInputs=$demoPlan.frozenGoldenInputs}
+} elseif ($contMac) {
     if ($rootIdentity.stageId -cne $Stage -or $rootIdentity.rootProjectRelativePath -cne $evidence -or
         $rootIdentity.authorTaskId -cne '01a0e404-d89d-7ab2-bece-3cd1df3fbc52' -or $rootIdentity.authorTurnId -cne '01a0e410-3e6f-7400-b58c-34cebde8d28c' -or
         $rootIdentity.sourcePacketRangeSha256 -cne '7e472c5e1d554e8b15df50847e84aa3db993d43edec563d61ca10bae0ff34e71') { throw 'Mac evidence ownership mismatch' }
@@ -349,7 +421,8 @@ function Capture {
         protectedFiles=@($protectedPaths | ForEach-Object { Identity $_ }); unityProcesses=@(Unity-Processes)}
     if ($Stage -eq '025-P2B-PUBLISH') { $snapshot.publicationFiles = @($storePaths | ForEach-Object { Identity $_ }) }
     if ($Stage -eq 'CONT-B-CODE-C1') { $snapshot.hubAndLicenseProcesses = @(Get-Process 'Unity Hub','Unity.Licensing.Client' -ErrorAction SilentlyContinue | Select-Object Id, ProcessName, Path, StartTime) }
-    if ($mac) { $snapshot.platformInputs = @('Packages/manifest.json','Packages/packages-lock.json','START_HERE.md','.agent/PROJECT_CONTEXT.md',($evidence+'/platform-environment.json'),$platformPlanPath,$platformC1Path,$platformPlan.newTool,$runExtensionPath,$runExtension2Path,$runExtension3Path | ForEach-Object { Identity $_ }); $snapshot.runtimeFiles=@(Mac-RuntimeInputs) }
+    if ($contMac) { $snapshot.platformInputs = @('Packages/manifest.json','Packages/packages-lock.json','START_HERE.md','.agent/PROJECT_CONTEXT.md',($evidence+'/platform-environment.json'),$platformPlanPath,$platformC1Path,$platformPlan.newTool,$runExtensionPath,$runExtension2Path,$runExtension3Path | ForEach-Object { Identity $_ }); $snapshot.runtimeFiles=@(Mac-RuntimeInputs) }
+    if ($demo028) { $snapshot.platformInputs=@($demoPlanPath,($evidence+'/root-identity.json') | ForEach-Object { Identity $_ }); $snapshot.runtimeFiles=@(Mac-RuntimeInputs); $snapshot.guidCount=Demo-CheckFiles $snapshot; $snapshot.inheritedIo=Demo-IO }
     return $snapshot
 }
 function Same-Files($left, $right) {
@@ -369,23 +442,42 @@ if ($Stage -in @('025-P2B-PUBLISH','025-P2C','CONT-A')) { $maxRuns = 12 }
 if ($Stage -eq 'CONT-B') { $maxRuns = 13 }
 if ($Stage -eq 'CONT-B-CODE-C1') { $maxRuns = 5 }
 if ($mac) { $maxRuns = 15 }
+if ($demo028) { $maxRuns = 6 }
 for ($i=1; $i -le $maxRuns; $i++) {
     $candidate = '{0:d3}' -f $i
     if ($Stage -eq 'CONT-B-CODE-C1') { $candidate = @('001','004','005','002','003')[$i-1] }
     if (-not (Test-Path -LiteralPath (Path-InProject ($evidence+'/runs/'+$candidate)))) { $runNumber=$candidate; break }
 }
 if ($null -eq $runNumber) { throw "The authorized $maxRuns run slots are exhausted." }
+if ($demo028) {
+    $runDirs=@(Get-ChildItem -LiteralPath (Path-InProject ($evidence+'/runs')) -Directory -ErrorAction SilentlyContinue | Sort-Object Name)
+    $previous=@($runDirs | Sort-Object { (Get-Content -Raw -LiteralPath (Join-Path $_.FullName 'run.json') | ConvertFrom-Json).startedAtUtc } | Select-Object -Last 1)
+    if ($previous.Count) {
+        $previousRoot=$evidence+'/runs/'+$previous[0].Name; $previousResult=Identity ($previousRoot+'/result.json'); $previousFailure=Identity ($previousRoot+'/failure.json')
+        if (-not $previousResult.exists -and -not $previousFailure.exists) { throw '028 preceding run lacks a recorded terminal result' }
+        $lastResult=if ($previousResult.exists) { Get-Content -Raw -LiteralPath (Path-InProject $previousResult.path) | ConvertFrom-Json } else { $null }
+        $number=([int]$runDirs[-1].Name)+1
+        if ($Mode -eq 'Tests' -and -not (Test-Path -LiteralPath (Path-InProject ($evidence+'/runs/002')))) { $number=2 }
+        elseif ($number -eq 2) { $number=3 }
+        if ($number -gt 6) { throw '028 six run slots exhausted' }; $runNumber='{0:d3}' -f $number
+        if ($lastResult.passed -and $lastResult.kind -eq 'tests') {
+            $priorAfter=Get-Content -Raw -LiteralPath (Path-InProject ($previousRoot+'/after.json')) | ConvertFrom-Json
+            if ($priorAfter.script.sha256 -ceq $identity.sha256 -and (Same-Files $priorAfter.sourceFiles @($sourcePaths | ForEach-Object { Identity $_ }))) { throw '028 unchanged successful tests must not be repeated' }
+        }
+    }
+}
 if ($Stage -eq 'CONT-B-CODE-C1' -and (($runNumber -eq '002') -ne ($Mode -eq 'Compile'))) { throw 'CONT-B-CODE-C1 requires Tests, Compile, Tests in that order.' }
 if ($mac -and $runNumber -eq '001' -and $Mode -ne 'Compile') { throw 'Mac source must compile before testing.' }
 if ($mac -and $runNumber -in @('009','010') -and $Mode -cne $runExtension.newRunModes.$runNumber) { throw 'Mac extension requires 009 Compile then 010 Tests.' }
 if ($mac -and $runNumber -in @('011','012') -and $Mode -cne $runExtension2.newRunModes.$runNumber) { throw 'Mac extension2 requires 011 Compile then 012 Tests.' }
 if ($mac -and $runNumber -in @('013','014','015') -and $Mode -cne $runExtension3.newRunModes.$runNumber) { throw 'Mac extension3 requires 013 Compile, 014 probe, 015 full Tests.' }
-$diagnosticOnly = $mac -and $runNumber -eq '014'
+$diagnosticOnly = $contMac -and $runNumber -eq '014'
 $testFilter = if ($diagnosticOnly) { $editorProbeFilter } else { $null }
 $purpose = if ($diagnosticOnly) { 'diagnostic-editor-resource-probe' } elseif ($Mode -eq 'Tests') { 'full-unfiltered-acceptance' } else { 'compile' }
 if ($mac -and $Mode -eq 'Tests') {
     $compiled=$null
-    for ($i=[int]$runNumber-1; $i -ge 1; $i--) {
+    $compileSearchStart=if ($demo028) { 6 } else { [int]$runNumber-1 }
+    for ($i=$compileSearchStart; $i -ge 1; $i--) {
         $prior=$evidence+'/runs/'+('{0:d3}' -f $i)
         if (-not (Test-Path -LiteralPath (Path-InProject ($prior+'/result.json')))) { continue }
         $r=Get-Content -Raw -LiteralPath (Path-InProject ($prior+'/result.json')) | ConvertFrom-Json
@@ -395,7 +487,7 @@ if ($mac -and $Mode -eq 'Tests') {
     if ($null -eq $compiled -or -not (Same-Files $compiled.sourceFiles $current.sourceFiles) -or
         -not (Same-Files $compiled.assetFiles $current.assetFiles) -or -not (Same-Files $compiled.dllFiles $current.dllFiles) -or
         $compiled.script.sha256 -cne $current.script.sha256) { throw 'Tests require unchanged successful Compile source, assets, tool and DLLs' }
-    if ($runNumber -eq '015') {
+    if ($contMac -and $runNumber -eq '015') {
         $probeRoot=$evidence+'/runs/014'; $probeResultPath=$probeRoot+'/result.json'
         $probe=Get-Content -Raw -LiteralPath (Path-InProject $probeResultPath) | ConvertFrom-Json
         $receipt=(Get-Content -Raw -LiteralPath (Path-InProject ($evidence+'/scope-audit.json')) | ConvertFrom-Json).continuationAfter012.diagnostic014Outcome
@@ -412,6 +504,7 @@ if ($mac -and $Mode -eq 'Tests') {
         $actual=Identity $input.path
         if (-not $actual.exists -or $actual.bytes -ne $input.bytes -or $actual.sha256 -cne $input.sha256) { throw 'Frozen test input has not been restored' }
     }
+    if ($demo028 -and -not (Same-Files $compiled.runtimeFiles $current.runtimeFiles)) { throw '028 Tests require the same six compiled runtime inputs' }
 }
 $runRoot = $evidence+'/runs/'+$runNumber
 [IO.Directory]::CreateDirectory((Path-InProject $runRoot)) | Out-Null
@@ -480,6 +573,19 @@ try {
     if ($mac -and $Mode -eq 'Tests') { $passed = $passed -and (Same-Files $before.sourceFiles $after.sourceFiles) -and (Same-Files $before.assetFiles $after.assetFiles) -and (Same-Files $before.dllFiles $after.dllFiles) -and $before.script.sha256 -ceq $after.script.sha256 }
     if ($Mode -eq 'Tests') { $passed = $passed -and $null -ne $testSummary -and $testSummary.result -eq 'Passed' -and $testSummary.failed -eq 0 -and $testSummary.other -eq 0 }
     if ($diagnosticOnly) { $passed = $passed -and $cases.Count -eq 1 -and $cases[0].fullname -ceq $editorProbeFilter }
+    if ($demo028) {
+        $existing=@($before.assetFiles | Where-Object { $_.exists -and ($Mode -ne 'Compile' -or $_.path -cnotin $demoPlan.create.naturalMeta) })
+        $afterExisting=@($after.assetFiles | Where-Object { $_.path -cin $existing.path })
+        $passed=$passed -and $after.guidCount -eq 451 -and (Same-Files $before.runtimeFiles $after.runtimeFiles) -and (Same-Files $existing $afterExisting) -and $before.script.sha256 -ceq $after.script.sha256
+        if ($Mode -eq 'Tests' -and $null -ne $testSummary) {
+            [xml]$oldXml=Get-Content -Raw -LiteralPath (Path-InProject $demoPlan.baseline.namedTestsXml.path)
+            $oldCases=@($oldXml.SelectNodes('//test-case')); $counts=[Collections.Generic.Dictionary[string,int]]::new([StringComparer]::Ordinal)
+            foreach ($case in $cases) { if (-not $counts.ContainsKey($case.fullname)) { $counts[$case.fullname]=0 }; $counts[$case.fullname]++ }
+            $missingOriginal=0
+            foreach ($case in $oldCases) { if (-not $counts.ContainsKey($case.fullname) -or $counts[$case.fullname] -le 0) { $missingOriginal++ } else { $counts[$case.fullname]-- } }
+            $passed=$passed -and $oldCases.Count -eq 3956 -and $missingOriginal -eq 0; $testSummary.originalOccurrences=3956; $testSummary.missingOriginalOccurrences=$missingOriginal; $testSummary.addedOccurrences=$cases.Count-3956
+        }
+    }
     $result = [ordered]@{kind=$kind; run=$runNumber; processId=$process.Id; actualExitCode=$exitCode; passed=$passed;
         startedAtUtc=$startedAt.ToString('o'); endedAtUtc=$endedAt.ToString('o'); durationSeconds=($endedAt-$startedAt).TotalSeconds;
         compilerErrors=$errors; tests=$testSummary; log=(Identity $log); stdout=(Identity $stdout); stderr=(Identity $stderr);

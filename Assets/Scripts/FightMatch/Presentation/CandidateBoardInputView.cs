@@ -16,8 +16,10 @@ namespace FightMatch.Presentation
         private readonly Label availability = new Label { name = "input-status" };
         private readonly VisualElement members = new VisualElement { name = "members" };
         private readonly Dictionary<string, Button> buttons = new Dictionary<string, Button>(StringComparer.Ordinal);
-        private readonly IVisualElementScheduledItem refresh;
-        private readonly Button retry, resolve;
+        private IVisualElementScheduledItem refresh;
+        private Button retry, resolve;
+        private bool borrowed;
+        private long bindingEpoch;
         public CandidateBoardInputController Controller { get; private set; }
         public CandidateBoardElement Board { get; private set; }
 
@@ -25,33 +27,65 @@ namespace FightMatch.Presentation
         {
             name = "candidate-input-view"; style.flexGrow = 1;
             members.style.flexDirection = FlexDirection.Row;
-            retry = new Button(() => Controller?.RetryLast()) { text = "重试保存", name = "retry-save" };
-            resolve = new Button(() => Controller?.ResolveLast()) { text = "确认保存结果", name = "resolve-save" };
+            retry = new Button { text = "重试保存", name = "retry-save" };
+            resolve = new Button { text = "确认保存结果", name = "resolve-save" };
             Add(phase); Add(save); Add(members); Add(enemies); Add(availability); Add(retry); Add(resolve);
-            refresh = schedule.Execute(() => Controller?.Refresh()).Every(100);
-            RegisterCallback<AttachToPanelEvent>(e => { refresh.Resume(); Controller?.Refresh(); });
+            RegisterCallback<AttachToPanelEvent>(e => { refresh?.Resume(); Controller?.Refresh(); });
             RegisterCallback<DetachFromPanelEvent>(e => Close());
         }
 
         public void Attach(CandidateBattleApplicationSystem system, SaveStoreBudget budget)
         {
             Close();
+            borrowed = false; bindingEpoch++;
             if (Controller != null) Controller.Changed -= Render;
             Board?.RemoveFromHierarchy();
+            members.Clear(); buttons.Clear();
             Controller = new CandidateBoardInputController(system, budget);
             Board = new CandidateBoardElement(Controller); Add(Board);
-            Controller.Changed += Render; Render();
-            if (panel != null) refresh.Resume();
+            Controller.Changed += Render; BindCallbacks(); Render();
         }
 
         public void Close()
-        { refresh.Pause(); Controller?.CancelGesture(); Controller?.CancelRollback(); }
+        { if (borrowed) { Detach(); return; } refresh?.Pause(); Controller?.CancelGesture(); Controller?.CancelRollback(); }
+
+        public void Bind(CandidateBoardInputController controller)
+        {
+            if (controller == null) throw new ArgumentNullException(nameof(controller));
+            if (borrowed) Detach(); else Close();
+            if (Controller != null) Controller.Changed -= Render;
+            Board?.RemoveFromHierarchy(); members.Clear(); buttons.Clear();
+            borrowed = true; bindingEpoch++; Controller = controller;
+            Board = new CandidateBoardElement(controller, true); Add(Board);
+            controller.Changed += Render; BindCallbacks(); Render();
+        }
+
+        private void BindCallbacks()
+        {
+            var owner = Controller; var epoch = bindingEpoch; refresh?.Pause();
+            refresh = schedule.Execute(() => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch) owner.Refresh(); }).Every(100);
+            if (panel == null) refresh.Pause();
+            var index = IndexOf(retry); retry.RemoveFromHierarchy(); resolve.RemoveFromHierarchy();
+            retry = new Button(() => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch) owner.RetryLast(); }) { text = "重试保存", name = "retry-save" };
+            resolve = new Button(() => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch) owner.ResolveLast(); }) { text = "确认保存结果", name = "resolve-save" };
+            Insert(index, retry); Insert(index + 1, resolve);
+        }
+
+        public void Detach()
+        {
+            if (!borrowed) { Close(); return; }
+            refresh?.Pause(); bindingEpoch++;
+            if (Controller != null) Controller.Changed -= Render;
+            Board?.ClearReferenceOverride(); Board?.RemoveFromHierarchy();
+            Controller = null; Board = null; members.Clear(); buttons.Clear();
+        }
 
         private static string Hp(ExactRational value)
         { return value.Denominator.IsOne ? value.Numerator.ToString() : value.Numerator + "/" + value.Denominator; }
 
         private void Render()
         {
+            if (Controller == null) return;
             var view = Controller.View; var state = view.BattleSnapshot;
             phase.text = "阶段：" + (state == null ? view.Code : state.Phase.ToString());
             save.text = "保存：" + view.Phase + (view.IsPublishedHeadVerified ? "" : "（当前头未核定）") +
@@ -63,7 +97,9 @@ namespace FightMatch.Presentation
             {
                 var id = member.Member.CharacterId;
                 if (!buttons.TryGetValue(id, out var button))
-                { button = new Button(() => Controller.SelectMember(id)) { name = "member-" + id }; buttons.Add(id, button); members.Add(button); }
+                { var owner = Controller; var epoch = bindingEpoch;
+                    button = new Button(() => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch) owner.SelectMember(id); })
+                    { name = "member-" + id }; buttons.Add(id, button); members.Add(button); }
                 button.text = (Controller.SelectedCharacterId == id ? "● " : "") + id + " HP " + Hp(member.Hp);
                 button.SetEnabled(member.Hp.Numerator.Sign > 0);
             }
