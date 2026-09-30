@@ -13,6 +13,34 @@ namespace FightMatch.Content
     {
         private readonly IContentPublicationStorage storage;
         private readonly ContentConsumerCapabilities capabilities;
+        private volatile ReadAdmission readAdmission;
+        private sealed class ReadAdmission
+        {
+            private readonly ContentBinding binding;
+            private readonly ContentConsumerCapabilities consumer;
+            private readonly byte[] index, payload, source, validation, review;
+            private readonly int maxRecordBytes, maxIntegerBits;
+            private readonly long suffixSteps;
+            internal readonly ResolvedPublication Publication;
+            internal ReadAdmission(ContentBinding binding, ContentConsumerCapabilities consumer, ContentStoreBudget budget,
+                byte[] index, byte[] payload, byte[] source, byte[] validation, byte[] review, long suffixSteps, ResolvedPublication publication)
+            {
+                this.binding = binding; this.consumer = consumer; this.index = index; this.payload = payload; this.source = source;
+                this.validation = validation; this.review = review; this.suffixSteps = suffixSteps; Publication = publication;
+                maxRecordBytes = budget.MaxRecordBytes; maxIntegerBits = budget.Math.MaxIntegerBits;
+            }
+            internal bool Matches(ContentBinding expected, ContentConsumerCapabilities capabilities, ContentStoreBudget budget,
+                byte[] index, byte[] payload, byte[] source, byte[] validation, byte[] review)
+            {
+                return binding.Same(expected) && maxRecordBytes == budget.MaxRecordBytes && maxIntegerBits == budget.Math.MaxIntegerBits &&
+                    (long)budget.Math.MaxPrimitiveSteps - budget.Math.PrimitiveStepsUsed >= suffixSteps &&
+                    consumer.MaxSourceBytes == capabilities.MaxSourceBytes && consumer.MaxCollectionEntries == capabilities.MaxCollectionEntries &&
+                    consumer.MaxStringCodeUnits == capabilities.MaxStringCodeUnits && consumer.Capabilities.SequenceEqual(capabilities.Capabilities) &&
+                    ContentPublicationStorage.Equal(this.index, index) && ContentPublicationStorage.Equal(this.payload, payload) &&
+                    ContentPublicationStorage.Equal(this.source, source) && ContentPublicationStorage.Equal(this.validation, validation) &&
+                    ContentPublicationStorage.Equal(this.review, review);
+            }
+        }
         public PublishedContentCatalog(IContentPublicationStorage storage, ContentConsumerCapabilities capabilities)
         { this.storage = storage ?? throw new ArgumentNullException(nameof(storage)); this.capabilities = capabilities ?? throw new ArgumentNullException(nameof(capabilities)); }
         public PublicationResult<ContentPublicationOutcome> Publish(PreparedPublication prepared, ContentValidationEvidence validation,
@@ -63,27 +91,40 @@ namespace FightMatch.Content
             });
         }
         public PublicationResult<ResolvedPublication> ResolveExact(ContentBinding binding, ContentConsumerCapabilities consumer)
-        { return Io(() => Resolve(binding, consumer, new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 16000000)))); }
+        { return Io(() => ResolveReadOnly(binding, consumer, new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 16000000)))); }
         public PublicationResult<PreparedLevel> ResolveExact(DefinitionBinding binding, ContentConsumerCapabilities consumer)
         {
             return Io(() => {
-                Root(binding, "DefinitionBinding"); var resolved = Resolve(binding.Content, consumer, new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 16000000)));
+                Root(binding, "DefinitionBinding"); var resolved = ResolveReadOnly(binding.Content, consumer, new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 16000000)));
                 var level = resolved.Definitions.Levels.SingleOrDefault(l => l.LevelId == binding.LevelId && l.LevelVersion == binding.CanonicalLevelVersion);
                 Need(level != null, "UnsupportedBinding", "DefinitionBinding"); return level;
             });
         }
         public PublicationResult<ContentBinding> GetCurrentBinding(string scope, string expectedReleaseSetId, ContentConsumerCapabilities consumer)
+        { return Io(() => ReadCurrentBinding(scope, expectedReleaseSetId, consumer, out _)); }
+        internal PublicationResult<ResolvedPublication> ReadInitialPublication(string scope, string expectedReleaseSetId, ContentConsumerCapabilities consumer)
         {
             return Io(() => {
-                Text(scope, "Scope"); Text(expectedReleaseSetId, "ReleaseSetId"); var budget = new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 16000000));
-                var bytes = storage.Read(ReleaseSetKey(scope, expectedReleaseSetId), Math.Min(65536, budget.MaxRecordBytes));
-                Need(bytes != null, "UnsupportedBinding", "ReleaseSet");
-                var set = PublishedContentCodec.Decode<ContentReleaseSet>(bytes, 65536, consumer, budget.Math);
-                Need(set.SchemaVersion == 1, "UnsupportedSchema", "ReleaseSet.SchemaVersion");
-                Need(set.Scope == scope && set.ReleaseSetId == expectedReleaseSetId && set.Binding != null, "RecoveryBlocked", "ReleaseSet.Identity");
-                var binding = set.Binding.Take(budget.Math); var publication = Resolve(binding, consumer, budget);
-                Need(PublishedContentCodec.Sha256(publication.ReceiptBytes.ToArray()) == set.PublicationReceiptSha256, "RecoveryBlocked", "ReleaseSet.Receipt"); return binding;
+                ReadCurrentBinding(scope, expectedReleaseSetId, consumer, out var publication); return publication;
             });
+        }
+        private ContentBinding ReadCurrentBinding(string scope, string expectedReleaseSetId, ContentConsumerCapabilities consumer, out ResolvedPublication publication)
+        {
+            Text(scope, "Scope"); Text(expectedReleaseSetId, "ReleaseSetId"); var budget = new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 16000000));
+            var bytes = storage.Read(ReleaseSetKey(scope, expectedReleaseSetId), Math.Min(65536, budget.MaxRecordBytes));
+            Need(bytes != null, "UnsupportedBinding", "ReleaseSet");
+            var set = PublishedContentCodec.Decode<ContentReleaseSet>(bytes, 65536, consumer, budget.Math);
+            Need(set.SchemaVersion == 1, "UnsupportedSchema", "ReleaseSet.SchemaVersion");
+            Need(set.Scope == scope && set.ReleaseSetId == expectedReleaseSetId && set.Binding != null, "RecoveryBlocked", "ReleaseSet.Identity");
+            var binding = set.Binding.Take(budget.Math); publication = ResolveReadOnly(binding, consumer, budget);
+            Need(PublishedContentCodec.Sha256(publication.ReceiptBytes.ToArray()) == set.PublicationReceiptSha256, "RecoveryBlocked", "ReleaseSet.Receipt"); return binding;
+        }
+        private ResolvedPublication ResolveReadOnly(ContentBinding binding, ContentConsumerCapabilities consumer, ContentStoreBudget budget)
+        {
+            // First-release admission remains fixed by Create. Publish never enables catalog reuse.
+            if (storage is FirstReleaseContentStorage first)
+                return first.GetAdmitted(binding, consumer) ?? Resolve(binding, consumer, budget);
+            return Resolve(binding, consumer, budget, true);
         }
         public static string ReleaseSetKey(string scope, string releaseSetId)
         { return Key("release", PublishedContentCodec.Sha256(PublishedContentCodec.Encode(new { Scope = scope, ReleaseSetId = releaseSetId },
@@ -95,23 +136,28 @@ namespace FightMatch.Content
         }
         public static string Key(string kind, string identity)
         { return PublishedContentCodec.Sha256(PublishedContentCodec.Utf8.GetBytes(kind + "\0" + identity)); }
-        private byte[] Read(string key, ContentStoreBudget budget)
-        { var bytes = storage.Read(key, budget.MaxRecordBytes); Need(bytes != null, "RecoveryBlocked", "MissingCommittedRecord"); return bytes; }
+        private byte[] Read(string key, ContentStoreBudget budget, bool owned = false)
+        { var bytes = storage.Read(key, budget.MaxRecordBytes); Need(bytes != null, "RecoveryBlocked", "MissingCommittedRecord"); return owned ? (byte[])bytes.Clone() : bytes; }
         private void Put(string key, byte[] value, DemoContentJob job, ContentStoreBudget budget)
         {
             job.Check(); storage.WriteImmutable(key, value, budget.MaxRecordBytes);
             Need(ContentPublicationStorage.Equal(Read(key, budget), value), "RecoveryBlocked", "ReadBack");
         }
-        private ResolvedPublication Resolve(ContentBinding expected, ContentConsumerCapabilities consumer, ContentStoreBudget budget)
+        private ResolvedPublication Resolve(ContentBinding expected, ContentConsumerCapabilities consumer, ContentStoreBudget budget, bool reuse = false)
         {
+            var admitted = reuse ? readAdmission : null;
             Root(expected, "Binding"); Root(consumer, "Capabilities"); var index = storage.Read(BindingKey(expected), budget.MaxRecordBytes);
-            Need(index != null, "UnsupportedBinding", "Binding"); var r = PublishedContentCodec.Decode<PublicationRecord>(index, 65536, consumer, budget.Math);
+            Need(index != null, "UnsupportedBinding", "Binding"); if (reuse) index = (byte[])index.Clone();
+            var r = PublishedContentCodec.Decode<PublicationRecord>(index, 65536, consumer, budget.Math);
             Need(r.SchemaVersion == 1, "UnsupportedSchema", "Receipt.SchemaVersion"); Root(r.Binding, "Receipt.Binding");
             Need(expected.Same(r.Binding.Take(budget.Math)), "RecoveryBlocked", "Receipt.Binding");
-            Need(ContentPublicationStorage.Equal(Read(Key("operation", r.OperationId), budget), index) &&
-                ContentPublicationStorage.Equal(Read(Key("receipt", r.OperationId), budget), index), "RecoveryBlocked", "Receipt.Identity");
-            var payload = ReadHash("payload", r.PayloadSha256, budget); var original = ReadHash("source", r.SourceSha256, budget);
-            var validationBytes = ReadHash("validation", r.ValidationSha256, budget); var reviewBytes = ReadHash("review", r.ReviewSha256, budget);
+            Need(ContentPublicationStorage.Equal(Read(Key("operation", r.OperationId), budget, reuse), index) &&
+                ContentPublicationStorage.Equal(Read(Key("receipt", r.OperationId), budget, reuse), index), "RecoveryBlocked", "Receipt.Identity");
+            var payload = ReadHash("payload", r.PayloadSha256, budget, reuse); var original = ReadHash("source", r.SourceSha256, budget, reuse);
+            var validationBytes = ReadHash("validation", r.ValidationSha256, budget, reuse); var reviewBytes = ReadHash("review", r.ReviewSha256, budget, reuse);
+            var suffixStart = budget.Math.PrimitiveStepsUsed;
+            if (admitted != null && admitted.Matches(expected, consumer, budget, index, payload, original, validationBytes, reviewBytes))
+                return admitted.Publication;
             var source = PublishedContentCodec.Decode<PublishedSource>(payload, consumer.MaxSourceBytes, consumer, budget.Math);
             PublishedContentCompiler.Normalize(source, consumer, budget.Math);
             Need(ContentPublicationStorage.Equal(payload, PublishedContentCodec.Encode(source, consumer.MaxSourceBytes, consumer, budget.Math)), "RecoveryBlocked", "Payload.Canonical");
@@ -131,11 +177,14 @@ namespace FightMatch.Content
             var review = PublishedContentCodec.Decode<ContentReviewEvidence>(reviewBytes, 65536, consumer, budget.Math);
             CheckReview(review, expected, r.DraftId, r.Revision, original.Length, r.SourceSha256, payload.Length, r.PayloadSha256,
                 validationBytes.Length, r.ValidationSha256, built.LevelBindings, budget.Math);
-            return new ResolvedPublication(built.Definitions, built.Profile, index, built.Replays[0].Candidate.Parameters, built.Replays);
+            var publication = new ResolvedPublication(built.Definitions, built.Profile, index, built.Replays[0].Candidate.Parameters, built.Replays);
+            if (reuse) readAdmission = new ReadAdmission(expected, consumer, budget, index, payload, original, validationBytes, reviewBytes,
+                budget.Math.PrimitiveStepsUsed - suffixStart, publication);
+            return publication;
         }
-        private byte[] ReadHash(string kind, string sha, ContentStoreBudget budget)
+        private byte[] ReadHash(string kind, string sha, ContentStoreBudget budget, bool owned = false)
         {
-            Need(IsSha(sha), "RecoveryBlocked", kind + ".Sha256"); var bytes = Read(Key(kind, sha), budget);
+            Need(IsSha(sha), "RecoveryBlocked", kind + ".Sha256"); var bytes = Read(Key(kind, sha), budget, owned);
             Need(PublishedContentCodec.Sha256(bytes) == sha, "RecoveryBlocked", kind + ".Identity"); return bytes;
         }
         private byte[] Bytes(object value, ContentStoreBudget budget) => PublishedContentCodec.Encode(value, Math.Min(65536, budget.MaxRecordBytes), capabilities, budget.Math);

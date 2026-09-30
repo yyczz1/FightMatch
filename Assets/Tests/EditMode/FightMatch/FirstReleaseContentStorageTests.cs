@@ -154,6 +154,123 @@ namespace FightMatch.Core.Tests
             Assert.IsNotNull(run); var error = Assert.Throws<TargetInvocationException>(() => run.Invoke(null, new object[] { args.ToArray() }));
             Assert.AreEqual(expected, error.InnerException.Message); CollectionAssert.AreEqual(before, StoreFiles(root + "/publication-store"));
         }
+        [TestCase(0)] [TestCase(1)] [TestCase(2)]
+        public void PublishedBytesRemainUnchangedThroughSyncRoot(int kind)
+        {
+            var catalog = new PublishedContentCatalog(Take(Load(CopyFiles())), Caps());
+            var publication = Take(catalog.ResolveExact(prepared.Binding, Caps()));
+            var expected = kind == 0 ? six[4] : kind == 1 ? prepared.NewProfile.CanonicalBytes.ToArray()
+                : prepared.Replays[0].SeedBytes.ToArray();
+            var view = PublicationBytes(publication, kind);
+            var escaped = (view as System.Collections.ICollection)?.SyncRoot as byte[];
+            if (escaped != null) escaped[0] ^= 127;
+            CollectionAssert.AreEqual(expected, PublicationBytes(publication, kind), "Current publication bytes escaped through SyncRoot");
+            CollectionAssert.AreEqual(expected, PublicationBytes(Take(catalog.ResolveExact(prepared.Binding, Caps())), kind));
+            Assert.IsTrue(Take(catalog.GetCurrentBinding(Scope, Release, Caps())).Same(prepared.Binding));
+        }
+        private static IReadOnlyList<byte> PublicationBytes(ResolvedPublication publication, int kind)
+            => kind == 0 ? publication.ReceiptBytes : kind == 1 ? publication.NewProfile.CanonicalBytes : publication.GetDefaultReferences()[0].SeedBytes;
+        [Test] public void EqualCapabilityValuesInNewObjectsPreserveExactContentAndLevel()
+        {
+            var storage = Take(Load(CopyFiles())); var catalog = new PublishedContentCatalog(storage, Caps());
+            var original = Take(catalog.ResolveExact(prepared.Binding, Caps()));
+            var values = Caps(); var equal = new ContentConsumerCapabilities(values.Capabilities.ToArray(), values.MaxSourceBytes,
+                values.MaxCollectionEntries, values.MaxStringCodeUnits);
+            var again = Take(new PublishedContentCatalog(storage, equal).ResolveExact(prepared.Binding, equal));
+            Assert.IsTrue(again.Binding.Same(original.Binding)); CollectionAssert.AreEqual(six[4], again.ReceiptBytes);
+            CollectionAssert.AreEqual(prepared.NewProfile.CanonicalBytes, again.NewProfile.CanonicalBytes);
+            Assert.AreEqual("fixture:alpha", Take(catalog.ResolveExact(prepared.DefinitionBindings[0], equal)).LevelId);
+            Assert.IsTrue(Take(catalog.GetCurrentBinding(Scope, Release, equal)).Same(prepared.Binding));
+            var reordered = new ContentConsumerCapabilities(values.Capabilities.Reverse());
+            CollectionAssert.AreEqual(Take(new PublishedContentCatalog(WritableCopy(), Caps()).ResolveExact(prepared.Binding, reordered)).ReceiptBytes,
+                Take(catalog.ResolveExact(prepared.Binding, reordered)).ReceiptBytes);
+        }
+        [TestCase(0)] [TestCase(1)] [TestCase(2)] [TestCase(3)] [TestCase(4)]
+        public void ChangedConsumerConstraintsKeepTheFullPathRejection(int kind)
+        {
+            var immutable = new PublishedContentCatalog(Take(Load(CopyFiles())), Caps());
+            Take(immutable.ResolveExact(prepared.Binding, Caps()));
+            var full = new PublishedContentCatalog(WritableCopy(), Caps()); var values = Caps();
+            var changed = kind == 4 ? null : new ContentConsumerCapabilities(
+                kind == 0 ? values.Capabilities.Take(values.Capabilities.Count - 1) : values.Capabilities,
+                kind == 1 ? 1 : values.MaxSourceBytes, kind == 2 ? 1 : values.MaxCollectionEntries,
+                kind == 3 ? 1 : values.MaxStringCodeUnits);
+            SameRejection(full.ResolveExact(prepared.Binding, changed), immutable.ResolveExact(prepared.Binding, changed));
+            SameRejection(full.ResolveExact(prepared.DefinitionBindings[0], changed), immutable.ResolveExact(prepared.DefinitionBindings[0], changed));
+            if (changed == null)
+            {
+                Assert.Throws<NullReferenceException>(() => full.GetCurrentBinding(Scope, Release, changed));
+                Assert.Throws<NullReferenceException>(() => immutable.GetCurrentBinding(Scope, Release, changed));
+            }
+            else SameRejection(full.GetCurrentBinding(Scope, Release, changed), immutable.GetCurrentBinding(Scope, Release, changed));
+            CollectionAssert.AreEqual(six[4], Take(immutable.ResolveExact(prepared.Binding, Caps())).ReceiptBytes);
+        }
+        [TestCase(0)] [TestCase(1)] [TestCase(2)] [TestCase(3)] [TestCase(4)]
+        public void EveryChangedBindingFieldStillRejectsAfterSuccessfulRead(int field)
+        {
+            var immutable = new PublishedContentCatalog(Take(Load(CopyFiles())), Caps());
+            Take(immutable.ResolveExact(prepared.Binding, Caps())); var full = new PublishedContentCatalog(WritableCopy(), Caps());
+            var b = prepared.Binding; var fields = new[] { b.PackageId, b.ContentFingerprint, b.RuleVersion, b.NumericContractVersion, b.RandomContractVersion };
+            fields[field] = field == 1 ? new string('f', 64) : "fixture:other-value";
+            var other = ContentBinding.Prepare(fields[0], fields[1], fields[2], fields[3], fields[4], new SaveCodecBudget(Math()));
+            Assert.IsTrue(other.IsAccepted);
+            SameRejection(full.ResolveExact(other.Value, Caps()), immutable.ResolveExact(other.Value, Caps()));
+        }
+        [Test] public void NullBindingAndOtherLevelNeverUseTheSuccessfulPublication()
+        {
+            var immutable = new PublishedContentCatalog(Take(Load(CopyFiles())), Caps());
+            Take(immutable.ResolveExact(prepared.Binding, Caps())); var full = new PublishedContentCatalog(WritableCopy(), Caps());
+            SameRejection(full.ResolveExact((ContentBinding)null, Caps()), immutable.ResolveExact((ContentBinding)null, Caps()));
+            var wrong = DefinitionBinding.Prepare(prepared.Binding, "fixture:missing-level", 1, new SaveCodecBudget(Math()));
+            Assert.IsTrue(wrong.IsAccepted);
+            SameRejection(full.ResolveExact(wrong.Value, Caps()), immutable.ResolveExact(wrong.Value, Caps()));
+        }
+        [Test] public void DifferentImmutableInstancesKeepTheirOwnPublication()
+        {
+            var first = new PublishedContentCatalog(Take(Load(CopyFiles())), Caps());
+            var source = Fixture(2); var job = new DemoContentDraft(source.DraftId).BeginJob(); var secondPrepared = Prepare(source, job);
+            var memory = new MemoryStorage(); var review = Review(secondPrepared);
+            var published = Take(new PublishedContentCatalog(memory, Caps()).Publish(secondPrepared, secondPrepared.Validation, review,
+                job, "fixture:second-operation", StoreBudget())).Publication;
+            var receipt = published.ReceiptBytes.ToArray();
+            var release = Take(PublishedContentCodec.EncodeReleaseSet(new ContentReleaseSet { SchemaVersion = 1, Scope = Scope, ReleaseSetId = Release,
+                Binding = ContentBindingRecord.From(secondPrepared.Binding), PublicationReceiptSha256 = PublishedContentCodec.Sha256(receipt) }, StoreBudget()));
+            var files = new[] { secondPrepared.SourceBytes.ToArray(), secondPrepared.PayloadBytes.ToArray(), secondPrepared.Validation.Bytes.ToArray(),
+                Take(PublishedContentCodec.EncodeReview(review, StoreBudget())), receipt, release };
+            var second = new PublishedContentCatalog(Take(Load(files)), Caps());
+            CollectionAssert.AreEqual(six[4], Take(first.ResolveExact(prepared.Binding, Caps())).ReceiptBytes);
+            CollectionAssert.AreEqual(receipt, Take(second.ResolveExact(secondPrepared.Binding, Caps())).ReceiptBytes);
+            Assert.IsTrue(Take(first.GetCurrentBinding(Scope, Release, Caps())).Same(prepared.Binding));
+            Assert.IsTrue(Take(second.GetCurrentBinding(Scope, Release, Caps())).Same(secondPrepared.Binding));
+            Assert.AreEqual("UnsupportedBinding", first.ResolveExact(secondPrepared.Binding, Caps()).RejectionCode);
+            Assert.AreEqual("UnsupportedBinding", second.ResolveExact(prepared.Binding, Caps()).RejectionCode);
+        }
+        [TestCase("missing")] [TestCase("tampered")] [TestCase("io")]
+        public void MutableStorageStillDetectsChangesAfterSuccessfulRead(string change)
+        {
+            var memory = WritableCopy(); var catalog = new PublishedContentCatalog(memory, Caps());
+            Take(catalog.ResolveExact(prepared.Binding, Caps())); Take(catalog.GetCurrentBinding(Scope, Release, Caps()));
+            var key = PublishedContentCatalog.Key("source", prepared.SourceSha256);
+            if (change == "missing") memory.Blobs.Remove(key);
+            if (change == "tampered") memory.Blobs[key][0] ^= 127;
+            if (change == "io") memory.ThrowRead = true;
+            var rejected = catalog.ResolveExact(prepared.Binding, Caps()); Assert.IsFalse(rejected.IsAccepted);
+            Assert.AreEqual(change == "io" ? "Pending" : "RecoveryBlocked", rejected.RejectionCode);
+            SameRejection(new PublishedContentCatalog(memory, Caps()).GetCurrentBinding(Scope, Release, Caps()),
+                catalog.GetCurrentBinding(Scope, Release, Caps()));
+        }
+        [Test] public void CompletedPublicationStillUsesItsCallerBudget()
+        {
+            var catalog = new PublishedContentCatalog(WritableCopy(), Caps()); Take(catalog.ResolveExact(prepared.Binding, Caps()));
+            var result = catalog.Publish(prepared, prepared.Validation, Review(prepared), null, Operation,
+                new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 0)));
+            Assert.IsFalse(result.IsAccepted); Assert.AreEqual("BudgetExceeded", result.RejectionCode);
+        }
+        private MemoryStorage WritableCopy()
+        { var storage = new MemoryStorage(); foreach (var pair in records) storage.Blobs.Add(pair.Key, (byte[])pair.Value.Clone()); return storage; }
+        private static void SameRejection<T>(PublicationResult<T> full, PublicationResult<T> actual)
+        { Assert.IsFalse(full.IsAccepted); Assert.IsFalse(actual.IsAccepted); Assert.IsNull(actual.Value);
+            Assert.AreEqual(full.RejectionCode, actual.RejectionCode); Assert.AreEqual(full.FieldPath, actual.FieldPath); }
         private static string[] StoreFiles(string path)
         {
             var keys = new[] { "7b8acbc1fa35a17bfc6a0d91cda365950b6a18a84a0993e62bcd23feee447699", "650eb34931383b21667229e89a1425263ac630f69caaa54855017c2ab3d80647",

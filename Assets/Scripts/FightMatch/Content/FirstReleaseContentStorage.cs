@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FightMatch.Core;
 using FightMatch.Platform;
 using static FightMatch.Content.ContentChecks;
@@ -10,6 +11,9 @@ namespace FightMatch.Content
     public sealed class FirstReleaseContentStorage : IContentPublicationStorage
     {
         private readonly Dictionary<string, byte[]> records;
+        // Assigned only by Create, after complete admission and before this instance is returned.
+        private ResolvedPublication admitted;
+        private ContentConsumerCapabilities admittedCapabilities;
         private FirstReleaseContentStorage(Dictionary<string, byte[]> records) { this.records = records; }
         public static PublicationResult<FirstReleaseContentStorage> Create(byte[] source, byte[] payload, byte[] validation,
             byte[] review, byte[] publication, byte[] release, ContentConsumerCapabilities capabilities, ContentStoreBudget budget)
@@ -38,10 +42,19 @@ namespace FightMatch.Content
                 for (var i = 0; i < keys.Length; i++) { Need(!map.ContainsKey(keys[i]), "RecoveryBlocked", "FirstRelease.Keys"); map.Add(keys[i], files[indexes[i]]); }
                 var storage = new FirstReleaseContentStorage(map);
                 // The same Catalog owns hash, canonical source, review, receipt, capability and replay admission.
-                var admitted = new PublishedContentCatalog(storage, capabilities).GetCurrentBinding(set.Scope, set.ReleaseSetId, capabilities);
+                var admitted = new PublishedContentCatalog(storage, capabilities).ReadInitialPublication(set.Scope, set.ReleaseSetId, capabilities);
                 Need(admitted.IsAccepted, admitted.RejectionCode, admitted.FieldPath);
-                Need(binding.Same(admitted.Value), "RecoveryBlocked", "FirstRelease.Binding"); return storage;
+                Need(binding.Same(admitted.Value.Binding), "RecoveryBlocked", "FirstRelease.Binding");
+                storage.admitted = admitted.Value; storage.admittedCapabilities = capabilities; return storage;
             });
+        }
+        internal ResolvedPublication GetAdmitted(ContentBinding binding, ContentConsumerCapabilities consumer)
+        {
+            if (admitted == null || binding == null || consumer == null) return null;
+            return admitted.Binding.Same(binding) && consumer.MaxSourceBytes == admittedCapabilities.MaxSourceBytes &&
+                consumer.MaxCollectionEntries == admittedCapabilities.MaxCollectionEntries &&
+                consumer.MaxStringCodeUnits == admittedCapabilities.MaxStringCodeUnits &&
+                consumer.Capabilities.SequenceEqual(admittedCapabilities.Capabilities) ? admitted : null;
         }
         public byte[] Read(string key, int maxBytes)
         {

@@ -296,6 +296,94 @@ namespace FightMatch.Core.Tests
                 Assert.Throws<ArgumentNullException>(operation);
         }
 
+        [TestCase(8, 0, 15, 1, 17, 1, "255/1", 16)]
+        [TestCase(8, 0, -15, 1, 17, 1, "-255/1", 18)]
+        [TestCase(8, 0, -15, 1, -17, 1, "255/1", 20)]
+        [TestCase(8, 0, -128, 1, 1, 1, "-128/1", 18)]
+        [TestCase(9, 0, -256, 1, 1, 1, "-256/1", 18)]
+        [TestCase(32, 0, -128, 1, 256, 1, "-32768/1", 18)]
+        [TestCase(32768, 0, 128, 1, 256, 1, "32768/1", 16)]
+        [TestCase(32768, 0, -128, 1, -256, 1, "32768/1", 20)]
+        [TestCase(8, 0, 0, 1, 255, 1, "0/1", 4)]
+        [TestCase(8, 1, 127, 1, 128, 1, "255/1", 24)]
+        [TestCase(8, 1, -127, 1, -128, 1, "-255/1", 27)]
+        [TestCase(32768, 1, 127, 1, 128, 1, "255/1", 24)]
+        [TestCase(8, 0, 3, 5, -7, 11, "-21/55", 23)]
+        [TestCase(32768, 0, 3, 5, -7, 11, "-21/55", 23)]
+        [TestCase(8, 2, -3, 5, -7, 11, "33/35", 26)]
+        [TestCase(32768, 2, -3, 5, -7, 11, "33/35", 26)]
+        [TestCase(8, 3, -3, 5, -7, 11, "1", 13)]
+        [TestCase(32768, 3, -3, 5, -7, 11, "1", 13)]
+        public void PublicArithmetic_PreservesFrozenResultsAndEveryStepBoundary(int bits, int operation,
+            int n, int d, int otherN, int otherD, string expected, int steps)
+        {
+            // Fixed counts captured from the original implementation, not inferred from the new result.
+            var first = Value(n, d);
+            var second = Value(otherN, otherD);
+            var inputs = RationalText(first) + ":" + RationalText(second);
+            for (var allowed = 0; allowed <= steps + 1; allowed++)
+            {
+                var measured = new ExactMathBudget(bits, allowed);
+                string actual = null;
+                if (allowed < steps)
+                {
+                    AssertLimit("PrimitiveSteps", allowed + 1, allowed,
+                        () => actual = PublicArithmetic(first, second, operation, measured));
+                    Assert.IsNull(actual);
+                    Assert.AreEqual(allowed, measured.PrimitiveStepsUsed);
+                }
+                else
+                {
+                    Assert.AreEqual(expected, PublicArithmetic(first, second, operation, measured));
+                    Assert.AreEqual(steps, measured.PrimitiveStepsUsed);
+                }
+                Assert.AreEqual(inputs, RationalText(first) + ":" + RationalText(second));
+            }
+        }
+
+        [TestCase(8, 0, 15, 1, 18, 1, 10)]
+        [TestCase(8, 0, -15, 1, 18, 1, 12)]
+        [TestCase(8, 0, -15, 1, -18, 1, 14)]
+        [TestCase(8, 1, 128, 1, 128, 1, 15)]
+        [TestCase(8, 1, -128, 1, -128, 1, 17)]
+        [TestCase(8, 0, 1, 255, 1, 2, 17)]
+        [TestCase(8, 0, -1, 255, 1, 2, 19)]
+        [TestCase(8, 3, 255, 1, 1, 255, 6)]
+        [TestCase(8, 3, -255, 1, -1, 255, 7)]
+        [TestCase(8, 0, 0, 1, 256, 1, 3)]
+        public void PublicArithmetic_PreservesIntegerFailurePriorityAndConsumedSteps(int bits, int operation,
+            int n, int d, int otherN, int otherD, int failureSteps)
+        {
+            var first = Value(n, d);
+            var second = Value(otherN, otherD);
+            var inputs = RationalText(first) + ":" + RationalText(second);
+            for (var allowed = 0; allowed <= failureSteps + 1; allowed++)
+            {
+                var measured = new ExactMathBudget(bits, allowed);
+                string actual = null;
+                if (allowed < failureSteps)
+                    AssertLimit("PrimitiveSteps", allowed + 1, allowed,
+                        () => actual = PublicArithmetic(first, second, operation, measured));
+                else
+                    AssertLimit("IntegerBits", bits + 1, bits,
+                        () => actual = PublicArithmetic(first, second, operation, measured));
+                Assert.IsNull(actual);
+                Assert.AreEqual(Math.Min(allowed, failureSteps), measured.PrimitiveStepsUsed);
+                Assert.AreEqual(inputs, RationalText(first) + ":" + RationalText(second));
+            }
+        }
+
+        private static string PublicArithmetic(ExactRational first, ExactRational second, int operation,
+            ExactMathBudget measured)
+        {
+            if (operation == 0) return RationalText(first.Multiply(second, measured));
+            if (operation == 1) return RationalText(first.Add(second, measured));
+            if (operation == 2) return RationalText(first.Divide(second, measured));
+            return first.Compare(second, measured).ToString();
+        }
+
+        private static string RationalText(ExactRational value) => value.Numerator + "/" + value.Denominator;
+
         private ExactRational Value(long numerator, long denominator)
         {
             return ExactRational.Create(numerator, denominator, budget);

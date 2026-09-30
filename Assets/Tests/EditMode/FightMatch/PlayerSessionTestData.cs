@@ -26,13 +26,24 @@ namespace FightMatch.Core.Tests
         internal static PreparedCandidateLifecycleRequest Prepared(CandidateLifecyclePrepareResult result)
         { Assert.IsTrue(result.IsAccepted, result.Code + " " + result.Diagnostic?.FieldPath); return result.Request; }
         private static byte[][] realFiles;
+        private static readonly object realCatalogLock = new object();
+        private static PublicationResult<FirstReleaseContentStorage> realStorageResult;
         internal static PublishedContentCatalog RealCatalog()
         {
-            if (realFiles == null) realFiles = new[] { "fmsource.json", "fmpackage.bytes", "fmvalidation.bytes", "fmreview.json", "fmpublish.json", "fmrelease.json" }
-                .Select(s => File.ReadAllBytes("Assets/StreamingAssets/FightMatch/first-release." + s)).ToArray();
-            var storage = Content(FirstReleaseContentStorage.Create(realFiles[0], realFiles[1], realFiles[2], realFiles[3], realFiles[4], realFiles[5],
-                ContentConsumerCapabilities.Current, PublishedContentTestData.StoreBudget()));
-            return new PublishedContentCatalog(storage, ContentConsumerCapabilities.Current);
+            PublicationResult<FirstReleaseContentStorage> result;
+            lock (realCatalogLock)
+            {
+                result = realStorageResult;
+                if (result == null)
+                {
+                    if (realFiles == null) realFiles = new[] { "fmsource.json", "fmpackage.bytes", "fmvalidation.bytes", "fmreview.json", "fmpublish.json", "fmrelease.json" }
+                        .Select(s => File.ReadAllBytes("Assets/StreamingAssets/FightMatch/first-release." + s)).ToArray();
+                    result = FirstReleaseContentStorage.Create(realFiles[0], realFiles[1], realFiles[2], realFiles[3], realFiles[4], realFiles[5],
+                        ContentConsumerCapabilities.Current, PublishedContentTestData.StoreBudget());
+                    if (result.IsAccepted) realStorageResult = result;
+                }
+            }
+            return new PublishedContentCatalog(Content(result), ContentConsumerCapabilities.Current);
         }
         internal static PublishedSource RealSource() => Content(PublishedContentCodec.DecodeSource(
             File.ReadAllBytes("Assets/StreamingAssets/FightMatch/first-release.fmsource.json"), ContentConsumerCapabilities.Current, PublishedContentTestData.Math()));

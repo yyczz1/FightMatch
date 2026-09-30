@@ -24,7 +24,7 @@ namespace FightMatch.Content
         internal DemoContentReplayResult(DemoPreparedContent candidate, CandidateRandomBinding binding, byte[] seed,
             CandidateBattleRun run, List<CandidateReplayResult> replays, CandidateFixedBaseReward reward,
             string code = null, string path = null, int? failedStep = null)
-        { Candidate = candidate; Binding = binding; SeedBytes = seed == null ? null : Array.AsReadOnly((byte[])seed.Clone());
+        { Candidate = candidate; Binding = binding; SeedBytes = seed == null ? null : new List<byte>(seed).AsReadOnly();
             Run = run; RecordedReplays = replays.AsReadOnly(); Reward = reward; RejectionCode = code; FieldPath = path; FirstFailureStep = failedStep; }
     }
 

@@ -86,8 +86,15 @@ namespace FightMatch.Content
         private sealed class ProjectionBudget
         {
             private long remaining;
+            private readonly Dictionary<Type, PropertyInfo[]> properties = new Dictionary<Type, PropertyInfo[]>();
             internal ProjectionBudget(int bytes) { remaining = bytes; }
             internal void Take(long count) { Need(count <= remaining, "BudgetExceeded", "ProjectionBytes"); remaining -= count; }
+            internal PropertyInfo[] PropertiesFor(Type type)
+            {
+                if (!properties.TryGetValue(type, out var found))
+                { found = Properties(type); properties.Add(type, found); }
+                return found;
+            }
         }
         private static object Project(object value, ContentConsumerCapabilities limits, ExactMathBudget math, int depth, ProjectionBudget work)
         {
@@ -118,7 +125,7 @@ namespace FightMatch.Content
                 { Need(list.Count < limits.MaxCollectionEntries, "BudgetExceeded", "Collection"); list.Add(Project(item, limits, math, depth + 1, work)); }
                 return list;
             }
-            foreach (var p in Properties(value.GetType())) { work.Take(Utf8.GetByteCount(p.Name)); result.Add(p.Name, Project(p.GetValue(value), limits, math, depth + 1, work)); }
+            foreach (var p in work.PropertiesFor(value.GetType())) { work.Take(Utf8.GetByteCount(p.Name)); result.Add(p.Name, Project(p.GetValue(value), limits, math, depth + 1, work)); }
             Need(result.Count > 0, "UnsupportedSchema", "Type"); return result;
         }
         private static object ConvertValue(object node, Type type, ContentConsumerCapabilities limits, ExactMathBudget math, int depth)
@@ -177,11 +184,20 @@ namespace FightMatch.Content
         private sealed class JsonNumber { internal readonly string Text; internal JsonNumber(string text) { Text = text; } }
         private static void Put(MemoryStream stream, string text, int maximum)
         {
+            if (text.Length == 1 && text[0] < 128)
+            {
+                Need(1 <= maximum - stream.Length, "BudgetExceeded", "EncodedBytes");
+                stream.WriteByte((byte)text[0]); return;
+            }
             var count = Utf8.GetByteCount(text); Need(count <= maximum - stream.Length, "BudgetExceeded", "EncodedBytes");
             var bytes = Utf8.GetBytes(text); stream.Write(bytes, 0, bytes.Length);
         }
         private static string Quote(string text)
         {
+            var plain = true;
+            for (var i = 0; i < text.Length; i++)
+                if (text[i] < 32 || text[i] == '"' || text[i] == '\\') { plain = false; break; }
+            if (plain) return "\"" + text + "\"";
             var b = new StringBuilder("\""); foreach (var c in text)
             { if (c == '"' || c == '\\') b.Append('\\').Append(c); else if (c < 32) b.Append("\\u").Append(((int)c).ToString("x4")); else b.Append(c); }
             return b.Append('"').ToString();

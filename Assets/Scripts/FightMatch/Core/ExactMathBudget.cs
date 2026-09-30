@@ -65,9 +65,19 @@ namespace FightMatch.Core
             {
                 var leftMagnitude = Abs(left);
                 var rightMagnitude = Abs(right);
-                var available = Divide(maxMagnitude, rightMagnitude);
-                if (Compare(leftMagnitude, available) > 0)
-                    ThrowIntegerLimit();
+                // Reserve the original division step before inspecting either magnitude.
+                TakeStep();
+                // Signed byte lengths overestimate bit lengths; a sign byte only forces fallback.
+                var productBitsUpperBound = ((long)leftMagnitude.ToByteArray().Length
+                    + rightMagnitude.ToByteArray().Length) * 8;
+                if (productBitsUpperBound <= MaxIntegerBits)
+                    TakeStep(); // Preserve the original comparison charge, separately.
+                else
+                {
+                    var available = maxMagnitude / rightMagnitude;
+                    if (Compare(leftMagnitude, available) > 0)
+                        ThrowIntegerLimit();
+                }
             }
 
             TakeStep();

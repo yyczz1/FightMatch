@@ -65,7 +65,7 @@ namespace FightMatch.Content
         public IReadOnlyList<byte> CanonicalBytes { get; }
         public string Sha256 { get; }
         internal NewProfileDefinition(NewProfileDefinitionInput input, byte[] bytes)
-        { Id = input.Id; RecordVersion = input.RecordVersion; CanonicalBytes = Array.AsReadOnly((byte[])bytes.Clone()); Sha256 = PublishedContentCodec.Sha256(bytes);
+        { Id = input.Id; RecordVersion = input.RecordVersion; CanonicalBytes = new List<byte>(bytes).AsReadOnly(); Sha256 = PublishedContentCodec.Sha256(bytes);
             CharacterId = input.CharacterId; ClassId = input.ClassId; Level = input.Level; Experience = input.Experience; Hp = input.Hp; OriginalSlot = input.OriginalSlot; }
     }
     public sealed class ContentConsumerCapabilities
@@ -223,7 +223,7 @@ namespace FightMatch.Content
             : this(definitions, profile, receipt, Array.Empty<DemoParameterEvidence>()) { }
         internal ResolvedPublication(PublishedRuleDefinitions definitions, NewProfileDefinition profile, byte[] receipt,
             IReadOnlyList<DemoParameterEvidence> parameters, IReadOnlyList<DemoContentReplayResult> references = null)
-        { Definitions = definitions; NewProfile = profile; ReceiptBytes = Array.AsReadOnly(receipt);
+        { Definitions = definitions; NewProfile = profile; ReceiptBytes = new List<byte>(receipt).AsReadOnly();
             Parameters = new List<DemoParameterEvidence>(parameters).AsReadOnly();
             defaultReferences = new List<DemoContentReplayResult>(references ?? Array.Empty<DemoContentReplayResult>()).AsReadOnly(); }
     }

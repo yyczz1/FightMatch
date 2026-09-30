@@ -145,6 +145,99 @@ namespace FightMatch.Core.Tests
             Assert.IsNull(decoded.Progression.Levels[0].UnlockAfterLevelId);
             CollectionAssert.AreEqual(actual.PayloadBytes, Encode(decoded));
         }
+        [Test] public void EncodingKeepsCanonicalMetadataOrderAndReadsFreshValuesOnEveryCall()
+        {
+            var original = Take(PublishedContentCodec.DecodeSource(actual.PayloadBytes.ToArray(), Caps(), Math()));
+            var source = Take(PublishedContentCodec.DecodeSource(actual.PayloadBytes.ToArray(), Caps(), Math()));
+            var math = Math(); var bytes = Take(PublishedContentCodec.EncodeSource(source, Caps(), math));
+            Assert.AreEqual(1283, math.PrimitiveStepsUsed); Assert.AreEqual(11486, bytes.Length);
+            Assert.AreEqual("b2247d3f951626edfdf25753520f3421dc20e8d8cab7731c9ab3ba6ece1a5129", PublishedContentCodec.Sha256(bytes));
+            var json = Encoding.UTF8.GetString(bytes); var prefix = "\"Coordinates\":\"AssumedBottomLeft\",";
+            Assert.IsTrue(json.StartsWith("{" + prefix, StringComparison.Ordinal));
+            var reordered = "{" + json.Substring(1 + prefix.Length, json.Length - prefix.Length - 2) + "," + prefix.TrimEnd(',') + "}";
+            CollectionAssert.AreEqual(bytes, Encode(Take(PublishedContentCodec.DecodeSource(Encoding.UTF8.GetBytes(reordered), Caps(), Math()))));
+            source.DraftId = "中文🧩\"\\\n\u0000"; source.SourceNotes = new List<string> { null, "", "\b\f\n\r\t/\"\\" };
+            var notes = source.SourceNotes.ToArray(); var changed = Encode(source);
+            Assert.AreEqual("d6bb25169f4bf8eca37f70b713231aa5aa0ddd5a61ebc5b237abe5468bfe53c8", PublishedContentCodec.Sha256(changed));
+            var decoded = Take(PublishedContentCodec.DecodeSource(changed, Caps(), Math()));
+            Assert.AreEqual(source.DraftId, decoded.DraftId); CollectionAssert.AreEqual(notes, decoded.SourceNotes);
+            CollectionAssert.AreEqual(notes, source.SourceNotes); CollectionAssert.AreEqual(changed, Encode(decoded));
+            source.DraftId = "second"; source.SourceNotes[0] = "new value";
+            Assert.AreEqual("037ccc2185ef34e4b6a998be95a8d847dc394dbe35d935bbe9a58f16eb78e9f9", PublishedContentCodec.Sha256(Encode(source)));
+            CollectionAssert.AreEqual(bytes, Encode(original));
+        }
+        [TestCase("bytes", 0, "ProjectionBytes", 0)] [TestCase("bytes", 1, "ProjectionBytes", 0)]
+        [TestCase("bytes", 11485, "EncodedBytes", 1283)] [TestCase("bytes", 11486, null, 1283)] [TestCase("bytes", 11487, null, 1283)]
+        [TestCase("collection", 1, "Object", 0)] [TestCase("collection", 2, "Collection", 326)]
+        [TestCase("collection", 30, "Collection", 348)] [TestCase("collection", 31, null, 1283)]
+        [TestCase("string", 8192, null, 1283)] [TestCase("string", 8193, "String", 0)]
+        [TestCase("steps", 0, "Math", 0)] [TestCase("steps", 1, "Math", 1)] [TestCase("steps", 2, "Math", 2)]
+        [TestCase("steps", 1282, "Math", 1282)] [TestCase("steps", 1283, null, 1283)] [TestCase("steps", 1284, null, 1283)]
+        public void EncodingPreservesMeasuredBudgetBoundariesAndCharges(string kind, int maximum, string field, int used)
+        {
+            var source = Take(PublishedContentCodec.DecodeSource(actual.PayloadBytes.ToArray(), Caps(), Math()));
+            if (kind == "string") source.DraftId = new string('x', maximum);
+            var before = Take(PublishedContentCodec.EncodeSource(source,
+                new ContentConsumerCapabilities(Caps().Capabilities, maxStringCodeUnits: 8193), Math()));
+            var caps = new ContentConsumerCapabilities(Caps().Capabilities,
+                maxSourceBytes: kind == "bytes" ? maximum : 262144, maxCollectionEntries: kind == "collection" ? maximum : 512);
+            var math = new ExactMathBudget(maxPrimitiveSteps: kind == "steps" ? maximum : 16000000);
+            var result = PublishedContentCodec.EncodeSource(source, caps, math);
+            Assert.AreEqual(field == null, result.IsAccepted); Assert.AreEqual(field, result.FieldPath);
+            Assert.AreEqual(field == null ? null : "BudgetExceeded", result.RejectionCode); Assert.AreEqual(used, math.PrimitiveStepsUsed);
+            if (result.IsAccepted) CollectionAssert.AreEqual(before, result.Value);
+            CollectionAssert.AreEqual(before, Take(PublishedContentCodec.EncodeSource(source,
+                new ContentConsumerCapabilities(Caps().Capabilities, maxStringCodeUnits: 8193), Math())));
+        }
+        [TestCase(0, "InvalidUnicode", "String")] [TestCase(1, "InvalidUnicode", "String")]
+        [TestCase(2, "BudgetExceeded", "ProjectionBytes")] [TestCase(3, "BudgetExceeded", "String")]
+        public void EncodingPreservesUnicodeFailurePriority(int kind, string code, string field)
+        {
+            var source = Source(); source.DraftId = "\ud800"; var notes = source.SourceNotes.ToArray();
+            var caps = new ContentConsumerCapabilities(Caps().Capabilities, maxSourceBytes: kind == 2 ? 1 : 262144,
+                maxStringCodeUnits: kind == 3 ? 0 : 8192);
+            var math = new ExactMathBudget(maxPrimitiveSteps: kind == 1 ? 0 : 16000000);
+            PublicationResult<byte[]> result = null;
+            Assert.DoesNotThrow(() => result = PublishedContentCodec.EncodeSource(source, caps, math));
+            Assert.AreEqual(code, result.RejectionCode); Assert.AreEqual(field, result.FieldPath); Assert.AreEqual(0, math.PrimitiveStepsUsed);
+            Assert.AreEqual("\ud800", source.DraftId); CollectionAssert.AreEqual(notes, source.SourceNotes);
+        }
+        [TestCase(-256, false, 1)] [TestCase(-255, true, 6)] [TestCase(0, true, 2)] [TestCase(255, true, 5)] [TestCase(256, false, 1)]
+        public void EncodingPreservesIntegerBitBoundaries(int revision, bool accepted, int used)
+        {
+            var source = new PublishedSource { SchemaVersion = 1, Revision = revision }; var math = new ExactMathBudget(8, 16);
+            var result = PublishedContentCodec.EncodeSource(source, Caps(), math);
+            Assert.AreEqual(accepted, result.IsAccepted); Assert.AreEqual(used, math.PrimitiveStepsUsed);
+            Assert.AreEqual(accepted ? null : "BudgetExceeded", result.RejectionCode); Assert.AreEqual(accepted ? null : "Math", result.FieldPath);
+            Assert.AreEqual(new BigInteger(revision), source.Revision);
+        }
+        [TestCase(0, "ProjectionBytes")] [TestCase(1, "EncodedBytes")] [TestCase(2, "EncodedBytes")]
+        [TestCase(3, "EncodedBytes")] [TestCase(4, null)] [TestCase(5, null)]
+        public void EncodingNullPreservesProjectionAndOutputByteBoundaries(int maximum, string field)
+        {
+            var math = Math(); var result = PublishedContentCodec.EncodeSource(null,
+                new ContentConsumerCapabilities(Caps().Capabilities, maxSourceBytes: maximum), math);
+            Assert.AreEqual(field == null, result.IsAccepted); Assert.AreEqual(field, result.FieldPath); Assert.AreEqual(0, math.PrimitiveStepsUsed);
+            Assert.AreEqual(field == null ? null : "BudgetExceeded", result.RejectionCode);
+            if (result.IsAccepted) CollectionAssert.AreEqual(Encoding.UTF8.GetBytes("null"), result.Value);
+        }
+        [TestCase(4096, true)] [TestCase(4097, false)] public void EncodingPreservesDecimalTokenLimit(int digits, bool accepted)
+        {
+            var source = new PublishedSource { SchemaVersion = 1, Revision = BigInteger.Pow(10, digits - 1) }; var math = Math();
+            var result = PublishedContentCodec.EncodeSource(source, Caps(), math);
+            Assert.AreEqual(accepted, result.IsAccepted); Assert.AreEqual(accepted ? null : "Integer", result.FieldPath);
+            Assert.AreEqual(accepted ? null : "BudgetExceeded", result.RejectionCode); Assert.AreEqual(5, math.PrimitiveStepsUsed);
+            Assert.AreEqual(BigInteger.Pow(10, digits - 1), source.Revision);
+        }
+        [TestCase(1, false, 2)] [TestCase(2, true, 18)] public void EncodingPreservesRationalObjectLimit(int maximum, bool accepted, int used)
+        {
+            var source = new PublishedSource { SchemaVersion = 1, NewProfile = new NewProfileDefinitionInput { Hp = ExactRational.Create(1, 2, Math()) } };
+            var math = Math(); var result = PublishedContentCodec.EncodeSource(source,
+                new ContentConsumerCapabilities(Caps().Capabilities, maxCollectionEntries: maximum), math);
+            Assert.AreEqual(accepted, result.IsAccepted); Assert.AreEqual(accepted ? null : "Object", result.FieldPath);
+            Assert.AreEqual(accepted ? null : "BudgetExceeded", result.RejectionCode); Assert.AreEqual(used, math.PrimitiveStepsUsed);
+            Assert.AreEqual(BigInteger.One, source.NewProfile.Hp.Numerator); Assert.AreEqual(new BigInteger(2), source.NewProfile.Hp.Denominator);
+        }
         [Test] public void Above31UsesFinalExactCoefficientAndChangedRevisionHasNewFingerprint()
         {
             var s = Fixture(); s.NewProfile.Level = 32; s.NewProfile.Hp = ExactRational.Create(348, 1, Math());
