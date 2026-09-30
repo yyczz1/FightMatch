@@ -1,0 +1,32 @@
+@import url("unity-theme://default");
+
+#fightmatch-host {
+    background-color: rgb(17, 22, 31);
+    color: rgb(230, 236, 244);
+    padding: 12px;
+    font-size: 20px;
+}
+#host-header { flex-direction: row; flex-wrap: wrap; align-items: center; }
+#host-header > Label { font-size: 26px; flex-grow: 1; }
+#fightmatch-host Label { white-space: normal; margin: 4px 2px; flex-shrink: 0; }
+#fightmatch-host Button {
+    min-height: 48px;
+    padding: 8px 12px;
+    margin: 4px;
+    white-space: normal;
+    background-color: rgb(41, 63, 82);
+    color: rgb(245, 247, 251);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+#fightmatch-host Button:hover { background-color: rgb(55, 84, 108); }
+#fightmatch-host Button:disabled { color: rgb(158, 163, 173); background-color: rgb(35, 40, 49); }
+#fightmatch-host .unity-base-field { min-height: 48px; margin: 4px; flex-shrink: 0; }
+#fightmatch-host .unity-base-field__input { font-size: 20px; min-height: 40px; }
+#host-navigation, #host-battle, #host-license { flex-grow: 1; }
+#battle-actions, #members { flex-direction: row; flex-wrap: wrap; }
+#battle-actions > Button, #members > Button { flex-grow: 1; min-width: 120px; }
+#host-quit { background-color: rgb(35, 43, 57); padding: 20px; margin-top: 20px; }
+#host-license { background-color: rgb(17, 22, 31); }
+#navigation-status, #navigation-availability { color: rgb(169, 188, 208); }
+#candidate-board { margin: 8px 0; }
