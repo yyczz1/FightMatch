@@ -1,6 +1,6 @@
 # FightMatch · 下一批独立系统设计任务包
 
-2026-09-29 · r233 · **SD00只做设计、分发与收件。** 最新夜间授权§438要求首Demo后固定可试玩版本并继续既有计划中的安卓开发，不按包等待；真机缺口须保留并推进独立工作。CONT-C已ACCEPT并推送master14f0bd7；028已由独立R正式ACCEPT，保留006完整4010/4011＋FIX1修正单项1/1组合证据；正在保存推送并接续029安卓宿主。首Demo APK/设备流程未验收。C/R继续、Unity仅C串行、保留有效证据，不恢复定时任务。
+2026-09-30 · r268 · **SD00只做设计、分发与收件。** 029打包正式交回BUILD_READY_DEVICE_PENDING，§457安全暂停条件已达到，收件见§461。014 Compile、015 Host30/30、016全量4041/4041通过，018 QA与019正常APK已保存；019原包装误报保留，§460只读补证通过，验证器未修复。临时设置和构建进程已收尾，029已按§467用户授权保存WIP版本，推送状态见版本日志；设备验收和独立产品R待恢复。CONT-C/028已ACCEPT且master9d416e6已推送。用户另在C发起BlueStacks安装小任务，不能据此恢复主Goal后续开发；MonitorControl更新是暂停后的单独授权。
 
 ## 1. 所有包共用的执行约束
 
@@ -8365,3 +8365,574 @@ R仅可新建`docs/system-design/2026-09-17/demo-028-mac-r1-code-review.md`，�
 
 
 §442提交前追加：逐件重核当前828源码/858Assets与FIX1最终快照一致，40个待提交路径全部在批准C/R/SD00范围内。首次暂存后完整git diff --cached --check检出十份Unity自然新meta的30处空值字段行尾空格（各第9～11行userData/assetBundleName/assetBundleVariant）；其他路径检查exit0。严格保留R已核定的原meta字节和GUID，不为格式检查改写生成资产；这项精确例外不豁免作者源码空白。新SD00防休眠PID24292，caffeinate -i -t43200，仅本会话持有。
+
+
+## 443. DEMO-029-MAC-R1：同源安卓宿主、构建与分阶段设备验收
+
+状态：**APPROVED_FOR_IMPLEMENTATION**。028已按§442独立ACCEPT并正常提交推送，源码commit`9d416e6c9d3c794be355f903b3636c856783601e`；本次已实际ls-remote核origin/master相同。沿用户§438持续安卓开发授权执行；029仍属于同一产品的首Demo路径，不另建业务、协议或假流程。无须用户重复批准普通技术决定。现有C实施、串行Unity；R最终独立审查；SD00设计/派发/接收。
+
+**固定合同。** 只读计划`docs/system-design/2026-09-17/demo-029-mac-r1-plan.json`，354689bytes/SHA`cfe1ef8ae52ba4fa9daea475d3f4571d88cdbfe47b87ce89ba7e5a8eb59bd6f1`，列出全部55个新Assets成员、6个其他C路径（含一个旧设置文件）、预算、固定输入、工具参数、507个精确证据叶、有限APK输出及I/O例外；未列路径全部只读。采用原029设计稿全部共同语义，§435实际NDK常量、§437现有028接口、§438候选/真机阶段和§439测试顺序优先于其旧历史句子。草稿内“首Demo后结束”被§438覆盖；旧CONT-C未完成、小写application路径与旧Unity目录猜测均仅历史。
+
+C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local、R thread01a0e404-e8ee-7310-8388-9260babd53f1/local，gpt-6-astra/max。本轮新准确C turn派发后在冻结段外记录，所有root/run/报告绑定新turn，不能复用028作者turn。C不创建代理/聊天/定时任务，不作Git写入；SD00按独立接收后版本授权正常保存。
+
+**实现范围。** 新Host四cs及asmdef组合现有唯一FightMatchDemoArchitecture、PlayerSession、Navigation与028 battle controller；新Android两存储适配；新Editor构建/资源准备入口；四个Host EditMode测试及三个Android QA测试与各自asmdef。场景FightMatchDemo、PanelSettings、TSS、固定Noto字体/Dynamic FontAsset/许可及自然meta共55个Assets成员，逐项路径/预算在计划展开。旧858Assets全部冻结，唯下面UTF临时场景例外；原SampleScene、六件首包、Core算法、旧测试/API、Packages及lock不改。源码保持正常可读排版，不压多句绕行数限制。
+
+新工具`Tools/Invoke-FM029Validation.ps1`≤500行，只服务固定029计划和新证据根；旧025/028工具保持原字节。新`Tools/FM029AndroidTestSettings.json`为UTF已有IL2CPP、ARM64、APK配置，不新增依赖。正式设置唯一旧文件ProjectSettings.asset只允许Android包名com.yyczz1.fightmatch、IL2CPP、ARM64、Minimal及TargetSDK32；保留MinSDK22、version0.1/code1、company/product和其他平台。签名/UTF临时字段按计划快照恢复，秘密不进入文件/日志/Git；EditorBuildSettings不改，BuildPipeline显式传本场景。
+
+**H01～H04启动和路由硬门。** Host只拥有一个架构和原导航/battle controller；重复宿主不能接管或Deinit别人的实例，普通页面Detach不释放业务/原请求；关闭本人宿主才顺序释放一次。暂停/失焦只沿原Playback.SkipToFinal，不额外结束、结算或新H02。六件StreamingAssets在Android用有界UnityWebRequest，每件≤min16MiB/原预算、总≤32MiB，在ReceiveData前校验增长；固定原字节交FirstReleaseContentStorage/Catalog核准入，不用磁盘File.ReadAllBytes读取JAR、不回退测试内容。
+
+真实产品根为实际Application.persistentDataPath/FightMatch，其locator/profiles分根并记录系统返回值与规范根；默认保全旧资料。LocalPlayerProfileLocator.Read=Absent不等于真空：只允许已知空根/locator/profiles和locator/writer.lock技术叶；其余实物、读/权限失败、未知p-*目录均阻塞新PlayerId。明确创建必须fresh核根/原观察，PrepareNewRosterProfile仅一次并先保留对象，再CreateNew；重复/同步重入/重绑继续同一对象。CreateIntentRecorded→RecoverCreateIntent/ContinueCreate；Active→OpenExisting，已打开恢复走Restore；原F2、S17、schema2→3与schema3→4各按既定显式恢复/迁移，不自动改档。能力取真实RequiredRecoveryContracts/Features与已核发布，ID/时间/熵由原生产负责者产生。
+
+原HostRequest只交028 AcceptHost，内部owner/revision/head/binding/H02由原负责者核；不再Prepare入场。Changed早于HostRequested，不能在Changed无条件Refresh重入。地图/队伍/背包返回只受控Refresh原导航；明确CommittedResult沿当前context调用OpenOriginalResult指定原operation，Record.Intent→QueryOperation归028；历史Result残留不自动重开，合法再次查看同一operation不能永久屏蔽。角色不默认自动选中，RootBack明示退出应用，不伪装退出战斗。
+
+**A01～A03平台与资源。** Android生产存储只在原接口适配；Bionic open独立持fd→非阻塞flock→解锁/close，不把IL2CPP SafeFileHandle当fd。仅真实锁争用映射Busy，其他失败保留；CreateNew、仅本实例创建流Flush(true)、原协议种类/commit的同目录提升保持。File.Move无覆盖仅承诺合作写者持同原生租约范围，不夸为内核no-replace；故障模型保留EditorProcessCrash历史枚举，不声称断电强保证。系统合法根别名可规范化，产品子树越界/末端/悬空链接拒绝；locator与profiles分开、UTF16身份派生和所有保存字节不改。实际Android双PID租约/死亡释放/持久化断点恢复和内容反射/AOT需要真实QA证据，Mac不可替代。
+
+Noto Sans CJK SC Regular2.004和OFL使用计划固定官方commit/完整SHA；直接落外置项目白名单，生成TextCore Dynamic FontAsset与内嵌材质/图集，场景引用字体、主题及PanelSettings，许可随包可查看。目标中文与安全区/棋盘/按钮仍按真实屏幕核；源码或字体文件存在不是可读证据。不引TMP/额外包、系统字体副本或默认全程序集link.xml；实际裁剪缺口先给精确补签需求。
+
+**资源准备与验证顺序。** C先完成源码/直接测试/静态，按签准PrepareResources串行生成新资源和自然meta，再固定字节。新工具用当前规范外置Unity，Mac命令显式-buildTarget osxuniversal，Android命令显式-buildTarget android；具体argv模板和有限20槽在计划。先Compile→精确FightMatch.Host.Tests诊断，修复新失败后再Compile/必要新范围；固定最终源后一次无filter/assembly/category且无quit完整EditMode，保留028的4011具名出现及旧3956多重集合、零失败/跳过。不能拿限程序集冒称全量；无新失败/修复/源变不追加长回归。
+
+成功Mac编译/测试须源/资产/工具/目标/DLL同版，完整期间不得修改被测文件。转Android前保全Mac产物，AndroidQA与正常APK按各自真实目标记录新DLL/IL2CPP，不能要求跨目标字节相同或据Mac声明Android通过。C启动前确认无另一Unity占同工程、全程串行、真实PID/UTC/argv/退出/日志/XML/BuildReport；超过计划阈值只做一次有界只读诊断，不自动杀Unity或重启。最多资源准备2/Compile4/HostTests3/完整2/QA构建3/正常构建3，仅实际新问题触发后续槽，不是要求全部执行。超范围时具体返回，不盲目耗尽。
+
+**APK与QA。** 正常Demo为同产品开发构建，com.yyczz1.fightmatch、ARM64/IL2CPP/Minimal、0.1/code1/Min22/Target32；仅Development，不含测试程序集/QA控制、脚本调试或自动连接Profiler。不是应用商店发布/性能认证；development允许在本任务同UID只读取验收见证，后续正式版沿相同包名/签名/保存语义升级。QA独立com.yyczz1.fightmatch.qa，IncludeTestAssemblies且只收限定AndroidTests；固定case/phase/run，不接受任意根或写正常档。先核已有安装和证书，冲突时保全，不clear data/卸载/换包名伪装恢复。两APK使用外置Git外持久签名，已有匹配key复用，否则新建指定私有key/password文件并保留，值不输出；仅证书指纹可入报告。
+
+UTF1.1.33使用Android testPlatform/buildPlayerPath/testSettingsFile；QA modifier严格核本stage/Android/程序集/本槽APK路径，移除AutoRun/ConnectToHost/WaitForPlayerConnection，BuildReport成功后才正常退出。原-doNotReportTestResultsBackToEditor与新增-fm029QaBuildOnly区别明确。每次只准UTF自然生成清理一对InitTestScene数字.unity/meta，记录精确实物与清理；包名/stripEngineCode等临时字段恢复，原正式源/设置核定。AndroidQaRun输出完整ToXml(true)；被故意终止阶段无XML不能算通过，须终止点见证、真实旧PID消失和新PID恢复完整结果。双PID优先run-as同UID toybox flock fd9；实际探针失败再提最小方案，不添加服务框架。只可终止本任务QA/锁持有者进程，正常Player退出另标，绝不杀其他应用或Unity。
+
+**I/O、环境和证据边界。** 原CONT-C物理根现有3719cases/28188entries冻结，029仅允许原测试继续新GUID cases；本包显式上限6144cases/40000files+links，完整前预留768/8192，保留旧目录，不清理扩容掩失败。Host新fixture仅在TestArtifacts/FMDemo029/mac-r1/host-io，最多256cases/8192files+links；真实设备QA与正常产品根另按实际system path绑定，二者不混用。盘点lstat不跟随链接，前后旧条目字节/类型/目标保持。
+
+大型安装无需重做；规范Android模块根是Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer（Unity.app兄弟），复用SDK/NDK/JDK/Gradle。C无Unity活动时可只校正这几个Android工具路径偏好并记前后；每次构建显式外置GRADLE_USER_HOME/ANDROID_USER_HOME/ANDROID_AVD_HOME。所有外置缓存和签名路径列于计划；不改系统安全保护、升级Unity/依赖/移动在用工具。当前BlueStacks ADB未连通、iQOO未连接；旧在线数据不当本轮证据。因§442记录一次CUA请求阻塞约8h23m，**本C回合不调用cua_repl**，先用文件/SDK CLI完成所有独立源码/构建/可执行测试；不能等窗口工具阻塞开发。不可获得的真实界面/人工输入门准确待验，不用文字推演当验收。
+
+**逐阶段收件。** 029原M01～M10和P1胜利结算→P2同资料重开/重打/Restart/Exit/非终局保存→P3首次输入前核原Attempt/Challenge/Baseline/三RNG/history并续行动，保持真实正常输入与同安装/同根。禁止注入胜利/HP/随机/存档，禁止fixture替代正常试玩；默认参考/回退/无下一关/无配方忠实原发布，M09不可达路径NOT VERIFIED。模拟器和iQOO各自记录，不能互代；本轮缺物理接入不阻断已授权独立工作。
+
+C先尽力完成全部独立源码、静态、Compile/HostTests/完整回归、QA与正常APK构建及指南，再按实际设备通路推进。若设备/屏幕仍确实不可得，返回**BUILD_READY_DEVICE_PENDING**及具体未验门，SD00另派仅对应实现/构建阶段的独立审查并保存未验设备的构建候选，不能说029整体或首Demo ACCEPT。模拟器适用门完成并经独立R后可标模拟器候选；iQOO真实门齐备才标首Demo正式完成。任何阶段的C完成都需准确turn completed＋正式两报告和实际manifest；随后R唯一对应范围verdict。按§438保留版本并继续其他已批准安卓工作，不把手机缺口变成全线停止。
+
+C交付两份本目录demo-029-mac-r1-delivery.md（≤240行）/code-scope.json（≤4MiB），并编写docs/demo/PLAY_FIRST_DEMO.md（≤220行），只填真实APK/签名公开指纹/安装操作/玩家流程/具体边界。R另写≤320行demo-029-mac-r1-code-review.md。APK不进Git；源码/许可资源/真实审查/验收/指南由SD00独立接收后提交推送。私钥口令/缓存/真实玩家存档不提交，不发布外部Release；未有可运行证据不打正式Demo标签。
+
+<!-- DEMO-029-MAC-R1-PACKET-END -->
+
+§443冻结身份：11901bytes/SHA`0feff8b12727395fdd5fee0dd4c798ed9813a0e13c2b45867251b0547af081b4`（标题至独立结束标记、UTF-8无BOM/LF/单尾LF）。计划354689bytes/SHA`cfe1ef8ae52ba4fa9daea475d3f4571d88cdbfe47b87ce89ba7e5a8eb59bd6f1`。实际作者turn另登记，不修改冻结段。
+
+
+§443实际派发：C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local，gpt-6-astra/max；准确作者turn01a0eaf3-31c0-7d83-9dfc-31c24012946f，startedAt1790648201，工具核inProgress/error=null。root/run/报告绑定此turn；其开始前Git源码基线9d416e6已push并核远端一致。此映射不回填§443或固定计划。
+
+
+## 444. 029执行合同有界只读预检（不替代产品审查）
+
+C已在§443范围实施；SD00同时委托现有R以gpt-6-astra/max只读核本次固定执行合同中的实质可执行性/矛盾，限定新工具Mode/次数映射、精确证据与host-io例外、平台目标和资源/QA临时设置、正常Development/Minimal测试排除及设备不可用阶段。读取§443/固定计划/旧029设计与必要现有Unity/UTF文档/包源码，不审正在写的新029产品，不运行任何Unity/测试/构建，不调用CUA，不写任何文件或Git、不新建聊天/代理。仅正式final报告具体合同缺口和最小澄清，或未发现实质缺口，不给当前产品ACCEPT。必要澄清由SD00另追加，不回改§443及其固定计划；正常产品审查仍等C完整完成门。
+
+
+§444实际R咨询turn：01a0eaf5-a7f0-7190-ab6a-04935496e2b6，startedAt1790648362，thread01a0e404-e8ee-7310-8388-9260babd53f1/local，gpt-6-astra/max；工具已核inProgress/error=null。仅执行合同咨询，无文件写入与产品verdict。
+
+
+## 445. 029 QA输出、清理及临时设置执行澄清
+
+状态：**APPROVED_EXECUTION_CLARIFICATION**，即刻用于§443当前C回合；不改产品规则、不扩源码文件/行数/证据/APK白名单、不改固定计划原字节。原§443与JSON继续作为基合同，本节仅澄清其具体QA执行条款。C继续已授权存储/宿主实现，无需等待用户重复授权。
+
+来源：§444 R只读咨询turn01a0eaf5-a7f0-7190-ab6a-04935496e2b6已completed/error=null，startedAt1790648362、completedAt1790648780、duration417548ms，正式msg_0d29bf8d726d8dc0016abb21be6a1487d096c4ac8c7a39580e指出两处合同缺口，其他指定范围无实质缺口；不是产品verdict。SD00直接复读UTF1.1.33 PlayerLauncher、PlayerLauncherContextSettings、AndroidPlatformSetup确认以下顺序。
+
+**1. 保持精确APK输出，不接受UTF拼接副产物。** QaBuild的-buildPlayerPath仍提供本槽批准的精确fightmatch-qa.apk标识；UTF把该值当目录前缀并继续拼接PlayerWithTests/PlayerWithTests.apk。已批准的QA modifier必须同时核阶段、Android目标、FightMatch.Android.Tests、CLI原参数与本槽精确白名单，随后显式把BuildPlayerOptions.locationPathName覆为该精确APK文件。不得只移除AutoRun等标志却沿用UTF拼接路径；不得扩大APK叶白名单、生成嵌套.apk目录或移动一个未授权APK来补救。允许既有Builds父目录自然创建，实际文件只能在原列出的本槽APK位置。正常DemoBuild输出不变。
+
+**2. 在UTF设置覆盖前持有真实快照，清理后才能退出。** 本stage的获准Editor构建代码须在UTF的Context/AndroidPlatformSetup修改前捕获原值；不能等ModifyOptions已运行后才把临时值当原值。快照只写现有本槽temporary-settings.json，秘密不输出。实际QA包名在modifier中固定com.yyczz1.fightmatch.qa，正常包com.yyczz1.fightmatch保持。UTF成功分支移除AutoRun后不会依赖远端RunFinished调用AndroidPlatformSetup.CleanUp，且该类本身不复原waitForPlayerConnection；本stage负责最后恢复这些遗留状态。
+
+不得在BuildReport/构建回调内立即EditorApplication.Exit。先记录真实BuildReport和APK，令PlayerLauncher.Run自然完成PostBuildAction、PostBuildCleanup、重开原scene、删除唯一临时scene/meta并离开PlayerLauncherContextSettings的using/Dispose。可在已核本stage的延后Editor回调中，验证上述自然清理和原场景/设置恢复后，再补齐平台遗留值恢复、逐字段/文件核对、记录result，最后正常Exit。仅BuildReport实际Succeeded＋精确APK存在/身份＋清理/设置核对都成功，才可exit0；失败同样恢复并留实际错误，不强改成功、不通过杀Unity或单凭固定延迟结束。不得调用/修改UTF私有实现或Package文件。
+
+临时例外精确展开（只在QA构建窗口、前后恢复）：PlayerSettings.Android applicationIdentifier、stripEngineCode、displayResolutionDialog、runInBackground、fullScreenMode、aotOptions、resizableWindow、SplashScreen.show、productName；测试设置的Android scriptingBackend/architecture/androidBuildAppBundle；已有批准的临时签名配置（密码只在内存）；EditorUserBuildSettings.waitForPlayerConnection、explicitNullChecks，以及本机UTF确实触及的androidDeviceSocketAddress；Lightmapping.giWorkflowMode；EditorBuildSettings.scenes。后两者与scene操作仅UTF/本stage恢复必要的API行为，不能保存对旧场景/Lighting资源的变化。ProjectSettings/EditorBuildSettings.asset的场景数组如被UTF临时触及，必须恢复原字节，不能永久登记Demo或测试场景；它仍不计最终作者变更文件。生成缓存/UserSettings只经Unity正常API，不手工编辑。未发生实际变化的字段按原值核对，不人为把所有字段都改一次。任一原受保护文件最终未恢复，停止后继构建/安装并报实际差异。
+
+**3. 模式和配额的名称对应。** 计划toolContract中的PrepareAssets→boundedRuns.ResourcePrepare（2），FullTests→FinalFullEditMode（2），DemoBuild→ReleaseBuild（3）；Compile（4）、HostTests（3）、QaBuild（3）同名。总计20槽是目录上界，六模式配额合计17，不表示必须用满。所有追加仍必须有实际新失败/修复/源变；不增加次数或默认重复完整回归。
+
+C在root-identity/交付/范围中追加本冻结澄清的长度/SHA，唯一新工具据此落实；原固定计划身份不变，现有只读基线无需重做、无需重跑旧测试。R正式产品审查时同时核§443/445及实际执行证明，不仅依作者说已恢复。
+
+<!-- DEMO-029-MAC-R1-QA-CLARIFICATION-END -->
+
+§445冻结身份：4733bytes/SHA`d1e14b3bd755c605b9f1e1d43166b6229b0a9ceeab9f5ad2b751ca79e9493c9c`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 446. 029 QA自动图形API临时字段补签
+
+状态：**APPROVED_EXECUTION_CLARIFICATION**，仅补齐§445的一个UTF临时字段，即刻适用于当前C turn01a0eaf3-31c0-7d83-9dfc-31c24012946f。原§443/445和固定计划不改；没有新路径、行数、运行次数、APK或测试范围。
+
+C回报UTF1.1.33的TestSettings会临时关闭Android自动图形API。SD00实读本机PackageCache内TestSettings.cs第89～95、138～139、142～194行：autoGraphicsAPIs是非nullable bool，Setup保存原值并调用PlayerSettings.SetUseDefaultGraphicsAPIs；Dispose/Cleanup恢复原值。故即使测试设置JSON不指定playerGraphicsAPI，默认false仍会触及该开关。此为实际工具行为，非要求重新选择项目渲染方案。
+
+在已限定QaBuild窗口，允许UTF及本stage必要恢复调用PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, value)。在UTF覆盖前快照Android的GetUseDefaultGraphicsAPIs值；同时只读记录GetGraphicsAPIs的有序值，构建后核原开关和列表均保持。沿§445先等UTF自然清理/Dispose，再补齐确实残留的开关并核验；不人为改一遍未变化设置，不选择新的GraphicsDeviceType，不改其他平台，不把临时false保留为永久ProjectSettings变更。原受保护文件或图形列表最终不符即停止后继并报告实物，不清理证据掩盖差异。
+
+此补签身份追加到现有root-identity和作者交付/范围，与§445共同供最终独立R核对；不重新建立基线，不触发已有有效测试重跑。SD00只签执行边界，C仍唯一运行Unity。
+
+<!-- DEMO-029-MAC-R1-GRAPHICS-CLARIFICATION-END -->
+
+§446冻结身份：1659bytes/SHA`c2feb6f1db9315e5d26cc39354980f884dd57c1850f8a8dd03a81b10ddc0b06a`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 447. 029模拟器本机ADB恢复与本轮设备预检
+
+2026-09-29T02:49:40.018244Z，SD00在不调用CUA、不运行Unity的环境准备范围内，恢复已有BlueStacks本机ADB。先只读确认BlueStacks无活动进程；原配置/Users/Shared/Library/Application Support/BlueStacks/bluestacks.conf中enable_adb_access=0、enable_adb_remote_access=0。已将原10164bytes配置备份至/private/tmp/fightmatch-bluestacks-adb-20260929-29li7ftz/bluestacks.conf.before（私有目录、文件0600，不入Git），仅把本机开关改为1，远程开关不动，原属主和权限保留。原SHA443ab06b75622aa22c270646798587609c07faa0c56dba05eaf32539a1bceef1；修改后SHA22cf9aceead8ca159e299344b1cfaa279def41c88a2363481156ad15d27a57de。应用后续自然更新配置不得拿旧整份备份直接覆盖；若需撤销只复核并恢复这个开关。
+
+open现有/Applications/BlueStacks.app exit0后，用既有外置SDK adb实测connect localhost:5555成功、devices -l为device。本轮getprop均exit0：sys.boot_completed=1、Android13/API33、arm64-v8a、model SM-G998B；这是模拟器，不是iQOO Neo5。pm list packages com.yyczz1.fightmatch返回空，仅证明该预检时点无此前缀包，正式安装前C仍须核准确目标包名和签名。未安装APK、删除应用/存档、迁移旧模拟器磁盘或新增模拟器。
+
+C可继续原§443已授权的实际模拟器验证，并在对应证据中再次绑定设备身份、构建身份与真实操作结果；旧UI工具禁用和Unity串行不变。ADB连通仅解除设备连接缺口，不代表QA、正常流程、像素/输入或冷启动已经验收；自动输入证据也不得描述为iQOO物理触屏验证。手机未接入门继续保留。
+
+## 448. 029候选版本管理与后续安卓备包顺序
+
+状态：**PREPARED / DEPENDENT_ON_029_CANDIDATE_ACCEPTANCE**。这是§438授权范围内的SD00版本安排与后续设计准备，不扩大当前029作者白名单，不派后批代码。源路线§76.5第7阶段的Android保存、IL2CPP、构建和性能，以及已接收SD13设计给出方向；其中一部分已提前纳入029，不能在Demo后重复计功能或再次重写。
+
+候选具备真实源码/构建/模拟器证据、准确C完成门和R对该候选范围唯一ACCEPT后，按既有授权正常提交并推送master，逐项核远端。当前git tag --list为空，预留annotated tag为demo-android-0.1-candidate.1；创建前再次查本地/远端，若已占用先识别实物，不能覆盖或强推标签。标签指向这份经审代码/资源的准确commit，说明候选状态及仍缺的iQOO物理验收。APK继续保留原不可覆盖外置路径，不重新复制或改名假装新构建；标签说明和对应版本登记绑定包名、versionName/code、架构、字节/SHA、公开签名证书指纹、作者/独立审查/设备证据和试玩说明。私钥、密码、缓存和真实存档不入Git。代码与APK一致性由既有精确源/资产身份证明，不因仅创建commit/tag而重跑完整测试。只有设备最终门确实完成后才另行标正式已验收版本，候选标签保留原含义。
+
+首个后继候选方向为Android正式构建与原档覆盖升级见证：复用同一package、签名和存档协议，针对Development关闭后的IL2CPP运行、旧候选安装后不清数据的覆盖升级/关闭重开及恢复身份/头/历史保持，准备小范围技术包；沿既有第7阶段记录实际冷启动、安装大小及运行内存，不先许诺未经测量的性能阈值。具体允许文件、版本号变更、测试/构建次数、当前源/设置和验收入口必须等029候选冻结后实读收束并正式签发。当前只是设计准备，不能提前改构建脚本、版本、配置、程序集或源码，不能卸载/清应用数据、选择旧档、复制第二套业务或新增SDK。
+
+029实际缺陷和必要修复优先；正常流程/视觉/输入故障不能降格为未来优化跳过。只因iQOO未接入而缺真机证据时，保持该门未完成，同时可沿候选已独立验收的依赖继续上述不依赖手机的工作。后续完整玩法/内容和联网服务仍需原设计的准确来源与各自签包，不能把历史候选关卡或未选供应商自动发布。现有C/R角色、模型、Unity串行及无定时任务保持。
+
+## 449. 既有长测耗时只读盘点
+
+为回应用户十多小时测试耗时的疑问，并沿§439减少重复完整回归，SD00用diagnosing-bugs流程中的基线测量原则只读解析既有NUnit XML/result.json；没有运行Unity、复现测试、修改测试或作性能修复。因本次仅盘点已有实测时长，复现/最小化/假设检验/插桩/修复阶段不执行；不能宣称已定位存储或系统层根因。
+
+028 mac-r1/runs/002：XML4008例、6251.0988599秒，包装总6315.286499秒；runs/006：XML4011例、6273.986444秒，包装总6330.07775秒（约105.5分钟）。006 XML原2981076bytes/SHA a60fcb79d970b1b51357ef412e66fe89f792012703e50dc8b377137be6e962e5本次再次核符。006全部case耗时合6243.727秒，367例大于1秒、211例大于10秒；前列fixture为PlayerRosterMigrationTests（35例/965.993秒）、PlayerSaveRecoveryTests（33/654.476）、PlayerNavigationSessionTests（30/630.709）。这些只定位耗时分布，不能据此断言外置硬盘、fsync或某算法是根因。CONT-C旧83分31秒属于另一轮，不代028基线。
+
+028 mac-r1-fix1/runs/002为单项1/1 Passed，case45.603062秒、XML46.1489959秒、包装61.483930709秒；保留§442接受的组合证据，不重复跑全量。§442的CUA30216.1843秒阻塞另列，不能算测试。029当前90分钟阈值仅触发已批准的只读诊断，不是杀进程/盲重试或宣告失败的时限；沿原新模块收敛→固定源码→必要一次全量，之后仅有新失败/修复/源变才追加。原测试、运行和签包不变。
+
+## 450. 029编译失败后的单次资源准备补额
+
+状态：**APPROVED_MINIMAL_VALIDATION_SUPPLEMENT**，立即适用于当前C turn01a0eaf3-31c0-7d83-9dfc-31c24012946f，无需用户重复批准普通编译修正。固定计划、§443/445/446原字节不改；只以本节覆盖ResourcePrepare次数并明确准备前Compile门，不新增产品/证据/APK路径或源码行数。
+
+SD00实读本轮runs/001和002的result.json/unity.log：两者mode=PrepareAssets、passed=false、Unity exited1，完成时间分别2026-09-29T03:14:36.9385810Z与03:19:49.0431960Z。001因QA asmdef重复UnityEngine.TestRunner引用退出；002因FightMatchPlayerHost.cs中UnityEngine.TextAsset与UnityEngine.TextCore.Text.TextAsset的CS0104歧义退出。日志证明均未通过脚本编译，不能算资源生成成功或通过验证。保留这两次完整实物，不复用槽号、不改失败状态。
+
+ResourcePrepare上限由2增为3，唯一新增机会有上述真实新失败及源码修复依据；总目录上界仍20，六模式次数总上界17增为18，其余Compile4/HostTests3/FinalFullEditMode2/QaBuild3/ReleaseBuild3不变。沿唯一Tools/Invoke-FM029Validation.ps1显式落实本补签，不改JSON中的原2或跳过身份校验；新增运行使用原001～020白名单中的下一个未占槽，仍写同族12叶并绑定真实参数/进程/源/资源/日志/终态。不能因还有空目录重复成功运行。
+
+先修正当前已知编译问题，用已有Compile配额在mac osxuniversal目标做准备前编译，成功后才使用第三次PrepareAssets。此准备前Compile允许原白名单中尚未生成的资源及其自然meta仍为Absent，不因此伪造空文件或创建替代资产；必须列出本次实际存在/缺席的准确集合，旧受保护文件仍全核，已有新文件仍受原路径/内容/行数预算约束。临时缺席豁免只用于这一步，不代完整资源验收。正式资源准备完成后核回原期望源/Assets/GUID身份和完整场景/字体绑定，并沿§443完成固定资源后的Compile、HostTests收敛和必要全量。若编译再次失败，先按真实诊断修正同范围源码，并仅用原Compile剩余额；不得消耗资源机会验证尚未编过的代码。
+
+当前仅一项额外资源机会；再有实际方法/API失败则保留证据，继续独立可做部分并给SD00准确最小缺口，不偷增运行或让用户接手普通技术判定。本补签长度/SHA追加现有root/report，由最终R连同原合同核对；不重建基线或重复旧028/CONT-C测试。SD00未执行Unity或修改产品代码。
+
+<!-- DEMO-029-MAC-R1-RESOURCE-SUPPLEMENT-END -->
+
+§450冻结身份：2663bytes/SHA`6706fd5a2b8a7bf742b3e002ddcce250a14d55842f068e1e34a562438dbec712`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 451. 029自然meta稳定化后的正式编译补额
+
+状态：**APPROVED_MINIMAL_VALIDATION_SUPPLEMENT**，继续同一C turn01a0eaf3-31c0-7d83-9dfc-31c24012946f。固定计划及此前冻结补签均不改，只将Compile上限4增为5；ResourcePrepare依§450为3，其他模式上限不变，六模式总上限18增为19、原001～020目录及其12叶上界仍20。
+
+SD00实读005 Compile的result/unity.log及before/after快照：Unity日志已成功退出，但包装结果passed=false、首个错误为Identity differs: Assets/Scripts/FightMatch/Host.meta。两份Assets快照路径集合均907；逐项比较只有28个meta字节变化，全部为HEAD中不存在的本包新meta，旧Assets差异0，DLL/PDB数从40补齐至42。此为首次完整导入产生自然元数据变化的实际失败证据，不能把整个005包装标成通过，也没有修改旧资源的授权。
+
+C在保留005失败与两端身份后，用原剩余一次Compile核定稳定后的获准新meta，再按§450使用第三次资源准备；成功生成场景/字体等资源后，允许本节新增的第五次Compile作正式完整资源编译。元数据和资源发生了实际变化，故额外编译有明确依据；不得重跑未变化的成功阶段。所有运行仍占下一个未用原槽、经唯一脚本、受原路径/行数/输出/进程/设置恢复约束，Hash与真实终态逐项留证。不得手工抹平Unity生成meta、替换GUID、变更旧源/旧meta或修改计划原字节来使校验通过。
+
+本补签只加一次Compile，不加HostTests或完整回归，不扩大源码功能；相应工具覆盖和root/report绑定本冻结身份。最终仍按完整资源编译→Host诊断收敛→固定源码必要全量→实际Android构建/设备证据接收。其后若出现新的真实超额原因，精确回报SD00并推进独立部分，不能用目录尚有空位自行运行。SD00仅核证据元数据及签边界，未运行Unity、写产品或代R审代码。
+
+<!-- DEMO-029-MAC-R1-COMPILE-SUPPLEMENT-END -->
+
+§451冻结身份：2043bytes/SHA`c0a957881149bca0b51fd3406b4ba3541ced242154c8495f4a640f56a51b83e4`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 452. 029资源生成失败的精确修正、临时产物清理与补额
+
+状态：**APPROVED_MINIMAL_RESOURCE_FIX**，继续当前C turn01a0eaf3-31c0-7d83-9dfc-31c24012946f；C仍唯一Unity执行者。SD00已实读007 result/unity.log：PrepareAssets包装失败为Unexpected asset: Assets/UI Toolkit.meta，Unity原失败为不能在未保存的untitled场景旁NewScene Additive。默认主题由PanelSettings自然创建，不能把运行改成通过。原计划/冻结条款与007实物保持。
+
+**保留并修正获准资源。** 允许仅在已有Editor构建入口/获准资源测试范围修正公开API使用：确认当前仅为本次独占batch进程新建、路径为空且无未保存用户修改的干净默认场景，并记录实际状态后，才用公开Single模式创建获准Demo场景。不得关闭丢弃用户场景、保存旧场景/Lighting变更，或使用未公开API。复用007已生成的PanelSettings，其GUID保留7ad4a9753a5334d2d9adaa94975f5057；复用字体asset，GUID保留05ef1c5c9ac7e412caf6604e174ec91e，在同一获准asset内补齐实际缺失的内嵌material/atlas并核资源引用，不重建GUID或新增旁系material/texture文件。其余原属性/字体源/许可/大小约束不变。
+
+**只清理本次四个意外默认主题叶。** SD00已核以下四叶均不在HEAD、目录中没有其他文件，GUID搜索在Assets中只命中这三份自己的meta，没有外部资源引用。下列原字节以base64保留，长度/SHA为实际清理边界。C再次确认无活动Unity、每叶身份仍一致、没有新增旁系文件或外部引用后，可逐叶删除这四个本任务产物，并仅rmdir清理确实为空的Assets/UI Toolkit/UnityThemes和Assets/UI Toolkit目录。不得广泛递归删除、不触及别处meta、不删除或替换获准FightMatch主题。任何并发差异则保留并报SD00。允许这一次精确cleanup先于下一验证工具预检，消除实际已产生的白名单外叶；并不允许以后任意创建/删除该目录。复用已有PanelSettings并验证主题引用，避免再次触发默认主题生成。
+
+```json
+[
+  {
+    "path": "Assets/UI Toolkit.meta",
+    "bytes": 172,
+    "sha256": "f60c570f3ce2b461f4ae1f96593268724aeb90a7043e42567bae509758468993",
+    "base64": "ZmlsZUZvcm1hdFZlcnNpb246IDIKZ3VpZDogNjEyOWU4YzZmOTg0ODQ4MWZiODBkNTVjNDJjN2ExZWUKZm9sZGVyQXNzZXQ6IHllcwpEZWZhdWx0SW1wb3J0ZXI6CiAgZXh0ZXJuYWxPYmplY3RzOiB7fQogIHVzZXJEYXRhOiAKICBhc3NldEJ1bmRsZU5hbWU6IAogIGFzc2V0QnVuZGxlVmFyaWFudDogCg=="
+  },
+  {
+    "path": "Assets/UI Toolkit/UnityThemes.meta",
+    "bytes": 172,
+    "sha256": "9741b9282680c94a8888f55d808f8d8d0aa7622c83c33077afc623dea4e6eb49",
+    "base64": "ZmlsZUZvcm1hdFZlcnNpb246IDIKZ3VpZDogYjMxYzMyY2VhMWI3MjQzODI4MWFkMzA4NjQ0NTUxZTkKZm9sZGVyQXNzZXQ6IHllcwpEZWZhdWx0SW1wb3J0ZXI6CiAgZXh0ZXJuYWxPYmplY3RzOiB7fQogIHVzZXJEYXRhOiAKICBhc3NldEJ1bmRsZU5hbWU6IAogIGFzc2V0QnVuZGxlVmFyaWFudDogCg=="
+  },
+  {
+    "path": "Assets/UI Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss",
+    "bytes": 37,
+    "sha256": "341561a31fcbb6f0c53c2ca99c2c311e2904369efb470004dd3ae9701b8cb433",
+    "base64": "QGltcG9ydCB1cmwoInVuaXR5LXRoZW1lOi8vZGVmYXVsdCIpOw=="
+  },
+  {
+    "path": "Assets/UI Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss.meta",
+    "bytes": 305,
+    "sha256": "9e2f5057401f3ce4353e97501914b4dd7ff8917428b843c1384802acc83daaad",
+    "base64": "ZmlsZUZvcm1hdFZlcnNpb246IDIKZ3VpZDogNTM1MDZiNjQyNTNkZDQ4NjFhMjUwOGFkYzE1NjQxNjQKU2NyaXB0ZWRJbXBvcnRlcjoKICBpbnRlcm5hbElEVG9OYW1lVGFibGU6IFtdCiAgZXh0ZXJuYWxPYmplY3RzOiB7fQogIHNlcmlhbGl6ZWRWZXJzaW9uOiAyCiAgdXNlckRhdGE6IAogIGFzc2V0QnVuZGxlTmFtZTogCiAgYXNzZXRCdW5kbGVWYXJpYW50OiAKICBzY3JpcHQ6IHtmaWxlSUQ6IDEyMzg4LCBndWlkOiAwMDAwMDAwMDAwMDAwMDAwZTAwMDAwMDAwMDAwMDAwMCwgdHlwZTogMH0KICBkaXNhYmxlVmFsaWRhdGlvbjogMAo="
+  }
+]
+```
+
+**只追加实际修正所需运行。** Compile上限5→6、ResourcePrepare上限3→4，其他HostTests3/FinalFullEditMode2/QaBuild3/ReleaseBuild3不变。各模式额度算术合计21，但所有模式仍共同受原总运行/目录20的上限约束，21不是准许运行总次数；两类上限须同时满足，不能占用021或新增证据/APK路径，也不保证可以用满每个模式余额。当前已使用001～007，本次先清理、固定修正源码，再执行准备前Compile→第四次PrepareAssets→完整资源正式Compile；按下一个未用原槽写原12叶。唯一工具显式实现本补签覆盖，原计划字节和Hash保持，root/report绑定本节身份。
+
+没有增加完整回归次数、测试范围、源文件/行数/最终Assets/GUID计数或APK叶。修正及临时原字节须在作者范围/交付说明并交R独立核对；所有失败保留，正式资源仍应回到原913 Assets/482 GUID等完整身份。任何新失败再按实物收束，不把普通技术缺口交给用户或绕过校验。SD00仅核临时产物和许可边界，未运行Unity或写产品代码。
+
+<!-- DEMO-029-MAC-R1-RESOURCE-FIX-SUPPLEMENT-END -->
+
+§452冻结身份：4985bytes/SHA`0e681814f5fcc19d5efa43881d218841e4805ad67002a8a35930d6556bd28cfb`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 453. 029场景面板绑定的保存往返修正
+
+状态：**APPROVED_MINIMAL_SCENE_FIX**，继续当前C turn01a0eaf3-31c0-7d83-9dfc-31c24012946f。SD00实读009 result为PrepareAssets/ passed=true、completedAt2026-09-29T03:53:58.0263090Z；另核实际获准Demo场景第170行m_PanelSettings为fileID0。前者只证明该轮包装检查通过，不证明实际场景可启动；原记录保持，不伪改通过范围。该界面启动缺陷须在Host/全量/APK前关闭。
+
+允许在原Editor构建入口与原获准资源测试范围修正：加载既有Assets/Scenes/FightMatchDemo.unity，显式使UIDocument关联原FightMatchPanelSettings，正确登记场景修改并保存。仅这一个获准scene资产在本次资源修正阶段允许必要字节变化；其meta GUID必须仍为1d5124e5b55fe409d8216e78a117dec0，Panel和Font仍保留§452的原GUID与完整内嵌资源，其余已有资源/meta逐项保持。不得删除重建场景或换GUID、写旧场景、增加备用场景/第二套Host，或手工制造通过声明。
+
+成功条件包含公开API保存后重新打开同一磁盘场景，核实际反序列化的UIDocument.panelSettings就是已保存的获准PanelSettings、唯一预期Host/文档关系及其已批准字体/主题/许可绑定均正确，资源子资产完整。检查失败就保留真实失败并停止依赖步骤，不能只用源内存引用、SaveScene返回值或Assets/GUID总数代替。确认当前独占batch默认场景安全并遵守§452的原场景保护条件；资源检查测试通过相同真实加载边界验证。这是原资源绑定验收的落实，不增加游戏功能。
+
+Compile上限6→7、ResourcePrepare4→5，其余模式不变；模式额度算术合计23但共同总运行/目录上限仍20，必须同时满足，不新建021或扩原证据/APK叶。当前001～009已占用，本次采用已有第六次Compile收敛修正→第五次PrepareAssets保存/重开核绑定→新增第七次Compile正式固定资源；随后仍按原Host收敛、必要一次全量和APK/设备顺序。唯一工具仅为此场景的资源修正差异作精确例外，补签身份绑定现有root/report，原JSON及冻结段不改。不得重复未变成功阶段或增加完整回归次数。
+
+本轮所有资源生成/范围通过/实际语义检查分开记述，由最终独立R核对当前场景与各次原始证据；SD00只核数据和签范围，不写产品或执行Unity。新增错误继续按实际收束，不中断其余独立工作或要求用户代办普通技术问题。
+
+<!-- DEMO-029-MAC-R1-SCENE-SUPPLEMENT-END -->
+
+§453冻结身份：2609bytes/SHA`92d2d6a3bb6e1d0b42d56e075ea9a5049f3173aaa841d982c463a1f6d5c966ca`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 454. 029 Android IL2CPP旁路调试备份的有限构建输出
+
+状态：**APPROVED_BOUNDED_GENERATED_CACHE**，用于当前029的QaBuild/DemoBuild，不增加运行、APK、产品源码或最终资源。C在本机Android后处理核查中发现CopyIl2CppBackup；SD00只读复核本机UnityEditor.Android.Extensions.dll确有该成员名，UnityEditor.CoreModule.dll含BackUpThisFolder_ButDontShipItWithYourGame的UTF16常量。这是本机工具预检依据，尚非真实Android构建/备份通过证据；原Android模块/Editor身份和计划不改。
+
+允许的生成根精确为Builds/FMDemo029/mac-r1/{001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,017,018,019,020}/fightmatch-qa_BackUpThisFolder_ButDontShipItWithYourGame，或相同20槽下的fightmatch-demo_BackUpThisFolder_ButDontShipItWithYourGame。只有实际本槽QaBuild可创建其qa根、DemoBuild可创建其demo根；其他槽/模式不得产出。两族共40个确定的候选根，实际最多6个根，分别受原QaBuild3和DemoBuild3及总20槽约束。所有路径都在原外置工程Builds目录；根须在该构建前Absent，不能覆盖既有根或把输出重定向至内置盘。该有限族是Unity生成缓存的明确例外，不是任意新源码/项目文件权限。
+
+每个实际根最多20000个普通文件、总2GiB、单文件1GiB，所有构建根合计最多12GiB/120000个普通文件；这些是容纳既有工具产物的边界，不是目标用量或准许预分配。只接受Unity本次构建自然生成的目录/普通文件，不跟随symlink/reparse逃逸、特殊文件或未知外部根；枚举必须核所有实际成员和总量，不能用一个目录名当全树安全证明。文件数/字节/类型超界或未知兄弟产物，保存实际失败/诊断并停止依赖操作，不擅自删除、扩容或泛化通配。
+
+C用现有本槽build-report.json记录构建前Absent、来源模式/参数/目标APK、生成根和完整有序普通文件清单（相对路径、字节、SHA256）、计数/总字节以及无链接/越界检查。仅QaBuild/DemoBuild的这个既有JSON叶允许到16MiB，其他JSON仍4MiB；不新建证据叶，原507精确元数据/日志/截图范围不变。根实际保留在Builds下，作为单独有界缓存/调试产物记入交付与范围，由R复核；不静默塞入或遗漏TestArtifacts叶manifest。失败产生的部分根也保留并完整记述，后次用新槽，不能覆盖原失败产物。
+
+这些备份不属于可分发APK，不手工并入APK、试玩包或Git；原40个精确APK候选叶、每APK1GiB、正常包排除测试入口/程序集、公开签名核验等不变。不要通过重打包已签APK来处理输出。只在唯一验证工具的输出范围/报告逻辑落实这一精确族和上限，源码/工具行数预算不增加；root/report绑定本冻结身份，原计划JSON和已有运行不改。当前场景修正继续，不能因这项构建预检重新跑旧全量或中断在跑Unity。
+
+<!-- DEMO-029-MAC-R1-IL2CPP-CACHE-SUPPLEMENT-END -->
+
+§454冻结身份：3062bytes/SHA`87795266e318c1c940aa9d89aa8757dd35dd7cdc08fd411e366eddf2b028af88`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 455. R只读核对029签名私有缓存的执行合同
+
+状态：**APPROVED_READ_ONLY_CONSULTATION / NOT_PRODUCT_REVIEW**。C同一029回合正在完成资源/工具，实际签名尚未构建且没有把口令交给模型。现有R上个咨询回合已completed/idle，可在C继续独立工作的同时核对本机Unity签名生成器；不是正式产品审查，不能据此接收029。C完成门和最终独立代码审查仍按原合同。
+
+读取范围：START_HERE/AGENTS/当前上下文，§443/445/446及§450～454中与签名/缓存/工具有关的条款，固定029计划的signing/environment/输出契约；本机已批准Unity2022.3.18f1及同级AndroidPlayer内的SDK生成器/模板/Managed程序集，可查相关官方原始文档。允许仅stat当前工程Library/Bee/Android相关路径及既有外置AndroidBuildCache/FightMatch目录的存在/所有者/模式，不打开私钥、口令或任何签名凭据正文。不读当前029产品补丁、不写项目/报告、不运行Unity/Gradle/ADB/测试/构建，不改Git、SDK、权限、服务或应用。若必要，仅可在/private/tmp使用fm029-signing-consult-前缀、至多4个各≤1MiB的无秘密只读检查脚本/输出；不安装工具或包。
+
+请在同一正式答复中给最多6条具体建议，并列本机方法/模板定位：确认哪个准确工程相对Gradle文件由Unity写入storePassword/keyPassword；Gradle自身正常缓存副本应怎样收束到有界私有根；在不改生成正文的条件下，当前Absent的Library/Bee/Android子树如何在生成前保证同UID和私有目录、生成后核文件0600，进程umask与权限检查哪里充分/不足；对原“秘密不进入文件”的字面规则提出仅涵盖必要私有生成缓存、仍排除Git/公开证据/APK的最小澄清。不要假设只用umask就能限制已存在文件，不提出关闭安全保护、把密码写命令参数或为此重新生成/轮换签名。此次只交合同技术发现，不给产品ACCEPT/NEEDS_FIX/REJECT，不声称Android构建已经成功；普通技术边界交SD00签，不要求用户代办。
+
+§455实际派发：现有R thread01a0e404-e8ee-7310-8388-9260babd53f1/local，沿gpt-6-astra/max；准确咨询turn01a0eb64-2ec5-7901-9d38-4b8504129e76，startedAt1790655606，wait_threads核inProgress/error=null。仅本机签名生成器与私有缓存合同，不读当前029补丁或给产品verdict。C同一原回合继续。
+
+## 456. 029签名所必需的私有生成缓存与权限边界
+
+状态：**APPROVED_PRIVATE_GENERATED_SIGNING_CACHE**，用于当前029同一C回合，不新增运行、APK、产品资源或源码文件。§455现有R咨询turn01a0eb64-2ec5-7901-9d38-4b8504129e76已completed/error=null，startedAt1790655606、completedAt1790656328、duration721995ms；正式msg_0d29bf8d726d8dc0016abb3f2a828887d083eaa68326837032已收件。它是本机SDK静态合同咨询，不是029代码verdict。C继续唯一Unity执行。
+
+**必要落盘范围。** 原§443/445“秘密不进入文件/密码只在内存”作本节最小澄清：除既有获准私有签名文件，以及本次Unity/Bee/Gradle正常构建在下面两个指定私有根内必需生成的签名数据/缓存副本外，秘密不得落盘。仍不得进入Git、公开日志/证据、APK、试玩分发或§454的可盘点旁路备份正文。SDK只读依据为AndroidProjectGradle.AddSigningInfo/GenerateFileContents/get_LauncherGradlePath向SIGN模板写storePassword/keyPassword；AndroidBuildPostprocessor.GetDataForBuildProgramFor向AndroidPlayerBuildConfiguration填同一数据；Bee BuildAsync/WriteDataForBuildProgram/ObjectsToDisk.Write以及TundraBackend.AddCSharpActionInternal会产生后续副本。仅保护Android子树不足。
+
+两个实际根为本外置工程内Library/Bee，以及既有/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/AndroidBuildCache/FightMatch/gradle-user-home。明确包含Library/Bee/Android/Prj/IL2CPP/Gradle/launcher/build.gradle、Library/Bee/Player{8位十六进制}-inputdata.json、Bee根内artifacts/csharpactions/*.info及相应DAG .payloads；Gradle正常编译副本仅在上述生成项目的.gradle和获准gradle-user-home内（如caches/7.2/scripts、caches/jars-9）。这些是既有工具私有生成缓存族，不是新增可交付源文件；只准本次必要自然生成，不主动制造秘密副本，不导出缓存正文为证据。发现实际凭据出现在这两个根和原私有签名文件之外，保留私有现场并报告位置/原因，不打印值或静默扩大边界。不得重新生成/轮换签名来回避缓存规则。
+
+**生成前建立访问边界。** 本次stat为UID501，两个缓存根原0755、签名目录原0700，Android子树尚Absent。允许C在无本项目Unity/本次构建活动时，先记根的原所有者/模式/链接/ACL元数据，核真实路径仍在批准外置根、目录同当前UID且无逃逸，然后仅将这两个根权限收紧0700，并以0700准备缺失的Android目录链。此例外仅为目录准备和访问权限元数据，不授权手工编辑Library/Bee的生成正文、广泛重写缓存、改变SDK或删缓存。逐级确认无symlink/额外ACL授权或外来属主；有冲突先保留并交SD00最小处理，不用sudo/chown覆盖外来资料。私有根须在首次把口令传给Unity之前生效，不能只在构建后补救。
+
+实际启动Unity的本次进程必须采用umask077并让Bee/Java继承，准确记录实际Unity PID/参数和同一工具/源身份；不改系统默认umask或全局启动配置。不要复用具有旧umask的既有Gradle daemon，也不结束其他项目/用户的daemon。为稳定使用本次进程权限，允许仅在上述专用gradle-user-home/gradle.properties设org.gradle.daemon=false：Absent时以0600创建；已存在时只改/补这个键并保留其余原字节，原正文可仅在同私有根的本任务备份中保存，不输出秘密。不得加入凭据到此配置、改变代理/仓库/依赖等其他键。也可用已核等效的本次Gradle无daemon调用方式而不创建该文件；任何单次派生JVM须继承本次权限。umask不改变现有文件，不能用它代替模式检查。
+
+在生成后及复用前，对实际包含凭据的普通文件核同UID、0600、无链接；允许只作必要chmod权限收紧，不改正文。外置私有根在全过程保持0700，不恢复为原0755暴露生成数据。签名原keystore/pass继续原0600与原生命周期，密码只由实际进程在内存中读取/使用，禁止放进命令参数、工具输出、源、场景、普通报告或截图。权限/无daemon支持仅修改原获准唯一验证工具及必要Editor构建入口，仍守原行数预算；不新增源码文件/公开API或手工修改生成签名文本。
+
+现有本槽temporary-settings.json/build-report.json及交付只记录私有根/必要文件路径、所有者/模式/ACL检查、构建归属、恢复结果及公开证书指纹，不记录口令/私钥正文或其转储。Unity PlayerSettings临时签名值仍按§445恢复；私有缓存许可不放宽公开证据、正常APK排除测试、APK签名核验等既有要求。原证据精确叶及大小上限不增（§454已明确的build-report例外保持），不增加Compile/Host/full/构建次数。C先收齐这些工具/Editor修改与§454输出检查再统一定版，避免正式Compile/全量后重新修改；已在跑的Unity自然完成，不改在用脚本。root/report绑定本节身份，固定计划与旧冻结段不改。
+
+<!-- DEMO-029-MAC-R1-PRIVATE-SIGNING-CACHE-END -->
+
+§456冻结身份：5166bytes/SHA`a9670f2b35470500c1795cf7f6c26693beb6db2e5415df6ead267688978b2ddd`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+## 457. 用户午睡：本轮打包安全收尾后暂停
+
+状态：**PAUSE_AFTER_BUILD_CLOSEOUT**。源为侧聊01a0eb79-89d3-7840-9468-cb243e1697eb在本主会话收到的明确转述：“我准备午睡了，如果打包结束，这个主会话应该告一段落了；可以停下，然后点击附图中的安装并重启。”SD00尝试读取原侧聊，工具返回ephemeral threads do not support thread/turns/list，因此仅记录实际收到的引述及源身份，不补造原用户回合ID。这条最新停止条件覆盖§438的夜间连续推进及§448下一阶段安排，不撤销已在执行的029必要打包工作。
+
+当前C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local、准确turn01a0eaf3-31c0-7d83-9dfc-31c24012946f仍inProgress；C回报工具494行/Editor入口438行、静态和私有权限准备通过，已启动012 Compile。C继续原合同所需Compile、Host、定版后的完整EditMode及QA/正常APK构建；运行中的Unity/测试自然完成，不为暂停或更新强行结束。普通必要修复仍由C实施/SD00处理精确范围，旧证据不重跑。
+
+打包后保存两个APK的真实路径/长度/SHA、公开签名及配置身份、构建与测试证据、失败和缺口；完成全部原临时设置恢复及进程收尾，保留未接收源码WIP，不提交产品WIP冒充独立接收。C在BUILD_READY_DEVICE_PENDING停点交正式终态及现有获准报告，准确列明模拟器/真机玩法、存储故障验收和独立产品R尚未完成的项目。打包结束后不新增长时间设备验收，不派正式产品R或后继安卓代码；必要后续工作留待用户再次恢复。源码、资源、文件/次数/证据预算及冻结身份不因本停止条件改变，不要求改动已冻结运行工具来绑定本节。
+
+SD00收到准确C完成并核安全停点后，将Goal标paused并停止目标工作，写清接续位置及构建并非Demo全面验收。用户已另外授权点击附图MonitorControl更新器的“安装并重启应用”，只更新/重启MonitorControl，不重启Mac、Codex或其他应用。参考截图为/var/folders/kz/rs4zc5kj5rgc9z74jrjbhhch0000gn/T/codex-clipboard-cbbdbd16-60e5-4971-a9c0-dc9dda2d97a3.png；届时以实际窗口为准。若按钮或窗口不可操作，准确说明并保持暂停，不扩大为系统重启或重新启动项目工作。
+
+## 458. 013宿主真实失败的最小纠正与一次编译补额
+
+状态：**APPROVED_HOST_FIX_COMPILE8**，沿同一029 C回合及原产品/资源/工具白名单，未进入产品接收。012正式Compile已通过，013 HostTests自然结束且Unity退出码2；原XML为30项、27通过/3失败/0跳过，duration450.1465627秒。原TestArtifacts/FMDemo029/mac-r1/runs/013/tests.xml为29814bytes/SHA`86ef662ac627fe13423cfaa0009b97ec53ddef499c79d419d72d29d86607c57d`，result.json为225bytes/SHA`3bc565c75f4a9066b23b35c3612a7ee0338dbdd15e39c6d4884ee70053a331eb`，失败现场不可覆盖。
+
+三个失败实例是FightMatchHostRoutingLifetimeTests.H04_OriginalEndReceiptCanReturnAndBeExplicitlyOpenedAgainAfterColdRebuild(False/True)，以及H04_RootBackMeansApplicationQuitAndCancelPreservesTheSave。C已提出导航上下文消费、旧战斗刷新、重来用例对既有控制器结果期待三条待验证原因；这些目前是作者诊断方向，不是SD00代码结论或独立R结果。C须读实际调用链区分实现缺陷和测试驱动错误，在原获准宿主/测试文件内完成最小修正，保持真实返回、显式再开/重打、根退出及取消保留存档的原H04要求；不能通过跳过、删断言或改变业务规则获得绿测。不改028已接收源码，不新建资产/源文件或扩大本轮需求。
+
+实际Compile槽已用003/004/005/006/008/010/012共7次，Host仅013一次，PrepareAssets共5次。为对上述真实失败修复后的新源码重新编译，**仅Compile上限7→8**；PrepareAssets5、HostTests3、FullTests2、QaBuild3、DemoBuild3均不变。各模式额度合计24，但所有模式仍共同受原001～020共20槽限制，当前已用13槽，下一次使用原下一未占用槽CreateNew；不增加021、APK叶或证据叶，不覆盖旧失败。唯一原验证工具可更新补签身份/Compile上限，仍守500行等原预算；Editor等全部原预算保持，固定计划及旧冻结段不改。
+
+先完成对应源码、测试驱动及工具静态检查，固定新身份后跑第8次Compile，再用原余量对完整FightMatch.Host.Tests诊断；只有Host通过后才进行原一次最终无筛选完整EditMode，保留4011旧具名实例及原3956基线。不得增加临时过滤运行或在已知Host失败上启动长回归，不因本补额重复未改变的旧全量。保留012旧成功适用的旧源码范围及013失败，后续证据绑定新源码/资源/工具/本节身份，不把旧Compile当新修正验证。
+
+§457的打包收尾后暂停继续有效：完成必要验证及QA/正常APK、证据和临时设置恢复后给BUILD_READY_DEVICE_PENDING正式交付；不继续设备长验收、产品R或下阶段，不把打包完成记成Demo全面验收。普通技术修正由现有C/SD00处理，不要求用户代做或批准本次已授权范围内修复。
+
+<!-- DEMO-029-MAC-R1-HOST-FIX-SUPPLEMENT-END -->
+
+§458冻结身份：2922bytes/SHA`e512192508a765f6c8bb36d2dc61db5b24fa8c7248d8083e7db87a7fba70a906`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+§458执行进展：同一准确C回合的014 Compile已于2026-09-29T05:16:26.8107750Z完成并passed；015 Host于05:26:01.2117820Z完成，30/30、0失败/跳过，XML27357bytes/SHAe67a83b4351d9e5c41da27f7979c01c04ca8a0ce3ed431f645866f9b1cd6d18f，实测455.7086277秒。SD00读取原result/XML核对，上述仅为运行证据，不是独立产品接收。016 FullTests于05:27:00.1776320Z启动且仍无最终结果；三次run绑定同一工具34174bytes/SHAd2e4d32541ff4b3712578282b2b3f1af703731c241cb7a4b251acb4ae1f5503d和root identity71153bytes/SHAd5e08e04d029f6cbe18e9125f71882f89506107bc85a45cb6e3923b15652c68c。§457打包收尾后暂停保持，C已明确确认。
+
+## 459. 本轮新增默认SceneTemplate设置的原字节保全与精确收尾
+
+状态：**APPROVED_EXACT_GENERATED_SETTINGS_CLOSEOUT**，只处理ProjectSettings/SceneTemplateSettings.json这一额外文件，不扩产品配置。C在016运行期间完整Git范围核对发现该文件为untracked、未列原61个作者交付路径；原静态Source/Assets检查通过不等于所有Git路径已通过，本记录保留此差异，不回填旧结果。
+
+SD00实际核：HEAD无该路径，root-identity.gitStatusBefore不含该路径；当前为同UID501普通非链接文件，3534bytes/SHA`5baf593374ad67246277a435d8d0ded7167696eef6e05d2d245670e490625d8c`。birthTime2026-09-29T03:53:09.277530Z/mtime03:53:09.281666Z落在009资源准备期间，正文为无pin、userAdded全部false、newSceneOverride0的默认场景模板依赖设置。时间支持本轮生成归因但不是完整写入追踪，不能声称获得了不存在的写入审计。
+
+原始字节已保全在获准TestArtifacts/FMDemo029/mac-r1/scope-audit.json的unexpectedSceneTemplateSettings.bytesBase64；SD00实际base64解码为3534bytes且SHA与现文件完全相同。保留此字段、身份、时间及原unexpected记录，不删除旧scope检查差异，不新增备份叶，不把该设置纳入Git交付或永久扩大ProjectSettings白名单。
+
+C可将该精确文件作为本轮临时生成配置保留到当前必要Unity流程自然结束；**仅在无本项目Unity/本轮构建使用它时**，重新核真实父目录/普通非链接/同UID、当前3534bytes与上述SHA、备份解码身份，条件全满足后只删除该单一叶并记录Absent。若必要后续Unity在原流程中自然生成同一路径且字节完全相同，可在相应进程退出后以同样核对再次收尾；不为制造/清理它新增Unity运行。最终打包收尾必须再核Absent及作者最终Git范围回到原获准路径。发现字节/属主/链接/路径改变则保留现场与原备份，先回SD00，不覆盖未知改动、不按目录递归删除或删除ProjectSettings目录。
+
+这是已保全临时配置的可恢复精确处置，不改变产品源码/资源/永久设置、不新增工具修改/Compile/Host/全量/构建次数。016继续自然运行；不修改在用工具、root身份或旧运行快照来绑定本节，现有scope-audit与交付记录本节身份和实际处置即可。原计划、冻结块、总20槽及§457打包安全收尾后暂停不变；不得以此重跑已通过源码的长回归或宣称设备/Demo已验收。
+
+<!-- DEMO-029-MAC-R1-SCENE-TEMPLATE-CLOSEOUT-END -->
+
+§459冻结身份：2600bytes/SHA`b510f2023762fd56c6161d9693936aa581f74280184b2188f4db319e1177c90a`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+029完整回归收件进展：同一C回合的016 FullTests已于2026-09-29T07:22:27.4019220Z完成并passed，XML4041/4041、0失败/跳过/不确定，duration6848.3711223秒（约114分08秒），3006081bytes/SHAa03827dbb1b25a5727b51833d8bc8ac076a7f2803212f64d52f72d273c45dad4。SD00读取原result/XML并与028/006逐具名实例Counter核对：原4011缺失0、新增30；C另已核原3956完整保留并保存Mac DLL身份。017 QA APK已进入启动前检查，随后串行正常APK；这仅是验证证据收件，不是029产品ACCEPT。§459精确临时设置收尾及§457打包完成后暂停保持。
+
+## 460. 正常APK属性字符串误报的有界只读补证与打包收尾口径
+
+状态：**APPROVED_EXISTING_APK_STRUCTURAL_SUPPLEMENT**。016完整回归已通过；017因Maven TLS握手中断而失败，UTF提前退出跳过延迟恢复，C在确认相关进程退出后保全失败并精确恢复正式设置。原017记录不改。同一OpenJDK的后续默认TLS及单次TLS1.2探针可达，018以原配置重试QA构建并通过；没有以此更换SDK、依赖、代理或永久TLS配置。
+
+019的Unity BuildReport.result为Succeeded，正常APK已生成；原包装result.json在2026-09-29T07:50:20.0465680Z记录失败FM029: Normal APK contains QA/test metadata: FightMatch.Core.Tests，须原样保留。C初步结构检查报告正常包有37个程序集、4771个类型，无测试程序集/QA类型，命中的字节落在属性数据区；同一解析可从018 QA包识别NUnit、UnityEngine.TestRunner和FightMatch.Android.Tests。这是作者待固化的补证，不是独立产品R verdict。SD00另核三处既有InternalsVisibleTo声明位于Application/ApplicationTestAccess.cs、Input/AssemblyInfo.cs及Core/CoreTestAccess.cs，当前字节均与HEAD相同；不得删除原友元声明或改旧产品代码来迎合字符串扫描。
+
+本次只处理两个已有普通非链接APK：Builds/FMDemo029/mac-r1/018/fightmatch-qa.apk，34676164bytes/SHA`912d4202b144cee261ac8f47bea8d56b8dd7fa31338583d3852c9fdf31860679`；以及同根019/fightmatch-demo.apk，32776566bytes/SHA`cfdc39d87a4f0152230594eb5dce9ed582e332fb91416c17d83157a749628094`。SD00已实读核哈希。不得修改/解包后重打包/重新签名/覆盖这两个APK，不启动新的Unity运行，不为修正检测口径重建APK或重跑完整回归。
+
+**内容排除的本次补证判据。** 原“正常包不含QA/测试程序集及控制逻辑”的要求保持；仅出现一个引用名称不足以证明程序集或类型已打入包。C须依当前固定Unity2022.3.18f1本机IL2CPP元数据布局，直接只读检查上述APK内唯一的assets/bin/Data/Managed/Metadata/global-metadata.dat：记录APK/元数据字节与SHA、格式magic/version、所用SDK定义文件的路径/身份及表偏移/大小/记录长度，检查所有表范围、索引和字符串读取有界并相互一致，列完整实际image/assembly名称及类型计数、禁止的测试程序集/QA类型匹配结果。正常包须确实无这些实际定义；不能仅把原字符串命中从报告中删掉。记录原命中位置与属性数据区范围的对应及保留的友元声明依据；不能把来自引用/属性的名字算成已加载的程序集。
+
+同一结构检查必须同时用018 QA APK作正对照，确实识别其测试程序集和QA类型，从而证明不是一个永远报告无测试内容的检查。将可复核的解析依据、检查步骤/只读辅助脚本、完整名称清单、正反结果与本节身份写入已有scope-audit.json及原获准交付/范围报告，仍守原大小和文件预算；不新增证据叶、工具/产品源码或新依赖。原019包装失败、BuildReport、运行/快照与旧输入保持原字节，不回填成旧包装通过。
+
+C还须补齐019因包装提前失败而可能未完成的全部原收尾检查，包括实际APK签名/证书与QA一致、正式包名/版本/minSDK/targetSDK/ABI、源/资产/工具/正式设置相对本轮定版仍一致、§454备份精确盘点及旧输出不变、§456私有缓存边界/公开输出凭据排除、临时场景/设置恢复、进程退出、§459精确单叶清理和最终Git范围。每项从实际证据核，不把一个元数据表通过替代其他条件；缺项仍为待完成。
+
+最终分别列Unity构建成功、原包装误报失败保留、只读结构补证及剩余收尾结果；满足后只交BUILD_READY_DEVICE_PENDING，设备玩法/故障验收与独立产品R仍未完成。现有冻结工具的旧字符串判据**本轮未修改，不能宣称验证器本身已修复或019原包装已通过**；该已知问题及可复核补证须进入接续清单，恢复后的独立审查/最小修正处理，不直接进入后续产品开发。当前不追加工具重构、运行或配额。完成§457规定的保存与恢复后暂停，不提交/推送未独立接收产品、不开候选标签、不启动设备长验收或正式R。
+
+<!-- DEMO-029-MAC-R1-APK-STRUCTURAL-SUPPLEMENT-END -->
+
+§460冻结身份：4415bytes/SHA`1f2ebda18f18515b51ec727f14971109e2c6cd3ef70a3e6c1bb33ac3c1758532`，UTF-8无BOM/LF、标题至独立结束标记及一个尾LF。
+
+
+## 461. 029正式构建收件与用户暂停停点
+
+状态：**BUILD_READY_DEVICE_PENDING / PAUSE_BOUNDARY_REACHED**。本节是SD00实际收件，不是独立产品R verdict或首Demo接收。C thread01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local，准确原turn01a0eaf3-31c0-7d83-9dfc-31c24012946f已completed，startedAt1790648201、completedAt1790669409、durationMs21207826、error:null；正式最终消息msg_0d179092dafe07fa016abb7257eec887d0b6114aa244a42b14，完成事件cursor2a17d2ba-7390-46bb-9099-7371c36da8f4:643。作者实际交回BUILD_READY_DEVICE_PENDING，不能用报告文件提前出现代替此完成门。
+
+SD00于2026-09-29T08:17:20Z收尾核：原014 Compile、015 Host30/30、016完整4041/4041及原XML身份保留；018 QA为34676164bytes/SHA912d4202b144cee261ac8f47bea8d56b8dd7fa31338583d3852c9fdf31860679，019正常为32776566bytes/SHAcfdc39d87a4f0152230594eb5dce9ed582e332fb91416c17d83157a749628094，均为普通非链接文件并再次实核。APK位于Builds/FMDemo029/mac-r1/018/fightmatch-qa.apk与019/fightmatch-demo.apk。签名/配置/内容及SDK布局结构补证见作者交付与scope-audit；SD00核证据不替代独立代码审查。
+
+原打包read-manifest为52907bytes/SHA4dacc8b3091d723f534d6789753cdada4eae60ba5672323ebd1c33b339136720，236个已存在证据成员逐项实核长度/SHA全匹配；60个作者文件身份亦匹配。固定计划354689bytes/SHAcfe1ef8ae52ba4fa9daea475d3f4571d88cdbfe47b87ce89ba7e5a8eb59bd6f1及12段443/445/446/450/451/452/453/454/456/458/459/460冻结块均保持原身份。若后续用户授权设备安装产生新证据和新manifest，须另列新回合，不改本次原打包时点事实。
+
+019 Unity BuildReport为Succeeded，原包装result473bytes/SHAd5f47f76adcec7527ab521f79e79df83d1928a5ca865eb88f2a1ea8891c82c79仍为失败；原BuildReport56571bytes/SHAf34944eaad648ea3ac134ae78987c7159addfb59153f93f70c7963efe722ca0b保持。§460作者补证核正常37程序集/4771类型、无禁止定义；同解析QA正对照确实识别测试程序集/类型，签名等剩余收尾通过。冻结工具的字符串误报未修复，不声称原包装通过，也不签产品ACCEPT。017 TLS失败与精确恢复证据原样保留，不再跑相同完整回归。
+
+SD00实际核当前ProjectSettings/ProjectSettings.asset和EditorBuildSettings.asset与018、019各自captured-before全文字节相同，restored均true；018 QA场景及meta自然清理。§459精确SceneTemplateSettings叶已Absent。进程只读检查未见本项目Unity/Bee/Gradle构建，作者原收尾同样记录已退出；不把后续BlueStacks/ADB进程当作遗留构建。公开凭据排除与私有缓存权限证据已落原scope，未公开凭据或私钥。Git共67条当前路径，恰为61条作者范围、5个SD00协调文档和1个原固定计划，无额外路径；master仍9d416e6c9d3c794be355f903b3636c856783601e，029为未提交/未推送WIP，无候选标签。
+
+收尾时发现用户已直接在C新回合01a0ec3a-3884-7963-8410-a40aec520b7a（startedAt1790669633，用户消息01a0ec3a-38b0-71b1-b7ca-7dfb6f09e254）要求“先装在 bluestack 上进行试玩”。SD00实读原用户消息，尊重该独立小范围授权；截至本次记录该回合仍inProgress，已连接BlueStacks，安装/启动正式结果待其交回。本主Goal仍依457暂停，不取消该直接用户任务，也不从安装授权推导长QA、重新打包、产品R或后续安卓开发。新安装事实须与本次原打包交付分开记录。
+
+主目标现在停于§457指定边界；防休眠辅助进程24292在核父24291、UID501、完整命令/usr/bin/caffeinate -i -t 43200后以SIGTERM释放，并核实际退出，只处理本会话该进程。SD00接着调用Goal暂停，不标complete，不启动产品R或下一包。用户另授权的MonitorControl“安装并重启应用”在安全停点后单独处理；其实际结果以主会话工具回执为准，不能扩大为重启Mac/Codex。
+
+用户再次恢复主Goal后，先接收C安装小任务的真实结果，复核§460补证并最小修正验证器误报，再按现有APK/证书/资料推进隔离Android QA、双PID/故障恢复、IL2CPP运行时/AOT、中文触摸/安全区、M01～M10/P1～P3冷启动及iQOO最终门。完成必要实施与独立产品R后才正常提交/推送。保留既有长测和失败证据，不因暂停/重启或补读上下文重复长回归；本停点不扩展到后续安卓版功能。
+
+§461暂停前最后设备状态：SD00完成快照cursor2a17d2ba-7390-46bb-9099-7371c36da8f4:651显示用户安装回合仍inProgress。C报告正常包启动崩溃栈涉及BlueStacks Vulkan图形驱动，正在核对单次OpenGL ES启动参数是否可作无改包诊断；这是作者当前诊断，尚无正式结论或启动通过。主Goal仍按457暂停，不把APK文件存在或安装请求当作可运行Demo验收，也不因此启动新的主线实现/长测试。
+
+
+## 462. 用户指定新会话：美术与资源首批创作
+
+状态：**ART_FIRST_BATCH_AUTHORIZED / MAIN_GOAL_PAUSED**。用户本次明确“美术和资源这部分用新会话创作”，因此允许在现有外置盘FightMatch项目新建一个独立美术会话；这项新授权覆盖旧“不再新增其他任务”对该会话的限制，不恢复主Goal、029设备长验收或后续安卓功能实施。现有C仍唯一串行Unity执行者；当前测试性能专项与其C/R工作保持独立。
+
+目标：沿已定童话玩具城、发条庭院和发条玩具敌人的设计，实际创作首批可审阅图片资源，并给可由C执行的Unity导入交接。不能只写美术计划，也不把首批静态图称为正式全章美术或已完成动画。首轮围绕当前L1的战士、发条步兵和战场背景，统一明亮玩具质感、角色比例、光照与轮廓；正式后续角色/Boss/地图/UI/图标/动作/特效/音效在资源清单中分批列出，不在本首批无限扩量。
+
+必读：AGENTS.md、START_HERE.md、.agent/PROJECT_CONTEXT.md及三份迁移角色入口；docs/game-design/README.md；docs/game-design/2026-09-14-fightmatch-game-design.md；docs/game-design/content-planning/2026-09-15-chapter-one-art-and-feel.md；docs/game-design/content-planning/2026-09-15-main-planning-handoff.md；docs/demo/PLAY_FIRST_DEMO.md。只读核当前Assets/UI/FightMatch、Assets/Scenes/FightMatchDemo.unity及相关Host/Presentation视图以了解现有布局，不能据占位UI反改已定构图和产品规则。已有网页/几何抖动小样只是历史示意，明确被否定的演出不得作为验收依据。
+
+唯一交付目录为外置盘项目下ArtSource/FightMatch/2026-09-29/，根目录当前Absent；允许创建其父目录。精确新文件只限：README.md、asset-register.json、unity-import-plan.md、first-batch-notes.md、courtyard-battle-background.png、warrior-stand.png、clockwork-infantry-stand.png、first-batch-preview.png。文本每份≤250行/256KiB，PNG每张≤32MiB，均普通文件无链接。原生图像工具必需临时输出可留在其返回的工具临时位置；最终项目交付仅这八叶，不额外复制到内置盘工作目录。若目标已由他人创建先核身份，保留已有成果，不覆盖未知改动。
+
+创作使用当前可用的imagegen技能与图像工具，首次应用按技能要求说明并读SKILL.md。角色和敌人交透明背景全身站姿、统一侧向战场视角，背景留出角色站位与棋盘/UI可读区。根据真实生成结果记录尺寸、透明性、用途、来源/许可证或生成工具、是否最终采用；切勿把合成概念图自动标为可绑定骨骼的分层源文件。first-batch-preview展示与已定手机构图的组合样本；先完成实际作品再给用户评审，普通创作/整理问题自主处理，不重复询问已批准世界主题。
+
+Unity导入计划逐项说明原图与目标资源的对应、建议导入类型/透明/尺寸/图集与引用关系、动画所缺分层或帧、源文件保存及许可证处理，并列C所需精确导入文件和验收步骤的提案。此会话不运行Unity、不安装依赖、不修改Assets/meta/Packages/ProjectSettings/产品源码/既有五个协调文件，不操作玩家资料、模拟器或签名，不提交/推送/创建分支或worktree，不创建更多任务或自行派发C/R。工具可用性受限时先交其余可做部分并说明真实缺口，不冒称已生成/导入/试听。
+
+首批验收：八个交付叶齐全或逐项明确真实缺口；图片可实际打开，作者目视检查背景透明、完整轮廓、站位比例和手机构图；资源登记与实际身份一致；创作样本、待评审素材、Unity未导入及动画/音频未制作分开标注。正式返回链接及简洁制作/导入后续清单，由用户在新会话继续反馈。新会话thread/host/首回合身份在创建返回后另行追加，不能事先编造。
+
+§462实际创建与启动：create_thread成功返回thread01a0ec79-5b64-7b62-8365-bee9229512b5、host local、FightMatch项目6bce5de8-cae2-4322-a2c3-a821606699b9，标题FightMatch 美术与资源创作。按工具约定沿用户默认模型配置，未将仅对C/R指定的模型擅自套到新会话。首次wait_threads实见turn01a0ec79-5c67-7a53-abc2-24066b94dea1、startedAt1790673771、inProgress/error:null，已读合同并开始首批创作；尚无最终图像交付或美术验收结论。主Goal保持paused。
+
+
+## 463. 安卓初版剩余范围与系统设计覆盖的本次核对
+
+状态：**READ_ONLY_SCOPE_AUDIT / NO_NEW_PRODUCT_DISPATCH**。源为用户在指定独立美术会话后询问“安卓后续功能包差多少？各系统设计都做完了么？”。本次只核路线、实际设计、独立接收和已交实现，不恢复主Goal、不签新功能实施、无Unity或回归运行。美术执行另按462，测试性能专项另按其现有授权。
+
+**数量口径。** 首Demo当前仍待029完整设备/产品R/版本交付，不能把它当已接收；当前APK与4041绿测保留。76.5的后续离线12～18、Android/更新8～12、联网18～26，合计38～56，是旧路线的粗估功能包数，不含美术、调参或返修。CONT-A/B/C已经前移三槽阵容、永久成长/学习/制作办理和正式页面，029已新增Android物理存储适配、ARM64/IL2CPP构建与宿主；它们对应旧后段的部分范围，不能再次全部计为待做。但原三组并未细到一套逐编号/逐行为清单，不能机械扣3个CONT或1个029得到准确新剩余。尚无经核准的当前逐包余量；本次不编造“现在还剩N包”或全产品完成百分比。下一次实施规划须先按已有实现与最终首版内容去重、列依赖和可验收输出，再给逐包数量。
+
+**设计覆盖。** 本机19份details覆盖SD01～SD15全部15个设计责任组，文件存在并不等于全系统设计完成。早期integration-review§37关于SD06/08/09主线及SD10/12不存在的缺口，已分别由§40、42、46、49、50及后续Demo实施补齐相应限定范围，不能重报这些旧等待；details中原作者“待复审”头也不能覆盖后来的正式接收。整体架构基线、共同职责和Demo主线设计可继续复用。以下把剩余设计/内容与实施/验证区分：
+
+| 系统 | 已有的设计/成果范围 | 完整安卓初版仍需工作 |
+| --- | --- | --- |
+| SD01 配置与发布 | 定义关系、不可变发布/精确绑定及Demo内容接入 | 补充首版全部内容字段/正式定义及资源发布映射，按新增能力验证。 |
+| SD02 平台与保存 | 保存/查询/恢复契约，已有本机实现；Android适配已交029 WIP | Android实际故障门仍缺；认证、广告回执和远端条件能力的具体接入需细化。 |
+| SD03 成长与职业 | 成长/学习/阵容设计，CONT通用永久操作已实现 | 全职业/解锁内容与首章培养配置接入及联合验证，不能把空发布集合当全内容完成。 |
+| SD04 库存与装配 | 守恒、冻结、装配、永久消耗/制作与来源优先 | 更多物品/配方发布；不可分混合转换及跨档来源场景未完整闭合。 |
+| SD05 进度与教学 | 普通开放、挑战及首入16赠证/教学流程设计 | 全首章内容及其实际教学、重进与一次领取验证；跨分支挑战对应另接账号/云。 |
+| SD06 战斗与历史 | 完整操作/顺序/回退/共享规则已设计并支撑Demo | 全职业/Boss生产能力；多盾、死亡时点状态处理等详情仍有缺口，敌人意图表和火球生产参数属内容校准/发布。 |
+| SD07 广告权益 | 局内复活和在线资格/使用/恢复限定设计已接收 | 资源广告、直接通关、结算增益等用途详情，以及真实SDK/信任/排他接入未完整。 |
+| SD08 结算 | 四种结束、基础结算、防重/恢复协调设计已接收 | 广告追加/直接通关接真实权益和远端固定结果，完整内容收益联合实现及验证。 |
+| SD09 攻略 | 默认参考、搜索/验证/交付契约已接收 | 在线候选生成、完整后继/等价、可靠无解的实际证明能力、服务商/部署与预算仍需落地。 |
+| SD10 内容制作验证 | Demo制作/编译/规则回放/发布的限定设计已接收 | 整章及新增能力的制作验证、必要内容工具和批量发布流程继续细化；不是全内容工具已完成。 |
+| SD11 应用流程 | 单写队列、联合候选、当前头恢复/路由，Demo正式流程已有实现 | 更新/账号/云/广告新增流程的具体接入和全产品联合验收。 |
+| SD12 输入表现 | Demo手势/播放和正式菜单流程已设计实现 | 正式全产品界面/动作/反馈与美术资源接入、触控和视觉验收；美术创作单列462。 |
+| SD13 更新 | 准备/启用/业务恢复/旧能力保留生命周期设计已接收 | 固定框架/依赖组合、发布信任及密钥运维、具体落盘/基座升级/渠道与故障验证。 |
+| SD14 游客与账号 | 有限身份链、绑定和安装恢复设计已接收 | 认证接入、凭据取得/更新/丢失、独立游客/角色对应；不能从有限H12推导完整账号协议。 |
+| SD15 云同步 | 固定卡、复活、延期收益、在线服务的限定来源核对已接收 | 全部来源转换/身份映射/多端冲突协议与实际服务条件提交仍未全闭合。 |
+
+依据：本节实际读取19份details的现存范围，并核integration-review§40/42/46/49/50、battle-history§19、guidance§14、update-lifecycle§8、guest-account§10、ad-entitlements§16及cloud-sync§15/17；CONT-A交付、CONT-B-CODE-C1交付、CONT-C-MAC-R1交付及其现行接收记录解释已前移功能。旧文档中的技术候选/内容待定/未运行互不等价；本次不把未实现全部归咎为未设计，也不把限定ACCEPT称成15个系统全部完工。
+
+
+## 464. 用户纠正运行时UI：uGUI，UI Toolkit仅用于编辑器
+
+状态：**APPROVED_UI_BOUNDARY / MIGRATION_NOT_IMPLEMENTED**。用户在本SD00会话明确指出运行时UI Toolkit未经讨论，原要求仅限编辑器；本次将FightMatch玩家运行时选型确定为uGUI。该直接指示覆盖旧§241、CONT-C设计及029宿主中的运行时UI Toolkit要求，不改变既定业务、存档或FlowPuzzle编辑器选型。旧R审查/绿测不能代替用户对选型的确认；SD00承担设计和派发边界纠正。
+
+本次文档范围仅AGENTS.md、START_HERE.md、.agent/PROJECT_CONTEXT.md、session-plan.md、integration-review.md、本任务包，以及新建[runtime-ui-ugui-correction.md](runtime-ui-ugui-correction.md)。方案实读棋盘/导航/战斗/宿主、资源与UI测试，给出可复用边界、迁移设计要求及可检验验收；工程已包含com.unity.ugui 1.0.0，无需以本决定安装依赖。现有APK、旧UI实现和对应证据保留，尚未完成迁移。
+
+主Goal仍按§457暂停。本次不签产品文件修改白名单、不运行Unity或测试、不恢复完整Android开发，也不抢占独立性能专项正在使用的C/R。可向已授权C/R同步新约束，明确只是约束通知而非迁移执行派发；后续具体设计须给全路径/公开接口/资源GUID及验证映射，经独立审查后再签实施。美术导入提案的VisualElement/UXML/USS/PanelSettings运行时部分由新决定覆盖，创作原图继续保留；不据此自动批准Spine或其他依赖。
+
+§464约束已实际同步：send_message_to_thread向现有C（01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local）和R（01a0e404-e8ee-7310-8388-9260babd53f1/local）均成功返回，显式gpt-6-astra/max。消息明确不派迁移实施、不打断独立性能专项、不新增Unity验证；仅通知下一次UI工作及029接收遵守新规则。发送回执未提供新turnId，本节不编造对应执行或独立审查结论。
+
+
+## 465. GrillMe逐项设计访谈与广告合成决定
+
+2026-09-30，用户要求把SD01～SD15真正未决的规则、已有多方案但未经讨论的技术选择，用具体场景和选项逐项讨论，不再给抽象“设计缺口”。本次是设计访谈，不恢复主Goal、不派产品实现或Unity验证。使用已安装grilling技能；只读事实核对由本会话三个临时代理覆盖01～05、06～10、11～15，没有创建新的持久会话，也不替代C/R产品审查。
+
+访谈交互补记：用户随后报告SD00过早结束回合后，剩余问题已无法选择，并要求继续。SD00已重新发出尚未回答的Q8/Q13/Q14/Q15，编号和已答结论不变；这些问题未因默认选项或上一轮收尾变成决定。本轮保持访谈交互，收到回答后接下一轮；只有整体设计经用户确认或用户要求暂停才结束访谈，不把恢复提问解释为恢复主Goal产品实施。
+
+2026-09-30接续补记：用户再次要求“继续任务”，SD00按当前未结束的设计访谈恢复Q20A／Q20B／Q21选择卡，既有答案和编号保持；没有把待答推荐默认为选择。并交原SD11～15事实代理只读补核Google Play分发与已选HybridCLR／YooAsset路线的剩余条件，为后续讨论准备依据。
+
+提问表达纠正：用户明确不理解PostgreSQL、后台／后端称呼差异、自管费用／认证／备份／维护、Supabase免费验证，以及COS与R2／CDN的关系。SD00已按登录／存档／下载资源场景解释，后续统一称“后端”，不以缩写或含糊费用术语代替工作说明。Q20A现只问Go＋sqlc，不再捆绑数据库品牌；数据库须后续单独说明。Q20B重新提供先本机开发、腾讯自管、Supabase托管三条工作安排；Q21重述为资源分发选择。此次三条回复均是澄清请求，均未构成选型批准。
+
+### 最新发行范围：游客＋广告后端＋远端资源
+
+用户在答复Q23／Q24后说明：“首版大概率不做网络部分，只做游客”，原因是当前后端知识不足；首要目标是上线Google Play，联网增值体验可后续完成，现在可以继续设计并留下对应接口。随后Q25明确首版保留广告变现并接受最小广告后端；Q26明确保留小启动包、首次联网下载主要内容及资源服务器／CDN工作。因此首版是游客普通玩法＋本地存档＋激励广告及必要服务＋原远端资源路线，不能称为完全离线或无后端。正式账号、云档及其人工申诉仍后置；Q6／Q8／Q22～Q24的体验决定保留到该版本。Q20A已选Go＋sqlc、Q33复核已改定MySQL社区版，用于限定广告后端，部署按该范围重新评估，不将原完整账号后端55～95人日直接套到首版。Q21用户在费用澄清后已明确先用R2，采用R2 Standard＋Cloudflare缓存／CDN供YooAsset下载；广告后端服务器另选。Q27已定首版只提供免费默认攻略，当前战局在线分析后置。Q28已定游客身份凭据只保本机、全部丢失无法找回，须提前明确告知；恢复码、手动备份与匿名游客人工找回均不纳入首版。
+
+“只做游客”本身不能替代广告、联网攻略和资源下载的逐项边界：广告SDK仍联网，既有收益保护还要求真实远端事实／持久结果；原小启动壳与远端主业务也有首次下载依赖。SD00先核清这些事实，再以实际玩家功能确认首版是否纳入；本段不默许削弱广告收益原则，不默选资源改随包，也不把所有网络功能已移除写成既成决定。已有普通玩法、版本化本地存档和来源身份应连续保留，后续绑定接收原游客资料；“留接口”先明确现有系统接入边界，不授权预先实现完整后端或新建泛用框架。主Goal仍暂停，没有产品实施派发。
+
+本次只读核清的范围依据：
+
+- [首章内容入口](../../game-design/content-planning/README.md)已定先做1～16关、发条庭院＋发条熊王、起始战士与8后法师；21盾骑士／37弓手属后续。只含L1的开发Demo不是首批全部内容，16关仍需制作与验收，不重复询问已定关数。原[玩法稿](../../game-design/2026-09-14-fightmatch-game-design.md)盈利方向为主动激励广告；只有Q25决定暂缓广告后，才另谈首发免费无营收或改付费下载，当前没有批准新收费方案。
+- Google的[Level Up指南](https://developer.android.com/games/guidelines)（2026-09-21更新，9月30日核验）明确计划自愿，平台认证不要求游戏内账号系统，且云档条目豁免仅游客游戏。因此不把该计划资格冒充所有Play游戏必须自建账号／云档／后端的上架门槛。
+- 首版仍须完成Play发行适配：[新应用AAB](https://developer.android.com/guide/app-bundle)、[当前目标API36](https://support.google.com/googleplay/android-developer/answer/11926878?hl=en)、[16KB兼容](https://developer.android.com/guide/practices/page-sizes)及必要申报。现有029单APK不代表商店发行就绪；已选2022.3.62f3仍只是待验证候选。这些是实施和验收要求，不转成“是否遵守”的选择题。
+- [既有更新设计](../2026-09-16/details/update-lifecycle.md)§3明确缺首次业务包时须下载；[YooAsset官方](https://www.yooasset.com/docs/guide-runtime/ResourceInit)支持内置资源的OfflinePlayMode，以及内置＋缓存的HostPlayMode。故Q26是首发交付方式取舍，不是必须放弃YooAsset；文档所示3.0.x不因此成为已批准安装版本。
+- [广告设计](../2026-09-16/details/ad-entitlements.md)§1～3由远端裁定Grant／Use，SDK回调不等同可发奖；保广告就不能宣称完全无后端也兑现既定保护。[攻略设计](../2026-09-16/details/guidance.md)§2的完整默认参考永久免费离线可读；`PlayerBattleSession`已有读取发布参考的本地路径，`CandidateDemoView`仍把OnlineAndAds列为未实现。无广告时失败仍沿已有撤销／立即重来／退出规则，不自动新增免费复活作为替代；正式内容数值与迁移后UI仍须实际验收。
+- 游客首版的备份／换机承诺仍须具体讨论。[本地保存](../2026-09-16/details/platform-save.md)只保证其前置成立下的当前／前代及故障恢复，明确排除卸载、清数据和系统备份恢复旧档，未批准玩家手动导出／导入。当前生成Manifest未声明备份规则，不等于系统备份已关闭或恢复已验收；[Android官方](https://developer.android.com/identity/data/autobackup)说明Auto Backup有默认行为、容量和触发条件，Android12又区分云备份及设备迁移，不能许诺总能恢复最新档。下一轮用具体丢机／换机场景决定承诺，再做限定实现；此处没有改变Android配置。
+
+### 已答及当前待答
+
+| 编号 | 具体问题 | 当前状态 |
+| --- | --- | --- |
+| Q1 | 同一次广告的铁同步到A/B后，A做斧、B做剑，选B留哪件？ | **用户已答：只留B的剑；同一广告按所选档保留一个结果，不同广告的收益仍全部保留。** |
+| Q2 | B在A看广告之前离线；A获广告铁并合成斧均已同步云端，B未收到该广告、仅用普通铁做剑；选B如何保广告收益？ | **用户已答自由方案：保B剑及原合成/扣料，给B补回云端原3份广告铁。** 不导入A斧、不退B普通铁、不额外扣木；同一广告原来源只能补回一次。这覆盖SD00此前在本场景推荐带入斧的解释，不推广到所有用途；Q5另问经验卡。 |
+| Q3 | 角色倒下时仍有两次毒伤，广告满血复活后清毒还是继续剩余次数？ | **用户已答：倒下时清除本人身上的中毒、灼烧等持续负面状态，复活后不再继续原剩余次数。** 技能冷却旧规则保持；不据此推断队友身上的已施加效果也消失。 |
+| Q4 | 完整安卓初版先面向中国大陆直接APK、国内商店，还是海外Google Play？ | **用户已答：首发海外 Google Play。** 后续账号、广告、云存档与部署按此目标调查；本答复未选择具体SDK/登录入口/付费服务。 |
+| Q5 | B从未收到A独有广告经验卡，A已将卡转战士50经验；选B补卡还是保经验？ | **用户已答：统一补回原始广告奖励，B获得1张50经验卡，不带入A的＋50经验。** 此场景覆盖旧独有卡转换经验保留规则；同来源两档均收到仍沿Q1。直接发经验和即时服务不能冒充原物卡套用。 |
+| Q6 | 海外Google Play首版，游客自愿绑定后换机找回用何入口？ | **用户已答：首版同时提供Google账号和邮箱验证，两者都能找回。** 游客先玩、以后自愿绑定仍有效；未选择SDK/后端，邮箱认证方式见Q8。 |
+| Q7 | 调整30关参数时主要通过什么入口维护？ | **用户已答：主要直接编辑Excel/CSV表格，再由工具校验并生成游戏配置。** 覆盖此前JSON作为人工编辑权威源的推荐；JSON可继续作为生成的运行/中间产物。保留既有校验、指纹、不可变发布和旧局绑定；后续Q17已选Luban制作阶段接入。 |
+| Q8 | 邮箱首次绑定、换手机或重新认证时采用验证码、密码还是登录链接？ | **用户补清：同一邮箱账号同时提供“密码登录”和“验证码登录”，玩家自己选。** 日常同设备保持登录，不反复查码；需要重新认证时使用所选方式。两种方式须归属同一账号/进度，不能生成两份邮箱账号；不采用邮件链接替代数字验证码。 |
+| Q9 | 同种材料/战斗道具同时有广告和普通来源时先扣哪种？ | **用户已答：先消耗广告来源，不足再扣普通来源。** 与经验卡已有优先级一致。 |
+| Q10 | 毒箭开关已开，射击明确免疫中毒的敌人时是否耗毒箭？ | **用户已答：仍消耗毒箭，普通伤害照常，毒效果无效，由玩家自行关闭开关。** 不采用自动省箭推荐；对已中毒目标耗箭刷新旧规则不变。 |
+| Q11 | 盾骑士施加全队盾后倒下，队友既有护盾是否消失？ | **用户已答：队友护盾继续保留至原定到期时间。** 不因施法者倒下移除；既定本轮末到期保持。 |
+| Q12 | 首版支持哪些语言？ | **用户已答：英语＋简体中文。** 后续语种走同一表格与运行时替换流程；默认语言策略见已答Q13，工具方向见已答Q19。 |
+| Q13 | 首次启动按手机系统选语言，还是先显示语言选择？ | **用户已答：按手机系统选择，中文系统用简体中文、其余英语。** 设置中提供两种语言的手动切换并记住选择。 |
+| Q14 | A广告首通16获证1，B独立普通首通16获证1，两份都未消费，选B最终留1还是2？ | **用户已答：只保留1张。** 不因A广告首通再补同一首通证；UI的通关奖励说明区域须写清这是首通奖励，不靠弹窗/飘字告知。本例不计入场教学证，也不据此撤销其他独有广告材料/经验卡。 |
+| Q15 | 战斗中后台新版下载完、需重启启用，何时提示？ | **用户已答：回到地图等自然页面边界再提示，可选稍后更新。** 保存/旧局版本绑定保持既定规则；不在战斗中弹出更新提示。 |
+| Q16 | 正式首版保留2022.3系列、上架前评估必要补丁，还是尽早评估Unity6.3 LTS？ | **用户已答：保留2022.3，发行准备先验证公开2022.3.62f3补丁候选。** [具体评估](unity-version-research.md)已说明维护期、平台要求和迁移成本；62f3是获选验证候选，不是已验收版本。用户随后要求使用Intel并保留Windows开发；按本题上下文记录为Mac Unity采用Intel版，双端共用工程并保持同一编辑器/包版本。未安装、升级或进行迁移实测。 |
+| Q17 | Excel/CSV用Luban制作阶段生成再接既有发布器，还是项目内小型导入器？ | **用户已答：采用Luban作为表格制作工具，输出接现有发布流程。** 保留既有校验、发布和精确数值规则；具体版本、表结构及适配白名单后续细化，未安装或改运行模型。 |
+| Q18 | 独立游客A战士直接获广告额外50经验，两边登录同账号选B时，经验按职业给B战士还是改为自由分配？ | **用户已答：一个职业只有一个角色；A给战士直接广告50经验并已上传，B同步同账号后战士也应获得这50经验。** 因此按职业对应并按原广告来源去重；不改为自由分配经验，不因两份游客记录内部ID不同产生两个同职业角色。B已经接入同来源时不重复加；缺职业等正常解锁的原规则保持。 |
+| Q19 | 多语言采用Luban文本表＋项目内键绑定，还是官方Localization＋YooAsset桥接？ | **用户已答：Luban文本表＋项目内本地化绑定，资源走YooAsset。** 保留英/简中、占位符、运行时替换和手动切换要求；具体格式化、刷新和检查方案仍需设计，不安装官方Localization/Addressables。 |
+| Q20 | Google＋邮箱密码/数字验证码、云档和广告账本采用Supabase还是Firebase基础？ | 用户先追问费用，随后要求评估**自研后台时间/难度、海外服务器及CDN费用**；[具体研究](backend-self-hosting-research.md)现已完成，**供应商尚未选择**。最小接入验证约5～10人日，完整小规模账号/云档/广告及客户端约55～95人日（含自建特有责任约17～29），均为带假设估算。初版仅比较DO/Linode常规价；用户随后要求补Go＋sqlc及腾讯云低价方案，已核Go/sqlc事务可行、腾讯海外轻量2核2GB30元/月与4GB42元/月，CDN/活动资格/续费继续核。Q20A后续已确定Go＋sqlc，Q33复核已改定MySQL社区版；完整账号托管后置，最小广告部署厂商仍未选。研究不授权购买、部署或启用收费服务。 |
+| Q21 | 公开热更新资源采用R2＋Cloudflare，还是腾讯COS＋CDN？ | **用户最终已答：“好的，先按R2走”。** 采用R2 Standard存储公开资源并接Cloudflare缓存／CDN，客户端沿已选YooAsset下载。用户优先目标为更低实际服务支出；此前因误解固定月费而提出的“先腾讯后迁R2”及暂缓状态由本次明确选择覆盖。R2按月用量结算、免费额度内可为0，不将算例当固定月租；不是所有相关服务永远免费。域名、发布权限、资源不可变命名、缓存和Range续传、目标地区速度及用量告警仍需具体接入方案和验收。广告后端服务器独立选型；未开通、部署或恢复暂停的产品实施。 |
+| Q20A | 后端语言使用Go＋sqlc，还是C#？ | **用户已答：后端用Go＋sqlc。** 经澄清后本题只决定后端语言及数据库访问代码生成工具；Q20A没有同时批准数据库，后续独立问题Q33先选PG，技术及求职比较后用户最终改定MySQL社区版。Unity客户端继续使用C#，现有精确玩法不因后端语言另写一套；托管安排待Q20B，资源分发已由后续Q21确定R2。 |
+| Q20B | 先本机开发后再选云服务、租腾讯服务器由项目维护，还是Supabase托管？ | 已解释认证、备份、维护及免费套餐。用户曾在此表单谈R2迁移，按语义归Q21，未选择账号／数据库托管。**现因游客首版方向暂缓本题，后续联网版本再选择**；不将先本机开发的推荐记作批准，也不要求现在购买或部署。 |
+| Q22 | 原邮箱失效但Google仍可验证时，是否允许更换邮箱；首版是否允许管理／解绑登录入口？ | **用户已答：允许更换和解绑，核验身份后办理，至少保留一个有效登录入口。** 更换时核验新入口；继续使用同一游戏账号及其进度／广告来源记录，不因改邮箱或登录提供方重新开档。两个已有正式账号的合并仍由Q23另定。 |
+| Q23 | 邮箱正式账号A与另一个邮箱的Google正式账号B各有云档，是否允许合并？ | **用户已答：不提供两个正式账号合并；提示账号已存在，允许分别登录。** 与游客首次绑定不同。后续游客首版方向将该决定移至开放账号功能时执行，不要求游客首版先实现登录。 |
+| Q24 | 旧手机及全部Google／邮箱登录入口都丢失时，是否提供独立人工申诉找回？ | **用户已答：提供人工申诉，由人工核实账号归属后处理。** 用户没有采纳“不另设人工找回”的推荐。该能力随账号服务移至后续版本；申诉证据、审核操作及恢复验证尚需设计，昵称／等级／截图不能单独证明归属。它不能恢复从未上传、且所有本地副本均已丢失的存档。 |
+| Q25 | 游客首版是否也暂缓广告复活／通关／奖励翻倍／资源广告？ | **用户已答：首版保留广告变现，接受最小广告后端的开发工作。** 不采纳暂缓广告推荐；延续主动激励广告及既定用途／收益原则。匿名来源证明、真实回执核验、奖励／资格／使用的持久记录、重复与中断恢复须形成限定实施及验收范围；不自动纳入Google／邮箱登录、完整云档、人工申诉或攻略计算。旧完整后端工期须另按首版范围重估，不因此新增付费下载选择题。 |
+| Q26 | 首版内容随安装交付、更新先走Google Play，还是保留原小启动包／联网下载主要内容？ | **用户已答：首版仍用小启动包，首次联网下载主要内容，保留资源服务器／CDN工作。** 不采用随安装全量交付推荐；原HybridCLR＋YooAsset及版本／保存兼容路线保持。首次缺内容仍须联网，完整缓存后的离线行为沿原设计。本题当时未选择具体厂商；后续Q21另行确定R2。 |
+| Q27 | 首版是否包含针对玩家当前残血／已走步骤重新求解的在线攻略？ | **用户已答：首版只提供免费默认攻略，当前战局在线分析后续做。** 首版不接攻略计算服务，不把完整默认参考冒充适配任意正在进行战局；相关在线算法／服务决定留待后续。 |
+| Q28 | 游客原手机内的存档／身份凭据丢失，首版是否提供另存恢复码或手动备份找回？ | **用户已答：首版只在本机保存身份凭据；全部丢失时无法找回，提前明确告知。** 首版不提供恢复码、玩家手动备份／导入或匿名游客人工找回；后续正式账号Q24仍保留。此答复决定身份入口，已核实主体下的广告收益保留／去重规则不变，不授权删除远端广告记录。Android系统备份／迁移的默认行为须在平台方案中明确处理与验证，不能把意外恢复的旧档／凭据直接当合法当前授权。 |
+| Q29 | 首版最低系统采用Android7，还是必须继续覆盖Android5.1／6？ | **用户已答：首版最低Android7（API24），接受不支持Android5.1／6。** 当前工程min22尚未修改，该配置及029证据不代表已验新的发行范围。Unity仍沿已定2022.3／62f3候选验证路线；具体SDK组合与最低系统设备验证另列实施，本题没有选择广告平台。 |
+| Q30 | 首版先接一家广告来源，还是同时接两家／更多？ | **用户已答：首版先接一家，观察实际广告可用情况后再扩展。** 维持玩家主动激励广告，后续扩来源须另定具体范围；本答复未选平台／SDK版本，也不自动加入开屏或插屏广告。 |
+| Q31 | 首版实际主要为13岁以上青少年／成人、包含低龄儿童的混龄玩家，还是仅成人设计？ | **用户已答：主要面向13岁及以上的青少年和成年人。** 用于真实教学、宣传及广告配置；不等于仅18+，不冒充内容分级、全球统一法律年龄线或自动豁免各地年龄／同意要求。未修改商店声明，后续按实际内容及所选SDK核对应流程。 |
+| Q32 | 首版先验证AdMob＋Google单源，还是LevelPlay＋Unity Ads单源？ | **用户已答：先验证AdMob＋Google单一广告源。** 这是首版优先接入路线，未安装或锁定具体SDK版本，未完成Unity构建／真实广告验证。已说明官方免费和较短回执重试窗口；后端可靠持久收件、去重、迟到回执与中断后的奖励恢复仍须独立验收，不由品牌或客户端回调替代。后续增加来源另定范围。 |
+| Q33 | 最小Go＋sqlc广告后端用PostgreSQL、MySQL社区版，还是暂缓数据库选择？ | **用户最终已答：改用MySQL社区版，兼顾项目实践和求职学习。** 此答复覆盖先前PostgreSQL选择，Go＋sqlc保持。 此前已用广告铁流程说明Go业务、数据库软件、SQL读写与sqlc生成代码的区别。用户随后询问技术新旧、行业使用及就业，并说明职业方向未定。已核两者均活跃维护、Go＋sqlc均稳定支持、事务能力并非PG独有；国内官方岗位样本直接涉及MySQL，也有海外游戏Go岗位并列两者，不能推出行业份额。SD00提出兼顾国内游戏服务端学习的MySQL建议后，用户已在复核卡明确批准。详见[研究§14](backend-self-hosting-research.md#14-q33追加数据库技术与求职适配)。未安装、部署或生成数据库代码；普通本地存档和广告保护规则不变，Q20B完整账号托管仍后置。 |
+
+用户最初要求合成后的广告收益跨档保留，Q1补清同一广告来源的分叉边界；Q2/Q5后续具体回答进一步确定接入形式：所选B从未收到另一档独有的广告材料/经验卡时，补原始奖励，不带A的合成物或转换经验。用户对原Q2的理解是B已收到广告铁，此时本就沿Q1只留剑；SD00已承认时序交代不清。澄清场景固定为双方先各有普通铁3/木1，B先断网，A另获广告铁3并同步、用广告铁和木合成斧再同步，B仅用普通铁和木做剑，最后联网选B；结果保B原剑/扣料，补广告铁3。铁/木/斧/剑只是政策示例，不是新批准配方。旧转换经验裁决保留历史证据，但后续实施以Q5覆盖后的精确规则为准；直接经验、广告通关和即时服务仍沿其适用规则另核，不能统一当作可补发的卡。广告来源须去重，不因反复选档重复恢复，也不把使用广告道具后的所有普通战斗收益都自动算成广告奖励。
+
+**用户新增本地化硬约束。** 所有玩家可见预制体文字默认使用类似`【if you see this, it is a bug.】`的显眼占位符，再由代码按多语言键/模板替换；游玩中看见占位符即说明替换未到位。不能在预制体塞最终中文/英文掩盖漏绑定。Q12确定首发英语/简体中文，Q13确定首次按系统选择、设置可手动切换并记住；Q19选择Luban文本表＋项目内本地化绑定，资源走YooAsset，与Q7的Excel/CSV制作流程对齐。切换刷新的接线、格式化和翻译缺项处理仍需细化。已同步AGENTS及uGUI纠正方案，尚未改产品代码或依赖。
+
+**双开发环境与Intel选择。** 用户明确“使用intel，因为我也会在windows上开发”。依紧邻的Unity版本讨论，SD00记录为Mac Unity编辑器使用Intel版；Windows使用同版本Windows编辑器，保留同一工程和业务源。2026-09-30只读`file`核现有外置2022.3.18f1的Unity可执行文件为`x86_64`，主机`uname -m`为`arm64`。已向用户说明Mac编辑器CPU架构不决定工程能否在Windows开发；当前029构建/验证工具有Mac绝对路径，后续仍须分别适配并验证，不宣称换成Intel即已完成双端支持。这不是要求Android改为Intel目标，也没有授权现在安装或改构建设置。[Unity2022.3宿主要求](https://docs.unity3d.com/2022.3/Documentation/Manual/system-requirements.html)。
+
+**首通唯一奖励的明确边界。** Q14用户选择首通证只保留一张，覆盖SD00推荐的“双份证”处理；这是一项明确的首通唯一奖励决定，不能继续用笼统“所有不同广告原物都补回”把第二张首通证补出。关卡通关奖励说明须标清首通属性；本轮未据该回答推断同次广告通关的其他普通奖励行也全部丢弃，后续共同协议须分别核首通事件和其他奖励来源。
+
+**依据已答规则可直接推出的组合，不再重复问用户。** A独有广告发3张经验卡，A用2张余1张，B从未收到而最终选B：按Q5补原3张，不导入A经验。若B已收到同3张、自己用1张，则按Q1保B的一次经验效果及余2张，不补A用掉的卡。同一次原子发放不能虚构为合法“只收到1张、另2张未收到”；完整接入见证缺失是证据问题，不能让玩家猜数量。首通16证按Q14唯一：选B时B已用证学习，则保B学习结果、证余额0，不再补A证；B未用则留B的1张，不导入A的学习。依据见[inventory-loadout](../2026-09-16/details/inventory-loadout.md)§9、[cloud-sync](../2026-09-16/details/cloud-sync.md)完整接入见证及[progress-tutorial](../2026-09-16/details/progress-tutorial.md)首通/已消费边界；这些是现有答案的推论，未新增产品选择。旧独有卡导入转换经验的见证需按Q5同步修订，不能继续作为新实现依据。
+
+### 后续分支与事实纠偏
+
+| 系统 | 已核事实和接下来的具体讨论 |
+| --- | --- |
+| SD01 配置 | 唯一来源、校验、不可变发布与旧局绑定已设计；Q7已把人工编辑入口定为Excel/CSV，Q17选择Luban制作阶段接现有发布流程。接下来细化表结构、适配和诊断；未发布数值/配方单列内容工作。 |
+| SD02 平台保存 | 完整代际＋提交封记及结果未知先查原操作已设计；真实耐久/性能属于工程验证。服务接入依Q4及账号/攻略要求，代理先调查能力再提可评审技术方案。 |
+| SD03 成长 | Q5把B未收到的独有广告经验卡恢复改成补原卡。Q18已明确每职业只有一个角色，直接广告经验按职业接入所选进度的对应角色、同来源去重；缺职业仍等正常解锁。内部角色记录对应由技术设计解决，不再作为玩家选择。 |
+| SD04 背包 | Q1/Q2/Q5已决定同源分叉与独有原物恢复；Q9已统一同种材料/战斗道具广告优先。部分消耗/完整接入组合已核可由已答规则推出，无需新增玩家裁决；仍须将新原物规则同步到旧来源见证与实施设计。 |
+| SD05 进度 | 原8广告整包等B正常开放8后接入、无需重打已定；教学首证保战士已定。Q14已决定A广告/B普通首通16重叠时只留1张首通证，通关奖励说明明确标首通；来源协议须按奖励行处理，不能再称本问题未定。 |
+| SD06 战斗 | Q3已定倒下清本人持续负面状态；Q10已定免疫毒仍耗毒箭；Q11已定队友盾不随施法者倒下消失。当前首版未找到可达双盾来源，不把泛用叠盾排除项冒称首版阻塞。 |
+| SD07 广告 | Q25明确首版保留激励广告与最小后端，正式账号／云档后置；Q28已定首版凭据只存本机、全失无法找回并告知。收益原则及原主体可核实下的恢复不重问；真实SDK／回执与奖励报价可信准入仍需验证。Q29已定最低Android7，Q30单源、Q31面向13岁以上青少年及成人、Q32优先验证AdMob＋Google单源；精确组合仍须验证，不把客户端回调／哈希当可信发奖事实。 |
+| SD08 结算 | 当前未发现独立的新玩法裁决；唯一首通与广告来源的冲突交SD05/15具体讨论，接真实广告及内容是实施工作。 |
+| SD09 攻略 | Q27明确首版只保留永久免费默认完整参考，当前战局在线分析后置；第一批实际参考和uGUI仍需制作验收。原AI／搜索候选共享验证、预算耗尽非无解及同挑战续用规则保留到后续在线版本，此时不再追问模型、自动重算或服务器预算。 |
+| SD10 内容工具 | 几何/RPG分验、回放再发布已有设计；Q7表格编辑入口与SD01共用，具体工具合并讨论。数值试调和制作工作不冒称产品规则未定。 |
+| SD11 应用流程 | 当前未发现独立新规则；按其余系统决定组织请求、保存和恢复，不重开已定状态所有权。 |
+| SD12 表现 | uGUI运行时、UI Toolkit编辑器已定；Q12首发英语/简体中文，新增预制体显眼占位符及运行时本地化硬约束；Q19已选Luban文本表＋项目内绑定、资源走YooAsset。布局/动画生产先核美术会话实际决定，不把候选Spine/画风当依赖已获批。 |
+| SD13 更新 | HybridCLR＋YooAsset有用户原话，不能重复列为待选。Q15已定回地图等自然边界提示重启并可稍后；本轮已补核Play代码分发政策及下载前大小披露，见下方。精确版本组合、发布签名、AOT边界与真实Play验证仍是工程工作；目前未发现需要新增玩家裁决的实际阻塞。 |
+| SD14 账号 | Q6／Q8确定Google＋同一邮箱密码／数字验证码；Q18已解决每职业唯一角色及直接广告经验对应。Q22允许核验后更换／解绑并留一个入口；Q23不合并两个正式账号；Q24提供人工核实申诉找回。用户最新方向将账号能力移至后续版本，当前只设计接入边界，不催选供应商或细问申诉运营；本地游客首版不因此阻塞。 |
+| SD15 云档 | 普通进度选一份、Q1同广告分叉随所选档、Q2/Q5独有原物补回已定；接SD03直接经验映射、SD05一次性事件，再核完整来源组合。技术条件提交与证据能力不包装为泛泛玩家选择。 |
+
+主要出处：configuration§2/10、platform-save§2～5、inventory-loadout§7/9、character-growth§7、progress-tutorial§8；session-plan§19/23及247行用户热更新选择；runtime-extension-contracts的FP/FB/OP/GP后续裁决；battle-history§19及content-candidates毒免疫候选；guest-account§10、hot-update-research及account-sync-research。三份只读代理结果为访谈事实输入，均非实施验收。每轮只把实际用户回答记作决定，剩余分支保持待讨论；整体设计确认前不据推荐提前实施。
+
+### 本轮整体理解核对（Q34，用户已确认）
+
+Q33最终改定MySQL后，首次复核未发现立即新增的首版玩法／产品路线选择题；用户随后追问遗漏时的再次复核发现了移动流量下载授权，见下方补核。Q34只确认本轮已列出的共识，不等于所有详细设计、代码、内容或发行验收已经完成。具体发行国家／地区未获批准，“海外Google Play”不能扩写为全球所有地区；留在安排地区测试和正式发行前讨论。Q21当时按用户要求暂缓，后续费用澄清后已明确选R2；最小广告后端部署厂商仍未选，须准备可评审的费用、维护及测试方案。完整账号托管、在线攻略计算等随功能后置，不当作首版阻塞。
+
+| 主题 | 本轮共识摘要 |
+| --- | --- |
+| 首版范围 | 海外Google Play、主要13岁以上；游客普通玩法和本地存档，保留激励广告、小启动包首次下载主要内容、免费默认攻略。原首章1～16关及既有内容计划不因本轮重开；首Demo是同一产品的小版本。 |
+| 客户端与工具 | 游戏运行时uGUI，编辑器UI Toolkit；Excel／CSV为主编辑源、Luban接现有发布流程；英语＋简中，默认随系统并可记住手选，预制体占位符须由运行时本地化替换。 |
+| 平台与更新 | 最低Android7；Unity2022.3保留，62f3只是发行准备验证候选；Mac Intel与Windows共用项目。HybridCLR＋YooAsset继续，下载后需重启的更新在自然边界提示，可稍后。 |
+| 广告与后端 | 先验证AdMob＋Google单源；后端Go＋sqlc＋MySQL社区版。真实核验、去重与中断恢复仍须实际验证；不自动加入开屏／插屏或第二广告来源。 |
+| 玩家数据边界 | 本机游客凭据全失无法找回并提前说明。后续账号／云档仍保留已讨论体验；同次广告随所选档，不同独有材料／卡对未接收档补原物，直接经验按唯一职业对应；首通16证只留一份。 |
+| 明确后置 | 正式Google／邮箱账号、普通云档、人工账号申诉、当前战局在线攻略；现在保留设计边界，不先实施完整后台。 |
+
+余下具体工作为：uGUI迁移及美术接线方案；Luban表结构／诊断和本地化键绑定；最小广告后端表与接口、可信奖励准入及故障恢复；热更新／签名／包版本和Play构建验证；首章内容生产和实际设备验收。先前已通过的验证只覆盖其原源码及范围，不能替代这些新工作。主Goal的§457／461暂停保持，本次共识核对不派发代码、不运行Unity、不购买服务。
+
+Q34用户已明确回答“准确，确认本轮设计共识”。本轮已知的当前选择完成整体理解核对，作为后续详细设计与评审依据；没有剩余待答卡。当时暂缓的资源供应商现已由后续Q21确定R2；广告后端部署及具体发行地区仍未选，不能默认批准。此确认不恢复§457／461暂停的产品实施，也不把设计共识当源码、设备或发行验收。后续只有新的实质选择或既有方案无法满足验收时再提出具体取舍；不重复本轮已答问题。
+
+### Q34后遗漏复核与R2计费澄清（2026-09-30）
+
+用户追问“还有没有没讨论到的”及R2好处。原三名临时事实代理重新核对SD01～15，未创建持久会话，也未恢复产品实施。复核发现一项可立即讨论的首版体验分叉：**资源下载是否可以自动使用移动数据**。SD13已决定显示下载量、允许取消、首次缺包阻断、失败保留原可用集合；Q15决定下载后的重启提示时机，但均未决定首次使用移动数据、下载中Wi-Fi断开转移动数据，以及后台新内容下载的授权边界。**Q35用户随后已答“提醒是否使用手机流量”**：在本次下载将使用移动数据时先暂停、显示剩余量，由玩家确认是否继续，含Wi-Fi中途切换；未确认前不自动继续，一次同意不默认为以后所有下载均允许。用户又提出断点续传是否由YooAsset提供，要求核清现成能力；沿已选框架研究接入、缓存和中断恢复，不自行另造下载器，也不把库的能力当作现工程已经验收。
+
+资源供应商在补核时是已知暂缓项，现已由后续Q21确定R2；最小广告后端部署／具体发行地区仍待定，不计作新遗漏。广告首次请求与隐私选择界面、必要的后续修改入口及年龄适用流程尚需形成可评审方案；Q31目标13岁以上、Q32选择AdMob均不自动批准个性化投放，也不能把平台必要要求变成“是否遵守”的偏好题。具体投放取舍待方案有依据后再提交。
+
+已答决定尚须回填详细稿：SD01旧JSON人工源由Excel／CSV＋Luban取代；SD03／04独有广告卡转换经验旧规则由Q5原物补回取代，材料／战斗道具按Q9广告优先；SD06死亡持续负面状态按Q3。Android系统备份／凭据恢复处理、AdMob可靠收件／去重／可信奖励准入与故障验证、uGUI／美术接线、Luban与本地化仍是详细设计和验证工作，不重新询问已定体验。首章数值由既有策划校准授权推进，不把逐项倍率包装成用户未决问题。
+
+断点续传补核：所查YooAsset 3.0.6源码和3.0.x官方文档区分完整文件缓存复用与单文件半包续传，后者须配置最小文件尺寸阈值；所查源码默认long.MaxValue，不能把文档1MiB示例当默认开启。半包路径可按磁盘临时文件长度发Range续传，跨重开依赖同一内容身份、稳定路径、保留临时文件及服务端配合，必须实际验证。PauseDownload只停止安排新文件，正在下载的文件仍可能继续；因此流量切换不能仅弹提示或调用该暂停接口，还需接入真正中止与重建续传。具体版本／阈值尚未锁定，本次没有安装YooAsset；断网／重开、半包校验、切换流量等待同意及目标CDN均列后续下载验收，不能以框架自带功能替代项目证据。见[续传研究及五项验收](yooasset-download-resume-research.md)、[官方配置说明](https://www.yooasset.com/docs/guide-runtime/FileSystem)。
+
+R2／腾讯的同量算例、免费额度与费用边界补入[后台研究第15节](backend-self-hosting-research.md#15-r2与腾讯cdn同量算例)，用户继续追问“先腾讯、用户多后R2更优惠”见第16节。该路线可行，但只有现有可用额度、优惠／配置复用或实测效果等条件支持时才可能更省；不能仅由人数多少推出最便宜。R2不按下载GB收出站费，小规模也可能免费；腾讯CDN命中缓存仍计节点到玩家的流量。R2不替代运行Go／MySQL的服务器，玩家手机流量费不因此减免。Q21随后已明确选择R2，本次未购买、部署或运行测试。
+
+### 技术选型事实准备（历史访谈依据，后续已答决定优先；非实施授权）
+
+**Q21最终确认（2026-09-30）：** 用户明确“好的，先按R2走”，正式确定R2 Standard＋Cloudflare缓存／CDN的资源分发方向，沿用YooAsset客户端及Q35流量确认、续传验收。现无待答的资源厂商选择；主Goal仍暂停，账户开通与部署尚未执行，广告后端服务器仍独立待定。
+
+Q21偏好澄清历史：用户明确只希望更优惠，指出前述解释让其误解R2有必交月费。后续按实际服务支出优先比较，不把熟悉腾讯作为用户额外目标。已核R2 Standard没有固定起步月租；按月用量在免费额度内可为0，先前月费用数字是算例，不是最低消费。当前低用量假设下优先推荐R2并验证实际分发，尚无供应商开通授权；没有恢复主Goal。具体纠正及算例见后台研究第16节。
+
+- **配置导入。** 当前示例约20KB，1关/2种物品/31个PRD参数，模型已有嵌套、引用、大整数及精确分数，尚不能据此认定需要大型生成器。可用项目内导入器把Excel/CSV映射到`PublishedSource`，或用Luban制作阶段生成数据再适配；两者均接现有`PublishedContentCompiler.Prepare`及`PublishedContentCatalog.Publish`。Luban官方支持CSV/XLSX及仅生成数据，不必将生成类直接变成游戏运行模型；选用它仍增加结构定义、工具版本和映射维护。支持CSV不等于支持XLSX。[官方能力](https://github.com/focus-creative-games/luban)、[生成参数](https://www.datable.cn/docs/guide/first-generate)、[运行库边界](https://www.datable.cn/docs/guide/load-runtime)。Q17现已选Luban制作阶段方向；精确版本、表结构及适配仍待具体设计，未安装或新增运行依赖。
+- **本地化。** 当前manifest/lock未安装Localization或Addressables，也未实际安装已定方向的YooAsset/HybridCLR；已有TMP及uGUI。官方Localization默认用Addressables管理语言和文本/资源表，`ITableProvider`虽可自定义表来源，仍返回相关异步句柄，不能声称已去除依赖。已比较表格＋项目内键绑定与官方Localization＋YooAsset桥接；Q19用户选择前者，项目负责格式/切换/验证工具。后者有现成翻译能力但须验证发布/加载/释放适配，未获选择。两者都须遵守占位符和单一表格编辑源。[官方默认加载](https://docs.unity3d.com/Packages/com.unity.localization@1.5/manual/Addressables.html)、[自定义表](https://docs.unity3d.com/Packages/com.unity.localization@1.5/manual/Scripting.html#custom-table-loading)、[CSV流程](https://docs.unity3d.com/Packages/com.unity.localization@1.5/manual/CSV.html)。未冻结精确包版本或证明桥接可用。
+- **Google Play与Unity。** 2026-09-30核官方页面，新应用/更新自2026-08-31起要求目标API至少36；当前项目目标32、Unity2022.3.18f1，不能把开发APK当作Play就绪。官方2022.3手册列62f1起支持API36，但2022.3常规支持已于2025-05结束，可下载后期补丁不等于仍有常规维护。Unity6.3 LTS作为长期候选已完成项目具体评估，其最低Android7.1/API25相对现有Min22减少旧机范围。Q16用户已选当前保留2022.3、发行准备先验证62f3，不把它描述成具有长期常规维护。[Play要求](https://support.google.com/googleplay/android-developer/answer/11926878?hl=en)、[2022.3兼容](https://docs.unity3d.com/2022.3/Documentation/Manual/android-requirements-and-compatibility.html)、[常规支持结束说明](https://discussions.unity.com/t/unity-devops-build-automation-2026-dependency-deprecation-cycle/1724029)、[Unity6支持周期](https://unity.com/releases/unity-6/support)、[6.3设备要求](https://docs.unity3d.com/6000.3/Documentation/Manual/android-requirements-and-compatibility.html)。提高目标API不等于把最低Android也提高到该版本；62f3已选为验证候选；实际升级、SDK版本冻结和安装尚未执行。
+- **更新组件兼容。** HybridCLR官方记录8.8.0加入Unity6.3，后续仍逐次合并IL2CPP变化，必须核具体组合；YooAsset当前快速开始页列2022.3/6.0，没有据此证明6.3全流程可用。升级讨论要包含编辑器、IL2CPP、原生SDK、资源构建和必要回归，不把“支持Unity6”当作任意最新补丁兼容。[HybridCLR记录](https://github.com/focus-creative-games/hybridclr_unity/blob/main/RELEASELOG.md)、[YooAsset范围](https://www.yooasset.com/docs/guide-editor/QuickStart)。本访谈没有升级或运行Unity。
+- **美术分支最新用户指示。** 实读“FightMatch 美术与资源创作”最近四个回合：用户认可像素头像方向，要求重做有AI感的骨骼形象，认为Spine报价过高，随后要求从GitHub编译Aseprite并放外置盘，并已允许该会话导入所讨论插件。该会话最终回执报告Aseprite已编译、尚未导入Unity插件；本次未独立验收该二进制。不要再次泛问是否允许插件，也不把旧Spine推荐当用户决定。具体造型/动画样片及插件版本/导入证据继续由该分支交回，与uGUI迁移对接。
+- **Q20费用事实（2026-09-30）。** Supabase Free可用于接入验证，含5万月活、500MB数据库、5GB出站流量，无自动备份且闲置一周暂停；Pro从25美元/月起，配置增加或超额另计。正常玩家的验证码邮件需另接SMTP，内置发信仅面向获准测试地址；发信商、域名及最终总费用未定。Firebase Spark无需付款资料，部署Cloud Functions需Blaze绑定计费，按用量与额度收费，没有对应的固定月订阅。Blaze不等于把Auth升级为Identity Platform；未升级Auth的相关免费认证与后者MAU阶梯价必须区别。Firestore标准版每项目一库有1GiB、每日5万读/2万写/2万删、每月10GiB出站免费额度；服务器计算、构建和镜像存储不能只按函数调用数承诺零费，邮箱数字验证码需另实现并另接发信。用户尚未给出供应商选择；SD00建议先免费验证Supabase，再按实际存档/广告账本/邮件量核上线预算。25美元仅为Pro基础价格，不是整个游戏运营费封顶，也不能按月活额度直接承诺可承载同等数量玩家。[Supabase价格](https://supabase.com/pricing)、[SMTP要求](https://supabase.com/docs/guides/auth/auth-smtp)、[Firebase计划](https://firebase.google.com/docs/projects/billing/firebase-pricing-plans)、[Firestore价格](https://firebase.google.com/docs/firestore/pricing)、[函数部署](https://firebase.google.com/docs/functions/get-started)。
+- **SD09攻略事实补核。** [guidance](../2026-09-16/details/guidance.md)的CandidateGenerator明确允许AI或纯规则，旧推荐是联网AI候选＋共享验证，但没有批准具体LLM/供应商；项目自有规则求解服务是可比较方向，当前完整RPG搜索性能未证。广告解锁当前挑战、同挑战免费更新/失败重试、分析期间可继续战斗、过时结果只作历史及只发分析输入已定，不重问。下一轮真正待讨论的是是否需要第三方模型、玩家改变局面后的自动/手动重算，以及试运营计算预算策略；耗时和单次成本先测，不让用户猜。账号云档供应商不必等于攻略计算供应商；Supabase托管Edge Function每请求2秒CPU限制不能冒充150/400秒墙钟预算，重搜索不能未经验证就塞入该函数。[函数限制](https://supabase.com/docs/guides/functions/limits)。可比较独立.NET计算服务，但代码复用与性能仍待验证。[Cloud Run .NET支持](https://docs.cloud.google.com/run/docs/quickstarts/build-and-deploy/deploy-dotnet-service)。本段仅记录事实和待讨论前提，没有决定模型、部署服务或额外费用。
+- **SD14账号事实补核。** [guest-account](../2026-09-16/details/guest-account.md)§10明确更换邮箱、解绑/转移与全部凭据永久丢失尚未解决；后续需具体讨论能验证另一入口时的管理登录方式、两个正式账号的合并范围、全部入口失效后的人工找回范围。忘记密码但可收OTP、另一已绑定入口可验证，以及正常令牌过期均已有方向，不重复问。Supabase自动关联同邮箱身份，Firebase对已归另一主体的凭据拒绝直接绑定且解绑后再登录可能创建新用户；提供商操作不能冒充游戏进度合并，Q20后须核精确行为。[Supabase关联](https://supabase.com/docs/guides/auth/auth-identity-linking)、[Firebase关联](https://firebase.google.com/docs/auth/unity/account-linking)。提供账号创建的Play产品须有应用内及外部网页删除申请入口，并处理关联数据；这是平台要求，不能作为是否遵守的偏好题。删除与解绑/人工找回不同，须另列后端数据处理设计。[Play删除要求](https://support.google.com/googleplay/android-developer/answer/13327111?hl=en)。没有访问真实账号或处理玩家数据。
+- **SD13渠道事实补核（2026-09-30）。** Google完整政策限制Play以外的自更新及dex／JAR／原生代码下载，同时保留经虚拟机或解释器间接访问Android API的例外；这不是对FightMatch所有C#程序集的逐项许可。[设备与网络政策](https://support.google.com/googleplay/android-developer/answer/16559646?hl=en)。完整条款3.2要求额外资源下载前提示并明确大小，§5禁止隐藏功能和规避审核；同页Key Considerations进一步反对远端代码引入审核时未呈现的新功能。须区分完整条款与官方解释指引，不能声称普通修复一律免审。[行为透明政策](https://support.google.com/googleplay/android-developer/answer/17006354?hl=en)。下载前告知与Q15下载后自然边界提示重启并存，已向用户说明，不重问是否遵守。精确Unity／HybridCLR组合、基座对应的裁剪AOT文件、可信清单与资源校验、加载后重启和存档兼容回退继续按[既有更新设计](../2026-09-16/details/update-lifecycle.md)及限定实施包验证；Play应用签名不替代自有CDN清单验证。没有安装、Unity运行或Play审核结果，不将厂商上架案例当本项目验收；只有实际新增机制不能按原路线交付或方案改变离线玩法时，才向用户提出具体取舍。
+
+
+## 466. 五角色AI团队组织设计与dots核对（2026-09-30）
+
+**后续用户确认：** 用户明确要求“写入agents.md了么，以后就这么执行了”。已将AGENTS第6节从方案指针改为正式工作规则，组织方案升r3、执行约定升r2；后续已获准FightMatch任务按中央／主策／主程／主美／主测试分工，以独立会话进行设计、执行、测试及审查，创建或复用必要角色、团队内分发和回执无需逐包重问。保留固定输入、白名单、验收、完成事件和已有证据。当前未创建新角色、未验证云测自动返回、未恢复产品目标，Git／费用／发布边界未扩大。以下是最初组织设计过程的历史记录。
+
+用户先提出中央协调、设计和执行分离、专门测试会话及云端执行，又明确顶层为**一个中央AI、一个主策、一个主程、一个主美、一个主测试**，下层专业分工由本会话设计，通过多会话执行减少上下文混杂及执行偏差。程序分层为架构、系统技术设计、执行；其他线也区分方案与制作。原口述DOS已由用户补清为dots。
+
+本包只记录和设计组织及启用步骤，不恢复§457／461暂停的产品实施，不创建、迁移或重命名角色会话，不派发代码／Unity／云端长测试，不操作Git或开通服务。产物为[组织方案r2](../../architecture/2026-09-30-ai-team-organization.md)和[执行约定r1](../../../.agent/TEAM_WORKFLOW.md)，AGENTS、START_HERE、PROJECT_CONTEXT及工作流／会话入口补指针。保留本轮之前的源码、测试优化、美术与029全部WIP。
+
+组织方案明确四条专业线的子角色、跨线主责、SD00／C／R的目标映射、固定候选、依赖等待和专业接收。执行约定给出角色启动、身份登记、任务包、测试申请、正式回执及完成后继续流程。中央只接必要摘要，各负责人承担专业方案，执行与审查分开。现行C串行Unity合同在明确交接前继续生效。新组织只是已写好的设计，不是已运行的调度系统。
+
+事实准备：实读OpenAI官方dots的任务／记忆、电脑／云端以及云环境说明；dots可向预配置云环境分派编程任务，但不能据此推断Unity／Android设备验证都已就绪。只读查看既有“设置 FightMatch”会话thread01a0f13c-3d87-753a-ad11-16302add9084／host durable，完成回合01a0f1c9-2a1d-706e-b035-37f93af183c5；其回执报告2022.3.18f1安装／激活及FightMatch9d416e6编译成功。旧全量测试按用户要求停止、无最终测试XML结论，启动说明仅报告保存草稿，未证明环境已发布。未独立核云文件，未重跑旧测试，旧版本不能覆盖本机未推送WIP和测试优化。详细来源及后续最小核对见组织方案第5节。
+
+文档接收标准：五个顶层角色准确；程序、策划、美术、测试的下层主责和可观察交付清楚；任务有单一交付负责人、输入版本、文件范围和正式回传；独立R保留；云端能力与实际证据分开；暂停及已有权限不被模板覆盖。只做链接、内容一致性和diff空白检查，不运行产品测试，也不把文档自检称为独立产品审查。
+
+
+## 467. 用户授权的版本检查点与正常推送（2026-09-30）
+
+用户要求“推送到git，做一次版本管理，写好推送日志，可以写多个条目，尽量详细，但是每个条目尽量简洁”。本授权允许按已核范围提交、正常推送现有成果和版本文档；不恢复产品实施、不新增Unity测试、不把WIP当验收版本、不改写原始失败证据。
+
+保存前本地master与远端master均为9d416e6c9d3c794be355f903b3636c856783601e。原始155条改动按029构建／宿主、已接收性能优化、美术候选、设计及组织规则分类；另归档15份既有证据和版本索引。版本日志及实际提交／远端回执统一在[2026-09-30检查点](../../versioning/2026-09-30-checkpoint.md)，不在各历史报告中改写作者原起止Git状态。
+
+预检已核full06快照939项当前字节全部一致；原XML4181/4181；正常Git候选不含APK、Unity缓存、私有签名材料或本机权限文件。保留112处Unity生成空字段空白及2处Markdown换行，源码不为格式调整失去原验证身份。按精确清单分组暂存，沿master正常快进，不创建发布标签、强推或重写历史。
+
+本包是版本保存与交付日志，不替代029独立R／设备验收。主产品目标保持暂停；后续按已批准五角色组织接续。

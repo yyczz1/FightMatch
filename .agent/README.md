@@ -18,6 +18,7 @@ DeepSeek is used manually in another environment. Codex does not call it automat
 | [`REVIEW_CHECKLIST.md`](REVIEW_CHECKLIST.md) | Mandatory Codex review procedure |
 | [`VALIDATION.md`](VALIDATION.md) | Known validation commands and evidence rules |
 | [`PLANS.md`](PLANS.md) | General planning, task splitting, and status lifecycle |
+| [`TEAM_WORKFLOW.md`](TEAM_WORKFLOW.md) | Five-role Codex team: role startup, dispatch, testing, receipts and activation conditions |
 
 ## Normal workflow
 

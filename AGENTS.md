@@ -125,6 +125,12 @@ If two instructions conflict, stop and report the conflict. Do not silently choo
 - Do not change `Packages/`, `ProjectSettings/`, package locks, CI, build scripts, dependencies, public APIs, serialized formats, assets, or `.meta` files unless the task packet explicitly allows it.
 - Preserve Unity `.meta` files whenever moving or renaming assets.
 - Do not run a Unity batch-mode command against this project while it is open in another Unity process.
+- FightMatch player/runtime UI uses **uGUI** (`UnityEngine.UI`, Canvas); UI Toolkit is for Editor tooling. This is the user's explicit correction on 2026-09-29.
+- Before changing runtime UI, scenes, UI tests, or art integration, read [the uGUI correction plan](docs/system-design/2026-09-17/runtime-ui-ugui-correction.md). Existing runtime UI Toolkit views require migration; their historical acceptance does not authorize extending that choice. Keep gameplay, Application, and save semantics independent of the UI framework.
+- Player UI supports English and Simplified Chinese initially. First launch uses Simplified Chinese for a Chinese system language and English otherwise; settings allow a manual choice that is remembered. Player-visible prefab text must default to an obvious diagnostic placeholder, such as `【if you see this, it is a bug.】`, and be replaced at runtime through localization bindings. Do not hide missing bindings behind finished copy in prefabs. The user selected Luban text tables with project-owned localization bindings and YooAsset resource loading; do not introduce Unity Localization/Addressables as an assumed alternative. See the correction plan for the remaining implementation design.
+- Excel/CSV tables are the user's primary configuration authoring source, including localization text. Use Luban as authoring-time tooling and feed its output into the existing configuration validation/publication flow. Generated runtime/intermediate JSON may remain, but must not become a second independently edited authority. Exact tool versions and adapters still require a scoped implementation plan.
+- The approved engine direction retains Unity 2022.3 and evaluates 2022.3.62f3 as the release-preparation patch candidate; it is not yet an accepted project upgrade. Preserve development on both Mac and Windows, with the same project and Unity/package versions. The user selected the Intel Mac editor. Host CPU choice does not replace platform-specific tooling validation or change the Android target. See packet465 and the version research before planning an upgrade.
+- The user approved Android 7 (API 24) as the first-release minimum OS in packet465/Q29. Apply it through the scoped Android release plan; the existing development/build settings are not evidence that this change has been implemented or validated.
 - For the approved Flow Puzzle work, follow its design and implementation plan. In particular:
   - automatic generation remains solution-first;
   - no unique-solution detection;
@@ -136,13 +142,45 @@ See [`.agent/CODING_RULES.md`](.agent/CODING_RULES.md) for detailed rules.
 
 ## 6. Codex responsibilities
 
-The current FightMatch workflow divides responsibility between SD00 (design,
-dispatch, and receipt), C (implementation and serial Unity validation), and R
-(independent review), as recorded in `START_HERE.md` and the signed task packets.
-SD00 does not write product code, execute Unity, or replace R's code review.
-The user-authorized C/R coordination is distinct from the external DeepSeek
-manual-transfer workflow below. Create or message replacement chats only when
-the user has actually authorized that coordination, and record their identities.
+**Approved standing team workflow (2026-09-30):** the user confirmed
+“以后就这么执行”. Future FightMatch work must follow the
+[five-role organization](docs/architecture/2026-09-30-ai-team-organization.md)
+and [execution agreement](.agent/TEAM_WORKFLOW.md).
+
+- Keep five distinct lead chats: central coordinator（中央AI）, planning lead
+  （主策）, engineering lead（主程）, art lead（主美）, and testing lead（主测试）.
+  The central coordinator maintains the project overview and handles dispatch,
+  dependencies, progress and receipt; specialist leads own detailed decisions.
+- Engineering delegates architecture → system design → implementation.
+  Planning, art and testing delegate through their documented specialist roles.
+  Keep design, production and independent review in separate role chats.
+- For user-authorized FightMatch tasks, reuse suitable chats or create necessary
+  role/execution chats, dispatch scoped work and exchange task receipts within
+  this team. This approved coordination does not require repeated per-packet
+  permission. Record actual thread/host/turn identities and the user's authority
+  in handoffs; it does not authorize unrelated work or external human messaging.
+- Every task needs one delivery owner, fixed input versions, exact file scope,
+  relevant approved decisions, observable acceptance criteria and a return path.
+  Implementers report proposed changes to approved choices to their lead before
+  proceeding; changes to user decisions go through the central coordinator.
+- The testing lead coordinates cases, existing evidence, cloud/device execution
+  and independent R review. Authors cannot approve their own delivery. Preserve
+  R's independent `ACCEPT`, `NEEDS_FIX`, or `REJECT` verdict.
+- Use completion events or available wait tools to receive actual results,
+  resolve required fixes and dispatch the next ready packet. While tests run,
+  continue independent work with non-conflicting write scopes. Do not end
+  coordination merely after dispatch or restart five-minute polling tasks.
+- Keep detailed evidence in the responsible role's files and send concise
+  receipts upstream. Reuse valid evidence; new runs must address relevant
+  changes or unresolved failures, with explicit scope and resource limits.
+
+Existing SD00/C/R assignments are the transition baseline, not a reason to
+revert to a single all-purpose chat. Record responsibility transfers before new
+owners write shared files. Until that transfer, SD00 remains design/dispatch/
+receipt only, C remains the serial Unity executor, and R stays independent.
+This workflow approval does not resume the paused product goal or expand Git,
+paid-service, deployment or release permissions. Actual new chats and cloud
+test readiness must be verified rather than inferred from this policy.
 
 Codex acts as project analyst, planner, architect, task splitter, and reviewer.
 
