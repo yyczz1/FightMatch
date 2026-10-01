@@ -182,6 +182,12 @@ and [execution agreement](.agent/TEAM_WORKFLOW.md).
 - Keep detailed evidence in the responsible role's files and send concise
   receipts upstream. Reuse valid evidence; new runs must address relevant
   changes or unresolved failures, with explicit scope and resource limits.
+- **Token economy:** keep role identities, not idle running turns. Use the
+  short [current snapshot](docs/team/2026-09-30/README.md); dispatch only the
+  relevant delta. Assign one completion receiver per task, then end idle turns
+  and wake them on useful work/results. Do not have central, engineering and
+  testing all wait on or forward the same result. Run mechanical checks in
+  scripts; do not add review rounds or long documents for routine bookkeeping.
 - **Model policy (user update, 2026-10-01):** central and specialist lead,
   architecture, system-design and implementation chats default to
   `gpt-6-astra` / `xhigh` (极高), including new chats and subsequent dispatches.

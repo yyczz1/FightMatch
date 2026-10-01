@@ -17,3 +17,5 @@
 - PR结果须绑定实际head及GitHub返回链接；通过、失败和未执行项目分别记录。
 
 设计依据：[运行时uGUI纠正](../../system-design/2026-09-17/runtime-ui-ugui-correction.md)、[系统设计](../../team/2026-09-30/engineering-system-001.md)、[实施合同](../../team/2026-09-30/engineering-ugui-01-implementation.md)、[FIX15](../../team/2026-09-30/engineering-ugui-01-q4-active-bind-fix-15.md)、[FIX17](../../team/2026-09-30/engineering-ugui-01-q4-host-playmode-fix-17.md)。旧包本地R路由由[新执行规则](../../../.agent/TEAM_WORKFLOW.md#7-github-pr-code-review)覆盖。
+
+实际上传回执：通过已连接GitHub API创建blob/tree/commit并正常快进审查分支，head `656a94e4feda942b575b9429921fb4d0b3fdce52`，tree `86213610883374f437c34560a215326f3ee69cb8` 与本机独立index一致。已创建并附加[草稿PR #1](https://github.com/yyczz1/FightMatch/pull/1)；[审查请求](https://github.com/yyczz1/FightMatch/pull/1#issuecomment-5926609717)已由机器人确认Running。CLI直连网络/登录未成功，未声称执行过成功的git push命令，也未移动master或本机HEAD。
