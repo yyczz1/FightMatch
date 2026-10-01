@@ -19,3 +19,7 @@
 设计依据：[运行时uGUI纠正](../../system-design/2026-09-17/runtime-ui-ugui-correction.md)、[系统设计](../../team/2026-09-30/engineering-system-001.md)、[实施合同](../../team/2026-09-30/engineering-ugui-01-implementation.md)、[FIX15](../../team/2026-09-30/engineering-ugui-01-q4-active-bind-fix-15.md)、[FIX17](../../team/2026-09-30/engineering-ugui-01-q4-host-playmode-fix-17.md)。旧包本地R路由由[新执行规则](../../../.agent/TEAM_WORKFLOW.md#7-github-pr-code-review)覆盖。
 
 实际上传回执：通过已连接GitHub API创建blob/tree/commit并正常快进审查分支，head `656a94e4feda942b575b9429921fb4d0b3fdce52`，tree `86213610883374f437c34560a215326f3ee69cb8` 与本机独立index一致。已创建并附加[草稿PR #1](https://github.com/yyczz1/FightMatch/pull/1)；[审查请求](https://github.com/yyczz1/FightMatch/pull/1#issuecomment-5926609717)已由机器人确认Running。CLI直连网络/登录未成功，未声称执行过成功的git push命令，也未移动master或本机HEAD。
+
+FIX18 实际编译在107行报CS0234，Unity27.715s退出1，未执行测试；外层监视因残留编译服务器继续至601.043s。此失败保留在 [原回执](fix18/final-receipt.json)，不能被此前GitHub“未发现重大问题”的审查代替。旧PID62357在FIX19开始时已不存在。
+
+FIX19仅将Application限定到UnityEngine并绑定新诊断输出目录；原90源码／资源、meta及190 selector保持。新的 [runner](fix19/validation-tools/runner.py)在首个编译失败或非零退出时转有限收尾，保留原失败原因与独立cleanup状态；[17项离线伪进程检查](fix19/static-result.json)通过，不代表Unity编译／190项通过。新代码head须独立审查；正式运行仍是一次600s Core190，复用exact2与Host30证据。

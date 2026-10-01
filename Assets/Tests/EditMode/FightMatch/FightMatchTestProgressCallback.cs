@@ -104,9 +104,9 @@ namespace FightMatch.Core.Tests
                     Array.IndexOf(arguments, Argument, index + 1) >= 0)
                     throw new InvalidDataException("Missing or duplicate progress argument.");
 
-                string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
+                string projectRoot = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
                 string expectedPath = Path.Combine(projectRoot,
-                    "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/test-events.jsonl");
+                    "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/test-events.jsonl");
                 if (!Path.IsPathRooted(arguments[index + 1]) ||
                     !string.Equals(Path.GetFullPath(arguments[index + 1]), expectedPath,
                         StringComparison.Ordinal))
