@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-01",
+  "deliveryOwner": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "receiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "status": "RESEARCH_COMPLETE_PROPOSAL_NOT_AUTHORIZED",
+  "requestCount": 12,
+  "requestBudget": 12,
+  "agentRequestCount": 8,
+  "rootRequestCount": 4,
+  "failedRequestsIncluded": [
+    "agent-01"
+  ],
+  "emptyResultsIncluded": [
+    "agent-07",
+    "agent-08"
+  ],
+  "agentRequestLedger": "agent-ledger.json",
+  "rootRequests": [
+    {
+      "id": "root-01",
+      "url": "https://api.github.com/repos/xunit/xunit/commits?path=license.txt&per_page=10",
+      "responseFile": "root-01.response.json",
+      "outcome": "SUCCESS"
+    },
+    {
+      "id": "root-02",
+      "args": {
+        "query": "2.0.3",
+        "repository_full_name": "xunit/xunit",
+        "topn": 5,
+        "sort": "committer-date",
+        "order": "asc"
+      },
+      "responseFile": "root-02.response.json",
+      "outcome": "SUCCESS"
+    },
+    {
+      "id": "root-03",
+      "args": {
+        "commit_sha": "ffee51ac171a66896c42d00486bc792470ed6da2",
+        "repo_full_name": "xunit/xunit"
+      },
+      "responseFile": "root-03.response.json",
+      "outcome": "SUCCESS"
+    },
+    {
+      "id": "root-04",
+      "url": "https://api.github.com/repos/xunit/xunit/contents/license.txt?ref=ffee51ac171a66896c42d00486bc792470ed6da2",
+      "responseFile": "root-04.response.json",
+      "outcome": "SUCCESS"
+    }
+  ],
+  "representation": "Serialized full tool responses, not raw HTTP headers or wire bytes. Connector internal requests and redirects are not exposed. Request ceiling applies to issued URL/query tool calls.",
+  "fullResponseFiles": 12,
+  "fullResponseBytes": 393902,
+  "payloadFiles": 17,
+  "payloadBytes": 448567,
+  "payloadManifest": {
+    "path": "research-input-files.tsv",
+    "bytes": 1658,
+    "sha256": "015388eb085642790c1ef5492ea657ab602b295970aab18b53cdb44a40d38326"
+  },
+  "licenseBody": {
+    "path": "xunit-xunit-ffee51ac-license.txt",
+    "bytes": 2357,
+    "sha256": "e9dcf94cc4864ba47aeaaec879cfabaf3feadb813c77af480c3ad14c6de0ed79",
+    "equalsUtf8EncodedRoot04ConnectorContent": true,
+    "remoteBlobHashVerified": false,
+    "rawHttpBytesVerified": false,
+    "role": "Official license declaration snapshot; not package build provenance or full Apache standard terms."
+  },
+  "unchangedRootHashAlgorithm": "SHA256(concatenated sorted UTF8 lines: relativePath TAB bytes TAB lowercaseSha256 LF); all regular files.",
+  "oldRootsBefore": [
+    {
+      "root": "/private/tmp/fightmatch-loc-lic-alt-m12/loc-lic-alt-yamldotnet-16.3.0-m12",
+      "files": 49,
+      "bytes": 2016358,
+      "sha256": "b41704c1a95300be24696bfb1ddc0f67d46ddfc90580f6b9a2c5875276cb33b1"
+    },
+    {
+      "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m12",
+      "files": 11,
+      "bytes": 79526,
+      "sha256": "b295137e7cd9236b4dc2e66e86fb0a69d5f231eeb3ebc071780f2192446b5eb8"
+    }
+  ],
+  "oldRootsAfter": [
+    {
+      "root": "/private/tmp/fightmatch-loc-lic-alt-m12/loc-lic-alt-yamldotnet-16.3.0-m12",
+      "files": 49,
+      "bytes": 2016358,
+      "sha256": "b41704c1a95300be24696bfb1ddc0f67d46ddfc90580f6b9a2c5875276cb33b1"
+    },
+    {
+      "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m12",
+      "files": 11,
+      "bytes": 79526,
+      "sha256": "b295137e7cd9236b4dc2e66e86fb0a69d5f231eeb3ebc071780f2192446b5eb8"
+    }
+  ],
+  "oldRootsEqual": true,
+  "m12MaterialExists": false,
+  "m12AcquisitionLedgerUnmodified": {
+    "newRequests": 6,
+    "newResponseBytes": 899675,
+    "chainRequests": 9,
+    "chainResponseBytes": 1764095
+  },
+  "researchLedgerSeparate": true,
+  "nupkgDownloads": 0,
+  "nugetMetadataDownloads": 0,
+  "sdkDownloads": 0,
+  "sdkExecution": 0,
+  "restoreRuns": 0,
+  "unityRuns": 0,
+  "gitWrites": 0,
+  "locDispatches": 0,
+  "rDispatches": 0,
+  "signaturesStillPending": true,
+  "savedEvidenceCapBytes": 5242880,
+  "totalSavedEvidenceBytes": 454329
+}
