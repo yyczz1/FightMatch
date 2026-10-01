@@ -27,3 +27,14 @@ FIX19仅将Application限定到UnityEngine并绑定新诊断输出目录；原90
 FIX19已实际完成190项：184过、6败，261.086s退出2、268.505s进程清空。五项为geometry unavailable，另一项是mesh.vertexCount为0（不是rect宽度）。完整原[XML](fix19/tests.xml)及[回执](fix19/final-receipt.json)保留失败；当前源码head302a95b的GitHub审查未发现重大问题，仍不能代替实际测试。
 
 FIX20仅修改三个测试文件：六项使用真实PlayMode生命周期与只读几何探针，两个类增加失败后退出保护，共享rig、产品及资源保持。17项离线检查通过；尚未运行Unity。计划只验证相关12项、复用FIX19其余178绿项及Host30/exact2，形成222项Counter；12未通过前不能声称并集完成。`fix20/review-manifest.json`明确是完整本地manifest的精简投影，其余原始选集保持字节相同。原生复开、实际场景几何、布局、APK与设备门仍未完成。
+
+## FIX20 实测与 FIX21 绑定修正
+
+- FIX20 后续实际12/12通过，Unity75.019s自然exit0、82.391s专属进程清空；[原回执](fix20-result/final-receipt.json)、[XML](fix20-result/tests.xml)、[222覆盖](fix20-result/grouped-exact222-coverage.json)与[26事件](fix20-result/test-events.jsonl)均按原字节保存。222是保留178＋新12＋Host30＋exact2的精确并集，非同一次222运行；上文等待文字与旧失败保留为当时事实。
+- GitHub对head `36ad62c4c71f4b987efaf60f26c942a0a9de10bd`提出[P1：审查head未与实际执行源码绑定](https://github.com/yyczz1/FightMatch/pull/1#discussion_r4153777291)。旧runner只检查SHA形式，测试通过不能关闭此问题。
+- [FIX21 runner](fix21/validation-tools/runner.py)读取并重算真实commit/tree/blob身份，核完整Unity导入集合及辅助输入摘要链；仅允许明确证明不参与执行的8项独立LOC WIP。延后辅助数据解析，并在启动前及运行后复核；保留原selector、360s限额、首败及专属进程收尾。
+- [35项离线检查](fix21/offline-result.json)通过，覆盖错误head/tree、集合和字节漂移、辅助依赖断链、Git重定向、授权撤回及启动前变化；只使用内存fixture与假启动计数，真实Unity/dotnet均为0。初次补证发现CSV未有独立Git blob，改由实际受审测试代码中的固定path/bytes/SHA常量锚定；原失败与两次离线记录保留。
+- [事后补证](fix21/posthoc-binding.json)将旧FIX20证据关联真实H20→T20，核2296输入、998受审保护项及8项明确排除；原始1006项before/after不变。它不声称原runner当时已有启动前Git门，也不是新的Unity运行。
+- [真实commit原字节](fix21/commit20.raw)由GitHub API字段恢复，仅在重算Git SHA恰等于H20后导入；[来源内容](fix21/git-commit20-api.json)与[中央导入回执](fix21/commit20-object-import.json)保留。API JSON是连接器返回内容，不冒称HTTP wire字节；本机HEAD、master及index均未改。
+- [FIX21交付](fix21/final-receipt.json)的源码／离线／补证已冻结；新head自绑定与GitHub独立审查由中央在发布后记录，不向本提交自身嵌入未来SHA。P1及集成门在新审查完成前保持未关闭。
+- 实际Host仍缺正式本地化源接入；原生场景保存／复开、真实画面、布局、Android构建与设备流程尚未验收。FIX21不新增产品代码或资源，不以文件存在或测试rig通过代替这些门。

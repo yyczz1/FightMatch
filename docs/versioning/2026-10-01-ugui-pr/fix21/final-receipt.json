@@ -1,0 +1,395 @@
+{
+  "status": "SOURCE_AND_POSTHOC_READY",
+  "runId": "UGUI-FIX21-BINDING-20261001-093441Z",
+  "owner": {
+    "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "hostId": "local",
+    "turnId": "01a0f6d1-df5b-74d1-8085-017f7bf86e56"
+  },
+  "returnThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "completedUtc": "2026-10-01T09:58:14.165366+00:00",
+  "mode": "FIX21_SOURCE_AND_POSTHOC_ONLY",
+  "authority": {
+    "runId": "UGUI-FIX21-BINDING-20261001-093441Z",
+    "mode": "FIX21_SOURCE_AND_POSTHOC_ONLY",
+    "repo": "yyczz1/FightMatch",
+    "pr": 1,
+    "head": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+    "tree": "94ad1b6976834b15a1d5582fbc980480e1c3ba51",
+    "owner": {
+      "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+      "hostId": "local",
+      "turnId": "01a0f6d1-df5b-74d1-8085-017f7bf86e56"
+    },
+    "active": true,
+    "currentHead": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+    "scope": "Until this task completes, central withdraws, or PR head changes",
+    "receipt": {
+      "bytes": 8223,
+      "sha256": "410fa32deadd3163a9f181a259c4a88b3f5ff200ce791838b697401ddd91b705"
+    },
+    "provenance": "Central out-of-band activation in C turn 01a0f6d1-df5b-74d1-8085-017f7bf86e56; AGENTS section 6 human-approved team workflow; not authority derived from candidate contract."
+  },
+  "packet": {
+    "path": "docs/team/2026-09-30/engineering-ugui-review-binding-fix-21.md",
+    "bytes": 12199,
+    "sha256": "15b2ebbdbf2f24d9b071d16367611d8eda44ebd8c4ba27260be45b51f0407d9d"
+  },
+  "source": {
+    "runner": {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/runner.py",
+      "bytes": 86199,
+      "sha256": "8749175138d3a6ea14b061fd5fc04fb1a8d4c00efd56ffba6dabd9e98116068d"
+    },
+    "tests": {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/test_review_binding.py",
+      "bytes": 18354,
+      "sha256": "9cf84c2b1b9c9006840f2ab2130f38217dc50ffebecd6ade6d93b30fd8e6137a"
+    },
+    "contract": {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/binding-contract.json",
+      "bytes": 15064,
+      "sha256": "0fe1feefa4a505c66893407fc94a55f0e8b48f5ec6f1748f8084084ff672b5d0"
+    },
+    "inheritedExact12And360Seconds": true,
+    "inheritedFirstFailureAndOwnedFunctions": {
+      "supervise_root": true,
+      "settle_owned": true,
+      "verify_owned": true,
+      "event_trace": true,
+      "processes": true,
+      "unity_rows": true,
+      "no_unity": true,
+      "root_identity": true,
+      "current_identity": true,
+      "observe": true,
+      "compile_failure": true,
+      "wait_step": true,
+      "remaining_snapshot": true,
+      "verify": true,
+      "gentle": true,
+      "terminate": true,
+      "process_event": true
+    },
+    "topLevelOldInputParsingRemoved": true,
+    "verifiedBytesUsedForAuxiliaryParsing": true,
+    "futureExecutionRequiresTrustedExternalLauncherAndNewHead": true
+  },
+  "A": {
+    "status": "VERIFIED",
+    "offlineFinalCases": 35,
+    "offlineAttempts": [
+      {
+        "status": "OFFLINE_PASS",
+        "cases": 34,
+        "elapsedSeconds": 0.08938783299527131
+      },
+      {
+        "status": "OFFLINE_PASS",
+        "cases": 35,
+        "elapsedSeconds": 0.09656158299185336
+      }
+    ],
+    "objectChain": {
+      "head": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+      "tree": "94ad1b6976834b15a1d5582fbc980480e1c3ba51",
+      "commit": {
+        "bytes": 765,
+        "sha256": "5f54e8847a603cc8ecaab5334ad4c24dfcd5e19d663254759b7e01eb5885c01b"
+      },
+      "verifiedGitObjectId": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd"
+    },
+    "closure": {
+      "objects": {
+        "head": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+        "tree": "94ad1b6976834b15a1d5582fbc980480e1c3ba51",
+        "commit": {
+          "bytes": 765,
+          "sha256": "5f54e8847a603cc8ecaab5334ad4c24dfcd5e19d663254759b7e01eb5885c01b"
+        },
+        "verifiedGitObjectId": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd"
+      },
+      "importedCount": 990,
+      "trackedExtraCount": 8,
+      "historicalBoundProtectedCount": 998,
+      "historicalProtectedCount": 1006,
+      "excludedCount": 8,
+      "mode": "posthoc"
+    },
+    "mappedFileCount": 2296,
+    "firstPosthocFailureRetained": {
+      "code": "BLOCKED_DEPENDENCY_UNBOUND",
+      "path": "docs/team/2026-09-30/snapshots/ugui-copy-amend-03-fix-01/planning-localization-draft.csv",
+      "expected": null,
+      "actual": null
+    },
+    "repair": "CSV is absent from T20 as a standalone blob. Its exact path, 64708 bytes and SHA256 d2cff0784221357394fc23e3354fb7de6e48d2455630a694de665105e4bdf36c are anchored by the actual T20 LocalizationContractTests.cs blob and its ReadApprovedDraft constants. No locally self-signed hash accepted."
+  },
+  "B": {
+    "status": "VERIFIED",
+    "supplement": "POSTHOC_BINDING_SUPPLEMENT",
+    "bindingEstablished": true,
+    "historicalFacts": {
+      "exact12": 12,
+      "retained178": 178,
+      "host30": 30,
+      "exact2": 2,
+      "union222": 222,
+      "oldCoreFailed": 6,
+      "exitCode": 0,
+      "launchToExitObservationSeconds": 75.01860179200594,
+      "originalOwner": {
+        "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+        "hostId": "local",
+        "turnId": "01a0f6bd-a064-7192-9e47-a3cd8161b84d"
+      },
+      "events": 26,
+      "ownedClear": true,
+      "externalTools": [
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+          "bytes": 86759760,
+          "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client",
+          "bytes": 132896,
+          "sha256": "9b1b063fe829d9a93c18c3d68df79883532fa0fd946c0347918002b3e33edbd8",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager",
+          "bytes": 45352272,
+          "sha256": "0b05d1f79641d1037d2aa3f87db3cb0e8e969c7b346d1baea9855efdf1ec0831",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Tools/ilpp/Unity.ILPP.Runner/Unity.ILPP.Runner",
+          "bytes": 132240,
+          "sha256": "e111a90b3a6d9b23503ab7b01841b8cd168a4cff47402fb4fe4297af7b4d5da4",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Tools/UnityAutoQuitter",
+          "bytes": 37552,
+          "sha256": "7ff7b572659b4dacf0ea5f7707f93c29834d232d02c8defc8657f31d546af150",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "bytes": 447008,
+          "sha256": "30906e376c379802b221e22fc6b5307812c13e5533beafd61476481bb9b15f43",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/NetCoreRuntime/dotnet",
+          "bytes": 130720,
+          "sha256": "80bc0320ab5bd1e571dab987c60087d46f02c2195ab81904bb98c5a6ae5422d3",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/DotNetSdkRoslyn/VBCSCompiler.dll",
+          "bytes": 221696,
+          "sha256": "d253011c6a5b4994470772b20a8d8a048b0e91540e45cb0f6a378ec8a147be9e",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Tools/UnityShaderCompiler",
+          "bytes": 14955256,
+          "sha256": "b7361823bd863697726369ecece01ee3be4c52764a0ee2b8141d4274735bafff",
+          "chain": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/quiescence.json -> verified FIX20 receipt"
+        }
+      ]
+    },
+    "originalP1Preserved": true,
+    "originalRunnerHadPrelaunchGitGuard": false,
+    "limitation": "Posthoc association with independently verified current Git objects; no new proof created at the original run time and no new Unity test."
+  },
+  "C": {
+    "status": "VERIFIED_FOR_C_WRITE_SCOPE",
+    "productFilesWritten": 0,
+    "UnityLaunches": 0,
+    "dotnetOrCompilerLaunches": 0,
+    "GitWrites": 0,
+    "networkCalls": 0,
+    "oldEvidenceAndBoundInputsRechecked": 2296,
+    "gitIdentityBefore": [
+      {
+        "path": ".git/HEAD",
+        "bytes": 23,
+        "sha256": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10"
+      },
+      {
+        "path": ".git/index",
+        "bytes": 204382,
+        "sha256": "eaa00517be6aa52ebbff102bd310dd519d5d8ada69554ed9a26eacaf3a1b3824"
+      },
+      {
+        "path": ".git/refs/heads/master",
+        "bytes": 41,
+        "sha256": "90dc5e13b1d341291d0fdaf2549867d394f8bef525f0d94630c694b3c4f0ca42"
+      },
+      {
+        "path": ".git/packed-refs",
+        "bytes": 1901,
+        "sha256": "98811d567c1b1df253c078bf49004a1d782a19b4f39270d3653c2fb32eb0a6dd"
+      }
+    ],
+    "gitIdentityAfter": [
+      {
+        "path": ".git/HEAD",
+        "bytes": 23,
+        "sha256": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10"
+      },
+      {
+        "path": ".git/index",
+        "bytes": 204382,
+        "sha256": "eaa00517be6aa52ebbff102bd310dd519d5d8ada69554ed9a26eacaf3a1b3824"
+      },
+      {
+        "path": ".git/refs/heads/master",
+        "bytes": 41,
+        "sha256": "90dc5e13b1d341291d0fdaf2549867d394f8bef525f0d94630c694b3c4f0ca42"
+      },
+      {
+        "path": ".git/packed-refs",
+        "bytes": 1901,
+        "sha256": "98811d567c1b1df253c078bf49004a1d782a19b4f39270d3653c2fb32eb0a6dd"
+      }
+    ],
+    "observedConcurrentSharedFileChanges": [
+      {
+        "before": {
+          "path": "docs/team/2026-09-30/README.md",
+          "bytes": 4791,
+          "sha256": "893f041c3c0a6c0a5cb4786f171da8baf1dc496dad4e539abed0c7fd42f94e58"
+        },
+        "after": {
+          "path": "docs/team/2026-09-30/README.md",
+          "bytes": 4797,
+          "sha256": "f5a494bad61b7c0d52be06ea28e87cf5e9c9f9769d685f083b249e35b3b0b0f6"
+        }
+      }
+    ],
+    "concurrentChangeNote": "C only wrote the twelve listed N/A leaves. Shared README changed during this turn; it was not written, reset or attributed to an author by C."
+  },
+  "D": {
+    "status": "PENDING_CENTRAL_NEW_HEAD_AND_GITHUB_REVIEW",
+    "required": "Central publishes the six byte-identical archive leaves, externally binds the new head/tree, verifies new runner/test/contract against those raw blobs, and obtains GitHub PR Code Review for that head. No new head is self-embedded in these artifacts."
+  },
+  "uniqueBlocker": "D: actual new-head self-binding and corresponding GitHub review require central publication/activation.",
+  "changedFiles": [
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/binding-contract.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/final-receipt.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/offline-result.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/posthoc-binding.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/runner.py",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/test_review_binding.py",
+    "docs/versioning/2026-10-01-ugui-pr/fix21/binding-contract.json",
+    "docs/versioning/2026-10-01-ugui-pr/fix21/final-receipt.json",
+    "docs/versioning/2026-10-01-ugui-pr/fix21/offline-result.json",
+    "docs/versioning/2026-10-01-ugui-pr/fix21/posthoc-binding.json",
+    "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/runner.py",
+    "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/test_review_binding.py"
+  ],
+  "archivedPairs": [
+    {
+      "source": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/binding-contract.json",
+      "archive": "docs/versioning/2026-10-01-ugui-pr/fix21/binding-contract.json",
+      "copy": "byte-for-byte"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/final-receipt.json",
+      "archive": "docs/versioning/2026-10-01-ugui-pr/fix21/final-receipt.json",
+      "copy": "byte-for-byte"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/offline-result.json",
+      "archive": "docs/versioning/2026-10-01-ugui-pr/fix21/offline-result.json",
+      "copy": "byte-for-byte"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/posthoc-binding.json",
+      "archive": "docs/versioning/2026-10-01-ugui-pr/fix21/posthoc-binding.json",
+      "copy": "byte-for-byte"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/runner.py",
+      "archive": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/runner.py",
+      "copy": "byte-for-byte"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/test_review_binding.py",
+      "archive": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/test_review_binding.py",
+      "copy": "byte-for-byte"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/binding-contract.json",
+      "bytes": 15064,
+      "sha256": "0fe1feefa4a505c66893407fc94a55f0e8b48f5ec6f1748f8084084ff672b5d0"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/offline-result.json",
+      "bytes": 21204,
+      "sha256": "6f7f03a0a4c07714b2e8899f395b9d9ebf6030508c2e6e417e08d0cdb0193078"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/posthoc-binding.json",
+      "bytes": 1483769,
+      "sha256": "d286579208a02af26130ce45e0c544c24db09bcc08bd9949adf84e90790f6476"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/runner.py",
+      "bytes": 86199,
+      "sha256": "8749175138d3a6ea14b061fd5fc04fb1a8d4c00efd56ffba6dabd9e98116068d"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-21-source/validation-tools/test_review_binding.py",
+      "bytes": 18354,
+      "sha256": "9cf84c2b1b9c9006840f2ab2130f38217dc50ffebecd6ade6d93b30fd8e6137a"
+    }
+  ],
+  "objectProvenance": {
+    "localRawCommitIndependentlyRehashed": true,
+    "rawGitObjectId": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+    "inputs": [
+      {
+        "path": "/private/tmp/fightmatch-pr-fix20/git-commit20-api.json",
+        "bytes": 1636,
+        "sha256": "d159eccd6ad8fb209d842ae5cea5617572aa1f6965e63ec414f9b1869abefe90"
+      },
+      {
+        "path": "/private/tmp/fightmatch-pr-fix20/commit20.raw",
+        "bytes": 765,
+        "sha256": "5f54e8847a603cc8ecaab5334ad4c24dfcd5e19d663254759b7e01eb5885c01b"
+      },
+      {
+        "path": "/private/tmp/fightmatch-pr-fix20/commit20-object-import.json",
+        "bytes": 576,
+        "sha256": "6d18c149c81a68ea6b0a98014e94b38316076ab417a928f22aab68ef1c122895"
+      }
+    ],
+    "note": "API JSON is connected-tool result content, not raw HTTP bytes. The commit is proven by the exact Git object ID; no C import or fetch occurred."
+  },
+  "notRun": [
+    "Unity",
+    "dotnet",
+    "compiler",
+    "tests of game code",
+    "native reopen",
+    "APK",
+    "Git writes",
+    "network",
+    "R",
+    "agents"
+  ],
+  "remainingBoundaries": [
+    "The 222 cases combine earlier 178+30+2 with FIX20 exact12; old FIX19 six failures remain.",
+    "This author receipt is not independent code acceptance and does not close device or visual gates.",
+    "Future real execution additionally requires an output/callback scope matching that future activation. This source-only task activates no output root.",
+    "Pre/post closure checks and the single-writer freeze reduce drift risk; they do not prove absence of every concurrent race."
+  ]
+}

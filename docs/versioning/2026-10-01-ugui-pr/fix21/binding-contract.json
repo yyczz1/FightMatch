@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "repository": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "repositoryId": "yyczz1/FightMatch",
+  "pullRequest": 1,
+  "historical": {
+    "head": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+    "tree": "94ad1b6976834b15a1d5582fbc980480e1c3ba51"
+  },
+  "importRoots": [
+    "Assets",
+    "Packages",
+    "ProjectSettings"
+  ],
+  "extraRoots": [
+    "Config",
+    "Generated",
+    "Tools"
+  ],
+  "excludedWip": {
+    "Config/FightMatch/Localization/FightMatchText.csv": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them.",
+    "Config/FightMatch/Localization/__tables__.csv": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them.",
+    "Config/FightMatch/Luban/luban.conf": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them.",
+    "Generated/FightMatch/Localization/fm-text-v1.json": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them.",
+    "Generated/FightMatch/Localization/fm-text-v1.manifest.json": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them.",
+    "Tools/FightMatch.Localization.Compiler/FightMatch.Localization.Compiler.csproj": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them.",
+    "Tools/FightMatch.Localization.Compiler/Program.cs": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them.",
+    "Tools/FightMatch.Localization.Compiler/global.json": "Independent LOC authoring WIP, outside Assets/Packages/ProjectSettings. Exclusion relies on the exact analysed dependencyProof sources, exact12 selector, memory rig, pinned docs CSV, import roots and fixed Unity argv; the runner only inventories these bytes for preservation and never parses or launches them."
+  },
+  "dependencyProof": [
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "identity": {
+        "bytes": 24326,
+        "sha256": "0cfa14f00f541ad6d1be26745fffaf14703e7ac3af27d038b4a410b6a6d04fbb"
+      },
+      "reason": "Six controlled tests create an unsaved EmptyScene; UguiHostRig disables FightMatchPlayerHost before activation, constructs RealCatalog and a memory-backed HostSession; prefab/font/license load only exact Assets paths. The rig never starts the production persistent-data loader."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "identity": {
+        "bytes": 15357,
+        "sha256": "684f9b81ff42f27e5a871a77e6f7f9278dbccf743289a54d7380b387a44fee64"
+      },
+      "reason": "Exact second fixture consumes UguiHostRig and its in-memory save storage; no invocation of authoring compiler, Config or Generated inputs."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerSessionTestData.cs",
+      "identity": {
+        "bytes": 23625,
+        "sha256": "1ee623417a1a488c6e8b0f0789868baae8115540c33c9a754615fc61f8a1d05f"
+      },
+      "reason": "RealCatalog directly reads the six Assets/StreamingAssets/FightMatch/first-release.* files, and RealSource the same fmsource JSON; it decodes provided bytes rather than asking a file-system authoring compiler."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs",
+      "identity": {
+        "bytes": 15236,
+        "sha256": "49ef2fc9380430da482d9f0cb62fdc6a949418cd02b157cb2328d5eb73ea363f"
+      },
+      "reason": "UguiTestTextSource.ReadApprovedDraft directly reads the pinned docs CSV listed in externalTreeInputs and validates its existing byte count/SHA256. It does not read Config/FightMatch/Localization/FightMatchText.csv."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "identity": {
+        "bytes": 17926,
+        "sha256": "00a3244998a419e140d23d25e0e2d8f7e2a4c72415caffc75fec9a53289902b8"
+      },
+      "reason": "NavigationProfileStorage delegates to PublishedContentTestData.MemoryStorage. Fixture persistence and profile reads remain in memory."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PublishedContentTestData.cs",
+      "identity": {
+        "bytes": 6699,
+        "sha256": "db619a287c2ddd826b546719084b61067f64ff37f83e9d4ace2f62c483aa1345"
+      },
+      "reason": "The fixture source is Assets/FightMatchContent/demo-r1.source.json, in the full import closure. MemoryStorage is process-local."
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "identity": {
+        "bytes": 6595,
+        "sha256": "12dba7d11323da883f108ea416699a6cf638a9360587c984d7d070ebeb6cc287"
+      },
+      "reason": "Disabled in UguiHostRig; its ordinary Start is not dispatched. Even ordinary Start currently creates LocalizationService(null) and stops at LocalizationNotReady, without loading a LOC generated table."
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "identity": {
+        "bytes": 83965,
+        "sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac"
+      },
+      "reason": "InitializeOnLoad constructor returns unless -fm029QaBuildOnly and exact stage are supplied; exact12 argv has neither, and has no -executeMethod. Build/resource methods and Process.Start signing helper are not reachable from this test launch."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/FightMatch.Core.Tests.asmdef",
+      "identity": {
+        "bytes": 800,
+        "sha256": "e1d1132e25be4b82cb64f04a26c31f9662c5fd86df2a6ba20f6afe010da8501e"
+      },
+      "reason": "Editor test assembly references only in-Assets project assemblies and Unity modules/TMP/QFramework; the external net8 authoring csproj is outside Unity import roots and is not a referenced/precompiled assembly."
+    },
+    {
+      "path": "Packages/manifest.json",
+      "identity": {
+        "bytes": 1775,
+        "sha256": "8b35703a20ded99f05e847753312b1014a9a0666cc9e2c641ef87979d1596baf"
+      },
+      "reason": "Package dependencies are registry/module IDs; no file: dependency or external LOC project import. Packages and lockfile are in the full raw-tree closure."
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "identity": {
+        "bytes": 11101,
+        "sha256": "25367af624aad0b94d396484422db4e74d19844da974598da51398a89ab356c0"
+      },
+      "reason": "Locks the imported packages; no dependency on the external Config/Generated/Tools LOC authoring workspace."
+    }
+  ],
+  "externalTreeInputs": [
+    "docs/team/2026-09-30/engineering-ugui-01-q4-geometry-fix-20.md"
+  ],
+  "baselineStatic": {
+    "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/static-result.json",
+    "tree": "docs/versioning/2026-10-01-ugui-pr/fix20/static-result.json"
+  },
+  "baselineRunner": {
+    "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/validation-tools/runner.py",
+    "source": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/validation-tools/runner.py",
+    "tree": "docs/versioning/2026-10-01-ugui-pr/fix20/validation-tools/runner.py"
+  },
+  "deltaPath": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/delta-manifest.json",
+  "historicalRoot": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20",
+  "receiptPath": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/final-receipt.json",
+  "receiptIdentity": {
+    "bytes": 8223,
+    "sha256": "410fa32deadd3163a9f181a259c4a88b3f5ff200ce791838b697401ddd91b705"
+  },
+  "expectedPath": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/expected-fullnames.json",
+  "selectorPath": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/test-filter.txt",
+  "oldCoreXml": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/tests.xml",
+  "hostXml": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/host-30-graphics/tests.xml",
+  "exact2Xml": "TestArtifacts/FightMatch/UGUI-01/1dc19bf8048aa36d905e0e72c922f9cc05646cfe4e5ed55ce7bf0205d58c4c1b/q4-correction-15/exact-2-graphics/tests.xml",
+  "classnames": [
+    "FightMatch.Core.Tests.UguiSceneCompositionTests",
+    "FightMatch.Core.Tests.LocalizedTextBindingTests"
+  ],
+  "requiredHistoricalInputs": [
+    "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/preflight.json",
+    "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/validation-tools/runner.py",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/tests.xml",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/run.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/quiescence.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/activation.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/delta-manifest.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/expected-fullnames.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/partition-proof.json",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/source.patch",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/test-filter.txt",
+    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/validation-tools/runner.py"
+  ],
+  "selfMappings": {
+    "runner": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/runner.py",
+    "tests": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/test_review_binding.py",
+    "contract": "docs/versioning/2026-10-01-ugui-pr/fix21/binding-contract.json"
+  },
+  "futurePacket": "docs/team/2026-09-30/engineering-ugui-review-binding-fix-21.md",
+  "authorityRule": "Current source/posthoc authority is supplied out of band by central. This contract cannot grant execution. New-head self binding uses a future external authority and live revocation/PR-head callback; no own future commit SHA is embedded.",
+  "mappingRules": [
+    {
+      "actual": "Assets/**, Packages/**, ProjectSettings/**",
+      "tree": "same exact paths",
+      "role": "complete import set; additions/deletions rejected"
+    },
+    {
+      "actual": "Config/**, Generated/**, Tools/**",
+      "tree": "same paths when present",
+      "role": "tracked extra closure; only eight explicit non-executing LOC WIP exclusions"
+    },
+    {
+      "actual": "S/static-result.json",
+      "tree": "docs/versioning/2026-10-01-ugui-pr/fix20/static-result.json",
+      "role": "raw historical anchor"
+    },
+    {
+      "actual": "S peerEvidence (7 exact records)",
+      "chain": "raw historical static -> validated peer bytes before parsing",
+      "role": "source-only baseline"
+    },
+    {
+      "actual": "59 fixedInputs plus all oldEvidenceBefore directory members",
+      "chain": "validated S/delta-manifest -> exact records or canonical sorted directory digest",
+      "role": "selector/protection/process-cleanup dependencies"
+    },
+    {
+      "actual": "E/final-receipt.json and its evidence",
+      "chain": "central-approved receipt identity -> exact evidence identities",
+      "role": "POSTHOC original run facts"
+    },
+    {
+      "actual": "N runner/test/contract and future formal runner copy",
+      "tree": "A/fix21 matching files from external new head",
+      "role": "future self binding"
+    },
+    {
+      "actual": "docs/team/2026-09-30/snapshots/ugui-copy-amend-03-fix-01/planning-localization-draft.csv",
+      "chain": "T20:Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs -> ApprovedByteCount/ApprovedSha256/ReadApprovedDraft path literal",
+      "role": "Actual test localization CSV outside import roots"
+    }
+  ],
+  "legacyPreservation": {
+    "predecessor": {
+      "bytes": 55023,
+      "sha256": "6850d44cf8ae8e58356b14a31253db02bafefde0d1fad8fe5a1e4dd19155813c"
+    },
+    "exact12": true,
+    "timeoutSeconds": 360,
+    "firstFailureAndOwnedGuards": true,
+    "noUnityThisTask": true,
+    "outputRoot": "Only from future central activation; must be create-once and match callback fixed output. No output root activated here."
+  },
+  "sourceAuthorizationRecord": {
+    "runId": "UGUI-FIX21-BINDING-20261001-093441Z",
+    "mode": "FIX21_SOURCE_AND_POSTHOC_ONLY",
+    "repo": "yyczz1/FightMatch",
+    "pr": 1,
+    "head": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+    "tree": "94ad1b6976834b15a1d5582fbc980480e1c3ba51",
+    "owner": {
+      "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+      "hostId": "local",
+      "turnId": "01a0f6d1-df5b-74d1-8085-017f7bf86e56"
+    },
+    "active": true,
+    "currentHead": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+    "scope": "Until this task completes, central withdraws, or PR head changes",
+    "receipt": {
+      "bytes": 8223,
+      "sha256": "410fa32deadd3163a9f181a259c4a88b3f5ff200ce791838b697401ddd91b705"
+    },
+    "provenance": "Central out-of-band activation in C turn 01a0f6d1-df5b-74d1-8085-017f7bf86e56; AGENTS section 6 human-approved team workflow; not authority derived from candidate contract."
+  },
+  "externalDigestInputs": [
+    {
+      "path": "docs/team/2026-09-30/snapshots/ugui-copy-amend-03-fix-01/planning-localization-draft.csv",
+      "anchorSource": "Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs",
+      "rule": "ReadApprovedDraft exact literal path, ApprovedByteCount and ApprovedSha256 from independently verified Git blob; never a self-filled manifest identity."
+    }
+  ]
+}
