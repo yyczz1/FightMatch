@@ -23,3 +23,7 @@
 FIX18 实际编译在107行报CS0234，Unity27.715s退出1，未执行测试；外层监视因残留编译服务器继续至601.043s。此失败保留在 [原回执](fix18/final-receipt.json)，不能被此前GitHub“未发现重大问题”的审查代替。旧PID62357在FIX19开始时已不存在。
 
 FIX19仅将Application限定到UnityEngine并绑定新诊断输出目录；原90源码／资源、meta及190 selector保持。新的 [runner](fix19/validation-tools/runner.py)在首个编译失败或非零退出时转有限收尾，保留原失败原因与独立cleanup状态；[17项离线伪进程检查](fix19/static-result.json)通过，不代表Unity编译／190项通过。新代码head须独立审查；正式运行仍是一次600s Core190，复用exact2与Host30证据。
+
+FIX19已实际完成190项：184过、6败，261.086s退出2、268.505s进程清空。五项为geometry unavailable，另一项是mesh.vertexCount为0（不是rect宽度）。完整原[XML](fix19/tests.xml)及[回执](fix19/final-receipt.json)保留失败；当前源码head302a95b的GitHub审查未发现重大问题，仍不能代替实际测试。
+
+FIX20仅修改三个测试文件：六项使用真实PlayMode生命周期与只读几何探针，两个类增加失败后退出保护，共享rig、产品及资源保持。17项离线检查通过；尚未运行Unity。计划只验证相关12项、复用FIX19其余178绿项及Host30/exact2，形成222项Counter；12未通过前不能声称并集完成。`fix20/review-manifest.json`明确是完整本地manifest的精简投影，其余原始选集保持字节相同。原生复开、实际场景几何、布局、APK与设备门仍未完成。

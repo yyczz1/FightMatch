@@ -1,0 +1,281 @@
+--- a/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs
++++ b/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs
+@@ -131,6 +131,64 @@
+ 
+     public sealed class UguiSceneCompositionTests
+     {
++        private bool enteredPlayMode;
++
++        [UnityEngine.TestTools.UnityTearDown]
++        public System.Collections.IEnumerator ExitControlledPlayModeAfterFailure()
++        {
++            if (enteredPlayMode && UnityEngine.Application.isPlaying)
++            {
++                TestContext.Out.WriteLine("FIX20 teardown: exiting controlled PlayMode after test failure.");
++                yield return new UnityEngine.TestTools.ExitPlayMode();
++            }
++            enteredPlayMode = false;
++        }
++
++        internal static string BoardDiagnostic(UguiHostRig rig)
++        {
++            var board = rig.Board; var input = rig.View.BattleView.PlaybackView.InputView;
++            var face = input.Controller?.View.BattleSnapshot?.Board.Face;
++            var rect = board.rectTransform.rect; var matrix = board.rectTransform.localToWorldMatrix;
++            var ancestors = new List<string>();
++            for (var current = board.transform; current != null; current = current.parent)
++            {
++                var m = current.localToWorldMatrix; var r = current as RectTransform;
++                ancestors.Add(current.name + "[active=" + current.gameObject.activeInHierarchy +
++                    ",rect=" + (r == null ? "none" : r.rect.ToString("R")) +
++                    ",m00/m11/m01/m10=" + m.m00.ToString("R") + "/" + m.m11.ToString("R") +
++                    "/" + m.m01.ToString("R") + "/" + m.m10.ToString("R") + "]");
++            }
++            return "FIX20 probe: isPlaying=" + UnityEngine.Application.isPlaying +
++                ",pageActive=" + rig.View.BattleView.gameObject.activeInHierarchy +
++                ",boardActive=" + board.gameObject.activeInHierarchy +
++                ",controllerSame=" + ReferenceEquals(input.Controller, rig.Session.Battle.Input) +
++                ",face=" + (face == null ? "null" : face.Width + "x" + face.Height) +
++                ",rect=" + rect.ToString("R") + ",m00/m11/m01/m10=" + matrix.m00.ToString("R") +
++                "/" + matrix.m11.ToString("R") + "/" + matrix.m01.ToString("R") + "/" + matrix.m10.ToString("R") +
++                ",DiagnosticVisible=" + rig.View.DiagnosticVisible + ",cull=" + board.canvasRenderer.cull +
++                ",ancestors=" + string.Join(" <- ", ancestors);
++        }
++
++        internal static void AssertBoardReady(UguiHostRig rig)
++        {
++            var diagnostic = BoardDiagnostic(rig); TestContext.Out.WriteLine(diagnostic);
++            var input = rig.View.BattleView.PlaybackView.InputView;
++            var face = input.Controller?.View.BattleSnapshot?.Board.Face;
++            var rect = rig.Board.rectTransform.rect; var matrix = rig.Board.rectTransform.localToWorldMatrix;
++            Assert.IsTrue(UnityEngine.Application.isPlaying, diagnostic);
++            Assert.IsTrue(rig.View.BattleView.gameObject.activeInHierarchy, diagnostic);
++            Assert.IsTrue(rig.Board.gameObject.activeInHierarchy, diagnostic);
++            Assert.AreSame(rig.Session.Battle.Input, input.Controller, diagnostic);
++            Assert.IsNotNull(face, diagnostic); Assert.Greater(face.Width, 0, diagnostic); Assert.Greater(face.Height, 0, diagnostic);
++            Assert.IsTrue(!float.IsNaN(rect.width) && !float.IsInfinity(rect.width) && rect.width > 0 &&
++                !float.IsNaN(rect.height) && !float.IsInfinity(rect.height) && rect.height > 0, diagnostic);
++            Assert.IsTrue(!float.IsNaN(matrix.m00) && !float.IsInfinity(matrix.m00) && matrix.m00 > 0 &&
++                !float.IsNaN(matrix.m11) && !float.IsInfinity(matrix.m11) &&
++                Mathf.Abs(matrix.m00 - matrix.m11) <= .0001f * matrix.m00 &&
++                Mathf.Abs(matrix.m01) <= .0001f && Mathf.Abs(matrix.m10) <= .0001f, diagnostic);
++            Assert.IsFalse(rig.View.DiagnosticVisible, diagnostic);
++        }
++
+         [Test]
+         public void SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem()
+         {
+@@ -169,10 +227,17 @@
+         [UnityEngine.TestTools.UnityTest]
+         public System.Collections.IEnumerator OwnerEndedCommitsOnceDespiteBothPointerUpAndEndDrag()
+         {
++            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
++                UnityEditor.SceneManagement.NewSceneMode.Single);
++            yield return new UnityEngine.TestTools.EnterPlayMode();
++            enteredPlayMode = true;
++            Assert.IsTrue(UnityEngine.Application.isPlaying);
+             using (var rig = new UguiHostRig(true))
+             {
+                 rig.Enter();
+-                yield return rig.Ready();
++                TestContext.Out.WriteLine(BoardDiagnostic(rig));
++                yield return rig.Ready();
++                AssertBoardReady(rig);
+                 var before = rig.Storage.SnapshotCreates;
+                 var observe = rig.Board.gameObject.AddComponent<UguiReleaseObservation>(); observe.Board = rig.Board;
+                 rig.BeginRoute(); rig.EndRoute();
+@@ -181,16 +246,25 @@
+                 CollectionAssert.Contains(observe.Events, "PointerUp:False"); CollectionAssert.Contains(observe.Events, "EndDrag:False");
+                 Assert.IsFalse(rig.Board.HasActivePointer);
+             }
++            yield return new UnityEngine.TestTools.ExitPlayMode();
++            enteredPlayMode = false;
+         }
+ 
+         [UnityEngine.TestTools.UnityTest]
+         public System.Collections.IEnumerator OwnerCanceledNormalizesBeforeReleaseAndNeverCommits()
+         {
++            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
++                UnityEditor.SceneManagement.NewSceneMode.Single);
++            yield return new UnityEngine.TestTools.EnterPlayMode();
++            enteredPlayMode = true;
++            Assert.IsTrue(UnityEngine.Application.isPlaying);
+             using (var rig = new UguiHostRig(true))
+             {
+                 rig.Enter(); var head = rig.Head; var before = rig.Storage.SnapshotCreates;
+                 var observe = rig.Board.gameObject.AddComponent<UguiReleaseObservation>(); observe.Board = rig.Board;
+-                yield return rig.Ready();
++                TestContext.Out.WriteLine(BoardDiagnostic(rig));
++                yield return rig.Ready();
++                AssertBoardReady(rig);
+                 rig.BeginRoute();
+                 Action changed = () => { if (!rig.Board.HasActivePointer) observe.Events.Add("OwnerCanceled"); };
+                 rig.Session.Battle.Input.Changed += changed;
+@@ -204,15 +278,24 @@
+                 rig.EndRoute(); Assert.AreEqual(before, rig.Storage.SnapshotCreates);
+                 TestContext.Out.WriteLine(string.Join(" -> ", observe.Events));
+             }
++            yield return new UnityEngine.TestTools.ExitPlayMode();
++            enteredPlayMode = false;
+         }
+ 
+         [UnityEngine.TestTools.UnityTest]
+         public System.Collections.IEnumerator SecondFingerCanceledLeavesOwnerAndOwnerEndedStillCommitsOnce()
+         {
++            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
++                UnityEditor.SceneManagement.NewSceneMode.Single);
++            yield return new UnityEngine.TestTools.EnterPlayMode();
++            enteredPlayMode = true;
++            Assert.IsTrue(UnityEngine.Application.isPlaying);
+             using (var rig = new UguiHostRig(true))
+             {
+                 rig.Enter(); var before = rig.Storage.SnapshotCreates;
+-                yield return rig.Ready();
++                TestContext.Out.WriteLine(BoardDiagnostic(rig));
++                yield return rig.Ready();
++                AssertBoardReady(rig);
+                 rig.BeginRoute(1);
+                 var other = UguiPointerDriver.Point(rig.Board, rig.Route()[0]);
+                 rig.Driver.Down(other, 2); rig.Driver.Cancel(2, other);
+@@ -221,14 +304,24 @@
+                 Assert.AreEqual(before, rig.Storage.SnapshotCreates);
+                 rig.EndRoute(1); Assert.AreEqual(before + 1, rig.Storage.SnapshotCreates);
+             }
+-        }
+-
+-        [Test]
+-        public void FourCornerCentersAndHalfOpenEdgesUseTheActualBoardMapper()
+-        {
++            yield return new UnityEngine.TestTools.ExitPlayMode();
++            enteredPlayMode = false;
++        }
++
++        [UnityEngine.TestTools.UnityTest]
++        public System.Collections.IEnumerator FourCornerCentersAndHalfOpenEdgesUseTheActualBoardMapper()
++        {
++            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
++                UnityEditor.SceneManagement.NewSceneMode.Single);
++            yield return new UnityEngine.TestTools.EnterPlayMode();
++            enteredPlayMode = true;
++            Assert.IsTrue(UnityEngine.Application.isPlaying);
+             using (var rig = new UguiHostRig(true))
+             {
+                 rig.Enter(); var board = rig.Board; var face = rig.State.Board.Face;
++                TestContext.Out.WriteLine(BoardDiagnostic(rig));
++                yield return rig.Ready();
++                AssertBoardReady(rig);
+                 foreach (var cell in new[] { new FlowPos(0, 0), new FlowPos(face.Width - 1, 0),
+                     new FlowPos(0, face.Height - 1), new FlowPos(face.Width - 1, face.Height - 1) })
+                     Assert.AreEqual(cell, board.CellAtLocal(board.CellCenter(cell)));
+@@ -240,14 +333,24 @@
+                 Assert.IsNull(board.CellAtLocal(new Vector2(rect.xMin, rect.yMin + size * face.Height)));
+                 Assert.Greater(board.CellCenter(new FlowPos(0, 1)).y, board.CellCenter(new FlowPos(0, 0)).y);
+             }
+-        }
+-
+-        [Test]
+-        public void BothResolutionsWithFourInsetsKeepHitAndRenderedCentersIdentical()
+-        {
++            yield return new UnityEngine.TestTools.ExitPlayMode();
++            enteredPlayMode = false;
++        }
++
++        [UnityEngine.TestTools.UnityTest]
++        public System.Collections.IEnumerator BothResolutionsWithFourInsetsKeepHitAndRenderedCentersIdentical()
++        {
++            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
++                UnityEditor.SceneManagement.NewSceneMode.Single);
++            yield return new UnityEngine.TestTools.EnterPlayMode();
++            enteredPlayMode = true;
++            Assert.IsTrue(UnityEngine.Application.isPlaying);
+             using (var rig = new UguiHostRig(true))
+             {
+                 rig.Enter(); var board = rig.Board; var canvas = rig.Root.GetComponentInChildren<Canvas>();
++                TestContext.Out.WriteLine(BoardDiagnostic(rig));
++                yield return rig.Ready();
++                AssertBoardReady(rig);
+                 canvas.GetComponent<UnityEngine.UI.CanvasScaler>().enabled = false; canvas.renderMode = RenderMode.WorldSpace;
+                 var canvasRect = (RectTransform)canvas.transform; var safe = rig.Root.GetComponentInChildren<SafeAreaFitter>(); safe.enabled = false;
+                 foreach (var resolution in new[] { new Vector2(540, 960), new Vector2(1080, 2400) })
+@@ -256,6 +359,7 @@
+                     canvasRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, resolution.y);
+                     var inset = new Rect(17, 23, resolution.x - 17 - 29, resolution.y - 23 - 31);
+                     safe.Apply(inset, resolution); Canvas.ForceUpdateCanvases();
++                    AssertBoardReady(rig);
+                     Assert.AreEqual(new Vector2(inset.xMin / resolution.x, inset.yMin / resolution.y), ((RectTransform)safe.transform).anchorMin);
+                     Assert.AreEqual(new Vector2(inset.xMax / resolution.x, inset.yMax / resolution.y), ((RectTransform)safe.transform).anchorMax);
+                     board.SetVerticesDirty(); board.Rebuild(UnityEngine.UI.CanvasUpdate.PreRender);
+@@ -270,6 +374,8 @@
+                         }
+                 }
+             }
++            yield return new UnityEngine.TestTools.ExitPlayMode();
++            enteredPlayMode = false;
+         }
+     }
+ }
+--- a/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs
++++ b/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs
+@@ -15,6 +15,19 @@
+ {
+     public sealed class LocalizedTextBindingTests
+     {
++        private bool enteredPlayMode;
++
++        [UnityEngine.TestTools.UnityTearDown]
++        public System.Collections.IEnumerator ExitControlledPlayModeAfterFailure()
++        {
++            if (enteredPlayMode && UnityEngine.Application.isPlaying)
++            {
++                TestContext.Out.WriteLine("FIX20 teardown: exiting controlled PlayMode after test failure.");
++                yield return new UnityEngine.TestTools.ExitPlayMode();
++            }
++            enteredPlayMode = false;
++        }
++
+         private sealed class SeveritySource : ILocalizedTextSource
+         {
+             private readonly UguiTestTextSource source = new UguiTestTextSource();
+@@ -91,9 +104,16 @@
+         [UnityEngine.TestTools.UnityTest]
+         public System.Collections.IEnumerator LocaleChangeAndRebuiltPagePreserveHeadRequestAndPlaybackToken()
+         {
++            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
++                UnityEditor.SceneManagement.NewSceneMode.Single);
++            yield return new UnityEngine.TestTools.EnterPlayMode();
++            enteredPlayMode = true;
++            Assert.IsTrue(UnityEngine.Application.isPlaying);
+             using (var rig = new UguiHostRig(true))
+             {
+-                rig.Enter(); yield return rig.Ready(); rig.BeginRoute(); rig.EndRoute();
++                rig.Enter(); TestContext.Out.WriteLine(UguiSceneCompositionTests.BoardDiagnostic(rig));
++                yield return rig.Ready(); UguiSceneCompositionTests.AssertBoardReady(rig);
++                rig.BeginRoute(); rig.EndRoute();
+                 var input = rig.Session.Battle.Input; var token = input.View.PresentationToken;
+                 var request = input.LastRequest; var head = rig.Head; var page = rig.View.BattleView.Page;
+                 Assert.IsNotNull(token); var files = CopyFiles(rig.Storage.Files);
+@@ -109,6 +129,8 @@
+                 SameFiles(files, rig.Storage.Files);
+                 Assert.IsFalse(rig.View.DiagnosticVisible, rig.View.DiagnosticCode);
+             }
++            yield return new UnityEngine.TestTools.ExitPlayMode();
++            enteredPlayMode = false;
+         }
+ 
+         [Test]
+--- a/Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs
++++ b/Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs
+@@ -106,11 +106,11 @@
+ 
+                 string projectRoot = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
+                 string expectedPath = Path.Combine(projectRoot,
+-                    "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/test-events.jsonl");
++                    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/test-events.jsonl");
+                 if (!Path.IsPathRooted(arguments[index + 1]) ||
+                     !string.Equals(Path.GetFullPath(arguments[index + 1]), expectedPath,
+                         StringComparison.Ordinal))
+-                    throw new InvalidDataException("Progress path is outside the fixed FIX18 output.");
++                    throw new InvalidDataException("Progress path is outside the fixed FIX20 output.");
+ 
+                 ValidatePath(expectedPath);
+                 using (var process = System.Diagnostics.Process.GetCurrentProcess())

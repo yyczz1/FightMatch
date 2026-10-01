@@ -15,6 +15,19 @@ namespace FightMatch.Core.Tests
 {
     public sealed class LocalizedTextBindingTests
     {
+        private bool enteredPlayMode;
+
+        [UnityEngine.TestTools.UnityTearDown]
+        public System.Collections.IEnumerator ExitControlledPlayModeAfterFailure()
+        {
+            if (enteredPlayMode && UnityEngine.Application.isPlaying)
+            {
+                TestContext.Out.WriteLine("FIX20 teardown: exiting controlled PlayMode after test failure.");
+                yield return new UnityEngine.TestTools.ExitPlayMode();
+            }
+            enteredPlayMode = false;
+        }
+
         private sealed class SeveritySource : ILocalizedTextSource
         {
             private readonly UguiTestTextSource source = new UguiTestTextSource();
@@ -91,9 +104,16 @@ namespace FightMatch.Core.Tests
         [UnityEngine.TestTools.UnityTest]
         public System.Collections.IEnumerator LocaleChangeAndRebuiltPagePreserveHeadRequestAndPlaybackToken()
         {
+            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
+                UnityEditor.SceneManagement.NewSceneMode.Single);
+            yield return new UnityEngine.TestTools.EnterPlayMode();
+            enteredPlayMode = true;
+            Assert.IsTrue(UnityEngine.Application.isPlaying);
             using (var rig = new UguiHostRig(true))
             {
-                rig.Enter(); yield return rig.Ready(); rig.BeginRoute(); rig.EndRoute();
+                rig.Enter(); TestContext.Out.WriteLine(UguiSceneCompositionTests.BoardDiagnostic(rig));
+                yield return rig.Ready(); UguiSceneCompositionTests.AssertBoardReady(rig);
+                rig.BeginRoute(); rig.EndRoute();
                 var input = rig.Session.Battle.Input; var token = input.View.PresentationToken;
                 var request = input.LastRequest; var head = rig.Head; var page = rig.View.BattleView.Page;
                 Assert.IsNotNull(token); var files = CopyFiles(rig.Storage.Files);
@@ -109,6 +129,8 @@ namespace FightMatch.Core.Tests
                 SameFiles(files, rig.Storage.Files);
                 Assert.IsFalse(rig.View.DiagnosticVisible, rig.View.DiagnosticCode);
             }
+            yield return new UnityEngine.TestTools.ExitPlayMode();
+            enteredPlayMode = false;
         }
 
         [Test]

@@ -106,11 +106,11 @@ namespace FightMatch.Core.Tests
 
                 string projectRoot = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
                 string expectedPath = Path.Combine(projectRoot,
-                    "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/test-events.jsonl");
+                    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/test-events.jsonl");
                 if (!Path.IsPathRooted(arguments[index + 1]) ||
                     !string.Equals(Path.GetFullPath(arguments[index + 1]), expectedPath,
                         StringComparison.Ordinal))
-                    throw new InvalidDataException("Progress path is outside the fixed FIX18 output.");
+                    throw new InvalidDataException("Progress path is outside the fixed FIX20 output.");
 
                 ValidatePath(expectedPath);
                 using (var process = System.Diagnostics.Process.GetCurrentProcess())
