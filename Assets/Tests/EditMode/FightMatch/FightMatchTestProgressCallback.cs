@@ -15,6 +15,7 @@ namespace FightMatch.Core.Tests
     public sealed class FightMatchTestProgressCallback : ITestRunCallback
     {
         private const string Argument = "-fightMatchTestProgress";
+        private const string RelativeProgressPath = "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl";
         private const int MaxRows = 4096;
         private const int MaxFileBytes = 4 * 1024 * 1024;
         private const int MaxRowBytes = 16 * 1024;
@@ -105,12 +106,11 @@ namespace FightMatch.Core.Tests
                     throw new InvalidDataException("Missing or duplicate progress argument.");
 
                 string projectRoot = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
-                string expectedPath = Path.Combine(projectRoot,
-                    "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/test-events.jsonl");
+                string expectedPath = Path.Combine(projectRoot, RelativeProgressPath);
                 if (!Path.IsPathRooted(arguments[index + 1]) ||
-                    !string.Equals(Path.GetFullPath(arguments[index + 1]), expectedPath,
+                    !string.Equals(arguments[index + 1], expectedPath,
                         StringComparison.Ordinal))
-                    throw new InvalidDataException("Progress path is outside the fixed FIX20 output.");
+                    throw new InvalidDataException("Progress path is outside the fixed FIX22 output.");
 
                 ValidatePath(expectedPath);
                 using (var process = System.Diagnostics.Process.GetCurrentProcess())

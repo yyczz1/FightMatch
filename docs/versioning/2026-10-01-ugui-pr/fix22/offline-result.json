@@ -1,0 +1,2804 @@
+{
+  "status": "OFFLINE_PASS",
+  "attempts": [
+    {
+      "status": "OFFLINE_PASS",
+      "caseCount": 78,
+      "original35Count": 35,
+      "cases": [
+        {
+          "case": "valid_raw_objects_complete_closure_HEAD_differs_and_only_explicit_WIP",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BOUND_RUN_COMPLETED"
+        },
+        {
+          "case": "valid_posthoc_archive_mapping_has_zero_launches",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": "POSTHOC_BINDING_SUPPLEMENT"
+        },
+        {
+          "case": "arbitrary_nonexistent_40hex_object",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_MISSING",
+          "actualReason": "BLOCKED_OBJECT_MISSING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "old_but_real_wrong_head",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "wrong_commit_object_type",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_TYPE",
+          "actualReason": "BLOCKED_OBJECT_TYPE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "raw_commit_hash_corruption",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_HASH",
+          "actualReason": "BLOCKED_OBJECT_HASH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authorized_head_tree_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_HEAD_TREE",
+          "actualReason": "BLOCKED_HEAD_TREE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "source_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "resource_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "non92_source_change_is_not_ignored",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "deleted_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "auxiliary_R17_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "tampered_S_manifest_plus_self_filled_SHA",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "R17_preflight_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "missing_dependency_chain",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "anchored_external_CSV_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "selector_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "activation_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION",
+          "actualReason": "BLOCKED_ACTIVATION",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "path_traversal",
+          "passed": true,
+          "expectedReason": "BLOCKED_PATH",
+          "actualReason": "BLOCKED_PATH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "duplicate_self_mapping",
+          "passed": true,
+          "expectedReason": "BLOCKED_DUPLICATE_MAPPING",
+          "actualReason": "BLOCKED_DUPLICATE_MAPPING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "symlink_input",
+          "passed": true,
+          "expectedReason": "BLOCKED_SYMLINK",
+          "actualReason": "BLOCKED_SYMLINK",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_replace",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REPLACE",
+          "actualReason": "BLOCKED_GIT_REPLACE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_object_environment_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_ENV",
+          "actualReason": "BLOCKED_GIT_ENV",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_alternate_objects_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REDIRECT",
+          "actualReason": "BLOCKED_GIT_REDIRECT",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "immediately_before_spawn_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_revoked",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_REVOKED",
+          "actualReason": "BLOCKED_AUTHORITY_REVOKED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_expired",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "actualReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "PR_moved",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_XML_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_before_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_after_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_receipt_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "after_run_drift_keeps_run_facts_but_invalidates_binding",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BLOCKED_POSTRUN_BINDING"
+        },
+        {
+          "case": "FIX22_full_production_preflight_candidate_argv_and_one_fake_spawn",
+          "passed": true,
+          "expectedReason": "FAKE_SPAWN",
+          "actualReason": "FAKE_SPAWN",
+          "detail": null,
+          "fakeLaunches": 1,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_FIX20",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-20/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_other_basename",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/another-root/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_same_basename_different_parent",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Other/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_prefix_lookalike",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22-extra/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_relative",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_dotdot",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/../UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_case",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/fightmatch/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "output_root_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_ROOT",
+          "actualReason": "BLOCKED_OUTPUT_ROOT",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_ROOT",
+            "path": "",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22x"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "activation_progress_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION_PATH",
+          "actualReason": "BLOCKED_ACTIVATION_PATH",
+          "detail": {
+            "code": "BLOCKED_ACTIVATION_PATH",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "activation_location_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION_PATH",
+          "actualReason": "BLOCKED_ACTIVATION_PATH",
+          "detail": {
+            "code": "BLOCKED_ACTIVATION_PATH",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "contract_progress_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "contract_output_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_ROOT",
+          "actualReason": "BLOCKED_OUTPUT_ROOT",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_ROOT",
+            "path": "",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "not_create_new_reservation",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_RESERVATION",
+          "actualReason": "BLOCKED_OUTPUT_RESERVATION",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_RESERVATION",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "wrong_reservation_run",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_RESERVATION",
+          "actualReason": "BLOCKED_OUTPUT_RESERVATION",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_RESERVATION",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "already_used_output_root",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_ROOT_NOT_FRESH",
+          "actualReason": "BLOCKED_OUTPUT_ROOT_NOT_FRESH",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_ROOT_NOT_FRESH",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "existing_nonempty_progress",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_NOT_NEW",
+          "actualReason": "BLOCKED_PROGRESS_NOT_NEW",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_NOT_NEW",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_symlink_parent",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_SYMLINK",
+          "actualReason": "BLOCKED_OUTPUT_SYMLINK",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_SYMLINK",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_symlink_ancestor",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_SYMLINK",
+          "actualReason": "BLOCKED_OUTPUT_SYMLINK",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_SYMLINK",
+            "path": "TestArtifacts/FightMatch",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_symlink_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_SYMLINK",
+          "actualReason": "BLOCKED_OUTPUT_SYMLINK",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_SYMLINK",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "callback_full_constant_disagrees",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "actualReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_PROGRESS_PATH",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": [
+              "Other/q4-correction-22/test-events.jsonl"
+            ]
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "runner_only_change_old_callback",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "actualReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_PROGRESS_PATH",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": []
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "callback_other_source_edit",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_DELTA",
+          "actualReason": "BLOCKED_CALLBACK_DELTA",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_DELTA",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "argv_missing_progress",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "actualReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_ARGUMENT",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "argv_duplicate_progress",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "actualReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_ARGUMENT",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "argv_progress_disagrees",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "actualReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_ARGUMENT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Elsewhere/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "stale_addedFiles",
+          "passed": true,
+          "expectedReason": "BLOCKED_DERIVED_CANDIDATE",
+          "actualReason": "BLOCKED_DERIVED_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_DERIVED_CANDIDATE",
+            "path": "addedFiles",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "stale_protectedCandidate",
+          "passed": true,
+          "expectedReason": "BLOCKED_DERIVED_CANDIDATE",
+          "actualReason": "BLOCKED_DERIVED_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_DERIVED_CANDIDATE",
+            "path": "protectedCandidate",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "stale_diagnosticCandidate",
+          "passed": true,
+          "expectedReason": "BLOCKED_DERIVED_CANDIDATE",
+          "actualReason": "BLOCKED_DERIVED_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_DERIVED_CANDIDATE",
+            "path": "diagnosticCandidate",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "delta_new_SHA_not_new_blob",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_NEW_IDENTITY",
+          "actualReason": "BLOCKED_CALLBACK_NEW_IDENTITY",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_NEW_IDENTITY",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": {
+              "bytes": 13126,
+              "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            "actual": {
+              "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+              "bytes": 13126,
+              "sha256": "6728a8f226729182b5d390de8b2962acc017fdf0e96bdabbc2634040d90de3b2"
+            }
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "second_declared_source_delta",
+          "passed": true,
+          "expectedReason": "BLOCKED_EXECUTION_DELTA_SCOPE",
+          "actualReason": "BLOCKED_EXECUTION_DELTA_SCOPE",
+          "detail": {
+            "code": "BLOCKED_EXECUTION_DELTA_SCOPE",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/execution-delta.json",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "second_source_changed_in_new_head",
+          "passed": true,
+          "expectedReason": "BLOCKED_CURRENT_CANDIDATE",
+          "actualReason": "BLOCKED_CURRENT_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_CURRENT_CANDIDATE",
+            "path": "Assets/Outside92.cs",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "original_callback_meta_deleted",
+          "passed": true,
+          "expectedReason": "BLOCKED_CURRENT_CANDIDATE",
+          "actualReason": "BLOCKED_CURRENT_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_CURRENT_CANDIDATE",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs.meta",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "historical_manifest_tampered",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "detail": {
+            "code": "BLOCKED_FILE_IDENTITY",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/delta-manifest.json",
+            "expected": {
+              "bytes": 33949,
+              "sha256": "db2916f7d5391ae008dc7ca7b8e277288f9d34d51e34444e24c57b3f2cc33948"
+            },
+            "actual": {
+              "bytes": 33950,
+              "sha256": "fb3c69017c30a3b757582755a4c9712322cf6bc2dc4ad11146bdddbe9a35b53c"
+            }
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "source_drift_after_binding_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "detail": {
+            "code": "BLOCKED_FILE_IDENTITY",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": {
+              "bytes": 13126,
+              "sha256": "6728a8f226729182b5d390de8b2962acc017fdf0e96bdabbc2634040d90de3b2"
+            },
+            "actual": {
+              "bytes": 13127,
+              "sha256": "4890031e099f31b0dc4cd930dcf2517e7c7a6647586908332323ee760df2bd28"
+            }
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_drift_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_NOT_EMPTY",
+          "actualReason": "BLOCKED_PROGRESS_NOT_EMPTY",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_NOT_EMPTY",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "authorized_path_drift_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Elsewhere/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "excluded_WIP_drift_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_WIP_ACTIVATION_SNAPSHOT",
+          "actualReason": "BLOCKED_WIP_ACTIVATION_SNAPSHOT",
+          "detail": {
+            "code": "BLOCKED_WIP_ACTIVATION_SNAPSHOT",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "event_same_domain",
+          "passed": true,
+          "errors": [],
+          "domainCount": 1,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_cross_domain",
+          "passed": true,
+          "errors": [],
+          "domainCount": 7,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_foreign_pid",
+          "passed": true,
+          "errors": [
+            {
+              "row": 6,
+              "error": "AssertionError: foreign PID"
+            }
+          ],
+          "domainCount": 2,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_sequence_gap",
+          "passed": true,
+          "errors": [
+            {
+              "row": 6,
+              "error": "AssertionError: sequence gap"
+            }
+          ],
+          "domainCount": 2,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_invalid_domain",
+          "passed": true,
+          "errors": [
+            {
+              "row": 6,
+              "error": "AssertionError: invalid domain token"
+            }
+          ],
+          "domainCount": 2,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        }
+      ],
+      "elapsedSeconds": 4.67440354199789,
+      "budgetSeconds": 120,
+      "realUnityLaunches": 0,
+      "realDotnetOrCompilerLaunches": 0,
+      "gitWrites": 0,
+      "networkCalls": 0,
+      "fixture": "Original 35 binding assertions retained. FIX22 cases call actual execute_from_bound_inputs, preflight, candidate and argv gates; only virtual filesystem/process I/O and final Popen are substituted. Malformed argv is injected at final spawn I/O and rechecked by the production gate before fake-launch counting.",
+      "limitations": [
+        "Synthetic raw Git commits/trees prove offline binding mechanics, not a newly published PR head.",
+        "No C# compilation, registration, or runtime callback execution; exact12 integration remains separately gated."
+      ],
+      "runner": {
+        "bytes": 95594,
+        "sha256": "2e890fe3b239556ce918b1cefaa91dff56e83eda01333caa91a51825cc716e23"
+      },
+      "testScript": {
+        "bytes": 42573,
+        "sha256": "60f83f6f5b9e216790ab951a50d8cea87b1ae4d60e54b05a3e1e42fe2ed0328d"
+      }
+    },
+    {
+      "status": "OFFLINE_PASS",
+      "caseCount": 78,
+      "original35Count": 35,
+      "cases": [
+        {
+          "case": "valid_raw_objects_complete_closure_HEAD_differs_and_only_explicit_WIP",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BOUND_RUN_COMPLETED"
+        },
+        {
+          "case": "valid_posthoc_archive_mapping_has_zero_launches",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": "POSTHOC_BINDING_SUPPLEMENT"
+        },
+        {
+          "case": "arbitrary_nonexistent_40hex_object",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_MISSING",
+          "actualReason": "BLOCKED_OBJECT_MISSING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "old_but_real_wrong_head",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "wrong_commit_object_type",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_TYPE",
+          "actualReason": "BLOCKED_OBJECT_TYPE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "raw_commit_hash_corruption",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_HASH",
+          "actualReason": "BLOCKED_OBJECT_HASH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authorized_head_tree_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_HEAD_TREE",
+          "actualReason": "BLOCKED_HEAD_TREE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "source_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "resource_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "non92_source_change_is_not_ignored",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "deleted_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "auxiliary_R17_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "tampered_S_manifest_plus_self_filled_SHA",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "R17_preflight_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "missing_dependency_chain",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "anchored_external_CSV_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "selector_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "activation_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION",
+          "actualReason": "BLOCKED_ACTIVATION",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "path_traversal",
+          "passed": true,
+          "expectedReason": "BLOCKED_PATH",
+          "actualReason": "BLOCKED_PATH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "duplicate_self_mapping",
+          "passed": true,
+          "expectedReason": "BLOCKED_DUPLICATE_MAPPING",
+          "actualReason": "BLOCKED_DUPLICATE_MAPPING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "symlink_input",
+          "passed": true,
+          "expectedReason": "BLOCKED_SYMLINK",
+          "actualReason": "BLOCKED_SYMLINK",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_replace",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REPLACE",
+          "actualReason": "BLOCKED_GIT_REPLACE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_object_environment_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_ENV",
+          "actualReason": "BLOCKED_GIT_ENV",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_alternate_objects_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REDIRECT",
+          "actualReason": "BLOCKED_GIT_REDIRECT",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "immediately_before_spawn_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_revoked",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_REVOKED",
+          "actualReason": "BLOCKED_AUTHORITY_REVOKED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_expired",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "actualReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "PR_moved",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_XML_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_before_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_after_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_receipt_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "after_run_drift_keeps_run_facts_but_invalidates_binding",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BLOCKED_POSTRUN_BINDING"
+        },
+        {
+          "case": "FIX22_full_production_preflight_candidate_argv_and_one_fake_spawn",
+          "passed": true,
+          "expectedReason": "FAKE_SPAWN",
+          "actualReason": "FAKE_SPAWN",
+          "detail": null,
+          "fakeLaunches": 1,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_FIX20",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-20/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_other_basename",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/another-root/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_same_basename_different_parent",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Other/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_prefix_lookalike",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22-extra/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_relative",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_dotdot",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/../UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_path_case",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/fightmatch/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "output_root_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_ROOT",
+          "actualReason": "BLOCKED_OUTPUT_ROOT",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_ROOT",
+            "path": "",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22x"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "activation_progress_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION_PATH",
+          "actualReason": "BLOCKED_ACTIVATION_PATH",
+          "detail": {
+            "code": "BLOCKED_ACTIVATION_PATH",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "activation_location_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION_PATH",
+          "actualReason": "BLOCKED_ACTIVATION_PATH",
+          "detail": {
+            "code": "BLOCKED_ACTIVATION_PATH",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "contract_progress_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "contract_output_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_ROOT",
+          "actualReason": "BLOCKED_OUTPUT_ROOT",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_ROOT",
+            "path": "",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "actual": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "not_create_new_reservation",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_RESERVATION",
+          "actualReason": "BLOCKED_OUTPUT_RESERVATION",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_RESERVATION",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "wrong_reservation_run",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_RESERVATION",
+          "actualReason": "BLOCKED_OUTPUT_RESERVATION",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_RESERVATION",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "already_used_output_root",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_ROOT_NOT_FRESH",
+          "actualReason": "BLOCKED_OUTPUT_ROOT_NOT_FRESH",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_ROOT_NOT_FRESH",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "existing_nonempty_progress",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_NOT_NEW",
+          "actualReason": "BLOCKED_PROGRESS_NOT_NEW",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_NOT_NEW",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_symlink_parent",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_SYMLINK",
+          "actualReason": "BLOCKED_OUTPUT_SYMLINK",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_SYMLINK",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_symlink_ancestor",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_SYMLINK",
+          "actualReason": "BLOCKED_OUTPUT_SYMLINK",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_SYMLINK",
+            "path": "TestArtifacts/FightMatch",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_symlink_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_OUTPUT_SYMLINK",
+          "actualReason": "BLOCKED_OUTPUT_SYMLINK",
+          "detail": {
+            "code": "BLOCKED_OUTPUT_SYMLINK",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "callback_full_constant_disagrees",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "actualReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_PROGRESS_PATH",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": [
+              "Other/q4-correction-22/test-events.jsonl"
+            ]
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "runner_only_change_old_callback",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "actualReason": "BLOCKED_CALLBACK_PROGRESS_PATH",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_PROGRESS_PATH",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": []
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "callback_other_source_edit",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_DELTA",
+          "actualReason": "BLOCKED_CALLBACK_DELTA",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_DELTA",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "argv_missing_progress",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "actualReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_ARGUMENT",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "argv_duplicate_progress",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "actualReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_ARGUMENT",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "argv_progress_disagrees",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "actualReason": "BLOCKED_PROGRESS_ARGUMENT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_ARGUMENT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Elsewhere/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "stale_addedFiles",
+          "passed": true,
+          "expectedReason": "BLOCKED_DERIVED_CANDIDATE",
+          "actualReason": "BLOCKED_DERIVED_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_DERIVED_CANDIDATE",
+            "path": "addedFiles",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "stale_protectedCandidate",
+          "passed": true,
+          "expectedReason": "BLOCKED_DERIVED_CANDIDATE",
+          "actualReason": "BLOCKED_DERIVED_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_DERIVED_CANDIDATE",
+            "path": "protectedCandidate",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "stale_diagnosticCandidate",
+          "passed": true,
+          "expectedReason": "BLOCKED_DERIVED_CANDIDATE",
+          "actualReason": "BLOCKED_DERIVED_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_DERIVED_CANDIDATE",
+            "path": "diagnosticCandidate",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "delta_new_SHA_not_new_blob",
+          "passed": true,
+          "expectedReason": "BLOCKED_CALLBACK_NEW_IDENTITY",
+          "actualReason": "BLOCKED_CALLBACK_NEW_IDENTITY",
+          "detail": {
+            "code": "BLOCKED_CALLBACK_NEW_IDENTITY",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": {
+              "bytes": 13126,
+              "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            "actual": {
+              "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+              "bytes": 13126,
+              "sha256": "6728a8f226729182b5d390de8b2962acc017fdf0e96bdabbc2634040d90de3b2"
+            }
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "second_declared_source_delta",
+          "passed": true,
+          "expectedReason": "BLOCKED_EXECUTION_DELTA_SCOPE",
+          "actualReason": "BLOCKED_EXECUTION_DELTA_SCOPE",
+          "detail": {
+            "code": "BLOCKED_EXECUTION_DELTA_SCOPE",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/execution-delta.json",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "second_source_changed_in_new_head",
+          "passed": true,
+          "expectedReason": "BLOCKED_CURRENT_CANDIDATE",
+          "actualReason": "BLOCKED_CURRENT_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_CURRENT_CANDIDATE",
+            "path": "Assets/Outside92.cs",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "original_callback_meta_deleted",
+          "passed": true,
+          "expectedReason": "BLOCKED_CURRENT_CANDIDATE",
+          "actualReason": "BLOCKED_CURRENT_CANDIDATE",
+          "detail": {
+            "code": "BLOCKED_CURRENT_CANDIDATE",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs.meta",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate"
+          ],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "historical_manifest_tampered",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "detail": {
+            "code": "BLOCKED_FILE_IDENTITY",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20-source/delta-manifest.json",
+            "expected": {
+              "bytes": 33949,
+              "sha256": "db2916f7d5391ae008dc7ca7b8e277288f9d34d51e34444e24c57b3f2cc33948"
+            },
+            "actual": {
+              "bytes": 33950,
+              "sha256": "fb3c69017c30a3b757582755a4c9712322cf6bc2dc4ad11146bdddbe9a35b53c"
+            }
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [],
+          "traceback": null,
+          "fileWrites": [],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "source_drift_after_binding_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "detail": {
+            "code": "BLOCKED_FILE_IDENTITY",
+            "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+            "expected": {
+              "bytes": 13126,
+              "sha256": "6728a8f226729182b5d390de8b2962acc017fdf0e96bdabbc2634040d90de3b2"
+            },
+            "actual": {
+              "bytes": 13127,
+              "sha256": "4890031e099f31b0dc4cd930dcf2517e7c7a6647586908332323ee760df2bd28"
+            }
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "progress_drift_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_NOT_EMPTY",
+          "actualReason": "BLOCKED_PROGRESS_NOT_EMPTY",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_NOT_EMPTY",
+            "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "authorized_path_drift_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_PROGRESS_CONTRACT",
+          "actualReason": "BLOCKED_PROGRESS_CONTRACT",
+          "detail": {
+            "code": "BLOCKED_PROGRESS_CONTRACT",
+            "path": "",
+            "expected": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "actual": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Elsewhere/test-events.jsonl"
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs",
+            "validate_fixed_progress:spawn"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "excluded_WIP_drift_immediately_before_spawn",
+          "passed": true,
+          "expectedReason": "BLOCKED_WIP_ACTIVATION_SNAPSHOT",
+          "actualReason": "BLOCKED_WIP_ACTIVATION_SNAPSHOT",
+          "detail": {
+            "code": "BLOCKED_WIP_ACTIVATION_SNAPSHOT",
+            "path": "",
+            "expected": null,
+            "actual": null
+          },
+          "fakeLaunches": 0,
+          "productionCheckpoints": [
+            "execute_from_bound_inputs",
+            "validate_fixed_progress:prepared",
+            "execute",
+            "preflight",
+            "derive_execution_candidate",
+            "validate_execution_candidate",
+            "derive_execution_candidate",
+            "build_execution_argv",
+            "validate_fixed_progress:allocated",
+            "binding_checkpoint",
+            "bind_inputs"
+          ],
+          "traceback": null,
+          "fileWrites": [
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/before.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stderr.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/editor.stdout.log",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/preflight.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/process-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/progress.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/run.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/delta-manifest.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/expected-fullnames.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/inputs.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/partition-proof.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/static/static-result.json",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+            "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-filter.txt"
+          ],
+          "noRealOutputDirectory": true
+        },
+        {
+          "case": "event_same_domain",
+          "passed": true,
+          "errors": [],
+          "domainCount": 1,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_cross_domain",
+          "passed": true,
+          "errors": [],
+          "domainCount": 7,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_foreign_pid",
+          "passed": true,
+          "errors": [
+            {
+              "row": 6,
+              "error": "AssertionError: foreign PID"
+            }
+          ],
+          "domainCount": 2,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_sequence_gap",
+          "passed": true,
+          "errors": [
+            {
+              "row": 6,
+              "error": "AssertionError: sequence gap"
+            }
+          ],
+          "domainCount": 2,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        },
+        {
+          "case": "event_invalid_domain",
+          "passed": true,
+          "errors": [
+            {
+              "row": 6,
+              "error": "AssertionError: invalid domain token"
+            }
+          ],
+          "domainCount": 2,
+          "fakeLaunches": 0,
+          "limitation": "Python event parser only; no C# callback execution."
+        }
+      ],
+      "elapsedSeconds": 4.8184364160115365,
+      "budgetSeconds": 120,
+      "realUnityLaunches": 0,
+      "realDotnetOrCompilerLaunches": 0,
+      "gitWrites": 0,
+      "networkCalls": 0,
+      "fixture": "Original 35 binding assertions retained. FIX22 cases call actual execute_from_bound_inputs, preflight, candidate and argv gates; only virtual filesystem/process I/O and final Popen are substituted. Malformed argv is injected at final spawn I/O and rechecked by the production gate before fake-launch counting.",
+      "limitations": [
+        "Synthetic raw Git commits/trees prove offline binding mechanics, not a newly published PR head.",
+        "No C# compilation, registration, or runtime callback execution; exact12 integration remains separately gated."
+      ],
+      "runner": {
+        "bytes": 95594,
+        "sha256": "2e890fe3b239556ce918b1cefaa91dff56e83eda01333caa91a51825cc716e23"
+      },
+      "testScript": {
+        "bytes": 42573,
+        "sha256": "60f83f6f5b9e216790ab951a50d8cea87b1ae4d60e54b05a3e1e42fe2ed0328d"
+      }
+    }
+  ],
+  "realUnityLaunches": 0
+}

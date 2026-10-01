@@ -38,3 +38,10 @@ FIX20仅修改三个测试文件：六项使用真实PlayMode生命周期与只�
 - [真实commit原字节](fix21/commit20.raw)由GitHub API字段恢复，仅在重算Git SHA恰等于H20后导入；[来源内容](fix21/git-commit20-api.json)与[中央导入回执](fix21/commit20-object-import.json)保留。API JSON是连接器返回内容，不冒称HTTP wire字节；本机HEAD、master及index均未改。
 - [FIX21交付](fix21/final-receipt.json)的源码／离线／补证已冻结；新head自绑定与GitHub独立审查由中央在发布后记录，不向本提交自身嵌入未来SHA。P1及集成门在新审查完成前保持未关闭。
 - 实际Host仍缺正式本地化源接入；原生场景保存／复开、真实画面、布局、Android构建与设备流程尚未验收。FIX21不新增产品代码或资源，不以文件存在或测试rig通过代替这些门。
+
+## FIX22 进度路径修正
+
+- GitHub对FIX21 head `755409ecc8f513c9547911af470c0ba307b63bfc`提出[P1：新输出目录与callback路径不一致](https://github.com/yyczz1/FightMatch/pull/1#discussion_r4154220400)。旧35项未进入真实执行入口，不能证明路径可用；原结果保留。
+- 本次只改一个既有C# callback，将完整进度路径固定为新的`q4-correction-22/test-events.jsonl`，拒绝归一化别名；runner、contract、activation和最终Unity参数核同一路径。新[执行增量](fix22/execution-delta.json)只替换callback身份，历史FIX20及产品／资源不变。
+- [离线记录](fix22/offline-result.json)两轮均78/78通过，包含原35项；新增正例经过实际执行入口、preflight、候选校验及参数生成后到最终假spawn，反例均零启动。第二轮仅为修正contract中陈旧归档说明后复核；两轮合计约9.493秒，未运行Unity。
+- [源码交付](fix22/source-receipt.json)、六份同字节归档和[限定合同](../../team/2026-09-30/engineering-ugui-progress-path-fix-22.md)固定后提交新head审查。审查关闭阻塞后仍需单独激活一次exact12（≤360s），验证真实C#注册和跨域26事件；当前不称该门通过，不重跑旧长测试。
