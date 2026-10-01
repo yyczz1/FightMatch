@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Linq;
 using FightMatch.Application;
+using FightMatch.Presentation;
 using NUnit.Framework;
-using UnityEngine.UIElements;
+using UnityEngine.TestTools;
 using static FightMatch.Core.Tests.PlayerSessionTestData;
 using static FightMatch.Core.Tests.PlayerRosterTestData;
 using static FightMatch.Core.Tests.BusinessSaveScenario;
@@ -39,11 +41,12 @@ namespace FightMatch.Core.Tests
                 Assert.AreEqual("StaleHostRequest", r.Host.AcceptHost(selected).Status); r.Unchanged(head, files, calls);
             }
         }
-        [Test] public void B01_DueRecoveryPassesStaticNoReadyHintAndIsCompletedInsideH02()
+        [UnityTest] public IEnumerator B01_DueRecoveryPassesStaticNoReadyHintAndIsCompletedInsideH02()
         {
             using (var r = PlayerBattleRig.Recoverable())
             {
-                r.Host.Input.SelectMember("W"); PlayerBattleRig.Draw(r.Host.Input, r.Route(r.State.Enemies[1].PairKey));
+                yield return r.Ready();
+                r.Host.Input.SelectMember("W"); r.Draw(r.Route(r.State.Enemies[1].PairKey));
                 Is(r.Host.Input.LastResult.Application); r.Host.Playback.SkipToFinal();
                 Assert.AreEqual(0, r.State.Members[0].Hp.Numerator.Sign); Is(r.End().Result);
                 Assert.IsFalse(r.Head.Business.Roster.Find("W").IsReady); r.Elapsed = 1000000;
@@ -55,10 +58,11 @@ namespace FightMatch.Core.Tests
                 Assert.IsNotEmpty(actual.Result.OriginalLookup.RecoveryResults);
             }
         }
-        [Test] public void B02_ActualMultiFaceHistoryListRetainsOriginalRangeAndCommitsItsConfirmationOnce()
+        [UnityTest] public IEnumerator B02_ActualMultiFaceHistoryListRetainsOriginalRangeAndCommitsItsConfirmationOnce()
         {
             using (var r = PlayerBattleRig.TwoFaces())
             {
+                yield return r.Ready();
                 var first = r.State.Board.Face.FaceId;
                 for (var i = 0; r.State.Board.Face.FaceId == first; i++) { Assert.Less(i, 32); Is(r.Step().Application); }
                 Is(r.Step().Application); var head = r.Head; var files = r.N.Files(); var calls = r.ClockReads;
@@ -91,10 +95,11 @@ namespace FightMatch.Core.Tests
                 r.Host.Cancel(r.Page.Page, second); r.Unchanged(head, files, clocks);
             }
         }
-        [Test] public void B03_RestartPreservesOriginalMembersGrowthAndThreeRandomInitialsWithoutH02()
+        [UnityTest] public IEnumerator B03_RestartPreservesOriginalMembersGrowthAndThreeRandomInitialsWithoutH02()
         {
             using (var r = new PlayerBattleRig())
             {
+                yield return r.Ready();
                 var original = r.Head.Business.ActiveHistory.CurrentRun; Is(r.Step().Application);
                 var entries = r.Head.Records.Count(x => x.Intent.Kind == CandidateApplicationKind.EnterFormation); var clocks = r.ClockReads;
                 Is(r.End(true).Result); var next = r.Head.Business.ActiveHistory.CurrentRun;
@@ -121,10 +126,11 @@ namespace FightMatch.Core.Tests
                 Assert.AreSame(request, r.Session.OriginalRequest); Assert.IsNull(r.View.Receipt.Reward);
             }
         }
-        [Test] public void B04_FirstPlaybackFinishCallbackStillRejectsSettlementUntilActualTokenRelease()
+        [UnityTest] public IEnumerator B04_FirstPlaybackFinishCallbackStillRejectsSettlementUntilActualTokenRelease()
         {
             using (var r = new PlayerBattleRig())
             {
+                yield return r.Ready();
                 r.Win(false); var head = r.Head; var files = r.N.Files(); var clocks = r.ClockReads; var reserved = head.Continuation.ReservedOperationId;
                 Assert.IsNotNull(r.N.Battle.QueryView().PresentationToken); Assert.IsFalse(r.View.CanSettle);
                 Assert.AreEqual("PresentationPending", r.Settle().Status); r.Unchanged(head, files, clocks);
@@ -164,13 +170,16 @@ namespace FightMatch.Core.Tests
             Assert.IsFalse(receipt.Members[2].End.WasDown); Assert.AreSame(lookup.InventoryGrant, receipt.InventoryGrant);
             Assert.AreEqual(receipt.SettlementId, receipt.InventoryGrant.SettlementId);
         }
-        [TestCase(PlayerNavigationTargetKind.MapAdventure)] [TestCase(PlayerNavigationTargetKind.Team)] [TestCase(PlayerNavigationTargetKind.Bag)]
-        public void B12_ResultDestinationsUseLatestSamePlayerAndRealPublishedEmptyContent(PlayerNavigationTargetKind target)
+        private static readonly PlayerNavigationTargetKind[] ResultDestinations = {
+            PlayerNavigationTargetKind.MapAdventure, PlayerNavigationTargetKind.Team, PlayerNavigationTargetKind.Bag };
+        [UnityTest]
+        public IEnumerator B12_ResultDestinationsUseLatestSamePlayerAndRealPublishedEmptyContent([ValueSource(nameof(ResultDestinations))] PlayerNavigationTargetKind target)
         {
             using (var r = new PlayerBattleRig())
             {
+                yield return r.Ready();
                 r.Win(); var result = r.Settle(); r.Receipt(result);
-                Assert.IsEmpty(result.NextLevels); StringAssert.Contains("暂无", r.Page.Q<Label>("no-next-level").text);
+                Assert.IsEmpty(result.NextLevels); StringAssert.Contains("暂无", r.Page.Find<TMPro.TextMeshProUGUI>(FightMatchViewId.Row("no-next-level")).text);
                 var head = r.Head; var files = r.N.Files(); var clocks = r.ClockReads;
                 Assert.AreEqual(PlayerBattleRoute.HostNavigation, r.Host.ReturnTo(r.Page.Page, target, r.View.Context).Route);
                 r.Unchanged(head, files, clocks); Assert.AreEqual(head.Business.PlayerId, r.N.View.Context.PlayerId);
@@ -179,10 +188,11 @@ namespace FightMatch.Core.Tests
                 { r.N.Go(PlayerNavigationTargetKind.CraftList); Assert.AreEqual("NoPublishedDefinition", r.N.Player.QueryPermanent("W").RecipeAvailability); }
             }
         }
-        [Test] public void B12_ResultReplayCreatesANewH02AndCannotInventNextLevel()
+        [UnityTest] public IEnumerator B12_ResultReplayCreatesANewH02AndCannotInventNextLevel()
         {
             using (var r = new PlayerBattleRig())
             {
+                yield return r.Ready();
                 r.Win(); var done = r.Settle(); var receipt = done.Receipt; var head = r.Head; var files = r.N.Files(); var clocks = r.ClockReads;
                 Assert.AreEqual("LevelLocked", r.Host.Replay(r.Page.Page, "invented-next", "1", r.View.Context).Status); r.Unchanged(head, files, clocks);
                 var replay = r.Host.Replay(r.Page.Page, receipt.LevelId, receipt.LevelVersion, r.View.Context); Is(replay.Result);

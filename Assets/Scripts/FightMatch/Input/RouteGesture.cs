@@ -23,6 +23,14 @@ namespace FightMatch.Input
         private bool _thresholdExceeded;
         private readonly List<FlowPos> _draft = new List<FlowPos>();
         private bool _hasInvalidSample;
+        private GestureFeedbackKind? _feedback;
+        private bool _feedbackReported;
+
+        public GestureFeedbackKind? TakeFeedback()
+        { var value = _feedback; _feedback = null; return value; }
+
+        private void Feedback(GestureFeedbackKind kind)
+        { if (!_feedbackReported) { _feedback = kind; _feedbackReported = true; } }
 
         public RouteGesture()
         {
@@ -36,6 +44,7 @@ namespace FightMatch.Input
                 throw new ArgumentOutOfRangeException(nameof(dragThreshold), "dragThreshold must be positive finite");
 
             ResetActive();
+            _feedback = null; _feedbackReported = false;
             _context = context;
             _threshold = dragThreshold;
         }
@@ -54,6 +63,8 @@ namespace FightMatch.Input
             FlowPos c = cell.Value;
             if (!InBoard(c))
                 return; // 越界，不捕获
+
+            _feedback = null; _feedbackReported = false;
 
             // 端点优先于自身固化线归类
             for (int i = 0; i < _context.Pairs.Count; i++)
@@ -80,6 +91,7 @@ namespace FightMatch.Input
                 }
             }
             // 普通空格，不捕获
+            Feedback(GestureFeedbackKind.InvalidStart);
         }
 
         public void Move(PointerSample sample)
@@ -114,6 +126,7 @@ namespace FightMatch.Input
                     {
                         // 不可拖起点越过阈值：只记本地无效，Up 不能退回 Tap
                         _hasInvalidSample = true;
+                        Feedback(GestureFeedbackKind.InvalidStart);
                     }
                 }
                 else
@@ -160,6 +173,7 @@ namespace FightMatch.Input
                     else
                     {
                         _hasInvalidSample = true;
+                        Feedback(GestureFeedbackKind.InvalidStart);
                     }
                 }
             }
@@ -173,6 +187,7 @@ namespace FightMatch.Input
                 {
                     intent = BuildRouteIntent();
                 }
+                else Feedback(GestureFeedbackKind.WrongEndpoint);
             }
             else
             {
@@ -310,6 +325,7 @@ namespace FightMatch.Input
             {
                 // 无可拖起点已越过阈值（draft 空 + 无效），不追加
                 _hasInvalidSample = true;
+                Feedback(GestureFeedbackKind.InvalidStart);
                 return;
             }
             FlowPos tail = _draft[_draft.Count - 1];
@@ -317,6 +333,7 @@ namespace FightMatch.Input
             if (tail.Equals(_endpointTarget))
             {
                 _hasInvalidSample = true;
+                Feedback(GestureFeedbackKind.WrongEndpoint);
                 return;
             }
             if (IsAdjacent(tail, c) && !InDraft(c) && !IsOtherEndpoint(c) && !IsAnyLockedCell(c))
@@ -327,6 +344,8 @@ namespace FightMatch.Input
             {
                 // 斜格/跨格/自交/他对端点/固化占格
                 _hasInvalidSample = true;
+                Feedback(!IsAdjacent(tail, c) ? GestureFeedbackKind.NotAdjacent :
+                    InDraft(c) ? GestureFeedbackKind.Crossed : IsOtherEndpoint(c) ? GestureFeedbackKind.WrongEndpoint : GestureFeedbackKind.Crossed);
             }
         }
 

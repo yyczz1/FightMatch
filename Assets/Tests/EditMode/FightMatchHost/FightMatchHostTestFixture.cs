@@ -12,7 +12,10 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
-using UnityEngine.UIElements;
+using FightMatch.Presentation;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FightMatch.Host.Tests
 {
@@ -43,7 +46,7 @@ namespace FightMatch.Host.Tests
         internal BattleSnapshot State => Head?.Business.ActiveHistory?.CurrentRun.CurrentSnapshot;
         internal HostRig(bool create = true)
         {
-            var parent = Path.Combine(Project, "TestArtifacts/FMDemo029/mac-r1/host-io");
+            var parent = Path.Combine(Project, "TestArtifacts/FightMatch/UGUI-01/host-io");
             Directory.CreateDirectory(parent);
             Assert.Less(Directory.GetDirectories(parent).Length, 256);
             Root = Path.Combine(parent, Guid.NewGuid().ToString("N"), "FightMatch");
@@ -192,98 +195,207 @@ namespace FightMatch.Host.Tests
         public void DeleteIndexedOld(string name) => inner.DeleteIndexedOld(name);
     }
 
-    internal sealed class HostTestWindow : EditorWindow { }
     internal sealed class HostPanel : IDisposable
     {
-        internal readonly HostTestWindow Window;
-        internal FightMatchHostView View;
         private readonly HostRig rig;
-        private static bool NoGraphics => SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null;
+        private readonly GameObject eventRoot;
+        private readonly UnityEngine.EventSystems.EventSystem[] previousEvents;
+        private readonly HostPointerInput input;
+        private readonly FightMatchStandaloneInputModule module;
+        private bool disposed;
+        internal FightMatchHostView View { get; private set; }
+        internal GameObject Root { get; private set; }
+        internal LocalizationService Localization { get; }
         internal HostPanel(HostRig rig)
         {
             this.rig = rig;
-            Window = ScriptableObject.CreateInstance<HostTestWindow>();
-            Window.position = new Rect(40, 40, 900, 1200);
-            if (NoGraphics)
-            {
-                LogAssert.Expect(LogType.Error, "No graphic device is available to initialize the view.");
-                LogAssert.Expect(LogType.Error, "No graphic device is available to show the window.");
-                LogAssert.Expect(LogType.Error, "No graphic device is available to initialize the view.");
-            }
-            Window.Show();
-            Window.rootVisualElement.style.width = 900;
-            Window.rootVisualElement.style.height = 1200;
+            Localization = new LocalizationService(new HostMemoryTextSource(), SystemLanguage.English);
+            previousEvents = UnityEngine.Object.FindObjectsOfType<UnityEngine.EventSystems.EventSystem>().Where(x => x.enabled).ToArray();
+            foreach (var previous in previousEvents) previous.enabled = false;
+            eventRoot = new GameObject("HostTestEventSystem"); eventRoot.SetActive(false);
+            eventRoot.AddComponent<UnityEngine.EventSystems.EventSystem>().sendNavigationEvents = false;
+            module = eventRoot.AddComponent<FightMatchStandaloneInputModule>();
+            input = eventRoot.AddComponent<HostPointerInput>(); module.inputOverride = input;
+            module.runInEditMode = true; eventRoot.SetActive(true);
             Rebind();
         }
         internal void Rebind()
         {
-            View?.Dispose();
-            Window.rootVisualElement.Clear();
-            View = new FightMatchHostView(rig.Session, "test license");
-            Window.rootVisualElement.Add(View);
+            if (Root != null) { View.Unbind(); UnityEngine.Object.DestroyImmediate(Root); }
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab");
+            Assert.IsNotNull(prefab, "The generated Root Prefab is required.");
+            Root = UnityEngine.Object.Instantiate(prefab);
+            Root.SetActive(false);
+            var raycasters = Root.GetComponentsInChildren<UnityEngine.UI.GraphicRaycaster>(true); Assert.AreEqual(1, raycasters.Length);
+            raycasters[0].runInEditMode = true;
+            View = Root.GetComponent<FightMatchHostView>(); Assert.IsNotNull(View);
+            View.Bind(rig.Session, Localization, File.ReadAllText(Path.Combine(HostRig.Project, "Assets/UI/FightMatch/Fonts/OFL.txt")));
+            Root.SetActive(true); Canvas.ForceUpdateCanvases();
         }
+        internal void Detach() { Root.SetActive(false); }
         internal IEnumerator Ready()
         {
-            yield return null;
-            yield return null;
-            yield return null;
-            Assert.IsNotNull(View.panel);
-            View.panel.Pick(Vector2.zero);
+            yield return null; yield return null; yield return null;
+            Canvas.ForceUpdateCanvases();
             var board = View.BattleView.PlaybackView.InputView.Board;
-            Assert.Greater(board.contentRect.width, 0);
-            Assert.Greater(board.contentRect.height, 0);
+            Assert.IsNotNull(board.canvas); Assert.IsNotNull(board.canvas.GetComponent<UnityEngine.UI.GraphicRaycaster>());
+            Assert.Greater(board.rectTransform.rect.width, 0); Assert.Greater(board.rectTransform.rect.height, 0);
+            Assert.IsFalse(View.DiagnosticVisible, View.DiagnosticCode);
         }
         internal void Draw(IReadOnlyList<FlowPos> route)
         {
             var board = View.BattleView.PlaybackView.InputView.Board;
-            var face = rig.State.Board.Face;
-            var cell = Math.Min(board.contentRect.width / face.Width, board.contentRect.height / face.Height);
-            var left = board.contentRect.x + (board.contentRect.width - face.Width * cell) / 2;
-            var top = board.contentRect.y + (board.contentRect.height - face.Height * cell) / 2;
+            Canvas.ForceUpdateCanvases();
             for (var i = 0; i < route.Count; i++)
             {
-                var pos = route[i];
-                var point = board.LocalToWorld(new Vector2(left + (pos.x + .5f) * cell, top + (face.Height - pos.y - .5f) * cell));
-                var pointer = new HostPointer(point, i == route.Count - 1 ? 0 : 1);
-                if (i == 0) using (var evt = PointerDownEvent.GetPooled(pointer)) { evt.target = board; board.SendEvent(evt); }
-                else if (i == route.Count - 1) using (var evt = PointerUpEvent.GetPooled(pointer)) { evt.target = board; board.SendEvent(evt); }
-                else using (var evt = PointerMoveEvent.GetPooled(pointer)) { evt.target = board; board.SendEvent(evt); }
+                var point = RectTransformUtility.WorldToScreenPoint(null, board.rectTransform.TransformPoint(board.CellCenter(route[i])));
+                var data = new UnityEngine.EventSystems.PointerEventData(eventRoot.GetComponent<UnityEngine.EventSystems.EventSystem>()) { position = point };
+                var hits = new List<UnityEngine.EventSystems.RaycastResult>();
+                eventRoot.GetComponent<UnityEngine.EventSystems.EventSystem>().RaycastAll(data, hits);
+                Assert.IsTrue(hits.Count != 0 && hits[0].gameObject == board.gameObject, "The real board must be the foremost raycast hit.");
+                input.Position = point; input.Down = i == 0; input.Up = i == route.Count - 1; input.Held = !input.Up;
+                module.Process(); input.Down = input.Up = false;
             }
         }
         public void Dispose()
         {
-            View.Dispose();
-            if (NoGraphics) LogAssert.Expect(LogType.Error, "No graphic device is available to initialize the view.");
-            Window.Close();
-        }
-        private sealed class HostPointer : IPointerEvent
-        {
-            public int pointerId => 0;
-            public string pointerType => UnityEngine.UIElements.PointerType.mouse;
-            public bool isPrimary => true;
-            public int button => 0;
-            public int pressedButtons { get; }
-            public Vector3 position { get; }
-            public Vector3 localPosition => position;
-            public Vector3 deltaPosition => Vector3.zero;
-            public float deltaTime => 0;
-            public int clickCount => 1;
-            public float pressure => 1;
-            public float tangentialPressure => 0;
-            public float altitudeAngle => 0;
-            public float azimuthAngle => 0;
-            public float twist => 0;
-            public Vector2 radius => Vector2.zero;
-            public Vector2 radiusVariance => Vector2.zero;
-            public Vector2 tilt => Vector2.zero;
-            public PenStatus penStatus => default;
-            public EventModifiers modifiers => EventModifiers.None;
-            public bool shiftKey => false;
-            public bool ctrlKey => false;
-            public bool commandKey => false;
-            public bool altKey => false;
-            public bool actionKey => false;
-            internal HostPointer(Vector2 position, int buttons) { this.position = position; pressedButtons = buttons; }
+            if (disposed) return;
+            disposed = true;
+            if (View != null) View.Unbind();
+            View = null;
+            if (Root != null) UnityEngine.Object.DestroyImmediate(Root);
+            Root = null;
+            if (eventRoot != null) UnityEngine.Object.DestroyImmediate(eventRoot);
+            foreach (var previous in previousEvents) if (previous != null) previous.enabled = true;
         }
     }
+    internal sealed class HostPointerInput : UnityEngine.EventSystems.BaseInput
+    {
+        internal Vector2 Position;
+        internal bool Down, Up, Held;
+        public override bool mousePresent => true;
+        public override Vector2 mousePosition => Position;
+        public override Vector2 mouseScrollDelta => Vector2.zero;
+        public override bool touchSupported => false;
+        public override bool GetMouseButtonDown(int button) => button == 0 && Down;
+        public override bool GetMouseButtonUp(int button) => button == 0 && Up;
+        public override bool GetMouseButton(int button) => button == 0 && Held;
+        public override float GetAxisRaw(string name) => 0;
+        public override bool GetButtonDown(string name) => false;
+    }
+
+    internal sealed class HostMemoryTextSource : ILocalizedTextSource
+    {
+        // COPY FIX-01 is test input only. The product does not load this authoring draft.
+        internal const int ApprovedByteCount = 64708;
+        internal const int ApprovedRowCount = 263;
+        internal const string ApprovedSha256 = "d2cff0784221357394fc23e3354fb7de6e48d2455630a694de665105e4bdf36c";
+        private const string ParameterPattern = @"\{([A-Za-z][A-Za-z0-9_]*)\}";
+        private static Entry[] approved;
+        private readonly Dictionary<string, Entry> index = new Dictionary<string, Entry>(StringComparer.Ordinal);
+        private readonly string catalogDiagnostic;
+        internal IReadOnlyList<Entry> Entries { get; }
+        internal int ResolveCount { get; private set; }
+
+        internal sealed class Entry
+        {
+            internal readonly string Key, Chinese, English, Parameters, Severity;
+            internal Entry(string key, string chinese, string english, string parameters = "", string severity = "info")
+            { Key = key; Chinese = chinese; English = english; Parameters = parameters; Severity = severity; }
+            internal string[] ParameterNames => string.IsNullOrEmpty(Parameters) ? Array.Empty<string>() : Parameters.Split(';');
+        }
+
+        internal HostMemoryTextSource() : this(ReadApprovedDraft()) { }
+        internal HostMemoryTextSource(IEnumerable<Entry> entries)
+        {
+            Entries = entries.ToArray();
+            foreach (var entry in Entries)
+            {
+                if (string.IsNullOrEmpty(entry.Key) || !entry.Key.StartsWith("fm.", StringComparison.Ordinal))
+                { catalogDiagnostic = "InvalidLocalizationKey"; break; }
+                if (index.ContainsKey(entry.Key)) { catalogDiagnostic = "DuplicateLocalizationKey"; break; }
+                if (!TrySeverity(entry.Severity, out _)) { catalogDiagnostic = "InvalidSeverity"; break; }
+                index.Add(entry.Key, entry);
+            }
+        }
+
+        public LocalizedTextResult Resolve(string key, LocaleId locale, IReadOnlyList<KeyValuePair<string, string>> namedArgs)
+        {
+            ResolveCount++;
+            if (!LocalePolicy.IsKnown(locale)) return LocalizedTextResult.Failure("UnknownLocale");
+            if (catalogDiagnostic != null) return LocalizedTextResult.Failure(catalogDiagnostic);
+            if (key == null || !index.TryGetValue(key, out var entry)) return LocalizedTextResult.Failure("MissingLocalizationKey");
+            var template = locale == LocaleId.ZhHans ? entry.Chinese : entry.English;
+            if (string.IsNullOrEmpty(template)) return LocalizedTextResult.Failure("MissingLocaleText");
+            var declared = entry.ParameterNames;
+            var names = Regex.Matches(template, ParameterPattern).Cast<Match>().Select(m => m.Groups[1].Value).ToArray();
+            var remaining = Regex.Replace(template, ParameterPattern, "");
+            if (remaining.IndexOfAny(new[] { '{', '}' }) >= 0 || declared.Any(string.IsNullOrEmpty) ||
+                declared.Distinct(StringComparer.Ordinal).Count() != declared.Length ||
+                !new HashSet<string>(declared, StringComparer.Ordinal).SetEquals(names))
+                return LocalizedTextResult.Failure("InvalidTemplate");
+            var values = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var arg in namedArgs ?? Array.Empty<KeyValuePair<string, string>>())
+            {
+                if (string.IsNullOrEmpty(arg.Key) || arg.Value == null || values.ContainsKey(arg.Key))
+                    return LocalizedTextResult.Failure("InvalidNamedArguments");
+                values.Add(arg.Key, arg.Value);
+            }
+            if (!new HashSet<string>(declared, StringComparer.Ordinal).SetEquals(values.Keys))
+                return LocalizedTextResult.Failure("ParameterMismatch");
+            TrySeverity(entry.Severity, out var severity);
+            return LocalizedTextResult.Success(Regex.Replace(template, ParameterPattern, m => values[m.Groups[1].Value]), severity);
+        }
+
+        private static bool TrySeverity(string value, out LocalizedTextSeverity severity)
+        {
+            switch (value)
+            {
+                case "info": severity = LocalizedTextSeverity.Info; return true;
+                case "warning": severity = LocalizedTextSeverity.Warning; return true;
+                case "error": severity = LocalizedTextSeverity.Error; return true;
+                case "blocking": severity = LocalizedTextSeverity.Blocking; return true;
+                default: severity = default; return false;
+            }
+        }
+
+        private static Entry[] ReadApprovedDraft()
+        {
+            if (approved != null) return approved;
+            var path = Path.Combine(UnityEngine.Application.dataPath, "../docs/team/2026-09-30/snapshots/ugui-copy-amend-03-fix-01/planning-localization-draft.csv");
+            var bytes = File.ReadAllBytes(path);
+            if (bytes.Length != ApprovedByteCount) throw new InvalidDataException("Approved COPY input is incomplete.");
+            using (var sha = SHA256.Create())
+                if (string.Concat(sha.ComputeHash(bytes).Select(x => x.ToString("x2"))) != ApprovedSha256)
+                    throw new InvalidDataException("Approved COPY input changed; obtain the new fixed mapping before testing.");
+            var rows = ReadCsv(Encoding.UTF8.GetString(bytes)).ToArray();
+            if (rows.Length != ApprovedRowCount + 1 || rows.Any(r => r.Length != 9))
+                throw new InvalidDataException("Approved COPY shape changed.");
+            return approved = rows.Skip(1).Select(r => new Entry(r[0], r[4], r[5], r[6], r[7])).ToArray();
+        }
+
+        private static IEnumerable<string[]> ReadCsv(string text)
+        {
+            var field = new StringBuilder(); var fields = new List<string>(); var quoted = false;
+            for (var i = 0; i < text.Length; i++)
+            {
+                var c = text[i];
+                if (c == '"')
+                {
+                    if (quoted && i + 1 < text.Length && text[i + 1] == '"') { field.Append('"'); i++; }
+                    else quoted = !quoted;
+                }
+                else if (!quoted && c == ',') { fields.Add(field.ToString()); field.Clear(); }
+                else if (!quoted && (c == '\r' || c == '\n'))
+                {
+                    if (c == '\r' && i + 1 < text.Length && text[i + 1] == '\n') i++;
+                    fields.Add(field.ToString()); field.Clear(); yield return fields.ToArray(); fields.Clear();
+                }
+                else field.Append(c);
+            }
+            if (quoted) throw new InvalidDataException("Unclosed CSV field.");
+            if (field.Length != 0 || fields.Count != 0) { fields.Add(field.ToString()); yield return fields.ToArray(); }
+        }
+    }
+
 }

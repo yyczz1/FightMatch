@@ -67,7 +67,8 @@ namespace FightMatch.Core.Tests
                 var direct = result.Presentation.OrderedFacts.Single(f => f.DirectAttack != null).DirectAttack;
                 Assert.IsTrue(direct.Crit.Triggered); Assert.IsNotEmpty(direct.Crit.Words);
                 var random = r.Battle.State.Random; var head = r.Battle.Head; var disk = r.Battle.Runtime.Disk(); var calls = r.Battle.Runtime.Storage.Base.Calls;
-                r.Host.Advance(180); StringAssert.Contains("暴击", r.Label("playback-beat"));
+                r.Host.Advance(180); StringAssert.Contains("暴击", r.Playback.Frame.Beat);
+                BattleCopyAssert.Diagnostic(r.Host, "playback-beat");
                 Same(direct.HpAfter, r.Playback.Frame.Actors.Single(a => a.Key.Equals(direct.Target)).Hp);
                 r.Finish(); Assert.AreSame(random, r.Battle.State.Random); Assert.AreSame(head, r.Battle.Head);
                 Assert.AreEqual(calls, r.Battle.Runtime.Storage.Base.Calls); r.Battle.Runtime.SameDisk(disk);
@@ -92,7 +93,7 @@ namespace FightMatch.Core.Tests
             using (var r = new PlaybackPanelRig())
             {
                 yield return r.Ready(); var first = r.Attack(); var old = r.Playback; var oldInput = r.Input;
-                r.Finish(); r.Host.Attach(r.Battle.System, B()); r.Resize(); yield return r.Ready();
+                r.Finish(); r.Host.Attach(r.Battle.System, B(), r.Canvas.Localization); r.Resize(); yield return r.Ready();
                 var second = r.Attack(1); var token = second.Presentation.Token; var latest = r.Battle.Head;
                 old.Advance(100000); old.SkipToFinal(); old.Dispose(); oldInput.QueryLastOperation();
                 r.Battle.System.ReportPresentationCompleted(first.Presentation.Token);
@@ -136,7 +137,9 @@ namespace FightMatch.Core.Tests
                 r.Battle.Runtime.Storage.Base.Arm(failure == "SaveFailed" ? "Snapshot.Flush.after" : "Marker.Promote.after", null);
                 r.Draw(); Assert.AreEqual(failure, r.Input.LastResult.Code); Assert.IsTrue(r.Battle.Runtime.Storage.Base.FaultUsed);
                 Assert.AreEqual(0, r.Playback.Starts); Assert.IsFalse(r.Playback.IsPlaying); Assert.IsNull(r.Board.PlaybackOverride);
-                Assert.AreSame(oldHead, r.Playback.LatestView.PublishedSnapshot); StringAssert.Contains(failure, r.Label("playback-diagnostic"));
+                Assert.AreSame(oldHead, r.Playback.LatestView.PublishedSnapshot); BattleCopyAssert.Localized(r.Host, "playback-diagnostic", r.Canvas.Localization,
+                    failure == "SaveFailed" ? "fm.save_recovery.failed" : "fm.save_recovery.unknown",
+                    failure == "SaveFailed" ? new[] { BattleText.Arg("errorCode", failure) } : Array.Empty<System.Collections.Generic.KeyValuePair<string, string>>());
                 var request = r.Input.LastRequest; var bytes = request.Intent.CanonicalBytes.ToArray();
                 var result = failure == "SaveFailed" ? r.Input.RetryLast() : r.Input.ResolveLast(); Assert.AreEqual("Completed", result.Code);
                 Assert.AreSame(request, r.Input.LastRequest); CollectionAssert.AreEqual(bytes, request.Intent.CanonicalBytes);
@@ -156,7 +159,7 @@ namespace FightMatch.Core.Tests
                 r.Battle.Runtime.Storage.PublishedCommit = null; r.Battle.Runtime.Storage.Base.Arm("Marker.Promote.after", null);
                 r.Draw(); Assert.AreEqual("CommitUnknown", r.Input.LastResult.Code); r.Host.Close();
                 Assert.AreEqual(CandidateApplicationPhase.CommitUnknown, r.Playback.LatestView.Phase); Assert.AreSame(old, r.Playback.LatestView.PublishedSnapshot);
-                Assert.AreEqual(0, r.Playback.CompletionReports); StringAssert.Contains("CommitUnknown", r.Label("playback-diagnostic"));
+                Assert.AreEqual(0, r.Playback.CompletionReports); BattleCopyAssert.Localized(r.Host, "playback-diagnostic", r.Canvas.Localization, "fm.save_recovery.unknown");
             }
         }
         [UnityTest]
@@ -168,7 +171,7 @@ namespace FightMatch.Core.Tests
                 Assert.AreEqual("Completed", rollback.Code); Assert.AreEqual(CandidatePresentationDisposition.RebuildLatest, rollback.PresentationDisposition);
                 r.Input.Refresh(); Assert.AreEqual(1, r.Playback.Starts); Assert.IsFalse(r.Playback.IsPlaying); Assert.IsEmpty(r.Playback.Frame.LockedRoutes);
                 Hp(r.Playback.Frame.Actors.Single(a => a.Key.Kind == BattleCombatantKind.Participant).Hp, 100);
-                var pending = r.Battle.Attack(finish: false); r.Host.Attach(r.Battle.System, B()); r.Resize(); yield return r.Ready();
+                var pending = r.Battle.Attack(finish: false); r.Host.Attach(r.Battle.System, B(), r.Canvas.Localization); r.Resize(); yield return r.Ready();
                 Assert.AreEqual(0, r.Playback.Starts); Assert.IsNull(r.Battle.System.QueryView().PresentationToken);
                 Assert.AreSame(r.Battle.Head, r.Playback.LatestView.PublishedSnapshot); Assert.IsNull(r.Board.PlaybackOverride);
                 Assert.AreEqual("PresentationIgnored", r.Battle.System.ReportPresentationCompleted(pending.Presentation.Token).Code);
@@ -223,9 +226,9 @@ namespace FightMatch.Core.Tests
                 ApplicationRuntimeRig.Is(r.Runtime.Open(SaveOpenMode.Existing), pending ? "Pending" : "Ready");
                 if (pending) ApplicationRuntimeRig.Is(r.Runtime.Resume(r.Runtime.Model.View.ObservedCandidateCommitIds.Single()), "Completed");
                 var head = r.Head; var disk = r.Runtime.Disk(); var calls = r.Runtime.Storage.Base.Calls;
-                using (var host = new CandidateBattlePlaybackView())
+                using (var ui = new BattleUguiRoot())
                 {
-                    host.Attach(r.System, B()); var result = r.System.QueryOperation(request, B());
+                    var host = ui.Playback(); host.Attach(r.System, B(), ui.Localization); var result = r.System.QueryOperation(request, B());
                     Assert.AreEqual(CandidatePresentationDisposition.RebuildLatest, result.PresentationDisposition); Assert.IsNull(result.Presentation);
                     host.InputView.Controller.Refresh(); host.Advance(100000);
                     Assert.AreEqual(0, host.Controller.Starts); Assert.AreEqual(0, host.Controller.CompletionReports); Assert.IsFalse(host.Controller.IsPlaying);

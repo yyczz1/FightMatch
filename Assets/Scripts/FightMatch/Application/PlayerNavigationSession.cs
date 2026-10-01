@@ -66,8 +66,11 @@ namespace FightMatch.Application
         {
             var permanent = refusedRead == null && read?.IsAvailable == true && character != null ? player.QueryPermanent(character) : null;
             var context = Context();
+            var original = operation.Intent; var originalQuote = original?.GetPermanent();
             var confirmationView = frozenContext == null && operation.Intent == null && !endConfirmation ? null :
-                new PlayerNavigationConfirmation(draftKind, preview, slots, fromFormat, toFormat, operation.Intent?.OperationId, endConfirmation);
+                new PlayerNavigationConfirmation(draftKind, preview, slots, fromFormat, toFormat, original?.OperationId, endConfirmation,
+                    original?.Kind, originalQuote?.Kind, original?.Kind == CandidateApplicationKind.PermanentRequest &&
+                    originalQuote?.Kind == CandidatePermanentKind.Equip && originalQuote.DefinitionId == null);
             return new PlayerNavigationView(refusedRead ?? read, context, new PlayerNavigationToken(this, revision, confirmation), permanent,
                 detailKind, definition, confirmationView, result ?? lastResult, refusedRead?.Diagnostic ?? diagnostic ?? read?.Diagnostic, overrideStatus ?? status ?? GateReason(),
                 selectedCommit, selectedOperation, host, Enum.GetValues(typeof(PlayerNavigationAction)).Cast<PlayerNavigationAction>()

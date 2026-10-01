@@ -4,7 +4,9 @@ using System.Linq;
 using System.Numerics;
 using FightMatch.Application;
 using FightMatch.Platform;
+using FightMatch.Presentation;
 using NUnit.Framework;
+using PlayerNavigationView = FightMatch.Application.PlayerNavigationView;
 using static FightMatch.Core.Tests.PlayerSessionTestData;
 using static FightMatch.Core.Tests.NavigationAssertions;
 
@@ -22,6 +24,27 @@ namespace FightMatch.Core.Tests
                 v = r.Nav.Navigate(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.Detail,
                     PermanentKind = CandidatePermanentKind.Equip }, v.Context, Codec());
                 Assert.AreEqual(4, v.Context.Parents.Count); var head = r.Head; var files = r.Files();
+                using (var controller = new PlayerNavigationController(r.Player, Budget()))
+                using (var panel = new NavigationPanel(controller))
+                {
+                    panel.AssertVisible("fm.operation.clear_equipment");
+                    panel.AssertVisible("fm.common.field.quantity");
+                    Assert.IsFalse(panel.Find<TMPro.TMP_InputField>(NavigationPanel.Row("permanent.Quantity")).interactable);
+                    panel.AssertCaption(NavigationPanel.Row("permanent.Preview"), "fm.common.action.review_changes");
+                    panel.Click(NavigationPanel.Row("permanent.Preview"));
+                    Assert.AreEqual(PlayerNavigationRoute.Confirmation, controller.View.Route);
+                    foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+                    {
+                        panel.Localization.SetLocale(locale);
+                        panel.AssertVisible("fm.inventory.change_preview.title", new KeyValuePair<string, string>("operationName",
+                            panel.Localization.Resolve("fm.operation.clear_equipment", null).Text));
+                        panel.AssertText(NavigationPanel.Row("quote.Summary"), "fm.inventory.equipment.clear_preview",
+                            new KeyValuePair<string, string>("characterName", panel.Localization.Resolve("fm.name.character.w", null).Text));
+                    }
+                    panel.Click(NavigationPanel.Row("navigation.Back"));
+                    Assert.AreEqual(PlayerNavigationRoute.Detail, controller.View.Route); Unchanged(r, head, files);
+                    v = r.View;
+                }
                 v = r.Nav.Preview(new PlayerNavigationDraft { Kind = PlayerNavigationDraftKind.Permanent,
                     Permanent = new PlayerPermanentDraft { Kind = CandidatePermanentKind.Equip, CharacterId = v.Context.SelectedCharacterId,
                         DefinitionId = null, Quantity = 0 } }, v.Context, Codec());
@@ -50,6 +73,41 @@ namespace FightMatch.Core.Tests
             return PlayerNavigationSession.BuildPermanentDraft(new PlayerPermanentDraft {
                 Kind = CandidatePermanentKind.Craft, CharacterId = "W", DefinitionId = "weapons", Quantity = 1,
                 SelectedInputs = inputs }, Context(data), Codec());
+        }
+        [Test] public void UGUI_COPY_D03_UnpublishedSourceEditorIsHiddenAndLeaksNoIdentity()
+        {
+            using (var data = new CandidatePermanentTestData())
+            using (var r = new NavigationRig())
+            {
+                data.Farm(); var endpoints = TakeCore(CandidatePermanentInventory.ReadEndpoints(data.Head, Codec()));
+                var permanent = new PlayerPermanentView(data.Head, "W", data.Definitions.GetPermanentDefinitions(), null, endpoints);
+                Assert.Greater(permanent.SourceChoices.Count, 1);
+                Committed(r.Migrate()); r.Act(PlayerNavigationAction.Return); r.Go(PlayerNavigationTargetKind.Bag); r.SelectWarrior();
+                r.Nav.Navigate(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.Detail, PermanentKind = CandidatePermanentKind.Equip }, r.View.Context, Codec());
+                using (var controller = new PlayerNavigationController(r.Player, Budget()))
+                using (var panel = new NavigationPanel(controller))
+                {
+                    var basis = ReadModel(controller.View, permanent: permanent);
+                    var craft = new PlayerNavigationView(basis.Read, basis.Context, basis.Token, permanent, CandidatePermanentKind.Craft,
+                        "weapons", null, null, null, null, null, null, null, basis.Actions);
+                    var head = r.Head; var files = r.Files(); var isolatedHead = data.Head; var isolatedFiles = CopyFiles(data.Storage.Files);
+                    panel.View.Render(craft);
+                    var toggle = panel.Find<UnityEngine.UI.Toggle>(NavigationPanel.Row("permanent.ExplicitSources"));
+                    Assert.IsFalse(toggle.gameObject.activeInHierarchy); Assert.IsFalse(toggle.interactable);
+                    var detail = panel.Find<FightMatch.Presentation.PlayerPermanentDetailView>(NavigationPanel.Row("permanent.Detail"));
+                    var rows = detail.transform.Find("SourceRows"); Assert.IsNotNull(rows);
+                    Assert.IsFalse(rows.gameObject.activeInHierarchy); Assert.AreEqual(0, rows.childCount);
+                    Assert.IsFalse(detail.transform.Find("SourcesLabel").gameObject.activeInHierarchy);
+                    Assert.IsFalse(detail.GetComponentsInChildren<FightMatchViewId>(true).Any(x => x.Id.Contains("source.")));
+                    foreach (var source in permanent.SourceChoices)
+                        panel.AssertNoIdentity(source.Source?.OriginalCommitId, source.Source?.OriginalOperationId,
+                            source.Source?.OriginalBranchId, source.OutputOperationId, source.EndpointOperationId);
+                    panel.AssertNoIdentity("weapons", "UnitStart", "SourceKey");
+                    panel.Localization.SetLocale(LocaleId.ZhHans);
+                    Assert.IsFalse(rows.gameObject.activeInHierarchy); Assert.AreEqual(0, rows.childCount);
+                    Unchanged(r, head, files); Assert.AreSame(isolatedHead, data.Head); SameFiles(isolatedFiles, data.Storage.Files);
+                }
+            }
         }
         [Test] public void CC08_RealSessionReportsMissingRecipeAndNeverReceivesIsolatedDefinitions()
         {

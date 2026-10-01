@@ -1,0 +1,439 @@
+{
+  "schemaVersion": 1,
+  "status": "FIX22_SOURCE_READY_OFFLINE_PASS",
+  "phase": "SOURCE_ONLY",
+  "owner": {
+    "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "hostId": "local",
+    "turnId": "01a0f6f8-86a1-7401-a7e0-91c831d22587"
+  },
+  "completionRecipient": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local"
+  },
+  "recordedUtc": "2026-10-01T10:41:22.277620+00:00",
+  "authority": {
+    "mode": "FIX22_SOURCE_ONLY",
+    "owner": {
+      "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+      "hostId": "local",
+      "turnId": "01a0f6f8-86a1-7401-a7e0-91c831d22587"
+    },
+    "sourceThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+    "predecessorHead": "755409ecc8f513c9547911af470c0ba307b63bfc",
+    "predecessorTree": "77a5462670093db8c0d0641668a5ad13b21db531",
+    "authority": "Central FIX22 source-only activation under human-approved AGENTS section 6; no Unity execution."
+  },
+  "priorReviewedHead": "755409ecc8f513c9547911af470c0ba307b63bfc",
+  "priorReviewedTree": "77a5462670093db8c0d0641668a5ad13b21db531",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/1",
+  "originalP1": "https://github.com/yyczz1/FightMatch/pull/1#discussion_r4154220400",
+  "sourcePacket": {
+    "path": "docs/team/2026-09-30/engineering-ugui-progress-path-fix-22.md",
+    "bytes": 9360,
+    "sha256": "dca9f521ed47dc7fdd56cace49dda3e98d9ced7d716add0a367d4452c3739b63"
+  },
+  "historical": {
+    "head": "36ad62c4c71f4b987efaf60f26c942a0a9de10bd",
+    "tree": "94ad1b6976834b15a1d5582fbc980480e1c3ba51"
+  },
+  "newReviewedHead": null,
+  "newReviewedTree": null,
+  "changes": [
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+      "before": {
+        "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+        "bytes": 13090,
+        "sha256": "5a6c3a1ba9a51ddb061cff0aa9b18eff620849070789a48ba0413321f63f8d14"
+      },
+      "after": {
+        "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+        "bytes": 13126,
+        "sha256": "6728a8f226729182b5d390de8b2962acc017fdf0e96bdabbc2634040d90de3b2"
+      }
+    }
+  ],
+  "sourceArtifacts": [
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/binding-contract.json",
+      "bytes": 17743,
+      "sha256": "11bb51f5828495ac94a2059ac6c1b0d1a05af66bb10f41ed5b84015635cd84b8"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/execution-delta.json",
+      "bytes": 208776,
+      "sha256": "7223ec0874aef4527bb8a871be9d79ca28a6ecd6946308b6ed3576a885fcff32"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/offline-result.json",
+      "bytes": 109591,
+      "sha256": "d6ec6e7fd73e1231f07192c1310b6767a2f2770fe7a843ef1a2d5688e321afa5"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/validation-tools/runner.py",
+      "bytes": 95594,
+      "sha256": "2e890fe3b239556ce918b1cefaa91dff56e83eda01333caa91a51825cc716e23"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/validation-tools/test_review_binding.py",
+      "bytes": 42573,
+      "sha256": "60f83f6f5b9e216790ab951a50d8cea87b1ae4d60e54b05a3e1e42fe2ed0328d"
+    }
+  ],
+  "scope": {
+    "protectedAndGitSnapshots": 1010,
+    "unchangedCount": 1009,
+    "changedExistingFiles": [
+      "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs"
+    ],
+    "newLeavesPerRoot": [
+      "binding-contract.json",
+      "execution-delta.json",
+      "offline-result.json",
+      "source-receipt.json",
+      "validation-tools/runner.py",
+      "validation-tools/test_review_binding.py"
+    ],
+    "newRoots": [
+      "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source",
+      "docs/versioning/2026-10-01-ugui-pr/fix22"
+    ],
+    "allOtherProtectedFilesUnchanged": true,
+    "gitHEADIndexMasterPackedRefsUnchanged": true,
+    "formalOutputRootAbsent": true,
+    "callbackMetaUnchanged": true,
+    "assetsPackagesProjectSettingsOtherwiseUnchanged": true
+  },
+  "pathContract": {
+    "outputRoot": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+    "progressPath": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+    "absoluteProgressPath": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+    "callbackPrivateConstantAndOrdinalRawArgument": true,
+    "exclusiveEmptyProgressCreation": true,
+    "arbitraryRootsOrNormalizationAliases": false
+  },
+  "candidate": {
+    "oldCallback": {
+      "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+      "bytes": 13090,
+      "sha256": "5a6c3a1ba9a51ddb061cff0aa9b18eff620849070789a48ba0413321f63f8d14"
+    },
+    "newCallback": {
+      "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+      "bytes": 13126,
+      "sha256": "6728a8f226729182b5d390de8b2962acc017fdf0e96bdabbc2634040d90de3b2"
+    },
+    "source53": "49a701526f512e69b33605e36a11791f57444b791ad452d4dddeb7c3f54c8e17",
+    "product29": "766157a9f733c02bba4859bc7b73b517745a96787ed511a7a57aa0782d1b38db",
+    "resources37": "bbe05778d2436a6f6a67d6277de39d736dd139ed4e49b6270c4dde89c816008a",
+    "diagnostic92": {
+      "count": 92,
+      "sha256": "248a30aa8776d92e3bca03054a53fea738fa150882abce94214f566d48dc3e5c"
+    },
+    "onlyCallbackReplaced": true,
+    "oldProtectedCount": 1006,
+    "explicitWipExclusions": 8,
+    "currentProtectedCandidateMatches": true,
+    "activationMustCaptureWipSnapshot": true
+  },
+  "offline": {
+    "status": "OFFLINE_PASS",
+    "command": "python3 -B TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/validation-tools/test_review_binding.py",
+    "attempts": [
+      {
+        "number": 1,
+        "status": "OFFLINE_PASS",
+        "cases": 78,
+        "elapsedSeconds": 4.67440354199789,
+        "runner": {
+          "bytes": 95594,
+          "sha256": "2e890fe3b239556ce918b1cefaa91dff56e83eda01333caa91a51825cc716e23"
+        },
+        "testScript": {
+          "bytes": 42573,
+          "sha256": "60f83f6f5b9e216790ab951a50d8cea87b1ae4d60e54b05a3e1e42fe2ed0328d"
+        }
+      },
+      {
+        "number": 2,
+        "status": "OFFLINE_PASS",
+        "cases": 78,
+        "elapsedSeconds": 4.8184364160115365,
+        "runner": {
+          "bytes": 95594,
+          "sha256": "2e890fe3b239556ce918b1cefaa91dff56e83eda01333caa91a51825cc716e23"
+        },
+        "testScript": {
+          "bytes": 42573,
+          "sha256": "60f83f6f5b9e216790ab951a50d8cea87b1ae4d60e54b05a3e1e42fe2ed0328d"
+        }
+      }
+    ],
+    "finalCaseCount": 78,
+    "original35Preserved": true,
+    "newExecutionAndEventCases": 43,
+    "positiveProductionCheckpoints": [
+      "execute_from_bound_inputs",
+      "validate_fixed_progress:prepared",
+      "execute",
+      "preflight",
+      "derive_execution_candidate",
+      "validate_execution_candidate",
+      "derive_execution_candidate",
+      "build_execution_argv",
+      "validate_fixed_progress:allocated",
+      "binding_checkpoint",
+      "bind_inputs",
+      "validate_fixed_progress:spawn"
+    ],
+    "positiveFakeSpawns": 1,
+    "allNegativeExecutionCasesZeroFakeSpawns": true,
+    "finalInputs": [
+      {
+        "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/validation-tools/runner.py",
+        "bytes": 95594,
+        "sha256": "2e890fe3b239556ce918b1cefaa91dff56e83eda01333caa91a51825cc716e23"
+      },
+      {
+        "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/validation-tools/test_review_binding.py",
+        "bytes": 42573,
+        "sha256": "60f83f6f5b9e216790ab951a50d8cea87b1ae4d60e54b05a3e1e42fe2ed0328d"
+      },
+      {
+        "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/binding-contract.json",
+        "bytes": 17743,
+        "sha256": "11bb51f5828495ac94a2059ac6c1b0d1a05af66bb10f41ed5b84015635cd84b8"
+      },
+      {
+        "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/execution-delta.json",
+        "bytes": 208776,
+        "sha256": "7223ec0874aef4527bb8a871be9d79ca28a6ecd6946308b6ed3576a885fcff32"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+        "bytes": 13126,
+        "sha256": "6728a8f226729182b5d390de8b2962acc017fdf0e96bdabbc2634040d90de3b2"
+      }
+    ],
+    "repairReason": "First 78 cases passed. Corrected stale informational mapping A/fix21 to A/fix22 in contract; second 78 cases passed. No functional source changed between runs.",
+    "finalIdentityRecording": "Recorded here after tests; attempted insertion into test output was stopped by an edit assertion before changing the test script.",
+    "realUnityLaunches": 0,
+    "realDotnetOrCompilerLaunches": 0,
+    "networkCalls": 0,
+    "gitWrites": 0
+  },
+  "preservation": {
+    "predecessorFiles": [
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/binding-contract.json",
+        "bytes": 15064,
+        "sha256": "0fe1feefa4a505c66893407fc94a55f0e8b48f5ec6f1748f8084084ff672b5d0"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/commit20-object-import.json",
+        "bytes": 576,
+        "sha256": "6d18c149c81a68ea6b0a98014e94b38316076ab417a928f22aab68ef1c122895"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/commit20.raw",
+        "bytes": 765,
+        "sha256": "5f54e8847a603cc8ecaab5334ad4c24dfcd5e19d663254759b7e01eb5885c01b"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/final-receipt.json",
+        "bytes": 17050,
+        "sha256": "10269bbcb01037cd20aa55aa047794bdab6dad2ad80d00512dbbf86642f4d84c"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/git-commit20-api.json",
+        "bytes": 1636,
+        "sha256": "d159eccd6ad8fb209d842ae5cea5617572aa1f6965e63ec414f9b1869abefe90"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/offline-result.json",
+        "bytes": 21204,
+        "sha256": "6f7f03a0a4c07714b2e8899f395b9d9ebf6030508c2e6e417e08d0cdb0193078"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/posthoc-binding.json",
+        "bytes": 1483769,
+        "sha256": "d286579208a02af26130ce45e0c544c24db09bcc08bd9949adf84e90790f6476"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/runner.py",
+        "bytes": 86199,
+        "sha256": "8749175138d3a6ea14b061fd5fc04fb1a8d4c00efd56ffba6dabd9e98116068d"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/test_review_binding.py",
+        "bytes": 18354,
+        "sha256": "9cf84c2b1b9c9006840f2ab2130f38217dc50ffebecd6ade6d93b30fd8e6137a"
+      }
+    ],
+    "predecessorRawTreeFilesVerified": [
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/runner.py",
+        "bytes": 86199,
+        "sha256": "8749175138d3a6ea14b061fd5fc04fb1a8d4c00efd56ffba6dabd9e98116068d"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/validation-tools/test_review_binding.py",
+        "bytes": 18354,
+        "sha256": "9cf84c2b1b9c9006840f2ab2130f38217dc50ffebecd6ade6d93b30fd8e6137a"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/binding-contract.json",
+        "bytes": 15064,
+        "sha256": "0fe1feefa4a505c66893407fc94a55f0e8b48f5ec6f1748f8084084ff672b5d0"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix21/offline-result.json",
+        "bytes": 21204,
+        "sha256": "6f7f03a0a4c07714b2e8899f395b9d9ebf6030508c2e6e417e08d0cdb0193078"
+      }
+    ],
+    "historicalSourcePeersVerified": 7,
+    "historicalFixedInputsVerified": 59,
+    "historicalDirectoryDigestsVerified": 22,
+    "fix20EvidenceFilesVerified": 21,
+    "fix20Receipt": {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-20/final-receipt.json",
+      "bytes": 8223,
+      "sha256": "410fa32deadd3163a9f181a259c4a88b3f5ff200ce791838b697401ddd91b705"
+    },
+    "fix20CallbackMatchesHistoricalRawBlob": true,
+    "originalBeforeAfterPreserved": true,
+    "originalFix20Exact12": 12,
+    "originalUnion222": 222,
+    "legacyFunctionsBytePreserved": [
+      "BindingFailure",
+      "binding_need",
+      "raw_identity",
+      "git_oid",
+      "safe_relative",
+      "json_bytes",
+      "checked_object",
+      "read_git_tree",
+      "validate_git_environment",
+      "check_authority",
+      "BoundInputs",
+      "verify_posthoc",
+      "binding_entry",
+      "bound_bytes",
+      "bound_text",
+      "sha",
+      "identity",
+      "now",
+      "write",
+      "resources",
+      "font_structure",
+      "processes",
+      "unity_rows",
+      "no_unity",
+      "root_identity",
+      "create_json",
+      "canonical",
+      "jsonl",
+      "assert_non_link",
+      "frozen_now",
+      "tree_manifest",
+      "old_tree_snapshots",
+      "compact_trees",
+      "protected_files",
+      "xml_result",
+      "current_identity",
+      "supervise_root",
+      "settle_owned",
+      "owned_tool_identity",
+      "verify_owned",
+      "event_trace"
+    ],
+    "changedRunnerDefinitions": [
+      "GitDiskAdapter",
+      "bind_inputs",
+      "binding_checkpoint",
+      "binding_main",
+      "preflight",
+      "execute",
+      "execute_from_bound_inputs"
+    ],
+    "resourceLimits": {
+      "testSeconds": 360,
+      "singleLogBytes": 8388608,
+      "evidenceBytes": 201326592,
+      "freeBytesFloor": 2147483648,
+      "naturalCleanupSeconds": 60,
+      "sigtermCleanupSeconds": 30
+    }
+  },
+  "archive": {
+    "root": "docs/versioning/2026-10-01-ugui-pr/fix22",
+    "relativeNames": [
+      "binding-contract.json",
+      "execution-delta.json",
+      "offline-result.json",
+      "source-receipt.json",
+      "validation-tools/runner.py",
+      "validation-tools/test_review_binding.py"
+    ],
+    "byteEqualPairCount": 6
+  },
+  "authorVerdict": null,
+  "independentReview": "PENDING; author does not approve own delivery",
+  "remainingGates": [
+    "Central publishes these frozen files and verifies new raw head/tree against every execution input.",
+    "That new head receives independent GitHub path-fix review with no unresolved blocking findings.",
+    "Separate explicit central activation prepares O exactly once and runs original exact12 once under the frozen limits.",
+    "Real C# registration/cross-domain progress, 12/12 XML, 26 exact events, exit0, owned-clear and pre/post closure remain unverified for FIX22."
+  ],
+  "futureLauncherContract": {
+    "mode": "SINGLE_GRAPHICS_EXACT12",
+    "outputRoot": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22",
+    "progressPath": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/q4-correction-22/test-events.jsonl",
+    "activationPath": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/activation.json",
+    "selfPaths": {
+      "runner": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/validation-tools/runner.py",
+      "tests": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/validation-tools/test_review_binding.py",
+      "contract": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/binding-contract.json",
+      "delta": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22-source/execution-delta.json"
+    },
+    "requiredActivationFields": [
+      "runId",
+      "owner",
+      "mode",
+      "prBinding",
+      "outputRoot",
+      "progressPath",
+      "preparedNew=true",
+      "preparationRunId=runId",
+      "runner",
+      "packet"
+    ],
+    "requiredExternalAuthorityFields": [
+      "repo",
+      "pr",
+      "head",
+      "tree",
+      "currentHead",
+      "active",
+      "runId",
+      "mode",
+      "owner",
+      "outputRoot",
+      "progressPath",
+      "activationPath",
+      "activation",
+      "selfPaths",
+      "wipSnapshot"
+    ],
+    "entry": "Trusted external launcher verifies new source raw blobs before import; binding_main --execute launcher must call execute_from_bound_inputs with the same externally supplied authority and live check.",
+    "limitation": "This receipt is source evidence, not execution authority; __main__ refuses standalone execution."
+  },
+  "limitations": [
+    "Offline fixtures use real Python production gates with synthetic Git objects and memory I/O; they do not execute the C# callback.",
+    "Malformed argv fixtures inject at the final spawn I/O seam and invoke the actual production path gate before counting a fake spawn.",
+    "The 222-case evidence remains historical FIX20 plus earlier retained groups; no new product, formal LOC, layout, device or APK acceptance.",
+    "No new reviewed FIX22 head exists in this source-only receipt; future-head binding and Unity integration are pending."
+  ]
+}

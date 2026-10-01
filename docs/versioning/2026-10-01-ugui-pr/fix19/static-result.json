@@ -1,0 +1,370 @@
+{
+  "status": "SOURCE_READY",
+  "completedUtc": "2026-10-01T08:27:45.292307+00:00",
+  "owner": {
+    "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "hostId": "local",
+    "turnId": "01a0f67e-f9b9-7263-ab24-0968f88de5eb"
+  },
+  "verificationLevel": "SOURCE_AND_OFFLINE_FAKE_PROCESS_ONLY",
+  "mechanicalSourceChecks": {
+    "exactTwoSourceSubstitutions": true,
+    "original90Unchanged": true,
+    "metaUnchanged": true,
+    "oldFix18EvidenceUnchanged": true,
+    "selectorBytesUnchanged": true,
+    "expectedPartitionExact222": true,
+    "retainedXmlCountersPassed": true,
+    "pythonAstParsed": true,
+    "firstFailureAssignedOnce": true,
+    "failurePersistedBeforeCleanup": true,
+    "noInherited600PostExitLoop": true,
+    "oneGuardedSignalSite": true,
+    "noSigkill": true,
+    "signalRechecksIdentity": true,
+    "noZeroEventSuccess": true,
+    "distinctCleanupAndOriginalFailure": true,
+    "requiresNewHeadAndExplicitActivation": true,
+    "preparedRunnerMustStayFrozen": true,
+    "formalRootAbsent": true
+  },
+  "runner": {
+    "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/validation-tools/runner.py",
+    "bytes": 51642,
+    "sha256": "db1aee4cfbc730cda2bd24566ce0e003d9cf8dbbfd96fab23f44dcca7b0ac74c"
+  },
+  "changedAssetCount": 1,
+  "sourceSubstitutionCount": 2,
+  "frozenGroups": [
+    {
+      "manifest": "source-manifest.json",
+      "count": 53,
+      "unchanged": true
+    },
+    {
+      "manifest": "product-only-manifest.json",
+      "count": 29,
+      "unchanged": true
+    },
+    {
+      "manifest": "resources-manifest-before.json",
+      "count": 37,
+      "unchanged": true
+    }
+  ],
+  "selector": {
+    "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/core-190-graphics/test-filter.txt",
+    "bytes": 23266,
+    "sha256": "001358c4913197180f43f9cc2466689311acccf0f763fde1b9165df85f75ead2"
+  },
+  "retainedXmlEvidence": [
+    {
+      "group": "exact2",
+      "count": 2,
+      "passed": true,
+      "identity": {
+        "path": "TestArtifacts/FightMatch/UGUI-01/1dc19bf8048aa36d905e0e72c922f9cc05646cfe4e5ed55ce7bf0205d58c4c1b/q4-correction-15/exact-2-graphics/tests.xml",
+        "bytes": 7203,
+        "sha256": "d0fef5721fafa5dd872e37107425d5f53765f846df33e597cfeaa6aa1b4247e8"
+      }
+    },
+    {
+      "group": "host30",
+      "count": 30,
+      "passed": true,
+      "identity": {
+        "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/host-30-graphics/tests.xml",
+        "bytes": 26559,
+        "sha256": "79b428cf22371302534406ea1e6634d7bd3af999685ab577e7abe8f00310986c"
+      }
+    }
+  ],
+  "expectedPartitionCounts": {
+    "exact2": 2,
+    "host30": 30,
+    "core190": 190
+  },
+  "core190ExecutedThisTurn": false,
+  "processCleanup": {
+    "status": "ALREADY_ABSENT",
+    "pid": 62357,
+    "recordedUtc": "2026-10-01T08:10:04.391742+00:00",
+    "observation": {
+      "command": [
+        "/bin/ps",
+        "-ww",
+        "-p",
+        "62357",
+        "-o",
+        "pid=,ppid=,stat=,lstart=,command="
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "",
+      "toolChunk": "0144f9"
+    },
+    "signalsSent": [],
+    "note": "PID absent at this turn's initial read-only check. Exact disappearance time and mechanism were not observed; no new signal was required.",
+    "priorReceipt": {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/final-receipt.json",
+      "bytes": 9087,
+      "sha256": "3bbc6495cdc96f1b515663df947f4d2abce84c3ce93fff9281abc68eca64febb"
+    }
+  },
+  "offline": {
+    "status": "OFFLINE_BRANCH_CHECKS_PASS",
+    "caseCount": 17,
+    "cases": [
+      {
+        "case": "FIX18_actual_post_exit_branch_replay",
+        "expected": "regression reproduced",
+        "rootExitSeconds": 27.715049584003282,
+        "monitorStoppedSeconds": 600,
+        "promptCleanupGate": false
+      },
+      {
+        "case": "early_nonzero_exit_and_stubborn_compiler",
+        "firstFailure": {
+          "kind": "ROOT_EXIT_NONZERO",
+          "elapsedSeconds": 27.715049584003282,
+          "exitCode": 1
+        },
+        "cleanup": "COMPLETE",
+        "cleanupSeconds": 60,
+        "signals": [
+          7
+        ]
+      },
+      {
+        "case": "compile_error_before_root_exit_transient_children",
+        "firstFailure": {
+          "kind": "COMPILE_FAILURE",
+          "elapsedSeconds": 10,
+          "exitCode": null,
+          "compilerError": {
+            "line": "error CS0234"
+          }
+        },
+        "cleanupSeconds": 2,
+        "gentleCalls": [
+          7
+        ],
+        "signals": []
+      },
+      {
+        "case": "success_lifecycle_only",
+        "outcome": {
+          "kind": "ROOT_EXIT_ZERO",
+          "elapsedSeconds": 42,
+          "exitCode": 0
+        },
+        "cleanup": "COMPLETE",
+        "testPassClaim": false
+      },
+      {
+        "case": "timeout_natural60_then_one_root_SIGTERM",
+        "outcome": {
+          "kind": "TIMEOUT",
+          "elapsedSeconds": 600,
+          "exitCode": null
+        },
+        "cleanupSeconds": 60,
+        "signals": [
+          {
+            "pid": 1,
+            "at": 660
+          }
+        ]
+      },
+      {
+        "case": "stubborn_after_SIGTERM",
+        "cleanup": "BLOCKED_MANUAL_PROCESS_CLEANUP",
+        "seconds": 90,
+        "signals": [
+          1
+        ]
+      },
+      {
+        "case": "identity_mismatch_pid",
+        "checks": {
+          "pid": false,
+          "birth": true,
+          "command": true,
+          "comm": true,
+          "queries": true,
+          "tools": true,
+          "ancestry": true,
+          "identityStableThroughToolCheck": true
+        },
+        "signals": [],
+        "cleanup": "BLOCKED_PROCESS_IDENTITY"
+      },
+      {
+        "case": "identity_mismatch_birth",
+        "checks": {
+          "pid": true,
+          "birth": false,
+          "command": true,
+          "comm": true,
+          "queries": true,
+          "tools": true,
+          "ancestry": true,
+          "identityStableThroughToolCheck": true
+        },
+        "signals": [],
+        "cleanup": "BLOCKED_PROCESS_IDENTITY"
+      },
+      {
+        "case": "identity_mismatch_command",
+        "checks": {
+          "pid": true,
+          "birth": true,
+          "command": false,
+          "comm": true,
+          "queries": true,
+          "tools": true,
+          "ancestry": true,
+          "identityStableThroughToolCheck": true
+        },
+        "signals": [],
+        "cleanup": "BLOCKED_PROCESS_IDENTITY"
+      },
+      {
+        "case": "identity_mismatch_tools",
+        "checks": {
+          "pid": true,
+          "birth": true,
+          "command": true,
+          "comm": true,
+          "queries": true,
+          "tools": false,
+          "ancestry": true,
+          "identityStableThroughToolCheck": true
+        },
+        "signals": [],
+        "cleanup": "BLOCKED_PROCESS_IDENTITY"
+      },
+      {
+        "case": "identity_mismatch_ancestry",
+        "checks": {
+          "pid": true,
+          "birth": true,
+          "command": true,
+          "comm": true,
+          "queries": true,
+          "tools": true,
+          "ancestry": false,
+          "identityStableThroughToolCheck": true
+        },
+        "signals": [],
+        "cleanup": "BLOCKED_PROCESS_IDENTITY"
+      },
+      {
+        "case": "identity_changes_before_signal",
+        "seconds": 60,
+        "signals": [],
+        "cleanup": "BLOCKED_PROCESS_IDENTITY"
+      },
+      {
+        "case": "unowned_Unity_process",
+        "cleanup": "BLOCKED_UNOWNED_PROCESS",
+        "signals": []
+      },
+      {
+        "case": "late_zero_exit_does_not_pass_budget",
+        "outcome": {
+          "kind": "TIMEOUT",
+          "elapsedSeconds": 600.01,
+          "exitCode": 0
+        }
+      },
+      {
+        "case": "compile_failure_preserved_when_cleanup_blocked",
+        "firstFailure": {
+          "kind": "COMPILE_FAILURE",
+          "elapsedSeconds": 12,
+          "exitCode": null,
+          "compilerError": {
+            "line": "error CS0234"
+          }
+        },
+        "cleanup": "BLOCKED_PROCESS_IDENTITY",
+        "signals": []
+      },
+      {
+        "case": "unowned_Unity_SDK_detection",
+        "familyPids": [
+          71
+        ],
+        "foreignToolIncluded": false
+      },
+      {
+        "case": "actual_compile_probe_against_retained_FIX18_log",
+        "probe": {
+          "file": "unity.log",
+          "line": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs(107,68): error CS0234: The type or namespace name 'dataPath' does not exist in the namespace 'FightMatch.Application' (are you missing an assembly reference?)"
+        },
+        "firstFailure": "COMPILE_FAILURE",
+        "realProcessesStarted": 0
+      }
+    ],
+    "realProcessesStarted": 0,
+    "UnityStarted": false,
+    "productionTestsRun": false,
+    "isolatedFunctions": [
+      "settle_owned",
+      "supervise_root",
+      "unity_rows",
+      "verify_owned"
+    ],
+    "actualFIX18RegressionReproduced": true,
+    "note": "Only AST-extracted lifecycle/identity functions and the old wait fragment were executed with fake clocks and process facts. No full runner import or subprocess call."
+  },
+  "offlineHarness": {
+    "sha256": "2ce516fa95c7432bfa42eb245bb26bfbbaae3b6a4a73d9c22ee3e642cac8a94f",
+    "source": "\nimport ast,copy,json,pathlib,types\nroot=pathlib.Path.cwd()\nrunner=root/'TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/validation-tools/runner.py'\ntext=runner.read_text()\ntree=ast.parse(text)\nnames={'supervise_root','settle_owned','verify_owned','unity_rows'}\nselected=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names]\nassert {n.name for n in selected}==names\nns={}\nexec(compile(ast.Module(body=selected,type_ignores=[]),str(runner)+' [isolated control functions]','exec'),ns)\nmonitor=ns['supervise_root'];settle=ns['settle_owned']\nclass Clock:\n def __init__(self,t=0):self.t=t;self.waits=[]\n def now(self):return self.t\n def wait(self,seconds):\n  assert 0<=seconds<=1.000001\n  self.waits.append(seconds);self.t+=seconds\ndef state(rows):return dict(ownedProcesses=copy.deepcopy(rows),unownedUnityProcesses=[])\ndef allowed(row):return dict(allowed=True,gone=False)\ncases=[]\n# Replay the real FIX18 post-exit wait block with a fake clock and lingering child.\nold=(root/'TestArtifacts/FightMatch/UGUI-01/q4-correction-18/validation-tools/runner.py').read_text()\na=old.index(\"    deadline=(start+TIMEOUT if not run['timedOut']\")\nb=old.index('    final=observe(True)',a)\nfragment='\\n'.join(line[4:] for line in old[a:b].splitlines())\nobserved=json.loads((root/'TestArtifacts/FightMatch/UGUI-01/q4-correction-18/run.json').read_text())['launchToExitObservationSeconds']\nclock=Clock(observed)\nscope=dict(start=0,TIMEOUT=600,run=dict(timedOut=False),time=types.SimpleNamespace(monotonic=clock.now,sleep=clock.wait),\n           final=dict(ownedProcesses=[dict(pid=7)],unityProcesses=[]),\n           observe=lambda:dict(ownedProcesses=[dict(pid=7)],unityProcesses=[]))\nexec(compile(fragment,'FIX18 post-exit branch replay','exec'),scope)\nassert clock.t==600 and clock.t>observed+90\ncases.append(dict(case='FIX18_actual_post_exit_branch_replay',expected='regression reproduced',rootExitSeconds=observed,monitorStoppedSeconds=clock.t,promptCleanupGate=False))\n# The fixed monitor returns immediately on nonzero exit; cleanup has a separate deadline.\nclock=Clock(observed);alive=True;sent=[];gentle_calls=[]\noutcome=monitor(lambda:1,lambda:None,lambda:None,clock.wait,clock.now,600)\nfirst=copy.deepcopy(outcome)\ndef snap():return state([dict(pid=7,compilerServer=True)] if alive else [])\ndef gentle(row,proof):\n gentle_calls.append(row['pid']);return dict(status='REQUEST_SENT')\ndef terminate(row,proof):\n global alive\n sent.append(row['pid']);alive=False;return dict(sent=True,pid=row['pid'])\ncleanup=settle(outcome['kind'],1,snap,allowed,gentle,terminate,clock.wait,clock.now)\nassert outcome==first and first['kind']=='ROOT_EXIT_NONZERO' and first['elapsedSeconds']==observed\nassert cleanup['status']=='COMPLETE' and abs(cleanup['durationSeconds']-60)<0.001 and sent==[7]\nassert clock.t<observed+91 and clock.t<600\ncases.append(dict(case='early_nonzero_exit_and_stubborn_compiler',firstFailure=first,cleanup=cleanup['status'],cleanupSeconds=cleanup['durationSeconds'],signals=sent))\n# Compilation failure is observed while the root is still live; later cleanup cannot replace it.\nclock=Clock(10);calls=[];alive=True\noutcome=monitor(lambda:None,lambda:dict(line='error CS0234'),lambda:None,clock.wait,clock.now,600)\nfirst=copy.deepcopy(outcome)\ndef snap_transient():\n if not alive:return state([])\n if clock.t<11:return state([dict(pid=1,compilerServer=False),dict(pid=7,compilerServer=True)])\n return state([dict(pid=7,compilerServer=True)])\ndef gentle_exit(row,proof):\n global alive\n calls.append(row['pid']);alive=False;return dict(status='REQUEST_SENT')\ncleanup=settle(outcome['kind'],1,snap_transient,allowed,gentle_exit,lambda r,p:dict(sent=False),clock.wait,clock.now)\nassert outcome==first and outcome['kind']=='COMPILE_FAILURE' and outcome['elapsedSeconds']==10\nassert cleanup['status']=='COMPLETE' and cleanup['durationSeconds']<=2 and calls==[7] and not cleanup['signalsSent']\ncases.append(dict(case='compile_error_before_root_exit_transient_children',firstFailure=first,cleanupSeconds=cleanup['durationSeconds'],gentleCalls=calls,signals=[]))\nclock=Clock(42)\noutcome=monitor(lambda:0,lambda:None,lambda:None,clock.wait,clock.now,600)\ncleanup=settle(outcome['kind'],1,lambda:state([]),allowed,lambda r,p:None,lambda r,p:None,clock.wait,clock.now)\nassert outcome['kind']=='ROOT_EXIT_ZERO' and cleanup['status']=='COMPLETE' and clock.t==42\ncases.append(dict(case='success_lifecycle_only',outcome=outcome,cleanup=cleanup['status'],testPassClaim=False))\nclock=Clock();alive=True;signals=[];gentle_calls=[]\noutcome=monitor(lambda:None,lambda:None,lambda:None,clock.wait,clock.now,600)\ndef timeout_snap():return state([dict(pid=1,compilerServer=False)] if alive else [])\ndef timeout_term(row,proof):\n global alive\n signals.append(dict(pid=row['pid'],at=clock.t));alive=False;return dict(sent=True,pid=row['pid'])\ncleanup=settle(outcome['kind'],1,timeout_snap,allowed,lambda r,p:gentle_calls.append(r['pid']),timeout_term,clock.wait,clock.now)\nassert outcome['kind']=='TIMEOUT' and outcome['elapsedSeconds']==600\nassert cleanup['status']=='COMPLETE' and clock.t==660 and signals==[dict(pid=1,at=660)] and gentle_calls==[]\ncases.append(dict(case='timeout_natural60_then_one_root_SIGTERM',outcome=outcome,cleanupSeconds=cleanup['durationSeconds'],signals=signals))\nclock=Clock();signals=[]\ncleanup=settle('TIMEOUT',1,lambda:state([dict(pid=1,compilerServer=False)]),allowed,\n              lambda r,p:None,lambda r,p:(signals.append(r['pid']) or dict(sent=True,pid=r['pid'])),clock.wait,clock.now)\nassert cleanup['status']=='BLOCKED_MANUAL_PROCESS_CLEANUP' and clock.t==90 and signals==[1]\ncases.append(dict(case='stubborn_after_SIGTERM',cleanup=cleanup['status'],seconds=clock.t,signals=signals))\n# Exercise the actual PID/argv/tool/ancestry guard with fake process identities.\nbase=dict(pid=7,birth='recorded birth',command='recorded complete argv',comm='/trusted/dotnet',queryExitCodes=[0,0,0])\ntool=dict(files=[dict(path='/trusted/dotnet',bytes=1,sha256='frozen')],compilerServer=True)\nsaved=dict(base,tools=tool)\nns['os']=types.SimpleNamespace(getpid=lambda:999)\nfor mismatch in ['pid','birth','command','tools','ancestry']:\n current=copy.deepcopy(base);observed_tools=copy.deepcopy(tool);ancestry=dict(origin='Unity',chain=[7,1])\n if mismatch=='pid':current['pid']=8\n elif mismatch=='birth':current['birth']='reused PID birth'\n elif mismatch=='command':current['command']='foreign argv'\n elif mismatch=='tools':observed_tools['files'][0]['sha256']='changed tool'\n else:ancestry['chain']=[7,888]\n ns['current_identity']=lambda pid,c=current:copy.deepcopy(c)\n ns['owned_tool_identity']=lambda info,t=observed_tools:copy.deepcopy(t)\n proof=ns['verify_owned'](dict(pid=7),saved,ancestry,1)\n assert not proof['allowed']\n clock=Clock();signals=[]\n cleanup=settle('ROOT_EXIT_NONZERO',1,lambda:state([dict(pid=7,compilerServer=True)]),\n                lambda row,p=proof:p,lambda r,p:None,\n                lambda r,p:signals.append(r['pid']),clock.wait,clock.now)\n assert cleanup['status']=='BLOCKED_PROCESS_IDENTITY' and not signals\n cases.append(dict(case='identity_mismatch_'+mismatch,checks=proof['checks'],signals=signals,cleanup=cleanup['status']))\nclock=Clock();signals=[]\ncleanup=settle('ROOT_EXIT_NONZERO',1,lambda:state([dict(pid=7,compilerServer=False)]),allowed,\n              lambda r,p:None,lambda r,p:dict(sent=False,gone=False,pid=r['pid']),\n              clock.wait,clock.now)\nassert cleanup['status']=='BLOCKED_PROCESS_IDENTITY' and not cleanup['signalsSent']\ncases.append(dict(case='identity_changes_before_signal',seconds=clock.t,signals=cleanup['signalsSent'],cleanup=cleanup['status']))\nclock=Clock()\ncleanup=settle('ROOT_EXIT_NONZERO',1,lambda:dict(ownedProcesses=[dict(pid=7)],unownedUnityProcesses=[dict(pid=888)]),\n              allowed,lambda r,p:None,lambda r,p:None,clock.wait,clock.now)\nassert cleanup['status']=='BLOCKED_UNOWNED_PROCESS' and not cleanup['signalsSent'] and clock.t==0\ncases.append(dict(case='unowned_Unity_process',cleanup=cleanup['status'],signals=[]))\n\nclock=Clock(600.01)\noutcome=monitor(lambda:0,lambda:None,lambda:None,clock.wait,clock.now,600)\nassert outcome['kind']=='TIMEOUT'\ncases.append(dict(case='late_zero_exit_does_not_pass_budget',outcome=outcome))\nclock=Clock(12)\noutcome=monitor(lambda:None,lambda:dict(line='error CS0234'),lambda:None,clock.wait,clock.now,600)\nfirst=copy.deepcopy(outcome)\ncleanup=settle(outcome['kind'],1,lambda:state([dict(pid=7,compilerServer=True)]),\n              lambda r:dict(allowed=False,gone=False),lambda r,p:None,lambda r,p:None,clock.wait,clock.now)\nassert outcome==first and cleanup['status']=='BLOCKED_PROCESS_IDENTITY' and not cleanup['signalsSent']\ncases.append(dict(case='compile_failure_preserved_when_cleanup_blocked',firstFailure=first,cleanup=cleanup['status'],signals=[]))\n\n\nns['pathlib']=pathlib\nns['EDITOR']='/fixture/Unity.app/Contents/MacOS/Unity'\ncommands={71:'dotnet exec /fixture/Unity.app/Contents/DotNetSdkRoslyn/VBCSCompiler.dll',72:'dotnet exec /foreign/compiler.dll'}\nns['current_identity']=lambda pid:dict(command=commands[pid])\nfamily=ns['unity_rows']([dict(pid=71,ppid=1,comm='dotnet'),dict(pid=72,ppid=1,comm='dotnet')])\nassert [r['pid'] for r in family]==[71]\ncases.append(dict(case='unowned_Unity_SDK_detection',familyPids=[r['pid'] for r in family],foreignToolIncluded=False))\n\n\n# Run only the actual log probe against retained FIX18 logs; no process or new output is created.\nprobe_node=next(n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and n.name=='compile_failure')\nimport re\nns.update(OUT=root/'TestArtifacts/FightMatch/UGUI-01/q4-correction-18',MAX_LOG=8*1024*1024,re=re)\nexec(compile(ast.Module(body=[probe_node],type_ignores=[]),'FIX19 retained-log probe','exec'),ns)\nprobe=ns['compile_failure']()\nassert probe and 'CS0234' in probe['line'] and 'FightMatchTestProgressCallback.cs(107,68)' in probe['line']\nclock=Clock(7)\noutcome=monitor(lambda:None,ns['compile_failure'],lambda:None,clock.wait,clock.now,600)\nassert outcome['kind']=='COMPILE_FAILURE' and outcome['elapsedSeconds']==7\ncases.append(dict(case='actual_compile_probe_against_retained_FIX18_log',probe=probe,firstFailure=outcome['kind'],realProcessesStarted=0))\n\nassert text.count(\"run['firstFailure']=\")==1\nassert \"checks=dict(exitZero=process.returncode==0\" in text\nassert \"xmlExact190Passed=current_xml['passed']\" in text\nassert \"finishedCounterExact190=finished_counter==collections.Counter(expected)\" in text\nassert \"realRunFinished=trace['runFinished']==1\" in text\nassert \"first_kind=(run.get('firstFailure') or {}).get('kind')\" in text\nprint(json.dumps(dict(status='OFFLINE_BRANCH_CHECKS_PASS',caseCount=len(cases),cases=cases,\n                     realProcessesStarted=0,UnityStarted=False,productionTestsRun=False,\n                     isolatedFunctions=sorted(names),actualFIX18RegressionReproduced=True,\n                     note='Only AST-extracted lifecycle/identity functions and the old wait fragment were executed with fake clocks and process facts. No full runner import or subprocess call.'),ensure_ascii=False))\n"
+  },
+  "peerEvidence": [
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/activation.json",
+      "bytes": 1585,
+      "sha256": "02d97476866ab1d8419d0121b0b648c56776f4c383f3266473e64e77d1680e7e"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/previous-process-cleanup.json",
+      "bytes": 722,
+      "sha256": "7590b3056dedc01936f1628f9e2ec2192e5216df5b5b25d22cb907fb60ec7126"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/source.patch",
+      "bytes": 1003,
+      "sha256": "548e15634f1771aca8e37282376c49f02fab30aaef1db91203e9d4e8d3626e85"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/delta-manifest.json",
+      "bytes": 46716,
+      "sha256": "c8a707b8579a2db9c2688bd73e9c89a3b033228fd47d6e44f8f3e11d6db25951"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/validation-tools/runner.py",
+      "bytes": 51642,
+      "sha256": "db1aee4cfbc730cda2bd24566ce0e003d9cf8dbbfd96fab23f44dcca7b0ac74c"
+    }
+  ],
+  "laterExecutionContract": "Central must bind a new PR head and explicitly activate one run. Create the previously absent formal root with activation.json and an identical validation-tools/runner.py; runtime activation supplies actual owner thread/host/turn and runner identity.",
+  "knownPriorFailure": "FIX18 remains BLOCKED_COMPILE: root exit 1 at 27.715s, no test events/XML, monitor continued to 601.043s. It is not a test timeout and has not been rewritten.",
+  "notRun": [
+    "Unity",
+    "C# compilation",
+    "EditMode tests",
+    "real test processes",
+    "native reopen",
+    "APK",
+    "Git",
+    "new review"
+  ],
+  "limitations": [
+    "Offline branches do not verify Unity compilation or live process behavior.",
+    "GitHub review must target the new published source head."
+  ]
+}

@@ -1,0 +1,14 @@
+tree 94ad1b6976834b15a1d5582fbc980480e1c3ba51
+parent 302a95bb895f87ac3e4d308f56f167f2e055e3d8
+author yyczz1 <yyczz1@163.com> 1790845888 +0800
+committer yyczz1 <yyczz1@163.com> 1790845888 +0800
+
+Exercise native activation in affected uGUI geometry tests
+
+- Enter PlayMode for six tests that require native page activation.
+- Preserve shared rigs and original input, geometry and business assertions.
+- Add read-only geometry probes and guarded failure cleanup.
+- Bind FIX20 progress output and one exact12 validation with a 360s cap.
+- Preserve the actual FIX19 result: 184 passed, six failed, natural exit2.
+- Reuse the remaining 178 valid cases plus Host30 and exact2; no full rerun.
+- Archive 17 offline checks; Unity execution and new-head review remain pending.

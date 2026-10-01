@@ -1,6 +1,8 @@
 # Project Context
 
-Last context refresh: 2026-09-30 (user-authorized Git checkpoint467; design consensus465 and team workflow466 approved;029 BUILD_READY_DEVICE_PENDING and main-goal pause under457/461 unchanged).
+Latest user instruction (2026-09-30 overnight) supersedes the prior pause: resume development under the approved five-role team, targeting a reviewable first Demo tomorrow. See [the active team registry](../docs/team/2026-09-30/README.md) and its dispatch packet. The central chat coordinates; specialist leads delegate design/implementation/testing. Existing evidence and product scope remain binding. The Goal tool still reports paused and the user has been asked to resume it in the UI; authorized current work continues. Historical pause statements below describe the previous checkpoint.
+
+Last context refresh: 2026-10-01. The active five-role team now sends code review to GitHub PR Code Review, per the user's request to reduce general Codex usage; no new local R code reviews. Automated tests still prefer dots, with scoped local Unity/device exceptions. See [the review procedure](TEAM_WORKFLOW.md#7-github-pr-code-review). FIX17 Host30 passed30/30; Core190 timed out at420s without XML and was safely terminated after its grace period. FIX15 exact2 remains valid, but222 coverage and native reopen are incomplete. Product/resource bytes are preserved while a review checkpoint and read-only timeout diagnosis are prepared. Layout implementation, the Luban material/toolchain, and a new APK remain unaccepted. Current dependencies are in the active team registry; older pause and pending-handoff statements below are historical.
 
 This file separates observed repository facts from approved future design and unresolved information.
 

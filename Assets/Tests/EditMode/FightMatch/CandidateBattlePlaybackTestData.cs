@@ -8,7 +8,6 @@ using FightMatch.Presentation;
 using FlowPuzzle.Core;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.UIElements;
 using static FightMatch.Core.Tests.LocalSaveTestFiles;
 
 namespace FightMatch.Core.Tests
@@ -16,43 +15,40 @@ namespace FightMatch.Core.Tests
     internal sealed class PlaybackPanelRig : IDisposable
     {
         private static readonly List<PlaybackPanelRig> open = new List<PlaybackPanelRig>();
-        private readonly BoardPanelRig basePanel;
-        internal BattleApplicationRig Battle => basePanel.Battle;
+        internal readonly BattleApplicationRig Battle;
+        internal readonly BattleUguiRoot Canvas;
         internal CandidateBattlePlaybackView Host { get; }
         internal CandidateBoardInputController Input => Host.InputView.Controller;
         internal CandidateBattlePlaybackController Playback => Host.Controller;
         internal CandidateBoardElement Board => Host.InputView.Board;
-        internal Button Peer => basePanel.Peer;
-        internal VisualElement Root => basePanel.Window.rootVisualElement;
+        internal Transform Root => Canvas.Root.transform;
         internal PlaybackPanelRig(int level = 1)
         {
-            basePanel = new BoardPanelRig(level: level);
-            basePanel.UI.RemoveFromHierarchy();
-            Host = new CandidateBattlePlaybackView(); Root.Add(Host); Host.style.flexGrow = 0; Host.style.width = 600;
-            Host.Attach(Battle.System, B()); Resize(); open.Add(this);
+            Battle = new BattleApplicationRig(level: level);
+            try
+            {
+                Canvas = new BattleUguiRoot(); Host = Canvas.Playback();
+                Host.Attach(Battle.System, B(), Canvas.Localization); Resize(); open.Add(this);
+            }
+            catch { Canvas?.Dispose(); Battle.Dispose(); throw; }
         }
         internal void Resize()
-        {
-            Host.InputView.style.flexGrow = 0; Board.style.flexGrow = 0; Board.style.flexShrink = 0; Board.style.minHeight = 0;
-            Board.style.width = Battle.State.Board.Face.Width * 40; Board.style.height = Battle.State.Board.Face.Height * 40;
-        }
+        { Board.rectTransform.sizeDelta = new Vector2(Battle.State.Board.Face.Width * 40, Battle.State.Board.Face.Height * 40); }
         internal IEnumerator Ready()
         {
             yield return null; yield return null; yield return null;
-            Assert.NotNull(Board.panel); Assert.AreEqual(ContextType.Editor, Board.panel.contextType);
-            Board.panel.Pick(Vector2.zero); Assert.Greater(Board.contentRect.width, 0); Assert.Greater(Board.contentRect.height, 0);
-            Input.Refresh(); TestContext.Out.WriteLine("P27 actual Editor panel " + Board.contentRect);
+            UnityEngine.Canvas.ForceUpdateCanvases(); Assert.IsNotNull(Board.canvas);
+            Assert.IsNotNull(Board.canvas.GetComponent<UnityEngine.UI.GraphicRaycaster>());
+            Assert.Greater(Board.rectTransform.rect.width, 0); Assert.Greater(Board.rectTransform.rect.height, 0);
+            Input.Refresh(); TestContext.Out.WriteLine("P27 actual uGUI canvas " + Board.rectTransform.rect);
         }
-        internal IReadOnlyList<FlowPos> Route(int pair = 0) { return Battle.Runtime.Domain.Routes[pair]; }
-        internal Vector2 Point(FlowPos p)
-        { var rect = Board.contentRect; return Board.LocalToWorld(new Vector2(rect.x + (p.x + .5f) * 40, rect.y + (Battle.State.Board.Face.Height - p.y - .5f) * 40)); }
+        internal IReadOnlyList<FlowPos> Route(int pair = 0) => Battle.Runtime.Domain.Routes[pair];
+        internal Vector2 Point(FlowPos p) => UguiPointerDriver.Point(Board, p);
         internal void Draw(int pair = 0)
         {
-            var route = Route(pair);
-            using (var e = PointerDownEvent.GetPooled(new PlaybackPointer(Point(route[0]), 1))) { e.target = Board; Board.SendEvent(e); }
-            for (var i = 1; i < route.Count - 1; i++)
-                using (var e = PointerMoveEvent.GetPooled(new PlaybackPointer(Point(route[i]), 1))) { e.target = Board; Board.SendEvent(e); }
-            using (var e = PointerUpEvent.GetPooled(new PlaybackPointer(Point(route[route.Count - 1]), 0))) { e.target = Board; Board.SendEvent(e); }
+            var route = Route(pair); Canvas.Driver.Down(Point(route[0]));
+            for (var i = 1; i < route.Count - 1; i++) Canvas.Driver.Move(Point(route[i]));
+            Canvas.Driver.Up(Point(route[route.Count - 1]));
         }
         internal CandidateBattleCallResult Attack(int pair = 0)
         { Input.SelectMember("W"); Draw(pair); Assert.AreEqual("Completed", Input.LastResult.Code, Input.Status); return Input.LastResult; }
@@ -106,42 +102,13 @@ namespace FightMatch.Core.Tests
         }
         internal void Finish()
         { var maximum = (Playback.Original?.OrderedFacts.Count ?? 0) + 2; Host.Advance(maximum * CandidateBattlePlaybackController.FactMilliseconds); Assert.IsFalse(Playback.IsPlaying); }
-        internal string Label(string name) { return Host.Q<Label>(name).text; }
+        internal string Label(string name) { return Host.Find<TMPro.TextMeshProUGUI>(FightMatchViewId.Row(name)).text; }
         internal static void Hp(ExactRational actual, int expected)
         { Assert.AreEqual(new System.Numerics.BigInteger(expected), actual.Numerator); Assert.AreEqual(System.Numerics.BigInteger.One, actual.Denominator); }
         internal static void Same(ExactRational a, ExactRational b)
         { Assert.AreEqual(a.Numerator, b.Numerator); Assert.AreEqual(a.Denominator, b.Denominator); }
         internal static void CloseAll() { foreach (var r in open.ToArray()) r.Dispose(); BoardPanelRig.CloseAll(); }
         public void Dispose()
-        { if (!open.Remove(this)) return; try { Host.Dispose(); } finally { basePanel.Dispose(); } }
-        private sealed class PlaybackPointer : IPointerEvent
-        {
-            public int pointerId => 0;
-            public string pointerType => UnityEngine.UIElements.PointerType.mouse;
-            public bool isPrimary => true;
-            public int button => 0;
-            public int pressedButtons { get; }
-            public Vector3 position { get; }
-            public Vector3 localPosition => position;
-            public Vector3 deltaPosition => Vector3.zero;
-            public float deltaTime => 0;
-            public int clickCount => 1;
-            public float pressure => 1;
-            public float tangentialPressure => 0;
-            public float altitudeAngle => 0;
-            public float azimuthAngle => 0;
-            public float twist => 0;
-            public Vector2 radius => Vector2.zero;
-            public Vector2 radiusVariance => Vector2.zero;
-            public Vector2 tilt => Vector2.zero;
-            public PenStatus penStatus => default;
-            public EventModifiers modifiers => EventModifiers.None;
-            public bool shiftKey => false;
-            public bool ctrlKey => false;
-            public bool commandKey => false;
-            public bool altKey => false;
-            public bool actionKey => false;
-            internal PlaybackPointer(Vector2 p, int buttons) { position = p; pressedButtons = buttons; }
-        }
+        { if (!open.Remove(this)) return; try { Host.Dispose(); } finally { Canvas.Dispose(); Battle.Dispose(); } }
     }
 }

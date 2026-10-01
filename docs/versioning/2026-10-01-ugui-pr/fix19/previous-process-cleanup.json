@@ -1,0 +1,26 @@
+{
+  "status": "ALREADY_ABSENT",
+  "pid": 62357,
+  "recordedUtc": "2026-10-01T08:10:04.391742+00:00",
+  "observation": {
+    "command": [
+      "/bin/ps",
+      "-ww",
+      "-p",
+      "62357",
+      "-o",
+      "pid=,ppid=,stat=,lstart=,command="
+    ],
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "",
+    "toolChunk": "0144f9"
+  },
+  "signalsSent": [],
+  "note": "PID absent at this turn's initial read-only check. Exact disappearance time and mechanism were not observed; no new signal was required.",
+  "priorReceipt": {
+    "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/final-receipt.json",
+    "bytes": 9087,
+    "sha256": "3bbc6495cdc96f1b515663df947f4d2abce84c3ce93fff9281abc68eca64febb"
+  }
+}

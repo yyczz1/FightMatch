@@ -1,0 +1,250 @@
+{
+  "scope": "FIX19 modifies only the existing callback; addedFiles describes the two diagnostic files relative to FIX17.",
+  "codeBefore": {
+    "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+    "bytes": 13078,
+    "sha256": "5d2a020ee659e297259334335cabbbda751e393b73dc23b86db79176abf326f6"
+  },
+  "codeAfter": {
+    "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+    "bytes": 13090,
+    "sha256": "35eff6f2426ce7df1c902f1084475d2dfc1f04d16af9df203f242d29112a3c39"
+  },
+  "lineChanges": [
+    {
+      "line": 107,
+      "before": "                string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, \"..\"));",
+      "after": "                string projectRoot = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, \"..\"));"
+    },
+    {
+      "line": 109,
+      "before": "                    \"TestArtifacts/FightMatch/UGUI-01/q4-correction-18/test-events.jsonl\");",
+      "after": "                    \"TestArtifacts/FightMatch/UGUI-01/q4-correction-19/test-events.jsonl\");"
+    }
+  ],
+  "metaUnchanged": {
+    "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs.meta",
+    "bytes": 243,
+    "sha256": "064598dc1394c18bbba584b4d30802c014588ff85c966b1f90edcfb6f0ffb050"
+  },
+  "fixedInputs": [
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/static/source-manifest.json",
+      "bytes": 10009,
+      "sha256": "c55e7b98e4c43a1a952735ce86b14b40675744ed428663b6de548acde3f73fa6"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/static/product-only-manifest.json",
+      "bytes": 5461,
+      "sha256": "07f3fa5e6c2fe155a17e69427e77dd6177fb897f33a04ec96120a9b3931317ac"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/static/resources-manifest-before.json",
+      "bytes": 6700,
+      "sha256": "7886a648bda97657a58eb0ed15cfdaa9a661fe451c089979776f4c76a36263c9"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/core-190-graphics/expected-fullnames.json",
+      "bytes": 23382,
+      "sha256": "4bbbb361daddb91f8a112bf99ccbfa3d2e2a2e2ee4fccbc24cb30b6666e9d78d"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/core-190-graphics/test-filter.txt",
+      "bytes": 23266,
+      "sha256": "001358c4913197180f43f9cc2466689311acccf0f763fde1b9165df85f75ead2"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/host-30-graphics/tests.xml",
+      "bytes": 26559,
+      "sha256": "79b428cf22371302534406ea1e6634d7bd3af999685ab577e7abe8f00310986c"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/final-receipt.json",
+      "bytes": 45643,
+      "sha256": "70bc7eb49f78d29ebc47692ac691b2f1d00772bbc1d13654bf71445c01228f07"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/1dc19bf8048aa36d905e0e72c922f9cc05646cfe4e5ed55ce7bf0205d58c4c1b/q4-correction-15/exact-2-graphics/tests.xml",
+      "bytes": 7203,
+      "sha256": "d0fef5721fafa5dd872e37107425d5f53765f846df33e597cfeaa6aa1b4247e8"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18-source/activation.json",
+      "bytes": 1575,
+      "sha256": "31d3bc92b7020924e412faa1736296c75348536e4f900426f33242231c6b7227"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18-source/delta-manifest.json",
+      "bytes": 3770,
+      "sha256": "314c0676e18d9ecf7dc80db6fd5a3383939c691278c59bcab9e0f37caf108793"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18-source/source.patch",
+      "bytes": 14198,
+      "sha256": "21ef69b96621fbd185445634c8d4b8c738844194fb1bc757d9f20d7181fa0877"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18-source/static-result.json",
+      "bytes": 6266,
+      "sha256": "717a9718df34f8941e7bb9efcb1b4446d99b3d44271edfa284a135093b3f3c9d"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/activation.json",
+      "bytes": 3499,
+      "sha256": "9fa241fd5b93e4ab0c5465744f3107d2fa2231596f9c87f43d58a46dd7295694"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/after.json",
+      "bytes": 382505,
+      "sha256": "ed36ad3a2d624fce802a292b8f95820be9b3958f2a8190b9a05a8feac4f739af"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/before.json",
+      "bytes": 382505,
+      "sha256": "c11aa3aa18bc9a2da04f10c3a36ddaa4fa0d3ab705f56ba80a98e94b179159c9"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/editor.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/editor.stdout.log",
+      "bytes": 67,
+      "sha256": "a37c1c1e436570b4d07be72152958fddea58dbbc6f3aa9a85d50736cb3902e6f"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/final-receipt.json",
+      "bytes": 9087,
+      "sha256": "3bbc6495cdc96f1b515663df947f4d2abce84c3ce93fff9281abc68eca64febb"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/grouped-exact222-coverage.json",
+      "bytes": 35050,
+      "sha256": "856fb802ef693b22519bfc82ae5532c7bea8dac4363a5cef1f2ca305574e156d"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/preflight.json",
+      "bytes": 85175,
+      "sha256": "c8416ac1b69ade032013c01ffc8d1b990a16bc81dcda647ac2ddec10a707ca27"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/process-events.jsonl",
+      "bytes": 52027,
+      "sha256": "82c94e17b4e28fcbf04ae878d270976370aa126e9706e841271dc9b0a94c921f"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/progress.jsonl",
+      "bytes": 2961485,
+      "sha256": "4bc5cfc739dbc6e559955e11531c8c78161016b833a81fe59b32f71ee4b1251a"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/quiescence.json",
+      "bytes": 37695,
+      "sha256": "8652061da16fdc039babf5854a5b5beea639f1a980f28165449dc0cd674c3c41"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/run.json",
+      "bytes": 80102,
+      "sha256": "ad6722b19cdbfcc3b799c4ba97ba0969ece9614d4e2fbe4b3a02d6ce3e296b91"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/static/delta-manifest.json",
+      "bytes": 24140,
+      "sha256": "4b585e076f319c50953d166b747e404e6887deebaa986af808350dd26d336a28"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/static/expected-fullnames.json",
+      "bytes": 56597,
+      "sha256": "30b5d05cd8f40cf1928dc94d46356b7c504cd026f892ba4f35955bc267abbe4f"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/static/inputs.json",
+      "bytes": 3694,
+      "sha256": "943ea2c64f03845f28100e7d872b64bc4e55a61ae04f2600d6ab839e989f9c2f"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/static/partition-proof.json",
+      "bytes": 23554,
+      "sha256": "2a1096eecd1574946bd9f9b2030416040616c7a6dd411f0748880134a92778e9"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/test-events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/test-filter.txt",
+      "bytes": 23266,
+      "sha256": "001358c4913197180f43f9cc2466689311acccf0f763fde1b9165df85f75ead2"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/unity.log",
+      "bytes": 105462,
+      "sha256": "815d39824f50421a739f9553b540aa631108bef8c6395de171e8bca46745360e"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/validation-tools/runner.py",
+      "bytes": 42028,
+      "sha256": "560e75eef0ef96a11d2933c817d4ac3e14e47152b12af8c1622896ba49368acc"
+    }
+  ],
+  "frozenGroups": [
+    {
+      "manifest": "source-manifest.json",
+      "count": 53,
+      "unchanged": true
+    },
+    {
+      "manifest": "product-only-manifest.json",
+      "count": 29,
+      "unchanged": true
+    },
+    {
+      "manifest": "resources-manifest-before.json",
+      "count": 37,
+      "unchanged": true
+    }
+  ],
+  "existingUnionCount": 90,
+  "changedExistingPaths": [],
+  "addedFiles": [
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs",
+      "bytes": 13090,
+      "sha256": "35eff6f2426ce7df1c902f1084475d2dfc1f04d16af9df203f242d29112a3c39"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs.meta",
+      "bytes": 243,
+      "sha256": "064598dc1394c18bbba584b4d30802c014588ff85c966b1f90edcfb6f0ffb050"
+    }
+  ],
+  "changedAssetsThisPacket": [
+    "Assets/Tests/EditMode/FightMatch/FightMatchTestProgressCallback.cs"
+  ],
+  "diagnosticCandidate": {
+    "pathCount": 92,
+    "sha256": "4449738165c17c6ffebe250f72dd5df4af22db42f837655b613259e0bba33ae6",
+    "serialization": "UTF-8 JSON sorted keys, compact separators, no trailing newline; entries path/bytes/sha256 sorted by path"
+  },
+  "sourcePatch": {
+    "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/source.patch",
+    "bytes": 1003,
+    "sha256": "548e15634f1771aca8e37282376c49f02fab30aaef1db91203e9d4e8d3626e85"
+  },
+  "runnerDerivation": {
+    "predecessor": {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-18/validation-tools/runner.py",
+      "bytes": 42028,
+      "sha256": "560e75eef0ef96a11d2933c817d4ac3e14e47152b12af8c1622896ba49368acc"
+    },
+    "current": {
+      "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/validation-tools/runner.py",
+      "bytes": 51642,
+      "sha256": "db1aee4cfbc730cda2bd24566ce0e003d9cf8dbbfd96fab23f44dcca7b0ac74c"
+    },
+    "diffSha256": "79ed5ff8db66d303aeaf892e6e86e3f684b47ce6c25012aa61e384040fd571c2",
+    "diff": "--- TestArtifacts/FightMatch/UGUI-01/q4-correction-18/validation-tools/runner.py\n+++ TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source/validation-tools/runner.py\n@@ -1,10 +1,11 @@\n-# FIX18 single-run derivative of FIX17; see preflight.json for complete source diff.\n+# FIX19 derivative of FIX18: qualified source, new root, and bounded first-failure cleanup.\n import ast\n import collections\n import datetime\n import difflib\n import hashlib\n import json\n+import os\n import pathlib\n import plistlib\n import re\n@@ -18,18 +19,20 @@\n \n ROOT = pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\n EDITOR = '/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity'\n-OUT = pathlib.Path(__file__).resolve().parent.parent\n-SOURCE_ONLY = ROOT / 'TestArtifacts/FightMatch/UGUI-01/q4-correction-18-source'\n+OUT = ROOT / 'TestArtifacts/FightMatch/UGUI-01/q4-correction-19'\n+SOURCE_ONLY = ROOT / 'TestArtifacts/FightMatch/UGUI-01/q4-correction-19-source'\n R17 = ROOT / 'TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17'\n R15 = ROOT / 'TestArtifacts/FightMatch/UGUI-01/1dc19bf8048aa36d905e0e72c922f9cc05646cfe4e5ed55ce7bf0205d58c4c1b/q4-correction-15'\n-PREDECESSOR = R17 / 'validation-tools/runner.py'\n+R18 = ROOT / 'TestArtifacts/FightMatch/UGUI-01/q4-correction-18'\n+PREDECESSOR = R18 / 'validation-tools/runner.py'\n+R17_RUNNER = R17 / 'validation-tools/runner.py'\n pre = json.loads((R17 / 'preflight.json').read_text())\n FONT = ROOT / 'Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset'\n TIMEOUT = 600\n MAX_LOG = 8 * 1024 * 1024\n MAX_EVIDENCE = 192 * 1024 * 1024\n MIN_FREE = 2 * 1024 * 1024 * 1024\n-OWNER = dict(threadId='01a0e404-d89d-7ab2-bece-3cd1df3fbc52', hostId='local', turnId='01a0f66a-4d77-7c91-823f-96495ac85a9e')\n+OWNER = None  # Supplied by the separately authorized execution activation.\n \n def sha(data):\n     return hashlib.sha256(data).hexdigest()\n@@ -78,11 +81,20 @@\n     return rows\n \n def unity_rows(rows):\n-    return [x for x in rows if x['comm'].endswith('/Unity') or x['comm'] == 'Unity']\n+    result=[]\n+    editor_contents=str(pathlib.Path(EDITOR).parents[1])+'/'\n+    names={'Unity','Unity Hub','UnityShaderCompiler','UnityAutoQuitter','UnityCrashHandler',\n+           'bee_backend','UnityPackageManager','Unity.Licensing.Client'}\n+    for row in rows:\n+        name=pathlib.Path(row['comm']).name\n+        if name in names or row['comm'].startswith(editor_contents) or 'unity-mcp' in row['comm'].lower() or 'Unity Hub.app' in row['comm']:\n+            result.append(row)\n+        elif name=='dotnet' and editor_contents in current_identity(row['pid'])['command']:\n+            result.append(row)\n+    return result\n \n def no_unity():\n-    rows = processes()\n-    assert not [x for x in rows if pathlib.Path(x['comm']).name in ('Unity','Unity Hub','UnityShaderCompiler','UnityAutoQuitter','UnityCrashHandler','bee_backend') or 'unity-mcp' in x['comm'].lower() or 'Unity Hub.app' in x['comm']], 'Existing Unity family process'\n+    assert not unity_rows(processes()), 'Existing Unity family process'\n \n def root_identity(pid):\n     birth=subprocess.run(['/bin/ps','-p',str(pid),'-o','lstart='],capture_output=True,text=True)\n@@ -114,7 +126,7 @@\n     return [identity(p) for p in sorted(directory.rglob('*')) if p.is_file() and not p.name.startswith('._')]\n \n def old_tree_snapshots():\n-    paths = sorted(set([x['root'] for x in pre['oldRoots']] + [str(R17), str(R15), str(SOURCE_ONLY)]))\n+    paths = sorted(set([x['root'] for x in pre['oldRoots']] + [str(R17), str(R15), str(R18), str(ROOT/'TestArtifacts/FightMatch/UGUI-01/q4-correction-18-source'), str(SOURCE_ONLY)]))\n     return [dict(root=p, files=tree_manifest(pathlib.Path(p))) for p in paths]\n \n def compact_trees(trees):\n@@ -161,16 +173,136 @@\n     result['queryExitCodes'][1] = command.returncode\n     return result\n \n-def guard_root(process, birth, argv):\n-    current = current_identity(process.pid)\n-    checks = dict(pid=current['pid'] == birth['pid'],\n-                  birth=bool(current['birth']) and current['birth'] == birth['birth'],\n-                  command=current['command'] == birth['command'] == ' '.join(argv),\n-                  executable=current['comm'] == birth['comm'] == EDITOR,\n-                  projectPath=argv[argv.index('-projectPath') + 1] == str(ROOT),\n-                  queriesSucceeded=current['queryExitCodes'] == birth['queryExitCodes'] == [0, 0, 0],\n-                  ownedHandleStillRunning=process.poll() is None)\n-    return dict(current=current, checks=checks, allowed=all(checks.values()))\n+\n+def supervise_root(poll, compile_error, observe, wait_step, elapsed, budget):\n+    \"\"\"Return the first terminal fact; callers never replace a failure with cleanup results.\"\"\"\n+    while True:\n+        error = compile_error()\n+        exit_code = poll()\n+        observed_at = elapsed()\n+        if observed_at > budget or (observed_at >= budget and exit_code is None):\n+            return dict(kind='TIMEOUT', elapsedSeconds=observed_at, exitCode=exit_code)\n+        if error:\n+            return dict(kind='COMPILE_FAILURE', elapsedSeconds=observed_at, exitCode=exit_code, compilerError=error)\n+        if exit_code is not None:\n+            return dict(kind='ROOT_EXIT_ZERO' if exit_code == 0 else 'ROOT_EXIT_NONZERO',\n+                        elapsedSeconds=observed_at, exitCode=exit_code)\n+        observe()\n+        wait_step(min(1, max(0, budget-elapsed())))\n+\n+def settle_owned(reason, root_pid, snapshot, verify, gentle, terminate, wait_step, elapsed):\n+    \"\"\"At most 60 seconds of gentle/natural cleanup, then guarded SIGTERM and 30 seconds.\"\"\"\n+    began = elapsed()\n+    gentle_attempts = set()\n+    actions = []\n+    signals = []\n+    final = {}\n+    def finish(status):\n+        return dict(status=status, reason=reason, startedElapsedSeconds=began,\n+                    durationSeconds=elapsed()-began, gentleLimitSeconds=60, terminationLimitSeconds=30,\n+                    actions=actions, signalsSent=signals, finalObservation=final)\n+    while True:\n+        final = snapshot()\n+        if final.get('unownedUnityProcesses'):\n+            return finish('BLOCKED_UNOWNED_PROCESS')\n+        remaining = final['ownedProcesses']\n+        if not remaining:\n+            return finish('COMPLETE')\n+        if elapsed() >= began + 60:\n+            break\n+        # Re-evaluate on each sample: transient children can vanish after root exit.\n+        if reason != 'TIMEOUT' and len(remaining) == 1 and remaining[0].get('compilerServer'):\n+            row = remaining[0]\n+            if row['pid'] not in gentle_attempts:\n+                proof = verify(row)\n+                if proof.get('gone'):\n+                    continue\n+                if not proof['allowed']:\n+                    actions.append(dict(action='identity-rejected', pid=row['pid'], proof=proof))\n+                    return finish('BLOCKED_PROCESS_IDENTITY')\n+                gentle_attempts.add(row['pid'])\n+                result=gentle(row, proof)\n+                actions.append(dict(action='gentle', pid=row['pid'], result=result))\n+                if result.get('status')=='IDENTITY_NO_LONGER_MATCHES':\n+                    return finish('BLOCKED_PROCESS_IDENTITY')\n+        wait_step(min(1, max(0, began + 60-elapsed())))\n+    candidates = [r for r in final['ownedProcesses'] if reason != 'TIMEOUT' or r['pid'] == root_pid]\n+    proofs = []\n+    for row in candidates:\n+        if elapsed() >= began + 90:\n+            return finish('BLOCKED_MANUAL_PROCESS_CLEANUP')\n+        proof = verify(row)\n+        if proof.get('gone'):\n+            continue\n+        if not proof['allowed']:\n+            actions.append(dict(action='identity-rejected', pid=row['pid'], proof=proof))\n+            return finish('BLOCKED_PROCESS_IDENTITY')\n+        proofs.append((row, proof))\n+    # Verify the whole candidate set before sending any signal; terminate also rechecks immediately.\n+    for row, proof in proofs:\n+        if elapsed() >= began + 90:\n+            return finish('BLOCKED_MANUAL_PROCESS_CLEANUP')\n+        result = terminate(row, proof)\n+        actions.append(dict(action='SIGTERM', pid=row['pid'], result=result))\n+        if result.get('sent'):\n+            signals.append(result)\n+        elif not result.get('gone'):\n+            return finish('BLOCKED_PROCESS_IDENTITY')\n+    while elapsed() < began + 90:\n+        final = snapshot()\n+        if final.get('unownedUnityProcesses'):\n+            return finish('BLOCKED_UNOWNED_PROCESS')\n+        if not final['ownedProcesses']:\n+            return finish('COMPLETE')\n+        wait_step(min(1, max(0, began + 90-elapsed())))\n+    final = snapshot()\n+    return finish('COMPLETE' if not final['ownedProcesses'] and not final.get('unownedUnityProcesses')\n+                  else 'BLOCKED_MANUAL_PROCESS_CLEANUP')\n+\n+\n+def owned_tool_identity(info):\n+    command = shlex.split(info['command'])\n+    executable = pathlib.Path(info['comm'])\n+    if info['comm'] == 'dotnet':\n+        executable = pathlib.Path(EDITOR).parents[1] / 'NetCoreRuntime/dotnet'\n+    executable.relative_to(pathlib.Path(EDITOR).parents[1])\n+    assert executable.is_file(), 'Owned executable is missing'\n+    loaded = subprocess.run(['/usr/sbin/lsof','-a','-p',str(info['pid']),'-d','txt','-Fn'],\n+                            capture_output=True,text=True,timeout=5)\n+    assert loaded.returncode == 0 and 'n'+str(executable) in loaded.stdout.splitlines(), 'Executable identity unavailable'\n+    files = [executable]\n+    compiler = pathlib.Path(EDITOR).parents[1] / 'DotNetSdkRoslyn/VBCSCompiler.dll'\n+    is_compiler = len(command) >= 3 and command[1:3] == ['exec',str(compiler)]\n+    if is_compiler:\n+        files.append(compiler)\n+    identities = [dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p.read_bytes())) for p in files]\n+    if is_compiler:\n+        expected = ast.literal_eval(re.search(r\"tools_match = .* == (\\[.*\\])\",R17_RUNNER.read_text()).group(1))\n+        assert [(e['bytes'],e['sha256']) for e in identities] == expected, 'Compiler tool identity drift'\n+    return dict(files=identities,compilerServer=is_compiler and len(command)==4 and\n+                re.fullmatch(r'-pipename:[A-Za-z0-9_-]+',command[3]) is not None)\n+\n+def verify_owned(row, saved, ancestry, root_pid):\n+    current = current_identity(row['pid'])\n+    if current['queryExitCodes'] == [1,1,1]:\n+        return dict(allowed=False,gone=True,current=current)\n+    proof = dict(allowed=False,gone=False,current=current,checks={})\n+    try:\n+        tools = owned_tool_identity(current)\n+        checks = dict(pid=current['pid']==saved['pid'] and current['pid']>0,\n+                      birth=bool(current['birth']) and current['birth']==saved['birth'],\n+                      command=current['command']==saved['command'],comm=current['comm']==saved['comm'],\n+                      queries=current['queryExitCodes']==saved['queryExitCodes']==[0,0,0],\n+                      tools=tools==saved.get('tools'),\n+                      ancestry=bool(ancestry) and ancestry['chain'][0]==row['pid'] and\n+                      ((ancestry['origin']=='Unity' and ancestry['chain'][-1]==root_pid) or\n+                       (ancestry['origin']=='cleanup-client' and ancestry['chain'][-1]==os.getpid())))\n+        final_identity=current_identity(row['pid'])\n+        checks['identityStableThroughToolCheck']=all(final_identity[k]==current[k] for k in ['pid','birth','command','comm','queryExitCodes'])\n+        proof.update(checks=checks,tools=tools,finalIdentity=final_identity,allowed=all(checks.values()))\n+    except Exception as exc:\n+        proof['error']=type(exc).__name__+': '+str(exc)\n+    return proof\n \n def event_trace(pid, final=False):\n     path = OUT / 'test-events.jsonl'\n@@ -261,11 +393,18 @@\n     return result\n \n def preflight():\n-    assert OUT == ROOT / 'TestArtifacts/FightMatch/UGUI-01/q4-correction-18'\n+    global OWNER\n+    assert OUT == ROOT / 'TestArtifacts/FightMatch/UGUI-01/q4-correction-19'\n     assert_non_link(OUT)\n     assert set(p.name for p in OUT.iterdir()) == {'activation.json', 'validation-tools'}, 'Formal root is not fresh'\n     activation = json.loads((OUT / 'activation.json').read_text())\n+    assert activation['mode']=='SINGLE_GRAPHICS_CORE190'\n+    assert re.fullmatch('[0-9a-f]{40}',activation['prBinding']['head']) and activation['prBinding']['head']!='bfa8943aacbee2eaec11a8ee5be9935c538e2898', 'FIX19 requires its newly bound PR head'\n+    OWNER=activation['owner']\n+    assert OWNER['threadId']=='01a0e404-d89d-7ab2-bece-3cd1df3fbc52' and OWNER['hostId']=='local' and OWNER['turnId']\n     assert activation['runner'] == identity(pathlib.Path(__file__))\n+    ready=json.loads((SOURCE_ONLY/'static-result.json').read_text())\n+    assert identity(pathlib.Path(__file__))['sha256']==ready['runner']['sha256'], 'Prepared FIX19 runner drift'\n     assert identity(ROOT / activation['packet']['path']) == activation['packet']\n     baseline = json.loads((SOURCE_ONLY / 'delta-manifest.json').read_text())\n     static = json.loads((SOURCE_ONLY / 'static-result.json').read_text())\n@@ -299,13 +438,18 @@\n     assert not any(re.fullmatch(literal, n + '_not_a_test') for n in core)\n     no_unity()\n     rows = processes()\n-    prior_run = json.loads((R17 / 'core-190-graphics/run.json').read_text())\n+    prior_run = json.loads((R18 / 'run.json').read_text())\n     previous_birth = prior_run['rootBirthIdentity']\n     prior_alive = [r for r in rows if r['pid'] == previous_birth['pid']]\n     prior_identity = current_identity(previous_birth['pid']) if prior_alive else None\n-    previous_commands=json.loads((R17/'core-190-graphics/owned-command-lines.json').read_text())\n-    prior_comm={e['row']['pid']:e['row']['comm'] for e in previous_commands}\n-    prior_owned_matches=[r for r in rows if r['pid'] in prior_comm and r['comm']==prior_comm[r['pid']]]\n+    previous_identities=json.loads((R18/'quiescence.json').read_text())['ownedIdentities']\n+    prior_owned_matches=[]\n+    for row in rows:\n+        saved=previous_identities.get(str(row['pid']))\n+        if saved and saved.get('comm')==row['comm']:\n+            current=current_identity(row['pid'])\n+            if current['birth']==saved['birth'] and current['command']==saved['command']:\n+                prior_owned_matches.append(current)\n     assert not prior_owned_matches, 'Prior owned child identity remains: '+repr(prior_owned_matches)\n     assert prior_identity is None or (prior_identity['birth'], prior_identity['command']) != (previous_birth['birth'], previous_birth['command']), 'Prior Unity owner still alive'\n     assert plistlib.load(open(pathlib.Path(EDITOR).parents[1] / 'Info.plist', 'rb'))['CFBundleVersion'] == '2022.3.18f1'\n@@ -370,12 +514,16 @@\n     for name in ['test-events.jsonl','process-events.jsonl','progress.jsonl']:\n         with (OUT/name).open('xb'):\n             pass\n-    run = dict(task='FIX18',owner=OWNER,argv=argv,exactCommand=shlex.join(argv),\n+    run = dict(task='FIX19',owner=OWNER,argv=argv,exactCommand=shlex.join(argv),\n                startedUtc=now(),timeoutSeconds=TIMEOUT,expectedTestCount=len(expected),unityLaunchCount=0,\n                timedOut=False,signalsSent=[],exitCode=None,passed=False)\n     create_json(OUT/'run.json',run)\n     owned = set()\n     owned_identities = {}\n+    owned_ancestry = {}\n+    cleanup_clients = {}\n+    cleanup_client_exits = set()\n+    signalled_pids = set()\n     samples = []\n     progress_times = []\n     last_progress = -10\n@@ -391,14 +539,43 @@\n     def observe(force=False):\n         nonlocal last_progress,log_offset,last_line,xml_first_seen\n         rows = processes()\n+        if process.poll() is not None and not run.get('processExitObservedUtc'):\n+            run.update(exitCode=process.returncode,processExitObservedUtc=now(),\n+                       launchToExitObservationSeconds=time.monotonic()-start)\n+            process_event('process-exit',pid=process.pid,exitCode=process.returncode,afterDeadline=run['timedOut'])\n+        for pid,client in cleanup_clients.items():\n+            if client.poll() is not None and pid not in cleanup_client_exits:\n+                cleanup_client_exits.add(pid)\n+                process_event('compiler-shutdown-client-exit',pid=pid,exitCode=client.returncode)\n+        def remember_owned(pid):\n+            if pid not in owned_identities:\n+                info=current_identity(pid)\n+                try:\n+                    info['tools']=owned_tool_identity(info)\n+                except Exception as exc:\n+                    info['toolIdentityError']=type(exc).__name__+': '+str(exc)\n+                owned_identities[pid]=info\n+        for row in rows:\n+            if row['pid'] in owned:\n+                remember_owned(row['pid'])\n         for _ in range(20):\n-            children = {r['pid'] for r in rows if r['ppid'] in owned}\n-            if children <= owned:\n+            children=[r for r in rows if r['ppid'] in owned and r['pid'] not in owned]\n+            adopted=[]\n+            for row in children:\n+                saved=owned_identities.get(row['ppid'],{})\n+                parent_now=current_identity(row['ppid'])\n+                # Never extend an ancestry chain through a reused or unverifiable parent PID.\n+                if not (saved.get('birth') and parent_now['birth']==saved['birth'] and\n+                        parent_now['command']==saved['command'] and\n+                        parent_now['queryExitCodes']==saved['queryExitCodes']==[0,0,0]):\n+                    continue\n+                owned.add(row['pid'])\n+                parent=owned_ancestry[row['ppid']]\n+                owned_ancestry[row['pid']]=dict(origin=parent['origin'],chain=[row['pid']]+parent['chain'])\n+                remember_owned(row['pid'])\n+                adopted.append(row['pid'])\n+            if not adopted:\n                 break\n-            owned.update(children)\n-        for row in rows:\n-            if row['pid'] in owned and row['pid'] not in owned_identities:\n-                owned_identities[row['pid']] = current_identity(row['pid'])\n         snapshot = dict(utc=now(),ownedProcesses=[r for r in rows if r['pid'] in owned],unityProcesses=unity_rows(rows))\n         elapsed = time.monotonic()-start\n         if force or elapsed-last_progress >= 5:\n@@ -437,101 +614,100 @@\n                 violation=dict(evidenceBytes=evidence_bytes,freeBytes=free)\n                 if violation not in budget_violations: budget_violations.append(violation)\n         return snapshot\n-    def wait_root(deadline):\n-        while process.poll() is None:\n-            left=deadline-time.monotonic()\n-            if left<=0: return False\n-            observe()\n-            try:\n-                process.wait(timeout=min(1,left))\n-            except subprocess.TimeoutExpired:\n-                pass\n-        return True\n+\n+    def compile_failure():\n+        for name in ['unity.log','editor.stdout.log','editor.stderr.log']:\n+            path=OUT/name\n+            if path.exists():\n+                with path.open('rb') as f:\n+                    text=f.read(MAX_LOG+1).decode('utf-8',errors='replace')\n+                for line in text.splitlines():\n+                    if re.search(r'error CS\\d+|Compilation failed|Scripts have compiler errors',line):\n+                        return dict(file=name,line=line)\n+        return None\n+    def wait_step(seconds):\n+        if seconds<=0:\n+            return\n+        if process.poll() is None:\n+            try: process.wait(timeout=seconds)\n+            except subprocess.TimeoutExpired: pass\n+        else:\n+            time.sleep(seconds)\n+    def remaining_snapshot():\n+        state=observe()\n+        state['unownedUnityProcesses']=[r for r in state['unityProcesses'] if r['pid'] not in owned]\n+        state['ownedProcesses']=[dict(r,compilerServer=owned_identities.get(r['pid'],{}).get('tools',{}).get('compilerServer',False))\n+                                 for r in state['ownedProcesses']]\n+        return state\n+    def verify(row):\n+        return verify_owned(row,owned_identities.get(row['pid'],{}),owned_ancestry.get(row['pid']),process.pid)\n+    def gentle(row, proof):\n+        immediate=verify(row)\n+        if not immediate.get('allowed'):\n+            return dict(status='IDENTITY_NO_LONGER_MATCHES',proof=immediate)\n+        args=shlex.split(immediate['current']['command'])\n+        command=[str(pathlib.Path(EDITOR).parents[1]/'NetCoreRuntime/dotnet'),\n+                 'exec',str(pathlib.Path(EDITOR).parents[1]/'DotNetSdkRoslyn/VBCSCompiler.dll'),args[3],'-shutdown']\n+        client=subprocess.Popen(command,cwd=ROOT,stdout=stdout,stderr=stderr)\n+        owned.add(client.pid)\n+        owned_ancestry[client.pid]=dict(origin='cleanup-client',chain=[client.pid,os.getpid()])\n+        cleanup_clients[client.pid]=client\n+        process_event('compiler-server-graceful-shutdown',pid=row['pid'],clientPid=client.pid,argv=command,identityProof=immediate)\n+        return dict(status='REQUEST_SENT',pid=row['pid'],clientPid=client.pid,argv=command,signalsSent=False)\n+    def terminate(row, proof):\n+        immediate=verify(row)\n+        if not immediate.get('allowed'):\n+            return dict(sent=False,gone=immediate.get('gone',False),pid=row['pid'],proof=immediate)\n+        assert row['pid'] not in signalled_pids, 'Repeated signal prohibited'\n+        signalled_pids.add(row['pid'])\n+        try:\n+            os.kill(row['pid'],signal.SIGTERM)\n+        except ProcessLookupError:\n+            return dict(sent=False,gone=True,pid=row['pid'])\n+        event=dict(sent=True,signal='SIGTERM',number=int(signal.SIGTERM),pid=row['pid'],utc=now(),identityProof=immediate)\n+        run['signalsSent'].append(event)\n+        process_event('signal',**event)\n+        return event\n     with (OUT/'editor.stdout.log').open('x') as stdout,(OUT/'editor.stderr.log').open('x') as stderr:\n         process=subprocess.Popen(argv,cwd=ROOT,stdout=stdout,stderr=stderr)\n         owned.add(process.pid)\n-        run.update(unityLaunchCount=1,editorPid=process.pid)\n+        owned_ancestry[process.pid]=dict(origin='Unity',chain=[process.pid])\n+        run.update(unityLaunchCount=1,editorPid=process.pid,firstFailure=None)\n         birth=current_identity(process.pid)\n         run['rootBirthIdentity']=birth\n+        assert birth['command']==' '.join(argv) and birth['comm']==EDITOR and birth['queryExitCodes']==[0,0,0], 'Launched root identity mismatch'\n         process_event('launch',pid=process.pid,argv=argv,birth=birth)\n         process_event('deadline',deadlineUtc=(datetime.datetime.fromisoformat(run['startedUtc'])+datetime.timedelta(seconds=TIMEOUT)).isoformat(),timeoutSeconds=TIMEOUT)\n         write(OUT/'run.json',run)\n         print(json.dumps(dict(status='RUNNING',pid=process.pid,output=str(OUT),timeoutSeconds=TIMEOUT)),flush=True)\n-        natural=wait_root(start+TIMEOUT)\n-        if not natural:\n-            run.update(timedOut=True,timeoutUtc=now(),timeoutElapsedSeconds=time.monotonic()-start)\n+        outcome=supervise_root(process.poll,compile_failure,observe,wait_step,lambda:time.monotonic()-start,TIMEOUT)\n+        run['monitorOutcome']=outcome\n+        if outcome['kind']!='ROOT_EXIT_ZERO':\n+            run['firstFailure']=dict(outcome,observedUtc=now())\n+            process_event('first-failure',failure=run['firstFailure'])\n+            # Persist the first reason before cleanup, even if a later cleanup operation fails.\n+            write(OUT/'run.json',run)\n+        if outcome['kind']=='TIMEOUT':\n+            run.update(timedOut=True,timeoutUtc=now(),timeoutElapsedSeconds=outcome['elapsedSeconds'])\n             process_event('timeout',pid=process.pid)\n             snapshot=observe(True)\n             create_json(OUT/'timeout-snapshot.json',dict(utc=now(),elapsedSeconds=time.monotonic()-start,\n                         source=frozen_now(before['source']),resources=resources(),delta=frozen_now(before['delta']),\n                         processTree=snapshot,lastProgress=event_trace(process.pid),rootBirthIdentity=birth))\n-            natural_deadline=start+TIMEOUT+60\n-            process_event('natural-observation-start',limitSeconds=60)\n-            wait_root(natural_deadline)\n-            if process.poll() is None:\n-                guarded=guard_root(process,birth,argv)\n-                run['signalGuard']=guarded\n-                if guarded['allowed']:\n-                    event=dict(signal='SIGTERM',number=int(signal.SIGTERM),pid=process.pid,utc=now())\n-                    process.send_signal(signal.SIGTERM)\n-                    run['signalsSent'].append(event)\n-                    process_event('signal',**event)\n-                    wait_root(time.monotonic()+30)\n-                else:\n-                    process_event('signal-blocked',guard=guarded)\n-        run.update(exitCode=process.poll(),processExitObservedUtc=now() if process.poll() is not None else None,\n-                   launchToExitObservationSeconds=time.monotonic()-start)\n-        if process.poll() is not None:\n-            process_event('process-exit',pid=process.pid,exitCode=process.returncode,afterDeadline=run['timedOut'])\n-        else:\n-            process_event('manual-cleanup-required',pid=process.pid)\n+        process_event('cleanup-start',reason=outcome['kind'],gentleSeconds=60,terminationSeconds=30)\n+        cleanup=settle_owned(outcome['kind'],process.pid,remaining_snapshot,verify,gentle,terminate,\n+                             wait_step,lambda:time.monotonic()-start)\n+        process_event('cleanup-end',status=cleanup['status'],durationSeconds=cleanup['durationSeconds'])\n+        run['cleanup']=cleanup\n     final=observe(True)\n-    cleanup=dict(status='NOT_RUN',signalsSent=[],launchCount=0)\n-    # FIX17's exact, pipe-specific compiler-server cleanup, with output kept in the permitted quiescence file.\n-    remaining=final['ownedProcesses']\n-    if process.poll() is not None and len(remaining)==1 and remaining[0]['ppid']==1 and pathlib.Path(remaining[0]['comm']).name=='dotnet' and not final['unityProcesses']:\n-        server=remaining[0]\n-        dotnet=pathlib.Path(EDITOR).parents[1]/'NetCoreRuntime/dotnet'\n-        compiler=pathlib.Path(EDITOR).parents[1]/'DotNetSdkRoslyn/VBCSCompiler.dll'\n-        current=current_identity(server['pid'])\n-        args=shlex.split(current['command'])\n-        pipe=[a for a in args if a.startswith('-pipename:')]\n-        lsof=subprocess.run(['/usr/sbin/lsof','-a','-p',str(server['pid']),'-d','txt','-Fn'],capture_output=True,text=True)\n-        original_code=PREDECESSOR.read_text()\n-        expected_tools=ast.literal_eval(re.search(r\"tools_match = .* == (\\[.*\\])\",original_code).group(1))\n-        actual_tools=[(p.stat().st_size,sha(p.read_bytes())) for p in [dotnet,compiler]]\n-        guards=dict(birth=current['birth']==owned_identities[server['pid']]['birth'],\n-                    exactCommand=len(args)==4 and args[0] in ['dotnet',str(dotnet)] and args[1]=='exec' and args[2]==str(compiler) and len(pipe)==1 and args[3]==pipe[0] and re.fullmatch(r'-pipename:[A-Za-z0-9_-]+',pipe[0]) is not None,\n-                    executable=lsof.returncode==0 and ('n'+str(dotnet)) in lsof.stdout.splitlines(),\n-                    toolHashesMatch=actual_tools==expected_tools)\n-        cleanup.update(serverPid=server['pid'],guards=guards)\n-        if all(guards.values()) and not run['timedOut'] and time.monotonic()-start<TIMEOUT:\n-            command=[str(dotnet),'exec',str(compiler),pipe[0],'-shutdown']\n-            cleanup.update(status='REQUESTED',argv=command,launchCount=1,startedUtc=now())\n-            process_event('compiler-server-graceful-shutdown',pid=server['pid'],argv=command)\n-            client=subprocess.Popen(command,cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.PIPE)\n-            owned.add(client.pid)\n-            deadline=min(start+TIMEOUT,time.monotonic()+30)\n-            while client.poll() is None and time.monotonic()<deadline:\n-                observe()\n-                try: client.wait(timeout=min(1,max(.001,deadline-time.monotonic())))\n-                except subprocess.TimeoutExpired: pass\n-            if client.poll() is not None:\n-                so,se=client.communicate()\n-                cleanup.update(exitCode=client.returncode,stdout=so.decode(errors='replace'),stderr=se.decode(errors='replace'))\n-            cleanup['endedUtc']=now()\n-        else: cleanup['status']='BLOCKED_IDENTITY_OR_BUDGET'\n-    deadline=(start+TIMEOUT if not run['timedOut'] else time.monotonic()+min(5,max(0,start+TIMEOUT+90-time.monotonic())))\n-    while (final['ownedProcesses'] or final['unityProcesses']) and time.monotonic()<deadline:\n-        time.sleep(min(1,max(.001,deadline-time.monotonic())))\n-        final=observe()\n-    final=observe(True)\n-    quiescent=not final['ownedProcesses'] and not final['unityProcesses']\n-    if cleanup['status']=='REQUESTED':\n-        cleanup['status']='COMPLETE' if quiescent and cleanup.get('exitCode')==0 else 'BLOCKED_COMPILER_SERVER_CLEANUP'\n-    create_json(OUT/'quiescence.json',dict(utc=now(),quiescent=quiescent,ownedPids=sorted(owned),ownedIdentities=owned_identities,\n-                finalObservation=final,rootExitCode=process.poll(),signalsSent=run['signalsSent'],compilerServerCleanup=cleanup,\n-                totalObservationSeconds=time.monotonic()-start))\n+    quiescent=not final['ownedProcesses'] and not final['unityProcesses'] and cleanup['status']=='COMPLETE'\n+    run['exitCode']=process.poll()\n+    if process.poll() is None:\n+        process_event('manual-cleanup-required',pid=process.pid)\n+    create_json(OUT/'quiescence.json',dict(utc=now(),quiescent=quiescent,ownedPids=sorted(owned),\n+                ownedIdentities=owned_identities,ownedAncestry=owned_ancestry,\n+                finalObservation=final,rootExitCode=process.poll(),signalsSent=run['signalsSent'],cleanup=cleanup,\n+                firstFailure=run['firstFailure'],totalObservationSeconds=time.monotonic()-start))\n     run['observationCompletedSeconds']=time.monotonic()-start\n     trace=event_trace(process.pid,True)\n     logs={}\n@@ -554,12 +730,12 @@\n     create_json(OUT/'after.json',after)\n     valid_prefix=not trace['errors'] and not callback_errors and trace['rows']>0\n     finished_counter=collections.Counter(e['fullName'] for e in trace['finished'])\n-    checks=dict(exitZero=process.returncode==0,within600=not run['timedOut'] and run['launchToExitObservationSeconds']<=TIMEOUT and run['observationCompletedSeconds']<=TIMEOUT,\n+    checks=dict(exitZero=process.returncode==0,within600=not run['timedOut'] and run.get('launchToExitObservationSeconds',float('inf'))<=TIMEOUT,\n                 xmlExact190Passed=current_xml['passed'],progressPrefixValid=valid_prefix,\n                 finishedCounterExact190=finished_counter==collections.Counter(expected),\n                 finishedAllPassed=all(e['result']=='Passed' for e in trace['finished']),\n                 realRunFinished=trace['runFinished']==1 and trace.get('runResult')=='Passed',\n-                noUnresolvedFullnames=not trace['unresolvedFullnames'],quiescent=quiescent,\n+                noUnresolvedFullnames=not trace['unresolvedFullnames'],quiescent=quiescent,cleanupComplete=cleanup['status']=='COMPLETE',\n                 source53Unchanged=after['source']==before['source'],product29Unchanged=after['products']==before['products'],\n                 resources37Unchanged=after['resources']==before['resources'],diagnosticDeltaUnchanged=after['delta']==before['delta'],\n                 font398Glyph398Atlas4=after['font']==before['font'] and after['font']['characterCount']==after['font']['glyphCount']==398 and after['font']['textureCount']==4,\n@@ -596,22 +772,27 @@\n     grouped['wireTerminalRetry']=bool(wire and wire['result']=='Passed' and 'FIX13 battle-dispose + pending: original operation committed once; terminal view remains unbound; BattleViewDisposed visible.' in wire['output'])\n     grouped['passed']=grouped['passed'] and grouped['b16Matrix'] and grouped['wireTerminalRetry']\n     create_json(OUT/'grouped-exact222-coverage.json',grouped)\n-    if compiler_errors: status='BLOCKED_COMPILE'\n+    first_kind=(run.get('firstFailure') or {}).get('kind')\n+    if first_kind=='COMPILE_FAILURE': status='BLOCKED_COMPILE'\n+    elif first_kind=='ROOT_EXIT_NONZERO': status='BLOCKED_ROOT_NONZERO'\n+    elif first_kind=='TIMEOUT': status='BLOCKED_CORE190_TIMEOUT'\n+    elif not quiescent: status='BLOCKED_MANUAL_PROCESS_CLEANUP'\n     elif not valid_prefix: status='BLOCKED_PROGRESS_EVIDENCE'\n-    elif run['timedOut']: status='BLOCKED_CORE190_TIMEOUT'\n-    elif not quiescent: status='BLOCKED_MANUAL_PROCESS_CLEANUP'\n     elif run['passed'] and grouped['passed']: status='CORE190_PASS_GROUPED222_EVIDENCE_READY'\n     else: status='BLOCKED_CORE190_VALIDATION'\n     run['status']=status\n     write(OUT/'run.json',run)\n-    boundary=('progress evidence unavailable or invalid' if not valid_prefix else\n+    boundary=('compilation before test execution' if first_kind=='COMPILE_FAILURE' else\n+              'root exited nonzero' if first_kind=='ROOT_EXIT_NONZERO' else\n+              'progress evidence unavailable or invalid' if not valid_prefix else\n               'unfinished test boundary' if trace['unresolvedFullnames'] else\n               'runner finalization boundary' if trace['finishedCount']==len(expected) and not (trace['runFinished'] and current_xml['exists'] and process.poll() is not None) else\n               'next scheduling or domain-resume boundary' if not run['passed'] else 'completed')\n     receipt=dict(status=status,owner=OWNER,returnThread='01a0e401-511d-79f2-b47f-3ab0ade1681b/local',\n                  prBinding=json.loads((OUT/'activation.json').read_text())['prBinding'],\n                  endedUtc=now(),unityLaunchCount=1,exitCode=run['exitCode'],timedOut=run['timedOut'],\n-                 launchToExitObservationSeconds=run['launchToExitObservationSeconds'],totalWallSeconds=time.monotonic()-start,\n+                 firstFailure=run.get('firstFailure'),cleanup=cleanup,\n+                 launchToExitObservationSeconds=run.get('launchToExitObservationSeconds'),totalWallSeconds=time.monotonic()-start,\n                  boundary=boundary,lastFinished=trace['lastFinished'],unmatchedStarted=trace['unmatchedStarted'],\n                  unresolvedFullnames=trace['unresolvedFullnames'],finishedCount=trace['finishedCount'],eventRows=trace['rows'],\n                  domainCount=len(trace['domains']),checks=checks,failedChecks=[k for k,v in checks.items() if not v],\n@@ -629,8 +810,11 @@\n         sys.exit(execute())\n     except Exception as exc:\n         # Preserve all existing artifacts; never launch again or repair source from this runner.\n-        error=dict(status='BLOCKED_RUNNER_EXCEPTION',owner=OWNER,utc=now(),\n-                   errorType=type(exc).__name__,error=str(exc),rerun=False)\n+        saved_run=json.loads((OUT/'run.json').read_text()) if (OUT/'run.json').exists() else {}\n+        first=saved_run.get('firstFailure')\n+        primary={'COMPILE_FAILURE':'BLOCKED_COMPILE','ROOT_EXIT_NONZERO':'BLOCKED_ROOT_NONZERO','TIMEOUT':'BLOCKED_CORE190_TIMEOUT'}.get((first or {}).get('kind'),'BLOCKED_RUNNER_EXCEPTION')\n+        error=dict(status=primary,owner=OWNER,utc=now(),firstFailure=first,\n+                   cleanupStatus='BLOCKED_RUNNER_EXCEPTION',errorType=type(exc).__name__,error=str(exc),rerun=False)\n         if not (OUT/'final-receipt.json').exists():\n             create_json(OUT/'final-receipt.json',error)\n         print(json.dumps(error,ensure_ascii=False),flush=True)\n"
+  }
+}

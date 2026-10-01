@@ -5,7 +5,6 @@ using FightMatch.Application;
 using FightMatch.Content;
 using FightMatch.Platform;
 using NUnit.Framework;
-using UnityEngine.UIElements;
 using static FightMatch.Core.Tests.PlayerSessionTestData;
 using static FightMatch.Core.Tests.NavigationAssertions;
 
@@ -163,6 +162,29 @@ namespace FightMatch.Core.Tests
                 Assert.AreEqual(first, r.Head.Records[0].CommitId);
                 Assert.AreEqual(first, TakeCore(PlayerProfileCreateRecordCodec.VerifyInitializationCommit(r.Profile.CreateRecord, r.Head, Codec())).OriginalInitializationCommitId);
             }
+            using (var r = new NavigationRig(legacy: legacy))
+            using (var controller = new FightMatch.Presentation.PlayerNavigationController(r.Player, Budget()))
+            using (var panel = new NavigationPanel(controller))
+            {
+                var anchor = r.Head.Records[0].CommitId;
+                var count = legacy ? 2 : 1;
+                for (var i = 0; i < count; i++)
+                {
+                    var head = r.Head; var files = r.Files();
+                    panel.AssertCaption(NavigationPanel.Row("navigation.Migration"), "fm.profile.data_upgrade.title");
+                    panel.Click(NavigationPanel.Row("navigation.Migration"));
+                    panel.AssertHeading("fm.profile.data_upgrade.title");
+                    panel.AssertText(NavigationPanel.Row("save.Migration"), "fm.profile.data_upgrade.body");
+                    panel.AssertNoIdentity("V2", "V3", "V4", "PublishedRosterV3", "PublishedPermanentV4");
+                    panel.Click(NavigationPanel.Row("navigation.Cancel")); Unchanged(r, head, files);
+                    panel.Click(NavigationPanel.Row("navigation.Migration")); panel.Click(NavigationPanel.Row("save.Confirm"));
+                    Committed(controller.View);
+                    Assert.AreEqual(anchor, r.Head.Records[0].CommitId);
+                    panel.Click(NavigationPanel.Row("save.Return"));
+                }
+                Assert.AreEqual(CandidateBusinessFormat.PublishedPermanentV4, r.Head.Business.Format);
+                Assert.IsFalse(panel.Find<UnityEngine.UI.Button>(NavigationPanel.Row("navigation.Migration")).gameObject.activeInHierarchy);
+            }
         }
         [Test] public void CC20_CC23_ActiveBattleGatesFormationWhileExplicitV3MigrationPreservesBattle()
         {
@@ -182,10 +204,10 @@ namespace FightMatch.Core.Tests
                 r.Nav.Navigate(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.Detail,
                     PermanentKind = CandidatePermanentKind.Equip }, r.View.Context, Codec());
                 using (var controller = new FightMatch.Presentation.PlayerNavigationController(r.Player, Budget()))
-                using (var menu = new FightMatch.Presentation.PlayerNavigationView(controller))
+                using (var menu = new NavigationPanel(controller))
                 {
-                    Assert.IsFalse(menu.Q<Button>("permanent-preview").enabledSelf);
-                    Assert.AreEqual("ActiveAttemptConflict", menu.Q<Button>("permanent-preview").tooltip);
+                    Assert.IsFalse(menu.Find<UnityEngine.UI.Button>(NavigationPanel.Row("permanent.Preview")).interactable);
+                    menu.AssertReason(NavigationPanel.Row("permanent.Preview"), "ActiveAttemptConflict");
                     Unchanged(r, head, files);
                 }
             }
@@ -264,7 +286,7 @@ namespace FightMatch.Core.Tests
                 Assert.AreEqual(PlayerNavigationRoute.Recovery, r.Act(PlayerNavigationAction.Cancel).Route);
                 Assert.AreEqual(operation, r.View.Confirmation.OperationId); Unchanged(r, head, files);
                 using (var controller = new FightMatch.Presentation.PlayerNavigationController(r.Player, Budget()))
-                using (var menu = new FightMatch.Presentation.PlayerNavigationView(controller))
+                using (var menu = new NavigationPanel(controller))
                 {
                     Assert.AreSame(r.Nav, r.Player.GetNavigationSession());
                     Assert.AreEqual(operation, controller.View.Confirmation.OperationId);

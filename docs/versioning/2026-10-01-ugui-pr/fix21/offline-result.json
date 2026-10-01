@@ -1,0 +1,669 @@
+{
+  "status": "OFFLINE_PASS",
+  "attempts": [
+    {
+      "status": "OFFLINE_PASS",
+      "caseCount": 34,
+      "cases": [
+        {
+          "case": "valid_raw_objects_complete_closure_HEAD_differs_and_only_explicit_WIP",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BOUND_RUN_COMPLETED"
+        },
+        {
+          "case": "valid_posthoc_archive_mapping_has_zero_launches",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": "POSTHOC_BINDING_SUPPLEMENT"
+        },
+        {
+          "case": "arbitrary_nonexistent_40hex_object",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_MISSING",
+          "actualReason": "BLOCKED_OBJECT_MISSING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "old_but_real_wrong_head",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "wrong_commit_object_type",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_TYPE",
+          "actualReason": "BLOCKED_OBJECT_TYPE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "raw_commit_hash_corruption",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_HASH",
+          "actualReason": "BLOCKED_OBJECT_HASH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authorized_head_tree_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_HEAD_TREE",
+          "actualReason": "BLOCKED_HEAD_TREE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "source_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "resource_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "non92_source_change_is_not_ignored",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "deleted_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "auxiliary_R17_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "tampered_S_manifest_plus_self_filled_SHA",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "R17_preflight_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "missing_dependency_chain",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "selector_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "activation_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION",
+          "actualReason": "BLOCKED_ACTIVATION",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "path_traversal",
+          "passed": true,
+          "expectedReason": "BLOCKED_PATH",
+          "actualReason": "BLOCKED_PATH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "duplicate_self_mapping",
+          "passed": true,
+          "expectedReason": "BLOCKED_DUPLICATE_MAPPING",
+          "actualReason": "BLOCKED_DUPLICATE_MAPPING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "symlink_input",
+          "passed": true,
+          "expectedReason": "BLOCKED_SYMLINK",
+          "actualReason": "BLOCKED_SYMLINK",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_replace",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REPLACE",
+          "actualReason": "BLOCKED_GIT_REPLACE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_object_environment_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_ENV",
+          "actualReason": "BLOCKED_GIT_ENV",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_alternate_objects_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REDIRECT",
+          "actualReason": "BLOCKED_GIT_REDIRECT",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "immediately_before_spawn_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_revoked",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_REVOKED",
+          "actualReason": "BLOCKED_AUTHORITY_REVOKED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_expired",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "actualReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "PR_moved",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_XML_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_before_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_after_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_receipt_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "after_run_drift_keeps_run_facts_but_invalidates_binding",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BLOCKED_POSTRUN_BINDING"
+        }
+      ],
+      "elapsedSeconds": 0.08938783299527131,
+      "budgetSeconds": 120,
+      "realUnityLaunches": 0,
+      "realDotnetOrCompilerLaunches": 0,
+      "gitWrites": 0,
+      "networkCalls": 0,
+      "fixture": "Memory raw Git object store and file adapter; real binding_main/bind_inputs/verify_posthoc, not a mock runner.",
+      "runner": {
+        "bytes": 85133,
+        "sha256": "b7c406e8ac62405873686b2864a29de68316e85530d53da496ab3b3a782b3262"
+      },
+      "testScript": {
+        "bytes": 18083,
+        "sha256": "83f297f9407fa73319dabb1572fb413441ca316f5b8487adaa42bf3b000c3e98"
+      }
+    },
+    {
+      "status": "OFFLINE_PASS",
+      "caseCount": 35,
+      "cases": [
+        {
+          "case": "valid_raw_objects_complete_closure_HEAD_differs_and_only_explicit_WIP",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BOUND_RUN_COMPLETED"
+        },
+        {
+          "case": "valid_posthoc_archive_mapping_has_zero_launches",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": "POSTHOC_BINDING_SUPPLEMENT"
+        },
+        {
+          "case": "arbitrary_nonexistent_40hex_object",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_MISSING",
+          "actualReason": "BLOCKED_OBJECT_MISSING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "old_but_real_wrong_head",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "wrong_commit_object_type",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_TYPE",
+          "actualReason": "BLOCKED_OBJECT_TYPE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "raw_commit_hash_corruption",
+          "passed": true,
+          "expectedReason": "BLOCKED_OBJECT_HASH",
+          "actualReason": "BLOCKED_OBJECT_HASH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authorized_head_tree_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_HEAD_TREE",
+          "actualReason": "BLOCKED_HEAD_TREE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "source_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "resource_single_byte_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "non92_source_change_is_not_ignored",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "deleted_imported_file",
+          "passed": true,
+          "expectedReason": "BLOCKED_INPUT_SET",
+          "actualReason": "BLOCKED_INPUT_SET",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "new_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "auxiliary_R17_runner_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "tampered_S_manifest_plus_self_filled_SHA",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "R17_preflight_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "missing_dependency_chain",
+          "passed": true,
+          "expectedReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "actualReason": "BLOCKED_DEPENDENCY_UNBOUND",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "anchored_external_CSV_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "selector_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "activation_mismatch",
+          "passed": true,
+          "expectedReason": "BLOCKED_ACTIVATION",
+          "actualReason": "BLOCKED_ACTIVATION",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "path_traversal",
+          "passed": true,
+          "expectedReason": "BLOCKED_PATH",
+          "actualReason": "BLOCKED_PATH",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "duplicate_self_mapping",
+          "passed": true,
+          "expectedReason": "BLOCKED_DUPLICATE_MAPPING",
+          "actualReason": "BLOCKED_DUPLICATE_MAPPING",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "symlink_input",
+          "passed": true,
+          "expectedReason": "BLOCKED_SYMLINK",
+          "actualReason": "BLOCKED_SYMLINK",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_replace",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REPLACE",
+          "actualReason": "BLOCKED_GIT_REPLACE",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_object_environment_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_ENV",
+          "actualReason": "BLOCKED_GIT_ENV",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "Git_alternate_objects_redirection",
+          "passed": true,
+          "expectedReason": "BLOCKED_GIT_REDIRECT",
+          "actualReason": "BLOCKED_GIT_REDIRECT",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "immediately_before_spawn_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_revoked",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_REVOKED",
+          "actualReason": "BLOCKED_AUTHORITY_REVOKED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "authority_expired",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "actualReason": "BLOCKED_AUTHORITY_EXPIRED",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "PR_moved",
+          "passed": true,
+          "expectedReason": "BLOCKED_AUTHORITY_HEAD",
+          "actualReason": "BLOCKED_AUTHORITY_HEAD",
+          "fakeLaunches": 0,
+          "mode": "execute",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_XML_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_before_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_after_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "posthoc_receipt_identity_drift",
+          "passed": true,
+          "expectedReason": "BLOCKED_FILE_IDENTITY",
+          "actualReason": "BLOCKED_FILE_IDENTITY",
+          "fakeLaunches": 0,
+          "mode": "posthoc",
+          "resultStatus": null
+        },
+        {
+          "case": "after_run_drift_keeps_run_facts_but_invalidates_binding",
+          "passed": true,
+          "expectedReason": null,
+          "actualReason": null,
+          "fakeLaunches": 1,
+          "mode": "execute",
+          "resultStatus": "BLOCKED_POSTRUN_BINDING"
+        }
+      ],
+      "elapsedSeconds": 0.09656158299185336,
+      "budgetSeconds": 120,
+      "realUnityLaunches": 0,
+      "realDotnetOrCompilerLaunches": 0,
+      "gitWrites": 0,
+      "networkCalls": 0,
+      "fixture": "Memory raw Git object store and file adapter; real binding_main/bind_inputs/verify_posthoc, not a mock runner.",
+      "runner": {
+        "bytes": 86199,
+        "sha256": "8749175138d3a6ea14b061fd5fc04fb1a8d4c00efd56ffba6dabd9e98116068d"
+      },
+      "testScript": {
+        "bytes": 18354,
+        "sha256": "9cf84c2b1b9c9006840f2ab2130f38217dc50ffebecd6ade6d93b30fd8e6137a"
+      }
+    }
+  ],
+  "realUnityLaunches": 0
+}

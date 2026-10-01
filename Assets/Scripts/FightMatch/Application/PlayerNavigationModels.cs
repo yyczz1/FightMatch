@@ -146,11 +146,16 @@ namespace FightMatch.Application
         public uint ToFormat { get; }
         public string OperationId { get; }
         public bool IsEndConfirmation { get; }
+        public CandidateApplicationKind? OriginalKind { get; }
+        public CandidatePermanentKind? OriginalPermanentKind { get; }
+        public bool OriginalClearsEquipment { get; }
         internal PlayerNavigationConfirmation(PlayerNavigationDraftKind kind, PreparedPlayerPermanentPreview preview,
-            IEnumerable<string> slots, uint from, uint to, string operation, bool end)
+            IEnumerable<string> slots, uint from, uint to, string operation, bool end,
+            CandidateApplicationKind? originalKind, CandidatePermanentKind? originalPermanentKind, bool originalClearsEquipment)
         {
             Kind = kind; Quote = preview?.Quote; Slots = new List<string>(slots ?? Array.Empty<string>()).AsReadOnly();
             FromFormat = from; ToFormat = to; OperationId = operation; IsEndConfirmation = end;
+            OriginalKind = originalKind; OriginalPermanentKind = originalPermanentKind; OriginalClearsEquipment = originalClearsEquipment;
         }
     }
     public sealed class PlayerNavigationHostRequest
