@@ -8,8 +8,10 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UIElements;
+using TMPro;
+using FightMatch.Presentation;
+using UnityEngine.EventSystems;
+
 
 namespace FightMatch.Host.Tests
 {
@@ -28,18 +30,51 @@ namespace FightMatch.Host.Tests
                 var hosts = scene.GetRootGameObjects().SelectMany(x => x.GetComponentsInChildren<FightMatchPlayerHost>(true)).ToArray();
                 Assert.AreEqual(1, hosts.Length);
                 var host = hosts[0];
-                var document = host.GetComponent<UIDocument>();
-                Assert.AreEqual("Assets/UI/FightMatch/FightMatchPanelSettings.asset", AssetDatabase.GetAssetPath(document.panelSettings));
-                Assert.AreEqual("Assets/UI/FightMatch/FightMatchTheme.tss", AssetDatabase.GetAssetPath(document.panelSettings.themeStyleSheet));
-                Assert.AreEqual(FontRoot + "NotoSansCJKsc-Regular.asset", AssetDatabase.GetAssetPath(host.FontAsset));
+                Assert.IsNull(host.GetComponent<UnityEngine.UIElements.UIDocument>());
+                Assert.IsNotNull(host.RuntimeRoot);
+                Assert.AreEqual("Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+                    PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(host.RuntimeRoot));
+                var canvases = scene.GetRootGameObjects().SelectMany(x => x.GetComponentsInChildren<Canvas>(true)).ToArray();
+                var events = scene.GetRootGameObjects().SelectMany(x => x.GetComponentsInChildren<EventSystem>(true)).ToArray();
+                Assert.AreEqual(1, canvases.Length); Assert.AreEqual(1, events.Length);
+                Assert.AreEqual(1, events[0].GetComponents<BaseInputModule>().Length);
+                Assert.IsNotNull(events[0].GetComponent<FightMatchStandaloneInputModule>());
+                Assert.AreEqual(RenderMode.ScreenSpaceOverlay, canvases[0].renderMode);
+                var scaler = canvases[0].GetComponent<UnityEngine.UI.CanvasScaler>();
+                Assert.AreEqual(UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize, scaler.uiScaleMode);
+                Assert.AreEqual(new Vector2(540, 960), scaler.referenceResolution);
+                Assert.AreEqual(.5f, scaler.matchWidthOrHeight);
+                Assert.IsNotNull(canvases[0].GetComponent<UnityEngine.UI.GraphicRaycaster>());
+                Assert.AreEqual(FontRoot + "NotoSansCJKsc-Regular-TMP.asset", AssetDatabase.GetAssetPath(host.FontAsset));
                 Assert.AreEqual(FontRoot + "OFL.txt", AssetDatabase.GetAssetPath(host.FontLicense));
                 Assert.That(host.FontLicense.text, Does.Contain("SIL OPEN FONT LICENSE"));
                 Assert.AreEqual(AtlasPopulationMode.Dynamic, host.FontAsset.atlasPopulationMode);
+                Assert.IsTrue(host.FontAsset.isMultiAtlasTexturesEnabled);
                 Assert.AreEqual(FontRoot + "NotoSansCJKsc-Regular.otf", AssetDatabase.GetAssetPath(host.FontAsset.sourceFontFile));
                 Assert.IsTrue(AssetDatabase.IsSubAsset(host.FontAsset.material));
                 Assert.IsTrue(host.FontAsset.atlasTextures.All(AssetDatabase.IsSubAsset));
-                Assert.AreEqual(PanelScaleMode.ScaleWithScreenSize, document.panelSettings.scaleMode);
-                Assert.Greater(document.panelSettings.referenceResolution.x, 0);
+                Assert.AreEqual("TextMeshPro/Distance Field", host.FontAsset.material.shader.name);
+                Assert.IsNotNull(Shader.Find("TextMeshPro/Mobile/Distance Field"));
+                Assert.IsNotNull(TMP_Settings.instance);
+                Assert.AreSame(host.FontAsset, TMP_Settings.defaultFontAsset);
+                var texts = host.RuntimeRoot.GetComponentsInChildren<TextMeshProUGUI>(true); var linkedInputs = 0;
+                foreach (var text in texts)
+                {
+                    Assert.AreSame(host.FontAsset, text.font);
+                    var input = text.GetComponentInParent<TMP_InputField>(true);
+                    if (input != null && ReferenceEquals(input.textComponent, text))
+                    {
+                        linkedInputs++; Assert.AreEqual(LocalizedTmpText.Placeholder, input.text);
+                        Assert.That(text.text, Is.EqualTo(LocalizedTmpText.Placeholder).Or.EqualTo(LocalizedTmpText.Placeholder + "\u200B"));
+                    }
+                    else Assert.AreEqual(LocalizedTmpText.Placeholder, text.text);
+                }
+                Assert.AreEqual(119, texts.Length); Assert.AreEqual(3, linkedInputs); Assert.AreEqual(116, texts.Length - linkedInputs);
+                Assert.IsTrue(FightMatchViewId.Validate(host.RuntimeRoot.transform, out var diagnostic), diagnostic);
+                var paths = AssetDatabase.GetDependencies(new[] { "Assets/Scenes/FightMatchDemo.unity",
+                    "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab" }, true);
+                foreach (var old in new[] { "Assets/UI/FightMatch/FightMatchPanelSettings.asset", "Assets/UI/FightMatch/FightMatchTheme.tss",
+                    FontRoot + "NotoSansCJKsc-Regular.asset" }) CollectionAssert.DoesNotContain(paths, old);
             }
             finally
             {

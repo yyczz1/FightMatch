@@ -232,6 +232,11 @@ namespace FightMatch.Input
         }
     }
 
+    public enum GestureFeedbackKind
+    {
+        InvalidStart, NotAdjacent, Crossed, WrongEndpoint, Cancelled, FocusLost, SecondPointerIgnored, ActionAccepted
+    }
+
     // 只读观察：每次 Read 返回独立副本，之后输入不影响旧观察。
     public sealed class GestureView
     {

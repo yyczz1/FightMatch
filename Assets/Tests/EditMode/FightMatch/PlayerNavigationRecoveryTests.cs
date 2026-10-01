@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FightMatch.Application;
+using FightMatch.Presentation;
 using NUnit.Framework;
 using static FightMatch.Core.Tests.PlayerSessionTestData;
 using static FightMatch.Core.Tests.NavigationAssertions;
@@ -10,6 +13,125 @@ namespace FightMatch.Core.Tests
 {
     public sealed class PlayerNavigationRecoveryTests
     {
+        [Test] public void UGUI_COPY_D01_ColdAdoptUsesExactOriginalKindAndNeverDraftDefault()
+        {
+            foreach (var kind in new[] { CandidateApplicationKind.SetFormation, CandidateApplicationKind.MigrateRoster,
+                CandidateApplicationKind.MigratePermanent, CandidateApplicationKind.PermanentRequest })
+            using (var r = new NavigationRig(legacy: kind == CandidateApplicationKind.MigrateRoster))
+            {
+                FightMatch.Application.PlayerNavigationView preview;
+                if (kind == CandidateApplicationKind.SetFormation) preview = r.Formation(null, "W", null);
+                else if (kind == CandidateApplicationKind.PermanentRequest)
+                {
+                    Committed(r.Migrate()); r.Act(PlayerNavigationAction.Return); r.Go(PlayerNavigationTargetKind.Bag); r.SelectWarrior();
+                    r.Nav.Navigate(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.Detail, PermanentKind = CandidatePermanentKind.Equip }, r.View.Context, Codec());
+                    preview = r.Nav.Preview(new PlayerNavigationDraft { Kind = PlayerNavigationDraftKind.Permanent,
+                        Permanent = new PlayerPermanentDraft { Kind = CandidatePermanentKind.Equip, CharacterId = "W", Quantity = 0 } }, r.View.Context, Codec());
+                }
+                else
+                {
+                    var format = (uint)r.Head.Business.Format;
+                    preview = r.Nav.Preview(new PlayerNavigationDraft { Kind = PlayerNavigationDraftKind.Migration,
+                        FromFormat = format, ToFormat = format + 1 }, r.View.Context, Codec());
+                }
+                r.Storage.Fault = "snapshot-promoted";
+                var failed = r.Nav.Act(PlayerNavigationAction.Confirm, preview.Token, Budget());
+                var commit = failed.Read.Application.PendingCommitId; var operation = failed.Read.Application.PendingOperationId;
+                r.Rebuild(); Assert.IsNull(r.View.Confirmation);
+                using (var controller = new PlayerNavigationController(r.Player, Budget()))
+                using (var panel = new NavigationPanel(controller))
+                {
+                    panel.Click(NavigationPanel.Row("save.candidate." + commit));
+                    r.Storage.FailMarkerWork = true; panel.Click(NavigationPanel.Row("save.ResumeObserved"));
+                    var adopted = controller.View; var value = adopted.Confirmation;
+                    Assert.AreEqual(kind, value.OriginalKind); Assert.AreEqual(operation, value.OperationId);
+                    Assert.AreEqual(PlayerNavigationDraftKind.Formation, value.Kind);
+                    Assert.IsEmpty(value.Slots); Assert.IsNull(value.Quote);
+                    Assert.AreEqual(kind == CandidateApplicationKind.PermanentRequest, value.OriginalClearsEquipment);
+                    var expected = kind == CandidateApplicationKind.SetFormation ? "fm.operation.set_formation" :
+                        kind == CandidateApplicationKind.PermanentRequest ? "fm.operation.clear_equipment" : "fm.profile.data_upgrade.title";
+                    var token = adopted.Token; var head = r.Head; var files = r.Files();
+                    foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+                    {
+                        panel.Localization.SetLocale(locale);
+                        panel.AssertText(NavigationPanel.Row("save.Pending"), "fm.save_recovery.operation_summary",
+                            new KeyValuePair<string, string>("operationName", panel.Localization.Resolve(expected, null).Text));
+                        panel.AssertNoIdentity(operation, commit); Assert.AreSame(token, controller.View.Token);
+                    }
+                    // Binding-only adversarial facts do not simulate a business transition or mutate the adopted owner.
+                    var mismatch = new PlayerNavigationConfirmation(PlayerNavigationDraftKind.Formation, null, new[] { "W", null, null },
+                        0, 0, "different-original", false, CandidateApplicationKind.SetFormation, null, false);
+                    panel.View.Render(ReadModel(adopted, confirmation: mismatch));
+                    Assert.IsNull(panel.Optional<LocalizedTmpText>(NavigationPanel.Row("save.Pending")));
+                    foreach (var mapping in new[] {
+                        Tuple.Create((CandidateApplicationKind?)CandidateApplicationKind.Link, (CandidatePermanentKind?)null, false, "fm.operation.link"),
+                        Tuple.Create((CandidateApplicationKind?)CandidateApplicationKind.AdvanceRecovery, (CandidatePermanentKind?)null, false, "fm.operation.advance_recovery"),
+                        Tuple.Create((CandidateApplicationKind?)CandidateApplicationKind.PermanentRequest, (CandidatePermanentKind?)CandidatePermanentKind.SetPreference, false, "fm.operation.set_item_preference"),
+                        Tuple.Create((CandidateApplicationKind?)CandidateApplicationKind.PermanentRequest, (CandidatePermanentKind?)(CandidatePermanentKind)999, false, ""),
+                        Tuple.Create((CandidateApplicationKind?)(CandidateApplicationKind)999, (CandidatePermanentKind?)null, false, "") })
+                    {
+                        var facts = new PlayerNavigationConfirmation(PlayerNavigationDraftKind.Formation, null, null, 0, 0, operation,
+                            false, mapping.Item1, mapping.Item2, mapping.Item3);
+                        var model = ReadModel(adopted, confirmation: facts);
+                        Assert.AreEqual(mapping.Item4, PlayerNavigationRecoveryView.PendingOperationKey(model));
+                        panel.View.Render(model);
+                        var text = panel.Find<LocalizedTmpText>(NavigationPanel.Row("save.Pending"));
+                        if (mapping.Item4.Length == 0) Assert.IsNotNull(text.DiagnosticCode);
+                        else panel.AssertText(NavigationPanel.Row("save.Pending"), "fm.save_recovery.operation_summary",
+                            new KeyValuePair<string, string>("operationName", panel.Localization.Resolve(mapping.Item4, null).Text));
+                    }
+                    foreach (var hidden in new[] { CandidatePermanentKind.Equip, CandidatePermanentKind.Craft,
+                        CandidatePermanentKind.UseExperienceCards, CandidatePermanentKind.LearnSkill,
+                        CandidatePermanentKind.ConfirmTeachingExplanation, CandidatePermanentKind.BeginTeachingGift })
+                    {
+                        var facts = new PlayerNavigationConfirmation(PlayerNavigationDraftKind.Formation, null, null, 0, 0,
+                            operation, false, CandidateApplicationKind.PermanentRequest, hidden, false);
+                        panel.View.Render(ReadModel(adopted, confirmation: facts));
+                        Assert.IsNull(panel.Optional<LocalizedTmpText>(NavigationPanel.Row("save.Pending")));
+                    }
+                    Unchanged(r, head, files); Assert.AreSame(adopted, controller.View);
+                }
+            }
+        }
+        [Test] public void UGUI_COPY_B06_KnownDiagnosticIsDeduplicatedAndNotificationStaysDistinct()
+        {
+            using (var r = new NavigationRig())
+            {
+                r.Formation(null, "W", null); r.Storage.Fault = "snapshot-promoted"; r.Act(PlayerNavigationAction.Confirm);
+                using (var controller = new PlayerNavigationController(r.Player, Budget()))
+                using (var panel = new NavigationPanel(controller))
+                {
+                    var basis = controller.View; var head = r.Head; var files = r.Files();
+                    foreach (var pair in new[] { Tuple.Create("SaveFailed", "fm.save_recovery.failed"),
+                        Tuple.Create("CommitUnknown", "fm.save_recovery.unknown"), Tuple.Create("CreationPending", "fm.profile.creation_pending.body"),
+                        Tuple.Create("SettlementRequired", "fm.victory.pending.title"), Tuple.Create("ResolutionRequired", "fm.save_recovery.blocking_notice") })
+                    {
+                        var diagnostic = new CandidateApplicationDiagnostic(pair.Item1, "Navigation");
+                        var phase = pair.Item1 == "SaveFailed" ? CandidateApplicationPhase.SaveFailed :
+                            pair.Item1 == "CommitUnknown" ? CandidateApplicationPhase.CommitUnknown : CandidateApplicationPhase.Ready;
+                        panel.View.Render(ReadModel(basis, read: ReadState(basis.Read, phase, diagnostic), status: pair.Item1, diagnostic: diagnostic));
+                        panel.AssertVisible(pair.Item2, NavigationBindings.ReasonArguments(pair.Item2, pair.Item1));
+                        Assert.IsNull(panel.Optional<LocalizedTmpText>(NavigationPanel.Row("save.Diagnostic")));
+                        Assert.IsTrue(panel.Find<UnityEngine.UI.Button>(NavigationPanel.Row("save.Retry")).interactable);
+                    }
+                    Unchanged(r, head, files);
+                    r.OnPublish = _ => throw new InvalidOperationException("private notification exception");
+                    controller.Refresh(); panel.Click(NavigationPanel.Row("save.Retry"));
+                    Committed(controller.View); Assert.IsNotNull(controller.View.Result.NotificationFailure);
+                    panel.AssertVisible("fm.save_result.title");
+                    panel.AssertVisible("fm.save_result.confirmed", new KeyValuePair<string, string>("operationName",
+                        panel.Localization.Resolve("fm.operation.set_formation", null).Text));
+                    panel.AssertVisible("fm.save_result.notification_failed", new KeyValuePair<string, string>("errorCode", "NOTIFICATION_FAILED"));
+                    Assert.AreEqual(0, panel.CountKey("fm.save_recovery.failed"));
+                    Assert.AreEqual(0, panel.CountKey("fm.common.business_attention"));
+                    panel.AssertNoIdentity("private notification exception", "System.InvalidOperationException", "NotificationFailure");
+                    head = r.Head; files = r.Files(); var token = controller.View.Token;
+                    panel.Localization.SetLocale(LocaleId.ZhHans);
+                    Assert.AreSame(token, controller.View.Token); Assert.AreEqual(1, panel.CountKey("fm.save_result.notification_failed"));
+                    Unchanged(r, head, files);
+                }
+            }
+        }
         [TestCase("snapshot-before", "SaveFailed")]
         [TestCase("snapshot-promoted", "SaveFailed")]
         [TestCase("marker-before", "CommitUnknown")]
@@ -25,6 +147,23 @@ namespace FightMatch.Core.Tests
                 var commit = failed.Read.Application.PendingCommitId; var op = failed.Read.Application.PendingOperationId;
                 var bytes = PlayerRosterSessionTests.CandidateBytes(r.Storage.Inner, commit);
                 var calls = r.Storage.Inner.SnapshotCreates; var files = r.Files();
+                using (var controller = new PlayerNavigationController(r.Player, Budget()))
+                using (var panel = new NavigationPanel(controller))
+                {
+                    var token = controller.View.Token;
+                    foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+                    {
+                        panel.Localization.SetLocale(locale);
+                        panel.AssertText(NavigationPanel.Row("save.Pending"), "fm.save_recovery.operation_summary",
+                            new KeyValuePair<string, string>("operationName", panel.Localization.Resolve("fm.operation.set_formation", null).Text));
+                        Assert.AreSame(token, controller.View.Token);
+                        Assert.AreEqual(op, controller.View.Confirmation.OperationId);
+                        var text = panel.Find<LocalizedTmpText>(NavigationPanel.Row("save.Pending")).Target.text;
+                        StringAssert.DoesNotContain(op, text);
+                        if (commit != null) StringAssert.DoesNotContain(commit, text);
+                    }
+                    SameFiles(files, r.Storage.Inner.Files);
+                }
                 r.Act(PlayerNavigationAction.Cancel); SameFiles(files, r.Storage.Inner.Files);
                 Assert.AreEqual(op, r.View.Confirmation.OperationId);
                 var repeated = r.Nav.Act(PlayerNavigationAction.Confirm, preview.Token, Budget());
@@ -66,7 +205,22 @@ namespace FightMatch.Core.Tests
                 var oldCount = r.Head.Records.Count; var calls = r.Storage.Inner.SnapshotCreates;
                 var opened = r.Rebuild(); CollectionAssert.Contains(opened.View.ObservedCandidateCommitIds, original.Item1);
                 Assert.IsNull(r.View.Result); Assert.AreEqual("OriginalOwnerRequired", r.View.ReasonFor(PlayerNavigationAction.Retry));
-                r.Go(PlayerNavigationTargetKind.ObservedCandidate, commit: original.Item1);
+                using (var controller = new PlayerNavigationController(r.Player, Budget()))
+                using (var panel = new NavigationPanel(controller))
+                {
+                    var candidates = controller.View.Read.Application.ObservedCandidateCommitIds.OrderBy(x => x, StringComparer.Ordinal).ToArray();
+                    var token = controller.View.Token;
+                    foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+                    {
+                        panel.Localization.SetLocale(locale);
+                        for (var i = 0; i < candidates.Length; i++)
+                            panel.AssertCaption(NavigationPanel.Row("save.candidate." + candidates[i]), "fm.save_recovery.candidate_row",
+                                new KeyValuePair<string, string>("candidateNumber", (i + 1).ToString(CultureInfo.InvariantCulture)));
+                        Assert.AreSame(token, controller.View.Token);
+                    }
+                    panel.Click(NavigationPanel.Row("save.candidate." + original.Item1));
+                    Assert.AreEqual(original.Item1, controller.View.SelectedCommitId);
+                }
                 if (fault == "save-failed") r.Storage.FailMarkerWork = true;
                 else r.Storage.Fault = fault == "unknown-before" ? "marker-before" : "marker-after";
                 var resumed = r.Act(PlayerNavigationAction.ResumeObserved);
@@ -202,13 +356,13 @@ namespace FightMatch.Core.Tests
             {
                 r.OnPublish = _ => throw new InvalidOperationException("isolated notification failure");
                 using (var oldController = new FightMatch.Presentation.PlayerNavigationController(r.Player, Budget()))
-                using (var oldView = new FightMatch.Presentation.PlayerNavigationView(oldController)) { }
+                using (var oldView = new NavigationPanel(oldController)) { }
                 r.Formation(null, r.Head.Business.Character.CharacterId, null); var done = r.Act(PlayerNavigationAction.Confirm);
                 Committed(done); Assert.IsNotNull(done.Result.NotificationFailure);
                 var head = r.Head; var files = r.Files();
                 Assert.AreEqual("ResultAvailable", done.ReasonFor(PlayerNavigationAction.Retry));
                 using (var controller = new FightMatch.Presentation.PlayerNavigationController(r.Player, Budget()))
-                using (var view = new FightMatch.Presentation.PlayerNavigationView(controller))
+                using (var view = new NavigationPanel(controller))
                 {
                     Committed(controller.View); Assert.AreEqual(done.Result.OriginalCommitId, controller.View.Result.OriginalCommitId);
                     Assert.AreSame(done.Result.NotificationFailure, controller.View.Result.NotificationFailure);

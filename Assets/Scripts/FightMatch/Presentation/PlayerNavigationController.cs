@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using FightMatch.Application;
 using FightMatch.Platform;
-using UnityEngine.UIElements;
 using NavigationView = FightMatch.Application.PlayerNavigationView;
 
 namespace FightMatch.Presentation
@@ -73,18 +71,4 @@ namespace FightMatch.Presentation
         }
     }
 
-    // Every render detaches its own handlers, including buttons retained by an old panel.
-    internal sealed class NavigationBindings : IDisposable
-    {
-        private readonly List<Action> detach = new List<Action>();
-        internal Button Button(VisualElement parent, string name, string text, Action action, string reason = null)
-        {
-            var button = new Button { name = name, text = text, tooltip = reason ?? "" };
-            button.SetEnabled(reason == null);
-            button.clicked += action; detach.Add(() => button.clicked -= action); parent.Add(button);
-            if (reason != null) parent.Add(new Label(reason) { name = name + "-reason" });
-            return button;
-        }
-        public void Dispose() { foreach (var action in detach) action(); detach.Clear(); }
-    }
 }

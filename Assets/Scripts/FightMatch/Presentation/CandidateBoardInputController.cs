@@ -9,6 +9,13 @@ using FlowPuzzle.Core;
 
 namespace FightMatch.Presentation
 {
+    internal enum PointerCancellationCause { Cancelled, FocusLost }
+    internal enum CandidateBoardVisibleFeedbackKind
+    {
+        InvalidStart, NotAdjacent, Crossed, WrongEndpoint, Cancelled, FocusLost, SecondPointerIgnored, ActionAccepted,
+        ReferenceClosedForInput
+    }
+
     // Owns transient selection/gestures only. All mutations go through the injected 019 facade.
     public sealed class CandidateBoardInputController
     {
@@ -21,6 +28,10 @@ namespace FightMatch.Presentation
         private CandidateHistoryLocator confirmationLocator;
         private string confirmationAnchor;
         private CandidatePresentationToken deliveredToken;
+        private string armedFeedbackOperation, reportedFeedbackOperation;
+        private byte[] armedFeedbackBytes;
+        internal CandidateBoardVisibleFeedbackKind? VisibleFeedback { get; private set; }
+        internal long VisibleFeedbackRevision { get; private set; }
 
         public CandidateDemoView View { get; private set; }
         public GestureContext InputContext { get; private set; }
@@ -64,11 +75,13 @@ namespace FightMatch.Presentation
                 View.Attack.Reason != next.Attack.Reason || View.Link.Reason != next.Link.Reason || View.Rollback.Reason != next.Rollback.Reason;
             View = next;
             if (!changed) return;
+            var cancelled = Gesture.ActivePointerId.HasValue;
             gesture.Cancel(); pressedView = null;
             InputContext = context;
             if (context != null) gesture.Bind(context, threshold);
             if (RollbackPreview != null && !SameHead(confirmationView, next))
             { ClearConfirmation(); Status = "StaleContext"; }
+            if (cancelled) PublishFeedback(GestureFeedbackKind.Cancelled);
         }
 
         private GestureContext Map(CandidateDemoView view)
@@ -127,33 +140,83 @@ namespace FightMatch.Presentation
             return true;
         }
 
-        public void CancelGesture()
-        { gesture.Cancel(); pressedView = null; Changed?.Invoke(); }
+        public void CancelGesture() => CancelGesture(PointerCancellationCause.Cancelled);
+        internal void CancelGesture(PointerCancellationCause cause)
+        {
+            var active = Gesture.ActivePointerId.HasValue;
+            gesture.Cancel(); pressedView = null;
+            if (active) PublishFeedback(cause == PointerCancellationCause.FocusLost ? GestureFeedbackKind.FocusLost : GestureFeedbackKind.Cancelled);
+            else Changed?.Invoke();
+        }
+
+        internal void PublishFeedback(GestureFeedbackKind kind)
+        {
+            switch (kind)
+            {
+                case GestureFeedbackKind.InvalidStart: VisibleFeedback = CandidateBoardVisibleFeedbackKind.InvalidStart; break;
+                case GestureFeedbackKind.NotAdjacent: VisibleFeedback = CandidateBoardVisibleFeedbackKind.NotAdjacent; break;
+                case GestureFeedbackKind.Crossed: VisibleFeedback = CandidateBoardVisibleFeedbackKind.Crossed; break;
+                case GestureFeedbackKind.WrongEndpoint: VisibleFeedback = CandidateBoardVisibleFeedbackKind.WrongEndpoint; break;
+                case GestureFeedbackKind.Cancelled: VisibleFeedback = CandidateBoardVisibleFeedbackKind.Cancelled; break;
+                case GestureFeedbackKind.FocusLost: VisibleFeedback = CandidateBoardVisibleFeedbackKind.FocusLost; break;
+                case GestureFeedbackKind.SecondPointerIgnored: VisibleFeedback = CandidateBoardVisibleFeedbackKind.SecondPointerIgnored; break;
+                case GestureFeedbackKind.ActionAccepted: VisibleFeedback = CandidateBoardVisibleFeedbackKind.ActionAccepted; break;
+                default: throw new ArgumentOutOfRangeException(nameof(kind));
+            }
+            VisibleFeedbackRevision++; Changed?.Invoke();
+        }
+        internal void PublishReferenceClosedFeedback()
+        { VisibleFeedback = CandidateBoardVisibleFeedbackKind.ReferenceClosedForInput; VisibleFeedbackRevision++; Changed?.Invoke(); }
+        private void ClearFeedbackSlot()
+        { if (VisibleFeedback.HasValue) { VisibleFeedback = null; VisibleFeedbackRevision++; } }
+        private void ClearAcceptedFeedbackArm() { armedFeedbackOperation = null; armedFeedbackBytes = null; }
+        internal void ClearVisibleFeedback() { ClearFeedbackSlot(); ClearAcceptedFeedbackArm(); }
+        private bool DrainFeedback()
+        {
+            var feedback = gesture.TakeFeedback();
+            if (!feedback.HasValue) return false;
+            PublishFeedback(feedback.Value); return true;
+        }
+        private bool IsBoardSample(PointerSample sample)
+        {
+            return InputContext != null && sample.Cell.HasValue && sample.Cell.Value.x >= 0 && sample.Cell.Value.y >= 0 &&
+                sample.Cell.Value.x < InputContext.Width && sample.Cell.Value.y < InputContext.Height;
+        }
 
         internal void Down(PointerSample sample, double dragThreshold)
         {
             Refresh();
             if (Gesture.ActivePointerId.HasValue || RollbackPreview != null || InputContext == null) return;
             if (threshold != dragThreshold) { threshold = dragThreshold; gesture.Bind(InputContext, threshold); }
+            if (InputContext.Enabled && IsBoardSample(sample)) ClearFeedbackSlot();
             gesture.Down(sample);
             if (Gesture.ActivePointerId == sample.PointerId) { pressedView = View; Status = null; }
-            Changed?.Invoke();
+            if (!DrainFeedback()) Changed?.Invoke();
         }
 
         internal void Move(PointerSample sample)
         {
-            Refresh(); gesture.Move(sample);
+            Refresh(); var active = Gesture.ActivePointerId == sample.PointerId; gesture.Move(sample);
             if (!Gesture.ActivePointerId.HasValue) pressedView = null;
-            Changed?.Invoke();
+            if (!DrainFeedback())
+            {
+                if (active && !Gesture.ActivePointerId.HasValue) PublishFeedback(GestureFeedbackKind.Cancelled);
+                else Changed?.Invoke();
+            }
         }
 
         internal void Up(PointerSample sample)
         {
             Refresh();
             var basis = pressedView;
+            var active = Gesture.ActivePointerId == sample.PointerId;
             var intent = gesture.Up(sample);
             if (!Gesture.ActivePointerId.HasValue) pressedView = null;
-            Changed?.Invoke();
+            if (!DrainFeedback())
+            {
+                if (active && !IsBoardSample(sample)) PublishFeedback(GestureFeedbackKind.Cancelled);
+                else Changed?.Invoke();
+            }
             if (intent == null || basis == null) return;
             if (intent.Kind == GestureIntentKind.TapLocator) { Preview(basis, intent); return; }
             var draft = Draft(basis);
@@ -172,7 +235,7 @@ namespace FightMatch.Presentation
                 draft.Link = new CandidateApplicationLinkInput { AttemptId = intent.Context.AttemptId,
                     ExpectedSceneRevision = intent.Context.SceneRevision, Pair = pair, Route = intent.Cells.ToList() };
             }
-            Submit(draft);
+            Submit(draft, true);
         }
 
         private void Preview(CandidateDemoView basis, GestureIntent intent)
@@ -238,11 +301,13 @@ namespace FightMatch.Presentation
                 Context = RuleContextChecks.Copy(c) };
         }
 
-        private CandidateBattleCallResult Submit(CandidateBattleDraft draft)
+        private CandidateBattleCallResult Submit(CandidateBattleDraft draft, bool gestureRequest = false)
         {
             LastPreparation = system.Prepare(draft, budget.Codec);
             if (!LastPreparation.IsAccepted) { Status = LastPreparation.Code; Refresh(); return null; }
             LastRequest = LastPreparation.Request;
+            if (gestureRequest)
+            { armedFeedbackOperation = LastRequest.OperationId; armedFeedbackBytes = LastRequest.Intent.CanonicalBytes.ToArray(); }
             return Receive(system.Submit(LastRequest, budget));
         }
 
@@ -254,7 +319,34 @@ namespace FightMatch.Presentation
 
         private CandidateBattleCallResult Receive(CandidateBattleCallResult result)
         {
-            LastResult = result; Status = result.Code; Apply(result.View); Changed?.Invoke();
+            LastResult = result; Status = result.Code; Apply(result.View);
+            var feedbackPublished = false;
+            if (result.DomainRejection != null)
+            {
+                ClearAcceptedFeedbackArm();
+                GestureFeedbackKind? feedback = null;
+                switch (result.DomainRejection.RouteReasonCode)
+                {
+                    case "NonAdjacent": feedback = GestureFeedbackKind.NotAdjacent; break;
+                    case "SelfIntersection": case "LockedOverlap": feedback = GestureFeedbackKind.Crossed; break;
+                    case "EndpointMismatch": case "ForeignEndpoint": feedback = GestureFeedbackKind.WrongEndpoint; break;
+                }
+                if (feedback.HasValue) { PublishFeedback(feedback.Value); feedbackPublished = true; }
+            }
+            else
+            {
+                var actual = result.Application; var lookup = actual?.OriginalLookup; var record = lookup?.Record;
+                if (armedFeedbackOperation != null && armedFeedbackOperation != reportedFeedbackOperation &&
+                    actual?.IsCommitted == true && lookup?.IsFound == true && actual.OriginalCommitId == lookup.OriginalCommitId &&
+                    record?.OperationId == armedFeedbackOperation && record.Intent.CanonicalBytes.SequenceEqual(armedFeedbackBytes) &&
+                    actual.View.Phase == CandidateApplicationPhase.Ready && actual.View.IsPublishedHeadVerified &&
+                    actual.LookupViewCommitId == actual.View.PublishedSnapshot?.Header.CommitId)
+                {
+                    reportedFeedbackOperation = armedFeedbackOperation; ClearAcceptedFeedbackArm();
+                    PublishFeedback(GestureFeedbackKind.ActionAccepted); feedbackPublished = true;
+                }
+            }
+            if (!feedbackPublished) Changed?.Invoke();
             var token = result.Presentation?.Token;
             if (result.PresentationDisposition == CandidatePresentationDisposition.PlayOriginal && token != null &&
                 (deliveredToken == null || deliveredToken.AttemptId != token.AttemptId || deliveredToken.SceneRevision != token.SceneRevision || deliveredToken.OperationId != token.OperationId))

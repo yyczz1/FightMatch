@@ -37,7 +37,7 @@ namespace FightMatch.Host.Tests
         public void H04_ChangedBeforeHostRequestedStillDeliversOneOriginalH02AndRejectsDuplicates()
         {
             using (var rig = new HostRig())
-            using (var view = new FightMatchHostView(rig.Session, "license"))
+            using (var view = new HostPanel(rig))
             {
                 var request = rig.Enter();
                 var head = rig.Head;
@@ -88,24 +88,24 @@ namespace FightMatch.Host.Tests
             using (var rig = new HostRig())
             {
                 string operation;
-                using (var view = new FightMatchHostView(rig.Session, "license"))
+                using (var view = new HostPanel(rig))
                 {
                     rig.Enter();
-                    var ended = rig.End(view, restart);
+                    var ended = rig.End(view.View, restart);
                     Assert.AreEqual(restart ? PlayerBattleRoute.Battle : PlayerBattleRoute.Result, ended.Route, ended.Status);
                     operation = ended.OriginalIntent.OperationId;
                     if (restart)
                     {
                         Assert.IsNotNull(ended.Receipt);
                         Assert.AreEqual(CandidateApplicationKind.RestartAttempt, ended.OriginalIntent.Kind);
-                        ended = rig.End(view);
+                        ended = rig.End(view.View);
                     }
-                    rig.Session.Battle.ReturnTo(view.BattleView.Page, PlayerNavigationTargetKind.Bag, ended.Context);
+                    rig.Session.Battle.ReturnTo(view.View.BattleView.Page, PlayerNavigationTargetKind.Bag, ended.Context);
                     Assert.AreEqual(FightMatchHostPage.Navigation, rig.Session.Page);
                 }
                 var files = rig.Files();
                 rig.Rebuild();
-                var rebound = new FightMatchHostView(rig.Session, "license");
+                var rebound = new HostPanel(rig);
                 try
                 {
                     for (var i = 0; i < 2; i++)
@@ -117,12 +117,12 @@ namespace FightMatch.Host.Tests
                         var result = rig.Session.Battle.View;
                         Assert.IsNotNull(result.Receipt, result.Status);
                         Assert.AreEqual(operation, result.OriginalIntent.OperationId);
-                        rig.Session.Battle.ReturnTo(rebound.BattleView.Page, PlayerNavigationTargetKind.MapAdventure, result.Context);
+                        rig.Session.Battle.ReturnTo(rebound.View.BattleView.Page, PlayerNavigationTargetKind.MapAdventure, result.Context);
                         Assert.AreEqual(FightMatchHostPage.Navigation, rig.Session.Page);
                         rig.Session.Navigation.Refresh();
                         Assert.AreEqual(FightMatchHostPage.Navigation, rig.Session.Page, "A residual Result is not another user request.");
                         rebound.Dispose();
-                        rebound = new FightMatchHostView(rig.Session, "license");
+                        rebound = new HostPanel(rig);
                         Assert.AreEqual(FightMatchHostPage.Navigation, rig.Session.Page, "Rebinding a hidden result does not navigate.");
                     }
                 }
@@ -137,23 +137,23 @@ namespace FightMatch.Host.Tests
         {
             using (var rig = new HostRig())
             {
-                var view = new FightMatchHostView(rig.Session, "license");
+                var view = new HostPanel(rig);
                 try
                 {
                     rig.Enter();
                     rig.Storage.Fault = fault;
-                    var failed = rig.End(view);
+                    var failed = rig.End(view.View);
                     Assert.AreEqual(fault == "save" ? "SaveFailed" : "CommitUnknown", failed.Result.Code);
                     var request = rig.Session.Battle.Session.OriginalRequest;
                     var intent = failed.OriginalIntent;
                     var files = rig.Files();
                     view.Dispose();
-                    view = new FightMatchHostView(rig.Session, "license");
+                    view = new HostPanel(rig);
                     Assert.AreSame(request, rig.Session.Battle.Session.OriginalRequest);
                     Assert.AreSame(intent, rig.Session.Battle.View.OriginalIntent);
                     rig.SameFiles(files);
                     var current = rig.Session.Battle.Refresh();
-                    var result = rig.Session.Battle.Continue(view.BattleView.Page, fault == "save" ?
+                    var result = rig.Session.Battle.Continue(view.View.BattleView.Page, fault == "save" ?
                         PlayerBattleRecoveryAction.Retry : PlayerBattleRecoveryAction.Resolve, intent, current.Context);
                     Assert.AreEqual(PlayerBattleRoute.Result, result.Route, result.Status);
                     Assert.AreEqual(intent.OperationId, result.Receipt.Lookup.Record.OperationId);
@@ -196,6 +196,7 @@ namespace FightMatch.Host.Tests
         [UnityTest]
         public IEnumerator H01_ActualPanelDetachKeepsPresentationTokenAndPauseCompletesItOnlyOnce()
         {
+            yield return new EnterPlayMode();
             using (var rig = new HostRig())
             using (var panel = new HostPanel(rig))
             {
@@ -209,7 +210,7 @@ namespace FightMatch.Host.Tests
                 var request = input.LastRequest;
                 var token = input.View.PresentationToken;
                 Assert.IsNotNull(token);
-                panel.Window.rootVisualElement.Clear();
+                panel.Detach();
                 Assert.AreSame(request, input.LastRequest);
                 Assert.AreSame(token, input.View.PresentationToken);
                 Assert.IsFalse(rig.Session.Battle.IsDisposed);
@@ -223,11 +224,13 @@ namespace FightMatch.Host.Tests
                 Assert.IsNull(input.View.PresentationToken);
                 rig.SameFiles(files);
             }
+            yield return new ExitPlayMode();
         }
 
         [UnityTest]
         public IEnumerator H04_RealBoardVictorySettlesOnceAndTheOriginalReceiptSurvivesWholeHostReconstruction()
         {
+            yield return new EnterPlayMode();
             using (var rig = new HostRig())
             {
                 string operation, commit;
@@ -260,7 +263,7 @@ namespace FightMatch.Host.Tests
                 }
                 var files = rig.Files();
                 rig.Rebuild();
-                using (var view = new FightMatchHostView(rig.Session, "license"))
+                using (var view = new HostPanel(rig))
                 {
                     rig.Go(PlayerNavigationTargetKind.Bag);
                     rig.Go(PlayerNavigationTargetKind.OriginalOperation, operation);
@@ -271,6 +274,7 @@ namespace FightMatch.Host.Tests
                 }
                 rig.SameFiles(files);
             }
+            yield return new ExitPlayMode();
         }
     }
 }

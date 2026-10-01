@@ -1,68 +1,114 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using FightMatch.Application;
 using FightMatch.Core;
+using FightMatch.Application;
 using FightMatch.Platform;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 namespace FightMatch.Presentation
 {
-    public sealed class CandidateBattlePlaybackView : VisualElement, IDisposable
+    public sealed class CandidateBattlePlaybackView : MonoBehaviour, IDisposable
     {
-        public CandidateBoardInputView InputView { get; } = new CandidateBoardInputView();
+        [SerializeField] private CandidateBoardInputView inputView;
+        [SerializeField] private LocalizedTmpText hp, intent, beat, stage, diagnostic;
+        [SerializeField] private UnityEngine.UI.Button skip;
+        public CandidateBoardInputView InputView => inputView;
         public CandidateBattlePlaybackController Controller { get; private set; }
-        private readonly Label hp = new Label { name = "playback-hp" };
-        private readonly Label intent = new Label { name = "playback-intent" };
-        private readonly Label beat = new Label { name = "playback-beat" };
-        private readonly Label stage = new Label { name = "playback-stage" };
-        private readonly Label diagnostic = new Label { name = "playback-diagnostic" };
-        private IVisualElementScheduledItem scheduled;
-        private long epoch, scheduledGeneration = -1;
+        private UnityAction skipAction;
+        private LocalizationService localization;
+        private BattleLocalizedRows hpRows, intentRows;
+        private long epoch, scheduledGeneration = -1, bindingEpoch;
         private double lastTick;
-        private bool closed = true, disposed, memorySubscribed, borrowed;
-        private Button skip;
-        private long bindingEpoch;
+        private bool closed = true, disposed, memorySubscribed, borrowed, ticking, structuralRefresh, nativeBound, callbacksActive;
 
-        public CandidateBattlePlaybackView()
-        {
-            name = "candidate-playback-view"; style.flexGrow = 1;
-            Add(hp); Add(intent); Add(beat); Add(stage); Add(diagnostic); Add(InputView);
-            skip = new Button(SkipToFinal) { name = "skip-playback", text = "跳到当前战局" }; Add(skip);
-            RegisterCallback<DetachFromPanelEvent>(e => { if (borrowed) Detach(); else Close(); });
-            RegisterCallback<BlurEvent>(e => { if (borrowed || e.relatedTarget is VisualElement target && Contains(target)) return; SkipToFinal(); }, TrickleDown.TrickleDown);
-        }
-        public void Attach(CandidateBattleApplicationSystem system, SaveStoreBudget budget)
+        internal void Attach(CandidateBattleApplicationSystem system, SaveStoreBudget budget, LocalizationService service)
         {
             if (disposed) throw new ObjectDisposedException(nameof(CandidateBattlePlaybackView));
-            Close(); borrowed = false; InputView.Attach(system, budget); InputView.SetEnabled(true); closed = false;
-            Controller = new CandidateBattlePlaybackController(InputView.Controller, system); BindSkip(); Controller.Changed += Render;
-            UnityEngine.Application.lowMemory += OnLowMemory; memorySubscribed = true;
+            Unbind(); borrowed = false; localization = service ?? throw new ArgumentNullException(nameof(service));
+            CheckBindings(); inputView.Attach(system, budget, service); closed = false;
+            Controller = new CandidateBattlePlaybackController(inputView.Controller, system);
+            structuralRefresh = isActiveAndEnabled;
+            BindCallbacks();
             // Explicit new-page takeover is the only unconditional 019 RebuildLatest use in this host.
-            InputView.Controller.RebuildLatest(); Render();
+            inputView.Controller.RebuildLatest(); Render();
         }
-        public void Bind(CandidateBoardInputController input, CandidateBattlePlaybackController playback)
+        internal void Bind(CandidateBoardInputController input, CandidateBattlePlaybackController playback, LocalizationService service)
         {
             if (disposed) throw new ObjectDisposedException(nameof(CandidateBattlePlaybackView));
-            if (input == null || playback == null) throw new ArgumentNullException();
-            if (borrowed) Detach(); else Close();
-            borrowed = true; InputView.Bind(input); InputView.SetEnabled(true); closed = false;
-            Controller = playback; BindSkip(); Controller.Changed += Render;
-            UnityEngine.Application.lowMemory += OnLowMemory; memorySubscribed = true; Render();
+            if (input == null || playback == null || service == null) throw new ArgumentNullException();
+            Unbind(); CheckBindings(); borrowed = true; localization = service;
+            inputView.Bind(input, service); closed = false; Controller = playback;
+            structuralRefresh = isActiveAndEnabled;
+            BindCallbacks(); Render();
         }
-        public void Detach()
+        private void CheckBindings()
         {
-            if (!borrowed) { Close(); return; }
-            closed = true; bindingEpoch++; StopSchedule();
+            if (inputView == null || hp == null || intent == null || beat == null || stage == null || diagnostic == null || skip == null)
+                throw new InvalidOperationException("CandidateBattlePlaybackView serialized bindings are incomplete.");
+        }
+        private void BindCallbacks()
+        {
+            Subscribe();
+            if (structuralRefresh) BindNative();
+        }
+        private void Subscribe()
+        {
+            callbacksActive = true;
+            localization.LocaleChanged -= OnLocaleChanged; localization.LocaleChanged += OnLocaleChanged;
+            Controller.Changed -= Render; Controller.Changed += Render;
+            if (!memorySubscribed) { UnityEngine.Application.lowMemory += OnLowMemory; memorySubscribed = true; }
+        }
+        private void BindNative()
+        {
+            if (nativeBound) return;
+            var owner = Controller; var binding = ++bindingEpoch;
+            skipAction = () => { if (ReferenceEquals(owner, Controller) && binding == bindingEpoch) SkipToFinal(); };
+            skip.onClick.AddListener(skipAction);
+            skip.GetComponentInChildren<LocalizedTmpText>(true).Bind(localization, "fm.battle.playback.skip_button");
+            hpRows = new BattleLocalizedRows(hp, "playback-hp"); intentRows = new BattleLocalizedRows(intent, "playback-intent");
+            nativeBound = true;
+        }
+        public void Detach() { Unbind(); }
+        public void Unbind() => Unbind(PointerCancellationCause.Cancelled);
+        internal void Unbind(PointerCancellationCause cause)
+        {
+            SuspendCallbacks();
+            if (!borrowed && Controller != null && !closed) Close(cause);
+            var oldSkip = skipAction; var oldHp = hpRows; var oldIntent = intentRows;
+            DetachSelfManaged();
+            if (!ReferenceEquals(inputView, null))
+            {
+                if (inputView != null)
+                {
+                    if (inputView.Board != null) inputView.Board.ClearPlaybackOverride();
+                    inputView.Unbind(cause);
+                }
+                else inputView.DetachManaged();
+            }
+            if (this != null) { oldHp?.Clear(); oldIntent?.Clear(); }
+            if (skip != null && oldSkip != null) skip.onClick.RemoveListener(oldSkip);
+            if (this != null) foreach (var text in GetComponentsInChildren<LocalizedTmpText>(true)) text.Unbind();
+        }
+        internal void SuspendCallbacks()
+        {
+            callbacksActive = false; StopSchedule();
             if (memorySubscribed) { UnityEngine.Application.lowMemory -= OnLowMemory; memorySubscribed = false; }
+            if (localization != null) localization.LocaleChanged -= OnLocaleChanged;
             if (Controller != null) Controller.Changed -= Render;
-            InputView.Board?.ClearPlaybackOverride(); InputView.Detach(); Controller = null;
+            if (!ReferenceEquals(inputView, null)) inputView.SuspendCallbacks();
         }
-        private void BindSkip()
+        private void DetachSelfManaged()
         {
-            var owner = Controller; var binding = ++bindingEpoch; var index = IndexOf(skip); skip.RemoveFromHierarchy();
-            skip = new Button(() => { if (ReferenceEquals(owner, Controller) && binding == bindingEpoch) SkipToFinal(); })
-            { name = "skip-playback", text = "跳到当前战局" }; Insert(index, skip);
+            closed = true; bindingEpoch++; SuspendCallbacks();
+            Controller = null; localization = null; skipAction = null;
+            hpRows = null; intentRows = null; nativeBound = false;
+        }
+        internal void DetachManaged()
+        {
+            DetachSelfManaged();
+            if (!ReferenceEquals(inputView, null)) inputView.DetachManaged();
         }
         public void Advance(double deltaMilliseconds)
         { lastTick = Time.realtimeSinceStartupAsDouble; Controller?.Advance(deltaMilliseconds); }
@@ -70,45 +116,127 @@ namespace FightMatch.Presentation
         public void NotifyLowMemory() { OnLowMemory(); }
         private void OnLowMemory() { SkipToFinal(); }
         public void ReportSchedulingFailure(Exception error)
-        { if (!closed) { StopSchedule(); Controller.ReportSchedulingFailure(error); } }
-        private void StopSchedule() { scheduled?.Pause(); scheduled = null; scheduledGeneration = -1; epoch++; }
+        { if (!closed) { StopSchedule(); Controller?.ReportSchedulingFailure(error); } }
+        private void StopSchedule() { ticking = false; scheduledGeneration = -1; epoch++; }
+        private void Update()
+        {
+            if (closed || !ticking || Controller == null) return;
+            var owner = Controller; var generation = scheduledGeneration; var lifetime = epoch;
+            if (generation != owner.Generation) { Render(); return; }
+            var now = Time.realtimeSinceStartupAsDouble; var delta = Math.Max(0, (now - lastTick) * 1000);
+            if (delta < 16) return;
+            lastTick = now;
+            try { if (lifetime == epoch && ReferenceEquals(owner, Controller)) owner.Advance(delta); }
+            catch (Exception error) { ReportSchedulingFailure(error); }
+        }
         private void Render()
         {
-            if (Controller == null) return;
+            if (!structuralRefresh || closed || !callbacksActive || !nativeBound || Controller == null || localization == null) return;
             var frame = Controller.Frame; var latest = Controller.LatestView;
-            if (Controller.IsPlaying) InputView.Board.SetPlaybackOverride(frame); else InputView.Board.ClearPlaybackOverride();
-            hp.text = string.Join(" | ", frame.Actors.Select(a => a.Label + " HP " + CandidateBattlePlaybackFrame.Hp(a.Hp) + "/" + CandidateBattlePlaybackFrame.Hp(a.MaxHp)));
-            intent.text = string.Join(" | ", frame.Actors.Where(a => a.NextIntent != null).Select(a => a.Label + " 意图：" + a.NextIntent));
-            beat.text = (Controller.IsPlaying ? "节拍 " + frame.OriginalFactIndex + "：" : "") + frame.Beat;
-            stage.text = "阶段：" + frame.Phase + "；" + frame.StageFeedback;
-            diagnostic.text = Controller.Diagnostic ?? (latest.IsPublishedHeadVerified && latest.Phase == CandidateApplicationPhase.Ready ? "" : "保存状态：" + latest.Phase + "；" + latest.Attack.Reason);
-            InputView.Q<Label>("enemy-status").style.display = DisplayStyle.None;
-            InputView.Q<Label>("phase-status").style.display = DisplayStyle.None;
-            foreach (var actor in frame.Actors.Where(a => a.Key.Kind == BattleCombatantKind.Participant))
+            if (Controller.IsPlaying) inputView.Board.SetPlaybackOverride(frame); else inputView.Board.ClearPlaybackOverride();
+            var original = Controller.Original;
+            var state = original == null ? latest.BattleSnapshot : frame?.Face?.FaceId == original.BeforeSnapshot.Board.Face.FaceId ?
+                original.BeforeSnapshot : original.AfterSnapshot;
+            var health = new List<BattleTextLine>(); var intentions = new List<BattleTextLine>();
+            if (frame != null) foreach (var actor in frame.Actors)
             {
-                var button = InputView.Q<Button>("member-" + actor.Key.CharacterId);
-                if (button != null) button.text = (InputView.Controller.SelectedCharacterId == actor.Key.CharacterId ? "● " : "") + actor.Label + " HP " + CandidateBattlePlaybackFrame.Hp(actor.Hp);
+                var member = state?.Members.FirstOrDefault(x => x.CombatantKey.Equals(actor.Key));
+                var enemy = state?.Enemies.FirstOrDefault(x => x.CombatantKey.Equals(actor.Key));
+                if (member != null) health.Add(BattleText.MemberHp(localization, member.Member.CharacterId, actor.Hp, actor.MaxHp));
+                else
+                {
+                    health.Add(BattleText.EnemyHp(localization, enemy?.Enemy, actor.Hp, actor.MaxHp));
+                    intentions.Add(BattleText.EnemyName(localization, enemy?.Enemy));
+                    string intentKey = string.Empty;
+                    if (actor.Hp.Numerator.IsZero) intentKey = "fm.battle.intent.defeated";
+                    else if (enemy != null && actor.IntentCursor.HasValue)
+                    {
+                        switch (enemy.Enemy.IntentCycle[(int)(actor.IntentCursor.Value % enemy.Enemy.IntentCycle.Count)].Kind)
+                        {
+                            case EnemyIntentKind.Strike: intentKey = "fm.battle.intent.strike"; break;
+                            case EnemyIntentKind.Charge: intentKey = "fm.battle.intent.charge"; break;
+                        }
+                    }
+                    intentions.Add(new BattleTextLine("fm.battle.hud.enemy_intent", BattleText.Arg("intentName", BattleText.Resolve(localization, intentKey)))
+                        .For(enemy == null ? null : BattleText.EnemyIdentity(enemy.Enemy) + ":intent"));
+                }
             }
-            if (closed || !Controller.IsPlaying) { if (scheduled != null) StopSchedule(); return; }
-            if (scheduled != null && scheduledGeneration == Controller.Generation) return;
-            StopSchedule(); scheduledGeneration = Controller.Generation; var generation = scheduledGeneration; var lifetime = epoch; var owner = Controller;
-            lastTick = Time.realtimeSinceStartupAsDouble;
-            scheduled = schedule.Execute(() =>
+            hpRows?.Bind(localization, health); intentRows?.Bind(localization, intentions);
+            if (state == null || frame == null || frame.Face == null)
             {
-                if (closed || lifetime != epoch || !ReferenceEquals(owner, Controller) || generation != owner.Generation) return;
-                try { var now = Time.realtimeSinceStartupAsDouble; var delta = Math.Max(0, (now - lastTick) * 1000); lastTick = now; owner.Advance(delta); }
-                catch (Exception error) { ReportSchedulingFailure(error); }
-            }).Every(16);
+                BattleText.Hide(beat); BattleText.Hide(stage);
+            }
+            else
+            {
+                BattleText.Beat(localization, frame, original).Bind(beat, localization);
+                var stageFact = original?.OrderedFacts.LastOrDefault(x => x.Index <= frame.OriginalFactIndex && x.Kind == CandidateBattleFactKind.Stage)?.Stage;
+                (stageFact == null ? BattleText.Phase(localization, frame.Phase) : BattleText.Stage(localization, stageFact, original.BeforeSnapshot)).Bind(stage, localization);
+            }
+            // Diagnostic has exactly one producer: ReportSchedulingFailure. Its exception stays on the controller.
+            var problem = Controller.Diagnostic != null ? BattleText.Reason(BattleTextDomain.Playback, "PlaybackInterrupted") :
+                BattleText.Save(latest.Phase, latest.Code);
+            if (problem == null) BattleText.Hide(diagnostic); else problem.Bind(diagnostic, localization);
+            skip.GetComponentInChildren<LocalizedTmpText>(true).Bind(localization,
+                Controller.IsPlaying && latest.BattleSnapshot?.Phase == BattlePhase.WonPendingSettlement ?
+                "fm.victory.playback.skip_button" : "fm.battle.playback.skip_button");
+            skip.interactable = !closed && Controller.IsPlaying;
+            if (closed || !Controller.IsPlaying) { StopSchedule(); return; }
+            if (ticking && scheduledGeneration == Controller.Generation) return;
+            StopSchedule(); scheduledGeneration = Controller.Generation; ticking = true;
+            lastTick = Time.realtimeSinceStartupAsDouble;
         }
-        public void Close()
+        public void Close() => Close(PointerCancellationCause.Cancelled);
+        internal void Close(PointerCancellationCause cause)
         {
-            if (borrowed) { Controller?.SkipToFinal(); Detach(); return; }
+            closed = true; SuspendCallbacks();
+            if (borrowed)
+            {
+                if (inputView != null)
+                {
+                    if (inputView.Board != null) inputView.Board.CancelPointer(cause);
+                    inputView.Controller?.CancelGesture(cause);
+                }
+                Controller?.SkipToFinal(); Unbind(cause); return;
+            }
             closed = true; StopSchedule();
             if (memorySubscribed) { UnityEngine.Application.lowMemory -= OnLowMemory; memorySubscribed = false; }
-            InputView.Board?.ClearPlaybackOverride();
-            if (Controller != null) { Controller.Changed -= Render; Controller.Dispose(); }
-            InputView.Board?.ClearPlaybackOverride(); InputView.Close(); InputView.SetEnabled(false); Render();
+            if (inputView != null && inputView.Board != null) inputView.Board.ClearPlaybackOverride();
+            // Dispose/Finish also cancel input; preserve their ordering, but consume the originating cause first.
+            if (inputView != null)
+            {
+                if (inputView.Board != null) inputView.Board.CancelPointer(cause);
+                inputView.Controller?.CancelGesture(cause);
+            }
+            if (Controller != null) { Controller.Dispose(); Controller.Changed -= Render; }
+            if (inputView != null)
+            {
+                if (inputView.Board != null) inputView.Board.ClearPlaybackOverride();
+                inputView.Close(cause);
+            }
+            Render();
         }
-        public void Dispose() { if (disposed) return; if (borrowed) Detach(); else Close(); disposed = true; }
+        private void OnLocaleChanged(LocaleId locale) { Render(); }
+        private void OnDisable()
+        {
+            structuralRefresh = false; SuspendCallbacks();
+            if (!borrowed) Close(PointerCancellationCause.FocusLost);
+            else
+            {
+                StopSchedule();
+                if (inputView != null && inputView.Board != null) inputView.Board.CancelPointer(PointerCancellationCause.FocusLost);
+                if (inputView != null && inputView.Board != null) inputView.Board.ClearPlaybackOverride();
+            }
+        }
+        private void OnEnable()
+        {
+            structuralRefresh = true;
+            if (!closed && Controller != null && localization != null) { Subscribe(); BindNative(); Render(); }
+        }
+        private void OnApplicationPause(bool paused)
+        { if (paused) { if (inputView != null && inputView.Board != null) inputView.Board.CancelPointer(PointerCancellationCause.FocusLost); SkipToFinal(); } }
+        private void OnApplicationFocus(bool focused)
+        { if (!focused) { if (inputView != null && inputView.Board != null) inputView.Board.CancelPointer(PointerCancellationCause.FocusLost); SkipToFinal(); } }
+        private void OnDestroy() { structuralRefresh = false; Dispose(); }
+        public void Dispose() { if (disposed) return; Unbind(); disposed = true; }
     }
 }

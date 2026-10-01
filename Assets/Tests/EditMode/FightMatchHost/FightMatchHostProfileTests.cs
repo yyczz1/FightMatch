@@ -22,8 +22,8 @@ namespace FightMatch.Host.Tests
                 var original = rig.Session.OriginalProfile;
                 var head = rig.Head;
                 var files = rig.Files();
-                using (var first = new FightMatchHostView(rig.Session, "license")) { }
-                using (var second = new FightMatchHostView(rig.Session, "license")) rig.Session.CreateProfile();
+                using (var first = new HostPanel(rig)) { }
+                using (var second = new HostPanel(rig)) rig.Session.CreateProfile();
                 Assert.AreSame(original, rig.Session.OriginalProfile);
                 Assert.AreEqual(1, rig.FactoryCalls);
                 Assert.AreEqual(head.Header.CommitId, rig.Head.Header.CommitId);

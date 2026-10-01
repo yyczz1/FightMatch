@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using FightMatch.Application;
 using FightMatch.Content;
 using FightMatch.Input;
@@ -10,8 +9,6 @@ using FightMatch.Presentation;
 using FlowPuzzle.Core;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
-using UnityEngine.UIElements;
 using static FightMatch.Core.Tests.PlayerSessionTestData;
 using static FightMatch.Core.Tests.PlayerRosterTestData;
 using BattlePage = FightMatch.Presentation.PlayerBattleView;
@@ -25,6 +22,7 @@ namespace FightMatch.Core.Tests
         internal readonly PublishedSource Source;
         internal PlayerBattleController Host;
         internal BattlePage Page;
+        internal readonly BattleUguiRoot Canvas;
         internal int ClockReads, Elapsed;
         internal CandidateApplicationSnapshot Head => N.Head;
         internal BattleSnapshot State => Head.Business.ActiveHistory?.CurrentRun.CurrentSnapshot;
@@ -34,10 +32,11 @@ namespace FightMatch.Core.Tests
             ResolvedPublication publication = null, PublishedSource source = null)
         {
             Source = source ?? RealSource(); N = new NavigationRig(initialize, catalog: catalog, publication: publication);
+            Canvas = new BattleUguiRoot();
             BindHost(); if (enter) Enter();
         }
         internal CandidateTimeSample Clock() { ClockReads++; return Time(Elapsed); }
-        private void BindHost() { Host = new PlayerBattleController(N.Player, N.Battle, Budget(), Clock); Page = new BattlePage(); Page.Bind(Host); }
+        private void BindHost() { Host = new PlayerBattleController(N.Player, N.Battle, Budget(), Clock); Page = Canvas.Page(); Page.Bind(Host, Canvas.Localization); }
         internal PlayerNavigationHostRequest Selection()
         { N.PreparePage(); return N.Go(PlayerNavigationTargetKind.BattleSelectionRequested).HostRequest; }
         internal void Enter()
@@ -46,11 +45,19 @@ namespace FightMatch.Core.Tests
             Assert.IsNotNull(actual.Result, actual.Status); Is(actual.Result); Assert.AreEqual(PlayerBattleRoute.Battle, actual.Route);
             Assert.AreEqual(CandidateApplicationKind.EnterFormation, actual.OriginalIntent.Kind);
         }
+        internal IEnumerator Ready()
+        {
+            yield return null; yield return null; yield return null;
+            UnityEngine.Canvas.ForceUpdateCanvases();
+            var board = Page.PlaybackView.InputView.Board; Assert.IsNotNull(board.canvas);
+            Assert.AreEqual(1, board.canvas.GetComponents<UnityEngine.UI.GraphicRaycaster>().Length);
+            Assert.Greater(board.rectTransform.rect.width, 0); Assert.Greater(board.rectTransform.rect.height, 0);
+        }
         internal void RebuildView()
-        { Page.Dispose(); Page = null; Page = new BattlePage(); Page.Bind(Host); }
+        { Canvas.RemovePage(Page); Page = Canvas.Page(); Page.Bind(Host, Canvas.Localization); }
         internal CandidateApplicationCallResult RebuildObjects()
         {
-            Page.Dispose(); Page = null; Host.Dispose(); Host = null;
+            Canvas.RemovePage(Page); Page = null; Host.Dispose(); Host = null;
             var opened = N.Rebuild(); BindHost(); return opened;
         }
         internal List<FlowPos> Route(BattlePairKey pair)
@@ -61,22 +68,19 @@ namespace FightMatch.Core.Tests
             return source.SourceRoutes.Single(x => x.FaceId == pair.FaceId && x.PairId == pair.PairId).Cells
                 .Select(c => new FlowPos(c.x - 1, Source.Coordinates == DemoCoordinateCandidate.AssumedBottomLeft ? c.y - 1 : face.Height - c.y)).ToList();
         }
-        internal static PointerSample Sample(FlowPos cell, int pointer = 0) => new PointerSample(pointer, cell.x * 40, cell.y * 40, cell);
-        internal static void Draw(CandidateBoardInputController input, IReadOnlyList<FlowPos> route)
+        internal void Draw(IReadOnlyList<FlowPos> route)
         {
-            Gesture(input, "Down", Sample(route[0]), 6d);
-            for (var i = 1; i < route.Count - 1; i++) Gesture(input, "Move", Sample(route[i]));
-            Gesture(input, "Up", Sample(route[route.Count - 1]));
+            var board = Page.PlaybackView.InputView.Board;
+            Canvas.Driver.Down(UguiPointerDriver.Point(board, route[0]));
+            for (var i = 1; i < route.Count - 1; i++) Canvas.Driver.Move(UguiPointerDriver.Point(board, route[i]));
+            Canvas.Driver.Up(UguiPointerDriver.Point(board, route[route.Count - 1]));
         }
-        // Invoke the same internal gesture entry points as CandidateBoardElement; never inspect or inject private state.
-        private static void Gesture(CandidateBoardInputController input, string method, params object[] arguments)
-        { typeof(CandidateBoardInputController).GetMethod(method, BindingFlags.Instance | BindingFlags.NonPublic).Invoke(input, arguments); }
         internal CandidateBattleCallResult Step(bool finish = true)
         {
             var state = State; Assert.IsNotNull(state);
             var pair = state.Phase == BattlePhase.AwaitLinks ? state.Board.PendingLinks[0] : state.Enemies.First(x => x.Hp.Numerator.Sign > 0).PairKey;
             if (state.Phase == BattlePhase.AwaitAction) Assert.IsTrue(Host.Input.SelectMember(state.Members.First(x => x.Hp.Numerator.Sign > 0).Member.CharacterId));
-            Draw(Host.Input, Route(pair)); var result = Host.Input.LastResult; Assert.IsNotNull(result, Host.Input.Status);
+            Draw(Route(pair)); var result = Host.Input.LastResult; Assert.IsNotNull(result, Host.Input.Status);
             if (finish && result.Application.IsCommitted) Host.Playback.SkipToFinal();
             return result;
         }
@@ -111,7 +115,7 @@ namespace FightMatch.Core.Tests
             Assert.AreSame(view.Result.OriginalLookup, view.Receipt.Lookup);
             Assert.AreEqual(view.Receipt.AttemptId, view.Receipt.End.Begin.AttemptId);
         }
-        public void Dispose() { Page?.Dispose(); Host?.Dispose(); N.Dispose(); }
+        public void Dispose() { Page?.Dispose(); Host?.Dispose(); Canvas?.Dispose(); N.Dispose(); }
 
         internal static PlayerBattleRig TwoFaces()
         {
@@ -150,81 +154,26 @@ namespace FightMatch.Core.Tests
     }
     internal sealed class PlayerBattlePanel : IDisposable
     {
-        internal readonly CandidateBoardTestWindow Window;
         private readonly PlayerBattleRig rig;
-        internal PlayerBattlePanel(PlayerBattleRig rig)
-        {
-            this.rig = rig; Window = ScriptableObject.CreateInstance<CandidateBoardTestWindow>();
-            Window.position = new Rect(50, 50, 900, 1000);
-            if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)
-            {
-                LogAssert.Expect(LogType.Error, "No graphic device is available to initialize the view.");
-                LogAssert.Expect(LogType.Error, "No graphic device is available to show the window.");
-                LogAssert.Expect(LogType.Error, "No graphic device is available to initialize the view.");
-            }
-            Window.Show(); Window.rootVisualElement.style.width = 900; Window.rootVisualElement.style.height = 1000; ShowPage();
-        }
+        internal PlayerBattlePanel(PlayerBattleRig rig) { this.rig = rig; ShowPage(); }
         internal void ShowPage()
         {
-            Window.rootVisualElement.Clear(); Window.rootVisualElement.Add(rig.Page);
             var board = rig.Page.PlaybackView.InputView.Board; var face = rig.State?.Board.Face;
             if (face == null || board == null) return;
-            board.style.flexGrow = 0; board.style.flexShrink = 0; board.style.minHeight = 0;
-            board.style.width = face.Width * 40; board.style.height = face.Height * 40;
+            board.rectTransform.sizeDelta = new Vector2(face.Width * 40, face.Height * 40);
         }
-        internal IEnumerator Ready()
-        {
-            yield return null; yield return null; yield return null;
-            Assert.IsNotNull(rig.Page.panel); rig.Page.panel.Pick(Vector2.zero);
-            var board = rig.Page.PlaybackView.InputView.Board; Assert.Greater(board.contentRect.width, 0);
-        }
-        internal static void Click(Button button)
-        { Assert.IsNotNull(button); using (var e = NavigationSubmitEvent.GetPooled()) { e.target = button; button.SendEvent(e); } }
-        internal void ClickStale(Button button)
-        { Window.rootVisualElement.Add(button); Click(button); button.RemoveFromHierarchy(); }
+        internal IEnumerator Ready() => rig.Ready();
+        internal static void Click(UnityEngine.UI.Button button) { BattleUguiRoot.Submit(button); }
+        internal void ClickStale(UnityEngine.UI.Button button)
+        { Assert.IsNotNull(button); rig.Canvas.Keep(button); button.gameObject.SetActive(true); Click(button); }
+        internal UnityEngine.UI.Button Keep(UnityEngine.UI.Button button) { rig.Canvas.Keep(button); return button; }
         internal void Pointer(FlowPos cell, int kind)
         {
-            var board = rig.Page.PlaybackView.InputView.Board; var rect = board.contentRect;
-            var point = board.LocalToWorld(new Vector2(rect.x + (cell.x + .5f) * 40, rect.y + (rig.State.Board.Face.Height - cell.y - .5f) * 40));
-            var sample = new BattlePointer(point, kind == 2 ? 0 : 1);
-            if (kind == 0) using (var e = PointerDownEvent.GetPooled(sample)) { e.target = board; board.SendEvent(e); }
-            else if (kind == 1) using (var e = PointerMoveEvent.GetPooled(sample)) { e.target = board; board.SendEvent(e); }
-            else using (var e = PointerUpEvent.GetPooled(sample)) { e.target = board; board.SendEvent(e); }
+            var point = UguiPointerDriver.Point(rig.Page.PlaybackView.InputView.Board, cell);
+            if (kind == 0) rig.Canvas.Driver.Down(point);
+            else if (kind == 1) rig.Canvas.Driver.Move(point);
+            else rig.Canvas.Driver.Up(point);
         }
-        public void Dispose()
-        {
-            if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)
-                LogAssert.Expect(LogType.Error, "No graphic device is available to initialize the view.");
-            Window.Close();
-        }
-        private sealed class BattlePointer : IPointerEvent
-        {
-            public int pointerId => 0;
-            public string pointerType => UnityEngine.UIElements.PointerType.mouse;
-            public bool isPrimary => true;
-            public int button => 0;
-            public int pressedButtons { get; }
-            public Vector3 position { get; }
-            public Vector3 localPosition => position;
-            public Vector3 deltaPosition => Vector3.zero;
-            public float deltaTime => 0;
-            public int clickCount => 1;
-            public float pressure => 1;
-            public float tangentialPressure => 0;
-            public float altitudeAngle => 0;
-            public float azimuthAngle => 0;
-            public float twist => 0;
-            public Vector2 radius => Vector2.zero;
-            public Vector2 radiusVariance => Vector2.zero;
-            public Vector2 tilt => Vector2.zero;
-            public PenStatus penStatus => default;
-            public EventModifiers modifiers => EventModifiers.None;
-            public bool shiftKey => false;
-            public bool ctrlKey => false;
-            public bool commandKey => false;
-            public bool altKey => false;
-            public bool actionKey => false;
-            internal BattlePointer(Vector2 point, int buttons) { position = point; pressedButtons = buttons; }
-        }
+        public void Dispose() { if (rig.Page != null) rig.Page.gameObject.SetActive(false); }
     }
 }

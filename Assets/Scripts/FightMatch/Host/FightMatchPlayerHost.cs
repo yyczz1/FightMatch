@@ -4,38 +4,42 @@ using System.IO;
 using System.Runtime.InteropServices;
 using FightMatch.Core;
 using FightMatch.Platform;
+using FightMatch.Presentation;
+using TMPro;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UIElements;
 
 namespace FightMatch.Host
 {
-    [RequireComponent(typeof(UIDocument))]
     public sealed class FightMatchPlayerHost : MonoBehaviour
     {
-        [SerializeField] private FontAsset fontAsset;
+        [SerializeField] private TMP_FontAsset fontAsset;
         [SerializeField] private UnityEngine.TextAsset fontLicense;
-        public FontAsset FontAsset => fontAsset;
+        [SerializeField] private FightMatchHostView runtimeRoot;
+        public TMP_FontAsset FontAsset => fontAsset;
         public UnityEngine.TextAsset FontLicense => fontLicense;
+        public FightMatchHostView RuntimeRoot => runtimeRoot;
         public FightMatchHostSession Session { get; private set; }
         public string SystemPersistentDataPath { get; private set; }
         public string CanonicalProductRoot { get; private set; }
-        private UIDocument document;
-        private FightMatchHostView view;
-        private Rect lastSafeArea;
-        private Vector2Int lastScreen;
+        private LocalizationService localization;
         private bool destroyed;
 
         private IEnumerator Start()
         {
-            document = GetComponent<UIDocument>();
-            if (document.panelSettings == null || fontAsset == null || fontLicense == null)
+            if (runtimeRoot == null || fontAsset == null || fontLicense == null)
             {
-                ShowFailure("游戏界面资源缺失，无法启动。");
+                ShowFailure("MissingHostResources");
                 yield break;
             }
-            document.rootVisualElement.style.unityFontDefinition = FontDefinition.FromSDFFont(fontAsset);
-            document.rootVisualElement.Add(new Label("正在读取冒险内容…"));
+            // LOC-TOOL-01 owns the production source. UGUI-01 never turns the draft into a runtime catalog.
+            localization = new LocalizationService(null, UnityEngine.Application.systemLanguage);
+            runtimeRoot.Bind(null, localization, fontLicense.text);
+            if (!localization.IsReady)
+            {
+                runtimeRoot.ShowFailure("LocalizationNotReady");
+                yield break;
+            }
+            runtimeRoot.SetLoading(true);
             var loader = new FightMatchStreamingAssetsLoader();
             var loading = loader.Load(UnityEngine.Application.streamingAssetsPath);
             try
@@ -44,7 +48,7 @@ namespace FightMatch.Host
                 {
                     bool more;
                     try { more = loading.MoveNext(); }
-                    catch (Exception error) { ShowFailure("内容读取失败：" + error.Message); yield break; }
+                    catch (Exception error) { Debug.LogException(error); ShowFailure("ContentReadFailed"); yield break; }
                     if (!more) break;
                     yield return loading.Current;
                 }
@@ -53,7 +57,7 @@ namespace FightMatch.Host
             if (destroyed) yield break;
             if (loader.Catalog == null)
             {
-                ShowFailure("内容未通过检查：" + loader.Error);
+                ShowFailure("ContentValidationFailed");
                 yield break;
             }
             try
@@ -77,7 +81,7 @@ namespace FightMatch.Host
                 BindView();
                 Session.ObserveStartup();
             }
-            catch (Exception error) { ShowFailure("游戏启动受阻：" + error.Message); }
+            catch (Exception error) { Debug.LogException(error); ShowFailure("HostInitializationFailed"); }
         }
 
         [DllImport("libSystem.B.dylib", EntryPoint = "realpath", SetLastError = true)]
@@ -100,60 +104,40 @@ namespace FightMatch.Host
 
         private void BindView()
         {
-            view?.Dispose();
-            document.rootVisualElement.Clear();
-            view = new FightMatchHostView(Session, fontLicense.text);
-            view.style.unityFontDefinition = FontDefinition.FromSDFFont(fontAsset);
-            document.rootVisualElement.Add(view);
-            ApplySafeArea();
+            runtimeRoot.Unbind();
+            runtimeRoot.Bind(Session, localization, fontLicense.text);
         }
-
         private void OnEnable()
         {
             UnityEngine.Application.lowMemory += LowMemory;
-            if (Session != null && !Session.IsDisposed) BindView();
+            if (localization != null && runtimeRoot != null) BindView();
         }
         private void OnDisable()
         {
             UnityEngine.Application.lowMemory -= LowMemory;
-            Session?.PausePresentation();
-            view?.Dispose();
+            runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost);
+            runtimeRoot?.Unbind(PointerCancellationCause.FocusLost);
         }
         private void Update()
         {
-            if (Session == null) return;
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape)) Session.Back();
-            if (lastSafeArea != Screen.safeArea || lastScreen != new Vector2Int(Screen.width, Screen.height)) ApplySafeArea();
+            if (Session != null && UnityEngine.Input.GetKeyDown(KeyCode.Escape)) Session.Back();
         }
-        private void ApplySafeArea()
-        {
-            if (view == null || Screen.width <= 0 || Screen.height <= 0) return;
-            lastSafeArea = Screen.safeArea;
-            lastScreen = new Vector2Int(Screen.width, Screen.height);
-            view.style.position = Position.Absolute;
-            view.style.left = Length.Percent(100 * lastSafeArea.xMin / Screen.width);
-            view.style.right = Length.Percent(100 * (Screen.width - lastSafeArea.xMax) / Screen.width);
-            view.style.top = Length.Percent(100 * (Screen.height - lastSafeArea.yMax) / Screen.height);
-            view.style.bottom = Length.Percent(100 * lastSafeArea.yMin / Screen.height);
-        }
-        private void OnApplicationPause(bool paused) { if (paused) Session?.PausePresentation(); }
-        private void OnApplicationFocus(bool focused) { if (!focused) Session?.PausePresentation(); }
-        private void LowMemory() { Session?.PausePresentation(); }
+        private void OnApplicationPause(bool paused) { if (paused) runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost); }
+        private void OnApplicationFocus(bool focused) => HandleApplicationFocus(focused);
+        internal void HandleApplicationFocus(bool focused) { if (!focused) runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost); }
+        private void LowMemory() { runtimeRoot?.PausePresentation(); }
         private void Quit() { UnityEngine.Application.Quit(); }
-        private void ShowFailure(string message)
+        private void ShowFailure(string code)
         {
-            Debug.LogError(message);
-            if (document == null) return;
-            view?.Dispose();
-            document.rootVisualElement.Clear();
-            document.rootVisualElement.Add(new Label(message));
+            Debug.LogError("FightMatch UI: " + code);
+            runtimeRoot?.ShowFailure(code);
         }
         private void OnDestroy()
         {
             destroyed = true;
             StopAllCoroutines();
             UnityEngine.Application.lowMemory -= LowMemory;
-            view?.Dispose();
+            runtimeRoot?.Unbind();
             if (Session == null) return;
             Session.QuitRequested -= Quit;
             Session.Dispose();
