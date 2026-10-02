@@ -133,6 +133,7 @@ namespace FightMatch.YooAssetAdapter
         {
             internal object Object;
             internal bool Owned, Removed, CleanupFailed;
+            internal bool ManifestValidationFailed;
             internal string Name, Root, Version;
             internal int Phase;
             internal IYooOperation Operation, Destruction;
@@ -261,6 +262,11 @@ namespace FightMatch.YooAssetAdapter
                 package.Operation = null;
                 package.Wake();
             }
+            if (package.Owned && package.ManifestValidationFailed)
+            {
+                package.ManifestValidationFailed = false;
+                package.Phase = 1;
+            }
             if (package.Version != map.Version)
             {
                 package.Version = map.Version;
@@ -288,6 +294,12 @@ namespace FightMatch.YooAssetAdapter
                 }
                 return true;
             }
+            if (package.ManifestValidationFailed)
+            {
+                code = Code.ManifestUnavailable;
+                stage = Stage.SelectManifest;
+                return true;
+            }
             while (package.Phase < 2)
             {
                 stage = package.Phase == 0 ? Stage.InitializePackage : Stage.SelectManifest;
@@ -310,6 +322,13 @@ namespace FightMatch.YooAssetAdapter
             stage = Stage.SelectManifest;
             try { if (sdk.Version(package.Object) != package.Version) code = Code.ManifestUnavailable; }
             catch (Exception) { code = Code.ManifestUnavailable; }
+            if (code.HasValue)
+            {
+                package.ManifestValidationFailed = true;
+                foreach (var observer in package.Uses)
+                    observer.ObservePhaseFailure(Code.ManifestUnavailable, Stage.SelectManifest);
+                package.Wake();
+            }
             return true;
         }
 

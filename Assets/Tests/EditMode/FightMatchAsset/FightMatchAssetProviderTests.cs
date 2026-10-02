@@ -108,6 +108,7 @@ namespace FightMatch.AssetAccess.Tests
             internal bool AutoInit = true, AutoManifest = true, AutoLoad = true, AutoDestroy = true;
             internal bool FailInit, FailManifest, FailDestroyOnce, FailDestroyAlways, Location = true, WrongVersion, ThrowLoad;
             internal bool NullAsset, WrongAsset, ThrowAsset, ThrowSubscription, Duplicate;
+            internal bool ThrowVersion;
             private GameObject wrong;
             internal int Initializations, PackageInitializations, Creates, Manifests, LoadCalls, Destroys, Removes, GlobalDestroys;
             public bool Initialized { get; private set; }
@@ -119,7 +120,11 @@ namespace FightMatch.AssetAccess.Tests
             public bool Ready(object package) => ((Package)package).Ready;
             public bool Busy(object package) => false;
             public bool Empty(object package) => ((Package)package).Empty;
-            public string Version(object package) => WrongVersion ? "wrong" : ((Package)package).Version;
+            public string Version(object package)
+            {
+                if (ThrowVersion) throw new Exception("private version exception marker");
+                return WrongVersion ? "wrong" : ((Package)package).Version;
+            }
             public IYooOperation Initialize(object package, string root)
             {
                 Assert.AreEqual("/test-owned/builtin", root);
@@ -724,6 +729,121 @@ namespace FightMatch.AssetAccess.Tests
                 Assert.AreEqual("status=failed", mismatch.Result.Diagnostic.SafeDetail);
                 Assert.AreEqual(0, rig.Sdk.Initializations);
                 Assert.AreEqual(0, rig.Sdk.LoadCalls);
+            }
+        }
+
+        [Test]
+        public void PostLoadVersionMismatchRetriesManifestOnLaterAcquisition()
+        {
+            AssertPostLoadVersionRetry(false);
+        }
+
+        [Test]
+        public void PostLoadVersionExceptionRetriesManifestOnLaterAcquisition()
+        {
+            AssertPostLoadVersionRetry(true);
+        }
+
+        private static void AssertPostLoadVersionRetry(bool throws)
+        {
+            using (var rig = new Rig())
+            {
+                var sdk = rig.Sdk;
+                sdk.AutoManifest = false;
+                sdk.WrongVersion = !throws;
+                sdk.ThrowVersion = throws;
+                var failed = rig.Request();
+                Assert.IsFalse(failed.IsCompleted);
+                sdk.Operations[1].Finish();
+                Assert.IsTrue(sdk.Operations[1].Success);
+                rig.Dispatch.Run();
+                Rejected(failed, Code.ManifestUnavailable, Stage.SelectManifest);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(1, sdk.Manifests);
+                Assert.AreEqual(0, sdk.LoadCalls);
+                sdk.WrongVersion = false;
+                sdk.ThrowVersion = false;
+                rig.Dispatch.Run();
+                Assert.AreEqual(1, sdk.Manifests);
+                var retry = rig.Request();
+                rig.Dispatch.Run();
+                Assert.IsFalse(retry.IsCompleted);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(2, sdk.Manifests);
+                Assert.AreEqual(0, sdk.LoadCalls);
+                sdk.Operations[2].Finish();
+                var accepted = rig.Result(retry);
+                Assert.IsTrue(accepted.IsAccepted);
+                Rejected(failed, Code.ManifestUnavailable, Stage.SelectManifest);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(2, sdk.Manifests);
+                Assert.AreEqual(1, sdk.LoadCalls);
+                var shared = rig.Result(rig.Request());
+                Assert.IsTrue(shared.IsAccepted);
+                Assert.AreEqual(2, sdk.Manifests);
+                Assert.AreEqual(1, sdk.LoadCalls);
+                accepted.Lease.Dispose();
+                shared.Lease.Dispose();
+            }
+        }
+
+        [Test]
+        public void PostLoadValidationFailureRemainsStableAcrossLaterAttempts()
+        {
+            foreach (var throws in new[] { false, true })
+            using (var sdk = new Sdk())
+            using (var first = new Rig(sdk))
+            using (var early = new Rig(sdk))
+            using (var late = new Rig(sdk))
+            {
+                sdk.AutoManifest = false;
+                sdk.WrongVersion = !throws;
+                sdk.ThrowVersion = throws;
+                var failed = first.Request();
+                var earlyObserver = early.Request();
+                var lateObserver = late.Request();
+                Assert.AreEqual(1, sdk.Manifests);
+                sdk.Operations[1].Finish();
+                first.Dispatch.Run();
+                Rejected(failed, Code.ManifestUnavailable, Stage.SelectManifest);
+                Assert.IsFalse(earlyObserver.IsCompleted);
+                Assert.IsFalse(lateObserver.IsCompleted);
+                sdk.WrongVersion = false;
+                sdk.ThrowVersion = false;
+                early.Dispatch.Run();
+                Rejected(earlyObserver, Code.ManifestUnavailable, Stage.SelectManifest);
+                Assert.AreEqual(1, sdk.Manifests);
+                Assert.AreEqual(0, sdk.LoadCalls);
+                var retry = first.Request();
+                first.Dispatch.Run();
+                Assert.IsFalse(retry.IsCompleted);
+                Assert.IsFalse(lateObserver.IsCompleted);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(2, sdk.Manifests);
+                Assert.AreEqual(0, sdk.LoadCalls);
+                sdk.Operations[2].Finish();
+                var accepted = first.Result(retry);
+                Assert.IsTrue(accepted.IsAccepted);
+                late.Dispatch.Run();
+                Rejected(lateObserver, Code.ManifestUnavailable, Stage.SelectManifest);
+                Rejected(earlyObserver, Code.ManifestUnavailable, Stage.SelectManifest);
+                Rejected(failed, Code.ManifestUnavailable, Stage.SelectManifest);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(2, sdk.Manifests);
+                Assert.AreEqual(1, sdk.LoadCalls);
+                accepted.Lease.Dispose();
+                first.Dispatch.Run();
+                early.Dispatch.Run();
+                late.Dispatch.Run();
+                var firstClose = first.Provider.CloseAsync();
+                var earlyClose = early.Provider.CloseAsync();
+                var lateClose = late.Provider.CloseAsync();
+                first.Dispatch.Run();
+                early.Dispatch.Run();
+                late.Dispatch.Run();
+                Assert.IsTrue(firstClose.IsCompleted);
+                Assert.IsTrue(earlyClose.IsCompleted);
+                Assert.IsTrue(lateClose.IsCompleted);
             }
         }
 
