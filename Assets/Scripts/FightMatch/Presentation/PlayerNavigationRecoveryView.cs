@@ -12,10 +12,9 @@ namespace FightMatch.Presentation
     {
         [SerializeField] private GameObject confirmationRoot;
         [SerializeField] private GameObject recoveryRoot;
-        [SerializeField] private RectTransform confirmationRows;
-        [SerializeField] private RectTransform recoveryRows;
-        [SerializeField] private LocalizedTmpText title;
-        [SerializeField] private LocalizedTmpText status;
+        [SerializeField] private RectTransform confirmationBody, confirmationChoices, confirmationActions, confirmationDangerActions;
+        [SerializeField] private RectTransform recoveryBody, recoveryChoices, recoverySafeActions, recoveryDangerActions;
+        [SerializeField] private LocalizedTmpText confirmationTitle, recoveryTitle, confirmationStatus, recoveryStatus;
         [SerializeField] private UnityEngine.UI.Button confirmButton;
         [SerializeField] private UnityEngine.UI.Button endButton;
         [SerializeField] private UnityEngine.UI.Button returnButton;
@@ -24,7 +23,6 @@ namespace FightMatch.Presentation
         [SerializeField] private UnityEngine.UI.Button resolveButton;
         [SerializeField] private UnityEngine.UI.Button refreshButton;
         [SerializeField] private UnityEngine.UI.Button endReviewButton;
-        [SerializeField] private UnityEngine.UI.Button originalResultButton;
         [SerializeField] private UnityEngine.UI.Button buttonTemplate;
         [SerializeField] private LocalizedTmpText textTemplate;
         private readonly NavigationBindings bindings = new NavigationBindings();
@@ -37,6 +35,11 @@ namespace FightMatch.Presentation
             Unbind();
             controller = navigation ?? throw new ArgumentNullException(nameof(navigation));
             localization = service ?? throw new ArgumentNullException(nameof(service));
+            if (confirmationRoot == null || recoveryRoot == null || confirmationBody == null || confirmationChoices == null ||
+                confirmationActions == null || confirmationDangerActions == null || recoveryBody == null || recoveryChoices == null ||
+                recoverySafeActions == null || recoveryDangerActions == null || confirmationTitle == null || recoveryTitle == null ||
+                confirmationStatus == null || recoveryStatus == null)
+                throw new InvalidOperationException("Recovery panel bindings are incomplete.");
             generation++;
         }
         internal void ClearBindings() { bindings.Dispose(); }
@@ -54,13 +57,14 @@ namespace FightMatch.Presentation
             bindings.Dispose();
             confirmationRoot.SetActive(false); recoveryRoot.SetActive(false);
             foreach (var button in new[] { confirmButton, endButton, returnButton, resumeObservedButton, retryButton,
-                resolveButton, refreshButton, endReviewButton, originalResultButton }) button.gameObject.SetActive(false);
+                resolveButton, refreshButton, endReviewButton }) button.gameObject.SetActive(false);
             if (controller == null || view.Read?.Application.Phase == CandidateApplicationPhase.Disposed || view.Route != PlayerNavigationRoute.Confirmation &&
                 view.Route != PlayerNavigationRoute.Recovery && view.Route != PlayerNavigationRoute.CommittedResult) return;
             var confirmation = view.Route == PlayerNavigationRoute.Confirmation;
-            var parent = confirmation ? confirmationRows : recoveryRows;
-            title.transform.SetParent(parent, false); status.transform.SetParent(parent, false);
-            originalResultButton.transform.SetParent(parent, false);
+            var parent = confirmation ? confirmationBody : recoveryBody;
+            var choices = confirmation ? confirmationChoices : recoveryChoices;
+            var title = confirmation ? confirmationTitle : recoveryTitle;
+            var status = confirmation ? confirmationStatus : recoveryStatus;
             var app = view.Read?.Application;
             var value = view.Confirmation;
             var permanentKey = value?.Quote == null ? null : NavigationBindings.OperationKey(CandidateApplicationKind.PermanentRequest,
@@ -124,7 +128,7 @@ namespace FightMatch.Presentation
                 for (var i = 0; i < candidates.Length; i++)
                 {
                     var commit = candidates[i]; var number = i + 1;
-                    bindings.CloneButton(buttonTemplate, parent, FightMatchViewId.Row("save.candidate." + commit), localization, "fm.save_recovery.candidate_row",
+                    bindings.CloneButton(buttonTemplate, choices, FightMatchViewId.Row("save.candidate." + commit), localization, "fm.save_recovery.candidate_row",
                         controller.NavigationHandler(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.ObservedCandidate, CommitId = commit }),
                         captionArgs: () => new[] { NavigationBindings.Arg("candidateNumber", number) });
                 }
@@ -140,11 +144,16 @@ namespace FightMatch.Presentation
                 {
                     var recordKey = NavigationBindings.OperationKey(record.Intent);
                     if (recordKey == null) continue;
-                    bindings.CloneButton(buttonTemplate, parent, FightMatchViewId.Row("save.operation." + record.OperationId), localization,
+                    bindings.CloneButton(buttonTemplate, choices, FightMatchViewId.Row("save.operation." + record.OperationId), localization,
                         recordKey,
                         controller.NavigationHandler(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.OriginalOperation, OperationId = record.OperationId }));
                 }
-                Action(view, originalResultButton, PlayerNavigationAction.SelectOriginalOperation, "fm.save_recovery.lookup_button");
+                var currentGeneration = generation;
+                var intent = controller.ActionHandler(PlayerNavigationAction.SelectOriginalOperation);
+                bindings.CloneButton(buttonTemplate, choices, FightMatchViewId.Row("save.OriginalResult"), localization,
+                    "fm.save_recovery.lookup_button", () => { if (currentGeneration == generation) intent(); },
+                    view.ReasonFor(PlayerNavigationAction.SelectOriginalOperation),
+                    NavigationBindings.ReasonKey(NavigationReasonDomain.Recovery, view.ReasonFor(PlayerNavigationAction.SelectOriginalOperation)));
             }
             (confirmation ? confirmationRoot : recoveryRoot).SetActive(true);
         }

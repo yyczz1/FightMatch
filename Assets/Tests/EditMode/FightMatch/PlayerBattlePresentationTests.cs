@@ -87,11 +87,15 @@ namespace FightMatch.Core.Tests
         {
             using (var r = new PlayerBattleRig())
             {
-                Assert.IsNull(r.Page.Find<LocalizedTmpText>(FightMatchViewId.Row("history-title")));
+                var header = r.Page.Find<LocalizedTmpText>(FightMatchViewId.Row("history-title"));
+                Assert.IsNotNull(header); Assert.IsFalse(header.gameObject.activeInHierarchy);
+                Assert.IsFalse(r.Page.Find<UnityEngine.UI.Button>("fm.action.history.open").interactable);
                 yield return r.Ready();
                 Is(r.Step(false).Application);
                 Assert.AreEqual("fm.battle.playback.skip_button", r.Page.Find<UnityEngine.UI.Button>("fm.action.battle.skip").GetComponentInChildren<LocalizedTmpText>(true).Key);
                 r.Host.Playback.SkipToFinal();
+                PlayerBattlePanel.Click(r.Page.Find<UnityEngine.UI.Button>("fm.action.history.open"));
+                Assert.IsTrue(header.gameObject.activeInHierarchy);
                 BattleCopyAssert.Localized(r.Page, "history-title", r.Canvas.Localization, "fm.history.title");
                 r.N.Storage.Fault = "snapshot-before"; var failed = r.Step(false); Assert.IsFalse(failed.Application.IsCommitted);
                 var input = r.Host.Input; var request = input.LastRequest; var pending = r.View.Read.Application.PendingOperationId;
@@ -263,8 +267,10 @@ namespace FightMatch.Core.Tests
             {
                 yield return panel.Ready(); Is(r.Step().Application); Is(r.Step().Application);
                 var entries = r.Host.HistoryEntries; Assert.GreaterOrEqual(entries.Count, 2);
+                PlayerBattlePanel.Click(r.Page.Find<UnityEngine.UI.Button>("fm.action.history.open"));
                 PlayerBattlePanel.Click(r.Page.Find<UnityEngine.UI.Button>(FightMatchViewId.Row("history:" + entries[0].HistoryAnchorId))); var first = r.Page.DisplayedRange;
                 var old = r.Page.Find<UnityEngine.UI.Button>(FightMatchViewId.Row("confirm-history")); Assert.AreSame(first, r.Host.Input.RollbackPreview); panel.Keep(old);
+                PlayerBattlePanel.Click(r.Page.Find<UnityEngine.UI.Button>(FightMatchViewId.Row("cancel-history")));
                 PlayerBattlePanel.Click(r.Page.Find<UnityEngine.UI.Button>(FightMatchViewId.Row("history:" + entries[1].HistoryAnchorId))); var second = r.Page.DisplayedRange;
                 var head = r.Head; var files = r.N.Files(); var clocks = r.ClockReads;
                 panel.ClickStale(old); Assert.AreSame(second, r.Host.Input.RollbackPreview); r.Unchanged(head, files, clocks);
