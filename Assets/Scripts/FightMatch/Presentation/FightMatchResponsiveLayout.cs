@@ -80,7 +80,7 @@ namespace FightMatch.Presentation
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
         private void Apply()
         {
-            if (applying || localization == null || !BindingsPresent()) return;
+            if (!isActiveAndEnabled || applying || localization == null || !BindingsPresent()) return;
             var size = ((RectTransform)safeArea.transform).rect.size;
             var factor = canvas.scaleFactor;
             var scale = canvas.transform.lossyScale;
