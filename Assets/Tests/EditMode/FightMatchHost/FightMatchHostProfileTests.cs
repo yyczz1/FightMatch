@@ -237,6 +237,35 @@ namespace FightMatch.Host.Tests
                 "PreferenceInvalidDocument" : null, loaded.DiagnosticCode);
         }
 
+        [DllImport("libSystem.B.dylib", EntryPoint = "readlink", SetLastError = true)]
+        private static extern IntPtr LocatorReadLink(string path, byte[] buffer, UIntPtr size);
+
+        private static void SameFilesAfterLocatorRead(HostRig rig,
+            System.Collections.Generic.Dictionary<string, byte[]> expected, string[] directories)
+        {
+            var locator = Path.Combine(rig.Root, "locator");
+            var writerLock = Path.Combine(locator, "writer.lock");
+            foreach (var path in new[] { locator, writerLock })
+            {
+                var link = LocatorReadLink(path, new byte[1], new UIntPtr(1)).ToInt64();
+                var error = Marshal.GetLastWin32Error();
+                Assert.AreEqual(-1L, link, path);
+                Assert.AreEqual(22, error, path);
+                var expectedType = path == locator ? FileAttributes.Directory : (FileAttributes)0;
+                Assert.AreEqual(expectedType, File.GetAttributes(path) &
+                    (FileAttributes.Directory | FileAttributes.ReparsePoint), path);
+            }
+            Assert.AreEqual(0L, new FileInfo(writerLock).Length);
+            // A read keeps its lease file; preserve any pre-existing expectation instead of replacing it.
+            var files = new System.Collections.Generic.Dictionary<string, byte[]>(expected, StringComparer.Ordinal);
+            var lockKey = writerLock.Substring(rig.Root.Length);
+            if (!files.ContainsKey(lockKey)) files.Add(lockKey, Array.Empty<byte>());
+            rig.SameFiles(files);
+            var expectedDirectories = directories.Contains(locator, StringComparer.Ordinal) ? directories :
+                directories.Concat(new[] { locator }).ToArray();
+            CollectionAssert.AreEquivalent(expectedDirectories, Directory.GetDirectories(rig.Root, "*", SearchOption.AllDirectories));
+        }
+
         [Test]
         public void H03_SettingsOnlyAllowsExplicitFirstCreate()
         {
@@ -245,13 +274,16 @@ namespace FightMatch.Host.Tests
             {
                 Assert.AreEqual(LocalePreferenceSaveDisposition.Saved, Preferences(rig).Save(locale).Disposition);
                 var before = rig.Files();
+                var directories = Directory.GetDirectories(rig.Root, "*", SearchOption.AllDirectories);
+                CollectionAssert.AreEquivalent(new[] { Settings(rig) }, directories);
+                CollectionAssert.AreEquivalent(new[] { Path.Combine(Settings(rig), PreferenceName).Substring(rig.Root.Length) }, before.Keys);
                 var preferences = PreferenceFiles(rig);
                 rig.Session.ObserveStartup();
                 Assert.IsTrue(rig.Session.CanCreate, rig.Session.Status);
                 Assert.AreEqual(LocalPlayerProfileState.Absent, rig.Session.Observation.State);
                 Assert.IsNull(rig.Session.OriginalProfile);
                 Assert.AreEqual(0, rig.FactoryCalls);
-                rig.SameFiles(before);
+                SameFilesAfterLocatorRead(rig, before, directories);
                 rig.Session.CreateProfile();
                 Assert.AreEqual(LocalPlayerProfileState.Active, rig.Session.Observation.State, rig.Session.Status);
                 Assert.IsTrue(rig.Session.Application.QueryView().View.IsPublishedHeadVerified);
@@ -332,12 +364,12 @@ namespace FightMatch.Host.Tests
                 rig.Session.ObserveStartup();
                 Assert.IsFalse(rig.Session.CanCreate, kind);
                 Assert.AreEqual("UnclaimedData", rig.Session.Status, kind);
+                SameFilesAfterLocatorRead(rig, files, directories);
                 rig.Session.CreateProfile();
                 Assert.AreEqual("UnclaimedData", rig.Session.Status, kind);
                 Assert.IsNull(rig.Session.OriginalProfile, kind);
                 Assert.AreEqual(0, rig.FactoryCalls, kind);
-                rig.SameFiles(files);
-                CollectionAssert.AreEquivalent(directories, Directory.GetDirectories(rig.Root, "*", SearchOption.AllDirectories));
+                SameFilesAfterLocatorRead(rig, files, directories);
             }
         }
 
