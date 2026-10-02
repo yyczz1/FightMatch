@@ -1,0 +1,118 @@
+{
+  "task": "LAYOUT-S1-PR4-REVIEW-RECEIPT",
+  "verdict": "NEEDS_FIX",
+  "scope": "Receipt of independent GitHub review only; not a duplicate local review or native/test/device acceptance.",
+  "receivedUtc": "2026-10-02T04:29:52Z",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fada-a2e2-7032-8d81-8d2418bc8a8c"
+  },
+  "soleReturnTo": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local"
+  },
+  "authority": "User AGENTS section 6 standing workflow and central delegation for LAYOUT-S1 review-result receipt.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "base": "3541930877837e14b58020b910976b8b67b56e42",
+    "head": "0c5e0580d685e0f4d777446a641b8220333903c6",
+    "tree": "a9f24193a808020e5bb3bf273b2445586a762713",
+    "identityCheck": "PR metadata base/head and Git commit parent/tree match the dispatched candidate; current head equals reviewed commit.",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "publication": "Central verified 31 manifest files (15 C# sources), 32 published paths including the manifest. This receipt does not repeat the blob audit."
+  },
+  "sourceEvidence": {
+    "root": "docs/versioning/2026-10-02-layout-s1-pr/",
+    "readmeSha256": "0439255bb63cdbc0a1caca5477c6955aaac33dd59981327ab28ef2895694eb39",
+    "sourceReceiptSha256": "b2971a32973d241be9284a7cc969b9462ff07d4b08cc264eefc1eb9eea1da322",
+    "publicationManifestSha256": "51c975304a5b3ecf33d241dd12a25669638e5accf160708e14b1f57067dbcbf9",
+    "sourceStatus": [
+      "SOURCE_READY",
+      "UNCOMPILED",
+      "UNIMPORTED",
+      "OLD_PREFAB_NOT_MIGRATED",
+      "NOT_PLAYABLE_CANDIDATE"
+    ],
+    "declarations": "141 TMP targets and 12 new test declarations are unexecuted expectations, not observed acceptance."
+  },
+  "review": {
+    "bot": "chatgpt-codex-connector[bot]",
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5945557886",
+    "triggerCreatedUtc": "2026-10-02T04:22:36Z",
+    "id": 5388315376,
+    "url": "https://github.com/yyczz1/FightMatch/pull/4#pullrequestreview-5388315376",
+    "state": "COMMENTED",
+    "submittedUtc": "2026-10-02T04:28:12Z",
+    "commitId": "0c5e0580d685e0f4d777446a641b8220333903c6",
+    "completion": "Completed",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5945559740",
+    "summaryUpdatedUtc": "2026-10-02T04:28:15Z",
+    "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T04:28:14.517049Z\">2026-10-02T04:28:14.517049Z</relative-time> | `0c5e058` | Manual request |",
+    "findingsEndpoint": "https://api.github.com/repos/yyczz1/FightMatch/pulls/4/reviews/5388315376/comments?per_page=100",
+    "returnedFindings": 2,
+    "findingCounts": {
+      "P1": 1,
+      "P2": 1
+    },
+    "note": "Initial Running state was not treated as approval. COMMENTED is the submitted review state; Completed means the review finished, not that findings are resolved."
+  },
+  "findings": [
+    {
+      "id": 4162866083,
+      "priority": "P1",
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162866083",
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "diffPosition": 290,
+      "positionNote": "GitHub review-diff position, not a file line number.",
+      "reviewer": "chatgpt-codex-connector[bot]",
+      "reviewId": 5388315376,
+      "commitId": "0c5e0580d685e0f4d777446a641b8220333903c6",
+      "createdUtc": "2026-10-02T04:28:12Z",
+      "rawBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Require all 15 reviewed sources in the migration lease**\n\nThe guard requires only the first nine `LayoutSourcePaths`, so an activation manifest can omit the six modified fixture/assertion files and still pass. In that case those files are never hash-checked by `LayoutCheckFiles`, allowing the one-shot native migration and its evidence to run against test inputs that differ from the reviewed head; require the activation source set to equal all 15 paths exactly.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/0c5e0580d685e0f4d777446a641b8220333903c6/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎.",
+      "disposition": "OPEN"
+    },
+    {
+      "id": 4162866085,
+      "priority": "P2",
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162866085",
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "diffPosition": 156,
+      "positionNote": "GitHub review-diff position, not a file line number.",
+      "reviewer": "chatgpt-codex-connector[bot]",
+      "reviewId": 5388315376,
+      "commitId": "0c5e0580d685e0f4d777446a641b8220333903c6",
+      "createdUtc": "2026-10-02T04:28:12Z",
+      "rawBody": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Clear the layout gate when disabling the component**\n\nIf this component is disabled after an invalid safe-area sample without a host `Unbind`—for example by toggling the component during presentation—`OnDisable` only unsubscribes, leaving `LayoutDiagnostic` active and the battle `CanvasGroup` non-interactable indefinitely. It should release the diagnostic/interaction gate just as `Unbind` does while preserving the last valid geometry.\n\nAGENTS.md reference: [AGENTS.md:L299-L300](https://github.com/yyczz1/FightMatch/blob/0c5e0580d685e0f4d777446a641b8220333903c6/AGENTS.md#L299-L300)\n\nUseful? React with 👍 / 👎.",
+      "disposition": "OPEN"
+    }
+  ],
+  "nextGate": {
+    "reviewGate": "OPEN_FINDINGS",
+    "nativeGate": "BLOCKED_BY_P1",
+    "requiredAction": "Central dispatches engineering's minimal corrective packet for both findings; preserve their original records. Changed source needs actual new-head GitHub review and separately scoped validation. This receipt neither implements nor retriggers.",
+    "findingsSummary": "P1: migration activation currently requires only the first nine source paths, permitting omission of six changed fixture/assertion files. P2: disabling responsive layout after invalid geometry leaves its diagnostic/interaction gate active instead of releasing its own gate.",
+    "outstanding": [
+      "Compilation/import",
+      "Natural two-meta generation",
+      "Native Prefab/Scene migration and reopen",
+      "Actual test discovery and bounded directed run",
+      "Real LOC Host/save/reopen",
+      "Art visuals and Android/device acceptance"
+    ]
+  },
+  "thisTurn": {
+    "reviewTriggers": 0,
+    "localCodeReviews": 0,
+    "workerDispatches": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFiles": [
+      "docs/team/2026-09-30/testing-layout-s1-pr4-review-receipt.json"
+    ]
+  }
+}

@@ -149,11 +149,15 @@ namespace FightMatch.Presentation
         {
             Unsubscribe(); dirty = true; sampled = false;
             if (layoutDiagnosticText != null) layoutDiagnosticText.Unbind();
+            ReleaseGate(); localization = null;
+        }
+        private void ReleaseGate()
+        {
             if (layoutDiagnostic != null) layoutDiagnostic.SetActive(false);
             if (battleInteraction != null) { battleInteraction.interactable = true; battleInteraction.blocksRaycasts = true; }
-            localization = null; valid = false;
+            valid = false;
         }
-        private void OnDisable() { Unsubscribe(); dirty = true; sampled = false; }
+        private void OnDisable() { Unsubscribe(); dirty = true; sampled = false; ReleaseGate(); }
         private void OnDestroy() { Unbind(); }
     }
 }

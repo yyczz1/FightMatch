@@ -1,5 +1,9 @@
 # LAYOUT-S1 source review candidate
 
+Current source update: **FIX01**, correcting the two findings on `0c5e0580d685e0f4d777446a641b8220333903c6`. Three C# files change by 157 added/deleted lines: require the exact 15-source migration lease and release the component-owned layout gate on disable. Existing LAYOUT_01/05 assertions cover the regressions; they are still unexecuted. [FIX01 receipt](fix01/source-receipt.json), [patch](fix01/source.patch) and [publication manifest](fix01/publication-manifest.json) bind the update. Findings remain open until new-head GitHub review.
+
+The sections below record the original S1 candidate; its evidence remains immutable.
+
 This candidate adds the approved responsive uGUI layout, shared modal ownership, fixed actor slots and a guarded native resource migration entry. Decorative art remains obvious temporary shapes; player text remains diagnostic prefab placeholders with the existing English/Simplified Chinese bindings.
 
 Status: **SOURCE_READY / UNCOMPILED / UNIMPORTED / OLD_PREFAB_NOT_MIGRATED / NOT_PLAYABLE_CANDIDATE**.

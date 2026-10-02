@@ -380,9 +380,80 @@ TemplatePool/TextTemplate|Binding";
             }
             rig.View.BattleView.PlaybackView.SkipToFinal(); VisibleCopy(rig);
         }
+        private static Array LayoutLeaseFiles(Type rowType, params string[] paths)
+        {
+            var rows = Array.CreateInstance(rowType, paths.Length);
+            for (var i = 0; i < paths.Length; i++)
+            {
+                var row = Activator.CreateInstance(rowType, true);
+                rowType.GetField("path").SetValue(row, paths[i]); rows.SetValue(row, i);
+            }
+            return rows;
+        }
+        private static void RejectLayoutInput(MethodInfo check, params object[] arguments)
+        {
+            var error = Assert.Throws<TargetInvocationException>(() => check.Invoke(null, arguments));
+            Assert.IsInstanceOf<InvalidOperationException>(error.InnerException);
+        }
+        private static void AssertCompleteLayoutLease()
+        {
+            // Independent contract paths: do not derive this expectation from the production array.
+            var paths = new[] {
+                "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+                "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+                "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+                "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+                "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+                "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+                "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+                "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+                "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+                "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+                "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+                "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+                "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+                "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+                "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+            };
+            var editor = AppDomain.CurrentDomain.GetAssemblies().Select(x => x.GetType("FightMatch.Host.Editor.FightMatchAndroidBuild"))
+                .Single(x => x != null);
+            var rowType = editor.GetNestedType("LayoutFile", BindingFlags.NonPublic); Assert.IsNotNull(rowType);
+            var scope = editor.GetMethod("LayoutCheckSourceSet", BindingFlags.NonPublic | BindingFlags.Static); Assert.IsNotNull(scope);
+            var files = editor.GetMethod("LayoutCheckFiles", BindingFlags.NonPublic | BindingFlags.Static); Assert.IsNotNull(files);
+            Assert.DoesNotThrow(() => scope.Invoke(null, new object[] { LayoutLeaseFiles(rowType, paths) }));
+            Assert.DoesNotThrow(() => scope.Invoke(null, new object[] { LayoutLeaseFiles(rowType, paths.Reverse().ToArray()) }));
+            for (var missing = 0; missing < paths.Length; missing++)
+                RejectLayoutInput(scope, LayoutLeaseFiles(rowType, paths.Where((_, i) => i != missing).ToArray()));
+            RejectLayoutInput(scope, LayoutLeaseFiles(rowType, paths.Take(9).ToArray()));
+            RejectLayoutInput(scope, LayoutLeaseFiles(rowType, paths.Concat(new[] { "Assets/unreviewed.cs" }).ToArray()));
+            RejectLayoutInput(scope, LayoutLeaseFiles(rowType, paths.Concat(new[] { paths[0] }).ToArray()));
+            foreach (var replacement in new[] { paths[0], "Assets/unreviewed.cs", "", null, paths[14].ToUpperInvariant() })
+            {
+                var changed = (string[])paths.Clone(); changed[14] = replacement;
+                RejectLayoutInput(scope, LayoutLeaseFiles(rowType, changed));
+            }
+            var nullEntry = LayoutLeaseFiles(rowType, paths); nullEntry.SetValue(null, 14);
+            RejectLayoutInput(scope, nullEntry); RejectLayoutInput(scope, LayoutLeaseFiles(rowType));
+            RejectLayoutInput(scope, new object[] { null });
+            var root = System.IO.Path.GetFullPath(System.IO.Path.Combine(UnityEngine.Application.dataPath, ".."));
+            foreach (var path in paths.Skip(9))
+            {
+                var bytes = System.IO.File.ReadAllBytes(System.IO.Path.Combine(root, path)); string sha;
+                using (var algorithm = System.Security.Cryptography.SHA256.Create())
+                    sha = BitConverter.ToString(algorithm.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();
+                var rows = LayoutLeaseFiles(rowType, path); var row = rows.GetValue(0);
+                rowType.GetField("bytes").SetValue(row, (long)bytes.Length); rowType.GetField("sha256").SetValue(row, sha);
+                Assert.DoesNotThrow(() => files.Invoke(null, new object[] { root, rows }), path);
+                var wrongSha = (sha[0] == '0' ? "1" : "0") + sha.Substring(1);
+                rowType.GetField("sha256").SetValue(row, wrongSha); RejectLayoutInput(files, root, rows);
+                rowType.GetField("sha256").SetValue(row, sha); rowType.GetField("bytes").SetValue(row, (long)bytes.Length + 1);
+                RejectLayoutInput(files, root, rows);
+            }
+        }
         [Test]
         public void LAYOUT_01_ReferenceRecoveryAndModalHierarchyMatchesAdjudication()
         {
+            AssertCompleteLayoutLease();
             using (var rig = new UguiHostRig(bind: false))
             {
                 AssertExactTextTargets(rig.Root);
@@ -457,6 +528,24 @@ TemplatePool/TextTemplate|Binding";
                 { safe.sizeDelta = new Vector2(508, entry.x); Canvas.ForceUpdateCanvases(); Geometry(rig, 508, entry.x, entry.y, entry.z); }
             }
         }
+        private static float[] LayoutGeometry(FightMatchResponsiveLayout layout)
+        {
+            var roots = new[] { "screenLayer", "topBar", "battleContent", "stage", "battleStatus", "boardRegion", "bottomHud",
+                "normalHudRoot", "historyDrawerRoot", "referenceDrawerRoot", "normalStatusViewport", "normalMainRow",
+                "startupViewport", "navigationViewport", "resultViewport" }.Select(x => Reference<RectTransform>(layout, x));
+            return roots.Concat(References<RectTransform>(layout, "dialogPanels")).SelectMany(x => new[] {
+                x.anchorMin.x, x.anchorMin.y, x.anchorMax.x, x.anchorMax.y, x.pivot.x, x.pivot.y,
+                x.anchoredPosition.x, x.anchoredPosition.y, x.sizeDelta.x, x.sizeDelta.y,
+                x.localScale.x, x.localScale.y, x.localScale.z }).ToArray();
+        }
+        private static void LayoutSubscriptions(FightMatchResponsiveLayout layout, SafeAreaFitter safe, int expected)
+        {
+            var changed = typeof(SafeAreaFitter).GetField("Changed", BindingFlags.Instance | BindingFlags.NonPublic);
+            var render = typeof(Canvas).GetField("willRenderCanvases", BindingFlags.Static | BindingFlags.NonPublic);
+            Assert.IsNotNull(changed); Assert.IsNotNull(render);
+            foreach (var callbacks in new[] { (Delegate)changed.GetValue(safe), (Delegate)render.GetValue(null) })
+                Assert.AreEqual(expected, callbacks?.GetInvocationList().Count(x => ReferenceEquals(x.Target, layout)) ?? 0);
+        }
         [UnityTest]
         public IEnumerator LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink()
         {
@@ -468,14 +557,61 @@ TemplatePool/TextTemplate|Binding";
                 {
                     var rect = rig.Board.rectTransform.rect; var head = rig.Head; var calls = rig.Storage.SnapshotCreates;
                     var files = CopyFiles(rig.Storage.Files); rig.BeginRoute();
+                    var layout = rig.Root.GetComponentInChildren<FightMatchResponsiveLayout>(true);
+                    var geometry = LayoutGeometry(layout); var safe = Safe(rig);
+                    var label = Reference<LocalizedTmpText>(layout, "layoutDiagnosticText");
+                    var diagnostic = R(rig, "SystemLayer/LayoutDiagnostic").gameObject;
+                    var independent = new GameObject("IndependentLayoutLock", typeof(CanvasGroup), typeof(Button));
+                    independent.transform.SetParent(rig.Root.transform, false); // Owned by the existing rig's disposal.
+                    var otherGroup = independent.GetComponent<CanvasGroup>(); otherGroup.interactable = otherGroup.blocksRaycasts = false;
+                    var otherButton = independent.GetComponent<Button>(); otherButton.interactable = false;
+                    var otherDiagnostic = new GameObject("IndependentDiagnostic"); otherDiagnostic.transform.SetParent(independent.transform, false);
+                    LayoutSubscriptions(layout, safe, 1);
                     ApplySafe(rig, new Rect(16, 16, 508, 811), 540, 960);
                     Assert.IsTrue(R(rig, "SystemLayer/LayoutDiagnostic").gameObject.activeInHierarchy);
                     var group = R(rig, BattlePath).GetComponent<CanvasGroup>(); Assert.IsFalse(group.interactable); Assert.IsFalse(group.blocksRaycasts);
                     Assert.IsFalse(rig.Board.HasActivePointer); Assert.AreEqual(rect, rig.Board.rectTransform.rect);
+                    var diagnosticCopy = label.Target.text; Assert.AreNotEqual(LocalizedTmpText.Placeholder, diagnosticCopy);
+                    layout.enabled = false;
+                    Assert.IsFalse(diagnostic.activeSelf); Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                    Assert.AreSame(rig.Session.Battle, rig.View.BattleView.Controller); Assert.IsTrue(rig.View.enabled);
+                    Assert.AreEqual(diagnosticCopy, label.Target.text); CollectionAssert.AreEqual(geometry, LayoutGeometry(layout));
+                    LayoutSubscriptions(layout, safe, 0);
+                    foreach (var height in new[] { 810, 920, 809 })
+                    {
+                        ApplySafe(rig, new Rect(16, 16, 508, height), 540, 960); Canvas.ForceUpdateCanvases();
+                        Assert.IsFalse(diagnostic.activeSelf); Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                        CollectionAssert.AreEqual(geometry, LayoutGeometry(layout)); Assert.AreEqual(rect, rig.Board.rectTransform.rect);
+                    }
+                    var locale = rig.Localization.CurrentLocale;
+                    rig.Localization.SetLocale(locale == LocaleId.En ? LocaleId.ZhHans : LocaleId.En);
+                    Assert.AreEqual(rig.Localization.Resolve(label.Key,
+                        new[] { new KeyValuePair<string, string>("errorCode", "LayoutInvalid") }).Text, label.Target.text);
+                    rig.Localization.SetLocale(locale);
+                    Assert.IsFalse(otherGroup.interactable); Assert.IsFalse(otherGroup.blocksRaycasts);
+                    Assert.IsFalse(otherButton.interactable); Assert.IsTrue(otherDiagnostic.activeSelf);
+                    layout.enabled = true; LayoutSubscriptions(layout, safe, 1);
+                    Assert.IsTrue(diagnostic.activeSelf); Assert.IsFalse(group.interactable); Assert.IsFalse(group.blocksRaycasts);
+                    CollectionAssert.AreEqual(geometry, LayoutGeometry(layout));
                     rig.EndRoute(); yield return null; Assert.AreSame(head, rig.Head); Assert.AreEqual(calls, rig.Storage.SnapshotCreates);
                     SameFiles(files, rig.Storage.Files); Assert.IsNull(rig.Session.Battle.Input.LastRequest);
                     ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960); Geometry(rig, 508, 812, 96, 104);
                     Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                    for (var repeat = 0; repeat < 2; repeat++)
+                    {
+                        layout.enabled = false; layout.enabled = false; LayoutSubscriptions(layout, safe, 0);
+                        Canvas.ForceUpdateCanvases(); Assert.IsFalse(diagnostic.activeSelf);
+                        Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                        layout.enabled = true; LayoutSubscriptions(layout, safe, 1); Geometry(rig, 508, 812, 96, 104);
+                    }
+                    layout.enabled = false; layout.Unbind(); layout.Unbind(); LayoutSubscriptions(layout, safe, 0);
+                    ApplySafe(rig, new Rect(16, 16, 508, 811), 540, 960); Canvas.ForceUpdateCanvases();
+                    Assert.IsFalse(diagnostic.activeSelf); Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                    Assert.IsFalse(otherGroup.interactable); Assert.IsFalse(otherGroup.blocksRaycasts);
+                    Assert.IsFalse(otherButton.interactable); Assert.IsTrue(otherDiagnostic.activeSelf);
+                    UnityEngine.Object.DestroyImmediate(layout); LayoutSubscriptions(layout, safe, 0);
+                    Assert.AreSame(head, rig.Head); Assert.AreEqual(calls, rig.Storage.SnapshotCreates);
+                    SameFiles(files, rig.Storage.Files); Assert.IsNull(rig.Session.Battle.Input.LastRequest);
                 }
             }
             yield return new ExitPlayMode(); enteredPlayMode = false;

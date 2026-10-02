@@ -695,6 +695,13 @@ TemplatePool/TextTemplate|Binding";
             Require(path.StartsWith(root + "/", StringComparison.Ordinal) && path == root + "/" + relative, "LAYOUT escaped input");
             return LayoutCanonical(path);
         }
+        private static void LayoutCheckSourceSet(LayoutFile[] files)
+        {
+            Require(files != null && files.Length == LayoutSourcePaths.Length &&
+                files.All(x => x != null && !string.IsNullOrEmpty(x.path)) &&
+                files.Select(x => x.path).OrderBy(x => x, StringComparer.Ordinal).SequenceEqual(
+                    LayoutSourcePaths.OrderBy(x => x, StringComparer.Ordinal), StringComparer.Ordinal), "LAYOUT exact source scope");
+        }
         private static void LayoutCheckFiles(string root, LayoutFile[] files)
         {
             Require(files != null && files.Length > 0 && files.Select(x => x.path).Distinct().Count() == files.Length, "LAYOUT input set");
@@ -731,14 +738,12 @@ TemplatePool/TextTemplate|Binding";
             Require(activation.argv != null && activation.argv.SequenceEqual(Args), "LAYOUT exact process argv lease");
             Require(LayoutCanonical(activation.sourceReceiptPath) == LayoutStageRoot + "/S/source-receipt.json" &&
                 Sha(activation.sourceReceiptPath) == activation.sourceReceiptSha256, "LAYOUT S receipt identity");
-            Require(activation.sources != null && activation.sources.Length >= 9 && activation.sources.Length <= 15 &&
-                activation.resources != null && activation.resources.Length == 37 && activation.importedMetas != null &&
+            LayoutCheckSourceSet(activation.sources);
+            Require(activation.resources != null && activation.resources.Length == 37 && activation.importedMetas != null &&
                 activation.importedMetas.Length == 2, "LAYOUT frozen source/resource/meta cardinality");
             Require(activation.importedMetas.Select(x => x.path).OrderBy(x => x, StringComparer.Ordinal).SequenceEqual(new[] {
                 PresentationPath + "FightMatchResponsiveLayout.cs.meta", "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta" }),
                 "LAYOUT exact natural meta set");
-            Require(activation.sources.All(x => LayoutSourcePaths.Contains(x.path)) &&
-                LayoutSourcePaths.Take(9).All(x => activation.sources.Any(y => y.path == x)), "LAYOUT exact source scope");
             Require(activation.resources.Select(x => x.path).OrderBy(x => x, StringComparer.Ordinal).SequenceEqual(
                 LayoutResourcePaths.OrderBy(x => x, StringComparer.Ordinal)), "LAYOUT exact protected 37 paths");
             Require(new[] { "Packages/manifest.json", "Packages/packages-lock.json", "ProjectSettings/ProjectSettings.asset",
