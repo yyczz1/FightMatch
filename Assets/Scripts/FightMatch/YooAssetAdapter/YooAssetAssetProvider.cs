@@ -149,7 +149,8 @@ namespace FightMatch.YooAssetAdapter
             long requestEpoch, Code code, Stage stage) where T : class =>
             FightMatchAssetAcquireResult<T>.Rejected(new FightMatchAssetDiagnostic(code, stage, id, set,
                 code == Code.SdkFailure || code == Code.PackageUnavailable || code == Code.ManifestUnavailable,
-                "status=failed"), requestEpoch, set);
+                code == Code.WrongReleaseSet && set == null ? "reason=invalid-release-set" : "status=failed"),
+                requestEpoch, set);
 
         public Task<FightMatchAssetAcquireResult<T>> AcquireAsync<T>(FightMatchAssetId assetId,
             string releaseSetId, AssetAcquireBudget budget, long requestEpoch) where T : class

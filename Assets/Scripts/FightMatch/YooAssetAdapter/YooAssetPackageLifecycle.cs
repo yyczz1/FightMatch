@@ -162,6 +162,12 @@ namespace FightMatch.YooAssetAdapter
             private void Notify(IYooOperation sender)
             { if (ReferenceEquals(sender, handle)) owner.wake(); }
             internal void Invalidate() { failed = true; }
+            internal void ObservePhaseFailure(Code code, Stage stage)
+            {
+                if (terminal || handle != null) return;
+                Stage = stage;
+                End(code);
+            }
             internal bool Fail()
             {
                 failed = true;
@@ -246,8 +252,20 @@ namespace FightMatch.YooAssetAdapter
             if (package.Removed || package.Destruction != null || package.Root != map.Root ||
                 (package.Version != map.Version && (package.Uses.Count != 0 || !package.Owned)))
                 throw new InvalidOperationException("Package identity is busy.");
+            if (package.Owned && package.Operation != null && package.Operation.Done && !package.Operation.Success)
+            {
+                var stage = package.Phase == 0 ? Stage.InitializePackage : Stage.SelectManifest;
+                var code = package.Phase == 0 ? Code.PackageUnavailable : Code.ManifestUnavailable;
+                package.Operation.Completed -= package.Notify;
+                foreach (var observer in package.Uses) observer.ObservePhaseFailure(code, stage);
+                package.Operation = null;
+                package.Wake();
+            }
             if (package.Version != map.Version)
-            { package.Version = map.Version; package.Phase = 1; }
+            {
+                package.Version = map.Version;
+                if (package.Phase != 0) package.Phase = 1;
+            }
             package.Clients.Add(this);
             packages.Add(package);
             var ticket = new Ticket(this, package, map, identity);

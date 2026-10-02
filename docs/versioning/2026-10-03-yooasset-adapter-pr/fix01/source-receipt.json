@@ -1,0 +1,315 @@
+{
+  "schema_version": 1,
+  "packet": "RES-B-ADAPTER-FIX01",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0fed0-65ae-7010-b4b4-5c5ab6ac47b4"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fe90-2cc1-7d21-9d7c-749be6effd37"
+  },
+  "authority": "Central explicitly approved original-author fix and revised budgets, dispatched by engineering under AGENTS section 6",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs": {
+      "type": "regular_file",
+      "bytes": 11990,
+      "sha256": "4ababded06a870408ebb74e157eeb4ea3233509fb7e6b48d6b904f1d6ac04330",
+      "physical_lines": 251
+    },
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef": {
+      "type": "regular_file",
+      "bytes": 377,
+      "sha256": "09347e70d10f8cb3e26751c004ba005cadc32d1f3b6ecadf78bb6c9cf1fb2e45",
+      "physical_lines": 14
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs": {
+      "type": "regular_file",
+      "bytes": 16708,
+      "sha256": "6c65da27c7847d50e5a3c0beb1da30d58db025646be21b2eec493c816c3ba5fc",
+      "physical_lines": 247
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef": {
+      "type": "regular_file",
+      "bytes": 444,
+      "sha256": "c02d0a54145719d5e92679a1ffe4bc50a4b66f2ed6870474bda9a4983da7c556",
+      "physical_lines": 17
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "type": "regular_file",
+      "bytes": 16395,
+      "sha256": "d265d9e266e79d915bd74aaa84f483210c5554d5a4f640c497f657580681a2be",
+      "physical_lines": 327
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "type": "regular_file",
+      "bytes": 17542,
+      "sha256": "8e45ebe9a6296eb0bfefa9b115b46e19f83886ce2c390db1adfdb4b106ddbae7",
+      "physical_lines": 369
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs": {
+      "type": "regular_file",
+      "bytes": 3494,
+      "sha256": "0d76191c3cbf6e41e3c0d17ae9effdd5295a69a35c719160075b233048cb8ed0",
+      "physical_lines": 67
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs": {
+      "type": "regular_file",
+      "bytes": 39580,
+      "sha256": "e70168ee71b25c2f332d89f6f269c2a0ab40b0f2ae1e0fb74b37ad31c2eba36c",
+      "physical_lines": 752
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef": {
+      "type": "regular_file",
+      "bytes": 553,
+      "sha256": "ba0ba018bbfbc762a8a719e7a2812faf58cf81791a527aede0a529be08300c87",
+      "physical_lines": 22
+    }
+  },
+  "scope": [
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef",
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+    "before.json",
+    "after.json",
+    "source.patch",
+    "verify.py",
+    "static-checks.json",
+    "source-receipt.json"
+  ],
+  "immutable_artifacts": {
+    "before.json": {
+      "type": "regular_file",
+      "bytes": 83764,
+      "sha256": "44c00e7707fbbb96b7e7d897a66924b24a7aee5d04048d7f0c78c318e997a202"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 9042,
+      "sha256": "2f3ccb534599876054f21365f7863b5e5274fe1a55916254565d28d8fbf8ab87"
+    },
+    "verify.py": {
+      "type": "regular_file",
+      "bytes": 21797,
+      "sha256": "779dc459de6c56605930254ce9669202254222c3d28c3249eb760b0a1b31a7b0"
+    }
+  },
+  "delta": {
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "added": 19,
+      "removed": 1
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "added": 2,
+      "removed": 1
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs": {
+      "added": 115,
+      "removed": 0
+    }
+  },
+  "line_totals": {
+    "production": 1014,
+    "tests": 999,
+    "frozen_production": 251,
+    "frozen_tests": 247,
+    "changed_added_plus_removed": 138
+  },
+  "budgets": {
+    "production_lines": 1100,
+    "test_lines": 1050,
+    "delta_changed_lines": 270,
+    "stage_bytes": 2097152,
+    "verify_seconds": 30
+  },
+  "original_source_receipt": {
+    "type": "regular_file",
+    "bytes": 15735,
+    "sha256": "41d012724da25235d93712445b991274e522d7d230b9e2d89dab84c4030d9fea"
+  },
+  "review_input": {
+    "head": "5e70957df7db1caab56e3908621a295bcb58a1ce",
+    "review_id": 5397551743,
+    "findings": [
+      4170434483,
+      4170434491
+    ],
+    "state": "OPEN_NEEDS_FIX",
+    "receipt": {
+      "type": "regular_file",
+      "bytes": 6362,
+      "sha256": "70d45111d831cc300269c3a7149ef902b79d8627ff0951831789120655ac488b"
+    }
+  },
+  "findings": [
+    {
+      "id": 4170434483,
+      "state": "OPEN",
+      "implementation": "IMPLEMENTED_UNTESTED",
+      "paths": [
+        "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs"
+      ],
+      "regressions": [
+        "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedInitializationCanBeRetriedByLaterAcquisition",
+        "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedManifestCanBeRetriedWithoutReinitializingPackage"
+      ],
+      "change": "Later explicit Begin detaches completed failed owned operation, freezes old observers' failed stage and result, and clears only that operation. Phase 0 retries initialization; phase 1 retries manifest with successful initialization retained. Callbacks and Ready remain byte-identical."
+    },
+    {
+      "id": 4170434491,
+      "state": "OPEN",
+      "implementation": "IMPLEMENTED_UNTESTED",
+      "paths": [
+        "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs"
+      ],
+      "regressions": [
+        "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.InvalidReleaseSetsEmitExactCanonicalReasonBeforeSdkWork"
+      ],
+      "change": "Reject explicitly supplies reason=invalid-release-set for WrongReleaseSet with discarded null set. Request validation ordering and valid mismatch behavior remain byte-identical."
+    }
+  ],
+  "regression_authoring_order": {
+    "author_attestation": "Three regression methods were added by a separate apply_patch before any production correction.",
+    "mechanical_order_proof_claim": false,
+    "red_green_execution_claim": false
+  },
+  "original_test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsAcceptExactAsciiBoundsAndUseOrdinalIdentity",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsRejectMalformedUnicodeCaseAndPathInputWithoutRetainingIt",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.BudgetsAcceptBothInclusiveBoundsAndRejectEveryAdjacentOutOfRangeValue",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.DiagnosticsEnforceEnumRangesAndAssetNullability",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsAcceptEveryAllowedCategoryAndCanonicalMaximum",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsRedactEntireInvalidOrSensitiveInput",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.InvalidReleaseSetsAreDiscardedAndNeverEchoed",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsContainExactlyOneLiveLeaseAndEchoPositiveEpochAndSet",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsRejectMissingReleasedMismatchedOrInvalidLeaseData",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedResultsContainOnlyDiagnosticAndEnforceOrdinalSetAgreement",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedEpochsPreserveEarlierFailuresAndRequireMatchingValidationStage",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B00_CallersUseOnlyProjectInterfaceAndResults",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B02_B04_ValidationOrderRejectsInvalidUnknownTypesAndSetsWithoutSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B05_FailuresHaveDistinctStagesAndNoSdkText",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B06_B09_SharedPendingAndLiveHandlesHaveIndependentIdempotentLeases",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B10_B11_EpochAndForeignLateDuplicateCallbacksCannotPublishOrReleaseNewHandles",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B12_RequestAndModuleLimitsReserveBeforeStartingSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.AnyThreadDisposeUsesOneReservedWakeAndNeverReleasesOffThread",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedPostAndFailedReleaseRetainCleanupForNextMainEntry",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BackgroundAcquirePerformsPureValidationThenRejectsWithoutSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CloseWaitsForRealInitManifestOrLoadTerminalsAndDoesNotPublish",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ClosePreservesLiveLeaseAndRetriesFailedPackageDestruction",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BorrowedPackageAndGlobalAreNeverReinitializedSwitchedOrDestroyed",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CreatorShutdownCannotDestroyPackageUsedByAnotherProvider",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedDestructionDoesNotCreateAnAutomaticRetryLoop",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.SynchronousDuplicateAndPriorProviderCallbacksRemainExactOnce",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.OwnedPackageUnderBorrowedGlobalPreservesGlobalAndOtherPackages",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B15_B16_AssemblyBoundaryHasNoBusinessReferencesAndContractsNeedNoSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ProductionConstructorRejectsThreadPoolContextsBeforeSdkAccess",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B13_B14_RemoteUrlsUseExactImmutableIdentityAndRejectInjection",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B17_B18_AdapterHonorsIdentifierEpochAndBudgetBoundariesWithoutLeakingInputs"
+  ],
+  "new_regression_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedInitializationCanBeRetriedByLaterAcquisition",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedManifestCanBeRetriedWithoutReinitializingPackage",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.InvalidReleaseSetsEmitExactCanonicalReasonBeforeSdkWork"
+  ],
+  "candidate_test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsAcceptExactAsciiBoundsAndUseOrdinalIdentity",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsRejectMalformedUnicodeCaseAndPathInputWithoutRetainingIt",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.BudgetsAcceptBothInclusiveBoundsAndRejectEveryAdjacentOutOfRangeValue",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.DiagnosticsEnforceEnumRangesAndAssetNullability",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsAcceptEveryAllowedCategoryAndCanonicalMaximum",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsRedactEntireInvalidOrSensitiveInput",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.InvalidReleaseSetsAreDiscardedAndNeverEchoed",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsContainExactlyOneLiveLeaseAndEchoPositiveEpochAndSet",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsRejectMissingReleasedMismatchedOrInvalidLeaseData",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedResultsContainOnlyDiagnosticAndEnforceOrdinalSetAgreement",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedEpochsPreserveEarlierFailuresAndRequireMatchingValidationStage",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B00_CallersUseOnlyProjectInterfaceAndResults",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B02_B04_ValidationOrderRejectsInvalidUnknownTypesAndSetsWithoutSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B05_FailuresHaveDistinctStagesAndNoSdkText",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B06_B09_SharedPendingAndLiveHandlesHaveIndependentIdempotentLeases",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B10_B11_EpochAndForeignLateDuplicateCallbacksCannotPublishOrReleaseNewHandles",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B12_RequestAndModuleLimitsReserveBeforeStartingSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.AnyThreadDisposeUsesOneReservedWakeAndNeverReleasesOffThread",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedPostAndFailedReleaseRetainCleanupForNextMainEntry",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BackgroundAcquirePerformsPureValidationThenRejectsWithoutSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CloseWaitsForRealInitManifestOrLoadTerminalsAndDoesNotPublish",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ClosePreservesLiveLeaseAndRetriesFailedPackageDestruction",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BorrowedPackageAndGlobalAreNeverReinitializedSwitchedOrDestroyed",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CreatorShutdownCannotDestroyPackageUsedByAnotherProvider",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedDestructionDoesNotCreateAnAutomaticRetryLoop",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.SynchronousDuplicateAndPriorProviderCallbacksRemainExactOnce",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.OwnedPackageUnderBorrowedGlobalPreservesGlobalAndOtherPackages",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B15_B16_AssemblyBoundaryHasNoBusinessReferencesAndContractsNeedNoSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ProductionConstructorRejectsThreadPoolContextsBeforeSdkAccess",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B13_B14_RemoteUrlsUseExactImmutableIdentityAndRejectInjection",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedInitializationCanBeRetriedByLaterAcquisition",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedManifestCanBeRetriedWithoutReinitializingPackage",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.InvalidReleaseSetsEmitExactCanonicalReasonBeforeSdkWork",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B17_B18_AdapterHonorsIdentifierEpochAndBudgetBoundariesWithoutLeakingInputs"
+  ],
+  "test_inventory": {
+    "original": 31,
+    "added": 3,
+    "static_total": 34,
+    "discovery_or_execution_claim": false
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX01/S/verify.py",
+    "kind": "STATIC_ONLY",
+    "behavior_pass_claim": false,
+    "protected_inputs": 39,
+    "shared_guards": 18,
+    "old_stage_leaves": 15,
+    "memory_patch_replay": "three paths equal candidate postimages",
+    "static_result": {
+      "type": "regular_file",
+      "bytes": 20227,
+      "sha256": "edf47f4d5f0788281e4336fea0dc6035cfdc7738dc2983d1fb6aae10fba0b22b"
+    },
+    "runs": 1,
+    "failed_runs_preserved": 0,
+    "passed_checks": 111,
+    "duration_seconds": 0.013617749995319173
+  },
+  "not_run": [
+    "C# compile",
+    "Unity import",
+    "NUnit discovery",
+    "old-code red tests",
+    "new-code regression tests",
+    "real SDK smoke",
+    "Git/network commands",
+    "GitHub review",
+    "local code review",
+    "C active projection inspection"
+  ],
+  "limitations": [
+    "Static checks do not establish C# type correctness or runtime behavior.",
+    "Old compile/31-pass report belongs to the original candidate and does not close either P2.",
+    "Both findings remain OPEN pending fresh candidate validation and independent new-head GitHub review.",
+    "The diagnostic correction is explicit source mapping; no pre-fix behavioral failure is claimed.",
+    "FIX04 native and LOC M16 blocks remain unchanged."
+  ],
+  "return_path": "Engineering issuer is the sole completion receiver via wait; no separate dispatch or QA/central message.",
+  "after": {
+    "type": "regular_file",
+    "bytes": 16906,
+    "sha256": "4e253e89f6639394f7e3f90bb94845ffdc398fa90b59dab2fa3d91ce049b5dd9"
+  }
+}

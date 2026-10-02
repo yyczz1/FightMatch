@@ -1,0 +1,133 @@
+{
+  "task": "RES-B-ADAPTER-S1-PR9-GITHUB-REVIEW-RECEIPT",
+  "receivedUtc": "2026-10-02T22:45:35Z",
+  "verdict": "NEEDS_FIX",
+  "scope": "PR9 independent GitHub code-review gate only; no duplicate local review or native-test acceptance.",
+  "testingOwner": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fec4-ff60-7373-b71f-af4ca8a5e0c3"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Central's scoped dispatch under the user's standing team workflow: receive the existing GitHub review; report findings only to central. Engineering owns original-author fixes and sole-C native receipt.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/9",
+    "head": "5e70957df7db1caab56e3908621a295bcb58a1ce",
+    "tree": "ddaec00c4735c6530b7f741e45b7fd33a0068771",
+    "base": "4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8",
+    "soleParent": "4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8",
+    "draft": true,
+    "merged": false
+  },
+  "identityVerification": {
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/S/source-receipt.json",
+      "bytes": 15735,
+      "sha256": "41d012724da25235d93712445b991274e522d7d230b9e2d89dab84c4030d9fea"
+    },
+    "publicationReceipt": {
+      "path": "docs/team/2026-09-30/yooasset-adapter-s1-publication-receipt.json",
+      "bytes": 2019,
+      "sha256": "ac270b8afe9096b95f9ae2b86e320aee1ded38fe926fb77de682b79604976c6f"
+    },
+    "publicationManifest": {
+      "path": "docs/versioning/2026-10-03-yooasset-adapter-pr/publication-manifest.json",
+      "bytes": 5918,
+      "sha256": "cf73adb24413e3dc5183c6bed008503a24e84f6ca4cf5ededbdce10161c6bd97"
+    },
+    "freshChecks": "Live PR head/base and commit tree/sole parent; all 15 changed Git blob mappings including publication manifest; six product delta paths; source receipt hash and exact archived-copy equality.",
+    "reusedChecks": "Central's complete 1771-blob tree preservation and engineering source/static-scope checks; no full source rehash or verifier rerun."
+  },
+  "independentReview": {
+    "provider": "GitHub PR Code Review / chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5962583480,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#issuecomment-5962583480",
+      "createdUtc": "2026-10-02T22:38:33Z"
+    },
+    "summary": {
+      "id": 5962585590,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#issuecomment-5962585590",
+      "status": "Completed",
+      "completedUtc": "2026-10-02T22:44:18.279794Z",
+      "updatedUtc": "2026-10-02T22:44:19Z",
+      "commitShown": "5e70957"
+    },
+    "review": {
+      "id": 5397551743,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#pullrequestreview-5397551743",
+      "state": "COMMENTED",
+      "commit": "5e70957df7db1caab56e3908621a295bcb58a1ce",
+      "submittedUtc": "2026-10-02T22:44:16Z"
+    },
+    "fullReviewedHeadMatches": true,
+    "findings": 2,
+    "formalApproved": false
+  },
+  "findings": [
+    {
+      "priority": "P2",
+      "id": 4170434483,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#discussion_r4170434483",
+      "thread": "PRRT_kwDOTDyjrM6og6gq",
+      "file": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+      "start": 284,
+      "end": 287,
+      "side": "RIGHT",
+      "title": "Reset failed package operations before retrying",
+      "serviceFinding": "A transient initialization/manifest failure leaves completed failed package.Operation cached. Later acquisition returns that failure without calling sdk.Initialize/sdk.Manifest again despite retryable diagnostics.",
+      "requestedCorrection": "Clear/restart the failed phase so a subsequent retry performs real SDK work.",
+      "resolved": false,
+      "outdated": false
+    },
+    {
+      "priority": "P2",
+      "id": 4170434491,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#discussion_r4170434491",
+      "thread": "PRRT_kwDOTDyjrM6og6gu",
+      "file": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+      "start": 150,
+      "end": 152,
+      "side": "RIGHT",
+      "title": "Emit the required invalid-set diagnostic reason",
+      "serviceFinding": "Null, malformed or latest release-set IDs receive SafeDetail status=failed instead of the frozen section 6.1 requirement reason=invalid-release-set; current tests miss this contract violation.",
+      "requestedCorrection": "Map the invalid-release-set diagnostic to its required canonical bounded reason.",
+      "resolved": false,
+      "outdated": false
+    }
+  ],
+  "disposition": {
+    "codeGate": "OPEN_NEEDS_FIX",
+    "routing": "Return both independent findings to central; engineering dispatches a smaller corrective packet to the original author. Testing does not dispatch or implement the fix.",
+    "requiredFollowup": "Fix only the bounded findings and relevant regression coverage under engineering's packet; obtain affected validation and a new-head GitHub review before closing this gate.",
+    "evidenceMeaning": "Findings are attributed to the independent service, not reproduced or supplemented by a duplicate local code review."
+  },
+  "validationBoundary": {
+    "sourceCheckpoint": "SOURCE_READY / UNCOMPILED / UNTESTED; 132 mechanical checks are static evidence only.",
+    "staticNames": {
+      "new": 20,
+      "existing": 11,
+      "total": 31,
+      "discoveredOrExecutedClaim": false
+    },
+    "nativeOwner": "Engineering receives sole C's actual compile, focused-suite and natural-metadata evidence separately. QA neither waits on C nor accepts that gate in this task.",
+    "unchangedPriorGates": "PR8 package code/native receipts remain scoped historical evidence; they do not validate this new adapter.",
+    "remaining": [
+      "Actual SDK compilation and focused tests",
+      "Natural metadata receipt",
+      "Built-in package/manifest/object and raw-resource smoke",
+      "Real Host, Windows, Android and device acceptance",
+      "Shared adoption, Demo and release"
+    ]
+  },
+  "actions": {
+    "newReviewTriggers": 0,
+    "localReviews": 0,
+    "unityRuns": 0,
+    "sourceVerifierRuns": 0,
+    "gitWrites": 0,
+    "githubDiscussionWrites": 0,
+    "workerDispatches": 0,
+    "onlyFileWritten": "docs/team/2026-09-30/testing-yooasset-adapter-pr9-review-receipt.json"
+  }
+}

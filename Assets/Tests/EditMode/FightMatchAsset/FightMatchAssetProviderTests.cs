@@ -613,6 +613,121 @@ namespace FightMatch.AssetAccess.Tests
         }
 
         [Test]
+        public void FailedInitializationCanBeRetriedByLaterAcquisition()
+        {
+            using (var sdk = new Sdk())
+            using (var first = new Rig(sdk))
+            using (var observer = new Rig(sdk))
+            {
+                sdk.AutoInit = false;
+                var failed = first.Request();
+                var oldObserver = observer.Request();
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                sdk.Operations[0].Finish(false);
+                first.Dispatch.Run();
+                Rejected(failed, Code.PackageUnavailable, Stage.InitializePackage);
+                Assert.IsFalse(oldObserver.IsCompleted);
+                first.Dispatch.Run();
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(0, sdk.Manifests);
+                Assert.AreEqual(0, sdk.LoadCalls);
+                sdk.AutoInit = true;
+                var retry = first.Result(first.Request());
+                Assert.IsTrue(retry.IsAccepted);
+                Assert.AreEqual(2, sdk.PackageInitializations);
+                Assert.AreEqual(1, sdk.Manifests);
+                Assert.AreEqual(1, sdk.LoadCalls);
+                observer.Dispatch.Run();
+                Rejected(oldObserver, Code.PackageUnavailable, Stage.InitializePackage);
+                Rejected(failed, Code.PackageUnavailable, Stage.InitializePackage);
+                Assert.AreEqual(2, sdk.PackageInitializations);
+                retry.Lease.Dispose();
+                first.Dispatch.Run();
+                observer.Dispatch.Run();
+                var firstClose = first.Provider.CloseAsync();
+                var observerClose = observer.Provider.CloseAsync();
+                first.Dispatch.Run();
+                observer.Dispatch.Run();
+                Assert.IsTrue(firstClose.IsCompleted);
+                Assert.IsTrue(observerClose.IsCompleted);
+            }
+        }
+
+        [Test]
+        public void FailedManifestCanBeRetriedWithoutReinitializingPackage()
+        {
+            using (var sdk = new Sdk())
+            using (var first = new Rig(sdk))
+            using (var observer = new Rig(sdk))
+            {
+                sdk.AutoManifest = false;
+                var failed = first.Request();
+                var oldObserver = observer.Request();
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(1, sdk.Manifests);
+                sdk.Operations[1].Finish(false);
+                first.Dispatch.Run();
+                Rejected(failed, Code.ManifestUnavailable, Stage.SelectManifest);
+                Assert.IsFalse(oldObserver.IsCompleted);
+                first.Dispatch.Run();
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(1, sdk.Manifests);
+                Assert.AreEqual(0, sdk.LoadCalls);
+                sdk.AutoManifest = true;
+                var retry = first.Result(first.Request());
+                Assert.IsTrue(retry.IsAccepted);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(2, sdk.Manifests);
+                Assert.AreEqual(1, sdk.LoadCalls);
+                observer.Dispatch.Run();
+                Rejected(oldObserver, Code.ManifestUnavailable, Stage.SelectManifest);
+                Rejected(failed, Code.ManifestUnavailable, Stage.SelectManifest);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(2, sdk.Manifests);
+                retry.Lease.Dispose();
+                first.Dispatch.Run();
+                observer.Dispatch.Run();
+                var firstClose = first.Provider.CloseAsync();
+                var observerClose = observer.Provider.CloseAsync();
+                first.Dispatch.Run();
+                observer.Dispatch.Run();
+                Assert.IsTrue(firstClose.IsCompleted);
+                Assert.IsTrue(observerClose.IsCompleted);
+            }
+        }
+
+        [Test]
+        public void InvalidReleaseSetsEmitExactCanonicalReasonBeforeSdkWork()
+        {
+            using (var rig = new Rig())
+            {
+                foreach (var set in new[] { null, "", " ", "\t", "bad set", "latest", "../set",
+                    "https://user:token@host/path?sig=secret", "/Users/example/private", @"C:\secret" })
+                {
+                    var task = rig.Provider.AcquireAsync<Texture2D>(Id(), set, Budget(), 1);
+                    Rejected(task, Code.WrongReleaseSet);
+                    Assert.IsNull(task.Result.ReleaseSetId);
+                    Assert.IsNull(task.Result.Diagnostic.ReleaseSetId);
+                    Assert.AreEqual("reason=invalid-release-set", task.Result.Diagnostic.SafeDetail);
+                    Assert.AreEqual(0, rig.Sdk.Initializations);
+                    Assert.AreEqual(0, rig.Sdk.PackageInitializations);
+                    Assert.AreEqual(0, rig.Sdk.Manifests);
+                    Assert.AreEqual(0, rig.Sdk.LoadCalls);
+                }
+                var invalidId = rig.Provider.AcquireAsync<Texture2D>(null, "bad set", null, 0);
+                Rejected(invalidId, Code.InvalidAssetId);
+                Assert.IsNull(invalidId.Result.Diagnostic.AssetId);
+                Assert.IsNull(invalidId.Result.ReleaseSetId);
+                var mismatch = rig.Provider.AcquireAsync<Texture2D>(Id(), "another-set", Budget(), 1);
+                Rejected(mismatch, Code.WrongReleaseSet);
+                Assert.AreEqual("another-set", mismatch.Result.ReleaseSetId);
+                Assert.AreEqual("status=failed", mismatch.Result.Diagnostic.SafeDetail);
+                Assert.AreEqual(0, rig.Sdk.Initializations);
+                Assert.AreEqual(0, rig.Sdk.LoadCalls);
+            }
+        }
+
+        [Test]
         public void B17_B18_AdapterHonorsIdentifierEpochAndBudgetBoundariesWithoutLeakingInputs()
         {
             foreach (var length in new[] { 1, 127, 128 })
