@@ -546,6 +546,64 @@ TemplatePool/TextTemplate|Binding";
             foreach (var callbacks in new[] { (Delegate)changed.GetValue(safe), (Delegate)render.GetValue(null) })
                 Assert.AreEqual(expected, callbacks?.GetInvocationList().Count(x => ReferenceEquals(x.Target, layout)) ?? 0);
         }
+        private static void ReenabledInvalidLayoutCancelsDisabledGesture(UguiHostRig rig, FightMatchResponsiveLayout layout,
+            CanvasGroup otherGroup, Button otherButton, GameObject otherDiagnostic)
+        {
+            var group = R(rig, BattlePath).GetComponent<CanvasGroup>();
+            var diagnostic = R(rig, "SystemLayer/LayoutDiagnostic").gameObject;
+            var head = rig.Head; var calls = rig.Storage.SnapshotCreates; var files = CopyFiles(rig.Storage.Files);
+            foreach (var wasInvalid in new[] { false, true })
+            {
+                ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960);
+                var geometry = LayoutGeometry(layout); var boardRect = rig.Board.rectTransform.rect;
+                if (wasInvalid) ApplySafe(rig, new Rect(16, 16, 508, 811), 540, 960);
+                var notifications = new List<bool>(); Action<bool> observe = notifications.Add;
+                layout.ValidityChanged += observe;
+                try
+                {
+                    if (!wasInvalid) rig.BeginRoute(21);
+                    layout.enabled = false;
+                    CollectionAssert.IsEmpty(notifications); LayoutSubscriptions(layout, Safe(rig), 0);
+                    Assert.IsFalse(diagnostic.activeSelf); Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                    Assert.AreSame(rig.Session.Battle, rig.View.BattleView.Controller);
+                    if (!wasInvalid)
+                    {
+                        Assert.IsTrue(rig.Board.HasActivePointer, "Disable alone must preserve the existing gesture.");
+                        rig.Driver.Cancel(21, UguiPointerDriver.Point(rig.Board, rig.Route().Last()));
+                        Assert.IsFalse(rig.Board.HasActivePointer);
+                    }
+                    var pointer = 22; rig.BeginRoute(pointer);
+                    if (!wasInvalid)
+                    {
+                        ApplySafe(rig, new Rect(16, 16, 508, 811), 540, 960);
+                        // The board independently cancels on safe-area geometry changes. Start again while layout is still disabled.
+                        Assert.IsFalse(rig.Board.HasActivePointer); rig.EndRoute(pointer);
+                        pointer = 23; rig.BeginRoute(pointer);
+                    }
+                    Assert.IsTrue(rig.Board.HasActivePointer); CollectionAssert.IsEmpty(notifications);
+                    var endpoint = UguiPointerDriver.Point(rig.Board, rig.Route().Last());
+                    layout.enabled = true;
+                    Assert.IsFalse(rig.Board.HasActivePointer, "First invalid sample must notify the real Host immediately.");
+                    Assert.IsNull(rig.Session.Battle.Input.Gesture.ActivePointerId);
+                    CollectionAssert.AreEqual(new[] { false }, notifications); LayoutSubscriptions(layout, Safe(rig), 1);
+                    Assert.IsTrue(diagnostic.activeSelf); Assert.IsFalse(group.interactable); Assert.IsFalse(group.blocksRaycasts);
+                    for (var refresh = 0; refresh < 3; refresh++) Canvas.ForceUpdateCanvases();
+                    CollectionAssert.AreEqual(new[] { false }, notifications);
+                    rig.Driver.Move(endpoint, pointer); rig.EndRoute(pointer);
+                    Assert.IsFalse(rig.Board.HasActivePointer); Assert.IsNull(rig.Session.Battle.Input.LastRequest);
+                    ApplySafe(rig, new Rect(16, 16, 508, 810), 540, 960);
+                    CollectionAssert.AreEqual(new[] { false }, notifications);
+                    CollectionAssert.AreEqual(geometry, LayoutGeometry(layout)); Assert.AreEqual(boardRect, rig.Board.rectTransform.rect);
+                    Assert.AreSame(head, rig.Head); Assert.AreEqual(calls, rig.Storage.SnapshotCreates); SameFiles(files, rig.Storage.Files);
+                    Assert.IsFalse(otherGroup.interactable); Assert.IsFalse(otherGroup.blocksRaycasts);
+                    Assert.IsFalse(otherButton.interactable); Assert.IsTrue(otherDiagnostic.activeSelf);
+                    ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960); Geometry(rig, 508, 812, 96, 104);
+                    CollectionAssert.AreEqual(new[] { false, true }, notifications);
+                    Assert.IsFalse(diagnostic.activeSelf); Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                }
+                finally { layout.ValidityChanged -= observe; }
+            }
+        }
         [UnityTest]
         public IEnumerator LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink()
         {
@@ -597,6 +655,7 @@ TemplatePool/TextTemplate|Binding";
                     SameFiles(files, rig.Storage.Files); Assert.IsNull(rig.Session.Battle.Input.LastRequest);
                     ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960); Geometry(rig, 508, 812, 96, 104);
                     Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                    ReenabledInvalidLayoutCancelsDisabledGesture(rig, layout, otherGroup, otherButton, otherDiagnostic);
                     for (var repeat = 0; repeat < 2; repeat++)
                     {
                         layout.enabled = false; layout.enabled = false; LayoutSubscriptions(layout, safe, 0);

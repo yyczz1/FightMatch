@@ -18,7 +18,7 @@ namespace FightMatch.Presentation
         [SerializeField] private LocalizedTmpText layoutDiagnosticText;
         [SerializeField] private CanvasGroup battleInteraction;
         private LocalizationService localization;
-        private bool subscribed, dirty = true, sampled, valid, applying;
+        private bool subscribed, dirty = true, sampled, valid, validityKnown, applying;
         private long previousVersion = -1;
         private Vector2 previousSize;
         private Vector3 previousScale;
@@ -142,8 +142,8 @@ namespace FightMatch.Presentation
             battleInteraction.interactable = available;
             battleInteraction.blocksRaycasts = available;
             layoutDiagnostic.SetActive(!available);
-            if (valid == available) return;
-            valid = available; ValidityChanged?.Invoke(available);
+            if (validityKnown && valid == available) return;
+            validityKnown = true; valid = available; ValidityChanged?.Invoke(available);
         }
         internal void Unbind()
         {
@@ -155,7 +155,7 @@ namespace FightMatch.Presentation
         {
             if (layoutDiagnostic != null) layoutDiagnostic.SetActive(false);
             if (battleInteraction != null) { battleInteraction.interactable = true; battleInteraction.blocksRaycasts = true; }
-            valid = false;
+            validityKnown = false;
         }
         private void OnDisable() { Unsubscribe(); dirty = true; sampled = false; ReleaseGate(); }
         private void OnDestroy() { Unbind(); }
