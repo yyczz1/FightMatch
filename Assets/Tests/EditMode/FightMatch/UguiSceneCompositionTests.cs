@@ -216,7 +216,8 @@ namespace FightMatch.Core.Tests
                     }
                     else Assert.AreEqual(LocalizedTmpText.Placeholder, text.text);
                 }
-                Assert.AreEqual(119, texts.Length); Assert.AreEqual(3, linkedInputs); Assert.AreEqual(116, texts.Length - linkedInputs);
+                UguiResponsiveLayoutTests.AssertExactTextTargets(rig.Root);
+                Assert.AreEqual(141, texts.Length); Assert.AreEqual(3, linkedInputs); Assert.AreEqual(138, texts.Length - linkedInputs);
                 Assert.AreEqual(0, rig.Root.GetComponentsInChildren<UnityEngine.UIElements.UIDocument>(true).Length);
                 rig.Bind();
                 Assert.IsFalse(rig.View.DiagnosticVisible, rig.View.DiagnosticCode);

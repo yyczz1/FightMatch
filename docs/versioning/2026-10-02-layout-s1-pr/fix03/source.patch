@@ -1,0 +1,104 @@
+diff --git a/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs b/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs
+--- a/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs
++++ b/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs
+@@ -80,7 +80,7 @@
+         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+         private void Apply()
+         {
+-            if (applying || localization == null || !BindingsPresent()) return;
++            if (!isActiveAndEnabled || applying || localization == null || !BindingsPresent()) return;
+             var size = ((RectTransform)safeArea.transform).rect.size;
+             var factor = canvas.scaleFactor;
+             var scale = canvas.transform.lossyScale;
+diff --git a/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs b/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs
+--- a/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs
++++ b/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs
+@@ -604,6 +604,80 @@
+                 finally { layout.ValidityChanged -= observe; }
+             }
+         }
++        private static void DisabledLayoutBindDefersSampling(UguiHostRig rig, FightMatchResponsiveLayout layout,
++            CanvasGroup otherGroup, Button otherButton, GameObject otherDiagnostic)
++        {
++            var group = R(rig, BattlePath).GetComponent<CanvasGroup>();
++            var diagnostic = R(rig, "SystemLayer/LayoutDiagnostic").gameObject;
++            var label = Reference<LocalizedTmpText>(layout, "layoutDiagnosticText");
++            var geometry = LayoutGeometry(layout); var boardRect = rig.Board.rectTransform.rect;
++            var head = rig.Head; var calls = rig.Storage.SnapshotCreates; var files = CopyFiles(rig.Storage.Files);
++            var notifications = new List<bool>(); Action<bool> observe = notifications.Add;
++            var service = new LocalizationService(new UguiTestTextSource(), SystemLanguage.English);
++            Action released = () => {
++                CollectionAssert.IsEmpty(notifications); LayoutSubscriptions(layout, Safe(rig), 0);
++                Assert.IsFalse(diagnostic.activeSelf); Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
++                CollectionAssert.AreEqual(geometry, LayoutGeometry(layout)); Assert.AreEqual(boardRect, rig.Board.rectTransform.rect);
++                Assert.IsFalse(otherGroup.interactable); Assert.IsFalse(otherGroup.blocksRaycasts);
++                Assert.IsFalse(otherButton.interactable); Assert.IsTrue(otherDiagnostic.activeSelf);
++                Assert.AreSame(head, rig.Head); Assert.AreEqual(calls, rig.Storage.SnapshotCreates); SameFiles(files, rig.Storage.Files);
++                Assert.IsNull(rig.Session.Battle.Input.LastRequest);
++            };
++            layout.ValidityChanged += observe;
++            try
++            {
++                layout.enabled = false; ApplySafe(rig, new Rect(16, 16, 508, 811), 540, 960);
++                rig.BeginRoute(31); var endpoint = UguiPointerDriver.Point(rig.Board, rig.Route().Last());
++                foreach (var locale in new[] { LocaleId.ZhHans, LocaleId.En })
++                {
++                    layout.Bind(service); service.SetLocale(locale); Canvas.ForceUpdateCanvases(); released();
++                    Assert.IsTrue(rig.Board.HasActivePointer, "Direct layout Bind must not cancel while disabled.");
++                    Assert.AreSame(rig.Session.Battle, rig.View.BattleView.Controller);
++                    Assert.AreEqual(service.Resolve(label.Key,
++                        new[] { new KeyValuePair<string, string>("errorCode", "LayoutInvalid") }).Text, label.Target.text);
++                }
++                layout.enabled = true;
++                Assert.IsFalse(rig.Board.HasActivePointer); Assert.IsNull(rig.Session.Battle.Input.Gesture.ActivePointerId);
++                CollectionAssert.AreEqual(new[] { false }, notifications); LayoutSubscriptions(layout, Safe(rig), 1);
++                Assert.IsTrue(diagnostic.activeSelf); Assert.IsFalse(group.interactable); Assert.IsFalse(group.blocksRaycasts);
++                rig.Driver.Move(endpoint, 31); rig.EndRoute(31);
++                for (var refresh = 0; refresh < 3; refresh++) Canvas.ForceUpdateCanvases();
++                CollectionAssert.AreEqual(new[] { false }, notifications); Assert.IsNull(rig.Session.Battle.Input.LastRequest);
++                ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960); Geometry(rig, 508, 812, 96, 104);
++                CollectionAssert.AreEqual(new[] { false, true }, notifications); notifications.Clear();
++
++                layout.enabled = false; ApplySafe(rig, new Rect(16, 16, 508, 811), 540, 960); rig.BeginRoute(32);
++                rig.Bind(); // Host Unbind legitimately cancels this pointer; this is separate from direct layout Bind above.
++                Assert.IsFalse(rig.Board.HasActivePointer); rig.EndRoute(32); released();
++                Assert.IsFalse(layout.enabled); Assert.AreSame(rig.Session.Battle, rig.View.BattleView.Controller);
++                rig.Bind(); Canvas.ForceUpdateCanvases(); released();
++                layout.enabled = true; CollectionAssert.AreEqual(new[] { false }, notifications);
++                LayoutSubscriptions(layout, Safe(rig), 1); Assert.IsTrue(diagnostic.activeSelf);
++                Assert.IsFalse(group.interactable); Assert.IsFalse(group.blocksRaycasts);
++                ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960); Geometry(rig, 508, 812, 96, 104);
++                CollectionAssert.AreEqual(new[] { false, true }, notifications); notifications.Clear();
++
++                layout.enabled = false; ApplySafe(rig, new Rect(16, 16, 508, 811), 540, 960);
++                rig.Root.SetActive(false); layout.enabled = true;
++                Assert.IsTrue(layout.enabled); Assert.IsFalse(layout.isActiveAndEnabled);
++                for (var repeat = 0; repeat < 2; repeat++)
++                { layout.Bind(service); Canvas.ForceUpdateCanvases(); released(); }
++                Assert.AreNotEqual(LocalizedTmpText.Placeholder, label.Target.text);
++                rig.Bind(); // Activation supplies the first real sample after binding the inactive hierarchy.
++                CollectionAssert.AreEqual(new[] { false }, notifications); LayoutSubscriptions(layout, Safe(rig), 1);
++                Assert.IsTrue(diagnostic.activeSelf); Assert.IsFalse(group.interactable); Assert.IsFalse(group.blocksRaycasts);
++                for (var refresh = 0; refresh < 3; refresh++) Canvas.ForceUpdateCanvases();
++                CollectionAssert.AreEqual(new[] { false }, notifications);
++                ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960); Geometry(rig, 508, 812, 96, 104);
++                CollectionAssert.AreEqual(new[] { false, true }, notifications);
++                Assert.IsFalse(diagnostic.activeSelf); Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
++                Assert.IsFalse(otherGroup.interactable); Assert.IsFalse(otherGroup.blocksRaycasts);
++                Assert.IsFalse(otherButton.interactable); Assert.IsTrue(otherDiagnostic.activeSelf);
++                Assert.AreSame(head, rig.Head); Assert.AreEqual(calls, rig.Storage.SnapshotCreates); SameFiles(files, rig.Storage.Files);
++                Assert.IsNull(rig.Session.Battle.Input.LastRequest);
++            }
++            finally { layout.ValidityChanged -= observe; }
++        }
+         [UnityTest]
+         public IEnumerator LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink()
+         {
+@@ -656,6 +730,7 @@
+                     ApplySafe(rig, new Rect(16, 16, 508, 812), 540, 960); Geometry(rig, 508, 812, 96, 104);
+                     Assert.IsTrue(group.interactable); Assert.IsTrue(group.blocksRaycasts);
+                     ReenabledInvalidLayoutCancelsDisabledGesture(rig, layout, otherGroup, otherButton, otherDiagnostic);
++                    DisabledLayoutBindDefersSampling(rig, layout, otherGroup, otherButton, otherDiagnostic);
+                     for (var repeat = 0; repeat < 2; repeat++)
+                     {
+                         layout.enabled = false; layout.enabled = false; LayoutSubscriptions(layout, safe, 0);

@@ -12,13 +12,12 @@ namespace FightMatch.Presentation
     public sealed class CandidateBattlePlaybackView : MonoBehaviour, IDisposable
     {
         [SerializeField] private CandidateBoardInputView inputView;
-        [SerializeField] private LocalizedTmpText hp, intent, beat, stage, diagnostic;
+        [SerializeField] private LocalizedTmpText beat, stage, diagnostic;
         [SerializeField] private UnityEngine.UI.Button skip;
         public CandidateBoardInputView InputView => inputView;
         public CandidateBattlePlaybackController Controller { get; private set; }
         private UnityAction skipAction;
         private LocalizationService localization;
-        private BattleLocalizedRows hpRows, intentRows;
         private long epoch, scheduledGeneration = -1, bindingEpoch;
         private double lastTick;
         private bool closed = true, disposed, memorySubscribed, borrowed, ticking, structuralRefresh, nativeBound, callbacksActive;
@@ -45,7 +44,7 @@ namespace FightMatch.Presentation
         }
         private void CheckBindings()
         {
-            if (inputView == null || hp == null || intent == null || beat == null || stage == null || diagnostic == null || skip == null)
+            if (inputView == null || beat == null || stage == null || diagnostic == null || skip == null)
                 throw new InvalidOperationException("CandidateBattlePlaybackView serialized bindings are incomplete.");
         }
         private void BindCallbacks()
@@ -64,10 +63,10 @@ namespace FightMatch.Presentation
         {
             if (nativeBound) return;
             var owner = Controller; var binding = ++bindingEpoch;
-            skipAction = () => { if (ReferenceEquals(owner, Controller) && binding == bindingEpoch) SkipToFinal(); };
+            skipAction = () => { if (ReferenceEquals(owner, Controller) && binding == bindingEpoch &&
+                inputView != null && inputView.DisplayLayoutSupported) SkipToFinal(); };
             skip.onClick.AddListener(skipAction);
             skip.GetComponentInChildren<LocalizedTmpText>(true).Bind(localization, "fm.battle.playback.skip_button");
-            hpRows = new BattleLocalizedRows(hp, "playback-hp"); intentRows = new BattleLocalizedRows(intent, "playback-intent");
             nativeBound = true;
         }
         public void Detach() { Unbind(); }
@@ -76,20 +75,21 @@ namespace FightMatch.Presentation
         {
             SuspendCallbacks();
             if (!borrowed && Controller != null && !closed) Close(cause);
-            var oldSkip = skipAction; var oldHp = hpRows; var oldIntent = intentRows;
+            var oldSkip = skipAction;
             DetachSelfManaged();
             if (!ReferenceEquals(inputView, null))
             {
                 if (inputView != null)
                 {
                     if (inputView.Board != null) inputView.Board.ClearPlaybackOverride();
+                    inputView.ClearStageSlotPresentation();
                     inputView.Unbind(cause);
                 }
                 else inputView.DetachManaged();
             }
-            if (this != null) { oldHp?.Clear(); oldIntent?.Clear(); }
             if (skip != null && oldSkip != null) skip.onClick.RemoveListener(oldSkip);
-            if (this != null) foreach (var text in GetComponentsInChildren<LocalizedTmpText>(true)) text.Unbind();
+            foreach (var text in new[] { beat, stage, diagnostic }) if (text != null) text.Unbind();
+            if (skip != null) foreach (var text in skip.GetComponentsInChildren<LocalizedTmpText>(true)) text.Unbind();
         }
         internal void SuspendCallbacks()
         {
@@ -103,7 +103,7 @@ namespace FightMatch.Presentation
         {
             closed = true; bindingEpoch++; SuspendCallbacks();
             Controller = null; localization = null; skipAction = null;
-            hpRows = null; intentRows = null; nativeBound = false;
+            nativeBound = false;
         }
         internal void DetachManaged()
         {
@@ -137,16 +137,17 @@ namespace FightMatch.Presentation
             var original = Controller.Original;
             var state = original == null ? latest.BattleSnapshot : frame?.Face?.FaceId == original.BeforeSnapshot.Board.Face.FaceId ?
                 original.BeforeSnapshot : original.AfterSnapshot;
-            var health = new List<BattleTextLine>(); var intentions = new List<BattleTextLine>();
+            inputView.ClearStageSlotPresentation();
             if (frame != null) foreach (var actor in frame.Actors)
             {
                 var member = state?.Members.FirstOrDefault(x => x.CombatantKey.Equals(actor.Key));
                 var enemy = state?.Enemies.FirstOrDefault(x => x.CombatantKey.Equals(actor.Key));
-                if (member != null) health.Add(BattleText.MemberHp(localization, member.Member.CharacterId, actor.Hp, actor.MaxHp));
-                else
+                if (member != null)
+                    inputView.SetStageSlotPresentation(false, member.Member.OriginalSlot,
+                        new BattleTextLine(member.Member.CharacterId == "W" ? "fm.name.character.w" : string.Empty),
+                        BattleText.MemberHp(localization, member.Member.CharacterId, actor.Hp, actor.MaxHp), null);
+                else if (enemy != null)
                 {
-                    health.Add(BattleText.EnemyHp(localization, enemy?.Enemy, actor.Hp, actor.MaxHp));
-                    intentions.Add(BattleText.EnemyName(localization, enemy?.Enemy));
                     string intentKey = string.Empty;
                     if (actor.Hp.Numerator.IsZero) intentKey = "fm.battle.intent.defeated";
                     else if (enemy != null && actor.IntentCursor.HasValue)
@@ -157,11 +158,11 @@ namespace FightMatch.Presentation
                             case EnemyIntentKind.Charge: intentKey = "fm.battle.intent.charge"; break;
                         }
                     }
-                    intentions.Add(new BattleTextLine("fm.battle.hud.enemy_intent", BattleText.Arg("intentName", BattleText.Resolve(localization, intentKey)))
-                        .For(enemy == null ? null : BattleText.EnemyIdentity(enemy.Enemy) + ":intent"));
+                    inputView.SetStageSlotPresentation(true, enemy.Enemy.OriginalSlot, BattleText.EnemyName(localization, enemy.Enemy),
+                        BattleText.EnemyHp(localization, enemy.Enemy, actor.Hp, actor.MaxHp),
+                        new BattleTextLine("fm.battle.hud.enemy_intent", BattleText.Arg("intentName", BattleText.Resolve(localization, intentKey))));
                 }
             }
-            hpRows?.Bind(localization, health); intentRows?.Bind(localization, intentions);
             if (state == null || frame == null || frame.Face == null)
             {
                 BattleText.Hide(beat); BattleText.Hide(stage);
@@ -179,7 +180,7 @@ namespace FightMatch.Presentation
             skip.GetComponentInChildren<LocalizedTmpText>(true).Bind(localization,
                 Controller.IsPlaying && latest.BattleSnapshot?.Phase == BattlePhase.WonPendingSettlement ?
                 "fm.victory.playback.skip_button" : "fm.battle.playback.skip_button");
-            skip.interactable = !closed && Controller.IsPlaying;
+            skip.interactable = !closed && Controller.IsPlaying && inputView.DisplayLayoutSupported;
             if (closed || !Controller.IsPlaying) { StopSchedule(); return; }
             if (ticking && scheduledGeneration == Controller.Generation) return;
             StopSchedule(); scheduledGeneration = Controller.Generation; ticking = true;

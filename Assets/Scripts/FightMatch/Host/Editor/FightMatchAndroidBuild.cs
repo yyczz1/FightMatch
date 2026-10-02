@@ -452,6 +452,850 @@ namespace FightMatch.Host.Editor
             return root;
         }
 
+        // Frozen from the approved hierarchy, not from the migrated observations. Paths are relative to SafeAreaRoot.
+        private const string LayoutTextTargets = @"HudLayer/TopBar/Back/Caption|Binding
+HudLayer/TopBar/Language/Caption|Binding
+HudLayer/TopBar/License/Caption|Binding
+HudLayer/TopBar/Title|Binding
+PopupLayer/ConfirmationPopup/RootMask/BattleConfirmationPanel/Header/Title|Binding
+PopupLayer/ConfirmationPopup/RootMask/NavigationConfirmationPanel/Actions/DangerActions/End/Caption|Binding
+PopupLayer/ConfirmationPopup/RootMask/NavigationConfirmationPanel/Actions/DangerActions/End/DisabledReason|Binding
+PopupLayer/ConfirmationPopup/RootMask/NavigationConfirmationPanel/Actions/SafeActions/Confirm/Caption|Binding
+PopupLayer/ConfirmationPopup/RootMask/NavigationConfirmationPanel/Actions/SafeActions/Confirm/DisabledReason|Binding
+PopupLayer/ConfirmationPopup/RootMask/NavigationConfirmationPanel/BodyViewport/Viewport/Content/StateRows/Status|Binding
+PopupLayer/ConfirmationPopup/RootMask/NavigationConfirmationPanel/Header/Title|Binding
+PopupLayer/LanguagePopup/RootMask/DialogPanel/Actions/Chinese/Caption|Binding
+PopupLayer/LanguagePopup/RootMask/DialogPanel/Actions/Close/Caption|Binding
+PopupLayer/LanguagePopup/RootMask/DialogPanel/Actions/English/Caption|Binding
+PopupLayer/LanguagePopup/RootMask/DialogPanel/BodyViewport/Viewport/Content/Feedback|Binding
+PopupLayer/LanguagePopup/RootMask/DialogPanel/Header/Title|Binding
+PopupLayer/LicensePopup/RootMask/DialogPanel/Actions/Back/Caption|Binding
+PopupLayer/LicensePopup/RootMask/DialogPanel/BodyViewport/Viewport/Content/LicenseBody|License
+PopupLayer/LicensePopup/RootMask/DialogPanel/Header/Title|Binding
+PopupLayer/QuitPopup/RootMask/DialogPanel/Actions/Confirm/Caption|Binding
+PopupLayer/QuitPopup/RootMask/DialogPanel/Actions/Stay/Caption|Binding
+PopupLayer/QuitPopup/RootMask/DialogPanel/BodyViewport/Viewport/Content/Body|Binding
+PopupLayer/QuitPopup/RootMask/DialogPanel/Header/Title|Binding
+ScreenLayer/BattlePage/BattleContent/BattleStatus/Beat|Binding
+ScreenLayer/BattlePage/BattleContent/BattleStatus/Phase|Binding
+ScreenLayer/BattlePage/BattleContent/BattleStatus/PlaybackStage|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/HistoryDrawer/Header/Close/Caption|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/HistoryDrawer/Header/Title|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/MainRow/CommandStrip/Viewport/Content/FixedBattleActions/HistoryOpen/Caption|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/MainRow/CommandStrip/Viewport/Content/FixedBattleActions/Resolve/Caption|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/MainRow/CommandStrip/Viewport/Content/FixedBattleActions/Retry/Caption|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/MainRow/CommandStrip/Viewport/Content/FixedBattleActions/Skip/Caption|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/StatusViewport/Viewport/Content/AvailabilityFirstLine|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/StatusViewport/Viewport/Content/BattleHudFirstLine|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/StatusViewport/Viewport/Content/PlaybackDiagnostic|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/StatusViewport/Viewport/Content/Save|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/ReferenceInfoDrawer/BodyViewport/Viewport/Content/Beat|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/ReferenceInfoDrawer/BodyViewport/Viewport/Content/Explanation|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/ReferenceInfoDrawer/Header/Close/Caption|Binding
+ScreenLayer/BattlePage/BattleContent/BottomHud/ReferenceInfoDrawer/Header/Title|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot0/Hp|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot0/Intent|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot0/Name|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot1/Hp|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot1/Intent|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot1/Name|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot2/Hp|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot2/Intent|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/AllySlots/ActorSlot2/Name|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot0/Hp|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot0/Intent|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot0/Name|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot1/Hp|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot1/Intent|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot1/Name|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot2/Hp|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot2/Intent|Binding
+ScreenLayer/BattlePage/BattleContent/Stage/EnemySlots/ActorSlot2/Name|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Back/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Back/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Cancel/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Cancel/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/CraftSection/RecipeAvailability|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Creation/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Creation/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Inventory/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Inventory/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/ClearEquipment/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/ClearEquipment/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/Craft/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/Craft/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/OriginalResult/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/OriginalResult/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/Preference/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/InventorySection/Preference/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Map/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Map/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Migration/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Migration/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Party/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Party/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/FrontSlot/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/FrontSlot/Template/Viewport/Content/Item/ItemLabel|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/MiddleSlot/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/MiddleSlot/Template/Viewport/Content/Item/ItemLabel|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/PartyPreview/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/PartyPreview/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/RearSlot/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/RearSlot/Template/Viewport/Content/Item/ItemLabel|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/Character|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/InputError|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/PreferenceLabel|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/Preview/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/Preview/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/Quantity/TextArea/Value|Input
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/QuantityLabel|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/SourcesLabel|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PermanentDetail/Title|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PreparationSection/Entry/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PreparationSection/Entry/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PreparationSection/Resume/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PreparationSection/Resume/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Refresh/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Refresh/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Settlement/Caption|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Settlement/DisabledReason|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Status|Binding
+ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/Title|Binding
+ScreenLayer/StartupPage/StartupScroll/Viewport/Content/Continue/Caption|Binding
+ScreenLayer/StartupPage/StartupScroll/Viewport/Content/Create/Caption|Binding
+ScreenLayer/StartupPage/StartupScroll/Viewport/Content/ProfileTitle|Binding
+ScreenLayer/StartupPage/StartupScroll/Viewport/Content/Reload/Caption|Binding
+ScreenLayer/StartupPage/StartupScroll/Viewport/Content/StartupStatus|Binding
+SystemLayer/BlockingDiagnostic/Diagnostic|Binding
+SystemLayer/LayoutDiagnostic/Message|Binding
+SystemLayer/LoadingOverlay/Loading|Binding
+SystemLayer/RecoveryScreen/RootMask/BattleRecoveryPanel/Header/Title|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/DangerActions/EndReview/Caption|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/DangerActions/EndReview/DisabledReason|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Refresh/Caption|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Refresh/DisabledReason|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Resolve/Caption|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Resolve/DisabledReason|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/ResumeObserved/Caption|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/ResumeObserved/DisabledReason|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Retry/Caption|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Retry/DisabledReason|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Return/Caption|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Actions/SafeActions/Return/DisabledReason|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/BodyViewport/Viewport/Content/StateRows/Status|Binding
+SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel/Header/Title|Binding
+TemplatePool/BattleButtonTemplate/Caption|Binding
+TemplatePool/MemberButtonTemplate/Caption|Binding
+TemplatePool/NavigationButtonTemplate/Caption|Binding
+TemplatePool/NavigationButtonTemplate/DisabledReason|Binding
+TemplatePool/SourceTemplate/Count/TextArea/Value|Input
+TemplatePool/SourceTemplate/CountLabel|Binding
+TemplatePool/SourceTemplate/Description|Binding
+TemplatePool/SourceTemplate/Start/TextArea/Value|Input
+TemplatePool/SourceTemplate/StartLabel|Binding
+TemplatePool/TextTemplate|Binding";
+
+        // LAYOUT-S1 is a separate, future-activated in-place migration. Never call PrepareResources.
+        [Serializable] private sealed class LayoutFile
+        {
+            public string path, sha256;
+            public long bytes;
+        }
+        [Serializable] private sealed class LayoutActivation
+        {
+            public string contract, status, mode, candidateProjectPath, sourceReceiptPath, sourceReceiptSha256;
+            public string ownerThread, ownerTurn, issuerThread, issuerTurn, prefabGuid, sceneGuid;
+            public string evidenceRoot;
+            public string[] argv;
+            public LayoutFile[] sources, resources, importedMetas, protectedInputs;
+        }
+        [Serializable] private sealed class LayoutResult
+        {
+            public string contract = "LAYOUT-S1-SYS-001";
+            public string mode, activationSha256, sourceReceiptSha256, ownerTurn;
+            public string prefabSha256, sceneSha256;
+            public string[] targets, sceneObjectIds;
+            public int textCount, inputCount;
+            public bool reopened, protectedInputsUnchanged;
+        }
+        private sealed class LayoutPanel
+        {
+            internal RectTransform Root, Header, Body, State, Choices, Actions, Safe, Danger;
+        }
+        private static readonly string[] LayoutSourcePaths = {
+            "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+            "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+            "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+            "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+            "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+            "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+            "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+            "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+            "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+            "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+            "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+            "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+            "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+            "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+            "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        };
+        private static readonly string[] LayoutResourcePaths = {
+            "Assets/Scenes/FightMatchDemo.unity",
+            "Assets/Scripts/FightMatch/Host/HostAssemblyInfo.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/FightMatchStandaloneInputModule.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/FightMatchViewId.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/Localization.meta",
+            "Assets/Scripts/FightMatch/Presentation/Localization/LocaleId.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/Localization/LocalizationService.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTextSource.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTmpText.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/PresentationAssemblyInfo.cs.meta",
+            "Assets/Scripts/FightMatch/Presentation/SafeAreaFitter.cs.meta",
+            "Assets/Tests/EditMode/FightMatch/LocalePolicyTests.cs.meta",
+            "Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs.meta",
+            "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs.meta",
+            "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs.meta",
+            "Assets/TextMesh Pro.meta",
+            "Assets/TextMesh Pro/Resources.meta",
+            "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+            "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+            "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+            "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+            "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+            "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+            "Assets/TextMesh Pro/Shaders.meta",
+            "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+            "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+            "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+            "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+            "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+            "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+            "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+            "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+            "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset",
+            "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset.meta",
+            "Assets/UI/FightMatch/Runtime.meta",
+            "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+            "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab.meta",
+        };
+        private const string LayoutStageRoot = Project + "/TestArtifacts/FightMatch/LAYOUT-S1-001";
+        private static string LayoutCanonical(string path)
+        {
+            Require(!string.IsNullOrEmpty(path) && Path.IsPathRooted(path) && Path.GetFullPath(path) == path,
+                "LAYOUT canonical absolute path");
+            for (var current = path; !string.IsNullOrEmpty(current); current = Path.GetDirectoryName(current))
+                if (File.Exists(current) || Directory.Exists(current))
+                    Require((File.GetAttributes(current) & FileAttributes.ReparsePoint) == 0, "LAYOUT symlink: " + current);
+            return path;
+        }
+        private static string LayoutInputPath(string root, string relative)
+        {
+            Require(!string.IsNullOrEmpty(relative) && !Path.IsPathRooted(relative) && !relative.Contains('\\'), "LAYOUT relative input");
+            var path = Path.GetFullPath(Path.Combine(root, relative));
+            Require(path.StartsWith(root + "/", StringComparison.Ordinal) && path == root + "/" + relative, "LAYOUT escaped input");
+            return LayoutCanonical(path);
+        }
+        private static void LayoutCheckSourceSet(LayoutFile[] files)
+        {
+            Require(files != null && files.Length == LayoutSourcePaths.Length &&
+                files.All(x => x != null && !string.IsNullOrEmpty(x.path)) &&
+                files.Select(x => x.path).OrderBy(x => x, StringComparer.Ordinal).SequenceEqual(
+                    LayoutSourcePaths.OrderBy(x => x, StringComparer.Ordinal), StringComparer.Ordinal), "LAYOUT exact source scope");
+        }
+        private static void LayoutCheckFiles(string root, LayoutFile[] files)
+        {
+            Require(files != null && files.Length > 0 && files.Select(x => x.path).Distinct().Count() == files.Length, "LAYOUT input set");
+            foreach (var file in files)
+            {
+                var path = LayoutInputPath(root, file.path);
+                Require(Regex.IsMatch(file.sha256 ?? "", "^[a-f0-9]{64}$") && File.Exists(path) &&
+                    new FileInfo(path).Length == file.bytes && Sha(path) == file.sha256, "LAYOUT input drift: " + file.path);
+            }
+        }
+        private static LayoutActivation LayoutGuard(string mode)
+        {
+            Require(UnityEngine.Application.isBatchMode && !EditorApplication.isPlayingOrWillChangePlaymode &&
+                !UnityEngine.Application.isPlaying && EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneOSX,
+                "LAYOUT isolated Mac edit-mode batch only");
+            var allowed = new[] { "-fmLayoutContract", "-fmLayoutInputManifest", "-fmLayoutEvidenceRoot" };
+            Require(Args.Where(x => x.StartsWith("-fm", StringComparison.Ordinal) || x.StartsWith("-ugui", StringComparison.Ordinal))
+                .All(x => allowed.Contains(x)), "LAYOUT unknown managed flag");
+            Require(Arg("-fmLayoutContract") == "LAYOUT-S1-SYS-001", "LAYOUT contract");
+            var path = LayoutCanonical(Arg("-fmLayoutInputManifest"));
+            Require(path == LayoutStageRoot + "/I/activation.json", "LAYOUT signed I activation path");
+            var activation = JsonUtility.FromJson<LayoutActivation>(File.ReadAllText(path));
+            Require(activation != null && activation.contract == "LAYOUT-S1-SYS-001" && activation.status == "P_ACTIVATED" &&
+                activation.mode == mode && activation.ownerThread == "01a0e404-d89d-7ab2-bece-3cd1df3fbc52" &&
+                activation.issuerThread == "01a0f2e3-1a80-7671-a459-38d5c8de0e6b" &&
+                !string.IsNullOrEmpty(activation.ownerTurn) && !string.IsNullOrEmpty(activation.issuerTurn), "LAYOUT execution lease");
+            var candidate = LayoutCanonical(activation.candidateProjectPath);
+            Require(candidate == LayoutStageRoot + "/projection" &&
+                Path.GetDirectoryName(UnityEngine.Application.dataPath) == candidate && candidate != Project, "LAYOUT isolated candidate");
+            Require(activation.evidenceRoot == LayoutStageRoot + "/P" && Arg("-fmLayoutEvidenceRoot") == activation.evidenceRoot,
+                "LAYOUT exact evidence root");
+            LayoutCanonical(activation.evidenceRoot);
+            Require(!Directory.Exists(activation.evidenceRoot) && !File.Exists(activation.evidenceRoot), "LAYOUT create-once evidence root");
+            Require(activation.argv != null && activation.argv.SequenceEqual(Args), "LAYOUT exact process argv lease");
+            Require(LayoutCanonical(activation.sourceReceiptPath) == LayoutStageRoot + "/S/source-receipt.json" &&
+                Sha(activation.sourceReceiptPath) == activation.sourceReceiptSha256, "LAYOUT S receipt identity");
+            LayoutCheckSourceSet(activation.sources);
+            Require(activation.resources != null && activation.resources.Length == 37 && activation.importedMetas != null &&
+                activation.importedMetas.Length == 2, "LAYOUT frozen source/resource/meta cardinality");
+            Require(activation.importedMetas.Select(x => x.path).OrderBy(x => x, StringComparer.Ordinal).SequenceEqual(new[] {
+                PresentationPath + "FightMatchResponsiveLayout.cs.meta", "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta" }),
+                "LAYOUT exact natural meta set");
+            Require(activation.resources.Select(x => x.path).OrderBy(x => x, StringComparer.Ordinal).SequenceEqual(
+                LayoutResourcePaths.OrderBy(x => x, StringComparer.Ordinal)), "LAYOUT exact protected 37 paths");
+            Require(new[] { "Packages/manifest.json", "Packages/packages-lock.json", "ProjectSettings/ProjectSettings.asset",
+                "ProjectSettings/EditorBuildSettings.asset", "docs/team/2026-09-30/snapshots/ugui-copy-amend-03-fix-01/planning-localization-draft.csv",
+                UguiPrefab + ".meta", ScenePath + ".meta" }.All(x => activation.protectedInputs != null &&
+                    activation.protectedInputs.Any(y => y.path == x)), "LAYOUT required protected input identities");
+            LayoutCheckFiles(candidate, activation.sources); LayoutCheckFiles(candidate, activation.resources);
+            LayoutCheckFiles(candidate, activation.importedMetas); LayoutCheckFiles(candidate, activation.protectedInputs);
+            Require(activation.prefabGuid == "c36df3cfc25424c8cb3ec6cae6be1237" && activation.sceneGuid == "1d5124e5b55fe409d8216e78a117dec0" &&
+                AssetDatabase.AssetPathToGUID(UguiPrefab) == activation.prefabGuid && AssetDatabase.AssetPathToGUID(ScenePath) == activation.sceneGuid,
+                "LAYOUT native GUIDs");
+            Require(activation.resources.Any(x => x.path == UguiPrefab) && activation.resources.Any(x => x.path == ScenePath) &&
+                activation.resources.Any(x => x.path == UguiFont) && activation.protectedInputs.Any(x => x.path.EndsWith(".csv", StringComparison.Ordinal)),
+                "LAYOUT prefab/scene/font/CSV preimages");
+            var scene = SceneManager.GetActiveScene();
+            Require(SceneManager.sceneCount == 1 && !scene.isDirty && string.IsNullOrEmpty(scene.path), "LAYOUT clean startup scene");
+            Require(Resources.FindObjectsOfTypeAll<FightMatchPlayerHost>().All(x => EditorUtility.IsPersistent(x)), "LAYOUT no live Host");
+            Directory.CreateDirectory(activation.evidenceRoot);
+            return activation;
+        }
+        private static void LayoutWrite(LayoutActivation activation, string leaf, LayoutResult result)
+        {
+            Require(new[] { "native-migration.json", "native-reopen.json", "serialized-targets.json" }.Contains(leaf), "LAYOUT evidence leaf");
+            result.activationSha256 = Sha(Arg("-fmLayoutInputManifest")); result.ownerTurn = activation.ownerTurn;
+            result.sourceReceiptSha256 = activation.sourceReceiptSha256;
+            using (var stream = new FileStream(Path.Combine(activation.evidenceRoot, leaf), FileMode.CreateNew, FileAccess.Write))
+            using (var writer = new StreamWriter(stream)) writer.Write(JsonUtility.ToJson(result, true));
+        }
+        private static T LayoutAt<T>(Transform root, string path) where T : Component
+        {
+            var target = root.Find(path); Require(target != null, "LAYOUT missing path " + path);
+            var component = target.GetComponent<T>(); Require(component != null, "LAYOUT missing type " + typeof(T).Name + " at " + path);
+            return component;
+        }
+        private static Component LayoutScript(Transform root, string path, string script)
+        {
+            var target = root.Find(path); Require(target != null, "LAYOUT script path " + path);
+            var type = AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + script + ".cs").GetClass();
+            var component = target.GetComponent(type); Require(component != null, "LAYOUT script " + script); return component;
+        }
+        private static void LayoutRemoveOwners(RectTransform rect)
+        {
+            foreach (var component in rect.GetComponents<Component>())
+                if (component is UnityEngine.UI.LayoutGroup || component is UnityEngine.UI.ContentSizeFitter ||
+                    component is UnityEngine.UI.AspectRatioFitter || component is UnityEngine.UI.LayoutElement)
+                    UnityEngine.Object.DestroyImmediate(component);
+        }
+        private static RectTransform LayoutMove(Transform root, string path, Transform parent, string name)
+        {
+            var rect = LayoutAt<RectTransform>(root, path); rect.SetParent(parent, false); rect.name = name;
+            rect.localScale = Vector3.one; rect.localRotation = Quaternion.identity; return rect;
+        }
+        private static void LayoutBox(RectTransform rect, float x, float top, float width, float height)
+        {
+            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0, 1);
+            rect.anchoredPosition = new Vector2(x, -top); rect.sizeDelta = new Vector2(width, height); rect.localScale = Vector3.one;
+        }
+        private static void LayoutCell(RectTransform rect, float width, float height)
+        {
+            var element = rect.GetComponent<UnityEngine.UI.LayoutElement>() ?? rect.gameObject.AddComponent<UnityEngine.UI.LayoutElement>();
+            element.minWidth = element.preferredWidth = width; element.minHeight = element.preferredHeight = height;
+            element.flexibleWidth = element.flexibleHeight = 0;
+        }
+        private static void LayoutHorizontal(RectTransform rect, float spacing, bool fit = false)
+        {
+            LayoutRemoveOwners(rect);
+            var group = rect.gameObject.AddComponent<UnityEngine.UI.HorizontalLayoutGroup>();
+            group.spacing = spacing; group.childControlWidth = group.childControlHeight = true;
+            group.childForceExpandWidth = group.childForceExpandHeight = false; group.childAlignment = TextAnchor.MiddleLeft;
+            if (fit) rect.gameObject.AddComponent<UnityEngine.UI.ContentSizeFitter>().horizontalFit = UnityEngine.UI.ContentSizeFitter.FitMode.PreferredSize;
+        }
+        private static void LayoutRows(RectTransform rect, bool fit = true)
+        {
+            LayoutRemoveOwners(rect); Vertical(rect, fit);
+            var group = rect.GetComponent<UnityEngine.UI.VerticalLayoutGroup>(); group.padding = new RectOffset();
+        }
+        private static void LayoutScroll(RectTransform root, bool horizontal = false)
+        {
+            var scroll = root.GetComponent<UnityEngine.UI.ScrollRect>(); Require(scroll != null, "LAYOUT ScrollRect root");
+            scroll.horizontal = horizontal; scroll.vertical = !horizontal; scroll.inertia = false; scroll.elasticity = 0;
+            scroll.movementType = UnityEngine.UI.ScrollRect.MovementType.Clamped;
+            Require(scroll.viewport.parent == root && scroll.content.parent == scroll.viewport &&
+                scroll.viewport.GetComponent<UnityEngine.UI.Mask>() != null, "LAYOUT scroll chain");
+            scroll.viewport.GetComponent<UnityEngine.UI.Image>().raycastTarget = true;
+            if (horizontal)
+            {
+                LayoutHorizontal(scroll.content, 16, true);
+                scroll.content.anchorMin = scroll.content.anchorMax = scroll.content.pivot = new Vector2(0, 1);
+                scroll.content.sizeDelta = new Vector2(1624, 72); scroll.content.anchoredPosition = Vector2.zero;
+            }
+            else LayoutRows(scroll.content);
+        }
+        private static RectTransform LayoutNewScroll(string name, Transform parent)
+        {
+            var content = Scroll(name, parent); LayoutScroll((RectTransform)content.parent.parent); return content;
+        }
+        private static void LayoutButton(UnityEngine.UI.Button button, float width = -1)
+        {
+            var rect = (RectTransform)button.transform; LayoutRemoveOwners(rect); LayoutCell(rect, width, 48);
+            var caption = LayoutAt<RectTransform>(rect, "Caption"); LayoutRemoveOwners(caption); Stretch(caption);
+            caption.offsetMin = new Vector2(12, 8); caption.offsetMax = new Vector2(-12, -8);
+            var text = caption.GetComponent<TMPro.TextMeshProUGUI>(); text.fontSize = 18; text.enableAutoSizing = false;
+            text.enableWordWrapping = false; text.characterSpacing = text.wordSpacing = 0;
+            text.overflowMode = TMPro.TextOverflowModes.Overflow;
+            var reason = rect.Find("DisabledReason") as RectTransform;
+            if (reason != null)
+            {
+                LayoutRemoveOwners(reason); Stretch(reason);
+                caption.offsetMin = new Vector2(12, 24); caption.offsetMax = new Vector2(-12, -2);
+                reason.offsetMin = new Vector2(12, 2); reason.offsetMax = new Vector2(-12, -24);
+                var detail = reason.GetComponent<TMPro.TextMeshProUGUI>(); detail.fontSize = 10;
+                detail.enableAutoSizing = false; detail.enableWordWrapping = true;
+            }
+        }
+        private static LayoutPanel LayoutMakePanel(RectTransform root, bool sections)
+        {
+            LayoutRemoveOwners(root);
+            var surface = root.GetComponent<UnityEngine.UI.Image>(); if (surface != null) surface.raycastTarget = false;
+            var panel = new LayoutPanel { Root = root, Header = Rect("Header", root), Actions = Rect("Actions", root) };
+            LayoutRows(root, false); var group = root.GetComponent<UnityEngine.UI.VerticalLayoutGroup>(); group.spacing = 0;
+            LayoutCell(panel.Header, -1, 48);
+            panel.Body = LayoutNewScroll("BodyViewport", root);
+            var scroll = (RectTransform)panel.Body.parent.parent;
+            LayoutCell(scroll, -1, 48); scroll.GetComponent<UnityEngine.UI.LayoutElement>().flexibleHeight = 1;
+            panel.Header.SetSiblingIndex(0); scroll.SetSiblingIndex(1); panel.Actions.SetSiblingIndex(2);
+            LayoutRows(panel.Actions, false);
+            if (sections)
+            {
+                panel.Actions.GetComponent<UnityEngine.UI.VerticalLayoutGroup>().spacing = 16;
+                panel.State = Rect("StateRows", panel.Body); LayoutRows(panel.State);
+                panel.Choices = Rect("ChoiceRows", panel.Body); LayoutRows(panel.Choices);
+                panel.Body.GetComponent<UnityEngine.UI.VerticalLayoutGroup>().childControlHeight = false;
+                panel.Safe = Rect("SafeActions", panel.Actions); LayoutRows(panel.Safe, false);
+                panel.Danger = Rect("DangerActions", panel.Actions); LayoutRows(panel.Danger, false);
+            }
+            else panel.State = panel.Body;
+            return panel;
+        }
+        private static RectTransform LayoutMask(RectTransform root)
+        {
+            LayoutRemoveOwners(root); Stretch(root);
+            var graphic = root.GetComponent<UnityEngine.UI.Graphic>(); if (graphic != null) graphic.raycastTarget = false;
+            var mask = Rect("RootMask", root, true); Surface(mask, new Color(.02f, .03f, .04f, .8f), true);
+            return mask;
+        }
+        private static Component LayoutTitle(LayoutPanel panel, Transform oldRoot = null, string oldPath = null)
+        {
+            var label = oldRoot == null ? Label("Title", panel.Header, height: 48) :
+                LayoutScript(oldRoot, oldPath, "Localization/LocalizedTmpText");
+            var rect = (RectTransform)label.transform; rect.SetParent(panel.Header, false); rect.name = "Title";
+            LayoutRemoveOwners(rect); Stretch(rect); return label;
+        }
+        private static void LayoutDecorate(RectTransform slot, bool enemy)
+        {
+            var art = Rect("TempArt_" + (enemy ? "Enemy" : "Ally"), slot, true);
+            art.offsetMin = new Vector2(4, 4); art.offsetMax = new Vector2(-4, -4); art.SetAsFirstSibling();
+            Surface(art, enemy ? new Color(.30f, .18f, .18f) : new Color(.14f, .26f, .31f));
+            var edge = art.gameObject.AddComponent<UnityEngine.UI.Outline>(); edge.effectDistance = Vector2.one;
+        }
+        private static UnityEngine.Object[] LayoutSlots(RectTransform parent, string prefix, int count, bool enemy, bool labels)
+        {
+            var slots = new UnityEngine.Object[count];
+            for (var i = 0; i < count; i++)
+            {
+                var slot = Rect(prefix + i, parent); slots[i] = slot;
+                LayoutBox(slot, i * 80, 0, 72, labels ? 96 : 72); LayoutDecorate(slot, enemy);
+                if (!labels) continue;
+                var names = new[] { "Name", "Hp", "Intent" };
+                for (var row = 0; row < names.Length; row++)
+                {
+                    var label = Label(names[row], slot, RowId((enemy ? "enemy" : "ally") + "-" + names[row].ToLowerInvariant() + "-" + i), 24);
+                    LayoutRemoveOwners((RectTransform)label.transform); LayoutBox((RectTransform)label.transform, 0, row * 24, 72, 24);
+                    label.GetComponent<TMPro.TextMeshProUGUI>().fontSize = 12;
+                }
+            }
+            return slots;
+        }
+        private static UnityEngine.Object[] LayoutSlotLabels(UnityEngine.Object[] slots, string name)
+        { return slots.Cast<RectTransform>().Select(x => LayoutScript(x, name, "Localization/LocalizedTmpText")).Cast<UnityEngine.Object>().ToArray(); }
+        private static void LayoutDrawerHeader(RectTransform drawer, Component title, UnityEngine.UI.Button close)
+        {
+            var header = Rect("Header", drawer); header.anchorMin = new Vector2(0, 1); header.anchorMax = Vector2.one;
+            header.pivot = new Vector2(.5f, 1); header.sizeDelta = new Vector2(0, 48);
+            title.transform.SetParent(header, false); title.name = "Title";
+            var titleRect = (RectTransform)title.transform; LayoutRemoveOwners(titleRect); Stretch(titleRect); titleRect.offsetMax = new Vector2(-104, 0);
+            close.transform.SetParent(header, false); close.name = "Close"; LayoutButton(close, 96);
+            var closeRect = (RectTransform)close.transform; closeRect.anchorMin = closeRect.anchorMax = closeRect.pivot = Vector2.one;
+            closeRect.anchoredPosition = Vector2.zero; closeRect.sizeDelta = new Vector2(96, 48); close.gameObject.SetActive(true);
+        }
+        private static void LayoutDrawerBody(RectTransform content)
+        {
+            var root = (RectTransform)content.parent.parent; Stretch(root);
+            root.offsetMax = new Vector2(0, -48);
+        }
+        private static void LayoutMigrateRoot(GameObject root)
+        {
+            root.SetActive(false);
+            var safe = LayoutAt<RectTransform>(root.transform, "RuntimeCanvas/SafeAreaRoot");
+            var screen = LayoutAt<RectTransform>(safe, "ScreenLayer"); Stretch(screen);
+            var hud = LayoutAt<RectTransform>(safe, "HudLayer"); LayoutRemoveOwners(hud); Stretch(hud);
+            var top = Rect("TopBar", hud); LayoutBox(top, 0, 0, 508, 56); LayoutHorizontal(top, 8);
+            top.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>().padding = new RectOffset(0, 0, 4, 4);
+            var back = LayoutMove(hud, "Back", top, "Back"); LayoutButton(back.GetComponent<UnityEngine.UI.Button>(), 80);
+            var battle = LayoutAt<RectTransform>(screen, "BattlePage/BattleContent");
+            var oldRows = LayoutAt<RectTransform>(battle, "BattleScroll/Viewport/Content");
+            var headline = LayoutMove(oldRows, "Headline", top, "Title"); LayoutCell(headline, 164, 48);
+            var languageButton = LayoutMove(hud, "Language", top, "Language"); LayoutButton(languageButton.GetComponent<UnityEngine.UI.Button>(), 104);
+            var licenseButton = LayoutMove(hud, "License", top, "License"); LayoutButton(licenseButton.GetComponent<UnityEngine.UI.Button>(), 136);
+            var stage = Rect("Stage", battle); var status = LayoutMove(oldRows, "BattleStatus", battle, "BattleStatus"); LayoutRemoveOwners(status);
+            var boardRegion = Rect("BoardRegion", battle); var board = LayoutMove(status, "BoardFrame", boardRegion, "BoardFrame");
+            LayoutRemoveOwners(board); Stretch(board);
+            var decoration = Rect("BoardDecoration", boardRegion, true); decoration.SetAsFirstSibling(); Surface(decoration, new Color(.12f, .14f, .18f));
+            var bottom = Rect("BottomHud", battle); var normal = Rect("NormalHud", bottom, true);
+            var statusRows = LayoutNewScroll("StatusViewport", normal);
+            LayoutMove(status, "Save", statusRows, "Save"); LayoutMove(oldRows, "BattleHud", statusRows, "BattleHudFirstLine");
+            LayoutMove(status, "Availability", statusRows, "AvailabilityFirstLine"); LayoutMove(status, "Diagnostic", statusRows, "PlaybackDiagnostic");
+            var main = Rect("MainRow", normal); var members = Rect("MemberStrip", main); LayoutBox(members, 8, 0, 232, 72);
+            var memberSlots = LayoutSlots(members, "MemberSlot", 3, false, false);
+            var commandContent = LayoutNewScroll("CommandStrip", main); var command = (RectTransform)commandContent.parent.parent;
+            LayoutScroll(command, true); LayoutBox(command, 248, 0, 252, 72);
+            var fixedActions = Rect("FixedBattleActions", commandContent); LayoutHorizontal(fixedActions, 8); LayoutCell(fixedActions, 776, 72);
+            var dynamicActions = LayoutMove(oldRows, "Actions", commandContent, "DynamicBattleActions");
+            LayoutHorizontal(dynamicActions, 8); LayoutCell(dynamicActions, 832, 72);
+            foreach (var entry in new[] { new { Name = "Retry", Width = 184 }, new { Name = "Resolve", Width = 224 }, new { Name = "Skip", Width = 200 } })
+                LayoutButton(LayoutMove(status, entry.Name, fixedActions, entry.Name).GetComponent<UnityEngine.UI.Button>(), entry.Width);
+            var historyOpen = Button("HistoryOpen", fixedActions, "fm.action.history.open"); LayoutButton(historyOpen, 144);
+            var padding = Rect("BottomPadding", normal); padding.anchorMin = Vector2.zero; padding.anchorMax = new Vector2(1, 0);
+            padding.pivot = new Vector2(.5f, 0); padding.sizeDelta = new Vector2(0, 8);
+            LayoutHorizontal(status, 8); LayoutCell(LayoutAt<RectTransform>(status, "Phase"), 164, 48);
+            var playbackStage = LayoutMove(status, "Stage", status, "PlaybackStage"); LayoutCell(playbackStage, 164, 48);
+            LayoutCell(LayoutAt<RectTransform>(status, "Beat"), 164, 48);
+            var allyGroup = Rect("AllySlots", stage); var enemyGroup = Rect("EnemySlots", stage);
+            LayoutBox(allyGroup, 8, 0, 232, 96); LayoutBox(enemyGroup, 268, 0, 232, 96);
+            var allies = LayoutSlots(allyGroup, "ActorSlot", 3, false, true);
+            var enemies = LayoutSlots(enemyGroup, "ActorSlot", 3, true, true);
+            var input = LayoutScript(battle, "BattleStatus", "CandidateBoardInputView");
+            References(input, "allyStageSlots", allies, "enemyStageSlots", enemies, "memberSlots", memberSlots,
+                "allyNames", LayoutSlotLabels(allies, "Name"), "allyHp", LayoutSlotLabels(allies, "Hp"), "allyIntent", LayoutSlotLabels(allies, "Intent"),
+                "enemyNames", LayoutSlotLabels(enemies, "Name"), "enemyHp", LayoutSlotLabels(enemies, "Hp"), "enemyIntent", LayoutSlotLabels(enemies, "Intent"));
+            foreach (var retired in new[] { "Enemies", "Members", "Hp", "Intent" })
+                UnityEngine.Object.DestroyImmediate(LayoutAt<RectTransform>(status, retired).gameObject);
+            var history = Rect("HistoryDrawer", bottom); var historyTitle = Label("Title", history, RowId("history-title"), 48);
+            var historyClose = Button("Close", history, RowId("history-close")); LayoutDrawerHeader(history, historyTitle, historyClose);
+            var historyRows = LayoutNewScroll("BodyViewport", history); LayoutDrawerBody(historyRows);
+            UnityEngine.Object.DestroyImmediate(LayoutAt<RectTransform>(oldRows, "History").gameObject);
+            var popups = LayoutAt<RectTransform>(safe, "PopupLayer"); var systems = LayoutAt<RectTransform>(safe, "SystemLayer");
+            var reference = LayoutMove(popups, "ReferencePopup", bottom, "ReferenceInfoDrawer"); LayoutRemoveOwners(reference);
+            reference.GetComponent<UnityEngine.UI.Image>().raycastTarget = false;
+            var referenceTitle = Label("Title", reference, height: 48);
+            var referenceClose = LayoutAt<UnityEngine.UI.Button>(reference, "CloseTemplate");
+            var closeId = new SerializedObject(LayoutScript(reference, "CloseTemplate", "FightMatchViewId"));
+            closeId.FindProperty("id").stringValue = RowId("reference-close"); closeId.ApplyModifiedPropertiesWithoutUndo();
+            LayoutDrawerHeader(reference, referenceTitle, referenceClose);
+            var referenceRows = LayoutNewScroll("BodyViewport", reference); LayoutDrawerBody(referenceRows);
+            foreach (var name in new[] { "Explanation", "Beat", "Steps" }) LayoutMove(reference, name, referenceRows, name);
+            var steps = LayoutAt<RectTransform>(referenceRows, "Steps"); LayoutRows(steps);
+            referenceRows.GetComponent<UnityEngine.UI.VerticalLayoutGroup>().childControlHeight = false;
+            var referenceActions = Rect("Actions", reference); LayoutBox(referenceActions, 0, 0, 508, 0); referenceActions.gameObject.SetActive(false);
+            References(LayoutScript(bottom, "ReferenceInfoDrawer", "PlayerDefaultReferenceView"), "title", referenceTitle);
+            var confirmation = LayoutAt<RectTransform>(popups, "ConfirmationPopup"); var confirmationMask = LayoutMask(confirmation);
+            var navConfirm = LayoutMakePanel(LayoutMove(confirmation, "NavigationConfirmation", confirmationMask, "NavigationConfirmationPanel"), true);
+            var battleConfirm = LayoutMakePanel(LayoutMove(confirmation, "BattleConfirmation", confirmationMask, "BattleConfirmationPanel"), true);
+            var recovery = LayoutMove(popups, "RecoveryPopup", systems, "RecoveryScreen"); var recoveryMask = LayoutMask(recovery);
+            var navRecovery = LayoutMakePanel(LayoutMove(recovery, "NavigationRecovery", recoveryMask, "NavigationRecoveryPanel"), true);
+            var battleRecovery = LayoutMakePanel(LayoutMove(recovery, "BattleRecovery", recoveryMask, "BattleRecoveryPanel"), true);
+            var battleConfirmationTitle = LayoutTitle(battleConfirm); Id(battleConfirmationTitle.gameObject, RowId("battle-end-title"));
+            var battleRecoveryTitle = LayoutTitle(battleRecovery); Id(battleRecoveryTitle.gameObject, RowId("battle-recovery-title"));
+            var navTitle = LayoutTitle(navRecovery, navRecovery.Root, "Title");
+            LayoutMove(navRecovery.Root, "Status", navRecovery.State, "Status");
+            var navConfirmationTitle = LayoutTitle(navConfirm); var navConfirmationStatus = Label("Status", navConfirm.State);
+            LayoutMove(navConfirm.Root, "Confirm", navConfirm.Safe, "Confirm"); LayoutMove(navConfirm.Root, "End", navConfirm.Danger, "End");
+            foreach (var name in new[] { "Return", "ResumeObserved", "Retry", "Resolve", "Refresh" }) LayoutMove(navRecovery.Root, name, navRecovery.Safe, name);
+            LayoutMove(navRecovery.Root, "EndReview", navRecovery.Danger, "EndReview");
+            UnityEngine.Object.DestroyImmediate(LayoutAt<RectTransform>(navRecovery.Root, "OriginalResult").gameObject);
+            var navRecoveryView = LayoutScript(safe, "PopupLayer", "PlayerNavigationRecoveryView");
+            References(navRecoveryView, "confirmationRoot", navConfirm.Root.gameObject, "recoveryRoot", navRecovery.Root.gameObject,
+                "confirmationTitle", navConfirmationTitle, "recoveryTitle", navTitle, "confirmationStatus", navConfirmationStatus,
+                "recoveryStatus", LayoutScript(navRecovery.State, "Status", "Localization/LocalizedTmpText"),
+                "confirmationBody", navConfirm.State, "confirmationChoices", navConfirm.Choices, "confirmationActions", navConfirm.Safe,
+                "confirmationDangerActions", navConfirm.Danger, "recoveryBody", navRecovery.State, "recoveryChoices", navRecovery.Choices,
+                "recoverySafeActions", navRecovery.Safe, "recoveryDangerActions", navRecovery.Danger);
+            var ordinary = new LayoutPanel[3]; var ordinaryNames = new[] { "LanguagePopup", "LicensePopup", "QuitPopup" };
+            for (var i = 0; i < ordinary.Length; i++)
+            {
+                var outer = LayoutAt<RectTransform>(popups, ordinaryNames[i]); var mask = LayoutMask(outer);
+                var panel = LayoutMakePanel(Rect("DialogPanel", mask), false); ordinary[i] = panel; LayoutTitle(panel, outer, "Title");
+                if (i == 0)
+                {
+                    LayoutMove(outer, "Feedback", panel.Body, "Feedback");
+                    foreach (var name in new[] { "English", "Chinese", "Close" }) LayoutMove(outer, name, panel.Actions, name);
+                }
+                else if (i == 1)
+                {
+                    LayoutMove(outer, "LicenseScrollContainer/LicenseScroll/Viewport/Content/LicenseBody", panel.Body, "LicenseBody");
+                    LayoutMove(outer, "Back", panel.Actions, "Back");
+                    UnityEngine.Object.DestroyImmediate(LayoutAt<RectTransform>(outer, "LicenseScrollContainer").gameObject);
+                }
+                else { LayoutMove(outer, "Body", panel.Body, "Body"); LayoutMove(outer, "Confirm", panel.Actions, "Confirm"); LayoutMove(outer, "Stay", panel.Actions, "Stay"); }
+                outer.gameObject.SetActive(false);
+            }
+            var battleView = LayoutScript(screen, "BattlePage", "PlayerBattleView");
+            References(battleView, "dialogTitle", battleConfirmationTitle, "recoveryTitle", battleRecoveryTitle,
+                "normalHudRoot", normal.gameObject, "historyDrawerRoot", history.gameObject,
+                "historyHeader", historyTitle, "historyOpenButton", historyOpen, "historyCloseButton", historyClose,
+                "battleNotices", statusRows, "actions", dynamicActions, "history", historyRows,
+                "dialogRoot", battleConfirm.Root.gameObject, "dialogBody", battleConfirm.State, "dialogChoices", battleConfirm.Choices,
+                "dialogActions", battleConfirm.Safe, "dialogDangerActions", battleConfirm.Danger,
+                "recoveryRoot", battleRecovery.Root.gameObject, "recoveryBody", battleRecovery.State, "recoveryChoices", battleRecovery.Choices,
+                "recoveryActions", battleRecovery.Safe, "recoveryDangerActions", battleRecovery.Danger);
+            var layoutDiagnostic = Rect("LayoutDiagnostic", systems, true); Surface(layoutDiagnostic, new Color(.08f, .04f, .04f, .98f), true);
+            var layoutMessage = Label("Message", layoutDiagnostic, height: 192); Stretch((RectTransform)layoutMessage.transform);
+            layoutDiagnostic.gameObject.SetActive(false);
+            LayoutAt<RectTransform>(systems, "LoadingOverlay").SetSiblingIndex(0); recovery.SetSiblingIndex(1);
+            layoutDiagnostic.SetSiblingIndex(2); LayoutAt<RectTransform>(systems, "BlockingDiagnostic").SetSiblingIndex(3);
+            var responsive = ComponentFromScript(safe.gameObject, "FightMatchResponsiveLayout");
+            var interaction = battle.gameObject.AddComponent<CanvasGroup>();
+            References(responsive, "safeArea", LayoutScript(root.transform, "RuntimeCanvas/SafeAreaRoot", "SafeAreaFitter"),
+                "canvas", LayoutAt<Canvas>(root.transform, "RuntimeCanvas"), "screenLayer", screen, "topBar", top,
+                "battleContent", battle, "stage", stage, "battleStatus", status, "boardRegion", boardRegion, "bottomHud", bottom,
+                "normalHudRoot", normal, "historyDrawerRoot", history, "referenceDrawerRoot", reference,
+                "normalStatusViewport", statusRows.parent.parent, "normalMainRow", main,
+                "startupViewport", LayoutAt<RectTransform>(screen, "StartupPage/StartupScroll"),
+                "navigationViewport", LayoutAt<RectTransform>(screen, "NavigationPage/NavigationScroll"),
+                "resultViewport", LayoutAt<RectTransform>(screen, "ResultPage/ResultScroll"),
+                "dialogPanels", ordinary.Select(x => (UnityEngine.Object)x.Root).Concat(new UnityEngine.Object[] {
+                    navConfirm.Root, battleConfirm.Root, navRecovery.Root, battleRecovery.Root }).ToArray(),
+                "layoutDiagnostic", layoutDiagnostic.gameObject, "layoutDiagnosticText", layoutMessage, "battleInteraction", interaction);
+            References(root.GetComponent<FightMatchHostView>(), "responsiveLayout", responsive,
+                "confirmationPopupRoot", confirmation.gameObject, "confirmationRootMask", confirmationMask.gameObject,
+                "navigationConfirmationPanel", navConfirm.Root.gameObject, "battleConfirmationPanel", battleConfirm.Root.gameObject,
+                "recoveryScreenRoot", recovery.gameObject, "recoveryRootMask", recoveryMask.gameObject,
+                "navigationRecoveryPanel", navRecovery.Root.gameObject, "battleRecoveryPanel", battleRecovery.Root.gameObject);
+            foreach (var scroll in root.GetComponentsInChildren<UnityEngine.UI.ScrollRect>(true))
+            {
+                scroll.inertia = false; scroll.elasticity = 0; scroll.movementType = UnityEngine.UI.ScrollRect.MovementType.Clamped;
+                var oldMask = scroll.viewport.GetComponent<UnityEngine.UI.RectMask2D>();
+                if (oldMask != null) UnityEngine.Object.DestroyImmediate(oldMask);
+                var image = scroll.viewport.GetComponent<UnityEngine.UI.Image>() ?? Surface(scroll.viewport, Color.clear, true);
+                image.raycastTarget = true;
+                var mask = scroll.viewport.GetComponent<UnityEngine.UI.Mask>() ?? scroll.viewport.gameObject.AddComponent<UnityEngine.UI.Mask>();
+                mask.showMaskGraphic = false;
+                var rootGraphic = scroll.GetComponent<UnityEngine.UI.Graphic>(); if (rootGraphic != null) rootGraphic.raycastTarget = false;
+            }
+            foreach (var button in popups.GetComponentsInChildren<UnityEngine.UI.Button>(true).Concat(recovery.GetComponentsInChildren<UnityEngine.UI.Button>(true)))
+                LayoutButton(button);
+            var templates = LayoutAt<RectTransform>(safe, "TemplatePool");
+            LayoutButton(LayoutAt<UnityEngine.UI.Button>(templates, "BattleButtonTemplate"));
+            var memberTemplate = LayoutAt<UnityEngine.UI.Button>(templates, "MemberButtonTemplate"); LayoutButton(memberTemplate, 72);
+            LayoutCell((RectTransform)memberTemplate.transform, 72, 72);
+            var memberCaption = LayoutAt<TMPro.TextMeshProUGUI>(memberTemplate.transform, "Caption");
+            memberCaption.fontSize = 12; memberCaption.enableWordWrapping = true;
+            memberCaption.rectTransform.offsetMin = new Vector2(4, 4); memberCaption.rectTransform.offsetMax = new Vector2(-4, -4);
+            normal.gameObject.SetActive(true); history.gameObject.SetActive(false); reference.gameObject.SetActive(false);
+            confirmation.gameObject.SetActive(false); recovery.gameObject.SetActive(false);
+            foreach (var panel in new[] { navConfirm, battleConfirm, navRecovery, battleRecovery }) panel.Root.gameObject.SetActive(false);
+            UnityEngine.Object.DestroyImmediate(LayoutAt<RectTransform>(battle, "BattleScroll").gameObject);
+        }
+
+        private static string LayoutRelative(Transform root, Transform child)
+        {
+            var parts = new System.Collections.Generic.List<string>();
+            for (var current = child; current != root; current = current.parent)
+            { Require(current != null, "LAYOUT target outside root"); parts.Insert(0, current.name); }
+            return string.Join("/", parts);
+        }
+        private static string[] LayoutVerifyRoot(GameObject root)
+        {
+            var safe = LayoutAt<RectTransform>(root.transform, "RuntimeCanvas/SafeAreaRoot");
+            var texts = root.GetComponentsInChildren<TMPro.TextMeshProUGUI>(true);
+            var bindingType = AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + "Localization/LocalizedTmpText.cs").GetClass();
+            var expected = LayoutTextTargets.Split('\n').OrderBy(x => x, StringComparer.Ordinal).ToArray();
+            var actual = texts.Select(text => {
+                var field = text.GetComponentInParent<TMPro.TMP_InputField>(true);
+                var isInput = field != null && field.textComponent == text;
+                var binding = text.GetComponent(bindingType);
+                var path = LayoutRelative(safe, text.transform);
+                Require(text.font == preparingFont && text.fontSharedMaterial == preparingFont.material, "LAYOUT preserved font " + path);
+                Require(!text.raycastTarget && text.text == Placeholder || isInput && !text.raycastTarget &&
+                    text.text == Placeholder + "\u200B", "LAYOUT placeholder " + path);
+                if (isInput) Require(field.text == Placeholder, "LAYOUT input placeholder " + path);
+                if (binding != null) Require(new SerializedObject(binding).FindProperty("target").objectReferenceValue == text,
+                    "LAYOUT typed TMP target " + path);
+                return path + "|" + (isInput ? "Input" : binding != null ? "Binding" : "License");
+            }).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+            Require(expected.Length == 141 && actual.SequenceEqual(expected), "LAYOUT exact 141 TMP paths/types");
+            Require(root.GetComponentsInChildren<TMPro.TMP_InputField>(true).Length == 3, "LAYOUT three input fields");
+            var ids = LayoutViewIds(root);
+            Require(ids.Distinct(StringComparer.Ordinal).Count() == ids.Length && ids.All(x => !string.IsNullOrEmpty(x)) &&
+                ids.Count(x => x == "fm.action.history.open") == 1 && ids.Count(x => x == "fm.popup.reference") == 1,
+                "LAYOUT unique stable view identities");
+            var canvas = root.GetComponentsInChildren<Canvas>(true);
+            Require(canvas.Length == 1 && canvas[0].renderMode == RenderMode.ScreenSpaceOverlay &&
+                root.GetComponentsInChildren<UnityEngine.UI.GraphicRaycaster>(true).Length == 1, "LAYOUT single Overlay Canvas/raycaster");
+            var scaler = canvas[0].GetComponent<UnityEngine.UI.CanvasScaler>();
+            Require(scaler != null && scaler.enabled && scaler.uiScaleMode == UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize &&
+                scaler.referenceResolution == new Vector2(540, 960) && scaler.matchWidthOrHeight == .5f, "LAYOUT enabled CanvasScaler");
+            var responsive = LayoutScript(root.transform, "RuntimeCanvas/SafeAreaRoot", "FightMatchResponsiveLayout");
+            var fields = new SerializedObject(responsive);
+            foreach (var name in new[] { "safeArea", "canvas", "screenLayer", "topBar", "battleContent", "stage", "battleStatus", "boardRegion",
+                "bottomHud", "normalHudRoot", "historyDrawerRoot", "referenceDrawerRoot", "normalStatusViewport", "normalMainRow",
+                "startupViewport", "navigationViewport", "resultViewport", "layoutDiagnostic", "layoutDiagnosticText", "battleInteraction" })
+                Require(fields.FindProperty(name)?.objectReferenceValue != null, "LAYOUT responsive typed field " + name);
+            var panels = fields.FindProperty("dialogPanels"); Require(panels != null && panels.arraySize == 7, "LAYOUT seven panels");
+            var input = LayoutScript(safe, "ScreenLayer/BattlePage/BattleContent/BattleStatus", "CandidateBoardInputView");
+            var inputFields = new SerializedObject(input);
+            foreach (var name in new[] { "allyStageSlots", "enemyStageSlots", "memberSlots", "allyNames", "allyHp", "allyIntent", "enemyNames", "enemyHp", "enemyIntent" })
+            {
+                var array = inputFields.FindProperty(name); Require(array != null && array.arraySize == 3, "LAYOUT typed triple " + name);
+                for (var i = 0; i < 3; i++) Require(array.GetArrayElementAtIndex(i).objectReferenceValue != null, "LAYOUT missing slot " + name + i);
+            }
+            var board = LayoutAt<RectTransform>(safe, "ScreenLayer/BattlePage/BattleContent/BoardRegion/BoardFrame");
+            var boardScript = LayoutScript(board.parent, "BoardFrame", "CandidateBoardElement");
+            Require(board.GetComponents<UnityEngine.UI.Graphic>().Length == 1 && board.GetComponent<UnityEngine.UI.Graphic>() == boardScript &&
+                board.anchorMin == Vector2.zero && board.anchorMax == Vector2.one && board.offsetMin == Vector2.zero && board.offsetMax == Vector2.zero,
+                "LAYOUT sole Graphic/stretch BoardFrame");
+            foreach (var scroll in root.GetComponentsInChildren<UnityEngine.UI.ScrollRect>(true))
+                Require(scroll.content != null && scroll.viewport != null && scroll.viewport.parent == scroll.transform &&
+                    scroll.content.parent == scroll.viewport && scroll.viewport.GetComponent<UnityEngine.UI.Image>() != null &&
+                    scroll.viewport.GetComponent<UnityEngine.UI.Mask>() != null && !scroll.inertia && scroll.elasticity == 0 &&
+                    scroll.movementType == UnityEngine.UI.ScrollRect.MovementType.Clamped, "LAYOUT clipped local scroll");
+            foreach (var graphic in root.GetComponentsInChildren<UnityEngine.UI.Graphic>(true).Where(x => x.name.StartsWith("TempArt_", StringComparison.Ordinal)))
+                Require(!graphic.raycastTarget && graphic is UnityEngine.UI.Image && ((UnityEngine.UI.Image)graphic).sprite == null,
+                    "LAYOUT temporary art surface");
+            foreach (var component in root.GetComponentsInChildren<Component>(true))
+            {
+                Require(component != null, "LAYOUT missing script");
+                var serialized = new SerializedObject(component); var property = serialized.GetIterator();
+                while (property.NextVisible(true))
+                    if (property.propertyType == SerializedPropertyType.ObjectReference)
+                        Require(property.objectReferenceValue != null || property.objectReferenceInstanceIDValue == 0,
+                            "LAYOUT missing reference " + property.propertyPath);
+            }
+            return actual;
+        }
+        private static long LayoutLocalId(UnityEngine.Object value)
+        {
+            Require(AssetDatabase.TryGetGUIDAndLocalFileIdentifier(value, out string guid, out long id) && id != 0,
+                "LAYOUT persistent object identity"); return id;
+        }
+        private static string[] LayoutViewIds(GameObject root)
+        {
+            var type = AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + "FightMatchViewId.cs").GetClass();
+            return root.GetComponentsInChildren(type, true).Select(x => new SerializedObject(x).FindProperty("id").stringValue).ToArray();
+        }
+        private static string[] LayoutSceneIds(FightMatchPlayerHost host, UnityEngine.EventSystems.EventSystem events)
+        {
+            return new UnityEngine.Object[] { host.gameObject, host, host.RuntimeRoot.gameObject, host.RuntimeRoot, events.gameObject, events }
+                .Select(x => GlobalObjectId.GetGlobalObjectIdSlow(x).ToString()).ToArray();
+        }
+        private static bool LayoutRetiredObject(string path)
+        {
+            const string rows = "RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BattleScroll";
+            if (path == rows || path == rows + "/Viewport" || path == rows + "/Viewport/Content" || path == rows + "/Viewport/Content/History") return true;
+            if (new[] { "Enemies", "Members", "Hp", "Intent" }.Any(x => path == rows + "/Viewport/Content/BattleStatus/" + x)) return true;
+            if (path.StartsWith("RuntimeCanvas/SafeAreaRoot/PopupLayer/RecoveryPopup/NavigationRecovery/OriginalResult", StringComparison.Ordinal)) return true;
+            const string license = "RuntimeCanvas/SafeAreaRoot/PopupLayer/LicensePopup/LicenseScrollContainer";
+            return path.StartsWith(license, StringComparison.Ordinal) && !path.EndsWith("/LicenseBody", StringComparison.Ordinal);
+        }
+        private static void LayoutProtectAfter(LayoutActivation activation)
+        {
+            LayoutCheckFiles(activation.candidateProjectPath, activation.sources);
+            LayoutCheckFiles(activation.candidateProjectPath, activation.importedMetas);
+            LayoutCheckFiles(activation.candidateProjectPath, activation.protectedInputs);
+            LayoutCheckFiles(activation.candidateProjectPath, activation.resources.Where(x => x.path != UguiPrefab && x.path != ScenePath).ToArray());
+            Require(AssetDatabase.AssetPathToGUID(UguiPrefab) == activation.prefabGuid && AssetDatabase.AssetPathToGUID(ScenePath) == activation.sceneGuid,
+                "LAYOUT preserved GUIDs after migration");
+        }
+        private static LayoutResult LayoutReopen(LayoutActivation activation)
+        {
+            var beforePrefab = Sha(UguiPrefab); var beforeScene = Sha(ScenePath);
+            string[] targets, sceneIds;
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try { targets = LayoutVerifyRoot(root); }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            try
+            {
+                var hosts = SceneComponents<FightMatchPlayerHost>(scene); var events = SceneComponents<UnityEngine.EventSystems.EventSystem>(scene);
+                Require(hosts.Length == 1 && events.Length == 1 && hosts[0].RuntimeRoot != null, "LAYOUT preserved Host/EventSystem");
+                sceneIds = LayoutSceneIds(hosts[0], events[0]);
+                var modules = events[0].GetComponents<UnityEngine.EventSystems.BaseInputModule>();
+                Require(modules.Length == 1 && MonoScript.FromMonoBehaviour(modules[0]) ==
+                    AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + "FightMatchStandaloneInputModule.cs"), "LAYOUT project input module");
+                Require(SceneComponents<Canvas>(scene).Length == 1 && SceneComponents<UnityEngine.UIElements.UIDocument>(scene).Length == 0 &&
+                    PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(hosts[0].RuntimeRoot) == UguiPrefab &&
+                    hosts[0].FontAsset == preparingFont && hosts[0].FontLicense != null, "LAYOUT preserved scene linkage");
+                Require(LayoutVerifyRoot(hosts[0].RuntimeRoot.gameObject).SequenceEqual(targets), "LAYOUT reopened instance targets");
+                Require(!scene.isDirty && !EditorApplication.isPlayingOrWillChangePlaymode, "LAYOUT read-only scene reopen");
+            }
+            finally { EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); }
+            Require(Sha(UguiPrefab) == beforePrefab && Sha(ScenePath) == beforeScene, "LAYOUT reopen wrote native bytes");
+            LayoutProtectAfter(activation);
+            return new LayoutResult { mode = "NativeReadOnlyReopen", reopened = true, protectedInputsUnchanged = true,
+                prefabSha256 = beforePrefab, sceneSha256 = beforeScene, targets = targets, sceneObjectIds = sceneIds, textCount = 141, inputCount = 3 };
+        }
+        public static void MigrateLayoutResources()
+        {
+            var activation = LayoutGuard("MigrateLayoutResources");
+            preparingFont = AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>(UguiFont); Require(preparingFont != null, "LAYOUT existing font");
+            var persistent = AssetDatabase.LoadAssetAtPath<GameObject>(UguiPrefab); Require(persistent != null, "LAYOUT existing prefab");
+            var survivors = persistent.GetComponentsInChildren<Transform>(true)
+                .Where(x => !LayoutRetiredObject(LayoutRelative(persistent.transform, x))).Select(x => LayoutLocalId(x.gameObject))
+                .Concat(persistent.GetComponentsInChildren<Component>(true).Where(x => x != null &&
+                    !LayoutRetiredObject(LayoutRelative(persistent.transform, x.transform)) && !(x is UnityEngine.UI.LayoutGroup) &&
+                    !(x is UnityEngine.UI.ContentSizeFitter) && !(x is UnityEngine.UI.AspectRatioFitter) &&
+                    !(x is UnityEngine.UI.LayoutElement) && !(x is UnityEngine.UI.RectMask2D)).Select(LayoutLocalId)).ToArray();
+            var retiredIds = new[] { RowId("board.enemies"), RowId("playback.hp"), RowId("playback.intent"),
+                RowId("save.OriginalResult"), RowId("template.reference.close") };
+            var stableIds = LayoutViewIds(persistent).Except(retiredIds).ToArray();
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                LayoutMigrateRoot(root); LayoutVerifyRoot(root);
+                PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab, out var success); Require(success, "LAYOUT same-path native prefab save");
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+            persistent = AssetDatabase.LoadAssetAtPath<GameObject>(UguiPrefab);
+            var afterIds = persistent.GetComponentsInChildren<Transform>(true).Select(x => LayoutLocalId(x.gameObject))
+                .Concat(persistent.GetComponentsInChildren<Component>(true).Select(LayoutLocalId)).ToArray();
+            Require(survivors.All(afterIds.Contains), "LAYOUT surviving object fileIDs");
+            Require(stableIds.All(LayoutViewIds(persistent).Contains), "LAYOUT surviving ViewIds");
+            string[] sceneIds;
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            try
+            {
+                var hosts = SceneComponents<FightMatchPlayerHost>(scene); var events = SceneComponents<UnityEngine.EventSystems.EventSystem>(scene);
+                Require(hosts.Length == 1 && events.Length == 1 && hosts[0].RuntimeRoot != null, "LAYOUT existing scene objects");
+                var host = hosts[0]; var instance = host.RuntimeRoot;
+                sceneIds = LayoutSceneIds(host, events[0]);
+                Require(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(instance) == UguiPrefab, "LAYOUT existing prefab instance only");
+                LayoutVerifyRoot(instance.gameObject);
+                EditorSceneManager.MarkSceneDirty(scene);
+                Require(EditorSceneManager.SaveScene(scene, ScenePath), "LAYOUT same-path native scene save");
+            }
+            finally { EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); }
+            LayoutProtectAfter(activation);
+            LayoutWrite(activation, "native-migration.json", new LayoutResult { mode = "NativeMigration", reopened = false,
+                protectedInputsUnchanged = true, prefabSha256 = Sha(UguiPrefab), sceneSha256 = Sha(ScenePath), textCount = 141, inputCount = 3 });
+            var result = LayoutReopen(activation);
+            Require(result.sceneObjectIds.SequenceEqual(sceneIds), "LAYOUT scene object identities after reopen");
+            LayoutWrite(activation, "native-reopen.json", result); LayoutWrite(activation, "serialized-targets.json", result);
+            preparingFont = null;
+        }
+        public static void VerifyLayoutResources()
+        {
+            var activation = LayoutGuard("VerifyLayoutResources");
+            preparingFont = AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>(UguiFont); Require(preparingFont != null, "LAYOUT existing font");
+            var result = LayoutReopen(activation);
+            LayoutWrite(activation, "native-reopen.json", result); LayoutWrite(activation, "serialized-targets.json", result);
+            preparingFont = null;
+        }
+
         public static void RecoverUguiBoardRenderer()
         {
             var output = Arg("-ugui01Output");
