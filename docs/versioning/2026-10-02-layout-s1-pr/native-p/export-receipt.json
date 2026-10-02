@@ -1,0 +1,246 @@
+{
+  "task": "LAYOUT-S1-P-EXPORT-001",
+  "status": "EXPORTED",
+  "startedUtc": "2026-10-02T13:00:57.228929+00:00",
+  "finishedUtc": "2026-10-02T13:00:57.297597+00:00",
+  "failure": null,
+  "outcomes": [
+    {
+      "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "before": {
+        "bytes": 1060568,
+        "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b"
+      },
+      "source": {
+        "bytes": 1322960,
+        "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+      },
+      "startedUtc": "2026-10-02T13:00:57.283486+00:00",
+      "action": "REPLACED",
+      "after": {
+        "bytes": 1322960,
+        "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+      },
+      "finishedUtc": "2026-10-02T13:00:57.285688+00:00"
+    },
+    {
+      "path": "Assets/Scenes/FightMatchDemo.unity",
+      "before": {
+        "bytes": 12900,
+        "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+      },
+      "source": {
+        "bytes": 12900,
+        "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+      },
+      "startedUtc": "2026-10-02T13:00:57.285824+00:00",
+      "action": "NO_CHANGE",
+      "after": {
+        "bytes": 12900,
+        "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+      },
+      "finishedUtc": "2026-10-02T13:00:57.285862+00:00"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "before": null,
+      "source": {
+        "bytes": 243,
+        "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf"
+      },
+      "startedUtc": "2026-10-02T13:00:57.285891+00:00",
+      "action": "CREATED",
+      "after": {
+        "bytes": 243,
+        "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf"
+      },
+      "finishedUtc": "2026-10-02T13:00:57.286092+00:00"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "before": null,
+      "source": {
+        "bytes": 243,
+        "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d"
+      },
+      "startedUtc": "2026-10-02T13:00:57.286121+00:00",
+      "action": "CREATED",
+      "after": {
+        "bytes": 243,
+        "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d"
+      },
+      "finishedUtc": "2026-10-02T13:00:57.286282+00:00"
+    }
+  ],
+  "beforeFile": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/PExport/before.json",
+    "bytes": 28707,
+    "sha256": "7a85c055e6a843ea44c45834cfe18fc2676a9a845a010f5a8b8df2754bd7fefe"
+  },
+  "guards": {
+    "onlyPrefabChangedAmongShared58": true,
+    "other57Unchanged": true,
+    "source15Unchanged": true,
+    "exports4EqualProjectedAndFixedHashes": true,
+    "naturalMetaGuids": {
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta": "a46f2134fd6e640caa7de8c59b39671e",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta": "7e44e26b7cf32413085a42f1048e1d73"
+    },
+    "sealedEvidenceAndIsolatedSettingsUnchanged": true
+  },
+  "actualExecution": {
+    "Unity": 0,
+    "tests": 0,
+    "deviceCUA": 0,
+    "Git": 0,
+    "copiedPaths": 3,
+    "noChangePaths": 1
+  },
+  "verification": {
+    "command": "python3 -B - <<'PY'\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nimport hashlib,json,re,subprocess\nroot=Path.cwd();s=root/'TestArtifacts/FightMatch/LAYOUT-S1-001';e=s/'PExport'\nb=json.loads((e/'before.json').read_text());m=json.loads((root/b['lease']['path']).read_text());source=root/m['sourceRoot']\nstarted=datetime.now(timezone.utc).isoformat();outcomes=[];failure=None\ndef ident(p):\n d=p.read_bytes();return {'bytes':len(d),'sha256':hashlib.sha256(d).hexdigest()}\ndef current(p):return ident(p) if p.exists() else None\ndef sealed():\n for rel,value in b['sealedEvidence'].items():assert ident(root/rel)==value,rel\n assert ident(root/b['lease']['path'])=={k:b['lease'][k] for k in ['bytes','sha256']}\n assert ident(root/b['isolatedByproduct']['path'])=={k:b['isolatedByproduct'][k] for k in ['bytes','sha256']}\ntry:\n assert sorted(q.name for q in e.iterdir())==['before.json']\n assert m['owner']['turn']=='01a0fcae-baa6-7843-a24e-0b428ff7624b'\n assert m['status']=='EXPORT_ONLY_ACTIVATED' and len(b['exports'])==4\n sealed()\n for rel,value in b['shared58'].items():assert not (root/rel).is_symlink() and ident(root/rel)==value,rel\n payload={}\n for entry in b['exports']:\n  rel=entry['path'];target=root/rel\n  assert not target.is_symlink() and current(target)==entry['destinationBefore'],rel\n  data=(source/rel).read_bytes();assert {'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}==entry['source'],rel\n  payload[rel]=data\n rows=subprocess.check_output(['/bin/ps','-axo','pid=,ppid=,lstart=,comm='],text=True)\n assert not any('/Unity.app/Contents/MacOS/Unity' in x or '/UnityPackageManager' in x for x in rows.splitlines())\n for entry in b['exports']:\n  rel=entry['path'];target=root/rel;old=entry['destinationBefore']\n  assert current(target)==old and not target.is_symlink(),rel\n  record={'path':rel,'before':old,'source':entry['source'],'startedUtc':datetime.now(timezone.utc).isoformat(),'action':'PENDING'}\n  outcomes.append(record)\n  if old==entry['source']:record['action']='NO_CHANGE'\n  elif old is None:\n   with target.open('xb') as stream:stream.write(payload[rel])\n   record['action']='CREATED'\n  else:\n   target.write_bytes(payload[rel]);record['action']='REPLACED'\n  record['after']=ident(target);assert record['after']==entry['source'],rel\n  record['finishedUtc']=datetime.now(timezone.utc).isoformat()\n changed=[]\n for rel,value in b['shared58'].items():\n  if ident(root/rel)!=value:changed.append(rel)\n assert changed==['Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab']\n guids={}\n for entry in b['exports']:\n  rel=entry['path'];assert ident(source/rel)==entry['source']==ident(root/rel)\n  if rel.endswith('.meta'):\n   guids[rel]=re.search(r'^guid: ([a-f0-9]{32})$',(root/rel).read_text(),re.M)[1]\n assert list(guids.values())==['a46f2134fd6e640caa7de8c59b39671e','7e44e26b7cf32413085a42f1048e1d73']\n for entry in b['source15']:assert ident(root/entry['path'])=={k:entry[k] for k in ['bytes','sha256']}\n sealed()\nexcept Exception as exc:failure=type(exc).__name__+': '+str(exc)\nresult={'task':m['task'],'status':'EXPORTED' if failure is None else 'EXPORT_FAILED','startedUtc':started,'finishedUtc':datetime.now(timezone.utc).isoformat(),'failure':failure,'outcomes':outcomes,'beforeFile':{'path':str((e/'before.json').relative_to(root)),**ident(e/'before.json')},'guards':{'onlyPrefabChangedAmongShared58':failure is None,'other57Unchanged':failure is None,'source15Unchanged':failure is None,'exports4EqualProjectedAndFixedHashes':failure is None,'naturalMetaGuids':guids if failure is None else None,'sealedEvidenceAndIsolatedSettingsUnchanged':failure is None},'actualExecution':{'Unity':0,'tests':0,'deviceCUA':0,'Git':0,'copiedPaths':sum(x['action'] in ['CREATED','REPLACED'] for x in outcomes),'noChangePaths':sum(x['action']=='NO_CHANGE' for x in outcomes)}}\nprint(json.dumps(result,ensure_ascii=False))\nraise SystemExit(0 if failure is None else 1)\nPY",
+    "exitCode": 0,
+    "toolChunk": "f0a225"
+  },
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fcae-baa6-7843-a24e-0b428ff7624b"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fc82-679c-78e1-aab6-d406f8053f2a"
+  },
+  "soleReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "lease": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-p-export-001.json",
+    "bytes": 6201,
+    "sha256": "2cb6b13e78d56869897ccfb30c047f334fa035b819e55809df62b754b3c64bf6"
+  },
+  "candidate": {
+    "head": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "tree": "665c86084c090fd8cab1f061f1634cb1596f7e58",
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "baseHead": "3541930877837e14b58020b910976b8b67b56e42",
+    "baseTree": "37326f759fc065f268c23f66a674be1a61f12268",
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source-receipt.json",
+      "sha256": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b"
+    },
+    "reviewReceipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json",
+      "sha256": "c67d5479d895e66be6db649afe9ccb00139a1dc27270200028aff202b9c6bc77"
+    },
+    "reviewGate": "ACCEPT_CODE_REVIEW_ONLY_NOT_FORMAL_APPROVED"
+  },
+  "reassessment": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-p001-reassessment-001.json",
+    "bytes": 27606,
+    "sha256": "c6e39a87b7dfb11ad97eff3d1f817cc878a0fb5b0aceb7f898e07e1da09993ec"
+  },
+  "originalPReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/PExecution/receipt.json",
+    "bytes": 20978,
+    "sha256": "249ac5a32799a45fe5b6905c79361d5a776d56eeed04c87103b4775347f50a57"
+  },
+  "source15": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "bytes": 154822,
+      "sha256": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "bytes": 17703,
+      "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "bytes": 8707,
+      "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "bytes": 81160,
+      "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "bytes": 24402,
+      "sha256": "83e556cc3348faa0210985af3d910f9e32f450b08e05f8eb72230252bb543f72"
+    }
+  ],
+  "isolatedByproduct": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/projection/ProjectSettings/SceneTemplateSettings.json",
+    "bytes": 3534,
+    "sha256": "5baf593374ad67246277a435d8d0ded7167696eef6e05d2d245670e490625d8c",
+    "disposition": "Preserved in projection; not exported."
+  },
+  "originalStatusesPreserved": [
+    "I_FAILED",
+    "P_FAILED"
+  ],
+  "authorDisposition": "Mechanical export complete; no product/integration ACCEPT claimed.",
+  "notRun": [
+    "Unity/import/migration/reopen",
+    "Tests/discovery/T",
+    "Play/Host",
+    "Android/build",
+    "Device/CUA",
+    "Git/PR"
+  ],
+  "writingStoppedAfterReceipt": true
+}

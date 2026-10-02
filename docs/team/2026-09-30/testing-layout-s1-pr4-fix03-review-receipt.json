@@ -1,0 +1,109 @@
+{
+  "task": "LAYOUT-S1-PR4-FIX03-REVIEW-RECEIPT",
+  "verdict": "ACCEPT",
+  "scope": "Final FIX03 head code-review gate only; not compilation, import, native migration, tests, visual/device or Demo acceptance.",
+  "receivedUtc": "2026-10-02T07:36:57Z",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fb88-5ad9-7382-8b46-2f773b927942"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "User standing workflow and central dual-review delegation; deliver each result independently.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "base": "3541930877837e14b58020b910976b8b67b56e42",
+    "parent": "24dcb0c18119f7d420efafdb7a02dd04a9389347",
+    "head": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "tree": "665c86084c090fd8cab1f061f1634cb1596f7e58",
+    "draft": true,
+    "merged": false
+  },
+  "evidence": {
+    "publicationReceipt": "docs/team/2026-09-30/layout-s1-fix03-publication-receipt.json",
+    "publicationReceiptSha256": "17f4d523ceb29979f2b8f016eff554eef5ae1d9e344542c738cdf85974bd33b8",
+    "manifest": "docs/versioning/2026-10-02-layout-s1-pr/fix03/publication-manifest.json",
+    "manifestSha256": "b357cbe78e3bc499022a75d32e40636227fb9517d4d95f8f85f14390a90c3ad7",
+    "sourceReceiptSha256FromPublication": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b",
+    "publicationChecks": "Central's 8-path/2-C#-file/77-line and all15-source-blob checks reused as reported; no duplicate code/blob audit.",
+    "originalReceiptsPreserved": [
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-review-receipt.json",
+        "sha256": "5f21173480fd7290aa1e9a0c7a9228c73e0378fba41642a650b52ccf94b3b549"
+      },
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix01-review-receipt.json",
+        "sha256": "0db42a5b6e1693cfd93e4eb7698a5166d9ba17236157237e80a1b354fd65b09e"
+      },
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix02-review-receipt.json",
+        "sha256": "4224b661e2be445758576b572ef2e9b0bd0f2cee3a94d614cca19428e3f4ebd3"
+      }
+    ]
+  },
+  "originalReview": {
+    "bot": "chatgpt-codex-connector[bot]",
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5947422605",
+    "triggerCreatedUtc": "2026-10-02T07:32:27Z",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5945559740",
+    "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T07:35:06.204898Z\">2026-10-02T07:35:06.204898Z</relative-time> | `ee556f2` | Manual request |",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5947455946",
+    "resultCommentId": 5947455946,
+    "resultCreatedUtc": "2026-10-02T07:35:05Z",
+    "rawResultBody": "Codex Review: Didn't find any major issues. More of your lovely PRs please.\n\n**Reviewed commit:** `ee556f2653`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "reportedReviewedCommit": "ee556f2653",
+    "binding": "Reported 10-character commit matches the fixed full SHA in the trigger and current PR head; remote Git lookup verifies parent/tree.",
+    "formalReviewRecordsForThisHead": 0,
+    "formalApprovalClaimed": false,
+    "newFindings": [],
+    "interpretation": "Completed; no major issues reported for this head. Not a guarantee that all possible issues are absent."
+  },
+  "historicalDiscussionStates": [
+    {
+      "findingId": 4162866083,
+      "threadId": "PRRT_kwDOTDyjrM6oOj1c",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "findingId": 4162866085,
+      "threadId": "PRRT_kwDOTDyjrM6oOj1d",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "findingId": 4162989184,
+      "threadId": "PRRT_kwDOTDyjrM6oO24g",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "findingId": 4163111945,
+      "threadId": "PRRT_kwDOTDyjrM6oPJ1Q",
+      "isResolved": false,
+      "isOutdated": false,
+      "resolvedBy": null
+    }
+  ],
+  "discussionStateMeaning": "All four discussion boxes remain unresolved; r4163111945 is not outdated. These UI states are preserved independently from the bot's completed no-major-issues result on FIX03. No manual resolution or explicit per-comment bot closure is claimed, and prior NEEDS_FIX receipts remain historical.",
+  "gates": {
+    "codeReview": "CLOSED_NO_MAJOR_ISSUES_REPORTED_FOR_FIX03",
+    "integrationAccepted": false,
+    "next": "Central/engineering may continue the separately scoped I/P activation process. This receipt does not itself authorize Unity, migration or tests.",
+    "stillRequired": "Compile/import, natural metas, native resources/save/reopen, actual test discovery and bounded execution, real Host/LOC, art/visual and Android/device gates."
+  },
+  "thisTurn": {
+    "reviewTriggers": 0,
+    "reviewThreadMutations": 0,
+    "localCodeReviews": 0,
+    "RorWorkerDispatches": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFile": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json"
+  }
+}
