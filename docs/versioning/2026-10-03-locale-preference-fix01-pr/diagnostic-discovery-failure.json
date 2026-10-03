@@ -1,0 +1,292 @@
+{
+  "task": "LOC-B-PREF-DIAG01-MAC-001",
+  "status": "DIAGNOSTIC_CAPTURED_DISCOVERY_FAILED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a10033-3425-7b22-b7bd-2ab5690023c6"
+  },
+  "startedUtc": "2026-10-03T05:22:51.214843+00:00",
+  "finishedUtc": "2026-10-03T05:24:11.025997+00:00",
+  "runnerElapsedSeconds": 79.810877,
+  "blockingFailure": null,
+  "run": {
+    "bytes": 284048,
+    "sha256": "e09de9140df376668ba893b104a96574ff0ebde540cae51642b8267d318db250"
+  },
+  "runner": {
+    "bytes": 27895,
+    "sha256": "afd3f0a44ca985c079c6dc6579d3dcf3b47a8a2d11a625a0b7ebd94e951ce2e5"
+  },
+  "candidate": {
+    "kind": "RAW74 sealed current projection with only diagnostic test source changed",
+    "diagnosticHead": null,
+    "priorPR3Head": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "priorPR3ReviewDoesNotCoverDiagnostic": true,
+    "testsExecuted": 0
+  },
+  "source": {
+    "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+    "before": {
+      "bytes": 30074,
+      "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d"
+    },
+    "after": {
+      "bytes": 31752,
+      "sha256": "866933f9c8f5ce83aecd73a086f75b8ca7a0a1961e62c851d53ae77bc168bb19"
+    },
+    "sourcePath": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-IMPL-B-PREF/DIAG01/S/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+    "owner": {
+      "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+      "host": "local",
+      "turn": "01a10022-1bca-7040-a6a9-b197c140d90f"
+    },
+    "receipt": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-IMPL-B-PREF/DIAG01/S/source-receipt.json",
+      "bytes": 6720,
+      "sha256": "7c08bae5816e1c8d2a1995df7693a8a4053c97b03990b8f13a341ff769729d12"
+    },
+    "meta": {
+      "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta",
+      "bytes": 243,
+      "sha256": "97eb4963b6d27d4669a021853e7363a3bbe386269f9293ff6d4608c772be39c3"
+    }
+  },
+  "stage": {
+    "stage": "D",
+    "status": "DISCOVERY_FAILED_DIAGNOSTIC_CAPTURED",
+    "runCount": 1,
+    "pid": 76537,
+    "exitCode": 3,
+    "beforeClosureSeconds": 18.115152,
+    "closureSeconds": 60.219979,
+    "elapsedSeconds": 78.335147,
+    "diagnostic": {
+      "messages": [
+        {
+          "line": 360,
+          "text": "PreferenceDiscoveryDiagnostic: branch=collected nodes=5045 matched=77 nonRunnable=6 duplicate=0"
+        },
+        {
+          "line": 374,
+          "text": "PreferenceDiscoverySample: name=FightMatch.Host.Tests.LocalePreferenceStoreTests runState=Runnable SkipReason="
+        },
+        {
+          "line": 388,
+          "text": "PreferenceDiscoverySample: name=FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents runState=NotRunnable SkipReason=Category name must not contain ',', '!', '+' or '-'"
+        },
+        {
+          "line": 402,
+          "text": "PreferenceDiscoverySample: name=FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair runState=NotRunnable SkipReason=Category name must not contain ',', '!', '+' or '-'"
+        }
+      ],
+      "records": [
+        {
+          "branch": "collected",
+          "nodes": 5045,
+          "matched": 77,
+          "nonRunnable": 6,
+          "duplicate": 0,
+          "line": 360
+        }
+      ],
+      "samples": [
+        {
+          "name": "FightMatch.Host.Tests.LocalePreferenceStoreTests",
+          "runState": "Runnable",
+          "SkipReason": "",
+          "line": 374
+        },
+        {
+          "name": "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents",
+          "runState": "NotRunnable",
+          "SkipReason": "Category name must not contain ',', '!', '+' or '-'",
+          "line": 388
+        },
+        {
+          "name": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair",
+          "runState": "NotRunnable",
+          "SkipReason": "Category name must not contain ',', '!', '+' or '-'",
+          "line": 402
+        }
+      ],
+      "observedFailureGates": [
+        "non_runnable"
+      ],
+      "failureMessages": [
+        {
+          "line": 416,
+          "text": "PreferenceDiscoveryFailed: InvalidDataException"
+        }
+      ],
+      "isTestResult": false
+    },
+    "discoveryStatus": "FAILED",
+    "discoveryFailure": {
+      "exitCode": 3,
+      "messages": [
+        {
+          "line": 416,
+          "text": "PreferenceDiscoveryFailed: InvalidDataException"
+        }
+      ]
+    },
+    "discovery": null
+  },
+  "standaloneIRuns": 0,
+  "testRuns": 0,
+  "testsExecuted": 0,
+  "OLease": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection/TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/discovery",
+    "initialState": "EXISTING_EMPTY",
+    "priorObservationPreserved": true,
+    "newOwner": {
+      "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+      "host": "local",
+      "turn": "01a10033-3425-7b22-b7bd-2ab5690023c6"
+    },
+    "permittedFiles": [
+      "leaves.json",
+      "receipt.json"
+    ],
+    "createNewOnly": true,
+    "singleFileMaxBytes": 1048576,
+    "neverDeleteOrOverwrite": true
+  },
+  "OFiles": {},
+  "mechanicalChecks": [
+    {
+      "runs": 1,
+      "elapsedSeconds": 0.002955,
+      "cases": [
+        {
+          "case": "original_adb_absent_allowed",
+          "passed": true
+        },
+        {
+          "case": "exact_adb_present_allowed",
+          "passed": true
+        },
+        {
+          "case": "reused_pid_rejected",
+          "passed": true
+        },
+        {
+          "case": "changed_uid_rejected",
+          "passed": true
+        },
+        {
+          "case": "new_adb_not_owned_or_allowed",
+          "passed": true
+        },
+        {
+          "case": "uncertain_query_rejected",
+          "passed": true
+        },
+        {
+          "case": "projection_fd_rejected",
+          "passed": true
+        },
+        {
+          "case": "incomplete_snapshot_rejected",
+          "passed": true
+        },
+        {
+          "case": "owned_finally_ignores_throwing_foreign_gate_with_one_mock_term",
+          "passed": true
+        },
+        {
+          "case": "oversize_sample_rejected",
+          "passed": true
+        },
+        {
+          "case": "diagnostic_parser_preserves_multiple_observed_gates_and_bounded_sample",
+          "passed": true
+        }
+      ],
+      "OSCalls": 0,
+      "UnityCalls": 0,
+      "nativeSignalCalls": 0,
+      "mockSignalCalls": 1,
+      "syntax": "PASSED",
+      "index": 1,
+      "passed": true
+    }
+  ],
+  "remainingOwned": [],
+  "ownedClosureComplete": true,
+  "consumer": {
+    "consumerGate": "CLEAR",
+    "retainedAdb": {
+      "utc": "2026-10-03T05:24:11.022002+00:00",
+      "originalAdb": "ABSENT",
+      "pid": 63318
+    },
+    "globalConsumerClear": true
+  },
+  "foreignObservations": [],
+  "scopeDifferences": [],
+  "evidence": {
+    "runner.py": {
+      "bytes": 27895,
+      "sha256": "afd3f0a44ca985c079c6dc6579d3dcf3b47a8a2d11a625a0b7ebd94e951ce2e5"
+    },
+    "process-after.json": {
+      "bytes": 8072,
+      "sha256": "83b0d0d8672012c8ba466df63983bbd0656a708c0dec060a4e54924839024837"
+    },
+    "assemblies.json": {
+      "bytes": 31836,
+      "sha256": "0d92d3f830ff557dbf15d83fb0778051941b1f19691fa90d5fc16548e2ec1379"
+    },
+    "after.json": {
+      "bytes": 22866,
+      "sha256": "4c3652b021af9f1745a2349ce39e071029f9c6f43e176b6e2edc0c17c14538da"
+    },
+    "process-events.jsonl": {
+      "bytes": 36080,
+      "sha256": "678b1ea55d4857b50c6a93e88a46966f59e6b48bda6d9c46442b910ea5752721"
+    },
+    "preflight.json": {
+      "bytes": 290060,
+      "sha256": "5d716f7ed0f0afd02e6a4f47c3efff3bcd40c3e9ca79de1d6c978cf93f8c55ed"
+    },
+    "run.json": {
+      "bytes": 284048,
+      "sha256": "e09de9140df376668ba893b104a96574ff0ebde540cae51642b8267d318db250"
+    },
+    "D/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D/result.json": {
+      "bytes": 26264,
+      "sha256": "4d082e82f49729e652cee992781c19609f0b0738646be12dd2b51b468619c6ea"
+    },
+    "D/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D/editor.log": {
+      "bytes": 103056,
+      "sha256": "b952317c28acd497fd974b9f59b07e82987ae3c6b9b37fd5565946a2d2cf50bf"
+    }
+  },
+  "authorIntegrationVerdict": null,
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "sourceWrites": [
+    "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+  ],
+  "metaWrites": 0,
+  "unrun": [
+    "PREF tests",
+    "RAW74 repeat",
+    "LOC materials/M16",
+    "Scene/FIX04",
+    "Host/device/Android",
+    "shared adoption"
+  ]
+}

@@ -1,0 +1,674 @@
+{
+  "schemaVersion": 1,
+  "status": "S1_SOURCE_FROZEN_RUNTIME_NOT_VERIFIED",
+  "phase": "S1",
+  "owner": {
+    "threadId": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "hostId": "local",
+    "turnId": "01a0f71f-8a14-7bf3-afcb-e92eac92bdf9"
+  },
+  "actualDispatchToolItem": "fco_01a0f71f-8a19-7d52-9550-ac8ca6cbc529",
+  "completionRecipient": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": {
+    "path": "docs/team/2026-09-30/loc-b-pref-source-activation-001.json",
+    "bytes": 4389,
+    "sha256": "f77e1ba84c44cab46d0cfafe8234f34d100d0e40941a3011c4c3c61b7b24229c"
+  },
+  "requestedModel": "gpt-6-astra",
+  "requestedEffort": "xhigh",
+  "plan": {
+    "path": "docs/team/2026-09-30/engineering-localization-b-pref-source-activation.md",
+    "bytes": 8825,
+    "sha256": "0a5fbbef98318825263d9d04d15cec991d510e9180aed040510835d695f740f9"
+  },
+  "I0Acceptance": {
+    "path": "docs/team/2026-09-30/ugui-fix22-integration-receipt.json",
+    "bytes": 1726,
+    "sha256": "89255ba4c154a37168895d2daa7a249ac09b4249888cdb932ade2de06fc14b04"
+  },
+  "I0Head": "3541930877837e14b58020b910976b8b67b56e42",
+  "newReviewedHead": null,
+  "independentVerdict": null,
+  "sourceFiles": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs",
+      "bytes": 3495,
+      "sha256": "e768e6e39fe0f28ec292032ff9986f79606136ad6473b43fb6d5c550487e55a0"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs",
+      "bytes": 13773,
+      "sha256": "d392d6808ad1fc8156482020951404eb46390d462ce0164404180dea067cce13"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+      "bytes": 30074,
+      "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d"
+    }
+  ],
+  "runner": {
+    "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/validation-tools/runner.py",
+    "bytes": 18029,
+    "sha256": "0db27922e532287b3b0aaec3fe430b218390992c2bd01fc975844d2aba51cb7f"
+  },
+  "sourceLineCount": 833,
+  "runnerLineCount": 221,
+  "sourceBudget": {
+    "suggestedMaximumCSharpLines": 1100,
+    "maximumRunnerLines": 250,
+    "existingFileEditsAllowed": 0
+  },
+  "staticScope": {
+    "status": "PASS",
+    "protectedFilesUnchanged": 1010,
+    "newPaths": [
+      "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs",
+      "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs",
+      "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+    ],
+    "newMetaFiles": 0,
+    "existingFileEdits": 0,
+    "asmdefEdits": 0,
+    "friendEdits": 0,
+    "settingsEdits": 0,
+    "assetResourceEdits": 0,
+    "gitCommands": 0,
+    "networkCalls": 0
+  },
+  "interface": {
+    "namespace": "FightMatch.Host",
+    "visibility": "internal",
+    "methods": [
+      "Load(SystemLanguage)",
+      "Save(LocaleId)"
+    ],
+    "newProductionPublicTypes": 0,
+    "mutableResultSetters": 0,
+    "defaultPath": "Application.persistentDataPath/FightMatch/settings/locale-preference-v1.json",
+    "schema": "Single object; exact unique version integer 1 and locale en/zh-Hans; compact deterministic UTF-8 without BOM or trailing newline; reader forbids all root trailing bytes."
+  },
+  "implementation": {
+    "strictReader": "Private fixed two-field reader; strict UTF-8; no permissive DTO parsing.",
+    "persistence": "Same-directory CreateNew temp, Flush(true), temp pre-verify, old bytes/absence, File.Replace or File.Move, post-read/verify.",
+    "state": "Confirmed commit boolean separates SaveFailed from Unknown. Rollback must re-open/read byte-equal old bytes or prove absence.",
+    "diagnostic": "17 frozen codes; successful rollback retains original post-commit code; cleanup never changes primary outcome.",
+    "seam": "One internal file-operation interface with production adapter and scripted test adapter; no caller/session ownership."
+  },
+  "testDeclarations": [
+    {
+      "method": "MissingChineseUsesSystemDefaultWithoutWrites",
+      "line": 50,
+      "attributes": [
+        "[TestCase(SystemLanguage.Chinese), TestCase(SystemLanguage.ChineseSimplified), TestCase(SystemLanguage.ChineseTraditional)]",
+        "[Category(\"PREF-01\")]"
+      ],
+      "categories": [
+        "PREF-01"
+      ]
+    },
+    {
+      "method": "MissingOtherLanguageUsesEnglishWithoutWrites",
+      "line": 60,
+      "attributes": [
+        "[TestCase(SystemLanguage.English), TestCase(SystemLanguage.Japanese), TestCase(SystemLanguage.Unknown), TestCase(SystemLanguage.French)]",
+        "[Category(\"PREF-02\")]"
+      ],
+      "categories": [
+        "PREF-02"
+      ]
+    },
+    {
+      "method": "RememberedLocaleOverridesSystemLanguage",
+      "line": 70,
+      "attributes": [
+        "[TestCase(\"en\", SystemLanguage.Chinese), TestCase(\"zh-Hans\", SystemLanguage.English)]",
+        "[Category(\"PREF-03\")]"
+      ],
+      "categories": [
+        "PREF-03"
+      ]
+    },
+    {
+      "method": "InvalidDocumentPreservesBytesAndDoesNotRepair",
+      "line": 104,
+      "attributes": [
+        "[TestCaseSource(nameof(InvalidDocuments)), Category(\"PREF-04\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-04",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "InvalidUtf8IsPreserved",
+      "line": 114,
+      "attributes": [
+        "[Test, Category(\"PREF-04\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-04",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "UnsupportedSelectionUsesFallbackWithoutRepair",
+      "line": 131,
+      "attributes": [
+        "[TestCase(\"{\\\"version\\\":2,\\\"locale\\\":\\\"en\\\"}\", \"PreferenceUnsupportedVersion\")]",
+        "[TestCase(\"{\\\"version\\\":-1,\\\"locale\\\":\\\"en\\\"}\", \"PreferenceUnsupportedVersion\")]",
+        "[TestCase(\"{\\\"version\\\":1,\\\"locale\\\":\\\"fr\\\"}\", \"PreferenceUnsupportedLocale\")]",
+        "[TestCase(\"{\\\"version\\\":1,\\\"locale\\\":\\\"EN\\\"}\", \"PreferenceUnsupportedLocale\")]",
+        "[TestCase(\"{\\\"version\\\":1,\\\"locale\\\":\\\"ZhHans\\\"}\", \"PreferenceUnsupportedLocale\")]",
+        "[Category(\"PREF-05\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-05",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "ReadFailurePreservesFileAndUsesFallback",
+      "line": 136,
+      "attributes": [
+        "[TestCase(\"load-exists\"), TestCase(\"load-open\"), TestCase(\"load-read\")]",
+        "[Category(\"PREF-05\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-05",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "GrammarWhitespaceFieldOrderAndEscapesRemainValid",
+      "line": 147,
+      "attributes": [
+        "[Test, Category(\"PREF-03\")]"
+      ],
+      "categories": [
+        "PREF-03"
+      ]
+    },
+    {
+      "method": "SaveUsesTheCompleteOrderedStorageFlow",
+      "line": 155,
+      "attributes": [
+        "[Test, Category(\"PREF-06\")]"
+      ],
+      "categories": [
+        "PREF-06"
+      ]
+    },
+    {
+      "method": "ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes",
+      "line": 166,
+      "attributes": [
+        "[TestCase(\"en\"), TestCase(\"zh-Hans\"), Category(\"PREF-06\")]"
+      ],
+      "categories": [
+        "PREF-06"
+      ]
+    },
+    {
+      "method": "PreCommitFailureKeepsOldTargetAndDesiredSession",
+      "line": 191,
+      "attributes": [
+        "[TestCaseSource(nameof(PreCommitFaults)), Category(\"PREF-07\"), Category(\"PREF-08\"), Category(\"PREF-09\"), Category(\"PREF-10\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-07",
+        "PREF-08",
+        "PREF-09",
+        "PREF-10",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "TempVerificationFailureNeverCommits",
+      "line": 202,
+      "attributes": [
+        "[TestCase(\"{\"), TestCase(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\"), TestCase(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")]",
+        "[Category(\"PREF-09\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-09",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure",
+      "line": 212,
+      "attributes": [
+        "[TestCase(\"temp-create\", \"PreferenceTempCreateFailed\"), TestCase(\"temp-write\", \"PreferenceTempWriteFailed\")]",
+        "[TestCase(\"flush\", \"PreferenceFlushFailed\"), TestCase(\"temp-open\", \"PreferenceTempReadFailed\")]",
+        "[TestCase(\"commit\", \"PreferenceCommitFailed\"), Category(\"PREF-11\")]"
+      ],
+      "categories": [
+        "PREF-11"
+      ]
+    },
+    {
+      "method": "PostCommitIoFailureWithoutRollbackProofIsUnknown",
+      "line": 223,
+      "attributes": [
+        "[TestCase(\"target-open\"), TestCase(\"target-read\"), Category(\"PREF-12\"), Category(\"PREF-13\")]"
+      ],
+      "categories": [
+        "PREF-12",
+        "PREF-13"
+      ]
+    },
+    {
+      "method": "PostCommitVerificationWithoutRollbackProofIsUnknown",
+      "line": 233,
+      "attributes": [
+        "[TestCase(\"{\"), TestCase(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\"), TestCase(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")]",
+        "[Category(\"PREF-14\")]"
+      ],
+      "categories": [
+        "PREF-14"
+      ]
+    },
+    {
+      "method": "SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic",
+      "line": 242,
+      "attributes": [
+        "[TestCase(\"target-open\", \"PreferenceTargetReopenFailed\"), TestCase(\"target-read\", \"PreferenceTargetReadFailed\")]",
+        "[TestCase(\"target-document\", \"PreferenceTargetVerificationFailed\"), Category(\"PREF-15\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-15",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "OriginallyAbsentTargetRequiresAnAbsenceProof",
+      "line": 254,
+      "attributes": [
+        "[Test, Category(\"PREF-16\")]"
+      ],
+      "categories": [
+        "PREF-16"
+      ]
+    },
+    {
+      "method": "UnprovenOldBytesKeepUnknown",
+      "line": 265,
+      "attributes": [
+        "[TestCase(\"rollback\", \"PreferenceRollbackFailed\"), TestCase(\"proof-open\", \"PreferenceRollbackProofFailed\")]",
+        "[TestCase(\"proof-read\", \"PreferenceRollbackProofFailed\"), TestCase(\"proof-bytes\", \"PreferenceRollbackMismatch\")]",
+        "[Category(\"PREF-17\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-17",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "UnprovenOldAbsenceKeepsUnknown",
+      "line": 274,
+      "attributes": [
+        "[TestCase(false), TestCase(true), Category(\"PREF-17\"), Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-17",
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents",
+      "line": 283,
+      "attributes": [
+        "[TestCase(false), TestCase(true), Category(\"PREF-18\"), Category(\"PREF-19\")]"
+      ],
+      "categories": [
+        "PREF-18",
+        "PREF-19"
+      ]
+    },
+    {
+      "method": "InvalidLocaleThrowsBeforeStorageAndCleanupDoesNotChangeSaved",
+      "line": 302,
+      "attributes": [
+        "[Test, Category(\"PREF-20\")]"
+      ],
+      "categories": [
+        "PREF-20"
+      ]
+    },
+    {
+      "method": "NewModuleHasNoBusinessOrCompositionDependencies",
+      "line": 312,
+      "attributes": [
+        "[Test, Category(\"PREF-21\")]"
+      ],
+      "categories": [
+        "PREF-21"
+      ]
+    }
+  ],
+  "prefMatrixToDeclarations": {
+    "PREF-01": [
+      "MissingChineseUsesSystemDefaultWithoutWrites"
+    ],
+    "PREF-02": [
+      "MissingOtherLanguageUsesEnglishWithoutWrites"
+    ],
+    "PREF-03": [
+      "RememberedLocaleOverridesSystemLanguage",
+      "GrammarWhitespaceFieldOrderAndEscapesRemainValid"
+    ],
+    "PREF-04": [
+      "InvalidDocumentPreservesBytesAndDoesNotRepair",
+      "InvalidUtf8IsPreserved"
+    ],
+    "PREF-05": [
+      "UnsupportedSelectionUsesFallbackWithoutRepair",
+      "ReadFailurePreservesFileAndUsesFallback"
+    ],
+    "PREF-06": [
+      "SaveUsesTheCompleteOrderedStorageFlow",
+      "ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes"
+    ],
+    "PREF-07": [
+      "PreCommitFailureKeepsOldTargetAndDesiredSession"
+    ],
+    "PREF-08": [
+      "PreCommitFailureKeepsOldTargetAndDesiredSession"
+    ],
+    "PREF-09": [
+      "PreCommitFailureKeepsOldTargetAndDesiredSession",
+      "TempVerificationFailureNeverCommits"
+    ],
+    "PREF-10": [
+      "PreCommitFailureKeepsOldTargetAndDesiredSession"
+    ],
+    "PREF-11": [
+      "SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure"
+    ],
+    "PREF-12": [
+      "PostCommitIoFailureWithoutRollbackProofIsUnknown"
+    ],
+    "PREF-13": [
+      "PostCommitIoFailureWithoutRollbackProofIsUnknown"
+    ],
+    "PREF-14": [
+      "PostCommitVerificationWithoutRollbackProofIsUnknown"
+    ],
+    "PREF-15": [
+      "SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic"
+    ],
+    "PREF-16": [
+      "OriginallyAbsentTargetRequiresAnAbsenceProof"
+    ],
+    "PREF-17": [
+      "UnprovenOldBytesKeepUnknown",
+      "UnprovenOldAbsenceKeepsUnknown"
+    ],
+    "PREF-18": [
+      "FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents"
+    ],
+    "PREF-19": [
+      "FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents"
+    ],
+    "PREF-20": [
+      "InvalidDocumentPreservesBytesAndDoesNotRepair",
+      "InvalidUtf8IsPreserved",
+      "UnsupportedSelectionUsesFallbackWithoutRepair",
+      "ReadFailurePreservesFileAndUsesFallback",
+      "PreCommitFailureKeepsOldTargetAndDesiredSession",
+      "TempVerificationFailureNeverCommits",
+      "SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic",
+      "UnprovenOldBytesKeepUnknown",
+      "UnprovenOldAbsenceKeepsUnknown",
+      "InvalidLocaleThrowsBeforeStorageAndCleanupDoesNotChangeSaved"
+    ],
+    "PREF-21": [
+      "NewModuleHasNoBusinessOrCompositionDependencies"
+    ]
+  },
+  "declaredParameterSources": [
+    "InvalidDocuments",
+    "PreCommitFaults"
+  ],
+  "parameterSourcesStaticAudit": "PASS: ordered literal TestCaseData only; no I/O, time, randomness or side effects.",
+  "actualDiscoveredLeafCount": null,
+  "actualDiscoveredFullnames": null,
+  "actualFocusedFilter": null,
+  "discovery": {
+    "status": "NOT_RUN_NOT_AUTHORIZED_S1",
+    "utfVersion": "1.1.33",
+    "apiSourceInputs": [
+      {
+        "path": "Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/Api/TestRunnerApi.cs",
+        "bytes": 7006,
+        "sha256": "e24361f9a78aa3c1e971f70165340ec9b3ec57c577bcea50e1b63c9495b13667"
+      },
+      {
+        "path": "Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/Api/ITestAdaptor.cs",
+        "bytes": 4128,
+        "sha256": "8a0efe99d6e1942fdc41931498d9fa99bfbc739fe4a131c5ba40e17965e6b7f4"
+      },
+      {
+        "path": "Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/Api/RunState.cs",
+        "bytes": 885,
+        "sha256": "d0ca1b1b23b19ebfc8c1a71b9205f3765cbb494275f478b8e8a5d4c7a13d40d9"
+      },
+      {
+        "path": "Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/Api/ITestRunnerApi.cs",
+        "bytes": 436,
+        "sha256": "58a08361411db5761c248edca50cb023950ed1972b88d9465f81dd2e2ca19d01"
+      },
+      {
+        "path": "Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/Api/TestAdaptor.cs",
+        "bytes": 5079,
+        "sha256": "b9f06c48628194cc4d611519879de80f96b2fc022453a7eb6858cb2d41355747"
+      }
+    ],
+    "method": "TestRunnerApi.RetrieveTestList(TestMode.EditMode, Action<ITestAdaptor>)",
+    "availableFields": [
+      "Children",
+      "HasChildren",
+      "IsSuite",
+      "Name",
+      "FullName",
+      "RunState",
+      "Categories"
+    ],
+    "nullableChildrenHandled": true,
+    "parameters": "Preserve actual NUnit-rendered Name/FullName verbatim; this API exposes no Arguments member.",
+    "shimFile": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+    "argument": "-fightMatchLocalePreferenceDiscover",
+    "testsExecutedNow": 0,
+    "behavior": "Opt-in exact discovery directory; no Execute or test method invocation; require nonempty unique Runnable leaves; create-new JSON and EditorApplication.Exit."
+  },
+  "runnerContract": {
+    "status": "SOURCE_ONLY_NOT_EXECUTED",
+    "modes": [
+      "discover",
+      "focused"
+    ],
+    "launch": "Trusted caller verifies runner bytes first. Separate activation-discovery.json/activation-focused.json supplied by central, with SHA passed out of band via --authority-sha.",
+    "requiredActivationFields": [
+      "status",
+      "mode",
+      "owner",
+      "runId",
+      "expiresUtc",
+      "evidenceRoot",
+      "starts",
+      "sourceReceipt",
+      "editor",
+      "budgetSeconds",
+      "logBytes",
+      "evidenceBytes",
+      "protectedSnapshot",
+      "inputs",
+      "runner",
+      "argv",
+      "compilerIdentity"
+    ],
+    "focusedAdditionalFields": [
+      "review",
+      "head",
+      "tree",
+      "treeMappings",
+      "discoveryLeaves",
+      "expectedNames",
+      "filter"
+    ],
+    "version": "Unity 2022.3.18f1 Intel editor, UTF source identities from local read.",
+    "argv": "Both modes batchmode/nographics. Discover omits runTests and quit; focused uses the exact escaped discovered fullname set and omits quit. No FIX22 progress parameter.",
+    "limits": {
+      "discoverSeconds": 300,
+      "focusedSeconds": 600,
+      "naturalCleanupSeconds": 60,
+      "terminationSeconds": 30,
+      "singleLogBytes": 8388608,
+      "evidenceBytes": 201326592,
+      "freeBytesFloor": 2147483648
+    },
+    "safety": "Existing Unity-family gate; capture ancestry/PID/birth/command/executable; recheck loaded executable before owned shutdown/SIGTERM; never signal a foreign process; preserve first failure; no retries.",
+    "futureOutputLeaves": [
+      "discovery/argv.json",
+      "discovery/exit.txt",
+      "discovery/unity.log",
+      "discovery/leaves.json",
+      "discovery/receipt.json",
+      "process-safety.json",
+      "process-events.jsonl",
+      "focused-run-1/argv.json",
+      "focused-run-1/exit.txt",
+      "focused-run-1/unity.log",
+      "focused-run-1/tests.xml",
+      "focused-run-1/summary.json"
+    ],
+    "activationBoundary": "These future files and executions are not created or authorized by S1. S2 and S4 must be separately activated."
+  },
+  "verification": {
+    "type": "STATIC_ONLY",
+    "sourceHashAndScope": "PASS",
+    "diagnosticLiteralSet": "PASS",
+    "all21MatrixIdsMapped": "PASS",
+    "csharpLexicalDelimiterAudit": "PASS_NOT_COMPILATION",
+    "pythonAstParse": "PASS_NOT_RUNNER_EXECUTION",
+    "unityStarts": 0,
+    "dotnetStarts": 0,
+    "compilerStarts": 0,
+    "testsExecuted": 0,
+    "offlineTestsExecuted": 0,
+    "naturalImport": 0,
+    "gitCommands": 0,
+    "networkCalls": 0
+  },
+  "acceptance": {
+    "sourceScope": "PASS",
+    "sourceDeclarationsAndDiagnosticContract": "STATIC_MATCH",
+    "compilation": "NOT_VERIFIED",
+    "naturalMetaAndGuidUniqueness": "NOT_VERIFIED",
+    "actualLeafDiscovery": "NOT_VERIFIED",
+    "preferenceRuntimeBehavior": "NOT_VERIFIED",
+    "runnerProcessBehavior": "NOT_VERIFIED",
+    "newHeadIndependentReview": "PENDING"
+  },
+  "remainingGates": [
+    "S2 separate natural import/compile/discovery activation; zero test execution; three natural metas and actual leaf names/count/filter.",
+    "S3 exact final sources/meta/runner and complete current closure published and independently reviewed on their real new head.",
+    "S4 separately activated single focused run against the real discovered leaf Counter; all passed, exit0, owned-clear, source protection."
+  ],
+  "notRun": [
+    "LOC-A/catalog/resource bridge",
+    "Host/LanguagePopup composition",
+    "business save/recovery",
+    "full suite/222",
+    "native/graphics",
+    "Windows/Android/APK/device/release"
+  ],
+  "limitations": [
+    "C# compilation and all runtime assertions remain unverified in S1. Static checks do not establish module acceptance.",
+    "Source declaration matrix IDs are not a runtime leaf count.",
+    "The process runner is frozen source only; future activation must bind every declared field and path without editing this source."
+  ],
+  "recordedUtc": "2026-10-01T11:23:42.387199+00:00",
+  "evidence": [
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/accepted-ugui.json",
+      "bytes": 910,
+      "sha256": "e4982b5dc22038022b91d052d386afd07c99e77d7b397dda1e8c75fac207753a"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/binding.json",
+      "bytes": 5484,
+      "sha256": "6e4efc799eef97126359ed45ecd0c5446eb6a6703fb828a7eec224625eb3ffb6"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/current-source-inputs.tsv",
+      "bytes": 1218,
+      "sha256": "7fcf6c8bd0fceb2474824b8dd0f969089d04bf47bf2423ab1add8a82eea42ce4"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/evidence-files.tsv",
+      "bytes": 1293,
+      "sha256": "c3abffdf5fdea0f529da144a7e39ff8c802a01e208a1b169492972acbbcf7628"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/new-path-absence.tsv",
+      "bytes": 474,
+      "sha256": "b99e8ba19a285777c10b3b9934d8ff3fe02cd68a9795b5468832f8385a837942"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/preference-diagnostics.json",
+      "bytes": 2918,
+      "sha256": "f4f28b977e89b69e2da28305256abca40b81ba3eb5c29a4cdde31398dbb9d60b"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-after/diff-check.txt",
+      "bytes": 216,
+      "sha256": "d2f4d2c86a01757106ca273d278a013b079a3600ba4ba9435e89ad30d546094e"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-after/name-status.txt",
+      "bytes": 230,
+      "sha256": "cb835cab39f7f8be63f6642ef7d6e07eba875d219d3f016c111ee677de33195b"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-after/new-file-hashes.tsv",
+      "bytes": 575,
+      "sha256": "b509c1954cbd1f7411ee2c4271935af6bdfc40ad4073563ef49f0ae0e332d59a"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-after/protected-paths.txt",
+      "bytes": 60805,
+      "sha256": "d6b9d40d931f423bf32feeddc0d8104d39b637f053e787867594a992f0f4e1b1"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-after/status-short.txt",
+      "bytes": 135,
+      "sha256": "7d225330cf0d62ec7e43c38f87751e4c45d0f06babfcf09339f6753f5aa7f0ec"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-before/input-hashes.tsv",
+      "bytes": 131103,
+      "sha256": "fb8ccd840e5d262982ab6dc0206d431e5e7dfcbcc108ca734bd4d04197ff6ba5"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-before/name-status.txt",
+      "bytes": 80,
+      "sha256": "8b7f633836764b5021fc58c14f9cc103762f8a8927bf640c9e963e43b80e8eda"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-before/scope-verdict.json",
+      "bytes": 234,
+      "sha256": "a5a3f683f9f62acc7a0a1b8d6b6cde461f704c70ca2a8e093268e2b184aed472"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/static-before/status-short.txt",
+      "bytes": 102,
+      "sha256": "4819299bce6befebedfc60ab1fe4a6ecdb9297fb7c05900dc469aa732917f4b6"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/validation-tools/runner.py",
+      "bytes": 18029,
+      "sha256": "0db27922e532287b3b0aaec3fe430b218390992c2bd01fc975844d2aba51cb7f"
+    }
+  ]
+}
