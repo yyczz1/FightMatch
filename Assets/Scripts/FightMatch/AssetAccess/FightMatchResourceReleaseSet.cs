@@ -6,6 +6,8 @@ using System.Text;
 using Map = System.Collections.Generic.SortedDictionary<string, object>;
 using Items = System.Collections.Generic.List<object>;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FightMatch.YooAssetAdapter")]
+
 namespace FightMatch.AssetAccess
 {
     public sealed class FightMatchResourceReleaseSet
@@ -31,6 +33,13 @@ namespace FightMatch.AssetAccess
             "fm.audio.runtime", "fm.content.first-release", "fm.image.runtime", "fm.text.full", "fm.ui.runtime"
         };
         private readonly byte[] canonical;
+        private readonly Dictionary<string, RawEntry> rawEntries = new Dictionary<string, RawEntry>(8, StringComparer.Ordinal);
+        internal bool TryGetRawEntry(string assetId, out RawEntry entry)
+        {
+            entry = null;
+            return assetId != null && rawEntries.TryGetValue(assetId, out entry);
+        }
+
 
         public int SchemaVersion { get; }
         public string ReleaseSetId { get; }
@@ -38,14 +47,26 @@ namespace FightMatch.AssetAccess
         public string Platform { get; }
         public string DescriptorSha256 { get; }
 
-        private FightMatchResourceReleaseSet(byte[] bytes, Map descriptor, string descriptorHash)
+        private FightMatchResourceReleaseSet(byte[] bytes, Map root)
         {
+            var descriptor = Object(root["descriptor"]);
+            var resources = Object(descriptor["resources"]);
             canonical = bytes;
             SchemaVersion = 1;
             ReleaseSetId = Text(descriptor["releaseSetId"]);
             BusinessReleaseSetId = Text(Object(descriptor["businessContent"])["businessReleaseSetId"]);
-            Platform = Text(Object(descriptor["resources"])["platform"]);
-            DescriptorSha256 = descriptorHash;
+            Platform = Text(resources["platform"]);
+            DescriptorSha256 = Text(root["descriptorSha256"]);
+            foreach (var node in (Items)Object(root["mapping"])["entries"])
+            {
+                var entry = Object(node);
+                if (Text(entry["kind"]) != "raw") continue;
+                var id = Text(entry["assetId"]);
+                rawEntries.Add(id, new RawEntry(id, ReleaseSetId, Platform, DescriptorSha256,
+                    Text(resources["packageName"]), Text(resources["yooManifestPackageVersion"]),
+                    Text(entry["location"]), Text(((Items)entry["files"])[0]),
+                    (long)entry["contentLength"], Text(entry["contentSha256"])));
+            }
         }
 
         public static bool TryDecodePinned(byte[] bootBytes, string expectedBootSha256,
@@ -65,7 +86,7 @@ namespace FightMatch.AssetAccess
                 var encoded = Canonical(root, BootLimit);
                 Need(Equal(snapshot, encoded), Schema);
                 Validate(root);
-                value = new FightMatchResourceReleaseSet(snapshot, Object(root["descriptor"]), Text(root["descriptorSha256"]));
+                value = new FightMatchResourceReleaseSet(snapshot, root);
                 return true;
             }
             catch (Failure failure) { rejectionCode = failure.Code; }
@@ -676,6 +697,135 @@ namespace FightMatch.AssetAccess
                 var result = new byte[used];
                 Buffer.BlockCopy(buffer, 0, result, 0, used);
                 return result;
+            }
+        }
+    }
+
+    internal sealed class RawEntry
+    {
+        internal readonly string AssetId, Set, Platform, DescriptorSha, Package, ManifestVersion, Location, PhysicalName, Sha;
+        internal readonly long Length;
+        internal RawEntry(string assetId, string set, string platform, string descriptorSha, string package,
+            string manifestVersion, string location, string physicalName, long length, string sha)
+        {
+            AssetId = assetId; Set = set; Platform = platform; DescriptorSha = descriptorSha; Package = package;
+            ManifestVersion = manifestVersion; Location = location; PhysicalName = physicalName; Length = length; Sha = sha;
+        }
+    }
+
+    internal sealed class RawBuffer
+    {
+        private readonly object gate = new object();
+        private byte[] bytes;
+        internal long Length { get; }
+        internal RawBuffer(byte[] bytes)
+        {
+            this.bytes = bytes ?? throw new ArgumentNullException(nameof(bytes));
+            Length = bytes.LongLength;
+        }
+        internal bool Alive { get { lock (gate) return bytes != null; } }
+        internal void Check(Func<bool> released)
+        {
+            lock (gate)
+                if (bytes == null || released()) throw new System.ObjectDisposedException("Raw lease");
+        }
+        internal int Read(long position, byte[] target, int offset, int count, Func<bool> released)
+        {
+            lock (gate)
+            {
+                if (bytes == null || released()) throw new System.ObjectDisposedException("Raw lease");
+                if (target == null) throw new ArgumentNullException(nameof(target));
+                if (offset < 0 || count < 0 || offset > target.Length - count)
+                    throw new ArgumentOutOfRangeException(nameof(count));
+                var amount = (int)Math.Min(count, Length - position);
+                System.Buffer.BlockCopy(bytes, (int)position, target, offset, amount);
+                return amount;
+            }
+        }
+        internal void Release() { lock (gate) bytes = null; }
+    }
+
+    public sealed class FightMatchRawBytes
+    {
+        private readonly RawBuffer buffer;
+        private readonly Func<bool> released;
+        private readonly object streamGate = new object();
+        private ReadStream active;
+        public long Length { get; }
+        internal FightMatchRawBytes(RawBuffer buffer, Func<bool> isReleased)
+        {
+            this.buffer = buffer ?? throw new ArgumentNullException(nameof(buffer));
+            released = isReleased ?? throw new ArgumentNullException(nameof(isReleased));
+            Length = buffer.Length;
+        }
+        public System.IO.Stream OpenRead()
+        {
+            lock (streamGate)
+            {
+                buffer.Check(released);
+                if (active != null) throw new InvalidOperationException("Only one raw stream may be open per lease.");
+                return active = new ReadStream(this);
+            }
+        }
+        private void Close(ReadStream stream)
+        {
+            lock (streamGate)
+                if (ReferenceEquals(active, stream)) active = null;
+        }
+
+        private sealed class ReadStream : System.IO.Stream
+        {
+            private readonly FightMatchRawBytes owner;
+            private readonly Func<bool> invalid;
+            private int disposed;
+            private long position;
+            internal ReadStream(FightMatchRawBytes owner)
+            {
+                this.owner = owner;
+                invalid = () => System.Threading.Volatile.Read(ref disposed) != 0 || owner.released();
+            }
+            public override bool CanRead => !invalid() && owner.buffer.Alive;
+            public override bool CanSeek => CanRead;
+            public override bool CanWrite => false;
+            public override long Length { get { owner.buffer.Check(invalid); return owner.Length; } }
+            public override long Position
+            {
+                get { owner.buffer.Check(invalid); return position; }
+                set { Seek(value, System.IO.SeekOrigin.Begin); }
+            }
+            public override int Read(byte[] target, int offset, int count)
+            {
+                var read = owner.buffer.Read(position, target, offset, count, invalid);
+                position += read;
+                return read;
+            }
+            public override long Seek(long offset, System.IO.SeekOrigin origin)
+            {
+                owner.buffer.Check(invalid);
+                long basis;
+                if (origin == System.IO.SeekOrigin.Begin) basis = 0;
+                else if (origin == System.IO.SeekOrigin.Current) basis = position;
+                else if (origin == System.IO.SeekOrigin.End) basis = owner.Length;
+                else throw new ArgumentOutOfRangeException(nameof(origin));
+                if (offset < -basis || offset > owner.Length - basis)
+                    throw new ArgumentOutOfRangeException(nameof(offset));
+                return position = basis + offset;
+            }
+            public override void Flush() { owner.buffer.Check(invalid); }
+            public override void SetLength(long value)
+            {
+                owner.buffer.Check(invalid);
+                throw new NotSupportedException("Raw streams are read-only.");
+            }
+            public override void Write(byte[] target, int offset, int count)
+            {
+                owner.buffer.Check(invalid);
+                throw new NotSupportedException("Raw streams are read-only.");
+            }
+            protected override void Dispose(bool disposing)
+            {
+                if (System.Threading.Interlocked.Exchange(ref disposed, 1) == 0) owner.Close(this);
+                base.Dispose(disposing);
             }
         }
     }

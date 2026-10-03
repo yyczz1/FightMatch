@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Security.Cryptography;
+using FightMatch.AssetAccess;
 using UnityEngine;
 using YooAsset;
 using Code = FightMatch.AssetAccess.FightMatchAssetDiagnosticCode;
@@ -37,30 +40,206 @@ namespace FightMatch.YooAssetAdapter
         void Remove(string name);
     }
 
-    internal sealed class RealYooSdk : IYooSdk
+    internal interface IRawYooSdk
+    {
+        IRawYooOperation BeginRaw(object package, AssetMapping map, long limit, Action wake);
+    }
+
+    internal interface IRawYooOperation : IYooOperation
+    {
+        object Payload { get; }
+        Code? Error { get; }
+        void Pump(bool stopRequested);
+    }
+
+    internal sealed class RawReadState : IDisposable
+    {
+        private Stream input;
+        private SHA256 sha;
+        private byte[] bytes;
+        private RawBuffer payload;
+        private readonly long expectedLength;
+        private readonly string expectedSha;
+        private int position;
+        internal bool Done { get; private set; }
+        internal Code? Error { get; private set; }
+        internal object Payload { get { var result = payload; payload = null; return result; } }
+        internal RawReadState(Stream input, long expectedLength, string expectedSha, long limit, Func<int, byte[]> allocate)
+        {
+            this.input = input;
+            this.expectedLength = expectedLength;
+            this.expectedSha = expectedSha;
+            try
+            {
+                if (input == null || !input.CanRead || !input.CanSeek) { Fail(Code.SdkFailure); return; }
+                var actual = input.Length;
+                if (expectedLength <= 0 || expectedLength > Math.Min(16777216L, limit) ||
+                    actual > Math.Min(16777216L, limit)) { Fail(Code.BudgetExceeded); return; }
+                if (actual != expectedLength || input.Position != 0) { Fail(Code.SdkFailure); return; }
+                sha = SHA256.Create();
+                bytes = allocate(checked((int)actual));
+                if (bytes == null || bytes.LongLength != actual) Fail(Code.SdkFailure);
+            }
+            catch (Exception) { Fail(Code.SdkFailure); }
+        }
+        internal void Pump(bool stopRequested = false)
+        {
+            if (Done) return;
+            if (stopRequested) { Fail(Code.SdkFailure); return; }
+            try
+            {
+                if (position < bytes.Length)
+                {
+                    var count = input.Read(bytes, position, Math.Min(65536, bytes.Length - position));
+                    if (count <= 0 || count > Math.Min(65536, bytes.Length - position))
+                    { Fail(Code.SdkFailure); return; }
+                    sha.TransformBlock(bytes, position, count, bytes, position);
+                    position += count;
+                    return;
+                }
+                if (input.ReadByte() != -1 || input.Length != expectedLength) { Fail(Code.SdkFailure); return; }
+                sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                if (BitConverter.ToString(sha.Hash).Replace("-", "").ToLowerInvariant() != expectedSha)
+                { Fail(Code.SdkFailure); return; }
+                CloseInput();
+                payload = new RawBuffer(bytes);
+                bytes = null;
+                Done = true;
+            }
+            catch (Exception) { Fail(Code.SdkFailure); }
+        }
+        private void Fail(Code code)
+        {
+            Error = code;
+            Done = true;
+            bytes = null;
+            try { Dispose(); } catch (Exception) { } // A failed close is retried by Ticket.Release.
+        }
+        private void CloseInput()
+        {
+            if (input != null) { input.Dispose(); input = null; }
+            if (sha != null) { sha.Dispose(); sha = null; }
+        }
+        public void Dispose()
+        {
+            if (!Done) { Done = true; Error = Code.SdkFailure; }
+            bytes = null;
+            payload?.Release();
+            payload = null;
+            CloseInput();
+        }
+    }
+
+    internal sealed class RealYooSdk : IYooSdk, IRawYooSdk
     {
         internal static readonly RealYooSdk Instance = new RealYooSdk();
+        private readonly HashSet<object> rawPackages = new HashSet<object>();
         private RealYooSdk() { }
         public bool Initialized => YooAssets.IsInitialized;
         public int PackageCount => YooAssets.GetPackages().Count;
         public void Initialize() => YooAssets.Initialize();
-        public void Destroy() => YooAssets.Destroy();
+        public void Destroy() { YooAssets.Destroy(); rawPackages.Clear(); }
         public object Find(string name) => YooAssets.TryGetPackage(name, out var package) ? package : null;
         public object Create(string name) => YooAssets.CreatePackage(name);
         public bool Ready(object package) => ((ResourcePackage)package).InitializeStatus == EOperationStatus.Succeeded;
         public bool Busy(object package) => ((ResourcePackage)package).InitializeStatus == EOperationStatus.Processing;
         public bool Empty(object package) => ((ResourcePackage)package).InitializeStatus == EOperationStatus.None;
         public string Version(object package) => ((ResourcePackage)package).GetPackageVersion();
-        public IYooOperation Initialize(object package, string root) =>
-            new Operation(((ResourcePackage)package).InitializePackageAsync(new OfflinePlayModeOptions
-            { BuiltinFileSystemParameters = FileSystemParameters.CreateDefaultBuiltinFileSystemParameters(root) }));
+        public IYooOperation Initialize(object package, string root)
+        {
+            var operation = ((ResourcePackage)package).InitializePackageAsync(new OfflinePlayModeOptions
+            { BuiltinFileSystemParameters = FileSystemParameters.CreateDefaultBuiltinFileSystemParameters(root) });
+            rawPackages.Add(package);
+            return new Operation(operation);
+        }
         public IYooOperation Manifest(object package, string version) =>
             new Operation(((ResourcePackage)package).LoadPackageManifestAsync(new LoadPackageManifestOptions(version, 60)));
         public bool HasLocation(object package, string location, Type type) => ((ResourcePackage)package).GetAssetInfo(location, type).IsValid;
         public IYooOperation Load(object package, string location, Type type) =>
             new Operation(((ResourcePackage)package).LoadAssetAsync(location, type));
         public IYooOperation Destroy(object package) => new Operation(((ResourcePackage)package).DestroyPackageAsync());
-        public void Remove(string name) => YooAssets.RemovePackage(name);
+        public void Remove(string name)
+        {
+            var package = Find(name);
+            YooAssets.RemovePackage(name);
+            rawPackages.Remove(package);
+        }
+        public IRawYooOperation BeginRaw(object package, AssetMapping map, long limit, Action wake)
+        {
+            if (!rawPackages.Contains(package) || !Ready(package))
+                throw new YooAssetPackageLifecycle.Failure(Code.PackageUnavailable, Stage.ValidateResult);
+            return new RawOperation((ResourcePackage)package, map, limit, wake);
+        }
+        internal static bool IsPlainRawBundle(int kind, bool encrypted) =>
+            kind == (int)EBundleType.RawBundle && !encrypted;
+
+        private sealed class RawOperation : IRawYooOperation
+        {
+            private readonly EnsureBundleFileOperation ensure;
+            private readonly AssetMapping map;
+            private readonly long limit;
+            private readonly Action wake;
+            private RawReadState reader;
+            private bool released;
+            public bool Done { get; private set; }
+            public bool Success { get; private set; }
+            public UnityEngine.Object Asset => null;
+            public object Payload => reader?.Payload;
+            public Code? Error { get; private set; }
+            public event Action<IYooOperation> Completed;
+            internal RawOperation(ResourcePackage package, AssetMapping map, long limit, Action wake)
+            {
+                this.map = map; this.limit = limit; this.wake = wake;
+                ensure = package.EnsureBundleFileAsync(new EnsureBundleFileOptions(map.Location));
+                ensure.Completed += Notify;
+            }
+            private void Notify(AsyncOperationBase _) { wake(); }
+            public void Pump(bool stopRequested)
+            {
+                if (Done || !ensure.IsDone) return;
+                try
+                {
+                    ensure.Completed -= Notify;
+                    if (stopRequested)
+                    {
+                        reader?.Pump(true);
+                        Error = Code.SdkFailure;
+                        End(false);
+                        return;
+                    }
+                    if (ensure.Status != EOperationStatus.Succeeded) { End(false); return; }
+                    if (reader == null)
+                    {
+                        var detail = ensure.Detail;
+                        if (!IsPlainRawBundle(detail.BundleType, detail.IsEncrypted))
+                        { Error = Code.WrongAssetType; End(false); return; }
+                        reader = new RawReadState(new FileStream(detail.BundleFilePath, FileMode.Open,
+                            FileAccess.Read, FileShare.Read, 4096, FileOptions.SequentialScan),
+                            map.RawSource.Length, map.RawSource.Sha, limit, length => new byte[length]);
+                    }
+                    reader.Pump();
+                    if (!reader.Done) { wake(); return; }
+                    Error = reader.Error;
+                    End(!Error.HasValue);
+                }
+                catch (Exception) { Error = Code.SdkFailure; End(false); }
+            }
+            private void End(bool success)
+            {
+                Done = true; Success = success;
+                Completed?.Invoke(this);
+            }
+            public void Release()
+            {
+                if (released) return;
+                if (!Done) throw new InvalidOperationException("Raw operation still pending.");
+                ensure.Completed -= Notify;
+                reader?.Dispose();
+                reader = null;
+                released = true;
+            }
+        }
+
 
         private sealed class Operation : IYooOperation
         {
@@ -153,13 +332,15 @@ namespace FightMatch.YooAssetAdapter
             private readonly Package package;
             private readonly AssetMapping mapping;
             private IYooOperation handle;
+            private readonly long rawLimit;
             private bool terminal, released, failed;
             internal readonly AssetRequestIdentity Identity;
             internal Code? Error { get; private set; }
             internal Stage Stage { get; private set; } = Stage.InitializePackage;
             internal UnityEngine.Object Asset => handle?.Asset;
-            internal Ticket(YooAssetPackageLifecycle owner, Package package, AssetMapping mapping, AssetRequestIdentity identity)
-            { this.owner = owner; this.package = package; this.mapping = mapping; Identity = identity; }
+            internal object RawPayload => (handle as IRawYooOperation)?.Payload;
+            internal Ticket(YooAssetPackageLifecycle owner, Package package, AssetMapping mapping, AssetRequestIdentity identity, long rawLimit)
+            { this.owner = owner; this.package = package; this.mapping = mapping; Identity = identity; this.rawLimit = rawLimit; }
             private void Notify(IYooOperation sender)
             { if (ReferenceEquals(sender, handle)) owner.wake(); }
             internal void Invalidate() { failed = true; }
@@ -198,17 +379,30 @@ namespace FightMatch.YooAssetAdapter
                     Stage = stage;
                     if (!ready) return false;
                     if (code.HasValue || failed) return End(code ?? Code.SdkFailure);
+                    if (mapping.Raw && (!package.Owned || !(owner.sdk is IRawYooSdk)))
+                    { Stage = Stage.ValidateResult; return End(Code.PackageUnavailable); }
                     Stage = Stage.ResolveLocation;
-                    if (!owner.sdk.HasLocation(package.Object, mapping.Location, mapping.Type)) return End(Code.LocationUnavailable);
+                    if (!owner.sdk.HasLocation(package.Object, mapping.Location, mapping.Raw ? null : mapping.Type)) return End(Code.LocationUnavailable);
                     Stage = Stage.Acquire;
-                    handle = owner.sdk.Load(package.Object, mapping.Location, mapping.Type);
+                    try
+                    {
+                        handle = mapping.Raw ? ((IRawYooSdk)owner.sdk).BeginRaw(package.Object, mapping, rawLimit, owner.wake) :
+                            owner.sdk.Load(package.Object, mapping.Location, mapping.Type);
+                    }
+                    catch (Failure failure) { Stage = failure.Stage; return End(failure.Code); }
                     if (handle == null) return End(Code.SdkFailure);
                     handle.Completed += Notify;
+                }
+                if (handle is IRawYooOperation raw)
+                {
+                    raw.Pump(failed);
+                    if (raw.Error.HasValue) Stage = Stage.ValidateResult;
                 }
                 if (!handle.Done) return false;
                 terminal = true;
                 handle.Completed -= Notify;
-                return End(failed || !handle.Success ? Code.SdkFailure : (Code?)null);
+                return End(failed ? Code.SdkFailure : (handle as IRawYooOperation)?.Error ??
+                    (!handle.Success ? Code.SdkFailure : (Code?)null));
             }
 
             private bool End(Code? code) { Error = code; terminal = true; return true; }
@@ -223,7 +417,7 @@ namespace FightMatch.YooAssetAdapter
             }
         }
 
-        internal Ticket Begin(AssetMapping map, AssetRequestIdentity identity)
+        internal Ticket Begin(AssetMapping map, AssetRequestIdentity identity, long rawLimit = 0)
         {
             if (closing) throw new InvalidOperationException("Lifecycle is closing.");
             if (scope == null)
@@ -275,7 +469,7 @@ namespace FightMatch.YooAssetAdapter
             }
             package.Clients.Add(this);
             packages.Add(package);
-            var ticket = new Ticket(this, package, map, identity);
+            var ticket = new Ticket(this, package, map, identity, rawLimit);
             package.Uses.Add(ticket);
             return ticket;
         }
