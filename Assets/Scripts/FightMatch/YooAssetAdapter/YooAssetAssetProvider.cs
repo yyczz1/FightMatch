@@ -38,6 +38,7 @@ namespace FightMatch.YooAssetAdapter
         internal readonly Type Type;
         internal readonly bool Raw;
         internal readonly long? RawBytes;
+        internal readonly RawEntry RawSource;
         internal AssetMapping(string id, string set, string package, string version, string location,
             Type type, string root, bool raw = false, long? rawBytes = null)
         {
@@ -47,6 +48,20 @@ namespace FightMatch.YooAssetAdapter
                 throw new ArgumentException("Invalid immutable mapping.");
             Id = id; Set = set; Package = package; Version = version; Location = location;
             Type = type; Root = root; Raw = raw; RawBytes = rawBytes;
+        }
+        private AssetMapping(RawEntry entry, string root)
+            : this(entry.AssetId, entry.Set, entry.Package, entry.ManifestVersion, entry.Location,
+                typeof(FightMatchRawBytes), root, true, entry.Length) { RawSource = entry; }
+        internal static bool TryFromPinnedRaw(FightMatchResourceReleaseSet source, FightMatchAssetId id,
+            string expectedSet, string expectedPlatform, string builtinRoot, out AssetMapping mapping)
+        {
+            mapping = null;
+            if (source == null || id == null || string.IsNullOrEmpty(builtinRoot) ||
+                !string.Equals(source.ReleaseSetId, expectedSet, StringComparison.Ordinal) ||
+                !string.Equals(source.Platform, expectedPlatform, StringComparison.Ordinal) ||
+                !source.TryGetRawEntry(id.Value, out var entry)) return false;
+            mapping = new AssetMapping(entry, builtinRoot);
+            return true;
         }
         internal static bool ValidSet(string value) =>
             value != "latest" && FightMatchAssetId.TryCreate(value, out _);
@@ -64,6 +79,8 @@ namespace FightMatch.YooAssetAdapter
     internal sealed class YooAssetAssetProvider : IFightMatchAssetProvider
     {
         private static int globalPending, globalRecords, globalSlots;
+        private static long globalRawBytes;
+        private const long RawTotalLimit = 67108864, RawFileLimit = 16777216;
         private readonly Guid instance = Guid.NewGuid();
         private readonly Dictionary<string, AssetMapping> mappings;
         private readonly List<Entry> entries = new List<Entry>();
@@ -100,6 +117,7 @@ namespace FightMatch.YooAssetAdapter
             internal object Asset;
             internal int References;
             internal bool Terminal;
+            internal long RawReservation, RawLimit;
         }
 
         private sealed class Reservation
@@ -109,6 +127,7 @@ namespace FightMatch.YooAssetAdapter
             internal string LeaseId;
             internal int Released, Reported;
             internal bool Published, Pending = true;
+            internal FightMatchRawBytes RawView;
         }
 
         private sealed class Lease<T> : IFightMatchAssetLease<T> where T : class
@@ -131,7 +150,7 @@ namespace FightMatch.YooAssetAdapter
                                 ReleaseSetId, false, "reason=released-lease"));
                         return null;
                     }
-                    return owner.dispatcher.IsMain ? record.Entry.Asset as T : null;
+                    return owner.dispatcher.IsMain ? (record.RawView ?? record.Entry.Asset) as T : null;
                 }
             }
             public void Dispose()
@@ -146,9 +165,9 @@ namespace FightMatch.YooAssetAdapter
         }
 
         private static FightMatchAssetAcquireResult<T> Reject<T>(FightMatchAssetId id, string set,
-            long requestEpoch, Code code, Stage stage) where T : class =>
+            long requestEpoch, Code code, Stage stage, bool rawValidation = false) where T : class =>
             FightMatchAssetAcquireResult<T>.Rejected(new FightMatchAssetDiagnostic(code, stage, id, set,
-                code == Code.SdkFailure || code == Code.PackageUnavailable || code == Code.ManifestUnavailable,
+                !rawValidation && (code == Code.SdkFailure || code == Code.PackageUnavailable || code == Code.ManifestUnavailable),
                 code == Code.WrongReleaseSet && set == null ? "reason=invalid-release-set" : "status=failed"),
                 requestEpoch, set);
 
@@ -162,10 +181,14 @@ namespace FightMatch.YooAssetAdapter
             else if (requestEpoch <= 0) error = Code.StaleEpoch;
             else if (!mappings.TryGetValue(assetId.Value, out var mapping)) error = Code.UnknownAsset;
             else if (mapping.Set != releaseSetId) error = Code.WrongReleaseSet;
-            else if (!typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)) || mapping.Type != typeof(T)) error = Code.WrongAssetType;
+            else if ((!typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)) && typeof(T) != typeof(FightMatchRawBytes)) ||
+                mapping.Type != typeof(T)) error = Code.WrongAssetType;
             else if (mapping.Raw && (!mapping.RawBytes.HasValue || mapping.RawBytes < 0 || mapping.RawBytes > budget.MaxRawBytes))
                 error = Code.BudgetExceeded;
-            else if (mapping.Raw) error = Code.WrongAssetType; // Raw DTO/reading belongs to D.
+            else if (mapping.Raw && mapping.RawSource != null &&
+                (mapping.RawBytes <= 0 || mapping.RawBytes > RawFileLimit)) error = Code.BudgetExceeded;
+            else if (mapping.Raw ? mapping.RawSource == null || typeof(T) != typeof(FightMatchRawBytes) :
+                typeof(T) == typeof(FightMatchRawBytes)) error = Code.WrongAssetType;
             if (error.HasValue) return Task.FromResult(Reject<T>(assetId, releaseSetId, requestEpoch, error.Value, Stage.ValidateRequest));
             if (!dispatcher.IsMain) return Task.FromResult(Reject<T>(assetId, releaseSetId, requestEpoch, Code.SdkFailure, Stage.ValidateRequest));
             Drain(true);
@@ -180,8 +203,13 @@ namespace FightMatch.YooAssetAdapter
                 (!x.Terminal || x.Asset != null));
             if (entry == null)
             {
-                entry = new Entry { Map = map, Identity = new AssetRequestIdentity(instance, epoch, ++sequence, map) };
+                var reserve = map.Raw ? map.RawSource.Length : 0;
+                if (reserve > RawTotalLimit - globalRawBytes)
+                    return Task.FromResult(Reject<T>(assetId, releaseSetId, requestEpoch, Code.BudgetExceeded, Stage.ValidateRequest));
+                entry = new Entry { Map = map, Identity = new AssetRequestIdentity(instance, epoch, ++sequence, map),
+                    RawReservation = reserve, RawLimit = Math.Min(RawFileLimit, budget.MaxRawBytes) };
                 entries.Add(entry);
+                globalRawBytes = checked(globalRawBytes + reserve);
             }
             var completion = new TaskCompletionSource<FightMatchAssetAcquireResult<T>>(TaskCreationOptions.RunContinuationsAsynchronously);
             var record = new Reservation { Entry = entry };
@@ -195,7 +223,8 @@ namespace FightMatch.YooAssetAdapter
                 globalPending--;
                 if (code.HasValue)
                 {
-                    completion.TrySetResult(Reject<T>(assetId, releaseSetId, requestEpoch, code.Value, stage));
+                    completion.TrySetResult(Reject<T>(assetId, releaseSetId, requestEpoch, code.Value, stage,
+                        entry.Map.Raw && stage == Stage.ValidateResult));
                     Interlocked.Exchange(ref record.Released, 1);
                 }
                 else
@@ -203,6 +232,8 @@ namespace FightMatch.YooAssetAdapter
                     record.LeaseId = Guid.NewGuid().ToString("N");
                     if (records.Any(x => !ReferenceEquals(x, record) && x.LeaseId == record.LeaseId))
                         throw new InvalidOperationException("Lease identity collision.");
+                    if (entry.Map.Raw)
+                        record.RawView = new FightMatchRawBytes((RawBuffer)entry.Asset, () => Volatile.Read(ref record.Released) != 0);
                     var lease = new Lease<T>(this, record) { AssetId = assetId };
                     var result = FightMatchAssetAcquireResult<T>.Accepted(lease, requestEpoch, releaseSetId);
                     record.Published = true;
@@ -212,7 +243,7 @@ namespace FightMatch.YooAssetAdapter
             };
             if (entry.Ticket == null && !entry.Terminal)
             {
-                try { entry.Ticket = lifecycle.Begin(map, entry.Identity); }
+                try { entry.Ticket = lifecycle.Begin(map, entry.Identity, entry.RawLimit); }
                 catch (YooAssetPackageLifecycle.Failure failure) { Finish(entry, failure.Code, failure.Stage); }
                 catch (Exception) { Finish(entry, Code.SdkFailure, Stage.InitializePackage); }
             }
@@ -235,11 +266,13 @@ namespace FightMatch.YooAssetAdapter
             return closed.Task;
         }
 
-        private void Wake()
+        private void Wake() { TryWake(); }
+
+        private bool TryWake()
         {
-            if (Interlocked.CompareExchange(ref posted, 1, 0) != 0) return;
-            try { dispatcher.Post(() => { Interlocked.Exchange(ref posted, 0); Drain(); }); }
-            catch (Exception) { Interlocked.Exchange(ref posted, 0); }
+            if (Interlocked.CompareExchange(ref posted, 1, 0) != 0) return true;
+            try { dispatcher.Post(() => { Interlocked.Exchange(ref posted, 0); Drain(); }); return true; }
+            catch (Exception) { Interlocked.Exchange(ref posted, 0); return false; }
         }
 
         private void Finish(Entry entry, Code? code, Stage stage)
@@ -272,7 +305,7 @@ namespace FightMatch.YooAssetAdapter
                         try
                         {
                             if (closing || entry.Identity.Epoch != epoch) entry.Ticket.Invalidate();
-                            if (!entry.Ticket.Poll()) continue;
+                            if (!entry.Ticket.Poll(TryWake)) continue;
                             var identity = entry.Ticket.Identity;
                             var stale = closing || identity.Provider != instance || identity.Epoch != epoch ||
                                 !ReferenceEquals(identity, entry.Identity) || identity.Operation != entry.Identity.Operation ||
@@ -280,8 +313,17 @@ namespace FightMatch.YooAssetAdapter
                             var code = stale ? Code.StaleEpoch : entry.Ticket.Error;
                             if (!code.HasValue)
                             {
-                                var asset = entry.Ticket.Asset;
+                                var asset = entry.Map.Raw ? entry.Ticket.RawPayload : entry.Ticket.Asset;
                                 if (asset == null) code = Code.SdkFailure;
+                                else if (entry.Map.Raw)
+                                {
+                                    if (asset is RawBuffer buffer)
+                                    {
+                                        entry.Asset = buffer;
+                                        if (buffer.Length != entry.Map.RawSource.Length) code = Code.SdkFailure;
+                                    }
+                                    else code = Code.WrongAssetType;
+                                }
                                 else if (!entry.Map.Type.IsInstanceOfType(asset)) code = Code.WrongAssetType;
                                 else entry.Asset = asset;
                             }
@@ -308,8 +350,14 @@ namespace FightMatch.YooAssetAdapter
                     if (!entry.Terminal || entry.References != 0 || entry.Waiters.Count != 0) continue;
                     try
                     {
-                        entry.Ticket?.Release();
+                        if (entry.Asset is RawBuffer buffer) buffer.Release();
                         entry.Asset = null;
+                        entry.Ticket?.Release();
+                        if (entry.RawReservation != 0)
+                        {
+                            globalRawBytes = checked(globalRawBytes - entry.RawReservation);
+                            entry.RawReservation = 0;
+                        }
                         entries.Remove(entry);
                     }
                     catch (Exception) { } // Retain ticket/counts; retry on the next main-thread entry.

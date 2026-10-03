@@ -1,0 +1,43 @@
+{
+  "receipt": "RES-RAW-PR12-REVIEW-001",
+  "date": "2026-10-03",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/12",
+  "base": "19179f3a68725d4f806bbc99989bf514f626acbf",
+  "expectedHead": "4d4b07cc1b432add8d8102290802703ed704eb21",
+  "tree": "48922a7097073635bf5a0be2334916a07563e7e4",
+  "triggerCommentId": 5965824081,
+  "summaryCommentId": 5965826097,
+  "reviewedHeadObservedInStatus": "4d4b07c",
+  "githubStatusAtReceipt": "COMPLETED",
+  "reviewSubmission": {
+    "id": "PRR_kwDOTDyjrM8AAAABQdBD8g",
+    "state": "COMMENTED",
+    "submittedAt": "2026-10-03T05:16:11Z",
+    "reviewedCommit": "4d4b07cc1b"
+  },
+  "findingCommentId": 4171809834,
+  "findingsReturnedAtReceipt": [
+    {
+      "commentId": 4171809834,
+      "priority": "P2",
+      "title": "Fail or retry when scheduling the next raw chunk",
+      "originalText": "When `dispatcher.Post` throws after a partial read, `Wake()` only resets `posted` and returns, while this branch has already detached the completed Ensure callback and relies solely on `wake()` to pump the next chunk. A raw file larger than one chunk can therefore remain pending indefinitely with its file stream and global raw-byte reservation retained unless another provider API call happens to invoke `Drain`; handle the scheduling failure by terminating the operation or arranging a guaranteed retry.",
+      "status": "UNRESOLVED_AT_REVIEW"
+    }
+  ],
+  "codeGate": "FINDING_REPORTED",
+  "formalApproval": false,
+  "nativeAssociation": {
+    "receipt": "docs/team/2026-09-30/testing-resource-raw-joint-m01-receipt.json",
+    "verdict": "ACCEPT_FIXED_COMPOSITE_NATIVE_ONLY",
+    "nativeReceiptSha256": "a3f45c7fbc31c642753966292da9c3bf2870f758f6d406ee8f299d8222a4811f",
+    "rawHeadInNativeReceipt": null,
+    "association": "The first RAW PR maps published bytes and its naturally generated metadata to the fixed composite evidence without rewriting the original RAWHead=null receipt. The native result is not a full PR-head build or review."
+  },
+  "limits": [
+    "No local code review, Unity rerun, or broad project scan was performed.",
+    "No conclusion is inferred while GitHub reports Running.",
+    "Real package, Host, shared adoption, Android/device and full Demo acceptance remain separate gates."
+  ],
+  "source": "GitHub PR #12 metadata, trigger comment, completed review summary/submission, and inline review comment"
+}
