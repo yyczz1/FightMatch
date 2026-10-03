@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "task": "RES-ACTIVATION-FACTORY-JOINT-MAC-001",
+  "status": "PREPARATION_BLOCKED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a100d9-993e-7a52-8a22-dd0b5abe0aba"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a100cb-8ae9-7fc3-b5e2-d1a4ca0f781e"
+  },
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "sealedUtc": "2026-10-03T08:31:02.746722+00:00",
+  "contract": {
+    "path": "docs/team/2026-09-30/engineering-res-activation-factory-joint-mac-001.md",
+    "bytes": 10440,
+    "sha256": "617cfe47589d8cf66764b9700b0d4e613f810208924be17853855fd9d895abb9"
+  },
+  "failure": {
+    "phase": "preparation entrypoint parse",
+    "error": "SyntaxError: unterminated string literal (detected at line 3)",
+    "cause": "The orchestrator assembled the Python entrypoint using JavaScript String.replace with a replacement string containing the runner text. JavaScript replacement-token expansion of $' inside the embedded regex corrupted the entrypoint. The prepared runner itself passed its two mechanical checks; the final assembled entrypoint failed before any Python statement executed.",
+    "codeChanged": false,
+    "retries": 0,
+    "repairAttempted": false,
+    "stopRule": "Preparation failure stops this contract; no corrected entrypoint or Unity run."
+  },
+  "failedToolCall": "3c28ba",
+  "failedCommandExecutionId": "exec-b9dbbc80-cba3-4943-941d-a766fe4b2128",
+  "preparationEntrypointExitCode": 1,
+  "preparationProcessSeconds": 7.041e-06,
+  "preparationMonotonicTimerStarted": false,
+  "runnerElapsedSeconds": 0,
+  "plannedRunnerIdentity": {
+    "bytes": 34454,
+    "sha256": "a4b6d98f11b7d25177f7c846de9f7f1a5ed43539daea943b674f3e783bbe130b",
+    "nonblankLines": 314,
+    "executed": false,
+    "storedInside": "preflight.json:plannedRunner.text"
+  },
+  "mechanicalChecks": [
+    {
+      "index": 1,
+      "passed": true,
+      "elapsedSeconds": 0.13084825000260025,
+      "syntax": "PASSED",
+      "cases": [
+        "new_exact_service_two_samples",
+        "absent_allowed",
+        "unstable_service",
+        "service_uid",
+        "service_query",
+        "service_fd",
+        "other_consumer",
+        "independent_owned_closure_one_mockTERM",
+        "outside_lease_link",
+        "state2048_limit",
+        "unknown_lease_leaf",
+        "lease_exact_whitelist_and_two_targets",
+        "40_literal_names_80_negative_boundaries"
+      ],
+      "OSCalls": 0,
+      "UnityCalls": 0,
+      "nativeSignalCalls": 0,
+      "mockSignalCalls": 1,
+      "nativeRegexProof": false
+    },
+    {
+      "index": 2,
+      "passed": true,
+      "elapsedSeconds": 0.01521504099946469,
+      "syntax": "PASSED",
+      "cases": [
+        "new_exact_service_two_samples",
+        "absent_allowed",
+        "unstable_service",
+        "service_uid",
+        "service_query",
+        "service_fd",
+        "other_consumer",
+        "independent_owned_closure_one_mockTERM",
+        "outside_lease_link",
+        "state2048_limit",
+        "unknown_lease_leaf",
+        "lease_exact_whitelist_and_two_targets",
+        "40_literal_names_80_negative_boundaries"
+      ],
+      "OSCalls": 0,
+      "UnityCalls": 0,
+      "nativeSignalCalls": 0,
+      "mockSignalCalls": 1,
+      "nativeRegexProof": false
+    }
+  ],
+  "actual": {
+    "UnityStarts": 0,
+    "IRuns": 0,
+    "TRuns": 0,
+    "discoveryRuns": 0,
+    "SDKInvocations": 0,
+    "ADBInvocations": 0,
+    "consumerSamples": 0,
+    "signals": [],
+    "sourceOverlays": 0,
+    "metaWrites": 0,
+    "createdTMP": [],
+    "createdLeaseDirectories": [],
+    "createdSymlinks": 0,
+    "ownedProcesses": [],
+    "globalConsumerClear": null,
+    "consumerGate": "NOT_RUN",
+    "xml": null,
+    "nativeGateVerdict": "NOT_ESTABLISHED",
+    "integrationVerdict": null
+  },
+  "afterFailedEntry": {
+    "failedPreparationMadeNoNewE": true,
+    "failedPreparationMadeNoNewLParent": true,
+    "currentSourceMetaCount": 1029,
+    "currentInputsExactM02": true,
+    "sourceMetaDrift": [],
+    "dllAsmdefCount": 12,
+    "dllAsmdefDrift": [],
+    "newTmpPatternMatches": [],
+    "candidateSourceOverlayApplied": false,
+    "verificationToolCall": "53d905",
+    "verificationExitCode": 0,
+    "verificationSeconds": 0.016437667
+  },
+  "naturalMetas": null,
+  "selectorIdentity": {
+    "bytes": 4079,
+    "sha256": "fa6c869c36c6f8bdce9306ecd756aef82a6e56efd8e1b7f09166431b2b5785c9",
+    "executed": false
+  },
+  "tests": null,
+  "stages": [],
+  "notRunStages": [
+    "I",
+    "T"
+  ],
+  "notRun": [
+    "five-source apply_patch overlay",
+    "Unity import/compilation",
+    "40 targeted tests AS8 RAW13 FAD6 D13",
+    "natural meta generation",
+    "lease FS operations",
+    "AS07 native symlink",
+    "real SDK initialization/download/build",
+    "Host integration",
+    "Android/Windows/device tests",
+    "Git/GitHub review/shared adoption"
+  ],
+  "remainingOwned": [],
+  "ownedClosureComplete": true,
+  "ownedClosureMeaning": "This attempt started no Unity/owned child; no process cleanup was necessary. Global consumers were not sampled.",
+  "consumer": null,
+  "signals": [],
+  "evidence": {
+    "preflight.json": {
+      "bytes": 167956,
+      "sha256": "577b3aa98040b7abffbd17eb52cf7e2ddaf7b8cb29fa12da841ae49dff7d25a6"
+    }
+  },
+  "evidenceExpectedLeaves": [
+    "preflight.json",
+    "receipt.json"
+  ],
+  "retainedLease": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FACTORY-JOINT-M01/state-tests",
+    "rootAbsent": true,
+    "parentAbsent": true
+  },
+  "createdTmp": [],
+  "sourceWrites": 0,
+  "metaWrites": 0,
+  "authorIntegrationVerdict": null,
+  "stoppedAfterFailure": true,
+  "retryAttempted": false
+}

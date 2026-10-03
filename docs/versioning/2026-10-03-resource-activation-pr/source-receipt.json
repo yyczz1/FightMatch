@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-ACTIVATION-001/FIX02",
+  "stage": "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FIX02/S",
+  "statuses": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a100bc-a211-7222-9d09-d7b98e809a3d"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a100b5-8f54-76c2-b316-322997842039"
+  },
+  "sole_completion_receiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+  "authority": {
+    "user": "AGENTS section 6 standing five-role workflow",
+    "central_thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "central_turn": "01a0fd75-6e53-7b81-a7ce-9010190ae130",
+    "activation": "Engineering activates the same source author after formal factory receipt; current issuer supersedes the contract preparation turn."
+  },
+  "model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh",
+    "note": "Dispatch policy, not measured."
+  },
+  "before_identity": {
+    "bytes": 11560,
+    "sha256": "61898c91943393a658c0b0890678bc6ac4045887e117f40f721ca8c682ae6f05"
+  },
+  "input_binding": "before.json fixes the contract, known-cause document, two reference helpers, unchanged AS production/test baseline, inherited inputs and all leaves of original S, FIX01/S and the sealed factory stage. No Unity/Mono/SDK probe was repeated.",
+  "leaf_inventory": {
+    "after.json": {
+      "bytes": 3649,
+      "sha256": "afeffb72486b990da386ba0728a338703070f4a12f2a31440227842ecefc730c"
+    },
+    "before.json": {
+      "bytes": 11560,
+      "sha256": "61898c91943393a658c0b0890678bc6ac4045887e117f40f721ca8c682ae6f05"
+    },
+    "source/Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs": {
+      "bytes": 36336,
+      "sha256": "572c46a5c37734fe6cb8db4ec9b3a0c0c133ce7284ce6e0458451e6bcf9cb029"
+    },
+    "source.patch": {
+      "bytes": 4319,
+      "sha256": "f1e79f2541c7eb944bfd280122386eed3ebcd5eb996570a21a7c4e77fa64761f"
+    },
+    "static-checks.json": {
+      "bytes": 10639,
+      "sha256": "de6df9a67bc43dc6a92a76cbfab34a4e6fb5db10a57bcab0561d60685a378b91"
+    },
+    "verify.py": {
+      "bytes": 13364,
+      "sha256": "e35007c62974084fefbc2ffd3fe1b82f91b469f5a9ebe5167272f0c613336ffb"
+    },
+    "source-receipt.json": {
+      "bytes": 11649,
+      "sha256_binding": "Final read-only inventory and the single engineering completion event bind this file; no self-referential digest."
+    }
+  },
+  "source": {
+    "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs",
+    "bytes": 36336,
+    "sha256": "572c46a5c37734fe6cb8db4ec9b3a0c0c133ce7284ce6e0458451e6bcf9cb029",
+    "physical_lines": 511
+  },
+  "source_baseline": {
+    "path": "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FIX01/S/source/Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs",
+    "bytes": 34327,
+    "sha256": "80f83e6ad04609ca9eea778c868f0a00f3ac7b317ec4881799e2feaae3e0cfd4",
+    "physical_lines": 484
+  },
+  "production": {
+    "path": "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FIX01/S/source/Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs",
+    "bytes": 21172,
+    "sha256": "94a86aaf5413f91913492486e86f03113435ada247558044535c9787cc5c8155",
+    "physical_lines": 404,
+    "status": "BYTE_IDENTICAL_NO_NEW_PRODUCTION_COPY"
+  },
+  "patch": {
+    "bytes": 4319,
+    "sha256": "f1e79f2541c7eb944bfd280122386eed3ebcd5eb996570a21a7c4e77fa64761f",
+    "added_lines": 31,
+    "removed_lines": 4
+  },
+  "budgets": {
+    "limits": {
+      "test_lines": 550,
+      "test_bytes": 49152,
+      "patch_added_plus_removed_lines": 60,
+      "stage_bytes": 524288,
+      "verification_runs": 2,
+      "verification_seconds": 30,
+      "original_AS_production_limit": 650,
+      "original_AS_test_limit": 550,
+      "cumulative_production_limit": 2965,
+      "cumulative_test_limit": 2175
+    },
+    "actual": {
+      "test_lines": 511,
+      "test_bytes": 36336,
+      "added_lines": 31,
+      "removed_lines": 4,
+      "patch_changed_lines": 35,
+      "net_test_line_delta": 27,
+      "production_lines": 404,
+      "cumulative_production_lines": 2554,
+      "cumulative_test_lines": 2128,
+      "authorized_production_lines": 2965,
+      "authorized_test_lines": 2175
+    },
+    "pre_receipt_stage_bytes": 79867,
+    "final_stage_bytes": 91516
+  },
+  "known_cause": {
+    "evidence": "Engineering 22b4be / 2026-10-03T07:17:19.253497Z, pinned MAC001 document",
+    "fact": "Actual Unity Mono and Standard2.1 reference lack File.CreateSymbolicLink; reuse engineering evidence, no repeated native/BCL probe.",
+    "native_evidence_executed_by_author": false
+  },
+  "change": "Only add the necessary Runtime.InteropServices using and private Mac test helper, move the original other-platform reflection capability/call block into that helper, and replace the AS07 link call with it. No other source path or production implementation changed.",
+  "author_self_check": {
+    "kind": "Source-author self-check only; not independent review or compiled/executed test evidence.",
+    "Mac_branch": "UNITY_EDITOR_OSX guards both the private DllImport declaration and its invocation. Library libSystem.B.dylib, EntryPoint symlink, SetLastError=true; native declaration and invocation preserve target,path order. Nonzero result is a BLOCKED assertion; DllNotFoundException and EntryPointNotFoundException explicitly fail with BLOCKED.",
+    "private_scope": "CreateAS07Link takes an existing RealArea, asserts the AS07 case and product relationship, derives only product/resource-state/v1/active.json, and permits only same-product external.bin or absent-target. It rechecks non-link directory ancestors, regular external sentinel, absent dangling target and absent link before calling the native/reflective implementation.",
+    "lease": "The original RealArea constructor and root lease checks remain byte-identical and execute before the sole helper call. No real fixture lease, symbolic link, target or fixture directory was created by the author.",
+    "other_platforms": "Original File.CreateSymbolicLink reflection lookup, capability assertion, link-path/target order and BLOCKED catch remain in the non-Mac branch. No fallback to mock, skip, Ignore, Inconclusive, external process or successful placeholder.",
+    "AS07_preservation": "All original non-link logic, production rejection assertions, existing and dangling target loop, external sentinel check and finally File.Delete(active.json) remain exact original bytes after reversing the authorized call relocation.",
+    "regression_preservation": "AS01-06 and AS08 complete method bytes match the pinned baseline. RealArea, MemoryFiles and every prior helper match after removing only the new helper/using and reversing the AS07 link relocation. Eight ordinary test names/count remain unchanged.",
+    "protected_state": "AS production remains 21172 bytes at its original SHA. Original S 2 leaves, FIX01/S 8 leaves and factory 9 leaves are hash-identical. Five shared files and four absent source/meta targets remain unchanged. No MAC001/engineering record edits."
+  },
+  "preserved_seven_methods": {
+    "AS01_InitialBuiltInAndOrdinaryReentry": {
+      "bytes": 1999,
+      "sha256": "e124f84ee04782da6f74335a45e059f435b9524731ccced24c00964711dd690e"
+    },
+    "AS02_UpdateRequiresNextProcess": {
+      "bytes": 5232,
+      "sha256": "e0f0978c8fb28b28c4fbe010c9fcb0d20ece76fdcc0b4c88744800b369c04784"
+    },
+    "AS03_StrictBoundedRecords": {
+      "bytes": 2171,
+      "sha256": "1fe6a0f4abe25f4cab3ce9a43045e420883ed73775aa9fa959d6230f38b15853"
+    },
+    "AS04_PrePromotionFailuresPreserveActive": {
+      "bytes": 1339,
+      "sha256": "d6a8687254edd0fc7e8a29c319091a21b5a9a3d47ce94d887d81ccae1d96e8c0"
+    },
+    "AS05_UnknownCommitNeverAdvances": {
+      "bytes": 2362,
+      "sha256": "bc07c6a113067992c7fc3b01c251404e0d8ea08eabdb830d91f30badce4e29bf"
+    },
+    "AS06_RealFilesMoveReplaceAndReopen": {
+      "bytes": 2589,
+      "sha256": "7bfff00504cee64da1a51aa1c1b6a41156dc0d11ce61a68b678f90ee98f92e9d"
+    },
+    "AS08_PlayerAndOldSetRemainUntouched": {
+      "bytes": 2059,
+      "sha256": "4d69da249d817e40319f1e03b175eac128fcbf1a292aca3a39577c6b53e4557a"
+    }
+  },
+  "static_test_full_names": [
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS01_InitialBuiltInAndOrdinaryReentry",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS02_UpdateRequiresNextProcess",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS03_StrictBoundedRecords",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS04_PrePromotionFailuresPreserveActive",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS05_UnknownCommitNeverAdvances",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS06_RealFilesMoveReplaceAndReopen",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS07_RootAndResidueGuards",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS08_PlayerAndOldSetRemainUntouched"
+  ],
+  "verified_guards": {
+    "fixed_inputs": 16,
+    "immutable_stages": 3,
+    "immutable_stage_leaves": 19,
+    "shared_files": 5,
+    "absent_targets": 4,
+    "result": "UNCHANGED"
+  },
+  "verification": {
+    "source_verifier_runs": 1,
+    "allowed_maximum_runs": 2,
+    "allowed_seconds_per_run": 30,
+    "failed_runs": 0,
+    "runs": [
+      {
+        "command": "python3 -B TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FIX02/S/verify.py",
+        "started_utc": "2026-10-03T08:00:05.882532+00:00",
+        "duration_seconds": 0.012638207990676165,
+        "exit_code": 0,
+        "checks": 60,
+        "passed": 60,
+        "verifier": {
+          "bytes": 13364,
+          "sha256": "e35007c62974084fefbc2ffd3fe1b82f91b469f5a9ebe5167272f0c613336ffb"
+        }
+      }
+    ],
+    "result": "PASS_60_OF_60",
+    "scope": "Read-only identities, seven-leaf whitelist, exact single-path patch and memory replay, changed/full-line and byte limits, unchanged whole baseline after narrowly reversing edits, seven method identities, eight names, textual platform branches, native signature/call scope/failure gates and protected old evidence/shared guards.",
+    "final_seal": "One read-only inventory after saving this receipt binds all seven hashes and rechecks protected identities for the completion event. It is not another source-verifier run or a test run.",
+    "compilations": 0,
+    "csharp_invocations": 0,
+    "unity_invocations": 0,
+    "nunit_invocations": 0,
+    "sdk_invocations": 0,
+    "discovery_runs": 0,
+    "tests_discovered": 0,
+    "tests_executed": 0,
+    "native_symlink_calls": 0,
+    "native_or_BCL_probes": 0,
+    "child_process_link_commands": 0,
+    "product_network_calls": 0,
+    "git_commands": 0,
+    "old_verifier_runs": 0,
+    "independent_reviews": 0
+  },
+  "pending_gates": [
+    "Engineering updates and centrally approves the separate native execution contract",
+    "Authorized Mac compilation, real symlink fixture execution and exact targeted tests",
+    "Actual native-library/symbol availability and filesystem behavior",
+    "Independent GitHub PR Code Review bound to the reviewed head",
+    "Windows behavior remains unverified"
+  ],
+  "integration_verdict": "NOT_ISSUED_BY_SOURCE_AUTHOR",
+  "completion": "After final seal inventory, send one completion event only to engineering and stop all writes. Do not dispatch C, run the proposed joint test set, revise MAC001 or reopen any sealed factory/AS stage."
+}
