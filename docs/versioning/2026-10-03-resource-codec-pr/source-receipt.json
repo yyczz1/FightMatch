@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-CODEC-FIX01",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0ff6a-9d37-71d3-b76a-07ed863e265b"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0ff5a-04a6-7612-9618-b557d6f2ecb9"
+  },
+  "authority": "User AGENTS section 6 standing team workflow; engineering explicit serial activation after central approval of the exact D FIX01 correction. C-CONTRACT turn 01a0ff4d-c65b-7941-9245-8e6aed391278 completed and sealed; sole source responsibility transferred to this actual turn. Engineering is the sole completion receiver.",
+  "dispatch_model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh"
+  },
+  "model_evidence_note": "Issuer policy; verifier does not measure execution model.",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "scope": [
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+    "before.json",
+    "after.json",
+    "source.patch",
+    "verify.py",
+    "static-checks.json",
+    "source-receipt.json"
+  ],
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "type": "regular_file",
+      "bytes": 31716,
+      "sha256": "2fff363f68195ba7e948e6b998b1ebfe140b12adbc7ab02ba2bebe6d3f69dc46",
+      "physical_lines": 680
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+      "type": "regular_file",
+      "bytes": 53927,
+      "sha256": "fb5c5d866478d28a203e84908a5a7b8a66a7e478f0976e877dad1c5e979ef47d",
+      "physical_lines": 684
+    }
+  },
+  "immutable_artifacts": {
+    "before.json": {
+      "type": "regular_file",
+      "bytes": 19586,
+      "sha256": "150c9b890da6ef1824a8df9520c3f665cea2fab2d2d1845393f304cd188d5373"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 527,
+      "sha256": "da732337da19c5433c816b5ac7c64ee659ce170e51c13fbbfc53e2123a658477"
+    },
+    "verify.py": {
+      "type": "regular_file",
+      "bytes": 15330,
+      "sha256": "28f3c7f61e4e1d55da1596750294266b91125684e709b60f8a7275e85542c525"
+    }
+  },
+  "frozen_stages": {
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 10065,
+        "sha256": "6bc665c989731ec7c464e0d968015a57262d7eba76470a9d74761ebb89f03c12"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/M01": {
+      "leaves": [
+        "I/editor.log",
+        "I/result.json",
+        "I/stderr.log",
+        "I/stdout.log",
+        "after.json",
+        "preflight.json",
+        "process-after.json",
+        "process-events.jsonl",
+        "receipt.json",
+        "run.json",
+        "runner.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 4703,
+        "sha256": "16910802c4e59ad1251138bae22d3b679c129bf37f22e45d1340206e22769063"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 21906,
+        "sha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-C-CONTRACT-001/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 14107,
+        "sha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2"
+      },
+      "unchanged": true
+    }
+  },
+  "budgets": {
+    "production_lines": 1200,
+    "production_bytes": 81920,
+    "test_lines": 1000,
+    "test_bytes": 102400,
+    "stage_bytes": 2097152,
+    "verify_seconds": 30,
+    "max_verify_runs": 2
+  },
+  "exact_change": {
+    "line": 298,
+    "from": "            Reject(null, \"RES_SCHEMA\");",
+    "to": "            Reject((byte[])null, \"RES_SCHEMA\");",
+    "expected_test_bytes": 53927,
+    "expected_test_lines": 684,
+    "production_unchanged": true
+  },
+  "baseline_stage": "TestArtifacts/FightMatch/RES-D-CODEC-001/S",
+  "problem": "The approved correction disambiguates one null argument at the test call site. It does not change or establish production behavior.",
+  "test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated"
+  ],
+  "test_inventory": {
+    "planned_ordinary_tests": 12,
+    "static_named_tests": 12,
+    "discovery_or_execution_claim": false
+  },
+  "acceptance": {
+    "exact_single_cast_delta": "STATIC_VERIFIED",
+    "production_and_every_other_test_byte_unchanged": "STATIC_VERIFIED",
+    "same_twelve_test_names": "STATIC_VERIFIED_NOT_DISCOVERED",
+    "eight_leaf_scope_and_budget": "STATIC_VERIFIED",
+    "fixed_D_M01_B_C_and_shared_guards": "STATIC_VERIFIED",
+    "compile_correction_and_tests": "UNCOMPILED_UNTESTED",
+    "integration": "REVIEW_PENDING_NO_ACCEPT"
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/RES-D-CODEC-001/FIX01/S/verify.py",
+    "kind": "STATIC_ONLY",
+    "behavior_pass_claim": false,
+    "protected_inputs": 43,
+    "shared_guards": 34,
+    "frozen_leaf_counts": {
+      "D": 8,
+      "M01": 11,
+      "B": 15,
+      "C_CONTRACT": 8
+    },
+    "patch_replay": "one test path, one deletion and one addition replayed in memory over original D test source",
+    "static_result": {
+      "type": "regular_file",
+      "bytes": 35214,
+      "sha256": "406a995465d5f1c1407220e1a6e65770e70a0be4d87c708efd9ebea7857e435a"
+    },
+    "runs": 2,
+    "failed_runs_preserved": 1,
+    "passed_checks": 114,
+    "duration_seconds": 0.017539291991852224
+  },
+  "historical_failure": {
+    "source": "Approved FIX01 contract and fixed M01 receipt/log identities; not re-diagnosed",
+    "I_runs": 1,
+    "I_exit_code": 1,
+    "reported_error": "CS0121 at test null call",
+    "T": "NOT_RUN",
+    "XML": "ABSENT",
+    "history_rewritten": false
+  },
+  "authoring_history": [
+    "Mechanical run 1 failed on frozen leaf ordering after all 43 input and 34 shared identities passed. Path-component order in before.json differed from string order in the checker. Only the checker comparison was normalized; original failure history and source bytes were preserved.",
+    "A preliminary read attempted M01/source-receipt.json before the inventory returned its actual receipt.json filename; read-only command exited 1, no files changed. This was not a mechanical verifier or C# run."
+  ],
+  "not_run": [
+    "C# compile",
+    "Unity import",
+    "NUnit discovery",
+    "12 tests",
+    "old verifiers",
+    "unchanged fixture recomputation",
+    "Git/network/code review",
+    "active projection/CLOSE01",
+    "real resources/LOC/Host/device"
+  ],
+  "limitations": [
+    "Only mechanical source readiness is claimed; no compiler/test pass or integration acceptance.",
+    "Original D/M01/B/C records and shared source/meta/assemblies/dependencies are unchanged.",
+    "Old M01 failure and no-XML history remain; no owned-gate or ADB exception closure is inferred.",
+    "No hand-editing of natural meta; any later Unity completion requires a separately authorized run.",
+    "FIX04/M16 previous refusals remain unchanged."
+  ],
+  "return_path": "One completion event to engineering issuer only, with actual turn and sealed identities. Stop writing and do not start a successor packet.",
+  "after": {
+    "type": "regular_file",
+    "bytes": 19668,
+    "sha256": "22c252d0094f193438fd5ceee8da2199f3a17ced6f1338b5d2cc4c45855c3666"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "task": "RES-D-CODEC-001-FIX01-PR10-GITHUB-REVIEW-RECEIPT",
+  "receivedUtc": "2026-10-03T02:15:06Z",
+  "requestModel": "gpt-6-luna/low",
+  "verdict": "NEEDS_FIX",
+  "scope": "Independent GitHub code-review gate for this fixed head.",
+  "owner": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0ff85-c2d7-7980-a830-e96dda71231f"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/10",
+  "candidate": {
+    "head": "bf3098717d3c2b0bd02eeac9c6c0562711c87b00",
+    "tree": "8c3abb59b48241a87d4d1e14102a666669254ce4",
+    "base": "49f177ca5594cf987d12bd892b726145b8e41fc8",
+    "soleParent": "49f177ca5594cf987d12bd892b726145b8e41fc8",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "path": "docs/team/2026-09-30/resource-codec-s1-publication-receipt.json",
+    "bytes": 1538,
+    "sha256": "cfaba1865e341206a2ccbfe4072f42589b73c17f3e4c648db6f0a061e61a21e6",
+    "sourceReceiptSha256": "3aa9bc0e28746c8ef21a496b075381fa5f7fdd5930a8bb762741b184803c36e6",
+    "treeCheck": "Central verified 13 added blobs and complete 1816-blob tree; prior 1803 blobs retained. QA reused this check and did not rescan."
+  },
+  "trigger": {
+    "id": 5964436908,
+    "url": "https://github.com/yyczz1/FightMatch/pull/10#issuecomment-5964436908",
+    "createdUtc": "2026-10-03T02:09:06Z"
+  },
+  "service": {
+    "summaryId": 5964439974,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/10#issuecomment-5964439974",
+    "status": "Completed",
+    "completedUtc": "2026-10-03T02:13:32.281080Z",
+    "summaryCommit": "bf30987",
+    "reviewId": 5398527691,
+    "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/10#pullrequestreview-5398527691",
+    "reviewState": "COMMENTED",
+    "fullReviewedCommit": "bf3098717d3c2b0bd02eeac9c6c0562711c87b00",
+    "submittedUtc": "2026-10-03T02:13:30Z",
+    "formalApproved": false
+  },
+  "finding": {
+    "priority": "P2",
+    "id": 4171291210,
+    "url": "https://github.com/yyczz1/FightMatch/pull/10#discussion_r4171291210",
+    "threadId": "PRRT_kwDOTDyjrM6oi9CA",
+    "title": "Reject raw leaves shared across logical slots",
+    "file": "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+    "line": 366,
+    "rawFinding": "Two required raw assets with matching length/hash and the same physical name can be accepted because used.Add(name) does not reject duplicate raw ownership. The recomputed slot/scope hashes may still permit boot decode. The closure contract allows shared references only for bundles.",
+    "requestedCorrection": "Track raw references separately and reject duplicate ownership.",
+    "threadResolved": false,
+    "threadOutdated": false
+  },
+  "validationBoundary": "PR comment states corrected source compiled; M02 wrapper stopped after its owned ADB had exited, and T0/no XML. This receipt accepts no behavioral test, device, or runtime gate.",
+  "actions": {
+    "reviewTriggers": 0,
+    "localCodeReviews": 0,
+    "unityOrTestRuns": 0,
+    "githubWrites": 0,
+    "gitWrites": 0,
+    "onlyFileWritten": "docs/team/2026-09-30/testing-resource-codec-pr10-review-receipt.json"
+  }
+}
