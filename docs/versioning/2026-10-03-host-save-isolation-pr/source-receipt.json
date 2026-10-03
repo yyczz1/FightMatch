@@ -1,0 +1,136 @@
+{
+  "task": "HOST-SAVE-ISOLATION-SOURCE-001",
+  "status": "SOURCE_READY",
+  "qualifiers": [
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING",
+    "WAITING_G3_ACTIVATION"
+  ],
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fd84-0486-7cf2-9617-9173dae5a5de"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fd7b-5ea7-72f0-ad67-3ba4d6441453"
+  },
+  "authority": "User continuation via central, human-provided AGENTS section6, and exact engineering-host-save-isolation-source-001.md packet. Independent staged source only; no blocked operation retried.",
+  "sourceAfter": [
+    {
+      "logicalPath": "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "stagedPath": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/S/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "bytes": 19136,
+      "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f",
+      "gitBlob": "a99bbfc09fd5f67470d765b6e9b96e9461d18a92"
+    },
+    {
+      "logicalPath": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+      "stagedPath": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/S/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+      "bytes": 15710,
+      "sha256": "ed176ec6e87742359cfcd7767236619496180b25ad9783563582235ca1f8014d",
+      "gitBlob": "3bd3fb13bd00487513bde919547ca25995d255c7"
+    }
+  ],
+  "scope": {
+    "logicalProducts": [
+      "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs"
+    ],
+    "hostAdded": 253,
+    "hostDeleted": 8,
+    "hostTotal": 261,
+    "hostLimit": 350,
+    "testLines": 261,
+    "testLimit": 400,
+    "sharedProductWrites": 0
+  },
+  "testFullnames": [
+    "FightMatch.Host.Tests.FightMatchHostSaveIsolationTests.HISO_01_NoMarkerPreservesDefaultPathWithoutExtraIO",
+    "FightMatch.Host.Tests.FightMatchHostSaveIsolationTests.HISO_02_MalformedOrDuplicateMarkerNeverFallsBack",
+    "FightMatch.Host.Tests.FightMatchHostSaveIsolationTests.HISO_03_LinkedNonCanonicalOrOverlappingRootIsRejected",
+    "FightMatch.Host.Tests.FightMatchHostSaveIsolationTests.HISO_04_ForeignActivationOrConcurrentLeaseIsRejected",
+    "FightMatch.Host.Tests.FightMatchHostSaveIsolationTests.HISO_05_PlayerAndPreferencePathsRemainUnderOneEffectiveRoot",
+    "FightMatch.Host.Tests.FightMatchHostSaveIsolationTests.HISO_06_ReopenRetainsRootAndTeardownReleasesLease"
+  ],
+  "acceptance": {
+    "pairedEditorFlagsAndFixedTopology": "IMPLEMENTED_STATIC_ONLY",
+    "activationAndNonoverlapAndMacPaths": "IMPLEMENTED_STATIC_ONLY",
+    "exclusiveLeaseAndAsyncRevalidation": "IMPLEMENTED_STATIC_ONLY",
+    "defaultStartupAndPublicSerializedSurface": "STATIC_PRESERVATION_VERIFIED",
+    "sameRootAndLifecycle": "IMPLEMENTED_STATIC_ONLY",
+    "sixCases": "SOURCE_PRESENT_NOT_COMPILED_OR_RUN",
+    "shared1089AndFix04Preservation": "VERIFIED",
+    "unifiedPatchMemoryReplay": "VERIFIED"
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/S/verify.py",
+    "startedUtc": "2026-10-02T17:04:46.020722+00:00",
+    "finishedUtc": "2026-10-02T17:04:46.221206+00:00",
+    "exitCode": 0,
+    "checkCount": 194,
+    "executionKind": "Python standard-library mechanical source checks only"
+  },
+  "artifacts": {
+    "after.json": {
+      "bytes": 219908,
+      "sha256": "d9435d6319cd69980b2a6c27897cd0ebf5347f0faca4477eefb20c44f630dfd5"
+    },
+    "before.json": {
+      "bytes": 226750,
+      "sha256": "00401d938d08644d11bad7f6c2a268011db11cb326366473e6f6309a1c130d93"
+    },
+    "source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 19136,
+      "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f"
+    },
+    "source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs": {
+      "bytes": 15710,
+      "sha256": "ed176ec6e87742359cfcd7767236619496180b25ad9783563582235ca1f8014d"
+    },
+    "source.patch": {
+      "bytes": 31336,
+      "sha256": "aba9ae0b77f083d86e2089a8982c97e1993705802d2fc4879d54142dbe17b9af"
+    },
+    "static-checks.json": {
+      "bytes": 14733,
+      "sha256": "17231144029cadc16656b9d41fea3aaf8875a43baa54231c249127e8b67ba51e"
+    },
+    "verify.py": {
+      "bytes": 16925,
+      "sha256": "ad14aac9b301a738a93c968cd1368696c41d08be4574d4924e02960198660578"
+    }
+  },
+  "publication": {
+    "owner": "central coordinator",
+    "parent": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "base": "codex/locale-preference-s1",
+    "products": [
+      "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs"
+    ],
+    "notExecutedByC": true
+  },
+  "notRun": [
+    "C# compile/import",
+    "six C# tests or discovery",
+    "GitHub Code Review",
+    "G3 real Host",
+    "Unity/native/device/CUA",
+    "Git mutations",
+    "Network/downloads",
+    "Process inspection/signals",
+    "FIX04 or LOC retries"
+  ],
+  "limitations": [
+    "Static checks are not C# compilation, runtime behavior or independent review.",
+    "Mac path and lock semantics require the separately authorized Mac run.",
+    "Real Host awaits formal LOC/H/content and G3 approval.",
+    "H must use EffectivePersistentDataPath and separately resolve the settings/EmptyRoot conflict.",
+    "No meta was created; any natural Unity import requires a later scoped contract."
+  ],
+  "writingStoppedAfterReceipt": true,
+  "authorIntegrationVerdict": null
+}
