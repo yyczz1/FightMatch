@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "packet": "RES-C-CONTRACT-FIX01",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0ffc8-2cab-7593-a63f-33fcb5f3dec0"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0ffb9-2af3-7ea1-8f13-324e2997561c"
+  },
+  "authority": "User AGENTS section 6 standing workflow; central expressly approved PR11 finding correction and the one C08 positive-input exception. Engineering activates sole source owner after completed sealed D FIX02 turn 01a0ff91-478a-7673-9997-43cd6e001e7c. This actual turn owns C FIX01 only and returns once to engineering; RAW/native/review are not authorized.",
+  "dispatch_model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh"
+  },
+  "model_evidence_note": "Issuer policy; verifier does not measure execution model.",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "scope": [
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+    "before.json",
+    "after.json",
+    "source.patch",
+    "verify.py",
+    "static-checks.json",
+    "source-receipt.json"
+  ],
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+      "type": "regular_file",
+      "bytes": 16774,
+      "sha256": "4ef8e56e70a19f7df81105fa46b3b1d334f39ce956610285845f1c594ec0520b",
+      "physical_lines": 328
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+      "type": "regular_file",
+      "bytes": 28399,
+      "sha256": "4fe6bb1ed6e2c5bc0d62685b807de42db9a38e2069d07547abbd27502503e13b",
+      "physical_lines": 421
+    }
+  },
+  "immutable_artifacts": {
+    "before.json": {
+      "type": "regular_file",
+      "bytes": 22797,
+      "sha256": "44708ade132c0424d0884b1b3be5e5442c9fef067adc7e53af5ebdd12cbf4497"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 4298,
+      "sha256": "9713a5c1b6ac8c03e4961202c3a4a2960ce4c4f9a216fc78c21d5923aa6820d8"
+    },
+    "verify.py": {
+      "type": "regular_file",
+      "bytes": 24403,
+      "sha256": "04087fb3c36979fa6ea6d82ada7950b9458eec12a2f69126b1b43cd77dbed23f"
+    }
+  },
+  "frozen_stages": {
+    "TestArtifacts/FightMatch/RES-C-CONTRACT-001/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 14107,
+        "sha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 21906,
+        "sha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 10990,
+        "sha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-CD-JOINT-001/M01": {
+      "leaves": [
+        "I/editor.log",
+        "I/result.json",
+        "I/stderr.log",
+        "I/stdout.log",
+        "T/editor.log",
+        "T/result.json",
+        "T/results.xml",
+        "T/stderr.log",
+        "T/stdout.log",
+        "after.json",
+        "assemblies.json",
+        "preflight.json",
+        "process-after.json",
+        "process-events.jsonl",
+        "receipt.json",
+        "run.json",
+        "runner.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 46585,
+        "sha256": "cc0745a765cf2a8261036251c308d4d526b3762700e0aec9680130cbe01da60c"
+      },
+      "unchanged": true
+    }
+  },
+  "budgets": {
+    "production_lines": 450,
+    "production_bytes": 65536,
+    "test_lines": 500,
+    "test_bytes": 65536,
+    "production_changed_lines": 12,
+    "C08_changed_lines": 6,
+    "new_test_lines": 60,
+    "total_changed_lines": 80,
+    "stage_bytes": 2097152,
+    "verify_seconds": 30,
+    "max_verify_runs": 2
+  },
+  "deltas": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+      "added": 5,
+      "removed": 1
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+      "added": 28,
+      "removed": 1
+    }
+  },
+  "C08_delta": {
+    "added": 3,
+    "removed": 1
+  },
+  "baseline_stage": "TestArtifacts/FightMatch/RES-C-CONTRACT-001/S",
+  "review_binding": {
+    "review_id": "PRR_kwDOTDyjrM8AAAABQcoF1Q",
+    "head": "f99b5a60b9ecad62aa01ddb1333a7db8a05c662f",
+    "finding_id": 4171468078,
+    "finding_url": "https://github.com/yyczz1/FightMatch/pull/11#discussion_r4171468078",
+    "prior_code_gate": "FINDING_REPORTED",
+    "review_repeated": false
+  },
+  "remaining_C_budget_reserved": {
+    "production_lines": 250,
+    "test_lines": 400
+  },
+  "implementation": "Only ResourceProgress stage checks change: ReadyFromCache rejects nonzero initial inspection work even after completion; ConsentRequired also rejects nonpositive derived remaining bytes/files while retaining RequiresNetwork and Mobile checks.",
+  "C08_exception": {
+    "authorization": "Central explicitly approved one invalid positive-input correction in C08.",
+    "before": "                var progress = new ResourceProgress(inspection, Operation, completed ? 10 : 0, completed ? 2 : 0,\n                    ResourceNetworkKind.Mobile, stage, diagnostic);\n",
+    "after": "                var progress = new ResourceProgress(\n                    stage == ResourceTransportStage.ReadyFromCache ? Inspect(bytes: 0, files: 0) : inspection,\n                    Operation, completed ? 10 : 0, completed ? 2 : 0,\n                    ResourceNetworkKind.Mobile, stage, diagnostic);\n",
+    "assertions_loop_completed_computation_other_parameters": "BYTE_PRESERVED",
+    "nine_other_methods_helpers_and_remaining_C08": "BYTE_PRESERVED"
+  },
+  "C11": {
+    "physical_lines": 25,
+    "controls": "Zero-work offline ReadyFromCache and positive-remaining Mobile ConsentRequired assert stage, remaining bytes/files and ConsentRequired.",
+    "negative_cases": "Initial positive work at zero/partial/full completion rejects ReadyFromCache; fully completed initial network work rejects ConsentRequired.",
+    "exception_checks": "Reuse unchanged Invalid helper and its ArgumentException/safe-message convention.",
+    "behavior_execution": "NOT_RUN"
+  },
+  "test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C11_ProgressStageRequiresConsistentRemainingWork"
+  ],
+  "test_inventory": {
+    "planned_ordinary_tests": 11,
+    "static_named_tests": 11,
+    "original_ten_names_and_all_assertions_retained": true,
+    "discovery_or_execution_claim": false
+  },
+  "acceptance": {
+    "ResourceProgress_two_stage_gates": "TEXTUALLY_VERIFIED_UNCOMPILED",
+    "other_production_bytes_and_public_contract": "STATIC_VERIFIED_UNCHANGED",
+    "C08_first_argument_only_exception": "STATIC_VERIFIED",
+    "nine_other_methods_helpers_and_all_original_assertions": "STATIC_VERIFIED_UNCHANGED",
+    "C11_positive_and_negative_controls": "AUTHORED_UNTESTED",
+    "two_path_patch_scope_budgets_and_fixed_inputs": "STATIC_VERIFIED",
+    "finding_resolution": "PENDING_INDEPENDENT_REVIEW",
+    "integration": "NO_ACCEPT"
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/RES-C-CONTRACT-001/FIX01/S/verify.py",
+    "kind": "STATIC_ONLY",
+    "behavior_pass_claim": false,
+    "protected_inputs": 53,
+    "shared_guards": 34,
+    "frozen_leaf_counts": {
+      "C": 8,
+      "B": 15,
+      "D_FIX02": 8,
+      "JOINT_M01": 17
+    },
+    "patch_replay": "Two deltas replayed in memory over original C preimages",
+    "static_result": {
+      "type": "regular_file",
+      "bytes": 25374,
+      "sha256": "66d1e797391968c2eefa559938b2c3b58ec2966a37145905d85d974165c3427d"
+    },
+    "runs": 1,
+    "failed_runs_preserved": 0,
+    "passed_checks": 149,
+    "duration_seconds": 0.02164575003553182
+  },
+  "historical_joint_note": "Frozen original composite evidence applies only to D FIX02 plus original C ten tests. Its two natural C metadata files are preserved by receipt identity, not regenerated/exported/read from live projection. No pass is transferred to this correction.",
+  "not_run": [
+    "C# compile",
+    "Unity/SDK",
+    "NUnit discovery",
+    "11 candidate tests",
+    "old-head red tests",
+    "old verifiers",
+    "network/Git/code review",
+    "package-cache or live-projection scans",
+    "RAW implementation",
+    "real resources/download-stop/LOC/Host/Scene/Android/device"
+  ],
+  "limitations": [
+    "Only source readiness is claimed. Original C10/composite23 passes belong to old inputs and do not cover this correction.",
+    "No GitHub finding resolution, new-head review, integration ACCEPT or execution pass is claimed.",
+    "Shared source/meta/asmdefs/dependencies and all frozen old evidence remain unchanged.",
+    "Two natural C metadata identities are retained through the sealed joint receipt; no live metadata reads, export or regeneration.",
+    "RAW, future publication and proposed composite74 native run require separate activation; no successor is started.",
+    "FIX04/M16 permission history is unchanged."
+  ],
+  "return_path": "One completion event to engineering issuer only, with actual turn and sealed identities. Stop writing; do not start RAW.",
+  "after": {
+    "type": "regular_file",
+    "bytes": 22911,
+    "sha256": "e65b2012d90d2efe7fd901fad8794d31d88c710a059b6fe348644defae6960c7"
+  }
+}
