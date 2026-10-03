@@ -266,11 +266,13 @@ namespace FightMatch.YooAssetAdapter
             return closed.Task;
         }
 
-        private void Wake()
+        private void Wake() { TryWake(); }
+
+        private bool TryWake()
         {
-            if (Interlocked.CompareExchange(ref posted, 1, 0) != 0) return;
-            try { dispatcher.Post(() => { Interlocked.Exchange(ref posted, 0); Drain(); }); }
-            catch (Exception) { Interlocked.Exchange(ref posted, 0); }
+            if (Interlocked.CompareExchange(ref posted, 1, 0) != 0) return true;
+            try { dispatcher.Post(() => { Interlocked.Exchange(ref posted, 0); Drain(); }); return true; }
+            catch (Exception) { Interlocked.Exchange(ref posted, 0); return false; }
         }
 
         private void Finish(Entry entry, Code? code, Stage stage)
@@ -303,7 +305,7 @@ namespace FightMatch.YooAssetAdapter
                         try
                         {
                             if (closing || entry.Identity.Epoch != epoch) entry.Ticket.Invalidate();
-                            if (!entry.Ticket.Poll()) continue;
+                            if (!entry.Ticket.Poll(TryWake)) continue;
                             var identity = entry.Ticket.Identity;
                             var stale = closing || identity.Provider != instance || identity.Epoch != epoch ||
                                 !ReferenceEquals(identity, entry.Identity) || identity.Operation != entry.Identity.Operation ||

@@ -171,7 +171,6 @@ namespace FightMatch.AssetAccess.Tests
             private readonly FakeSdk sdk;
             private readonly AssetMapping map;
             private readonly long limit;
-            private readonly Action wake;
             internal bool EnsureDone;
             internal RawReadState Reader;
             internal Body Body;
@@ -181,9 +180,9 @@ namespace FightMatch.AssetAccess.Tests
             {
                 get { var result = Reader?.Payload; if (result != null) Transfers++; return result; }
             }
-            internal RawOperation(FakeSdk sdk, AssetMapping map, long limit, Action wake) : base(false)
-            { this.sdk = sdk; this.map = map; this.limit = limit; this.wake = wake; EnsureDone = sdk.AutoEnsure; }
-            public void Pump(bool stopRequested)
+            internal RawOperation(FakeSdk sdk, AssetMapping map, long limit) : base(false)
+            { this.sdk = sdk; this.map = map; this.limit = limit; EnsureDone = sdk.AutoEnsure; }
+            public void Pump(bool stopRequested, Func<bool> continueRaw)
             {
                 if (Done || !EnsureDone) return;
                 if (stopRequested) { Reader?.Pump(true); Error = Code.SdkFailure; Finish(false); return; }
@@ -200,9 +199,9 @@ namespace FightMatch.AssetAccess.Tests
                         return new byte[length];
                     });
                 }
-                Reader.Pump();
+                Reader.PumpNext(continueRaw);
                 Error = Reader.Error;
-                if (Reader.Done) Finish(!Error.HasValue); else wake();
+                if (Reader.Done) Finish(!Error.HasValue);
             }
             public override void Release() { Reader?.Dispose(); base.Release(); }
         }
@@ -240,7 +239,7 @@ namespace FightMatch.AssetAccess.Tests
                 if (Unsafe) throw new YooAssetPackageLifecycle.Failure(Code.PackageUnavailable, Stage.ValidateResult);
                 Begins++;
                 if (ThrowBegin) throw new IOException("https://private?token=secret");
-                var operation = new RawOperation(this, map, limit, wake) { ThrowSubscribe = ThrowSubscribe };
+                var operation = new RawOperation(this, map, limit) { ThrowSubscribe = ThrowSubscribe };
                 Raw.Add(operation); return operation;
             }
             public IYooOperation Destroy(object value) { ready = false; empty = true; return new Signal(); }
@@ -605,6 +604,43 @@ namespace FightMatch.AssetAccess.Tests
             CollectionAssert.AreEquivalent(new[] { "SchemaVersion", "ReleaseSetId", "BusinessReleaseSetId", "Platform", "DescriptorSha256" },
                 typeof(FightMatchResourceReleaseSet).GetProperties(flags).Select(p => p.Name));
             CollectionAssert.AreEqual(Boot(), Decode(Boot()).EncodeCanonical());
+        }
+
+        [Test]
+        public void RAW13_FailedChunkSchedulingTerminatesWithoutExternalDrain()
+        {
+            var ledger = typeof(YooAssetAssetProvider).GetField("globalRawBytes", BindingFlags.NonPublic | BindingFlags.Static);
+            var reservedBefore = (long)ledger.GetValue(null);
+            RawOperation operation;
+            Body body;
+            using (var rig = new Rig(Chunked, ensure: false))
+            {
+                var first = rig.Request(); var second = rig.Request();
+                operation = rig.Sdk.Raw[0]; rig.Dispatch.Run();
+                operation.EnsureDone = true; operation.Emit();
+                Assert.IsTrue(rig.Dispatch.Step());
+                body = operation.Body;
+                Assert.Greater(body.Position, 0); Assert.Less(body.Position, Chunked);
+                Assert.AreEqual(65536, body.Position);
+                Assert.AreEqual(reservedBefore + Chunked, ledger.GetValue(null));
+                var reads = body.Reads; var posts = rig.Dispatch.Posts;
+                rig.Dispatch.FailPost = true;
+                Assert.IsTrue(rig.Dispatch.Step());
+                Reject(first, Code.SdkFailure, Stage.ValidateResult);
+                Reject(second, Code.SdkFailure, Stage.ValidateResult);
+                Assert.IsFalse(rig.Dispatch.Step()); Assert.LessOrEqual(rig.Dispatch.Maximum, 1);
+                Assert.Greater(rig.Dispatch.Posts, posts); Assert.LessOrEqual(rig.Dispatch.Posts - posts, 3);
+                Assert.AreEqual(reads + 1, body.Reads); Assert.AreEqual(131072, body.Position);
+                Assert.Less(body.Position, Chunked); Assert.LessOrEqual(body.Maximum, 65536);
+                Assert.IsTrue(operation.Done); Assert.IsTrue(operation.Reader.Done); Assert.IsFalse(operation.Success);
+                Assert.AreEqual(0, operation.Transfers); Assert.IsNull(operation.Payload);
+                Assert.AreEqual(1, body.Closes); Assert.AreEqual(1, operation.Releases);
+                Assert.AreEqual(Thread.CurrentThread.ManagedThreadId, operation.ReleaseThread);
+                Assert.AreEqual(reservedBefore, ledger.GetValue(null));
+                CapacityRestored();
+            }
+            Assert.AreEqual(1, body.Closes); Assert.AreEqual(1, operation.Releases);
+            Assert.AreEqual(reservedBefore, ledger.GetValue(null));
         }
     }
 }

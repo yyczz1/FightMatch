@@ -49,7 +49,7 @@ namespace FightMatch.YooAssetAdapter
     {
         object Payload { get; }
         Code? Error { get; }
-        void Pump(bool stopRequested);
+        void Pump(bool stopRequested, Func<bool> continueRaw);
     }
 
     internal sealed class RawReadState : IDisposable
@@ -107,6 +107,13 @@ namespace FightMatch.YooAssetAdapter
                 Done = true;
             }
             catch (Exception) { Fail(Code.SdkFailure); }
+        }
+        internal void PumpNext(Func<bool> continueRaw)
+        {
+            Pump();
+            if (Done || continueRaw()) return;
+            if (position == bytes.Length) Pump();
+            else Fail(Code.SdkFailure);
         }
         private void Fail(Code code)
         {
@@ -194,7 +201,7 @@ namespace FightMatch.YooAssetAdapter
                 ensure.Completed += Notify;
             }
             private void Notify(AsyncOperationBase _) { wake(); }
-            public void Pump(bool stopRequested)
+            public void Pump(bool stopRequested, Func<bool> continueRaw)
             {
                 if (Done || !ensure.IsDone) return;
                 try
@@ -217,8 +224,8 @@ namespace FightMatch.YooAssetAdapter
                             FileAccess.Read, FileShare.Read, 4096, FileOptions.SequentialScan),
                             map.RawSource.Length, map.RawSource.Sha, limit, length => new byte[length]);
                     }
-                    reader.Pump();
-                    if (!reader.Done) { wake(); return; }
+                    reader.PumpNext(continueRaw);
+                    if (!reader.Done) return;
                     Error = reader.Error;
                     End(!Error.HasValue);
                 }
@@ -365,7 +372,7 @@ namespace FightMatch.YooAssetAdapter
                 return false;
             }
 
-            internal bool Poll()
+            internal bool Poll(Func<bool> continueRaw)
             {
                 if (terminal) return true;
                 if (handle == null)
@@ -395,7 +402,7 @@ namespace FightMatch.YooAssetAdapter
                 }
                 if (handle is IRawYooOperation raw)
                 {
-                    raw.Pump(failed);
+                    raw.Pump(failed, continueRaw);
                     if (raw.Error.HasValue) Stage = Stage.ValidateResult;
                 }
                 if (!handle.Done) return false;
