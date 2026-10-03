@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "packet": "ANDROID-API24-PR1-SOURCE-FIX02",
+  "runs": [
+    {
+      "command": "python3 -B TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX02/S/verify.py",
+      "started_utc": "2026-10-03T09:19:44.197446+00:00",
+      "checks": [
+        {
+          "check": "stage_and_before_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "owner_issuer_and_reviewed_head",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fix01_amendment_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fix02_amendment_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_blocked_attempt_count",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_stage_exact_six_leaf_identity:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_single_failure_record:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_stage_exact_six_leaf_identity:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX01/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_single_failure_record:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX01/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "eight_leaf_exact_scope",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "no_stage_symlinks",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed_input_count",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:docs/team/2026-09-30/engineering-android-api24-pr1-source-001.md",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:/private/tmp/fm-api24-reviewed-build.cs",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:ProjectSettings/ProjectSettings.asset",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:docs/team/2026-09-30/engineering-android-api24-001.md",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:docs/team/2026-09-30/engineering-android-api24-source-readiness-001.md",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "PR1_raw_and_blob_hashes",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "frozen_build_source_is_not_shared_WIP",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "anchor_uniqueness",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "exact_four_approved_transformations",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "candidate_file_limits",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "API24_predicate_target32_preserved",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "one_report_integer_read_and_record_field",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "shared_QA_normal_gate_call_counts",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "memory_counterexample_missing_P_rejected",
+          "passed": true,
+          "detail": {
+            "candidate_rejected": true,
+            "disk_written": false
+          }
+        },
+        {
+          "check": "memory_counterexample_missing_B_predicate_rejected",
+          "passed": true,
+          "detail": {
+            "candidate_rejected": true,
+            "disk_written": false
+          }
+        },
+        {
+          "check": "memory_counterexample_wrong_target_rejected",
+          "passed": true,
+          "detail": {
+            "candidate_rejected": true,
+            "disk_written": false
+          }
+        },
+        {
+          "check": "canonical_patch_hash_and_exact_paths",
+          "passed": true,
+          "detail": null
+        }
+      ],
+      "exception": "AssertionError: patch context mismatch",
+      "duration_seconds": 0.008251374994870275,
+      "exit_code": 1,
+      "verifier": {
+        "bytes": 14444,
+        "sha256": "732e034b3a457bbf8292309f622a2671229e591c2a768dc94834c347d6f7f196"
+      }
+    }
+  ],
+  "status": "BLOCKED_NO_RETRY",
+  "blocked_reason": "The only FIX02 verifier run passed 30 recorded checks, then replay raised AssertionError: patch context mismatch before the patch_replay_from_PR1_bytes check could be recorded. Later replay/diff/whitespace/stage/duration checks were not completed. No retry or post-failure verifier/source modification.",
+  "preparation": {
+    "copies": {
+      "source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+        "bytes": 84070,
+        "sha256": "150b37b038c365534db3035e185b3d0b23135828f72e2aca216d7ccb19133de3",
+        "physical_lines": 1050,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      },
+      "source/ProjectSettings/ProjectSettings.asset": {
+        "bytes": 23595,
+        "sha256": "dfe02f2b7ffd9c5f5880e39d7bb35e1916515529e3292b1979f9715da51a2a72",
+        "physical_lines": 860,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      },
+      "source.patch": {
+        "bytes": 2740,
+        "sha256": "3a21f1c73d9d186535d5dbfcb1d21afc6409efb2669b716f642afedac6db9422",
+        "physical_lines": 41,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      }
+    },
+    "before": {
+      "bytes": 12770,
+      "sha256": "a34cc2463e3aa4a23423ab58ba09821e8eb7338062342b7b27451197ecb87ae7"
+    }
+  },
+  "verifier_delta": {
+    "baseline": {
+      "bytes": 14453,
+      "sha256": "4f86bea972d705e307186ccb66ba964dd59c694e4a4452b766fc25fff92e0ab9"
+    },
+    "updated_literals": [
+      "BEFORE_SHA bound to final saved FIX02 before",
+      "history packet FIX01 -> FIX02",
+      "command path FIX01/S -> FIX02/S",
+      "owner actual -> 01a1010c-0c86-7ef0-958b-4e92241afef2",
+      "issuer actual -> 01a10109-573d-7073-808f-57f3236cab41"
+    ],
+    "identity_block": "Check both fixed amendments and both original/FIX01 six-leaf registries, binding each complete actual failed run JSON and original owner; after/receipt absence preserved.",
+    "retained": "ROOT.parents[5], source transformations, other-byte equality, patch generation/replay, three in-memory counterexamples, fixed/shared guards and budgets are unchanged."
+  }
+}
