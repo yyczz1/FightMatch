@@ -1,0 +1,133 @@
+{
+  "task": "RES-D-CODEC-MAC-001",
+  "status": "BLOCKED_OR_FAILED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a0ff50-5c0c-7ff3-bb65-2252b1d2d4d8"
+  },
+  "startedUtc": "2026-10-03T01:17:11.774259+00:00",
+  "finishedUtc": "2026-10-03T01:18:40.818168+00:00",
+  "failure": "Unexpected codec meta importer; Other consumer [{\"ppid\": 1, \"start\": \"Sat Oct 3 09:17:20 2026\", \"stat\": \"Ss\", \"exe\": \"adb\", \"pid\": 63318}]; Unexpected codec meta importer; Other consumer [{\"ppid\": 1, \"start\": \"Sat Oct 3 09:17:20 2026\", \"stat\": \"Ss\", \"exe\": \"adb\", \"pid\": 63318}]; Unexpected codec meta importer; Owned processes remain",
+  "run": {
+    "bytes": 85823,
+    "sha256": "9520185598b58f6f9edaecccce20945b4b5a42a62c54f7311553f4dfc16ad04d"
+  },
+  "runner": {
+    "bytes": 26851,
+    "sha256": "0c481b6b68dee33b516fa814ce8de93dc1f34ef29cea85009d028dd7c2acc55b"
+  },
+  "sourceReceipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/S/source-receipt.json",
+    "bytes": 10065,
+    "sha256": "6bc665c989731ec7c464e0d968015a57262d7eba76470a9d74761ebb89f03c12"
+  },
+  "priorM04Receipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-B-ADAPTER-001/M04/receipt.json",
+    "bytes": 15438,
+    "sha256": "7388b4bd7026f9f9b49411ff142358d8e3fb75ae16b8cbfb572341cb26ea527a"
+  },
+  "candidate": {
+    "kind": "FIXED_B_M04_COMPOSITE_PLUS_D_TWO_ADDITIONS_NOT_COMPLETE_PR_HEAD",
+    "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/S/source",
+    "sourceReceiptSha256": "6bc665c989731ec7c464e0d968015a57262d7eba76470a9d74761ebb89f03c12",
+    "priorInputs": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-B-ADAPTER-001/M04/run.json",
+      "bytes": 92532,
+      "sha256": "52dd26571084ab55e3502d6e22fa047dd19d5f19c7e27fdc310d7c6f1dd2e24b"
+    },
+    "fixedBHead": "49f177ca5594cf987d12bd892b726145b8e41fc8",
+    "publishedDHead": null,
+    "reviewState": "D_SOURCE_READY_PENDING_NATIVE_AND_FUTURE_PUBLICATION_REVIEW"
+  },
+  "priorP03Verdict": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P03/final-verdict.json",
+    "bytes": 2316,
+    "sha256": "36b5028f50f61b6f5e1a670dcc510d0c8512a36b54045b40a62df12a6d9742ff"
+  },
+  "stages": [
+    {
+      "stage": "I",
+      "status": "FAILED_OR_BLOCKED",
+      "runCount": 1,
+      "pid": 63285,
+      "exitCode": 1,
+      "elapsedSeconds": 70.173116
+    }
+  ],
+  "tests": null,
+  "notRunStages": [
+    "T"
+  ],
+  "remainingOwned": [
+    63356
+  ],
+  "consumerClear": false,
+  "scopeDifferences": [
+    {
+      "scope": "projection",
+      "error": "Unexpected codec meta importer"
+    }
+  ],
+  "evidence": {
+    "runner.py": {
+      "bytes": 26851,
+      "sha256": "0c481b6b68dee33b516fa814ce8de93dc1f34ef29cea85009d028dd7c2acc55b"
+    },
+    "process-after.json": {
+      "bytes": 10560,
+      "sha256": "0815cf06c3f47e4be5fc062792cc9499bf0237cf9250ed9572123d5bd89179fc"
+    },
+    "after.json": {
+      "bytes": 1516,
+      "sha256": "aaa5718fcf8521b3d4a0761009c5871e0dd67bea98a600831c65458948259a75"
+    },
+    "process-events.jsonl": {
+      "bytes": 14002,
+      "sha256": "22a499c7f51d8f1ea2444451e47b91521aeaa52c5b303e07b61a26323cfa74ca"
+    },
+    "preflight.json": {
+      "bytes": 19798,
+      "sha256": "f825b6cff923c31aab57b0fffb9edc207fb692f4b461b82b83d193bcbbeb0456"
+    },
+    "run.json": {
+      "bytes": 85823,
+      "sha256": "9520185598b58f6f9edaecccce20945b4b5a42a62c54f7311553f4dfc16ad04d"
+    },
+    "I/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "I/result.json": {
+      "bytes": 1710,
+      "sha256": "edc0f1535a67584f3bd6b0a3475db358c9f2bfc7fae3de66d9c317114eadd40c"
+    },
+    "I/stdout.log": {
+      "bytes": 67,
+      "sha256": "a37c1c1e436570b4d07be72152958fddea58dbbc6f3aa9a85d50736cb3902e6f"
+    },
+    "I/editor.log": {
+      "bytes": 69295,
+      "sha256": "767a760eaebfb913753e420856b0feda4445175b7a653451bdf04b688c29b246"
+    }
+  },
+  "authorIntegrationVerdict": null,
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "unrun": [
+    "real BuiltIn/manifest/object dependencies",
+    "empty/offline cache",
+    "raw",
+    "CD/Host/UI",
+    "devices",
+    "Windows",
+    "Android",
+    "Player",
+    "shared adoption",
+    "discovery",
+    "B38/old37/17/4181"
+  ],
+  "previousAutoReviewBlocks": "FIX04 native and LOC M16 unchanged"
+}
