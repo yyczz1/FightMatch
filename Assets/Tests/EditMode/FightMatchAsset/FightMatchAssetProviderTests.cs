@@ -109,11 +109,21 @@ namespace FightMatch.AssetAccess.Tests
             internal bool FailInit, FailManifest, FailDestroyOnce, FailDestroyAlways, Location = true, WrongVersion, ThrowLoad;
             internal bool NullAsset, WrongAsset, ThrowAsset, ThrowSubscription, Duplicate;
             internal bool ThrowVersion;
+            internal bool ThrowGlobalInitOnce;
             private GameObject wrong;
             internal int Initializations, PackageInitializations, Creates, Manifests, LoadCalls, Destroys, Removes, GlobalDestroys;
             public bool Initialized { get; private set; }
             public int PackageCount => Packages.Count;
-            public void Initialize() { Initializations++; Initialized = true; }
+            public void Initialize()
+            {
+                Initializations++;
+                if (ThrowGlobalInitOnce)
+                {
+                    ThrowGlobalInitOnce = false;
+                    throw new Exception("private global init exception marker");
+                }
+                Initialized = true;
+            }
             public void Destroy() { Assert.AreEqual(0, Packages.Count); GlobalDestroys++; Initialized = false; }
             public object Find(string name) => Packages.TryGetValue(name, out var value) ? value : null;
             public object Create(string name) { Creates++; return Packages[name] = new Package(); }
@@ -844,6 +854,56 @@ namespace FightMatch.AssetAccess.Tests
                 Assert.IsTrue(firstClose.IsCompleted);
                 Assert.IsTrue(earlyClose.IsCompleted);
                 Assert.IsTrue(lateClose.IsCompleted);
+            }
+        }
+
+        [Test]
+        public void GlobalInitializationFailureCanBeRetriedBySameProvider()
+        {
+            using (var rig = new Rig())
+            {
+                var sdk = rig.Sdk;
+                sdk.ThrowGlobalInitOnce = true;
+                var failed = rig.Request();
+                rig.Dispatch.Run();
+                Rejected(failed, Code.SdkFailure, Stage.InitializePackage);
+                Assert.IsFalse(sdk.Initialized);
+                Assert.AreEqual(1, sdk.Initializations);
+                Assert.AreEqual(0, sdk.Creates);
+                Assert.AreEqual(0, sdk.PackageInitializations);
+                Assert.AreEqual(0, sdk.Manifests);
+                Assert.AreEqual(0, sdk.LoadCalls);
+                Assert.AreEqual(0, sdk.PackageCount);
+                Assert.AreEqual(0, sdk.Operations.Count);
+                rig.Dispatch.Run();
+                Assert.AreEqual(1, sdk.Initializations);
+                var retry = rig.Result(rig.Request());
+                Assert.IsTrue(retry.IsAccepted);
+                Assert.IsTrue(sdk.Initialized);
+                Assert.AreEqual(2, sdk.Initializations);
+                Assert.AreEqual(1, sdk.Creates);
+                Assert.AreEqual(1, sdk.PackageInitializations);
+                Assert.AreEqual(1, sdk.Manifests);
+                Assert.AreEqual(1, sdk.LoadCalls);
+                Assert.IsFalse(retry.Lease.IsReleased);
+                Assert.AreSame(sdk.Texture, retry.Lease.Asset);
+                Rejected(failed, Code.SdkFailure, Stage.InitializePackage);
+                var shared = rig.Result(rig.Request());
+                Assert.IsTrue(shared.IsAccepted);
+                Assert.AreEqual(2, sdk.Initializations);
+                Assert.AreEqual(1, sdk.LoadCalls);
+                retry.Lease.Dispose();
+                shared.Lease.Dispose();
+                rig.Dispatch.Run();
+                Assert.AreEqual(1, sdk.Loads.Single().Releases);
+                var closed = rig.Provider.CloseAsync();
+                rig.Dispatch.Run();
+                Assert.IsTrue(closed.IsCompleted);
+                Assert.AreEqual(1, sdk.Destroys);
+                Assert.AreEqual(1, sdk.Removes);
+                Assert.AreEqual(1, sdk.GlobalDestroys);
+                Assert.IsFalse(sdk.Initialized);
+                Assert.AreEqual(0, sdk.PackageCount);
             }
         }
 

@@ -228,13 +228,14 @@ namespace FightMatch.YooAssetAdapter
             if (closing) throw new InvalidOperationException("Lifecycle is closing.");
             if (scope == null)
             {
-                if (!scopes.TryGetValue(sdk, out scope))
+                if (!scopes.TryGetValue(sdk, out var registeredScope))
                 {
-                    scope = new Scope { Owned = !sdk.Initialized };
-                    if (scope.Owned) sdk.Initialize();
-                    scopes.Add(sdk, scope);
+                    registeredScope = new Scope { Owned = !sdk.Initialized };
+                    if (registeredScope.Owned) sdk.Initialize();
+                    scopes.Add(sdk, registeredScope);
                 }
-                scope.Clients.Add(this);
+                registeredScope.Clients.Add(this);
+                scope = registeredScope;
             }
             if (!scope.Packages.TryGetValue(map.Package, out var package))
             {
