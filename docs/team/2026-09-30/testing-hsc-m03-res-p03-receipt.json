@@ -1,0 +1,127 @@
+{
+  "task": "HSC-M03-AND-RES-P03-NATIVE-EVIDENCE-RECEIPT",
+  "receivedUtc": "2026-10-02T21:50:22Z",
+  "testingOwner": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fe90-abc1-71c1-b0e8-80145c2575f8"
+  },
+  "executionOwner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a0fe7f-9c37-7ff3-b412-1056b42b4441"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Central's scoped native-evidence intake under the user's standing five-role workflow; no code review, validation rerun or product mutation.",
+  "verification": {
+    "mode": "READ_ONLY_EVIDENCE_INTAKE",
+    "commandChunk": "608c76",
+    "checksPassed": 93,
+    "freshChecks": "All 17 HSC and 12 RES evidence leaves match their manifests, including final anchors; exact XML case multiset and 7+11 grouping; C identity and recorded process closure; two HSC overlay source/projection/Git-blob identities; two RES Package files and PR8 publication mapping; four formal asmdefs and DLLs; preserved prior failure/review receipts; compile/domain-abort log markers.",
+    "reusedChecks": "REUSED_ENGINEERING_FULL_SOURCE_PROTECTION_CHECKS: full 1008-leaf composite, 53 package payload trees, protected/shared/sealed paths and cache inventories. Sealed after.json assertions and zero differences were checked; these large trees were not rehashed by testing.",
+    "unityStartsByTesting": 0,
+    "runnerExecutedByTesting": false,
+    "localCodeReview": false,
+    "gitMutations": 0
+  },
+  "hscNative": {
+    "verdict": "ACCEPT",
+    "scope": "Settings-first-create M03 native gate only, with the reviewed PR7 FIX01 test correction; not real Host, whole-PR-head or product acceptance.",
+    "root": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03",
+    "receipt": {
+      "bytes": 7653,
+      "sha256": "37208e18bc2523481fd57f3bf0eb50d88995f7d35e9153f4742659d547c2d21a"
+    },
+    "evidenceLeavesVerified": 17,
+    "rawTaskAlias": "HOST-SETTINGS-FIRST-CREATE-MAC-002 retained under the authorized M03 continuation; original records not renamed.",
+    "input": {
+      "kind": "COMPOSITE_NOT_A_SINGLE_HEAD",
+      "base": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+      "reviewedOverlays": [
+        "a8b9758ed2db1a43dac9328f162433a4523624c9",
+        "d7775a1134556698a6489029b20402a0ce185939",
+        "4e10b0aa1e4c691d5d4d72577959d6bf1c4a7754"
+      ],
+      "sourceLeaves": 998,
+      "naturalMetaLeaves": 10,
+      "totalLeaves": 1008,
+      "inventorySha256": "a52234af9d9da28250a107a2de14ad34fd27016db9843ec9a37789c262ebe94c"
+    },
+    "I": {"runs": 1, "pid": 49483, "exitCode": 0, "recordedElapsedSeconds": 102.322175},
+    "T": {"runs": 1, "pid": 50549, "exitCode": 0, "recordedElapsedSeconds": 47.615804},
+    "xml": {
+      "path": "T/results.xml",
+      "bytes": 14786,
+      "sha256": "10b4ba3292b366f41bef72f1d0c03c37e1227cabba1339f29306d8ebd8372fa0",
+      "total": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "newPassed": 7,
+      "regressionPassed": 11,
+      "exactNamedMultiset": true,
+      "xmlDurationSeconds": 7.4076986
+    },
+    "processClosure": "remainingOwned=[]; two recorded Unity starts; one authorized identity-rematched SIGTERM to owned I-stage VBCSCompiler PID49848, no SIGKILL. This was not a test retry.",
+    "reviewReference": {
+      "path": "docs/team/2026-09-30/testing-host-settings-first-create-fix01-pr7-review-receipt.json",
+      "bytes": 6678,
+      "sha256": "4989f98a338736dcbca5ab2ae7b9f69a03fa7c11eddcf0c3997450440242cc05",
+      "meaning": "Existing independent GitHub code-gate ACCEPT for exact FIX01 head; unchanged by this native receipt."
+    }
+  },
+  "resNative": {
+    "verdict": "ACCEPT",
+    "scope": "RES-01A/P03 stable helper-free incremental compile gate on the recorded composite only; no installation, full rebuild, runtime-resource or whole-PR-head acceptance.",
+    "root": "TestArtifacts/FightMatch/RES-01A/P03",
+    "receipt": {
+      "path": "final-verdict.json",
+      "bytes": 2316,
+      "sha256": "36b5028f50f61b6f5e1a670dcc510d0c8512a36b54045b40a62df12a6d9742ff"
+    },
+    "evidenceLeavesVerified": 12,
+    "compile": {
+      "runs": 1,
+      "pid": 50956,
+      "exitCode": 0,
+      "recordedElapsedSeconds": 18.204114,
+      "recordedStartToFinishWindowSeconds": 36.472797,
+      "timingNote": "Runner elapsed field and timestamp window have different boundaries; neither is presented as a full rebuild duration."
+    },
+    "inputMapping": "Fixed PR3+PR5+PR6 composite, 1008 source/meta/Package leaves. Two Package files match published PR8 head 1f0b7cc594d928ef37b38625add8d6519c275516. This is not a direct run of the entire PR8 head.",
+    "packageFiles": {
+      "Packages/manifest.json": {"bytes": 1913, "sha256": "741fbc8dab2f41e8acda1732a92fd5d6ca276e0f706557632d186ac070f8bc86"},
+      "Packages/packages-lock.json": {"bytes": 11812, "sha256": "c65be7a6cb4308eb311c7dde8cdc5cc7d40b15a9fa6aa8553d76937a342777e9"}
+    },
+    "recordedPackageTrees": 53,
+    "formalAssemblies": ["Unity.ScriptableBuildPipeline", "Unity.ScriptableBuildPipeline.Editor", "YooAsset", "YooAsset.Editor"],
+    "allFourDllsVerifiedAndEqualBefore": true,
+    "fullRebuildClaim": false,
+    "samplesImported": false,
+    "excludedSampleAsmdefs": 9,
+    "processClosure": "One recorded Unity start; remainingOwned=[]; no cleanup signals or SIGKILL.",
+    "logQualification": "Fresh log has no checked C# compiler/domain-load/abort markers and records successful batchmode exit. Licensing-client signature/token errors and Curl error 42 remain visible; this receipt does not claim an error-free log."
+  },
+  "preservedHistory": [
+    {"path": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M01/receipt.json", "sha256": "f799fa8ca9a369d82c9030d34db2334c871c623b05fc96287d57a4f5ca2b4d6e", "meaning": "Original-head 16/18, two failures retained."},
+    {"path": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M02/receipt.json", "sha256": "89c0b6dd52bc4ceb1d5ee539af9ab7709c1a217e0fa5285af9ac2f7efe85a1d8", "meaning": "Preflight stop for unowned compiler; no Unity/test pass inferred."},
+    {"path": "TestArtifacts/FightMatch/RES-01A/P02/final-verdict.json", "sha256": "017fa321f0a78d8ffe402e1c4bcfbbf5e1984af722f252a45df577fdaea44e2b", "meaning": "Historical CS2001 compile failure retained despite exit 0."}
+  ],
+  "pr8CodeGate": {
+    "status": "NEEDS_FIX_P2_OPEN_PENDING_NEW_HEAD_REVIEW",
+    "priorReceipt": "docs/team/2026-09-30/testing-yooasset-package-pr8-review-receipt.json",
+    "bytes": 8758,
+    "sha256": "003daf12984b0b1b8129b9c44320ecfd699e93319e7f2f4b73ee3a6965f24dca",
+    "finding": "https://github.com/yyczz1/FightMatch/pull/8#discussion_r4169995281",
+    "note": "Native ACCEPT does not close P2. Central reports authority-only fix head 4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8; its GitHub result is a separate receipt."
+  },
+  "remainingGates": [
+    "PR8 independent GitHub review of the authority-fix head",
+    "Real Host and localization integration",
+    "Resource runtime and R2",
+    "Windows parity",
+    "Android, devices and Demo acceptance",
+    "Shared-project adoption, Player build and release"
+  ]
+}

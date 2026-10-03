@@ -1,0 +1,43 @@
+{
+  "task": "RES-01A-ISOLATED-PACKAGE-INTEGRATION",
+  "verdict": "ACCEPT",
+  "scope": "Fixed YooAsset 3.0.6 and SBP 1.21.25 package candidate, provenance and stable incremental Mac compile in the recorded isolated composite.",
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/8",
+  "head": "4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8",
+  "tree": "bab52632615b6007ea5133dbd6e93b05aeaebdd8",
+  "codeReview": {
+    "receipt": "docs/team/2026-09-30/testing-yooasset-package-authority-fix-pr8-review-receipt.json",
+    "bytes": 5765,
+    "sha256": "fda68a0c134379e06a5ad17d616bc9cc34566f53a3594c27e241916df076ed98",
+    "result": "New-head review completed with no major issues. Exact missing design was added. Old P2 remains in historical receipt and unresolved GitHub UI; no formal APPROVED claimed.",
+    "url": "https://github.com/yyczz1/FightMatch/pull/8#issuecomment-5962001018"
+  },
+  "nativeReview": {
+    "receipt": "docs/team/2026-09-30/testing-hsc-m03-res-p03-receipt.json",
+    "sha256": "c0508b01e5241e49e02324268404ae9c378b0ab5dfcbc500320ab81346811ab1",
+    "result": "resNative ACCEPT",
+    "raw": "TestArtifacts/FightMatch/RES-01A/P03/final-verdict.json",
+    "rawSha256": "36b5028f50f61b6f5e1a670dcc510d0c8512a36b54045b40a62df12a6d9742ff"
+  },
+  "packageInputs": {
+    "manifestSha256": "741fbc8dab2f41e8acda1732a92fd5d6ca276e0f706557632d186ac070f8bc86",
+    "lockSha256": "c65be7a6cb4308eb311c7dde8cdc5cc7d40b15a9fa6aa8553d76937a342777e9",
+    "graphNodes": 53,
+    "old51NodesUnchanged": true,
+    "yooAssetCommit": "3b4cfb36cc2e81b9558ab74d65fee2cf2eac2804",
+    "scriptableBuildPipeline": "1.21.25",
+    "graphReceipt": "TestArtifacts/FightMatch/RES-01A/P02/resolved-package-graph.json"
+  },
+  "qualification": "P03 one clean helper-free incremental compile, not full rebuild or direct whole-PR-head validation. P01/P02 failures remain. Licensing/Curl log messages remain; no C# compiler/domain abort found. Four formal DLLs unchanged. No new installation, tests, download request or cleanup signal.",
+  "next": "May serve as fixed package/API input to the separately approved six-path RES-B adapter source packet; use the existing isolated projection/cache through C's scoped validation.",
+  "unaccepted": [
+    "Shared checkout package adoption",
+    "Windows",
+    "Android/API24/IL2CPP",
+    "runtime asset acquisition/built-in package smoke test",
+    "R2 delivery",
+    "Player/device/visual/Demo acceptance"
+  ],
+  "gitState": "Draft review branch only; no merge/master/local Git mutation."
+}

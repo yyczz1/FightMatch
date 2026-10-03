@@ -1,0 +1,107 @@
+{
+  "task": "RES-01A-PR8-AUTHORITY-FIX-GITHUB-REVIEW-RECEIPT",
+  "receivedUtc": "2026-10-02T21:54:55Z",
+  "verdict": "ACCEPT",
+  "scope": "PR8 authority-fix code-review gate only. This closes the bounded missing-design-authority P2 for the fixed head, not product integration, runtime, platform or device acceptance.",
+  "testingOwner": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fe90-abc1-71c1-b0e8-80145c2575f8"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Central's follow-up under the user's standing five-role workflow: receive the already-triggered new-head GitHub result after native intake; preserve the original P2 receipt; no duplicate trigger or local review.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/8",
+    "head": "4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8",
+    "tree": "bab52632615b6007ea5133dbd6e93b05aeaebdd8",
+    "soleParent": "1f0b7cc594d928ef37b38625add8d6519c275516",
+    "base": "d7775a1134556698a6489029b20402a0ce185939",
+    "liveState": "open",
+    "draft": true,
+    "merged": false
+  },
+  "correction": {
+    "path": "docs/team/2026-09-30/engineering-yooasset-001.md",
+    "bytes": 62080,
+    "lines": 859,
+    "sha256": "2e12b5f24ecedef03df5795c9632318c55fe6330562731892d4c9704c54740d8",
+    "gitBlob": "393d4c2bb9bba5be1def3339930c1461c95c1a69",
+    "checked": "Live GitHub commit has exactly one added file, this authority blob, and the fixed sole parent/tree. Local approved original matches bytes, lines, SHA-256 and Git blob. No package/product file changed in this correction.",
+    "publicationReceipt": {
+      "path": "docs/team/2026-09-30/yooasset-package-authority-fix-publication-receipt.json",
+      "bytes": 1530,
+      "sha256": "f115d2e2ebd0defd14e9dfdcfef2b2e39c452a25bcdda8f71ee5c1fc2b928db6"
+    },
+    "fullTreeCheck": "Reused central's 1757-blob verification, retaining all prior 1756 blobs. Testing did not repeat a full tree/content audit or substantive design/code review."
+  },
+  "independentReview": {
+    "provider": "GitHub PR Code Review / chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5961964903,
+      "url": "https://github.com/yyczz1/FightMatch/pull/8#issuecomment-5961964903",
+      "createdUtc": "2026-10-02T21:44:44Z",
+      "meaning": "Central requested the exact new head and reassessment of r4169995281 once."
+    },
+    "summary": {
+      "id": 5961734989,
+      "url": "https://github.com/yyczz1/FightMatch/pull/8#issuecomment-5961734989",
+      "status": "Completed",
+      "completedUtc": "2026-10-02T21:47:36.083902Z",
+      "updatedUtc": "2026-10-02T21:47:36Z",
+      "commitShown": "4d81378"
+    },
+    "result": {
+      "id": 5962001018,
+      "url": "https://github.com/yyczz1/FightMatch/pull/8#issuecomment-5962001018",
+      "createdUtc": "2026-10-02T21:47:34Z",
+      "updatedUtc": "2026-10-02T21:47:34Z",
+      "rawConclusion": "Codex Review: Didn't find any major issues. What shall we delve into next?",
+      "reviewedCommitShown": "4d81378556"
+    },
+    "headBinding": "Result and completion-summary prefixes match the requested full head, current live PR head, and live commit/tree/parent identity. The service comment does not expose a full-SHA formal review submission for this new head.",
+    "newFindingsObserved": 0,
+    "formalReviewState": "Only the historical COMMENTED review remains; no new APPROVED review exists or is claimed.",
+    "interpretation": "Completed independent service result plus verified exact authority restoration closes this bounded code gate. The raw no-major-issues wording is preserved; it is not proof that every severity or all product behavior is defect-free."
+  },
+  "historicalP2": {
+    "reviewId": 5397037703,
+    "findingId": 4169995281,
+    "url": "https://github.com/yyczz1/FightMatch/pull/8#discussion_r4169995281",
+    "title": "Include the declared package-design authority",
+    "oldReviewedHead": "1f0b7cc594d928ef37b38625add8d6519c275516",
+    "disposition": "Addressed by the exact authority addition, followed by completed new-head GitHub review with no new finding.",
+    "githubThread": "PRRT_kwDOTDyjrM6of25I",
+    "githubThreadIsResolved": false,
+    "githubThreadIsOutdated": false,
+    "threadMutation": "None. Local gate closure is not a claim that GitHub marked this historical discussion resolved.",
+    "preservedReceipt": {
+      "path": "docs/team/2026-09-30/testing-yooasset-package-pr8-review-receipt.json",
+      "bytes": 8758,
+      "sha256": "003daf12984b0b1b8129b9c44320ecfd699e93319e7f2f4b73ee3a6965f24dca",
+      "verdictAtOldHead": "NEEDS_FIX"
+    }
+  },
+  "nativeEvidenceReuse": {
+    "receipt": "docs/team/2026-09-30/testing-hsc-m03-res-p03-receipt.json",
+    "bytes": 7258,
+    "sha256": "c0508b01e5241e49e02324268404ae9c378b0ab5dfcbc500320ab81346811ab1",
+    "resNativeGate": "ACCEPT",
+    "meaning": "RES/P03 single helper-free incremental compile on its fixed composite; four DLL hashes equal before. Not a full rebuild or entire PR8-head test. Authority-only fix changes no native input, so no rerun was required.",
+    "hscIndependence": "HSC/M03 settings-first-create 18/18 ACCEPT remains separate; PR7 receipts unchanged."
+  },
+  "testingActions": {
+    "newReviewTriggers": 0,
+    "localOrDuplicateReviews": 0,
+    "validationReruns": 0,
+    "gitWrites": 0,
+    "githubCommentsOrReviewThreadWrites": 0,
+    "filesWritten": ["docs/team/2026-09-30/testing-yooasset-package-authority-fix-pr8-review-receipt.json"]
+  },
+  "remaining": [
+    "Shared-project adoption and integration",
+    "Real Host and localization runtime",
+    "Resource runtime/R2",
+    "Windows and Android validation",
+    "Device, Demo, Player-build and release acceptance"
+  ]
+}
