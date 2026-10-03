@@ -280,7 +280,9 @@ namespace FightMatch.AssetAccess.Tests
                 var diagnostic = stage == ResourceTransportStage.FailedRetryable ? Diagnostic(ResourceRuntimeDiagnosticCode.Network, true) :
                     stage == ResourceTransportStage.FailedTerminal ? Diagnostic() : null;
                 var completed = stage == ResourceTransportStage.TransportVerified;
-                var progress = new ResourceProgress(inspection, Operation, completed ? 10 : 0, completed ? 2 : 0,
+                var progress = new ResourceProgress(
+                    stage == ResourceTransportStage.ReadyFromCache ? Inspect(bytes: 0, files: 0) : inspection,
+                    Operation, completed ? 10 : 0, completed ? 2 : 0,
                     ResourceNetworkKind.Mobile, stage, diagnostic);
                 Assert.AreEqual(stage == ResourceTransportStage.ConsentRequired, progress.ConsentRequired);
                 Assert.AreEqual(diagnostic != null && diagnostic.Retryable, progress.Retryable);
@@ -389,6 +391,31 @@ namespace FightMatch.AssetAccess.Tests
             Assert.IsFalse(Enum.GetNames(typeof(ResourceTransportStatus)).Any(n => n == "Prepared" || n == "BusinessReady"));
             Assert.IsFalse(typeof(ResourceTransportResult).GetProperties().Any(p => p.Name == "Assets" || p.Name == "ReleaseSetId"));
             // Constructed Cancelled values do not execute a downloader or prove that its requests stopped.
+        }
+
+        [Test]
+        public void C11_ProgressStageRequiresConsistentRemainingWork()
+        {
+            var cached = new ResourceProgress(Inspect(bytes: 0, files: 0), Operation, 0, 0,
+                ResourceNetworkKind.Offline, ResourceTransportStage.ReadyFromCache, null);
+            Assert.AreEqual(ResourceTransportStage.ReadyFromCache, cached.Stage);
+            Assert.AreEqual(0, cached.RemainingBytes);
+            Assert.AreEqual(0, cached.RemainingFiles);
+            Assert.IsFalse(cached.ConsentRequired);
+
+            var inspection = Inspect(bytes: 10, files: 2, network: ResourceNetworkKind.Mobile);
+            var consent = new ResourceProgress(inspection, Operation, 9, 1,
+                ResourceNetworkKind.Mobile, ResourceTransportStage.ConsentRequired, null);
+            Assert.AreEqual(ResourceTransportStage.ConsentRequired, consent.Stage);
+            Assert.AreEqual(1, consent.RemainingBytes);
+            Assert.AreEqual(1, consent.RemainingFiles);
+            Assert.IsTrue(consent.ConsentRequired);
+
+            foreach (var completed in new[] { new long[] { 0, 0 }, new long[] { 5, 1 }, new long[] { 10, 2 } })
+                Invalid(() => new ResourceProgress(inspection, Operation, completed[0], (int)completed[1],
+                    ResourceNetworkKind.Mobile, ResourceTransportStage.ReadyFromCache, null));
+            Invalid(() => new ResourceProgress(inspection, Operation, 10, 2,
+                ResourceNetworkKind.Mobile, ResourceTransportStage.ConsentRequired, null));
         }
     }
 }

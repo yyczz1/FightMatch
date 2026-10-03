@@ -230,8 +230,12 @@ namespace FightMatch.AssetAccess
             if (completedFiles > completedBytes || remainingFiles > remainingBytes ||
                 (remainingBytes == 0) != (remainingFiles == 0))
                 throw new ArgumentException("Progress byte and file counts must agree.", nameof(completedFiles));
+            if (stage == ResourceTransportStage.ReadyFromCache &&
+                (inspection.RemainingBytes != 0 || inspection.RemainingFiles != 0))
+                throw new ArgumentException("Cache readiness requires zero initial work.", nameof(stage));
             if (stage == ResourceTransportStage.ConsentRequired &&
-                (!inspection.RequiresNetwork || networkKind != ResourceNetworkKind.Mobile))
+                (!inspection.RequiresNetwork || networkKind != ResourceNetworkKind.Mobile ||
+                    remainingBytes <= 0 || remainingFiles <= 0))
                 throw new ArgumentException("Mobile network work is required for consent.", nameof(stage));
             var failed = stage == ResourceTransportStage.FailedRetryable || stage == ResourceTransportStage.FailedTerminal;
             if (failed != (diagnostic != null) ||
