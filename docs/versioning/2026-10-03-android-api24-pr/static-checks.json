@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "packet": "ANDROID-API24-PR1-SOURCE-FIX03",
+  "runs": [
+    {
+      "command": "python3 -B TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX03/S/verify.py",
+      "started_utc": "2026-10-03T09:33:30.874201+00:00",
+      "checks": [
+        {
+          "check": "stage_and_before_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "owner_issuer_and_reviewed_head",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fix01_amendment_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fix02_amendment_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fix03_amendment_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_blocked_attempt_count",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_stage_exact_six_leaf_identity:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_single_failure_record:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_stage_exact_six_leaf_identity:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX01/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_single_failure_record:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX01/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_stage_exact_six_leaf_identity:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX02/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_single_failure_record:TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX02/S",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "six_raw_output_exact_allowlist",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "eight_leaf_exact_scope",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "raw_outputs_match_completed_runs",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "no_stage_symlinks",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed_input_count",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:docs/team/2026-09-30/engineering-android-api24-pr1-source-001.md",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:/private/tmp/fm-api24-reviewed-build.cs",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:ProjectSettings/ProjectSettings.asset",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:docs/team/2026-09-30/engineering-android-api24-001.md",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fixed:docs/team/2026-09-30/engineering-android-api24-source-readiness-001.md",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "PR1_raw_and_blob_hashes",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "frozen_build_source_is_not_shared_WIP",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "anchor_uniqueness",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "exact_four_approved_transformations",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "candidate_file_limits",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "API24_predicate_target32_preserved",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "one_report_integer_read_and_record_field",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "shared_QA_normal_gate_call_counts",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "memory_counterexample_missing_P_rejected",
+          "passed": true,
+          "detail": {
+            "candidate_rejected": true,
+            "disk_written": false
+          }
+        },
+        {
+          "check": "memory_counterexample_missing_B_predicate_rejected",
+          "passed": true,
+          "detail": {
+            "candidate_rejected": true,
+            "disk_written": false
+          }
+        },
+        {
+          "check": "memory_counterexample_wrong_target_rejected",
+          "passed": true,
+          "detail": {
+            "candidate_rejected": true,
+            "disk_written": false
+          }
+        },
+        {
+          "check": "canonical_patch_hash_and_exact_paths",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "patch_replay_from_PR1_bytes",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "diff_and_byte_budgets",
+          "passed": true,
+          "detail": {
+            "added_lines": 4,
+            "removed_lines": 3,
+            "build_net_bytes": 105
+          }
+        },
+        {
+          "check": "UTF8_LF_and_no_added_trailing_whitespace",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "stage_budget",
+          "passed": true,
+          "detail": 149170
+        },
+        {
+          "check": "duration_under_30_seconds",
+          "passed": true,
+          "detail": null
+        }
+      ],
+      "exception": null,
+      "duration_seconds": 0.011674374982248992,
+      "exit_code": 0,
+      "verifier": {
+        "bytes": 15316,
+        "sha256": "0c776d8e293954efdd08b8d167825e58a130f4232fbd9a99daf13beb5b8b86c7"
+      },
+      "run_number": 1,
+      "process_started_utc": "2026-10-03T09:33:30.852616+00:00",
+      "ended_utc": "2026-10-03T09:33:30.888111+00:00",
+      "process_duration_seconds": 0.035297041991725564,
+      "before": {
+        "bytes": 23449,
+        "sha256": "687e89bf4215a6a1d499d9f388e02116dff462f274fbd595eb7376ba83bba45a"
+      },
+      "baseline_verifier": {
+        "bytes": 14444,
+        "sha256": "732e034b3a457bbf8292309f622a2671229e591c2a768dc94834c347d6f7f196"
+      },
+      "verifier_unified_diff": "--- FIX02/S/verify.py\n+++ FIX03/S/verify.py\n@@ -6,7 +6,7 @@\n \n ROOT=Path(__file__).resolve().parent\n REPO=ROOT.parents[5]\n-BEFORE_SHA=\"a34cc2463e3aa4a23423ab58ba09821e8eb7338062342b7b27451197ecb87ae7\"\n+BEFORE_SHA=\"687e89bf4215a6a1d499d9f388e02116dff462f274fbd595eb7376ba83bba45a\"\n PATCH_SHA=\"3a21f1c73d9d186535d5dbfcb1d21afc6409efb2669b716f642afedac6db9422\"\n PR1_HEAD=\"3541930877837e14b58020b910976b8b67b56e42\"\n BUILD_PATH=\"Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs\"\n@@ -24,11 +24,13 @@\n NEW_RECORD=b\"            public int errors, warnings, minSdk;\"\n TARGET=b\"(int)PlayerSettings.Android.targetSdkVersion == 32\"\n history_path=ROOT/\"static-checks.json\"\n-history=json.loads(history_path.read_text()) if history_path.exists() else {\"schema_version\":1,\"packet\":\"ANDROID-API24-PR1-SOURCE-FIX02\",\"runs\":[]}\n-if len(history[\"runs\"])>=1 or (ROOT/\"after.json\").exists() or (ROOT/\"source-receipt.json\").exists():\n-    raise SystemExit(\"The single verifier run is already used or the stage is sealed.\")\n+history=json.loads(history_path.read_text()) if history_path.exists() else {\"schema_version\":1,\"packet\":\"ANDROID-API24-PR1-SOURCE-FIX03\",\"runs\":[]}\n+if len(history[\"runs\"])>=3 or (history[\"runs\"] and history[\"runs\"][-1][\"exit_code\"]==0) or (ROOT/\"after.json\").exists() or (ROOT/\"source-receipt.json\").exists():\n+    raise SystemExit(\"The three-run window is exhausted, already passed, or sealed.\")\n+if history[\"runs\"] and history[\"runs\"][-1][\"verifier\"][\"sha256\"]==hashlib.sha256(Path(__file__).read_bytes()).hexdigest():\n+    raise SystemExit(\"An unchanged verifier cannot be retried.\")\n started=time.monotonic()\n-run={\"command\":\"python3 -B TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX02/S/verify.py\",\n+run={\"command\":\"python3 -B TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX03/S/verify.py\",\n      \"started_utc\":datetime.now(timezone.utc).isoformat(),\"checks\":[],\"exception\":None}\n def timeout(signum,frame):raise TimeoutError(\"30-second verifier limit\")\n signal.signal(signal.SIGALRM,timeout);signal.alarm(30)\n@@ -61,7 +63,7 @@\n         difflib.unified_diff(old_text.splitlines(True),new_text.splitlines(True),\n             fromfile=\"a/\"+logical,tofile=\"b/\"+logical,n=3))\n def replay(old,patch):\n-    lines=patch.splitlines(True);i=3;source=old.splitlines(True);out=[];cursor=0\n+    lines=patch.splitlines(True);i=3;source=old.decode(\"utf-8\").splitlines(True);out=[];cursor=0\n     while i<len(lines):\n         import re\n         m=re.fullmatch(r\"@@ -(\\d+)(?:,(\\d+))? \\+(\\d+)(?:,(\\d+))? @@\\n\",lines[i])\n@@ -86,13 +88,13 @@\n try:\n     before=json.loads((ROOT/\"before.json\").read_text())\n     check(\"stage_and_before_identity\",ROOT.resolve()==REPO/before[\"stage\"] and identity(ROOT/\"before.json\")[\"sha256\"]==BEFORE_SHA)\n-    check(\"owner_issuer_and_reviewed_head\",before[\"owner\"][\"turn\"]==\"01a1010c-0c86-7ef0-958b-4e92241afef2\" and\n-          before[\"issuer\"][\"turn\"]==\"01a10109-573d-7073-808f-57f3236cab41\" and before[\"pr1\"][\"reviewed_head\"]==PR1_HEAD)\n-    for key in (\"fix01_amendment\",\"fix02_amendment\"):\n+    check(\"owner_issuer_and_reviewed_head\",before[\"owner\"][\"turn\"]==\"01a10118-41f7-78f0-acec-44a78ccdcf01\" and\n+          before[\"issuer\"][\"turn\"]==\"01a10115-5347-7142-a94f-a6664a491530\" and before[\"pr1\"][\"reviewed_head\"]==PR1_HEAD)\n+    for key in (\"fix01_amendment\",\"fix02_amendment\",\"fix03_amendment\"):\n         amendment=before[\"authority\"][key]\n         amendment_path=REPO/amendment[\"path\"]\n         check(key+\"_identity\",identity(amendment_path)=={\"bytes\":amendment[\"bytes\"],\"sha256\":amendment[\"sha256\"]})\n-    check(\"prior_blocked_attempt_count\",len(before[\"prior_blocked_attempts\"])==2)\n+    check(\"prior_blocked_attempt_count\",len(before[\"prior_blocked_attempts\"])==3)\n     for prior in before[\"prior_blocked_attempts\"]:\n         old_root=REPO/prior[\"stage\"]\n         old_leaves={p.relative_to(old_root).as_posix() for p in old_root.rglob(\"*\") if p.is_file()}\n@@ -107,7 +109,12 @@\n               not (old_root/\"after.json\").exists() and not (old_root/\"source-receipt.json\").exists())\n     leaves={p.relative_to(ROOT).as_posix() for p in ROOT.rglob(\"*\") if p.is_file()}\n     required=set(before[\"allowed_leaves\"])-{\"after.json\",\"static-checks.json\",\"source-receipt.json\"}\n-    check(\"eight_leaf_exact_scope\",len(before[\"allowed_leaves\"])==8 and required<=leaves<=set(before[\"allowed_leaves\"]))\n+    raw_allowed={f\"runs/{i:02d}.{stream}.log\" for i in range(1,4) for stream in (\"stdout\",\"stderr\")}\n+    check(\"six_raw_output_exact_allowlist\",len(before[\"allowed_raw_output_leaves\"])==6 and set(before[\"allowed_raw_output_leaves\"])==raw_allowed)\n+    check(\"eight_leaf_exact_scope\",len(before[\"allowed_leaves\"])==8 and required<=leaves<=set(before[\"allowed_leaves\"])|raw_allowed)\n+    raw_previous={f\"runs/{i:02d}.{stream}.log\" for i in range(1,len(history[\"runs\"])+1) for stream in (\"stdout\",\"stderr\")}\n+    check(\"raw_outputs_match_completed_runs\",leaves&raw_allowed==raw_previous and\n+          all(identity(ROOT/name)==record for previous in history[\"runs\"] for name,record in previous[\"raw_outputs\"].items()))\n     check(\"no_stage_symlinks\",not any(p.is_symlink() for p in ROOT.rglob(\"*\")))\n     check(\"fixed_input_count\",len(before[\"fixed_inputs\"])==6)\n     observed={}\n",
+      "raw_outputs": {
+        "runs/01.stdout.log": {
+          "bytes": 7622,
+          "sha256": "310167b325d58c67813dbdd0bdd15348f149c97983ca8917c1549dfc2b9116ba"
+        },
+        "runs/01.stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "capture": {
+        "argv": [
+          "python3",
+          "-B",
+          "TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX03/S/verify.py"
+        ],
+        "process_exit_code": 0,
+        "timed_out": false
+      }
+    }
+  ],
+  "status": "PASS",
+  "preparation": {
+    "copies": {
+      "source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+        "bytes": 84070,
+        "sha256": "150b37b038c365534db3035e185b3d0b23135828f72e2aca216d7ccb19133de3",
+        "physical_lines": 1050,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      },
+      "source/ProjectSettings/ProjectSettings.asset": {
+        "bytes": 23595,
+        "sha256": "dfe02f2b7ffd9c5f5880e39d7bb35e1916515529e3292b1979f9715da51a2a72",
+        "physical_lines": 860,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      },
+      "source.patch": {
+        "bytes": 2740,
+        "sha256": "3a21f1c73d9d186535d5dbfcb1d21afc6409efb2669b716f642afedac6db9422",
+        "physical_lines": 41,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      }
+    },
+    "before": {
+      "bytes": 23449,
+      "sha256": "687e89bf4215a6a1d499d9f388e02116dff462f274fbd595eb7376ba83bba45a"
+    }
+  },
+  "window": {
+    "maximum_runs": 3,
+    "used_runs": 1,
+    "ended_on_first_success": true
+  }
+}

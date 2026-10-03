@@ -759,7 +759,7 @@ namespace FightMatch.Host.Editor
             Require(PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android) == ScriptingImplementation.IL2CPP &&
                 PlayerSettings.Android.targetArchitectures == AndroidArchitecture.ARM64, "IL2CPP/ARM64");
             Require(PlayerSettings.GetManagedStrippingLevel(BuildTargetGroup.Android) == ManagedStrippingLevel.Minimal, "Minimal stripping");
-            Require((int)PlayerSettings.Android.minSdkVersion == 22 && (int)PlayerSettings.Android.targetSdkVersion == 32 &&
+            Require(PlayerSettings.Android.minSdkVersion == AndroidSdkVersions.AndroidApiLevel24 && (int)PlayerSettings.Android.targetSdkVersion == 32 &&
                 PlayerSettings.Android.bundleVersionCode == 1 && PlayerSettings.bundleVersion == "0.1", "Version/SDK");
             Require(!EditorUserBuildSettings.buildAppBundle && !PlayerSettings.Android.useAPKExpansionFiles, "Single APK required");
             Require(EditorUserBuildSettings.androidCreateSymbols == AndroidCreateSymbols.Disabled, "No separate symbols package");
@@ -950,6 +950,7 @@ namespace FightMatch.Host.Editor
                 backend = PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android).ToString(),
                 architecture = PlayerSettings.Android.targetArchitectures.ToString(),
                 stripping = PlayerSettings.GetManagedStrippingLevel(BuildTargetGroup.Android).ToString(),
+                minSdk = (int)PlayerSettings.Android.minSdkVersion,
                 files = report.GetFiles().Select(x => x.role + "|" + x.path + "|" + x.size).ToArray() }, true));
         }
         [Serializable] private sealed class ResourceResult
@@ -968,7 +969,7 @@ namespace FightMatch.Host.Editor
         [Serializable] private sealed class BuildResultRecord
         {
             public string stage, result, output, target, options, startedUtc, endedUtc, sha256, package, backend, architecture, stripping;
-            public int errors, warnings;
+            public int errors, warnings, minSdk;
             public long bytes;
             public string[] files;
         }
