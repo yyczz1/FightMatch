@@ -41,6 +41,8 @@ namespace FightMatch.AssetAccess
         }
 
 
+        internal ResourcePlanProjection PlanProjection { get; }
+
         public int SchemaVersion { get; }
         public string ReleaseSetId { get; }
         public string BusinessReleaseSetId { get; }
@@ -57,6 +59,7 @@ namespace FightMatch.AssetAccess
             BusinessReleaseSetId = Text(Object(descriptor["businessContent"])["businessReleaseSetId"]);
             Platform = Text(resources["platform"]);
             DescriptorSha256 = Text(root["descriptorSha256"]);
+            PlanProjection = new ResourcePlanProjection(root);
             foreach (var node in (Items)Object(root["mapping"])["entries"])
             {
                 var entry = Object(node);
@@ -699,6 +702,110 @@ namespace FightMatch.AssetAccess
                 return result;
             }
         }
+    }
+
+    // Values are copied only from the root already accepted by Validate.
+    internal sealed class ResourcePlanProjection
+    {
+        internal int SchemaVersion { get; }
+        internal string ReleaseSetId { get; }
+        internal string BusinessReleaseSetId { get; }
+        internal string Platform { get; }
+        internal string DescriptorSha256 { get; }
+        internal string AppBuildIdentity { get; }
+        internal int BaseProtocolVersion { get; }
+        internal IReadOnlyList<string> RequiredCapabilities { get; }
+        internal string PackageName { get; }
+        internal string YooAssetPackageVersion { get; }
+        internal string YooManifestPackageVersion { get; }
+        internal ResourcePlanFile Manifest { get; }
+        internal IReadOnlyList<ResourcePlanFile> PhysicalFiles { get; }
+        internal IReadOnlyList<ResourcePlanMapping> Mappings { get; }
+        internal IReadOnlyList<ResourcePlanScopeHash> RequiredScopeHashes { get; }
+
+        internal ResourcePlanProjection(Map root)
+        {
+            var descriptor = (Map)root["descriptor"];
+            var resources = (Map)descriptor["resources"];
+            var code = (Map)descriptor["codeCompatibility"];
+            SchemaVersion = (int)(long)root["schemaVersion"];
+            ReleaseSetId = (string)descriptor["releaseSetId"];
+            BusinessReleaseSetId = (string)((Map)descriptor["businessContent"])["businessReleaseSetId"];
+            Platform = (string)resources["platform"];
+            DescriptorSha256 = (string)root["descriptorSha256"];
+            AppBuildIdentity = (string)code["appBuildIdentity"];
+            BaseProtocolVersion = (int)(long)code["baseProtocolVersion"];
+            RequiredCapabilities = Strings((Items)code["requiredCapabilities"]);
+            PackageName = (string)resources["packageName"];
+            YooAssetPackageVersion = (string)resources["yooAssetPackageVersion"];
+            YooManifestPackageVersion = (string)resources["yooManifestPackageVersion"];
+            var physical = (Items)root["physicalFiles"];
+            var files = new ResourcePlanFile[physical.Count];
+            for (var i = 0; i < files.Length; i++)
+            {
+                files[i] = new ResourcePlanFile((Map)physical[i]);
+                if (files[i].Name == (string)resources["manifestName"]) Manifest = files[i];
+            }
+            PhysicalFiles = System.Array.AsReadOnly(files);
+            var entries = (Items)((Map)root["mapping"])["entries"];
+            var mappings = new ResourcePlanMapping[entries.Count];
+            for (var i = 0; i < mappings.Length; i++) mappings[i] = new ResourcePlanMapping((Map)entries[i]);
+            Mappings = System.Array.AsReadOnly(mappings);
+            var scopes = (Items)resources["requiredScopeHashes"];
+            var hashes = new ResourcePlanScopeHash[scopes.Count];
+            for (var i = 0; i < hashes.Length; i++) hashes[i] = new ResourcePlanScopeHash((Map)scopes[i]);
+            RequiredScopeHashes = System.Array.AsReadOnly(hashes);
+        }
+
+        internal static IReadOnlyList<string> Strings(Items items)
+        {
+            var values = new string[items.Count];
+            for (var i = 0; i < values.Length; i++) values[i] = (string)items[i];
+            return System.Array.AsReadOnly(values);
+        }
+    }
+
+    internal sealed class ResourcePlanFile
+    {
+        internal string Name { get; }
+        internal string Kind { get; }
+        internal long Length { get; }
+        internal string Sha256 { get; }
+        internal ResourcePlanFile(Map file)
+        {
+            Name = (string)file["name"]; Kind = (string)file["kind"];
+            Length = (long)file["length"]; Sha256 = (string)file["sha256"];
+        }
+    }
+
+    internal sealed class ResourcePlanMapping
+    {
+        internal string AssetId { get; }
+        internal long ContentLength { get; }
+        internal string ContentSha256 { get; }
+        internal IReadOnlyList<string> Files { get; }
+        internal string Kind { get; }
+        internal string Location { get; }
+        internal string PackageName { get; }
+        internal string Platform { get; }
+        internal string ReleaseSetId { get; }
+        internal string ScopeId { get; }
+        internal string UnityType { get; }
+        internal ResourcePlanMapping(Map entry)
+        {
+            AssetId = (string)entry["assetId"]; ContentLength = (long)entry["contentLength"];
+            ContentSha256 = (string)entry["contentSha256"]; Files = ResourcePlanProjection.Strings((Items)entry["files"]);
+            Kind = (string)entry["kind"]; Location = (string)entry["location"]; PackageName = (string)entry["packageName"];
+            Platform = (string)entry["platform"]; ReleaseSetId = (string)entry["releaseSetId"];
+            ScopeId = (string)entry["scopeId"]; UnityType = (string)entry["unityType"];
+        }
+    }
+
+    internal sealed class ResourcePlanScopeHash
+    {
+        internal string ScopeId { get; }
+        internal string Sha256 { get; }
+        internal ResourcePlanScopeHash(Map scope) { ScopeId = (string)scope["scopeId"]; Sha256 = (string)scope["sha256"]; }
     }
 
     internal sealed class RawEntry
