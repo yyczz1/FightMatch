@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "packet": "RES-FACTORY-ADMISSION-001",
+  "stage": "TestArtifacts/FightMatch/RES-FACTORY-ADMISSION-001/S",
+  "statuses": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a1009a-b05c-7f20-9494-28eeab05ba25"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a1008f-9532-7252-a305-5fe7b6b9cb07"
+  },
+  "sole_completion_receiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+  "authority": {
+    "user": "AGENTS section 6 standing five-role workflow",
+    "central_thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "central_turn": "01a0fd75-6e53-7b81-a7ce-9010190ae130",
+    "engineering_countersign": "01a1008b",
+    "activation": "Issuer explicitly activates parameterized internal admission only; historical PREPARED text retained."
+  },
+  "model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh",
+    "note": "Dispatch policy, not measured."
+  },
+  "product_slots": {
+    "APP_PROTOCOL_AND_CAPABILITIES": "BLOCKED",
+    "OBJECT_TYPE_ALLOWLIST": "BLOCKED",
+    "DELIVERY_BUDGET_PROFILE": "BLOCKED",
+    "BUILD_RECEIPT": "BLOCKED",
+    "PLAYER_BOOT_PIN": "BLOCKED",
+    "EXPECTED_SET_PLATFORM": "BLOCKED"
+  },
+  "product_authority": "Parameterized admission only. No production protocol/capability constants, object allowlist, delivery mode/host/budget defaults, accepted build receipt, Player boot pin or expected set/platform were supplied or inferred. Matching fixture pins prove consistency, not production authorization.",
+  "fixed_inputs": {
+    "docs/team/2026-09-30/engineering-res-factory-admission-source-001.md": {
+      "bytes": 8952,
+      "physical_lines": 22,
+      "sha256": "472b0671f954032a8b295ff1ed0b6dce23df31e82d6a19cac3e315c161a41a9f"
+    },
+    "TestArtifacts/FightMatch/RES-C-CONTRACT-001/FIX01/S/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+      "bytes": 16774,
+      "physical_lines": 328,
+      "sha256": "4ef8e56e70a19f7df81105fa46b3b1d334f39ce956610285845f1c594ec0520b"
+    },
+    "TestArtifacts/FightMatch/RES-C-CONTRACT-001/FIX01/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+      "bytes": 28399,
+      "physical_lines": 421,
+      "sha256": "4fe6bb1ed6e2c5bc0d62685b807de42db9a38e2069d07547abbd27502503e13b"
+    },
+    "TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "bytes": 19671,
+      "physical_lines": 375,
+      "sha256": "c6d180600f68d2a889c1681198be921f15211b38663d59b68e672ba303d34e58"
+    },
+    "TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "bytes": 27260,
+      "physical_lines": 590,
+      "sha256": "53bf0a2b71397f4ec6854777dfa8de9eb1c23b1a84da0f548e9550ac82b785bc"
+    },
+    "TestArtifacts/FightMatch/RES-D-RAW-001/FIX01/S/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "bytes": 38720,
+      "physical_lines": 832,
+      "sha256": "25129b814768e39fc359a8d374cf52b735b4aac37fb269521669f3a097d9fe7a"
+    },
+    "TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "bytes": 54240,
+      "physical_lines": 646,
+      "sha256": "9a230b09c207198df414411a26be8c91eff53ef3d89f0f311aab6e692fb5c76b"
+    },
+    "docs/team/2026-09-30/engineering-resource-runtime-bridge-cd-001.md": {
+      "bytes": 20364,
+      "physical_lines": 85,
+      "sha256": "ea3fc6efecd6ea118675cfcf96499cb5c3192bb6af2371d7ca9637cb7bdf9378"
+    },
+    "docs/team/2026-09-30/engineering-runtime-localization-integration-001.md": {
+      "bytes": 7843,
+      "physical_lines": 55,
+      "sha256": "8c0e793f52d8fce9aa39f2e281507e3408613484f8d09d6938cc48a1502ce56a"
+    }
+  },
+  "shared_guards": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "type": "ABSENT"
+    },
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs.meta": {
+      "type": "ABSENT"
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs": {
+      "type": "ABSENT"
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs.meta": {
+      "type": "ABSENT"
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "type": "ABSENT"
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs.meta": {
+      "type": "ABSENT"
+    },
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef": {
+      "type": "ABSENT"
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef": {
+      "type": "ABSENT"
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef": {
+      "type": "ABSENT"
+    }
+  },
+  "leaf_inventory": {
+    "after.json": {
+      "bytes": 6340,
+      "sha256": "9cee4fb81e6039bdf5b1e9587906804c84cd5f236a74f9e5ebb120db8461986a"
+    },
+    "before.json": {
+      "bytes": 7019,
+      "sha256": "f7bad1fccfc2951be87af9dd3424856b7203eea1d47238cca82296727e8e2a54"
+    },
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "bytes": 43990,
+      "sha256": "64fa2538ad84fbcbf68871cbe0d0df8f647bb667c575893bec1ec7f1edb180ca"
+    },
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs": {
+      "bytes": 14380,
+      "sha256": "4e2683c1cfea846589f885c78309c3ce6ae2d89b187a040af5316ee5587daf68"
+    },
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "bytes": 78064,
+      "sha256": "9431e5d173f4f914260d380d008e329cce15b226859fdb6aecfa1b551bb9d5ca"
+    },
+    "source.patch": {
+      "bytes": 45933,
+      "sha256": "2e5a6729fe5ac4c80ce4a6472a8ee746bd818cb58e266e7c0e59be841dd42bc8"
+    },
+    "static-checks.json": {
+      "bytes": 11368,
+      "sha256": "73fce9ff864c76b679bc6ff4088bebe8a6045490c391373ddc33a20f849498db"
+    },
+    "verify.py": {
+      "bytes": 15582,
+      "sha256": "c5ef438acbfab3a84b8444eaae1d59127d744b9d4c8c92f646503a6910d202df"
+    },
+    "source-receipt.json": {
+      "bytes": 18827,
+      "sha256_binding": "Final read-only seal inventory and single completion event bind this receipt; no self-referential digest."
+    }
+  },
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "bytes": 43990,
+      "physical_lines": 939,
+      "sha256": "64fa2538ad84fbcbf68871cbe0d0df8f647bb667c575893bec1ec7f1edb180ca",
+      "base_bytes": 38720,
+      "base_lines": 832,
+      "added_bytes": 5270,
+      "added_lines": 107
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs": {
+      "bytes": 14380,
+      "physical_lines": 246,
+      "sha256": "4e2683c1cfea846589f885c78309c3ce6ae2d89b187a040af5316ee5587daf68",
+      "base_bytes": 0,
+      "base_lines": 0,
+      "added_bytes": 14380,
+      "added_lines": 246
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "bytes": 78064,
+      "physical_lines": 892,
+      "sha256": "9431e5d173f4f914260d380d008e329cce15b226859fdb6aecfa1b551bb9d5ca",
+      "base_bytes": 54240,
+      "base_lines": 646,
+      "added_bytes": 23824,
+      "added_lines": 246
+    }
+  },
+  "patch": {
+    "bytes": 45933,
+    "physical_lines": 637,
+    "sha256": "2e5a6729fe5ac4c80ce4a6472a8ee746bd818cb58e266e7c0e59be841dd42bc8"
+  },
+  "budgets": {
+    "per_file_and_increment_limits": {
+      "release_set": {
+        "lines": 1050,
+        "bytes": 65536,
+        "added_lines": 218,
+        "added_bytes": 26816
+      },
+      "factory": {
+        "lines": 300,
+        "bytes": 24576
+      },
+      "tests": {
+        "lines": 900,
+        "bytes": 81920,
+        "added_lines": 254,
+        "added_bytes": 27680
+      },
+      "production_increment": {
+        "lines": 518,
+        "bytes": 51392
+      },
+      "cumulative_authorized_with_AS": {
+        "production_lines": 2965,
+        "test_lines": 2175
+      },
+      "stage_bytes": 1048576,
+      "verification_runs": 2,
+      "verification_seconds": 30
+    },
+    "baselines": {
+      "production_lines": 1797,
+      "test_lines": 1371,
+      "AS_actual_production_lines": 404,
+      "AS_actual_test_lines": 484,
+      "AS_allocated_production_lines": 650,
+      "AS_allocated_test_lines": 550
+    },
+    "actual": {
+      "production_increment_lines": 353,
+      "production_increment_bytes": 19650,
+      "test_increment_lines": 246,
+      "test_increment_bytes": 23824,
+      "actual_with_AS_production_lines": 2554,
+      "actual_with_AS_test_lines": 2101,
+      "authorized_with_AS_production_lines": 2965,
+      "authorized_with_AS_test_lines": 2175
+    },
+    "pre_receipt_stage_bytes": 222676,
+    "final_stage_bytes": 241503
+  },
+  "prior_AS": {
+    "author_turn": "01a10068-4b35-7750-b306-2043eecfa2fa",
+    "engineering_receipt": "528ada / 2026-10-03T07:10:54.225672Z",
+    "production_lines": 404,
+    "test_lines": 484,
+    "status": "Preserved; no writes or new AS verification in this turn. Counts are the issuer-bound sealed baseline."
+  },
+  "change_inventory": [
+    {
+      "path": "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+      "kind": "MODIFY_STAGED_CANDIDATE",
+      "summary": "Add the internal immutable ResourcePlanProjection and get-only PlanProjection, populated once from the same validated root. Copy all required identity, compatibility, package/manifest, physical-file, mapping and scope values into read-only DTOs. Original codec/public/RawEntry/RawBytes bytes restore exactly after removal of the three authorized additions."
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs",
+      "kind": "NEW_STAGED_CANDIDATE",
+      "summary": "Internal static TryAdmit with bounded policy snapshots, original pinned codec, exact set/platform/protocol/capability/type checks, closed delivery mode and canonical host checks, stricter checked distinct physical/raw budgets, and one immutable Adapter-owned plan. Existing C diagnostics only, retryable=false. No IO/network/SDK/provider/runtime construction."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs",
+      "kind": "MODIFY_STAGED_CANDIDATE",
+      "summary": "Append six ordinary non-parameterized FAD tests and their synthetic helpers before the original closing braces. Entire original RAW13 test content, fixtures, assertions and helpers remain byte-identical."
+    }
+  ],
+  "author_self_check": {
+    "classification": "Source-author self-check, not independent review or executed behavioral validation.",
+    "entry": "True publishes one complete plan and null diagnostic; every controlled rejection retains null plan and emits an existing Trust/Schema/Hash/Budget diagnostic with retryable=false and no raw error details. No public API, Create/CreationResult stub, delegate, dynamic type lookup or new friend.",
+    "order": "Budget/input shape and caller boot length precede bounded snapshots; original TryDecodePinned precedes exact set/platform, numeric protocol, ordinal capabilities, exact object type names, mode/host and physical/raw budget gates; plan assigned once at the end.",
+    "ownership": "Input is borrowed synchronously. Policy Count is bounded before indexed copying; grammar and duplicates validate private snapshots. Codec owns bounded boot snapshot. Projection and plan collections wrap private arrays, nested mapping file references are copied, DTOs are sealed/get-only, and budget is copied. Concurrent mutation during a call has no atomic-snapshot guarantee; success represents the values actually validated.",
+    "projection": "Preserves descriptor and ReleaseSet identities, diagnostic appBuildIdentity, protocol, required capabilities, package/SDK/manifest version and manifest tuple, all physical fields, all eleven mapping fields including file references, and required scope hashes. It neither reparses EncodeCanonical nor changes schema rules.",
+    "compatibility": "Required capabilities use ordinal membership in supplied support tables; object unityType must exactly match supplied validated type names. No UnityEngine.Object fallback, inferred capabilities, raw-only default or production fixture constants.",
+    "mode_and_budgets": "Four positive caller limits are capped by 262144/268435456/1073741824/16777216 bytes. Physical names are deduplicated and lengths added with checked arithmetic. BuiltIn requires zero hosts; RemoteHttps requires 1..16 canonical IdnHost values of at most 253 characters without scheme/path/port/userinfo/query/fragment. Actual URL and SDK checks remain downstream.",
+    "preservation": "Original five ReleaseSet public properties and raw semantics retain exact original source bytes. Provider, lifecycle, C contracts/tests and all other fixed inputs hash-identical. Nine shared target/meta/asmdef guards remain absent. No shared or prior evidence write.",
+    "verification_limit": "Mechanical lexical/call-surface and byte-preservation checks do not compile/type-check C#, execute FAD/RAW tests, prove actual IO behavior or establish an integration verdict."
+  },
+  "static_test_full_names": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD01_ValidPlanPreservesPinnedProjection",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD02_TrustSetAndPlatformAreRequired",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD03_CompatibilityAndTypePolicyRejectUnknown",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD04_ModeAndBudgetsAreBounded",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD05_InputAndProjectionAreIsolated",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD06_AdmissionHasNoRuntimeSideEffects"
+  ],
+  "test_author_self_checks": [
+    {
+      "id": "FAD01",
+      "status": "AUTHORED_NOT_RUN",
+      "coverage": "Exact fixture descriptor/build/protocol/package/SDK/manifest projection; all eleven physical records, all eleven fields of eight raw and one object mapping, three scope hashes, mapping-file closure and explicit synthetic raw-only policy control."
+    },
+    {
+      "id": "FAD02",
+      "status": "AUTHORED_NOT_RUN",
+      "coverage": "Missing/malformed/wrong independent pin; absent/wrong exact set/platform; canonical schema and inner hash error mapping; changed app identity with self-selected matching pin proves consistency only."
+    },
+    {
+      "id": "FAD03",
+      "status": "AUTHORED_NOT_RUN",
+      "coverage": "Protocol mismatch, unknown/case-sensitive capability or type, Object fallback rejection, duplicate/invalid/oversized policy tokens/type names, missing input/boot/budget/tables/hosts, and explicit alternate synthetic protocol/capability positive control."
+    },
+    {
+      "id": "FAD04",
+      "status": "AUTHORED_NOT_RUN",
+      "coverage": "Mode/host injection and duplicate negatives, strict per-input budgets and hard maxima, policy count checks before copying/enumeration, 32/256 support and 16-host positive boundaries, raw 16MiB metadata fixture, shared 256MiB bundle deduplication, exact/lower total and per-file budgets, codec total ceiling. No physical bodies allocated or validated by admission."
+    },
+    {
+      "id": "FAD05",
+      "status": "AUTHORED_NOT_RUN",
+      "coverage": "After admission mutate borrowed boot bytes, support lists, hosts and EncodeCanonical output; verify plan remains stable and every exposed plan collection rejects mutation, including nested mapping file lists. Budget copy retained."
+    },
+    {
+      "id": "FAD06",
+      "status": "AUTHORED_NOT_RUN",
+      "coverage": "Existing fake-SDK counters unchanged across static admissions/rejections; reflected entry/DTO/enum surface stays internal, sealed/get-only and has no runtime/provider result. Static verifier separately constrains the source's qualified calls and allocations to BCL, original codec, diagnostics and immutable DTOs."
+    }
+  ],
+  "verification": {
+    "source_verifier_runs": 1,
+    "allowed_maximum_runs": 2,
+    "allowed_seconds_per_run": 30,
+    "failed_runs": 0,
+    "runs": [
+      {
+        "command": "python3 -B TestArtifacts/FightMatch/RES-FACTORY-ADMISSION-001/S/verify.py",
+        "started_utc": "2026-10-03T07:37:40.879710+00:00",
+        "duration_seconds": 0.008770415966864675,
+        "exit_code": 0,
+        "checks": 58,
+        "passed": 58,
+        "verifier": {
+          "bytes": 15582,
+          "physical_lines": 189,
+          "sha256": "c5ef438acbfab3a84b8444eaae1d59127d744b9d4c8c92f646503a6910d202df"
+        }
+      }
+    ],
+    "result": "PASS_58_OF_58",
+    "mechanical_scope": "Fixed input/shared guards, exact three source identities and independent budgets, original codec/raw/public/friend restoration, full RAW13 baseline preservation, exact FAD names, internal/read-only and factory call/allocation boundary, fixture-policy isolation, three-path unified patch replay and trailing whitespace.",
+    "final_seal": "Read-only final inventory after this receipt binds all nine hashes and rechecks fixed/shared identities for the completion event; it is not a second source-verifier or test run.",
+    "compilations": 0,
+    "csharp_or_sdk_invocations": 0,
+    "unity_invocations": 0,
+    "nunit_invocations": 0,
+    "discovery_runs": 0,
+    "tests_discovered": 0,
+    "tests_executed": 0,
+    "git_commands": 0,
+    "product_network_calls": 0,
+    "native_runs": 0,
+    "old_verifier_runs": 0,
+    "independent_reviews": 0
+  },
+  "pending_gates": [
+    "Separately authorized C compilation and targeted RAW13/FAD6 plus codec D13 tests",
+    "Independent GitHub PR Code Review bound to actual head",
+    "Actual production app protocol/capabilities and object allowlist approval",
+    "Actual deployment mode/host/stricter budget profile approval",
+    "Accepted build receipt, Player boot pin and expected set/platform bound to the same build",
+    "Complete Create/runtime, real package/build anchors, download-stop, Host first-create and Scene/uGUI/Android device gates"
+  ],
+  "integration_verdict": "NOT_ISSUED_BY_SOURCE_AUTHOR",
+  "write_boundary": "Exactly nine authorized stage leaves, all created/edited with apply_patch. No Assets/meta/asmdef/package/provider/lifecycle/C/Host/AS/Scene/M16/LOC/SDK/dependency changes.",
+  "completion": "After final seal inventory, return one completion event to engineering only, stop all writes and end the idle turn. No additional author, native run, local review or downstream dispatch."
+}

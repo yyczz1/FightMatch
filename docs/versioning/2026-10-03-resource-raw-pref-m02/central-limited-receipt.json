@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "packet": "RAW-FIX02_AND_PREF-FIX01_RECEIPT",
+  "verdict": "ACCEPT",
+  "scope": "The two fixed implementation slices and their exact-composite behavioral evidence, with the single known log-only variance expressly reconciled below. This does not reclassify the overall M02 execution as passing.",
+  "candidates": {
+    "RAW": {
+      "pr": "https://github.com/yyczz1/FightMatch/pull/12",
+      "head": "1b4e091526444822e487240cd0d6aff736f0080c",
+      "codeReview": {
+        "path": "docs/team/2026-09-30/testing-resource-raw-fix02-pr12-review-receipt.json",
+        "bytes": 1588,
+        "sha256": "23572ce5c651895c65a3455c55e7396a6f1627d3b51ddd3b88b7f5334a840735"
+      },
+      "newCasesPassed": 13
+    },
+    "PREF": {
+      "pr": "https://github.com/yyczz1/FightMatch/pull/3",
+      "head": "229fdc604841e5efbbf490cbcc47b7dfc39b8db9",
+      "codeReview": {
+        "path": "docs/team/2026-09-30/testing-loc-b-pref-fix01-pr3-review-receipt.json",
+        "bytes": 1965,
+        "sha256": "169d7d9829068112d60b6b8e5840c8d9b290909c43d4a8abe35d6cde7b74841a"
+      },
+      "newCasesPassed": 77
+    }
+  },
+  "independentNativeQA": {
+    "path": "docs/team/2026-09-30/testing-resource-raw-pref-m02-receipt.json",
+    "bytes": 5561,
+    "sha256": "4d8a724890bca328e300b5bb1a07509255b1be4dace1e5bc6cc84625ce4a44e8"
+  },
+  "execution": {
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/RES-RAW-PREF-JOINT-001/M02/receipt.json",
+      "bytes": 79307,
+      "sha256": "c068f7fe7e833382d5f0ed660d9d341bd4f425e9c0c35de38b122c6883cadfe3"
+    },
+    "originalStatus": "BLOCKED_OR_FAILED",
+    "originalNativeGates": "NOT_ESTABLISHED; preserved",
+    "xml": {
+      "path": "TestArtifacts/FightMatch/RES-RAW-PREF-JOINT-001/M02/T/results.xml",
+      "bytes": 97330,
+      "sha256": "b3286341050e2435e1a8f67fc1a9f6f00e2d664c335a51914554f6d8a8d3eb3a"
+    },
+    "exactCases": 128,
+    "passed": 128,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "groups": {
+      "B": 38,
+      "RAW": 13,
+      "PREF": 77
+    },
+    "xmlSeconds": 13.6220662,
+    "testSupervisionSeconds": 177.248871,
+    "runnerSeconds": 178.401252,
+    "compileRuns": 0,
+    "discoveryRuns": 0,
+    "testRuns": 1,
+    "exitCode": 0,
+    "signals": 0,
+    "remainingOwned": [],
+    "consumerGate": "CLEAR",
+    "wholePrTreeRun": false
+  },
+  "centralVarianceDecision": {
+    "kind": "ACCEPT_THIS_SINGLE_NON_PRODUCT_TELEMETRY_VARIANCE_FOR_SLICE_RECEIPT",
+    "path": "/private/tmp/fm-rpref.t2u6RRi1/adb.501.log",
+    "beforeBytes": 1396,
+    "beforeAndPreservedPrefixSha256": "15bb559a29e7371de098ab30643a0e48e94e1f7a214c364c290261a8cae77eb7",
+    "afterBytes": 1432,
+    "afterSha256": "0929a691ddf8c8a1f77991839cc974790bc7ea9e7a60d7d41f216dd25bf42c8b",
+    "appendBytes": 36,
+    "append": "adb server killed by remote request\n",
+    "actorOrCause": "UNKNOWN; no attribution to C or product",
+    "basis": "Independent QA verifies the complete original prefix, the sole exact append, unchanged fixed source/meta/DLL and result identities, and closed task-owned processes. No source, test assertion or original receipt is changed. This telemetry append does not invalidate the observed case results.",
+    "limits": "No overall execution/protection PASS, no inference of permission or actor for the remote request, no broad exemption for TMP/log files, and no restore/truncate/ADB operation. Future contracts must continue to track exact mutable telemetry explicitly; any other drift remains a separate failure.",
+    "additionalUnityRequired": false,
+    "reasonNoRerun": "The only variance is the independently verified append outside tested inputs; repeating the same 128 cases would add no evidence about that already recorded change."
+  },
+  "codeReviewLimits": "Both fixed heads have no-major result comments, not formal APPROVED. Old findings and old-head verdicts remain unchanged.",
+  "prefReviewBaseClarification": {
+    "receipt": "docs/team/2026-09-30/testing-loc-b-pref-fix01-pr3-review-receipt.json",
+    "receiptSha256": "169d7d9829068112d60b6b8e5840c8d9b290909c43d4a8abe35d6cde7b74841a",
+    "field": "candidate.base",
+    "recorded": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "meaning": "Correction's parent/delta baseline; not the PR base branch head",
+    "actualPrBase": "3541930877837e14b58020b910976b8b67b56e42",
+    "evidence": "loc-b-pref-fix01-publication-receipt.json and verified GitHub PR metadata",
+    "headUnaffected": "229fdc604841e5efbbf490cbcc47b7dfc39b8db9"
+  },
+  "historicalHeadBinding": "Original RAW74 RAWHead=null and composite PREFHead=null are preserved. Fixed source hashes associate the later publication heads; M02 RAW is already bound to 1b4e0915.",
+  "notAccepted": [
+    "A passing overall M02 protection/execution receipt",
+    "Complete PR-tree build or shared-project adoption",
+    "Real resource package initialization/download/unpack",
+    "Full Host/Scene/localization materials or Android/device/Demo acceptance"
+  ],
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+}

@@ -642,5 +642,251 @@ namespace FightMatch.AssetAccess.Tests
             Assert.AreEqual(1, body.Closes); Assert.AreEqual(1, operation.Releases);
             Assert.AreEqual(reservedBefore, ledger.GetValue(null));
         }
+
+        // Synthetic policy only; these fixture values are not production admission authority.
+        private static ResourceAdmissionInput FadInput(byte[] bytes = null, string pin = null, string set = Set,
+            string platform = "android", int protocol = 1, IReadOnlyList<string> caps = null,
+            IReadOnlyList<string> types = null, DeliveryMode mode = DeliveryMode.BuiltIn,
+            IReadOnlyList<string> hosts = null, ResourceAdmissionBudget budget = null)
+        {
+            bytes = bytes ?? Utf8.GetBytes(Vector1);
+            return new ResourceAdmissionInput(bytes, pin ?? Hash(bytes), set, platform, protocol,
+                caps ?? new[] { "resource-schema-v1" }, types ?? new[] { "UnityEngine.GameObject" }, mode,
+                hosts ?? Array.Empty<string>(), budget ?? new ResourceAdmissionBudget(262144, 268435456, 1073741824, 16777216));
+        }
+        private static ResourceAdmissionPlan FadAdmit(ResourceAdmissionInput input)
+        {
+            Assert.IsTrue(YooAssetRuntimeFactory.TryAdmit(input, out var plan, out var diagnostic), diagnostic?.SafeCode);
+            Assert.IsNotNull(plan); Assert.IsNull(diagnostic); return plan;
+        }
+        private static void FadReject(ResourceAdmissionInput input, ResourceRuntimeDiagnosticCode code)
+        {
+            Assert.IsFalse(YooAssetRuntimeFactory.TryAdmit(input, out var plan, out var diagnostic));
+            Assert.IsNull(plan); Assert.IsNotNull(diagnostic); Assert.AreEqual(code, diagnostic.Code);
+            Assert.AreEqual("RES_" + code.ToString().ToUpperInvariant(), diagnostic.SafeCode);
+            Assert.IsFalse(diagnostic.Retryable); Assert.IsNull(diagnostic.AssetDiagnostic);
+        }
+        private static string FadPart(string text, string start, string end)
+        {
+            var at = text.IndexOf(start, StringComparison.Ordinal) + start.Length;
+            return text.Substring(at, text.IndexOf(end, at, StringComparison.Ordinal) - at);
+        }
+        private static byte[] FadDescriptor(string text)
+        {
+            var descriptor = FadPart(text, "{\"descriptor\":", ",\"descriptorSha256\":");
+            var old = FadPart(text, ",\"descriptorSha256\":\"", "\"");
+            return Utf8.GetBytes(text.Replace(old, Hash(Utf8.GetBytes(descriptor))));
+        }
+        private static byte[] FadSharedBundles(int count)
+        {
+            const string oldFile = "{\"kind\":\"bundle\",\"length\":1,\"name\":\"bundles/ui\",\"sha256\":\"3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d\"}";
+            const string oldEntry = "{\"assetId\":\"fm.ui.root\",\"contentLength\":1,\"contentSha256\":\"e2fd09070ebe49d531e84a0d865741edb28afe10363124dd5476aa678a7705f8\",\"files\":[\"bundles/ui\"],\"kind\":\"object\",\"location\":\"ui/root\",\"packageName\":\"FightMatchMain\",\"platform\":\"android\",\"releaseSetId\":\"fm.codec.r1\",\"scopeId\":\"fm.ui.runtime\",\"unityType\":\"UnityEngine.GameObject\"}";
+            var files = "[" + string.Join(",", Enumerable.Range(0, count).Select(i => oldFile.Replace("\"length\":1,", "\"length\":268435456,")
+                .Replace("bundles/ui", "bundles/b" + i))) + "]";
+            var names = "[" + string.Join(",", Enumerable.Range(0, count).Select(i => "\"bundles/b" + i + "\"")) + "]";
+            var entry = oldEntry.Replace("\"contentLength\":1,", "\"contentLength\":" + (count * 268435456L).ToString(System.Globalization.CultureInfo.InvariantCulture) + ",")
+                .Replace("e2fd09070ebe49d531e84a0d865741edb28afe10363124dd5476aa678a7705f8", Hash(Utf8.GetBytes(files))).Replace("[\"bundles/ui\"]", names);
+            var entries = "[" + entry + "," + entry.Replace("fm.ui.root", "fm.ui.second").Replace("ui/root", "ui/second") + "]";
+            var text = Vector1.Replace(oldFile, files.Substring(1, files.Length - 2)).Replace(oldEntry, entries.Substring(1, entries.Length - 2));
+            var closure = "{\"assets\":" + entries + ",\"files\":" + files + ",\"scopeId\":\"fm.ui.runtime\"}";
+            text = text.Replace("63dfba3b30cdaf0372e7fe132a79f60916359ae1b6263c0d63cfbe76282b5884", Hash(Utf8.GetBytes(closure)));
+            text = text.Replace("8bfba8d3420a26110e057021cfb62c29f159c56300890eae407846aacf9f4c6b", Hash(Utf8.GetBytes(FadPart(text, "\"mapping\":", ",\"physicalFiles\":"))));
+            return FadDescriptor(text);
+        }
+        private static string FadFileRow(ResourceAdmissionFile f) =>
+            f.Name + "|" + f.Kind + "|" + f.Length.ToString(System.Globalization.CultureInfo.InvariantCulture) + "|" + f.Sha256;
+        private static string FadMappingRow(ResourceAdmissionMapping m) =>
+            m.AssetId + "|" + m.ContentLength.ToString(System.Globalization.CultureInfo.InvariantCulture) + "|" + m.ContentSha256 + "|" +
+            string.Join(",", m.Files) + "|" + m.Kind + "|" + m.Location + "|" + m.PackageName + "|" + m.Platform + "|" +
+            m.ReleaseSetId + "|" + m.ScopeId + "|" + m.UnityType;
+        private static void FadReadOnly<T>(IReadOnlyList<T> values)
+        {
+            Assert.IsFalse(values is T[]); var list = (IList<T>)values; Assert.IsTrue(list.IsReadOnly);
+            Assert.Throws<NotSupportedException>(() => list.Add(default(T))); Assert.Throws<NotSupportedException>(() => list.Clear());
+            if (list.Count > 0) Assert.Throws<NotSupportedException>(() => list[0] = default(T));
+        }
+        private sealed class FadCountOnly : IReadOnlyList<string>
+        {
+            public int Count { get; }
+            internal FadCountOnly(int count) { Count = count; }
+            public string this[int index] => throw new AssertionException("Policy copied before count bound.");
+            public IEnumerator<string> GetEnumerator() => throw new AssertionException("Policy enumerated before count bound.");
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        [Test]
+        public void FAD01_ValidPlanPreservesPinnedProjection()
+        {
+            var input = FadInput(); var plan = FadAdmit(input);
+            Assert.AreEqual(Hash(input.BootBytes), plan.BootSha256); Assert.AreEqual(1, plan.SchemaVersion);
+            Assert.AreEqual(Set, plan.ReleaseSetId); Assert.AreEqual("release-set:fightmatch-demo-r1", plan.BusinessReleaseSetId);
+            Assert.AreEqual("android", plan.Platform); Assert.AreEqual("f570efbe5ee762e035f957ad9be05f3521f94437e8a938ca8125df9524dc0936", plan.DescriptorSha256);
+            Assert.AreEqual("codec-v1", plan.AppBuildIdentity); Assert.AreEqual(1, plan.BaseProtocolVersion);
+            CollectionAssert.AreEqual(new[] { "resource-schema-v1" }, plan.RequiredCapabilities);
+            Assert.AreEqual("FightMatchMain", plan.PackageName); Assert.AreEqual("3.0.6", plan.YooAssetPackageVersion);
+            Assert.AreEqual("codec-v1", plan.YooManifestPackageVersion);
+            CollectionAssert.AreEqual(new[]
+            {
+                "bundles/ui|bundle|1|3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d",
+                "inputs/text.receipt|receipt|1|594e519ae499312b29433b7dd8a97ff068defcba9755b6d5d00e84c524d67b06",
+                "manifest/main.bytes|manifest|1|62c66a7a5dd70c3146618063c344e531e6d4b59e379808443ce962b3abd63c5a",
+                "raw/b1|raw|20443|fc2a6e8ec7cdba10992b9e0de7433020b75b1a4ef2b18b5570b199b9983a261a",
+                "raw/b2|raw|11486|b2247d3f951626edfdf25753520f3421dc20e8d8cab7731c9ab3ba6ece1a5129",
+                "raw/b3|raw|664|512b2f9b5027674dee1eed127e811a7b7c31322562f2dd81604d1faf1c79b38d",
+                "raw/b4|raw|4766|16b282218b0652910535a2c6d70c736da1023d74c327e0492a399b5b8fd9fa75",
+                "raw/b5|raw|682|feb77ac4f21746130bdcdb3dc4a19702f92181e4a29182f86856b4781f2de910",
+                "raw/b6|raw|411|03dd942a8ea3d4cbfa58ee7aba60768196f8811576550f204cf742f4e5c35516",
+                "raw/text|raw|1|2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "raw/text-manifest|raw|1|a1fce4363854ff888cff4b8e7875d600c2682390412a8cf79b37d0b11148b0fa",
+            }, plan.PhysicalFiles.Select(FadFileRow));
+            CollectionAssert.AreEqual(new[]
+            {
+                "fm.content.package|11486|b2247d3f951626edfdf25753520f3421dc20e8d8cab7731c9ab3ba6ece1a5129|raw/b2|raw|first-release.fmpackage.bytes|FightMatchMain|android|fm.codec.r1|fm.content.first-release|",
+                "fm.content.publication|682|feb77ac4f21746130bdcdb3dc4a19702f92181e4a29182f86856b4781f2de910|raw/b5|raw|first-release.fmpublish.json|FightMatchMain|android|fm.codec.r1|fm.content.first-release|",
+                "fm.content.release-set|411|03dd942a8ea3d4cbfa58ee7aba60768196f8811576550f204cf742f4e5c35516|raw/b6|raw|first-release.fmrelease.json|FightMatchMain|android|fm.codec.r1|fm.content.first-release|",
+                "fm.content.review|4766|16b282218b0652910535a2c6d70c736da1023d74c327e0492a399b5b8fd9fa75|raw/b4|raw|first-release.fmreview.json|FightMatchMain|android|fm.codec.r1|fm.content.first-release|",
+                "fm.content.source|20443|fc2a6e8ec7cdba10992b9e0de7433020b75b1a4ef2b18b5570b199b9983a261a|raw/b1|raw|first-release.fmsource.json|FightMatchMain|android|fm.codec.r1|fm.content.first-release|",
+                "fm.content.validation|664|512b2f9b5027674dee1eed127e811a7b7c31322562f2dd81604d1faf1c79b38d|raw/b3|raw|first-release.fmvalidation.bytes|FightMatchMain|android|fm.codec.r1|fm.content.first-release|",
+                "fm.text.full.artifact|1|2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881|raw/text|raw|fm-text-v1.json|FightMatchMain|android|fm.codec.r1|fm.text.full|",
+                "fm.text.full.manifest|1|a1fce4363854ff888cff4b8e7875d600c2682390412a8cf79b37d0b11148b0fa|raw/text-manifest|raw|fm-text-v1.manifest.json|FightMatchMain|android|fm.codec.r1|fm.text.full|",
+                "fm.ui.root|1|e2fd09070ebe49d531e84a0d865741edb28afe10363124dd5476aa678a7705f8|bundles/ui|object|ui/root|FightMatchMain|android|fm.codec.r1|fm.ui.runtime|UnityEngine.GameObject",
+            }, plan.Mappings.Select(FadMappingRow));
+            CollectionAssert.AreEqual(new[]
+            {
+                "fm.content.first-release|dab086f2f4f73484bfcbfd9d2f1f3564af2bc303795c704680bcd4f968ea22ef",
+                "fm.text.full|5a8840058b97e4a8b5ce3356b096232e1465b17d59ef4b260b80305dac592424",
+                "fm.ui.runtime|63dfba3b30cdaf0372e7fe132a79f60916359ae1b6263c0d63cfbe76282b5884",
+            }, plan.RequiredScopeHashes.Select(s => s.ScopeId + "|" + s.Sha256));
+            Assert.AreEqual(FadFileRow(plan.PhysicalFiles.Single(f => f.Kind == "manifest")), FadFileRow(plan.Manifest));
+            Assert.AreEqual(8, plan.Mappings.Count(m => m.Kind == "raw")); Assert.AreEqual(1, plan.Mappings.Count(m => m.Kind == "object"));
+            foreach (var entry in plan.Mappings) Assert.AreEqual(entry.ContentLength,
+                entry.Files.Sum(name => plan.PhysicalFiles.Single(f => f.Name == name).Length));
+            Assert.AreEqual(DeliveryMode.BuiltIn, plan.Mode); Assert.IsEmpty(plan.ApprovedHttpsHosts);
+            Assert.AreEqual(8, FadAdmit(FadInput(Boot(), types: Array.Empty<string>())).Mappings.Count);
+        }
+
+        [Test]
+        public void FAD02_TrustSetAndPlatformAreRequired()
+        {
+            foreach (var pin in new[] { "", new string('0', 64), new string('A', 64), "../secret?token=private" })
+                FadReject(FadInput(pin: pin), ResourceRuntimeDiagnosticCode.Trust);
+            var input = FadInput();
+            FadReject(new ResourceAdmissionInput(input.BootBytes, null, Set, "android", 1, input.SupportedCapabilities,
+                input.SupportedObjectTypeNames, DeliveryMode.BuiltIn, input.ApprovedHttpsHosts, input.Budget), ResourceRuntimeDiagnosticCode.Trust);
+            foreach (var set in new[] { null, "", "latest", "fm.other", "FM.codec.r1", "https://private?secret" }) FadReject(FadInput(set: set), ResourceRuntimeDiagnosticCode.Schema);
+            foreach (var platform in new[] { null, "", "windows", "macOS", "Android" }) FadReject(FadInput(platform: platform), ResourceRuntimeDiagnosticCode.Schema);
+            FadReject(FadInput(Utf8.GetBytes(Vector1 + " ")), ResourceRuntimeDiagnosticCode.Schema);
+            FadReject(FadInput(Utf8.GetBytes(Vector1.Replace("f570efbe5ee762e035f957ad9be05f3521f94437e8a938ca8125df9524dc0936", new string('a', 64)))), ResourceRuntimeDiagnosticCode.Hash);
+            var selected = FadDescriptor(Vector1.Replace("\"appBuildIdentity\":\"codec-v1\"", "\"appBuildIdentity\":\"self-selected\""));
+            Assert.AreEqual("self-selected", FadAdmit(FadInput(selected)).AppBuildIdentity); // Matching self-selected pin proves consistency only.
+            FadReject(FadInput(selected, pin: Hash(input.BootBytes)), ResourceRuntimeDiagnosticCode.Trust);
+        }
+
+        [Test]
+        public void FAD03_CompatibilityAndTypePolicyRejectUnknown()
+        {
+            foreach (var protocol in new[] { 0, -1, 2, int.MaxValue }) FadReject(FadInput(protocol: protocol), ResourceRuntimeDiagnosticCode.Schema);
+            foreach (var caps in new[] { Array.Empty<string>(), new[] { "RESOURCE-schema-v1" }, new[] { "resource-schema-v2" },
+                new[] { "resource-schema-v1", "resource-schema-v1" }, new[] { "resource-schema-v1", "" }, new[] { "resource-schema-v1", null }, new[] { "resource-schema-v1", "_bad" }, new[] { "resource-schema-v1", new string('a', 257) } })
+                FadReject(FadInput(caps: caps), ResourceRuntimeDiagnosticCode.Schema);
+            foreach (var types in new[] { Array.Empty<string>(), new[] { "UnityEngine.Object" }, new[] { "UnityEngine.gameObject" },
+                new[] { "UnityEngine.GameObject", "UnityEngine.GameObject" }, new[] { "UnityEngine.GameObject", "N..T" },
+                new[] { "UnityEngine.GameObject", "NoDot" }, new[] { "UnityEngine.GameObject", null }, new[] { "UnityEngine.GameObject", "N." + new string('T', 127) } })
+                FadReject(FadInput(types: types), ResourceRuntimeDiagnosticCode.Schema);
+            var input = FadInput();
+            for (var missing = 0; missing < 5; missing++) FadReject(new ResourceAdmissionInput(missing == 0 ? null : input.BootBytes,
+                input.ExpectedBootSha256, Set, "android", 1, missing == 1 ? null : input.SupportedCapabilities,
+                missing == 2 ? null : input.SupportedObjectTypeNames, DeliveryMode.BuiltIn, missing == 3 ? null : input.ApprovedHttpsHosts,
+                missing == 4 ? null : input.Budget), ResourceRuntimeDiagnosticCode.Schema);
+            FadReject(null, ResourceRuntimeDiagnosticCode.Schema);
+            var changed = FadDescriptor(Vector1.Replace("\"baseProtocolVersion\":1", "\"baseProtocolVersion\":2")
+                .Replace("\"resource-schema-v1\"", "\"new-capability\""));
+            FadReject(FadInput(changed, protocol: 2), ResourceRuntimeDiagnosticCode.Schema);
+            Assert.AreEqual(2, FadAdmit(FadInput(changed, protocol: 2, caps: new[] { "new-capability" })).BaseProtocolVersion);
+            FadAdmit(FadInput(caps: new[] { "resource-schema-v1", new string('a', 256) },
+                types: new[] { "UnityEngine.GameObject", "N." + new string('T', 126) }));
+        }
+
+        [Test]
+        public void FAD04_ModeAndBudgetsAreBounded()
+        {
+            var input = FadInput(); var length = input.BootBytes.Length;
+            FadAdmit(FadInput(budget: new ResourceAdmissionBudget(length, 20443, 38457, 20443)));
+            foreach (var budget in new[]
+            {
+                new ResourceAdmissionBudget(-1, -1, -1, -1), new ResourceAdmissionBudget(0, 268435456, 1073741824, 16777216), new ResourceAdmissionBudget(262145, 268435456, 1073741824, 16777216),
+                new ResourceAdmissionBudget(262144, 0, 1073741824, 16777216), new ResourceAdmissionBudget(262144, 268435457, 1073741824, 16777216),
+                new ResourceAdmissionBudget(262144, 268435456, 0, 16777216), new ResourceAdmissionBudget(262144, 268435456, long.MaxValue, 16777216),
+                new ResourceAdmissionBudget(262144, 268435456, 1073741824, 0), new ResourceAdmissionBudget(262144, 268435456, 1073741824, 16777217),
+                new ResourceAdmissionBudget(length - 1, 268435456, 1073741824, 16777216), new ResourceAdmissionBudget(262144, 20442, 1073741824, 16777216),
+                new ResourceAdmissionBudget(262144, 268435456, 38456, 16777216), new ResourceAdmissionBudget(262144, 268435456, 1073741824, 20442)
+            }) FadReject(FadInput(budget: budget), ResourceRuntimeDiagnosticCode.Budget);
+            FadReject(FadInput(new byte[262145]), ResourceRuntimeDiagnosticCode.Budget);
+            FadAdmit(FadInput(Boot(Large))); FadReject(FadInput(Boot(Large), budget: new ResourceAdmissionBudget(262144, 268435456, 1073741824, Large - 1)), ResourceRuntimeDiagnosticCode.Budget);
+            FadReject(FadInput(mode: (DeliveryMode)42), ResourceRuntimeDiagnosticCode.Schema);
+            FadReject(FadInput(hosts: new[] { "cdn.example" }), ResourceRuntimeDiagnosticCode.Schema);
+            FadReject(FadInput(mode: DeliveryMode.RemoteHttps), ResourceRuntimeDiagnosticCode.Schema);
+            foreach (var host in new[] { "", "CDN.example", "https://cdn.example", "user@cdn.example", "cdn.example:443", "cdn.example/path", "cdn.example?q=secret", "cdn.example#x", "cdn.example\\x", "cdn.example\n", new string('x', 254) })
+                FadReject(FadInput(mode: DeliveryMode.RemoteHttps, hosts: new[] { host }), ResourceRuntimeDiagnosticCode.Schema);
+            FadReject(FadInput(mode: DeliveryMode.RemoteHttps, hosts: new[] { "cdn.example", "cdn.example" }), ResourceRuntimeDiagnosticCode.Schema);
+            FadReject(FadInput(caps: new FadCountOnly(33)), ResourceRuntimeDiagnosticCode.Budget);
+            FadReject(FadInput(types: new FadCountOnly(257)), ResourceRuntimeDiagnosticCode.Budget);
+            FadReject(FadInput(hosts: new FadCountOnly(17)), ResourceRuntimeDiagnosticCode.Budget);
+            var hosts = Enumerable.Range(0, 16).Select(i => "cdn" + i + ".example").ToArray();
+            hosts[0] = string.Join(".", new[] { new string('a', 63), new string('b', 63), new string('c', 63), new string('d', 61) });
+            var capped = FadAdmit(FadInput(caps: new[] { "resource-schema-v1" }.Concat(Enumerable.Range(0, 31).Select(i => "cap" + i)).ToArray(),
+                types: new[] { "UnityEngine.GameObject" }.Concat(Enumerable.Range(0, 255).Select(i => "Fixture.Type" + i)).ToArray(), mode: DeliveryMode.RemoteHttps, hosts: hosts));
+            CollectionAssert.AreEqual(hosts, capped.ApprovedHttpsHosts); Assert.AreEqual(32, capped.SupportedCapabilities.Count); Assert.AreEqual(256, capped.SupportedObjectTypeNames.Count);
+            var shared = FadSharedBundles(3); var plan = FadAdmit(FadInput(shared)); var total = plan.PhysicalFiles.Sum(f => f.Length);
+            Assert.AreEqual(3 * 268435456L + 38456, total); Assert.AreEqual(2, plan.Mappings.Count(m => m.Kind == "object"));
+            FadAdmit(FadInput(shared, budget: new ResourceAdmissionBudget(262144, 268435456, total, 16777216)));
+            FadReject(FadInput(shared, budget: new ResourceAdmissionBudget(262144, 268435455, total, 16777216)), ResourceRuntimeDiagnosticCode.Budget);
+            FadReject(FadInput(shared, budget: new ResourceAdmissionBudget(262144, 268435456, total - 1, 16777216)), ResourceRuntimeDiagnosticCode.Budget);
+            FadReject(FadInput(FadSharedBundles(4)), ResourceRuntimeDiagnosticCode.Budget);
+        }
+
+        [Test]
+        public void FAD05_InputAndProjectionAreIsolated()
+        {
+            var source = Decode(Utf8.GetBytes(Vector1)); var bytes = source.EncodeCanonical();
+            var caps = new List<string> { "resource-schema-v1" }; var types = new List<string> { "UnityEngine.GameObject" };
+            var hosts = new List<string> { "cdn.example", "xn--bcher-kva.example" };
+            var input = FadInput(bytes, caps: caps, types: types, mode: DeliveryMode.RemoteHttps, hosts: hosts); var plan = FadAdmit(input);
+            var files = plan.PhysicalFiles.Select(FadFileRow).ToArray(); var mappings = plan.Mappings.Select(FadMappingRow).ToArray(); var pin = plan.BootSha256;
+            Array.Clear(bytes, 0, bytes.Length); caps[0] = "changed"; types.Clear(); hosts.Clear();
+            var encoded = source.EncodeCanonical(); Array.Clear(encoded, 0, encoded.Length);
+            CollectionAssert.AreEqual(Utf8.GetBytes(Vector1), source.EncodeCanonical()); Assert.AreEqual(Hash(Utf8.GetBytes(Vector1)), pin);
+            CollectionAssert.AreEqual(files, plan.PhysicalFiles.Select(FadFileRow)); CollectionAssert.AreEqual(mappings, plan.Mappings.Select(FadMappingRow));
+            CollectionAssert.AreEqual(new[] { "resource-schema-v1" }, plan.SupportedCapabilities);
+            CollectionAssert.AreEqual(new[] { "UnityEngine.GameObject" }, plan.SupportedObjectTypeNames);
+            CollectionAssert.AreEqual(new[] { "cdn.example", "xn--bcher-kva.example" }, plan.ApprovedHttpsHosts);
+            FadReadOnly(plan.RequiredCapabilities); FadReadOnly(plan.SupportedCapabilities); FadReadOnly(plan.SupportedObjectTypeNames); FadReadOnly(plan.ApprovedHttpsHosts);
+            FadReadOnly(plan.PhysicalFiles); FadReadOnly(plan.Mappings); FadReadOnly(plan.RequiredScopeHashes);
+            foreach (var entry in plan.Mappings) FadReadOnly(entry.Files);
+            Assert.AreNotSame(input.Budget, plan.Budget); Assert.AreEqual(262144, plan.Budget.MaxBootBytes); Assert.AreEqual(268435456, plan.Budget.MaxPhysicalFileBytes);
+            Assert.AreEqual(1073741824, plan.Budget.MaxTotalPhysicalBytes); Assert.AreEqual(16777216, plan.Budget.MaxRawFileBytes);
+        }
+
+        [Test]
+        public void FAD06_AdmissionHasNoRuntimeSideEffects()
+        {
+            var sdk = new FakeSdk(); var before = new[] { sdk.Creates, sdk.Begins, sdk.Loads, sdk.Allocations, sdk.PackageCount, sdk.Raw.Count };
+            var plan = FadAdmit(FadInput()); FadReject(FadInput(pin: "secret"), ResourceRuntimeDiagnosticCode.Trust);
+            FadReject(FadInput(types: Array.Empty<string>()), ResourceRuntimeDiagnosticCode.Schema);
+            CollectionAssert.AreEqual(before, new[] { sdk.Creates, sdk.Begins, sdk.Loads, sdk.Allocations, sdk.PackageCount, sdk.Raw.Count }); Assert.IsFalse(sdk.Initialized);
+            const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+            var factory = typeof(YooAssetRuntimeFactory); Assert.IsTrue(factory.IsNotPublic); Assert.IsEmpty(factory.GetFields(flags));
+            CollectionAssert.AreEqual(new[] { "TryAdmit" }, factory.GetMethods(flags).Where(m => m.IsAssembly).Select(m => m.Name));
+            Assert.IsFalse(typeof(IFightMatchResourceRuntime).IsAssignableFrom(plan.GetType())); Assert.IsFalse(typeof(IFightMatchAssetProvider).IsAssignableFrom(plan.GetType()));
+            foreach (var type in new[] { typeof(ResourceAdmissionInput), typeof(ResourceAdmissionPlan), typeof(ResourceAdmissionBudget),
+                typeof(ResourceAdmissionFile), typeof(ResourceAdmissionMapping), typeof(ResourceAdmissionScopeHash) })
+            {
+                Assert.IsTrue(type.IsNotPublic && type.IsSealed); Assert.IsEmpty(type.GetConstructors());
+                foreach (var property in type.GetProperties(flags)) Assert.IsNull(property.GetSetMethod(true));
+                foreach (var field in type.GetFields(flags)) Assert.IsTrue(field.IsInitOnly);
+                Assert.IsFalse(type.GetProperties(flags).Any(p => typeof(Delegate).IsAssignableFrom(p.PropertyType) || p.PropertyType.FullName.Contains("ResourcePlan")));
+            }
+            CollectionAssert.AreEqual(new[] { "BuiltIn", "RemoteHttps" }, Enum.GetNames(typeof(DeliveryMode)));
+        }
     }
 }
