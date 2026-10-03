@@ -46,7 +46,7 @@ namespace FightMatch.Host.Tests
         }
 
         [TestCase(SystemLanguage.Chinese), TestCase(SystemLanguage.ChineseSimplified), TestCase(SystemLanguage.ChineseTraditional)]
-        [Category("PREF-01")]
+        [Category("PREF01")]
         public void MissingChineseUsesSystemDefaultWithoutWrites(SystemLanguage language)
         {
             var files = Adapter(); var result = Store(files).Load(language);
@@ -56,7 +56,7 @@ namespace FightMatch.Host.Tests
         }
 
         [TestCase(SystemLanguage.English), TestCase(SystemLanguage.Japanese), TestCase(SystemLanguage.Unknown), TestCase(SystemLanguage.French)]
-        [Category("PREF-02")]
+        [Category("PREF02")]
         public void MissingOtherLanguageUsesEnglishWithoutWrites(SystemLanguage language)
         {
             var files = Adapter(); var result = Store(files).Load(language);
@@ -66,7 +66,7 @@ namespace FightMatch.Host.Tests
         }
 
         [TestCase("en", SystemLanguage.Chinese), TestCase("zh-Hans", SystemLanguage.English)]
-        [Category("PREF-03")]
+        [Category("PREF03")]
         public void RememberedLocaleOverridesSystemLanguage(string locale, SystemLanguage language)
         {
             var bytes = Canonical(locale); var files = Adapter(bytes); var result = Store(files).Load(language);
@@ -100,7 +100,7 @@ namespace FightMatch.Host.Tests
             yield return new TestCaseData("{\"version\":1,\"locale\":3}", "PreferenceInvalidSchema");
         }
 
-        [TestCaseSource(nameof(InvalidDocuments)), Category("PREF-04"), Category("PREF-20")]
+        [TestCaseSource(nameof(InvalidDocuments)), Category("PREF04"), Category("PREF20")]
         public void InvalidDocumentPreservesBytesAndDoesNotRepair(string document, string code)
         {
             var bytes = Bytes(document); var files = Adapter(bytes); var result = Store(files).Load(SystemLanguage.Chinese);
@@ -110,7 +110,7 @@ namespace FightMatch.Host.Tests
             CollectionAssert.AreEqual(new[] { "load-exists", "load-open", "load-read" }, files.Calls);
         }
 
-        [Test, Category("PREF-04"), Category("PREF-20")]
+        [Test, Category("PREF04"), Category("PREF20")]
         public void InvalidUtf8IsPreserved()
         {
             byte[] bytes = { 0xff, 0xc0, 0xaf }; var files = Adapter(bytes);
@@ -127,12 +127,12 @@ namespace FightMatch.Host.Tests
         [TestCase("{\"version\":1,\"locale\":\"fr\"}", "PreferenceUnsupportedLocale")]
         [TestCase("{\"version\":1,\"locale\":\"EN\"}", "PreferenceUnsupportedLocale")]
         [TestCase("{\"version\":1,\"locale\":\"ZhHans\"}", "PreferenceUnsupportedLocale")]
-        [Category("PREF-05"), Category("PREF-20")]
+        [Category("PREF05"), Category("PREF20")]
         public void UnsupportedSelectionUsesFallbackWithoutRepair(string document, string code)
         { InvalidDocumentPreservesBytesAndDoesNotRepair(document, code); }
 
         [TestCase("load-exists"), TestCase("load-open"), TestCase("load-read")]
-        [Category("PREF-05"), Category("PREF-20")]
+        [Category("PREF05"), Category("PREF20")]
         public void ReadFailurePreservesFileAndUsesFallback(string stage)
         {
             var bytes = Canonical("zh-Hans"); var files = Adapter(bytes); files.Fail.Add(stage);
@@ -143,7 +143,7 @@ namespace FightMatch.Host.Tests
             CollectionAssert.AreEqual(bytes, files.Data[Target]); Assert.IsFalse(files.Calls.Contains("directory"));
         }
 
-        [Test, Category("PREF-03")]
+        [Test, Category("PREF03")]
         public void GrammarWhitespaceFieldOrderAndEscapesRemainValid()
         {
             var files = Adapter(Bytes(" \t{ \"locale\" : \"zh-\\u0048ans\", \"\\u0076ersion\" : 1 }"));
@@ -151,7 +151,7 @@ namespace FightMatch.Host.Tests
             Assert.AreEqual(3, files.Calls.Count);
         }
 
-        [Test, Category("PREF-06")]
+        [Test, Category("PREF06")]
         public void SaveUsesTheCompleteOrderedStorageFlow()
         {
             var files = Adapter(Canonical("en"));
@@ -162,7 +162,7 @@ namespace FightMatch.Host.Tests
             Assert.AreEqual(1, files.Data.Count);
         }
 
-        [TestCase("en"), TestCase("zh-Hans"), Category("PREF-06")]
+        [TestCase("en"), TestCase("zh-Hans"), Category("PREF06")]
         public void ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(string locale)
         {
             ILocalePreferenceStore store = new FileLocalePreferenceStore(root, new LocalePreferenceFiles());
@@ -187,7 +187,7 @@ namespace FightMatch.Host.Tests
             yield return new TestCaseData("commit", "PreferenceCommitFailed");
         }
 
-        [TestCaseSource(nameof(PreCommitFaults)), Category("PREF-07"), Category("PREF-08"), Category("PREF-09"), Category("PREF-10"), Category("PREF-20")]
+        [TestCaseSource(nameof(PreCommitFaults)), Category("PREF07"), Category("PREF08"), Category("PREF09"), Category("PREF10"), Category("PREF20")]
         public void PreCommitFailureKeepsOldTargetAndDesiredSession(string stage, string code)
         {
             var old = Canonical("en"); var files = Adapter(old); files.Fail.Add(stage);
@@ -198,7 +198,7 @@ namespace FightMatch.Host.Tests
         }
 
         [TestCase("{"), TestCase("{\"version\":2,\"locale\":\"zh-Hans\"}"), TestCase("{\"version\":1,\"locale\":\"en\"}")]
-        [Category("PREF-09"), Category("PREF-20")]
+        [Category("PREF09"), Category("PREF20")]
         public void TempVerificationFailureNeverCommits(string corrupt)
         {
             var old = Canonical("en"); var files = Adapter(old); files.ReadOverride["temp-read"] = Bytes(corrupt);
@@ -208,7 +208,7 @@ namespace FightMatch.Host.Tests
 
         [TestCase("temp-create", "PreferenceTempCreateFailed"), TestCase("temp-write", "PreferenceTempWriteFailed")]
         [TestCase("flush", "PreferenceFlushFailed"), TestCase("temp-open", "PreferenceTempReadFailed")]
-        [TestCase("commit", "PreferenceCommitFailed"), Category("PREF-11")]
+        [TestCase("commit", "PreferenceCommitFailed"), Category("PREF11")]
         public void SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(string stage, string code)
         {
             var old = Canonical("en"); var files = Adapter(old); files.Fail.UnionWith(new[] { stage, "cleanup-temp", "cleanup-backup" });
@@ -219,7 +219,7 @@ namespace FightMatch.Host.Tests
             CollectionAssert.Contains(files.Calls, "cleanup-temp"); CollectionAssert.Contains(files.Calls, "cleanup-backup");
         }
 
-        [TestCase("target-open"), TestCase("target-read"), Category("PREF-12"), Category("PREF-13")]
+        [TestCase("target-open"), TestCase("target-read"), Category("PREF12"), Category("PREF13")]
         public void PostCommitIoFailureWithoutRollbackProofIsUnknown(string stage)
         {
             var files = Adapter(Canonical("en")); files.Fail.UnionWith(new[] { stage, "rollback" });
@@ -229,7 +229,7 @@ namespace FightMatch.Host.Tests
         }
 
         [TestCase("{"), TestCase("{\"version\":2,\"locale\":\"zh-Hans\"}"), TestCase("{\"version\":1,\"locale\":\"en\"}")]
-        [Category("PREF-14")]
+        [Category("PREF14")]
         public void PostCommitVerificationWithoutRollbackProofIsUnknown(string corrupt)
         {
             var files = Adapter(Canonical("en")); files.ReadOverride["target-read"] = Bytes(corrupt); files.Fail.Add("rollback");
@@ -238,7 +238,7 @@ namespace FightMatch.Host.Tests
         }
 
         [TestCase("target-open", "PreferenceTargetReopenFailed"), TestCase("target-read", "PreferenceTargetReadFailed")]
-        [TestCase("target-document", "PreferenceTargetVerificationFailed"), Category("PREF-15"), Category("PREF-20")]
+        [TestCase("target-document", "PreferenceTargetVerificationFailed"), Category("PREF15"), Category("PREF20")]
         public void SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(string stage, string code)
         {
             byte[] old = { 0xff, 0, 32, 17 }; var files = Adapter(old);
@@ -250,7 +250,7 @@ namespace FightMatch.Host.Tests
             Assert.Less(files.Calls.IndexOf("proof-open"), files.Calls.IndexOf("proof-read"));
         }
 
-        [Test, Category("PREF-16")]
+        [Test, Category("PREF16")]
         public void OriginallyAbsentTargetRequiresAnAbsenceProof()
         {
             var files = Adapter(); files.Fail.Add("target-open");
@@ -261,7 +261,7 @@ namespace FightMatch.Host.Tests
 
         [TestCase("rollback", "PreferenceRollbackFailed"), TestCase("proof-open", "PreferenceRollbackProofFailed")]
         [TestCase("proof-read", "PreferenceRollbackProofFailed"), TestCase("proof-bytes", "PreferenceRollbackMismatch")]
-        [Category("PREF-17"), Category("PREF-20")]
+        [Category("PREF17"), Category("PREF20")]
         public void UnprovenOldBytesKeepUnknown(string stage, string code)
         {
             var files = Adapter(Canonical("en")); files.Fail.Add("target-open");
@@ -270,7 +270,7 @@ namespace FightMatch.Host.Tests
             Assert.IsTrue(files.Committed); CollectionAssert.Contains(files.Calls, "rollback");
         }
 
-        [TestCase(false), TestCase(true), Category("PREF-17"), Category("PREF-20")]
+        [TestCase(false), TestCase(true), Category("PREF17"), Category("PREF20")]
         public void UnprovenOldAbsenceKeepsUnknown(bool ioFailure)
         {
             var files = Adapter(); files.Fail.Add("target-open");
@@ -279,7 +279,7 @@ namespace FightMatch.Host.Tests
                 ioFailure ? "PreferenceRollbackProofFailed" : "PreferenceRollbackMismatch");
         }
 
-        [TestCase(false), TestCase(true), Category("PREF-18"), Category("PREF-19")]
+        [TestCase(false), TestCase(true), Category("PREF18"), Category("PREF19")]
         public void FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(bool unknown)
         {
             var files = Adapter(Canonical("en"));
@@ -298,7 +298,7 @@ namespace FightMatch.Host.Tests
             Assert.AreEqual(LocaleId.ZhHans, service.CurrentLocale); Assert.AreEqual(1, localeEvents); Assert.AreEqual(1, rebinds);
         }
 
-        [Test, Category("PREF-20")]
+        [Test, Category("PREF20")]
         public void InvalidLocaleThrowsBeforeStorageAndCleanupDoesNotChangeSaved()
         {
             var files = Adapter(Canonical("en"));
@@ -308,7 +308,7 @@ namespace FightMatch.Host.Tests
             Result(Store(files).Save(LocaleId.ZhHans), LocalePreferenceSaveDisposition.Saved, null);
         }
 
-        [Test, Category("PREF-21")]
+        [Test, Category("PREF21")]
         public void NewModuleHasNoBusinessOrCompositionDependencies()
         {
             string directory = Path.Combine(UnityEngine.Application.dataPath, "Scripts", "FightMatch", "Host");

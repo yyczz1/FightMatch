@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "packet": "LOC-B-PREF-FIX01",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "DISCOVERY_NOT_RUN",
+    "TESTS_NOT_RUN",
+    "REVIEW_PENDING"
+  ],
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a1004e-4923-74d0-bade-a815e933e588"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a10045-ce75-73f1-be31-53a0ca65f713"
+  },
+  "authority": {
+    "user": "AGENTS section6 standing team workflow; central-approved sequential source work",
+    "central": {
+      "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+      "host": "local",
+      "turn": "01a0fd75-6e53-7b81-a7ce-9010190ae130"
+    },
+    "activation": "Engineering explicitly activated after RAW FIX02 sealed/completed. Contract queued status and original issuer turn01a1002c-2bd8-7f22-8031-e0cf6401ac97 remain historical; current issuer above binds this activation.",
+    "model_policy": {
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "note": "Dispatch policy, not measured by verifier."
+    }
+  },
+  "source_preimage": {
+    "bytes": 30074,
+    "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d",
+    "physical_lines": 476,
+    "PR3_head": "6818405b859d71bf8c0f116299e7e9605a3d769a"
+  },
+  "source_after": {
+    "bytes": 30038,
+    "sha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743"
+  },
+  "source_path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+  "physical_lines": 476,
+  "diff": {
+    "added": 22,
+    "deleted": 22
+  },
+  "category_occurrences": 36,
+  "changed_line_count": 22,
+  "changed_line_numbers": [
+    49,
+    59,
+    69,
+    103,
+    113,
+    130,
+    135,
+    146,
+    154,
+    165,
+    190,
+    201,
+    211,
+    222,
+    232,
+    241,
+    253,
+    264,
+    273,
+    282,
+    301,
+    311
+  ],
+  "unique_ids": 21,
+  "category_requirement_map": {
+    "PREF01": "PREF-01",
+    "PREF02": "PREF-02",
+    "PREF03": "PREF-03",
+    "PREF04": "PREF-04",
+    "PREF05": "PREF-05",
+    "PREF06": "PREF-06",
+    "PREF07": "PREF-07",
+    "PREF08": "PREF-08",
+    "PREF09": "PREF-09",
+    "PREF10": "PREF-10",
+    "PREF11": "PREF-11",
+    "PREF12": "PREF-12",
+    "PREF13": "PREF-13",
+    "PREF14": "PREF-14",
+    "PREF15": "PREF-15",
+    "PREF16": "PREF-16",
+    "PREF17": "PREF-17",
+    "PREF18": "PREF-18",
+    "PREF19": "PREF-19",
+    "PREF20": "PREF-20",
+    "PREF21": "PREF-21"
+  },
+  "traceability_note": "Category names change from PREF-xx to PREFxx only; requirement IDs and test cases do not change.",
+  "budgets": {
+    "source_bytes": 32768,
+    "source_lines": 476,
+    "expected_source_bytes": 30038,
+    "added_lines": 22,
+    "deleted_lines": 22,
+    "category_occurrences": 36,
+    "unique_category_ids": 21,
+    "stage_bytes": 196608,
+    "verifier_nonempty_lines": 120,
+    "verifier_bytes": 20480,
+    "verification_runs": 2,
+    "verification_seconds": 10
+  },
+  "leaves": {
+    "before.json": {
+      "bytes": 6133,
+      "sha256": "ee2a1cb3f0537d2d1bdb67db99d466b1e876e3c0bf8aec34118314b00d7f7625"
+    },
+    "static.json": {
+      "bytes": 4156,
+      "sha256": "ad5728a9c5f8675535246e3d93aa28e2cb79a72c8e98e356b99461dcb9251a9b"
+    },
+    "source.patch": {
+      "bytes": 10293,
+      "sha256": "59431419c7487ec884472a708b9b84337759c688237976812f06912b119d8cb9"
+    },
+    "after.json": {
+      "bytes": 2966,
+      "sha256": "7ee7d8a728d5530beee666c459ddc9bb1e1ef3b54a8b85e6efe671add865be73"
+    },
+    "verify.py": {
+      "bytes": 7628,
+      "sha256": "baad3494c8597410292eb8edcaa5305f5df722b16f715c739a57d621f11f21ac"
+    },
+    "source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs": {
+      "bytes": 30038,
+      "sha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743"
+    },
+    "source-receipt.json": {
+      "identity_bound_by": "Final completion event after seal; excluded from self-hashing."
+    }
+  },
+  "author_self_check": {
+    "scope": "Candidate uses original PR3 head6818405b859d71bf8c0f116299e7e9605a3d769a source, not DIAG01; only36 exact Category attribute literals lose one hyphen.",
+    "preservation": "Exact forward Category substitution equals the candidate and reverse substitution restores every original byte. All other methods/parameter sources/parameter values/helpers/assertions/lifecycle/DTO/JSON/guards/output statements remain byte-identical.",
+    "discovery_shim": "Original shim suffix is byte-identical; no temporary DIAG diagnostic text is included. Its prefix/sort/runState/distinct/children predicates, CreateNew and exit behavior are unchanged.",
+    "mapping": "All36 occurrences remain in original order on the same22 lines;21 unique approved alphanumeric categories map one-to-one to original requirement IDs. No new prohibited category characters.",
+    "evidence": "Eight fixed inputs match before and after; patch replays exactly; all seven permitted leaves authored using apply_patch. Read-only verifier emits JSON and does not write files."
+  },
+  "acceptance": {
+    "1": {
+      "criterion": "Exactly36 Category replacements on22 lines spanning21 IDs, expected476 lines/30038 bytes, diff+22/-22.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "2": {
+      "criterion": "Every other byte unchanged, including all methods/parameters/assertions/helpers and original discovery shim/guards/output; DIAG temporary logs excluded.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "3": {
+      "criterion": "Exact seven leaves/eight fixed inputs unchanged; canonical patch reconstructs candidate; inverse reconstructs original.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "4": {
+      "criterion": "All category literals use the approved alphanumeric names and retain PREF01-to-PREF-01 throughPREF21-to-PREF-21 traceability.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "5": {
+      "criterion": "Source-only; no compile/discovery/test/review result or inferred runtime count.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    }
+  },
+  "verification": {
+    "kind": "MECHANICAL_TEXT_HASH_DIFF_ONLY",
+    "command": "python3 -B TestArtifacts/FightMatch/LOC-IMPL-B-PREF/FIX01/S/verify.py",
+    "runs": [
+      {
+        "command": "python3 -B TestArtifacts/FightMatch/LOC-IMPL-B-PREF/FIX01/S/verify.py",
+        "duration_seconds": 0.0033464159932918847,
+        "exit_code": 0
+      }
+    ],
+    "passed_checks": 27,
+    "failed_runs_preserved": 0,
+    "verifier_nonempty_lines": 107,
+    "verifier_bytes": 7628,
+    "protected_inputs": 8,
+    "behavioral_pass_claim": false
+  },
+  "execution_counts": {
+    "CSharp": 0,
+    "Unity": 0,
+    "SDK": 0,
+    "discovery": 0,
+    "tests": 0,
+    "old_runner": 0,
+    "network": 0,
+    "Git": 0,
+    "local_review": 0,
+    "independent_review": 0
+  },
+  "historical_diagnosis": {
+    "matched": 77,
+    "nonRunnable": 6,
+    "duplicate": 0,
+    "observed_bad_category_samples": 2,
+    "note": "Only two sampled reasons identify prohibited category characters; no invented list of six bad leaves. 77 is not a runnable/passed count. Original M01 and DIAG01 M01 remain D1/exit3/T0 failures."
+  },
+  "limitations": [
+    "Original M01 and DIAG01 M01 remain failed D1/exit3/T0 evidence. Only the two recorded bad-category samples are known; no six-leaf cause list is inferred.",
+    "77 previous matches are not a runnable count, pass count or an authorized test filter.",
+    "Compilation, real discovery, testing and independent review of the resulting head remain pending. Original PR3 no-major review does not cover this increment.",
+    "Future separately authorized D must establish all Runnable and seal actual fullnames/Counter before T. No ActivationStore/native work started."
+  ],
+  "return_path": "One completion event to current issuer with seven final identities under AGENTS section6, then stop all writes. No ActivationStore or native successor; future separately leased D must pass Runnable/fullnames/Counter before T."
+}
