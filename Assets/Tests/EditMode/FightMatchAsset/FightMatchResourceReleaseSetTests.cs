@@ -680,5 +680,46 @@ namespace FightMatch.AssetAccess.Tests
             CollectionAssert.AreEqual(Utf8.GetBytes(Vector1), value.EncodeCanonical());
             Assert.AreEqual(Descriptor1, value.DescriptorSha256);
         }
+
+        [Test]
+        public void D13_RawPhysicalLeavesHaveExclusiveOwners()
+        {
+            var root = Build(true);
+            var artifact = Entry(root, "fm.text.full.artifact");
+            var manifest = Entry(root, "fm.text.full.manifest");
+            var artifactFile = Physical(root, "raw/text");
+            var manifestFile = Physical(root, "raw/text-manifest");
+            var text = O(root, "descriptor", "text");
+            text["manifestLength"] = text["artifactLength"];
+            text["manifestSha256"] = text["artifactSha256"];
+            manifest["contentLength"] = artifact["contentLength"];
+            manifest["contentSha256"] = artifact["contentSha256"];
+            manifestFile["length"] = artifactFile["length"];
+            manifestFile["sha256"] = artifactFile["sha256"];
+            Assert.AreEqual(11, A(root, "physicalFiles").Count);
+            Assert.AreNotEqual(artifact["assetId"], manifest["assetId"]);
+            Assert.AreNotEqual(artifact["location"], manifest["location"]);
+            Assert.AreNotEqual(artifactFile["name"], manifestFile["name"]);
+            Assert.AreEqual(artifact["contentLength"], manifest["contentLength"]);
+            Assert.AreEqual(artifact["contentSha256"], manifest["contentSha256"]);
+            Assert.AreEqual(artifactFile["length"], manifestFile["length"]);
+            Assert.AreEqual(artifactFile["sha256"], manifestFile["sha256"]);
+            CollectionAssert.AreEqual(new[] { "raw/text" }, (Items)artifact["files"]);
+            CollectionAssert.AreEqual(new[] { "raw/text-manifest" }, (Items)manifest["files"]);
+            Rebind(root);
+            Accept(Bytes(root));
+
+            manifest["files"] = L("raw/text");
+            Assert.IsTrue(A(root, "physicalFiles").Remove(manifestFile));
+            Assert.AreEqual(10, A(root, "physicalFiles").Count);
+            CollectionAssert.AreEqual((Items)artifact["files"], (Items)manifest["files"]);
+            CollectionAssert.AreEquivalent(
+                A(root, "physicalFiles").Cast<Map>().Select(f => (string)f["name"]).ToArray(),
+                A(root, "mapping", "entries").Cast<Map>().SelectMany(e => ((Items)e["files"]).Cast<string>())
+                    .Concat(new[] { "inputs/text.receipt", "manifest/main.bytes" }).Distinct().ToArray());
+            Rebind(root);
+            var bytes = Bytes(root);
+            Reject(bytes, "RES_SCHEMA", H(bytes));
+        }
     }
 }

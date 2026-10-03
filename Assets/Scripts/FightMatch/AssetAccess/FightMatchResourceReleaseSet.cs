@@ -322,6 +322,7 @@ namespace FightMatch.AssetAccess
             DirectFile(resources, manifest, "manifest");
             DirectFile(textReceipt, sourceReceipt, "");
             var used = new HashSet<string>(StringComparer.Ordinal) { Text(manifest["name"]), Text(sourceReceipt["name"]) };
+            var rawOwners = new HashSet<string>(StringComparer.Ordinal);
             var mapping = Keys(root["mapping"], "entries", "schemaVersion");
             Version(mapping["schemaVersion"]);
             var entries = Array(mapping["entries"], 8, 256);
@@ -361,6 +362,7 @@ namespace FightMatch.AssetAccess
                     Increasing(ref priorFile, name);
                     Need(physical.TryGetValue(name, out var file), Schema);
                     Need(Text(file["kind"]) == (kind == "raw" ? "raw" : "bundle"), Schema);
+                    if (kind == "raw") Need(rawOwners.Add(name), Schema);
                     AddLength(ref length, (long)file["length"], TotalLimit);
                     referenced.Add(file);
                     used.Add(name);

@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-CODEC-FIX02",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0ff91-478a-7673-9997-43cd6e001e7c"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0ff8c-1b41-7262-a8be-362ff4870414"
+  },
+  "authority": "User AGENTS section 6 standing team workflow; engineering explicit activation after central approval of the sole PR10 P2 finding. FIX01 turn 01a0ff6a-9d37-71d3-b76a-07ed863e265b and C-CONTRACT turn 01a0ff4d-c65b-7941-9245-8e6aed391278 are completed and sealed. Sole source ownership transfers to this actual turn; engineering is the only completion receiver.",
+  "dispatch_model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh"
+  },
+  "model_evidence_note": "Issuer policy; verifier does not measure execution model.",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "scope": [
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+    "before.json",
+    "after.json",
+    "source.patch",
+    "verify.py",
+    "static-checks.json",
+    "source-receipt.json"
+  ],
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "type": "regular_file",
+      "bytes": 31863,
+      "sha256": "1dcd1288125b2c1f2ed26d6be9a4cfdd28ae59ae024e584b1b7a42137cc6061a",
+      "physical_lines": 682
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+      "type": "regular_file",
+      "bytes": 56352,
+      "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842",
+      "physical_lines": 725
+    }
+  },
+  "immutable_artifacts": {
+    "before.json": {
+      "type": "regular_file",
+      "bytes": 20026,
+      "sha256": "d40292bdb848c400429cc21008520560a419927e02aa9d33b444c72170f7f696"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 3977,
+      "sha256": "835083ff22a2a3b3e6eefb6619b9946d869938749d0e5db00bf21060e55ede10"
+    },
+    "verify.py": {
+      "type": "regular_file",
+      "bytes": 21145,
+      "sha256": "3d99d503fa1a1e08195a682ce6f2c61a124b38402c98691ca6355fa5c7c5f9d8"
+    }
+  },
+  "frozen_stages": {
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 10065,
+        "sha256": "6bc665c989731ec7c464e0d968015a57262d7eba76470a9d74761ebb89f03c12"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX01/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 10495,
+        "sha256": "3aa9bc0e28746c8ef21a496b075381fa5f7fdd5930a8bb762741b184803c36e6"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 21906,
+        "sha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-C-CONTRACT-001/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 14107,
+        "sha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2"
+      },
+      "unchanged": true
+    }
+  },
+  "budgets": {
+    "production_lines": 1200,
+    "production_bytes": 81920,
+    "test_lines": 1000,
+    "test_bytes": 102400,
+    "production_changed_lines": 12,
+    "new_test_lines": 80,
+    "total_changed_lines": 100,
+    "stage_bytes": 2097152,
+    "verify_seconds": 30,
+    "max_verify_runs": 2
+  },
+  "deltas": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "added": 2,
+      "removed": 0
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+      "added": 41,
+      "removed": 0
+    }
+  },
+  "baseline_stage": "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX01/S",
+  "review_binding": {
+    "review_id": 5398527691,
+    "head": "bf3098717d3c2b0bd02eeac9c6c0562711c87b00",
+    "finding_id": 4171291210,
+    "finding_url": "https://github.com/yyczz1/FightMatch/pull/10#discussion_r4171291210",
+    "prior_verdict": "NEEDS_FIX",
+    "review_repeated": false
+  },
+  "implementation": "A local ordinal raw-name ownership set rejects a second raw reference with RES_SCHEMA. Existing used coverage and object/bundle sharing path remain unchanged.",
+  "test_change": "Append D13 only: same-payload distinct text leaves accepted after Rebind; then manifest aliases artifact, unused physical leaf removed, ten physical leaves and complete coverage asserted, full Rebind and correctly pinned bytes rejected with RES_SCHEMA.",
+  "test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners"
+  ],
+  "test_inventory": {
+    "planned_ordinary_tests": 13,
+    "static_named_tests": 13,
+    "original_twelve_and_all_helpers_literal_fixtures_unchanged": true,
+    "D09_shared_bundle_positive_unchanged": true,
+    "discovery_or_execution_claim": false
+  },
+  "acceptance": {
+    "local_raw_name_check_only": "TEXTUALLY_VERIFIED_UNCOMPILED",
+    "original_production_other_bytes": "STATIC_VERIFIED_UNCHANGED",
+    "original_twelve_tests_helpers_literals_null_cast": "STATIC_VERIFIED_UNCHANGED",
+    "D13_required_positive_and_negative_controls": "AUTHORED_TEXTUALLY_VERIFIED_UNTESTED",
+    "two_path_patch_replay_budgets_and_fixed_inputs": "STATIC_VERIFIED",
+    "review_finding_resolution": "PENDING_INDEPENDENT_REVIEW",
+    "integration": "NO_ACCEPT"
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/verify.py",
+    "kind": "STATIC_ONLY",
+    "behavior_pass_claim": false,
+    "protected_inputs": 42,
+    "shared_guards": 34,
+    "frozen_leaf_counts": {
+      "D": 8,
+      "FIX01": 8,
+      "B": 15,
+      "C_CONTRACT": 8
+    },
+    "patch_replay": "Two source deltas replayed in memory over fixed FIX01 preimages",
+    "unchanged_fixture_recomputation": false,
+    "static_result": {
+      "type": "regular_file",
+      "bytes": 21760,
+      "sha256": "d958b8a32df836a96fb0889ae7f2e65e9db4673e5c743591c0730dab77469748"
+    },
+    "runs": 1,
+    "failed_runs_preserved": 0,
+    "passed_checks": 126,
+    "duration_seconds": 0.03768462495645508
+  },
+  "not_run": [
+    "C# compile",
+    "Unity import",
+    "NUnit discovery",
+    "13 tests",
+    "old decoder or old tests for red proof",
+    "old verifiers",
+    "unchanged fixture recomputation",
+    "Git/network/code review",
+    "live projection/T-continuation/C native reads",
+    "real resources/LOC/Host/device"
+  ],
+  "limitations": [
+    "Only source readiness is claimed; no compiler or behavioral pass, integration ACCEPT, or GitHub finding resolution.",
+    "D13 metadata/control assertions are authored but not executed; behavior requires the separately authorized native run.",
+    "Original D/FIX01/B/C records and all shared source/meta/assemblies/dependencies remain unchanged.",
+    "Old M01/M02/CLOSE and FIX04/M16 histories remain; no validation or shutdown result is inferred.",
+    "Subsequent same-PR publication and fixed D13+C10 compile/tests are owned by the leads, separately authorized."
+  ],
+  "return_path": "One completion event to engineering issuer only, with actual turn and sealed identities. Stop writing and do not start another packet.",
+  "after": {
+    "type": "regular_file",
+    "bytes": 20382,
+    "sha256": "d043ddf544edadc27f43f6b5f5c484b6d34c629e163bf13578640fb3b2266e28"
+  }
+}
