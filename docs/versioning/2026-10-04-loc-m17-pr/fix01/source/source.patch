@@ -1,0 +1,426 @@
+--- M17/source/m17_driver.py
++++ M17-FIX01/source/m17_driver.py
+@@ -25,7 +25,8 @@
+ REPO=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')
+ BASE=REPO/'TestArtifacts/FightMatch/LOC-LIC-ALT-M'
+ DOC=REPO/'docs/team/2026-09-30'
+-E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17'
++OLD17=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17'
++E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix01'
+ W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17')
+ M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17')
+ TOOL=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0')
+@@ -40,9 +41,9 @@
+ DRIVER=E/'source/m17_driver.py'
+ PREP=('source/m17_driver.py','source/m17-inputs.tsv','source/m17-write-set.tsv','source/source.patch',
+       'authority/prepare.json','authority/offline-checks.json','authority/source-freeze.json','authority/source-receipt.json')
+-OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a10679-580b-73b2-85bf-ae0a19de8b29'}
++OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a106b5-c606-7251-ad02-647da5964063'}
+ ISSUER={'threadId':'01a0f2e3-1a80-7671-a459-38d5c8de0e6b','hostId':'local','turnId':'01a10641-a816-71d1-919b-97413f71ea56'}
+-DISPATCH='fco_01a10679-5812-7da3-aebb-aceb591c9636'
++DISPATCH='fco_01a106b5-c612-7e80-bc6f-987e57f4dc07'
+ CENTRAL='01a0e401-511d-79f2-b47f-3ab0ade1681b'
+ TRUSTED_CENTRAL_ACTIVATION=None
+ FIXED_INDEX=(4916277,'043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381')
+@@ -131,7 +132,8 @@
+     expected=[
+         (BASE/'loc-lic-alt-yamldotnet-16.3.0-m16',2666,'0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50'),
+         (BASE/'loc-lic-alt-yamldotnet-16.3.0-m16-fix01',3881,'d84ef5066b7a7e9450c372fa46e252a78864dfad75b2902b111bc238aa7ca0dc'),
+-        (F02,6033,'db19910e7cbfe207a604c394304c539f73f50c222a3f2edc33d881ce64921880')]
++        (F02,6033,'db19910e7cbfe207a604c394304c539f73f50c222a3f2edc33d881ce64921880'),
++        (OLD17,2765,'d572872d038a19418c75c776cef3ae7299616a69118b6a63619c774f0b2fb244')]
+     result=[]
+     for root,count,digest in expected:
+         sealpath=root/'authority/source-freeze.json'
+@@ -141,7 +143,7 @@
+             check_bytes(reader(Path(item['path'])),(item['bytes'],item['sha256']),'old leaf')
+             result.append(item)
+         require({str(p) for p in root.rglob('*') if p.is_file()}=={i['path'] for i in entries},'old sealed leaf set changed')
+-    require(len(result)==22,'old 22-leaf count')
++    require(len(result)==30,'old 30-leaf count')
+     return result
+ 
+ class Basis:
+@@ -323,6 +325,8 @@
+         if p.is_relative_to(REPO/'Config/FightMatch'):basis.fixed(p,'localization-config')
+     contract=DOC/'engineering-loc-m17-clean-source.md'
+     basis.add(contract,reader(contract),'existing','authority','final M/B/L corrected M17 contract')
++    contract=DOC/'engineering-loc-m17-stage-budget-fix01.md'
++    basis.add(contract,reader(contract),'existing','authority','M-only 900-second FIX01 contract')
+     authority=DOC/'central-resume-scene-loc-2026-10-04.json'
+     basis.fixed(authority,'authority')
+     basis.add(Path('/usr/bin/curl'),reader(Path('/usr/bin/curl')),'existing','tool','current host curl; fixed before future exact GET')
+@@ -372,7 +376,7 @@
+         name='M-get-'+(item.get('key') or 'yaml-source')
+         add(name,'M',['/usr/bin/curl','--disable','--fail','--silent','--show-error','--proto','=https','--noproxy','*','--max-redirs','0',
+             '--connect-timeout','15','--max-time','120','--retry','0','--max-filesize',str(item['bytes']),
+-            '--output',item['path'],item['url']],W,125)
++            '--output',item['path'],'--write-out','M17_BODY_BYTES=%{size_download}\\n',item['url']],W,125)
+         commands[-1].update(network={'method':'GET','exactUrl':item['url'],'maxAttempts':1,'maxResponseBytes':item['bytes'],
+             'redirects':0},validation=['exact archive bytes/SHA256; SHA512 for package','no retry or partial-file promotion'])
+     phases=[('M-runner-generation','M','runner',False),('M-tests-generation','M','tests',False),
+@@ -831,8 +835,66 @@
+     else:raise GateError('unsupported control stage')
+     return {'stage':stage,'actualDutReceiptsChecked':checked,'status':'CONTROL_GATES_PASSED_NOT_INDEPENDENT_ACCEPTANCE'}
+ 
++def download_contract(m):
++    rows=sorted([{k:p[k] for k in ('path','url','bytes','sha256')} for p in [*m['packages'],m['archive']]
++        if p['class']=='official-get'],key=lambda p:p['path'])
++    require(len(rows)==18 and sum(r['bytes'] for r in rows)==25172764 and
++        sha(jb(rows))=='6761184244450758f97f5886582a2bd2ae9de2108b4d71b921943460efae215d','fixed 18-archive contract drift')
++    return rows
++
++class MStage:
++    def __init__(self,clock=time.monotonic):
++        self.clock=clock;self.started=clock();self.work=self.started+870;self.end=self.started+900
++        self.closing=False;self.arm=lambda seconds:None;self.gets={};self.bodyBytes=0;self.allowed={}
++    def left(self,cleanup=False):
++        value=(self.end if cleanup else self.work)-self.clock()
++        require(value>0 and (cleanup or not self.closing),'M stage deadline exhausted');return value
++    def close(self):
++        self.closing=True;self.arm(self.left(True))
++    def wait(self,limit,runner,stop=None,cleanup=False):
++        try:
++            require(limit>0,'command deadline exhausted')
++            value=runner(min(limit,self.left(cleanup)));self.left(cleanup);return value
++        except BaseException:
++            self.close()
++            if stop:stop(self)
++            raise
++    def begin_get(self,command):
++        self.left();path=command['argv'][command['argv'].index('--output')+1];row=self.allowed.get(path)
++        require(command['stage']=='M' and row and command['argv'][-1]==row['url'] and path not in self.gets,'unlisted/repeated GET')
++        require(self.bodyBytes+row['bytes']<=25172764,'aggregate archive body budget');self.gets[path]={'bodyBytes':None,'savedBytes':0,'expected':row}
++    def end_get(self,command,stdout,saved,success):
++        path=command['argv'][command['argv'].index('--output')+1];record=self.gets[path]
++        require(not record.get('accounted'),'GET body counted twice');record['accounted']=True
++        matches=re.findall(rb'^M17_BODY_BYTES=([0-9]+)\r?$',stdout,re.M)
++        record['savedBytes']=saved;record['bodyBytes']=int(matches[0]) if len(matches)==1 else None
++        if record['bodyBytes'] is not None:self.bodyBytes+=record['bodyBytes']
++        require(record['bodyBytes'] is not None and saved<=record['bodyBytes']<=self.allowed[path]['bytes']
++            and self.bodyBytes<=25172764,'missing/over-limit actual archive body measurement')
++        if success:require(saved==record['bodyBytes']==self.allowed[path]['bytes'],'incomplete archive response body')
++
++def consume_m_stage(stage,work,finish,watchdog=True):
++    # The production signal covers CPU work, hashing, decoding and blocking I/O,
++    # not only checkpoints. Tests replace clock/runner, never the production pin.
++    import signal
++    old=None;result=None;failure=None
++    def alarm(signum,frame):raise GateError('M stage deadline interrupt')
++    if watchdog:
++        require(signal.getitimer(signal.ITIMER_REAL)==(0.0,0.0),'existing host timer must not be replaced')
++        old=signal.signal(signal.SIGALRM,alarm);stage.arm=lambda seconds:signal.setitimer(signal.ITIMER_REAL,seconds)
++    try:
++        stage.arm(stage.left())
++        try:result=work(stage);stage.left()
++        except BaseException as error:failure=type(error).__name__+': '+str(error)
++        stage.close();finish(stage,result,failure);stage.left(True)
++    finally:
++        if old is not None:signal.setitimer(signal.ITIMER_REAL,0);signal.signal(signal.SIGALRM,old)
++    require(failure is None,'M stopped: '+str(failure));return result
++
+ def execution_budget(m):
+-    return {'maxConcurrentTrees':1,'M':{'runnerGenerationRestores':1,'testsGenerationRestores':1,'testsVerificationRestores':1,
++    return {'maxConcurrentTrees':1,'M':{'wallSeconds':900,'workSeconds':870,'cleanupReserveSeconds':30,
++        'officialGets':download_contract(m),'maxArchiveResponseBodyBytes':25172764,
++        'runnerGenerationRestores':1,'testsGenerationRestores':1,'testsVerificationRestores':1,
+         'explicitDeltaFromM16':'runner restore 0 -> 1 to regenerate the lost runner locks from fixed source/feed'},
+         'B':{'runnerLockedRestores':2,'testsLockedRestores':1,'publishes':2,'officialBuilds':1,'unfilteredOfficialTests':1},
+         'L':{'requiresIndependentBAcceptance':True,'compilerSelfTests':12,'cleanCanonicalPasses':2},
+@@ -859,7 +921,7 @@
+     require(record.get('reviewStatus')=='COMPLETED_NO_UNRESOLVED_FINDINGS' and
+             re.fullmatch('[0-9a-f]{40}',record.get('reviewedHead','')) and
+             record['reviewedHead']==record.get('executionHead'),'review gate')
+-    require(record.get('stage') in ('M','B','L'),'activation stage')
++    require(record.get('stage')=='M','M-only activation; B/L require independent execution')
+     require(record.get('hostExecutorSha256')==record['driverSha256'] and
+             record.get('refinedWriteSetSha256')==sha(source_tables(m)['source/m17-write-set.tsv']),'host executor/refined write gate')
+     if record['stage']!='M':require(record.get('independentMaterialReceiptSha256'),'material acceptance missing')
+@@ -869,14 +931,21 @@
+ def execute(argv,reader=read):
+     # Must precede stdin, caller-selected paths, source consumption, external
+     # commands or network. This reviewed SOURCE_ONLY snapshot is never a host.
++    stage=MStage();state={}
+     require(TRUSTED_CENTRAL_ACTIVATION is not None,'BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION')
+-    pin=TRUSTED_CENTRAL_ACTIVATION
+-    frozen=reader(E/'authority/source-freeze.json')
+-    m=consume_source(frozen,reader)
+-    record_bytes=reader(Path(pin['path']))
+-    verify_activation(pin,record_bytes,strict(record_bytes),frozen,m,argv)
+-    require(strict(record_bytes)['stage']=='M','B and L require their separately owned execution packets')
+-    return execute_material(m,reader,frozen,argv)
++    def work(stage):
++        pin=TRUSTED_CENTRAL_ACTIVATION;frozen=reader(E/'authority/source-freeze.json')
++        m=consume_source(frozen,reader);record_bytes=reader(Path(pin['path']))
++        verify_activation(pin,record_bytes,strict(record_bytes),frozen,m,argv);state['m']=m
++        stage.allowed={r['path']:r for r in download_contract(m)};stage.left()
++        return execute_material(m,reader,frozen,argv,stage)
++    def finish(stage,result,failure):
++        report={'status':'M_FAILED' if failure else 'M_CANDIDATE_NOT_ACCEPTED','failure':failure,'result':result,
++            'elapsedSeconds':stage.clock()-stage.started,'gets':stage.gets,'measuredArchiveBodyBytes':stage.bodyBytes,
++            'bodyMeasurementComplete':all(r['bodyBytes'] is not None for r in stage.gets.values()),'tlsProtocolTrafficMeasured':False}
++        if 'm' in state:MaterialWriter(state['m'],stage).put(W/'receipts/material-validation.json',jb(report),'M/B/L','trusted-host',cleanup=True)
++        print(json.dumps(report,ensure_ascii=False))
++    return consume_m_stage(stage,work,finish)
+ 
+ def source_tables(m):
+     return {'source/m17-inputs.tsv':tsv(INPUT_HEADER,m['inputs']),
+@@ -916,21 +985,22 @@
+ 
+ class MaterialWriter:
+     """Only used after trusted M activation. Never used in offline fixtures."""
+-    def __init__(self,m):self.m=m;self.outputs={};self.started=time.monotonic()
++    def __init__(self,m,stage):self.m=m;self.outputs={};self.stage=stage
+     def path(self,path):
+         p=Path(path);require(p.is_absolute() and '..' not in p.parts,'write path escape')
+         require(not any(q.is_symlink() for q in (p,*p.parents)),'write symlink')
+         return p
+-    def put(self,path,b,stage,writer):
++    def put(self,path,b,stage,writer,cleanup=False):
++        self.stage.left(cleanup)
+         p=self.path(path);count,maximum=authorize_write(self.m,p,stage,writer)
+         require(len(b)<=maximum and not p.exists(),'write budget/existing leaf: '+str(p))
+         p.parent.mkdir(parents=True,exist_ok=True)
+         with p.open('xb') as stream:stream.write(b)
+-        self.outputs[str(p)]=(len(b),sha(b));self.budget()
+-    def budget(self):
++        self.outputs[str(p)]=(len(b),sha(b));self.budget(cleanup)
++    def budget(self,cleanup=False):
+         import shutil
+         bounds=execution_budget(self.m)
+-        require(time.monotonic()-self.started<=bounds['maxCumulativeCommandSeconds']+1800,'material wall budget')
++        self.stage.left(cleanup)
+         for root,files,size in [(M,bounds['materialMaxFiles'],bounds['materialMaxBytes']),
+                                  (W,bounds['workMaxFiles'],bounds['workMaxBytes'])]:
+             if not root.exists():continue
+@@ -977,10 +1047,12 @@
+     import selectors
+     import signal
+     import subprocess
++    stage=writer.stage;stage.left()
+     require(TRUSTED_CENTRAL_ACTIVATION is not None,'closed source-only command gate')
+     pin=TRUSTED_CENTRAL_ACTIVATION;record=read(Path(pin['path']))
+     verify_activation(pin,record,strict(record),frozen,m,argv)
+     require(command['stage']=='M' and command['maxChildren']==0,'only M executor implemented here')
++    require(command in m['commands'],'command differs from frozen M plan')
+     require(command['id'] not in writer.outputs,'command retry forbidden')
+     rules=command_write_rules(m,command);profile=child_sandbox(rules,command['network'])
+     for root,rel,kind,stage,owner,files,size,purpose in rules:
+@@ -991,46 +1063,56 @@
+     for key in command['env']['preserve']:require(env.get(key)==os.environ.get(key),'protected environment drift')
+     for key in ('DOTNET_CLI_HOME','NUGET_PACKAGES','NUGET_HTTP_CACHE_PATH','NUGET_PLUGINS_CACHE_PATH','NUGET_SCRATCH','TMPDIR'):
+         writer.path(env[key]).mkdir(parents=True,exist_ok=True)
+-    started=time.monotonic();streams={'stdout':bytearray(),'stderr':bytearray()};process=None;failure=None
++    started=stage.clock();deadline=started+command['timeoutSeconds'];streams={'stdout':bytearray(),'stderr':bytearray()};process=None;failure=None
+     selector=selectors.DefaultSelector();exit_code=None
++    def stop_owned(s):
++        if process is not None and process.poll() is None:
++            os.killpg(process.pid,signal.SIGTERM)
++            try:s.wait(command['killGraceSeconds'],lambda seconds:process.wait(timeout=seconds),cleanup=True)
++            except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);s.wait(5,lambda seconds:process.wait(timeout=seconds),cleanup=True)
+     try:
++        stage.left()
++        if isinstance(command['network'],dict):stage.begin_get(command)
+         process=subprocess.Popen(command['argv'],cwd=command['cwd'],env=env,stdin=subprocess.DEVNULL,
+             stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True,preexec_fn=lambda:install_sandbox(profile))
+         for label,stream in [('stdout',process.stdout),('stderr',process.stderr)]:
+             os.set_blocking(stream.fileno(),False);selector.register(stream,selectors.EVENT_READ,label)
+         budget_time=started
+         while selector.get_map():
+-            require(time.monotonic()-started<=command['timeoutSeconds'],'process timeout')
++            require(stage.clock()<deadline,'process timeout');stage.left()
+             if time.monotonic()-budget_time>=1:
+                 inspect_command_outputs(rules);writer.budget();budget_time=time.monotonic()
+-            for key,_ in selector.select(0.1):
++            for key,_ in stage.wait(min(.1,deadline-stage.clock()),selector.select,stop_owned):
+                 chunk=os.read(key.fd,65536)
+                 if not chunk:selector.unregister(key.fileobj);key.fileobj.close();continue
+                 limit=command[key.data+'MaxBytes'];room=limit-len(streams[key.data])
+                 streams[key.data].extend(chunk[:room]);require(len(chunk)<=room,'process log cap')
+-        exit_code=process.wait(timeout=max(.001,command['timeoutSeconds']-(time.monotonic()-started)))
++        exit_code=stage.wait(deadline-stage.clock(),lambda seconds:process.wait(timeout=seconds),stop_owned)
+         require(exit_code==command['expectedExit'],'process exit failure')
+         inspect_command_outputs(rules);writer.budget()
+     except Exception as error:failure=type(error).__name__+': '+str(error)
+     finally:
+-        if process is not None and process.poll() is None:
+-            os.killpg(process.pid,signal.SIGTERM)
+-            try:process.wait(timeout=command['killGraceSeconds'])
+-            except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait(timeout=5)
++        if failure:stage.close()
++        stop_owned(stage)
+         selector.close()
++    if process is not None:exit_code=process.returncode
++    if isinstance(command['network'],dict):
++        path=Path(command['argv'][command['argv'].index('--output')+1])
++        try:stage.end_get(command,bytes(streams['stdout']),path.stat().st_size if path.exists() else 0,failure is None)
++        except Exception as error:failure=(failure+'; ' if failure else '')+str(error);stage.close()
+     receipt={'role':'DUT','argv':command['argv'],'cwd':command['cwd'],'env':command['env'],
+         'exitCode':exit_code,'startCount':int(process is not None),'childStarts':0,
+         'childrenDeniedBySandbox':True,'quiescent':process is not None and process.poll() is not None,
+-        'timedOut':failure is not None and 'timeout' in failure.lower(),'elapsedSeconds':time.monotonic()-started,
++        'timedOut':failure is not None and any(w in failure.lower() for w in ('timeout','deadline')),'elapsedSeconds':time.monotonic()-started,
+         'failure':failure,'sandboxProfileSha256':sha(profile.encode())}
+     for key,data in [('stdoutPath',bytes(streams['stdout'])),('stderrPath',bytes(streams['stderr'])),('receiptPath',jb(receipt))]:
+-        writer.put(Path(command[key]),data,'M',command['id'])
++        writer.put(Path(command[key]),data,'M',command['id'],cleanup=bool(failure))
+     writer.outputs[command['id']]=(0,'attempted')
+     require(failure is None,'material command failed; no retry: '+str(failure))
+     validate_process(command,receipt,bytes(streams['stdout']),bytes(streams['stderr']),lambda root:[])
+     return receipt
+ 
+-def execute_material(m,reader,frozen,argv):
++def execute_material(m,reader,frozen,argv,stage):
+     """Guarded future M implementation; B/L only remain frozen contracts."""
+     require(TRUSTED_CENTRAL_ACTIVATION is not None,'closed M gate')
+     require(not M.exists(),'new material root must be absent')
+@@ -1039,7 +1121,7 @@
+     before=old_seals(reader)
+     for kind,role,path,count,digest,authority in m['inputs']:
+         if kind=='existing':check_bytes(reader(Path(path)),(int(count),digest),'fresh complete existing input')
+-    writer=MaterialWriter(m);archive_data={};entry_maps={}
++    stage.left();writer=MaterialWriter(m,stage);archive_data={};entry_maps={}
+     for item in [*m['packages'],m['archive']]:
+         p=Path(item['path'])
+         if not p.exists():
+@@ -1107,7 +1189,7 @@
+     for name,value in [('packages.json',m['packages']),('licenses.json',m['licenses']),('graphs.json',m['graphs']),
+                        ('expected-deployment.json',deployment),('commands.json',{'commands':m['commands'],'comparisons':control_groups()}),
+                        ('validation.json',{'stage':'M_MATERIAL_CANDIDATE','notIndependentAcceptance':True,'restores':receipts,
+-                            'sourceFreezeSha256':sha(frozen),'old22Leaves':before,'B':'NOT_RUN','L':'NOT_RUN'})]:
++                            'sourceFreezeSha256':sha(frozen),'old30Leaves':before,'B':'NOT_RUN','L':'NOT_RUN'})]:
+         writer.put(M/'identity'/name,jb(value),'M','seal-material')
+     manifest=[identity(p,reader(p)) for p in sorted(M.rglob('*')) if p.is_file()]
+     writer.put(M/'identity/manifest.json',jb({'filesExcludingThisManifest':manifest,'sourceFreezeSha256':sha(frozen),
+@@ -1119,12 +1201,13 @@
+ def source_artifacts(m,driver_bytes,old_driver,checks,history):
+     result={'source/m17_driver.py':driver_bytes,**source_tables(m)}
+     patch=''.join(difflib.unified_diff(old_driver.decode().splitlines(True),driver_bytes.decode().splitlines(True),
+-        fromfile='fixed-F02/source/m16_driver.py',tofile='M17/source/m17_driver.py'))
++        fromfile='M17/source/m17_driver.py',tofile='M17-FIX01/source/m17_driver.py'))
++    require(sum(line.startswith(('+','-')) and not line.startswith(('+++','---')) for line in patch.splitlines())<=300,'FIX01 source delta exceeds 300 lines')
+     result['source/source.patch']=patch.encode()
+     result['authority/prepare.json']=jb({'schemaVersion':1,'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,
+         'modelSha256':sha(jb(m)),'model':m,'executionBudget':execution_budget(m),
+         'inputClasses':{k:sum(r[0]==k for r in m['inputs']) for k in ('existing','official-get','generated')},
+-        'old22Leaves':history,'states':m['states'],
++        'old30Leaves':history,'states':m['states'],
+         'limitations':['No archive acquired/unpacked; no material roots created.',
+             'Generated locks/assets have no hashes until actual isolated restore and independent comparison.',
+             'Existing SDK leaf identities are declared; fresh full SDK hashing is a required pre-launch gate.',
+@@ -1133,7 +1216,7 @@
+     result['authority/offline-checks.json']=jb(checks)
+     result['authority/source-receipt.json']=jb({'status':'SOURCE_READY',
+         'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,'modelSha256':sha(jb(m)),
+-        'sourceReady':True,'materialReady':False,'reviewReady':False,'executionAuthorized':False,
++        'sourceReady':True,'materialReady':False,'reviewReady':False,'executionAuthorized':False,'MOnlyBudget':execution_budget(m)['M'],
+         'integrationVerdict':'NOT_ISSUED_AUTHOR_CANNOT_ACCEPT','historyPreserved':history,
+         'returnPath':ISSUER,'pendingArchives':[{k:p[k] for k in ('path','bytes','sha256','url')} for p in [*m['packages'],m['archive']] if p['class']=='official-get'],
+         'generatedLocksAssets':len(m['generated']),
+@@ -1194,6 +1277,57 @@
+             child:b'<Project/>','src/Luban/nlog.xml':b'<nlog/>'}
+     return m,files,{'yamldotnet/16.3.0':(archive,content.encode())},source
+ 
++def budget_checks(m,case):
++    def scenario(elapsed,phase='work',wait=False):
++        tick=[0.0];stage=MStage(lambda:tick[0]);events=[];receipts=[]
++        def work(s):
++            tick[0]=elapsed;events.append(phase)
++            if wait:
++                def runner(seconds):events.append(('allowedWait',seconds));tick[0]+=seconds
++                s.wait(180,runner,lambda s:events.append('owned-termination'))
++            else:s.left()
++            events.append('next-action');return 'candidate'
++        try:consume_m_stage(stage,work,lambda s,r,e:receipts.append({'failure':e,'elapsed':tick[0]}),watchdog=False)
++        except GateError:pass
++        return stage,events,receipts
++    case('M normal same production consumer',lambda:require(scenario(1)[2]==[{'failure':None,'elapsed':1}],'normal stage'))
++    case('M prior elapsed time is deducted',lambda:require(('allowedWait',50.0) in scenario(820,wait=True)[1],'clock reset/uncapped wait'))
++    for elapsed,label in [(870,'exact work deadline'),(871,'input verification timeout'),(880,'in-memory decode timeout')]:
++        def check(t=elapsed,n=label):
++            s,e,r=scenario(t,n);require('next-action' not in e and r and r[0]['failure'],'deadline did not stop/retain failure')
++        case('M '+label,check)
++    def stopped():
++        s,e,r=scenario(820,wait=True)
++        require('owned-termination' in e and 'next-action' not in e and r[0]['failure'] and r[0]['elapsed']==870,'child deadline/receipt')
++    case('M child wait capped, terminated, failure retained, no next command',stopped)
++    stage=MStage(lambda:901);stage.started=0;stage.work=870;stage.end=900
++    case('original 901-second MaterialWriter regression',lambda:MaterialWriter(m,stage).budget(),True)
++    case('M hard deadline has no unlimited cleanup grace',lambda:stage.left(True),True)
++    tick=[0.0];cleanup=MStage(lambda:tick[0]);tick[0]=870;cleanup.close()
++    case('M failure receipt reserve survives work deadline',lambda:require(cleanup.left(True)==30,'cleanup reserve missing'))
++    case('M no new work once cleanup begins',lambda:cleanup.left(),True)
++    fixed=download_contract(m);commands=[c for c in m['commands'] if c['id'].startswith('M-get-')]
++    def downloads():
++        s=MStage(lambda:0);s.allowed={r['path']:r for r in fixed}
++        for c in commands:
++            s.begin_get(c);n=s.allowed[c['argv'][c['argv'].index('--output')+1]]['bytes']
++            s.end_get(c,('M17_BODY_BYTES='+str(n)+'\n').encode(),n,True)
++        require(len(s.gets)==18 and s.bodyBytes==25172764,'exact actual body total');return s
++    case('18 fixed GETs actual archive body total synthetic',downloads)
++    case('GET retry rejected',lambda:downloads().begin_get(commands[0]),True)
++    cache=MStage(lambda:0);cache.allowed={r['path']:r for r in fixed}
++    case('cache hits may reduce GET count to zero',lambda:require(cache.bodyBytes==0 and not cache.gets,'cache charged as transfer'))
++    bad=copy.deepcopy(m);bad['archive']['bytes']+=1
++    case('18-archive size/hash contract cannot expand',lambda:download_contract(bad),True)
++    changed=copy.deepcopy(m);changed['archive']['url']+='?replacement'
++    case('fixed official URL cannot change',lambda:download_contract(changed),True)
++    c=commands[0];s=MStage(lambda:0);s.allowed={r['path']:r for r in fixed};s.begin_get(c)
++    case('archive response aggregate overflow',lambda:s.end_get(c,b'M17_BODY_BYTES=25172765\n',25172765,True),True)
++    s2=MStage(lambda:0);s2.allowed=s.allowed;s2.begin_get(c)
++    case('partial transfer cannot fabricate complete body measurement',lambda:s2.end_get(c,b'',123,False),True)
++    case('unmeasured partial body retained as lower bound',lambda:require(s2.gets[next(iter(s2.gets))]['savedBytes']==123 and s2.bodyBytes==0,'partial response lost'))
++    case('B action cannot borrow M GET budget',lambda:MStage(lambda:0).begin_get(dict(c,stage='B')),True)
++
+ def offline_checks(m,cached,history):
+     results=[]
+     def case(name,action,reject=False):
+@@ -1205,7 +1339,7 @@
+                         'elapsedSeconds':round(time.monotonic()-started,6)})
+     reader=lambda p:cached[Path(p)]
+     case('actual model repeated byte equality',lambda:require(jb(model(reader))==jb(m),'model nondeterminism'))
+-    driver=reader(DRIVER);old=reader(F02/'source/m16_driver.py')
++    driver=reader(DRIVER);old=reader(OLD17/'source/m17_driver.py')
+     artifacts=source_artifacts(m,driver,old,{'fixture':'not actual execution'},history)
+     frozen=seal_source(m,artifacts)
+     data={E/rel:b for rel,b in artifacts.items()}
+@@ -1337,6 +1471,10 @@
+     def forbidden_read(p):calls.append(str(p));raise GateError('reader must not run')
+     case('production execute closed before any caller input or read',lambda:execute(argv,forbidden_read),True)
+     case('no production read or pin mutation',lambda:require(not calls and TRUSTED_CENTRAL_ACTIVATION is None,'closed gate leaked'))
++    for field,value in [('stage','B'),('stage','L'),('budgets',{}),('budgets',dict(record['budgets'],M=dict(record['budgets']['M'],wallSeconds=901)))]:
++        bad=dict(record);bad[field]=value;body=jb(bad);bad_pin=dict(pin,bytes=len(body),sha256=sha(body))
++        case('trusted-record wrong stage/missing/expanded budget '+str(value)[:20],lambda p=bad_pin,b=body,r=bad:verify_activation(p,b,r,frozen,m,argv),True)
++    budget_checks(m,case)
+     return results
+ 
+ def prepare():
+@@ -1367,7 +1505,7 @@
+         history=old_seals(caching_reader);m=model(caching_reader)
+         raw_results=offline_checks(m,cached,history)
+         require(all(c['passed'] for c in raw_results),'offline case failures')
+-        require(old_seals()==history,'old 22 leaves changed during source preparation')
++        require(old_seals()==history,'old 30 leaves changed during source preparation')
+     except Exception as error:
+         import traceback
+         failure={'type':type(error).__name__,'message':str(error),'traceback':traceback.format_exc()}
+@@ -1376,8 +1514,9 @@
+         'sourceIdentity':identity(DRIVER),'elapsedSeconds':elapsed,'exitCode':0 if failure is None else 20,
+         'rawCases':raw_results,'failure':failure}
+     attempts=previous+[attempt]
+-    checks={'scope':'pure in-process current M17 only; synthetic fixtures are not actual restore/material/build results',
++    checks={'scope':'pure in-process M17-FIX01; synthetic fixtures are not actual restore/material/build results',
+         'attempts':attempts,'cumulativeSeconds':sum(a['elapsedSeconds'] for a in attempts),
++        'redReproduction':previous_report.get('redReproduction'),
+         'supersededSourceSeals':superseded,
+         'caseCount':len(raw_results),'passed':sum(c['passed'] for c in raw_results),
+         'oldHistoricalResults':'23/46/25 preserved, not mechanically rerun',
+@@ -1386,7 +1525,7 @@
+     checks_path.parent.mkdir(parents=True,exist_ok=True);checks_path.write_bytes(jb(checks))
+     if failure is not None:
+         print(json.dumps(checks,ensure_ascii=False));return 20
+-    artifacts=source_artifacts(m,cached[DRIVER],cached[F02/'source/m16_driver.py'],checks,history)
++    artifacts=source_artifacts(m,cached[DRIVER],cached[OLD17/'source/m17_driver.py'],checks,history)
+     frozen=seal_source(m,artifacts)
+     memory={E/rel:b for rel,b in artifacts.items()}
+     consume_source(frozen,lambda p:memory[p],m)
