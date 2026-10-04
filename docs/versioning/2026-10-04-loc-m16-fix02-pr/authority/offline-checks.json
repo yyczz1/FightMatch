@@ -1,0 +1,328 @@
+{
+  "attempts": [
+    {
+      "chunk": "90ef1b",
+      "command": "/opt/homebrew/bin/python3 -B - <<'PY'\nimport ast,hashlib,json,time\nfrom pathlib import Path\nstarted=time.monotonic()\nrepo=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\nbase=repo/'TestArtifacts/FightMatch/LOC-LIC-ALT-M'\ne=base/'loc-lic-alt-yamldotnet-16.3.0-m16'\nf=base/'loc-lic-alt-yamldotnet-16.3.0-m16-fix01'\nnew=base/'loc-lic-alt-yamldotnet-16.3.0-m16-fix02'\nassert not new.exists()\nsha=lambda b:hashlib.sha256(b).hexdigest()\nold=[]\nfor root,expected in ((e,'0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50'),(f,'d84ef5066b7a7e9450c372fa46e252a78864dfad75b2902b111bc238aa7ca0dc')):\n    sealbytes=(root/'authority/source-freeze.json').read_bytes()\n    assert sha(sealbytes)==expected\n    seal=json.loads(sealbytes)\n    names=seal.get('expectedEightLeaves',seal.get('expectedSixLeaves'))\n    assert {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}==set(names)\n    for item in seal['filesExcludingThisSeal']:\n        b=Path(item['path']).read_bytes()\n        assert len(b)==item['bytes'] and sha(b)==item['sha256']\n    for rel in names:\n        p=root/rel;b=p.read_bytes();old.append({'path':str(p),'bytes':len(b),'sha256':sha(b)})\nns={'__name__':'fix02_red'}\nsource=(f/'source/m16_driver.py').read_bytes()\nexec(compile(source,str(f/'source/m16_driver.py'),'exec'),ns)\nfreeze=json.loads((f/'authority/source-freeze.json').read_bytes())\nuuid='11111111-1111-1111-1111-111111111111'\nrecord={'centralThread':ns['AUTHORITY']['threadId'],'centralHost':'local','centralTurn':uuid,'centralItem':uuid,\n'ownerThread':ns['OWNER']['threadId'],'ownerHost':'local','ownerTurn':uuid,'scope':'EXECUTE_M16',\n'sourceFreezeSha256':sha((f/'authority/source-freeze.json').read_bytes()),'driverSha256':sha(source),\n'reviewedHead':'a'*40,'executionHead':'a'*40,'reviewStatus':'COMPLETED_NO_UNRESOLVED_FINDINGS','argv':['synthetic'],\n'restoreLimits':{'runner':0,'testsGeneration':1,'testsVerification':1}}\nb=ns['json_bytes'](record)\npin={k:record[k] for k in ('centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn')}\npin.update(path='/synthetic-trusted-host/record',bytes=len(b),sha256=sha(b))\nchecks=[]\ntry:ns['verify_central_activation'](pin,b,record,freeze,record['sourceFreezeSha256'],sha(source),['synthetic'])\nexcept ns['GateError'] as error:\n    assert str(error)=='BLOCKED_SOURCE_NOT_READY'\n    checks.append({'finding':4176965421,'status':'RED_REPRODUCED','reason':str(error),'input':'actual generated F01 seal; synthetic pure pin, no production execution'})\nelse:raise AssertionError('missing field bug not reproduced')\n# Run the exact byte-equality statements consumed by execute, with the immutable\n# original material declaration as an explicit in-memory missing-material adapter.\ntree=ast.parse(source)\nentry=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='execute')\ngates=[n for n in entry.body if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call) and\n       any(isinstance(x,ast.Constant) and x.value in ('frozen input map differs','frozen write set differs') for x in ast.walk(n))]\nassert len(gates)==2\nmodel={'inputs':{r['sourcePath']:[r['sourcePath'],int(r['bytes']),r['sha256'],r['authority']] for r in ns['rows'](e/'source/m16-inputs.tsv')},\n'writeSet':[list(r.values()) for r in ns['rows'](e/'source/m16-write-set.tsv')]}\nns['model']=model\nfor gate in gates:\n    try:exec(compile(ast.fix_missing_locations(ast.Module(body=[gate],type_ignores=[])),'actual-execute-byte-gate','exec'),ns)\n    except ns['GateError'] as error:\n        checks.append({'finding':4176965430,'status':'RED_REPRODUCED','reason':str(error),'input':'sealed E16 material declarations adapter, no claim of current material availability'})\n    else:raise AssertionError('table mismatch not reproduced')\nresult={'status':'RED_REPRODUCED','checks':checks,'oldFourteenLeavesBefore':old,\n'newRootAbsent':True,'executionRootsBefore':{'T16':ns['T'].exists(),'M16':ns['M'].exists()},\n'historicalChecksNotRerun':[23,46],'childStarts':0,'networkRequests':0,'durationSeconds':time.monotonic()-started}\nprint(json.dumps(result))\nraise SystemExit(1)\nPY",
+      "exitCode": 1,
+      "result": {
+        "checks": [
+          {
+            "finding": 4176965421,
+            "input": "actual generated F01 seal; synthetic pure pin, no production execution",
+            "reason": "BLOCKED_SOURCE_NOT_READY",
+            "status": "RED_REPRODUCED"
+          },
+          {
+            "finding": 4176965430,
+            "input": "sealed E16 material declarations adapter, no claim of current material availability",
+            "reason": "frozen input map differs",
+            "status": "RED_REPRODUCED"
+          },
+          {
+            "finding": 4176965430,
+            "input": "sealed E16 material declarations adapter, no claim of current material availability",
+            "reason": "frozen write set differs",
+            "status": "RED_REPRODUCED"
+          }
+        ],
+        "childStarts": 0,
+        "durationSeconds": 0.18961299999864423,
+        "executionRootsBefore": {
+          "M16": false,
+          "T16": false
+        },
+        "historicalChecksNotRerun": [
+          23,
+          46
+        ],
+        "networkRequests": 0,
+        "newRootAbsent": true,
+        "oldFourteenLeavesBefore": [
+          {
+            "bytes": 125870,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16_driver.py",
+            "sha256": "0d4f0e7baccf14862eb5fce8dfdb558ccafacdd45f1683e8880c70c482d7dbf8"
+          },
+          {
+            "bytes": 4911291,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16-inputs.tsv",
+            "sha256": "946cc41177d30cc5f53cd99a9c675933073af8b357493cdef96245ee8112f41d"
+          },
+          {
+            "bytes": 1047831,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16-write-set.tsv",
+            "sha256": "44b554a689f71c230ae42ad73abc507d8a1ba4ff40ebd0d40c9f8f3d766396b0"
+          },
+          {
+            "bytes": 2497865,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/prepare.json",
+            "sha256": "f36e61e053cc61e87a1f635962fe64d46fd9d4ab98f742cd0ff9cb54b4131fd6"
+          },
+          {
+            "bytes": 2977,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/offline-checks.json",
+            "sha256": "b8c09607f3a7f4c2eb6bfa497fccc07ee586973acff30f0fcd84e989f9675844"
+          },
+          {
+            "bytes": 2666,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/source-freeze.json",
+            "sha256": "0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50"
+          },
+          {
+            "bytes": 172015,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16_driver.py",
+            "sha256": "11f56aacf087c141277bacd0d929bafcaf903ffe534fea699349f12931ffb2a3"
+          },
+          {
+            "bytes": 4913531,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16-inputs.tsv",
+            "sha256": "101cfe1239d9ada030fb246adcd7e5455b3ae162b7bc909cdfdd1048ece4ed42"
+          },
+          {
+            "bytes": 1048259,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16-write-set.tsv",
+            "sha256": "a6cf4621dd35bcec79b15aabbd16f1e2f6d5dc4c9f86c3cd009c1b79960ded55"
+          },
+          {
+            "bytes": 4135,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/prepare.json",
+            "sha256": "a92ed7617eeb76d86d3838568ef710581becc90e842d4fbc67690e57bd19089e"
+          },
+          {
+            "bytes": 17143,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/offline-checks.json",
+            "sha256": "d1bb12dd9563f2a6001adfb5c36f6e6507e55e8d7c394e36636b95bbd9a36985"
+          },
+          {
+            "bytes": 3881,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/source-freeze.json",
+            "sha256": "d84ef5066b7a7e9450c372fa46e252a78864dfad75b2902b111bc238aa7ca0dc"
+          },
+          {
+            "bytes": 15921,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/correction-receipt.json",
+            "sha256": "874035a35a41497bf9ffe93ff9980eb918c78b23ea73f7682e4107b3328f30fb"
+          },
+          {
+            "bytes": 57488,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/source.patch",
+            "sha256": "577ca3e7c4ec0de7b219ee67a09c8996c8a99f5c34b3ac9021e3d0f58ba3fc8c"
+          }
+        ],
+        "status": "RED_REPRODUCED"
+      }
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/python3",
+        "-B",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16_driver.py",
+        "prepare"
+      ],
+      "durationSeconds": 6.2887325000010605,
+      "result": "PASS"
+    }
+  ],
+  "budgetSeconds": 60,
+  "checks": [
+    {
+      "expected": "pass",
+      "finding": 4176965421,
+      "name": "actual-generated-seal-consumed-by-activation-verifier",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965421,
+      "name": "executorComplete-missing",
+      "reason": "BLOCKED_SOURCE_NOT_READY",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965421,
+      "name": "executorComplete-false",
+      "reason": "BLOCKED_SOURCE_NOT_READY",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965421,
+      "name": "materialWriteSetComplete-missing",
+      "reason": "BLOCKED_SOURCE_NOT_READY",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965421,
+      "name": "materialWriteSetComplete-false",
+      "reason": "BLOCKED_SOURCE_NOT_READY",
+      "status": "PASS"
+    },
+    {
+      "expected": "pass",
+      "finding": 4176965430,
+      "name": "actual-generated-tables-and-seal-consumed",
+      "status": "PASS"
+    },
+    {
+      "expected": "pass",
+      "finding": 4176965430,
+      "name": "same-model-repeated-table-byte-identity",
+      "status": "PASS"
+    },
+    {
+      "expected": "pass",
+      "finding": 4176965430,
+      "name": "sealed-material-declaration-adapter-consumed-not-material-execution",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "live-material-inputs-drift",
+      "reason": "live material input model differs from immutable E16 expectation",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "live-material-writeSet-drift",
+      "reason": "live material write model differs from projected declaration",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "live-material-copies-drift",
+      "reason": "live material source root differs",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "source/m16-inputs.tsv-tamper",
+      "reason": "source seal leaf drift: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-inputs.tsv",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "source/m16-inputs.tsv-self-consistent-resealed-tamper",
+      "reason": "frozen input map differs",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "source/m16-write-set.tsv-tamper",
+      "reason": "source seal leaf drift: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-write-set.tsv",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "source/m16-write-set.tsv-self-consistent-resealed-tamper",
+      "reason": "frozen write set differs",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "seal-owner-drift",
+      "reason": "source seal owner drift",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "seal-roots-drift",
+      "reason": "source declaration/root drift",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "current-source-leaf-drift",
+      "reason": "source declaration/root drift",
+      "status": "PASS"
+    },
+    {
+      "expected": "pass",
+      "finding": 4176965430,
+      "name": "no-generated-output-in-input-layer",
+      "status": "PASS"
+    },
+    {
+      "expected": "pass",
+      "finding": 4176965430,
+      "name": "current-eight-leaf-write-permission",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "historical-E16-write-rejected",
+      "reason": "BLOCKED_WRITE_SET: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/source-freeze.json",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "historical-F01-write-rejected",
+      "reason": "BLOCKED_WRITE_SET: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/source-freeze.json",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": 4176965430,
+      "name": "source-only-material-write-rejected",
+      "reason": "BLOCKED_WRITE_SET: /Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m16/identity/material-files.tsv",
+      "status": "PASS"
+    },
+    {
+      "expected": "pass",
+      "finding": "production-boundary",
+      "name": "pin-remains-empty",
+      "status": "PASS"
+    },
+    {
+      "expected": "reject",
+      "finding": "production-boundary",
+      "name": "execute-stops-before-stdin-files-or-children",
+      "reason": "BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION",
+      "status": "PASS"
+    }
+  ],
+  "cumulativeCheckSeconds": 6.478345499999705,
+  "failure": null,
+  "finalSavedSealConsumerCheck": "Performed after the eight-leaf seal is saved; actual result and total duration returned on stdout without hash-cycle backfill",
+  "fixtureScope": "Generated declarations plus explicit immutable-base material adapter; no claim of live material readiness",
+  "historicalChecks": [
+    {
+      "count": 23,
+      "rerun": false,
+      "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16"
+    },
+    {
+      "count": 46,
+      "rerun": false,
+      "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01"
+    }
+  ],
+  "passed": 25,
+  "schemaVersion": 2,
+  "status": "PASS",
+  "validationAttemptCount": 2,
+  "validationAttemptLimit": 2,
+  "zeroExecution": {
+    "GitWrites": 0,
+    "Unity": 0,
+    "childStarts": 0,
+    "dotnet": 0,
+    "materialWrites": 0,
+    "networkRequests": 0,
+    "productionWrites": 0,
+    "restore": 0
+  }
+}
