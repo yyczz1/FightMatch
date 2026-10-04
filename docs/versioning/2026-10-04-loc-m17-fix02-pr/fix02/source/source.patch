@@ -1,0 +1,134 @@
+--- M17-FIX01/source/m17_driver.py
++++ M17-FIX02/source/m17_driver.py
+@@ -26,7 +26,8 @@
+ BASE=REPO/'TestArtifacts/FightMatch/LOC-LIC-ALT-M'
+ DOC=REPO/'docs/team/2026-09-30'
+ OLD17=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17'
+-E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix01'
++OLD17F1=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix01'
++E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix02'
+ W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17')
+ M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17')
+ TOOL=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0')
+@@ -41,9 +42,9 @@
+ DRIVER=E/'source/m17_driver.py'
+ PREP=('source/m17_driver.py','source/m17-inputs.tsv','source/m17-write-set.tsv','source/source.patch',
+       'authority/prepare.json','authority/offline-checks.json','authority/source-freeze.json','authority/source-receipt.json')
+-OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a106b5-c606-7251-ad02-647da5964063'}
+-ISSUER={'threadId':'01a0f2e3-1a80-7671-a459-38d5c8de0e6b','hostId':'local','turnId':'01a10641-a816-71d1-919b-97413f71ea56'}
+-DISPATCH='fco_01a106b5-c612-7e80-bc6f-987e57f4dc07'
++OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a106e6-15b0-75a3-a1dd-b5b3108744d8'}
++ISSUER={'threadId':'01a0f2e3-1a80-7671-a459-38d5c8de0e6b','hostId':'local','turnId':'01a106dc-0140-7783-9ec7-aab4235c4800'}
++DISPATCH='fco_01a106e6-15b7-76e0-96d5-5d72688c0254'
+ CENTRAL='01a0e401-511d-79f2-b47f-3ab0ade1681b'
+ TRUSTED_CENTRAL_ACTIVATION=None
+ FIXED_INDEX=(4916277,'043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381')
+@@ -133,7 +134,8 @@
+         (BASE/'loc-lic-alt-yamldotnet-16.3.0-m16',2666,'0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50'),
+         (BASE/'loc-lic-alt-yamldotnet-16.3.0-m16-fix01',3881,'d84ef5066b7a7e9450c372fa46e252a78864dfad75b2902b111bc238aa7ca0dc'),
+         (F02,6033,'db19910e7cbfe207a604c394304c539f73f50c222a3f2edc33d881ce64921880'),
+-        (OLD17,2765,'d572872d038a19418c75c776cef3ae7299616a69118b6a63619c774f0b2fb244')]
++        (OLD17,2765,'d572872d038a19418c75c776cef3ae7299616a69118b6a63619c774f0b2fb244'),
++        (OLD17F1,2806,'8c8e50f8af094918bdac323ab4080c942616e646d4c4a56a12eaf6a8b74cc2d1')]
+     result=[]
+     for root,count,digest in expected:
+         sealpath=root/'authority/source-freeze.json'
+@@ -143,7 +145,7 @@
+             check_bytes(reader(Path(item['path'])),(item['bytes'],item['sha256']),'old leaf')
+             result.append(item)
+         require({str(p) for p in root.rglob('*') if p.is_file()}=={i['path'] for i in entries},'old sealed leaf set changed')
+-    require(len(result)==30,'old 30-leaf count')
++    require(len(result)==38,'old 38-leaf count')
+     return result
+ 
+ class Basis:
+@@ -327,6 +329,8 @@
+     basis.add(contract,reader(contract),'existing','authority','final M/B/L corrected M17 contract')
+     contract=DOC/'engineering-loc-m17-stage-budget-fix01.md'
+     basis.add(contract,reader(contract),'existing','authority','M-only 900-second FIX01 contract')
++    for name in ('engineering-loc-m17-timer-shadow-fix02.md','engineering-loc-m17-fix02-review-host-amendment.md'):
++        contract=DOC/name;basis.add(contract,reader(contract),'existing','authority','approved FIX02 and same-turn amendment')
+     authority=DOC/'central-resume-scene-loc-2026-10-04.json'
+     basis.fixed(authority,'authority')
+     basis.add(Path('/usr/bin/curl'),reader(Path('/usr/bin/curl')),'existing','tool','current host curl; fixed before future exact GET')
+@@ -1055,7 +1059,7 @@
+     require(command in m['commands'],'command differs from frozen M plan')
+     require(command['id'] not in writer.outputs,'command retry forbidden')
+     rules=command_write_rules(m,command);profile=child_sandbox(rules,command['network'])
+-    for root,rel,kind,stage,owner,files,size,purpose in rules:
++    for root,rel,kind,rule_stage,owner,files,size,purpose in rules:
+         path=ROOTS[root]/rel.removesuffix('{safe-leaf}')
+         writer.path(path.parent if kind=='exact' else path).mkdir(parents=True,exist_ok=True)
+     env=dict(os.environ);env.update(command['env']['updates'])
+@@ -1121,6 +1125,9 @@
+     before=old_seals(reader)
+     for kind,role,path,count,digest,authority in m['inputs']:
+         if kind=='existing':check_bytes(reader(Path(path)),(int(count),digest),'fresh complete existing input')
++    for item in [*m['packages'],m['archive']]:
++        p=Path(item['path'])
++        if item['class']=='official-get' and (p.exists() or p.is_symlink()):verify_archive(item,reader(p))
+     stage.left();writer=MaterialWriter(m,stage);archive_data={};entry_maps={}
+     for item in [*m['packages'],m['archive']]:
+         p=Path(item['path'])
+@@ -1189,7 +1196,7 @@
+     for name,value in [('packages.json',m['packages']),('licenses.json',m['licenses']),('graphs.json',m['graphs']),
+                        ('expected-deployment.json',deployment),('commands.json',{'commands':m['commands'],'comparisons':control_groups()}),
+                        ('validation.json',{'stage':'M_MATERIAL_CANDIDATE','notIndependentAcceptance':True,'restores':receipts,
+-                            'sourceFreezeSha256':sha(frozen),'old30Leaves':before,'B':'NOT_RUN','L':'NOT_RUN'})]:
++                            'sourceFreezeSha256':sha(frozen),'old38Leaves':before,'B':'NOT_RUN','L':'NOT_RUN'})]:
+         writer.put(M/'identity'/name,jb(value),'M','seal-material')
+     manifest=[identity(p,reader(p)) for p in sorted(M.rglob('*')) if p.is_file()]
+     writer.put(M/'identity/manifest.json',jb({'filesExcludingThisManifest':manifest,'sourceFreezeSha256':sha(frozen),
+@@ -1201,13 +1208,13 @@
+ def source_artifacts(m,driver_bytes,old_driver,checks,history):
+     result={'source/m17_driver.py':driver_bytes,**source_tables(m)}
+     patch=''.join(difflib.unified_diff(old_driver.decode().splitlines(True),driver_bytes.decode().splitlines(True),
+-        fromfile='M17/source/m17_driver.py',tofile='M17-FIX01/source/m17_driver.py'))
+-    require(sum(line.startswith(('+','-')) and not line.startswith(('+++','---')) for line in patch.splitlines())<=300,'FIX01 source delta exceeds 300 lines')
++        fromfile='M17-FIX01/source/m17_driver.py',tofile='M17-FIX02/source/m17_driver.py'))
++    require(sum(line.startswith(('+','-')) and not line.startswith(('+++','---')) for line in patch.splitlines())<=180,'FIX02 source delta exceeds 180 lines')
+     result['source/source.patch']=patch.encode()
+     result['authority/prepare.json']=jb({'schemaVersion':1,'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,
+         'modelSha256':sha(jb(m)),'model':m,'executionBudget':execution_budget(m),
+         'inputClasses':{k:sum(r[0]==k for r in m['inputs']) for k in ('existing','official-get','generated')},
+-        'old30Leaves':history,'states':m['states'],
++        'old38Leaves':history,'states':m['states'],
+         'limitations':['No archive acquired/unpacked; no material roots created.',
+             'Generated locks/assets have no hashes until actual isolated restore and independent comparison.',
+             'Existing SDK leaf identities are declared; fresh full SDK hashing is a required pre-launch gate.',
+@@ -1339,7 +1346,7 @@
+                         'elapsedSeconds':round(time.monotonic()-started,6)})
+     reader=lambda p:cached[Path(p)]
+     case('actual model repeated byte equality',lambda:require(jb(model(reader))==jb(m),'model nondeterminism'))
+-    driver=reader(DRIVER);old=reader(OLD17/'source/m17_driver.py')
++    driver=reader(DRIVER);old=reader(OLD17F1/'source/m17_driver.py')
+     artifacts=source_artifacts(m,driver,old,{'fixture':'not actual execution'},history)
+     frozen=seal_source(m,artifacts)
+     data={E/rel:b for rel,b in artifacts.items()}
+@@ -1505,7 +1512,7 @@
+         history=old_seals(caching_reader);m=model(caching_reader)
+         raw_results=offline_checks(m,cached,history)
+         require(all(c['passed'] for c in raw_results),'offline case failures')
+-        require(old_seals()==history,'old 30 leaves changed during source preparation')
++        require(old_seals()==history,'old 38 leaves changed during source preparation')
+     except Exception as error:
+         import traceback
+         failure={'type':type(error).__name__,'message':str(error),'traceback':traceback.format_exc()}
+@@ -1514,7 +1521,7 @@
+         'sourceIdentity':identity(DRIVER),'elapsedSeconds':elapsed,'exitCode':0 if failure is None else 20,
+         'rawCases':raw_results,'failure':failure}
+     attempts=previous+[attempt]
+-    checks={'scope':'pure in-process M17-FIX01; synthetic fixtures are not actual restore/material/build results',
++    checks={'scope':'pure in-process M17-FIX02; synthetic fixtures are not actual restore/material/build results',
+         'attempts':attempts,'cumulativeSeconds':sum(a['elapsedSeconds'] for a in attempts),
+         'redReproduction':previous_report.get('redReproduction'),
+         'supersededSourceSeals':superseded,
+@@ -1525,7 +1532,7 @@
+     checks_path.parent.mkdir(parents=True,exist_ok=True);checks_path.write_bytes(jb(checks))
+     if failure is not None:
+         print(json.dumps(checks,ensure_ascii=False));return 20
+-    artifacts=source_artifacts(m,cached[DRIVER],cached[OLD17/'source/m17_driver.py'],checks,history)
++    artifacts=source_artifacts(m,cached[DRIVER],cached[OLD17F1/'source/m17_driver.py'],checks,history)
+     frozen=seal_source(m,artifacts)
+     memory={E/rel:b for rel,b in artifacts.items()}
+     consume_source(frozen,lambda p:memory[p],m)

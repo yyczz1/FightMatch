@@ -1,0 +1,683 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "command": "/opt/homebrew/bin/python3 -B - green /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py <<'PY'\nimport builtins, hashlib, json, pathlib, runpy, sys, time, types\nfrom types import SimpleNamespace as NS\nstarted=time.perf_counter()\nmode,driver=sys.argv[1],pathlib.Path(sys.argv[2])\nbase=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M')\nold=base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix01'\nif mode=='red':\n    assert not (base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix02').exists()\n    assert hashlib.sha256(driver.read_bytes()).hexdigest()=='2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f'\nproduction=runpy.run_path(str(driver))\nassert production['TRUSTED_CENTRAL_ACTIVATION'] is None\nassert not production['M'].exists() and not production['W'].exists()\nm=json.loads((old/'authority/prepare.json').read_bytes())['model']\ncommands=[next(c for c in m['commands'] if c['id']==n) for n in ('M-runner-generation-restore','M-tests-generation-restore')]\nresults=[]\ndef scenario(name):\n    tick=[0.0];stage=production['MStage'](lambda:tick[0])\n    tick[0]=100.0 if name=='normal' else 869.95\n    events=[];written={};processes=[];mkdirs=[];waits=[];signals=[]\n    rules=production['command_write_rules'](m,commands[0])\n    assert rules and all(r[3]=='M' for r in rules)\n    class Stream:\n        def __init__(self,fd):self.fd=fd\n        def fileno(self):return self.fd\n        def close(self):events.append('stream-close')\n    class Process:\n        def __init__(self,*args,**kw):\n            assert args[0]==commands[0]['argv'] and kw['cwd']==commands[0]['cwd']\n            self.stdout=Stream(11);self.stderr=Stream(12);self.pid=424242;self.returncode=None;processes.append(self)\n            events.append('SYNTHETIC Popen')\n        def poll(self):return self.returncode\n        def wait(self,timeout):\n            waits.append({'kind':'process.wait','timeout':timeout,'at':tick[0]})\n            assert timeout>0\n            tick[0]+=.001\n            if self.returncode is None:self.returncode=0\n            return self.returncode\n    class Selector:\n        def __init__(self):self.keys={}\n        def register(self,stream,event,label):self.keys[stream]=NS(fd=stream.fd,fileobj=stream,data=label)\n        def unregister(self,stream):del self.keys[stream]\n        def get_map(self):return self.keys\n        def select(self,timeout):\n            waits.append({'kind':'selector.select','timeout':timeout,'at':tick[0]})\n            assert timeout>0\n            tick[0]+=(timeout+.001) if name=='timeout' else .001\n            return [(key,1) for key in self.keys.values()]\n        def close(self):events.append('selector-close')\n    class Writer:\n        def __init__(self):self.stage=stage;self.outputs={}\n        def path(self,path):\n            return NS(mkdir=lambda **kw:mkdirs.append(str(path)))\n        def budget(self,cleanup=False):stage.left(cleanup)\n        def put(self,path,data,role,owner,cleanup=False):\n            stage.left(cleanup);production['authorize_write'](m,path,role,owner)\n            written[str(path)]=data;events.append('receipt-IO:'+str(path))\n    writer=Writer()\n    def killpg(pid,sig):\n        assert processes and pid==processes[0].pid\n        signals.append(sig);processes[0].returncode=-sig;events.append('owned-termination')\n    fakeos=NS(environ={'HOME':'/SYNTHETIC/HOME','PATH':'/SYNTHETIC/PATH'},pathsep=':',\n        set_blocking=lambda *a:None,read=lambda fd,size:b'',killpg=killpg)\n    class SyntheticTimeout(Exception):pass\n    replacements={'subprocess':NS(Popen=Process,PIPE=object(),DEVNULL=object(),TimeoutExpired=SyntheticTimeout),\n        'selectors':NS(DefaultSelector=Selector,EVENT_READ=1),'signal':NS(SIGTERM=15,SIGKILL=9)}\n    original_import=builtins.__import__\n    def isolated_import(name,*args,**kw):\n        return replacements[name] if name in replacements else original_import(name,*args,**kw)\n    def read_pin(path):\n        assert str(path)=='/SYNTHETIC/pin.json'\n        return b'{\"SYNTHETIC\":true}'\n    def fixture_pin(*args):\n        assert args[0]=={'path':'/SYNTHETIC/pin.json'} and args[1]==b'{\"SYNTHETIC\":true}'\n        events.append('isolated synthetic pin')\n    def inspect(actual):\n        assert actual==rules\n        events.append('in-memory output inspection')\n    environment=dict(production)\n    environment.update(__builtins__={**vars(builtins),'__import__':isolated_import},os=fakeos,\n        time=NS(monotonic=lambda:tick[0]),TRUSTED_CENTRAL_ACTIVATION={'path':'/SYNTHETIC/pin.json'},\n        read=read_pin,verify_activation=fixture_pin,inspect_command_outputs=inspect)\n    original=production['run_material_command']\n    invoke=types.FunctionType(original.__code__,environment,original.__name__,original.__defaults__,original.__closure__)\n    assert invoke.__code__ is original.__code__ and production['TRUSTED_CENTRAL_ACTIVATION'] is None\n    error=None;returned=None\n    try:\n        for command in commands if name=='timeout' else commands[:1]:\n            events.append('dispatch:'+command['id'])\n            returned=invoke(m,command,writer,b'SYNTHETIC freeze',['SYNTHETIC execute'])\n    except Exception as exc:error=type(exc).__name__+': '+str(exc)\n    receipt=json.loads(written[commands[0]['receiptPath']]) if commands[0]['receiptPath'] in written else None\n    expected=name=='timeout'\n    passed=bool(mkdirs) and writer.stage is stage and len(processes)==1 and bool(waits) and receipt is not None\n    if expected:\n        passed=passed and error is not None and receipt['timedOut'] and receipt['exitCode']==-15 and signals==[15]\n        passed=passed and not any(e=='dispatch:'+commands[1]['id'] for e in events)\n    else:\n        passed=passed and error is None and receipt['exitCode']==0 and receipt['quiescent'] and not receipt['failure']\n        passed=passed and any(w['kind']=='process.wait' for w in waits)\n    if name!='normal':\n        passed=passed and abs(waits[0]['timeout']-.05)<.000001 and waits[0]['timeout']<commands[0]['timeoutSeconds']\n    assert production['TRUSTED_CENTRAL_ACTIVATION'] is None and not production['M'].exists() and not production['W'].exists()\n    return {'name':name,'passed':bool(passed),'actualError':error,'realRuleCount':len(rules),'mkdirCalls':len(mkdirs),\n        'codeObjectUnmodified':True,'productionPinStillNull':True,'waits':waits,'signals':signals,\n        'syntheticReceipt':receipt,'events':events,'realExternalActions':0}\ndef preflight_scenario(kind):\n    import base64\n    events=[];gets=[];writes=[];tick=[0.0];stage=production['MStage'](lambda:tick[0])\n    realPath=pathlib.Path;work=production['W'];material=production['M']\n    first=work/'acquire/SYNTHETIC-first.nupkg';later=work/'acquire/SYNTHETIC-later.nupkg';yaml=work/'acquire/SYNTHETIC-yaml.tar.gz'\n    data={str(later):b'VALID_PACKAGE',str(yaml):b'VALID_YAML_SOURCE'}\n    def item(path,body,key=None):\n        value={'path':str(path),'class':'official-get','bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}\n        if key:value.update(key=key,id=key,version='SYNTHETIC',sha512=base64.b64encode(hashlib.sha512(body).digest()).decode())\n        return value\n    packages=[item(first,b'MISSING','first'),item(later,data[str(later)],'later')]\n    archive=item(yaml,data[str(yaml)])\n    if kind=='bad-package':data[str(later)]=b'CORRUPT'\n    if kind=='bad-yaml':data[str(yaml)]=b'CORRUPT'\n    class MemPath(type(realPath())):\n        def exists(self):return str(self) in data or str(self)==str(work)\n        def is_file(self):return str(self) in data\n        def is_symlink(self):return False\n        def read_bytes(self):events.append('read:'+str(self));return data[str(self)]\n        def rglob(self,pattern):return [MemPath(p) for p in data if realPath(p).is_relative_to(realPath(self))]\n        def mkdir(self,**kwargs):writes.append(str(self));events.append('mkdir:'+str(self))\n    environment=dict(production);environment.update(Path=MemPath,M=MemPath(material),W=MemPath(work),\n        TRUSTED_CENTRAL_ACTIVATION={'SYNTHETIC':True},old_seals=lambda reader:[{'SYNTHETIC_HISTORY_SEAM':True}])\n    def verified(value,body):\n        production['verify_archive'](value,body);events.append('hash-verified:'+value['path']);return True\n    class StopAtFirstSyntheticGet(Exception):pass\n    def get(m,command,writer,frozen,argv):\n        gets.append(command['id']);events.append('GET:'+command['id']);raise StopAtFirstSyntheticGet('no real download')\n    environment.update(verify_archive=verified,run_material_command=get)\n    original=production['execute_material']\n    invoke=types.FunctionType(original.__code__,environment,original.__name__,original.__defaults__,original.__closure__)\n    original_reader=production['read'];reader=types.FunctionType(original_reader.__code__,environment,original_reader.__name__)\n    fixture={'inputs':[],'packages':packages,'archive':archive,'commands':[{'id':'M-get-first','stage':'M'}]}\n    error=None\n    try:invoke(fixture,reader,b'SYNTHETIC freeze',['SYNTHETIC execute'],stage)\n    except Exception as exc:error=type(exc).__name__+': '+str(exc)\n    if kind=='valid-cache':\n        passed=gets==['M-get-first'] and all('hash-verified:'+str(p) in events and events.index('hash-verified:'+str(p))<events.index('GET:M-get-first') for p in (later,yaml))\n    else:passed=not gets and not writes and error is not None and 'identity mismatch' in error\n    assert invoke.__code__ is original.__code__ and production['TRUSTED_CENTRAL_ACTIVATION'] is None\n    assert not production['M'].exists() and not production['W'].exists()\n    return {'name':'cache-'+kind,'passed':passed,'actualError':error,'gets':gets,'materialWrites':writes,\n        'events':events,'codeObjectUnmodified':True,'realLengthAndHashVerifier':True,'realSafeReader':True,'SYNTHETIC_ONLY':True}\ndef host_checks():\n    import ast,copy,contextlib,io\n    template=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py').read_text()\n    begin='# CENTRAL_LITERAL_CONFIG_BEGIN';end='# CENTRAL_LITERAL_CONFIG_END'\n    assert template.count(begin)==template.count(end)==1\n    before,tail=template.split(begin);_,after=tail.split(end)\n    def filled(config):return before+begin+'\\nCONFIG = '+repr(config)+'\\n'+end+after\n    def mechanical(candidate,expected):\n        cb,ct=candidate.split(begin);block,ca=ct.split(end)\n        assert cb==before and ca==after\n        trees=[ast.parse(s) for s in (template,candidate)]\n        for index,tree in enumerate(trees):\n            assignments=[n for n in ast.walk(tree) if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='CONFIG' for t in n.targets)]\n            assert len(assignments)==1\n            assert ast.literal_eval(assignments[0].value)==(None if index==0 else expected)\n            assignments[0].value=ast.Constant(None)\n        assert ast.dump(trees[0],include_attributes=False)==ast.dump(trees[1],include_attributes=False)\n    driver_body=b\"TRUSTED_CENTRAL_ACTIVATION=None\\nCALLS=[]\\ndef execute(argv):\\n CALLS.append((argv,dict(TRUSTED_CENTRAL_ACTIVATION),__file__,__name__))\\n return {'status':'M_MATERIAL_CANDIDATE_NOT_ACCEPTED','SYNTHETIC':True}\\n\"\n    activation_body=b'{\"SYNTHETIC_AUTHORITY_FIXTURE\":true}'\n    def identity(path,body):return {'path':path,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}\n    config={'driver':identity('/SYNTHETIC/driver.py',driver_body),\n        'activation':{**identity('/SYNTHETIC/A.json',activation_body),**{k:'SYNTHETIC_'+k for k in ('centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn')}},\n        'argv':['/SYNTHETIC/python','-B','/SYNTHETIC/H.py']}\n    cases=[]\n    def run(name,cfg,argv=None,body=driver_body,symlink=None,expected_error=None,expected_exit=0):\n        reads=[];loaded=[];stdout=io.StringIO();files={'/SYNTHETIC/driver.py':body,'/SYNTHETIC/A.json':activation_body}\n        class MemPath(type(pathlib.Path())):\n            def is_symlink(self):return str(self)==symlink\n            def is_file(self):return str(self) in files\n            def stat(self):return NS(st_size=len(files[str(self)]))\n            def read_bytes(self):reads.append(str(self));return files[str(self)]\n        def module_factory(*args):\n            module=types.ModuleType(*args);loaded.append(module);return module\n        source=template if cfg is None else filled(cfg);mechanical(source,cfg)\n        env={'__name__':'SYNTHETIC_HOST_TEST','__file__':'/SYNTHETIC/H.py'};exec(compile(source,'SYNTHETIC_HOST_TEMPLATE','exec'),env)\n        env.update(Path=MemPath,sys=NS(orig_argv=config['argv'] if argv is None else argv),types=NS(ModuleType=module_factory))\n        result=None;error=None\n        try:\n            with contextlib.redirect_stdout(stdout):result=env['main']()\n        except BaseException as exc:error=type(exc).__name__+': '+str(exc)\n        passed=(error is not None and expected_error in error) if expected_error else (error is None and result==expected_exit)\n        calls=sum(len(getattr(mod,'CALLS',[])) for mod in loaded)\n        if expected_error:passed=passed and calls==0\n        if name in ('None gate','argv mismatch'):passed=passed and not reads and not loaded\n        if name=='valid synthetic pin and original execute':\n            passed=passed and len(loaded)==calls==1 and loaded[0].CALLS[0]==(config['argv'],config['activation'],'/SYNTHETIC/driver.py','_fightmatch_m17_authorized_driver')\n        cases.append({'name':'H '+name,'passed':bool(passed),'actualError':error,'return':result,'reads':reads,'moduleCount':len(loaded),\n            'originalExecuteCalls':calls,'stdout':stdout.getvalue(),'SYNTHETIC_ONLY':True})\n    run('None gate',None,expected_error='central CONFIG is absent')\n    run('argv mismatch',config,argv=['WRONG'],expected_error='actual argv differs')\n    for field in ('driver','activation'):\n        cfg=copy.deepcopy(config);cfg[field]['sha256']='0'*64\n        run(field+' digest mismatch',cfg,expected_error='file bytes/hash')\n    run('ancestor symlink',config,symlink='/SYNTHETIC',expected_error='symlink')\n    run('valid synthetic pin and original execute',config)\n    for name,ending,expected,error in [('nonzero return preserved','return 37',37,None),('SystemExit preserved','raise SystemExit(43)',None,'SystemExit: 43'),('exception preserved',\"raise ValueError('SYNTHETIC failure')\",None,'ValueError: SYNTHETIC failure')]:\n        body=(\"TRUSTED_CENTRAL_ACTIVATION=None\\nCALLS=[]\\ndef execute(argv):\\n \"+ending+\"\\n\").encode()\n        cfg=copy.deepcopy(config);cfg['driver']=identity('/SYNTHETIC/driver.py',body)\n        run(name,cfg,body=body,expected_error=error,expected_exit=expected)\n    body=b\"TRUSTED_CENTRAL_ACTIVATION={'SYNTHETIC_PRESET':True}\\nCALLS=[]\\ndef execute(argv):\\n raise AssertionError('must not run')\\n\"\n    cfg=copy.deepcopy(config);cfg['driver']=identity('/SYNTHETIC/driver.py',body)\n    run('preset module pin rejected',cfg,body=body,expected_error='pin not initially null')\n    for name,candidate in [('outside marker changed',filled(config).replace('import hashlib','import hashlib # changed')),\n        ('expression not literal',filled(config).replace('CONFIG = '+repr(config),'CONFIG = dict()'))]:\n        rejected=False\n        try:mechanical(candidate,config)\n        except (AssertionError,ValueError):rejected=True\n        cases.append({'name':'H mechanical '+name,'passed':rejected,'SYNTHETIC_ONLY':True})\n    assert 'CONFIG = None' in template and pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py').read_text()==template\n    return cases\nfor name in ['normal','near-deadline','timeout']:results.append(scenario(name))\nfor name in ['bad-package','bad-yaml','valid-cache']:results.append(preflight_scenario(name))\nresults.extend(host_checks())\nelapsed=time.perf_counter()-started\nprint(json.dumps({'scope':'M17-FIX02 stage/P2/H targeted only; all I/O, subprocess and authority fixtures are SYNTHETIC',\n    'results':results,'elapsedSeconds':elapsed,'passed':sum(r['passed'] for r in results),'total':len(results),\n    'productionPinStillNull':production['TRUSTED_CENTRAL_ACTIVATION'] is None,'realExternalActions':0},ensure_ascii=False))\nraise SystemExit(0 if all(r['passed'] for r in results) else 20)\nPY",
+      "elapsedSeconds": 0.10230562499782536,
+      "kind": "SYNTHETIC_TARGETED_GREEN",
+      "rawToolResult": {
+        "chunk_id": "d8c53d",
+        "exit_code": 0,
+        "original_token_count": 3942,
+        "output": "{\"scope\": \"M17-FIX02 stage/P2/H targeted only; all I/O, subprocess and authority fixtures are SYNTHETIC\", \"results\": [{\"name\": \"normal\", \"passed\": true, \"actualError\": null, \"realRuleCount\": 177, \"mkdirCalls\": 183, \"codeObjectUnmodified\": true, \"productionPinStillNull\": true, \"waits\": [{\"kind\": \"selector.select\", \"timeout\": 0.1, \"at\": 100.0}, {\"kind\": \"process.wait\", \"timeout\": 179.999, \"at\": 100.001}], \"signals\": [], \"syntheticReceipt\": {\"argv\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet\", \"msbuild\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj\", \"-target:Restore\", \"-maxCpuCount:1\", \"-nodeReuse:false\", \"-noAutoResponse\", \"-verbosity:minimal\", \"-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config\", \"-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed\", \"-property:RestoreFallbackFolders=\", \"-property:RestoreDisableParallel=true\", \"-property:RestoreNoHttpCache=true\", \"-property:RestoreIgnoreFailedSources=false\", \"-property:RestorePackagesWithLockFile=true\", \"-property:RestoreLockedMode=false\", \"-property:NuGetAudit=false\"], \"childStarts\": 0, \"childrenDeniedBySandbox\": true, \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source\", \"elapsedSeconds\": 0.0020000000000095497, \"env\": {\"inheritParent\": true, \"pathPrepend\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64\", \"pathSuffix\": \"unchanged parent PATH; resolved dotnet must equal fixed DOTNET\", \"preserve\": [\"HOME\", \"home\", \"CODEX_HOME\"], \"updates\": {\"DOTNET_ADD_GLOBAL_TOOLS_TO_PATH\": \"false\", \"DOTNET_CLI_HOME\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home\", \"DOTNET_CLI_USE_MSBUILD_SERVER\": \"0\", \"DOTNET_GENERATE_ASPNET_CERTIFICATE\": \"false\", \"DOTNET_MULTILEVEL_LOOKUP\": \"0\", \"MSBUILDDISABLENODEREUSE\": \"1\", \"NUGET_HTTP_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http\", \"NUGET_PACKAGES\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"NUGET_PLUGINS_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins\", \"NUGET_SCRATCH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch\", \"TMPDIR\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp\"}}, \"exitCode\": 0, \"failure\": null, \"quiescent\": true, \"role\": \"DUT\", \"sandboxProfileSha256\": \"2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5\", \"startCount\": 1, \"timedOut\": false}, \"events\": [\"dispatch:M-runner-generation-restore\", \"isolated synthetic pin\", \"SYNTHETIC Popen\", \"stream-close\", \"stream-close\", \"in-memory output inspection\", \"selector-close\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json\"], \"realExternalActions\": 0}, {\"name\": \"near-deadline\", \"passed\": true, \"actualError\": null, \"realRuleCount\": 177, \"mkdirCalls\": 183, \"codeObjectUnmodified\": true, \"productionPinStillNull\": true, \"waits\": [{\"kind\": \"selector.select\", \"timeout\": 0.049999999999954525, \"at\": 869.95}, {\"kind\": \"process.wait\", \"timeout\": 0.04899999999997817, \"at\": 869.951}], \"signals\": [], \"syntheticReceipt\": {\"argv\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet\", \"msbuild\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj\", \"-target:Restore\", \"-maxCpuCount:1\", \"-nodeReuse:false\", \"-noAutoResponse\", \"-verbosity:minimal\", \"-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config\", \"-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed\", \"-property:RestoreFallbackFolders=\", \"-property:RestoreDisableParallel=true\", \"-property:RestoreNoHttpCache=true\", \"-property:RestoreIgnoreFailedSources=false\", \"-property:RestorePackagesWithLockFile=true\", \"-property:RestoreLockedMode=false\", \"-property:NuGetAudit=false\"], \"childStarts\": 0, \"childrenDeniedBySandbox\": true, \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source\", \"elapsedSeconds\": 0.0019999999999527063, \"env\": {\"inheritParent\": true, \"pathPrepend\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64\", \"pathSuffix\": \"unchanged parent PATH; resolved dotnet must equal fixed DOTNET\", \"preserve\": [\"HOME\", \"home\", \"CODEX_HOME\"], \"updates\": {\"DOTNET_ADD_GLOBAL_TOOLS_TO_PATH\": \"false\", \"DOTNET_CLI_HOME\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home\", \"DOTNET_CLI_USE_MSBUILD_SERVER\": \"0\", \"DOTNET_GENERATE_ASPNET_CERTIFICATE\": \"false\", \"DOTNET_MULTILEVEL_LOOKUP\": \"0\", \"MSBUILDDISABLENODEREUSE\": \"1\", \"NUGET_HTTP_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http\", \"NUGET_PACKAGES\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"NUGET_PLUGINS_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins\", \"NUGET_SCRATCH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch\", \"TMPDIR\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp\"}}, \"exitCode\": 0, \"failure\": null, \"quiescent\": true, \"role\": \"DUT\", \"sandboxProfileSha256\": \"2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5\", \"startCount\": 1, \"timedOut\": false}, \"events\": [\"dispatch:M-runner-generation-restore\", \"isolated synthetic pin\", \"SYNTHETIC Popen\", \"stream-close\", \"stream-close\", \"in-memory output inspection\", \"selector-close\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json\"], \"realExternalActions\": 0}, {\"name\": \"timeout\", \"passed\": true, \"actualError\": \"GateError: material command failed; no retry: GateError: M stage deadline exhausted\", \"realRuleCount\": 177, \"mkdirCalls\": 183, \"codeObjectUnmodified\": true, \"productionPinStillNull\": true, \"waits\": [{\"kind\": \"selector.select\", \"timeout\": 0.049999999999954525, \"at\": 869.95}, {\"kind\": \"process.wait\", \"timeout\": 5, \"at\": 870.001}], \"signals\": [15], \"syntheticReceipt\": {\"argv\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet\", \"msbuild\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj\", \"-target:Restore\", \"-maxCpuCount:1\", \"-nodeReuse:false\", \"-noAutoResponse\", \"-verbosity:minimal\", \"-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config\", \"-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed\", \"-property:RestoreFallbackFolders=\", \"-property:RestoreDisableParallel=true\", \"-property:RestoreNoHttpCache=true\", \"-property:RestoreIgnoreFailedSources=false\", \"-property:RestorePackagesWithLockFile=true\", \"-property:RestoreLockedMode=false\", \"-property:NuGetAudit=false\"], \"childStarts\": 0, \"childrenDeniedBySandbox\": true, \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source\", \"elapsedSeconds\": 0.05199999999990723, \"env\": {\"inheritParent\": true, \"pathPrepend\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64\", \"pathSuffix\": \"unchanged parent PATH; resolved dotnet must equal fixed DOTNET\", \"preserve\": [\"HOME\", \"home\", \"CODEX_HOME\"], \"updates\": {\"DOTNET_ADD_GLOBAL_TOOLS_TO_PATH\": \"false\", \"DOTNET_CLI_HOME\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home\", \"DOTNET_CLI_USE_MSBUILD_SERVER\": \"0\", \"DOTNET_GENERATE_ASPNET_CERTIFICATE\": \"false\", \"DOTNET_MULTILEVEL_LOOKUP\": \"0\", \"MSBUILDDISABLENODEREUSE\": \"1\", \"NUGET_HTTP_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http\", \"NUGET_PACKAGES\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"NUGET_PLUGINS_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins\", \"NUGET_SCRATCH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch\", \"TMPDIR\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp\"}}, \"exitCode\": -15, \"failure\": \"GateError: M stage deadline exhausted\", \"quiescent\": true, \"role\": \"DUT\", \"sandboxProfileSha256\": \"2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5\", \"startCount\": 1, \"timedOut\": true}, \"events\": [\"dispatch:M-runner-generation-restore\", \"isolated synthetic pin\", \"SYNTHETIC Popen\", \"owned-termination\", \"selector-close\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json\"], \"realExternalActions\": 0}, {\"name\": \"cache-bad-package\", \"passed\": true, \"actualError\": \"GateError: identity mismatch: archive later\", \"gets\": [], \"materialWrites\": [], \"events\": [\"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\"], \"codeObjectUnmodified\": true, \"realLengthAndHashVerifier\": true, \"realSafeReader\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"cache-bad-yaml\", \"passed\": true, \"actualError\": \"GateError: identity mismatch: archive yaml-source\", \"gets\": [], \"materialWrites\": [], \"events\": [\"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz\"], \"codeObjectUnmodified\": true, \"realLengthAndHashVerifier\": true, \"realSafeReader\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"cache-valid-cache\", \"passed\": true, \"actualError\": \"StopAtFirstSyntheticGet: no real download\", \"gets\": [\"M-get-first\"], \"materialWrites\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17\"], \"events\": [\"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz\", \"hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz\", \"mkdir:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17\", \"GET:M-get-first\"], \"codeObjectUnmodified\": true, \"realLengthAndHashVerifier\": true, \"realSafeReader\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"H None gate\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: central CONFIG is absent; no execution authority\", \"return\": null, \"reads\": [], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H argv mismatch\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: actual argv differs\", \"return\": null, \"reads\": [], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H driver digest mismatch\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: file bytes/hash\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H activation digest mismatch\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: file bytes/hash\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\"], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H ancestor symlink\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: file or ancestor symlink\", \"return\": null, \"reads\": [], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H valid synthetic pin and original execute\", \"passed\": true, \"actualError\": null, \"return\": 0, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 1, \"stdout\": \"{\\\"status\\\": \\\"M_MATERIAL_CANDIDATE_NOT_ACCEPTED\\\", \\\"SYNTHETIC\\\": true}\\n\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H nonzero return preserved\", \"passed\": true, \"actualError\": null, \"return\": 37, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H SystemExit preserved\", \"passed\": true, \"actualError\": \"SystemExit: 43\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H exception preserved\", \"passed\": true, \"actualError\": \"ValueError: SYNTHETIC failure\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H preset module pin rejected\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: driver pin not initially null\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H mechanical outside marker changed\", \"passed\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"H mechanical expression not literal\", \"passed\": true, \"SYNTHETIC_ONLY\": true}], \"elapsedSeconds\": 0.10230562499782536, \"passed\": 18, \"total\": 18, \"productionPinStillNull\": true, \"realExternalActions\": 0}\n",
+        "wall_time_seconds": 0.031619667
+      }
+    },
+    {
+      "attempt": 2,
+      "command": "/opt/homebrew/bin/python3 -B - green /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py <<'PY'\nimport builtins, hashlib, json, pathlib, runpy, sys, time, types\nfrom types import SimpleNamespace as NS\nstarted=time.perf_counter()\nmode,driver=sys.argv[1],pathlib.Path(sys.argv[2])\nbase=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M')\nold=base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix01'\nif mode=='red':\n    assert not (base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix02').exists()\n    assert hashlib.sha256(driver.read_bytes()).hexdigest()=='2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f'\nproduction=runpy.run_path(str(driver))\nassert production['TRUSTED_CENTRAL_ACTIVATION'] is None\nassert not production['M'].exists() and not production['W'].exists()\nm=json.loads((old/'authority/prepare.json').read_bytes())['model']\ncommands=[next(c for c in m['commands'] if c['id']==n) for n in ('M-runner-generation-restore','M-tests-generation-restore')]\nresults=[]\ndef scenario(name):\n    tick=[0.0];stage=production['MStage'](lambda:tick[0])\n    tick[0]=100.0 if name=='normal' else 869.95\n    events=[];written={};processes=[];mkdirs=[];waits=[];signals=[]\n    rules=production['command_write_rules'](m,commands[0])\n    assert rules and all(r[3]=='M' for r in rules)\n    class Stream:\n        def __init__(self,fd):self.fd=fd\n        def fileno(self):return self.fd\n        def close(self):events.append('stream-close')\n    class Process:\n        def __init__(self,*args,**kw):\n            assert args[0]==commands[0]['argv'] and kw['cwd']==commands[0]['cwd']\n            self.stdout=Stream(11);self.stderr=Stream(12);self.pid=424242;self.returncode=None;processes.append(self)\n            events.append('SYNTHETIC Popen')\n        def poll(self):return self.returncode\n        def wait(self,timeout):\n            waits.append({'kind':'process.wait','timeout':timeout,'at':tick[0]})\n            assert timeout>0\n            tick[0]+=.001\n            if self.returncode is None:self.returncode=0\n            return self.returncode\n    class Selector:\n        def __init__(self):self.keys={}\n        def register(self,stream,event,label):self.keys[stream]=NS(fd=stream.fd,fileobj=stream,data=label)\n        def unregister(self,stream):del self.keys[stream]\n        def get_map(self):return self.keys\n        def select(self,timeout):\n            waits.append({'kind':'selector.select','timeout':timeout,'at':tick[0]})\n            assert timeout>0\n            tick[0]+=(timeout+.001) if name=='timeout' else .001\n            return [(key,1) for key in self.keys.values()]\n        def close(self):events.append('selector-close')\n    class Writer:\n        def __init__(self):self.stage=stage;self.outputs={}\n        def path(self,path):\n            return NS(mkdir=lambda **kw:mkdirs.append(str(path)))\n        def budget(self,cleanup=False):stage.left(cleanup)\n        def put(self,path,data,role,owner,cleanup=False):\n            stage.left(cleanup);production['authorize_write'](m,path,role,owner)\n            written[str(path)]=data;events.append('receipt-IO:'+str(path))\n    writer=Writer()\n    def killpg(pid,sig):\n        assert processes and pid==processes[0].pid\n        signals.append(sig);processes[0].returncode=-sig;events.append('owned-termination')\n    fakeos=NS(environ={'HOME':'/SYNTHETIC/HOME','PATH':'/SYNTHETIC/PATH'},pathsep=':',\n        set_blocking=lambda *a:None,read=lambda fd,size:b'',killpg=killpg)\n    class SyntheticTimeout(Exception):pass\n    replacements={'subprocess':NS(Popen=Process,PIPE=object(),DEVNULL=object(),TimeoutExpired=SyntheticTimeout),\n        'selectors':NS(DefaultSelector=Selector,EVENT_READ=1),'signal':NS(SIGTERM=15,SIGKILL=9)}\n    original_import=builtins.__import__\n    def isolated_import(name,*args,**kw):\n        return replacements[name] if name in replacements else original_import(name,*args,**kw)\n    def read_pin(path):\n        assert str(path)=='/SYNTHETIC/pin.json'\n        return b'{\"SYNTHETIC\":true}'\n    def fixture_pin(*args):\n        assert args[0]=={'path':'/SYNTHETIC/pin.json'} and args[1]==b'{\"SYNTHETIC\":true}'\n        events.append('isolated synthetic pin')\n    def inspect(actual):\n        assert actual==rules\n        events.append('in-memory output inspection')\n    environment=dict(production)\n    environment.update(__builtins__={**vars(builtins),'__import__':isolated_import},os=fakeos,\n        time=NS(monotonic=lambda:tick[0]),TRUSTED_CENTRAL_ACTIVATION={'path':'/SYNTHETIC/pin.json'},\n        read=read_pin,verify_activation=fixture_pin,inspect_command_outputs=inspect)\n    original=production['run_material_command']\n    invoke=types.FunctionType(original.__code__,environment,original.__name__,original.__defaults__,original.__closure__)\n    assert invoke.__code__ is original.__code__ and production['TRUSTED_CENTRAL_ACTIVATION'] is None\n    error=None;returned=None\n    try:\n        for command in commands if name=='timeout' else commands[:1]:\n            events.append('dispatch:'+command['id'])\n            returned=invoke(m,command,writer,b'SYNTHETIC freeze',['SYNTHETIC execute'])\n    except Exception as exc:error=type(exc).__name__+': '+str(exc)\n    receipt=json.loads(written[commands[0]['receiptPath']]) if commands[0]['receiptPath'] in written else None\n    expected=name=='timeout'\n    passed=bool(mkdirs) and writer.stage is stage and len(processes)==1 and bool(waits) and receipt is not None\n    if expected:\n        passed=passed and error is not None and receipt['timedOut'] and receipt['exitCode']==-15 and signals==[15]\n        passed=passed and not any(e=='dispatch:'+commands[1]['id'] for e in events)\n    else:\n        passed=passed and error is None and receipt['exitCode']==0 and receipt['quiescent'] and not receipt['failure']\n        passed=passed and any(w['kind']=='process.wait' for w in waits)\n    if name!='normal':\n        passed=passed and abs(waits[0]['timeout']-.05)<.000001 and waits[0]['timeout']<commands[0]['timeoutSeconds']\n    assert production['TRUSTED_CENTRAL_ACTIVATION'] is None and not production['M'].exists() and not production['W'].exists()\n    return {'name':name,'passed':bool(passed),'actualError':error,'realRuleCount':len(rules),'mkdirCalls':len(mkdirs),\n        'codeObjectUnmodified':True,'productionPinStillNull':True,'waits':waits,'signals':signals,\n        'syntheticReceipt':receipt,'events':events,'realExternalActions':0}\ndef preflight_scenario(kind):\n    import base64\n    events=[];gets=[];writes=[];tick=[0.0];stage=production['MStage'](lambda:tick[0])\n    realPath=pathlib.Path;work=production['W'];material=production['M']\n    first=work/'acquire/SYNTHETIC-first.nupkg';later=work/'acquire/SYNTHETIC-later.nupkg';yaml=work/'acquire/SYNTHETIC-yaml.tar.gz'\n    data={str(later):b'VALID_PACKAGE',str(yaml):b'VALID_YAML_SOURCE'}\n    def item(path,body,key=None):\n        value={'path':str(path),'class':'official-get','bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}\n        if key:value.update(key=key,id=key,version='SYNTHETIC',sha512=base64.b64encode(hashlib.sha512(body).digest()).decode())\n        return value\n    packages=[item(first,b'MISSING','first'),item(later,data[str(later)],'later')]\n    archive=item(yaml,data[str(yaml)])\n    if kind=='bad-package':data[str(later)]=b'CORRUPT'\n    if kind=='bad-yaml':data[str(yaml)]=b'CORRUPT'\n    class MemPath(type(realPath())):\n        def exists(self):return str(self) in data or str(self)==str(work)\n        def is_file(self):return str(self) in data\n        def is_symlink(self):return False\n        def read_bytes(self):events.append('read:'+str(self));return data[str(self)]\n        def rglob(self,pattern):return [MemPath(p) for p in data if realPath(p).is_relative_to(realPath(self))]\n        def mkdir(self,**kwargs):writes.append(str(self));events.append('mkdir:'+str(self))\n    environment=dict(production);environment.update(Path=MemPath,M=MemPath(material),W=MemPath(work),\n        TRUSTED_CENTRAL_ACTIVATION={'SYNTHETIC':True},old_seals=lambda reader:[{'SYNTHETIC_HISTORY_SEAM':True}])\n    def verified(value,body):\n        production['verify_archive'](value,body);events.append('hash-verified:'+value['path']);return True\n    class StopAtFirstSyntheticGet(Exception):pass\n    def get(m,command,writer,frozen,argv):\n        gets.append(command['id']);events.append('GET:'+command['id']);raise StopAtFirstSyntheticGet('no real download')\n    environment.update(verify_archive=verified,run_material_command=get)\n    original=production['execute_material']\n    invoke=types.FunctionType(original.__code__,environment,original.__name__,original.__defaults__,original.__closure__)\n    original_reader=production['read'];reader=types.FunctionType(original_reader.__code__,environment,original_reader.__name__)\n    fixture={'inputs':[],'packages':packages,'archive':archive,'commands':[{'id':'M-get-first','stage':'M'}]}\n    error=None\n    try:invoke(fixture,reader,b'SYNTHETIC freeze',['SYNTHETIC execute'],stage)\n    except Exception as exc:error=type(exc).__name__+': '+str(exc)\n    if kind=='valid-cache':\n        passed=gets==['M-get-first'] and all('hash-verified:'+str(p) in events and events.index('hash-verified:'+str(p))<events.index('GET:M-get-first') for p in (later,yaml))\n    else:passed=not gets and not writes and error is not None and 'identity mismatch' in error\n    assert invoke.__code__ is original.__code__ and production['TRUSTED_CENTRAL_ACTIVATION'] is None\n    assert not production['M'].exists() and not production['W'].exists()\n    return {'name':'cache-'+kind,'passed':passed,'actualError':error,'gets':gets,'materialWrites':writes,\n        'events':events,'codeObjectUnmodified':True,'realLengthAndHashVerifier':True,'realSafeReader':True,'SYNTHETIC_ONLY':True}\ndef host_checks():\n    import ast,copy,contextlib,io\n    template=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py').read_text()\n    begin='# CENTRAL_LITERAL_CONFIG_BEGIN';end='# CENTRAL_LITERAL_CONFIG_END'\n    assert template.count(begin)==template.count(end)==1\n    before,tail=template.split(begin);_,after=tail.split(end)\n    def filled(config):return before+begin+'\\nCONFIG = '+repr(config)+'\\n'+end+after\n    def mechanical(candidate,expected):\n        cb,ct=candidate.split(begin);block,ca=ct.split(end)\n        assert cb==before and ca==after\n        trees=[ast.parse(s) for s in (template,candidate)]\n        for index,tree in enumerate(trees):\n            assignments=[n for n in ast.walk(tree) if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='CONFIG' for t in n.targets)]\n            assert len(assignments)==1\n            assert ast.literal_eval(assignments[0].value)==(None if index==0 else expected)\n            assignments[0].value=ast.Constant(None)\n        assert ast.dump(trees[0],include_attributes=False)==ast.dump(trees[1],include_attributes=False)\n    driver_body=b\"TRUSTED_CENTRAL_ACTIVATION=None\\nCALLS=[]\\ndef execute(argv):\\n CALLS.append((argv,dict(TRUSTED_CENTRAL_ACTIVATION),__file__,__name__))\\n return {'status':'M_MATERIAL_CANDIDATE_NOT_ACCEPTED','SYNTHETIC':True}\\n\"\n    activation_body=b'{\"SYNTHETIC_AUTHORITY_FIXTURE\":true}'\n    def identity(path,body):return {'path':path,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}\n    config={'driver':identity('/SYNTHETIC/driver.py',driver_body),\n        'activation':{**identity('/SYNTHETIC/A.json',activation_body),**{k:'SYNTHETIC_'+k for k in ('centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn')}},\n        'argv':['/SYNTHETIC/python','-B','/SYNTHETIC/H.py']}\n    cases=[]\n    def run(name,cfg,argv=None,body=driver_body,symlink=None,expected_error=None,expected_exit=0):\n        reads=[];loaded=[];stdout=io.StringIO();files={'/SYNTHETIC/driver.py':body,'/SYNTHETIC/A.json':activation_body}\n        class MemPath(type(pathlib.Path())):\n            def is_symlink(self):return str(self)==symlink\n            def is_file(self):return str(self) in files\n            def stat(self):return NS(st_size=len(files[str(self)]))\n            def read_bytes(self):reads.append(str(self));return files[str(self)]\n        def module_factory(*args):\n            module=types.ModuleType(*args);loaded.append(module);return module\n        source=template if cfg is None else filled(cfg);mechanical(source,cfg)\n        env={'__name__':'SYNTHETIC_HOST_TEST','__file__':'/SYNTHETIC/H.py'};exec(compile(source,'SYNTHETIC_HOST_TEMPLATE','exec'),env)\n        env.update(Path=MemPath,sys=NS(orig_argv=config['argv'] if argv is None else argv),types=NS(ModuleType=module_factory))\n        result=None;error=None\n        try:\n            with contextlib.redirect_stdout(stdout):result=env['main']()\n        except BaseException as exc:error=type(exc).__name__+': '+str(exc)\n        passed=(error is not None and expected_error in error) if expected_error else (error is None and result==expected_exit)\n        calls=sum(len(getattr(mod,'CALLS',[])) for mod in loaded)\n        if expected_error:passed=passed and calls==(1 if name in ('SystemExit preserved','exception preserved') else 0)\n        if name=='nonzero return preserved':passed=passed and calls==1\n        if name in ('None gate','argv mismatch'):passed=passed and not reads and not loaded\n        if name=='valid synthetic pin and original execute':\n            passed=passed and len(loaded)==calls==1 and loaded[0].CALLS[0]==(config['argv'],config['activation'],'/SYNTHETIC/driver.py','_fightmatch_m17_authorized_driver')\n        cases.append({'name':'H '+name,'passed':bool(passed),'actualError':error,'return':result,'reads':reads,'moduleCount':len(loaded),\n            'originalExecuteCalls':calls,'stdout':stdout.getvalue(),'SYNTHETIC_ONLY':True})\n    run('None gate',None,expected_error='central CONFIG is absent')\n    run('argv mismatch',config,argv=['WRONG'],expected_error='actual argv differs')\n    for field in ('driver','activation'):\n        cfg=copy.deepcopy(config);cfg[field]['sha256']='0'*64\n        run(field+' digest mismatch',cfg,expected_error='file bytes/hash')\n    run('ancestor symlink',config,symlink='/SYNTHETIC',expected_error='symlink')\n    run('valid synthetic pin and original execute',config)\n    for name,ending,expected,error in [('nonzero return preserved','return 37',37,None),('SystemExit preserved','raise SystemExit(43)',None,'SystemExit: 43'),('exception preserved',\"raise ValueError('SYNTHETIC failure')\",None,'ValueError: SYNTHETIC failure')]:\n        body=(\"TRUSTED_CENTRAL_ACTIVATION=None\\nCALLS=[]\\ndef execute(argv):\\n CALLS.append(argv)\\n \"+ending+\"\\n\").encode()\n        cfg=copy.deepcopy(config);cfg['driver']=identity('/SYNTHETIC/driver.py',body)\n        run(name,cfg,body=body,expected_error=error,expected_exit=expected)\n    body=b\"TRUSTED_CENTRAL_ACTIVATION={'SYNTHETIC_PRESET':True}\\nCALLS=[]\\ndef execute(argv):\\n raise AssertionError('must not run')\\n\"\n    cfg=copy.deepcopy(config);cfg['driver']=identity('/SYNTHETIC/driver.py',body)\n    run('preset module pin rejected',cfg,body=body,expected_error='pin not initially null')\n    for name,candidate in [('outside marker changed',filled(config).replace('import hashlib','import hashlib # changed')),\n        ('expression not literal',filled(config).replace('CONFIG = '+repr(config),'CONFIG = dict()'))]:\n        rejected=False\n        try:mechanical(candidate,config)\n        except (AssertionError,ValueError):rejected=True\n        cases.append({'name':'H mechanical '+name,'passed':rejected,'SYNTHETIC_ONLY':True})\n    assert 'CONFIG = None' in template and pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py').read_text()==template\n    return cases\nfor name in ['normal','near-deadline','timeout']:results.append(scenario(name))\nfor name in ['bad-package','bad-yaml','valid-cache']:results.append(preflight_scenario(name))\nresults.extend(host_checks())\nelapsed=time.perf_counter()-started\nprint(json.dumps({'scope':'M17-FIX02 stage/P2/H targeted only; all I/O, subprocess and authority fixtures are SYNTHETIC',\n    'results':results,'elapsedSeconds':elapsed,'passed':sum(r['passed'] for r in results),'total':len(results),\n    'productionPinStillNull':production['TRUSTED_CENTRAL_ACTIVATION'] is None,'realExternalActions':0},ensure_ascii=False))\nraise SystemExit(0 if all(r['passed'] for r in results) else 20)\nPY",
+      "elapsedSeconds": 0.10322154199820943,
+      "kind": "SYNTHETIC_TARGETED_GREEN",
+      "rawToolResult": {
+        "chunk_id": "62645b",
+        "exit_code": 0,
+        "original_token_count": 3942,
+        "output": "{\"scope\": \"M17-FIX02 stage/P2/H targeted only; all I/O, subprocess and authority fixtures are SYNTHETIC\", \"results\": [{\"name\": \"normal\", \"passed\": true, \"actualError\": null, \"realRuleCount\": 177, \"mkdirCalls\": 183, \"codeObjectUnmodified\": true, \"productionPinStillNull\": true, \"waits\": [{\"kind\": \"selector.select\", \"timeout\": 0.1, \"at\": 100.0}, {\"kind\": \"process.wait\", \"timeout\": 179.999, \"at\": 100.001}], \"signals\": [], \"syntheticReceipt\": {\"argv\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet\", \"msbuild\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj\", \"-target:Restore\", \"-maxCpuCount:1\", \"-nodeReuse:false\", \"-noAutoResponse\", \"-verbosity:minimal\", \"-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config\", \"-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed\", \"-property:RestoreFallbackFolders=\", \"-property:RestoreDisableParallel=true\", \"-property:RestoreNoHttpCache=true\", \"-property:RestoreIgnoreFailedSources=false\", \"-property:RestorePackagesWithLockFile=true\", \"-property:RestoreLockedMode=false\", \"-property:NuGetAudit=false\"], \"childStarts\": 0, \"childrenDeniedBySandbox\": true, \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source\", \"elapsedSeconds\": 0.0020000000000095497, \"env\": {\"inheritParent\": true, \"pathPrepend\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64\", \"pathSuffix\": \"unchanged parent PATH; resolved dotnet must equal fixed DOTNET\", \"preserve\": [\"HOME\", \"home\", \"CODEX_HOME\"], \"updates\": {\"DOTNET_ADD_GLOBAL_TOOLS_TO_PATH\": \"false\", \"DOTNET_CLI_HOME\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home\", \"DOTNET_CLI_USE_MSBUILD_SERVER\": \"0\", \"DOTNET_GENERATE_ASPNET_CERTIFICATE\": \"false\", \"DOTNET_MULTILEVEL_LOOKUP\": \"0\", \"MSBUILDDISABLENODEREUSE\": \"1\", \"NUGET_HTTP_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http\", \"NUGET_PACKAGES\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"NUGET_PLUGINS_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins\", \"NUGET_SCRATCH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch\", \"TMPDIR\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp\"}}, \"exitCode\": 0, \"failure\": null, \"quiescent\": true, \"role\": \"DUT\", \"sandboxProfileSha256\": \"2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5\", \"startCount\": 1, \"timedOut\": false}, \"events\": [\"dispatch:M-runner-generation-restore\", \"isolated synthetic pin\", \"SYNTHETIC Popen\", \"stream-close\", \"stream-close\", \"in-memory output inspection\", \"selector-close\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json\"], \"realExternalActions\": 0}, {\"name\": \"near-deadline\", \"passed\": true, \"actualError\": null, \"realRuleCount\": 177, \"mkdirCalls\": 183, \"codeObjectUnmodified\": true, \"productionPinStillNull\": true, \"waits\": [{\"kind\": \"selector.select\", \"timeout\": 0.049999999999954525, \"at\": 869.95}, {\"kind\": \"process.wait\", \"timeout\": 0.04899999999997817, \"at\": 869.951}], \"signals\": [], \"syntheticReceipt\": {\"argv\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet\", \"msbuild\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj\", \"-target:Restore\", \"-maxCpuCount:1\", \"-nodeReuse:false\", \"-noAutoResponse\", \"-verbosity:minimal\", \"-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config\", \"-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed\", \"-property:RestoreFallbackFolders=\", \"-property:RestoreDisableParallel=true\", \"-property:RestoreNoHttpCache=true\", \"-property:RestoreIgnoreFailedSources=false\", \"-property:RestorePackagesWithLockFile=true\", \"-property:RestoreLockedMode=false\", \"-property:NuGetAudit=false\"], \"childStarts\": 0, \"childrenDeniedBySandbox\": true, \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source\", \"elapsedSeconds\": 0.0019999999999527063, \"env\": {\"inheritParent\": true, \"pathPrepend\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64\", \"pathSuffix\": \"unchanged parent PATH; resolved dotnet must equal fixed DOTNET\", \"preserve\": [\"HOME\", \"home\", \"CODEX_HOME\"], \"updates\": {\"DOTNET_ADD_GLOBAL_TOOLS_TO_PATH\": \"false\", \"DOTNET_CLI_HOME\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home\", \"DOTNET_CLI_USE_MSBUILD_SERVER\": \"0\", \"DOTNET_GENERATE_ASPNET_CERTIFICATE\": \"false\", \"DOTNET_MULTILEVEL_LOOKUP\": \"0\", \"MSBUILDDISABLENODEREUSE\": \"1\", \"NUGET_HTTP_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http\", \"NUGET_PACKAGES\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"NUGET_PLUGINS_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins\", \"NUGET_SCRATCH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch\", \"TMPDIR\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp\"}}, \"exitCode\": 0, \"failure\": null, \"quiescent\": true, \"role\": \"DUT\", \"sandboxProfileSha256\": \"2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5\", \"startCount\": 1, \"timedOut\": false}, \"events\": [\"dispatch:M-runner-generation-restore\", \"isolated synthetic pin\", \"SYNTHETIC Popen\", \"stream-close\", \"stream-close\", \"in-memory output inspection\", \"selector-close\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json\"], \"realExternalActions\": 0}, {\"name\": \"timeout\", \"passed\": true, \"actualError\": \"GateError: material command failed; no retry: GateError: M stage deadline exhausted\", \"realRuleCount\": 177, \"mkdirCalls\": 183, \"codeObjectUnmodified\": true, \"productionPinStillNull\": true, \"waits\": [{\"kind\": \"selector.select\", \"timeout\": 0.049999999999954525, \"at\": 869.95}, {\"kind\": \"process.wait\", \"timeout\": 5, \"at\": 870.001}], \"signals\": [15], \"syntheticReceipt\": {\"argv\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet\", \"msbuild\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj\", \"-target:Restore\", \"-maxCpuCount:1\", \"-nodeReuse:false\", \"-noAutoResponse\", \"-verbosity:minimal\", \"-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config\", \"-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed\", \"-property:RestoreFallbackFolders=\", \"-property:RestoreDisableParallel=true\", \"-property:RestoreNoHttpCache=true\", \"-property:RestoreIgnoreFailedSources=false\", \"-property:RestorePackagesWithLockFile=true\", \"-property:RestoreLockedMode=false\", \"-property:NuGetAudit=false\"], \"childStarts\": 0, \"childrenDeniedBySandbox\": true, \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source\", \"elapsedSeconds\": 0.05199999999990723, \"env\": {\"inheritParent\": true, \"pathPrepend\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64\", \"pathSuffix\": \"unchanged parent PATH; resolved dotnet must equal fixed DOTNET\", \"preserve\": [\"HOME\", \"home\", \"CODEX_HOME\"], \"updates\": {\"DOTNET_ADD_GLOBAL_TOOLS_TO_PATH\": \"false\", \"DOTNET_CLI_HOME\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home\", \"DOTNET_CLI_USE_MSBUILD_SERVER\": \"0\", \"DOTNET_GENERATE_ASPNET_CERTIFICATE\": \"false\", \"DOTNET_MULTILEVEL_LOOKUP\": \"0\", \"MSBUILDDISABLENODEREUSE\": \"1\", \"NUGET_HTTP_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http\", \"NUGET_PACKAGES\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages\", \"NUGET_PLUGINS_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins\", \"NUGET_SCRATCH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch\", \"TMPDIR\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp\"}}, \"exitCode\": -15, \"failure\": \"GateError: M stage deadline exhausted\", \"quiescent\": true, \"role\": \"DUT\", \"sandboxProfileSha256\": \"2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5\", \"startCount\": 1, \"timedOut\": true}, \"events\": [\"dispatch:M-runner-generation-restore\", \"isolated synthetic pin\", \"SYNTHETIC Popen\", \"owned-termination\", \"selector-close\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr\", \"receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json\"], \"realExternalActions\": 0}, {\"name\": \"cache-bad-package\", \"passed\": true, \"actualError\": \"GateError: identity mismatch: archive later\", \"gets\": [], \"materialWrites\": [], \"events\": [\"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\"], \"codeObjectUnmodified\": true, \"realLengthAndHashVerifier\": true, \"realSafeReader\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"cache-bad-yaml\", \"passed\": true, \"actualError\": \"GateError: identity mismatch: archive yaml-source\", \"gets\": [], \"materialWrites\": [], \"events\": [\"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz\"], \"codeObjectUnmodified\": true, \"realLengthAndHashVerifier\": true, \"realSafeReader\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"cache-valid-cache\", \"passed\": true, \"actualError\": \"StopAtFirstSyntheticGet: no real download\", \"gets\": [\"M-get-first\"], \"materialWrites\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17\"], \"events\": [\"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg\", \"read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz\", \"hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz\", \"mkdir:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17\", \"GET:M-get-first\"], \"codeObjectUnmodified\": true, \"realLengthAndHashVerifier\": true, \"realSafeReader\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"H None gate\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: central CONFIG is absent; no execution authority\", \"return\": null, \"reads\": [], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H argv mismatch\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: actual argv differs\", \"return\": null, \"reads\": [], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H driver digest mismatch\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: file bytes/hash\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H activation digest mismatch\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: file bytes/hash\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\"], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H ancestor symlink\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: file or ancestor symlink\", \"return\": null, \"reads\": [], \"moduleCount\": 0, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H valid synthetic pin and original execute\", \"passed\": true, \"actualError\": null, \"return\": 0, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 1, \"stdout\": \"{\\\"status\\\": \\\"M_MATERIAL_CANDIDATE_NOT_ACCEPTED\\\", \\\"SYNTHETIC\\\": true}\\n\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H nonzero return preserved\", \"passed\": true, \"actualError\": null, \"return\": 37, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 1, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H SystemExit preserved\", \"passed\": true, \"actualError\": \"SystemExit: 43\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 1, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H exception preserved\", \"passed\": true, \"actualError\": \"ValueError: SYNTHETIC failure\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 1, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H preset module pin rejected\", \"passed\": true, \"actualError\": \"RuntimeError: BLOCKED: driver pin not initially null\", \"return\": null, \"reads\": [\"/SYNTHETIC/A.json\", \"/SYNTHETIC/driver.py\"], \"moduleCount\": 1, \"originalExecuteCalls\": 0, \"stdout\": \"\", \"SYNTHETIC_ONLY\": true}, {\"name\": \"H mechanical outside marker changed\", \"passed\": true, \"SYNTHETIC_ONLY\": true}, {\"name\": \"H mechanical expression not literal\", \"passed\": true, \"SYNTHETIC_ONLY\": true}], \"elapsedSeconds\": 0.10322154199820943, \"passed\": 18, \"total\": 18, \"productionPinStillNull\": true, \"realExternalActions\": 0}\n",
+        "wall_time_seconds": 0.025319209
+      }
+    }
+  ],
+  "budgets": {
+    "oldRed": {
+      "attempts": 2,
+      "elapsedSeconds": 0.06946162500389619,
+      "limitSeconds": 5
+    },
+    "preparationSealConsume": {
+      "method": "Only old_seals/model/source_artifacts/seal_source/consume_source; no prepare() or offline_checks() call; full actual command, raw final disk-consumer result and elapsed recorded in separate H0/source-receipt.json after seal.",
+      "separateLimitSeconds": 30
+    },
+    "targetedGreen": {
+      "elapsedSeconds": 0.2055271669960348,
+      "limitSeconds": 30,
+      "maximumRounds": 3,
+      "rounds": 2
+    }
+  },
+  "caseCount": 18,
+  "dispatchItem": "fco_01a106e6-15b7-76e0-96d5-5d72688c0254",
+  "executionAuthorized": false,
+  "finalRawCases": [
+    {
+      "actualError": null,
+      "codeObjectUnmodified": true,
+      "events": [
+        "dispatch:M-runner-generation-restore",
+        "isolated synthetic pin",
+        "SYNTHETIC Popen",
+        "stream-close",
+        "stream-close",
+        "in-memory output inspection",
+        "selector-close",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json"
+      ],
+      "mkdirCalls": 183,
+      "name": "normal",
+      "passed": true,
+      "productionPinStillNull": true,
+      "realExternalActions": 0,
+      "realRuleCount": 177,
+      "signals": [],
+      "syntheticReceipt": {
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet",
+          "msbuild",
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj",
+          "-target:Restore",
+          "-maxCpuCount:1",
+          "-nodeReuse:false",
+          "-noAutoResponse",
+          "-verbosity:minimal",
+          "-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config",
+          "-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages",
+          "-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed",
+          "-property:RestoreFallbackFolders=",
+          "-property:RestoreDisableParallel=true",
+          "-property:RestoreNoHttpCache=true",
+          "-property:RestoreIgnoreFailedSources=false",
+          "-property:RestorePackagesWithLockFile=true",
+          "-property:RestoreLockedMode=false",
+          "-property:NuGetAudit=false"
+        ],
+        "childStarts": 0,
+        "childrenDeniedBySandbox": true,
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source",
+        "elapsedSeconds": 0.0020000000000095497,
+        "env": {
+          "inheritParent": true,
+          "pathPrepend": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64",
+          "pathSuffix": "unchanged parent PATH; resolved dotnet must equal fixed DOTNET",
+          "preserve": [
+            "HOME",
+            "home",
+            "CODEX_HOME"
+          ],
+          "updates": {
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_HOME": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home",
+            "DOTNET_CLI_USE_MSBUILD_SERVER": "0",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_MULTILEVEL_LOOKUP": "0",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "NUGET_HTTP_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http",
+            "NUGET_PACKAGES": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages",
+            "NUGET_PLUGINS_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins",
+            "NUGET_SCRATCH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch",
+            "TMPDIR": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp"
+          }
+        },
+        "exitCode": 0,
+        "failure": null,
+        "quiescent": true,
+        "role": "DUT",
+        "sandboxProfileSha256": "2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5",
+        "startCount": 1,
+        "timedOut": false
+      },
+      "waits": [
+        {
+          "at": 100,
+          "kind": "selector.select",
+          "timeout": 0.1
+        },
+        {
+          "at": 100.001,
+          "kind": "process.wait",
+          "timeout": 179.999
+        }
+      ]
+    },
+    {
+      "actualError": null,
+      "codeObjectUnmodified": true,
+      "events": [
+        "dispatch:M-runner-generation-restore",
+        "isolated synthetic pin",
+        "SYNTHETIC Popen",
+        "stream-close",
+        "stream-close",
+        "in-memory output inspection",
+        "selector-close",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json"
+      ],
+      "mkdirCalls": 183,
+      "name": "near-deadline",
+      "passed": true,
+      "productionPinStillNull": true,
+      "realExternalActions": 0,
+      "realRuleCount": 177,
+      "signals": [],
+      "syntheticReceipt": {
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet",
+          "msbuild",
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj",
+          "-target:Restore",
+          "-maxCpuCount:1",
+          "-nodeReuse:false",
+          "-noAutoResponse",
+          "-verbosity:minimal",
+          "-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config",
+          "-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages",
+          "-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed",
+          "-property:RestoreFallbackFolders=",
+          "-property:RestoreDisableParallel=true",
+          "-property:RestoreNoHttpCache=true",
+          "-property:RestoreIgnoreFailedSources=false",
+          "-property:RestorePackagesWithLockFile=true",
+          "-property:RestoreLockedMode=false",
+          "-property:NuGetAudit=false"
+        ],
+        "childStarts": 0,
+        "childrenDeniedBySandbox": true,
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source",
+        "elapsedSeconds": 0.0019999999999527063,
+        "env": {
+          "inheritParent": true,
+          "pathPrepend": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64",
+          "pathSuffix": "unchanged parent PATH; resolved dotnet must equal fixed DOTNET",
+          "preserve": [
+            "HOME",
+            "home",
+            "CODEX_HOME"
+          ],
+          "updates": {
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_HOME": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home",
+            "DOTNET_CLI_USE_MSBUILD_SERVER": "0",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_MULTILEVEL_LOOKUP": "0",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "NUGET_HTTP_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http",
+            "NUGET_PACKAGES": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages",
+            "NUGET_PLUGINS_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins",
+            "NUGET_SCRATCH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch",
+            "TMPDIR": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp"
+          }
+        },
+        "exitCode": 0,
+        "failure": null,
+        "quiescent": true,
+        "role": "DUT",
+        "sandboxProfileSha256": "2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5",
+        "startCount": 1,
+        "timedOut": false
+      },
+      "waits": [
+        {
+          "at": 869.95,
+          "kind": "selector.select",
+          "timeout": 0.049999999999954525
+        },
+        {
+          "at": 869.951,
+          "kind": "process.wait",
+          "timeout": 0.04899999999997817
+        }
+      ]
+    },
+    {
+      "actualError": "GateError: material command failed; no retry: GateError: M stage deadline exhausted",
+      "codeObjectUnmodified": true,
+      "events": [
+        "dispatch:M-runner-generation-restore",
+        "isolated synthetic pin",
+        "SYNTHETIC Popen",
+        "owned-termination",
+        "selector-close",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stdout",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/logs/M-runner-generation-restore.stderr",
+        "receipt-IO:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/M-runner-generation-restore.json"
+      ],
+      "mkdirCalls": 183,
+      "name": "timeout",
+      "passed": true,
+      "productionPinStillNull": true,
+      "realExternalActions": 0,
+      "realRuleCount": 177,
+      "signals": [
+        15
+      ],
+      "syntheticReceipt": {
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet",
+          "msbuild",
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source/src/Luban/Luban.csproj",
+          "-target:Restore",
+          "-maxCpuCount:1",
+          "-nodeReuse:false",
+          "-noAutoResponse",
+          "-verbosity:minimal",
+          "-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/NuGet.Config",
+          "-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages",
+          "-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/feed",
+          "-property:RestoreFallbackFolders=",
+          "-property:RestoreDisableParallel=true",
+          "-property:RestoreNoHttpCache=true",
+          "-property:RestoreIgnoreFailedSources=false",
+          "-property:RestorePackagesWithLockFile=true",
+          "-property:RestoreLockedMode=false",
+          "-property:NuGetAudit=false"
+        ],
+        "childStarts": 0,
+        "childrenDeniedBySandbox": true,
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/source",
+        "elapsedSeconds": 0.05199999999990723,
+        "env": {
+          "inheritParent": true,
+          "pathPrepend": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64",
+          "pathSuffix": "unchanged parent PATH; resolved dotnet must equal fixed DOTNET",
+          "preserve": [
+            "HOME",
+            "home",
+            "CODEX_HOME"
+          ],
+          "updates": {
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_HOME": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/dotnet-home",
+            "DOTNET_CLI_USE_MSBUILD_SERVER": "0",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_MULTILEVEL_LOOKUP": "0",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "NUGET_HTTP_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/http",
+            "NUGET_PACKAGES": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/packages",
+            "NUGET_PLUGINS_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/plugins",
+            "NUGET_SCRATCH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/scratch",
+            "TMPDIR": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/phases/M-runner-generation/env/tmp"
+          }
+        },
+        "exitCode": -15,
+        "failure": "GateError: M stage deadline exhausted",
+        "quiescent": true,
+        "role": "DUT",
+        "sandboxProfileSha256": "2b2a45c87a77eec657f1058ac639628d83bdfe4077d2bfcff2d7046accd53ab5",
+        "startCount": 1,
+        "timedOut": true
+      },
+      "waits": [
+        {
+          "at": 869.95,
+          "kind": "selector.select",
+          "timeout": 0.049999999999954525
+        },
+        {
+          "at": 870.001,
+          "kind": "process.wait",
+          "timeout": 5
+        }
+      ]
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "GateError: identity mismatch: archive later",
+      "codeObjectUnmodified": true,
+      "events": [
+        "read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg"
+      ],
+      "gets": [],
+      "materialWrites": [],
+      "name": "cache-bad-package",
+      "passed": true,
+      "realLengthAndHashVerifier": true,
+      "realSafeReader": true
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "GateError: identity mismatch: archive yaml-source",
+      "codeObjectUnmodified": true,
+      "events": [
+        "read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg",
+        "hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg",
+        "read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz"
+      ],
+      "gets": [],
+      "materialWrites": [],
+      "name": "cache-bad-yaml",
+      "passed": true,
+      "realLengthAndHashVerifier": true,
+      "realSafeReader": true
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "StopAtFirstSyntheticGet: no real download",
+      "codeObjectUnmodified": true,
+      "events": [
+        "read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg",
+        "hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-later.nupkg",
+        "read:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz",
+        "hash-verified:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/SYNTHETIC-yaml.tar.gz",
+        "mkdir:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17",
+        "GET:M-get-first"
+      ],
+      "gets": [
+        "M-get-first"
+      ],
+      "materialWrites": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17"
+      ],
+      "name": "cache-valid-cache",
+      "passed": true,
+      "realLengthAndHashVerifier": true,
+      "realSafeReader": true
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "RuntimeError: BLOCKED: central CONFIG is absent; no execution authority",
+      "moduleCount": 0,
+      "name": "H None gate",
+      "originalExecuteCalls": 0,
+      "passed": true,
+      "reads": [],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "RuntimeError: BLOCKED: actual argv differs",
+      "moduleCount": 0,
+      "name": "H argv mismatch",
+      "originalExecuteCalls": 0,
+      "passed": true,
+      "reads": [],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "RuntimeError: BLOCKED: file bytes/hash",
+      "moduleCount": 0,
+      "name": "H driver digest mismatch",
+      "originalExecuteCalls": 0,
+      "passed": true,
+      "reads": [
+        "/SYNTHETIC/A.json",
+        "/SYNTHETIC/driver.py"
+      ],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "RuntimeError: BLOCKED: file bytes/hash",
+      "moduleCount": 0,
+      "name": "H activation digest mismatch",
+      "originalExecuteCalls": 0,
+      "passed": true,
+      "reads": [
+        "/SYNTHETIC/A.json"
+      ],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "RuntimeError: BLOCKED: file or ancestor symlink",
+      "moduleCount": 0,
+      "name": "H ancestor symlink",
+      "originalExecuteCalls": 0,
+      "passed": true,
+      "reads": [],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": null,
+      "moduleCount": 1,
+      "name": "H valid synthetic pin and original execute",
+      "originalExecuteCalls": 1,
+      "passed": true,
+      "reads": [
+        "/SYNTHETIC/A.json",
+        "/SYNTHETIC/driver.py"
+      ],
+      "return": 0,
+      "stdout": "{\"status\": \"M_MATERIAL_CANDIDATE_NOT_ACCEPTED\", \"SYNTHETIC\": true}\n"
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": null,
+      "moduleCount": 1,
+      "name": "H nonzero return preserved",
+      "originalExecuteCalls": 1,
+      "passed": true,
+      "reads": [
+        "/SYNTHETIC/A.json",
+        "/SYNTHETIC/driver.py"
+      ],
+      "return": 37,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "SystemExit: 43",
+      "moduleCount": 1,
+      "name": "H SystemExit preserved",
+      "originalExecuteCalls": 1,
+      "passed": true,
+      "reads": [
+        "/SYNTHETIC/A.json",
+        "/SYNTHETIC/driver.py"
+      ],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "ValueError: SYNTHETIC failure",
+      "moduleCount": 1,
+      "name": "H exception preserved",
+      "originalExecuteCalls": 1,
+      "passed": true,
+      "reads": [
+        "/SYNTHETIC/A.json",
+        "/SYNTHETIC/driver.py"
+      ],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "actualError": "RuntimeError: BLOCKED: driver pin not initially null",
+      "moduleCount": 1,
+      "name": "H preset module pin rejected",
+      "originalExecuteCalls": 0,
+      "passed": true,
+      "reads": [
+        "/SYNTHETIC/A.json",
+        "/SYNTHETIC/driver.py"
+      ],
+      "return": null,
+      "stdout": ""
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "name": "H mechanical outside marker changed",
+      "passed": true
+    },
+    {
+      "SYNTHETIC_ONLY": true,
+      "name": "H mechanical expression not literal",
+      "passed": true
+    }
+  ],
+  "futureRootsCreated": false,
+  "hostTemplateIdentity": {
+    "CONFIG": null,
+    "bytes": 3109,
+    "nonblankLines": 56,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py",
+    "sha256": "b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea"
+  },
+  "inheritedEvidence": {
+    "oldLeafCount": 38,
+    "priorFailed70of71And901SecondRed": "PRESERVED_IN_OLD_E1_LEAVES; not replaced by current 18-case result",
+    "suites": [
+      {
+        "caseCount": 23,
+        "status": "INHERITED_NOT_RERUN"
+      },
+      {
+        "caseCount": 46,
+        "status": "INHERITED_NOT_RERUN"
+      },
+      {
+        "caseCount": 25,
+        "status": "INHERITED_NOT_RERUN"
+      },
+      {
+        "caseCount": 42,
+        "status": "INHERITED_NOT_RERUN"
+      },
+      {
+        "caseCount": 50,
+        "status": "INHERITED_NOT_RERUN"
+      },
+      {
+        "caseCount": 73,
+        "status": "INHERITED_NOT_RERUN"
+      }
+    ]
+  },
+  "issuer": {
+    "hostId": "local",
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "turnId": "01a106dc-0140-7783-9ec7-aab4235c4800"
+  },
+  "oldRedReproductions": [
+    {
+      "attempt": 1,
+      "command": "/opt/homebrew/bin/python3 -B - red /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py <<'PY'\nimport builtins, hashlib, json, pathlib, runpy, sys, time, types\nfrom types import SimpleNamespace as NS\nstarted=time.perf_counter()\nmode,driver=sys.argv[1],pathlib.Path(sys.argv[2])\nbase=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M')\nold=base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix01'\nif mode=='red':\n    assert not (base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix02').exists()\n    assert hashlib.sha256(driver.read_bytes()).hexdigest()=='2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f'\nproduction=runpy.run_path(str(driver))\nassert production['TRUSTED_CENTRAL_ACTIVATION'] is None\nassert not production['M'].exists() and not production['W'].exists()\nm=json.loads((old/'authority/prepare.json').read_bytes())['model']\ncommands=[next(c for c in m['commands'] if c['id']==n) for n in ('M-runner-generation-restore','M-tests-generation-restore')]\nresults=[]\ndef scenario(name):\n    tick=[0.0];stage=production['MStage'](lambda:tick[0])\n    tick[0]=100.0 if name=='normal' else 869.95\n    events=[];written={};processes=[];mkdirs=[];waits=[];signals=[]\n    rules=production['command_write_rules'](m,commands[0])\n    assert rules and all(r[3]=='M' for r in rules)\n    class Stream:\n        def __init__(self,fd):self.fd=fd\n        def fileno(self):return self.fd\n        def close(self):events.append('stream-close')\n    class Process:\n        def __init__(self,*args,**kw):\n            assert args[0]==commands[0]['argv'] and kw['cwd']==commands[0]['cwd']\n            self.stdout=Stream(11);self.stderr=Stream(12);self.pid=424242;self.returncode=None;processes.append(self)\n            events.append('SYNTHETIC Popen')\n        def poll(self):return self.returncode\n        def wait(self,timeout):\n            waits.append({'kind':'process.wait','timeout':timeout,'at':tick[0]})\n            assert timeout>0\n            tick[0]+=.001\n            if self.returncode is None:self.returncode=0\n            return self.returncode\n    class Selector:\n        def __init__(self):self.keys={}\n        def register(self,stream,event,label):self.keys[stream]=NS(fd=stream.fd,fileobj=stream,data=label)\n        def unregister(self,stream):del self.keys[stream]\n        def get_map(self):return self.keys\n        def select(self,timeout):\n            waits.append({'kind':'selector.select','timeout':timeout,'at':tick[0]})\n            assert timeout>0\n            tick[0]+=(timeout+.001) if name=='timeout' else .001\n            return [(key,1) for key in self.keys.values()]\n        def close(self):events.append('selector-close')\n    class Writer:\n        def __init__(self):self.stage=stage;self.outputs={}\n        def path(self,path):\n            return NS(mkdir=lambda **kw:mkdirs.append(str(path)))\n        def budget(self,cleanup=False):stage.left(cleanup)\n        def put(self,path,data,role,owner,cleanup=False):\n            stage.left(cleanup);production['authorize_write'](m,path,role,owner)\n            written[str(path)]=data;events.append('receipt-IO:'+str(path))\n    writer=Writer()\n    def killpg(pid,sig):\n        assert processes and pid==processes[0].pid\n        signals.append(sig);processes[0].returncode=-sig;events.append('owned-termination')\n    fakeos=NS(environ={'HOME':'/SYNTHETIC/HOME','PATH':'/SYNTHETIC/PATH'},pathsep=':',\n        set_blocking=lambda *a:None,read=lambda fd,size:b'',killpg=killpg)\n    class SyntheticTimeout(Exception):pass\n    replacements={'subprocess':NS(Popen=Process,PIPE=object(),DEVNULL=object(),TimeoutExpired=SyntheticTimeout),\n        'selectors':NS(DefaultSelector=Selector,EVENT_READ=1),'signal':NS(SIGTERM=15,SIGKILL=9)}\n    original_import=builtins.__import__\n    def isolated_import(name,*args,**kw):\n        return replacements[name] if name in replacements else original_import(name,*args,**kw)\n    def read_pin(path):\n        assert str(path)=='/SYNTHETIC/pin.json'\n        return b'{\"SYNTHETIC\":true}'\n    def fixture_pin(*args):\n        assert args[0]=={'path':'/SYNTHETIC/pin.json'} and args[1]==b'{\"SYNTHETIC\":true}'\n        events.append('isolated synthetic pin')\n    def inspect(actual):\n        assert actual==rules\n        events.append('in-memory output inspection')\n    environment=dict(production)\n    environment.update(__builtins__={**vars(builtins),'__import__':isolated_import},os=fakeos,\n        time=NS(monotonic=lambda:tick[0]),TRUSTED_CENTRAL_ACTIVATION={'path':'/SYNTHETIC/pin.json'},\n        read=read_pin,verify_activation=fixture_pin,inspect_command_outputs=inspect)\n    original=production['run_material_command']\n    invoke=types.FunctionType(original.__code__,environment,original.__name__,original.__defaults__,original.__closure__)\n    assert invoke.__code__ is original.__code__ and production['TRUSTED_CENTRAL_ACTIVATION'] is None\n    error=None;returned=None\n    try:\n        for command in commands if name=='timeout' else commands[:1]:\n            events.append('dispatch:'+command['id'])\n            returned=invoke(m,command,writer,b'SYNTHETIC freeze',['SYNTHETIC execute'])\n    except Exception as exc:error=type(exc).__name__+': '+str(exc)\n    receipt=json.loads(written[commands[0]['receiptPath']]) if commands[0]['receiptPath'] in written else None\n    expected=name=='timeout'\n    passed=bool(mkdirs) and writer.stage is stage and len(processes)==1 and bool(waits) and receipt is not None\n    if expected:\n        passed=passed and error is not None and receipt['timedOut'] and receipt['exitCode']==-15 and signals==[15]\n        passed=passed and not any(e=='dispatch:'+commands[1]['id'] for e in events)\n    else:\n        passed=passed and error is None and receipt['exitCode']==0 and receipt['quiescent'] and not receipt['failure']\n        passed=passed and any(w['kind']=='process.wait' for w in waits)\n    if name!='normal':\n        passed=passed and abs(waits[0]['timeout']-.05)<.000001 and waits[0]['timeout']<commands[0]['timeoutSeconds']\n    assert production['TRUSTED_CENTRAL_ACTIVATION'] is None and not production['M'].exists() and not production['W'].exists()\n    return {'name':name,'passed':bool(passed),'actualError':error,'realRuleCount':len(rules),'mkdirCalls':len(mkdirs),\n        'codeObjectUnmodified':True,'productionPinStillNull':True,'waits':waits,'signals':signals,\n        'syntheticReceipt':receipt,'events':events,'realExternalActions':0}\nfor name in (['normal'] if mode=='red' else ['normal','near-deadline','timeout']):results.append(scenario(name))\nelapsed=time.perf_counter()-started\nprint(json.dumps({'mode':mode,'SYNTHETIC_ONLY':True,'driver':str(driver),'results':results,'elapsedSeconds':elapsed,\n    'passed':sum(r['passed'] for r in results),'total':len(results),'realExternalActions':0},ensure_ascii=False))\nif mode=='red':\n    assert results[0]['actualError']==\"AttributeError: 'str' object has no attribute 'clock'\" and results[0]['mkdirCalls']>0\n    raise SystemExit(1)\nraise SystemExit(0 if all(r['passed'] for r in results) else 20)\nPY",
+      "elapsedSeconds": 0.044207042003108654,
+      "kind": "EXPECTED_OLD_SOURCE_RED",
+      "rawToolResult": {
+        "chunk_id": "dfd59e",
+        "exit_code": 1,
+        "original_token_count": 171,
+        "output": "{\"mode\": \"red\", \"SYNTHETIC_ONLY\": true, \"driver\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py\", \"results\": [{\"name\": \"normal\", \"passed\": false, \"actualError\": \"AttributeError: 'str' object has no attribute 'clock'\", \"realRuleCount\": 177, \"mkdirCalls\": 183, \"codeObjectUnmodified\": true, \"productionPinStillNull\": true, \"waits\": [], \"signals\": [], \"syntheticReceipt\": null, \"events\": [\"dispatch:M-runner-generation-restore\", \"isolated synthetic pin\"], \"realExternalActions\": 0}], \"elapsedSeconds\": 0.044207042003108654, \"passed\": 0, \"total\": 1, \"realExternalActions\": 0}\n",
+        "wall_time_seconds": 5.417e-06
+      }
+    },
+    {
+      "attempt": 2,
+      "command": "/opt/homebrew/bin/python3 -B - <<'PY'\nimport hashlib,json,pathlib,runpy,time,types\nstart=time.perf_counter()\np=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py')\nassert hashlib.sha256(p.read_bytes()).hexdigest()=='2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f'\nproduction=runpy.run_path(str(p))\ndef preflight_scenario(kind):\n    import base64\n    events=[];gets=[];writes=[];tick=[0.0];stage=production['MStage'](lambda:tick[0])\n    realPath=pathlib.Path;work=production['W'];material=production['M']\n    first=work/'acquire/SYNTHETIC-first.nupkg';later=work/'acquire/SYNTHETIC-later.nupkg';yaml=work/'acquire/SYNTHETIC-yaml.tar.gz'\n    data={str(later):b'VALID_PACKAGE',str(yaml):b'VALID_YAML_SOURCE'}\n    def item(path,body,key=None):\n        value={'path':str(path),'class':'official-get','bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}\n        if key:value.update(key=key,id=key,version='SYNTHETIC',sha512=base64.b64encode(hashlib.sha512(body).digest()).decode())\n        return value\n    packages=[item(first,b'MISSING','first'),item(later,data[str(later)],'later')]\n    archive=item(yaml,data[str(yaml)])\n    if kind=='bad-package':data[str(later)]=b'CORRUPT'\n    if kind=='bad-yaml':data[str(yaml)]=b'CORRUPT'\n    class MemPath(type(realPath())):\n        def exists(self):return str(self) in data or str(self)==str(work)\n        def is_file(self):return str(self) in data\n        def is_symlink(self):return False\n        def read_bytes(self):events.append('read:'+str(self));return data[str(self)]\n        def rglob(self,pattern):return [MemPath(p) for p in data if realPath(p).is_relative_to(realPath(self))]\n        def mkdir(self,**kwargs):writes.append(str(self));events.append('mkdir:'+str(self))\n    environment=dict(production);environment.update(Path=MemPath,M=MemPath(material),W=MemPath(work),\n        TRUSTED_CENTRAL_ACTIVATION={'SYNTHETIC':True},old_seals=lambda reader:[{'SYNTHETIC_HISTORY_SEAM':True}])\n    def verified(value,body):\n        production['verify_archive'](value,body);events.append('hash-verified:'+value['path']);return True\n    class StopAtFirstSyntheticGet(Exception):pass\n    def get(m,command,writer,frozen,argv):\n        gets.append(command['id']);events.append('GET:'+command['id']);raise StopAtFirstSyntheticGet('no real download')\n    environment.update(verify_archive=verified,run_material_command=get)\n    original=production['execute_material']\n    invoke=types.FunctionType(original.__code__,environment,original.__name__,original.__defaults__,original.__closure__)\n    original_reader=production['read'];reader=types.FunctionType(original_reader.__code__,environment,original_reader.__name__)\n    fixture={'inputs':[],'packages':packages,'archive':archive,'commands':[{'id':'M-get-first','stage':'M'}]}\n    error=None\n    try:invoke(fixture,reader,b'SYNTHETIC freeze',['SYNTHETIC execute'],stage)\n    except Exception as exc:error=type(exc).__name__+': '+str(exc)\n    if kind=='valid-cache':\n        passed=gets==['M-get-first'] and all('hash-verified:'+str(p) in events and events.index('hash-verified:'+str(p))<events.index('GET:M-get-first') for p in (later,yaml))\n    else:passed=not gets and not writes and error is not None and 'identity mismatch' in error\n    assert invoke.__code__ is original.__code__ and production['TRUSTED_CENTRAL_ACTIVATION'] is None\n    assert not production['M'].exists() and not production['W'].exists()\n    return {'name':'cache-'+kind,'passed':passed,'actualError':error,'gets':gets,'materialWrites':writes,\n        'events':events,'codeObjectUnmodified':True,'realLengthAndHashVerifier':True,'realSafeReader':True,'SYNTHETIC_ONLY':True}\nr=preflight_scenario('bad-yaml')\nprint(json.dumps({'mode':'P2_expected_red','result':r,'elapsedSeconds':time.perf_counter()-start,'realExternalActions':0}))\nassert r['gets']==['M-get-first'] and not r['passed']\nraise SystemExit(1)\nPY",
+      "elapsedSeconds": 0.025254583000787534,
+      "kind": "EXPECTED_OLD_SOURCE_RED",
+      "rawToolResult": {
+        "chunk_id": "dddf3a",
+        "exit_code": 1,
+        "original_token_count": 139,
+        "output": "{\"mode\": \"P2_expected_red\", \"result\": {\"name\": \"cache-bad-yaml\", \"passed\": false, \"actualError\": \"StopAtFirstSyntheticGet: no real download\", \"gets\": [\"M-get-first\"], \"materialWrites\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17\"], \"events\": [\"mkdir:/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17\", \"GET:M-get-first\"], \"codeObjectUnmodified\": true, \"realLengthAndHashVerifier\": true, \"realSafeReader\": true, \"SYNTHETIC_ONLY\": true}, \"elapsedSeconds\": 0.025254583000787534, \"realExternalActions\": 0}\n",
+        "wall_time_seconds": 5.834e-06
+      }
+    }
+  ],
+  "owner": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a106e6-15b0-75a3-a1dd-b5b3108744d8"
+  },
+  "passed": 18,
+  "productionTrustPin": null,
+  "realActions": {
+    "archivesUnpacked": 0,
+    "centralAuthorityOrProductionHWrites": 0,
+    "dotnetStarts": 0,
+    "gitWrites": 0,
+    "materialWrites": 0,
+    "networkRequests": 0,
+    "restoreStarts": 0,
+    "sharedOrToolOrOldEvidenceWrites": 0,
+    "unityStarts": 0
+  },
+  "schemaVersion": 1,
+  "scope": "M17-FIX02: production stage wait/exit/receipt path, all-existing official cache preflight, isolated central H template gates; SYNTHETIC_ONLY; no material execution",
+  "scopeCheck": {
+    "failureExplanation": "Mechanical comparator initially omitted the approved old30Leaves->old38Leaves metadata normalization. No production source changed. This was an artifact scope assertion, not an added targeted test round.",
+    "finalCommand": "/opt/homebrew/bin/python3 -B - <<'PY'\nimport ast,difflib,hashlib,json,time\nstarted=time.monotonic()\nfrom pathlib import Path\nold=Path(\"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py\").read_bytes();new=Path(\"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py\").read_bytes()\nd=list(difflib.unified_diff(old.decode().splitlines(),new.decode().splitlines()))\nplus=sum(x.startswith('+') and not x.startswith('+++') for x in d)\nminus=sum(x.startswith('-') and not x.startswith('---') for x in d)\nassert plus+minus<=180\ndef bodies(b):\n    t=b.decode();return {n.name:ast.get_source_segment(t,n) for n in ast.parse(t).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}\na=bodies(old);b=bodies(new);changed=[k for k in a if a[k]!=b[k]]\nassert a.keys()==b.keys()\nassert changed==['old_seals','model','run_material_command','execute_material','source_artifacts','offline_checks','prepare'],changed\nassert b['run_material_command'].replace('for root,rel,kind,rule_stage,owner,files,size,purpose in rules:','for root,rel,kind,stage,owner,files,size,purpose in rules:')==a['run_material_command']\npreflight=\"    for item in [*m['packages'],m['archive']]:\\n        p=Path(item['path'])\\n        if item['class']=='official-get' and (p.exists() or p.is_symlink()):verify_archive(item,reader(p))\\n\"\nassert b['execute_material'].replace(preflight,'',1).replace(\"'old38Leaves'\",\"'old30Leaves'\")==a['execute_material']\nh=Path(\"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py\").read_bytes()\ntree=ast.parse(h);config=[n for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='CONFIG' for t in n.targets)]\nassert len(config)==1 and ast.literal_eval(config[0].value) is None\nnonblank=sum(bool(x.strip()) for x in h.splitlines())\nassert nonblank<=100 and len(h)<=16384\nprint(json.dumps({'baseline':{'bytes':len(old),'sha256':hashlib.sha256(old).hexdigest()},'driver':{'bytes':len(new),'sha256':hashlib.sha256(new).hexdigest()},'delta':{'added':plus,'deleted':minus,'total':plus+minus,'limit':180},'changedTopLevelBodies':changed,'unchangedTopLevelBodies':len(a)-len(changed),'productionBodiesByteIdenticalAfterTwoApprovedSubstitutionsAndHistoryMetadata':True,'host':{'bytes':len(h),'sha256':hashlib.sha256(h).hexdigest(),'nonblankLines':nonblank,'CONFIG':None},'elapsedSeconds':time.monotonic()-started}))\nPY",
+    "finalRawToolResult": {
+      "chunk_id": "e08c2c",
+      "exit_code": 0,
+      "original_token_count": 181,
+      "output": "{\"baseline\": {\"bytes\": 114268, \"sha256\": \"2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f\"}, \"driver\": {\"bytes\": 114855, \"sha256\": \"e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70\"}, \"delta\": {\"added\": 22, \"deleted\": 15, \"total\": 37, \"limit\": 180}, \"changedTopLevelBodies\": [\"old_seals\", \"model\", \"run_material_command\", \"execute_material\", \"source_artifacts\", \"offline_checks\", \"prepare\"], \"unchangedTopLevelBodies\": 55, \"productionBodiesByteIdenticalAfterTwoApprovedSubstitutionsAndHistoryMetadata\": true, \"host\": {\"bytes\": 3109, \"sha256\": \"b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea\", \"nonblankLines\": 56, \"CONFIG\": null}, \"elapsedSeconds\": 0.14264312500017695}\n",
+      "wall_time_seconds": 0.050883625
+    },
+    "firstCommand": "/opt/homebrew/bin/python3 -B - <<'PY'\nimport ast,difflib,hashlib,json\nfrom pathlib import Path\nold=Path(\"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py\").read_bytes();new=Path(\"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py\").read_bytes()\nd=list(difflib.unified_diff(old.decode().splitlines(),new.decode().splitlines()))\nplus=sum(x.startswith('+') and not x.startswith('+++') for x in d)\nminus=sum(x.startswith('-') and not x.startswith('---') for x in d)\nassert plus+minus<=180\ndef bodies(b):\n    t=b.decode();return {n.name:ast.get_source_segment(t,n) for n in ast.parse(t).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}\na=bodies(old);b=bodies(new);changed=[k for k in a if a[k]!=b[k]]\nassert a.keys()==b.keys()\nassert changed==['old_seals','model','run_material_command','execute_material','source_artifacts','offline_checks','prepare'],changed\nassert b['run_material_command'].replace('for root,rel,kind,rule_stage,owner,files,size,purpose in rules:','for root,rel,kind,stage,owner,files,size,purpose in rules:')==a['run_material_command']\npreflight=\"    for item in [*m['packages'],m['archive']]:\\n        p=Path(item['path'])\\n        if item['class']=='official-get' and (p.exists() or p.is_symlink()):verify_archive(item,reader(p))\\n\"\nassert b['execute_material'].replace(preflight,'',1)==a['execute_material']\nh=Path(\"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py\").read_bytes()\ntree=ast.parse(h);config=[n for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='CONFIG' for t in n.targets)]\nassert len(config)==1 and ast.literal_eval(config[0].value) is None\nnonblank=sum(bool(x.strip()) for x in h.splitlines())\nassert nonblank<=100 and len(h)<=16384\nprint(json.dumps({'baseline':{'bytes':len(old),'sha256':hashlib.sha256(old).hexdigest()},'driver':{'bytes':len(new),'sha256':hashlib.sha256(new).hexdigest()},'delta':{'added':plus,'deleted':minus,'total':plus+minus,'limit':180},'changedTopLevelBodies':changed,'unchangedTopLevelBodies':len(a)-len(changed),'productionBodiesByteIdenticalAfterTwoApprovedSubstitutions':True,'host':{'bytes':len(h),'sha256':hashlib.sha256(h).hexdigest(),'nonblankLines':nonblank,'CONFIG':None}}))\nPY",
+    "firstRawToolResult": {
+      "chunk_id": "ee0ab1",
+      "exit_code": 1,
+      "original_token_count": 23,
+      "output": "Traceback (most recent call last):\n  File \"<stdin>\", line 15, in <module>\nAssertionError\n",
+      "wall_time_seconds": 5.459e-06
+    },
+    "result": {
+      "baseline": {
+        "bytes": 114268,
+        "sha256": "2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f"
+      },
+      "changedTopLevelBodies": [
+        "old_seals",
+        "model",
+        "run_material_command",
+        "execute_material",
+        "source_artifacts",
+        "offline_checks",
+        "prepare"
+      ],
+      "delta": {
+        "added": 22,
+        "deleted": 15,
+        "limit": 180,
+        "total": 37
+      },
+      "driver": {
+        "bytes": 114855,
+        "sha256": "e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70"
+      },
+      "elapsedSeconds": 0.14264312500017695,
+      "host": {
+        "CONFIG": null,
+        "bytes": 3109,
+        "nonblankLines": 56,
+        "sha256": "b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea"
+      },
+      "productionBodiesByteIdenticalAfterTwoApprovedSubstitutionsAndHistoryMetadata": true,
+      "unchangedTopLevelBodies": 55
+    }
+  },
+  "sourceIdentity": {
+    "bytes": 114855,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py",
+    "sha256": "e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70"
+  },
+  "status": "SOURCE_ONLY_TARGETED_CHECKS_PASSED_REVIEW_PENDING",
+  "testBoundary": {
+    "actualCacheFunction": "execute_material",
+    "actualCacheVerifier": "verify_archive",
+    "actualProcessOrNetworkValidation": false,
+    "actualSafeReader": "read",
+    "actualStageFunction": "run_material_command",
+    "diskProductionPin": null,
+    "firstGreenLoggingImprovement": "First green round passed all assertions. The second round also explicitly logs original execute calls in synthetic int/SystemExit/exception variants; no source change between rounds.",
+    "fixtures": "Detached globals and memory Path/clock/selector/Popen/IO replacements; same unmodified production __code__ bodies. H uses explicitly synthetic independent module bytes, never real M.",
+    "hostDiskCONFIG": null,
+    "productionModulePinUnchanged": true,
+    "sameProductionCodeObjects": true,
+    "stageRealNonemptyRuleCount": 177,
+    "syntheticAuthoritiesAreNotExecutionAuthority": true
+  }
+}
