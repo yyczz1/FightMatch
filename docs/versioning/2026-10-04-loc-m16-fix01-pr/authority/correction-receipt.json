@@ -1,0 +1,480 @@
+{
+  "completionReceiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "cumulativeValidationSeconds": 0.44605220800076495,
+  "executeGate": "CLOSED_SOURCE_ONLY_NO_TRUSTED_PIN",
+  "failure": null,
+  "findings": [
+    {
+      "finding": 4163732952,
+      "greenChecks": [
+        {
+          "expected": "pass",
+          "finding": 4163732952,
+          "name": "complete-oracle-and-two-candidates",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "yaml-candidate-1-wrong-content",
+          "reason": "B control yaml candidate-1 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "yaml-candidate-2-wrong-content",
+          "reason": "B control yaml candidate-2 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "unity-asset-candidate-1-wrong-content",
+          "reason": "B control unity-asset candidate-1 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "unity-asset-candidate-2-wrong-content",
+          "reason": "B control unity-asset candidate-2 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "fightmatch-candidate-1-wrong-content",
+          "reason": "B control fightmatch candidate-1 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "fightmatch-candidate-2-wrong-content",
+          "reason": "B control fightmatch candidate-2 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "005-pass-1-candidate-1-wrong-content",
+          "reason": "B control 005-pass-1 candidate-1 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "005-pass-1-candidate-2-wrong-content",
+          "reason": "B control 005-pass-1 candidate-2 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "005-pass-2-candidate-1-wrong-content",
+          "reason": "B control 005-pass-2 candidate-1 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "005-pass-2-candidate-2-wrong-content",
+          "reason": "B control 005-pass-2 candidate-2 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "raw-difference-despite-equal-JSON-semantics",
+          "reason": "B control fightmatch candidate-1 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "canonical-publication-difference-with-correct-self-digest",
+          "reason": "B control 005-pass-1 candidate-2 publicationRaw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "semantic-digest-not-bound-to-actual-bytes",
+          "reason": "005 semantic digest does not bind actual canonical bytes",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "missing-candidate-output",
+          "reason": "empty/duplicate control output set",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "extra-candidate-output",
+          "reason": "B control fightmatch candidate-1 raw mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "shortened-comparison-plan",
+          "reason": "frozen B comparison set missing or altered",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732952,
+          "name": "equal-raw-invalid-JSON-rejected",
+          "reason": "duplicate JSON key",
+          "status": "PASS"
+        }
+      ],
+      "locations": [
+        {
+          "function": "assert_controls",
+          "line": 1716
+        },
+        {
+          "function": "assert_controls_data",
+          "line": 1694
+        },
+        {
+          "function": "compare_control_outputs",
+          "line": 1656
+        },
+        {
+          "function": "b_output_comparisons",
+          "line": 1612
+        }
+      ],
+      "red": {
+        "finding": 4163732952,
+        "status": "RED_REPRODUCED",
+        "symptom": "successful receipts accepted without reading any candidate output"
+      },
+      "status": "CORRECTED_SOURCE_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "finding": 4163732956,
+      "greenChecks": [
+        {
+          "expected": "pass",
+          "finding": 4163732956,
+          "name": "full-frozen-deployment-and-closure",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "old-DLL-plus-two-licenses-false-positive",
+          "reason": "B runner/license set differs from complete frozen deployment",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "self-consistent-missing-Luban.Core.dll",
+          "reason": "B runner/license set differs from complete frozen deployment",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "self-consistent-missing-nlog.xml",
+          "reason": "B runner/license set differs from complete frozen deployment",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "self-consistent-missing-licenses/fallback/LICENSE",
+          "reason": "B runner/license set differs from complete frozen deployment",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "self-consistent-extra-DLL",
+          "reason": "B runner/license set differs from complete frozen deployment",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "self-consistent-tamper-YamlDotNet.dll",
+          "reason": "B frozen entry/license identity mismatch: YamlDotNet.dll",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "self-consistent-tamper-licenses/YamlDotNet/LICENSE",
+          "reason": "B frozen entry/license identity mismatch: licenses/YamlDotNet/LICENSE",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "shortened-package-closure",
+          "reason": "B package/deployment contract mismatch",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "independent-receipt-does-not-bind-new-manifest",
+          "reason": "B frozen entry/license identity mismatch: YamlDotNet.dll",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732956,
+          "name": "frozen-deployment-table-tamper",
+          "reason": "frozen material file drift: identity/expected-deployment.tsv",
+          "status": "PASS"
+        }
+      ],
+      "locations": [
+        {
+          "function": "check_b",
+          "line": 1598
+        },
+        {
+          "function": "check_b_data",
+          "line": 1554
+        },
+        {
+          "function": "deployment_contract",
+          "line": 1484
+        },
+        {
+          "function": "package_tables",
+          "line": 1206
+        }
+      ],
+      "red": {
+        "finding": 4163732956,
+        "status": "RED_REPRODUCED",
+        "symptom": "truncated DLL plus two licenses accepted"
+      },
+      "status": "CORRECTED_SOURCE_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "finding": 4163732959,
+      "greenChecks": [
+        {
+          "expected": "pass",
+          "finding": 4163732959,
+          "name": "pure-verifier-valid-synthetic-host-pin-not-execution",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "production-rejects-even-synthetically-valid-record",
+          "reason": "BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "trusted-record-field-drift-ownerTurn",
+          "reason": "BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "trusted-record-field-drift-centralHost",
+          "reason": "BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "trusted-record-field-drift-centralItem",
+          "reason": "BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "trusted-record-field-drift-sourceFreezeSha256",
+          "reason": "BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "trusted-record-field-drift-driverSha256",
+          "reason": "BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "trusted-record-field-drift-reviewedHead",
+          "reason": "BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "trusted-record-field-drift-argv",
+          "reason": "BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "stdin-cannot-provide-or-replace-pin",
+          "reason": "BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "self-hashed-forged-record-has-no-production-authority",
+          "reason": "BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "central-file-hash-mismatch",
+          "reason": "BLOCKED_CENTRAL_RECORD_IDENTITY",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "source-only-record-never-execute",
+          "reason": "BLOCKED_CENTRAL_SCOPE",
+          "status": "PASS"
+        },
+        {
+          "expected": "reject",
+          "finding": 4163732959,
+          "name": "actual-execute-entry-stops-before-stdin-or-files",
+          "reason": "BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION",
+          "status": "PASS"
+        }
+      ],
+      "locations": [
+        {
+          "function": "check_activation",
+          "line": 317
+        },
+        {
+          "function": "verify_central_activation",
+          "line": 323
+        },
+        {
+          "function": "execute",
+          "line": 1886
+        }
+      ],
+      "red": {
+        "finding": 4163732959,
+        "status": "RED_REPRODUCED",
+        "symptom": "caller-invented stdin activation accepted"
+      },
+      "status": "CORRECTED_SOURCE_PENDING_INDEPENDENT_REVIEW"
+    }
+  ],
+  "historicalRootsUnchanged": {
+    "M16": false,
+    "T16": false
+  },
+  "identityIndex": "authority/source-freeze.json binds all other seven leaves; its own identity is returned by this command.",
+  "independentReview": "NOT_RUN_BY_AUTHOR; corrected head must use GitHub PR Code Review",
+  "integrationVerdict": "NOT_GRANTED",
+  "issuer": {
+    "hostId": "local",
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "turnId": "01a1061d-c7b2-79b0-a72e-7fc5c30d7f1a"
+  },
+  "newLeaves": [
+    "source/m16_driver.py",
+    "source/m16-inputs.tsv",
+    "source/m16-write-set.tsv",
+    "authority/prepare.json",
+    "authority/offline-checks.json",
+    "authority/source-freeze.json",
+    "authority/correction-receipt.json",
+    "source/source.patch"
+  ],
+  "offlineChecks": {
+    "bytes": 17143,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/offline-checks.json",
+    "sha256": "d1bb12dd9563f2a6001adfb5c36f6e6507e55e8d7c394e36636b95bbd9a36985"
+  },
+  "originalSixLeavesBeforeAndAfter": [
+    {
+      "bytes": 125870,
+      "relativePath": "source/m16_driver.py",
+      "sha256": "0d4f0e7baccf14862eb5fce8dfdb558ccafacdd45f1683e8880c70c482d7dbf8"
+    },
+    {
+      "bytes": 4911291,
+      "relativePath": "source/m16-inputs.tsv",
+      "sha256": "946cc41177d30cc5f53cd99a9c675933073af8b357493cdef96245ee8112f41d"
+    },
+    {
+      "bytes": 1047831,
+      "relativePath": "source/m16-write-set.tsv",
+      "sha256": "44b554a689f71c230ae42ad73abc507d8a1ba4ff40ebd0d40c9f8f3d766396b0"
+    },
+    {
+      "bytes": 2497865,
+      "relativePath": "authority/prepare.json",
+      "sha256": "f36e61e053cc61e87a1f635962fe64d46fd9d4ab98f742cd0ff9cb54b4131fd6"
+    },
+    {
+      "bytes": 2977,
+      "relativePath": "authority/offline-checks.json",
+      "sha256": "b8c09607f3a7f4c2eb6bfa497fccc07ee586973acff30f0fcd84e989f9675844"
+    },
+    {
+      "bytes": 2666,
+      "relativePath": "authority/source-freeze.json",
+      "sha256": "0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50"
+    }
+  ],
+  "originalSixLeavesUnchanged": true,
+  "owner": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a10625-f930-7e51-a03a-d47ea096074a"
+  },
+  "schemaVersion": 1,
+  "skill": "diagnosing-bugs: three actual red repros, scoped repairs and one bounded corrective green pass",
+  "sourceAuthority": {
+    "exactText": "canvas，多语言和你说的已经通过验证的资源、存档、语言偏好模块接入这些看起来似乎都是你自己可以完成的，不需要我确认吧？\n允许继续真实场景修复、保存复开和限定验证是具体要做什么？\n授权这两项，按既定范围继续",
+    "host": "local",
+    "item": "01a1061c-4443-7311-8546-ec7f40ed085e",
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "turn": "01a1061c-3792-7a31-925f-0f6caac83979"
+  },
+  "sourcePatch": {
+    "bytes": 57488,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/source.patch",
+    "sha256": "577ca3e7c4ec0de7b219ee67a09c8996c8a99f5c34b3ac9021e3d0f58ba3fc8c"
+  },
+  "status": "SOURCE_READY",
+  "validationAttemptCount": 2,
+  "zeroExecution": {
+    "GitWrites": 0,
+    "Unity": 0,
+    "childStarts": 0,
+    "dotnet": 0,
+    "materialWrites": 0,
+    "networkRequests": 0,
+    "productionWrites": 0,
+    "restore": 0
+  }
+}
