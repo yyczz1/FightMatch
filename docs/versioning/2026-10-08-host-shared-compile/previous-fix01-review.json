@@ -1,0 +1,153 @@
+{
+  "receipt": "HOST-INTEGRATE-001-I01-FIX01-PR18-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "observedAtUtc": "2026-10-07T19:26:50Z",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a117d2-04f8-70f2-9724-8e1f1bfbbf78",
+    "actualTurnEvidence": "read_thread returned this turn as inProgress",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+    "returnMode": "Final answer; central receives completion through wait"
+  },
+  "authority": "Central PR18 FIX01 receipt delegation under standing user GitHub review/team authorization",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/18",
+  "candidate": {
+    "head": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+    "base": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+    "parentFromPublicationReceipt": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+    "treeFromPublicationReceipt": "eb664d5ca4105fafe9b297c203f03be3031a8b2c",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/host-integrate-001-i01-fix01-publication-receipt.json",
+    "remoteScope": "Twelve current blobs verified by central; not repeated here",
+    "currentPrBodyRead": true,
+    "prTitle": "Compile adopted Host inputs with atomic restoration and strict process snapshots"
+  },
+  "review": {
+    "status": "COMPLETED_WITH_FINDINGS",
+    "triggerCommentId": 6045165771,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6045165771",
+    "summaryCommentId": 6044837922,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6044837922",
+    "completedAtUtc": "2026-10-07T19:26:00.221964Z",
+    "reviewSubmissionId": 5447269532,
+    "reviewSubmissionGraphqlId": "PRR_kwDOTDyjrM8AAAABRK68nA",
+    "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/18#pullrequestreview-5447269532",
+    "reviewState": "COMMENTED",
+    "submittedAtUtc": "2026-10-07T19:25:57Z",
+    "reviewedCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+    "reviewedCommitFromBody": "1c5a34ecd1",
+    "author": "chatgpt-codex-connector",
+    "originalReviewBody": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `1c5a34ecd1`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "currentHeadFindings": [
+      {
+        "findingId": 4211058182,
+        "priority": "P1",
+        "title": "Preserve concurrent values during overwrite commits",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058182",
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "line": 228,
+        "originalLine": 228,
+        "threadId": "PRRT_kwDOTDyjrM6qD7Qh",
+        "isResolved": false,
+        "isOutdated": false,
+        "commit": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+        "originalCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+        "reviewSubmissionId": 5447269532,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T19:25:57Z",
+        "originalBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Preserve concurrent values during overwrite commits**\n\nWhen another writer changes an existing projection file after the second preimage check but before this `os.replace`, the corrected code atomically overwrites that unknown value anyway. This fresh evidence is distinct from the earlier partial-write finding: staging prevents truncation, but ordinary replacement is not a compare-and-swap and still violates the correction plan’s requirement to preserve third-party drift during synchronization or restoration. Use an atomic swap/commit strategy that retains and verifies the displaced value, restoring it when it does not match `prior`.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/1c5a34ecd126135abb40a9e610a175c000e8d772/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      },
+      {
+        "findingId": 4211058192,
+        "priority": "P1",
+        "title": "Avoid poisoning ownership state when details fail",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058192",
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "line": 45,
+        "originalLine": 45,
+        "threadId": "PRRT_kwDOTDyjrM6qD7Qo",
+        "isResolved": false,
+        "isOutdated": false,
+        "commit": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+        "originalCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+        "reviewSubmissionId": 5447269532,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T19:25:57Z",
+        "originalBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Avoid poisoning ownership state when details fail**\n\nWhen `details(pid)` raises transiently while the process remains alive, `register` has already inserted an entry with `argv`/`cwd` unset; subsequent snapshots will not retry it because `discover` only registers PIDs absent from `owned`. The resulting incomplete entry makes `snapshot_consumers` reject every TERM authorization during `closure`, potentially leaving Unity and its children running, the projection unrestored, and the project locked. Gather and validate the details before publishing the entry, or remove the partial entry on failure so a later supplied snapshot can retry it.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/1c5a34ecd126135abb40a9e610a175c000e8d772/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      }
+    ],
+    "historicalFindings": [
+      {
+        "findingId": 4210875526,
+        "priority": "P1",
+        "title": "Restore projection files after partial writes",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875526",
+        "threadId": "PRRT_kwDOTDyjrM6qDfCe",
+        "isResolved": false,
+        "isOutdated": true,
+        "originalCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "reviewCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "reviewSubmissionId": 5447052028,
+        "note": "Historical finding; outdated and unresolved are recorded as service states, not interpreted as current approval or resolution"
+      },
+      {
+        "findingId": 4210875534,
+        "priority": "P1",
+        "title": "Keep discovery decisions on the supplied process snapshot",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875534",
+        "threadId": "PRRT_kwDOTDyjrM6qDfCm",
+        "isResolved": false,
+        "isOutdated": true,
+        "originalCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "reviewCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "reviewSubmissionId": 5447052028,
+        "note": "Historical finding; outdated and unresolved are recorded as service states, not interpreted as current approval or resolution"
+      }
+    ],
+    "codeGate": "NEEDS_FIX",
+    "formalApproval": false,
+    "statusReads": 3,
+    "waitSeconds": [
+      45,
+      50
+    ],
+    "pagination": {
+      "commentsComplete": true,
+      "reviewsComplete": true,
+      "threadsComplete": true,
+      "eachThreadCommentsComplete": true,
+      "issueCommentCount": 3,
+      "reviewCount": 2,
+      "threadCount": 4
+    }
+  },
+  "scopeAndAcceptanceBoundary": {
+    "preparationAuthorTurn": "01a117c8-1b7c-7f02-8b55-5cc2bea5d674",
+    "offlineChecks": "Second round 37/37 passed as reported; 8.46735745800106 seconds cumulative across two rounds; not rerun",
+    "firstRound": "SOURCE_REPLAY_FAILED: old wb-only fixture missed xb; original failure preserved",
+    "originalI01FivePreparationFiles": "Unchanged according to publication receipt",
+    "priorQaReceiptPreserved": "docs/team/2026-09-30/testing-host-integrate-pr18-review-receipt.json",
+    "futureRunRoot": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run",
+    "nativeRuns": 0,
+    "compileEvidenceRule": "Historical M03 complete cache bindings remain unproven. Missing actual compile or complete reuse proof requires INCOMPLETE; no forced recompilation or retry.",
+    "nativeCompileAccepted": false,
+    "androidGameplayLocalizationOrDemoAccepted": false,
+    "integrationVerdict": null
+  },
+  "method": {
+    "source": "Read-only gh api graphql for PR body, current metadata, complete comments, review submissions and inline threads",
+    "commandExitCode": 0,
+    "localCodeReviewPerformed": false,
+    "testsRun": false,
+    "unityRun": false,
+    "newReviewTriggered": false,
+    "githubReviewStateChanged": false,
+    "writes": "Only this new QA receipt; old receipts unchanged"
+  }
+}

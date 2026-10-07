@@ -1,0 +1,145 @@
+{
+  "receipt": "HOST-INTEGRATE-001-I01-FIX03-PR18-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "observedAtUtc": "2026-10-07T20:07:50Z",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a117f7-db3e-7352-9ad4-fb32ea100aa7",
+    "actualTurnEvidence": "read_thread returned status inProgress",
+    "requestedModel": "gpt-6-luna",
+    "requestedReasoningEffort": "medium",
+    "effectiveModelVerification": "Runtime-selected model was not exposed by tools; only the requested Luna/medium setting is recorded",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+    "returnMode": "Final answer; central receives via wait"
+  },
+  "authority": "Central PR18 FIX03 delegation under standing user GitHub Code Review authority",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/18",
+  "candidate": {
+    "head": "48c51dba8cb6487f405f9291fb1a8ab1b20b6c20",
+    "base": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+    "treeFromPublicationReceipt": "dd8700bde50500001d44521da3dedc00e240356f",
+    "parentFromPublicationReceipt": "191ee590dbb644ce129a6d6b5787555fcade8af0",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/host-integrate-001-i01-fix03-publication-receipt.json",
+    "remoteVerifiedByPublisher": true,
+    "deltaPaths": 9,
+    "currentPrBodyRead": true,
+    "notes": "16 published paths were verified by central; not re-fetched by QA"
+  },
+  "review": {
+    "status": "COMPLETED_NO_MAJOR_ISSUES_REPORTED",
+    "triggerCommentId": 6045836915,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6045836915",
+    "summaryCommentId": 6044837922,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6044837922",
+    "summaryStatus": "Completed",
+    "completedAtUtc": "2026-10-07T20:07:07.755168Z",
+    "resultCommentId": 6045886949,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6045886949",
+    "resultCreatedAtUtc": "2026-10-07T20:07:06Z",
+    "author": "chatgpt-codex-connector",
+    "reviewedCommitFromResult": "48c51dba8c",
+    "resultText": "Codex Review: Didn't find any major issues. :rocket:",
+    "currentHeadReviewSubmissions": [],
+    "currentHeadInlineFindings": [],
+    "historicalP1Threads": [
+      {
+        "id": 4210875526,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875526",
+        "title": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Restore projection files after partial writes**",
+        "priority": "P1",
+        "threadId": "PRRT_kwDOTDyjrM6qDfCe",
+        "isResolved": false,
+        "isOutdated": true,
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "reviewedCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3"
+      },
+      {
+        "id": 4210875534,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875534",
+        "title": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Keep discovery decisions on the supplied process snapshot**",
+        "priority": "P1",
+        "threadId": "PRRT_kwDOTDyjrM6qDfCm",
+        "isResolved": false,
+        "isOutdated": true,
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "reviewedCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3"
+      },
+      {
+        "id": 4211058182,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058182",
+        "title": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Preserve concurrent values during overwrite commits**",
+        "priority": "P1",
+        "threadId": "PRRT_kwDOTDyjrM6qD7Qh",
+        "isResolved": false,
+        "isOutdated": true,
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "reviewedCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772"
+      },
+      {
+        "id": 4211058192,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058192",
+        "title": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Avoid poisoning ownership state when details fail**",
+        "priority": "P1",
+        "threadId": "PRRT_kwDOTDyjrM6qD7Qo",
+        "isResolved": false,
+        "isOutdated": true,
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "reviewedCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772"
+      },
+      {
+        "id": 4211236459,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211236459",
+        "title": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Retry ownership registration for the launched root**",
+        "priority": "P1",
+        "threadId": "PRRT_kwDOTDyjrM6qEW4K",
+        "isResolved": false,
+        "isOutdated": true,
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "reviewedCommit": "191ee590dbb644ce129a6d6b5787555fcade8af0"
+      }
+    ],
+    "formalApproval": false,
+    "codeReviewGate": "CLOSED_FOR_REVIEWED_HEAD",
+    "statusReads": 4,
+    "waitSeconds": [
+      45,
+      50,
+      50
+    ],
+    "pagination": {
+      "commentsComplete": true,
+      "reviewsComplete": true,
+      "threadsComplete": true,
+      "allThreadCommentsComplete": true,
+      "issueCommentCount": 6,
+      "reviewSubmissionCount": 3,
+      "threadCount": 5
+    }
+  },
+  "scopeAndAcceptanceBoundary": {
+    "preparationAuthorTurn": "01a117e9-ca3e-7cf0-9a5d-6087e8538c43",
+    "offlineReplay": "58/58 first round, 13.709244375 seconds as reported; not rerun",
+    "nativeRuns": 0,
+    "originalFailuresAndPriorReviewReceipts": "Preserved per publication/source receipts",
+    "historicalCacheBindings": "Incomplete; actual compile or complete exact reuse proof is required; otherwise future run is INCOMPLETE, with no forced recompile/retry",
+    "androidLocalizationGameplayAndDemoAcceptance": false,
+    "integrationVerdict": null
+  },
+  "method": {
+    "source": "Read-only gh api graphql PR metadata/body, all comments, review submissions, inline threads and page flags",
+    "commandExitCode": 0,
+    "localCodeReviewPerformed": false,
+    "testsRun": false,
+    "unityRun": false,
+    "newReviewTriggered": false,
+    "githubStateChanged": false,
+    "writes": "Only the newly authorized receipt; previous receipts unchanged"
+  }
+}
