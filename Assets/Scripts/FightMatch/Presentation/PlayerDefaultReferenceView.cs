@@ -12,7 +12,7 @@ namespace FightMatch.Presentation
     // A second display layer. It has neither a battle submitter nor a presentation-token reporter.
     public sealed class PlayerDefaultReferenceView : MonoBehaviour, IDisposable
     {
-        [SerializeField] private LocalizedTmpText explanation, beat;
+        [SerializeField] private LocalizedTmpText title, explanation, beat;
         [SerializeField] private RectTransform steps;
         [SerializeField] private UnityEngine.UI.Button buttonTemplate, closeButton;
         private readonly List<KeyValuePair<UnityEngine.UI.Button, UnityAction>> listeners = new List<KeyValuePair<UnityEngine.UI.Button, UnityAction>>();
@@ -30,18 +30,20 @@ namespace FightMatch.Presentation
         private double elapsed, lastTick;
         private long playEpoch;
         private bool ticking;
+        private Action closed;
         public PlayerDefaultReference Source { get; private set; }
         public CandidateBattlePlaybackFrame Frame { get; private set; }
         public bool IsOpen { get; private set; }
         public string OverlayReason { get; private set; }
         public long Generation { get; private set; }
 
-        internal void Bind(LocalizationService service)
+        internal void Bind(LocalizationService service, Action closed = null)
         {
             Unbind(); localization = service ?? throw new ArgumentNullException(nameof(service));
-            if (explanation == null || beat == null || steps == null || buttonTemplate == null || closeButton == null)
+            if (title == null || explanation == null || beat == null || steps == null || buttonTemplate == null || closeButton == null)
                 throw new InvalidOperationException("PlayerDefaultReferenceView serialized bindings are incomplete.");
-            buttonTemplate.gameObject.SetActive(false); closeButton.gameObject.SetActive(false);
+            this.closed = closed;
+            buttonTemplate.gameObject.SetActive(false); closeButton.gameObject.SetActive(true);
             explanationRows = new BattleLocalizedRows(explanation, "reference-explanation"); localization.LocaleChanged += OnLocaleChanged;
         }
         public void Show(PlayerBattleController controller, PlayerBattlePageToken token, CandidateBoardElement target, PlayerDefaultReference reference)
@@ -52,11 +54,10 @@ namespace FightMatch.Presentation
             owner = controller; page = token; board = target; context = controller.View.Context; Source = reference;
             IsOpen = true; owner.Input.Changed += OnInput; owner.Playback.Changed += OnInput;
             var generation = Generation;
-            var close = Instantiate(closeButton, closeButton.transform.parent, false); close.gameObject.SetActive(false);
-            close.GetComponent<FightMatchViewId>().Assign(FightMatchViewId.Row("reference-close"));
+            var close = closeButton;
             close.GetComponentInChildren<LocalizedTmpText>(true).Bind(localization, "fm.reference.close_button");
             UnityAction closeAction = () =>
-            { if (generation == Generation && IsOpen && ReferenceEquals(controller, owner) && controller.Owns(token)) Close(); };
+            { if (this != null && close != null && close.isActiveAndEnabled && close.interactable && generation == Generation && IsOpen && ReferenceEquals(controller, owner) && controller.Owns(token)) Close(); };
             close.onClick.AddListener(closeAction); listeners.Add(new KeyValuePair<UnityEngine.UI.Button, UnityAction>(close, closeAction));
             close.gameObject.SetActive(true);
             for (var i = 0; i < reference.Steps.Count; i++)
@@ -65,7 +66,7 @@ namespace FightMatch.Presentation
                 var button = Instantiate(buttonTemplate, steps, false); button.gameObject.SetActive(false);
                 button.GetComponent<FightMatchViewId>().Assign(FightMatchViewId.Row("reference-step:" + record.OperationId));
                 stepButtons.Add(button);
-                UnityAction action = () => { if (generation == Generation && IsOpen) PlayStep(index); };
+                UnityAction action = () => { if (this != null && button != null && button.isActiveAndEnabled && button.interactable && generation == Generation && IsOpen) PlayStep(index); };
                 button.onClick.AddListener(action); listeners.Add(new KeyValuePair<UnityEngine.UI.Button, UnityAction>(button, action));
                 button.gameObject.SetActive(true);
             }
@@ -74,7 +75,8 @@ namespace FightMatch.Presentation
         private void OnLocaleChanged(LocaleId locale) { if (IsOpen) RenderCopy(); }
         private void RenderCopy()
         {
-            var lines = new List<BattleTextLine> { new BattleTextLine("fm.reference.title") };
+            title.Bind(localization, "fm.reference.title");
+            var lines = new List<BattleTextLine>();
             var conditions = new List<BattleTextLine> { new BattleTextLine("fm.reference.condition.level",
                 BattleText.Arg("levelName", BattleText.Level(localization, Source.LevelId))) };
             foreach (var member in Source.Entry.Members.OrderBy(x => x.OriginalSlot))
@@ -230,6 +232,7 @@ namespace FightMatch.Presentation
         { playEpoch++; ticking = false; step = null; Frame = null; selectedStep = -1; stepCompleted = false; if (board != null) board.ClearReferenceOverride(); }
         public void Close()
         {
+            var notify = IsOpen ? closed : null;
             var oldBoard = board; var oldListeners = listeners.ToArray();
             DetachReferenceManaged();
             if (oldBoard != null) oldBoard.ClearReferenceOverride();
@@ -238,14 +241,16 @@ namespace FightMatch.Presentation
                 var button = listener.Key; if (button == null) continue;
                 button.onClick.RemoveListener(listener.Value);
                 foreach (var text in button.GetComponentsInChildren<LocalizedTmpText>(true)) text.Unbind();
-                if (button.transform.parent != steps && button.transform.parent != closeButton.transform.parent) continue;
+                if (button == closeButton || button.transform.parent != steps) continue;
                 button.gameObject.SetActive(false); button.transform.SetParent(null, false);
                 if (UnityEngine.Application.isPlaying) Destroy(button.gameObject); else DestroyImmediate(button.gameObject);
             }
             if (this != null) explanationRows?.Clear();
+            if (title != null) title.Unbind();
             if (explanation != null) explanation.Unbind();
             if (beat != null) beat.Unbind();
             if (this != null) gameObject.SetActive(false);
+            notify?.Invoke();
         }
         internal void SuspendCallbacks()
         {
@@ -262,10 +267,11 @@ namespace FightMatch.Presentation
         internal void DetachManaged()
         {
             if (localization != null) localization.LocaleChanged -= OnLocaleChanged;
-            DetachReferenceManaged(); localization = null; explanationRows = null;
+            DetachReferenceManaged(); localization = null; explanationRows = null; closed = null;
         }
         public void Unbind()
         {
+            closed = null;
             if (localization != null) localization.LocaleChanged -= OnLocaleChanged;
             Close(); explanationRows = null; localization = null;
         }

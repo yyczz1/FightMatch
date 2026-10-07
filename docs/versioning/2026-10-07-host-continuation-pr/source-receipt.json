@@ -1,0 +1,828 @@
+{
+  "schemaVersion": 1,
+  "task": "HOST-CONTINUATION-SOURCE-001",
+  "status": "SOURCE_READY",
+  "qualifiers": [
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "meaning": "Only the scoped source candidate and bounded mechanical evidence are delivered. This is not product ACCEPT, compiled code, a passing test suite, real Host startup or independent GitHub review.",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a116a1-aca0-7cd0-98b1-498fbf171dba",
+    "model": "gpt-6-astra",
+    "thinking": "xhigh"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a116a0-6cfa-74d0-a505-9e2e1e24cbd0"
+  },
+  "authority": {
+    "user": "AGENTS.md section6 same-project team dispatch/receipt authorization and resumed authorized task",
+    "activation": "docs/team/2026-09-30/central-host-continuation-source-activation-001.md",
+    "packet": "docs/team/2026-09-30/engineering-host-continuation-source-001.md",
+    "clarification": {
+      "issuerThread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+      "issuerTurn": "01a116a0-6cfa-74d0-a505-9e2e1e24cbd0",
+      "recipientTurn": "01a116a1-aca0-7cd0-98b1-498fbf171dba",
+      "scope": "Main-engineering clarification in this actual turn permits existing HostRig(false) also in HCP_06, using its real published six-file input and unmodified storage wrappers without fault injection. HCP_06 must exercise the actual Host's Disable/Destroy on the same live Session/lease. Only the preference store may be a new double. No new Session injection API or default Start, successful localization source, runtime execution or other scope expansion.",
+      "record": "Main engineering records this clarification in engineering.md; original 8130-byte packet stays immutable."
+    }
+  },
+  "returnPath": {
+    "soleReceiver": {
+      "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+      "host": "local",
+      "turn": "01a116a0-6cfa-74d0-a505-9e2e1e24cbd0"
+    },
+    "upstream": "Main engineering receives actual completed author turn, then returns to central. The author does not message central or dispatch other roles.",
+    "completion": "A pre-final sealing event is not an actual completed turn; main must confirm completion after the author's final."
+  },
+  "scope": {
+    "directory": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/S/",
+    "leaves": [
+      "source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs",
+      "before.json",
+      "after.json",
+      "source.patch",
+      "verify.py",
+      "static-checks.json",
+      "source-receipt.json"
+    ],
+    "sharedProductChanged": false,
+    "oldCandidatesChanged": false,
+    "assetsMetaConfigurationAssembliesChanged": false,
+    "newFixtureMetaCreated": false
+  },
+  "candidates": {
+    "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 23469,
+      "sha256": "d3774d5c9cf20cdf9649540f2479ebb198241188ecfdf88bdae09d1122c22456",
+      "gitBlob": "642aedff712b33b9d9e2bd25256063512fae2cb2"
+    },
+    "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+      "bytes": 18589,
+      "sha256": "feceefca6d529cbc9755f8f984db7b3b176bc0709730c83947ea07bb968cb687",
+      "gitBlob": "fe26b9d3ffe0648871e5985b987ffb5e2ff2240a"
+    },
+    "Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+      "bytes": 20308,
+      "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9",
+      "gitBlob": "2a66334508a048be52213a202fc41babe2ca77c0"
+    },
+    "Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs": {
+      "bytes": 25089,
+      "sha256": "3d75346c8bc72b09f7e793d728db521925a5d884e7491bdf9c5c26b8587494fc",
+      "gitBlob": "0df5c22a67e91ebf2e98e94691ff6772c9de31dc"
+    }
+  },
+  "bases": {
+    "Host": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/S/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+    "View": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+    "Session": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/S/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+    "patch": [
+      "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs"
+    ]
+  },
+  "fixedInputsManifest": {
+    "path": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/S/before.json",
+    "bytes": 13903,
+    "sha256": "3ffcccdc459bec006860b104bb8342b5db52b56b7d92f5c76b022ab6e1fb7ec6",
+    "gitBlob": "80901f6cd4e017cc4d715822de5a3c388038f06d",
+    "count": 38
+  },
+  "publishedBusinessInputs": {
+    "Assets/StreamingAssets/FightMatch/first-release.fmsource.json": {
+      "bytes": 20443,
+      "sha256": "fc2a6e8ec7cdba10992b9e0de7433020b75b1a4ef2b18b5570b199b9983a261a",
+      "gitBlob": "a628ef49c1adc19e9e0e6fc905191ca8736a15ae"
+    },
+    "Assets/StreamingAssets/FightMatch/first-release.fmpackage.bytes": {
+      "bytes": 11486,
+      "sha256": "b2247d3f951626edfdf25753520f3421dc20e8d8cab7731c9ab3ba6ece1a5129",
+      "gitBlob": "446833d43837e9dbb15345f453fac0449a57e0cc"
+    },
+    "Assets/StreamingAssets/FightMatch/first-release.fmvalidation.bytes": {
+      "bytes": 664,
+      "sha256": "512b2f9b5027674dee1eed127e811a7b7c31322562f2dd81604d1faf1c79b38d",
+      "gitBlob": "90bae7f8bcb36ae931c96f5c50404ddaaa066148"
+    },
+    "Assets/StreamingAssets/FightMatch/first-release.fmreview.json": {
+      "bytes": 4766,
+      "sha256": "16b282218b0652910535a2c6d70c736da1023d74c327e0492a399b5b8fd9fa75",
+      "gitBlob": "f4f8305efa1d493ee8f4f51300120e9e3e855191"
+    },
+    "Assets/StreamingAssets/FightMatch/first-release.fmpublish.json": {
+      "bytes": 682,
+      "sha256": "feb77ac4f21746130bdcdb3dc4a19702f92181e4a29182f86856b4781f2de910",
+      "gitBlob": "258c2e7eed762cf27af660add2103d97df9033bb"
+    },
+    "Assets/StreamingAssets/FightMatch/first-release.fmrelease.json": {
+      "bytes": 411,
+      "sha256": "03dd942a8ea3d4cbfa58ee7aba60768196f8811576550f204cf742f4e5c35516",
+      "gitBlob": "dc41e5c30a45cbef7f6a3e46d0b8441233bd2978"
+    }
+  },
+  "unchangedPreferenceInputs": {
+    "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs": {
+      "bytes": 3495,
+      "sha256": "e768e6e39fe0f28ec292032ff9986f79606136ad6473b43fb6d5c550487e55a0",
+      "gitBlob": "a2897dc25417e5535ed01f4d978c067cb8012eb5"
+    },
+    "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs": {
+      "bytes": 13773,
+      "sha256": "d392d6808ad1fc8156482020951404eb46390d462ce0164404180dea067cce13",
+      "gitBlob": "068aa471f79ffb89da770ed52cd23def48944dac"
+    }
+  },
+  "adoptedSession": {
+    "source": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/S/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+    "identity": {
+      "bytes": 20308,
+      "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9",
+      "gitBlob": "2a66334508a048be52213a202fc41babe2ca77c0"
+    },
+    "mode": "Byte-identical20308-byte accepted Session candidate; its32 added lines relative to shared18579-byte Session are inherited accepted work, not a new implementation in this packet."
+  },
+  "implementation": {
+    "Host": "Build from fixed HISO19136-byte candidate. Select and retain P before first Bind, establish CanonicalProductRoot, verify storage, construct explicit-root preference store and initialize locale. Original null localization source/IsReady block remains.",
+    "timingChange": "Unlike the prior Host timing, production CanonicalSystemRoot may normalize/create the system directory before the null-LOC stop. Central explicitly approved this. No Session, locator/profile access or PlayerSave creation occurs through that null-LOC startup path.",
+    "interfaces": {
+      "newHostInternal": [
+        "void InitializeLocalePreference(LocalizationService service, ILocalePreferenceStore store, SystemLanguage language)",
+        "LocalePreferenceSaveResult SelectLocalePreference(LocaleId locale)"
+      ],
+      "newViewInternal": "void Bind(FightMatchHostSession owner, LocalizationService service, string fontLicense, Func<LocaleId, LocalePreferenceSaveResult> selectLocale)",
+      "publicOrSerializedChanges": 0,
+      "newStaticState": 0
+    },
+    "load": "Exactly one store.Load for this lifecycle, apply loaded.Locale before Bind, and no automatic Save. Remembered/default selection and four dispositions stay owned by the unchanged preference store; non-null diagnostics are logged as warnings.",
+    "select": "SetLocale precedes Save even for repeated selection. The existing LocalizationService suppresses duplicate same-locale LocaleChanged while the Host still retries Save. After locale events and Save, invalid epoch/permission yields null. Failed/Unknown preserve the newly selected language and do not route to PlayerSave recovery.",
+    "View": "Retain old three-argument Bind and its fm.language.changed memory-only feedback. The four-argument callback returns the existing Saved/SaveFailed/Unknown result key with optional errorCode parameter. Generation and null-result guards prevent stale feedback; original button guards remain.",
+    "rootAndLease": "Preferences, locator and profiles are under the same selected P/FightMatch. Verification reuses HISO activation/topology/disjoint-root helpers, requires a writable owned FileStream lease in acceptance mode, compares frozen activation bytes and rejects settings/target/ancestor links including missing-leaf cases. No no-argument preference-store constructor or real-root fallback is introduced.",
+    "lifecycle": "Cancel/failure before Session revokes epoch/store/selection before stopping coroutines and unbinding, releases lease in finally and preserves diagnosis. Live Session Disable revokes selection callbacks and unbinds while retaining Session, preference store, language and lease. Enable only rebinds a live Session without Load. Destroy stops/revokes/unbinds, then disposes Session and finally releases the lease.",
+    "errorBoundary": "Storage-guard failures produce HostSaveIsolationRejected. Missing resources/content and null LOC retain their existing failure categories. No success localization source, catalog fabrication, resource bridge or retry of rejected LOC actions is introduced.",
+    "preservedMethods": {
+      "private static string CanonicalSystemRoot(": "1fb060dd234b4cf942de2a736c153badbd74186eac1eecd9c7396d9527ee242f",
+      "private void DisposeSessionAndLease()": "bbe9b40348b72fc453dab25190372db7fce264312a76b63dc3183357867f9717",
+      "private void Update()": "00c206097878d0cf3598724f7f21e9ddc9b10bfc68d5e30aebba4f8bbd5a67f3",
+      "internal void HandleApplicationFocus(": "5ff4b60d4c40770c90aecb4743beb9057ca62198469b63057bec58ae1bc93f71"
+    },
+    "preservedOtherBehavior": "HISO parser/lease-helper block and CanonicalSystemRoot/DisposeSessionAndLease remain byte-identical to HISO; View button guards, binding helper, rendering/overlays and other unrelated methods remain unchanged."
+  },
+  "acceptance": [
+    {
+      "criterion": "4.1 One selected P for preferences/locator/profiles",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Root is chosen once in InitializeHost after HISO marker/lease setup, then FileLocalePreferenceStore receives preferenceRoot explicitly; Session factories retain CanonicalProductRoot/locator/profiles.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "4.2 Load before first Bind; no null-LOC Session/PlayerSave",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "InitializeLocalePreference precedes BindView; IsReady remains unchanged and null source still terminates before content loading or Session. This intentionally moves system-root normalization/creation earlier.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "4.3 Isolation/lease/root/settings link checks before I/O and on resume",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "VerifyLocaleStorage checks selected/product roots, live FileStream lease, frozen activation, original HISO record/topology/disjoint roots and settings/target ancestors. Construction, Load/Save guards and continuation use it; rejection revokes and disposes before HostSaveIsolationRejected.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "4.4 Exactly one Load and zero automatic Save",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "InitializeLocalePreference ignores repeated initialization after localeLoaded/cancellation/destruction; Load result locale is applied before binding; diagnostic codes are retained as warnings. Existing B-PREF selects remembered/system defaults.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "4.5 Immediate selection, three save states and same-locale retry",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "SelectLocalePreference changes locale before Save, rechecks permission/epoch after the locale event and after Save, returns null for invalidation, preserves Failed/Unknown result without rollback or PlayerSave recovery.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "4.6 View callback and generation lifetime",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Three-argument Bind remains memory-only. Four-argument internal Bind captures the callback; SelectLocale uses result.LocalizationKey/ErrorCode and rejects null/old-generation output. Original AddButton guard remains byte-identical; Unbind clears callback/listeners.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "4.7 Cancellation, Disable/Enable and Destroy",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Cancellation revokes epoch/store/selection before StopAllCoroutines and Unbind, then releases a pre-Session lease and preserves diagnostics. Live Session Disable invalidates callbacks/unbinds while retaining Session/store/lease; Enable binds without Load. Destroy revokes/unbinds and uses the unchanged Session.Dispose/finally-lease path.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "4.8 Adopt accepted Session bytes without admission expansion",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Candidate Session exactly equals accepted20308-byte source. No new settings deletion, EmptyRoot/resource-state expansion or save-format change.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "5 New eight tests and frozen existing inputs",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Exactly the eight named unparameterized methods are authored;38 fixed inputs, including all six published business files, remain unchanged. HCP_06 and HCP_07 reuse the existing HostRig only under the main-engineering clarification.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    },
+    {
+      "criterion": "5 Patch/line/size/static budget and independent review boundary",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Canonical four-file patch applies forward/backward; Host/View delta196<=320 and new test449<=550. Static attempt1 failure and attempt2 first65/65 pass are retained; no C# or test execution or author approval.",
+      "runtimeAcceptance": "NOT_RUN / REVIEW_PENDING"
+    }
+  ],
+  "tests": {
+    "newCases": [
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_01_LoadBeforeBind",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_02_SelectAndRetry",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_03_Feedback",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_04_Rebind",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_05_CancelStartup",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_06_DisposeOrder",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_07_SettingsFirst",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_08_NullSourceAndIsolation",
+        "parameters": []
+      }
+    ],
+    "expectedNewCases": 8,
+    "parameterizedCases": 0,
+    "discovery": "NOT_RUN",
+    "execution": "NOT_RUN",
+    "componentBoundary": "The inactive frozen Prefab is used for view fields/bindings. Private lifecycle methods and approved internal seams are invoked explicitly in candidate tests; default Start is never invoked. Null-source component feedback assertions examine bound keys/arguments and placeholders, not successful translation or real button/EventSystem behavior.",
+    "HCP05Boundary": "Candidate asserts canceled epoch permission and a deferred InitializeHost iterator after cancellation. It does not claim a real suspended content-download coroutine was resumed; the production yield/resume guard is additionally checked in source and awaits authorized runtime evidence.",
+    "HCP06Clarification": {
+      "issuerThread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+      "issuerTurn": "01a116a0-6cfa-74d0-a505-9e2e1e24cbd0",
+      "recipientTurn": "01a116a1-aca0-7cd0-98b1-498fbf171dba",
+      "scope": "Main-engineering clarification in this actual turn permits existing HostRig(false) also in HCP_06, using its real published six-file input and unmodified storage wrappers without fault injection. HCP_06 must exercise the actual Host's Disable/Destroy on the same live Session/lease. Only the preference store may be a new double. No new Session injection API or default Start, successful localization source, runtime execution or other scope expansion.",
+      "record": "Main engineering records this clarification in engineering.md; original 8130-byte packet stays immutable."
+    },
+    "HCP06EvidenceIntent": "Use existing HostRig(false), its real Session and an owned real FileStream lease assembled into existing private Host state. Assert Host Disable retains Session/lease while removing callbacks, Enable does not Load, and Host Destroy revokes/unbinds before disposal with eventual single Dispose and released lease. No new session-injection API or fault wrapper is added.",
+    "HCP07EvidenceIntent": "Use explicit-root real preference store, save desired locale before first profile creation, then cold-rebuild the real HostRig Session and compare player/commit identity and every stored file byte. A new component reads remembered locale from the same P.",
+    "isolation": "Fixture I/O uses new test-owned roots. Existing HostRig wrapper types are reused without fault injection and load only the six fixed published business files; no HostPanel/authoring draft or successful text source.",
+    "platform": "The new fixture is explicitly OSXEditor-only because these Host root/lease checks use Mac realpath/readlink/FileStream semantics. A non-Mac skip cannot satisfy acceptance; the actual Mac execution requires a separately signed C exception.",
+    "futureSelector": "^(FightMatch\\.Host\\.Tests\\.FightMatchHostLocaleWiringTests\\.(HCP_01_LoadBeforeBind|HCP_02_SelectAndRetry|HCP_03_Feedback|HCP_04_Rebind|HCP_05_CancelStartup|HCP_06_DisposeOrder|HCP_07_SettingsFirst|HCP_08_NullSourceAndIsolation)|FightMatch\\.Host\\.Tests\\.FightMatchHostSaveIsolationTests\\.(HISO_05_PlayerAndPreferencePathsRemainUnderOneEffectiveRoot|HISO_06_ReopenRetainsRootAndTeardownReleasesLease))$",
+    "expectedFutureTargetedCases": 10,
+    "reusedHistoricalEvidence": "PREF77, HSC18 and pure HISO_01-04 selector evidence are referenced by the approved packet, not rerun or relabeled as current Host acceptance."
+  },
+  "verification": {
+    "artifact": {
+      "path": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/S/static-checks.json",
+      "bytes": 38604,
+      "sha256": "e9540a81ec8168b7d3ee8a2f5b1563df5bf40a3af24ccbac8c205a4ccd5bf93b",
+      "gitBlob": "6e161d113d40ed945c10232c6f981a1f25f57753"
+    },
+    "status": "PASS_STATIC_ONLY",
+    "usedRuns": 2,
+    "maximumRuns": 3,
+    "wholeCommandElapsedSeconds": 0.22,
+    "budgetUpperBoundSeconds": 0.24,
+    "maximumCumulativeSeconds": 30,
+    "attempts": [
+      {
+        "attempt": 1,
+        "commandExecutionId": "exec-db1fe42c-d5c4-4246-9d7f-95ae1925e77c",
+        "chunkId": "adb8e7",
+        "toolExitCode": 1,
+        "startedUtc": "2026-10-07T14:12:44.060833+00:00",
+        "endedUtc": "2026-10-07T14:12:44.081361+00:00",
+        "bodyElapsedSeconds": 0.020520416997896973,
+        "wholeCommandElapsedSeconds": 0.11,
+        "checksCompleted": 22,
+        "checksPassed": 21,
+        "exception": "AssertionError: no_new_static_state",
+        "rawEvidence": "static-checks.json runs[0]"
+      },
+      {
+        "attempt": 2,
+        "commandExecutionId": "exec-223ffc63-2fdd-4887-a0d7-25cb1b197b4e",
+        "chunkId": "40f417",
+        "toolExitCode": 0,
+        "startedUtc": "2026-10-07T14:13:38.386933+00:00",
+        "endedUtc": "2026-10-07T14:13:38.416773+00:00",
+        "bodyElapsedSeconds": 0.0298390419993666,
+        "wholeCommandElapsedSeconds": 0.11,
+        "checksCompleted": 65,
+        "checksPassed": 65,
+        "exception": null,
+        "rawEvidence": "static-checks.json runs[1]"
+      }
+    ],
+    "checkerCorrection": {
+      "reason": "Attempt1's no_new_static_state regex treated pre-existing static methods returning IsolationBinding/IDisposable as new state. Attempt2 compares the complete pre-existing private-static declaration lines against the HISO base. No product/test source changed.",
+      "old": "        check(\"no_new_static_state\", not re.findall(r\"^\\s*private static (?!extern|bool |void |string |IntPtr )\", H, re.M))",
+      "replacement": "        check(\"no_new_static_state\", re.findall(r\"^\\s*private static .+$\", H, re.M) ==\n              re.findall(r\"^\\s*private static .+$\", H0, re.M))",
+      "sourceChangedBetweenRuns": false
+    },
+    "iterationDisposition": "Stop after attempt2 first all-pass. No further source/test changes or SOURCE semantic check iterations. Only evidence construction and a final --seal metadata invocation remain.",
+    "passingChecks": [
+      {
+        "name": "fresh_owner_issuer_packet",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "all_fixed_inputs_unchanged",
+        "passed": true,
+        "detail": 38
+      },
+      {
+        "name": "shared_test_meta_and_resource_candidates_still_absent",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "exact_eight_pre_receipt_leaves",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "regular_owned_files",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "four_candidate_identities",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Session_exact_accepted_20308_bytes",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "patch_forward_reverse_FightMatchPlayerHost",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "patch_forward_reverse_FightMatchHostView",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "patch_forward_reverse_FightMatchHostSession",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "patch_forward_reverse_FightMatchHostLocaleWiringTests",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "canonical_four_file_patch",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Host_View_combined_320_line_budget",
+        "passed": true,
+        "detail": {
+          "HostFromHISO": {
+            "added": 125,
+            "removed": 49,
+            "changedLines": 174
+          },
+          "ViewFromShared": {
+            "added": 17,
+            "removed": 5,
+            "changedLines": 22
+          },
+          "testLines": 449
+        }
+      },
+      {
+        "name": "new_test_550_line_budget",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "evidence_reserve_within_2MiB",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Host_public_unchanged",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Host_serialized_unchanged",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Host_no_added_trailing_space",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "View_public_unchanged",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "View_serialized_unchanged",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "View_no_added_trailing_space",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "no_new_static_state",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "only_authorized_internal_seams",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "HISO_parser_lease_helpers_byte_preserved",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "preserved_private static string CanonicalSystemRoot(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "preserved_private void DisposeSessionAndLease()",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "preserved_private void Update()",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "preserved_internal void HandleApplicationFocus(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_private void BindText(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_private void AddButton(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_private void Render()",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_private void ShowLanguage(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_private void ShowLicense(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_internal void SynchronizeOverlayRoots()",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_private void RefreshDiagnostic()",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_internal void ShowFailure(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "view_preserved_internal void SetLoading(",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "root_Load_Bind_null_LOC_Session_order",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "same_product_locator_profiles_and_null_source",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "one_Load_no_automatic_Save",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Set_before_Save_with_epoch_rechecks_no_same_locale_shortcut",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "root_lease_activation_settings_target_checks",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "yield_resume_permission_checked",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "guard_failure_revokes_disposes_then_reports",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "cancel_revoke_stop_unbind_release_diagnostic_order",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "live_disable_retains_store_session_lease",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "enable_rebinds_live_only_without_Load",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "destroy_unbind_before_Session_finally_lease",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "host_epoch_callback_in_Bind",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "View_legacy_and_three_state_feedback_generation_guard",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "exact_eight_nonparameterized_cases",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "no_success_source_catalog_draft_or_default_Start",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "only_existing_Rig_in_06_07_no_new_storage_doubles",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_01_LoadBeforeBind",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_02_SelectAndRetry",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_03_Feedback",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_04_Rebind",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_05_CancelStartup",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_06_DisposeOrder",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_07_SettingsFirst",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_assertions_HCP_08_NullSourceAndIsolation",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Host_lexical_delimiters_only_not_CSharp_compile",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "View_lexical_delimiters_only_not_CSharp_compile",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "Test_lexical_delimiters_only_not_CSharp_compile",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "internal_elapsed_reserved_whole_command_budget",
+        "passed": true,
+        "detail": null
+      }
+    ],
+    "metadataSeal": "After this receipt is saved, run the already-frozen verify.py --seal once to bind exact10 leaves and the receipt's own identity. This mode reads only final metadata and does not rerun source semantics; its result/whole-command timing are returned in the author final.",
+    "limitations": [
+      "Text/identity/diff/lexical/source-contract checks only; no C# compilation, semantic execution or test discovery.",
+      "Eight test methods are source candidates, not eight passing tests.",
+      "HCP_05 tests cancellation permission and a canceled deferred iterator; real yielded content-loading cancellation still needs authorized runtime evidence.",
+      "HCP_06 uses the specifically clarified existing HostRig and actual Host lifecycle methods with an owned file lease; it is component evidence only.",
+      "Null localization source remains intentional and cannot prove real bilingual UI, first frame, event routing or device acceptance."
+    ]
+  },
+  "budgets": {
+    "limits": {
+      "hostPlusViewChangedLines": 320,
+      "testLines": 550,
+      "evidenceBytes": 2097152,
+      "staticRuns": 3,
+      "staticWholeCommandSeconds": 30
+    },
+    "HostFromHISO": {
+      "added": 125,
+      "removed": 49,
+      "changedLines": 174
+    },
+    "ViewFromShared": {
+      "added": 17,
+      "removed": 5,
+      "changedLines": 22
+    },
+    "combinedHostViewChangedLines": 196,
+    "newTestLines": 449,
+    "patchFromShared": {
+      "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+        "added": 339,
+        "removed": 18,
+        "changedLines": 357
+      },
+      "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+        "added": 17,
+        "removed": 5,
+        "changedLines": 22
+      },
+      "Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+        "added": 32,
+        "removed": 0,
+        "changedLines": 32
+      },
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs": {
+        "added": 449,
+        "removed": 0,
+        "changedLines": 449
+      }
+    },
+    "sourceIterationStopped": true
+  },
+  "notRun": [
+    "Unity",
+    "C# compile",
+    "test discovery/execution",
+    "fixture execution",
+    "download",
+    "restore",
+    "projection sync",
+    "Git",
+    "PR review",
+    "LOC retry",
+    "real Host startup",
+    "PlayerSave I/O"
+  ],
+  "gaps": [
+    "C# compile/import and all test methods remain unexecuted; lexical/source checks do not establish C# validity or behavior.",
+    "Real localization artifacts/manifest and resource-build integration are still absent; null LOC continues to block real Session/PlayerSave startup.",
+    "Real bilingual text, first-frame layout/interaction, actual Host/EventSystem, devices and Demo acceptance are separate open gates.",
+    "Real yielded startup cancellation, activation/lease races and same-user malicious link replacement are not proven by SOURCE. This guard does not promise adversarial same-user race resistance.",
+    "Same-candidate-head independent GitHub review is pending; historical PR4 P1 and prior UNKNOWN/NEEDS_FIX remain unchanged.",
+    "Shared product files are not adopted. Future integration must use the exact four candidate identities and the accepted dependencies rather than mixing this candidate with old shared Host/Session."
+  ],
+  "futureExecution": {
+    "authorized": false,
+    "owner": "Main engineering / QA coordinate the next scoped gate; author creates no runner, projection, fixture data, metadata, PR or execution.",
+    "required": "Receive actual completed author turn and exact ten-leaf seal, then separately authorize compilation/import and the fixed eight+two targeted tests with exact input, platform, root, resource and timing limits. Prefer supported dots execution; non-Mac skips cannot satisfy these Mac root/lease cases.",
+    "adoption": "Session is the20308-byte accepted candidate, Host includes HISO plus this delta, View uses the current17703-byte base. B-PREF store/contracts remain the fixed shared inputs. AssetAccess/YooAsset factory candidates remain unadopted.",
+    "review": "Obtain independent GitHub PR Code Review for the actual integrated head under the standing procedure; source author does not issue an integration verdict.",
+    "noRetry": "Do not reuse old native licenses or retry rejected LOC communication/actions."
+  },
+  "evidence": {
+    "artifactsExcludingReceipt": {
+      "after.json": {
+        "bytes": 1306,
+        "sha256": "a0c89b5bb06b63392b861af34b7a9143f48529aa0fceaa3d6feff9cc5a9af52d",
+        "gitBlob": "178a9993e8fd8110ec42922400c9538ede0c12a7"
+      },
+      "before.json": {
+        "bytes": 13903,
+        "sha256": "3ffcccdc459bec006860b104bb8342b5db52b56b7d92f5c76b022ab6e1fb7ec6",
+        "gitBlob": "80901f6cd4e017cc4d715822de5a3c388038f06d"
+      },
+      "source.patch": {
+        "bytes": 53964,
+        "sha256": "94b95542858ba4dc20342763b6c52fd1cd2d9897c79f6f85244fadcc0aaadb9b",
+        "gitBlob": "6ae58f93a41ce9a6bba31ba41bd8749ffb79e395"
+      },
+      "source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+        "bytes": 20308,
+        "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9",
+        "gitBlob": "2a66334508a048be52213a202fc41babe2ca77c0"
+      },
+      "source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+        "bytes": 18589,
+        "sha256": "feceefca6d529cbc9755f8f984db7b3b176bc0709730c83947ea07bb968cb687",
+        "gitBlob": "fe26b9d3ffe0648871e5985b987ffb5e2ff2240a"
+      },
+      "source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+        "bytes": 23469,
+        "sha256": "d3774d5c9cf20cdf9649540f2479ebb198241188ecfdf88bdae09d1122c22456",
+        "gitBlob": "642aedff712b33b9d9e2bd25256063512fae2cb2"
+      },
+      "source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs": {
+        "bytes": 25089,
+        "sha256": "3d75346c8bc72b09f7e793d728db521925a5d884e7491bdf9c5c26b8587494fc",
+        "gitBlob": "0df5c22a67e91ebf2e98e94691ff6772c9de31dc"
+      },
+      "verify.py": {
+        "bytes": 19257,
+        "sha256": "8d717c1f376169b48da070007a3a46c3bbae848571f142efc4f5622605a9a9a5",
+        "gitBlob": "c038a71d7f4f57bfac0aa10d3ac61ea24b0b4ce6"
+      },
+      "static-checks.json": {
+        "bytes": 38604,
+        "sha256": "e9540a81ec8168b7d3ee8a2f5b1563df5bf40a3af24ccbac8c205a4ccd5bf93b",
+        "gitBlob": "6e161d113d40ed945c10232c6f981a1f25f57753"
+      }
+    },
+    "bytesExcludingReceipt": 214489,
+    "leafCount": 10,
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/S/source-receipt.json",
+      "bytes": 37790,
+      "digestBinding": "Final verify.py --seal output plus author's final/return receipt. No self-referential hash."
+    },
+    "totalBytes": 252279
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "task": "HOST-CONTINUATION-MAC-001",
+  "status": "BLOCKED_OR_FAILED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a116dd-9429-7722-acdf-e88f2eddb4cc"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a116c6-f3ae-7dc3-bfc4-ff4d4439db3d"
+  },
+  "centralActivation": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a116c2-6a9d-7a03-b161-11bd6079a631",
+    "authority": "direct activation after completed engineering packet; user AGENTS section6"
+  },
+  "startedUtc": "2026-10-07T15:13:51.234831+00:00",
+  "finishedUtc": "2026-10-07T15:15:26.994472+00:00",
+  "activation": {
+    "bytes": 9030,
+    "sha256": "39b85f376db079edf1d34d4fcf5828a2265fb5f82d7bbfdd6129f400b6612f1d"
+  },
+  "runner": {
+    "bytes": 31198,
+    "sha256": "fe1ff5633f3d1da9d1f6f20e528e66428806bc872cf265d19b9940c9a8054d1f"
+  },
+  "stages": [
+    {
+      "stage": "I",
+      "status": "FAILED",
+      "runCount": 1,
+      "pid": 27815,
+      "exitCode": 1,
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "-quit",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/M01/I/editor.log"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+      "environmentOverrides": {
+        "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/package-cache",
+        "TMPDIR": "/private/tmp/fm-hc-m01.9qXZKifu"
+      },
+      "runner": {
+        "bytes": 31198,
+        "sha256": "fe1ff5633f3d1da9d1f6f20e528e66428806bc872cf265d19b9940c9a8054d1f"
+      },
+      "startedUtc": "2026-10-07T15:13:54.984739+00:00",
+      "elapsedSecondsIncludingClosure": 89.337171,
+      "finishedUtc": "2026-10-07T15:15:24.322247+00:00",
+      "failure": "Compiler/domain error during I; Other potential compiler/Unity consumers [{\"ppid\": 1, \"start\": \"Wed Oct 7 23:14:10 2026\", \"stat\": \"Ss\", \"exe\": \"adb\", \"pid\": 27858}]; Compiler/domain error during I; Other potential compiler/Unity consumers [{\"ppid\": 1, \"start\": \"Wed Oct 7 23:14:10 2026\", \"stat\": \"Ss\", \"exe\": \"adb\", \"pid\": 27858}]"
+    }
+  ],
+  "failure": "Compiler/domain error during I; Other potential compiler/Unity consumers [{\"ppid\": 1, \"start\": \"Wed Oct 7 23:14:10 2026\", \"stat\": \"Ss\", \"exe\": \"adb\", \"pid\": 27858}]; Compiler/domain error during I; Other potential compiler/Unity consumers [{\"ppid\": 1, \"start\": \"Wed Oct 7 23:14:10 2026\", \"stat\": \"Ss\", \"exe\": \"adb\", \"pid\": 27858}]; Archive/restore: Owned closure; Special tree entry /private/tmp/fm-hc-m01.9qXZKifu/clr-debug-pipe-27883-1791386055-in",
+  "restore": null,
+  "tests": null,
+  "candidate": {
+    "canonicalSha256": "7f73b4603e4a142e02f3c04b627a0eda3c80a60a079a99aaf708bf182c64b769",
+    "leaves": 1011,
+    "bytes": 32086051,
+    "base": "3541930877837e14b58020b910976b8b67b56e42"
+  },
+  "evidence": {
+    "before.json": {
+      "bytes": 481281,
+      "sha256": "3f50386d40df03bdb3670d76d92ca1eaea5aaca0f2d1956f804c8d20cd653193"
+    },
+    "activation.json": {
+      "bytes": 9030,
+      "sha256": "39b85f376db079edf1d34d4fcf5828a2265fb5f82d7bbfdd6129f400b6612f1d"
+    },
+    "runner.py": {
+      "bytes": 31198,
+      "sha256": "fe1ff5633f3d1da9d1f6f20e528e66428806bc872cf265d19b9940c9a8054d1f"
+    },
+    "process-after.json": {
+      "bytes": 15493,
+      "sha256": "af0bce3675f0168551c74f26f5c18c25d268318eaabe2be768e91de72569b820"
+    },
+    "after.json": {
+      "bytes": 100486,
+      "sha256": "d9262909d3875e18dc2307b15db5cb000a4613863a6af51cb64e84bec75e9c31"
+    },
+    "inputs.json": {
+      "bytes": 419668,
+      "sha256": "fe6ecbdafec0f86187e865f8dc7e79df56907809f4d58ea882ddf4a78fb7f0c9"
+    },
+    "process-events.jsonl": {
+      "bytes": 24361,
+      "sha256": "5de39e1fd4a1ece5152da0758b6b941e441c833eb16b92a04ab56f08558c5ef4"
+    },
+    "preflight.json": {
+      "bytes": 81409,
+      "sha256": "9b954fe52fed86a14809bf5063ba184929cc7a7a255b0da9864a4265344e0dc1"
+    },
+    "cache-inputs.json": {
+      "bytes": 2323524,
+      "sha256": "c6d054990c3afc0e7a113ae21743abe8369eba98bd07c3065a7ceb743ab0dbff"
+    },
+    "compile.json": {
+      "bytes": 9421,
+      "sha256": "570f46fd8e0653a3c7e09f51a933707121f27732bf41020fcb84007e1057b63b"
+    },
+    "I/result.json": {
+      "bytes": 1643,
+      "sha256": "c194832024fb758abefb24f2d1f5e82232f469468fe5b18483b07aaa4598e9e5"
+    },
+    "I/editor.log": {
+      "bytes": 71930,
+      "sha256": "36f690c9c24f0507dfac9510416e78ae2c1000311ce507e9a3caa88c80c1549d"
+    },
+    "I/launcher.log": {
+      "bytes": 67,
+      "sha256": "a37c1c1e436570b4d07be72152958fddea58dbbc6f3aa9a85d50736cb3902e6f"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+      "bytes": 14379,
+      "sha256": "d7a29970b0fb8b594e7114a883b82ffef92c47181218df1bec1f420dfda72136"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 19136,
+      "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+      "bytes": 34540,
+      "sha256": "659d879b2154e3e7b9347638cfeaf5f3f33b4daea8908b14711712170b5ed3ed"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs": {
+      "bytes": 11337,
+      "sha256": "dbfdfe0e333777d19d76e8a84860d6912fbd916e44425a99cbb7b1a9ffd128e9"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+      "bytes": 25884,
+      "sha256": "3baa9fc9f2f4a565a4933130e7f5c46e6c16edf4e7a3a0d13c8dac9761201e7c"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs": {
+      "bytes": 18882,
+      "sha256": "b3f28fd28df9687e8a92b95a81b2bd8d65fe974e43b962436b2a75370bfb8cac"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs": {
+      "bytes": 13944,
+      "sha256": "38c7cfbb999897db56e90c37b6c7cacdef95d0aaabae87b8c671e1f262ea6216"
+    },
+    "restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+      "bytes": 1060568,
+      "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b"
+    }
+  },
+  "remainingOwned": [
+    {
+      "ppid": 27875,
+      "start": "Wed Oct 7 23:14:15 2026",
+      "stat": "R",
+      "exe": "dotnet",
+      "argv": [
+        "dotnet",
+        "exec",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/DotNetSdkRoslyn/VBCSCompiler.dll",
+        "-pipename:CkZH4Vcyv7lfH7i1Cg6qHwHE6JygAhEaLg7pR21Axyo"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/DotNetSdkRoslyn",
+      "pid": 27883,
+      "stage": "I",
+      "rootPid": 27815,
+      "firstObservedUtc": "2026-10-07T15:14:15.742598+00:00",
+      "termSent": false,
+      "cwdProbeExit": 0,
+      "current": {
+        "ppid": 1,
+        "start": "Wed Oct 7 23:14:15 2026",
+        "stat": "S",
+        "exe": "dotnet"
+      }
+    }
+  ],
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "realPlayerSaveReadOrWrite": false,
+  "authorIntegrationVerdict": null,
+  "unrun": [
+    "default Host Start",
+    "real PlayerSave",
+    "Play",
+    "scene save/reopen/export",
+    "downloads/restore services",
+    "Git mutation",
+    "full regression",
+    "device/APK",
+    "real yielded cancellation",
+    "EventSystem/first frame"
+  ],
+  "downloadsRequested": 0,
+  "networkBytesMeasured": false,
+  "writingStoppedAfterReceipt": true
+}

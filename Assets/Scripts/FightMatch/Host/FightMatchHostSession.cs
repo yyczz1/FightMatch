@@ -363,6 +363,11 @@ namespace FightMatch.Host
             {
                 var name = Path.GetFileName(child);
                 NoLinks(child);
+                if (name == "settings")
+                {
+                    if (!OnlyOwnedPreferences(child)) return false;
+                    continue;
+                }
                 if ((name != "locator" && name != "profiles") || (File.GetAttributes(child) & FileAttributes.Directory) == 0)
                     return false;
                 foreach (var leaf in Directory.EnumerateFileSystemEntries(child))
@@ -372,6 +377,33 @@ namespace FightMatch.Host
                         (File.GetAttributes(leaf) & FileAttributes.Directory) != 0 || new FileInfo(leaf).Length != 0)
                         return false;
                 }
+            }
+            return true;
+        }
+
+        private static bool OnlyOwnedPreferences(string directory)
+        {
+            var attributes = File.GetAttributes(directory);
+            if ((attributes & FileAttributes.ReparsePoint) != 0)
+                throw new NotSupportedException("Product root contains a reparse point.");
+            if ((attributes & FileAttributes.Directory) == 0) return false;
+            const string target = "locale-preference-v1.json";
+            foreach (var leaf in Directory.EnumerateFileSystemEntries(directory))
+            {
+                NoLinks(leaf);
+                attributes = File.GetAttributes(leaf);
+                if ((attributes & FileAttributes.ReparsePoint) != 0)
+                    throw new NotSupportedException("Product root contains a reparse point.");
+                if ((attributes & FileAttributes.Directory) != 0) return false;
+                var name = Path.GetFileName(leaf);
+                if (string.Equals(name, target, StringComparison.Ordinal)) continue;
+                if (name.Length != target.Length + 37 ||
+                    !name.StartsWith(target + ".", StringComparison.Ordinal) ||
+                    (!name.EndsWith(".tmp", StringComparison.Ordinal) && !name.EndsWith(".bak", StringComparison.Ordinal)))
+                    return false;
+                for (var i = target.Length + 1; i < target.Length + 33; i++)
+                    if (!((name[i] >= '0' && name[i] <= '9') || (name[i] >= 'a' && name[i] <= 'f')))
+                        return false;
             }
             return true;
         }

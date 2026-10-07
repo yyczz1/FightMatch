@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "task": "HOST-CONTINUATION-FIX01",
+  "status": "SOURCE_READY",
+  "qualifiers": [
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a116f2-e4ba-7f92-95ca-97088acdb2c3",
+    "model": "gpt-6-astra",
+    "thinking": "xhigh"
+  },
+  "issuer": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a116c2-6a9d-7a03-b161-11bd6079a631"
+  },
+  "authority": {
+    "packet": "docs/team/2026-09-30/central-host-continuation-fix01.md",
+    "basis": "User AGENTS section6 standing same-project dispatch/receipt authority plus the central's scoped corrective packet. Central is the sole completion receiver; no main-engineering forwarding.",
+    "identity": "Both fresh author actual and current issuing central actual were read back using read_thread. Prior author actual01a116a1-aca0-7cd0-98b1-498fbf171dba completed per central handoff."
+  },
+  "soleCompletionReceiver": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a116c2-6a9d-7a03-b161-11bd6079a631"
+  },
+  "scope": {
+    "directory": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/FIX01/S/",
+    "allowedLeaves": [
+      "source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs",
+      "source.patch",
+      "before.json",
+      "after.json",
+      "verify.py",
+      "static-checks.json",
+      "source-receipt.json"
+    ],
+    "changedSourceFiles": 1,
+    "sharedProductsOldSAndM01Changed": false,
+    "projectionOrM01RecoveryAccessed": false
+  },
+  "fixedInputsManifest": {
+    "path": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/FIX01/S/before.json",
+    "bytes": 6530,
+    "sha256": "2919b9718cf1c06a56ffb90bcd6ca6d8ed901e125ff2074a08f4e9217a2c0d5a",
+    "gitBlob": "d2399cfb2116a099a33f778f75c9b1d85e3345dc",
+    "count": 14
+  },
+  "sourceBefore": {
+    "path": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/S/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs",
+    "bytes": 25089,
+    "sha256": "3d75346c8bc72b09f7e793d728db521925a5d884e7491bdf9c5c26b8587494fc",
+    "gitBlob": "0df5c22a67e91ebf2e98e94691ff6772c9de31dc"
+  },
+  "candidate": {
+    "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs",
+    "bytes": 25128,
+    "sha256": "c34c86a9686e85c145143a0294adbe0964b226a492dda76997732e0621d9ab90",
+    "gitBlob": "ee8a1dbf23a218d2ee8784c81a98dc4a9d451633"
+  },
+  "diagnosis": {
+    "evidence": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/M01/I/editor.log",
+    "lines": [
+      647,
+      648
+    ],
+    "errors": [
+      {
+        "code": "CS0103",
+        "sourceLine": 365,
+        "column": 33,
+        "cause": "LocalPlayerProfileState is declared in FightMatch.Platform, which this test file does not import.",
+        "fix": "Add using FightMatch.Platform; retain the original assertion verbatim."
+      },
+      {
+        "code": "CS1061",
+        "sourceLine": 439,
+        "column": 67,
+        "cause": "OpenAcceptanceStorageLease declares IDisposable, so inferred var lacks CanWrite although the fixed implementation returns FileStream.",
+        "fix": "Cast that single returned lease to FileStream at acquisition; retain the CanWrite false assertion and actual lease object."
+      }
+    ],
+    "nativeStatus": "M01 I exited1; T never ran. Its restore/remaining-process state belongs exclusively to C M01Recovery."
+  },
+  "changes": [
+    {
+      "location": "Using declarations",
+      "change": "Add using FightMatch.Platform;",
+      "reason": "LocalPlayerProfileState is declared in this namespace in the fixed LocalPlayerProfileLocator.cs.",
+      "assertion": "The HCP_07 Active-state assertion is byte-identical."
+    },
+    {
+      "location": "HCP_08_NullSourceAndIsolation lease acquisition",
+      "change": "Cast the OpenAcceptanceStorageLease return to FileStream before var inference.",
+      "reason": "The fixed helper exposes IDisposable but constructs and returns FileStream. The cast binds CanWrite without changing the actual lease or production API.",
+      "assertion": "The released lease CanWrite=false assertion and AssertReleased(lockPath) are byte-identical; no assertion deletion, constant replacement or exception swallowing."
+    }
+  ],
+  "preservation": {
+    "unmodifiedText": "Removing the single added import and reversing the single cast reconstructs the entire fixed preimage byte-for-byte.",
+    "assertionLinesRetained": 102,
+    "retainedTestMethods": [
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_01_LoadBeforeBind",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_02_SelectAndRetry",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_03_Feedback",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_04_Rebind",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_05_CancelStartup",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_06_DisposeOrder",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_07_SettingsFirst",
+        "parameters": []
+      },
+      {
+        "fullname": "FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_08_NullSourceAndIsolation",
+        "parameters": []
+      }
+    ],
+    "testNamesParametersOrderFixtureAndSelectorChanged": false,
+    "productionInterfacesChanged": false,
+    "productImplementationChanged": false,
+    "metaGenerated": false
+  },
+  "acceptance": [
+    {
+      "criterion": "Repair only the two diagnosed name/static-type bindings",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Fixed namespace and concrete helper return inspected; exact two-edit inverse reconstruction passed. No C# compile is claimed."
+    },
+    {
+      "criterion": "Retain every assertion and all eight test names/order/parameters",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "All102 assertion-containing lines are verbatim, including disposed CanWrite=false and released-lock checks. Entire remaining file is byte-identical under inverse edit."
+    },
+    {
+      "criterion": "Single-path patch and at most25 changed lines",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "Canonical single-path patch reconstructed forward and backward;2 added +1 removed =3 changed lines."
+    },
+    {
+      "criterion": "Fixed inputs and bounded seven-leaf evidence",
+      "status": "PASS_STATIC_ONLY",
+      "evidence": "All14 fixed input identities match; final metadata-only --seal binds the exact7 leaves and receipt identity."
+    }
+  ],
+  "verification": {
+    "artifact": {
+      "path": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/FIX01/S/static-checks.json",
+      "bytes": 6636,
+      "sha256": "2442f4e1599490bbe8d014bf74458bfa27e27b9572ad5d02672c4fea2822a358",
+      "gitBlob": "543b8ada3e1daef12a934023b4a4c1fbafec2c49"
+    },
+    "status": "PASS_STATIC_ONLY",
+    "usedRuns": 1,
+    "maximumRuns": 2,
+    "wholeCommandElapsedSeconds": 0.04,
+    "budgetUpperBoundSeconds": 0.05,
+    "maximumCumulativeSeconds": 30,
+    "commandExecutionId": "exec-4894ac14-a4ff-42b6-8033-7ee5de5c71b2",
+    "checksPassed": 15,
+    "checksTotal": 15,
+    "exitCode": 0,
+    "rawEvidence": "static-checks.json retains exact command, actual execution ID, raw stdout/stderr, timestamps and internal/whole-command elapsed time.",
+    "checks": [
+      {
+        "name": "FIX01_only_S",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "fresh_author_and_sole_central_issuer",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "fourteen_fixed_inputs_unchanged",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "exact_five_pre_receipt_leaves",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "bounded_evidence_before_receipt",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "only_two_scoped_binding_edits",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "candidate_identity",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "actual_namespace_and_lease_implementation",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "canonical_single_path_patch",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "forward_reverse_patch_reconstruction",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "three_changed_lines_within_25",
+        "passed": true,
+        "detail": {
+          "added": 2,
+          "removed": 1,
+          "changedLines": 3
+        }
+      },
+      {
+        "name": "same_eight_methods_order_and_parameters",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "all_assertion_lines_verbatim_including_disposed_CanWrite",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "no_new_line_endings_or_trailing_spaces",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "bounded_internal_elapsed",
+        "passed": true,
+        "detail": null
+      }
+    ],
+    "iterationDisposition": "Stop source edits/checker iteration after first all-pass. Only receipt construction and verify.py --seal metadata remain.",
+    "compileExecuted": false,
+    "testsExecuted": false
+  },
+  "budgets": {
+    "limits": {
+      "changedLines": 25,
+      "staticRuns": 2,
+      "staticWholeCommandSeconds": 30,
+      "evidenceBytes": 1048576
+    },
+    "actualSourceLines": {
+      "added": 2,
+      "removed": 1,
+      "changedLines": 3
+    },
+    "candidateBytes": 25128,
+    "netSourceBytes": 39
+  },
+  "notRun": [
+    "Unity",
+    "C# compile",
+    "test discovery/execution",
+    "fixture execution",
+    "old verifier",
+    "projection access or writes",
+    "M01Recovery access or writes",
+    "asset/meta/asmdef changes",
+    "Git",
+    "network/download",
+    "new roles"
+  ],
+  "historicalFailure": {
+    "receipt": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/M01/receipt.json",
+    "ownerActual": "01a116dd-9429-7722-acdf-e88f2eddb4cc",
+    "I": "FAILED / exit1",
+    "T": "NOT_RUN",
+    "scope": "Retain M01 failure as historical evidence. The preceding SOURCE65/65 static result was not a C# compile pass. C owns the independent M01Recovery process/projection restoration; this author did not touch it."
+  },
+  "pending": [
+    "C# compilation and the existing targeted test suite need a new separately authorized execution package, not an unchanged M01 rerun.",
+    "Existing product candidates remain exactly as in original S; future integration replaces only this one test source with this candidate identity.",
+    "Same-candidate-head independent GitHub review remains pending; no author integration ACCEPT.",
+    "All prior LOC/resource/real Host/device and actual yielded-cancellation gaps remain; this binding-only fix does not claim to close them."
+  ],
+  "completion": "Files stop changing after final metadata seal. A pre-final return message is only a sealing event; central confirms this fresh actual turn completed after the author final.",
+  "evidence": {
+    "artifactsExcludingReceipt": {
+      "after.json": {
+        "bytes": 729,
+        "sha256": "3bfdedfa7937a18360d3be9191bc7785f0b611d79cbd355de4d3506e24361288",
+        "gitBlob": "eb4ef3e0bf10314318269443eb0cd70ef44c4362"
+      },
+      "before.json": {
+        "bytes": 6530,
+        "sha256": "2919b9718cf1c06a56ffb90bcd6ca6d8ed901e125ff2074a08f4e9217a2c0d5a",
+        "gitBlob": "d2399cfb2116a099a33f778f75c9b1d85e3345dc"
+      },
+      "source.patch": {
+        "bytes": 927,
+        "sha256": "49d2c7d2d06cff3e9584ce11aa9440e53c6a9eaebf3998e750d7ca65dd7fb905",
+        "gitBlob": "764790aa5bffac39a3682833d3ed58f049ac3085"
+      },
+      "source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs": {
+        "bytes": 25128,
+        "sha256": "c34c86a9686e85c145143a0294adbe0964b226a492dda76997732e0621d9ab90",
+        "gitBlob": "ee8a1dbf23a218d2ee8784c81a98dc4a9d451633"
+      },
+      "verify.py": {
+        "bytes": 8464,
+        "sha256": "771d505612183a13220392a36395dd4c89d9374331c9f50793de62e3813e6b65",
+        "gitBlob": "6a53122aebb2d737680e7d0992695d78c4aa474c"
+      },
+      "static-checks.json": {
+        "bytes": 6636,
+        "sha256": "2442f4e1599490bbe8d014bf74458bfa27e27b9572ad5d02672c4fea2822a358",
+        "gitBlob": "543b8ada3e1daef12a934023b4a4c1fbafec2c49"
+      }
+    },
+    "bytesExcludingReceipt": 48414,
+    "leafCount": 7,
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/FIX01/S/source-receipt.json",
+      "bytes": 13334,
+      "digestBinding": "Final metadata-only verify.py --seal output and author return/final; no circular self-hash."
+    },
+    "totalBytes": 61748
+  }
+}
