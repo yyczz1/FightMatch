@@ -25,9 +25,9 @@ def rejected(fn):
     except (RuntimeError,OSError): return True
     return False
 def case(name,fn):
-    need(time.monotonic()-START<30,'Replay30'); fn(); cases.append({'name':name,'passed':True})
+    need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<20,'FIX01 Replay20'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
-    defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy}
+    defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy}
     for key,value in defaults.items():env.setdefault(key,value)
     names=list(names)+[n for n in ('probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage') if n in F and n not in names]
     exec(compile(ast.fix_missing_locations(ast.Module(body=[copy.deepcopy(F[n]) for n in names],type_ignores=[])),RUNNER_FILENAME,'exec'),env);return env
@@ -59,19 +59,26 @@ def cleanup():
     for path in reversed(fixture_dirs):
         if path.is_dir() and not path.is_symlink() and not list(path.iterdir()):path.rmdir()
         else:conflicts.append(str(path))
-history=json.loads((E/'replay-results.json').read_text()) if (E/'replay-results.json').exists() else {'rounds':[]}
-need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'Maximum two rounds; first green stops')
+history=json.loads((E/'replay-results.json').read_text())
+need(history['task']=='RES-COMBINED-V01-FIX01','Fresh correction history; V00 remains immutable')
+need(len(history['rounds'])<3 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'FIX01 addendum: maximum three rounds; cumulative20; first green stops')
 report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'actualProjectionWrites':0,'fixtureIOOnly':True};failure=None
 try:
     frozen=json.loads("{\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/preparation.json\":{\"bytes\":78308,\"sha256\":\"47e9ccc59d5af04934c77174432e7b81d16cc9d8a24b5089040884d77ced1244\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/runner.py\":{\"bytes\":54760,\"sha256\":\"148cbc0b63a3bb6371343ed20d6205ae9b44a02cdfde8c1cd6ad9766e4e2266d\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-results.json\":{\"bytes\":188906,\"sha256\":\"cf56463f83d919696aeda238676fbf02ba2e1ebc28267ed675f3942ac06cc046\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/correction.patch\":{\"bytes\":71680,\"sha256\":\"f0ac7065f4ba253e356d98ce483133fadc15251c80f0118c4aff015fd5858f90\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\":{\"bytes\":68363,\"sha256\":\"56c5bc6a604ba12f7a5b150f53dc2619c61726f96f07bb194e104dfa2ec888b0\"},\"docs/team/2026-09-30/resource-sdk-adopt-g02-central-receipt.json\":{\"bytes\":3131,\"sha256\":\"f67399effe031bbf2478d9ad86def792e73339177883c9e0b853f2a237ebcae5\"},\"TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/group-freeze.json\":{\"bytes\":262970,\"sha256\":\"f952d7239b261099804021d3d6a2b4de9ebcaa8f4265ed3de7102d8c90622ca7\"},\"docs/team/2026-09-30/host-integrate-001-i01-fix05-source-verdict.json\":{\"bytes\":3037,\"sha256\":\"566b60deb4e204aa5cde0ec143888edf8859a862112a62891e2b545b22517a0b\"},\"TestArtifacts/FightMatch/RES-01A/P03/run.json\":{\"bytes\":43101,\"sha256\":\"b9bb096fc6eaeeaa77df33b84916ab2963e61b0191753e36600f3ebc97996d50\"},\"TestArtifacts/FightMatch/RES-01A/P02/resolved-package-graph.json\":{\"bytes\":56222,\"sha256\":\"1b696f4c41b763f4f4622fa83a36712dad7fc1b8d81084fa983cfc1c2bfe170c\"},\"docs/team/2026-09-30/testing-resource-combined-v01-cases.json\":{\"bytes\":24448,\"sha256\":\"d53c49167d522532a6cc87218bfa5e961ab3a096af06209fb694726fca2ed0e8\"},\"docs/team/2026-09-30/central-resource-combined-v01-design-handoff.md\":{\"bytes\":1243,\"sha256\":\"cd16c6c1b9a3ef02dc92d5ffb24dae0190f99be161933d2efd121dc15dac1c7a\"},\"docs/team/2026-09-30/engineering-i01-existing-compile-evidence.json\":{\"bytes\":21099,\"sha256\":\"9fd2ae56e81c5805b93637f27dab3ca67828cfdbd94ac290e211a601df5213f0\"},\"docs/team/2026-09-30/resource-shared-integration-source-verdict.json\":{\"bytes\":2294,\"sha256\":\"c02875ffc1bef9151e1d408fa09e5da83f9b555e62a570e74b1f8c3cd838b87f\"},\"docs/team/2026-09-30/engineering-resource-combined-v01.md\":{\"bytes\":10205,\"sha256\":\"c1f71459c8a34741bd5c5b075253d4df6266a777b801c6d7d6229748012d7062\"},\"docs/team/2026-09-30/central-resource-combined-v01-source.md\":{\"bytes\":4228,\"sha256\":\"49721b69b60a03845a38b464db200b8c12e04ab1a1b8d6f71d498d44e17d5b55\"},\"TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json\":{\"bytes\":1241557,\"sha256\":\"ff088efd0e6871d751a1f553a46e77ae06789e9f01c5743411ca93e1fa087f1d\"}}")
     def frozen_unchanged():
         for name,value in frozen.items():need(identity(R/name)==value,'Frozen reference '+name)
     frozen_unchanged()
+    v00=E.parent/'V00-source'; v00prep=json.loads((v00/'preparation.json').read_text())
+    for name,value in {**v00prep['sourceIdentities'],'preparation.json':{'bytes':330242,'sha256':'d9c90ce2e5724763ba69f478e03b8431fe62706db0823c362f9b06ccce22582c'}}.items():need(identity(v00/name)==value,'Immutable V00 '+name)
+    need(identity(v00/'replay-results.json')=={k:history['baseline'][k] for k in ('bytes','sha256')},'Original127 history sealed')
     need(identity(E/'inputs.json')==frozen['TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json'],'Exact current input copy')
     text=(E/'runner.py').read_text();tree=ast.parse(text);compile(tree,RUNNER_FILENAME,'exec');compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec');F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
     oldfn={n.name:n for n in ast.parse((BASE/'runner.py').read_text()).body if isinstance(n,ast.FunctionDef)}
-    unchanged=['move_verified','transfer','rename_exclusive','rename_swap','swap_verified','atomic_write','cached_reuse_proven','compilation_passed','recorded_chain','recover_root','discover','snapshot_consumers','monitor','details','adb_exception','sdk_adb_exception','synchronize','projection_guard']
+    unchanged=['move_verified','transfer','rename_exclusive','rename_swap','swap_verified','atomic_write','cached_reuse_proven','compilation_passed','recorded_chain','recover_root','discover','snapshot_consumers','monitor','details','adb_exception','sdk_adb_exception','projection_guard']
     need(all(ast.dump(F[n])==ast.dump(oldfn[n]) for n in unchanged),'Retained concurrency/ownership/provenance guards')
+    class StripDeadlineChecks(ast.NodeTransformer):
+        def visit_Expr(self,node):return None if isinstance(node.value,ast.Call) and isinstance(node.value.func,ast.Name) and node.value.func.id=='probe_timeout' else node
+    need(ast.dump(StripDeadlineChecks().visit(copy.deepcopy(F['synchronize'])))==ast.dump(oldfn['synchronize']),'Sync only gains deadline checks; all prior operations retained')
     need(not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='ps' for k in ('monitor','snapshot_consumers','discover','register','recover_root') for n in ast.walk(F[k])),'Same-snapshot classification')
     calls=[n for n in ast.walk(F['run_stage']) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='Popen'];need(len(calls)==1,'Single Popen site')
     need(F['run_stage'].body[1].value.func.id=='claim_stage','Single-use claim first')
@@ -193,6 +200,7 @@ try:
         def iterdir(self):return iter([Path(self.fs,p) for p in self.fs.files.keys()|self.fs.dirs if p!='/' and str(pathlib.PurePosixPath(p).parent)==self.p])
         def rmdir(self):need(not list(self.iterdir()),'fixture rmdir empty');self.fs.dirs.remove(self.p)
         def read_bytes(self):return self.fs.files[self.p]
+        def read_text(self,**kw):return self.read_bytes().decode(errors=kw.get('errors','strict'))
         def write_bytes(self,b):self.fs.add(self.p,b);return len(b)
         def rename(self,target):
             need(not target.exists(),'fixture rename target absent');target.write_bytes(self.fs.files.pop(self.p));return target
@@ -335,7 +343,7 @@ try:
         start=time.monotonic()
         try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})
         except Exception as error:cases.append({'name':name,'passed':False,'newFIX04':True,'error':str(error),'traceback':traceback.format_exc()})
-        need(time.monotonic()-START<30,'Replay30')
+        need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<20,'FIX01 Replay20')
     def fifo_case(mode):
         import re,stat
         license_path=str(pathlib.Path(N['editor']['path']).parent.parent/'Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client')
@@ -656,6 +664,94 @@ try:
         fixture_link(link,root/'foreign');need(rejected(env['as_guard']),'Foreign AS target rejected')
         need(rejected(lambda:env['as_guard'](True)),'Residual AS tree never proves final empty')
     case('AS metadata guard permits only exact links and retains residue',as_links)
+    original_cases=json.loads((v00/'replay-results.json').read_text())['rounds'][0]['cases']
+    need(len(cases)==127 and [(c['name'],c['passed']) for c in cases]==[(c['name'],c['passed']) for c in original_cases],'All original127 names and expectations retained')
+    report['prior127Passed']=True
+    def fix01_work_reserve():
+        clock=[630.];env=bind(['check'],{'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'work_deadline':630.,'execution_deadline':780.})
+        need(rejected(env['probe_timeout']),'No ordinary probe may enter the150-second reserve')
+        clock[0]=629.;need(env['probe_timeout']()==1.,'Last ordinary probe bounded by work deadline')
+    case('FIX01 ordinary work cannot probe into 150-second cleanup reserve',fix01_work_reserve)
+    def fix01_initial_clock():
+        clock=[100.];body=F['main'].body
+        assignments=[n for n in body if isinstance(n,ast.Assign) and isinstance(n.targets[0],ast.Name) and n.targets[0].id in ('clock_start','execution_deadline','work_deadline')]
+        need([n.targets[0].id for n in assignments]==['clock_start','execution_deadline','work_deadline'],'One origin; no reset before preflight')
+        need(body[1] is assignments[0],'Clock starts before activation/input reads')
+        env={'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'D':{'limits':{'totalMechanicalSeconds':900,'restoreSeconds':60}},'PREF':{'mechanicalPreparationSeconds':120},'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30}}}
+        exec(compile(ast.Module(body=[copy.deepcopy(assignments[0])],type_ignores=[]),RUNNER_FILENAME,'exec'),env);clock[0]+=20
+        exec(compile(ast.Module(body=copy.deepcopy(assignments[1:]),type_ignores=[]),RUNNER_FILENAME,'exec'),env)
+        need((env['clock_start'],env['execution_deadline'],env['work_deadline'])==(100.,880.,730.),'Preparation and20-second activation reads reduce remaining work; never grant new900')
+        report['FIX01Clock']={'origin':100,'activationReadsEnd':120,'preparation':120,'workDeadline':730,'hardDeadline':880,'remainingWorkAfterReads':610,'cleanupReserve':150}
+    case('FIX01 preparation and activation reads share original total clock',fix01_initial_clock)
+    def fix01_sync_expiry():
+        fs=FS();clock=[629.];moves=[];files={'a.cs':byteid(b'a'),'b.cs':byteid(b'b')}
+        def transfer(source,target,identity,move=False):moves.append(str(source));clock[0]=630.
+        env={'json':json,'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'work_deadline':630.,'execution_deadline':780.,'os':types.SimpleNamespace(path=types.SimpleNamespace(lexists=lambda p:False)),'P':fs.path('/P'),'R':fs.path('/R'),'E':fs.path('/E'),'N':{'overwritten':list(files),'restoreBaseline':files,'shared':files},'synced':False,'ps':lambda:{},'consumer_guard':lambda rows:None,'source_tree':lambda p:files,'projection_guard':lambda:None,'transfer':transfer}
+        bind(['check','basic','same','validate_inputs','synchronize'],env)
+        need(rejected(env['synchronize']) and moves==['/P/a.cs'] and not env['synced'],'Sync stops before second transfer at work deadline')
+        need(clock[0]==630. and env['execution_deadline']==780.,'Sync does not reset clock or consume reserve')
+    case('FIX01 synchronization stops at work deadline before next transfer',fix01_sync_expiry)
+    def fix01_stage(sid,mode):
+        fs=FS();p=fs.path('/P');e=fs.path('/E');clock=[(270. if sid=='I' else 450.)-20.];rows={};calls=[];signals=[];events=[];writes={};transfers=[];popens=[]
+        if mode=='insufficient':clock[0]+=1
+        argv=[root['exe'],'-batchmode','-projectPath',str(p)];source='Assets/park.cs';compiler='Library/compiled.dll';oldsource=b'original source';oldcompiler=b'original compiler'
+        fs.add(str(e/'park/source'/source),oldsource);fs.add(str(e/'park/compiler'/compiler),oldcompiler)
+        class Proc:
+            pid=rootid
+            returncode=None
+            def poll(self):
+                if mode=='evidence-exhaustion' or (mode!='unclosed' and signals and clock[0]>=719.5):self.returncode=0;rows.clear()
+                return self.returncode
+        proc=Proc()
+        def ps():
+            timeout=env['probe_timeout']();calls.append({'at':clock[0],'timeout':timeout,'deadline':env['probe_deadline'] if env['probe_deadline'] is not None else env['work_deadline']})
+            return copy.deepcopy(rows)
+        def popen(args,**kw):
+            need(args==argv and kw['cwd'] is p,'Exact fake stage binding');popens.append(clock[0]);fs.add(str(e/sid/'editor.log'),b'fixture compiler output');rows[rootid]={k:root[k] for k in keys};return proc
+        def recover(given,stage,pid):env['owned'][pid]={**copy.deepcopy(root),'argv':argv,'cwd':str(p),'stage':stage,'rootPid':pid,'termSent':False}
+        def details(pid):env['probe_timeout']();return {'argv':argv,'cwd':str(p),'cwdProbeExit':0}
+        def monitor(phase,given,stage,pid,**kw):
+            env['probe_timeout']()
+            if phase=='running':clock[0]=min(630.,clock[0]+30.)
+            return {'failures':[]}
+        def preflight():clock[0]=630. if mode=='preflight-exhaustion' else clock[0]+20.
+        def transfer(a,b,expected,move=False):
+            env['probe_timeout']();need(byteid(a.read_bytes())==expected and not b.exists(),'Exact synthetic restore preimage/no-clobber');b.write_bytes(a.read_bytes())
+            if move:fs.files.pop(str(a))
+            transfers.append({'source':str(a),'target':str(b),'at':clock[0]});clock[0]+=20.
+        def evidence(log,stage):clock[0]=630.;return {'assemblies':{}}
+        env={'json':json,'pathlib':pathlib,'copy':copy,'time':types.SimpleNamespace(monotonic=lambda:clock[0],time=lambda:1791413008.,sleep=lambda d:clock.__setitem__(0,clock[0]+d)),'utc':lambda:'fixture-'+str(clock[0]),'P':p,'E':e,'work_deadline':630.,'execution_deadline':780.,'probe_deadline':None,'clock_start':0.,'A':{'stages':[{'id':k,'argv':argv,'timeoutSeconds':360 if k=='I' else 180} for k in ('I','T')],'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30},'editor':{'path':root['exe']},'environmentOverrides':{}},'D':{'limits':{'restoreSeconds':60},'compilePlan':{'proposedParkExactLeaves':{compiler:byteid(oldcompiler)}},'evidenceSlots':{'compilerArchiveMaxBytes':33554432},'commands':{'environmentTOnly':{}}},'N':{'requiredAssemblies':[],'overwritten':[],'newPaths':[],'restoreBaseline':{source:byteid(oldsource)},'allowedNewSettings':{'path':'ProjectSettings/SceneTemplateSettings.json'}},'owned':{},'pending_details':{},'active':None,'root_launch_epoch':None,'launch_attempts':1 if sid=='T' else 0,'launch_counts':{'I':1} if sid=='T' else {},'stages':[{'stage':'I','status':'COMPILE_PASS','runCount':1}] if sid=='T' else [],'stage_dlls':{'I':{'assemblies':{}}},'closure_closed':True if sid=='T' else None,'synced':True,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'launched_root':None,'synchronized_paths':[],'parked_paths':[source],'compiler_parked':[compiler],'compiler_after':{},'compiler_restored':[],'atomic_conflicts':set(),'subprocess':types.SimpleNamespace(Popen=popen,STDOUT=-2),'signal':types.SimpleNamespace(SIGTERM=15),'os':types.SimpleNamespace(environ={},kill=lambda pid,sig:signals.append({'pid':pid,'signal':sig,'at':clock[0]})),'ps':ps,'details':details,'recover_root':recover,'monitor':monitor,'recorded_chain':lambda pid,rpid:need(pid==rpid==rootid,'Owned root only'),'snapshot_consumers':lambda *a:env['probe_timeout'](),'consumer_guard':lambda rows:env['probe_timeout'](),'event':lambda kind,**kw:events.append({'kind':kind,'at':clock[0],**copy.deepcopy(kw)}),'write':lambda name,value:writes.update({name:copy.deepcopy(value)}),'preflight':preflight,'log_guard':lambda log:None,'resources':lambda:None,'projection_guard':lambda:None,'protection':lambda:None,'compile_evidence':evidence,'ident':lambda path:byteid(path.read_bytes()),'transfer':transfer}
+        bind(['check','alive','claim_stage','compilation_passed','run_stage','run_sequence','closure','restore_all','restore_compiler','archive_and_restore'],env)
+        result=env['run_sequence']() if mode=='evidence-exhaustion' else env['run_stage'](sid)
+        failure=result['failure'];closed=env['closure_closed'];before_restore=clock[0]
+        if mode in ('insufficient','preflight-exhaustion'):
+            need(not popens and result['status']=='NOT_RUN_BLOCKED' and result['runCount']==0 and failure=='Insufficient work window for '+sid+' with cleanup reserve','No stage starts without its complete configured work allocation')
+        elif mode=='evidence-exhaustion':
+            need(len(popens)==1 and result['status']=='FAILED' and env['launch_counts']=={'I':1} and failure=='Closure probe deadline exhausted','Expired actual compile evidence retains failure and cannot launch T')
+        else:
+            expected=sid+' stage deadline exceeded'
+            need(len(popens)==1 and result['status']=='FAILED' and failure.startswith(expected),'Original work timeout remains failure')
+            need([x for x in events if x['kind']=='closure_begin'][0]['reason']==expected,'Exact original failure passed to closure')
+            need(signals==[{'pid':rootid,'signal':15,'at':690.}],'One owned TERM inside reserved absolute window')
+            need(all(c['at']<c['deadline'] and c['timeout']<=min(5.,c['deadline']-c['at']) for c in calls),'Every actual probe bounded; none begins at expired deadline')
+            if mode=='unclosed':
+                need(clock[0]==720. and closed is False and env['active'] is proc,'Unclosed root retained at cleanup deadline')
+                count=len(calls);need(rejected(env['restore_all']) and len(calls)==count and not transfers,'No restore/probes after unclosed cleanup deadline')
+            else:need(failure==expected and closed is True and clock[0]==719.5 and env['active'] is None,'Successful cleanup never rewrites or duplicates exact timeout')
+        if mode!='unclosed':
+            recovery=env['restore_all']()
+            need(recovery['complete'] and len(transfers)==2 and (p/source).read_bytes()==oldsource and (p/compiler).read_bytes()==oldcompiler,'Actual compiler and source restoration run in reserved scope')
+            need(env['restore_deadline']==min(before_restore+60.,780.) and clock[0]<env['restore_deadline'],'Single shared restore60 stays within hard900 including preparation')
+            need(result['failure']==failure,'Restoration retains exact original stage failure')
+            restore_end=clock[0];clock[0]=780.;count=len(calls);moved=len(transfers)
+            need(rejected(env['restore_all']) and len(calls)==count and len(transfers)==moved,'Hard deadline cannot be reset by another restore call')
+        else:restore_end=None
+        report.setdefault('FIX01DeadlineEvidence',[]).append({'stage':sid,'mode':mode,'popenTimes':popens,'failure':failure,'closureClosed':closed,'cleanupFinishedAt':before_restore,'restorationFinishedAt':restore_end,'hardDeadline':780,'preparationSeconds':120,'workDeadline':630,'signals':signals,'probeCount':len(calls),'probes':calls,'restoredTransfers':transfers,'nativeRuns':0})
+    for sid in ('I','T'):
+        for mode in ('work-exhaustion','insufficient','preflight-exhaustion'):
+            case('FIX01 '+sid+' '+mode+' preserves cleanup and restore allocation',lambda sid=sid,mode=mode:fix01_stage(sid,mode))
+    case('FIX01 expired I evidence fails and suppresses T',lambda:fix01_stage('I','evidence-exhaustion'))
+    case('FIX01 no probe or TERM after absolute cleanup deadline; unclosed root retained',lambda:fix01_stage('I','unclosed'))
     frozen_unchanged();need(all(c['passed'] for c in cases),'Retained regression failed');need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     failure=str(error);report['failure']=failure;report['traceback']=traceback.format_exc()
@@ -666,7 +762,7 @@ finally:
     report['fixtureFiles']={str(path.relative_to(E)):value for path,value in fixture_files.items()};report['fixtureLinks']={str(path.relative_to(E)):value for path,value in fixture_links.items()};report['preservedConflicts']=conflicts
     if conflicts:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Unknown or changed fixture contents preserved'
     report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden;report['runner']=identity(E/'runner.py');report['checker']=identity(E/'replay-check.py')
-    if sum(x['seconds'] for x in history['rounds'])+report['seconds']>30:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Cumulative30 exceeded'
+    if sum(x['seconds'] for x in history['rounds'])+report['seconds']>20:report['status']='SOURCE_REPLAY_FAILED';report['failure']='FIX01 Cumulative20 exceeded'
     history['rounds'].append(report);history['status']=report['status'];history['cumulativeSeconds']=sum(x['seconds'] for x in history['rounds'])
     with (E/'replay-results.json').open('w') as stream:json.dump(history,stream,indent=2);stream.write('\n')
     print(json.dumps({'status':report['status'],'round':report['round'],'passedCases':sum(c['passed'] for c in cases),'failedCases':[c['name'] for c in cases if not c['passed']],'seconds':report['seconds'],'cumulativeSeconds':history['cumulativeSeconds'],'failure':report.get('failure'),'preservedConflicts':conflicts,'forbiddenAttempts':forbidden}))

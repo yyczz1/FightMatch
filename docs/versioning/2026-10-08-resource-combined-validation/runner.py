@@ -11,7 +11,7 @@ owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_pat
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
 transfer_conflicts=set(); probe_deadline=None
 D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V01/state-tests'
-compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None
+compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
     if not ok: raise RuntimeError(why)
@@ -32,7 +32,8 @@ def write(name,data):
 def event(kind,**kw):
     with (E/'process-events.jsonl').open('a') as f: f.write(json.dumps({'utc':utc(),'kind':kind,**kw},ensure_ascii=False)+'\n')
 def probe_timeout():
-    remaining=5. if probe_deadline is None else probe_deadline-time.monotonic()
+    deadline=work_deadline if probe_deadline is None else probe_deadline
+    remaining=5. if deadline is None else deadline-time.monotonic()
     if execution_deadline is not None: remaining=min(remaining,execution_deadline-time.monotonic())
     check(remaining>0,'Closure probe deadline exhausted')
     return min(5.,remaining)
@@ -197,13 +198,13 @@ def closure(stage,rootpid,reason):
             monitor_cycles.append({'utc':utc(),'phase':phase,'failures':[item],'clear':False})
             return list(owned),False
     try:
-        deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']; deadline=min(deadline,execution_deadline) if execution_deadline is not None else deadline; probe_deadline=deadline; first=True; remaining=list(owned)
+        deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']; deadline=min(deadline,execution_deadline-60-A['stopping']['termGraceSeconds']) if execution_deadline is not None else deadline; probe_deadline=deadline; first=True; remaining=list(owned)
         while first or time.monotonic()<deadline:
             if active is not None: active.poll()
             remaining,clear=sample('natural-closure',force=first); first=False
             if clear or time.monotonic()>=deadline: break
             time.sleep(max(0.,min(.25,deadline-time.monotonic())))
-        deadline=time.monotonic()+A['stopping']['termGraceSeconds']; deadline=min(deadline,execution_deadline) if execution_deadline is not None else deadline; probe_deadline=deadline
+        deadline=time.monotonic()+A['stopping']['termGraceSeconds']; deadline=min(deadline,execution_deadline-60) if execution_deadline is not None else deadline; probe_deadline=deadline
         event('term_window',stage=stage,deadline=deadline)
         for pid in reversed(remaining):
             if time.monotonic()>=deadline: break
@@ -469,19 +470,19 @@ def capture_before():
 def synchronize():
     global synced
     consumer_guard(ps()); check(not os.path.lexists(P/'Temp/UnityLockfile') and not os.path.lexists(R/'Temp/UnityLockfile'),'No R/P lock'); validate_inputs(source_tree(R),N['shared'],'Shared synchronization source'); projection_guard()
-    for path in N['overwritten']: transfer(P/path,E/'restore/source'/path,N['restoreBaseline'][path])
+    for path in N['overwritten']: probe_timeout(); transfer(P/path,E/'restore/source'/path,N['restoreBaseline'][path])
     for path in N['newPaths']: check(not os.path.lexists(P/path),'New path must be absent '+path)
     for path in N['parked']:
-        parked_paths.append(path); transfer(P/path,E/'park/source'/path,N['restoreBaseline'][path],True)
+        probe_timeout(); parked_paths.append(path); transfer(P/path,E/'park/source'/path,N['restoreBaseline'][path],True)
     for path in N['parkDirectories']:
-        target=P/path; check(not list(target.iterdir()),'Only empty scoped directory removal'); target.rmdir()
+        probe_timeout(); target=P/path; check(not list(target.iterdir()),'Only empty scoped directory removal'); target.rmdir()
     for path in N['overwritten']+N['newPaths']:
-        source=R/path; target=P/path; no_links(source); no_links(target); check(ident(source)==N['files'][path],'Frozen adopted source '+path)
+        probe_timeout(); source=R/path; target=P/path; no_links(source); no_links(target); check(ident(source)==N['files'][path],'Frozen adopted source '+path)
         payload=source.read_bytes(); check({'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}==N['files'][path],'Source changed during read')
         if path in N['overwritten']: check(ident(target)==N['restoreBaseline'][path],'Concurrent target drift '+path)
         synchronized_paths.append(path); atomic_write(path,payload,N['files'][path],N['restoreBaseline'][path] if path in N['overwritten'] else None,'sync')
         check(ident(target)==N['files'][path],'Synchronized bytes '+path); event('source_synchronized',path=path,identity=N['files'][path])
-    synced=True; projection_guard()
+    probe_timeout(); synced=True; projection_guard(); probe_timeout()
 def frozen_text(path):
     data=path.read_bytes(); identity=ident(path)
     check(identity=={'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()},'Text changed while reading '+str(path))
@@ -596,12 +597,14 @@ def claim_stage(sid='I'):
     launch_counts[sid]=1; launch_attempts+=1
 def run_stage(sid='I'):
     global active,root_launch_epoch,launched_root,probe_deadline
-    claim_stage(sid); isolate_stage(sid); s=next(v for v in A['stages'] if v['id']==sid); check(not (E/sid).exists(),'I already exists'); (E/sid).mkdir(); start=time.monotonic(); rootpid=None; problem=None
+    claim_stage(sid); isolate_stage(sid); s=next(v for v in A['stages'] if v['id']==sid); check(not (E/sid).exists(),'I already exists'); (E/sid).mkdir(); start=time.monotonic(); rootpid=None; problem=None; prior=probe_deadline
     result={'stage':sid,'status':'NOT_RUN_BLOCKED','runCount':0,'exitCode':None,'argv':s['argv'],'cwd':str(P),'environmentOverrides':A['environmentOverrides'],'startedUtc':utc()}; stages.append(result)
     try:
-        check(synced,'Sync required'); preflight(); stage_bindings[sid]={name:compiler_binding(name) for name in N['requiredAssemblies']} if sid=='T' else {}; start=time.monotonic()
-        probe_deadline=start+s['timeoutSeconds']
+        probe_timeout(); check(synced,'Sync required'); preflight(); stage_bindings[sid]={name:compiler_binding(name) for name in N['requiredAssemblies']} if sid=='T' else {}; start=time.monotonic()
+        check(work_deadline is None or start+s['timeoutSeconds']<=work_deadline,'Insufficient work window for '+sid+' with cleanup reserve')
+        probe_deadline=start+s['timeoutSeconds']; probe_deadline=min(probe_deadline,work_deadline) if work_deadline is not None else probe_deadline
         with (E/sid/'launcher.log').open('xb') as stream:
+            probe_timeout()
             root_launch_epoch=time.time() if root_launch_epoch is None else root_launch_epoch; active=subprocess.Popen(s['argv'],cwd=P,env=stage_environment(sid),stdout=stream,stderr=subprocess.STDOUT,start_new_session=True); rootpid=active.pid; result.update(pid=rootpid,runCount=1,status='RUNNING'); rows=ps()
             check(rootpid in rows,'Editor missing at launch'); launched_root=dict(rows[rootpid],pid=rootpid,stage=sid); recover_root(rows,sid,rootpid); check(rootpid in owned,'Initial root not registered'); check(owned[rootpid]['exe']==A['editor']['path'] and owned[rootpid]['cwd']==str(P),'Root identity'); event('stage_started',stage=sid,pid=rootpid,argv=s['argv'])
             while active.poll() is None:
@@ -610,7 +613,7 @@ def run_stage(sid='I'):
         result['editorSeconds']=time.monotonic()-start
     except BaseException as ex: problem=str(ex)
     finally:
-        probe_deadline=None
+        probe_deadline=prior
         if rootpid is not None:
             try: closure(sid,rootpid,problem or 'Editor exited')
             except BaseException as ex: problem=(problem+'; ' if problem else '')+str(ex)
@@ -618,10 +621,12 @@ def run_stage(sid='I'):
         result['elapsedSecondsIncludingClosure']=time.monotonic()-start; result['finishedUtc']=utc()
     try:
         check(problem is None,problem); check(result['exitCode'] is not None,'INCOMPLETE: unknown OS exit'); check(result['runCount']==1 and result['exitCode']==0 and result.get('editorSeconds',s['timeoutSeconds']+1)<=s['timeoutSeconds'],'Editor exit/time '+str(result['exitCode'])); check(not monitor_errors,'Monitor failures')
-        log=(E/sid/'editor.log').read_text(errors='replace'); log_guard(log); projection_guard(); protection(); resources(); proof=compile_evidence(log,sid)
+        probe_timeout(); log=(E/sid/'editor.log').read_text(errors='replace'); log_guard(log); projection_guard(); protection(); resources(); probe_timeout(); proof=compile_evidence(log,sid); probe_timeout()
         result['status']='COMPILE_PASS' if compilation_passed(proof) else 'INCOMPLETE'
-        if sid=='T' and result['status']=='COMPILE_PASS': result['tests']=test_evidence(); result['status']='TEST_PASS'
-    except BaseException as ex: problem=(problem+'; ' if problem else '')+str(ex); result['status']=('INCOMPLETE' if 'INCOMPLETE:' in str(ex) else 'CONTRACT_MISMATCH' if 'CONTRACT_MISMATCH:' in str(ex) else 'FAILED') if rootpid else 'NOT_RUN_BLOCKED'
+        if sid=='T' and result['status']=='COMPILE_PASS': result['tests']=test_evidence(); probe_timeout(); result['status']='TEST_PASS'
+    except BaseException as ex:
+        if str(ex)!=problem: problem=(problem+'; ' if problem else '')+str(ex)
+        result['status']=('INCOMPLETE' if 'INCOMPLETE:' in str(ex) else 'CONTRACT_MISMATCH' if 'CONTRACT_MISMATCH:' in str(ex) else 'FAILED') if rootpid else 'NOT_RUN_BLOCKED'
     result['failure']=problem; write(sid+'/result.json',result)
     if active is not None and active.poll() is not None: active=None
     return result
@@ -631,7 +636,7 @@ def log_guard(text):
 def archive_and_restore(emit=True):
     global restored
     check(closure_closed is not False,'Unclosed process sampling; restore forbidden')
-    start=time.monotonic(); check(active is None or active.poll() is not None,'Launched Popen root still live; restore forbidden'); rows=ps(); snapshot_consumers(rows,'I',next(iter(owned),None)) if owned else consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned remains; restore forbidden')
+    start=time.monotonic(); check(active is None or active.poll() is not None,'Launched Popen root still live; restore forbidden'); probe_timeout(); rows=ps(); snapshot_consumers(rows,'I',next(iter(owned),None)) if owned else consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned remains; restore forbidden')
     report={'archived':[],'restored':[],'returnedParked':[],'errors':[],'complete':False}; last=start
     def tick():
         nonlocal last
@@ -655,9 +660,9 @@ def archive_and_restore(emit=True):
             transfer(source,P/path,N['restoreBaseline'][path],True); report['returnedParked'].append(path)
         except BaseException as ex: report['errors'].append(str(ex))
     try:
-        settings=N['allowedNewSettings']; target=P/settings['path']
+        tick(); settings=N['allowedNewSettings']; target=P/settings['path']
         if any(s['runCount'] for s in stages) and target.exists() and settings['path'] not in N['restoreBaseline']: transfer(target,E/'archive/SceneTemplateSettings.json',basic({'x':settings})['x'],True)
-        tick(); check(not transfer_conflicts,'Unresolved transfers '+str(sorted(transfer_conflicts))); restored=True; report['projection']=projection_guard(); protection(); report['complete']=not report['errors']
+        tick(); check(not transfer_conflicts,'Unresolved transfers '+str(sorted(transfer_conflicts))); restored=True; report['projection']=projection_guard(); protection(); tick(); report['complete']=not report['errors']
     except BaseException as ex: report['errors'].append(str(ex))
     report['transferConflicts']=sorted(transfer_conflicts); report['seconds']=time.monotonic()-start
     if emit: write('restore.json',report)
@@ -738,11 +743,12 @@ def isolate_stage(sid):
     current_stage=sid
 def park_compiler():
     for path,identity in compiler_paths().items():
-        consumer_guard(ps()); check(time.monotonic()-clock_start<D['limits']['totalMechanicalSeconds'],'Total deadline')
+        probe_timeout(); consumer_guard(ps()); probe_timeout()
         compiler_parked.append(path); transfer(P/path,E/'park/compiler'/path,identity,True)
 def restore_compiler():
     errors=[]; archived=[]
     for path in compiler_parked:
+        probe_timeout()
         if (P/path).exists(): compiler_after[path]=ident(P/path)
         else: compiler_after[path]=None
     check(sum(v['bytes'] for v in compiler_after.values() if v is not None)<=D['evidenceSlots']['compilerArchiveMaxBytes'],'Compiler archive budget')
@@ -763,12 +769,12 @@ def restore_compiler():
 def restore_all():
     global restore_deadline,probe_deadline
     check(closure_closed is not False and (active is None or active.poll() is not None),'Unclosed; no restore')
-    rows=ps(); snapshot_consumers(rows,current_stage,next(iter(owned),None)) if owned else consumer_guard(rows)
-    check(not any(alive(rows,p) for p in owned),'Owned remains; no restore')
-    restore_deadline=time.monotonic()+D['limits']['restoreSeconds']; prior=probe_deadline; probe_deadline=restore_deadline
+    restore_deadline=time.monotonic()+D['limits']['restoreSeconds']; restore_deadline=min(restore_deadline,execution_deadline) if execution_deadline is not None else restore_deadline; prior=probe_deadline; probe_deadline=restore_deadline
     try:
+        probe_timeout(); rows=ps(); snapshot_consumers(rows,current_stage,next(iter(owned),None)) if owned else consumer_guard(rows)
+        check(not any(alive(rows,p) for p in owned),'Owned remains; no restore')
         compiler=restore_compiler(); source=archive_and_restore(False)
-        source['compiler']=compiler; source['complete']=source['complete'] and compiler['complete']
+        probe_timeout(); source['compiler']=compiler; source['complete']=source['complete'] and compiler['complete']
         write('restore.json',source); return source
     finally: probe_deadline=prior
 def validate_xml(text):
@@ -796,7 +802,8 @@ def stage_environment(sid):
     if sid=='T': environment.update(D['commands']['environmentTOnly'])
     return environment
 def main():
-    global A,B,D,Q,N,PREF,TMP,OWNER,ACT_SHA,EXECUTION_TURN,clock_start,baseline_processes,allowed,execution_deadline
+    global A,B,D,Q,N,PREF,TMP,OWNER,ACT_SHA,EXECUTION_TURN,clock_start,baseline_processes,allowed,execution_deadline,work_deadline,probe_deadline
+    clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads((E/'activation.json').read_bytes())
     check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V01','Current combined activation required')
@@ -814,26 +821,27 @@ def main():
         check(ident(E/(key+('.py' if key=='replay-check' else '.json')))==A['seals'][key],'Activation artifact seal '+key)
     check(A['environmentOverrides']=={'UPM_CACHE_ROOT':str(K),'TMPDIR':str(TMP),'BEE_CACHE_DIRECTORY':str(BC)},'Environment gate')
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Ordered stage gate')
-    clock_start=time.monotonic(); execution_deadline=clock_start+D['limits']['totalMechanicalSeconds']-PREF['mechanicalPreparationSeconds']; started=utc(); failure=None; restore=None; after={}; status='NOT_RUN_BLOCKED'; remaining=None
+    execution_deadline=clock_start+D['limits']['totalMechanicalSeconds']-PREF['mechanicalPreparationSeconds']; work_deadline=execution_deadline-A['stopping']['naturalGraceSeconds']-A['stopping']['termGraceSeconds']-D['limits']['restoreSeconds']; started=utc(); failure=None; restore=None; after={}; status='NOT_RUN_BLOCKED'; remaining=None
     try:
         check(not (E/'process-events.jsonl').exists() and not (E/'before.json').exists(),'Activation already used')
         no_links(TMP); check(not list(TMP.iterdir()),'TMP initially empty')
         baseline_processes=ps(); consumer_guard(baseline_processes)
         for root in (BC,ASROOT):
             no_links(root); check(not os.path.lexists(root),'Fresh external root must be absent'); root.mkdir(parents=True,mode=0o700)
-        event('process_baseline',rows=baseline_processes); capture_before(); preflight(); synchronize(); park_compiler()
+        event('process_baseline',rows=baseline_processes)
+        for fn in (capture_before,preflight,synchronize,park_compiler): probe_timeout(); fn(); probe_timeout()
         result=run_sequence(); status=result['status']; failure=result['failure']
     except BaseException as error: failure=str(error)
     finally:
         if B:
             for name,fn in [('projection',projection_guard),('protection',protection),('resources',resources)]:
-                try: after[name]=fn()
+                try: probe_timeout(); after[name]=fn(); probe_timeout()
                 except BaseException as error: after[name]={'error':str(error)}; failure=(failure+'; ' if failure else '')+name+': '+str(error)
             try: restore=restore_all(); check(restore['complete'],'Restore incomplete')
             except BaseException as error: failure=(failure+'; ' if failure else '')+'restore: '+str(error)
             try:
-                rows=ps(); monitor('final',rows,current_stage,next(iter(owned),None),force=True); remaining=[dict(owned[p],current=rows[p]) for p in owned if alive(rows,p)]
-                check(not remaining and not pending_details and not monitor_errors,'Final monitor gate'); after['temporaryTree']=tree_entries(TMP); after['beeTree']=tree_identity(BC); after['AS']=as_guard(True)
+                probe_deadline=restore_deadline; probe_timeout(); rows=ps(); monitor('final',rows,current_stage,next(iter(owned),None),force=True); remaining=[dict(owned[p],current=rows[p]) for p in owned if alive(rows,p)]
+                check(not remaining and not pending_details and not monitor_errors,'Final monitor gate'); after['temporaryTree']=tree_entries(TMP); after['beeTree']=tree_identity(BC); after['AS']=as_guard(True); probe_timeout()
             except BaseException as error: failure=(failure+'; ' if failure else '')+str(error)
         if failure and not (status in ('INCOMPLETE','CONTRACT_MISMATCH') and restore and restore['complete'] and not monitor_errors): status='FAILED' if any(s['runCount'] for s in stages) else 'NOT_RUN_BLOCKED'
         write('compile.json',{'stages':stage_dlls,'fullImportedInputs':full_inputs,'compilerAfter':compiler_after,'noRuntimeOrAndroidAcceptance':True})
