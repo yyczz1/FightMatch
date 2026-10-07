@@ -1,46 +1,46 @@
 {
-  "task": "HOST-INTEGRATE-001/I01-FIX02-source",
+  "task": "HOST-INTEGRATE-001/I01-FIX03-source",
   "status": "SOURCE_REPLAY_PASS",
   "owner": {
     "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
     "host": "local",
-    "turn": "01a117d8-5744-77b2-a45d-e18d86e96d93"
+    "turn": "01a117e9-ca3e-7cf0-9a5d-6087e8538c43"
   },
   "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
   "returnRoute": "Final; central wait only",
-  "startedAtUnix": 1791401416,
-  "finishedUtc": "2026-10-07T19:38:42.664573+00:00",
-  "wallSecondsSinceTurnStart": 506.66479301452637,
+  "startedAtUnix": 1791402560,
+  "finishedUtc": "2026-10-07T19:58:23.404141+00:00",
+  "wallSecondsSinceTurnStart": 543.4044179916382,
   "sourceIdentities": {
     "runner.py": {
-      "bytes": 45994,
-      "sha256": "6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"
+      "bytes": 47602,
+      "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
     },
     "replay-check.py": {
-      "bytes": 26565,
-      "sha256": "4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"
+      "bytes": 33486,
+      "sha256": "82ca9b61fe0f9562a7c3f9b657ea3e585239904be74a2e5c7d94cca4394e1531"
     },
     "replay-results.json": {
-      "bytes": 14764,
-      "sha256": "3095f8299730bba024d744976cf6fd270a1b9df9dc5514dc5935148c23edfc8a"
+      "bytes": 21589,
+      "sha256": "c5e9f9a47af7c8e689af632411c74a60d599cb7d485cb214b3cd304238408374"
     },
     "correction.patch": {
-      "bytes": 28351,
-      "sha256": "1a0603f12c022a156146727b1e4712c586f68b508c468eec198ae50964238272"
+      "bytes": 29516,
+      "sha256": "4142b8ffff648b1582d2b5ffef0fa4f10b952829ed1850bc9b53b2edca8ad334"
     }
   },
   "fixedReferences": {
-    "docs/team/2026-09-30/central-host-integrate-001-i01-fix02.md": {
-      "bytes": 3115,
-      "sha256": "40376ecd6970e16aabf410ffcfe07eb38437f0a1c2f5675dedc453fa76890b22"
+    "docs/team/2026-09-30/central-host-integrate-001-i01-fix03.md": {
+      "bytes": 2495,
+      "sha256": "fcec593e91adba13a244cc9a1098a05439555d18c850607f66ebeacea67b6f59"
     },
-    "docs/team/2026-09-30/testing-host-integrate-pr18-fix01-review-receipt.json": {
-      "bytes": 9304,
-      "sha256": "3a31342482e887ea1ed5855b3e8d2876d4a41c2a61b9befc3964596ad99e2e24"
+    "docs/team/2026-09-30/testing-host-integrate-pr18-fix02-review-receipt.json": {
+      "bytes": 7879,
+      "sha256": "bcb9c14d414194e2877e8349f179a930c17218a8fa7b036c15625294d74d7be2"
     },
-    "docs/team/2026-09-30/host-integrate-001-i01-fix01-source-verdict.json": {
-      "bytes": 1204,
-      "sha256": "b66af0737f13e8ff302486d83b9b5a9915adfe12f88f1a8ebe69949d4f098a6f"
+    "docs/team/2026-09-30/host-integrate-001-i01-fix02-source-verdict.json": {
+      "bytes": 959,
+      "sha256": "5a5682a94207961e4838609ff5593df528304c254638bff5c8349d552157a024"
     }
   },
   "immutablePreviousRoots": {
@@ -87,6 +87,28 @@
         "bytes": 19747,
         "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
       }
+    },
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX02-source": {
+      "preparation.json": {
+        "bytes": 25280,
+        "sha256": "769eac92e89f32772ec024e17db5bdffc9b458057dc511b4757445232f8a8881"
+      },
+      "runner.py": {
+        "bytes": 45994,
+        "sha256": "6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"
+      },
+      "replay-results.json": {
+        "bytes": 14764,
+        "sha256": "3095f8299730bba024d744976cf6fd270a1b9df9dc5514dc5935148c23edfc8a"
+      },
+      "correction.patch": {
+        "bytes": 28351,
+        "sha256": "1a0603f12c022a156146727b1e4712c586f68b508c468eec198ae50964238272"
+      },
+      "replay-check.py": {
+        "bytes": 26565,
+        "sha256": "4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"
+      }
     }
   },
   "inputIdentity": {
@@ -104,46 +126,50 @@
       12
     ]
   },
-  "addressedInSource": [
-    {
-      "finding": "r4211058182",
-      "change": "Existing targets use Darwin RENAME_SWAP to retain the actually displaced value, then compare it with prior. A matching prior stays in the existing phase staging slot. A conflict is marked before identity inspection and blocks later automatic restore of that path. The first foreign value is retained in displaced; exactly one swap attempts its return. A second foreign value is retained in conflict and the operation remains failed. No ordinary os.replace or additional commit-check pretending to be CAS remains.",
-      "boundedOutcomeOnSecondDrift": "P holds the first returned concurrent value; the later displaced concurrent value is preserved in the exact conflict leaf. Original preimage stays in restore/source. Report failure, do not loop or silently claim baseline restoration.",
-      "maxSwapCallsPerAttempt": 2,
-      "returnAttemptsMax": 1
-    },
-    {
-      "finding": "r4211058192",
-      "change": "register collects and validates argv/cwd/cwdProbeExit before one owned dictionary publication. Details failure leaves no entry and preserves already valid ownership. Fresh supplied snapshots can rediscover the child; the original failure remains recorded."
-    }
-  ],
+  "addressedInSource": {
+    "finding": "r4211236459",
+    "change": "Save the initial Popen root snapshot before collecting details. snapshot_consumers retries missing root registration on a supplied fresh snapshot only while the actual Popen remains live and PID/stage/start/exe/parent plus fixed Editor/argv/cwd match. Validate complete details before publication. Closure cannot treat owned-empty as closed while the Popen is live; the handle remains available after a failed stage, and archive/restore is blocked independently by that lifecycle gate.",
+    "initialFailurePreserved": "Recovering ownership permits bounded safety cleanup only; run_stage still reports its original launch/details failure.",
+    "unverifiedRootEvidence": [
+      "closure_end.popenStillLive",
+      "process-after.json.launchedRoot",
+      "process-after.json.popenStillLive",
+      "receipt.json.launchedRoot",
+      "receipt.json.popenStillLive"
+    ],
+    "noSameCyclePopulationRescan": true,
+    "noUnknownSignals": true
+  },
   "implementationScope": {
     "changedFunctions": [
       "archive_and_restore",
-      "atomic_write",
+      "closure",
+      "main",
       "register",
-      "resources"
+      "run_stage",
+      "snapshot_consumers"
     ],
     "newFunctions": [
-      "rename_swap",
-      "swap_verified"
+      "recover_root"
     ],
     "allOtherFunctionsAstEqual": true,
-    "runnerNonblankLines": 460,
+    "runnerNonblankLines": 470,
     "runnerLimit": 480,
-    "darwinSdk": {
-      "path": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stdio.h",
-      "RENAME_SWAP": "0x00000002",
-      "RENAME_EXCL": "0x00000004",
-      "prototype": "int renamex_np(const char *, const char *, unsigned int)"
-    },
-    "nativeBoundary": "Actual rename_swap/rename_exclusive Python wrappers were executed against a fake ctypes renamex_np fixture; no real native syscall was invoked."
+    "unchangedStrategies": [
+      "compile evidence and cache reuse",
+      "atomic displaced/conflict retention and exact leaves",
+      "product input collection",
+      "P/K roots",
+      "one native launch",
+      "60-second natural and30-second TERM confirmation bounds",
+      "one TERM per verified owned PID"
+    ]
   },
   "offline": {
     "roundsUsed": 1,
     "roundLimit": 2,
-    "passedCases": 48,
-    "cumulativeSeconds": 9.855522749996453,
+    "passedCases": 58,
+    "cumulativeSeconds": 13.709244375000708,
     "budgetSeconds": 30,
     "stopAfterFirstPass": true,
     "actualFunctionsCalled": [
@@ -163,9 +189,11 @@
       "discover",
       "monitor",
       "recorded_chain",
+      "recover_root",
       "register",
       "rename_exclusive",
       "rename_swap",
+      "run_stage",
       "same",
       "snapshot_consumers",
       "swap_verified",
@@ -175,7 +203,194 @@
       "validate_inputs"
     ],
     "forbiddenAttempts": [],
-    "faultEvidence": [
+    "launchedRootRecovery": [
+      {
+        "mode": "recover",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1,
+          2,
+          4
+        ],
+        "suppliedSnapshots": 6,
+        "rootPublished": true,
+        "simulatedTerms": [
+          36391,
+          36300
+        ],
+        "popenStillLive": false,
+        "restoreRootGateBlocked": false,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "natural-exit",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": false,
+        "restoreRootGateBlocked": false,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "natural-during-recovery",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1,
+          2
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": false,
+        "restoreRootGateBlocked": false,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "pid-reuse-live",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": true,
+        "restoreRootGateBlocked": true,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "pid-reuse-exited",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": false,
+        "restoreRootGateBlocked": false,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "foreign-parent",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": true,
+        "restoreRootGateBlocked": true,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "foreign-exe",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": true,
+        "restoreRootGateBlocked": true,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "wrong-argv",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1,
+          2,
+          4
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": true,
+        "restoreRootGateBlocked": true,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "wrong-cwd",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1,
+          2,
+          4
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": true,
+        "restoreRootGateBlocked": true,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      },
+      {
+        "mode": "persistent-details",
+        "simulatedPopenCount": 1,
+        "rootDetailsSnapshotIndexes": [
+          1,
+          2,
+          4
+        ],
+        "suppliedSnapshots": 4,
+        "rootPublished": false,
+        "simulatedTerms": [],
+        "popenStillLive": true,
+        "restoreRootGateBlocked": true,
+        "originalFailurePreserved": true,
+        "realPopenPsSignals": 0,
+        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+      }
+    ],
+    "existingOwnershipRecovery": [
+      {
+        "childVanishedInNextSnapshot": false,
+        "firstCyclePopulationQueries": 0,
+        "freshSnapshotUsed": true,
+        "simulatedTerms": [
+          36391,
+          36300
+        ],
+        "realSignals": 0,
+        "originalFailureRetained": true
+      },
+      {
+        "childVanishedInNextSnapshot": true,
+        "firstCyclePopulationQueries": 0,
+        "freshSnapshotUsed": true,
+        "simulatedTerms": [
+          36300
+        ],
+        "realSignals": 0,
+        "originalFailureRetained": true
+      }
+    ],
+    "previousAtomicFaultEvidencePreservedInNewReplay": [
       {
         "fault": "sync-overwrite-partial",
         "partialFiles": [
@@ -391,46 +606,20 @@
         ]
       }
     ],
-    "ownershipRecovery": [
-      {
-        "childVanishedInNextSnapshot": false,
-        "firstCyclePopulationQueries": 0,
-        "freshSnapshotUsed": true,
-        "simulatedTerms": [
-          36391,
-          36300
-        ],
-        "realSignals": 0,
-        "originalFailureRetained": true
-      },
-      {
-        "childVanishedInNextSnapshot": true,
-        "firstCyclePopulationQueries": 0,
-        "freshSnapshotUsed": true,
-        "simulatedTerms": [
-          36300
-        ],
-        "realSignals": 0,
-        "originalFailureRetained": true
-      }
-    ],
-    "fixtureAdaptationBeforeFirstRun": true,
-    "historicalI01AndFix01FailuresPreserved": true
+    "fixtureTiming": "New root cases fast-forward natural/confirmation windows to0/0 in memory; runtime code retains60/30. No real time wait or signal is used by fixtures.",
+    "historicalFailuresPreserved": true
   },
-  "mechanicalPreparationSeconds": 32.0,
+  "mechanicalPreparationSeconds": 49.0,
   "timeAccounting": {
-    "kind": "Conservative charged ceiling, not exact elapsed",
-    "priorCumulativeChargedSeconds": 19.0,
-    "thisFixChargedSeconds": 13.0,
-    "thisFixKnownOuterToolSeconds": 10.4,
-    "toolIntervalsSeconds": [
-      0.1,
-      0.2,
-      0.1,
-      10.0
-    ],
-    "innerOfflineSecondsNotDoubleCounted": 9.855522749996453,
-    "ceilingIncludes": "Recorded source-read/patch/check tool intervals, display rounding and final sealing/readback; reasoning and external review wall time are separately visible.",
+    "kind": "Conservative cumulative charged ceiling, not exact elapsed",
+    "priorCumulativeChargedSeconds": 32.0,
+    "thisFixChargedSeconds": 17.0,
+    "sourceReadAndPatchOuterSeconds": 0.3,
+    "checkerInnerMeasuredSeconds": 13.709244375000708,
+    "checkerLaunchOuterSeconds": 10.2,
+    "checkerYieldedSession": "not used as timing authority",
+    "checkerPollOuterSeconds": 0.0,
+    "ceilingIncludes": "Source reads/patches, full inner replay duration across the yielded command, orchestration/rounding and final sealing. Launch/poll outer intervals are not added again to the inner replay timer. Reasoning/review latency remains visible in turn wall time.",
     "preparationBudgetSeconds": 120,
     "nativeApprovalWaitSeconds": 0
   },
@@ -560,7 +749,7 @@
   },
   "review": {
     "pr": "https://github.com/yyczz1/FightMatch/pull/18",
-    "previousReviewedHead": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+    "previousReviewedHead": "191ee590dbb644ce129a6d6b5787555fcade8af0",
     "previousVerdict": "NEEDS_FIX",
     "newExactSourceReview": "PENDING",
     "findingsMarkedResolved": false
@@ -579,5 +768,5 @@
     "I01RunCreation": 0
   },
   "integrationVerdict": null,
-  "finalSealingSeconds": 0.007020500001090113
+  "finalSealingSeconds": 0.007695042004343122
 }

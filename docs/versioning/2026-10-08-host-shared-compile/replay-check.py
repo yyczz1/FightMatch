@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""FIX02 actual-function atomic-swap and ownership fault injection; all native boundaries are fixtures."""
+"""FIX03 launched-root registration and bounded closure; all process and file effects are fixtures."""
 import ast,copy,hashlib,io,json,os,pathlib,sys,time,traceback,types
-START=time.monotonic(); E=pathlib.Path(__file__).parent; OLD=E.parent/'I01'; BASE=E.parent/'I01-FIX01-source'; forbidden=[]; cases=[]; traces=[]
+START=time.monotonic(); E=pathlib.Path(__file__).parent; OLD=E.parent/'I01'; BASE=E.parent/'I01-FIX02-source'; MID=E.parent/'I01-FIX01-source'; forbidden=[]; cases=[]; traces=[]
 def audit(name,args):
     if name in {'subprocess.Popen','os.system','os.kill','os.killpg','socket.connect','socket.bind','os.remove','os.rename','os.mkdir','os.rmdir','ctypes.dlopen','ctypes.dlsym'}: forbidden.append(name); raise RuntimeError('Offline boundary '+name)
     if name=='open' and args[2] & (os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND):
@@ -28,18 +28,20 @@ report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases'
 try:
     oldIdentities={"runner.py":{"bytes":41638,"sha256":"e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"},"replay-check.py":{"bytes":13372,"sha256":"794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"},"replay-results.json":{"bytes":4141,"sha256":"13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a"},"inputs.json":{"bytes":806564,"sha256":"d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"},"preparation.json":{"bytes":8345,"sha256":"0c9c2d4d3ffb8d8920f02c2ce6e7a4614d69de4c3422463ea81771f8b892a6ff"}}
     need({p.name for p in OLD.iterdir()}==set(oldIdentities) and all(identity(OLD/name)==value for name,value in oldIdentities.items()),'Frozen I01 five leaves')
-    baseIdentities={"runner.py":{"bytes":44197,"sha256":"2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"},"replay-check.py":{"bytes":19747,"sha256":"efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"},"replay-results.json":{"bytes":14193,"sha256":"769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c"},"correction.patch":{"bytes":28398,"sha256":"fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"},"preparation.json":{"bytes":13374,"sha256":"8fab17eaa833a4f7e2713eb2b2dd32f57721457f4390959f545de695fcf532c6"}}
-    need({p.name for p in BASE.iterdir()}==set(baseIdentities) and all(identity(BASE/name)==value for name,value in baseIdentities.items()),'Frozen FIX01 five leaves')
+    baseIdentities={"runner.py":{"bytes":45994,"sha256":"6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"},"replay-check.py":{"bytes":26565,"sha256":"4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"},"replay-results.json":{"bytes":14764,"sha256":"3095f8299730bba024d744976cf6fd270a1b9df9dc5514dc5935148c23edfc8a"},"correction.patch":{"bytes":28351,"sha256":"1a0603f12c022a156146727b1e4712c586f68b508c468eec198ae50964238272"},"preparation.json":{"bytes":25280,"sha256":"769eac92e89f32772ec024e17db5bdffc9b458057dc511b4757445232f8a8881"}}
+    middleIdentities={"runner.py":{"bytes":44197,"sha256":"2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"},"replay-check.py":{"bytes":19747,"sha256":"efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"},"replay-results.json":{"bytes":14193,"sha256":"769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c"},"correction.patch":{"bytes":28398,"sha256":"fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"},"preparation.json":{"bytes":13374,"sha256":"8fab17eaa833a4f7e2713eb2b2dd32f57721457f4390959f545de695fcf532c6"}}
+    need({p.name for p in MID.iterdir()}==set(middleIdentities) and all(identity(MID/name)==v for name,v in middleIdentities.items()),'Frozen FIX01 five leaves')
+    need({p.name for p in BASE.iterdir()}==set(baseIdentities) and all(identity(BASE/name)==value for name,value in baseIdentities.items()),'Frozen FIX02 five leaves')
     text=(E/'runner.py').read_text(); tree=ast.parse(text); compile(tree,str(E/'runner.py'),'exec'); compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec'); F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}; N=json.loads((OLD/'inputs.json').read_text())
     need(sum(bool(x.strip()) for x in text.splitlines())<=480,'480 lines')
     for bad in ('observe_probe','observation_passed'): need(bad not in F,'Old observation removed')
-    need(not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='ps' for k in ('monitor','snapshot_consumers','discover','register') for n in ast.walk(F[k])),'Same snapshot classification')
+    need(not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='ps' for k in ('monitor','snapshot_consumers','discover','register','recover_root') for n in ast.walk(F[k])),'Same snapshot classification')
     calls=[n for n in ast.walk(F['run_stage']) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='Popen']; need(len(calls)==1,'One actual Popen site')
     need(isinstance(F['run_stage'].body[1],ast.Expr) and F['run_stage'].body[1].value.func.id=='claim_stage','Actual run_stage begins with single-use claim')
     need('-executeMethod' not in text and '-runTests' not in text and '-fm029QaBuildOnly' not in text,'Pure compile argv')
     oldtree=ast.parse((BASE/'runner.py').read_text()); oldfn={n.name:n for n in oldtree.body if isinstance(n,ast.FunctionDef)}
     changed={n for n in oldfn if ast.dump(oldfn[n])!=ast.dump(F[n])}
-    need(changed=={'register','resources','atomic_write','archive_and_restore'} and set(F)-set(oldfn)=={'rename_swap','swap_verified'},'Only two-P1 implementation scope')
+    need(changed=={'register','snapshot_consumers','closure','run_stage','archive_and_restore','main'} and set(F)-set(oldfn)=={'recover_root'},'Only two-P1 implementation scope')
     for n in ('synchronize','archive_and_restore'):need(not any(isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute) and x.func.attr in ('open','write_bytes') for x in ast.walk(F[n])),'No direct P write in '+n)
     report['changedFunctions']=sorted(changed);report['newFunctions']=sorted(set(F)-set(oldfn));report['allOtherFunctionsAstEqual']=True
     report['static']={'syntax':True,'runnerNonblankLines':sum(bool(x.strip()) for x in text.splitlines()),'singlePopenSite':True,'sameSnapshot':True,'pureCompile':True}
@@ -57,7 +59,7 @@ try:
             return copy.deepcopy(detail[pid])
         def forbidden_ps():ps_calls.append(True);raise AssertionError('No second process snapshot')
         env={'json':json,'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:100.),'utc':lambda:'fixture','owned':initial,'A':{'stages':[{'id':root['stage'],'argv':root['argv']}]},'P':pathlib.Path(root['cwd']),'details':fixture_details,'ps':forbidden_ps,'event':lambda *a,**kw:None,'adb_exception':lambda rows:-1,'sdk_adb_exception':lambda rows:set(),'resources':lambda:None,'projection_guard':lambda:None,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.0}
-        bind(['check','alive','register','discover','consumer_guard','recorded_chain','snapshot_consumers','monitor'],env)
+        bind(['check','alive','register','discover','consumer_guard','recorded_chain','recover_root','snapshot_consumers','monitor'],env)
         original=env['snapshot_consumers']
         def capture(given,stage,rpid):snapshots.append(given is rows);return original(given,stage,rpid)
         env['snapshot_consumers']=capture
@@ -195,7 +197,7 @@ try:
                 except OSError:errno[0]=5;return -1
         native=NativeRename();lib=types.SimpleNamespace(renamex_np=native);fake_ctypes=types.SimpleNamespace(CDLL=lambda *a,**kw:lib,c_char_p=object(),c_uint=object(),c_int=object(),get_errno=lambda:errno[0])
 
-        env={'N':n,'P':fs.path('/P'),'R':fs.path('/R'),'E':fs.path('/E'),'B':{},'os':types.SimpleNamespace(path=types.SimpleNamespace(lexists=lambda p:p.exists()),fsync=lambda fd:None,fsencode=lambda p:str(p).encode(),strerror=lambda code:'synthetic errno '+str(code)),'time':types.SimpleNamespace(monotonic=lambda:100.),'hashlib':hashlib,'json':json,'synced':False,'restored':False,'synchronized_paths':[],'parked_paths':[],'owned':{},'stages':[],'ps':lambda:{},'consumer_guard':lambda rows:None,'projection_guard':lambda:None,'protection':lambda:None,'resources':lambda:None,'source_tree':sources,'no_links':lambda p:None,'ident':lambda p:byteid(p.read_bytes()),'ctypes':fake_ctypes,'atomic_conflicts':set(),'event':lambda *a,**kw:None,'write':lambda name,value:outputs.update({name:value})}
+        env={'N':n,'P':fs.path('/P'),'R':fs.path('/R'),'E':fs.path('/E'),'B':{},'os':types.SimpleNamespace(path=types.SimpleNamespace(lexists=lambda p:p.exists()),fsync=lambda fd:None,fsencode=lambda p:str(p).encode(),strerror=lambda code:'synthetic errno '+str(code)),'time':types.SimpleNamespace(monotonic=lambda:100.),'hashlib':hashlib,'json':json,'synced':False,'restored':False,'synchronized_paths':[],'parked_paths':[],'owned':{},'stages':[],'active':None,'ps':lambda:{},'consumer_guard':lambda rows:None,'projection_guard':lambda:None,'protection':lambda:None,'resources':lambda:None,'source_tree':sources,'no_links':lambda p:None,'ident':lambda p:byteid(p.read_bytes()),'ctypes':fake_ctypes,'atomic_conflicts':set(),'event':lambda *a,**kw:None,'write':lambda name,value:outputs.update({name:value})}
         bind(['check','basic','same','validate_inputs','transfer','rename_exclusive','rename_swap','swap_verified','atomic_write','synchronize','archive_and_restore'],env)
         selected=n['newPaths'][1] if fault and 'new' in fault else n['overwritten'][2]
         phase='restore' if fault and fault.startswith('restore') else 'sync';atomic='/E/atomic/'+phase+'/'+selected
@@ -241,7 +243,58 @@ try:
         case(fault+' preserves P and previous commits',lambda fault=fault:restore_case(fault=fault))
     for fault in ('sync-race','restore-race','sync-race-again','restore-race-again','sync-race-same-as-post'):
         case(fault+' preserves displaced values and bounds conflict return',lambda fault=fault:restore_case(fault=fault))
-    need(all(identity(BASE/name)==value for name,value in baseIdentities.items()),'FIX01 unchanged after replay');report['baseFix01FiveFilesUnchanged']=True
+    def launched_root_case(mode):
+        fs=FS();p=fs.path(root['cwd']);e=fs.path('/synthetic-evidence');rows={x['pid']:{k:x[k] for k in keys} for x in (root,child)};originalRoot=copy.deepcopy(rows[rootid]);signals=[];popens=[];snapshots=[];rootDetails=[];emitted=[];written={}
+        argv=[root['exe'],'-batchmode','-nographics','-quit','-buildTarget','StandaloneOSX','-projectPath',str(p),'-logFile',str(e/'I/editor.log')]
+        class Proc:
+            pid=rootid
+            returncode=None
+            def poll(self):return self.returncode
+        proc=Proc()
+        def fixture_ps():
+            snapshot=copy.deepcopy(rows);snapshots.append(snapshot);return snapshot
+        def fixture_details(pid):
+            if pid==rootid:
+                rootDetails.append(len(snapshots))
+                if len(rootDetails)==1:
+                    need(not env['owned'],'First root failure publishes no ownership')
+                    if mode=='natural-exit':proc.returncode=0;rows.clear()
+                    if mode in ('pid-reuse-live','pid-reuse-exited'):
+                        rows[rootid]['start']='synthetic reused PID start'
+                        if mode=='pid-reuse-exited':proc.returncode=0;rows.pop(childid,None)
+                    if mode=='foreign-parent':rows[rootid]['ppid']+=999
+                    if mode=='foreign-exe':rows[rootid]['exe']='/foreign/Unity'
+                    raise RuntimeError('synthetic initial root details failure')
+                if mode=='persistent-details':raise RuntimeError('synthetic continuing root details failure')
+                value={'argv':argv+(['foreign'] if mode=='wrong-argv' else []),'cwd':'/foreign-project' if mode=='wrong-cwd' else str(p),'cwdProbeExit':0}
+                if mode=='natural-during-recovery':proc.returncode=0;rows.clear()
+                return value
+            return {k:child[k] for k in ('argv','cwd','cwdProbeExit')}
+        def popen(args,**kw):
+            need(args==argv and str(kw['cwd'])==str(p),'Bound synthetic Popen argv/cwd');popens.append(True);return proc
+        def term(pid,sig):
+            need(sig==15 and pid in env['owned'],'Only fully owned TERM');signals.append(pid);rows.pop(pid,None)
+            if pid==rootid:proc.returncode=0
+        env={'json':json,'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:100.,time=lambda:1791402560.,sleep=lambda n:None),'utc':lambda:'fixture-root-time','os':types.SimpleNamespace(environ={},getpid=lambda:originalRoot['ppid'],kill=term,path=types.SimpleNamespace(lexists=lambda p:p.exists())),'signal':types.SimpleNamespace(SIGTERM=15),'subprocess':types.SimpleNamespace(Popen=popen,STDOUT=-2),'P':p,'E':e,'A':{'stages':[{'id':'I','argv':argv}],'editor':{'path':root['exe']},'environmentOverrides':{},'stopping':{'naturalGraceSeconds':0,'termGraceSeconds':0}},'owned':{},'active':None,'launched_root':None,'root_launch_epoch':None,'launch_attempts':0,'stages':[],'synced':True,'details':fixture_details,'ps':fixture_ps,'event':lambda kind,**kw:emitted.append({'kind':kind,**kw}),'write':lambda name,value:written.update({name:copy.deepcopy(value)}),'adb_exception':lambda rows:-1,'sdk_adb_exception':lambda rows:set(),'preflight':lambda:None,'resources':lambda:None,'projection_guard':lambda:None,'protection':lambda:None,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.0}
+        bind(['check','alive','register','discover','consumer_guard','recorded_chain','recover_root','snapshot_consumers','monitor','closure','claim_stage','run_stage','archive_and_restore'],env)
+        result=env['run_stage']()
+        need(len(popens)==1 and env['launch_attempts']==1 and result['runCount']==1 and result['status']=='FAILED','One simulated launch; original failed stage never becomes pass')
+        need('synthetic initial root details failure' in result['failure'],'Original root failure preserved')
+        need(len(rootDetails)==len(set(rootDetails)),'Registration/details retry only on later supplied snapshots')
+        pending=mode in ('persistent-details','pid-reuse-live','foreign-parent','foreign-exe','wrong-argv','wrong-cwd')
+        if mode=='recover':
+            need(signals==[childid,rootid] and env['active'] is None and env['owned'][rootid]['argv']==argv and env['owned'][rootid]['cwd']==str(p),'Actual closure recovered root and child and completed TERM guards')
+        else:need(not signals,'No signals to unverified/reused/naturally exited roots')
+        if mode in ('natural-exit','natural-during-recovery','pid-reuse-exited'):need(env['active'] is None and proc.poll()==0 and rootid not in env['owned'],'Popen exit handled without adopting reused PID')
+        if pending:
+            need(env['active'] is proc and proc.poll() is None and rootid not in env['owned'],'Live unverified Popen retained, not partial owned')
+            count=len(snapshots);need(rejected(env['archive_and_restore']) and len(snapshots)==count,'Restore rejected by live Popen gate before filesystem or another population query')
+        endings=[x for x in emitted if x['kind']=='closure_end'];need(len(endings)==1 and endings[0]['popenStillLive']==pending,'Closure evidence explicitly identifies pending Popen')
+        report.setdefault('launchedRootRecovery',[]).append({'mode':mode,'simulatedPopenCount':len(popens),'rootDetailsSnapshotIndexes':rootDetails,'suppliedSnapshots':len(snapshots),'rootPublished':rootid in env['owned'],'simulatedTerms':signals,'popenStillLive':proc.poll() is None,'restoreRootGateBlocked':pending,'originalFailurePreserved':True,'realPopenPsSignals':0,'naturalAndTermWindows':'Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged'})
+    for mode in ('recover','natural-exit','natural-during-recovery','pid-reuse-live','pid-reuse-exited','foreign-parent','foreign-exe','wrong-argv','wrong-cwd','persistent-details'):
+        case('launched root '+mode+' through actual run_stage/closure',lambda mode=mode:launched_root_case(mode))
+    need(all(identity(BASE/name)==value for name,value in baseIdentities.items()),'FIX02 unchanged after replay');report['baseFix02FiveFilesUnchanged']=True
+    need(all(identity(MID/name)==value for name,value in middleIdentities.items()),'FIX01 unchanged after replay');report['baseFix01FiveFilesUnchanged']=True
     need(all(identity(OLD/name)==value for name,value in oldIdentities.items()),'Old I01 unchanged after replay');report['oldFiveFilesUnchanged']=True
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:failure=str(error);report['failure']=failure;report['traceback']=traceback.format_exc()

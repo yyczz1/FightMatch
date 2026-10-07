@@ -195,6 +195,46 @@
         {
           "name": "sync-race-same-as-post preserves displaced values and bounds conflict return",
           "passed": true
+        },
+        {
+          "name": "launched root recover through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-exit through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-during-recovery through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-live through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-exited through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-parent through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-exe through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-argv through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-cwd through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root persistent-details through actual run_stage/closure",
+          "passed": true
         }
       ],
       "nativeRuns": 0,
@@ -204,18 +244,19 @@
       "fixtureIOOnly": true,
       "changedFunctions": [
         "archive_and_restore",
-        "atomic_write",
+        "closure",
+        "main",
         "register",
-        "resources"
+        "run_stage",
+        "snapshot_consumers"
       ],
       "newFunctions": [
-        "rename_swap",
-        "swap_verified"
+        "recover_root"
       ],
       "allOtherFunctionsAstEqual": true,
       "static": {
         "syntax": true,
-        "runnerNonblankLines": 460,
+        "runnerNonblankLines": 470,
         "singlePopenSite": true,
         "sameSnapshot": true,
         "pureCompile": true
@@ -459,9 +500,174 @@
           ]
         }
       ],
+      "launchedRootRecovery": [
+        {
+          "mode": "recover",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            4
+          ],
+          "suppliedSnapshots": 6,
+          "rootPublished": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "natural-exit",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "natural-during-recovery",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "pid-reuse-live",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "pid-reuse-exited",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "foreign-parent",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "foreign-exe",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "wrong-argv",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            4
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "wrong-cwd",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            4
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "persistent-details",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            4
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        }
+      ],
+      "baseFix02FiveFilesUnchanged": true,
       "baseFix01FiveFilesUnchanged": true,
       "oldFiveFilesUnchanged": true,
-      "seconds": 9.855522749996453,
+      "seconds": 13.709244375000708,
       "actualFunctionsCalled": [
         "<genexpr>",
         "<lambda>",
@@ -479,9 +685,11 @@
         "discover",
         "monitor",
         "recorded_chain",
+        "recover_root",
         "register",
         "rename_exclusive",
         "rename_swap",
+        "run_stage",
         "same",
         "snapshot_consumers",
         "swap_verified",
@@ -492,15 +700,15 @@
       ],
       "forbiddenAttempts": [],
       "runner": {
-        "bytes": 45994,
-        "sha256": "6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"
+        "bytes": 47602,
+        "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
       },
       "checker": {
-        "bytes": 26565,
-        "sha256": "4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"
+        "bytes": 33486,
+        "sha256": "82ca9b61fe0f9562a7c3f9b657ea3e585239904be74a2e5c7d94cca4394e1531"
       }
     }
   ],
   "status": "SOURCE_REPLAY_PASS",
-  "cumulativeSeconds": 9.855522749996453
+  "cumulativeSeconds": 13.709244375000708
 }

@@ -1,0 +1,152 @@
+{
+  "receipt": "HOST-INTEGRATE-001-I01-FIX02-PR18-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "observedAtUtc": "2026-10-07T19:46:09Z",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a117e3-96f4-7ba1-a4e6-d350073583e9",
+    "actualTurnEvidence": "read_thread returned this turn as inProgress",
+    "requestedModel": "gpt-6-luna",
+    "requestedReasoningEffort": "medium",
+    "effectiveModelVerification": "Runtime-selected model is not exposed to this receiver; delegation requested Luna/medium for this mechanical task",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+    "returnMode": "Final answer; central receives completion by wait"
+  },
+  "authority": "Central PR18 FIX02 review receipt delegation under standing user GitHub review authorization",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/18",
+  "candidate": {
+    "head": "191ee590dbb644ce129a6d6b5787555fcade8af0",
+    "base": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+    "parentFromPublicationReceipt": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+    "treeFromPublicationReceipt": "3825bed9935cdcb8a2ba42e0272e44f6d047677a",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/host-integrate-001-i01-fix02-publication-receipt.json",
+    "remoteBlobs": "14 verified by central; not rechecked here",
+    "changes": "Nine paths; original I01 and FIX01 ten files and inputs reported unchanged"
+  },
+  "review": {
+    "status": "COMPLETED_WITH_FINDINGS",
+    "triggerCommentId": 6045477065,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6045477065",
+    "summaryCommentId": 6044837922,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6044837922",
+    "summaryStatus": "Completed",
+    "completedAtUtc": "2026-10-07T19:45:08.558859Z",
+    "reviewSubmissionId": 5447477806,
+    "reviewSubmissionGraphqlId": "PRR_kwDOTDyjrM8AAAABRLHqLg",
+    "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/18#pullrequestreview-5447477806",
+    "reviewState": "COMMENTED",
+    "submittedAtUtc": "2026-10-07T19:45:05Z",
+    "reviewedCommit": "191ee590dbb644ce129a6d6b5787555fcade8af0",
+    "reviewedCommitFromBody": "191ee590db",
+    "author": "chatgpt-codex-connector",
+    "originalReviewBody": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `191ee590db`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "currentHeadFindings": [
+      {
+        "id": 4211236459,
+        "priority": "P1",
+        "title": "Retry ownership registration for the launched root",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211236459",
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "line": 46,
+        "originalLine": 46,
+        "threadId": "PRRT_kwDOTDyjrM6qEW4K",
+        "isResolved": false,
+        "isOutdated": false,
+        "commit": "191ee590dbb644ce129a6d6b5787555fcade8af0",
+        "originalCommit": "191ee590dbb644ce129a6d6b5787555fcade8af0",
+        "reviewSubmissionId": 5447477806,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T19:45:06Z",
+        "reactionCount": 0,
+        "reactionsEndpointReturnedEmpty": true,
+        "originalText": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Retry ownership registration for the launched root**\n\nIf the first `details(rootpid)` call fails transiently immediately after `Popen`, this now leaves `owned` empty; `run_stage` still enters `closure`, but `discover` can only register processes whose parent is already owned, so it cannot rediscover the root itself, `remaining` is empty, and no TERM is sent to the live Unity process. Restoration then remains blocked by the unowned consumer. This is fresh evidence beyond the prior partial-entry finding because the new replay covers child recovery only; retry root registration from a fresh snapshot before closure decides there is nothing to stop.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/191ee590dbb644ce129a6d6b5787555fcade8af0/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      }
+    ],
+    "previousFindingThreadStates": [
+      {
+        "id": 4210875526,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875526",
+        "title": "Restore projection files after partial writes",
+        "isResolved": false,
+        "isOutdated": true,
+        "threadId": "PRRT_kwDOTDyjrM6qDfCe",
+        "originalCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3"
+      },
+      {
+        "id": 4210875534,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875534",
+        "title": "Keep discovery decisions on the supplied process snapshot",
+        "isResolved": false,
+        "isOutdated": true,
+        "threadId": "PRRT_kwDOTDyjrM6qDfCm",
+        "originalCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3"
+      },
+      {
+        "id": 4211058182,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058182",
+        "title": "Preserve concurrent values during overwrite commits",
+        "isResolved": false,
+        "isOutdated": true,
+        "threadId": "PRRT_kwDOTDyjrM6qD7Qh",
+        "originalCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772"
+      },
+      {
+        "id": 4211058192,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058192",
+        "title": "Avoid poisoning ownership state when details fail",
+        "isResolved": false,
+        "isOutdated": true,
+        "threadId": "PRRT_kwDOTDyjrM6qD7Qo",
+        "originalCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772"
+      }
+    ],
+    "codeGate": "NEEDS_FIX",
+    "formalApproval": false,
+  "statusReads": 4,
+    "waitSeconds": [
+      45,
+      50,
+      45
+    ],
+    "pagination": {
+      "commentsComplete": true,
+      "reviewsComplete": true,
+      "threadsComplete": true,
+      "eachThreadCommentsComplete": true,
+      "issueCommentCount": 4,
+      "reviewCount": 3,
+      "threadCount": 5
+    }
+  },
+  "scopeAndAcceptanceBoundary": {
+    "preparationAuthorTurn": "01a117d8-5744-77b2-a45d-e18d86e96d93",
+    "offlineChecks": "48/48 first round; 9.855522749996453 seconds, author reported; not rerun",
+    "nativeRuns": 0,
+    "unityOrNativeSyscalls": false,
+    "historicalCacheBindings": "Incomplete; no forced compile or retry authorized; future run must report INCOMPLETE absent native compilation or complete exact reuse evidence",
+    "priorQaReceipts": [
+      "docs/team/2026-09-30/testing-host-integrate-pr18-review-receipt.json",
+      "docs/team/2026-09-30/testing-host-integrate-pr18-fix01-review-receipt.json"
+    ],
+    "integrationVerdict": null,
+    "compileAccepted": false,
+    "productOrDemoAccepted": false
+  },
+  "method": {
+    "source": "Read-only gh api graphql for PR body/current metadata/comments/reviews/threads; direct reaction lookup for new inline finding",
+    "githubReadExitCode": 0,
+    "localCodeReviewPerformed": false,
+    "testsRun": false,
+    "unityRun": false,
+    "newReviewTriggered": false,
+    "githubStateChanged": false,
+    "writes": "Only this new receipt"
+  }
+}

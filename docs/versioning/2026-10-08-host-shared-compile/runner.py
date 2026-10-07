@@ -5,7 +5,7 @@ E=pathlib.Path(__file__).parent; M=E; R=E.parents[3]; O=R/'TestArtifacts/FightMa
 A={}; B={}; N={}; PREF={}; C={}; TMP=None; OWNER=None; ACT_SHA=''; EXECUTION_TURN=''
 LIMIT={'evidenceBytes':33554432,'perLogBytes':8388608,'newCacheBytes':1073741824,'generatedBytes':4294967296,'testTemporaryBytes':16777216,'testTemporaryLeaves':512,'minimumFreeBytes':2147483648,'totalSeconds':660}
 allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())
-owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set()
+owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
     if not ok: raise RuntimeError(why)
@@ -41,8 +41,8 @@ def details(pid):
     p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=5)
     cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)
     return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}
-def register(pid,row,stage,rootpid):
-    detail=details(pid); check(bool(detail.get('argv')) and detail.get('cwd') is not None and detail.get('cwdProbeExit')==0,'Owned identity incomplete '+str(pid)); check(pid not in owned,'Existing owned entry preserved '+str(pid))
+def register(pid,row,stage,rootpid,detail=None):
+    detail=details(pid) if detail is None else detail; check(bool(detail.get('argv')) and detail.get('cwd') is not None and detail.get('cwdProbeExit')==0,'Owned identity incomplete '+str(pid)); check(pid not in owned,'Existing owned entry preserved '+str(pid))
     owned[pid]={**row,**detail,'pid':pid,'stage':stage,'rootPid':rootpid,'firstObservedUtc':utc(),'termSent':False}
     event('owned_discovered',process=owned[pid])
 def discover(rows,stage,rootpid):
@@ -114,8 +114,16 @@ def recorded_chain(pid,rootpid):
     while p!=rootpid:
         check(p in owned and p not in seen,'Owned ancestry incomplete'); seen.add(p); p=owned[p]['ppid']
     check(rootpid in owned and owned[rootpid]['argv']==next(s['argv'] for s in A['stages'] if s['id']==owned[rootpid]['stage']) and owned[rootpid]['cwd']==str(P),'Owned root launch mismatch')
+def recover_root(rows,stage,rootpid):
+    if rootpid in owned or active is None or active.pid!=rootpid or active.poll() is not None: return
+    row=rows.get(rootpid); check(launched_root is not None and launched_root['pid']==rootpid and launched_root['stage']==stage and row is not None,'Launched root remains unverified')
+    check(all(row[k]==launched_root[k] for k in ('start','exe','ppid')) and not row['stat'].startswith('Z') and row['exe']==A['editor']['path'] and row['ppid']==os.getpid(),'Launched root snapshot identity mismatch')
+    detail=details(rootpid)
+    if active.poll() is not None: return
+    check(detail['argv']==next(s['argv'] for s in A['stages'] if s['id']==stage) and detail['cwd']==str(P),'Launched root argv/cwd mismatch')
+    register(rootpid,row,stage,rootpid,detail)
 def snapshot_consumers(rows,stage,rootpid):
-    discover(rows,stage,rootpid)
+    recover_root(rows,stage,rootpid); discover(rows,stage,rootpid)
     for pid in rows:
         if alive(rows,pid):
             check(bool(owned[pid].get('argv')) and owned[pid].get('cwd') is not None and owned[pid].get('cwdProbeExit')==0,'Owned identity incomplete '+str(pid))
@@ -137,7 +145,7 @@ def closure(stage,rootpid,reason):
     while True:
         if active is not None: active.poll()
         rows=ps(); discover(rows,stage,rootpid); monitor('natural-closure',rows,stage,rootpid); remaining=[p for p in owned if alive(rows,p)]
-        if not remaining or time.monotonic()>=deadline: break
+        if (not remaining and (active is None or active.poll() is not None)) or time.monotonic()>=deadline: break
         time.sleep(.25)
     for pid in reversed(remaining):
         try:
@@ -154,9 +162,9 @@ def closure(stage,rootpid,reason):
     while True:
         if active is not None: active.poll()
         rows=ps(); discover(rows,stage,rootpid); monitor('term-confirmation',rows,stage,rootpid); remaining=[p for p in owned if alive(rows,p)]
-        if not remaining or time.monotonic()>=deadline: break
+        if (not remaining and (active is None or active.poll() is not None)) or time.monotonic()>=deadline: break
         time.sleep(.25)
-    rows=ps(); monitor('closure-final',rows,stage,rootpid,force=True); remaining=[p for p in owned if alive(rows,p)]; event('closure_end',stage=stage,remainingOwned=remaining); check(not remaining,'BLOCKED: owned processes remain '+str(remaining))
+    rows=ps(); monitor('closure-final',rows,stage,rootpid,force=True); remaining=[p for p in owned if alive(rows,p)]; event('closure_end',stage=stage,remainingOwned=remaining,popenStillLive=active is not None and active.poll() is None); check(not remaining and (active is None or active.poll() is not None),'BLOCKED: owned or launched root remains unclosed '+str({'owned':remaining,'root':rootpid}))
 def no_links(p):
     for q in [pathlib.Path(p)]+list(pathlib.Path(p).parents): check(not q.is_symlink(),'Symlink '+str(q))
 def inventory(root,relative=None):
@@ -371,14 +379,14 @@ def claim_stage():
     global launch_attempts
     check(launch_attempts==0,'Only one I launch attempt'); launch_attempts+=1
 def run_stage():
-    global active,root_launch_epoch
+    global active,root_launch_epoch,launched_root
     claim_stage(); s=A['stages'][0]; sid='I'; check(not (E/sid).exists(),'I already exists'); (E/sid).mkdir(); start=time.monotonic(); rootpid=None; problem=None
     result={'stage':sid,'status':'NOT_RUN_BLOCKED','runCount':0,'exitCode':None,'argv':s['argv'],'cwd':str(P),'environmentOverrides':A['environmentOverrides'],'startedUtc':utc()}; stages.append(result)
     try:
         check(synced,'Sync required'); preflight(); start=time.monotonic()
         with (E/sid/'launcher.log').open('xb') as stream:
             root_launch_epoch=time.time(); active=subprocess.Popen(s['argv'],cwd=P,env={**os.environ,**A['environmentOverrides']},stdout=stream,stderr=subprocess.STDOUT,start_new_session=True); rootpid=active.pid; result.update(pid=rootpid,runCount=1,status='RUNNING'); rows=ps()
-            check(rootpid in rows,'Editor missing at launch'); register(rootpid,rows[rootpid],sid,rootpid); check(owned[rootpid]['exe']==A['editor']['path'] and owned[rootpid]['cwd']==str(P),'Root identity'); event('stage_started',stage=sid,pid=rootpid,argv=s['argv'])
+            check(rootpid in rows,'Editor missing at launch'); launched_root=dict(rows[rootpid],pid=rootpid,stage=sid); recover_root(rows,sid,rootpid); check(rootpid in owned,'Initial root not registered'); check(owned[rootpid]['exe']==A['editor']['path'] and owned[rootpid]['cwd']==str(P),'Root identity'); event('stage_started',stage=sid,pid=rootpid,argv=s['argv'])
             while active.poll() is None:
                 rows=ps(); monitor('running',rows,sid,rootpid,strict=True); check(time.monotonic()-start<360,'I360 exceeded')
                 text=(E/sid/'editor.log').read_text(errors='replace') if (E/sid/'editor.log').exists() else ''; log_guard(text); time.sleep(.25)
@@ -395,13 +403,15 @@ def run_stage():
         log=(E/sid/'editor.log').read_text(errors='replace'); log_guard(log); projection_guard(); protection(); resources(); proof=compile_evidence(log)
         result['status']='COMPILE_PASS' if compilation_passed(proof) else 'INCOMPLETE'
     except BaseException as ex: problem=(problem+'; ' if problem else '')+str(ex); result['status']='FAILED' if rootpid else 'NOT_RUN_BLOCKED'
-    result['failure']=problem; write('I/result.json',result); active=None; return result
+    result['failure']=problem; write('I/result.json',result)
+    if active is not None and active.poll() is not None: active=None
+    return result
 def log_guard(text):
     bad=[x for x in text.splitlines() if re.search(r'error CS\d+|Compilation failed|Scripts have compiler errors|Failed to load.*assembly|Could not load.*assembly|Aborting batchmode due to failure|(?:Downloading|downloaded|fetching).*https?://|(?:Package Manager|UPM).*(?:unable to|failed to|error).*?(?:resolve|connect|registry|network)|ENOTFOUND|ETIMEDOUT',x,re.I)]
     check(not bad,'Compiler/network failure '+json.dumps(bad[-10:]))
 def archive_and_restore():
     global restored
-    start=time.monotonic(); rows=ps(); snapshot_consumers(rows,'I',next(iter(owned),None)) if owned else consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned remains; restore forbidden')
+    start=time.monotonic(); check(active is None or active.poll() is not None,'Launched Popen root still live; restore forbidden'); rows=ps(); snapshot_consumers(rows,'I',next(iter(owned),None)) if owned else consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned remains; restore forbidden')
     report={'archived':[],'restored':[],'returnedParked':[],'errors':[],'complete':False}; last=start
     def tick():
         nonlocal last
@@ -453,8 +463,8 @@ def main():
         except BaseException as ex: failure=(failure+'; ' if failure else '')+str(ex)
         if failure: status='FAILED' if any(s['runCount'] for s in stages) else 'NOT_RUN_BLOCKED'
         write('compile.json',{'stages':stage_dlls,'DLLsAfter':dlls(),'fullImportedInputs':full_inputs,'noRuntimeOrAndroidAcceptance':True})
-        write('after.json',after); write('process-after.json',{'processBaseline':baseline_processes,'owned':list(owned.values()),'remainingOwned':remaining,'monitorCycles':monitor_cycles,'monitorErrors':monitor_errors,'adbObservations':adb_observations,'sdkAdbObservations':sdk_observations,'sdkAdbBinding':sdk_adb,'signals':[p for p in owned if owned[p]['termSent']],'sigkill':False})
-        receipt={'task':A['task'],'status':status,'owner':OWNER,'startedUtc':started,'finishedUtc':utc(),'mechanicalExecutionSeconds':time.monotonic()-clock_start,'preparationSeconds':PREF['mechanicalPreparationSeconds'],'approvalWait':A['approvalWait'],'stages':stages,'failure':failure,'restore':restore,'remainingOwned':remaining,'newSdkAdbRetained':sdk_adb,'launchAttempts':launch_attempts,'unityStarts':sum(s['runCount'] for s in stages),'evidence':{evidence_name(p):evidence_identity(p) for p in evidence_paths()},'unrun':['Play','tests','scene save/reopen/export','downloads','real saves','Git mutations'],'soleCompletionReceiver':'01a0e401-511d-79f2-b47f-3ab0ade1681b/local'}
+        write('after.json',after); write('process-after.json',{'processBaseline':baseline_processes,'owned':list(owned.values()),'remainingOwned':remaining,'launchedRoot':launched_root,'popenStillLive':active is not None and active.poll() is None,'monitorCycles':monitor_cycles,'monitorErrors':monitor_errors,'adbObservations':adb_observations,'sdkAdbObservations':sdk_observations,'sdkAdbBinding':sdk_adb,'signals':[p for p in owned if owned[p]['termSent']],'sigkill':False})
+        receipt={'task':A['task'],'status':status,'owner':OWNER,'startedUtc':started,'finishedUtc':utc(),'mechanicalExecutionSeconds':time.monotonic()-clock_start,'preparationSeconds':PREF['mechanicalPreparationSeconds'],'approvalWait':A['approvalWait'],'stages':stages,'failure':failure,'restore':restore,'remainingOwned':remaining,'launchedRoot':launched_root,'popenStillLive':active is not None and active.poll() is None,'newSdkAdbRetained':sdk_adb,'launchAttempts':launch_attempts,'unityStarts':sum(s['runCount'] for s in stages),'evidence':{evidence_name(p):evidence_identity(p) for p in evidence_paths()},'unrun':['Play','tests','scene save/reopen/export','downloads','real saves','Git mutations'],'soleCompletionReceiver':'01a0e401-511d-79f2-b47f-3ab0ade1681b/local'}
         write('receipt.json',receipt); print(json.dumps({'status':status,'failure':failure,'receipt':ident(E/'receipt.json')}),flush=True)
     return 0 if status=='COMPILE_PASS' else 1
 if __name__=='__main__': sys.exit(main())
