@@ -2,6 +2,184 @@
   "rounds": [
     {
       "round": 1,
+      "status": "SOURCE_REPLAY_FAILED",
+      "cases": [
+        {
+          "name": "running legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "running same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "natural-closure legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "natural-closure same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "closure-final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "closure-final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "PID reuse rejected",
+          "passed": true
+        },
+        {
+          "name": "details failure discover rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure snapshot_consumers rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure monitor rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "I single-use real claim",
+          "passed": true
+        },
+        {
+          "name": "input drift rejected",
+          "passed": true
+        },
+        {
+          "name": "all required compilation evidence passes",
+          "passed": true
+        },
+        {
+          "name": "missing assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "unproved assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "complete unchanged cache chain passes",
+          "passed": true
+        },
+        {
+          "name": "missing prior cache chain rejected",
+          "passed": true
+        },
+        {
+          "name": "cache response drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache sourceInputs drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache references drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache defines drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache compilerOutput drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache dll drift rejected",
+          "passed": true
+        },
+        {
+          "name": "32 paths synchronize and restore through actual functions",
+          "passed": true
+        }
+      ],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "changedFunctions": [
+        "archive_and_restore",
+        "discover",
+        "resources",
+        "synchronize",
+        "transfer"
+      ],
+      "newFunctions": [
+        "atomic_write",
+        "rename_exclusive"
+      ],
+      "allOtherFunctionsAstEqual": true,
+      "static": {
+        "syntax": true,
+        "runnerNonblankLines": 441,
+        "singlePopenSite": true,
+        "sameSnapshot": true,
+        "pureCompile": true
+      },
+      "failure": "Synchronization expected failure",
+      "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 180, in <module>\n    case('mid-sync failure restores actual ledger',lambda:restore_case(interrupt=True))\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 20, in case\n    need(time.monotonic()-START<30,'Replay30'); fn(); cases.append({'name':name,'passed':True})\n                                                ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 180, in <lambda>\n    case('mid-sync failure restores actual ledger',lambda:restore_case(interrupt=True))\n                                                          ~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 157, in restore_case\n    failed=rejected(env['synchronize']);need(failed==sync_failure,'Synchronization expected failure');fs.fail_write=None\n                                        ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Synchronization expected failure\n",
+      "seconds": 2.2467299999989336,
+      "actualFunctionsCalled": [
+        "<genexpr>",
+        "<lambda>",
+        "<module>",
+        "alive",
+        "archive_and_restore",
+        "atomic_write",
+        "basic",
+        "cached_reuse_proven",
+        "check",
+        "claim_stage",
+        "compilation_passed",
+        "consumer_guard",
+        "discover",
+        "monitor",
+        "recorded_chain",
+        "register",
+        "same",
+        "snapshot_consumers",
+        "synchronize",
+        "tick",
+        "transfer",
+        "validate_inputs"
+      ],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 44197,
+        "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
+      },
+      "checker": {
+        "bytes": 19719,
+        "sha256": "732909ca554e8d00ce9f137fe5594b0fd29f30d0acba94905be6ee5d89292e0f"
+      }
+    },
+    {
+      "round": 2,
       "status": "SOURCE_REPLAY_PASS",
       "cases": [
         {
@@ -46,6 +224,18 @@
         },
         {
           "name": "PID reuse rejected",
+          "passed": true
+        },
+        {
+          "name": "details failure discover rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure snapshot_consumers rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure monitor rejects without second ps",
           "passed": true
         },
         {
@@ -111,6 +301,34 @@
         {
           "name": "third-party target preserved with failed restoration verdict",
           "passed": true
+        },
+        {
+          "name": "sync-overwrite-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-overwrite-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "new-exclusive-collision preserves P and previous commits",
+          "passed": true
         }
       ],
       "nativeRuns": 0,
@@ -118,20 +336,104 @@
       "realSignals": 0,
       "actualProjectionWrites": 0,
       "fixtureIOOnly": true,
+      "changedFunctions": [
+        "archive_and_restore",
+        "discover",
+        "resources",
+        "synchronize",
+        "transfer"
+      ],
+      "newFunctions": [
+        "atomic_write",
+        "rename_exclusive"
+      ],
+      "allOtherFunctionsAstEqual": true,
       "static": {
         "syntax": true,
-        "runnerNonblankLines": 419,
+        "runnerNonblankLines": 441,
         "singlePopenSite": true,
         "sameSnapshot": true,
         "pureCompile": true
       },
-      "seconds": 2.1928772079991177,
+      "faultEvidence": [
+        {
+          "fault": "sync-overwrite-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": []
+        },
+        {
+          "fault": "sync-new-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": []
+        },
+        {
+          "fault": "sync-overwrite-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": []
+        },
+        {
+          "fault": "sync-new-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": []
+        },
+        {
+          "fault": "restore-partial",
+          "partialFiles": [
+            "/E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "synthetic failure after partial bytes persisted"
+          ]
+        },
+        {
+          "fault": "restore-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "synthetic atomic commit refused"
+          ]
+        },
+        {
+          "fault": "new-exclusive-collision",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ]
+        }
+      ],
+      "oldFiveFilesUnchanged": true,
+      "seconds": 6.220627458002127,
       "actualFunctionsCalled": [
         "<genexpr>",
         "<lambda>",
         "<module>",
         "alive",
         "archive_and_restore",
+        "atomic_write",
         "basic",
         "cached_reuse_proven",
         "check",
@@ -151,15 +453,15 @@
       ],
       "forbiddenAttempts": [],
       "runner": {
-        "bytes": 41638,
-        "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
+        "bytes": 44197,
+        "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
       },
       "checker": {
-        "bytes": 13372,
-        "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
+        "bytes": 19747,
+        "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
       }
     }
   ],
   "status": "SOURCE_REPLAY_PASS",
-  "cumulativeSeconds": 2.1928772079991177
+  "cumulativeSeconds": 8.46735745800106
 }

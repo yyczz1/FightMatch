@@ -1,16 +1,17 @@
 {
-  "packet": "HOST-INTEGRATE-001/I01 source preparation",
-  "parent": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
-  "parentTree": "373ec60aaaedf81b10f7d6fd3ab8755f20352b93",
+  "packet": "HOST-INTEGRATE-001/I01-FIX01 source preparation",
+  "base": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+  "parent": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+  "parentTree": "fdc69813eac001b707d3e8dc1e78159b152a938d",
   "baseBranch": "codex/host-first-frame-observation-m02",
   "branch": "codex/host-shared-compile-i01",
   "entries": [
     {
       "path": "docs/versioning/2026-10-08-host-shared-compile/README.md",
       "source": "docs/versioning/2026-10-08-host-shared-compile/README.md",
-      "bytes": 1822,
-      "sha256": "d79231970d39ab12fc1f90b861cd0d6a20bfc289aa10ac122e7a6609d99d1d52",
-      "gitBlob": "eb2daea36e217f643eef7db3a9f75dab532f79c9"
+      "bytes": 2256,
+      "sha256": "6bab473b9aecac815879f9fd186795a4f2d0af9f07ea778ab8e9304b76426978",
+      "gitBlob": "bac8c3d5141a9176dbbc531e13d7629ee80365da"
     },
     {
       "path": "docs/versioning/2026-10-08-host-shared-compile/adoption-receipt.json",
@@ -18,6 +19,20 @@
       "bytes": 1132,
       "sha256": "5b3ce20dd4277043e527ac69c19d11db2d1079156c81cd4a6a9f9add9bd7af41",
       "gitBlob": "9459cb491965e59233487599b0894f137b0ad92b"
+    },
+    {
+      "path": "docs/versioning/2026-10-08-host-shared-compile/correction-plan.md",
+      "source": "docs/versioning/2026-10-08-host-shared-compile/correction-plan.md",
+      "bytes": 3419,
+      "sha256": "9ad2c488c9372f5375a124a712f121bd43b11ff8c1cdda6253164eca1b436481",
+      "gitBlob": "a402c9a9dc54b5b48d808012bd5586ac4501a0e0"
+    },
+    {
+      "path": "docs/versioning/2026-10-08-host-shared-compile/correction.patch",
+      "source": "docs/versioning/2026-10-08-host-shared-compile/correction.patch",
+      "bytes": 28398,
+      "sha256": "fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82",
+      "gitBlob": "a862f9eb9047aaa91c919504f61ec68f16aa2505"
     },
     {
       "path": "docs/versioning/2026-10-08-host-shared-compile/execution-plan.md",
@@ -36,32 +51,39 @@
     {
       "path": "docs/versioning/2026-10-08-host-shared-compile/preparation.json",
       "source": "docs/versioning/2026-10-08-host-shared-compile/preparation.json",
-      "bytes": 8345,
-      "sha256": "0c9c2d4d3ffb8d8920f02c2ce6e7a4614d69de4c3422463ea81771f8b892a6ff",
-      "gitBlob": "eb2b57ff69ee28eab285368e1ae0c7f67339b8bc"
+      "bytes": 13374,
+      "sha256": "8fab17eaa833a4f7e2713eb2b2dd32f57721457f4390959f545de695fcf532c6",
+      "gitBlob": "5ec1c9454862d384043f7d9e3a2bbb22cb60cd81"
+    },
+    {
+      "path": "docs/versioning/2026-10-08-host-shared-compile/previous-review.json",
+      "source": "docs/versioning/2026-10-08-host-shared-compile/previous-review.json",
+      "bytes": 7916,
+      "sha256": "d0a6f911d3d35c74291a6f1dfbfe1443132e3053f0a983bf5f255a25401cd0bf",
+      "gitBlob": "cb9ba279943010c962ae138cfdbbd7aec56a8e9b"
     },
     {
       "path": "docs/versioning/2026-10-08-host-shared-compile/replay-check.py",
       "source": "docs/versioning/2026-10-08-host-shared-compile/replay-check.py",
-      "bytes": 13372,
-      "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50",
-      "gitBlob": "6d96b7b9aeb687b794fbbc01f81f646b365498bb"
+      "bytes": 19747,
+      "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98",
+      "gitBlob": "bf0aab522c55595279c45bd827443707d3ab42ae"
     },
     {
       "path": "docs/versioning/2026-10-08-host-shared-compile/replay-results.json",
       "source": "docs/versioning/2026-10-08-host-shared-compile/replay-results.json",
-      "bytes": 4141,
-      "sha256": "13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a",
-      "gitBlob": "15ec866a07b7a8afc3f8146379779c0b184b8b84"
+      "bytes": 14193,
+      "sha256": "769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c",
+      "gitBlob": "88c33a3c9efb605ff9f5d34df5aff1cfc14afe08"
     },
     {
       "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
       "source": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
-      "bytes": 41638,
-      "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59",
-      "gitBlob": "d45eefc27c63148ef52e6873580bcf3f44088dce"
+      "bytes": 44197,
+      "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812",
+      "gitBlob": "b7b3d8fac876e8bde9c7e53b4e14278a0234fdc0"
     }
   ],
-  "validation": "27 actual-function offline replay cases, native NOT_RUN",
+  "validation": "Second offline round 37/37; first failure preserved; native NOT_RUN",
   "integrationVerdict": null
 }

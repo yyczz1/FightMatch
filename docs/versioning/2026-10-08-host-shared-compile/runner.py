@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """I01: sealed, single Editor compile; activation is supplied only after source review."""
-import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil
+import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes
 E=pathlib.Path(__file__).parent; M=E; R=E.parents[3]; O=R/'TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03'; P=O/'projection'; K=O/'package-cache'
 A={}; B={}; N={}; PREF={}; C={}; TMP=None; OWNER=None; ACT_SHA=''; EXECUTION_TURN=''
 LIMIT={'evidenceBytes':33554432,'perLogBytes':8388608,'newCacheBytes':1073741824,'generatedBytes':4294967296,'testTemporaryBytes':16777216,'testTemporaryLeaves':512,'minimumFreeBytes':2147483648,'totalSeconds':660}
@@ -51,8 +51,8 @@ def discover(rows,stage,rootpid):
         for pid,row in rows.items():
             if pid not in owned and row['ppid'] in owned and alive(rows,row['ppid']):
                 try: register(pid,row,stage,rootpid); changed=True
-                except RuntimeError:
-                    if pid in ps(): raise
+                except Exception as error:
+                    raise RuntimeError('Supplied-snapshot child identity failed '+str(pid)+': '+str(error)) from error
 def adb_exception(rows):
     spec=A['adbException']; pid=spec['pid']; row=rows.get(pid); item={'utc':utc(),'pid':pid,'present':row is not None}; adb_observations.append(item)
     log=pathlib.Path(spec['logPath']); no_links(log); ls=log.lstat(); check(stat.S_ISREG(ls.st_mode),'ADB log not regular'); li={'device':ls.st_dev,'inode':ls.st_ino,'uid':ls.st_uid,'gid':ls.st_gid,'mode':oct(stat.S_IMODE(ls.st_mode)),'bytes':ls.st_size,'mtimeNs':ls.st_mtime_ns,'ctimeNs':ls.st_ctime_ns}; item['log']=li
@@ -202,10 +202,33 @@ def evidence_identity(p): return {'type':'symlink','target':os.readlink(p)} if p
 def dlls(): return {p.name:ident(p) for p in (P/'Library/ScriptAssemblies').glob('*.dll')}
 def transfer(source,target,expected,move=False):
     no_links(source); check(ident(source)==expected,'Transfer source drift '+str(source)); no_links(target.parent); target.parent.mkdir(parents=True,exist_ok=True); check(not os.path.lexists(target),'Archive target already exists')
-    if move: source.rename(target)
+    if move: rename_exclusive(source,target)
     else:
         with target.open('xb') as f: f.write(source.read_bytes())
     check(ident(target)==expected,'Transfer byte verification'); event('transfer',source=str(source),target=str(target),identity=expected,moved=move)
+def rename_exclusive(source,target):
+    # Darwin SDK sys/stdio.h: RENAME_EXCL = 0x00000004; atomically refuse an existing destination.
+    rename=ctypes.CDLL(None,use_errno=True).renamex_np; rename.argtypes=[ctypes.c_char_p,ctypes.c_char_p,ctypes.c_uint]; rename.restype=ctypes.c_int
+    if rename(os.fsencode(source),os.fsencode(target),4)!=0:
+        code=ctypes.get_errno(); raise OSError(code,os.strerror(code),str(target))
+def atomic_write(path,payload,expected,prior,phase):
+    paths=N['overwritten']+N['newPaths'] if phase=='sync' else N['overwritten']
+    check(phase in ('sync','restore') and path in paths,'Atomic scope'); check(expected==(N['files'] if phase=='sync' else N['restoreBaseline'])[path],'Atomic expected identity')
+    check({'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}==expected,'Atomic payload mismatch')
+    target=P/path; temporary=E/'atomic'/phase/path; no_links(target); no_links(temporary); check(not os.path.lexists(temporary),'Atomic leaf already exists')
+    if phase=='sync' and path in N['overwritten']: check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Verified backup required before sync')
+    check((ident(target) if os.path.lexists(target) else None)==prior,'Atomic preimage drift '+path)
+    temporary.parent.mkdir(parents=True,exist_ok=True); target.parent.mkdir(parents=True,exist_ok=True); check(temporary.parent.stat().st_dev==target.parent.stat().st_dev,'Atomic same-volume requirement')
+    event('atomic_begin',phase=phase,path=path,temporary=str(temporary),expected=expected,prior=prior)
+    try:
+        with temporary.open('xb') as stream:
+            stream.write(payload); stream.flush(); os.fsync(stream.fileno())
+        check(ident(temporary)==expected,'Atomic temporary incomplete '+path); check((ident(target) if os.path.lexists(target) else None)==prior,'Atomic preimage changed before commit '+path)
+        if prior is None: rename_exclusive(temporary,target)
+        else: os.replace(temporary,target)
+        check(ident(target)==expected,'Atomic committed bytes '+path); event('atomic_committed',phase=phase,path=path,identity=expected)
+    except BaseException as error:
+        event('atomic_failed',phase=phase,path=path,temporary=str(temporary),partialRetained=os.path.lexists(temporary),error=str(error)); raise
 def basic(files): return {p:{k:v[k] for k in ('bytes','sha256')} for p,v in files.items()}
 def source_tree(root,blobs=False):
     files={}
@@ -245,7 +268,7 @@ def protection():
     same(inventory(K),C['files'],'Frozen cache payload'); return {'sharedUnchanged':True,'oldEvidenceUnchanged':True,'cacheUnchanged':True,'oldTemporaryTreesUnchanged':True}
 def resources():
     ev=evidence_paths(); eb=sum(p.lstat().st_size for p in ev); cb=size(K)[0]; tb,tc=size(TMP); gb=sum(size(P/n)[0] for n in ['Library','Temp','Logs','UserSettings','obj'])+sum(p.stat().st_size for p in P.iterdir() if p.is_file() and p.suffix in ('.csproj','.sln')); free=shutil.disk_usage(E).free
-    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}
+    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}|{'atomic/sync/'+p for p in N['overwritten']+N['newPaths']}|{'atomic/restore/'+p for p in N['overwritten']}
     check(all(evidence_name(p) in allowed|dynamic and not p.is_symlink() for p in ev),'Evidence closure exceeded')
     check(eb<LIMIT['evidenceBytes']-1048576 and all(p.lstat().st_size<LIMIT['perLogBytes'] for p in ev if p.suffix=='.log'),'Evidence/log budget')
     check(cb<=LIMIT['newCacheBytes'] and gb<=LIMIT['generatedBytes'] and tb<=LIMIT['testTemporaryBytes'] and tc<=LIMIT['testTemporaryLeaves'] and free>=LIMIT['minimumFreeBytes'],'Storage budget')
@@ -286,8 +309,7 @@ def synchronize():
         source=R/path; target=P/path; no_links(source); no_links(target); check(ident(source)==N['files'][path],'Frozen adopted source '+path)
         payload=source.read_bytes(); check({'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}==N['files'][path],'Source changed during read')
         if path in N['overwritten']: check(ident(target)==N['restoreBaseline'][path],'Concurrent target drift '+path)
-        synchronized_paths.append(path); target.parent.mkdir(parents=True,exist_ok=True)
-        with target.open('wb' if path in N['overwritten'] else 'xb') as f: f.write(payload)
+        synchronized_paths.append(path); atomic_write(path,payload,N['files'][path],N['restoreBaseline'][path] if path in N['overwritten'] else None,'sync')
         check(ident(target)==N['files'][path],'Synchronized bytes '+path); event('source_synchronized',path=path,identity=N['files'][path])
     synced=True; projection_guard()
 def compiler_binding(name):
@@ -374,7 +396,7 @@ def archive_and_restore():
             if path in N['overwritten'] and ident(target)==N['restoreBaseline'][path]: report['restored'].append(path); continue
             check(ident(target)==N['files'][path],'Concurrent/partial value preserved '+path); transfer(target,E/'archive/source'/path,N['files'][path],path in N['newPaths']); report['archived'].append(path)
             if path in N['overwritten']:
-                check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Backup drift '+path); target.write_bytes((E/'restore/source'/path).read_bytes()); check(ident(target)==N['restoreBaseline'][path],'Restored bytes '+path)
+                check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Backup drift '+path); atomic_write(path,(E/'restore/source'/path).read_bytes(),N['restoreBaseline'][path],N['files'][path],'restore'); check(ident(target)==N['restoreBaseline'][path],'Restored bytes '+path)
             report['restored'].append(path)
         except BaseException as ex: report['errors'].append(str(ex))
     for path in parked_paths:

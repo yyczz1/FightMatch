@@ -1,0 +1,124 @@
+{
+  "receipt": "HOST-INTEGRATE-001-I01-PR18-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "observedAtUtc": "2026-10-07T19:07:59Z",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a117c1-04a7-7100-b1f2-ef387f832235",
+    "actualTurnEvidence": "read_thread returned this turn as inProgress",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+    "returnMode": "Final answer; central receives completion through wait"
+  },
+  "authority": "Central PR18 receipt delegation under standing user GitHub review/team authorization",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/18",
+  "candidate": {
+    "head": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+    "base": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+    "treeFromPublicationReceipt": "fdc69813eac001b707d3e8dc1e78159b152a938d",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/host-integrate-001-i01-publication-receipt.json",
+    "remoteScope": "Nine blobs verified by central; not repeated here",
+    "currentPrBodyRead": true,
+    "prTitle": "Prepare bounded compilation of the adopted shared Host configuration"
+  },
+  "review": {
+    "status": "COMPLETED_WITH_FINDINGS",
+    "triggerCommentId": 6044831804,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6044831804",
+    "summaryCommentId": 6044837922,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6044837922",
+    "completedAtUtc": "2026-10-07T19:07:36.926221Z",
+    "reviewSubmissionId": 5447052028,
+    "reviewSubmissionGraphqlId": "PRR_kwDOTDyjrM8AAAABRKtq_A",
+    "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/18#pullrequestreview-5447052028",
+    "reviewState": "COMMENTED",
+    "submittedAtUtc": "2026-10-07T19:07:34Z",
+    "reviewedCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+    "reviewedCommitFromBody": "54534228f8",
+    "author": "chatgpt-codex-connector",
+    "originalReviewBody": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `54534228f8`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "findings": [
+      {
+        "findingId": 4210875526,
+        "priority": "P1",
+        "title": "Restore projection files after partial writes",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875526",
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "line": 290,
+        "originalLine": 290,
+        "threadId": "PRRT_kwDOTDyjrM6qDfCe",
+        "isResolved": false,
+        "isOutdated": false,
+        "commit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "originalCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "reviewSubmissionId": 5447052028,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T19:07:34Z",
+        "originalBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Restore projection files after partial writes**\n\nIf an I/O error occurs after `open('wb')` truncates an overwritten file, or after `open('xb')` creates a new file, this path is already in `synchronized_paths`, but restoration later accepts only the complete postimage or original baseline and therefore preserves the runner's partial output as if it were concurrent drift. The replay's interrupted-write fixture throws before truncation, so it does not cover this case; a disk or external-volume write failure can consequently leave the projection short of its required restored 1,008 inputs. Use an atomic temporary-file replacement or otherwise distinguish and restore runner-created partial writes from foreign changes.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/54534228f88a7e8609669b00e1aae2eb4c7caaf3/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      },
+      {
+        "findingId": 4210875534,
+        "priority": "P1",
+        "title": "Keep discovery decisions on the supplied process snapshot",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875534",
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "line": 55,
+        "originalLine": 55,
+        "threadId": "PRRT_kwDOTDyjrM6qDfCm",
+        "isResolved": false,
+        "isOutdated": false,
+        "commit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "originalCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+        "reviewSubmissionId": 5447052028,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T19:07:34Z",
+        "originalBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Keep discovery decisions on the supplied process snapshot**\n\nWhen `details(pid)` fails during descendant discovery, this fallback calls `ps()` again and decides whether to reject the child from that different snapshot. A child exit or PID turnover between the two queries therefore makes the claimed same-snapshot identity result unprovable; the offline assertion misses this because it checks for direct `ps()` calls only in `monitor` and `snapshot_consumers`, not in `discover`. Fail the supplied-snapshot cycle deterministically instead of querying another process population.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/54534228f88a7e8609669b00e1aae2eb4c7caaf3/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      }
+    ],
+    "codeGate": "NEEDS_FIX",
+    "formalApproval": false,
+    "statusReads": 3,
+    "waitSeconds": [
+      45,
+      50
+    ],
+    "pagination": {
+      "commentsComplete": true,
+      "reviewsComplete": true,
+      "threadsComplete": true,
+      "eachThreadCommentsComplete": true,
+      "issueCommentCount": 2,
+      "reviewCount": 1,
+      "threadCount": 2
+    }
+  },
+  "scopeAndAcceptanceBoundary": {
+    "preparationOwnerTurn": "01a117ae-0ee5-7151-b160-60c882659f74",
+    "offlineChecks": "27/27 actual-function cases on first round as reported in publication/delegation; not rerun",
+    "nativeRuns": 0,
+    "reviewFindingsResolved": false,
+    "plannedInputScope": "999 shared inputs plus one fixed existing test meta; 32 synchronization/restoration paths; restore original 1008 projection inputs",
+    "historicalFullCacheBindings": 0,
+    "compileEvidenceRule": "Complete valid reuse is allowed; historical M03 missing response/reference/define bindings stay unproven. Missing current compile or complete reuse proof must be INCOMPLETE without forced recompilation.",
+    "futureNativeExecution": "At most one compile within 360 seconds; current code review gate requires corrections and fresh authorization/activation for any future run",
+    "nativeCompileAccepted": false,
+    "androidGameplayLocalizationOrDemoAccepted": false,
+    "integrationVerdict": null
+  },
+  "method": {
+    "source": "Read-only gh api graphql for PR description, current metadata, complete comments, review submissions and inline threads",
+    "commandExitCode": 0,
+    "localCodeReviewPerformed": false,
+    "testsRun": false,
+    "unityRun": false,
+    "newReviewTriggered": false,
+    "githubReviewStateChanged": false,
+    "writes": "Only this new QA receipt; old receipts unchanged"
+  }
+}

@@ -1,68 +1,152 @@
 {
-  "task": "HOST-INTEGRATE-001/I01",
+  "task": "HOST-INTEGRATE-001/I01-FIX01-source",
   "status": "SOURCE_REPLAY_PASS",
   "owner": {
     "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
     "host": "local",
-    "turn": "01a117ae-0ee5-7151-b160-60c882659f74"
+    "turn": "01a117c8-1b7c-7f02-8b55-5cc2bea5d674"
   },
   "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
-  "completionRoute": "This chat final; central wait only",
-  "startedAtUnix": 1791398645,
-  "finishedUtc": "2026-10-07T18:58:08.746662+00:00",
-  "wallSecondsSinceTurnStart": 843.7469849586487,
+  "returnRoute": "Final; central wait only",
+  "finishedUtc": "2026-10-07T19:19:08.831860+00:00",
+  "startedAtUnix": 1791400352,
+  "wallSecondsSinceTurnStart": 396.8318569660187,
   "sourceIdentities": {
     "runner.py": {
-      "bytes": 41638,
-      "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
+      "bytes": 44197,
+      "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
     },
     "replay-check.py": {
-      "bytes": 13372,
-      "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
+      "bytes": 19747,
+      "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
     },
     "replay-results.json": {
-      "bytes": 4141,
-      "sha256": "13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a"
+      "bytes": 14193,
+      "sha256": "769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c"
     },
-    "inputs.json": {
-      "bytes": 806564,
-      "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
+    "correction.patch": {
+      "bytes": 28398,
+      "sha256": "fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"
     }
   },
-  "runnerNonblankLines": 419,
-  "runnerLineLimit": 480,
-  "inputCounts": {
-    "shared": 999,
-    "compile": 1000,
-    "originalProjection": 1008,
-    "overwrite": 16,
-    "add": 4,
-    "park": 12
+  "fixedReferences": {
+    "docs/team/2026-09-30/central-host-integrate-001-i01-fix01.md": {
+      "bytes": 3419,
+      "sha256": "9ad2c488c9372f5375a124a712f121bd43b11ff8c1cdda6253164eca1b436481"
+    },
+    "docs/team/2026-09-30/testing-host-integrate-pr18-review-receipt.json": {
+      "bytes": 7916,
+      "sha256": "d0a6f911d3d35c74291a6f1dfbfe1443132e3053f0a983bf5f255a25401cd0bf"
+    },
+    "docs/team/2026-09-30/host-integrate-001-i01-source-verdict.json": {
+      "bytes": 1185,
+      "sha256": "04d86a48f56552a9149ae76bf91fd3b89dcc243f600b712d50f635836682a7b0"
+    }
   },
-  "canonical": {
-    "shared": "06edb6d3d9037a56a4e4bca3e4ca0b46cdd0a2c0aac8ce0dd04e54fa887cffdf",
-    "projectionBefore": "3cab92e65cf0f48bde8b47f9c701ee6c0e568b1bc44e991e32bc48c3878ccb8a",
-    "compile": "fefb2117f7e3991ab5f1a482216f3cff902368ad330295383e9705a534a18715"
+  "immutableI01": {
+    "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01",
+    "files": {
+      "preparation.json": {
+        "bytes": 8345,
+        "sha256": "0c9c2d4d3ffb8d8920f02c2ce6e7a4614d69de4c3422463ea81771f8b892a6ff"
+      },
+      "runner.py": {
+        "bytes": 41638,
+        "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
+      },
+      "replay-results.json": {
+        "bytes": 4141,
+        "sha256": "13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a"
+      },
+      "inputs.json": {
+        "bytes": 806564,
+        "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
+      },
+      "replay-check.py": {
+        "bytes": 13372,
+        "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
+      }
+    },
+    "byteChanges": 0
   },
-  "metaException": {
-    "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta",
-    "bytes": 243,
-    "sha256": "97eb4963b6d27d4669a021853e7363a3bbe386269f9293ff6d4608c772be39c3",
-    "guid": "d85e93281a75342ac8d13378ff40cdba"
+  "inputIdentity": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/inputs.json",
+    "bytes": 806564,
+    "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3",
+    "canonical": {
+      "shared": "06edb6d3d9037a56a4e4bca3e4ca0b46cdd0a2c0aac8ce0dd04e54fa887cffdf",
+      "projectionBefore": "3cab92e65cf0f48bde8b47f9c701ee6c0e568b1bc44e991e32bc48c3878ccb8a",
+      "compile": "fefb2117f7e3991ab5f1a482216f3cff902368ad330295383e9705a534a18715"
+    },
+    "productDeltaUnchanged": [
+      16,
+      4,
+      12
+    ]
   },
-  "staticAndReplay": {
-    "roundsUsed": 1,
+  "addressedFindings": [
+    {
+      "id": "r4210875526",
+      "change": "Same-volume exclusive evidence temporary, full flush/fsync and identity verification before atomic P commit; sync and restore writes covered. Existing P must match the expected preimage. New or moved destinations use Darwin renamex_np(RENAME_EXCL), never clobber an existing destination. Failed partial/full temporaries remain in the exact phase/path evidence leaf.",
+      "faultCases": [
+        "sync-overwrite-partial",
+        "sync-new-partial",
+        "sync-overwrite-commit",
+        "sync-new-commit",
+        "restore-partial",
+        "restore-commit",
+        "new-exclusive-collision"
+      ]
+    },
+    {
+      "id": "r4210875534",
+      "change": "discover propagates details failure with PID and original cause; it never requests a second population snapshot. Direct discover, snapshot_consumers and monitor calls reject the injected failure without a second ps."
+    }
+  ],
+  "implementationScope": {
+    "changedFunctions": [
+      "archive_and_restore",
+      "discover",
+      "resources",
+      "synchronize",
+      "transfer"
+    ],
+    "newFunctions": [
+      "atomic_write",
+      "rename_exclusive"
+    ],
+    "allOtherFunctionsAstEqual": true,
+    "runnerNonblankLines": 441,
+    "runnerLimit": 480,
+    "darwinSdkReference": {
+      "path": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stdio.h",
+      "declarationLine": 52,
+      "exclusiveFlagLine": 37,
+      "RENAME_EXCL": "0x00000004"
+    },
+    "platformSyscallBoundary": "Offline fixtures replace renamex_np/os.replace; no native syscall acceptance is claimed."
+  },
+  "offline": {
+    "roundsUsed": 2,
     "roundLimit": 2,
-    "passedCases": 27,
-    "seconds": 2.1928772079991177,
+    "firstRound": {
+      "status": "SOURCE_REPLAY_FAILED",
+      "passedBeforeFailure": 28,
+      "reason": "Synchronization expected failure",
+      "checkerFault": "Old interruption fixture matched wb but not new exclusive xb; corrected only that fixture condition before round2. Runner stayed byte-identical."
+    },
+    "secondRoundPassed": 37,
+    "cumulativeSeconds": 8.46735745800106,
     "budgetSeconds": 30,
-    "stopAfterFirstPass": true,
+    "firstFailureRetained": true,
+    "stopAfterPass": true,
     "actualFunctionsCalled": [
       "<genexpr>",
       "<lambda>",
       "<module>",
       "alive",
       "archive_and_restore",
+      "atomic_write",
       "basic",
       "cached_reuse_proven",
       "check",
@@ -80,171 +164,175 @@
       "transfer",
       "validate_inputs"
     ],
-    "forbiddenAttempts": []
-  },
-  "mechanicalPreparationSeconds": 7.0,
-  "mechanicalTimeAccounting": {
-    "kind": "conservative charged ceiling, not exact elapsed measurement",
-    "reportedOuterToolSeconds": 3.9,
-    "outerToolCalls": [
+    "forbiddenAttempts": [],
+    "faultEvidence": [
       {
-        "operation": "contract and identity read",
-        "reportedWallSeconds": 0.1
+        "fault": "sync-overwrite-partial",
+        "partialFiles": [
+          "/E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+        ],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": true,
+        "restoredEarlierItem": true,
+        "errors": []
       },
       {
-        "operation": "M04 runner first part",
-        "reportedWallSeconds": 0.1
+        "fault": "sync-new-partial",
+        "partialFiles": [
+          "/E/atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+        ],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": true,
+        "restoredEarlierItem": true,
+        "errors": []
       },
       {
-        "operation": "M04 runner remainder and replay source",
-        "reportedWallSeconds": 0.1
+        "fault": "sync-overwrite-commit",
+        "partialFiles": [],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": true,
+        "restoredEarlierItem": true,
+        "errors": []
       },
       {
-        "operation": "fixed schema and source reads",
-        "reportedWallSeconds": 0.1
+        "fault": "sync-new-commit",
+        "partialFiles": [],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": true,
+        "restoredEarlierItem": true,
+        "errors": []
       },
       {
-        "operation": "TMP/rsp schema read",
-        "reportedWallSeconds": 0.2
+        "fault": "restore-partial",
+        "partialFiles": [
+          "/E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+        ],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "synthetic failure after partial bytes persisted"
+        ]
       },
       {
-        "operation": "extract original functions",
-        "reportedWallSeconds": 0.1
+        "fault": "restore-commit",
+        "partialFiles": [],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "synthetic atomic commit refused"
+        ]
       },
       {
-        "operation": "in-memory source construction diagnostic",
-        "reportedWallSeconds": 0
-      },
-      {
-        "operation": "initial runner patch",
-        "reportedWallSeconds": 0.1
-      },
-      {
-        "operation": "fixed manifests and inputs creation",
-        "reportedWallSeconds": 0.4
-      },
-      {
-        "operation": "prior compile provenance read",
-        "reportedWallSeconds": 0.2
-      },
-      {
-        "operation": "cache-branch patch and provenance sealing",
-        "reportedWallSeconds": 0.2
-      },
-      {
-        "operation": "checker patch, recovery patch and first offline round",
-        "reportedWallSeconds": 2.3
+        "fault": "new-exclusive-collision",
+        "partialFiles": [],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+        ]
       }
-    ],
-    "knownInnerTimersNotAddedTwice": {
-      "inputPreparationSeconds": 0.3077907499973662,
-      "cacheProofPreparationSeconds": 0.0022757910046493635,
-      "offlineSeconds": 2.1928772079991177
-    },
-    "ceilingExplanation": "7 seconds charges all recorded outer tool intervals, their display rounding, and up to one second for this final sealing/readback. Model reasoning and approval waits are excluded from mechanical time and exposed separately in wall duration.",
-    "preparationBudgetSeconds": 120,
-    "approvalWaitSeconds": 0,
-    "normalNativeApproval": "NOT_REQUESTED"
+    ]
   },
-  "nonValidationToolDiagnostic": {
-    "error": "ReferenceError: TextEncoder is not defined",
-    "phase": "in-memory source metadata display",
-    "sourceHadBeenStoredInMemory": true,
-    "filesystemOrNativeMutations": 0,
-    "syntaxReplayRoundsConsumed": 0
+  "mechanicalPreparationSeconds": 19.0,
+  "timeAccounting": {
+    "kind": "Conservative charged ceiling, not exact elapsed",
+    "priorI01ChargedSeconds": 7.0,
+    "thisFixChargedSeconds": 12.0,
+    "thisFixKnownOuterToolSeconds": 9.3,
+    "toolIntervalsSeconds": [
+      0.1,
+      0.2,
+      0.2,
+      0.1,
+      2.4,
+      6.3
+    ],
+    "innerOfflineSecondsNotDoubleCounted": 8.46735745800106,
+    "ceilingIncludes": "All recorded source-reading/patch/check tool intervals, display rounding and up to1 second final sealing; reasoning/review wait separately visible in wall duration.",
+    "sourcePreparationBudgetSeconds": 120,
+    "normalNativeApprovalWaitSeconds": 0
   },
-  "cacheReuse": {
-    "supported": true,
-    "validCompleteFixtureAccepted": true,
-    "sourceReferenceDefineResponseAndDllDriftFixturesRejected": true,
-    "historicalFullBindingCount": 0,
-    "priorCompilation": {
-      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M03/compile.json",
-      "bytes": 303074,
-      "sha256": "39d3b73ef682011650687b355fee20b6e5e0601cc447f143e586edb3579b0ae2"
+  "futureExecution": {
+    "evidenceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run",
+    "currentlyAbsent": true,
+    "copyOnlyAfterNewReview": [
+      "runner.py",
+      "replay-check.py",
+      "replay-results.json",
+      "preparation.json"
+    ],
+    "copyInputsUnchangedFrom": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/inputs.json",
+    "originalI01NeverOverwritten": true,
+    "sameHierarchyProjectRootDerivation": true,
+    "additionalAtomicLeaves": {
+      "sync": [
+        "atomic/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "atomic/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+      ],
+      "restore": [
+        "atomic/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "atomic/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "atomic/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "atomic/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "atomic/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
+      ]
     },
-    "limitation": "M03 preserves actual Csc/DLL identities and full source inventory, but lacks the complete historical response/reference/define binding. Those entries remain unproven. Cached reuse is accepted only when an exact complete chain exists; otherwise native result is INCOMPLETE without forced recompilation."
+    "existingEvidenceBudgetBytes": 33554432,
+    "partialEvidenceAttribution": "Exact atomic/sync or atomic/restore relative leaf plus atomic_begin/atomic_failed events. No unknown files are cleaned.",
+    "freshOwnerActivationAndNormalToolApprovalStillRequired": true
   },
-  "nextGates": [
-    "GitHub PR Code Review bound to these exact runner/checker/inputs bytes",
-    "Fresh actual execution owner and sealed activation with approval-wait accounting",
-    "New short owned empty TMP identity and fresh R/P process safety",
-    "Only after normal tool approval: one I compile at most360 seconds, then bounded owned cleanup/archive/restore"
-  ],
-  "activationContract": {
-    "task": "HOST-INTEGRATE-001/I01",
-    "status": "EXECUTION_BOUND",
-    "projectRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
-    "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
-    "cacheRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/package-cache",
-    "runner": {
-      "bytes": 41638,
-      "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
-    },
-    "sealsRequired": [
-      "inputs",
-      "preparation",
-      "replay-check",
-      "replay-results"
-    ],
-    "freshExecutionOwnerRequired": true,
-    "sourceReviewRequired": [
-      "runner",
-      "status=ACCEPT",
-      "head",
-      "resultUrl"
-    ],
-    "editor": {
-      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
-      "bytes": 86759760,
-      "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f"
-    },
-    "argv": [
-      "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
-      "-batchmode",
-      "-nographics",
-      "-quit",
-      "-buildTarget",
-      "StandaloneOSX",
-      "-projectPath",
-      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
-      "-logFile",
-      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/I/editor.log"
-    ],
-    "environmentOverridesOnly": [
-      "UPM_CACHE_ROOT",
-      "TMPDIR"
-    ],
-    "tmpIdentityFields": [
-      "device",
-      "inode",
-      "uid",
-      "gid",
-      "mode",
-      "birthtime"
-    ],
-    "stopping": {
-      "naturalGraceSeconds": 60,
-      "termGraceSeconds": 30,
-      "sigkill": false,
-      "retries": 0,
-      "perOwnedPidTermMax": 1
-    },
-    "approvalWaitRequired": true
+  "review": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/18",
+    "previousReviewedHead": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+    "previousVerdict": "NEEDS_FIX",
+    "newExactSourceReview": "PENDING",
+    "findingsMarkedResolved": false
   },
-  "notRun": {
+  "unexecuted": {
     "Unity": 0,
-    "PSourceSynchronization": 0,
-    "parking": 0,
-    "newTmpCreation": 0,
+    "actualPOrRunEvidenceAtomicWrites": 0,
     "realPs": 0,
     "realSignals": 0,
-    "adbOperations": 0,
-    "sharedProductWrites": 0,
+    "newTMP": 0,
     "GitWrites": 0,
+    "sharedProductWrites": 0,
+    "downloads": 0,
     "realSaves": 0,
-    "crossThreadMessages": 0
+    "crossThreadMessages": 0,
+    "I01RunRootCreation": 0
   },
   "integrationVerdict": null,
-  "finalSealingSeconds": 0.002662792001501657
+  "finalSealingSeconds": 0.004096791002666578
 }
