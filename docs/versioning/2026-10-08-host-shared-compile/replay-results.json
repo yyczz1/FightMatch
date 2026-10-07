@@ -1,0 +1,165 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": [
+        {
+          "name": "running legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "running same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "natural-closure legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "natural-closure same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "closure-final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "closure-final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "PID reuse rejected",
+          "passed": true
+        },
+        {
+          "name": "I single-use real claim",
+          "passed": true
+        },
+        {
+          "name": "input drift rejected",
+          "passed": true
+        },
+        {
+          "name": "all required compilation evidence passes",
+          "passed": true
+        },
+        {
+          "name": "missing assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "unproved assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "complete unchanged cache chain passes",
+          "passed": true
+        },
+        {
+          "name": "missing prior cache chain rejected",
+          "passed": true
+        },
+        {
+          "name": "cache response drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache sourceInputs drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache references drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache defines drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache compilerOutput drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache dll drift rejected",
+          "passed": true
+        },
+        {
+          "name": "32 paths synchronize and restore through actual functions",
+          "passed": true
+        },
+        {
+          "name": "mid-sync failure restores actual ledger",
+          "passed": true
+        },
+        {
+          "name": "third-party target preserved with failed restoration verdict",
+          "passed": true
+        }
+      ],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "static": {
+        "syntax": true,
+        "runnerNonblankLines": 419,
+        "singlePopenSite": true,
+        "sameSnapshot": true,
+        "pureCompile": true
+      },
+      "seconds": 2.1928772079991177,
+      "actualFunctionsCalled": [
+        "<genexpr>",
+        "<lambda>",
+        "<module>",
+        "alive",
+        "archive_and_restore",
+        "basic",
+        "cached_reuse_proven",
+        "check",
+        "claim_stage",
+        "compilation_passed",
+        "consumer_guard",
+        "discover",
+        "monitor",
+        "recorded_chain",
+        "register",
+        "same",
+        "snapshot_consumers",
+        "synchronize",
+        "tick",
+        "transfer",
+        "validate_inputs"
+      ],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 41638,
+        "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
+      },
+      "checker": {
+        "bytes": 13372,
+        "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
+      }
+    }
+  ],
+  "status": "SOURCE_REPLAY_PASS",
+  "cumulativeSeconds": 2.1928772079991177
+}

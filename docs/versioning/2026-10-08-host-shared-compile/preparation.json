@@ -1,0 +1,250 @@
+{
+  "task": "HOST-INTEGRATE-001/I01",
+  "status": "SOURCE_REPLAY_PASS",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a117ae-0ee5-7151-b160-60c882659f74"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "completionRoute": "This chat final; central wait only",
+  "startedAtUnix": 1791398645,
+  "finishedUtc": "2026-10-07T18:58:08.746662+00:00",
+  "wallSecondsSinceTurnStart": 843.7469849586487,
+  "sourceIdentities": {
+    "runner.py": {
+      "bytes": 41638,
+      "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
+    },
+    "replay-check.py": {
+      "bytes": 13372,
+      "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
+    },
+    "replay-results.json": {
+      "bytes": 4141,
+      "sha256": "13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a"
+    },
+    "inputs.json": {
+      "bytes": 806564,
+      "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
+    }
+  },
+  "runnerNonblankLines": 419,
+  "runnerLineLimit": 480,
+  "inputCounts": {
+    "shared": 999,
+    "compile": 1000,
+    "originalProjection": 1008,
+    "overwrite": 16,
+    "add": 4,
+    "park": 12
+  },
+  "canonical": {
+    "shared": "06edb6d3d9037a56a4e4bca3e4ca0b46cdd0a2c0aac8ce0dd04e54fa887cffdf",
+    "projectionBefore": "3cab92e65cf0f48bde8b47f9c701ee6c0e568b1bc44e991e32bc48c3878ccb8a",
+    "compile": "fefb2117f7e3991ab5f1a482216f3cff902368ad330295383e9705a534a18715"
+  },
+  "metaException": {
+    "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta",
+    "bytes": 243,
+    "sha256": "97eb4963b6d27d4669a021853e7363a3bbe386269f9293ff6d4608c772be39c3",
+    "guid": "d85e93281a75342ac8d13378ff40cdba"
+  },
+  "staticAndReplay": {
+    "roundsUsed": 1,
+    "roundLimit": 2,
+    "passedCases": 27,
+    "seconds": 2.1928772079991177,
+    "budgetSeconds": 30,
+    "stopAfterFirstPass": true,
+    "actualFunctionsCalled": [
+      "<genexpr>",
+      "<lambda>",
+      "<module>",
+      "alive",
+      "archive_and_restore",
+      "basic",
+      "cached_reuse_proven",
+      "check",
+      "claim_stage",
+      "compilation_passed",
+      "consumer_guard",
+      "discover",
+      "monitor",
+      "recorded_chain",
+      "register",
+      "same",
+      "snapshot_consumers",
+      "synchronize",
+      "tick",
+      "transfer",
+      "validate_inputs"
+    ],
+    "forbiddenAttempts": []
+  },
+  "mechanicalPreparationSeconds": 7.0,
+  "mechanicalTimeAccounting": {
+    "kind": "conservative charged ceiling, not exact elapsed measurement",
+    "reportedOuterToolSeconds": 3.9,
+    "outerToolCalls": [
+      {
+        "operation": "contract and identity read",
+        "reportedWallSeconds": 0.1
+      },
+      {
+        "operation": "M04 runner first part",
+        "reportedWallSeconds": 0.1
+      },
+      {
+        "operation": "M04 runner remainder and replay source",
+        "reportedWallSeconds": 0.1
+      },
+      {
+        "operation": "fixed schema and source reads",
+        "reportedWallSeconds": 0.1
+      },
+      {
+        "operation": "TMP/rsp schema read",
+        "reportedWallSeconds": 0.2
+      },
+      {
+        "operation": "extract original functions",
+        "reportedWallSeconds": 0.1
+      },
+      {
+        "operation": "in-memory source construction diagnostic",
+        "reportedWallSeconds": 0
+      },
+      {
+        "operation": "initial runner patch",
+        "reportedWallSeconds": 0.1
+      },
+      {
+        "operation": "fixed manifests and inputs creation",
+        "reportedWallSeconds": 0.4
+      },
+      {
+        "operation": "prior compile provenance read",
+        "reportedWallSeconds": 0.2
+      },
+      {
+        "operation": "cache-branch patch and provenance sealing",
+        "reportedWallSeconds": 0.2
+      },
+      {
+        "operation": "checker patch, recovery patch and first offline round",
+        "reportedWallSeconds": 2.3
+      }
+    ],
+    "knownInnerTimersNotAddedTwice": {
+      "inputPreparationSeconds": 0.3077907499973662,
+      "cacheProofPreparationSeconds": 0.0022757910046493635,
+      "offlineSeconds": 2.1928772079991177
+    },
+    "ceilingExplanation": "7 seconds charges all recorded outer tool intervals, their display rounding, and up to one second for this final sealing/readback. Model reasoning and approval waits are excluded from mechanical time and exposed separately in wall duration.",
+    "preparationBudgetSeconds": 120,
+    "approvalWaitSeconds": 0,
+    "normalNativeApproval": "NOT_REQUESTED"
+  },
+  "nonValidationToolDiagnostic": {
+    "error": "ReferenceError: TextEncoder is not defined",
+    "phase": "in-memory source metadata display",
+    "sourceHadBeenStoredInMemory": true,
+    "filesystemOrNativeMutations": 0,
+    "syntaxReplayRoundsConsumed": 0
+  },
+  "cacheReuse": {
+    "supported": true,
+    "validCompleteFixtureAccepted": true,
+    "sourceReferenceDefineResponseAndDllDriftFixturesRejected": true,
+    "historicalFullBindingCount": 0,
+    "priorCompilation": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M03/compile.json",
+      "bytes": 303074,
+      "sha256": "39d3b73ef682011650687b355fee20b6e5e0601cc447f143e586edb3579b0ae2"
+    },
+    "limitation": "M03 preserves actual Csc/DLL identities and full source inventory, but lacks the complete historical response/reference/define binding. Those entries remain unproven. Cached reuse is accepted only when an exact complete chain exists; otherwise native result is INCOMPLETE without forced recompilation."
+  },
+  "nextGates": [
+    "GitHub PR Code Review bound to these exact runner/checker/inputs bytes",
+    "Fresh actual execution owner and sealed activation with approval-wait accounting",
+    "New short owned empty TMP identity and fresh R/P process safety",
+    "Only after normal tool approval: one I compile at most360 seconds, then bounded owned cleanup/archive/restore"
+  ],
+  "activationContract": {
+    "task": "HOST-INTEGRATE-001/I01",
+    "status": "EXECUTION_BOUND",
+    "projectRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+    "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+    "cacheRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/package-cache",
+    "runner": {
+      "bytes": 41638,
+      "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
+    },
+    "sealsRequired": [
+      "inputs",
+      "preparation",
+      "replay-check",
+      "replay-results"
+    ],
+    "freshExecutionOwnerRequired": true,
+    "sourceReviewRequired": [
+      "runner",
+      "status=ACCEPT",
+      "head",
+      "resultUrl"
+    ],
+    "editor": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+      "bytes": 86759760,
+      "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f"
+    },
+    "argv": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+      "-batchmode",
+      "-nographics",
+      "-quit",
+      "-buildTarget",
+      "StandaloneOSX",
+      "-projectPath",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+      "-logFile",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/I/editor.log"
+    ],
+    "environmentOverridesOnly": [
+      "UPM_CACHE_ROOT",
+      "TMPDIR"
+    ],
+    "tmpIdentityFields": [
+      "device",
+      "inode",
+      "uid",
+      "gid",
+      "mode",
+      "birthtime"
+    ],
+    "stopping": {
+      "naturalGraceSeconds": 60,
+      "termGraceSeconds": 30,
+      "sigkill": false,
+      "retries": 0,
+      "perOwnedPidTermMax": 1
+    },
+    "approvalWaitRequired": true
+  },
+  "notRun": {
+    "Unity": 0,
+    "PSourceSynchronization": 0,
+    "parking": 0,
+    "newTmpCreation": 0,
+    "realPs": 0,
+    "realSignals": 0,
+    "adbOperations": 0,
+    "sharedProductWrites": 0,
+    "GitWrites": 0,
+    "realSaves": 0,
+    "crossThreadMessages": 0
+  },
+  "integrationVerdict": null,
+  "finalSealingSeconds": 0.002662792001501657
+}
