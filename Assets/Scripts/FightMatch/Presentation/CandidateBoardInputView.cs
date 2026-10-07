@@ -13,19 +13,52 @@ namespace FightMatch.Presentation
     public sealed class CandidateBoardInputView : MonoBehaviour
     {
         [SerializeField] private CandidateBoardElement board;
-        [SerializeField] private LocalizedTmpText phase, save, enemies, availability;
-        [SerializeField] private RectTransform members;
+        [SerializeField] private LocalizedTmpText phase, save, availability;
+        [SerializeField] private RectTransform[] allyStageSlots, enemyStageSlots, memberSlots;
+        [SerializeField] private LocalizedTmpText[] allyNames, allyHp, allyIntent, enemyNames, enemyHp, enemyIntent;
         [SerializeField] private UnityEngine.UI.Button memberTemplate, retry, resolve;
         private readonly Dictionary<string, UnityEngine.UI.Button> buttons = new Dictionary<string, UnityEngine.UI.Button>(StringComparer.Ordinal);
         private readonly Dictionary<string, UnityAction> memberActions = new Dictionary<string, UnityAction>(StringComparer.Ordinal);
         private UnityAction retryAction, resolveAction;
         private LocalizationService localization;
-        private BattleLocalizedRows enemyRows, availabilityRows;
+        private BattleLocalizedRows availabilityRows;
         private bool borrowed, ticking, structuralRefresh, nativeBound;
         private double refreshMilliseconds;
         private long bindingEpoch;
         public CandidateBoardInputController Controller { get; private set; }
         public CandidateBoardElement Board => board;
+        internal bool DisplayLayoutSupported => SlotProblem() == null;
+
+        private string SlotProblem()
+        {
+            var state = Controller?.View.BattleSnapshot;
+            if (state == null) return null;
+            var allies = state.Members.Select(x => x.Member.OriginalSlot).ToArray();
+            var enemies = state.Enemies.Select(x => x.Enemy.OriginalSlot).ToArray();
+            if (allies.Length == 0 || allies.Any(x => x < 0 || x > 2) || allies.Distinct().Count() != allies.Length ||
+                enemies.Any(x => x < 0) || enemies.Distinct().Count() != enemies.Length) return "InvalidOriginalSlot";
+            return enemies.Length > 3 || enemies.Any(x => x > 2) ? "UnsupportedEnemySlotLayout" : null;
+        }
+        private static bool Three<T>(T[] values) where T : UnityEngine.Object =>
+            values != null && values.Length == 3 && values.All(x => x != null) && values.Distinct().Count() == 3;
+        internal void SetStageSlotPresentation(bool enemy, int originalSlot, BattleTextLine name, BattleTextLine hp, BattleTextLine intent)
+        {
+            if (localization == null || !DisplayLayoutSupported || originalSlot < 0 || originalSlot > 2) return;
+            var names = enemy ? enemyNames : allyNames;
+            var health = enemy ? enemyHp : allyHp;
+            var intentions = enemy ? enemyIntent : allyIntent;
+            BindSlot(names[originalSlot], name); BindSlot(health[originalSlot], hp); BindSlot(intentions[originalSlot], intent);
+        }
+        private void BindSlot(LocalizedTmpText label, BattleTextLine line)
+        {
+            if (label == null) return;
+            if (line == null) BattleText.Hide(label); else line.Bind(label, localization);
+        }
+        internal void ClearStageSlotPresentation()
+        {
+            foreach (var labels in new[] { allyNames, allyHp, allyIntent, enemyNames, enemyHp, enemyIntent })
+                if (labels != null) foreach (var label in labels) if (label != null) BattleText.Hide(label);
+        }
 
         internal void Attach(CandidateBattleApplicationSystem system, SaveStoreBudget budget, LocalizationService service)
         {
@@ -52,18 +85,19 @@ namespace FightMatch.Presentation
         {
             if (nativeBound) return;
             var controller = Controller; var service = localization;
-            if (board == null || phase == null || save == null || enemies == null || availability == null ||
-                members == null || memberTemplate == null || retry == null || resolve == null)
+            if (board == null || phase == null || save == null || availability == null ||
+                !Three(allyStageSlots) || !Three(enemyStageSlots) || !Three(memberSlots) ||
+                !Three(allyNames) || !Three(allyHp) || !Three(allyIntent) || !Three(enemyNames) || !Three(enemyHp) || !Three(enemyIntent) ||
+                memberTemplate == null || retry == null || resolve == null)
                 throw new InvalidOperationException("CandidateBoardInputView serialized bindings are incomplete.");
             memberTemplate.gameObject.SetActive(false);
             board.Bind(controller); board.raycastTarget = true;
             var owner = controller; var epoch = bindingEpoch;
-            retryAction = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch) owner.RetryLast(); };
-            resolveAction = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch) owner.ResolveLast(); };
+            retryAction = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch && DisplayLayoutSupported) owner.RetryLast(); };
+            resolveAction = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch && DisplayLayoutSupported) owner.ResolveLast(); };
             retry.onClick.AddListener(retryAction); resolve.onClick.AddListener(resolveAction);
             retry.GetComponentInChildren<LocalizedTmpText>(true).Bind(service, "fm.save_recovery.retry_button");
             resolve.GetComponentInChildren<LocalizedTmpText>(true).Bind(service, "fm.save_recovery.confirm_result_button");
-            enemyRows = new BattleLocalizedRows(enemies, "board-enemy");
             availabilityRows = new BattleLocalizedRows(availability, "board-availability");
             nativeBound = true;
         }
@@ -95,9 +129,9 @@ namespace FightMatch.Presentation
             var owner = Controller; var ownsInput = !borrowed;
             var oldRetry = retryAction; var oldResolve = resolveAction;
             var oldButtons = buttons.Select(x => new KeyValuePair<UnityEngine.UI.Button, UnityAction>(x.Value, memberActions[x.Key])).ToArray();
-            var oldEnemies = enemyRows; var oldAvailability = availabilityRows;
+            var oldAvailability = availabilityRows;
             DetachManaged();
-            if (this != null) { oldEnemies?.Clear(); oldAvailability?.Clear(); }
+            if (this != null) { oldAvailability?.Clear(); ClearStageSlotPresentation(); }
             if (board != null) board.Unbind(cause);
             if (ownsInput) { owner?.CancelGesture(cause); owner?.CancelRollback(); }
             if (retry != null && oldRetry != null) retry.onClick.RemoveListener(oldRetry);
@@ -109,11 +143,11 @@ namespace FightMatch.Presentation
                 var button = listener.Key; if (button == null) continue;
                 button.onClick.RemoveListener(listener.Value);
                 foreach (var text in button.GetComponentsInChildren<LocalizedTmpText>(true)) text.Unbind();
-                if (button.transform.parent != members) continue;
+                if (memberSlots == null || !memberSlots.Any(slot => slot != null && button.transform.parent == slot)) continue;
                 button.gameObject.SetActive(false); button.transform.SetParent(null, false);
                 if (UnityEngine.Application.isPlaying) Destroy(button.gameObject); else DestroyImmediate(button.gameObject);
             }
-            if (this != null) foreach (var text in GetComponentsInChildren<LocalizedTmpText>(true)) text.Unbind();
+            foreach (var text in new[] { phase, save, availability }) if (text != null) text.Unbind();
             owner?.ClearVisibleFeedback();
         }
         internal void SuspendCallbacks()
@@ -127,14 +161,14 @@ namespace FightMatch.Presentation
             SuspendCallbacks(); bindingEpoch++;
             Controller = null; localization = null; nativeBound = false;
             retryAction = null; resolveAction = null; memberActions.Clear(); buttons.Clear();
-            enemyRows = null; availabilityRows = null;
+            availabilityRows = null;
         }
         private void RemoveMember(string id)
         {
             var button = buttons[id]; button.onClick.RemoveListener(memberActions[id]);
             foreach (var text in button.GetComponentsInChildren<LocalizedTmpText>(true)) text.Unbind();
             buttons.Remove(id); memberActions.Remove(id);
-            if (button.transform.parent != members) return;
+            if (memberSlots == null || !memberSlots.Any(slot => slot != null && button.transform.parent == slot)) return;
             button.gameObject.SetActive(false); button.transform.SetParent(null, false);
             if (UnityEngine.Application.isPlaying) Destroy(button.gameObject); else DestroyImmediate(button.gameObject);
         }
@@ -144,8 +178,9 @@ namespace FightMatch.Presentation
             var view = Controller.View; var state = view.BattleSnapshot;
             if (state == null) BattleText.Hide(phase);
             else BattleText.Phase(localization, state.Phase).Bind(phase, localization);
-            enemyRows.Bind(localization, state == null ? Array.Empty<BattleTextLine>() :
-                state.Enemies.Select(e => BattleText.EnemyHp(localization, e.Enemy, e.Hp, e.Enemy.Stats.MaxHp)).ToArray());
+            var problem = SlotProblem();
+            board.raycastTarget = problem == null;
+            if (problem != null) ClearStageSlotPresentation();
             var saveLine = BattleText.Save(view.Phase, view.Code);
             if (saveLine == null) BattleText.Hide(save); else saveLine.Bind(save, localization);
             var currentMembers = state?.Members;
@@ -154,20 +189,33 @@ namespace FightMatch.Presentation
             if (currentMembers != null) foreach (var member in currentMembers)
             {
                 var id = member.Member.CharacterId;
+                var slot = member.Member.OriginalSlot;
+                if (slot < 0 || slot >= memberSlots.Length) continue;
+                if (buttons.TryGetValue(id, out var previous) && previous.transform.parent != memberSlots[slot]) RemoveMember(id);
                 if (!buttons.TryGetValue(id, out var button))
                 {
-                    button = Instantiate(memberTemplate, members, false); button.gameObject.SetActive(false);
+                    button = Instantiate(memberTemplate, memberSlots[slot], false); button.gameObject.SetActive(false);
+                    var rect = (RectTransform)button.transform;
+                    rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one; rect.offsetMin = rect.offsetMax = Vector2.zero;
                     button.GetComponent<FightMatchViewId>().Assign(FightMatchViewId.Member(id));
                     var owner = Controller; var epoch = bindingEpoch;
-                    UnityAction action = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch) owner.SelectMember(id); };
+                    UnityAction action = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch && DisplayLayoutSupported) owner.SelectMember(id); };
                     button.onClick.AddListener(action); buttons.Add(id, button); memberActions.Add(id, action);
                 }
                 BattleText.MemberHp(localization, id, member.Hp, member.Member.Stats.MaxHp)
                     .Bind(button.GetComponentInChildren<LocalizedTmpText>(true), localization);
-                button.interactable = member.Hp.Numerator.Sign > 0;
+                button.interactable = problem == null && member.Hp.Numerator.Sign > 0;
                 button.gameObject.SetActive(true);
             }
             var feedback = new List<BattleTextLine>();
+            if (problem != null)
+            {
+                feedback.Add(problem == "UnsupportedEnemySlotLayout" ? new BattleTextLine("fm.entry.binding_unsupported") :
+                    new BattleTextLine("fm.diagnostic.missing_binding", BattleText.Arg("errorCode", problem)));
+                availabilityRows.Bind(localization, feedback);
+                retry.interactable = resolve.interactable = false;
+                return;
+            }
             if (Controller.SelectedCharacterId != null) feedback.Add(new BattleTextLine("fm.battle.member.selected",
                 BattleText.Arg("characterName", BattleText.Character(localization, Controller.SelectedCharacterId))));
             if (view.PresentationToken != null) feedback.Add(new BattleTextLine("fm.battle.gesture.playback_locked"));

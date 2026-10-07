@@ -15,6 +15,9 @@ namespace FightMatch.Host
         [SerializeField] private PlayerNavigationView navigationView;
         [SerializeField] private PlayerBattleView battleView;
         [SerializeField] private CandidateBoardElement board;
+        [SerializeField] private FightMatchResponsiveLayout responsiveLayout;
+        [SerializeField] private GameObject confirmationPopupRoot, confirmationRootMask, navigationConfirmationPanel, battleConfirmationPanel;
+        [SerializeField] private GameObject recoveryScreenRoot, recoveryRootMask, navigationRecoveryPanel, battleRecoveryPanel;
         [SerializeField] private LocalizedTmpText profileTitle, startupStatus, languageTitle, languageFeedback;
         [SerializeField] private LocalizedTmpText licenseTitle, quitTitle, quitBody, loadingLabel, diagnosticText;
         [SerializeField] private TextMeshProUGUI licenseBody;
@@ -25,29 +28,41 @@ namespace FightMatch.Host
         private readonly List<LocalizedTmpText> labels = new List<LocalizedTmpText>();
         private FightMatchHostSession session;
         private LocalizationService localization;
+        private Func<LocaleId, LocalePreferenceSaveResult> selectLocalePreference;
         private FightMatchHostPage contentPage = FightMatchHostPage.Startup;
         private long generation;
         private string infrastructureDiagnostic;
         private bool rendering, bound;
+        private bool overlayConflict;
         public PlayerBattleView BattleView => battleView;
         internal PlayerNavigationView NavigationView => navigationView;
-        internal string DiagnosticCode => infrastructureDiagnostic ?? localization?.BindingDiagnostic;
+        internal string DiagnosticCode => infrastructureDiagnostic ?? (overlayConflict ? "OverlappingPanelOwners" : localization?.BindingDiagnostic);
         internal bool DiagnosticVisible => blockingDiagnostic != null && blockingDiagnostic.activeSelf;
 
-        internal void Bind(FightMatchHostSession owner, LocalizationService service, string fontLicense)
+        internal void Bind(FightMatchHostSession owner, LocalizationService service, string fontLicense) =>
+            Bind(owner, service, fontLicense, null);
+
+        internal void Bind(FightMatchHostSession owner, LocalizationService service, string fontLicense,
+            Func<LocaleId, LocalePreferenceSaveResult> selectLocale)
         {
             Unbind();
             if (service == null) throw new ArgumentNullException(nameof(service));
             if (startupPage == null || navigationPage == null || battlePage == null || resultPage == null ||
                 languagePopup == null || licensePopup == null || quitPopup == null || loadingOverlay == null || blockingDiagnostic == null ||
-                navigationView == null || battleView == null || board == null || licenseBody == null ||
+                navigationView == null || battleView == null || board == null || licenseBody == null || responsiveLayout == null ||
+                confirmationPopupRoot == null || confirmationRootMask == null || navigationConfirmationPanel == null || battleConfirmationPanel == null ||
+                recoveryScreenRoot == null || recoveryRootMask == null || navigationRecoveryPanel == null || battleRecoveryPanel == null ||
                 profileTitle == null || startupStatus == null || languageTitle == null || languageFeedback == null ||
                 licenseTitle == null || quitTitle == null || quitBody == null || loadingLabel == null || diagnosticText == null ||
                 createButton == null || continueButton == null || reloadButton == null || backButton == null ||
                 languageButton == null || languageEnglishButton == null || languageChineseButton == null || languageCloseButton == null ||
                 licenseButton == null || licenseCloseButton == null || quitConfirmButton == null || quitCancelButton == null)
                 throw new InvalidOperationException("Host serialized bindings are incomplete.");
-            session = owner; localization = service; bound = true;
+            session = owner; localization = service; selectLocalePreference = selectLocale; bound = true;
+            responsiveLayout.ValidityChanged += OnLayoutValidityChanged;
+            responsiveLayout.Bind(service);
+            Canvas.willRenderCanvases -= SynchronizeOverlayRoots;
+            Canvas.willRenderCanvases += SynchronizeOverlayRoots;
             if (!FightMatchViewId.Validate(transform, out var diagnostic)) infrastructureDiagnostic = diagnostic;
             if (!service.IsReady) infrastructureDiagnostic = "LocalizationNotReady";
             licenseBody.text = string.IsNullOrEmpty(fontLicense) ? LocalizedTmpText.Placeholder : fontLicense;
@@ -97,19 +112,26 @@ namespace FightMatch.Host
         private void SelectLocale(LocaleId locale)
         {
             if (!bound || !languagePopup.activeSelf) return;
-            localization.SetLocale(locale);
-            BindText(languageFeedback, "fm.language.changed");
+            var epoch = generation;
+            var select = selectLocalePreference;
+            LocalePreferenceSaveResult result = null;
+            if (select == null) localization.SetLocale(locale);
+            else result = select(locale);
+            if (!bound || epoch != generation || (select != null && result == null)) return;
+            BindText(languageFeedback, result?.LocalizationKey ?? "fm.language.changed",
+                result?.ErrorCode == null ? Array.Empty<KeyValuePair<string, string>>() :
+                new[] { new KeyValuePair<string, string>("errorCode", result.ErrorCode) });
             languageFeedback.gameObject.SetActive(true);
         }
         private void ShowLanguage(bool show)
         {
-            if (!bound || (show && board.HasActivePointer)) return;
+            if (!bound || (show && (board.HasActivePointer || recoveryScreenRoot.activeSelf || overlayConflict))) return;
             languagePopup.SetActive(show);
             if (show) licensePopup.SetActive(false);
         }
         private void ShowLicense(bool show)
         {
-            if (!bound) return;
+            if (!bound || (show && (recoveryScreenRoot.activeSelf || overlayConflict))) return;
             if (show) { PausePresentation(); languagePopup.SetActive(false); }
             licensePopup.SetActive(show);
         }
@@ -158,7 +180,29 @@ namespace FightMatch.Host
                 reloadButton.interactable = true; backButton.interactable = true;
                 backButton.gameObject.SetActive(!navigation || session.AtNavigationRoot);
             }
-            finally { rendering = false; RefreshDiagnostic(); }
+            finally { rendering = false; SynchronizeOverlayRoots(); RefreshDiagnostic(); }
+        }
+        private void OnLayoutValidityChanged(bool valid)
+        { if (!valid && board != null) board.CancelPointer(); }
+        internal void SynchronizeOverlayRoots()
+        {
+            if (confirmationPopupRoot == null || confirmationRootMask == null || navigationConfirmationPanel == null || battleConfirmationPanel == null ||
+                recoveryScreenRoot == null || recoveryRootMask == null || navigationRecoveryPanel == null || battleRecoveryPanel == null) return;
+            var nc = navigationConfirmationPanel.activeSelf; var bc = battleConfirmationPanel.activeSelf;
+            var nr = navigationRecoveryPanel.activeSelf; var br = battleRecoveryPanel.activeSelf;
+            overlayConflict = nc && bc || nr && br;
+            var recovery = !overlayConflict && (nr ^ br);
+            var confirmation = !overlayConflict && !recovery && (nc ^ bc);
+            // Close lower blockers before enabling Recovery; the child views never write these outer roots.
+            confirmationRootMask.SetActive(confirmation); confirmationPopupRoot.SetActive(confirmation);
+            if (recovery || overlayConflict)
+            {
+                if (languagePopup != null) languagePopup.SetActive(false);
+                if (licensePopup != null) licensePopup.SetActive(false);
+                if (quitPopup != null) quitPopup.SetActive(false);
+            }
+            recoveryRootMask.SetActive(recovery); recoveryScreenRoot.SetActive(recovery);
+            RefreshDiagnostic();
         }
         private void RefreshDiagnostic()
         {
@@ -192,7 +236,13 @@ namespace FightMatch.Host
         public void Unbind() => Unbind(PointerCancellationCause.Cancelled);
         internal void Unbind(PointerCancellationCause cause)
         {
-            bound = false; generation++;
+            bound = false; generation++; selectLocalePreference = null;
+            Canvas.willRenderCanvases -= SynchronizeOverlayRoots;
+            if (!ReferenceEquals(responsiveLayout, null))
+            {
+                responsiveLayout.ValidityChanged -= OnLayoutValidityChanged;
+                if (responsiveLayout != null) responsiveLayout.Unbind();
+            }
             if (board != null) board.CancelPointer(cause);
             if (battleView != null) battleView.Unbind(cause);
             if (navigationView != null) navigationView.Unbind();
@@ -207,6 +257,11 @@ namespace FightMatch.Host
             if (diagnosticText != null) diagnosticText.Unbind();
             if (licenseBody != null) licenseBody.text = LocalizedTmpText.Placeholder;
             session = null; localization = null; infrastructureDiagnostic = null;
+            overlayConflict = false;
+            if (confirmationRootMask != null) confirmationRootMask.SetActive(false);
+            if (confirmationPopupRoot != null) confirmationPopupRoot.SetActive(false);
+            if (recoveryRootMask != null) recoveryRootMask.SetActive(false);
+            if (recoveryScreenRoot != null) recoveryScreenRoot.SetActive(false);
             if (resultPage != null) resultPage.SetActive(false);
             if (languagePopup != null) languagePopup.SetActive(false);
             if (licensePopup != null) licensePopup.SetActive(false);

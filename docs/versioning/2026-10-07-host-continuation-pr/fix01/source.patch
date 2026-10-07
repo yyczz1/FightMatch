@@ -1,0 +1,19 @@
+--- a/Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs
++++ b/Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs
+@@ -7,6 +7,7 @@
+ using System.Reflection;
+ using System.Runtime.InteropServices;
+ using FightMatch.Core;
++using FightMatch.Platform;
+ using FightMatch.Presentation;
+ using NUnit.Framework;
+ using TMPro;
+@@ -404,7 +405,7 @@
+             CreateHost(persistent);
+             Set(host, "acceptancePersistentRoot", persistent);
+             Set(host, "acceptanceActivation", File.ReadAllText(activation));
+-            var lease = FightMatchPlayerHost.OpenAcceptanceStorageLease(persistent);
++            var lease = (FileStream)FightMatchPlayerHost.OpenAcceptanceStorageLease(persistent);
+             Set(host, "acceptanceStorageLease", lease);
+             Call(host, "VerifyLocaleStorage");
+             var settings = Path.Combine(persistent, "FightMatch", "settings");

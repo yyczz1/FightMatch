@@ -1,0 +1,11 @@
+# Host locale preference wiring
+
+The Host loads the saved language before its first UI binding and persists a player selection immediately. It retains the selected language when persistence fails or is uncertain, reports the result, and allows a same-language retry. Startup cancellation invalidates pending callbacks; disabling a live Session preserves its lease and language selection until reactivation or disposal.
+
+The candidate retains save-root isolation and first-create settings behavior. It selects the effective root before the first binding; an unavailable localization source still blocks Session creation. Player UI remains uGUI with English/Simplified Chinese diagnostic placeholders and project-owned localization bindings.
+
+The 32 product/test/metadata paths include the fixed preference, isolation, first-create, layout and original AssetAccess dependencies required by the actual validation projection. They are based on the uGUI PR1 commit 3541930877837e14b58020b910976b8b67b56e42. The publication manifest maps every path to its exact source bytes; unrelated shared-workspace changes are excluded. The new test meta is the naturally imported original GUID.
+
+The initial source checker passed 65/65 after correcting its classification of existing static methods; no product or test source changed during that checker correction. The first actual Mac compile then failed on two test type-binding errors, and no tests ran. FIX01 adds the missing namespace and binds the real file lease as FileStream: two additions and one deletion, preserving all assertions. Its first static run passed 15/15. Both source receipts and patches, and the original failed compile receipt, are preserved here.
+
+The fixed candidate is awaiting acceptance of a new Mac compile and ten targeted tests (eight Host preference cases plus HISO_05/06). Matching-head GitHub Code Review is a separate pending gate. These component and real-Session tests do not establish playable Host/EventSystem interaction, first-frame layout, Android behavior or Demo acceptance. Cancellation while a real loading coroutine is already yielded remains unverified; formal LOC is still unavailable. The existing PR4 Canvas finding remains unresolved and is not addressed by this candidate.
