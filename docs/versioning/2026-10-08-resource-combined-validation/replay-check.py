@@ -25,11 +25,12 @@ def rejected(fn):
     except (RuntimeError,OSError): return True
     return False
 def case(name,fn):
-    need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<20,'FIX01 Replay20'); fn(); cases.append({'name':name,'passed':True})
+    need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'FIX02 Replay30'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy}
     for key,value in defaults.items():env.setdefault(key,value)
-    names=list(names)+[n for n in ('probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage') if n in F and n not in names]
+    if hasattr(env.get('P'),'fs'):env.setdefault('children',lambda path:path.iterdir())
+    names=list(names)+[n for n in ('probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest') if n in F and n not in names and n not in env]
     exec(compile(ast.fix_missing_locations(ast.Module(body=[copy.deepcopy(F[n]) for n in names],type_ignores=[])),RUNNER_FILENAME,'exec'),env);return env
 def profile(frame,event,arg):
     if event=='call' and frame.f_code.co_filename==RUNNER_FILENAME:traces.add(frame.f_code.co_name)
@@ -60,24 +61,37 @@ def cleanup():
         if path.is_dir() and not path.is_symlink() and not list(path.iterdir()):path.rmdir()
         else:conflicts.append(str(path))
 history=json.loads((E/'replay-results.json').read_text())
-need(history['task']=='RES-COMBINED-V01-FIX01','Fresh correction history; V00 remains immutable')
-need(len(history['rounds'])<3 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'FIX01 addendum: maximum three rounds; cumulative20; first green stops')
+need(history['task']=='RES-COMBINED-V01-FIX02','Fresh correction history; V00 remains immutable')
+need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'FIX02 maximum two rounds; cumulative30; first green stops')
 report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'actualProjectionWrites':0,'fixtureIOOnly':True};failure=None
 try:
     frozen=json.loads("{\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/preparation.json\":{\"bytes\":78308,\"sha256\":\"47e9ccc59d5af04934c77174432e7b81d16cc9d8a24b5089040884d77ced1244\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/runner.py\":{\"bytes\":54760,\"sha256\":\"148cbc0b63a3bb6371343ed20d6205ae9b44a02cdfde8c1cd6ad9766e4e2266d\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-results.json\":{\"bytes\":188906,\"sha256\":\"cf56463f83d919696aeda238676fbf02ba2e1ebc28267ed675f3942ac06cc046\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/correction.patch\":{\"bytes\":71680,\"sha256\":\"f0ac7065f4ba253e356d98ce483133fadc15251c80f0118c4aff015fd5858f90\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\":{\"bytes\":68363,\"sha256\":\"56c5bc6a604ba12f7a5b150f53dc2619c61726f96f07bb194e104dfa2ec888b0\"},\"docs/team/2026-09-30/resource-sdk-adopt-g02-central-receipt.json\":{\"bytes\":3131,\"sha256\":\"f67399effe031bbf2478d9ad86def792e73339177883c9e0b853f2a237ebcae5\"},\"TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/group-freeze.json\":{\"bytes\":262970,\"sha256\":\"f952d7239b261099804021d3d6a2b4de9ebcaa8f4265ed3de7102d8c90622ca7\"},\"docs/team/2026-09-30/host-integrate-001-i01-fix05-source-verdict.json\":{\"bytes\":3037,\"sha256\":\"566b60deb4e204aa5cde0ec143888edf8859a862112a62891e2b545b22517a0b\"},\"TestArtifacts/FightMatch/RES-01A/P03/run.json\":{\"bytes\":43101,\"sha256\":\"b9bb096fc6eaeeaa77df33b84916ab2963e61b0191753e36600f3ebc97996d50\"},\"TestArtifacts/FightMatch/RES-01A/P02/resolved-package-graph.json\":{\"bytes\":56222,\"sha256\":\"1b696f4c41b763f4f4622fa83a36712dad7fc1b8d81084fa983cfc1c2bfe170c\"},\"docs/team/2026-09-30/testing-resource-combined-v01-cases.json\":{\"bytes\":24448,\"sha256\":\"d53c49167d522532a6cc87218bfa5e961ab3a096af06209fb694726fca2ed0e8\"},\"docs/team/2026-09-30/central-resource-combined-v01-design-handoff.md\":{\"bytes\":1243,\"sha256\":\"cd16c6c1b9a3ef02dc92d5ffb24dae0190f99be161933d2efd121dc15dac1c7a\"},\"docs/team/2026-09-30/engineering-i01-existing-compile-evidence.json\":{\"bytes\":21099,\"sha256\":\"9fd2ae56e81c5805b93637f27dab3ca67828cfdbd94ac290e211a601df5213f0\"},\"docs/team/2026-09-30/resource-shared-integration-source-verdict.json\":{\"bytes\":2294,\"sha256\":\"c02875ffc1bef9151e1d408fa09e5da83f9b555e62a570e74b1f8c3cd838b87f\"},\"docs/team/2026-09-30/engineering-resource-combined-v01.md\":{\"bytes\":10205,\"sha256\":\"c1f71459c8a34741bd5c5b075253d4df6266a777b801c6d7d6229748012d7062\"},\"docs/team/2026-09-30/central-resource-combined-v01-source.md\":{\"bytes\":4228,\"sha256\":\"49721b69b60a03845a38b464db200b8c12e04ab1a1b8d6f71d498d44e17d5b55\"},\"TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json\":{\"bytes\":1241557,\"sha256\":\"ff088efd0e6871d751a1f553a46e77ae06789e9f01c5743411ca93e1fa087f1d\"}}")
+    frozen['TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json']={'bytes':1241588,'sha256':'30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb'}
     def frozen_unchanged():
         for name,value in frozen.items():need(identity(R/name)==value,'Frozen reference '+name)
     frozen_unchanged()
     v00=E.parent/'V00-source'; v00prep=json.loads((v00/'preparation.json').read_text())
     for name,value in {**v00prep['sourceIdentities'],'preparation.json':{'bytes':330242,'sha256':'d9c90ce2e5724763ba69f478e03b8431fe62706db0823c362f9b06ccce22582c'}}.items():need(identity(v00/name)==value,'Immutable V00 '+name)
-    need(identity(v00/'replay-results.json')=={k:history['baseline'][k] for k in ('bytes','sha256')},'Original127 history sealed')
+    v01=E.parent/'V01-source';v01prep=json.loads((v01/'preparation.json').read_text())
+    for name,value in {**v01prep['sourceIdentities'],'preparation.json':{'bytes':391631,'sha256':'2485b5fa707f20eb6dfd431677e973c88199e6210a6713134d9b3590bc53ec1a'}}.items():need(identity(v01/name)==value,'Immutable V01 '+name)
+    need(identity(v01/'replay-results.json')=={k:history['baseline'][k] for k in ('bytes','sha256')},'Original138 history sealed')
+    amended=json.loads((v01/'inputs.json').read_text());amended['preparation']['budgetSeconds']=160;amended['limits'].update(mechanicalPreparationSeconds=160,finalizationSeconds=30)
+    need(amended==json.loads((E/'inputs.json').read_text()),'Only centrally authorized three input fields changed')
     need(identity(E/'inputs.json')==frozen['TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json'],'Exact current input copy')
     text=(E/'runner.py').read_text();tree=ast.parse(text);compile(tree,RUNNER_FILENAME,'exec');compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec');F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
     oldfn={n.name:n for n in ast.parse((BASE/'runner.py').read_text()).body if isinstance(n,ast.FunctionDef)}
-    unchanged=['move_verified','transfer','rename_exclusive','rename_swap','swap_verified','atomic_write','cached_reuse_proven','compilation_passed','recorded_chain','recover_root','discover','snapshot_consumers','monitor','details','adb_exception','sdk_adb_exception','projection_guard']
+    unchanged=['move_verified','rename_exclusive','rename_swap','swap_verified','atomic_write','cached_reuse_proven','compilation_passed','recorded_chain','recover_root','discover','snapshot_consumers','monitor','details','adb_exception','sdk_adb_exception']
     need(all(ast.dump(F[n])==ast.dump(oldfn[n]) for n in unchanged),'Retained concurrency/ownership/provenance guards')
     class StripDeadlineChecks(ast.NodeTransformer):
-        def visit_Expr(self,node):return None if isinstance(node.value,ast.Call) and isinstance(node.value.func,ast.Name) and node.value.func.id=='probe_timeout' else node
+        def visit_Call(self,node):
+            node=self.generic_visit(node)
+            if isinstance(node.func,ast.Name):
+                if node.func.id=='checked':return node.args[0]
+                if node.func.id=='children':return ast.Call(func=ast.Attribute(value=node.args[0],attr='iterdir',ctx=ast.Load()),args=[],keywords=[])
+                if node.func.id in ('bounded_read','bounded_text'):return ast.Call(func=ast.Attribute(value=node.args[0],attr='read_bytes' if node.func.id=='bounded_read' else 'read_text',ctx=ast.Load()),args=[],keywords=node.keywords)
+            return node
+        def visit_Expr(self,node):return None if isinstance(node.value,ast.Call) and isinstance(node.value.func,ast.Name) and node.value.func.id=='probe_timeout' else self.generic_visit(node)
+    for name in ('transfer','projection_guard'):need(ast.dump(StripDeadlineChecks().visit(copy.deepcopy(F[name])))==ast.dump(oldfn[name]),'Read/iteration bounds only; original '+name+' guards retained')
     need(ast.dump(StripDeadlineChecks().visit(copy.deepcopy(F['synchronize'])))==ast.dump(oldfn['synchronize']),'Sync only gains deadline checks; all prior operations retained')
     need(not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='ps' for k in ('monitor','snapshot_consumers','discover','register','recover_root') for n in ast.walk(F[k])),'Same-snapshot classification')
     calls=[n for n in ast.walk(F['run_stage']) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='Popen'];need(len(calls)==1,'Single Popen site')
@@ -215,10 +229,10 @@ try:
                     return super().write(value)
                 def fileno(stream):return -123
                 def close(stream):
-                    if not stream.closed:
+                    if not stream.closed and 'r' not in mode:
                         value=stream.getvalue();path.fs.add(path.p,value if binary else value.encode())
                     super().close()
-            return Buffer()
+            return Buffer(self.fs.files[self.p]) if 'r' in mode else Buffer()
     def restore_case(drift=False,interrupt=False,fault=None):
         fs=FS();n=copy.deepcopy(N);base={};target={}
         for p in n['overwritten']+n['parked']:base[p]=('before '+p).encode()
@@ -343,7 +357,7 @@ try:
         start=time.monotonic()
         try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})
         except Exception as error:cases.append({'name':name,'passed':False,'newFIX04':True,'error':str(error),'traceback':traceback.format_exc()})
-        need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<20,'FIX01 Replay20')
+        need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'FIX02 Replay30')
     def fifo_case(mode):
         import re,stat
         license_path=str(pathlib.Path(N['editor']['path']).parent.parent/'Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client')
@@ -365,6 +379,7 @@ try:
         def no_read(p):reads.append(str(p));raise AssertionError('FIFO content read')
         def no_ps():population.append(True);raise AssertionError('Second population query')
         env={'json':json,'re':re,'stat':stat,'pathlib':types.SimpleNamespace(Path=FixturePath),'time':types.SimpleNamespace(monotonic=lambda:100.),'utc':lambda:'fixture-fifo','os':types.SimpleNamespace(walk=lambda root,followlinks:[(str(scan),[],[filename])],getuid=lambda:101),'TMP':temporary,'owned':initial,'active':None,'A':{'editor':N['editor'],'stages':[{'id':root['stage'],'argv':root['argv']}]},'P':FixturePath(root['cwd']),'details':lambda pid:copy.deepcopy(detail[pid]),'ps':no_ps,'event':lambda kind,**kw:sequence.append(kind),'adb_exception':lambda rows:-1,'sdk_adb_exception':lambda rows:set(),'projection_guard':lambda:None,'no_links':lambda p:None,'ident':no_read,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.}
+        env['scan_tree']=lambda root:env['os'].walk(root,followlinks=False)
         bind(['check','alive','register','discover','consumer_guard','recorded_chain','recover_root','snapshot_consumers','monitor','tree_entries'],env)
         def resources():
             sequence.append('resources');entries.update(env['tree_entries'](scan))
@@ -677,7 +692,7 @@ try:
         assignments=[n for n in body if isinstance(n,ast.Assign) and isinstance(n.targets[0],ast.Name) and n.targets[0].id in ('clock_start','execution_deadline','work_deadline')]
         need([n.targets[0].id for n in assignments]==['clock_start','execution_deadline','work_deadline'],'One origin; no reset before preflight')
         need(body[1] is assignments[0],'Clock starts before activation/input reads')
-        env={'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'D':{'limits':{'totalMechanicalSeconds':900,'restoreSeconds':60}},'PREF':{'mechanicalPreparationSeconds':120},'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30}}}
+        env={'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'D':{'limits':{'totalMechanicalSeconds':900,'restoreSeconds':60,'finalizationSeconds':0}},'PREF':{'mechanicalPreparationSeconds':120},'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30}}}
         exec(compile(ast.Module(body=[copy.deepcopy(assignments[0])],type_ignores=[]),RUNNER_FILENAME,'exec'),env);clock[0]+=20
         exec(compile(ast.Module(body=copy.deepcopy(assignments[1:]),type_ignores=[]),RUNNER_FILENAME,'exec'),env)
         need((env['clock_start'],env['execution_deadline'],env['work_deadline'])==(100.,880.,730.),'Preparation and20-second activation reads reduce remaining work; never grant new900')
@@ -691,7 +706,7 @@ try:
         need(rejected(env['synchronize']) and moves==['/P/a.cs'] and not env['synced'],'Sync stops before second transfer at work deadline')
         need(clock[0]==630. and env['execution_deadline']==780.,'Sync does not reset clock or consume reserve')
     case('FIX01 synchronization stops at work deadline before next transfer',fix01_sync_expiry)
-    def fix01_stage(sid,mode):
+    def fix01_stage(sid,mode,final_seconds=0,scan_work=False):
         fs=FS();p=fs.path('/P');e=fs.path('/E');clock=[(270. if sid=='I' else 450.)-20.];rows={};calls=[];signals=[];events=[];writes={};transfers=[];popens=[]
         if mode=='insufficient':clock[0]+=1
         argv=[root['exe'],'-batchmode','-projectPath',str(p)];source='Assets/park.cs';compiler='Library/compiled.dll';oldsource=b'original source';oldcompiler=b'original compiler'
@@ -712,7 +727,10 @@ try:
         def details(pid):env['probe_timeout']();return {'argv':argv,'cwd':str(p),'cwdProbeExit':0}
         def monitor(phase,given,stage,pid,**kw):
             env['probe_timeout']()
-            if phase=='running':clock[0]=min(630.,clock[0]+30.)
+            if phase=='running':
+                if scan_work:
+                    need(env['active'] is proc and proc.poll() is None,'Unity simulated live during chunk scan');clock[0]=629.;fix02_hash(clock,630.,780.+final_seconds)
+                else:clock[0]=min(630.,clock[0]+30.)
             return {'failures':[]}
         def preflight():clock[0]=630. if mode=='preflight-exhaustion' else clock[0]+20.
         def transfer(a,b,expected,move=False):
@@ -720,7 +738,7 @@ try:
             if move:fs.files.pop(str(a))
             transfers.append({'source':str(a),'target':str(b),'at':clock[0]});clock[0]+=20.
         def evidence(log,stage):clock[0]=630.;return {'assemblies':{}}
-        env={'json':json,'pathlib':pathlib,'copy':copy,'time':types.SimpleNamespace(monotonic=lambda:clock[0],time=lambda:1791413008.,sleep=lambda d:clock.__setitem__(0,clock[0]+d)),'utc':lambda:'fixture-'+str(clock[0]),'P':p,'E':e,'work_deadline':630.,'execution_deadline':780.,'probe_deadline':None,'clock_start':0.,'A':{'stages':[{'id':k,'argv':argv,'timeoutSeconds':360 if k=='I' else 180} for k in ('I','T')],'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30},'editor':{'path':root['exe']},'environmentOverrides':{}},'D':{'limits':{'restoreSeconds':60},'compilePlan':{'proposedParkExactLeaves':{compiler:byteid(oldcompiler)}},'evidenceSlots':{'compilerArchiveMaxBytes':33554432},'commands':{'environmentTOnly':{}}},'N':{'requiredAssemblies':[],'overwritten':[],'newPaths':[],'restoreBaseline':{source:byteid(oldsource)},'allowedNewSettings':{'path':'ProjectSettings/SceneTemplateSettings.json'}},'owned':{},'pending_details':{},'active':None,'root_launch_epoch':None,'launch_attempts':1 if sid=='T' else 0,'launch_counts':{'I':1} if sid=='T' else {},'stages':[{'stage':'I','status':'COMPILE_PASS','runCount':1}] if sid=='T' else [],'stage_dlls':{'I':{'assemblies':{}}},'closure_closed':True if sid=='T' else None,'synced':True,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'launched_root':None,'synchronized_paths':[],'parked_paths':[source],'compiler_parked':[compiler],'compiler_after':{},'compiler_restored':[],'atomic_conflicts':set(),'subprocess':types.SimpleNamespace(Popen=popen,STDOUT=-2),'signal':types.SimpleNamespace(SIGTERM=15),'os':types.SimpleNamespace(environ={},kill=lambda pid,sig:signals.append({'pid':pid,'signal':sig,'at':clock[0]})),'ps':ps,'details':details,'recover_root':recover,'monitor':monitor,'recorded_chain':lambda pid,rpid:need(pid==rpid==rootid,'Owned root only'),'snapshot_consumers':lambda *a:env['probe_timeout'](),'consumer_guard':lambda rows:env['probe_timeout'](),'event':lambda kind,**kw:events.append({'kind':kind,'at':clock[0],**copy.deepcopy(kw)}),'write':lambda name,value:writes.update({name:copy.deepcopy(value)}),'preflight':preflight,'log_guard':lambda log:None,'resources':lambda:None,'projection_guard':lambda:None,'protection':lambda:None,'compile_evidence':evidence,'ident':lambda path:byteid(path.read_bytes()),'transfer':transfer}
+        env={'json':json,'pathlib':pathlib,'copy':copy,'time':types.SimpleNamespace(monotonic=lambda:clock[0],time=lambda:1791413008.,sleep=lambda d:clock.__setitem__(0,clock[0]+d)),'utc':lambda:'fixture-'+str(clock[0]),'P':p,'E':e,'work_deadline':630.,'execution_deadline':780.+final_seconds,'probe_deadline':None,'clock_start':70. if final_seconds else 0.,'A':{'stages':[{'id':k,'argv':argv,'timeoutSeconds':360 if k=='I' else 180} for k in ('I','T')],'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30},'editor':{'path':root['exe']},'environmentOverrides':{}},'D':{'limits':{'restoreSeconds':60,'finalizationSeconds':final_seconds},'compilePlan':{'proposedParkExactLeaves':{compiler:byteid(oldcompiler)}},'evidenceSlots':{'compilerArchiveMaxBytes':33554432},'commands':{'environmentTOnly':{}}},'N':{'requiredAssemblies':[],'overwritten':[],'newPaths':[],'restoreBaseline':{source:byteid(oldsource)},'allowedNewSettings':{'path':'ProjectSettings/SceneTemplateSettings.json'}},'owned':{},'pending_details':{},'active':None,'root_launch_epoch':None,'launch_attempts':1 if sid=='T' else 0,'launch_counts':{'I':1} if sid=='T' else {},'stages':[{'stage':'I','status':'COMPILE_PASS','runCount':1}] if sid=='T' else [],'stage_dlls':{'I':{'assemblies':{}}},'closure_closed':True if sid=='T' else None,'synced':True,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'launched_root':None,'synchronized_paths':[],'parked_paths':[source],'compiler_parked':[compiler],'compiler_after':{},'compiler_restored':[],'atomic_conflicts':set(),'subprocess':types.SimpleNamespace(Popen=popen,STDOUT=-2),'signal':types.SimpleNamespace(SIGTERM=15),'os':types.SimpleNamespace(environ={},kill=lambda pid,sig:signals.append({'pid':pid,'signal':sig,'at':clock[0]})),'ps':ps,'details':details,'recover_root':recover,'monitor':monitor,'recorded_chain':lambda pid,rpid:need(pid==rpid==rootid,'Owned root only'),'snapshot_consumers':lambda *a:env['probe_timeout'](),'consumer_guard':lambda rows:env['probe_timeout'](),'event':lambda kind,**kw:events.append({'kind':kind,'at':clock[0],**copy.deepcopy(kw)}),'write':lambda name,value:writes.update({name:copy.deepcopy(value)}),'preflight':preflight,'log_guard':lambda log:None,'resources':lambda:None,'projection_guard':lambda:None,'protection':lambda:None,'compile_evidence':evidence,'ident':lambda path:byteid(path.read_bytes()),'transfer':transfer}
         bind(['check','alive','claim_stage','compilation_passed','run_stage','run_sequence','closure','restore_all','restore_compiler','archive_and_restore'],env)
         result=env['run_sequence']() if mode=='evidence-exhaustion' else env['run_stage'](sid)
         failure=result['failure'];closed=env['closure_closed'];before_restore=clock[0]
@@ -729,7 +747,7 @@ try:
         elif mode=='evidence-exhaustion':
             need(len(popens)==1 and result['status']=='FAILED' and env['launch_counts']=={'I':1} and failure=='Closure probe deadline exhausted','Expired actual compile evidence retains failure and cannot launch T')
         else:
-            expected=sid+' stage deadline exceeded'
+            expected='Closure probe deadline exhausted' if scan_work else sid+' stage deadline exceeded'
             need(len(popens)==1 and result['status']=='FAILED' and failure.startswith(expected),'Original work timeout remains failure')
             need([x for x in events if x['kind']=='closure_begin'][0]['reason']==expected,'Exact original failure passed to closure')
             need(signals==[{'pid':rootid,'signal':15,'at':690.}],'One owned TERM inside reserved absolute window')
@@ -746,12 +764,108 @@ try:
             restore_end=clock[0];clock[0]=780.;count=len(calls);moved=len(transfers)
             need(rejected(env['restore_all']) and len(calls)==count and len(transfers)==moved,'Hard deadline cannot be reset by another restore call')
         else:restore_end=None
-        report.setdefault('FIX01DeadlineEvidence',[]).append({'stage':sid,'mode':mode,'popenTimes':popens,'failure':failure,'closureClosed':closed,'cleanupFinishedAt':before_restore,'restorationFinishedAt':restore_end,'hardDeadline':780,'preparationSeconds':120,'workDeadline':630,'signals':signals,'probeCount':len(calls),'probes':calls,'restoredTransfers':transfers,'nativeRuns':0})
+        report.setdefault('FIX01DeadlineEvidence',[]).append({'stage':sid,'mode':mode,'popenTimes':popens,'failure':failure,'closureClosed':closed,'cleanupFinishedAt':before_restore,'restorationFinishedAt':restore_end,'hardDeadline':780+final_seconds,'preparationSeconds':160 if final_seconds else 120,'workDeadline':630,'finalizationReserve':final_seconds,'scanWhileLive':scan_work,'signals':signals,'probeCount':len(calls),'probes':calls,'restoredTransfers':transfers,'nativeRuns':0})
     for sid in ('I','T'):
         for mode in ('work-exhaustion','insufficient','preflight-exhaustion'):
             case('FIX01 '+sid+' '+mode+' preserves cleanup and restore allocation',lambda sid=sid,mode=mode:fix01_stage(sid,mode))
     case('FIX01 expired I evidence fails and suppresses T',lambda:fix01_stage('I','evidence-exhaustion'))
     case('FIX01 no probe or TERM after absolute cleanup deadline; unclosed root retained',lambda:fix01_stage('I','unclosed'))
+    v01cases=json.loads((v01/'replay-results.json').read_text())['rounds'][-1]['cases']
+    need(len(cases)==138 and [(c['name'],c['passed']) for c in cases]==[(c['name'],c['passed']) for c in v01cases],'All prior138 names and expectations retained')
+    report['prior138Passed']=True
+    def fix02_hash(clock,work,hard,scope=None,read_cost=1.,record=None):
+        reads=[];stamp=types.SimpleNamespace(st_mode=stat.S_IFREG,st_nlink=1,st_dev=1,st_ino=1,st_size=3,st_mtime_ns=1)
+        class Stream:
+            def __enter__(self):return self
+            def __exit__(self,*a):pass
+            def fileno(self):return 1
+            def read(self,n):clock[0]+=read_cost;reads.append(n);return b'a' if len(reads)<=3 else b''
+        class Leaf:
+            def lstat(self):return stamp
+            def open(self,mode):need(mode=='rb','Read only');return Stream()
+        env=bind(['check','ident'],{'pathlib':types.SimpleNamespace(Path=lambda p:p),'stat':stat,'os':types.SimpleNamespace(fstat=lambda fd:stamp),'hashlib':hashlib,'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'work_deadline':work,'execution_deadline':hard,'probe_deadline':scope})
+        try:return env['ident'](Leaf())
+        finally:
+            if record is not None:record.update(reads=reads,seconds=clock[0])
+    def hash_case(mode):
+        clock=[0.];observed={};scope=10. if mode=='cleanup-scope' else None
+        if mode=='already-expired':clock[0]=2.
+        try:value=fix02_hash(clock,2.,182.,scope,4. if mode=='kernel-stall' else 1.,observed);expired=False
+        except RuntimeError as error:expired=True;need(str(error)=='Closure probe deadline exhausted','Exact hash expiry')
+        if mode=='cleanup-scope':need(not expired and value==byteid(b'aaa') and len(observed['reads'])==4,'Scoped cleanup can hash beyond ordinary work deadline')
+        else:need(expired and len(observed['reads'])==({'already-expired':0,'chunks':2,'kernel-stall':1}[mode]),'No next chunk after detected expiry')
+        need(all(n==1048576 for n in observed['reads']),'Every read bounded to1MiB')
+        report.setdefault('FIX02HashEvidence',[]).append({'mode':mode,'expired':expired,**observed})
+    for mode in ('already-expired','chunks','cleanup-scope','kernel-stall'):case('FIX02 actual hash '+mode,lambda mode=mode:hash_case(mode))
+    def scan_case(name,iteration=False):
+        clock=[0.];enumerated=[];metadata=[]
+        class Node(pathlib.PurePosixPath):
+            def is_symlink(self):return False
+            def exists(self):return True
+            def is_dir(self):return True
+            def is_file(self):clock[0]+=1.;metadata.append(str(self));return True
+            def lstat(self):clock[0]+=1.;metadata.append(str(self));return types.SimpleNamespace(st_mode=stat.S_IFREG,st_size=1,st_nlink=1)
+        class Entries:
+            def __enter__(self):return self
+            def __exit__(self,*a):pass
+            def __iter__(self):return self
+            def __next__(self):
+                if len(enumerated)==8:raise StopIteration
+                name='f'+str(len(enumerated));enumerated.append(name)
+                if iteration:clock[0]+=.5
+                return types.SimpleNamespace(name=name,is_dir=lambda follow_symlinks:False)
+        def identity_stub(path):clock[0]+=1.;metadata.append(str(path));return byteid(b'x')
+        env=bind(['check',name],{'pathlib':types.SimpleNamespace(Path=Node),'os':types.SimpleNamespace(scandir=lambda root:Entries()),'stat':stat,'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'work_deadline':2.,'execution_deadline':182.,'no_links':lambda path:None,'ident':identity_stub,'E':Node('/scan'),'O':Node('/scan')})
+        fn=env[name];need(rejected(lambda:fn() if name in ('old_evidence','evidence_paths') else fn(Node('/scan'))),'Actual scanner stops inside iteration/metadata sequence')
+        need(clock[0]==2. and (len(enumerated)==4 if iteration else len(metadata)==2),'Expiry detected before next entry/metadata read')
+        report.setdefault('FIX02ScanEvidence',[]).append({'function':name,'directoryIteration':iteration,'seconds':clock[0],'enumerated':len(enumerated),'metadata':len(metadata)})
+    for name in ('size','inventory','tree_entries','old_evidence','evidence_paths'):case('FIX02 '+name+' bounds metadata iteration',lambda name=name:scan_case(name))
+    case('FIX02 directory enumeration checks before os.scandir finishes a large directory',lambda:scan_case('size',True))
+    case('FIX02 live Unity scan expiry retains closure90 restore60 and finalization30',lambda:fix01_stage('I','work-exhaustion',30,True))
+    def fix02_clock():
+        nodes=[n for n in F['main'].body if isinstance(n,ast.Assign) and isinstance(n.targets[0],ast.Name) and n.targets[0].id in ('execution_deadline','work_deadline')]
+        env={'clock_start':70.,'D':D,'PREF':{'mechanicalPreparationSeconds':160},'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30}}}
+        exec(compile(ast.Module(body=copy.deepcopy(nodes),type_ignores=[]),RUNNER_FILENAME,'exec'),env)
+        need((env['execution_deadline'],env['work_deadline'])==(810.,630.) and env['execution_deadline']-70+160==900,'160 carried preparation and180 reserved cleanup/finalization within900')
+        report['FIX02Clock']={'origin':70,'preparation':160,'workDeadline':630,'closureDeadline':720,'restoreDeadline':780,'executionDeadline':810,'total':900}
+    case('FIX02 revised main clock reserves30 for finalization inside900',fix02_clock)
+    def finalization_case(mode):
+        fs=FS();clock=[0.];opened=[None];events=[];stdout=[]
+        class TimedPath(Path):
+            def __truediv__(self,v):return TimedPath(self.fs,self.p+'/'+str(v))
+            def lstat(self):return types.SimpleNamespace(st_mode=stat.S_IFREG,st_nlink=1,st_dev=9,st_ino=1,st_size=len(self.fs.files[self.p]),st_mtime_ns=1)
+            def open(self,kind):
+                stream=super().open(kind);opened[0]=self;rawread=stream.read;rawwrite=stream.write;rawclose=stream.close
+                def read(n=-1):
+                    value=rawread(n);clock[0]+=31. if (mode=='evidence-hash' and self.p!='/E/receipt.json') or (mode=='receipt-hash' and self.p=='/E/receipt.json') else .1;events.append(['read',self.p,clock[0]]);return value
+                def write(value):result=rawwrite(value);clock[0]+=.001;return result
+                def close():
+                    if not stream.closed:
+                        rawclose()
+                        if 'r' not in kind:clock[0]+=31. if mode=='receipt-write' and self.p=='/E/receipt.json' else .05;events.append(['write-close',self.p,clock[0]])
+                stream.read=read;stream.write=write;stream.close=close;return stream
+        e=TimedPath(fs,'/E');fs.add('/E/I/result.json',b'{"status":"TEST_PASS"}')
+        class SlowEncoder(json.JSONEncoder):
+            def iterencode(self,value,*a,**kw):
+                for part in super().iterencode(value,*a,**kw):clock[0]+=31.;yield part
+        def output(text,flush):stdout.append(json.loads(text));clock[0]+=31. if mode=='stdout' else .1
+        env=bind(['check','write','ident','finalize'],{'pathlib':types.SimpleNamespace(Path=lambda p:p),'stat':stat,'os':types.SimpleNamespace(fstat=lambda fd:opened[0].lstat()),'hashlib':hashlib,'json':types.SimpleNamespace(JSONEncoder=SlowEncoder,dumps=json.dumps) if mode=='serialization' else json,'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'clock_start':0.,'work_deadline':-180.,'execution_deadline':30.,'probe_deadline':30.,'utc':lambda:'fixture','E':e,'allowed':{'compile.json','after.json','receipt.json'},'PREF':{'mechanicalPreparationSeconds':160},'evidence_paths':lambda:[TimedPath(fs,p) for p in sorted(fs.files)],'evidence_name':lambda p:p.p[3:],'evidence_identity':lambda p:env['ident'](p),'print':output})
+        receipt={'task':'RES-COMBINED-V01','status':'FAILED' if mode=='original-failure' else 'TEST_PASS','failure':'original compiler timeout' if mode=='original-failure' else None}
+        code=env['finalize'](receipt,[('compile.json',{'ok':True}),('after.json',{})]);out=stdout[-1]
+        need(code==(0 if mode=='healthy' else 1),'Only complete within-deadline finalization may return0')
+        need(out['status']!='TEST_PASS' and all(json.loads(b).get('status')!='TEST_PASS' for p,b in fs.files.items() if p=='/E/receipt.json' and b.strip().endswith(b'}')),'No final receipt/stdout independently claims TEST_PASS')
+        if mode=='healthy':
+            saved=json.loads(fs.files['/E/receipt.json']);need(0<saved['mechanicalExecutionSecondsThroughEvidence']<out['mechanicalExecutionSecondsThroughReceiptHash']<clock[0]<30.,'Evidence hash, receipt write/hash, stdout all consume observed time')
+            need(out['receipt']==byteid(fs.files['/E/receipt.json']) and out['status']=='AWAITING_PROCESS_EXIT','Exact receipt hash and external exit required')
+        elif mode=='original-failure':need(out['failure']=='original compiler timeout','Original failure retained exactly')
+        elif mode=='stdout':need(out['status']=='AWAITING_PROCESS_EXIT' and clock[0]>30. and code==1,'Post-flush deadline forces nonzero even after candidate completion record')
+        else:need(out['status']=='FINALIZATION_FAILED' and 'finalization:' in out['failure'] and clock[0]>=30.,'Finalization overrun stays failed and evidence is retained')
+        report.setdefault('FIX02FinalizationEvidence',[]).append({'mode':mode,'exitCode':code,'secondsThroughPrintReturn':clock[0],'completion':out,'writeReadEvents':events,'retainedPaths':sorted(fs.files)})
+    for mode in ('healthy','serialization','evidence-hash','receipt-write','receipt-hash','stdout','original-failure'):case('FIX02 actual finalization '+mode,lambda mode=mode:finalization_case(mode))
+    def stable_tree_digest():
+        value={'unicode':'中文','nested':{'b':[1,True,None],'a':'x'*70000}};env=bind(['check','json_digest'],{'json':json,'hashlib':hashlib})
+        need(env['json_digest'](value)==hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest(),'Bounded JSON hashing preserves original canonical bytes')
+    case('FIX02 chunked tree fingerprint preserves exact canonical hash',stable_tree_digest)
     frozen_unchanged();need(all(c['passed'] for c in cases),'Retained regression failed');need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     failure=str(error);report['failure']=failure;report['traceback']=traceback.format_exc()
@@ -762,7 +876,7 @@ finally:
     report['fixtureFiles']={str(path.relative_to(E)):value for path,value in fixture_files.items()};report['fixtureLinks']={str(path.relative_to(E)):value for path,value in fixture_links.items()};report['preservedConflicts']=conflicts
     if conflicts:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Unknown or changed fixture contents preserved'
     report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden;report['runner']=identity(E/'runner.py');report['checker']=identity(E/'replay-check.py')
-    if sum(x['seconds'] for x in history['rounds'])+report['seconds']>20:report['status']='SOURCE_REPLAY_FAILED';report['failure']='FIX01 Cumulative20 exceeded'
+    if sum(x['seconds'] for x in history['rounds'])+report['seconds']>30:report['status']='SOURCE_REPLAY_FAILED';report['failure']='FIX02 Cumulative30 exceeded'
     history['rounds'].append(report);history['status']=report['status'];history['cumulativeSeconds']=sum(x['seconds'] for x in history['rounds'])
     with (E/'replay-results.json').open('w') as stream:json.dump(history,stream,indent=2);stream.write('\n')
     print(json.dumps({'status':report['status'],'round':report['round'],'passedCases':sum(c['passed'] for c in cases),'failedCases':[c['name'] for c in cases if not c['passed']],'seconds':report['seconds'],'cumulativeSeconds':history['cumulativeSeconds'],'failure':report.get('failure'),'preservedConflicts':conflicts,'forbiddenAttempts':forbidden}))

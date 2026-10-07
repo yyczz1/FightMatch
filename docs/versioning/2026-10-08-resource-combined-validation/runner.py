@@ -16,19 +16,23 @@ def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
     if not ok: raise RuntimeError(why)
 def ident(p):
-    p=pathlib.Path(p); before=p.lstat()
+    probe_timeout(); p=pathlib.Path(p); before=p.lstat(); probe_timeout()
     check(stat.S_ISREG(before.st_mode) and before.st_nlink==1,'Nonregular or hard-linked file '+str(p))
     fields=('st_dev','st_ino','st_size','st_mtime_ns'); stamp=lambda s:tuple(getattr(s,k) for k in fields); h=hashlib.sha256()
     with p.open('rb') as f:
         check(stamp(os.fstat(f.fileno()))==stamp(before),'Opened identity changed '+str(p))
-        for data in iter(lambda:f.read(1048576),b''): h.update(data)
+        for data in read_chunks(f): h.update(data); probe_timeout()
         check(stamp(os.fstat(f.fileno()))==stamp(before),'Read identity changed '+str(p))
     check(stamp(p.lstat())==stamp(before),'Path identity changed '+str(p))
-    return {'bytes':before.st_size,'sha256':h.hexdigest()}
+    probe_timeout(); return {'bytes':before.st_size,'sha256':h.hexdigest()}
 def write(name,data):
     check(name in allowed and name!='runner.py','Evidence path not allowed '+name)
     p=E/name; p.parent.mkdir(parents=True,exist_ok=True)
-    with p.open('x') as f: json.dump(data,f,ensure_ascii=False,indent=2); f.write('\n')
+    probe_timeout()
+    with p.open('x') as f:
+        for part in json_chunks(data,ensure_ascii=False,indent=2): f.write(part); probe_timeout()
+        f.write('\n'); probe_timeout()
+    probe_timeout()
 def event(kind,**kw):
     with (E/'process-events.jsonl').open('a') as f: f.write(json.dumps({'utc':utc(),'kind':kind,**kw},ensure_ascii=False)+'\n')
 def probe_timeout():
@@ -37,6 +41,46 @@ def probe_timeout():
     if execution_deadline is not None: remaining=min(remaining,execution_deadline-time.monotonic())
     check(remaining>0,'Closure probe deadline exhausted')
     return min(5.,remaining)
+def checked(values):
+    iterator=iter(values)
+    while True:
+        probe_timeout()
+        try: value=next(iterator)
+        except StopIteration: probe_timeout(); return
+        probe_timeout(); yield value
+def read_chunks(stream):
+    while True:
+        probe_timeout(); data=stream.read(1048576); probe_timeout()
+        if not data: return
+        yield data
+def bounded_read(path):
+    with path.open('rb') as stream: chunks=list(read_chunks(stream))
+    probe_timeout(); data=b''.join(chunks); probe_timeout(); return data
+def bounded_text(path,errors='strict'):
+    text=bounded_read(path).decode('utf-8',errors=errors); probe_timeout(); return text
+def scan_tree(root):
+    pending=[pathlib.Path(root)]
+    while pending:
+        probe_timeout(); base=pending.pop(); check(not base.is_symlink(),'Symlink traversal '+str(base)); dirs=[]; files=[]
+        exists=base.exists(); probe_timeout()
+        if not exists: continue
+        with os.scandir(base) as entries:
+            for entry in checked(entries):
+                (dirs if entry.is_dir(follow_symlinks=False) else files).append(entry.name); probe_timeout()
+        yield str(base),dirs,files
+        for name in checked(reversed(dirs)): pending.append(base/name)
+def children(root):
+    check(root.is_dir(),'Missing directory '+str(root))
+    for base,dirs,files in scan_tree(root):
+        for name in checked(dirs+files): yield pathlib.Path(base)/name
+        return
+def json_chunks(value,**options):
+    for part in checked(json.JSONEncoder(**options).iterencode(value)):
+        for offset in checked(range(0,len(part),65536)): yield part[offset:offset+65536]
+def json_digest(value):
+    digest=hashlib.sha256()
+    for part in json_chunks(value,sort_keys=True,separators=(',',':')): digest.update(part.encode()); probe_timeout()
+    return digest.hexdigest()
 def cmd(argv):
     p=subprocess.run(argv,capture_output=True,text=True,timeout=probe_timeout())
     check(p.returncode==0,'Command failed '+json.dumps({'argv':argv,'exit':p.returncode,'stderr':p.stderr[:600]})); return p.stdout
@@ -198,13 +242,13 @@ def closure(stage,rootpid,reason):
             monitor_cycles.append({'utc':utc(),'phase':phase,'failures':[item],'clear':False})
             return list(owned),False
     try:
-        deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']; deadline=min(deadline,execution_deadline-60-A['stopping']['termGraceSeconds']) if execution_deadline is not None else deadline; probe_deadline=deadline; first=True; remaining=list(owned)
+        deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']; deadline=min(deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)-60-A['stopping']['termGraceSeconds']) if execution_deadline is not None else deadline; probe_deadline=deadline; first=True; remaining=list(owned)
         while first or time.monotonic()<deadline:
             if active is not None: active.poll()
             remaining,clear=sample('natural-closure',force=first); first=False
             if clear or time.monotonic()>=deadline: break
             time.sleep(max(0.,min(.25,deadline-time.monotonic())))
-        deadline=time.monotonic()+A['stopping']['termGraceSeconds']; deadline=min(deadline,execution_deadline-60) if execution_deadline is not None else deadline; probe_deadline=deadline
+        deadline=time.monotonic()+A['stopping']['termGraceSeconds']; deadline=min(deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)-60) if execution_deadline is not None else deadline; probe_deadline=deadline
         event('term_window',stage=stage,deadline=deadline)
         for pid in reversed(remaining):
             if time.monotonic()>=deadline: break
@@ -236,9 +280,9 @@ def no_links(p):
     for q in [pathlib.Path(p)]+list(pathlib.Path(p).parents): check(not q.is_symlink(),'Symlink '+str(q))
 def inventory(root,relative=None):
     root=pathlib.Path(root); no_links(root); check(root.is_dir(),'Missing tree '+str(root)); out={}
-    for base,dirs,files in os.walk(root,followlinks=False):
-        for n in dirs: check(stat.S_ISDIR((pathlib.Path(base)/n).lstat().st_mode),'Non-directory '+str(pathlib.Path(base)/n))
-        for n in files:
+    for base,dirs,files in scan_tree(root):
+        for n in checked(dirs): check(stat.S_ISDIR((pathlib.Path(base)/n).lstat().st_mode),'Non-directory '+str(pathlib.Path(base)/n))
+        for n in checked(files):
             p=pathlib.Path(base)/n; out[p.relative_to(relative or root).as_posix()]=ident(p)
     return out
 def same(actual,expected,label):
@@ -246,15 +290,15 @@ def same(actual,expected,label):
     check(not(missing or added or changed),json.dumps({'scope':label,'missing':missing[:20],'added':added[:20],'changed':changed[:20],'counts':[len(missing),len(added),len(changed)]}))
 def old_evidence():
     result={}
-    for base,dirs,files in os.walk(O,followlinks=False):
+    for base,dirs,files in scan_tree(O):
         if pathlib.Path(base)==O: dirs[:]=[name for name in dirs if name not in ('projection','package-cache')]
-        for name in files:
+        for name in checked(files):
             path=pathlib.Path(base)/name; result[str(path.relative_to(O))]=ident(path)
     return result
 def tree_entries(root):
     root=pathlib.Path(root); no_links(root); out={}
-    for base,dirs,files in os.walk(root,followlinks=False):
-        for name in dirs+files:
+    for base,dirs,files in scan_tree(root):
+        for name in checked(dirs+files):
             p=pathlib.Path(base)/name; s=p.lstat(); rel=p.relative_to(root).as_posix()
             if stat.S_ISLNK(s.st_mode): out[rel]={'type':'symlink','target':os.readlink(p)}
             elif stat.S_ISDIR(s.st_mode): out[rel]={'type':'directory','mode':stat.S_IMODE(s.st_mode)}
@@ -271,18 +315,24 @@ def tree_entries(root):
             else: raise RuntimeError('Special tree entry '+str(p))
     return out
 def tree_identity(root):
-    entries=tree_entries(root); return {'entries':len(entries),'bytes':sum(v.get('bytes',0) for v in entries.values()),'treeSha256':hashlib.sha256(json.dumps(entries,sort_keys=True,separators=(',',':')).encode()).hexdigest()}
+    entries=tree_entries(root); return {'entries':len(entries),'bytes':sum(v.get('bytes',0) for v in entries.values()),'treeSha256':json_digest(entries)}
 def size(root):
     total=0; count=0
-    for base,dirs,files in os.walk(root,followlinks=False):
-        for n in files:
+    for base,dirs,files in scan_tree(root):
+        for n in checked(files):
             try: s=(pathlib.Path(base)/n).lstat(); total+=s.st_size; count+=1
             except FileNotFoundError: pass
     return total,count
-def evidence_paths(): return [p for p in E.rglob('*') if p.is_file() or p.is_symlink()]
+def evidence_paths():
+    result=[]
+    for base,dirs,files in scan_tree(E):
+        for name in checked(dirs+files):
+            p=pathlib.Path(base)/name
+            if p.is_file() or p.is_symlink(): result.append(p)
+    return result
 def evidence_name(p): return str(p.relative_to(E))
 def evidence_identity(p): return {'type':'symlink','target':os.readlink(p)} if p.is_symlink() else ident(p)
-def dlls(): return {p.name:ident(p) for p in (P/'Library/ScriptAssemblies').glob('*.dll')}
+def dlls(): return {p.name:ident(p) for p in children(P/'Library/ScriptAssemblies') if p.name.endswith('.dll')}
 def transfer_slots():
     routes={}
     for path in N['parked']:
@@ -337,7 +387,7 @@ def transfer(source,target,expected,move=False):
     no_links(source); check(ident(source)==expected,'Transfer source drift '+str(source)); no_links(target.parent); target.parent.mkdir(parents=True,exist_ok=True); check(not os.path.lexists(target),'Archive target already exists')
     if move: move_verified(source,target,expected)
     else:
-        with target.open('xb') as f: f.write(source.read_bytes())
+        with target.open('xb') as f: f.write(bounded_read(source))
     check(ident(target)==expected,'Transfer byte verification'); event('transfer',source=str(source),target=str(target),identity=expected,moved=move)
 def rename_exclusive(source,target):
     # Darwin SDK sys/stdio.h: RENAME_EXCL = 0x00000004; atomically refuse an existing destination.
@@ -385,11 +435,16 @@ def source_tree(root,blobs=False):
     files={}
     for name in ('Assets','Packages','ProjectSettings'): files.update(inventory(root/name,root))
     if blobs:
-        for path,value in files.items():
-            b=(root/path).read_bytes(); value['gitBlob']=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+        for path,value in checked(files.items()):
+            digest=hashlib.sha1(b'blob '+str(value['bytes']).encode()+b'\0'); count=0
+            with (root/path).open('rb') as stream:
+                for data in read_chunks(stream): count+=len(data); digest.update(data); probe_timeout()
+            check(count==value['bytes'],'Blob size changed '+path); value['gitBlob']=digest.hexdigest(); probe_timeout()
     return files
 def canonical(files):
-    return hashlib.sha256(b''.join(p.encode()+b'\0'+v['gitBlob'].encode()+b'\0'+str(v['bytes']).encode()+b'\n' for p,v in sorted(files.items()))).hexdigest()
+    digest=hashlib.sha256()
+    for p,v in checked(sorted(files.items())): digest.update(p.encode()+b'\0'+v['gitBlob'].encode()+b'\0'+str(v['bytes']).encode()+b'\n'); probe_timeout()
+    return digest.hexdigest()
 def host_io_guard():
     actual=tree_entries(P/'TestArtifacts'); same(actual,B['hostArtifacts'],'All old host and isolation trees'); return {'unchanged':True,'newHostRigOrIsolation':0}
 def projection_guard():
@@ -398,10 +453,10 @@ def projection_guard():
     same({p:v for p,v in actual.items() if p not in extra},expected,'Exact projection inputs')
     if extra: check(actual[settings['path']]==basic({settings['path']:settings})[settings['path']],'Default settings drift')
     guids={}
-    for path in actual:
+    for path in checked(actual):
         if path.endswith('.meta'):
-            matches=re.findall(r'(?m)^guid:\s*([0-9a-f]{32})\s*$',(P/path).read_text()); check(len(matches)==1 and matches[0] not in guids,'Invalid/duplicate GUID '+path); guids[matches[0]]=path
-    check(all(x.name in {'Assets','Packages','ProjectSettings','Library','Temp','Logs','UserSettings','obj','TestArtifacts'} or (x.is_file() and x.suffix in ('.csproj','.sln')) for x in P.iterdir()),'Unexpected projection root')
+            matches=re.findall(r'(?m)^guid:\s*([0-9a-f]{32})\s*$',bounded_text(P/path)); check(len(matches)==1 and matches[0] not in guids,'Invalid/duplicate GUID '+path); guids[matches[0]]=path
+    check(all(x.name in {'Assets','Packages','ProjectSettings','Library','Temp','Logs','UserSettings','obj','TestArtifacts'} or (x.is_file() and x.suffix in ('.csproj','.sln')) for x in children(P)),'Unexpected projection root')
     return {'leaves':len(actual),'bytes':sum(x['bytes'] for x in actual.values()),'defaultSettings':actual.get(settings['path']),'uniqueGUIDs':len(guids),'hostArtifacts':host_io_guard()}
 def temp_snapshot(path):
     p=pathlib.Path(path); no_links(p)
@@ -413,17 +468,17 @@ def protection():
     actual={}
     for directory in B['sharedRoots']: actual.update(inventory(R/directory,R))
     same(actual,B['shared'],'Shared protected inputs'); same(old_evidence(),B['oldEvidence'],'P01 historical evidence')
-    for path,expected in D['fixedReferences'].items(): check(ident(R/path)==expected,'Fixed reference drift '+path)
+    for path,expected in checked(D['fixedReferences'].items()): check(ident(R/path)==expected,'Fixed reference drift '+path)
     check(tree_entries(P/'TestArtifacts')==B['hostArtifacts'],'P old TestArtifacts changed')
     cache_guard()
     for path,identity in B['compilerTools'].items(): check(ident(path)==identity,'Compiler tool drift')
     return {'sharedUnchanged':True,'oldEvidenceUnchanged':True,'cacheFrozen':True}
 def resources():
-    ev=evidence_paths(); eb=sum(p.lstat().st_size for p in ev); tb,tc=size(TMP); bb,bc=size(BC)
-    generated=sum(size(P/n)[0] for n in ['Library','Temp','Logs','UserSettings','obj'])+sum(p.stat().st_size for p in P.iterdir() if p.is_file() and p.suffix in ('.csproj','.sln'))
-    check(all(evidence_name(p) in allowed|dynamic_evidence() and not p.is_symlink() for p in ev),'Evidence closure exceeded')
+    ev=evidence_paths(); eb=sum(p.lstat().st_size for p in checked(ev)); tb,tc=size(TMP); bb,bc=size(BC)
+    generated=sum(size(P/n)[0] for n in ['Library','Temp','Logs','UserSettings','obj'])+sum(p.stat().st_size for p in children(P) if p.is_file() and p.suffix in ('.csproj','.sln'))
+    check(all(evidence_name(p) in allowed|dynamic_evidence() and not p.is_symlink() for p in checked(ev)),'Evidence closure exceeded')
     check(eb<D['evidenceSlots']['maxBytes']-D['evidenceSlots']['reservedFinalReceiptBytes'],'Evidence budget')
-    check(all(p.lstat().st_size<=D['evidenceSlots']['perLogBytes'] for p in ev if p.suffix=='.log'),'Log budget')
+    check(all(p.lstat().st_size<=D['evidenceSlots']['perLogBytes'] for p in checked(ev) if p.suffix=='.log'),'Log budget')
     check(not (E/'T/results.xml').exists() or (E/'T/results.xml').stat().st_size<=D['evidenceSlots']['xmlBytes'],'XML budget')
     limits=D['limits']; check(tb<=limits['tmpBytes'] and tc<=limits['tmpLeaves'],'TMP budget')
     check(bb<=limits['newBeeCacheBytes'] and bc<=limits['newBeeCacheLeaves'],'Bee cache budget')
@@ -460,10 +515,10 @@ def capture_before():
     for directory in B['sharedRoots']: B['shared'].update(inventory(R/directory,R))
     for path,value in compiler_paths().items(): check(ident(P/path)==value,'Compiler preimage drift '+path)
     for path,value in D['compilePlan']['preserveInPlaceIdentities'].items(): check(ident(P/path)==value,'Compiler state preimage drift '+path)
-    graph=json.loads((P/D['compilePlan']['previousGraph']['path']).read_text()); B['referencePreimages']={}
-    for node in graph['Nodes']:
+    graph=json.loads(bounded_text(P/D['compilePlan']['previousGraph']['path'])); B['referencePreimages']={}
+    for node in checked(graph['Nodes']):
         if node.get('DisplayName') in {'Csc '+name for name in N['requiredAssemblies']}:
-            for value in node.get('Inputs',[]):
+            for value in checked(node.get('Inputs',[])):
                 if value.endswith('.dll'):
                     path=compiler_path(value); B['referencePreimages'][str(path)]=ident(path)
     write('before.json',B)
@@ -475,23 +530,26 @@ def synchronize():
     for path in N['parked']:
         probe_timeout(); parked_paths.append(path); transfer(P/path,E/'park/source'/path,N['restoreBaseline'][path],True)
     for path in N['parkDirectories']:
-        probe_timeout(); target=P/path; check(not list(target.iterdir()),'Only empty scoped directory removal'); target.rmdir()
+        probe_timeout(); target=P/path; check(not list(children(target)),'Only empty scoped directory removal'); target.rmdir()
     for path in N['overwritten']+N['newPaths']:
         probe_timeout(); source=R/path; target=P/path; no_links(source); no_links(target); check(ident(source)==N['files'][path],'Frozen adopted source '+path)
-        payload=source.read_bytes(); check({'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}==N['files'][path],'Source changed during read')
+        payload=bounded_read(source); check({'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}==N['files'][path],'Source changed during read')
         if path in N['overwritten']: check(ident(target)==N['restoreBaseline'][path],'Concurrent target drift '+path)
         synchronized_paths.append(path); atomic_write(path,payload,N['files'][path],N['restoreBaseline'][path] if path in N['overwritten'] else None,'sync')
         check(ident(target)==N['files'][path],'Synchronized bytes '+path); event('source_synchronized',path=path,identity=N['files'][path])
     probe_timeout(); synced=True; projection_guard(); probe_timeout()
 def frozen_text(path):
-    data=path.read_bytes(); identity=ident(path)
-    check(identity=={'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()},'Text changed while reading '+str(path))
+    data=bounded_read(path); identity=ident(path)
+    digest=hashlib.sha256()
+    for offset in checked(range(0,len(data),1048576)): digest.update(data[offset:offset+1048576]); probe_timeout()
+    check(identity=={'bytes':len(data),'sha256':digest.hexdigest()},'Text changed while reading '+str(path))
     return data.decode('utf-8-sig'),identity
 def compiler_graph():
     candidates=[]
-    for path in (P/'Library/Bee').glob('*.dag.json'):
+    for path in children(P/'Library/Bee'):
+        if not path.name.endswith('.dag.json'): continue
         text,identity=frozen_text(path); graph=json.loads(text); graph['_sealedIdentity']=identity
-        if all(any(node.get('DisplayName')=='Csc '+name for node in graph.get('Nodes',[])) for name in N['requiredAssemblies']): candidates.append((path,graph))
+        if all(any(node.get('DisplayName')=='Csc '+name for node in checked(graph.get('Nodes',[]))) for name in N['requiredAssemblies']): candidates.append((path,graph))
     check(len(candidates)==1,'INCOMPLETE: current compiler graph absent or ambiguous')
     return candidates[0]
 def compiler_path(value,source=False):
@@ -513,20 +571,20 @@ def compiler_path(value,source=False):
     return P/value
 def compiler_binding(name,graph_pair=None):
     try:
-        graph_path,graph=graph_pair or compiler_graph(); matches=[(i,n) for i,n in enumerate(graph['Nodes']) if n.get('DisplayName')=='Csc '+name]
+        graph_path,graph=graph_pair or compiler_graph(); matches=[(i,n) for i,n in checked(enumerate(graph['Nodes'])) if n.get('DisplayName')=='Csc '+name]
         check(len(matches)==1,'Ambiguous Csc node'); index,node=matches[0]; command=shlex.split(node['Action'])
         editor=pathlib.Path(N['editor']['path']).parent.parent; tools=[str(editor/'NetCoreRuntime/dotnet'),str(editor/'DotNetSdkRoslyn/csc.dll')]
         check(command[:3]==[tools[0],'exec',tools[1]],'Unknown compiler action')
         responses={}; tokens=[]; seen=set()
         def expand(values):
-            for token in values:
+            for token in checked(values):
                 if token.startswith('@'):
                     path=compiler_path(token[1:]); key=str(path.relative_to(P))
                     check(key not in seen and len(seen)<16,'Recursive/duplicate response file'); seen.add(key)
                     text,identity=frozen_text(path); responses[key]={'identity':identity,'text':text}; expand(shlex.split(text))
                 else: tokens.append(token)
         expand(command[3:]); sources={}; refs={}
-        for token in tokens:
+        for token in checked(tokens):
             if token.endswith('.cs') and not token.startswith(('-','/')) or token.startswith(str(P)) and token.endswith('.cs'):
                 path=compiler_path(token,True); key=path.relative_to(P).as_posix(); sources[key]=ident(path)
             if token.startswith(('-r:','/r:','-reference:','/reference:')):
@@ -558,28 +616,28 @@ def compile_evidence(log,sid='I'):
     check(extras<={N['allowedNewSettings']['path']},'Imported additions'); validate_inputs({p:v for p,v in full_inputs.items() if p not in extras},N['files'],'Full compiled inputs')
     if extras: check(ident(P/N['allowedNewSettings']['path'])==basic({'x':N['allowedNewSettings']})['x'],'Natural settings identity')
     pair=compiler_graph(); graph=pair[1]; bindings={name:compiler_binding(name,pair) for name in N['requiredAssemblies']}; assemblies={}
-    events=[{'line':i+1,'text':line} for i,line in enumerate(log.splitlines()) if re.search(r'\bCsc\s+Library/Bee/',line)]
-    for name,binding in bindings.items():
+    events=[{'line':i+1,'text':line} for i,line in checked(enumerate(log.splitlines())) if re.search(r'\bCsc\s+Library/Bee/',line)]
+    for name,binding in checked(bindings.items()):
         matches=[row for row in events if re.search(r'\bCsc\s+Library/Bee/\S+/'+re.escape(name)+r'\.dll(?=\s|$)',row['text'])]
         cached=sid=='T' and not matches and cached_reuse_proven(stage_bindings.get('T',{}).get(name,{}),binding,stage_dlls['I']['assemblies'].get(name,{}))
         assemblies[name]={**binding,'actualCsc':len(matches)==1,'event':matches[0] if len(matches)==1 else None,'cacheReuseClaimed':cached,'origin':'verifiedCacheChain' if cached else 'actualCsc','proven':cached,'referenceProof':[]}
     def ancestors(index):
         found=set(); todo=list(graph['Nodes'][index].get('ToBuildDependencies',[]))+list(graph['Nodes'][index].get('ToUseDependencies',[]))
         while todo:
-            current=todo.pop()
+            probe_timeout(); current=todo.pop()
             if current in found: continue
             check(isinstance(current,int) and 0<=current<len(graph['Nodes']),'Graph dependency index')
             found.add(current); node=graph['Nodes'][current]; todo.extend(node.get('ToBuildDependencies',[])+node.get('ToUseDependencies',[]))
         return found
     output_owners={}
-    for name,binding in bindings.items():
+    for name,binding in checked(bindings.items()):
         if binding.get('complete'):
             for path in binding['response']['outputs']: output_owners[str(compiler_path(path))]=name
             output_owners[str(P/'Library/ScriptAssemblies'/(name+'.dll'))]=name
     for name,row in sorted(assemblies.items(),key=lambda pair:(pair[1]['event'] or {'line':-1})['line']):
         if row['proven'] or not row.get('complete') or not row['actualCsc']: continue
         valid=True; deps=ancestors(row['nodeIndex'])
-        for raw,ref in row['references'].items():
+        for raw,ref in checked(row['references'].items()):
             producer=output_owners.get(ref['path']); proof={'reference':raw,'identity':ref,'producer':producer}
             if producer:
                 parent=assemblies[producer]; expected=bindings[producer]['response']['outputs'].get(str(pathlib.Path(ref['path']).relative_to(P)),{'identity':parent['dll']})['identity']
@@ -609,7 +667,7 @@ def run_stage(sid='I'):
             check(rootpid in rows,'Editor missing at launch'); launched_root=dict(rows[rootpid],pid=rootpid,stage=sid); recover_root(rows,sid,rootpid); check(rootpid in owned,'Initial root not registered'); check(owned[rootpid]['exe']==A['editor']['path'] and owned[rootpid]['cwd']==str(P),'Root identity'); event('stage_started',stage=sid,pid=rootpid,argv=s['argv'])
             while active.poll() is None:
                 rows=ps(); monitor('running',rows,sid,rootpid,strict=True); check(time.monotonic()-start<s['timeoutSeconds'],sid+' stage deadline exceeded')
-                text=(E/sid/'editor.log').read_text(errors='replace') if (E/sid/'editor.log').exists() else ''; log_guard(text); time.sleep(.25)
+                text=bounded_text(E/sid/'editor.log',errors='replace') if (E/sid/'editor.log').exists() else ''; log_guard(text); time.sleep(.25)
         result['editorSeconds']=time.monotonic()-start
     except BaseException as ex: problem=str(ex)
     finally:
@@ -621,7 +679,7 @@ def run_stage(sid='I'):
         result['elapsedSecondsIncludingClosure']=time.monotonic()-start; result['finishedUtc']=utc()
     try:
         check(problem is None,problem); check(result['exitCode'] is not None,'INCOMPLETE: unknown OS exit'); check(result['runCount']==1 and result['exitCode']==0 and result.get('editorSeconds',s['timeoutSeconds']+1)<=s['timeoutSeconds'],'Editor exit/time '+str(result['exitCode'])); check(not monitor_errors,'Monitor failures')
-        probe_timeout(); log=(E/sid/'editor.log').read_text(errors='replace'); log_guard(log); projection_guard(); protection(); resources(); probe_timeout(); proof=compile_evidence(log,sid); probe_timeout()
+        probe_timeout(); log=bounded_text(E/sid/'editor.log',errors='replace'); log_guard(log); projection_guard(); protection(); resources(); probe_timeout(); proof=compile_evidence(log,sid); probe_timeout()
         result['status']='COMPILE_PASS' if compilation_passed(proof) else 'INCOMPLETE'
         if sid=='T' and result['status']=='COMPILE_PASS': result['tests']=test_evidence(); probe_timeout(); result['status']='TEST_PASS'
     except BaseException as ex:
@@ -631,7 +689,7 @@ def run_stage(sid='I'):
     if active is not None and active.poll() is not None: active=None
     return result
 def log_guard(text):
-    bad=[x for x in text.splitlines() if re.search(r'TypeLoadException|ReflectionTypeLoadException|Failed to reload.*assembl|Domain reload.*(?:failed|error)|error CS\d+|Compilation failed|Scripts have compiler errors|Failed to load.*assembly|Could not load.*assembly|Aborting batchmode due to failure|(?:Downloading|downloaded|fetching).*https?://|(?:Package Manager|UPM).*(?:unable to|failed to|error).*?(?:resolve|connect|registry|network)|ENOTFOUND|ETIMEDOUT',x,re.I)]
+    bad=[x for x in checked(text.splitlines()) if re.search(r'TypeLoadException|ReflectionTypeLoadException|Failed to reload.*assembl|Domain reload.*(?:failed|error)|error CS\d+|Compilation failed|Scripts have compiler errors|Failed to load.*assembly|Could not load.*assembly|Aborting batchmode due to failure|(?:Downloading|downloaded|fetching).*https?://|(?:Package Manager|UPM).*(?:unable to|failed to|error).*?(?:resolve|connect|registry|network)|ENOTFOUND|ETIMEDOUT',x,re.I)]
     check(not bad,'Compiler/network failure '+json.dumps(bad[-10:]))
 def archive_and_restore(emit=True):
     global restored
@@ -650,7 +708,7 @@ def archive_and_restore(emit=True):
             if path in N['overwritten'] and ident(target)==N['restoreBaseline'][path]: report['restored'].append(path); continue
             check(ident(target)==N['files'][path],'Concurrent/partial value preserved '+path); transfer(target,E/'archive/source'/path,N['files'][path],path in N['newPaths']); report['archived'].append(path)
             if path in N['overwritten']:
-                check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Backup drift '+path); atomic_write(path,(E/'restore/source'/path).read_bytes(),N['restoreBaseline'][path],N['files'][path],'restore'); check(ident(target)==N['restoreBaseline'][path],'Restored bytes '+path)
+                check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Backup drift '+path); atomic_write(path,bounded_read(E/'restore/source'/path),N['restoreBaseline'][path],N['files'][path],'restore'); check(ident(target)==N['restoreBaseline'][path],'Restored bytes '+path)
             report['restored'].append(path)
         except BaseException as ex: report['errors'].append(str(ex))
     for path in parked_paths:
@@ -689,6 +747,7 @@ def contract_guard(raw,qa):
     check(len(names)==89 and len(set(names))==89,'Fixed 89-name Counter')
     check(raw['commands']['T'][raw['commands']['T'].index('-testFilter')+1]==qa['selection']['testFilterArgument'],'Fixed filter')
     check('-quit' in raw['commands']['I'] and '-runTests' not in raw['commands']['I'] and '-quit' not in raw['commands']['T'],'Exact I/T mode')
+    check(raw['limits']['mechanicalPreparationSeconds']==raw['preparation']['budgetSeconds']==160 and raw['limits']['finalizationSeconds']==30 and raw['limits']['totalMechanicalSeconds']==900,'Fixed preparation/finalization/total budgets')
     return normalized
 def compiler_paths():
     return D.get('compilePlan',{}).get('proposedParkExactLeaves',{})
@@ -702,19 +761,19 @@ def dynamic_evidence():
 def cache_guard():
     def exact_tree(root,expected):
         entries=tree_entries(root); check(not any(v['type']=='symlink' for v in entries.values()),'Cache link '+str(root))
-        digest=hashlib.sha256(json.dumps(entries,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+        digest=json_digest(entries)
         check(digest==expected['treeSha256'] and sum(v.get('bytes',0) for v in entries.values())==expected['bytes'],'Frozen cache tree '+str(root))
     exact_tree(K,D['cache']['upmRoot'])
     package_root=P/'Library/PackageCache'; packages=D['cache']['installedPackages']
-    check({x.name for x in package_root.iterdir()}==set(packages),'Installed package set')
+    check({x.name for x in children(package_root)}==set(packages),'Installed package set')
     for name,expected in packages.items(): exact_tree(package_root/name,expected)
-    check(json.loads((P/'Packages/packages-lock.json').read_text())['dependencies']==D['cache']['lockedNodes'],'53-node package graph')
+    check(json.loads(bounded_text(P/'Packages/packages-lock.json'))['dependencies']==D['cache']['lockedNodes'],'53-node package graph')
     for path,value in D['cache']['projectCacheBefore'].items(): check(ident(P/path)==value,'PackageManager cache drift '+path)
     return {'packages':len(packages),'payloadFrozen':True}
 def as_guard(final=False):
     no_links(ASROOT); entries={}
-    for base,dirs,files in os.walk(ASROOT,followlinks=False):
-        for name in dirs+files:
+    for base,dirs,files in scan_tree(ASROOT):
+        for name in checked(dirs+files):
             path=pathlib.Path(base)/name; relative=path.relative_to(ASROOT).as_posix()
             try:
                 value=path.lstat()
@@ -725,11 +784,11 @@ def as_guard(final=False):
                     entries[relative]={'type':'file','bytes':value.st_size}
             except FileNotFoundError:
                 check(not final,'AS changed during final proof')
-    for name,item in entries.items():
+    for name,item in checked(entries.items()):
         if item['type']=='symlink':
             check(name=='AS07/product/resource-state/v1/active.json' and item['target'] in [str(ASROOT/'AS07/product/external.bin'),str(ASROOT/'AS07/product/absent-target')],'Foreign AS link')
     check(sum(v.get('bytes',0) for v in entries.values())<=D['limits']['asBytes'] and len(entries)<=D['limits']['asLeaves'],'AS budget')
-    if final: check(not entries and not list(ASROOT.iterdir()),'AS lease residue retained')
+    if final: check(not entries and not list(children(ASROOT)),'AS lease residue retained')
     return {'entries':entries,'empty':not entries,'noLinkFollow':True}
 def isolate_stage(sid):
     global owned,pending_details,process_snapshot,snapshot_root,launched_root,closure_closed,last_monitor,monitor_errors,monitor_cycles,current_stage
@@ -769,7 +828,7 @@ def restore_compiler():
 def restore_all():
     global restore_deadline,probe_deadline
     check(closure_closed is not False and (active is None or active.poll() is not None),'Unclosed; no restore')
-    restore_deadline=time.monotonic()+D['limits']['restoreSeconds']; restore_deadline=min(restore_deadline,execution_deadline) if execution_deadline is not None else restore_deadline; prior=probe_deadline; probe_deadline=restore_deadline
+    restore_deadline=time.monotonic()+D['limits']['restoreSeconds']; restore_deadline=min(restore_deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)) if execution_deadline is not None else restore_deadline; prior=probe_deadline; probe_deadline=restore_deadline
     try:
         probe_timeout(); rows=ps(); snapshot_consumers(rows,current_stage,next(iter(owned),None)) if owned else consumer_guard(rows)
         check(not any(alive(rows,p) for p in owned),'Owned remains; no restore')
@@ -787,7 +846,7 @@ def validate_xml(text):
 def test_evidence():
     path=E/'T/results.xml'; check(path.is_file(),'INCOMPLETE: missing XML')
     check(path.stat().st_size<=D['evidenceSlots']['xmlBytes'],'XML budget')
-    try: result=validate_xml(path.read_text())
+    try: result=validate_xml(bounded_text(path))
     except ET.ParseError as error: raise RuntimeError('INCOMPLETE: corrupt XML') from error
     fixture=next(v for v in Q['fixtures'] if v['id']=='AS'); source=fixture['source']
     check(ident(P/source['path'])==basic({'x':source})['x'],'AS test implementation changed')
@@ -801,17 +860,35 @@ def stage_environment(sid):
     environment.update(A['environmentOverrides'])
     if sid=='T': environment.update(D['commands']['environmentTOnly'])
     return environment
+def finalize(receipt,outputs):
+    validation_status=receipt['status']; failure=receipt.get('failure'); attempted=[]
+    completion={'status':'FINALIZATION_FAILED','validationStatus':validation_status,'failure':failure,'receipt':None,'attemptedEvidence':attempted,'successRequires':'Validated TEST_PASS, this receipt hash, OS exit0, and externally observed completion within900 seconds including preparation.'}
+    try:
+        for name,data in checked(outputs): attempted.append(name); write(name,data)
+        evidence={}
+        for path in checked(evidence_paths()): evidence[evidence_name(path)]=evidence_identity(path)
+        probe_timeout(); receipt.update(evidence=evidence,validationStatus=validation_status,status='AWAITING_PROCESS_EXIT' if validation_status=='TEST_PASS' else validation_status,mechanicalExecutionSecondsThroughEvidence=time.monotonic()-clock_start,finishedUtcThroughEvidence=utc(),measurementBoundary='After all prior evidence writes/hashes; before receipt serialization/write/hash and stdout. The stdout completion record plus external OS exit and elapsed time are mandatory.')
+        attempted.append('receipt.json'); write('receipt.json',receipt); completion['receipt']=ident(E/'receipt.json'); probe_timeout()
+        completion.update(status='AWAITING_PROCESS_EXIT' if validation_status=='TEST_PASS' and not failure else 'FAILED',mechanicalExecutionSecondsThroughReceiptHash=time.monotonic()-clock_start,preparationSeconds=PREF['mechanicalPreparationSeconds'],measurementBoundary='After receipt write/close/hash; before this stdout serialization/flush. Deadline checked again after flush; external observer must record process exit and total elapsed time.')
+    except BaseException as error:
+        completion['failure']=(failure+'; ' if failure else '')+'finalization: '+str(error)
+        completion['mechanicalExecutionSecondsAtFailure']=time.monotonic()-clock_start
+    try:
+        print(json.dumps(completion),flush=True)
+        probe_timeout()
+    except BaseException: return 1
+    return 0 if completion['status']=='AWAITING_PROCESS_EXIT' and validation_status=='TEST_PASS' and not completion['failure'] else 1
 def main():
     global A,B,D,Q,N,PREF,TMP,OWNER,ACT_SHA,EXECUTION_TURN,clock_start,baseline_processes,allowed,execution_deadline,work_deadline,probe_deadline
     clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
-    check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads((E/'activation.json').read_bytes())
+    check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))
     check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V01','Current combined activation required')
-    D=json.loads((E/'inputs.json').read_bytes()); PREF=json.loads((E/'preparation.json').read_bytes()); OWNER=A['executionOwner']
-    check(ident(E/'inputs.json')=={'bytes':1241557,'sha256':'ff088efd0e6871d751a1f553a46e77ae06789e9f01c5743411ca93e1fa087f1d'},'Current fixed inputs')
+    D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']
+    check(ident(E/'inputs.json')=={'bytes':1241588,'sha256':'30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb'},'Current fixed inputs')
     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')
-    check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads((R/D['testCases']['path']).read_bytes()); N=contract_guard(D,Q)
-    check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=120,'Preparation gate')
+    check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)
+    check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')
     allowed=set(D['evidenceSlots']['fixed']); TMP=pathlib.Path(A['environmentOverrides']['TMPDIR'])
     check(all(key in A for key in ('adbException','sdkAdb','sourceReview','runner','seals','stopping','stages')),'Fresh activation process exception bindings required')
     check(A['runner']==ident(__file__) and A['sourceReview']['runner']==A['runner'] and A['sourceReview']['status']=='ACCEPT','Reviewed runner required before effects')
@@ -821,10 +898,10 @@ def main():
         check(ident(E/(key+('.py' if key=='replay-check' else '.json')))==A['seals'][key],'Activation artifact seal '+key)
     check(A['environmentOverrides']=={'UPM_CACHE_ROOT':str(K),'TMPDIR':str(TMP),'BEE_CACHE_DIRECTORY':str(BC)},'Environment gate')
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Ordered stage gate')
-    execution_deadline=clock_start+D['limits']['totalMechanicalSeconds']-PREF['mechanicalPreparationSeconds']; work_deadline=execution_deadline-A['stopping']['naturalGraceSeconds']-A['stopping']['termGraceSeconds']-D['limits']['restoreSeconds']; started=utc(); failure=None; restore=None; after={}; status='NOT_RUN_BLOCKED'; remaining=None
+    execution_deadline=clock_start+D['limits']['totalMechanicalSeconds']-PREF['mechanicalPreparationSeconds']; work_deadline=execution_deadline-A['stopping']['naturalGraceSeconds']-A['stopping']['termGraceSeconds']-D['limits']['restoreSeconds']-D['limits']['finalizationSeconds']; started=utc(); failure=None; restore=None; after={}; status='NOT_RUN_BLOCKED'; remaining=None
     try:
         check(not (E/'process-events.jsonl').exists() and not (E/'before.json').exists(),'Activation already used')
-        no_links(TMP); check(not list(TMP.iterdir()),'TMP initially empty')
+        no_links(TMP); check(not list(children(TMP)),'TMP initially empty')
         baseline_processes=ps(); consumer_guard(baseline_processes)
         for root in (BC,ASROOT):
             no_links(root); check(not os.path.lexists(root),'Fresh external root must be absent'); root.mkdir(parents=True,mode=0o700)
@@ -840,13 +917,14 @@ def main():
             try: restore=restore_all(); check(restore['complete'],'Restore incomplete')
             except BaseException as error: failure=(failure+'; ' if failure else '')+'restore: '+str(error)
             try:
-                probe_deadline=restore_deadline; probe_timeout(); rows=ps(); monitor('final',rows,current_stage,next(iter(owned),None),force=True); remaining=[dict(owned[p],current=rows[p]) for p in owned if alive(rows,p)]
+                probe_deadline=min(time.monotonic()+D['limits']['finalizationSeconds'],execution_deadline); probe_timeout(); rows=ps(); monitor('final',rows,current_stage,next(iter(owned),None),force=True); remaining=[dict(owned[p],current=rows[p]) for p in owned if alive(rows,p)]
                 check(not remaining and not pending_details and not monitor_errors,'Final monitor gate'); after['temporaryTree']=tree_entries(TMP); after['beeTree']=tree_identity(BC); after['AS']=as_guard(True); probe_timeout()
             except BaseException as error: failure=(failure+'; ' if failure else '')+str(error)
+        else: probe_deadline=min(time.monotonic()+D['limits']['finalizationSeconds'],execution_deadline)
         if failure and not (status in ('INCOMPLETE','CONTRACT_MISMATCH') and restore and restore['complete'] and not monitor_errors): status='FAILED' if any(s['runCount'] for s in stages) else 'NOT_RUN_BLOCKED'
-        write('compile.json',{'stages':stage_dlls,'fullImportedInputs':full_inputs,'compilerAfter':compiler_after,'noRuntimeOrAndroidAcceptance':True})
-        write('after.json',after); write('process-after.json',{'stageHistory':stage_history,'currentStage':current_stage,'baseline':baseline_processes,'owned':list(owned.values()),'remainingOwned':remaining,'pendingIdentities':pending_details,'closureClosed':closure_closed,'launchedRoot':launched_root,'popenStillLive':active is not None and active.poll() is None,'monitorCycles':monitor_cycles,'monitorErrors':monitor_errors,'adbObservations':adb_observations,'sdkAdbObservations':sdk_observations,'sdkAdbBinding':sdk_adb,'transferConflicts':sorted(transfer_conflicts),'sigkill':False})
-        receipt={'task':D['task'],'status':status,'owner':OWNER,'startedUtc':started,'finishedUtc':utc(),'mechanicalExecutionSeconds':time.monotonic()-clock_start,'preparationSeconds':PREF['mechanicalPreparationSeconds'],'stages':stages,'failure':failure,'restore':restore,'launchCounts':launch_counts,'remainingOwned':remaining,'closureClosed':closure_closed,'evidence':{evidence_name(p):evidence_identity(p) for p in evidence_paths()},'unrun':['Play','downloads','real player saves','Git mutations','Android/device acceptance'],'soleCompletionReceiver':'01a0e401-511d-79f2-b47f-3ab0ade1681b/local'}
-        write('receipt.json',receipt); print(json.dumps({'status':status,'failure':failure,'receipt':ident(E/'receipt.json')}),flush=True)
-    return 0 if status=='TEST_PASS' else 1
+        outputs=[('compile.json',{'stages':stage_dlls,'fullImportedInputs':full_inputs,'compilerAfter':compiler_after,'noRuntimeOrAndroidAcceptance':True}),('after.json',after)]
+        outputs.append(('process-after.json',{'stageHistory':stage_history,'currentStage':current_stage,'baseline':baseline_processes,'owned':list(owned.values()),'remainingOwned':remaining,'pendingIdentities':pending_details,'closureClosed':closure_closed,'launchedRoot':launched_root,'popenStillLive':active is not None and active.poll() is None,'monitorCycles':monitor_cycles,'monitorErrors':monitor_errors,'adbObservations':adb_observations,'sdkAdbObservations':sdk_observations,'sdkAdbBinding':sdk_adb,'transferConflicts':sorted(transfer_conflicts),'sigkill':False}))
+        receipt={'task':D['task'],'status':status,'owner':OWNER,'startedUtc':started,'preparationSeconds':PREF['mechanicalPreparationSeconds'],'stages':stages,'failure':failure,'restore':restore,'launchCounts':launch_counts,'remainingOwned':remaining,'closureClosed':closure_closed,'unrun':['Play','downloads','real player saves','Git mutations','Android/device acceptance'],'soleCompletionReceiver':'01a0e401-511d-79f2-b47f-3ab0ade1681b/local'}
+        completion_code=finalize(receipt,outputs)
+    return completion_code
 if __name__=='__main__': sys.exit(main())
