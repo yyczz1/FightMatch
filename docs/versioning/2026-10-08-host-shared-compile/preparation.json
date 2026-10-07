@@ -1,60 +1,62 @@
 {
-  "task": "HOST-INTEGRATE-001/I01-FIX04-source",
+  "task": "HOST-INTEGRATE-001/I01-FIX05-source",
   "status": "SOURCE_REPLAY_PASS",
   "owner": {
     "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
     "host": "local",
-    "turn": "01a11811-6278-7540-abda-e7fa4e186e9d"
+    "turn": "01a11829-2ce1-77f0-b77f-1b994c3261c5"
   },
   "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
-  "returnRoute": "Direct final and central completion wait only; no outbound messaging or new agents.",
+  "returnRoute": "Direct final; central completion wait. No cross-chat send or new delegation.",
   "authority": {
-    "packet": "docs/team/2026-09-30/central-host-integrate-i01-fix04-source.md",
-    "approvedDesign": "docs/team/2026-09-30/engineering-host-integrate-i01-recovery-next.md sections 3–4",
-    "designActualTurn": "01a11802-d7ba-78c1-9ca5-947296efd44d",
-    "sourceOwnershipTransferredFromC": true
+    "packet": "docs/team/2026-09-30/central-host-integrate-i01-fix05-source.md",
+    "initialPacketIdentity": {
+      "bytes": 2978,
+      "sha256": "4c0f272077ccba7a110b943af646fe21c0dad8127c5521a32aa76192c87ca921"
+    },
+    "boundedExtension": "Central appended authorization after wait58 observed round 2 syntax failure: at most two extra rounds, additional <=15 seconds, whole packet <=30 seconds, first green stop.",
+    "reviewReceipt": "docs/team/2026-09-30/testing-host-integrate-pr18-fix04-review-receipt.json"
   },
-  "startedAtUnix": 1791405154,
-  "preparedUtc": "2026-10-07T20:46:54.742Z",
-  "wallSecondsSinceTurnStart": 860.7420001029968,
+  "startedAtUnix": 1791406714,
+  "preparedUtc": "2026-10-07T21:16:48.348Z",
+  "wallSecondsSinceTurnStart": 1094.348000049591,
   "writeScope": {
-    "root": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source",
+    "root": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source",
     "exactLeaves": [
       "runner.py",
       "replay-check.py",
       "replay-results.json",
       "correction.patch",
       "preparation.json"
-    ],
-    "createdFromExactFix03": true
+    ]
   },
   "sourceIdentities": {
     "runner.py": {
-      "bytes": 50243,
-      "sha256": "90b94e0ea8c8e1ed6465a8ee72e075a52bdad87c310860c4804212f788c8e6ab"
+      "bytes": 54760,
+      "sha256": "148cbc0b63a3bb6371343ed20d6205ae9b44a02cdfde8c1cd6ad9766e4e2266d"
     },
     "replay-check.py": {
-      "bytes": 55492,
-      "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
+      "bytes": 68363,
+      "sha256": "56c5bc6a604ba12f7a5b150f53dc2619c61726f96f07bb194e104dfa2ec888b0"
     },
     "replay-results.json": {
-      "bytes": 92788,
-      "sha256": "0043d1466da4be11c3a49125b62298ee41ff0040b392895b677ab9cebbe156ca"
+      "bytes": 188906,
+      "sha256": "cf56463f83d919696aeda238676fbf02ba2e1ebc28267ed675f3942ac06cc046"
     },
     "correction.patch": {
-      "bytes": 47275,
-      "sha256": "c0076aa55dc60c4ca5505395ac166ce88e89e307a11f09ed205576140e7ebd3a"
+      "bytes": 71680,
+      "sha256": "f0ac7065f4ba253e356d98ce483133fadc15251c80f0118c4aff015fd5858f90"
     }
   },
-  "selfIdentity": "preparation.json is externally sealed in the final receipt; no circular self hash.",
+  "selfIdentity": "preparation.json is externally sealed in the final result; self hash excluded to avoid a circular identity.",
   "fixedReferences": {
-    "docs/team/2026-09-30/central-host-integrate-i01-fix04-source.md": {
-      "bytes": 2633,
-      "sha256": "2a89cb39d17c0b52e6bab9e0a95d844edb0249fd7a077e775c4583d5de66f57b"
+    "docs/team/2026-09-30/central-host-integrate-i01-fix05-source.md": {
+      "bytes": 3750,
+      "sha256": "33d61f56c34ca67017a845563d31890396c714b224fc27cadcb9a9736d3a22de"
     },
-    "docs/team/2026-09-30/engineering-host-integrate-i01-recovery-next.md": {
-      "bytes": 4990,
-      "sha256": "8bc112222aa52f3c14fb3473cb472e3855474fbe678973d4894fb83ca0d1ea2b"
+    "docs/team/2026-09-30/testing-host-integrate-pr18-fix04-review-receipt.json": {
+      "bytes": 8414,
+      "sha256": "474258d132ffec857c5fbe943040a6797ab38a9fb2c3c775b0f06f5aeba5d3c9"
     }
   },
   "immutablePreviousRoots": {
@@ -144,6 +146,28 @@
       "runner.py": {
         "bytes": 47602,
         "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
+      }
+    },
+    "I01-FIX04-source": {
+      "correction.patch": {
+        "bytes": 47275,
+        "sha256": "c0076aa55dc60c4ca5505395ac166ce88e89e307a11f09ed205576140e7ebd3a"
+      },
+      "preparation.json": {
+        "bytes": 25357,
+        "sha256": "772f388862875d34fa5ce1d5f250753ccbdafc4c7958fdbf047bd6c0df1b157f"
+      },
+      "replay-check.py": {
+        "bytes": 55492,
+        "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
+      },
+      "replay-results.json": {
+        "bytes": 92788,
+        "sha256": "0043d1466da4be11c3a49125b62298ee41ff0040b392895b677ab9cebbe156ca"
+      },
+      "runner.py": {
+        "bytes": 50243,
+        "sha256": "90b94e0ea8c8e1ed6465a8ee72e075a52bdad87c310860c4804212f788c8e6ab"
       }
     },
     "I01-run": {
@@ -389,185 +413,1032 @@
     "bytes": 806564,
     "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
   },
-  "parallelScope": {
-    "recovery01": "Not read, enumerated, hashed, written, or included in frozen inputs.",
-    "resourceCodecAdopt001": "Central reported a separate authorized owner adding ten leaves in shared Assets. Those additions and its in-progress evidence were not accessed or treated as contamination.",
-    "sharedAssetsFullSetUnchangedClaim": false,
-    "productSourceReadsThisTask": 0,
-    "projectionReadsThisTask": 0
-  },
-  "addressedInSource": [
+  "findings": [
     {
-      "defect": "Resource checks ran before registration and licensing FIFO was not recognized.",
-      "change": "Same supplied snapshot classifies consumers before resources. FIFO authorization requires TMP, UID, strict clr-debug-pipe name, current matched owned PID/start/exe/parent and this snapshot's root ancestry. Added only the exact fixed Editor licensing executable; dotnet remains supported. lstat metadata only; contentsRead false."
+      "id": 4211887116,
+      "reviewedHead": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+      "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211887116",
+      "sourceChange": "Move only along the enumerated routes. Create an exclusive reservation in a finite capture slot, swap with source, verify both captured preimage and reservation, then retire the source reservation through RENAME_EXCL and verify it before exclusive destination publication. On a conflict, attempt only one bounded return while retaining any second concurrent value in capture/retired slots. An occupied destination is never overwritten. Unresolved transfer state prevents complete restoration; unaffected ledger entries may still restore.",
+      "validation": "16 actual transfer/native-primitive fixture cases cover normal park/archive, source replacement at the first atomic boundary, a second replacement during return, destination competition, retirement races, blocked returns, unpark and conditional settings. A separate actual archive_and_restore case rejects complete=true for unresolved transfers.",
+      "githubResolution": "PENDING_NEW_HEAD_REVIEW"
     },
     {
-      "defect": "Transient child details failure aborted discovery without retaining an explicit unresolved identity.",
-      "change": "Keep first row identity and first/last error in pending_details, never publish partial owned data. Resolve only in a later supplied snapshot proving absence/zombie or matching identity with complete details. Changed identity remains pending without details adoption. No second ps within discover/snapshot_consumers/monitor. Pending identities block consumer authorization."
-    },
-    {
-      "defect": "Naked closure discovery threw outside monitor and abandoned the bounded cleanup.",
-      "change": "Each closure sample catches and records errors, continues the existing natural and TERM-confirmation deadlines, and discovers at most once per supplied snapshot. Skipped/failed samples are not clear. Fresh process/details/ancestry/consumer checks still guard the single TERM opportunity. A successful forced final sample is required for closure_closed; false blocks restore before further process or filesystem access. Original errors remain in monitor evidence and keep run_stage failed."
+      "id": 4211887126,
+      "reviewedHead": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+      "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211887126",
+      "sourceChange": "Set one absolute TERM/confirmation deadline immediately after the natural phase, before the PID authorization loop. Probe and signal gates check remaining time; cmd/details and the existing ADB subprocess calls cap timeout at min(5 seconds, remaining). Confirmation and final sampling share the same deadline. Expired sampling cannot establish closure; restore remains blocked. The scoped deadline is released in finally.",
+      "validation": "Five actual closure/cmd/ps/details/consumer cases advance a synthetic clock inside process/consumer probes. Every case stops at 90 total synthetic seconds with TERM deadline 190 from start 100. The four-owned case authorizes exactly one signal at 175 and retains three; ps/details/consumer exhaustion and an unverified identity authorize zero signals.",
+      "githubResolution": "PENDING_NEW_HEAD_REVIEW"
     }
   ],
   "implementationScope": {
     "changedFunctions": [
+      "adb_exception",
       "archive_and_restore",
       "closure",
+      "cmd",
       "consumer_guard",
-      "discover",
+      "details",
       "main",
       "monitor",
-      "snapshot_consumers",
-      "tree_entries"
+      "resources",
+      "sdk_adb_exception",
+      "transfer"
     ],
-    "newTopLevelFunctions": [],
-    "runnerNonblankLines": 511,
-    "runnerLimit": 580,
+    "newFunctions": [
+      "move_verified",
+      "probe_timeout",
+      "transfer_slots"
+    ],
     "allOtherFunctionsAstEqual": true,
-    "unchanged": [
-      "details command and redaction",
-      "ADB identity/FD exceptions",
-      "compiler/log acceptance",
-      "single launch and original run_stage failure preservation",
-      "atomic synchronization/restoration ledger operations",
-      "resource limits",
-      "360-second compile / 60-second natural / 30-second TERM / 90-second restore / 660-second total native limits"
-    ],
+    "runnerNonblankLines": 574,
+    "runnerLimit": 650,
+    "singlePopenSite": true,
+    "pureCompile": true,
+    "sameSnapshot": true,
     "newGlobals": [
-      "pending_details",
-      "process_snapshot",
-      "snapshot_root",
-      "closure_closed"
+      "transfer_conflicts",
+      "probe_deadline"
     ],
-    "evidenceFields": [
-      "pending_identity/pending_resolved",
-      "closure_end.closed and pendingIdentities",
-      "process-after.json and receipt.json pendingIdentities/closureClosed"
-    ]
+    "unchangedSemantics": [
+      "Compile/log predicates and original stage failure retention",
+      "ADB identity, FD and allowed exception predicates; only blocking subprocess timeout plumbing and deadline gates changed",
+      "Existing atomic_write / swap_verified / synchronize ledger functions",
+      "60 natural, 30 shared TERM/confirmation, 360 compile, 90 restore, 660 total seconds",
+      "Resource size/count/free-space limits",
+      "Product source, public APIs, persistence and assets"
+    ],
+    "noGeneralMonitorFramework": true
+  },
+  "futureEvidenceScope": {
+    "authorizedForNativeNow": false,
+    "aliases": {
+      "P": "Existing bound projection root; never accessed by this source packet.",
+      "E": "Future explicitly authorized execution evidence root, not this source-only root."
+    },
+    "routeCount": 77,
+    "finiteAdditionalLeafCount": 154,
+    "routes": [
+      {
+        "route": "park/Assets/Scripts/FightMatch/AssetAccess.meta",
+        "source": "P/Assets/Scripts/FightMatch/AssetAccess.meta",
+        "target": "E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Scripts/FightMatch/AssetAccess.meta",
+        "source": "E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+        "target": "P/Assets/Scripts/FightMatch/AssetAccess.meta",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess.meta/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "source": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "target": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef/capture",
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "source": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "target": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef/capture",
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+        "source": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+        "target": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta/capture",
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+        "source": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+        "target": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta/capture",
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "source": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "target": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs/capture",
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "source": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "target": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs/capture",
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+        "source": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+        "target": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta/capture",
+          "atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+        "source": "E/park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+        "target": "P/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta/capture",
+          "atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Tests/EditMode/FightMatchAsset.meta",
+        "source": "P/Assets/Tests/EditMode/FightMatchAsset.meta",
+        "target": "E/park/source/Assets/Tests/EditMode/FightMatchAsset.meta",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset.meta/capture",
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset.meta/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Tests/EditMode/FightMatchAsset.meta",
+        "source": "E/park/source/Assets/Tests/EditMode/FightMatchAsset.meta",
+        "target": "P/Assets/Tests/EditMode/FightMatchAsset.meta",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset.meta/capture",
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset.meta/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "source": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "target": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef/capture",
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "source": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "target": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef/capture",
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+        "source": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+        "target": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta/capture",
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+        "source": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+        "target": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta/capture",
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "target": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs/capture",
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "source": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "target": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs/capture",
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta",
+        "source": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta",
+        "target": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta/capture",
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta",
+        "source": "E/park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta",
+        "target": "P/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta/capture",
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "target": "E/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs/capture",
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "source": "E/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "target": "P/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs/capture",
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs/retired"
+        ]
+      },
+      {
+        "route": "park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "source": "P/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "target": "E/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "evidenceSlots": [
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta/capture",
+          "atomic/transfer/park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "source": "E/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "target": "P/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "evidenceSlots": [
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta/capture",
+          "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "source": "P/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "source": "P/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "source": "P/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "source": "P/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "source": "P/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "source": "P/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "source": "P/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "source": "P/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "source": "P/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "target": "E/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "currentMode": "copy; no move slot used by current caller",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab/capture",
+          "atomic/transfer/archive/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "source": "P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "currentMode": "move",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "source": "P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "target": "E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "currentMode": "move",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta/capture",
+          "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "source": "P/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "currentMode": "move",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs/retired"
+        ]
+      },
+      {
+        "route": "archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+        "source": "P/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+        "target": "E/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+        "currentMode": "move",
+        "evidenceSlots": [
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta/capture",
+          "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta/retired"
+        ]
+      },
+      {
+        "route": "settings/ProjectSettings/SceneTemplateSettings.json",
+        "source": "P/ProjectSettings/SceneTemplateSettings.json",
+        "target": "E/archive/SceneTemplateSettings.json",
+        "condition": "Only existing authorized generated settings, absent from restore baseline.",
+        "evidenceSlots": [
+          "atomic/transfer/settings/ProjectSettings/SceneTemplateSettings.json/capture",
+          "atomic/transfer/settings/ProjectSettings/SceneTemplateSettings.json/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "source": "E/atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "target": "E/atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "source": "E/atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "target": "E/atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "source": "E/atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "target": "E/atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "source": "E/atomic/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "target": "E/atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "source": "E/atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "target": "E/atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "source": "E/atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "target": "E/atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "source": "E/atomic/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "target": "E/atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "source": "E/atomic/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "target": "E/atomic/conflict/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs/capture",
+          "atomic/transfer/conflict-sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "source": "E/atomic/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "target": "E/atomic/conflict/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab/capture",
+          "atomic/transfer/conflict-sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "source": "E/atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "target": "E/atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "source": "E/atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "target": "E/atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "source": "E/atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "target": "E/atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "source": "E/atomic/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "target": "E/atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "source": "E/atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "target": "E/atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "source": "E/atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "target": "E/atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "source": "E/atomic/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "target": "E/atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "source": "E/atomic/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "target": "E/atomic/conflict/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs/capture",
+          "atomic/transfer/conflict-restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs/retired"
+        ]
+      },
+      {
+        "route": "conflict-restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "source": "E/atomic/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "target": "E/atomic/conflict/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "condition": "Existing swap_verified second-drift retention route.",
+        "evidenceSlots": [
+          "atomic/transfer/conflict-restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab/capture",
+          "atomic/transfer/conflict-restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab/retired"
+        ]
+      }
+    ],
+    "semantics": "capture holds the swapped source or a displaced concurrent value; retired holds the moved reservation or a concurrent source observed at retirement. No wildcard directory authorization. Unresolved slots and values are retained, never silently removed. Current copy-only overwritten archives do not create these slots."
   },
   "offline": {
     "commands": [
-      "python3 -B TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py --red",
-      "python3 -B TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py"
+      "python3 -B TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py --red",
+      "python3 -B TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py (round 2)",
+      "python3 -B TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py (authorized round 3)"
     ],
     "rounds": [
       {
         "round": 1,
-        "phase": "RED_BASELINE",
         "status": "SOURCE_REPLAY_FAILED",
-        "seconds": 2.844009125001321,
-        "prior58Passed": true,
-        "cases": 80,
-        "failed": [
-          "same snapshot FIFO license",
-          "same snapshot FIFO dotnet",
-          "closure first cycle absent",
-          "closure first cycle zombie",
-          "closure first cycle recover",
-          "closure first cycle persistent",
-          "closure first cycle reuse",
-          "closure first cycle ps-once",
-          "closure first cycle ps-always",
-          "closure first cycle resources-once",
-          "closure first cycle resources-always",
-          "closure first cycle projection-once",
-          "closure first cycle projection-always",
-          "skipped monitor sample cannot establish closure"
-        ],
-        "runner": {
-          "bytes": 47602,
-          "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
-        },
-        "checker": {
-          "bytes": 55492,
-          "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
-        },
-        "forbiddenAttempts": []
-      },
-      {
-        "round": 2,
-        "phase": "GREEN_CORRECTION",
-        "status": "SOURCE_REPLAY_PASS",
-        "seconds": 3.1292422500046086,
-        "prior58Passed": true,
-        "cases": 80,
-        "failed": [],
+        "seconds": 4.035881957999663,
+        "failure": "FIX04 regression failures: FIX05 transfer park source, FIX05 transfer park source-return, FIX05 transfer park target, FIX05 transfer park target-return, FIX05 transfer park retire, FIX05 transfer park retire-return, FIX05 transfer archive source, FIX05 transfer archive source-return, FIX05 transfer archive target, FIX05 transfer archive target-return, FIX05 transfer archive retire, FIX05 transfer archive retire-return, FIX05 transfer unpark source-return, FIX05 transfer settings source-return, FIX05 unresolved transfer cannot report restore complete, FIX05 absolute TERM deadline many-owned, FIX05 absolute TERM deadline ps-exhausts, FIX05 absolute TERM deadline details-exhausts, FIX05 absolute TERM deadline consumer-exhausts, FIX05 absolute TERM deadline unverified",
         "runner": {
           "bytes": 50243,
           "sha256": "90b94e0ea8c8e1ed6465a8ee72e075a52bdad87c310860c4804212f788c8e6ab"
         },
         "checker": {
-          "bytes": 55492,
-          "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
+          "bytes": 67953,
+          "sha256": "f903b847839433546aff1af9e9450e3107a13db63589d41b900a105533000662"
         },
-        "forbiddenAttempts": []
+        "forbiddenAttempts": [],
+        "cases": 102,
+        "passed": 82,
+        "prior80Passed": true
+      },
+      {
+        "round": 2,
+        "status": "SOURCE_REPLAY_FAILED",
+        "seconds": 0.022787500005506445,
+        "failure": "unterminated string literal (detected at line 274) (<unknown>, line 274)",
+        "runner": {
+          "bytes": 54759,
+          "sha256": "32fba5ff8dc7555bb7083ad5b71ef9bddec53ad09f52597bc9f4d7549a96545e"
+        },
+        "checker": {
+          "bytes": 67970,
+          "sha256": "7bc1917529da19beb4e3885b1dda9017764139decc64077248b77350138bfd1e"
+        },
+        "forbiddenAttempts": [],
+        "cases": 0,
+        "passed": 0,
+        "prior80Passed": false
+      },
+      {
+        "round": 3,
+        "status": "SOURCE_REPLAY_PASS",
+        "seconds": 6.21570445800171,
+        "runner": {
+          "bytes": 54760,
+          "sha256": "148cbc0b63a3bb6371343ed20d6205ae9b44a02cdfde8c1cd6ad9766e4e2266d"
+        },
+        "checker": {
+          "bytes": 68363,
+          "sha256": "56c5bc6a604ba12f7a5b150f53dc2619c61726f96f07bb194e104dfa2ec888b0"
+        },
+        "forbiddenAttempts": [],
+        "cases": 102,
+        "passed": 102,
+        "prior80Passed": true
       }
     ],
-    "cumulativeSeconds": 5.97325137500593,
-    "maximumRounds": 2,
-    "maximumCumulativeSeconds": 30,
+    "roundsUsed": 3,
+    "round4Run": false,
+    "cumulativeSeconds": 10.27437391600688,
+    "wholePacketLimitSeconds": 30,
+    "additionalSeconds": 6.21570445800171,
+    "additionalLimitSeconds": 15,
     "stoppedAtFirstGreen": true,
-    "priorCases": 58,
-    "newCases": 22,
-    "finalPassed": 80,
+    "priorCases": 80,
+    "addedCases": 22,
+    "finalPassed": 102,
     "finalFailed": 0,
-    "realFunctionExecution": true,
-    "syntheticClocks": true,
-    "coverage": [
-      "exact licensing and dotnet FIFO same-snapshot success; wrong UID/root/ancestry/name/executable, foreign same-name, PID reuse, non-FIFO socket rejected; zero FIFO reads",
-      "child details error occurs inside first closure cycle, then absent/zombie/recovered/persistent/reused cases",
-      "one-off and persistent ps/resources/projection exceptions, actual 60/30 synthetic timelines",
-      "unverified identities zero signals; owned at most one TERM; unclosed restore gate; skipped sampling not clear",
-      "all previous 58 assertions including actual run_stage original failure, launched root, atomic ledger and drift guards"
+    "rawFailuresPreserved": true,
+    "syntaxFailure": {
+      "round": 2,
+      "line": 274,
+      "error": "unterminated string literal",
+      "cause": "Missing closing quote in the conditional settings destination route.",
+      "repair": "Added the missing quote before round 3; round 2 ran zero functional cases and is not a pass."
+    },
+    "fixtureAdjustments": [
+      "recovered_ownership and launched_root_case now use advancing synthetic clocks and the existing 60/30 settings instead of fixed time with zero/zero grace. All original verdict/ownership/signal/restore assertions remain.",
+      "skipped_is_not_clear retains its original three-phase and final closure assertions. Its natural phase consumes the synthetic 60 seconds and is skipped; confirmation and final use real successful monitor calls inside the remaining 30 seconds. An expired final sample is no longer implicitly outside the budget.",
+      "bind seeds transfer_conflicts/probe_deadline and includes the three real helper functions when present; no copied production decision algorithm.",
+      "Before round 2, the new unverified fixture's malformed lstart text 'reused' was replaced by a valid, different ps lstart. Actual ps had omitted the malformed baseline row, so that isolated red case is not claimed as proof of pending-identity behavior. Round 3 uses the corrected valid row and verifies zero signals; prior pending-identity tests remain.",
+      "Before round 3, only the checker history/budget guard changed to implement central's bounded extension; previous round records remain unchanged. No assertion was weakened to obtain green."
     ],
-    "fixtureChanges": "Seed only the new runner globals in bind. Cache the runner filename and collect distinct profile function names in a set instead of constructing a path on every profile callback; old 58 assertions remain unchanged. The identical checker SHA was used in both red and green rounds.",
+    "actualFunctionEvidence": {
+      "deadline": [
+        {
+          "mode": "many-owned",
+          "simulatedSeconds": 90,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160,
+            "stage": "P",
+            "deadline": 190
+          },
+          "signals": [
+            {
+              "pid": 36393,
+              "at": 175
+            }
+          ],
+          "remaining": 3,
+          "closed": false
+        },
+        {
+          "mode": "ps-exhausts",
+          "simulatedSeconds": 90,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160,
+            "stage": "P",
+            "deadline": 190
+          },
+          "signals": [],
+          "remaining": 4,
+          "closed": false
+        },
+        {
+          "mode": "details-exhausts",
+          "simulatedSeconds": 90,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160,
+            "stage": "P",
+            "deadline": 190
+          },
+          "signals": [],
+          "remaining": 4,
+          "closed": false
+        },
+        {
+          "mode": "consumer-exhausts",
+          "simulatedSeconds": 90,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160,
+            "stage": "P",
+            "deadline": 190
+          },
+          "signals": [],
+          "remaining": 4,
+          "closed": false
+        },
+        {
+          "mode": "unverified",
+          "simulatedSeconds": 90,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160,
+            "stage": "P",
+            "deadline": 190
+          },
+          "signals": [],
+          "remaining": 5,
+          "closed": false
+        }
+      ],
+      "transferCases": 16
+    },
     "nativeRuns": 0,
     "realPsCalls": 0,
     "realSignals": 0,
     "actualProjectionWrites": 0,
-    "forbiddenAttempts": [],
-    "freezeResults": "Original I01/FIX01/FIX02/FIX03 twenty leaves and I01-run 59 leaves verified unchanged before and after offline execution. No Recovery01 or shared Assets full-set inventory."
+    "forbiddenAttempts": []
   },
-  "mechanicalPreparationSeconds": 70,
+  "parallelScope": {
+    "Recovery01": "Not read, enumerated, hashed or written.",
+    "sharedAssets": "Not inventoried or modified. Central's independently authorized codec/resource adoption and its reported 1021-leaf state are separate; no shared-set unchanged claim.",
+    "newParallelEvidence": "Not read or frozen."
+  },
+  "mechanicalPreparationSeconds": 100,
   "timeAccounting": {
-    "carryForwardSeconds": 50,
-    "newWorkConservativeUpperBoundSeconds": 20,
-    "cumulativeConservativeUpperBoundSeconds": 70,
+    "carryForwardSeconds": 70,
+    "newWorkConservativeUpperBoundSeconds": 30,
+    "cumulativeConservativeUpperBoundSeconds": 100,
     "limitSeconds": 120,
     "isConservativeUpperBound": true,
-    "measuredOfflineSeconds": 5.97325137500593,
-    "measuredSelectedReadHashDiffSeconds": 0.010199666998232715,
-    "applyPatchToolWallSecondsSoFar": 0.168,
-    "explanation": "50 seconds carried forward as explicitly directed, even though the FIX03 receipt said 49. The 20-second new-work bound includes both offline runs, source/packet reads, writes, diff generation and final sealing overhead. Reasoning, review and tool/user waiting wall time are separate; no real 60/30-second waits."
+    "measuredOfflineSeconds": 10.27437391600688,
+    "measuredAdditionalOfflineSeconds": 6.21570445800171,
+    "explanation": "30 seconds conservatively covers this packet's source/packet reads, bounded offline runs, writing, diffs and final sealing. Reasoning and coordination wall time are separately reported. No real 60/30 waiting."
   },
   "review": {
     "pr": "https://github.com/yyczz1/FightMatch/pull/18",
+    "previousReviewedHead": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+    "previousCentralVerdict": "NEEDS_FIX",
     "newExactSourceReview": "PENDING_CENTRAL_NEW_HEAD",
-    "authorApproval": false,
     "findingsMarkedResolved": false,
-    "owner": "Central publishes the same PR18 new head and receives GitHub Code Review; source author does not trigger or replace that gate."
+    "authorApproval": false,
+    "owner": "Central publishes and receives independent GitHub Code Review."
   },
   "integrationVerdict": null,
-  "integrationVerdictOwner": "Central after independent exact-head review and required validation. This is an author source receipt only.",
+  "integrationVerdictOwner": "Central; this is source author evidence, not independent acceptance.",
   "futureExecution": {
     "authorized": false,
-    "oldActivationReusable": false,
+    "activationReusable": false,
     "nativeCompileAcceptance": "NOT_ESTABLISHED",
-    "oldI01Failure": "UNCHANGED",
-    "recoveryAcceptance": "OUTSIDE_SOURCE_PACKET"
+    "oldI01Result": "FAILED_UNCHANGED",
+    "recoveryAcceptance": "SEPARATE_UNCHANGED"
   },
   "unexecuted": [
-    "Unity/native launch",
-    "real process queries/signals",
-    "actual TMP access",
-    "actual projection inspection or writes",
-    "shared Assets enumeration",
-    "Recovery01 access",
+    "Unity",
+    "real ps/lsof/signals",
+    "actual P or TMP access",
     "downloads",
     "real saves",
     "Git mutations",
-    "new GitHub review request"
+    "GitHub review trigger",
+    "round 4"
   ],
-  "deliveryNotes": "No unresolved offline failures. This correction provides source and fixture evidence only. Final exact five-leaf seal follows after preparation.json is saved."
+  "deliveryNotes": "First green is round 3 at the exact current runner/checker hashes. Five-leaf identities are sealed after this receipt is saved. No source/checker edits after green."
 }

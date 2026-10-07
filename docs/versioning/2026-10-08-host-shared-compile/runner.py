@@ -7,6 +7,7 @@ LIMIT={'evidenceBytes':33554432,'perLogBytes':8388608,'newCacheBytes':1073741824
 allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())
 owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
+transfer_conflicts=set(); probe_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
     if not ok: raise RuntimeError(why)
@@ -21,8 +22,12 @@ def write(name,data):
     with p.open('x') as f: json.dump(data,f,ensure_ascii=False,indent=2); f.write('\n')
 def event(kind,**kw):
     with (E/'process-events.jsonl').open('a') as f: f.write(json.dumps({'utc':utc(),'kind':kind,**kw},ensure_ascii=False)+'\n')
+def probe_timeout():
+    remaining=5. if probe_deadline is None else probe_deadline-time.monotonic()
+    check(remaining>0,'Closure probe deadline exhausted')
+    return min(5.,remaining)
 def cmd(argv):
-    p=subprocess.run(argv,capture_output=True,text=True,timeout=5)
+    p=subprocess.run(argv,capture_output=True,text=True,timeout=probe_timeout())
     check(p.returncode==0,'Command failed '+json.dumps({'argv':argv,'exit':p.returncode,'stderr':p.stderr[:600]})); return p.stdout
 def ps():
     result={}
@@ -39,7 +44,7 @@ def details(pid):
         sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)
         if sensitive and '=' in a: redacted.append(a.split('=',1)[0]+'=<REDACTED>')
         else: redacted.append(a); hide=bool(sensitive)
-    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=5)
+    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=probe_timeout())
     cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)
     return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}
 def register(pid,row,stage,rootpid,detail=None):
@@ -74,7 +79,7 @@ def adb_exception(rows):
     check({k:li[k] for k in spec['logIdentity']}==spec['logIdentity'],'Original ADB log identity changed')
     if row is None or row['stat'].startswith('Z'): return pid
     item['row']=row; check(row['start']==spec['start'] and row['exe']=='adb','Unknown ADB identity'); item['argv']=details(pid)['argv']; check(item['argv']==spec['argv'],'ADB argv changed')
-    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=5); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None
+    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout()); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None
     for line in probe.stdout.splitlines():
         if line.startswith('p'): ownerpid=int(line[1:])
         elif line.startswith('f'): files.append({'fd':line[1:]})
@@ -95,7 +100,7 @@ def sdk_adb_exception(rows):
         uid=int(cmd(['/bin/ps','-p',str(pid),'-o','uid=']).strip()); check(uid==os.getuid(),'SDK ADB UID')
         check(ident(spec['path'])=={k:spec[k] for k in ['bytes','sha256']},'Frozen SDK executable bytes')
         check(pathlib.Path(spec['path']).resolve()==pathlib.Path(spec['path']),'Canonical SDK executable')
-        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=5)
+        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout())
         check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete SDK ADB FD evidence'); files=[]; ownerpid=None
         for line in probe.stdout.splitlines():
             if line.startswith('p'): ownerpid=int(line[1:])
@@ -120,7 +125,8 @@ def sdk_adb_exception(rows):
     return result
 def consumer_guard(rows):
     check(not pending_details,'Unverified child identities remain '+str(list(pending_details)))
-    excluded_adb={adb_exception(rows)}|sdk_adb_exception(rows)
+    probe_timeout(); excluded_adb={adb_exception(rows)}
+    probe_timeout(); excluded_adb|=sdk_adb_exception(rows)
     names={'unity','unitypackagemanager','dotnet','csc','mcs','msbuild','bee_backend','unityshadercompiler','unity.licensing.client','adb'}
     other=[dict(r,pid=p) for p,r in rows.items() if pathlib.Path(r['exe']).name.lower() in names and not r['stat'].startswith('Z') and p not in excluded_adb and (not alive(rows,p) or pathlib.Path(r['exe']).name.lower()=='adb')]
     check(not other,'Other potential compiler/Unity consumers '+json.dumps(other)); return []
@@ -152,19 +158,20 @@ def monitor(phase,rows,stage,rootpid,strict=False,force=False):
     if not force and now-last_monitor<2: return
     cycle={'utc':utc(),'phase':phase,'sincePreviousSeconds':None if not last_monitor else round(now-last_monitor,6),'failures':[]}; last_monitor=now
     for name,fn in [('consumers',lambda:snapshot_consumers(rows,stage,rootpid)),('resources',resources),('projection',projection_guard)]:
-        try: fn()
+        try: probe_timeout(); fn()
         except BaseException as ex:
             item={'utc':utc(),'phase':phase,'scope':name,'error':str(ex)}; monitor_errors.append(item); cycle['failures'].append(item); event('monitor_failure',detail=item)
     cycle['elapsedSeconds']=round(time.monotonic()-now,6); monitor_cycles.append(cycle); event('monitor_cycle',cycle=cycle)
     if strict and cycle['failures']: raise RuntimeError(cycle['failures'][0]['error'])
     return cycle
 def closure(stage,rootpid,reason):
-    global closure_closed
-    closure_closed=False; event('closure_begin',stage=stage,reason=reason)
+    global closure_closed,probe_deadline
+    previous_deadline=probe_deadline; closure_closed=False; event('closure_begin',stage=stage,reason=reason)
     def sample(phase,force=False):
         try:
-            rows=ps(); cycle=monitor(phase,rows,stage,rootpid,force=force)
-            remaining=[p for p in owned if alive(rows,p)]
+            probe_timeout(); rows=ps()
+            probe_timeout(); cycle=monitor(phase,rows,stage,rootpid,force=force)
+            probe_timeout(); remaining=[p for p in owned if alive(rows,p)]
             clear=cycle is not None and not cycle['failures'] and not remaining and not pending_details and (active is None or active.poll() is not None)
             return remaining,clear
         except BaseException as error:
@@ -172,32 +179,41 @@ def closure(stage,rootpid,reason):
             monitor_errors.append(item); event('monitor_failure',detail=item)
             monitor_cycles.append({'utc':utc(),'phase':phase,'failures':[item],'clear':False})
             return list(owned),False
-    deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']; first=True
-    while True:
-        if active is not None: active.poll()
-        remaining,clear=sample('natural-closure',force=first); first=False
-        if clear or time.monotonic()>=deadline: break
-        time.sleep(.25)
-    for pid in reversed(remaining):
-        try:
-            rows=ps()
-            if not alive(rows,pid): continue
-            check(pathlib.Path(owned[pid]['exe']).name.lower()!='adb','No permission to signal any ADB')
-            d=details(pid); check(d['argv']==owned[pid]['argv'] and d['cwd']==owned[pid]['cwd'] and d['cwdProbeExit']==0,'Owned argv changed before TERM '+str(pid)); recorded_chain(pid,rootpid); snapshot_consumers(rows,stage,rootpid)
-            check(not owned[pid]['termSent'],'Duplicate TERM refused'); event('signal',signal='SIGTERM',pid=pid,identity=owned[pid],rematched=d)
-            try: os.kill(pid,signal.SIGTERM); owned[pid]['termSent']=True
-            except ProcessLookupError: event('signal_race_already_exited',pid=pid)
-        except BaseException as ex:
-            item={'utc':utc(),'phase':'term-authorization','scope':'process','error':str(ex)}; monitor_errors.append(item); event('monitor_failure',detail=item)
-    deadline=time.monotonic()+A['stopping']['termGraceSeconds']; first=True
-    while True:
-        if active is not None: active.poll()
-        remaining,clear=sample('term-confirmation',force=first); first=False
-        if clear or time.monotonic()>=deadline: break
-        time.sleep(.25)
-    remaining,closure_closed=sample('closure-final',force=True)
-    event('closure_end',stage=stage,remainingOwned=remaining,pendingIdentities=list(pending_details),closed=closure_closed,popenStillLive=active is not None and active.poll() is None)
-    check(closure_closed,'BLOCKED: process closure lacks a successful clear sample '+str({'owned':remaining,'pending':list(pending_details),'root':rootpid}))
+    try:
+        deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']; probe_deadline=deadline; first=True; remaining=list(owned)
+        while first or time.monotonic()<deadline:
+            if active is not None: active.poll()
+            remaining,clear=sample('natural-closure',force=first); first=False
+            if clear or time.monotonic()>=deadline: break
+            time.sleep(max(0.,min(.25,deadline-time.monotonic())))
+        deadline=time.monotonic()+A['stopping']['termGraceSeconds']; probe_deadline=deadline
+        event('term_window',stage=stage,deadline=deadline)
+        for pid in reversed(remaining):
+            if time.monotonic()>=deadline: break
+            try:
+                probe_timeout(); rows=ps()
+                if not alive(rows,pid): continue
+                check(pathlib.Path(owned[pid]['exe']).name.lower()!='adb','No permission to signal any ADB')
+                probe_timeout(); d=details(pid)
+                check(d['argv']==owned[pid]['argv'] and d['cwd']==owned[pid]['cwd'] and d['cwdProbeExit']==0,'Owned argv changed before TERM '+str(pid)); recorded_chain(pid,rootpid)
+                probe_timeout(); snapshot_consumers(rows,stage,rootpid)
+                check(not owned[pid]['termSent'],'Duplicate TERM refused')
+                probe_timeout(); event('signal',signal='SIGTERM',pid=pid,identity=owned[pid],rematched=d)
+                try:
+                    probe_timeout(); os.kill(pid,signal.SIGTERM); owned[pid]['termSent']=True
+                except ProcessLookupError: event('signal_race_already_exited',pid=pid)
+            except BaseException as ex:
+                item={'utc':utc(),'phase':'term-authorization','scope':'process','error':str(ex)}; monitor_errors.append(item); event('monitor_failure',detail=item)
+        first=True
+        while first or time.monotonic()<deadline:
+            if active is not None: active.poll()
+            remaining,clear=sample('term-confirmation',force=first); first=False
+            if clear or time.monotonic()>=deadline: break
+            time.sleep(max(0.,min(.25,deadline-time.monotonic())))
+        remaining,closure_closed=sample('closure-final',force=True)
+        event('closure_end',stage=stage,remainingOwned=remaining,pendingIdentities=list(pending_details),closed=closure_closed,popenStillLive=active is not None and active.poll() is None)
+        check(closure_closed,'BLOCKED: process closure lacks a successful clear sample '+str({'owned':remaining,'pending':list(pending_details),'root':rootpid}))
+    finally: probe_deadline=previous_deadline
 def no_links(p):
     for q in [pathlib.Path(p)]+list(pathlib.Path(p).parents): check(not q.is_symlink(),'Symlink '+str(q))
 def inventory(root,relative=None):
@@ -249,9 +265,55 @@ def evidence_paths(): return [p for p in E.rglob('*') if p.is_file() or p.is_sym
 def evidence_name(p): return str(p.relative_to(E))
 def evidence_identity(p): return {'type':'symlink','target':os.readlink(p)} if p.is_symlink() else ident(p)
 def dlls(): return {p.name:ident(p) for p in (P/'Library/ScriptAssemblies').glob('*.dll')}
+def transfer_slots():
+    routes={}
+    for path in N['parked']:
+        routes[(str(P/path),str(E/'park/source'/path))]='park/'+path
+        routes[(str(E/'park/source'/path),str(P/path))]='unpark/'+path
+    for path in N['overwritten']+N['newPaths']: routes[(str(P/path),str(E/'archive/source'/path))]='archive/'+path
+    routes[(str(P/N['allowedNewSettings']['path']),str(E/'archive/SceneTemplateSettings.json'))]='settings/'+N['allowedNewSettings']['path']
+    for phase in ('sync','restore'):
+        for path in N['overwritten']: routes[(str(E/'atomic'/phase/path),str(E/'atomic/conflict'/phase/path))]='conflict-'+phase+'/'+path
+    return routes
+def move_verified(source,target,expected):
+    tag=transfer_slots().get((str(source),str(target)))
+    check(tag is not None and tag not in transfer_conflicts,'Move outside fixed routes or unresolved transfer '+str(tag))
+    capture=E/'atomic/transfer'/tag/'capture'; retired=E/'atomic/transfer'/tag/'retired'
+    no_links(capture); no_links(retired)
+    check(not os.path.lexists(capture) and not os.path.lexists(retired),'Transfer slots already exist')
+    capture.parent.mkdir(parents=True,exist_ok=True)
+    check(capture.parent.stat().st_dev==source.parent.stat().st_dev==target.parent.stat().st_dev,'Transfer same-volume requirement')
+    marker=('I01 fixed move reservation '+tag+'\n').encode(); marker_id={'bytes':len(marker),'sha256':hashlib.sha256(marker).hexdigest()}
+    transfer_conflicts.add(tag)
+    with capture.open('xb') as stream: stream.write(marker); stream.flush(); os.fsync(stream.fileno())
+    check(ident(capture)==marker_id,'Transfer reservation incomplete')
+    def give_back(origin,destination,swap=False):
+        try:
+            if swap: rename_swap(origin,destination)
+            else: rename_exclusive(origin,destination)
+            event('transfer_returned',route=tag,source=str(origin),target=str(destination),swap=swap)
+        except BaseException as error:
+            event('transfer_return_blocked',route=tag,source=str(origin),target=str(destination),error=str(error),retainedSlots=[str(capture),str(retired)])
+    rename_swap(capture,source)
+    try:
+        check(ident(capture)==expected,'Concurrent move source captured '+str(source))
+        check(ident(source)==marker_id,'Move reservation replaced '+str(source))
+    except BaseException:
+        give_back(capture,source,True); raise
+    try: rename_exclusive(source,retired)
+    except BaseException:
+        give_back(capture,source,True); raise
+    try: check(ident(retired)==marker_id,'Concurrent source captured during retirement '+str(source))
+    except BaseException:
+        give_back(retired,source); raise
+    try: rename_exclusive(capture,target)
+    except BaseException:
+        give_back(capture,source); raise
+    check(ident(target)==expected and not os.path.lexists(source),'Move postimage or recreated source conflict '+str(source))
+    transfer_conflicts.remove(tag); event('transfer_committed',route=tag,source=str(source),target=str(target),retiredReservation=str(retired))
 def transfer(source,target,expected,move=False):
     no_links(source); check(ident(source)==expected,'Transfer source drift '+str(source)); no_links(target.parent); target.parent.mkdir(parents=True,exist_ok=True); check(not os.path.lexists(target),'Archive target already exists')
-    if move: rename_exclusive(source,target)
+    if move: move_verified(source,target,expected)
     else:
         with target.open('xb') as f: f.write(source.read_bytes())
     check(ident(target)==expected,'Transfer byte verification'); event('transfer',source=str(source),target=str(target),identity=expected,moved=move)
@@ -336,6 +398,7 @@ def protection():
 def resources():
     ev=evidence_paths(); eb=sum(p.lstat().st_size for p in ev); cb=size(K)[0]; tb,tc=size(TMP); gb=sum(size(P/n)[0] for n in ['Library','Temp','Logs','UserSettings','obj'])+sum(p.stat().st_size for p in P.iterdir() if p.is_file() and p.suffix in ('.csproj','.sln')); free=shutil.disk_usage(E).free
     dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}|{'atomic/sync/'+p for p in N['overwritten']+N['newPaths']}|{'atomic/restore/'+p for p in N['overwritten']}|{'atomic/'+kind+'/'+phase+'/'+p for kind in ('displaced','conflict') for phase in ('sync','restore') for p in N['overwritten']}
+    dynamic|={'atomic/transfer/'+tag+'/'+leaf for tag in transfer_slots().values() for leaf in ('capture','retired')}
     check(all(evidence_name(p) in allowed|dynamic and not p.is_symlink() for p in ev),'Evidence closure exceeded')
     check(eb<LIMIT['evidenceBytes']-1048576 and all(p.lstat().st_size<LIMIT['perLogBytes'] for p in ev if p.suffix=='.log'),'Evidence/log budget')
     check(cb<=LIMIT['newCacheBytes'] and gb<=LIMIT['generatedBytes'] and tb<=LIMIT['testTemporaryBytes'] and tc<=LIMIT['testTemporaryLeaves'] and free>=LIMIT['minimumFreeBytes'],'Storage budget')
@@ -478,9 +541,9 @@ def archive_and_restore():
     try:
         settings=N['allowedNewSettings']; target=P/settings['path']
         if any(s['runCount'] for s in stages) and target.exists() and settings['path'] not in N['restoreBaseline']: transfer(target,E/'archive/SceneTemplateSettings.json',basic({'x':settings})['x'],True)
-        tick(); restored=True; report['projection']=projection_guard(); protection(); report['complete']=not report['errors']
+        tick(); check(not transfer_conflicts,'Unresolved transfers '+str(sorted(transfer_conflicts))); restored=True; report['projection']=projection_guard(); protection(); report['complete']=not report['errors']
     except BaseException as ex: report['errors'].append(str(ex))
-    report['seconds']=time.monotonic()-start; write('restore.json',report); return report
+    report['transferConflicts']=sorted(transfer_conflicts); report['seconds']=time.monotonic()-start; write('restore.json',report); return report
 def main():
     global A,B,N,PREF,C,TMP,OWNER,ACT_SHA,EXECUTION_TURN,clock_start,baseline_processes
     check(len(sys.argv)==3,'Activation SHA and fresh owner turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]; check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA')
@@ -489,7 +552,7 @@ def main():
     A['adbException']=N['adbException']; A['sdkAdb']=N['sdkAdb']; TMP=pathlib.Path(A['environmentOverrides']['TMPDIR']); argv=[N['editor']['path'],'-batchmode','-nographics','-quit','-buildTarget','StandaloneOSX','-projectPath',str(P),'-logFile',str(E/'I/editor.log')]
     check(A['argv']==argv,'Exact compile-only argv'); A['stages']=[{'id':'I','timeoutSeconds':360,'maxRuns':1,'argv':argv}]; clock_start=time.monotonic(); started=utc(); failure=None; restore=None; after={}; status='NOT_RUN_BLOCKED'; remaining=None
     try:
-        check(sum(bool(x.strip()) for x in pathlib.Path(__file__).read_text().splitlines())<=580,'580 lines'); check(not (E/'process-events.jsonl').exists() and not (E/'before.json').exists(),'Activation already used')
+        check(sum(bool(x.strip()) for x in pathlib.Path(__file__).read_text().splitlines())<=650,'650 lines'); check(not (E/'process-events.jsonl').exists() and not (E/'before.json').exists(),'Activation already used')
         no_links(TMP); check(not list(TMP.iterdir()),'TMP initially empty'); baseline_processes=ps(); consumer_guard(baseline_processes); event('process_baseline',rows=baseline_processes); capture_before(); preflight(); synchronize(); result=run_stage(); status=result['status']; failure=result['failure']
     except BaseException as ex: failure=str(ex)
     finally:
@@ -504,8 +567,8 @@ def main():
         except BaseException as ex: failure=(failure+'; ' if failure else '')+str(ex)
         if failure: status='FAILED' if any(s['runCount'] for s in stages) else 'NOT_RUN_BLOCKED'
         write('compile.json',{'stages':stage_dlls,'DLLsAfter':dlls(),'fullImportedInputs':full_inputs,'noRuntimeOrAndroidAcceptance':True})
-        write('after.json',after); write('process-after.json',{'processBaseline':baseline_processes,'owned':list(owned.values()),'remainingOwned':remaining,'launchedRoot':launched_root,'pendingIdentities':pending_details,'closureClosed':closure_closed,'popenStillLive':active is not None and active.poll() is None,'monitorCycles':monitor_cycles,'monitorErrors':monitor_errors,'adbObservations':adb_observations,'sdkAdbObservations':sdk_observations,'sdkAdbBinding':sdk_adb,'signals':[p for p in owned if owned[p]['termSent']],'sigkill':False})
-        receipt={'task':A['task'],'status':status,'owner':OWNER,'startedUtc':started,'finishedUtc':utc(),'mechanicalExecutionSeconds':time.monotonic()-clock_start,'preparationSeconds':PREF['mechanicalPreparationSeconds'],'approvalWait':A['approvalWait'],'stages':stages,'failure':failure,'restore':restore,'remainingOwned':remaining,'launchedRoot':launched_root,'pendingIdentities':pending_details,'closureClosed':closure_closed,'popenStillLive':active is not None and active.poll() is None,'newSdkAdbRetained':sdk_adb,'launchAttempts':launch_attempts,'unityStarts':sum(s['runCount'] for s in stages),'evidence':{evidence_name(p):evidence_identity(p) for p in evidence_paths()},'unrun':['Play','tests','scene save/reopen/export','downloads','real saves','Git mutations'],'soleCompletionReceiver':'01a0e401-511d-79f2-b47f-3ab0ade1681b/local'}
+        write('after.json',after); write('process-after.json',{'processBaseline':baseline_processes,'owned':list(owned.values()),'remainingOwned':remaining,'launchedRoot':launched_root,'pendingIdentities':pending_details,'closureClosed':closure_closed,'transferConflicts':sorted(transfer_conflicts),'popenStillLive':active is not None and active.poll() is None,'monitorCycles':monitor_cycles,'monitorErrors':monitor_errors,'adbObservations':adb_observations,'sdkAdbObservations':sdk_observations,'sdkAdbBinding':sdk_adb,'signals':[p for p in owned if owned[p]['termSent']],'sigkill':False})
+        receipt={'task':A['task'],'status':status,'owner':OWNER,'startedUtc':started,'finishedUtc':utc(),'mechanicalExecutionSeconds':time.monotonic()-clock_start,'preparationSeconds':PREF['mechanicalPreparationSeconds'],'approvalWait':A['approvalWait'],'stages':stages,'failure':failure,'restore':restore,'remainingOwned':remaining,'launchedRoot':launched_root,'pendingIdentities':pending_details,'closureClosed':closure_closed,'transferConflicts':sorted(transfer_conflicts),'popenStillLive':active is not None and active.poll() is None,'newSdkAdbRetained':sdk_adb,'launchAttempts':launch_attempts,'unityStarts':sum(s['runCount'] for s in stages),'evidence':{evidence_name(p):evidence_identity(p) for p in evidence_paths()},'unrun':['Play','tests','scene save/reopen/export','downloads','real saves','Git mutations'],'soleCompletionReceiver':'01a0e401-511d-79f2-b47f-3ab0ade1681b/local'}
         write('receipt.json',receipt); print(json.dumps({'status':status,'failure':failure,'receipt':ident(E/'receipt.json')}),flush=True)
     return 0 if status=='COMPILE_PASS' else 1
 if __name__=='__main__': sys.exit(main())
