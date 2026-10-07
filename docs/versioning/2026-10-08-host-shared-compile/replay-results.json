@@ -2,7 +2,7 @@
   "rounds": [
     {
       "round": 1,
-      "status": "SOURCE_REPLAY_PASS",
+      "status": "SOURCE_REPLAY_FAILED",
       "cases": [
         {
           "name": "running legitimate new child",
@@ -235,6 +235,144 @@
         {
           "name": "launched root persistent-details through actual run_stage/closure",
           "passed": true
+        },
+        {
+          "name": "same snapshot FIFO license",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Exact FIFO ownership verdict license",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 346, in <lambda>\n    regression('same snapshot FIFO '+mode,lambda mode=mode:fifo_case(mode))\n                                                           ~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 339, in fifo_case\n    need(bool(env['monitor_errors'])!=positive,'Exact FIFO ownership verdict '+mode)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Exact FIFO ownership verdict license\n"
+        },
+        {
+          "name": "same snapshot FIFO dotnet",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Exact FIFO ownership verdict dotnet",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 346, in <lambda>\n    regression('same snapshot FIFO '+mode,lambda mode=mode:fifo_case(mode))\n                                                           ~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 339, in fifo_case\n    need(bool(env['monitor_errors'])!=positive,'Exact FIFO ownership verdict '+mode)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Exact FIFO ownership verdict dotnet\n"
+        },
+        {
+          "name": "same snapshot FIFO wrong-uid",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-root",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-ancestry",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-same-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-exe",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO reuse",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO non-fifo",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle absent",
+          "passed": false,
+          "newFIX04": true,
+          "error": "First-cycle error must reach closure_end",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 382, in closure_first\n    need(len(endings)==1,'First-cycle error must reach closure_end')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: First-cycle error must reach closure_end\n"
+        },
+        {
+          "name": "closure first cycle zombie",
+          "passed": false,
+          "newFIX04": true,
+          "error": "First-cycle error must reach closure_end",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 382, in closure_first\n    need(len(endings)==1,'First-cycle error must reach closure_end')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: First-cycle error must reach closure_end\n"
+        },
+        {
+          "name": "closure first cycle recover",
+          "passed": false,
+          "newFIX04": true,
+          "error": "First-cycle error must reach closure_end",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 382, in closure_first\n    need(len(endings)==1,'First-cycle error must reach closure_end')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: First-cycle error must reach closure_end\n"
+        },
+        {
+          "name": "closure first cycle persistent",
+          "passed": false,
+          "newFIX04": true,
+          "error": "First-cycle error must reach closure_end",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 382, in closure_first\n    need(len(endings)==1,'First-cycle error must reach closure_end')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: First-cycle error must reach closure_end\n"
+        },
+        {
+          "name": "closure first cycle reuse",
+          "passed": false,
+          "newFIX04": true,
+          "error": "First-cycle error must reach closure_end",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 382, in closure_first\n    need(len(endings)==1,'First-cycle error must reach closure_end')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: First-cycle error must reach closure_end\n"
+        },
+        {
+          "name": "closure first cycle ps-once",
+          "passed": false,
+          "newFIX04": true,
+          "error": "First-cycle error must reach closure_end",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 382, in closure_first\n    need(len(endings)==1,'First-cycle error must reach closure_end')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: First-cycle error must reach closure_end\n"
+        },
+        {
+          "name": "closure first cycle ps-always",
+          "passed": false,
+          "newFIX04": true,
+          "error": "First-cycle error must reach closure_end",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 382, in closure_first\n    need(len(endings)==1,'First-cycle error must reach closure_end')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: First-cycle error must reach closure_end\n"
+        },
+        {
+          "name": "closure first cycle resources-once",
+          "passed": false,
+          "newFIX04": true,
+          "error": "One discovery per population snapshot",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 386, in closure_first\n    need(len(discoveries)==len(set(discoveries)),'One discovery per population snapshot')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: One discovery per population snapshot\n"
+        },
+        {
+          "name": "closure first cycle resources-always",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Simulated original 60/30 windows",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 383, in closure_first\n    need(clock[0]-100==(90 if unresolved else 60),'Simulated original 60/30 windows')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Simulated original 60/30 windows\n"
+        },
+        {
+          "name": "closure first cycle projection-once",
+          "passed": false,
+          "newFIX04": true,
+          "error": "One discovery per population snapshot",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 386, in closure_first\n    need(len(discoveries)==len(set(discoveries)),'One discovery per population snapshot')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: One discovery per population snapshot\n"
+        },
+        {
+          "name": "closure first cycle projection-always",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Simulated original 60/30 windows",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 401, in <lambda>\n    regression('closure first cycle '+mode,lambda mode=mode:closure_first(mode))\n                                                            ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 383, in closure_first\n    need(clock[0]-100==(90 if unresolved else 60),'Simulated original 60/30 windows')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Simulated original 60/30 windows\n"
+        },
+        {
+          "name": "skipped monitor sample cannot establish closure",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Only final successful forced sample establishes clear",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 310, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 412, in skipped_is_not_clear\n    need(calls==['natural-closure','term-confirmation','closure-final'] and env['closure_closed'] is True,'Only final successful forced sample establishes clear')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Only final successful forced sample establishes clear\n"
         }
       ],
       "nativeRuns": 0,
@@ -242,17 +380,9 @@
       "realSignals": 0,
       "actualProjectionWrites": 0,
       "fixtureIOOnly": true,
-      "changedFunctions": [
-        "archive_and_restore",
-        "closure",
-        "main",
-        "register",
-        "run_stage",
-        "snapshot_consumers"
-      ],
-      "newFunctions": [
-        "recover_root"
-      ],
+      "phase": "RED_BASELINE",
+      "changedFunctions": [],
+      "newFunctions": [],
       "allOtherFunctionsAstEqual": true,
       "static": {
         "syntax": true,
@@ -664,10 +794,162 @@
           "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
         }
       ],
-      "baseFix02FiveFilesUnchanged": true,
-      "baseFix01FiveFilesUnchanged": true,
-      "oldFiveFilesUnchanged": true,
-      "seconds": 13.709244375000708,
+      "prior58Passed": true,
+      "fifoEvidence": [
+        {
+          "mode": "wrong-uid",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "owned_discovered",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-root",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /wrong-root/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "owned_discovered",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-ancestry",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-same-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-exe",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "owned_discovered",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "reuse",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "non-fifo",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Special tree entry /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "owned_discovered",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/foreign-pipe"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "owned_discovered",
+            "monitor_cycle"
+          ]
+        }
+      ],
+      "fixed03AndRun59Unchanged": true,
+      "failure": "FIX04 regression failures: same snapshot FIFO license, same snapshot FIFO dotnet, closure first cycle absent, closure first cycle zombie, closure first cycle recover, closure first cycle persistent, closure first cycle reuse, closure first cycle ps-once, closure first cycle ps-always, closure first cycle resources-once, closure first cycle resources-always, closure first cycle projection-once, closure first cycle projection-always, skipped monitor sample cannot establish closure",
+      "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 415, in <module>\n    need(all(c['passed'] for c in cases),'FIX04 regression failures: '+', '.join(c['name'] for c in cases if not c['passed']))\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: FIX04 regression failures: same snapshot FIFO license, same snapshot FIFO dotnet, closure first cycle absent, closure first cycle zombie, closure first cycle recover, closure first cycle persistent, closure first cycle reuse, closure first cycle ps-once, closure first cycle ps-always, closure first cycle resources-once, closure first cycle resources-always, closure first cycle projection-once, closure first cycle projection-always, skipped monitor sample cannot establish closure\n",
+      "seconds": 2.844009125001321,
       "actualFunctionsCalled": [
         "<genexpr>",
         "<lambda>",
@@ -696,6 +978,7 @@
         "synchronize",
         "tick",
         "transfer",
+        "tree_entries",
         "validate_inputs"
       ],
       "forbiddenAttempts": [],
@@ -704,11 +987,1665 @@
         "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
       },
       "checker": {
-        "bytes": 33486,
-        "sha256": "82ca9b61fe0f9562a7c3f9b657ea3e585239904be74a2e5c7d94cca4394e1531"
+        "bytes": 55492,
+        "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
+      }
+    },
+    {
+      "round": 2,
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": [
+        {
+          "name": "running legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "running same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "natural-closure legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "natural-closure same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "closure-final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "closure-final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "PID reuse rejected",
+          "passed": true
+        },
+        {
+          "name": "details failure discover rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure snapshot_consumers rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure monitor rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "bad-argv not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-cwd not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-probe not published to owned",
+          "passed": true
+        },
+        {
+          "name": "details retry publishes complete child and permits original cleanup guards",
+          "passed": true
+        },
+        {
+          "name": "child absent in fresh snapshot cannot poison valid root cleanup",
+          "passed": true
+        },
+        {
+          "name": "register cannot replace a valid owned root",
+          "passed": true
+        },
+        {
+          "name": "I single-use real claim",
+          "passed": true
+        },
+        {
+          "name": "input drift rejected",
+          "passed": true
+        },
+        {
+          "name": "all required compilation evidence passes",
+          "passed": true
+        },
+        {
+          "name": "missing assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "unproved assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "complete unchanged cache chain passes",
+          "passed": true
+        },
+        {
+          "name": "missing prior cache chain rejected",
+          "passed": true
+        },
+        {
+          "name": "cache response drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache sourceInputs drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache references drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache defines drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache compilerOutput drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache dll drift rejected",
+          "passed": true
+        },
+        {
+          "name": "32 paths synchronize and restore through actual functions",
+          "passed": true
+        },
+        {
+          "name": "mid-sync failure restores actual ledger",
+          "passed": true
+        },
+        {
+          "name": "third-party target preserved with failed restoration verdict",
+          "passed": true
+        },
+        {
+          "name": "sync-overwrite-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-overwrite-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "new-exclusive-collision preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-same-as-post preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "launched root recover through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-exit through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-during-recovery through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-live through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-exited through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-parent through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-exe through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-argv through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-cwd through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root persistent-details through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "same snapshot FIFO license",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO dotnet",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-uid",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-root",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-ancestry",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-same-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-exe",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO reuse",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO non-fifo",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle absent",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle zombie",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle recover",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle persistent",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle reuse",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle ps-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle ps-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle resources-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle resources-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle projection-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle projection-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "skipped monitor sample cannot establish closure",
+          "passed": true,
+          "newFIX04": true
+        }
+      ],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "phase": "GREEN_CORRECTION",
+      "changedFunctions": [
+        "archive_and_restore",
+        "closure",
+        "consumer_guard",
+        "discover",
+        "main",
+        "monitor",
+        "snapshot_consumers",
+        "tree_entries"
+      ],
+      "newFunctions": [],
+      "allOtherFunctionsAstEqual": true,
+      "static": {
+        "syntax": true,
+        "runnerNonblankLines": 511,
+        "singlePopenSite": true,
+        "sameSnapshot": true,
+        "pureCompile": true
+      },
+      "ownershipRecovery": [
+        {
+          "childVanishedInNextSnapshot": false,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        },
+        {
+          "childVanishedInNextSnapshot": true,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        }
+      ],
+      "faultEvidence": [
+        {
+          "fault": "sync-overwrite-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-new-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-overwrite-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-new-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-partial",
+          "partialFiles": [
+            "/E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "synthetic failure after partial bytes persisted"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "[Errno 5] synthetic errno 5: '/P/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs'"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "new-exclusive-collision",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; []"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; ['New drift during bounded conflict return; preserved in conflict slot']"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-same-as-post",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        }
+      ],
+      "launchedRootRecovery": [
+        {
+          "mode": "recover",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            4
+          ],
+          "suppliedSnapshots": 6,
+          "rootPublished": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "natural-exit",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "natural-during-recovery",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "pid-reuse-live",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "pid-reuse-exited",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "foreign-parent",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "foreign-exe",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "wrong-argv",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "wrong-cwd",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        },
+        {
+          "mode": "persistent-details",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
+        }
+      ],
+      "prior58Passed": true,
+      "fifoEvidence": [
+        {
+          "mode": "license",
+          "errors": [],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "dotnet",
+          "errors": [],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-uid",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-root",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /wrong-root/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-ancestry",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO root/parent mismatch /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-same-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client\", \"pid\": 36391}]"
+            },
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO owner absent or reused /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "monitor_failure",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-exe",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO executable /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "reuse",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"reused\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client\", \"pid\": 36391}]"
+            },
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO owner absent or reused /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "monitor_failure",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "non-fifo",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Special tree entry /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/foreign-pipe"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        }
+      ],
+      "closureFirstEvidence": [
+        {
+          "mode": "absent",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "zombie",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "recover",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "persistent",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 364,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355,
+            363,
+            364
+          ],
+          "signals": [],
+          "pendingPids": [
+            36391
+          ],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [36391], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 49,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "reuse",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 364,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355,
+            363,
+            364
+          ],
+          "signals": [],
+          "pendingPids": [
+            36391
+          ],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [36391], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 49,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "ps-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "process-snapshot",
+            "error": "synthetic ps unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "ps-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 364,
+          "discoverySampleIndexes": [],
+          "signals": [],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "process-snapshot",
+            "error": "synthetic ps unavailable"
+          },
+          "errorCount": 364,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "resources-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "resources",
+            "error": "synthetic resources unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "resources-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 365,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            252,
+            260,
+            268,
+            276,
+            284,
+            292,
+            300,
+            308,
+            316,
+            324,
+            332,
+            340,
+            348,
+            356,
+            364,
+            365
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "resources",
+            "error": "synthetic resources unavailable"
+          },
+          "errorCount": 48,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "projection-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "projection",
+            "error": "synthetic projection unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "projection-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 365,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            252,
+            260,
+            268,
+            276,
+            284,
+            292,
+            300,
+            308,
+            316,
+            324,
+            332,
+            340,
+            348,
+            356,
+            364,
+            365
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "projection",
+            "error": "synthetic projection unavailable"
+          },
+          "errorCount": 48,
+          "zeroRealSignals": true
+        }
+      ],
+      "fixed03AndRun59Unchanged": true,
+      "baseFix02FiveFilesUnchanged": true,
+      "baseFix01FiveFilesUnchanged": true,
+      "oldFiveFilesUnchanged": true,
+      "seconds": 3.1292422500046086,
+      "actualFunctionsCalled": [
+        "<genexpr>",
+        "<lambda>",
+        "<module>",
+        "alive",
+        "archive_and_restore",
+        "atomic_write",
+        "basic",
+        "cached_reuse_proven",
+        "check",
+        "claim_stage",
+        "closure",
+        "compilation_passed",
+        "consumer_guard",
+        "discover",
+        "monitor",
+        "recorded_chain",
+        "recover_root",
+        "register",
+        "rename_exclusive",
+        "rename_swap",
+        "run_stage",
+        "same",
+        "sample",
+        "snapshot_consumers",
+        "swap_verified",
+        "synchronize",
+        "tick",
+        "transfer",
+        "tree_entries",
+        "validate_inputs"
+      ],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 50243,
+        "sha256": "90b94e0ea8c8e1ed6465a8ee72e075a52bdad87c310860c4804212f788c8e6ab"
+      },
+      "checker": {
+        "bytes": 55492,
+        "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
       }
     }
   ],
   "status": "SOURCE_REPLAY_PASS",
-  "cumulativeSeconds": 13.709244375000708
+  "cumulativeSeconds": 5.97325137500593
 }

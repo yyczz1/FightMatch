@@ -1,772 +1,573 @@
 {
-  "task": "HOST-INTEGRATE-001/I01-FIX03-source",
+  "task": "HOST-INTEGRATE-001/I01-FIX04-source",
   "status": "SOURCE_REPLAY_PASS",
   "owner": {
-    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
     "host": "local",
-    "turn": "01a117e9-ca3e-7cf0-9a5d-6087e8538c43"
+    "turn": "01a11811-6278-7540-abda-e7fa4e186e9d"
   },
   "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
-  "returnRoute": "Final; central wait only",
-  "startedAtUnix": 1791402560,
-  "finishedUtc": "2026-10-07T19:58:23.404141+00:00",
-  "wallSecondsSinceTurnStart": 543.4044179916382,
+  "returnRoute": "Direct final and central completion wait only; no outbound messaging or new agents.",
+  "authority": {
+    "packet": "docs/team/2026-09-30/central-host-integrate-i01-fix04-source.md",
+    "approvedDesign": "docs/team/2026-09-30/engineering-host-integrate-i01-recovery-next.md sections 3–4",
+    "designActualTurn": "01a11802-d7ba-78c1-9ca5-947296efd44d",
+    "sourceOwnershipTransferredFromC": true
+  },
+  "startedAtUnix": 1791405154,
+  "preparedUtc": "2026-10-07T20:46:54.742Z",
+  "wallSecondsSinceTurnStart": 860.7420001029968,
+  "writeScope": {
+    "root": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source",
+    "exactLeaves": [
+      "runner.py",
+      "replay-check.py",
+      "replay-results.json",
+      "correction.patch",
+      "preparation.json"
+    ],
+    "createdFromExactFix03": true
+  },
   "sourceIdentities": {
     "runner.py": {
-      "bytes": 47602,
-      "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
+      "bytes": 50243,
+      "sha256": "90b94e0ea8c8e1ed6465a8ee72e075a52bdad87c310860c4804212f788c8e6ab"
     },
     "replay-check.py": {
-      "bytes": 33486,
-      "sha256": "82ca9b61fe0f9562a7c3f9b657ea3e585239904be74a2e5c7d94cca4394e1531"
+      "bytes": 55492,
+      "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
     },
     "replay-results.json": {
-      "bytes": 21589,
-      "sha256": "c5e9f9a47af7c8e689af632411c74a60d599cb7d485cb214b3cd304238408374"
+      "bytes": 92788,
+      "sha256": "0043d1466da4be11c3a49125b62298ee41ff0040b392895b677ab9cebbe156ca"
     },
     "correction.patch": {
-      "bytes": 29516,
-      "sha256": "4142b8ffff648b1582d2b5ffef0fa4f10b952829ed1850bc9b53b2edca8ad334"
+      "bytes": 47275,
+      "sha256": "c0076aa55dc60c4ca5505395ac166ce88e89e307a11f09ed205576140e7ebd3a"
     }
   },
+  "selfIdentity": "preparation.json is externally sealed in the final receipt; no circular self hash.",
   "fixedReferences": {
-    "docs/team/2026-09-30/central-host-integrate-001-i01-fix03.md": {
-      "bytes": 2495,
-      "sha256": "fcec593e91adba13a244cc9a1098a05439555d18c850607f66ebeacea67b6f59"
+    "docs/team/2026-09-30/central-host-integrate-i01-fix04-source.md": {
+      "bytes": 2633,
+      "sha256": "2a89cb39d17c0b52e6bab9e0a95d844edb0249fd7a077e775c4583d5de66f57b"
     },
-    "docs/team/2026-09-30/testing-host-integrate-pr18-fix02-review-receipt.json": {
-      "bytes": 7879,
-      "sha256": "bcb9c14d414194e2877e8349f179a930c17218a8fa7b036c15625294d74d7be2"
-    },
-    "docs/team/2026-09-30/host-integrate-001-i01-fix02-source-verdict.json": {
-      "bytes": 959,
-      "sha256": "5a5682a94207961e4838609ff5593df528304c254638bff5c8349d552157a024"
+    "docs/team/2026-09-30/engineering-host-integrate-i01-recovery-next.md": {
+      "bytes": 4990,
+      "sha256": "8bc112222aa52f3c14fb3473cb472e3855474fbe678973d4894fb83ca0d1ea2b"
     }
   },
   "immutablePreviousRoots": {
-    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01": {
+    "I01": {
+      "inputs.json": {
+        "bytes": 806564,
+        "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
+      },
       "preparation.json": {
         "bytes": 8345,
         "sha256": "0c9c2d4d3ffb8d8920f02c2ce6e7a4614d69de4c3422463ea81771f8b892a6ff"
       },
-      "runner.py": {
-        "bytes": 41638,
-        "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
+      "replay-check.py": {
+        "bytes": 13372,
+        "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
       },
       "replay-results.json": {
         "bytes": 4141,
         "sha256": "13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a"
       },
-      "inputs.json": {
-        "bytes": 806564,
-        "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
-      },
-      "replay-check.py": {
-        "bytes": 13372,
-        "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
+      "runner.py": {
+        "bytes": 41638,
+        "sha256": "e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"
       }
     },
-    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source": {
+    "I01-FIX01-source": {
+      "correction.patch": {
+        "bytes": 28398,
+        "sha256": "fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"
+      },
       "preparation.json": {
         "bytes": 13374,
         "sha256": "8fab17eaa833a4f7e2713eb2b2dd32f57721457f4390959f545de695fcf532c6"
       },
-      "runner.py": {
-        "bytes": 44197,
-        "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
+      "replay-check.py": {
+        "bytes": 19747,
+        "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
       },
       "replay-results.json": {
         "bytes": 14193,
         "sha256": "769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c"
       },
-      "correction.patch": {
-        "bytes": 28398,
-        "sha256": "fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"
-      },
-      "replay-check.py": {
-        "bytes": 19747,
-        "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
+      "runner.py": {
+        "bytes": 44197,
+        "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
       }
     },
-    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX02-source": {
+    "I01-FIX02-source": {
+      "correction.patch": {
+        "bytes": 28351,
+        "sha256": "1a0603f12c022a156146727b1e4712c586f68b508c468eec198ae50964238272"
+      },
       "preparation.json": {
         "bytes": 25280,
         "sha256": "769eac92e89f32772ec024e17db5bdffc9b458057dc511b4757445232f8a8881"
       },
-      "runner.py": {
-        "bytes": 45994,
-        "sha256": "6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"
+      "replay-check.py": {
+        "bytes": 26565,
+        "sha256": "4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"
       },
       "replay-results.json": {
         "bytes": 14764,
         "sha256": "3095f8299730bba024d744976cf6fd270a1b9df9dc5514dc5935148c23edfc8a"
       },
+      "runner.py": {
+        "bytes": 45994,
+        "sha256": "6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"
+      }
+    },
+    "I01-FIX03-source": {
       "correction.patch": {
-        "bytes": 28351,
-        "sha256": "1a0603f12c022a156146727b1e4712c586f68b508c468eec198ae50964238272"
+        "bytes": 29516,
+        "sha256": "4142b8ffff648b1582d2b5ffef0fa4f10b952829ed1850bc9b53b2edca8ad334"
+      },
+      "preparation.json": {
+        "bytes": 31200,
+        "sha256": "d68ff9db8668910a9e46c4fc9bd12906a07f390e9dfad2a3627e4cea33bb23e7"
       },
       "replay-check.py": {
-        "bytes": 26565,
-        "sha256": "4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"
+        "bytes": 33486,
+        "sha256": "82ca9b61fe0f9562a7c3f9b657ea3e585239904be74a2e5c7d94cca4394e1531"
+      },
+      "replay-results.json": {
+        "bytes": 21589,
+        "sha256": "c5e9f9a47af7c8e689af632411c74a60d599cb7d485cb214b3cd304238408374"
+      },
+      "runner.py": {
+        "bytes": 47602,
+        "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
+      }
+    },
+    "I01-run": {
+      "I/editor.log": {
+        "bytes": 100793,
+        "sha256": "48d397ee7646bd29f89edf150e5a78fa2ce1a94f3e3ed3fee1fe7da92162b131"
+      },
+      "I/launcher.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "I/result.json": {
+        "bytes": 1654,
+        "sha256": "04c79ceed4bfb0307862ef3de108ea30ffa54d4662cff4c9db832bec5d0ed983"
+      },
+      "activation.json": {
+        "bytes": 24833,
+        "sha256": "3a89063e90bee9140517860d5589c55b3b8b20c4a86889edf2ad4f804f3e3f5e"
+      },
+      "after.json": {
+        "bytes": 477,
+        "sha256": "318c2bb752455444d31a1f13d9305ac2d7b8b0e7fd507d978793f4e477a18056"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+        "bytes": 83965,
+        "sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+        "bytes": 14379,
+        "sha256": "d7a29970b0fb8b594e7114a883b82ffef92c47181218df1bec1f420dfda72136"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+        "bytes": 19136,
+        "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs": {
+        "bytes": 13944,
+        "sha256": "38c7cfbb999897db56e90c37b6c7cacdef95d0aaabae87b8c671e1f262ea6216"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+        "bytes": 34540,
+        "sha256": "659d879b2154e3e7b9347638cfeaf5f3f33b4daea8908b14711712170b5ed3ed"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+        "bytes": 25884,
+        "sha256": "3baa9fc9f2f4a565a4933130e7f5c46e6c16edf4e7a3a0d13c8dac9761201e7c"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs": {
+        "bytes": 18882,
+        "sha256": "b3f28fd28df9687e8a92b95a81b2bd8d65fe974e43b962436b2a75370bfb8cac"
+      },
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs": {
+        "bytes": 11337,
+        "sha256": "dbfdfe0e333777d19d76e8a84860d6912fbd916e44425a99cbb7b1a9ffd128e9"
+      },
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs": {
+        "bytes": 16074,
+        "sha256": "d798f81816a6e9d1583b0ab7f54895731bb69676dbc2aae97355d4d8767f909a"
+      },
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs": {
+        "bytes": 28115,
+        "sha256": "16b3311b564777eb81fba4467a88afc100aaa8abaf80fe03ae0ac39989bb7337"
+      },
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs": {
+        "bytes": 15357,
+        "sha256": "684f9b81ff42f27e5a871a77e6f7f9278dbccf743289a54d7380b387a44fee64"
+      },
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs": {
+        "bytes": 27609,
+        "sha256": "3f4e56ead7feb7e3c85b9f28cf315240010cbbbb20b71fa5baf7ca270a56fcca"
+      },
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs": {
+        "bytes": 17926,
+        "sha256": "00a3244998a419e140d23d25e0e2d8f7e2a4c72415caffc75fec9a53289902b8"
+      },
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+        "bytes": 24326,
+        "sha256": "0cfa14f00f541ad6d1be26745fffaf14703e7ac3af27d038b4a410b6a6d04fbb"
+      },
+      "atomic/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs": {
+        "bytes": 27431,
+        "sha256": "c4fc7de1e9786d3ae4ecb71038f74c0d978c00bf4498855cccaeefc2e4c5ce0e"
+      },
+      "atomic/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+        "bytes": 1060568,
+        "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b"
+      },
+      "before.json": {
+        "bytes": 916349,
+        "sha256": "a1e4d5ea7f753c0fb8648c42ed417289a9481dc68881009947a77a8f8b8b01a2"
+      },
+      "compile.json": {
+        "bytes": 8433,
+        "sha256": "ae808d63fe2213c883c0fe57209dec50910bef50c0ccd52b7cb788315d1a89be"
+      },
+      "inputs.json": {
+        "bytes": 806564,
+        "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
+      },
+      "park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef": {
+        "bytes": 377,
+        "sha256": "09347e70d10f8cb3e26751c004ba005cadc32d1f3b6ecadf78bb6c9cf1fb2e45"
+      },
+      "park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta": {
+        "bytes": 166,
+        "sha256": "71e1d59633f8843474b4b49e08037d59ab5fce7cb98b6c87fbae1a3befbf0b14"
+      },
+      "park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs": {
+        "bytes": 11990,
+        "sha256": "4ababded06a870408ebb74e157eeb4ea3233509fb7e6b48d6b904f1d6ac04330"
+      },
+      "park/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta": {
+        "bytes": 243,
+        "sha256": "cc18e3364c4f4b7e2eeb066924d754603135c61f23c2235fea36eeee3b99d20a"
+      },
+      "park/source/Assets/Scripts/FightMatch/AssetAccess.meta": {
+        "bytes": 172,
+        "sha256": "ddfbcd983fe098bfcd8e030ead0151a21546e79ed7870588e1bda12717477a32"
+      },
+      "park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef": {
+        "bytes": 515,
+        "sha256": "1d605c9ea6e3727c7fe4f595078a12469def24ec7055489f1a467951dde244a0"
+      },
+      "park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta": {
+        "bytes": 166,
+        "sha256": "72aca75813de7109895ab4a65f46a5dd60ba1f235850ea566d53df2ad03b5ee3"
+      },
+      "park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs": {
+        "bytes": 16708,
+        "sha256": "6c65da27c7847d50e5a3c0beb1da30d58db025646be21b2eec493c816c3ba5fc"
+      },
+      "park/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta": {
+        "bytes": 243,
+        "sha256": "3c2a4529ca7e380f23312c718b89725d6f9228034c2e1e438b7cdb4a88891d4e"
+      },
+      "park/source/Assets/Tests/EditMode/FightMatchAsset.meta": {
+        "bytes": 172,
+        "sha256": "449fc8beb147b177d6c8d018a543b446392c8aae9b2c447982f30255e38bde28"
+      },
+      "park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs": {
+        "bytes": 15710,
+        "sha256": "ed176ec6e87742359cfcd7767236619496180b25ad9783563582235ca1f8014d"
+      },
+      "park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta": {
+        "bytes": 243,
+        "sha256": "b6ecf5844647902cd3499b55c8948e0f2925bbdef9b379bfe13b2aa23e888535"
+      },
+      "preparation.json": {
+        "bytes": 31200,
+        "sha256": "d68ff9db8668910a9e46c4fc9bd12906a07f390e9dfad2a3627e4cea33bb23e7"
+      },
+      "process-after.json": {
+        "bytes": 135198,
+        "sha256": "9d6b467176d9f19494f04e0633c4c2e1a7a0d6d159c4b821ef992094c640aa36"
+      },
+      "process-events.jsonl": {
+        "bytes": 145484,
+        "sha256": "427f55a8fbf200762134b19672c4c1a9af4b17e3c293f2b573593de67285e547"
+      },
+      "receipt.json": {
+        "bytes": 18698,
+        "sha256": "58856c36ec5cdc1d638323d99f3563a2ddba162ad8b5cb11b905bea9278cdece"
+      },
+      "replay-check.py": {
+        "bytes": 33486,
+        "sha256": "82ca9b61fe0f9562a7c3f9b657ea3e585239904be74a2e5c7d94cca4394e1531"
+      },
+      "replay-results.json": {
+        "bytes": 21589,
+        "sha256": "c5e9f9a47af7c8e689af632411c74a60d599cb7d485cb214b3cd304238408374"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+        "bytes": 83965,
+        "sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+        "bytes": 14379,
+        "sha256": "d7a29970b0fb8b594e7114a883b82ffef92c47181218df1bec1f420dfda72136"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+        "bytes": 19136,
+        "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs": {
+        "bytes": 13944,
+        "sha256": "38c7cfbb999897db56e90c37b6c7cacdef95d0aaabae87b8c671e1f262ea6216"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+        "bytes": 34540,
+        "sha256": "659d879b2154e3e7b9347638cfeaf5f3f33b4daea8908b14711712170b5ed3ed"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+        "bytes": 25884,
+        "sha256": "3baa9fc9f2f4a565a4933130e7f5c46e6c16edf4e7a3a0d13c8dac9761201e7c"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs": {
+        "bytes": 18882,
+        "sha256": "b3f28fd28df9687e8a92b95a81b2bd8d65fe974e43b962436b2a75370bfb8cac"
+      },
+      "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs": {
+        "bytes": 11337,
+        "sha256": "dbfdfe0e333777d19d76e8a84860d6912fbd916e44425a99cbb7b1a9ffd128e9"
+      },
+      "restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs": {
+        "bytes": 16074,
+        "sha256": "d798f81816a6e9d1583b0ab7f54895731bb69676dbc2aae97355d4d8767f909a"
+      },
+      "restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs": {
+        "bytes": 28115,
+        "sha256": "16b3311b564777eb81fba4467a88afc100aaa8abaf80fe03ae0ac39989bb7337"
+      },
+      "restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs": {
+        "bytes": 15357,
+        "sha256": "684f9b81ff42f27e5a871a77e6f7f9278dbccf743289a54d7380b387a44fee64"
+      },
+      "restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs": {
+        "bytes": 27609,
+        "sha256": "3f4e56ead7feb7e3c85b9f28cf315240010cbbbb20b71fa5baf7ca270a56fcca"
+      },
+      "restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs": {
+        "bytes": 17926,
+        "sha256": "00a3244998a419e140d23d25e0e2d8f7e2a4c72415caffc75fec9a53289902b8"
+      },
+      "restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+        "bytes": 24326,
+        "sha256": "0cfa14f00f541ad6d1be26745fffaf14703e7ac3af27d038b4a410b6a6d04fbb"
+      },
+      "restore/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs": {
+        "bytes": 27431,
+        "sha256": "c4fc7de1e9786d3ae4ecb71038f74c0d978c00bf4498855cccaeefc2e4c5ce0e"
+      },
+      "restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+        "bytes": 1060568,
+        "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b"
+      },
+      "runner.py": {
+        "bytes": 47602,
+        "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
       }
     }
   },
   "inputIdentity": {
-    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/inputs.json",
     "bytes": 806564,
-    "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3",
-    "canonical": {
-      "shared": "06edb6d3d9037a56a4e4bca3e4ca0b46cdd0a2c0aac8ce0dd04e54fa887cffdf",
-      "projectionBefore": "3cab92e65cf0f48bde8b47f9c701ee6c0e568b1bc44e991e32bc48c3878ccb8a",
-      "compile": "fefb2117f7e3991ab5f1a482216f3cff902368ad330295383e9705a534a18715"
+    "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
+  },
+  "parallelScope": {
+    "recovery01": "Not read, enumerated, hashed, written, or included in frozen inputs.",
+    "resourceCodecAdopt001": "Central reported a separate authorized owner adding ten leaves in shared Assets. Those additions and its in-progress evidence were not accessed or treated as contamination.",
+    "sharedAssetsFullSetUnchangedClaim": false,
+    "productSourceReadsThisTask": 0,
+    "projectionReadsThisTask": 0
+  },
+  "addressedInSource": [
+    {
+      "defect": "Resource checks ran before registration and licensing FIFO was not recognized.",
+      "change": "Same supplied snapshot classifies consumers before resources. FIFO authorization requires TMP, UID, strict clr-debug-pipe name, current matched owned PID/start/exe/parent and this snapshot's root ancestry. Added only the exact fixed Editor licensing executable; dotnet remains supported. lstat metadata only; contentsRead false."
     },
-    "productDeltaUnchanged": [
-      16,
-      4,
-      12
-    ]
-  },
-  "addressedInSource": {
-    "finding": "r4211236459",
-    "change": "Save the initial Popen root snapshot before collecting details. snapshot_consumers retries missing root registration on a supplied fresh snapshot only while the actual Popen remains live and PID/stage/start/exe/parent plus fixed Editor/argv/cwd match. Validate complete details before publication. Closure cannot treat owned-empty as closed while the Popen is live; the handle remains available after a failed stage, and archive/restore is blocked independently by that lifecycle gate.",
-    "initialFailurePreserved": "Recovering ownership permits bounded safety cleanup only; run_stage still reports its original launch/details failure.",
-    "unverifiedRootEvidence": [
-      "closure_end.popenStillLive",
-      "process-after.json.launchedRoot",
-      "process-after.json.popenStillLive",
-      "receipt.json.launchedRoot",
-      "receipt.json.popenStillLive"
-    ],
-    "noSameCyclePopulationRescan": true,
-    "noUnknownSignals": true
-  },
+    {
+      "defect": "Transient child details failure aborted discovery without retaining an explicit unresolved identity.",
+      "change": "Keep first row identity and first/last error in pending_details, never publish partial owned data. Resolve only in a later supplied snapshot proving absence/zombie or matching identity with complete details. Changed identity remains pending without details adoption. No second ps within discover/snapshot_consumers/monitor. Pending identities block consumer authorization."
+    },
+    {
+      "defect": "Naked closure discovery threw outside monitor and abandoned the bounded cleanup.",
+      "change": "Each closure sample catches and records errors, continues the existing natural and TERM-confirmation deadlines, and discovers at most once per supplied snapshot. Skipped/failed samples are not clear. Fresh process/details/ancestry/consumer checks still guard the single TERM opportunity. A successful forced final sample is required for closure_closed; false blocks restore before further process or filesystem access. Original errors remain in monitor evidence and keep run_stage failed."
+    }
+  ],
   "implementationScope": {
     "changedFunctions": [
       "archive_and_restore",
       "closure",
+      "consumer_guard",
+      "discover",
       "main",
-      "register",
-      "run_stage",
-      "snapshot_consumers"
+      "monitor",
+      "snapshot_consumers",
+      "tree_entries"
     ],
-    "newFunctions": [
-      "recover_root"
-    ],
+    "newTopLevelFunctions": [],
+    "runnerNonblankLines": 511,
+    "runnerLimit": 580,
     "allOtherFunctionsAstEqual": true,
-    "runnerNonblankLines": 470,
-    "runnerLimit": 480,
-    "unchangedStrategies": [
-      "compile evidence and cache reuse",
-      "atomic displaced/conflict retention and exact leaves",
-      "product input collection",
-      "P/K roots",
-      "one native launch",
-      "60-second natural and30-second TERM confirmation bounds",
-      "one TERM per verified owned PID"
+    "unchanged": [
+      "details command and redaction",
+      "ADB identity/FD exceptions",
+      "compiler/log acceptance",
+      "single launch and original run_stage failure preservation",
+      "atomic synchronization/restoration ledger operations",
+      "resource limits",
+      "360-second compile / 60-second natural / 30-second TERM / 90-second restore / 660-second total native limits"
+    ],
+    "newGlobals": [
+      "pending_details",
+      "process_snapshot",
+      "snapshot_root",
+      "closure_closed"
+    ],
+    "evidenceFields": [
+      "pending_identity/pending_resolved",
+      "closure_end.closed and pendingIdentities",
+      "process-after.json and receipt.json pendingIdentities/closureClosed"
     ]
   },
   "offline": {
-    "roundsUsed": 1,
-    "roundLimit": 2,
-    "passedCases": 58,
-    "cumulativeSeconds": 13.709244375000708,
-    "budgetSeconds": 30,
-    "stopAfterFirstPass": true,
-    "actualFunctionsCalled": [
-      "<genexpr>",
-      "<lambda>",
-      "<module>",
-      "alive",
-      "archive_and_restore",
-      "atomic_write",
-      "basic",
-      "cached_reuse_proven",
-      "check",
-      "claim_stage",
-      "closure",
-      "compilation_passed",
-      "consumer_guard",
-      "discover",
-      "monitor",
-      "recorded_chain",
-      "recover_root",
-      "register",
-      "rename_exclusive",
-      "rename_swap",
-      "run_stage",
-      "same",
-      "snapshot_consumers",
-      "swap_verified",
-      "synchronize",
-      "tick",
-      "transfer",
-      "validate_inputs"
+    "commands": [
+      "python3 -B TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py --red",
+      "python3 -B TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX04-source/replay-check.py"
     ],
+    "rounds": [
+      {
+        "round": 1,
+        "phase": "RED_BASELINE",
+        "status": "SOURCE_REPLAY_FAILED",
+        "seconds": 2.844009125001321,
+        "prior58Passed": true,
+        "cases": 80,
+        "failed": [
+          "same snapshot FIFO license",
+          "same snapshot FIFO dotnet",
+          "closure first cycle absent",
+          "closure first cycle zombie",
+          "closure first cycle recover",
+          "closure first cycle persistent",
+          "closure first cycle reuse",
+          "closure first cycle ps-once",
+          "closure first cycle ps-always",
+          "closure first cycle resources-once",
+          "closure first cycle resources-always",
+          "closure first cycle projection-once",
+          "closure first cycle projection-always",
+          "skipped monitor sample cannot establish closure"
+        ],
+        "runner": {
+          "bytes": 47602,
+          "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
+        },
+        "checker": {
+          "bytes": 55492,
+          "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
+        },
+        "forbiddenAttempts": []
+      },
+      {
+        "round": 2,
+        "phase": "GREEN_CORRECTION",
+        "status": "SOURCE_REPLAY_PASS",
+        "seconds": 3.1292422500046086,
+        "prior58Passed": true,
+        "cases": 80,
+        "failed": [],
+        "runner": {
+          "bytes": 50243,
+          "sha256": "90b94e0ea8c8e1ed6465a8ee72e075a52bdad87c310860c4804212f788c8e6ab"
+        },
+        "checker": {
+          "bytes": 55492,
+          "sha256": "c07a84ad0571ec18744417ce97ae9c9ef6558ab855d423fbe057808c02c89141"
+        },
+        "forbiddenAttempts": []
+      }
+    ],
+    "cumulativeSeconds": 5.97325137500593,
+    "maximumRounds": 2,
+    "maximumCumulativeSeconds": 30,
+    "stoppedAtFirstGreen": true,
+    "priorCases": 58,
+    "newCases": 22,
+    "finalPassed": 80,
+    "finalFailed": 0,
+    "realFunctionExecution": true,
+    "syntheticClocks": true,
+    "coverage": [
+      "exact licensing and dotnet FIFO same-snapshot success; wrong UID/root/ancestry/name/executable, foreign same-name, PID reuse, non-FIFO socket rejected; zero FIFO reads",
+      "child details error occurs inside first closure cycle, then absent/zombie/recovered/persistent/reused cases",
+      "one-off and persistent ps/resources/projection exceptions, actual 60/30 synthetic timelines",
+      "unverified identities zero signals; owned at most one TERM; unclosed restore gate; skipped sampling not clear",
+      "all previous 58 assertions including actual run_stage original failure, launched root, atomic ledger and drift guards"
+    ],
+    "fixtureChanges": "Seed only the new runner globals in bind. Cache the runner filename and collect distinct profile function names in a set instead of constructing a path on every profile callback; old 58 assertions remain unchanged. The identical checker SHA was used in both red and green rounds.",
+    "nativeRuns": 0,
+    "realPsCalls": 0,
+    "realSignals": 0,
+    "actualProjectionWrites": 0,
     "forbiddenAttempts": [],
-    "launchedRootRecovery": [
-      {
-        "mode": "recover",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1,
-          2,
-          4
-        ],
-        "suppliedSnapshots": 6,
-        "rootPublished": true,
-        "simulatedTerms": [
-          36391,
-          36300
-        ],
-        "popenStillLive": false,
-        "restoreRootGateBlocked": false,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "natural-exit",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": false,
-        "restoreRootGateBlocked": false,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "natural-during-recovery",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1,
-          2
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": false,
-        "restoreRootGateBlocked": false,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "pid-reuse-live",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": true,
-        "restoreRootGateBlocked": true,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "pid-reuse-exited",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": false,
-        "restoreRootGateBlocked": false,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "foreign-parent",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": true,
-        "restoreRootGateBlocked": true,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "foreign-exe",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": true,
-        "restoreRootGateBlocked": true,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "wrong-argv",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1,
-          2,
-          4
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": true,
-        "restoreRootGateBlocked": true,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "wrong-cwd",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1,
-          2,
-          4
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": true,
-        "restoreRootGateBlocked": true,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      },
-      {
-        "mode": "persistent-details",
-        "simulatedPopenCount": 1,
-        "rootDetailsSnapshotIndexes": [
-          1,
-          2,
-          4
-        ],
-        "suppliedSnapshots": 4,
-        "rootPublished": false,
-        "simulatedTerms": [],
-        "popenStillLive": true,
-        "restoreRootGateBlocked": true,
-        "originalFailurePreserved": true,
-        "realPopenPsSignals": 0,
-        "naturalAndTermWindows": "Synthetic fast-forward (0/0); runner native 60/30 bounds unchanged"
-      }
-    ],
-    "existingOwnershipRecovery": [
-      {
-        "childVanishedInNextSnapshot": false,
-        "firstCyclePopulationQueries": 0,
-        "freshSnapshotUsed": true,
-        "simulatedTerms": [
-          36391,
-          36300
-        ],
-        "realSignals": 0,
-        "originalFailureRetained": true
-      },
-      {
-        "childVanishedInNextSnapshot": true,
-        "firstCyclePopulationQueries": 0,
-        "freshSnapshotUsed": true,
-        "simulatedTerms": [
-          36300
-        ],
-        "realSignals": 0,
-        "originalFailureRetained": true
-      }
-    ],
-    "previousAtomicFaultEvidencePreservedInNewReplay": [
-      {
-        "fault": "sync-overwrite-partial",
-        "partialFiles": [
-          "/E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
-        ],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": true,
-        "restoredEarlierItem": true,
-        "errors": [],
-        "raceAtPrimitive": false,
-        "swapCallsForAffectedSlot": 0,
-        "firstConcurrentRetained": false,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "sync-new-partial",
-        "partialFiles": [
-          "/E/atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
-        ],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": true,
-        "restoredEarlierItem": true,
-        "errors": [],
-        "raceAtPrimitive": false,
-        "swapCallsForAffectedSlot": 0,
-        "firstConcurrentRetained": false,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "sync-overwrite-commit",
-        "partialFiles": [],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": true,
-        "restoredEarlierItem": true,
-        "errors": [],
-        "raceAtPrimitive": false,
-        "swapCallsForAffectedSlot": 0,
-        "firstConcurrentRetained": false,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "sync-new-commit",
-        "partialFiles": [],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": true,
-        "restoredEarlierItem": true,
-        "errors": [],
-        "raceAtPrimitive": false,
-        "swapCallsForAffectedSlot": 0,
-        "firstConcurrentRetained": false,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "restore-partial",
-        "partialFiles": [
-          "/E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
-        ],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "synthetic failure after partial bytes persisted"
-        ],
-        "raceAtPrimitive": false,
-        "swapCallsForAffectedSlot": 0,
-        "firstConcurrentRetained": false,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "restore-commit",
-        "partialFiles": [],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "[Errno 5] synthetic errno 5: '/P/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs'"
-        ],
-        "raceAtPrimitive": false,
-        "swapCallsForAffectedSlot": 0,
-        "firstConcurrentRetained": false,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "new-exclusive-collision",
-        "partialFiles": [],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
-        ],
-        "raceAtPrimitive": false,
-        "swapCallsForAffectedSlot": 0,
-        "firstConcurrentRetained": false,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "sync-race",
-        "partialFiles": [],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
-        ],
-        "raceAtPrimitive": true,
-        "swapCallsForAffectedSlot": 2,
-        "firstConcurrentRetained": true,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "restore-race",
-        "partialFiles": [],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; []"
-        ],
-        "raceAtPrimitive": true,
-        "swapCallsForAffectedSlot": 2,
-        "firstConcurrentRetained": true,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "sync-race-again",
-        "partialFiles": [],
-        "atomicTemporaryRetained": false,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
-        ],
-        "raceAtPrimitive": true,
-        "swapCallsForAffectedSlot": 2,
-        "firstConcurrentRetained": true,
-        "secondConcurrentRetained": true,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "restore-race-again",
-        "partialFiles": [],
-        "atomicTemporaryRetained": false,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; ['New drift during bounded conflict return; preserved in conflict slot']"
-        ],
-        "raceAtPrimitive": true,
-        "swapCallsForAffectedSlot": 2,
-        "firstConcurrentRetained": true,
-        "secondConcurrentRetained": true,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      },
-      {
-        "fault": "sync-race-same-as-post",
-        "partialFiles": [],
-        "atomicTemporaryRetained": true,
-        "restoredComplete": false,
-        "restoredEarlierItem": true,
-        "errors": [
-          "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
-        ],
-        "raceAtPrimitive": true,
-        "swapCallsForAffectedSlot": 2,
-        "firstConcurrentRetained": true,
-        "secondConcurrentRetained": false,
-        "nativeFlagsUsed": [
-          2,
-          4
-        ]
-      }
-    ],
-    "fixtureTiming": "New root cases fast-forward natural/confirmation windows to0/0 in memory; runtime code retains60/30. No real time wait or signal is used by fixtures.",
-    "historicalFailuresPreserved": true
+    "freezeResults": "Original I01/FIX01/FIX02/FIX03 twenty leaves and I01-run 59 leaves verified unchanged before and after offline execution. No Recovery01 or shared Assets full-set inventory."
   },
-  "mechanicalPreparationSeconds": 49.0,
+  "mechanicalPreparationSeconds": 70,
   "timeAccounting": {
-    "kind": "Conservative cumulative charged ceiling, not exact elapsed",
-    "priorCumulativeChargedSeconds": 32.0,
-    "thisFixChargedSeconds": 17.0,
-    "sourceReadAndPatchOuterSeconds": 0.3,
-    "checkerInnerMeasuredSeconds": 13.709244375000708,
-    "checkerLaunchOuterSeconds": 10.2,
-    "checkerYieldedSession": "not used as timing authority",
-    "checkerPollOuterSeconds": 0.0,
-    "ceilingIncludes": "Source reads/patches, full inner replay duration across the yielded command, orchestration/rounding and final sealing. Launch/poll outer intervals are not added again to the inner replay timer. Reasoning/review latency remains visible in turn wall time.",
-    "preparationBudgetSeconds": 120,
-    "nativeApprovalWaitSeconds": 0
-  },
-  "futureExecution": {
-    "evidenceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run",
-    "currentlyAbsent": true,
-    "copyOnlyAfterExactNewHeadReview": [
-      "runner.py",
-      "replay-check.py",
-      "replay-results.json",
-      "preparation.json"
-    ],
-    "copyInputsUnchangedFrom": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/inputs.json",
-    "previousRootsNeverOverwritten": true,
-    "exactAtomicAllowedLeaves": [
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-      "atomic/conflict/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-      "atomic/conflict/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-      "atomic/displaced/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-      "atomic/displaced/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-      "atomic/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-      "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-      "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-      "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-      "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-      "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-      "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-      "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-      "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-      "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-      "atomic/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-      "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-      "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-      "atomic/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-      "atomic/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-      "atomic/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-      "atomic/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
-      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
-      "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-      "atomic/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-      "atomic/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
-    ],
-    "atomicSlotCounts": {
-      "sync": 20,
-      "restore": 16,
-      "displacedSync": 16,
-      "displacedRestore": 16,
-      "conflictSync": 16,
-      "conflictRestore": 16
-    },
-    "evidenceBudgetBytesUnchanged": 33554432,
-    "freshOwnerActivationAndNormalToolApprovalStillRequired": true
+    "carryForwardSeconds": 50,
+    "newWorkConservativeUpperBoundSeconds": 20,
+    "cumulativeConservativeUpperBoundSeconds": 70,
+    "limitSeconds": 120,
+    "isConservativeUpperBound": true,
+    "measuredOfflineSeconds": 5.97325137500593,
+    "measuredSelectedReadHashDiffSeconds": 0.010199666998232715,
+    "applyPatchToolWallSecondsSoFar": 0.168,
+    "explanation": "50 seconds carried forward as explicitly directed, even though the FIX03 receipt said 49. The 20-second new-work bound includes both offline runs, source/packet reads, writes, diff generation and final sealing overhead. Reasoning, review and tool/user waiting wall time are separate; no real 60/30-second waits."
   },
   "review": {
     "pr": "https://github.com/yyczz1/FightMatch/pull/18",
-    "previousReviewedHead": "191ee590dbb644ce129a6d6b5787555fcade8af0",
-    "previousVerdict": "NEEDS_FIX",
-    "newExactSourceReview": "PENDING",
-    "findingsMarkedResolved": false
-  },
-  "unexecuted": {
-    "Unity": 0,
-    "realPOrRunRootWrites": 0,
-    "realPs": 0,
-    "realSignals": 0,
-    "newTMP": 0,
-    "downloads": 0,
-    "realSaves": 0,
-    "GitWrites": 0,
-    "sharedProductWrites": 0,
-    "crossThreadMessages": 0,
-    "I01RunCreation": 0
+    "newExactSourceReview": "PENDING_CENTRAL_NEW_HEAD",
+    "authorApproval": false,
+    "findingsMarkedResolved": false,
+    "owner": "Central publishes the same PR18 new head and receives GitHub Code Review; source author does not trigger or replace that gate."
   },
   "integrationVerdict": null,
-  "finalSealingSeconds": 0.007695042004343122
+  "integrationVerdictOwner": "Central after independent exact-head review and required validation. This is an author source receipt only.",
+  "futureExecution": {
+    "authorized": false,
+    "oldActivationReusable": false,
+    "nativeCompileAcceptance": "NOT_ESTABLISHED",
+    "oldI01Failure": "UNCHANGED",
+    "recoveryAcceptance": "OUTSIDE_SOURCE_PACKET"
+  },
+  "unexecuted": [
+    "Unity/native launch",
+    "real process queries/signals",
+    "actual TMP access",
+    "actual projection inspection or writes",
+    "shared Assets enumeration",
+    "Recovery01 access",
+    "downloads",
+    "real saves",
+    "Git mutations",
+    "new GitHub review request"
+  ],
+  "deliveryNotes": "No unresolved offline failures. This correction provides source and fixture evidence only. Final exact five-leaf seal follows after preparation.json is saved."
 }
