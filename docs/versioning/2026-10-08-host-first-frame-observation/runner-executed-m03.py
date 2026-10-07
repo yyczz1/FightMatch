@@ -113,19 +113,12 @@ def recorded_chain(pid,rootpid):
     while p!=rootpid:
         check(p in owned and p not in seen,'Owned ancestry incomplete'); seen.add(p); p=owned[p]['ppid']
     check(rootpid in owned and owned[rootpid]['argv']==next(s['argv'] for s in A['stages'] if s['id']==owned[rootpid]['stage']) and owned[rootpid]['cwd']==str(P),'Owned root launch mismatch')
-def snapshot_consumers(rows,stage,rootpid):
-    discover(rows,stage,rootpid)
-    for pid in rows:
-        if alive(rows,pid):
-            check(bool(owned[pid].get('argv')) and owned[pid].get('cwd') is not None and owned[pid].get('cwdProbeExit')==0,'Owned identity incomplete '+str(pid))
-            recorded_chain(pid,rootpid)
-    return consumer_guard(rows)
-def monitor(phase,rows,stage,rootpid,strict=False,force=False):
+def monitor(phase,strict=False,force=False):
     global last_monitor
     now=time.monotonic()
     if not force and now-last_monitor<2: return
     cycle={'utc':utc(),'phase':phase,'sincePreviousSeconds':None if not last_monitor else round(now-last_monitor,6),'failures':[]}; last_monitor=now
-    for name,fn in [('resources',resources),('projection',projection_guard),('consumers',lambda:snapshot_consumers(rows,stage,rootpid))]:
+    for name,fn in [('resources',resources),('projection',projection_guard),('consumers',lambda:consumer_guard(ps()))]:
         try: fn()
         except BaseException as ex:
             item={'utc':utc(),'phase':phase,'scope':name,'error':str(ex)}; monitor_errors.append(item); cycle['failures'].append(item); event('monitor_failure',detail=item)
@@ -135,7 +128,7 @@ def closure(stage,rootpid,reason):
     event('closure_begin',stage=stage,reason=reason); deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']
     while True:
         if active is not None: active.poll()
-        rows=ps(); discover(rows,stage,rootpid); monitor('natural-closure',rows,stage,rootpid); remaining=[p for p in owned if alive(rows,p)]
+        rows=ps(); discover(rows,stage,rootpid); monitor('natural-closure'); remaining=[p for p in owned if alive(rows,p)]
         if not remaining or time.monotonic()>=deadline: break
         time.sleep(.25)
     for pid in reversed(remaining):
@@ -143,7 +136,7 @@ def closure(stage,rootpid,reason):
             rows=ps()
             if not alive(rows,pid): continue
             check(pathlib.Path(owned[pid]['exe']).name.lower()!='adb','No permission to signal any ADB')
-            d=details(pid); check(d['argv']==owned[pid]['argv'],'Owned argv changed before TERM '+str(pid)); recorded_chain(pid,rootpid); snapshot_consumers(rows,stage,rootpid)
+            d=details(pid); check(d['argv']==owned[pid]['argv'],'Owned argv changed before TERM '+str(pid)); recorded_chain(pid,rootpid); consumer_guard(rows)
             check(not owned[pid]['termSent'],'Duplicate TERM refused'); event('signal',signal='SIGTERM',pid=pid,identity=owned[pid],rematched=d)
             try: os.kill(pid,signal.SIGTERM); owned[pid]['termSent']=True
             except ProcessLookupError: event('signal_race_already_exited',pid=pid)
@@ -152,10 +145,10 @@ def closure(stage,rootpid,reason):
     deadline=time.monotonic()+A['stopping']['termGraceSeconds']
     while True:
         if active is not None: active.poll()
-        rows=ps(); discover(rows,stage,rootpid); monitor('term-confirmation',rows,stage,rootpid); remaining=[p for p in owned if alive(rows,p)]
+        rows=ps(); discover(rows,stage,rootpid); monitor('term-confirmation'); remaining=[p for p in owned if alive(rows,p)]
         if not remaining or time.monotonic()>=deadline: break
         time.sleep(.25)
-    rows=ps(); monitor('closure-final',rows,stage,rootpid,force=True); remaining=[p for p in owned if alive(rows,p)]; event('closure_end',stage=stage,remainingOwned=remaining); check(not remaining,'BLOCKED: owned processes remain '+str(remaining))
+    monitor('closure-final',force=True); event('closure_end',stage=stage,remainingOwned=remaining); check(not remaining,'BLOCKED: owned processes remain '+str(remaining))
 def no_links(p):
     for q in [pathlib.Path(p)]+list(pathlib.Path(p).parents): check(not q.is_symlink(),'Symlink '+str(q))
 def inventory(root,relative=None):
@@ -295,7 +288,7 @@ def run_stage(s):
                 net=[l for l in text.splitlines() if re.search(r'(?:Downloading|downloaded|fetching).*https?://|(?:Package Manager|UPM).*(?:unable to|failed to|error).*?(?:resolve|connect|registry|network)|ENOTFOUND|ETIMEDOUT',l,re.I)]
                 check(not net,'Cache/network dependency: '+json.dumps(net[-5:])); check(not re.search(r'error CS\d+|Compilation failed|Scripts have compiler errors|Failed to load.*assembly|Could not load.*assembly',text,re.I),'Compiler/domain error during '+sid)
                 check(now-start<s['timeoutSeconds'],'Stage timeout '+sid)
-                monitor('running',rows,sid,rootpid,strict=True)
+                monitor('running',strict=True)
                 if now-lastprogress>=30: print(json.dumps({'stage':sid,'pid':rootpid,'elapsedSeconds':round(now-start,1),'state':'RUNNING'}),flush=True); lastprogress=now
                 time.sleep(.25)
         result['editorSeconds']=round(time.monotonic()-start,6)

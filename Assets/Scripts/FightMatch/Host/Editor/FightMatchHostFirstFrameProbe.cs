@@ -18,9 +18,9 @@ namespace FightMatch.Host.Editor
     [InitializeOnLoad]
     public static class FightMatchHostFirstFrameProbe
     {
-        const string Owner = "01a11762-1ac1-7040-8240-f6f19ccd6268";
-        const string Nonce = "hn02-106943f3217c47b88ee21f371a4bb024";
-        const string Evidence = "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-NEXT-001/M02";
+        const string Owner = "01a11781-abc7-7203-a1de-187852f84168";
+        const string Nonce = "hn03-636ff5b0d3304862974c0c4fbdae806a";
+        const string Evidence = "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-NEXT-001/M03";
         const string ScenePath = "Assets/Scenes/FightMatchCanvasPersistenceProbe.unity";
         const string SourcePath = "Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs";
         const string PrefabPath = "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab";
@@ -39,14 +39,17 @@ namespace FightMatch.Host.Editor
         {
             public string stage, utc, diagnostic, effectiveRoot, productRoot, driver, canvasId, hostId, renderMode;
             public int frame, listeners, screenWidth, screenHeight; public long safeVersion;
+            public bool layoutGateReleased;
             public bool playing, paused, bound, cancelled, localeLoaded, sessionNull, selectionNull, selectionEnabled, leaseNull, responsiveSubscribed, diagnosticVisible, gate, applyUsable, canvasPositive, supportedSize, bindingsPresent;
             public string[] geometry, safeArea; public bool interactable, blocksRaycasts;
         }
         [Serializable] sealed class Hit { public string target, name, root, module; public int depth, sortingOrder; public float distance; public bool underDiagnostic; }
         [Serializable] sealed class Ray { public string target, obstruction; public float x, y; public Hit[] hits; }
+        [Serializable] sealed class PredicateCase { public string name, expected, actual; public bool passed; }
         [Serializable] sealed class Report
         {
             public string ownerTurn = Owner, nonce = Nonce, activationSha256, sourceSha256, assemblySha256, executionCandidateSha256, fullInputCanonicalSha256, probeMetaSha256, probeMetaGuid, sceneGuid, prefabGuid, diskSha256, diskMetaSha256, firstError, phase = "new", status, A = "UNOBSERVED", B = "UNOBSERVED", C = "UNOBSERVED", D = "UNOBSERVED", normalInteraction = "LOC_BLOCKED";
+            public List<PredicateCase> geometryPredicateChecks = new List<PredicateCase>();
             public string sceneCleanup, prefabDiskSha256; public string[] originalGameItems, finalGameItems; public int builtinCount, deleteRelativeIndex = -1, deleteTotalIndex = -1, finalSelection = -1, cleanupLogErrors; public bool gameCleanupVerified, sceneCleanupVerified, prefabUnchanged;
             public bool armed, earlyObserver, leaseReleased, persistentEmpty, diskUnchanged, gameReady, newWindow, finished, eventSystemActive, inputModuleCorrect, raycasterActive;
             public int opens, closes, newScenes, restores, saves, reopens, exports, playEntries, playExits, sceneLoads, engineEditReturns, eventAdds, eventRemoves, handlerAdds, handlerRemoves, reloadResumes, queueCalls, gameAdds, gameRemoves, gameRestores, windowCloses, raycastCalls, leaseProbes, firstFrame, lastFrame, naturalCallbacks, validityEvents, gameWindowId, previousSelection, customIndex, initialCustomCount, gameUpdates;
@@ -137,7 +140,7 @@ namespace FightMatch.Host.Editor
                 safeVersion = Convert.ToInt64(Read(safe, "Version")), bound = Bool(view, "bound"), cancelled = Bool(host, "startupCancelled"), localeLoaded = Bool(host, "localeLoaded"), sessionNull = host.Session == null,
                 selectionNull = Read(view, "selectLocalePreference") == null, selectionEnabled = Bool(host, "localeSelectionEnabled"), listeners = ((ICollection)Read(view, "listeners")).Count, leaseNull = Read(host, "acceptanceStorageLease") == null,
                 responsiveSubscribed = Bool(responsive, "subscribed"), diagnostic = (string)Read(view, "DiagnosticCode"), diagnosticVisible = Bool(view, "DiagnosticVisible"),
-                effectiveRoot = (string)Read(host, "EffectivePersistentDataPath"), productRoot = host.CanonicalProductRoot, gate = gate, bindingsPresent = bindings,
+                effectiveRoot = (string)Read(host, "EffectivePersistentDataPath"), productRoot = host.CanonicalProductRoot, gate = gate, layoutGateReleased = !Bool(responsive, "validityKnown"), bindingsPresent = bindings,
                 applyUsable = bindings && Fin(sr.width) && Fin(sr.height) && Fin(factor) && factor > 0 && Fin(scale.x) && Fin(scale.y) && scale.x > 0 && scale.y > 0 && sr.width > 64 && sr.height >= 812 * k && sr.height - 64 - 384 * k >= 48 * k,
                 canvasPositive = values.All(Fin) && rect.rect.width > 0 && rect.rect.height > 0 && canvas.pixelRect.width > 0 && canvas.pixelRect.height > 0 && scale.x > 0 && scale.y > 0 && factor > 0,
                 supportedSize = Screen.width == 540 && Screen.height == 960, geometry = values.Select(Num).ToArray(), safeArea = new[] { Num(sr.x), Num(sr.y), Num(sr.width), Num(sr.height), Num(Screen.safeArea.x), Num(Screen.safeArea.y), Num(Screen.safeArea.width), Num(Screen.safeArea.height) },
@@ -230,15 +233,54 @@ namespace FightMatch.Host.Editor
             var diagnostic = ((GameObject)Read(host.RuntimeRoot, "blockingDiagnostic")).transform;
             report.rays.Add(new Ray { target = label, x = point.x, y = point.y, obstruction = hits.Count == 0 ? "NO_HIT" : hits[0].gameObject.transform.IsChildOf(diagnostic) ? "DIAGNOSTIC_TOP" : "OTHER_TOP", hits = hits.Select(x => new Hit { target = Id(x.gameObject), name = x.gameObject.name, root = Id(x.gameObject.transform.root.gameObject), module = x.module == null ? "null" : x.module.GetType().FullName, depth = x.depth, sortingOrder = x.sortingOrder, distance = x.distance, underDiagnostic = x.gameObject.transform.IsChildOf(diagnostic) }).ToArray() });
         }
+        static string GeometryVerdict(bool earlyObserver, Sample[] samples)
+        {
+            var first = samples.FirstOrDefault(x => x.stage == "synchronous-ValidityChanged");
+            var natural = samples.Where(x => x.stage.StartsWith("natural-")).ToArray();
+            if (earlyObserver && first != null && first.applyUsable && !first.gate) return "FAIL";
+            if (earlyObserver && first != null && first.gate && first.applyUsable && first.canvasPositive && first.supportedSize &&
+                natural.Any(x => x.canvasPositive && x.supportedSize && x.safeVersion > first.safeVersion &&
+                    x.cancelled && !x.bound && !x.responsiveSubscribed && !x.gate && x.layoutGateReleased)) return "PASS";
+            return "UNOBSERVED";
+        }
+        static Sample CounterexampleNatural()
+        {
+            return new Sample { stage = "natural-willRender", canvasPositive = true, supportedSize = true, safeVersion = 1,
+                cancelled = true, bound = false, responsiveSubscribed = false, gate = false, layoutGateReleased = true };
+        }
+        static void CheckGeometryCase(string name, Sample first, Sample natural, Sample terminal, string expected)
+        {
+            var actual = GeometryVerdict(true, new[] { first, natural, terminal });
+            var result = new PredicateCase { name = name, expected = expected, actual = actual, passed = actual == expected };
+            report.geometryPredicateChecks.Add(result); Require(result.passed, "independent DTO geometry counterexample " + name);
+        }
+        static void RunGeometryPredicateChecks()
+        {
+            var first = new Sample { stage = "synchronous-ValidityChanged", gate = true, applyUsable = true, canvasPositive = true, supportedSize = true, safeVersion = 0 };
+            var terminal = CounterexampleNatural(); terminal.stage = "after-natural-frames-cancelled";
+            terminal.diagnostic = "LocalizationNotReady"; terminal.diagnosticVisible = true; terminal.sessionNull = true; terminal.selectionNull = true; terminal.leaseNull = true;
+            var beforeCancel = CounterexampleNatural(); beforeCancel.cancelled = false; beforeCancel.bound = true; beforeCancel.responsiveSubscribed = true; beforeCancel.layoutGateReleased = false;
+            CheckGeometryCase("good-geometry-before-cancellation-with-correct-later-terminal", first, beforeCancel, terminal, "UNOBSERVED");
+            CheckGeometryCase("true-post-cancellation-natural", first, CounterexampleNatural(), terminal, "PASS");
+            foreach (var missing in new[] { "cancelled", "unbound", "unsubscribed", "released-validity-state", "natural-gate-false" })
+            {
+                var sample = CounterexampleNatural();
+                if (missing == "cancelled") sample.cancelled = false;
+                if (missing == "unbound") sample.bound = true;
+                if (missing == "unsubscribed") sample.responsiveSubscribed = true;
+                if (missing == "released-validity-state") sample.layoutGateReleased = false;
+                if (missing == "natural-gate-false") sample.gate = true;
+                CheckGeometryCase("missing-" + missing, first, sample, terminal, "UNOBSERVED");
+            }
+            first.gate = false;
+            CheckGeometryCase("original-usable-first-gate-false-remains-fail", first, CounterexampleNatural(), terminal, "FAIL");
+        }
         static void ObserveEnd()
         {
             var s = Snapshot("after-natural-frames-cancelled"); report.samples.Add(s); report.lastFrame = Time.frameCount;
             report.A = s.localeLoaded && s.cancelled && s.sessionNull && s.effectiveRoot == activation.hostSaveIsolation.persistentRoot && s.productRoot == activation.hostSaveIsolation.persistentRoot + "/FightMatch" && s.diagnostic == "LocalizationNotReady" ? "PASS" : "FAIL";
             report.B = s.playing && !s.paused && report.lastFrame - report.firstFrame >= 2 && report.naturalCallbacks > 0 ? "PASS" : "UNOBSERVED";
-            var first = report.samples.FirstOrDefault(x => x.stage == "synchronous-ValidityChanged");
-            var natural = report.samples.Where(x => x.stage.StartsWith("natural-")).ToArray();
-            if (report.earlyObserver && first != null && first.applyUsable && !first.gate) report.C = "FAIL";
-            else if (report.earlyObserver && first != null && first.gate && first.applyUsable && first.canvasPositive && first.supportedSize && natural.Any(x => x.canvasPositive && x.supportedSize && x.safeVersion > first.safeVersion)) report.C = "PASS";
+            report.C = GeometryVerdict(report.earlyObserver, report.samples.ToArray());
             var es = Components<EventSystem>().Single(); report.eventSystem = Id(EventSystem.current); report.eventSystemActive = es == EventSystem.current && es.isActiveAndEnabled;
             report.inputModule = es.currentInputModule == null ? "null" : es.currentInputModule.GetType().FullName;
             report.inputModuleCorrect = report.inputModule == "FightMatch.Presentation.FightMatchStandaloneInputModule";
@@ -347,6 +389,7 @@ namespace FightMatch.Host.Editor
                 report.probeMetaSha256 = Hash(SourcePath + ".meta"); report.probeMetaGuid = AssetDatabase.AssetPathToGUID(SourcePath); report.sceneGuid = AssetDatabase.AssetPathToGUID(ScenePath); report.prefabGuid = AssetDatabase.AssetPathToGUID(PrefabPath);
                 Require(report.sceneGuid == activation.sceneGuid && report.prefabGuid == activation.prefabGuid, "asset GUIDs");
                 report.prefabDiskSha256 = Hash(PrefabPath); report.diskSha256 = Hash(ScenePath); report.diskMetaSha256 = Hash(ScenePath + ".meta"); report.executionCandidateSha256 = activation.executionCandidateSha256;
+                RunGeometryPredicateChecks();
                 report.armed = true; report.phase = "size"; report.deadline = Now + 5; Resume(); SetupGame(); Persist();
             }
             catch (Exception ex) { Error(ex); Finish(); }

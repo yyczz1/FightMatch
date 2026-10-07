@@ -1,102 +1,529 @@
 {
-  "packet": "HOST-NEXT-001/M02",
-  "status": "OBSERVATION_COMPLETE",
+  "packet": "HOST-NEXT-001/M03 plus M04-source",
   "sourceBase": "030898e9a317d10b610058d867529be8b0770c7c",
-  "executionOwner": {
-    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
-    "host": "local",
-    "turn": "01a11762-1ac1-7040-8240-f6f19ccd6268"
-  },
-  "completionEvent": "bd153adf-4a11-4788-8ba9-4674fa47eba5:103; actual completed",
+  "previousReviewHead": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+  "reviewFindingsAddressed": [
+    4210135624,
+    4210135632
+  ],
+  "status": "SOURCE_FIXED_NEW_REVIEW_PENDING",
   "productInputsUnchangedFromT01": 1012,
-  "newInputPaths": [
+  "projectInputDeltaPaths": [
     "Assets/Scenes/FightMatchCanvasPersistenceProbe.unity",
     "Assets/Scenes/FightMatchCanvasPersistenceProbe.unity.meta",
     "Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs",
     "Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs.meta"
   ],
-  "fullInputCanonicalSha256": "c1676dbc75b9096825d1601dbeeb182149d61479af26305697b633c6e914f964",
-  "rawReceipt": {
-    "localPath": "TestArtifacts/FightMatch/HOST-NEXT-001/M02/receipt.json",
-    "bytes": 150204,
-    "sha256": "85b749d31420de6fef28c83321b4709e71acfe20e3b1f299bafff1bfbfce1d1f",
-    "gitBlob": "bd4c06dfcc5da1491c400a3304f2b997f89042b9"
-  },
-  "rawObservations": {
-    "localPath": "TestArtifacts/FightMatch/HOST-NEXT-001/M02/P/observations.json",
-    "bytes": 81625,
-    "sha256": "d1a9ba4005c711f48745f1a8cf60cb11c1bd56964d68d16f2c6f861453536194",
-    "gitBlob": "bc30ec14d15fed405bd69178393bf8238b759595"
-  },
-  "rawEditorLog": {
-    "localPath": "TestArtifacts/FightMatch/HOST-NEXT-001/M02/P/editor.log",
-    "bytes": 114104,
-    "sha256": "bdf30380cd1f63157683c33314a171893a901683e63ea098e585d95d5815d02c",
-    "gitBlob": "12e22d8cf3a3633994fc7427df3fcbc56121eaeb"
-  },
-  "runtime": {
-    "unityStarts": 1,
+  "fullProjectInputCanonicalSha256": "6d0f8998c2de44b743a7324f4a78407453f6d541ccade311532f03b5316fced4",
+  "m03Native": {
+    "owner": {
+      "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+      "host": "local",
+      "turn": "01a11781-abc7-7203-a1de-187852f84168"
+    },
+    "completionCursor": "bd153adf-4a11-4788-8ba9-4674fa47eba5:114",
+    "overallStatus": "FAILED",
+    "nativeExitCode": 0,
+    "runnerExitCode": 1,
+    "nativeRuns": 1,
     "playEntries": 1,
     "playExits": 1,
-    "exitCode": 0,
-    "editorSeconds": 32.950337,
-    "runnerSeconds": 100.980095,
-    "allMechanicalSeconds": 103.167098,
-    "A": "PASS",
-    "B": "PASS",
-    "C": "PASS",
-    "D": "PASS",
+    "editorSeconds": null,
+    "runnerSeconds": 79.229169,
     "firstFrame": 0,
     "lastFrame": 2,
     "naturalCallbacks": 4,
-    "validityEvents": 1,
-    "normalInteraction": "LOC_BLOCKED"
-  },
-  "cleanup": {
-    "gameCleanupVerified": true,
-    "sceneCleanupVerified": true,
-    "diskUnchanged": true,
-    "prefabUnchanged": true,
-    "sceneCleanup": "empty-original/no-restorable-scene; owned scene closed; temporary empty scene released on editor exit",
-    "firstError": "",
-    "secondaryErrors": []
-  },
-  "monitoring": {
-    "cycles": 45,
-    "errors": [],
-    "scheduleSeconds": 2,
-    "actualMaximumStartIntervalSeconds": 2.270427,
-    "maximumCycleSeconds": 0.442963,
-    "naturalClosureElapsedSeconds": 60.253449,
-    "note": "Actual scheduling/check overhead is disclosed; this is not a hard real-time 2.000/60.000-second guarantee. Overall approved 240/600-second budgets were met."
-  },
-  "sdkAdb": {
-    "verifiedObservations": 10,
-    "signalsSent": 0,
-    "commandsExecuted": 0
-  },
-  "restoration": {
-    "verifiedLeaves": 1008,
-    "sharedProductAdopted": false,
+    "actualAtoD": {
+      "A": "PASS",
+      "B": "PASS",
+      "C": "PASS",
+      "D": "PASS"
+    },
+    "cleanup": {
+      "gameCleanupVerified": true,
+      "sceneCleanupVerified": true,
+      "diskUnchanged": true,
+      "prefabUnchanged": true,
+      "firstError": "",
+      "secondaryErrors": []
+    },
+    "failure": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]; Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]",
+    "cause": "Discovery consumed an earlier ps snapshot than consumer classification; a legitimate new bee child appeared in between. The old failure is retained, not relabelled as a successful supervisor run.",
+    "restoredInputLeaves": 1008,
     "evidenceLeaves": 43,
-    "evidenceBytes": 8515709
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M03/receipt.json",
+      "bytes": 152239,
+      "sha256": "0f45b5cea12ea5a3bbf4912d4062ac2eff47036fec8ed5e080c401f6fb32bd6b",
+      "gitBlob": "9e0b025073c72ff9449ce848c15b01366a75fd7b"
+    },
+    "observations": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M03/P/observations.json",
+      "bytes": 83334,
+      "sha256": "36092839a7766d229c0428661a5cf1d23c7e39ef7b3663d2bde24e7f3dc2e0ce",
+      "gitBlob": "69736c79ff1ff3e8b764b96765022dd0b67c7772"
+    },
+    "executedSupervisor": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M03/runner.py",
+      "bytes": 41254,
+      "sha256": "e2c7c25f1b79902197b1c109c85dc033acd4a7d6e595b79f3c14f78920d93ed0",
+      "gitBlob": "42794331c92e7d9f046430902c67838cc8938891"
+    }
   },
-  "previousFailure": {
-    "packet": "HOST-NEXT-001/M01",
-    "status": "FAILED",
-    "receiptSha256": "f160b1402a22c0dc48b7b766e8ef8ff14449b5fbd817a42d37fc906c78b63da8",
-    "causes": [
-      "Unity-created SDK ADB rejected by old exact-PID gate",
-      "RestoreSceneManagerSetup called with empty original list",
-      "GameView removal passed custom-relative rather than total index",
-      "No resource/source checks during natural process closure"
+  "reviewFindingChecks": {
+    "runnerBehaviorCases": [
+      {
+        "name": "complete-all-pass",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "name": "A-FAIL",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "FAIL",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "A-UNOBSERVED",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "UNOBSERVED",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "B-FAIL",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "FAIL",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "B-UNOBSERVED",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "UNOBSERVED",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "C-FAIL",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "FAIL",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "C-UNOBSERVED",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "UNOBSERVED",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "D-FAIL",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "FAIL",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "D-UNOBSERVED",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "UNOBSERVED",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "status-PARTIAL",
+        "input": {
+          "status": "PARTIAL",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "status-FAILED",
+        "input": {
+          "status": "FAILED",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "missing-status",
+        "input": {
+          "A": "PASS",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "missing-A",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "B": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "missing-B",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "C": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "missing-C",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "PASS",
+          "D": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "name": "missing-D",
+        "input": {
+          "status": "OBSERVATION_COMPLETE",
+          "A": "PASS",
+          "B": "PASS",
+          "C": "PASS",
+          "nativeExitCode": 0,
+          "firstError": "",
+          "cleanupLogErrors": 0,
+          "gameCleanupVerified": true,
+          "sceneCleanupVerified": true,
+          "diskUnchanged": true,
+          "prefabUnchanged": true
+        },
+        "expected": false,
+        "actual": false,
+        "passed": true
+      }
     ],
-    "originalEvidencePreserved": true
+    "csharpGeometryCases": [
+      {
+        "name": "good-geometry-before-cancellation-with-correct-later-terminal",
+        "expected": "UNOBSERVED",
+        "actual": "UNOBSERVED",
+        "passed": true
+      },
+      {
+        "name": "true-post-cancellation-natural",
+        "expected": "PASS",
+        "actual": "PASS",
+        "passed": true
+      },
+      {
+        "name": "missing-cancelled",
+        "expected": "UNOBSERVED",
+        "actual": "UNOBSERVED",
+        "passed": true
+      },
+      {
+        "name": "missing-unbound",
+        "expected": "UNOBSERVED",
+        "actual": "UNOBSERVED",
+        "passed": true
+      },
+      {
+        "name": "missing-unsubscribed",
+        "expected": "UNOBSERVED",
+        "actual": "UNOBSERVED",
+        "passed": true
+      },
+      {
+        "name": "missing-released-validity-state",
+        "expected": "UNOBSERVED",
+        "actual": "UNOBSERVED",
+        "passed": true
+      },
+      {
+        "name": "missing-natural-gate-false",
+        "expected": "UNOBSERVED",
+        "actual": "UNOBSERVED",
+        "passed": true
+      },
+      {
+        "name": "original-usable-first-gate-false-remains-fail",
+        "expected": "FAIL",
+        "actual": "FAIL",
+        "passed": true
+      }
+    ],
+    "actualLayoutGateRelease": "M03 reads responsive.validityKnown; a natural snapshot default gate argument alone is not treated as release evidence.",
+    "sourceProbe": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M03/S/FightMatchHostFirstFrameProbe.cs",
+      "bytes": 40558,
+      "sha256": "11a0dce7bfa6f11e0b2dda3a0397b3e17196cb26c106fce1d648bd8d6d55d920",
+      "gitBlob": "c0a316cf858ae60e8e71e86bc136d72a37132b27"
+    }
+  },
+  "m04SourceOnly": {
+    "owner": {
+      "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+      "host": "local",
+      "turn": "01a1178c-c850-7df1-a100-c1517709d229"
+    },
+    "completionCursor": "bd153adf-4a11-4788-8ba9-4674fa47eba5:117",
+    "status": "SOURCE_REPLAY_PASS",
+    "cases": 21,
+    "passed": 21,
+    "mechanicalSeconds": 0.2678705419966718,
+    "nativeRuns": 0,
+    "realPsCalls": 0,
+    "signals": 0,
+    "sourceSyncs": 0,
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M04-source/receipt.json",
+      "bytes": 3117,
+      "sha256": "ded8668fd2c9ee7bd02f2949bc1b77631bded957eb129fe5b91ce02842cb5e61",
+      "gitBlob": "182f285d340c4b87278ec6a76c1955265f64472f"
+    },
+    "finalSupervisor": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M04-source/runner.py",
+      "bytes": 41801,
+      "sha256": "527c073c3cfe5b0a4e3c45a71a16828e9750f84dddc6e50b302cd77c2b4dcad5",
+      "gitBlob": "926315dec13aff51b1130fe257fae8f6e1e0c39f"
+    },
+    "check": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M04-source/replay-check.py",
+      "bytes": 16664,
+      "sha256": "92a694700125e2f4c1c0ea2fb0fe53a53c3ca2dd5cbac7e4198266b28b9bf0db",
+      "gitBlob": "3fdb5b2c7ed7b9cfbfb77f3de7600a898fb99cc6"
+    },
+    "results": {
+      "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M04-source/replay-results.json",
+      "bytes": 42057,
+      "sha256": "273abf03f89859c83059d755fd72dba340181014b1e28d8771658d01b18148c2",
+      "gitBlob": "f31169565cef54861923f187d200c95c5a957f06"
+    },
+    "staticScope": {
+      "changedFunctions": [
+        "closure",
+        "monitor",
+        "run_stage"
+      ],
+      "newFunction": "snapshot_consumers",
+      "allOtherFunctionsAstEqual": true,
+      "identitiesAndTopLevelAstEqual": true,
+      "changedFunctionsNormalizeToOnlyApprovedDelta": true,
+      "actualMonitorCallsites": [
+        "closure-final",
+        "natural-closure",
+        "running",
+        "term-confirmation"
+      ],
+      "termSnapshotExplicit": true,
+      "observationPassedUnchanged": true,
+      "probeUnchanged": {
+        "bytes": 40558,
+        "sha256": "11a0dce7bfa6f11e0b2dda3a0397b3e17196cb26c106fce1d648bd8d6d55d920"
+      },
+      "runnerNonblankLines": 407
+    },
+    "limitation": "The final supervisor was tested by actual-function offline replay, not another native Unity run. M03 identities retained in this unexecuted source require fresh activation for any future run."
+  },
+  "previousEvidence": {
+    "m01": "FAILED preserved",
+    "m02": "One successful native/supervisor run under earlier observation predicates; original files preserved locally and in initial PR17 commit",
+    "m03Scheduling": {
+      "actualMaximumMonitorIntervalSeconds": 2.275789,
+      "naturalClosureSeconds": 60.130216,
+      "strictRealTimeGuarantee": false
+    }
   },
   "acceptanceBoundary": [
-    "No gameplay clicks, gesture completion, formal LOC or translations",
-    "No Android, pixel/screenshot, actual device or Demo acceptance",
-    "No automatic resolution of PR4 P1",
-    "Independent GitHub review for this new scene/probe combination pending"
+    "New independent review pending",
+    "Normal LOC/gameplay/physical input/device/Demo not accepted",
+    "PR4 P1 remains open",
+    "Shared product and master not changed"
   ]
 }
