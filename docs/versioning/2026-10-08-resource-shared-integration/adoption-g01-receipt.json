@@ -1,0 +1,85 @@
+{
+  "packet": "RES-SOURCE-ADOPT-G01",
+  "date": "2026-10-08",
+  "status": "SOURCE_ADOPTED_COMPILE_PENDING",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a11831-65ff-74a3-96d3-2619f95a7ce4",
+    "turnVerifiedFrom": "read_thread current inProgress turn"
+  },
+  "completedCursor": "bd153adf-4a11-4788-8ba9-4674fa47eba5:196",
+  "requestedModel": "gpt-6-luna",
+  "requestedEffort": "medium",
+  "effectiveModelNotExposed": true,
+  "groupFreeze": {
+    "path": "TestArtifacts/FightMatch/RES-SOURCE-ADOPT-G01/group-freeze.json",
+    "bytes": 257267,
+    "sha256": "ed77bf69ccdfb5506c93db8240900f98ac9e30f69f0e8ea3de32d55be017daff",
+    "gitBlob": "e244b89e1a2273f35635a665cbecda4d232b46e5"
+  },
+  "packetReceipts": [
+    {
+      "path": "TestArtifacts/FightMatch/RES-SOURCE-ADOPT-G01/B01/receipt.json",
+      "bytes": 3424,
+      "sha256": "65d14650ad4ffefed2ccde1a64738a1ed6d03e4c607583473a940210ece8eb8e",
+      "gitBlob": "05df0ba077f88e6a78f29c1dcf10aad25437aa3a"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-SOURCE-ADOPT-G01/C01/receipt.json",
+      "bytes": 3422,
+      "sha256": "46f67c87fa69f7733c40e39fdeda02f60cdd173d72f7fa29baf59d32576a0598",
+      "gitBlob": "e5f6b8318dfbb6ba99a6842548bdad286157f62c"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-SOURCE-ADOPT-G01/D01/receipt.json",
+      "bytes": 1702,
+      "sha256": "b9019f32a385db5da4fb4bf978c58f5f5a0b9301f4f8cc34100ffc64e13582c7",
+      "gitBlob": "d4ae96f45ace49b24d3b993781d44fb24aba1ded"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-SOURCE-ADOPT-G01/AS01/receipt.json",
+      "bytes": 3382,
+      "sha256": "a96315494f93f140dfc4d9e4499785227b55c1aace8011d2100fff62030ef1b2",
+      "gitBlob": "2feef5d00d7b9fe4b3833dd352b517a4dc703906"
+    }
+  ],
+  "sourceAfter": {
+    "files": 1021,
+    "bytes": 32464207,
+    "canonicalSha256": "a8a5c77a0190e4a4b9999d0b75de3d7aa75aded8d57c8de77e118facbb525ffc"
+  },
+  "verifiedDelta": {
+    "added": 12,
+    "modified": 1,
+    "removed": 0,
+    "netBytes": 144964,
+    "paths": [
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs",
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs",
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta",
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs.meta",
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs.meta",
+      "Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs.meta",
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs.meta"
+    ]
+  },
+  "unchangedOriginalInputs": 1008,
+  "uniqueNewGuids": 6,
+  "mechanicalSeconds": 0.8571987500035902,
+  "nativeRuns": 0,
+  "tests": 0,
+  "integrationVerdict": null,
+  "remaining": [
+    "fixed shared-combination compile/test",
+    "independent GitHub shared-integration review",
+    "SDK and formal localization resources",
+    "actual Host/Scene/Android/device acceptance"
+  ]
+}
