@@ -2,184 +2,6 @@
   "rounds": [
     {
       "round": 1,
-      "status": "SOURCE_REPLAY_FAILED",
-      "cases": [
-        {
-          "name": "running legitimate new child",
-          "passed": true
-        },
-        {
-          "name": "running same-name foreign child rejected",
-          "passed": true
-        },
-        {
-          "name": "natural-closure legitimate new child",
-          "passed": true
-        },
-        {
-          "name": "natural-closure same-name foreign child rejected",
-          "passed": true
-        },
-        {
-          "name": "term-confirmation legitimate new child",
-          "passed": true
-        },
-        {
-          "name": "term-confirmation same-name foreign child rejected",
-          "passed": true
-        },
-        {
-          "name": "closure-final legitimate new child",
-          "passed": true
-        },
-        {
-          "name": "closure-final same-name foreign child rejected",
-          "passed": true
-        },
-        {
-          "name": "final legitimate new child",
-          "passed": true
-        },
-        {
-          "name": "final same-name foreign child rejected",
-          "passed": true
-        },
-        {
-          "name": "PID reuse rejected",
-          "passed": true
-        },
-        {
-          "name": "details failure discover rejects without second ps",
-          "passed": true
-        },
-        {
-          "name": "details failure snapshot_consumers rejects without second ps",
-          "passed": true
-        },
-        {
-          "name": "details failure monitor rejects without second ps",
-          "passed": true
-        },
-        {
-          "name": "I single-use real claim",
-          "passed": true
-        },
-        {
-          "name": "input drift rejected",
-          "passed": true
-        },
-        {
-          "name": "all required compilation evidence passes",
-          "passed": true
-        },
-        {
-          "name": "missing assembly cannot pass",
-          "passed": true
-        },
-        {
-          "name": "unproved assembly cannot pass",
-          "passed": true
-        },
-        {
-          "name": "complete unchanged cache chain passes",
-          "passed": true
-        },
-        {
-          "name": "missing prior cache chain rejected",
-          "passed": true
-        },
-        {
-          "name": "cache response drift rejected",
-          "passed": true
-        },
-        {
-          "name": "cache sourceInputs drift rejected",
-          "passed": true
-        },
-        {
-          "name": "cache references drift rejected",
-          "passed": true
-        },
-        {
-          "name": "cache defines drift rejected",
-          "passed": true
-        },
-        {
-          "name": "cache compilerOutput drift rejected",
-          "passed": true
-        },
-        {
-          "name": "cache dll drift rejected",
-          "passed": true
-        },
-        {
-          "name": "32 paths synchronize and restore through actual functions",
-          "passed": true
-        }
-      ],
-      "nativeRuns": 0,
-      "realPsCalls": 0,
-      "realSignals": 0,
-      "actualProjectionWrites": 0,
-      "fixtureIOOnly": true,
-      "changedFunctions": [
-        "archive_and_restore",
-        "discover",
-        "resources",
-        "synchronize",
-        "transfer"
-      ],
-      "newFunctions": [
-        "atomic_write",
-        "rename_exclusive"
-      ],
-      "allOtherFunctionsAstEqual": true,
-      "static": {
-        "syntax": true,
-        "runnerNonblankLines": 441,
-        "singlePopenSite": true,
-        "sameSnapshot": true,
-        "pureCompile": true
-      },
-      "failure": "Synchronization expected failure",
-      "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 180, in <module>\n    case('mid-sync failure restores actual ledger',lambda:restore_case(interrupt=True))\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 20, in case\n    need(time.monotonic()-START<30,'Replay30'); fn(); cases.append({'name':name,'passed':True})\n                                                ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 180, in <lambda>\n    case('mid-sync failure restores actual ledger',lambda:restore_case(interrupt=True))\n                                                          ~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 157, in restore_case\n    failed=rejected(env['synchronize']);need(failed==sync_failure,'Synchronization expected failure');fs.fail_write=None\n                                        ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Synchronization expected failure\n",
-      "seconds": 2.2467299999989336,
-      "actualFunctionsCalled": [
-        "<genexpr>",
-        "<lambda>",
-        "<module>",
-        "alive",
-        "archive_and_restore",
-        "atomic_write",
-        "basic",
-        "cached_reuse_proven",
-        "check",
-        "claim_stage",
-        "compilation_passed",
-        "consumer_guard",
-        "discover",
-        "monitor",
-        "recorded_chain",
-        "register",
-        "same",
-        "snapshot_consumers",
-        "synchronize",
-        "tick",
-        "transfer",
-        "validate_inputs"
-      ],
-      "forbiddenAttempts": [],
-      "runner": {
-        "bytes": 44197,
-        "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
-      },
-      "checker": {
-        "bytes": 19719,
-        "sha256": "732909ca554e8d00ce9f137fe5594b0fd29f30d0acba94905be6ee5d89292e0f"
-      }
-    },
-    {
-      "round": 2,
       "status": "SOURCE_REPLAY_PASS",
       "cases": [
         {
@@ -236,6 +58,30 @@
         },
         {
           "name": "details failure monitor rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "bad-argv not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-cwd not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-probe not published to owned",
+          "passed": true
+        },
+        {
+          "name": "details retry publishes complete child and permits original cleanup guards",
+          "passed": true
+        },
+        {
+          "name": "child absent in fresh snapshot cannot poison valid root cleanup",
+          "passed": true
+        },
+        {
+          "name": "register cannot replace a valid owned root",
           "passed": true
         },
         {
@@ -329,6 +175,26 @@
         {
           "name": "new-exclusive-collision preserves P and previous commits",
           "passed": true
+        },
+        {
+          "name": "sync-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-same-as-post preserves displaced values and bounds conflict return",
+          "passed": true
         }
       ],
       "nativeRuns": 0,
@@ -338,23 +204,45 @@
       "fixtureIOOnly": true,
       "changedFunctions": [
         "archive_and_restore",
-        "discover",
-        "resources",
-        "synchronize",
-        "transfer"
+        "atomic_write",
+        "register",
+        "resources"
       ],
       "newFunctions": [
-        "atomic_write",
-        "rename_exclusive"
+        "rename_swap",
+        "swap_verified"
       ],
       "allOtherFunctionsAstEqual": true,
       "static": {
         "syntax": true,
-        "runnerNonblankLines": 441,
+        "runnerNonblankLines": 460,
         "singlePopenSite": true,
         "sameSnapshot": true,
         "pureCompile": true
       },
+      "ownershipRecovery": [
+        {
+          "childVanishedInNextSnapshot": false,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        },
+        {
+          "childVanishedInNextSnapshot": true,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        }
+      ],
       "faultEvidence": [
         {
           "fault": "sync-overwrite-partial",
@@ -364,7 +252,15 @@
           "atomicTemporaryRetained": true,
           "restoredComplete": true,
           "restoredEarlierItem": true,
-          "errors": []
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
         },
         {
           "fault": "sync-new-partial",
@@ -374,7 +270,15 @@
           "atomicTemporaryRetained": true,
           "restoredComplete": true,
           "restoredEarlierItem": true,
-          "errors": []
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
         },
         {
           "fault": "sync-overwrite-commit",
@@ -382,7 +286,15 @@
           "atomicTemporaryRetained": true,
           "restoredComplete": true,
           "restoredEarlierItem": true,
-          "errors": []
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
         },
         {
           "fault": "sync-new-commit",
@@ -390,7 +302,15 @@
           "atomicTemporaryRetained": true,
           "restoredComplete": true,
           "restoredEarlierItem": true,
-          "errors": []
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
         },
         {
           "fault": "restore-partial",
@@ -402,6 +322,14 @@
           "restoredEarlierItem": true,
           "errors": [
             "synthetic failure after partial bytes persisted"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
           ]
         },
         {
@@ -411,7 +339,15 @@
           "restoredComplete": false,
           "restoredEarlierItem": true,
           "errors": [
-            "synthetic atomic commit refused"
+            "[Errno 5] synthetic errno 5: '/P/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs'"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
           ]
         },
         {
@@ -422,11 +358,110 @@
           "restoredEarlierItem": true,
           "errors": [
             "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; []"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; ['New drift during bounded conflict return; preserved in conflict slot']"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-same-as-post",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
           ]
         }
       ],
+      "baseFix01FiveFilesUnchanged": true,
       "oldFiveFilesUnchanged": true,
-      "seconds": 6.220627458002127,
+      "seconds": 9.855522749996453,
       "actualFunctionsCalled": [
         "<genexpr>",
         "<lambda>",
@@ -438,14 +473,18 @@
         "cached_reuse_proven",
         "check",
         "claim_stage",
+        "closure",
         "compilation_passed",
         "consumer_guard",
         "discover",
         "monitor",
         "recorded_chain",
         "register",
+        "rename_exclusive",
+        "rename_swap",
         "same",
         "snapshot_consumers",
+        "swap_verified",
         "synchronize",
         "tick",
         "transfer",
@@ -453,15 +492,15 @@
       ],
       "forbiddenAttempts": [],
       "runner": {
-        "bytes": 44197,
-        "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
+        "bytes": 45994,
+        "sha256": "6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"
       },
       "checker": {
-        "bytes": 19747,
-        "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
+        "bytes": 26565,
+        "sha256": "4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"
       }
     }
   ],
   "status": "SOURCE_REPLAY_PASS",
-  "cumulativeSeconds": 8.46735745800106
+  "cumulativeSeconds": 9.855522749996453
 }

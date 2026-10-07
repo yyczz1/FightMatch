@@ -5,7 +5,7 @@ E=pathlib.Path(__file__).parent; M=E; R=E.parents[3]; O=R/'TestArtifacts/FightMa
 A={}; B={}; N={}; PREF={}; C={}; TMP=None; OWNER=None; ACT_SHA=''; EXECUTION_TURN=''
 LIMIT={'evidenceBytes':33554432,'perLogBytes':8388608,'newCacheBytes':1073741824,'generatedBytes':4294967296,'testTemporaryBytes':16777216,'testTemporaryLeaves':512,'minimumFreeBytes':2147483648,'totalSeconds':660}
 allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())
-owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None
+owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set()
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
     if not ok: raise RuntimeError(why)
@@ -42,7 +42,8 @@ def details(pid):
     cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)
     return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}
 def register(pid,row,stage,rootpid):
-    owned[pid]={**row,'argv':None,'cwd':None,'pid':pid,'stage':stage,'rootPid':rootpid,'firstObservedUtc':utc(),'termSent':False}; owned[pid].update(details(pid))
+    detail=details(pid); check(bool(detail.get('argv')) and detail.get('cwd') is not None and detail.get('cwdProbeExit')==0,'Owned identity incomplete '+str(pid)); check(pid not in owned,'Existing owned entry preserved '+str(pid))
+    owned[pid]={**row,**detail,'pid':pid,'stage':stage,'rootPid':rootpid,'firstObservedUtc':utc(),'termSent':False}
     event('owned_discovered',process=owned[pid])
 def discover(rows,stage,rootpid):
     changed=True
@@ -211,6 +212,24 @@ def rename_exclusive(source,target):
     rename=ctypes.CDLL(None,use_errno=True).renamex_np; rename.argtypes=[ctypes.c_char_p,ctypes.c_char_p,ctypes.c_uint]; rename.restype=ctypes.c_int
     if rename(os.fsencode(source),os.fsencode(target),4)!=0:
         code=ctypes.get_errno(); raise OSError(code,os.strerror(code),str(target))
+def rename_swap(source,target):
+    rename=ctypes.CDLL(None,use_errno=True).renamex_np; rename.argtypes=[ctypes.c_char_p,ctypes.c_char_p,ctypes.c_uint]; rename.restype=ctypes.c_int
+    if rename(os.fsencode(source),os.fsencode(target),2)!=0:
+        code=ctypes.get_errno(); raise OSError(code,os.strerror(code),str(target))
+def swap_verified(temporary,target,expected,prior,path,phase):
+    rename_swap(temporary,target); atomic_conflicts.add((phase,path)); displaced=None; issues=[]
+    try:
+        displaced=ident(temporary)
+        if displaced==prior: atomic_conflicts.remove((phase,path)); return
+        transfer(temporary,E/'atomic/displaced'/phase/path,displaced)
+    except BaseException as error: issues.append('displaced retention: '+str(error))
+    try:
+        rename_swap(temporary,target); returned=ident(temporary)
+        if returned!=expected:
+            transfer(temporary,E/'atomic/conflict'/phase/path,returned,True); issues.append('New drift during bounded conflict return; preserved in conflict slot')
+    except BaseException as error: issues.append('bounded conflict return: '+str(error))
+    event('atomic_conflict',phase=phase,path=path,expectedPrior=prior,displaced=displaced,returnAttempts=1,issues=issues)
+    raise RuntimeError('Atomic conflict preserved; no further restore of '+phase+'/'+path+'; '+str(issues))
 def atomic_write(path,payload,expected,prior,phase):
     paths=N['overwritten']+N['newPaths'] if phase=='sync' else N['overwritten']
     check(phase in ('sync','restore') and path in paths,'Atomic scope'); check(expected==(N['files'] if phase=='sync' else N['restoreBaseline'])[path],'Atomic expected identity')
@@ -225,7 +244,7 @@ def atomic_write(path,payload,expected,prior,phase):
             stream.write(payload); stream.flush(); os.fsync(stream.fileno())
         check(ident(temporary)==expected,'Atomic temporary incomplete '+path); check((ident(target) if os.path.lexists(target) else None)==prior,'Atomic preimage changed before commit '+path)
         if prior is None: rename_exclusive(temporary,target)
-        else: os.replace(temporary,target)
+        else: swap_verified(temporary,target,expected,prior,path,phase)
         check(ident(target)==expected,'Atomic committed bytes '+path); event('atomic_committed',phase=phase,path=path,identity=expected)
     except BaseException as error:
         event('atomic_failed',phase=phase,path=path,temporary=str(temporary),partialRetained=os.path.lexists(temporary),error=str(error)); raise
@@ -268,7 +287,7 @@ def protection():
     same(inventory(K),C['files'],'Frozen cache payload'); return {'sharedUnchanged':True,'oldEvidenceUnchanged':True,'cacheUnchanged':True,'oldTemporaryTreesUnchanged':True}
 def resources():
     ev=evidence_paths(); eb=sum(p.lstat().st_size for p in ev); cb=size(K)[0]; tb,tc=size(TMP); gb=sum(size(P/n)[0] for n in ['Library','Temp','Logs','UserSettings','obj'])+sum(p.stat().st_size for p in P.iterdir() if p.is_file() and p.suffix in ('.csproj','.sln')); free=shutil.disk_usage(E).free
-    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}|{'atomic/sync/'+p for p in N['overwritten']+N['newPaths']}|{'atomic/restore/'+p for p in N['overwritten']}
+    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}|{'atomic/sync/'+p for p in N['overwritten']+N['newPaths']}|{'atomic/restore/'+p for p in N['overwritten']}|{'atomic/'+kind+'/'+phase+'/'+p for kind in ('displaced','conflict') for phase in ('sync','restore') for p in N['overwritten']}
     check(all(evidence_name(p) in allowed|dynamic and not p.is_symlink() for p in ev),'Evidence closure exceeded')
     check(eb<LIMIT['evidenceBytes']-1048576 and all(p.lstat().st_size<LIMIT['perLogBytes'] for p in ev if p.suffix=='.log'),'Evidence/log budget')
     check(cb<=LIMIT['newCacheBytes'] and gb<=LIMIT['generatedBytes'] and tb<=LIMIT['testTemporaryBytes'] and tc<=LIMIT['testTemporaryLeaves'] and free>=LIMIT['minimumFreeBytes'],'Storage budget')
@@ -391,7 +410,7 @@ def archive_and_restore():
             rows=ps(); consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned during restore'); resources(); last=now
     for path in synchronized_paths:
         try:
-            tick(); target=P/path
+            tick(); target=P/path; check(('sync',path) not in atomic_conflicts,'Preserve prior atomic conflict '+path)
             if path in N['newPaths'] and not target.exists(): continue
             if path in N['overwritten'] and ident(target)==N['restoreBaseline'][path]: report['restored'].append(path); continue
             check(ident(target)==N['files'][path],'Concurrent/partial value preserved '+path); transfer(target,E/'archive/source'/path,N['files'][path],path in N['newPaths']); report['archived'].append(path)

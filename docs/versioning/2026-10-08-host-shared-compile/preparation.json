@@ -1,51 +1,50 @@
 {
-  "task": "HOST-INTEGRATE-001/I01-FIX01-source",
+  "task": "HOST-INTEGRATE-001/I01-FIX02-source",
   "status": "SOURCE_REPLAY_PASS",
   "owner": {
     "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
     "host": "local",
-    "turn": "01a117c8-1b7c-7f02-8b55-5cc2bea5d674"
+    "turn": "01a117d8-5744-77b2-a45d-e18d86e96d93"
   },
   "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
   "returnRoute": "Final; central wait only",
-  "finishedUtc": "2026-10-07T19:19:08.831860+00:00",
-  "startedAtUnix": 1791400352,
-  "wallSecondsSinceTurnStart": 396.8318569660187,
+  "startedAtUnix": 1791401416,
+  "finishedUtc": "2026-10-07T19:38:42.664573+00:00",
+  "wallSecondsSinceTurnStart": 506.66479301452637,
   "sourceIdentities": {
     "runner.py": {
-      "bytes": 44197,
-      "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
+      "bytes": 45994,
+      "sha256": "6fcc05eb0191b3394338750e69a6a9eb96e5fb6a22e62840c029ecbdf8fc9570"
     },
     "replay-check.py": {
-      "bytes": 19747,
-      "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
+      "bytes": 26565,
+      "sha256": "4c105c2b3132dedb0547bc3bec929dde4a319c8c28d1c3fa5bcb909fb1f45fc7"
     },
     "replay-results.json": {
-      "bytes": 14193,
-      "sha256": "769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c"
+      "bytes": 14764,
+      "sha256": "3095f8299730bba024d744976cf6fd270a1b9df9dc5514dc5935148c23edfc8a"
     },
     "correction.patch": {
-      "bytes": 28398,
-      "sha256": "fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"
+      "bytes": 28351,
+      "sha256": "1a0603f12c022a156146727b1e4712c586f68b508c468eec198ae50964238272"
     }
   },
   "fixedReferences": {
-    "docs/team/2026-09-30/central-host-integrate-001-i01-fix01.md": {
-      "bytes": 3419,
-      "sha256": "9ad2c488c9372f5375a124a712f121bd43b11ff8c1cdda6253164eca1b436481"
+    "docs/team/2026-09-30/central-host-integrate-001-i01-fix02.md": {
+      "bytes": 3115,
+      "sha256": "40376ecd6970e16aabf410ffcfe07eb38437f0a1c2f5675dedc453fa76890b22"
     },
-    "docs/team/2026-09-30/testing-host-integrate-pr18-review-receipt.json": {
-      "bytes": 7916,
-      "sha256": "d0a6f911d3d35c74291a6f1dfbfe1443132e3053f0a983bf5f255a25401cd0bf"
+    "docs/team/2026-09-30/testing-host-integrate-pr18-fix01-review-receipt.json": {
+      "bytes": 9304,
+      "sha256": "3a31342482e887ea1ed5855b3e8d2876d4a41c2a61b9befc3964596ad99e2e24"
     },
-    "docs/team/2026-09-30/host-integrate-001-i01-source-verdict.json": {
-      "bytes": 1185,
-      "sha256": "04d86a48f56552a9149ae76bf91fd3b89dcc243f600b712d50f635836682a7b0"
+    "docs/team/2026-09-30/host-integrate-001-i01-fix01-source-verdict.json": {
+      "bytes": 1204,
+      "sha256": "b66af0737f13e8ff302486d83b9b5a9915adfe12f88f1a8ebe69949d4f098a6f"
     }
   },
-  "immutableI01": {
-    "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01",
-    "files": {
+  "immutablePreviousRoots": {
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01": {
       "preparation.json": {
         "bytes": 8345,
         "sha256": "0c9c2d4d3ffb8d8920f02c2ce6e7a4614d69de4c3422463ea81771f8b892a6ff"
@@ -67,7 +66,28 @@
         "sha256": "794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"
       }
     },
-    "byteChanges": 0
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX01-source": {
+      "preparation.json": {
+        "bytes": 13374,
+        "sha256": "8fab17eaa833a4f7e2713eb2b2dd32f57721457f4390959f545de695fcf532c6"
+      },
+      "runner.py": {
+        "bytes": 44197,
+        "sha256": "2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"
+      },
+      "replay-results.json": {
+        "bytes": 14193,
+        "sha256": "769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c"
+      },
+      "correction.patch": {
+        "bytes": 28398,
+        "sha256": "fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"
+      },
+      "replay-check.py": {
+        "bytes": 19747,
+        "sha256": "efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"
+      }
+    }
   },
   "inputIdentity": {
     "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/inputs.json",
@@ -84,62 +104,48 @@
       12
     ]
   },
-  "addressedFindings": [
+  "addressedInSource": [
     {
-      "id": "r4210875526",
-      "change": "Same-volume exclusive evidence temporary, full flush/fsync and identity verification before atomic P commit; sync and restore writes covered. Existing P must match the expected preimage. New or moved destinations use Darwin renamex_np(RENAME_EXCL), never clobber an existing destination. Failed partial/full temporaries remain in the exact phase/path evidence leaf.",
-      "faultCases": [
-        "sync-overwrite-partial",
-        "sync-new-partial",
-        "sync-overwrite-commit",
-        "sync-new-commit",
-        "restore-partial",
-        "restore-commit",
-        "new-exclusive-collision"
-      ]
+      "finding": "r4211058182",
+      "change": "Existing targets use Darwin RENAME_SWAP to retain the actually displaced value, then compare it with prior. A matching prior stays in the existing phase staging slot. A conflict is marked before identity inspection and blocks later automatic restore of that path. The first foreign value is retained in displaced; exactly one swap attempts its return. A second foreign value is retained in conflict and the operation remains failed. No ordinary os.replace or additional commit-check pretending to be CAS remains.",
+      "boundedOutcomeOnSecondDrift": "P holds the first returned concurrent value; the later displaced concurrent value is preserved in the exact conflict leaf. Original preimage stays in restore/source. Report failure, do not loop or silently claim baseline restoration.",
+      "maxSwapCallsPerAttempt": 2,
+      "returnAttemptsMax": 1
     },
     {
-      "id": "r4210875534",
-      "change": "discover propagates details failure with PID and original cause; it never requests a second population snapshot. Direct discover, snapshot_consumers and monitor calls reject the injected failure without a second ps."
+      "finding": "r4211058192",
+      "change": "register collects and validates argv/cwd/cwdProbeExit before one owned dictionary publication. Details failure leaves no entry and preserves already valid ownership. Fresh supplied snapshots can rediscover the child; the original failure remains recorded."
     }
   ],
   "implementationScope": {
     "changedFunctions": [
       "archive_and_restore",
-      "discover",
-      "resources",
-      "synchronize",
-      "transfer"
+      "atomic_write",
+      "register",
+      "resources"
     ],
     "newFunctions": [
-      "atomic_write",
-      "rename_exclusive"
+      "rename_swap",
+      "swap_verified"
     ],
     "allOtherFunctionsAstEqual": true,
-    "runnerNonblankLines": 441,
+    "runnerNonblankLines": 460,
     "runnerLimit": 480,
-    "darwinSdkReference": {
+    "darwinSdk": {
       "path": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stdio.h",
-      "declarationLine": 52,
-      "exclusiveFlagLine": 37,
-      "RENAME_EXCL": "0x00000004"
+      "RENAME_SWAP": "0x00000002",
+      "RENAME_EXCL": "0x00000004",
+      "prototype": "int renamex_np(const char *, const char *, unsigned int)"
     },
-    "platformSyscallBoundary": "Offline fixtures replace renamex_np/os.replace; no native syscall acceptance is claimed."
+    "nativeBoundary": "Actual rename_swap/rename_exclusive Python wrappers were executed against a fake ctypes renamex_np fixture; no real native syscall was invoked."
   },
   "offline": {
-    "roundsUsed": 2,
+    "roundsUsed": 1,
     "roundLimit": 2,
-    "firstRound": {
-      "status": "SOURCE_REPLAY_FAILED",
-      "passedBeforeFailure": 28,
-      "reason": "Synchronization expected failure",
-      "checkerFault": "Old interruption fixture matched wb but not new exclusive xb; corrected only that fixture condition before round2. Runner stayed byte-identical."
-    },
-    "secondRoundPassed": 37,
-    "cumulativeSeconds": 8.46735745800106,
+    "passedCases": 48,
+    "cumulativeSeconds": 9.855522749996453,
     "budgetSeconds": 30,
-    "firstFailureRetained": true,
-    "stopAfterPass": true,
+    "stopAfterFirstPass": true,
     "actualFunctionsCalled": [
       "<genexpr>",
       "<lambda>",
@@ -151,14 +157,18 @@
       "cached_reuse_proven",
       "check",
       "claim_stage",
+      "closure",
       "compilation_passed",
       "consumer_guard",
       "discover",
       "monitor",
       "recorded_chain",
       "register",
+      "rename_exclusive",
+      "rename_swap",
       "same",
       "snapshot_consumers",
+      "swap_verified",
       "synchronize",
       "tick",
       "transfer",
@@ -174,7 +184,15 @@
         "atomicTemporaryRetained": true,
         "restoredComplete": true,
         "restoredEarlierItem": true,
-        "errors": []
+        "errors": [],
+        "raceAtPrimitive": false,
+        "swapCallsForAffectedSlot": 0,
+        "firstConcurrentRetained": false,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
       },
       {
         "fault": "sync-new-partial",
@@ -184,7 +202,15 @@
         "atomicTemporaryRetained": true,
         "restoredComplete": true,
         "restoredEarlierItem": true,
-        "errors": []
+        "errors": [],
+        "raceAtPrimitive": false,
+        "swapCallsForAffectedSlot": 0,
+        "firstConcurrentRetained": false,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
       },
       {
         "fault": "sync-overwrite-commit",
@@ -192,7 +218,15 @@
         "atomicTemporaryRetained": true,
         "restoredComplete": true,
         "restoredEarlierItem": true,
-        "errors": []
+        "errors": [],
+        "raceAtPrimitive": false,
+        "swapCallsForAffectedSlot": 0,
+        "firstConcurrentRetained": false,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
       },
       {
         "fault": "sync-new-commit",
@@ -200,7 +234,15 @@
         "atomicTemporaryRetained": true,
         "restoredComplete": true,
         "restoredEarlierItem": true,
-        "errors": []
+        "errors": [],
+        "raceAtPrimitive": false,
+        "swapCallsForAffectedSlot": 0,
+        "firstConcurrentRetained": false,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
       },
       {
         "fault": "restore-partial",
@@ -212,6 +254,14 @@
         "restoredEarlierItem": true,
         "errors": [
           "synthetic failure after partial bytes persisted"
+        ],
+        "raceAtPrimitive": false,
+        "swapCallsForAffectedSlot": 0,
+        "firstConcurrentRetained": false,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
         ]
       },
       {
@@ -221,7 +271,15 @@
         "restoredComplete": false,
         "restoredEarlierItem": true,
         "errors": [
-          "synthetic atomic commit refused"
+          "[Errno 5] synthetic errno 5: '/P/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs'"
+        ],
+        "raceAtPrimitive": false,
+        "swapCallsForAffectedSlot": 0,
+        "firstConcurrentRetained": false,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
         ]
       },
       {
@@ -232,107 +290,294 @@
         "restoredEarlierItem": true,
         "errors": [
           "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+        ],
+        "raceAtPrimitive": false,
+        "swapCallsForAffectedSlot": 0,
+        "firstConcurrentRetained": false,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
+      },
+      {
+        "fault": "sync-race",
+        "partialFiles": [],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+        ],
+        "raceAtPrimitive": true,
+        "swapCallsForAffectedSlot": 2,
+        "firstConcurrentRetained": true,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
+      },
+      {
+        "fault": "restore-race",
+        "partialFiles": [],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; []"
+        ],
+        "raceAtPrimitive": true,
+        "swapCallsForAffectedSlot": 2,
+        "firstConcurrentRetained": true,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
+      },
+      {
+        "fault": "sync-race-again",
+        "partialFiles": [],
+        "atomicTemporaryRetained": false,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+        ],
+        "raceAtPrimitive": true,
+        "swapCallsForAffectedSlot": 2,
+        "firstConcurrentRetained": true,
+        "secondConcurrentRetained": true,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
+      },
+      {
+        "fault": "restore-race-again",
+        "partialFiles": [],
+        "atomicTemporaryRetained": false,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; ['New drift during bounded conflict return; preserved in conflict slot']"
+        ],
+        "raceAtPrimitive": true,
+        "swapCallsForAffectedSlot": 2,
+        "firstConcurrentRetained": true,
+        "secondConcurrentRetained": true,
+        "nativeFlagsUsed": [
+          2,
+          4
+        ]
+      },
+      {
+        "fault": "sync-race-same-as-post",
+        "partialFiles": [],
+        "atomicTemporaryRetained": true,
+        "restoredComplete": false,
+        "restoredEarlierItem": true,
+        "errors": [
+          "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+        ],
+        "raceAtPrimitive": true,
+        "swapCallsForAffectedSlot": 2,
+        "firstConcurrentRetained": true,
+        "secondConcurrentRetained": false,
+        "nativeFlagsUsed": [
+          2,
+          4
         ]
       }
-    ]
+    ],
+    "ownershipRecovery": [
+      {
+        "childVanishedInNextSnapshot": false,
+        "firstCyclePopulationQueries": 0,
+        "freshSnapshotUsed": true,
+        "simulatedTerms": [
+          36391,
+          36300
+        ],
+        "realSignals": 0,
+        "originalFailureRetained": true
+      },
+      {
+        "childVanishedInNextSnapshot": true,
+        "firstCyclePopulationQueries": 0,
+        "freshSnapshotUsed": true,
+        "simulatedTerms": [
+          36300
+        ],
+        "realSignals": 0,
+        "originalFailureRetained": true
+      }
+    ],
+    "fixtureAdaptationBeforeFirstRun": true,
+    "historicalI01AndFix01FailuresPreserved": true
   },
-  "mechanicalPreparationSeconds": 19.0,
+  "mechanicalPreparationSeconds": 32.0,
   "timeAccounting": {
     "kind": "Conservative charged ceiling, not exact elapsed",
-    "priorI01ChargedSeconds": 7.0,
-    "thisFixChargedSeconds": 12.0,
-    "thisFixKnownOuterToolSeconds": 9.3,
+    "priorCumulativeChargedSeconds": 19.0,
+    "thisFixChargedSeconds": 13.0,
+    "thisFixKnownOuterToolSeconds": 10.4,
     "toolIntervalsSeconds": [
       0.1,
       0.2,
-      0.2,
       0.1,
-      2.4,
-      6.3
+      10.0
     ],
-    "innerOfflineSecondsNotDoubleCounted": 8.46735745800106,
-    "ceilingIncludes": "All recorded source-reading/patch/check tool intervals, display rounding and up to1 second final sealing; reasoning/review wait separately visible in wall duration.",
-    "sourcePreparationBudgetSeconds": 120,
-    "normalNativeApprovalWaitSeconds": 0
+    "innerOfflineSecondsNotDoubleCounted": 9.855522749996453,
+    "ceilingIncludes": "Recorded source-read/patch/check tool intervals, display rounding and final sealing/readback; reasoning and external review wall time are separately visible.",
+    "preparationBudgetSeconds": 120,
+    "nativeApprovalWaitSeconds": 0
   },
   "futureExecution": {
     "evidenceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run",
     "currentlyAbsent": true,
-    "copyOnlyAfterNewReview": [
+    "copyOnlyAfterExactNewHeadReview": [
       "runner.py",
       "replay-check.py",
       "replay-results.json",
       "preparation.json"
     ],
     "copyInputsUnchangedFrom": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01/inputs.json",
-    "originalI01NeverOverwritten": true,
-    "sameHierarchyProjectRootDerivation": true,
-    "additionalAtomicLeaves": {
-      "sync": [
-        "atomic/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-        "atomic/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-        "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
-        "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
-        "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
-      ],
-      "restore": [
-        "atomic/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-        "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-        "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-        "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-        "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-        "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-        "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-        "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-        "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-        "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-        "atomic/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-        "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-        "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-        "atomic/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-        "atomic/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
-        "atomic/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
-      ]
+    "previousRootsNeverOverwritten": true,
+    "exactAtomicAllowedLeaves": [
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "atomic/conflict/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "atomic/conflict/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+      "atomic/conflict/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "atomic/conflict/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "atomic/conflict/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+      "atomic/conflict/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "atomic/displaced/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "atomic/displaced/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+      "atomic/displaced/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "atomic/displaced/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "atomic/displaced/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+      "atomic/displaced/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "atomic/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "atomic/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "atomic/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "atomic/restore/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+      "atomic/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "atomic/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "atomic/sync/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+      "atomic/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
+    ],
+    "atomicSlotCounts": {
+      "sync": 20,
+      "restore": 16,
+      "displacedSync": 16,
+      "displacedRestore": 16,
+      "conflictSync": 16,
+      "conflictRestore": 16
     },
-    "existingEvidenceBudgetBytes": 33554432,
-    "partialEvidenceAttribution": "Exact atomic/sync or atomic/restore relative leaf plus atomic_begin/atomic_failed events. No unknown files are cleaned.",
+    "evidenceBudgetBytesUnchanged": 33554432,
     "freshOwnerActivationAndNormalToolApprovalStillRequired": true
   },
   "review": {
     "pr": "https://github.com/yyczz1/FightMatch/pull/18",
-    "previousReviewedHead": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+    "previousReviewedHead": "1c5a34ecd126135abb40a9e610a175c000e8d772",
     "previousVerdict": "NEEDS_FIX",
     "newExactSourceReview": "PENDING",
     "findingsMarkedResolved": false
   },
   "unexecuted": {
     "Unity": 0,
-    "actualPOrRunEvidenceAtomicWrites": 0,
+    "realPOrRunRootWrites": 0,
     "realPs": 0,
     "realSignals": 0,
     "newTMP": 0,
-    "GitWrites": 0,
-    "sharedProductWrites": 0,
     "downloads": 0,
     "realSaves": 0,
+    "GitWrites": 0,
+    "sharedProductWrites": 0,
     "crossThreadMessages": 0,
-    "I01RunRootCreation": 0
+    "I01RunCreation": 0
   },
   "integrationVerdict": null,
-  "finalSealingSeconds": 0.004096791002666578
+  "finalSealingSeconds": 0.007020500001090113
 }

@@ -1,272 +1,253 @@
 --- a/runner.py
 +++ b/runner.py
-@@ -1,6 +1,6 @@
- #!/usr/bin/env python3
- """I01: sealed, single Editor compile; activation is supplied only after source review."""
--import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil
-+import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes
- E=pathlib.Path(__file__).parent; M=E; R=E.parents[3]; O=R/'TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03'; P=O/'projection'; K=O/'package-cache'
+@@ -5,7 +5,7 @@
  A={}; B={}; N={}; PREF={}; C={}; TMP=None; OWNER=None; ACT_SHA=''; EXECUTION_TURN=''
  LIMIT={'evidenceBytes':33554432,'perLogBytes':8388608,'newCacheBytes':1073741824,'generatedBytes':4294967296,'testTemporaryBytes':16777216,'testTemporaryLeaves':512,'minimumFreeBytes':2147483648,'totalSeconds':660}
-@@ -51,8 +51,8 @@
-         for pid,row in rows.items():
-             if pid not in owned and row['ppid'] in owned and alive(rows,row['ppid']):
-                 try: register(pid,row,stage,rootpid); changed=True
--                except RuntimeError:
--                    if pid in ps(): raise
-+                except Exception as error:
-+                    raise RuntimeError('Supplied-snapshot child identity failed '+str(pid)+': '+str(error)) from error
- def adb_exception(rows):
-     spec=A['adbException']; pid=spec['pid']; row=rows.get(pid); item={'utc':utc(),'pid':pid,'present':row is not None}; adb_observations.append(item)
-     log=pathlib.Path(spec['logPath']); no_links(log); ls=log.lstat(); check(stat.S_ISREG(ls.st_mode),'ADB log not regular'); li={'device':ls.st_dev,'inode':ls.st_ino,'uid':ls.st_uid,'gid':ls.st_gid,'mode':oct(stat.S_IMODE(ls.st_mode)),'bytes':ls.st_size,'mtimeNs':ls.st_mtime_ns,'ctimeNs':ls.st_ctime_ns}; item['log']=li
-@@ -202,10 +202,33 @@
- def dlls(): return {p.name:ident(p) for p in (P/'Library/ScriptAssemblies').glob('*.dll')}
- def transfer(source,target,expected,move=False):
-     no_links(source); check(ident(source)==expected,'Transfer source drift '+str(source)); no_links(target.parent); target.parent.mkdir(parents=True,exist_ok=True); check(not os.path.lexists(target),'Archive target already exists')
--    if move: source.rename(target)
-+    if move: rename_exclusive(source,target)
-     else:
-         with target.open('xb') as f: f.write(source.read_bytes())
-     check(ident(target)==expected,'Transfer byte verification'); event('transfer',source=str(source),target=str(target),identity=expected,moved=move)
-+def rename_exclusive(source,target):
-+    # Darwin SDK sys/stdio.h: RENAME_EXCL = 0x00000004; atomically refuse an existing destination.
+ allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())
+-owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None
++owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set()
+ def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
+ def check(ok,why):
+     if not ok: raise RuntimeError(why)
+@@ -42,7 +42,8 @@
+     cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)
+     return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}
+ def register(pid,row,stage,rootpid):
+-    owned[pid]={**row,'argv':None,'cwd':None,'pid':pid,'stage':stage,'rootPid':rootpid,'firstObservedUtc':utc(),'termSent':False}; owned[pid].update(details(pid))
++    detail=details(pid); check(bool(detail.get('argv')) and detail.get('cwd') is not None and detail.get('cwdProbeExit')==0,'Owned identity incomplete '+str(pid)); check(pid not in owned,'Existing owned entry preserved '+str(pid))
++    owned[pid]={**row,**detail,'pid':pid,'stage':stage,'rootPid':rootpid,'firstObservedUtc':utc(),'termSent':False}
+     event('owned_discovered',process=owned[pid])
+ def discover(rows,stage,rootpid):
+     changed=True
+@@ -211,6 +212,24 @@
+     rename=ctypes.CDLL(None,use_errno=True).renamex_np; rename.argtypes=[ctypes.c_char_p,ctypes.c_char_p,ctypes.c_uint]; rename.restype=ctypes.c_int
+     if rename(os.fsencode(source),os.fsencode(target),4)!=0:
+         code=ctypes.get_errno(); raise OSError(code,os.strerror(code),str(target))
++def rename_swap(source,target):
 +    rename=ctypes.CDLL(None,use_errno=True).renamex_np; rename.argtypes=[ctypes.c_char_p,ctypes.c_char_p,ctypes.c_uint]; rename.restype=ctypes.c_int
-+    if rename(os.fsencode(source),os.fsencode(target),4)!=0:
++    if rename(os.fsencode(source),os.fsencode(target),2)!=0:
 +        code=ctypes.get_errno(); raise OSError(code,os.strerror(code),str(target))
-+def atomic_write(path,payload,expected,prior,phase):
-+    paths=N['overwritten']+N['newPaths'] if phase=='sync' else N['overwritten']
-+    check(phase in ('sync','restore') and path in paths,'Atomic scope'); check(expected==(N['files'] if phase=='sync' else N['restoreBaseline'])[path],'Atomic expected identity')
-+    check({'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}==expected,'Atomic payload mismatch')
-+    target=P/path; temporary=E/'atomic'/phase/path; no_links(target); no_links(temporary); check(not os.path.lexists(temporary),'Atomic leaf already exists')
-+    if phase=='sync' and path in N['overwritten']: check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Verified backup required before sync')
-+    check((ident(target) if os.path.lexists(target) else None)==prior,'Atomic preimage drift '+path)
-+    temporary.parent.mkdir(parents=True,exist_ok=True); target.parent.mkdir(parents=True,exist_ok=True); check(temporary.parent.stat().st_dev==target.parent.stat().st_dev,'Atomic same-volume requirement')
-+    event('atomic_begin',phase=phase,path=path,temporary=str(temporary),expected=expected,prior=prior)
++def swap_verified(temporary,target,expected,prior,path,phase):
++    rename_swap(temporary,target); atomic_conflicts.add((phase,path)); displaced=None; issues=[]
 +    try:
-+        with temporary.open('xb') as stream:
-+            stream.write(payload); stream.flush(); os.fsync(stream.fileno())
-+        check(ident(temporary)==expected,'Atomic temporary incomplete '+path); check((ident(target) if os.path.lexists(target) else None)==prior,'Atomic preimage changed before commit '+path)
-+        if prior is None: rename_exclusive(temporary,target)
-+        else: os.replace(temporary,target)
-+        check(ident(target)==expected,'Atomic committed bytes '+path); event('atomic_committed',phase=phase,path=path,identity=expected)
-+    except BaseException as error:
-+        event('atomic_failed',phase=phase,path=path,temporary=str(temporary),partialRetained=os.path.lexists(temporary),error=str(error)); raise
- def basic(files): return {p:{k:v[k] for k in ('bytes','sha256')} for p,v in files.items()}
- def source_tree(root,blobs=False):
-     files={}
-@@ -245,7 +268,7 @@
++        displaced=ident(temporary)
++        if displaced==prior: atomic_conflicts.remove((phase,path)); return
++        transfer(temporary,E/'atomic/displaced'/phase/path,displaced)
++    except BaseException as error: issues.append('displaced retention: '+str(error))
++    try:
++        rename_swap(temporary,target); returned=ident(temporary)
++        if returned!=expected:
++            transfer(temporary,E/'atomic/conflict'/phase/path,returned,True); issues.append('New drift during bounded conflict return; preserved in conflict slot')
++    except BaseException as error: issues.append('bounded conflict return: '+str(error))
++    event('atomic_conflict',phase=phase,path=path,expectedPrior=prior,displaced=displaced,returnAttempts=1,issues=issues)
++    raise RuntimeError('Atomic conflict preserved; no further restore of '+phase+'/'+path+'; '+str(issues))
+ def atomic_write(path,payload,expected,prior,phase):
+     paths=N['overwritten']+N['newPaths'] if phase=='sync' else N['overwritten']
+     check(phase in ('sync','restore') and path in paths,'Atomic scope'); check(expected==(N['files'] if phase=='sync' else N['restoreBaseline'])[path],'Atomic expected identity')
+@@ -225,7 +244,7 @@
+             stream.write(payload); stream.flush(); os.fsync(stream.fileno())
+         check(ident(temporary)==expected,'Atomic temporary incomplete '+path); check((ident(target) if os.path.lexists(target) else None)==prior,'Atomic preimage changed before commit '+path)
+         if prior is None: rename_exclusive(temporary,target)
+-        else: os.replace(temporary,target)
++        else: swap_verified(temporary,target,expected,prior,path,phase)
+         check(ident(target)==expected,'Atomic committed bytes '+path); event('atomic_committed',phase=phase,path=path,identity=expected)
+     except BaseException as error:
+         event('atomic_failed',phase=phase,path=path,temporary=str(temporary),partialRetained=os.path.lexists(temporary),error=str(error)); raise
+@@ -268,7 +287,7 @@
      same(inventory(K),C['files'],'Frozen cache payload'); return {'sharedUnchanged':True,'oldEvidenceUnchanged':True,'cacheUnchanged':True,'oldTemporaryTreesUnchanged':True}
  def resources():
      ev=evidence_paths(); eb=sum(p.lstat().st_size for p in ev); cb=size(K)[0]; tb,tc=size(TMP); gb=sum(size(P/n)[0] for n in ['Library','Temp','Logs','UserSettings','obj'])+sum(p.stat().st_size for p in P.iterdir() if p.is_file() and p.suffix in ('.csproj','.sln')); free=shutil.disk_usage(E).free
--    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}
-+    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}|{'atomic/sync/'+p for p in N['overwritten']+N['newPaths']}|{'atomic/restore/'+p for p in N['overwritten']}
+-    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}|{'atomic/sync/'+p for p in N['overwritten']+N['newPaths']}|{'atomic/restore/'+p for p in N['overwritten']}
++    dynamic={'archive/source/'+p for p in N['overwritten']+N['newPaths']}|{'restore/source/'+p for p in N['overwritten']}|{'park/source/'+p for p in N['parked']}|{'archive/SceneTemplateSettings.json'}|{'atomic/sync/'+p for p in N['overwritten']+N['newPaths']}|{'atomic/restore/'+p for p in N['overwritten']}|{'atomic/'+kind+'/'+phase+'/'+p for kind in ('displaced','conflict') for phase in ('sync','restore') for p in N['overwritten']}
      check(all(evidence_name(p) in allowed|dynamic and not p.is_symlink() for p in ev),'Evidence closure exceeded')
      check(eb<LIMIT['evidenceBytes']-1048576 and all(p.lstat().st_size<LIMIT['perLogBytes'] for p in ev if p.suffix=='.log'),'Evidence/log budget')
      check(cb<=LIMIT['newCacheBytes'] and gb<=LIMIT['generatedBytes'] and tb<=LIMIT['testTemporaryBytes'] and tc<=LIMIT['testTemporaryLeaves'] and free>=LIMIT['minimumFreeBytes'],'Storage budget')
-@@ -286,8 +309,7 @@
-         source=R/path; target=P/path; no_links(source); no_links(target); check(ident(source)==N['files'][path],'Frozen adopted source '+path)
-         payload=source.read_bytes(); check({'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}==N['files'][path],'Source changed during read')
-         if path in N['overwritten']: check(ident(target)==N['restoreBaseline'][path],'Concurrent target drift '+path)
--        synchronized_paths.append(path); target.parent.mkdir(parents=True,exist_ok=True)
--        with target.open('wb' if path in N['overwritten'] else 'xb') as f: f.write(payload)
-+        synchronized_paths.append(path); atomic_write(path,payload,N['files'][path],N['restoreBaseline'][path] if path in N['overwritten'] else None,'sync')
-         check(ident(target)==N['files'][path],'Synchronized bytes '+path); event('source_synchronized',path=path,identity=N['files'][path])
-     synced=True; projection_guard()
- def compiler_binding(name):
-@@ -374,7 +396,7 @@
+@@ -391,7 +410,7 @@
+             rows=ps(); consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned during restore'); resources(); last=now
+     for path in synchronized_paths:
+         try:
+-            tick(); target=P/path
++            tick(); target=P/path; check(('sync',path) not in atomic_conflicts,'Preserve prior atomic conflict '+path)
+             if path in N['newPaths'] and not target.exists(): continue
              if path in N['overwritten'] and ident(target)==N['restoreBaseline'][path]: report['restored'].append(path); continue
              check(ident(target)==N['files'][path],'Concurrent/partial value preserved '+path); transfer(target,E/'archive/source'/path,N['files'][path],path in N['newPaths']); report['archived'].append(path)
-             if path in N['overwritten']:
--                check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Backup drift '+path); target.write_bytes((E/'restore/source'/path).read_bytes()); check(ident(target)==N['restoreBaseline'][path],'Restored bytes '+path)
-+                check(ident(E/'restore/source'/path)==N['restoreBaseline'][path],'Backup drift '+path); atomic_write(path,(E/'restore/source'/path).read_bytes(),N['restoreBaseline'][path],N['files'][path],'restore'); check(ident(target)==N['restoreBaseline'][path],'Restored bytes '+path)
-             report['restored'].append(path)
-         except BaseException as ex: report['errors'].append(str(ex))
-     for path in parked_paths:
 --- a/replay-check.py
 +++ b/replay-check.py
-@@ -1,9 +1,9 @@
+@@ -1,7 +1,7 @@
  #!/usr/bin/env python3
--"""Offline calls into actual I01 functions. Process and filesystem boundaries use fixtures."""
-+"""FIX01 offline fault injection into actual runner functions; no native process/filesystem writes."""
+-"""FIX01 offline fault injection into actual runner functions; no native process/filesystem writes."""
++"""FIX02 actual-function atomic-swap and ownership fault injection; all native boundaries are fixtures."""
  import ast,copy,hashlib,io,json,os,pathlib,sys,time,traceback,types
--START=time.monotonic(); E=pathlib.Path(__file__).parent; forbidden=[]; cases=[]; traces=[]
-+START=time.monotonic(); E=pathlib.Path(__file__).parent; OLD=E.parent/'I01'; forbidden=[]; cases=[]; traces=[]
+-START=time.monotonic(); E=pathlib.Path(__file__).parent; OLD=E.parent/'I01'; forbidden=[]; cases=[]; traces=[]
++START=time.monotonic(); E=pathlib.Path(__file__).parent; OLD=E.parent/'I01'; BASE=E.parent/'I01-FIX01-source'; forbidden=[]; cases=[]; traces=[]
  def audit(name,args):
--    if name in {'subprocess.Popen','os.system','os.kill','os.killpg','socket.connect','socket.bind','os.remove','os.rename','os.mkdir','os.rmdir'}: forbidden.append(name); raise RuntimeError('Offline boundary '+name)
-+    if name in {'subprocess.Popen','os.system','os.kill','os.killpg','socket.connect','socket.bind','os.remove','os.rename','os.mkdir','os.rmdir','ctypes.dlopen','ctypes.dlsym'}: forbidden.append(name); raise RuntimeError('Offline boundary '+name)
+     if name in {'subprocess.Popen','os.system','os.kill','os.killpg','socket.connect','socket.bind','os.remove','os.rename','os.mkdir','os.rmdir','ctypes.dlopen','ctypes.dlsym'}: forbidden.append(name); raise RuntimeError('Offline boundary '+name)
      if name=='open' and args[2] & (os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND):
-         if pathlib.Path(args[0]).resolve()!=E.resolve()/'replay-results.json': forbidden.append('write '+str(args[0])); raise RuntimeError('Offline write boundary')
- sys.addaudithook(audit)
-@@ -14,7 +14,7 @@
- def byteid(b): return {'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()}
- def rejected(fn):
-     try: fn()
--    except RuntimeError: return True
-+    except (RuntimeError,OSError): return True
-     return False
- def case(name,fn):
-     need(time.monotonic()-START<30,'Replay30'); fn(); cases.append({'name':name,'passed':True})
-@@ -26,33 +26,54 @@
- need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'At most two rounds; stop at first pass')
- report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'actualProjectionWrites':0,'fixtureIOOnly':True}; failure=None
+@@ -28,6 +28,8 @@
  try:
--    text=(E/'runner.py').read_text(); tree=ast.parse(text); compile(tree,str(E/'runner.py'),'exec'); compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec'); F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}; N=json.loads((E/'inputs.json').read_text())
-+    oldIdentities={"runner.py":{"bytes":41638,"sha256":"e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"},"replay-check.py":{"bytes":13372,"sha256":"794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"},"replay-results.json":{"bytes":4141,"sha256":"13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a"},"inputs.json":{"bytes":806564,"sha256":"d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"},"preparation.json":{"bytes":8345,"sha256":"0c9c2d4d3ffb8d8920f02c2ce6e7a4614d69de4c3422463ea81771f8b892a6ff"}}
-+    need({p.name for p in OLD.iterdir()}==set(oldIdentities) and all(identity(OLD/name)==value for name,value in oldIdentities.items()),'Frozen I01 five leaves')
-+    text=(E/'runner.py').read_text(); tree=ast.parse(text); compile(tree,str(E/'runner.py'),'exec'); compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec'); F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}; N=json.loads((OLD/'inputs.json').read_text())
+     oldIdentities={"runner.py":{"bytes":41638,"sha256":"e39ccb11949a432020f37592d69ffa83f1eb2173ad9088aada7fb6dcb1cd4c59"},"replay-check.py":{"bytes":13372,"sha256":"794498fff48a3482aba3cd0b62fa76ab5652b56c35366ef81927f95ad6c95f50"},"replay-results.json":{"bytes":4141,"sha256":"13067d506570c1bfa3d95be8640f0f6d8f732e096737d85949584f30a618707a"},"inputs.json":{"bytes":806564,"sha256":"d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"},"preparation.json":{"bytes":8345,"sha256":"0c9c2d4d3ffb8d8920f02c2ce6e7a4614d69de4c3422463ea81771f8b892a6ff"}}
+     need({p.name for p in OLD.iterdir()}==set(oldIdentities) and all(identity(OLD/name)==value for name,value in oldIdentities.items()),'Frozen I01 five leaves')
++    baseIdentities={"runner.py":{"bytes":44197,"sha256":"2f5f11ec8011ef8de13774fd5813af1ef697f56634087c7c40f25f197bddf812"},"replay-check.py":{"bytes":19747,"sha256":"efd02cef050f208438bb07af07402bedd24b7ee3b72f4ac5ab20b9f9f2f3fc98"},"replay-results.json":{"bytes":14193,"sha256":"769d5eb06039e66afb503c4b53b6b0ddefe42052367274aec58f01c30817ec3c"},"correction.patch":{"bytes":28398,"sha256":"fbc8fcd83509adcad25bffd10bed55c64be28fb56208303049109f045d110d82"},"preparation.json":{"bytes":13374,"sha256":"8fab17eaa833a4f7e2713eb2b2dd32f57721457f4390959f545de695fcf532c6"}}
++    need({p.name for p in BASE.iterdir()}==set(baseIdentities) and all(identity(BASE/name)==value for name,value in baseIdentities.items()),'Frozen FIX01 five leaves')
+     text=(E/'runner.py').read_text(); tree=ast.parse(text); compile(tree,str(E/'runner.py'),'exec'); compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec'); F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}; N=json.loads((OLD/'inputs.json').read_text())
      need(sum(bool(x.strip()) for x in text.splitlines())<=480,'480 lines')
      for bad in ('observe_probe','observation_passed'): need(bad not in F,'Old observation removed')
--    need(not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='ps' for k in ('monitor','snapshot_consumers') for n in ast.walk(F[k])),'Same snapshot classification')
-+    need(not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='ps' for k in ('monitor','snapshot_consumers','discover','register') for n in ast.walk(F[k])),'Same snapshot classification')
+@@ -35,9 +37,9 @@
      calls=[n for n in ast.walk(F['run_stage']) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='Popen']; need(len(calls)==1,'One actual Popen site')
      need(isinstance(F['run_stage'].body[1],ast.Expr) and F['run_stage'].body[1].value.func.id=='claim_stage','Actual run_stage begins with single-use claim')
      need('-executeMethod' not in text and '-runTests' not in text and '-fm029QaBuildOnly' not in text,'Pure compile argv')
-+    oldtree=ast.parse((OLD/'runner.py').read_text()); oldfn={n.name:n for n in oldtree.body if isinstance(n,ast.FunctionDef)}
-+    changed={n for n in oldfn if ast.dump(oldfn[n])!=ast.dump(F[n])}
-+    need(changed=={'discover','transfer','resources','synchronize','archive_and_restore'} and set(F)-set(oldfn)=={'rename_exclusive','atomic_write'},'Only two-P1 implementation scope')
-+    for n in ('synchronize','archive_and_restore'):need(not any(isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute) and x.func.attr in ('open','write_bytes') for x in ast.walk(F[n])),'No direct P write in '+n)
-+    report['changedFunctions']=sorted(changed);report['newFunctions']=sorted(set(F)-set(oldfn));report['allOtherFunctionsAstEqual']=True
+-    oldtree=ast.parse((OLD/'runner.py').read_text()); oldfn={n.name:n for n in oldtree.body if isinstance(n,ast.FunctionDef)}
++    oldtree=ast.parse((BASE/'runner.py').read_text()); oldfn={n.name:n for n in oldtree.body if isinstance(n,ast.FunctionDef)}
+     changed={n for n in oldfn if ast.dump(oldfn[n])!=ast.dump(F[n])}
+-    need(changed=={'discover','transfer','resources','synchronize','archive_and_restore'} and set(F)-set(oldfn)=={'rename_exclusive','atomic_write'},'Only two-P1 implementation scope')
++    need(changed=={'register','resources','atomic_write','archive_and_restore'} and set(F)-set(oldfn)=={'rename_swap','swap_verified'},'Only two-P1 implementation scope')
+     for n in ('synchronize','archive_and_restore'):need(not any(isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute) and x.func.attr in ('open','write_bytes') for x in ast.walk(F[n])),'No direct P write in '+n)
+     report['changedFunctions']=sorted(changed);report['newFunctions']=sorted(set(F)-set(oldfn));report['allOtherFunctionsAstEqual']=True
      report['static']={'syntax':True,'runnerNonblankLines':sum(bool(x.strip()) for x in text.splitlines()),'singlePopenSite':True,'sameSnapshot':True,'pureCompile':True}
-     sys.setprofile(profile)
-     root=N['processFixture']['root']; child=N['processFixture']['child']; rootid=root['pid']; childid=child['pid']; keys=('ppid','start','stat','exe')
--    def monitor_case(phase,variant=None):
-+    def monitor_case(phase,variant=None,entry='monitor'):
-         rows={x['pid']:{k:x[k] for k in keys} for x in (root,child)}; initial={rootid:copy.deepcopy(root)}
+@@ -48,6 +50,8 @@
          if variant=='foreign':rows[childid]['ppid']=999999
          if variant=='reuse':initial[childid]=copy.deepcopy(child);rows[childid]['start']='synthetic reused PID'
--        detail={x['pid']:{k:x[k] for k in ('argv','cwd','cwdProbeExit')} for x in (root,child)}; snapshots=[]
--        env={'json':json,'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:100.),'utc':lambda:'fixture','owned':initial,'A':{'stages':[{'id':root['stage'],'argv':root['argv']}]},'P':pathlib.Path(root['cwd']),'details':lambda pid:copy.deepcopy(detail[pid]),'ps':lambda:(_ for _ in ()).throw(AssertionError('No nested ps')),'event':lambda *a,**kw:None,'adb_exception':lambda rows:-1,'sdk_adb_exception':lambda rows:set(),'resources':lambda:None,'projection_guard':lambda:None,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.0}
-+        detail={x['pid']:{k:x[k] for k in ('argv','cwd','cwdProbeExit')} for x in (root,child)}; snapshots=[]; ps_calls=[]
-+        def fixture_details(pid):
-+            if variant=='details-error' and pid==childid:raise RuntimeError('synthetic details unavailable after supplied snapshot')
-+            return copy.deepcopy(detail[pid])
-+        def forbidden_ps():ps_calls.append(True);raise AssertionError('No second process snapshot')
-+        env={'json':json,'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:100.),'utc':lambda:'fixture','owned':initial,'A':{'stages':[{'id':root['stage'],'argv':root['argv']}]},'P':pathlib.Path(root['cwd']),'details':fixture_details,'ps':forbidden_ps,'event':lambda *a,**kw:None,'adb_exception':lambda rows:-1,'sdk_adb_exception':lambda rows:set(),'resources':lambda:None,'projection_guard':lambda:None,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.0}
-         bind(['check','alive','register','discover','consumer_guard','recorded_chain','snapshot_consumers','monitor'],env)
-         original=env['snapshot_consumers']
-         def capture(given,stage,rpid):snapshots.append(given is rows);return original(given,stage,rpid)
-         env['snapshot_consumers']=capture
--        env['monitor'](phase,rows,root['stage'],rootid,force=True)
--        need(bool(env['monitor_errors'])==bool(variant),'Expected ownership verdict '+str(variant));need(snapshots==[True],'Actual supplied snapshot object')
-+        raised=None
-+        try:
-+            if entry=='monitor':env['monitor'](phase,rows,root['stage'],rootid,force=True)
-+            else:env[entry](rows,root['stage'],rootid)
-+        except RuntimeError as error:raised=str(error)
-+        need(bool(raised or env['monitor_errors'])==bool(variant),'Expected ownership verdict '+str(variant));need(not ps_calls,'Zero second ps on details failure')
-+        if entry=='monitor':need(snapshots==[True],'Actual supplied snapshot object')
-+        if variant=='details-error':
-+            reason=raised or env['monitor_errors'][0]['error'];need('Supplied-snapshot child identity failed' in reason and 'synthetic details unavailable' in reason,'Original details failure retained')
-+            need(childid in env['owned'] and env['owned'][childid]['argv'] is None,'No invented complete identity or exit')
+         detail={x['pid']:{k:x[k] for k in ('argv','cwd','cwdProbeExit')} for x in (root,child)}; snapshots=[]; ps_calls=[]
++        for bad,key,value in [('bad-argv','argv',[]),('bad-cwd','cwd',None),('bad-probe','cwdProbeExit',1)]:
++            if variant==bad:detail[childid][key]=value
+         def fixture_details(pid):
+             if variant=='details-error' and pid==childid:raise RuntimeError('synthetic details unavailable after supplied snapshot')
+             return copy.deepcopy(detail[pid])
+@@ -66,14 +70,40 @@
+         if entry=='monitor':need(snapshots==[True],'Actual supplied snapshot object')
+         if variant=='details-error':
+             reason=raised or env['monitor_errors'][0]['error'];need('Supplied-snapshot child identity failed' in reason and 'synthetic details unavailable' in reason,'Original details failure retained')
+-            need(childid in env['owned'] and env['owned'][childid]['argv'] is None,'No invented complete identity or exit')
++            need(childid not in env['owned'],'Failure leaves no partial owned child')
++        if variant in ('bad-argv','bad-cwd','bad-probe'):need(childid not in env['owned'],'Invalid details not published')
          if not variant:need(childid in env['owned'] and env['owned'][childid]['argv']==child['argv'] and env['owned'][childid]['cwd']==child['cwd'],'Child full identity')
++        return env,rows,detail,ps_calls
      for phase in ('running','natural-closure','term-confirmation','closure-final','final'):
          case(phase+' legitimate new child',lambda phase=phase:monitor_case(phase))
          case(phase+' same-name foreign child rejected',lambda phase=phase:monitor_case(phase,'foreign'))
      case('PID reuse rejected',lambda:monitor_case('running','reuse'))
-+    for entry in ('discover','snapshot_consumers','monitor'):
-+        case('details failure '+entry+' rejects without second ps',lambda entry=entry:monitor_case('running','details-error',entry))
+     for entry in ('discover','snapshot_consumers','monitor'):
+         case('details failure '+entry+' rejects without second ps',lambda entry=entry:monitor_case('running','details-error',entry))
++    for variant in ('bad-argv','bad-cwd','bad-probe'):
++        case(variant+' not published to owned',lambda variant=variant:monitor_case('running',variant,entry='discover'))
++    def recovered_ownership(vanished=False):
++        env,oldrows,detail,oldps=monitor_case('running','details-error'); validroot=copy.deepcopy(env['owned'][rootid]); fresh=copy.deepcopy(oldrows)
++        if vanished:fresh.pop(childid)
++        env['details']=lambda pid:copy.deepcopy(detail[pid]); env['snapshot_consumers'](fresh,root['stage'],rootid)
++        need(env['owned'][rootid]==validroot and not oldps and env['monitor_errors'],'Original root and original failure preserved')
++        if not vanished:need(all(env['owned'][childid][k]==child[k] for k in ('argv','cwd','cwdProbeExit','pid','ppid','start','exe','rootPid')),'Fresh snapshot retries complete child publication')
++        else:need(childid not in env['owned'],'Fresh absent child is not invented')
++        signals=[];cleanup_ps=[]; current=copy.deepcopy(fresh)
++        def next_snapshot():cleanup_ps.append(True);return copy.deepcopy(current)
++        def term(pid,sig):need(sig==15,'TERM only');signals.append(pid);current.pop(pid,None)
++        env.update(ps=next_snapshot,os=types.SimpleNamespace(kill=term),signal=types.SimpleNamespace(SIGTERM=15),active=None)
++        env['A']['stopping']={'naturalGraceSeconds':0,'termGraceSeconds':0}
++        bind(['closure'],env);env['closure'](root['stage'],rootid,'synthetic fast-forwarded cleanup')
++        need(signals==([rootid] if vanished else [childid,rootid]) and not current,'Existing closure authorizes each fully identified process once')
++        need(env['owned'][rootid]['argv']==validroot['argv'] and env['owned'][rootid]['cwd']==validroot['cwd'],'Root identity never poisoned')
++        report.setdefault('ownershipRecovery',[]).append({'childVanishedInNextSnapshot':vanished,'firstCyclePopulationQueries':len(oldps),'freshSnapshotUsed':fresh is not oldrows,'simulatedTerms':signals,'realSignals':0,'originalFailureRetained':bool(env['monitor_errors'])})
++    case('details retry publishes complete child and permits original cleanup guards',lambda:recovered_ownership())
++    case('child absent in fresh snapshot cannot poison valid root cleanup',lambda:recovered_ownership(vanished=True))
++    def preserve_existing():
++        env,rows,detail,ps_calls=monitor_case('running','details-error'); before=copy.deepcopy(env['owned'][rootid])
++        need(rejected(lambda:env['register'](rootid,rows[rootid],root['stage'],rootid)) and env['owned'][rootid]==before,'Already valid owned entry preserved')
++    case('register cannot replace a valid owned root',preserve_existing)
      env=bind(['check','claim_stage','basic','same','validate_inputs','compilation_passed','cached_reuse_proven'],{'json':json,'launch_attempts':0,'N':N})
      def single():
          env['claim_stage']();need(env['launch_attempts']==1 and rejected(env['claim_stage']) and env['launch_attempts']==1,'I claim exactly once')
-@@ -71,11 +92,16 @@
+@@ -92,7 +122,7 @@
          changed=copy.deepcopy(binding);changed[key]='synthetic drift'
          case('cache '+key+' drift rejected',lambda changed=changed:need(not env['cached_reuse_proven'](binding,changed,prior),'Cache drift'))
      class FS:
--        def __init__(self):self.files={};self.dirs={'/'};self.fail_write=None
-+        def __init__(self):self.files={};self.dirs={'/'};self.fail_write=None;self.fail_partial=None;self.fail_commit=None;self.collide_commit=None;self.partial_written=[];self.committed=[]
+-        def __init__(self):self.files={};self.dirs={'/'};self.fail_write=None;self.fail_partial=None;self.fail_commit=None;self.collide_commit=None;self.partial_written=[];self.committed=[]
++        def __init__(self):self.files={};self.dirs={'/'};self.fail_write=None;self.fail_partial=None;self.fail_commit=None;self.collide_commit=None;self.partial_written=[];self.committed=[];self.race_source=None;self.race_again=False;self.race_value=b'concurrent first';self.swap_counts={};self.native_calls=[]
          def add(self,p,b):
              self.files[p]=b;q=pathlib.PurePosixPath(p).parent
              while str(q)!='/':self.dirs.add(str(q));q=q.parent
-         def path(self,p):return Path(self,str(p))
-+        def commit(self,source,target,exclusive=False):
-+            if self.collide_commit==source.p:self.add(target.p,b'concurrent third party')
-+            if self.fail_commit==source.p:raise OSError('synthetic atomic commit refused')
-+            if exclusive and target.exists():raise FileExistsError('synthetic exclusive destination exists')
-+            payload=self.files.pop(source.p);self.add(target.p,payload);self.committed.append((source.p,target.p))
+@@ -102,6 +132,14 @@
+             if self.fail_commit==source.p:raise OSError('synthetic atomic commit refused')
+             if exclusive and target.exists():raise FileExistsError('synthetic exclusive destination exists')
+             payload=self.files.pop(source.p);self.add(target.p,payload);self.committed.append((source.p,target.p))
++        def swap(self,source,target):
++            if self.fail_commit==source.p:raise OSError('synthetic atomic swap refused')
++            count=self.swap_counts.get(source.p,0)+1;self.swap_counts[source.p]=count
++            if self.race_source==source.p:
++                if count==1:self.add(target.p,self.race_value)
++                elif count==2 and self.race_again:self.add(target.p,b'concurrent second')
++            need(source.p in self.files and target.p in self.files,'Both swap nodes exist')
++            self.files[source.p],self.files[target.p]=self.files[target.p],self.files[source.p];self.committed.append((source.p,target.p))
      class Path:
          def __init__(self,fs,p):self.fs=fs;self.p=str(pathlib.PurePosixPath(p))
          def __str__(self):return self.p
-@@ -84,6 +110,7 @@
-         @property
-         def parent(self):return Path(self.fs,str(pathlib.PurePosixPath(self.p).parent))
-         def exists(self):return self.p in self.fs.files or self.p in self.fs.dirs
-+        def stat(self):return types.SimpleNamespace(st_dev=9)
-         def mkdir(self,parents=False,exist_ok=False):
-             q=pathlib.PurePosixPath(self.p)
-             while str(q) not in self.fs.dirs:self.fs.dirs.add(str(q));q=q.parent
-@@ -94,16 +121,21 @@
-         def rename(self,target):
-             need(not target.exists(),'fixture rename target absent');target.write_bytes(self.fs.files.pop(self.p));return target
-         def open(self,mode):
--            if self.fs.fail_write==self.p and 'w' in mode:raise RuntimeError('synthetic interrupted write before truncation')
-+            if self.fs.fail_write==self.p and any(flag in mode for flag in ('w','x')):raise RuntimeError('synthetic interrupted write before truncation')
-             need(not ('x' in mode and self.exists()),'exclusive target')
-             path=self;binary='b' in mode
-             class Buffer(io.BytesIO if binary else io.StringIO):
-+                def write(stream,value):
-+                    if path.fs.fail_partial==path.p:
-+                        partial=value[:max(1,len(value)//2)];super().write(partial);path.fs.add(path.p,partial if binary else partial.encode());path.fs.partial_written.append(path.p);raise OSError('synthetic failure after partial bytes persisted')
-+                    return super().write(value)
-+                def fileno(stream):return -123
-                 def close(stream):
-                     if not stream.closed:
-                         value=stream.getvalue();path.fs.add(path.p,value if binary else value.encode())
-                     super().close()
-             return Buffer()
--    def restore_case(drift=False,interrupt=False):
-+    def restore_case(drift=False,interrupt=False,fault=None):
-         fs=FS();n=copy.deepcopy(N);base={};target={}
-         for p in n['overwritten']+n['parked']:base[p]=('before '+p).encode()
-         stable='Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs';base[stable]=b'unchanged'
-@@ -113,21 +145,43 @@
+@@ -145,42 +183,65 @@
          for p,b in target.items():fs.add('/R/'+p,b)
          n['restoreBaseline']={p:byteid(b) for p,b in base.items()};n['files']={p:byteid(b) for p,b in target.items()};n['shared']=n['files'];outputs={}
          def sources(root):return {p[len(str(root))+1:]:byteid(b) for p,b in fs.files.items() if p.startswith(str(root)+'/')}
--        env={'N':n,'P':fs.path('/P'),'R':fs.path('/R'),'E':fs.path('/E'),'B':{},'os':types.SimpleNamespace(path=types.SimpleNamespace(lexists=lambda p:p.exists())),'time':types.SimpleNamespace(monotonic=lambda:100.),'hashlib':hashlib,'json':json,'synced':False,'restored':False,'synchronized_paths':[],'parked_paths':[],'owned':{},'stages':[],'ps':lambda:{},'consumer_guard':lambda rows:None,'projection_guard':lambda:None,'protection':lambda:None,'resources':lambda:None,'source_tree':sources,'no_links':lambda p:None,'ident':lambda p:byteid(p.read_bytes()),'event':lambda *a,**kw:None,'write':lambda name,value:outputs.update({name:value})}
--        bind(['check','basic','same','validate_inputs','transfer','synchronize','archive_and_restore'],env)
--        if interrupt:fs.fail_write='/P/'+n['overwritten'][2]
--        failed=rejected(env['synchronize']);need(failed==interrupt,'Synchronization expected failure');fs.fail_write=None
--        if not interrupt:need(sources(env['P'])==n['files'],'All 16+4 synchronized and 12 parked')
-+        env={'N':n,'P':fs.path('/P'),'R':fs.path('/R'),'E':fs.path('/E'),'B':{},'os':types.SimpleNamespace(path=types.SimpleNamespace(lexists=lambda p:p.exists()),replace=lambda source,target:fs.commit(source,target),fsync=lambda fd:None),'time':types.SimpleNamespace(monotonic=lambda:100.),'hashlib':hashlib,'json':json,'synced':False,'restored':False,'synchronized_paths':[],'parked_paths':[],'owned':{},'stages':[],'ps':lambda:{},'consumer_guard':lambda rows:None,'projection_guard':lambda:None,'protection':lambda:None,'resources':lambda:None,'source_tree':sources,'no_links':lambda p:None,'ident':lambda p:byteid(p.read_bytes()),'rename_exclusive':lambda source,target:fs.commit(source,target,True),'event':lambda *a,**kw:None,'write':lambda name,value:outputs.update({name:value})}
-+        bind(['check','basic','same','validate_inputs','transfer','atomic_write','synchronize','archive_and_restore'],env)
-+        selected=n['newPaths'][1] if fault and 'new' in fault else n['overwritten'][2]
-+        phase='restore' if fault and fault.startswith('restore') else 'sync';atomic='/E/atomic/'+phase+'/'+selected
-+        if interrupt:fs.fail_write='/E/atomic/sync/'+selected
-+        if fault and 'partial' in fault:fs.fail_partial=atomic
-+        if fault and 'commit' in fault:fs.fail_commit=atomic
-+        if fault=='new-exclusive-collision':fs.collide_commit=atomic
-+        sync_failure=interrupt or bool(fault and phase=='sync')
-+        failed=rejected(env['synchronize']);need(failed==sync_failure,'Synchronization expected failure');fs.fail_write=None
-+        if not sync_failure:need(sources(env['P'])==n['files'],'All 16+4 synchronized and 12 parked')
-+        if fault and phase=='sync':
-+            if 'partial' in fault:need(fs.partial_written==[atomic] and 0<len(fs.files[atomic])<len(target[selected]),'Partial write actually persisted only in E')
-+            if 'commit' in fault:need(fs.files[atomic]==target[selected],'Full staged postimage retained after failed commit')
-+            if fault!='new-exclusive-collision':need(fs.files.get('/P/'+selected)==base.get(selected),'Failed sync did not create/truncate P')
-+            need(any(dst=='/P/'+n['overwritten'][0] for _,dst in fs.committed),'Earlier item actually committed')
+-        env={'N':n,'P':fs.path('/P'),'R':fs.path('/R'),'E':fs.path('/E'),'B':{},'os':types.SimpleNamespace(path=types.SimpleNamespace(lexists=lambda p:p.exists()),replace=lambda source,target:fs.commit(source,target),fsync=lambda fd:None),'time':types.SimpleNamespace(monotonic=lambda:100.),'hashlib':hashlib,'json':json,'synced':False,'restored':False,'synchronized_paths':[],'parked_paths':[],'owned':{},'stages':[],'ps':lambda:{},'consumer_guard':lambda rows:None,'projection_guard':lambda:None,'protection':lambda:None,'resources':lambda:None,'source_tree':sources,'no_links':lambda p:None,'ident':lambda p:byteid(p.read_bytes()),'rename_exclusive':lambda source,target:fs.commit(source,target,True),'event':lambda *a,**kw:None,'write':lambda name,value:outputs.update({name:value})}
+-        bind(['check','basic','same','validate_inputs','transfer','atomic_write','synchronize','archive_and_restore'],env)
++        errno=[0]
++        class NativeRename:
++            def __call__(self,src,dst,flags):
++                fs.native_calls.append(flags);source=fs.path(src.decode());targetpath=fs.path(dst.decode())
++                try:
++                    if flags==2:fs.swap(source,targetpath)
++                    elif flags==4:fs.commit(source,targetpath,True)
++                    else:raise AssertionError('Unexpected rename flag')
++                    return 0
++                except OSError:errno[0]=5;return -1
++        native=NativeRename();lib=types.SimpleNamespace(renamex_np=native);fake_ctypes=types.SimpleNamespace(CDLL=lambda *a,**kw:lib,c_char_p=object(),c_uint=object(),c_int=object(),get_errno=lambda:errno[0])
++
++        env={'N':n,'P':fs.path('/P'),'R':fs.path('/R'),'E':fs.path('/E'),'B':{},'os':types.SimpleNamespace(path=types.SimpleNamespace(lexists=lambda p:p.exists()),fsync=lambda fd:None,fsencode=lambda p:str(p).encode(),strerror=lambda code:'synthetic errno '+str(code)),'time':types.SimpleNamespace(monotonic=lambda:100.),'hashlib':hashlib,'json':json,'synced':False,'restored':False,'synchronized_paths':[],'parked_paths':[],'owned':{},'stages':[],'ps':lambda:{},'consumer_guard':lambda rows:None,'projection_guard':lambda:None,'protection':lambda:None,'resources':lambda:None,'source_tree':sources,'no_links':lambda p:None,'ident':lambda p:byteid(p.read_bytes()),'ctypes':fake_ctypes,'atomic_conflicts':set(),'event':lambda *a,**kw:None,'write':lambda name,value:outputs.update({name:value})}
++        bind(['check','basic','same','validate_inputs','transfer','rename_exclusive','rename_swap','swap_verified','atomic_write','synchronize','archive_and_restore'],env)
+         selected=n['newPaths'][1] if fault and 'new' in fault else n['overwritten'][2]
+         phase='restore' if fault and fault.startswith('restore') else 'sync';atomic='/E/atomic/'+phase+'/'+selected
+         if interrupt:fs.fail_write='/E/atomic/sync/'+selected
+         if fault and 'partial' in fault:fs.fail_partial=atomic
+         if fault and 'commit' in fault:fs.fail_commit=atomic
+         if fault=='new-exclusive-collision':fs.collide_commit=atomic
++        racing=bool(fault and 'race' in fault)
++        if racing:fs.race_source=atomic;fs.race_again='again' in fault;fs.race_value=target[selected] if 'same-as-post' in fault else b'concurrent first'
+         sync_failure=interrupt or bool(fault and phase=='sync')
+         failed=rejected(env['synchronize']);need(failed==sync_failure,'Synchronization expected failure');fs.fail_write=None
+         if not sync_failure:need(sources(env['P'])==n['files'],'All 16+4 synchronized and 12 parked')
+         if fault and phase=='sync':
+             if 'partial' in fault:need(fs.partial_written==[atomic] and 0<len(fs.files[atomic])<len(target[selected]),'Partial write actually persisted only in E')
+             if 'commit' in fault:need(fs.files[atomic]==target[selected],'Full staged postimage retained after failed commit')
+-            if fault!='new-exclusive-collision':need(fs.files.get('/P/'+selected)==base.get(selected),'Failed sync did not create/truncate P')
++            if fault!='new-exclusive-collision' and not racing:need(fs.files.get('/P/'+selected)==base.get(selected),'Failed sync did not create/truncate P')
+             need(any(dst=='/P/'+n['overwritten'][0] for _,dst in fs.committed),'Earlier item actually committed')
          if drift:fs.files['/P/'+n['overwritten'][0]]=b'concurrent third party'
          restored=env['archive_and_restore']()
          expected={p:byteid(b) for p,b in original.items()}
-+        restore_failure=bool(fault and phase=='restore')
-+        collision=fault=='new-exclusive-collision'
-+        if restore_failure:
-+            expected[selected]=byteid(target[selected]);need(fs.files['/P/'+selected]==target[selected],'Failed restore leaves full postimage, never partial P')
-+            if 'partial' in fault:need(fs.partial_written==[atomic] and 0<len(fs.files[atomic])<len(base[selected]),'Partial restore retained in E')
-+            if 'commit' in fault:need(fs.files[atomic]==base[selected],'Complete restore temporary retained')
+         restore_failure=bool(fault and phase=='restore')
+         collision=fault=='new-exclusive-collision'
+-        if restore_failure:
++        if restore_failure and not racing:
+             expected[selected]=byteid(target[selected]);need(fs.files['/P/'+selected]==target[selected],'Failed restore leaves full postimage, never partial P')
+             if 'partial' in fault:need(fs.partial_written==[atomic] and 0<len(fs.files[atomic])<len(base[selected]),'Partial restore retained in E')
+             if 'commit' in fault:need(fs.files[atomic]==base[selected],'Complete restore temporary retained')
          if drift:expected[n['overwritten'][0]]=byteid(b'concurrent third party')
--        need(sources(env['P'])==expected,'All corresponding original bytes restored; foreign value preserved')
--        need(restored['complete']==(not drift),'Restore verdict')
--        if not drift and not interrupt:need(len(restored['archived'])==20 and len(restored['returnedParked'])==12,'All 32 paths covered')
-+        if collision:expected[selected]=byteid(b'concurrent third party')
-+        need(sources(env['P'])==expected,'Actual ledger restored with unknown values preserved')
-+        need(restored['complete']==(not drift and not restore_failure and not collision),'Restore verdict')
-+        if not drift and not interrupt and not fault:need(len(restored['archived'])==20 and len(restored['returnedParked'])==12,'All 32 paths covered')
-+        if fault:report.setdefault('faultEvidence',[]).append({'fault':fault,'partialFiles':list(fs.partial_written),'atomicTemporaryRetained':atomic in fs.files,'restoredComplete':restored['complete'],'restoredEarlierItem':fs.files['/P/'+n['overwritten'][0]]==base[n['overwritten'][0]],'errors':restored['errors']})
+         if collision:expected[selected]=byteid(b'concurrent third party')
++        if racing:
++            expected[selected]=byteid(fs.race_value)
++            need(fs.files['/E/atomic/displaced/'+phase+'/'+selected]==fs.race_value,'First displaced foreign value retained exactly')
++            if fs.race_again:need(fs.files['/E/atomic/conflict/'+phase+'/'+selected]==b'concurrent second','Second drift retained exactly in bounded conflict leaf')
++            need(fs.swap_counts[atomic]==2 and (phase,selected) in env['atomic_conflicts'],'Exactly one commit and one conflict-return swap; conflict stays blocked')
++            need(fs.files['/E/restore/source/'+selected]==base[selected],'Original preimage still retained')
+         need(sources(env['P'])==expected,'Actual ledger restored with unknown values preserved')
+-        need(restored['complete']==(not drift and not restore_failure and not collision),'Restore verdict')
++        need(restored['complete']==(not drift and not restore_failure and not collision and not racing),'Restore verdict')
+         if not drift and not interrupt and not fault:need(len(restored['archived'])==20 and len(restored['returnedParked'])==12,'All 32 paths covered')
+-        if fault:report.setdefault('faultEvidence',[]).append({'fault':fault,'partialFiles':list(fs.partial_written),'atomicTemporaryRetained':atomic in fs.files,'restoredComplete':restored['complete'],'restoredEarlierItem':fs.files['/P/'+n['overwritten'][0]]==base[n['overwritten'][0]],'errors':restored['errors']})
++        if fault:report.setdefault('faultEvidence',[]).append({'fault':fault,'partialFiles':list(fs.partial_written),'atomicTemporaryRetained':atomic in fs.files,'restoredComplete':restored['complete'],'restoredEarlierItem':fs.files['/P/'+n['overwritten'][0]]==base[n['overwritten'][0]],'errors':restored['errors'],'raceAtPrimitive':racing,'swapCallsForAffectedSlot':fs.swap_counts.get(atomic,0),'firstConcurrentRetained':('/E/atomic/displaced/'+phase+'/'+selected) in fs.files,'secondConcurrentRetained':('/E/atomic/conflict/'+phase+'/'+selected) in fs.files,'nativeFlagsUsed':sorted(set(fs.native_calls))})
      case('32 paths synchronize and restore through actual functions',lambda:restore_case())
      case('mid-sync failure restores actual ledger',lambda:restore_case(interrupt=True))
      case('third-party target preserved with failed restoration verdict',lambda:restore_case(drift=True))
-+    for fault in ('sync-overwrite-partial','sync-new-partial','sync-overwrite-commit','sync-new-commit','restore-partial','restore-commit','new-exclusive-collision'):
-+        case(fault+' preserves P and previous commits',lambda fault=fault:restore_case(fault=fault))
-+    need(all(identity(OLD/name)==value for name,value in oldIdentities.items()),'Old I01 unchanged after replay');report['oldFiveFilesUnchanged']=True
+     for fault in ('sync-overwrite-partial','sync-new-partial','sync-overwrite-commit','sync-new-commit','restore-partial','restore-commit','new-exclusive-collision'):
+         case(fault+' preserves P and previous commits',lambda fault=fault:restore_case(fault=fault))
++    for fault in ('sync-race','restore-race','sync-race-again','restore-race-again','sync-race-same-as-post'):
++        case(fault+' preserves displaced values and bounds conflict return',lambda fault=fault:restore_case(fault=fault))
++    need(all(identity(BASE/name)==value for name,value in baseIdentities.items()),'FIX01 unchanged after replay');report['baseFix01FiveFilesUnchanged']=True
+     need(all(identity(OLD/name)==value for name,value in oldIdentities.items()),'Old I01 unchanged after replay');report['oldFiveFilesUnchanged']=True
      need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
  except BaseException as error:failure=str(error);report['failure']=failure;report['traceback']=traceback.format_exc()
- finally:
