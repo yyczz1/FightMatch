@@ -1,0 +1,102 @@
+{
+  "packet": "HOST-NEXT-001/M02",
+  "status": "OBSERVATION_COMPLETE",
+  "sourceBase": "030898e9a317d10b610058d867529be8b0770c7c",
+  "executionOwner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a11762-1ac1-7040-8240-f6f19ccd6268"
+  },
+  "completionEvent": "bd153adf-4a11-4788-8ba9-4674fa47eba5:103; actual completed",
+  "productInputsUnchangedFromT01": 1012,
+  "newInputPaths": [
+    "Assets/Scenes/FightMatchCanvasPersistenceProbe.unity",
+    "Assets/Scenes/FightMatchCanvasPersistenceProbe.unity.meta",
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs",
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs.meta"
+  ],
+  "fullInputCanonicalSha256": "c1676dbc75b9096825d1601dbeeb182149d61479af26305697b633c6e914f964",
+  "rawReceipt": {
+    "localPath": "TestArtifacts/FightMatch/HOST-NEXT-001/M02/receipt.json",
+    "bytes": 150204,
+    "sha256": "85b749d31420de6fef28c83321b4709e71acfe20e3b1f299bafff1bfbfce1d1f",
+    "gitBlob": "bd4c06dfcc5da1491c400a3304f2b997f89042b9"
+  },
+  "rawObservations": {
+    "localPath": "TestArtifacts/FightMatch/HOST-NEXT-001/M02/P/observations.json",
+    "bytes": 81625,
+    "sha256": "d1a9ba4005c711f48745f1a8cf60cb11c1bd56964d68d16f2c6f861453536194",
+    "gitBlob": "bc30ec14d15fed405bd69178393bf8238b759595"
+  },
+  "rawEditorLog": {
+    "localPath": "TestArtifacts/FightMatch/HOST-NEXT-001/M02/P/editor.log",
+    "bytes": 114104,
+    "sha256": "bdf30380cd1f63157683c33314a171893a901683e63ea098e585d95d5815d02c",
+    "gitBlob": "12e22d8cf3a3633994fc7427df3fcbc56121eaeb"
+  },
+  "runtime": {
+    "unityStarts": 1,
+    "playEntries": 1,
+    "playExits": 1,
+    "exitCode": 0,
+    "editorSeconds": 32.950337,
+    "runnerSeconds": 100.980095,
+    "allMechanicalSeconds": 103.167098,
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "firstFrame": 0,
+    "lastFrame": 2,
+    "naturalCallbacks": 4,
+    "validityEvents": 1,
+    "normalInteraction": "LOC_BLOCKED"
+  },
+  "cleanup": {
+    "gameCleanupVerified": true,
+    "sceneCleanupVerified": true,
+    "diskUnchanged": true,
+    "prefabUnchanged": true,
+    "sceneCleanup": "empty-original/no-restorable-scene; owned scene closed; temporary empty scene released on editor exit",
+    "firstError": "",
+    "secondaryErrors": []
+  },
+  "monitoring": {
+    "cycles": 45,
+    "errors": [],
+    "scheduleSeconds": 2,
+    "actualMaximumStartIntervalSeconds": 2.270427,
+    "maximumCycleSeconds": 0.442963,
+    "naturalClosureElapsedSeconds": 60.253449,
+    "note": "Actual scheduling/check overhead is disclosed; this is not a hard real-time 2.000/60.000-second guarantee. Overall approved 240/600-second budgets were met."
+  },
+  "sdkAdb": {
+    "verifiedObservations": 10,
+    "signalsSent": 0,
+    "commandsExecuted": 0
+  },
+  "restoration": {
+    "verifiedLeaves": 1008,
+    "sharedProductAdopted": false,
+    "evidenceLeaves": 43,
+    "evidenceBytes": 8515709
+  },
+  "previousFailure": {
+    "packet": "HOST-NEXT-001/M01",
+    "status": "FAILED",
+    "receiptSha256": "f160b1402a22c0dc48b7b766e8ef8ff14449b5fbd817a42d37fc906c78b63da8",
+    "causes": [
+      "Unity-created SDK ADB rejected by old exact-PID gate",
+      "RestoreSceneManagerSetup called with empty original list",
+      "GameView removal passed custom-relative rather than total index",
+      "No resource/source checks during natural process closure"
+    ],
+    "originalEvidencePreserved": true
+  },
+  "acceptanceBoundary": [
+    "No gameplay clicks, gesture completion, formal LOC or translations",
+    "No Android, pixel/screenshot, actual device or Demo acceptance",
+    "No automatic resolution of PR4 P1",
+    "Independent GitHub review for this new scene/probe combination pending"
+  ]
+}
