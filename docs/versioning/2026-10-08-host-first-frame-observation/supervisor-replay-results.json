@@ -1,0 +1,1248 @@
+{
+  "task": "HOST-NEXT-001/M04-source",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a1178c-c850-7df1-a100-c1517709d229"
+  },
+  "status": "SOURCE_REPLAY_PASS",
+  "round": 1,
+  "cases": [
+    {
+      "name": "old-two-snapshot-race-reproduces-rejection",
+      "fixture": true,
+      "mode": "old",
+      "phase": "running",
+      "variant": null,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 1,
+        "details": [],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": false
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": false,
+      "childRecordedIdentity": null
+    },
+    {
+      "name": "running-saved-new-child-accepted",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": null,
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "running-same-name-foreign-parent-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": "foreign-parent",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": false,
+      "childRecordedIdentity": null
+    },
+    {
+      "name": "closure-final-saved-new-child-accepted",
+      "fixture": true,
+      "mode": "new",
+      "phase": "closure-final",
+      "variant": null,
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "closure-final-same-name-foreign-parent-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "closure-final",
+      "variant": "foreign-parent",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "closure-final",
+          "scope": "consumers",
+          "error": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": false,
+      "childRecordedIdentity": null
+    },
+    {
+      "name": "natural-closure-saved-new-child-accepted",
+      "fixture": true,
+      "mode": "new",
+      "phase": "natural-closure",
+      "variant": null,
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "natural-closure-same-name-foreign-parent-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "natural-closure",
+      "variant": "foreign-parent",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "natural-closure",
+          "scope": "consumers",
+          "error": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": false,
+      "childRecordedIdentity": null
+    },
+    {
+      "name": "term-confirmation-saved-new-child-accepted",
+      "fixture": true,
+      "mode": "new",
+      "phase": "term-confirmation",
+      "variant": null,
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "term-confirmation-same-name-foreign-parent-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "term-confirmation",
+      "variant": "foreign-parent",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "term-confirmation",
+          "scope": "consumers",
+          "error": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": false,
+      "childRecordedIdentity": null
+    },
+    {
+      "name": "pid-reuse-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": "pid-reuse",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:16 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:16 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "2026-10-07T18:01:15.869462+00:00",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "exe-mismatch-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": "exe-mismatch",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/fixture/unrelated/bee_backend\", \"pid\": 36391}]",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/fixture/unrelated/bee_backend\", \"pid\": 36391}]"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "2026-10-07T18:01:15.869462+00:00",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "root-argv-mismatch-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": "root-argv-mismatch",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Owned root launch mismatch",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Owned root launch mismatch"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "root-cwd-mismatch-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": "root-cwd-mismatch",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Owned root launch mismatch",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Owned root launch mismatch"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "incomplete-child-argv-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": "incomplete-child-argv",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Owned identity incomplete 36391",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Owned identity incomplete 36391"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "incomplete-child-cwd-rejected",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": "incomplete-child-cwd",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Owned identity incomplete 36391",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "consumers",
+          "error": "Owned identity incomplete 36391"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": null,
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 1
+      }
+    },
+    {
+      "name": "TERM-same-snapshot-discovers-legitimate-child",
+      "fixture": true,
+      "mode": "term",
+      "phase": "term-preclassification",
+      "variant": null,
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 0,
+        "projection": 0
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "TERM-same-name-foreign-parent-rejected",
+      "fixture": true,
+      "mode": "term",
+      "phase": "term-preclassification",
+      "variant": "foreign-parent",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]",
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 0,
+        "projection": 0
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": false,
+      "childRecordedIdentity": null
+    },
+    {
+      "name": "under-two-seconds-skips-monitor",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": null,
+      "expected": "SKIP",
+      "actual": "SKIP",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [],
+        "resources": 0,
+        "projection": 0
+      },
+      "actualFunctionTrace": [],
+      "childRegistered": false,
+      "childRecordedIdentity": null
+    },
+    {
+      "name": "exactly-two-seconds-runs-monitor",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": null,
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "raised": null,
+      "monitorErrors": [],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "resource-failure-retained-and-other-checks-run",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": null,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "fixture resources failure",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "resources",
+          "error": "fixture resources failure"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    },
+    {
+      "name": "source-failure-retained-and-other-checks-run",
+      "fixture": true,
+      "mode": "new",
+      "phase": "running",
+      "variant": null,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "raised": "fixture projection failure",
+      "monitorErrors": [
+        {
+          "utc": "fixture-time-not-native",
+          "phase": "running",
+          "scope": "projection",
+          "error": "fixture projection failure"
+        }
+      ],
+      "boundaryCalls": {
+        "ps": 0,
+        "details": [
+          36391
+        ],
+        "resources": 1,
+        "projection": 1
+      },
+      "actualFunctionTrace": [
+        {
+          "function": "snapshot_consumers",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "discover",
+          "usesSuppliedClassificationSnapshot": true
+        },
+        {
+          "function": "consumer_guard",
+          "usesSuppliedClassificationSnapshot": true
+        }
+      ],
+      "childRegistered": true,
+      "childRecordedIdentity": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "fixture-time-not-native",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    }
+  ],
+  "static": {
+    "changedFunctions": [
+      "closure",
+      "monitor",
+      "run_stage"
+    ],
+    "newFunction": "snapshot_consumers",
+    "allOtherFunctionsAstEqual": true,
+    "identitiesAndTopLevelAstEqual": true,
+    "changedFunctionsNormalizeToOnlyApprovedDelta": true,
+    "actualMonitorCallsites": [
+      "closure-final",
+      "natural-closure",
+      "running",
+      "term-confirmation"
+    ],
+    "termSnapshotExplicit": true,
+    "observationPassedUnchanged": true,
+    "probeUnchanged": {
+      "bytes": 40558,
+      "sha256": "11a0dce7bfa6f11e0b2dda3a0397b3e17196cb26c106fce1d648bd8d6d55d920"
+    },
+    "runnerNonblankLines": 407
+  },
+  "fixturesAreNotRawPs": true,
+  "nativeRuns": 0,
+  "realPsCalls": 0,
+  "adbCommands": 0,
+  "realSignals": 0,
+  "sourceSyncs": 0,
+  "sourceFacts": {
+    "processAfter": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-NEXT-001/M03/process-after.json",
+      "bytes": 180576,
+      "sha256": "daf984db01e611ac2c20635077312ddb1ad1aaa763589b2a4ff9906653f35cda"
+    },
+    "events": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-NEXT-001/M03/process-events.jsonl",
+      "bytes": 157995,
+      "sha256": "73454422a1a693b8d0871efb6b5f3702b05fb5fd96e1d05174326aa4e2f678a9"
+    },
+    "activation": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-NEXT-001/M03/activation.json",
+      "bytes": 225150,
+      "sha256": "850cd10a91c29f487e13636ee9ca043a9cf9a19d3bc453620b4ff5890db3153e"
+    },
+    "root": {
+      "ppid": 36290,
+      "start": "Thu Oct 8 02:01:04 2026",
+      "stat": "Ss",
+      "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-force-metal",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "-executeMethod",
+        "FightMatch.Host.Editor.FightMatchHostFirstFrameProbe.Execute",
+        "-fmProbeInput",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-NEXT-001/M03/activation.json",
+        "-fmProbeNonce",
+        "hn03-636ff5b0d3304862974c0c4fbdae806a",
+        "-fmHostSaveIsolationId",
+        "bcf925874bc04deab23d7a0e20fb7e46",
+        "-fmHostSaveIsolationCandidate",
+        "313b992da1ecd2379def77be346bb7413f0c4343bea06a1e9fed71fb2fc989f8",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-NEXT-001/M03/P/editor.log"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+      "pid": 36300,
+      "stage": "P",
+      "rootPid": 36300,
+      "firstObservedUtc": "2026-10-07T18:01:04.528754+00:00",
+      "termSent": false,
+      "cwdProbeExit": 0
+    },
+    "newChild": {
+      "ppid": 36300,
+      "start": "Thu Oct 8 02:01:15 2026",
+      "stat": "S",
+      "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "--dont-print-to-structured-log",
+        "--ipc",
+        "--defer-dag-verification",
+        "--dagfile=Library/Bee/200b0aEDbg.dag",
+        "--continue-on-failure",
+        "--profile=Library/Bee/backend1.traceevents",
+        "ScriptAssemblies"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+      "pid": 36391,
+      "stage": "P",
+      "rootPid": 36300,
+      "firstObservedUtc": "2026-10-07T18:01:15.869462+00:00",
+      "termSent": false,
+      "cwdProbeExit": 0
+    },
+    "monitorFailure": {
+      "utc": "2026-10-07T18:01:15.844920+00:00",
+      "phase": "running",
+      "scope": "consumers",
+      "error": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend\", \"pid\": 36391}]"
+    },
+    "laterRegistration": {
+      "utc": "2026-10-07T18:01:15.886622+00:00",
+      "kind": "owned_discovered",
+      "process": {
+        "ppid": 36300,
+        "start": "Thu Oct 8 02:01:15 2026",
+        "stat": "S",
+        "exe": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+          "--dont-print-to-structured-log",
+          "--ipc",
+          "--defer-dag-verification",
+          "--dagfile=Library/Bee/200b0aEDbg.dag",
+          "--continue-on-failure",
+          "--profile=Library/Bee/backend1.traceevents",
+          "ScriptAssemblies"
+        ],
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection",
+        "pid": 36391,
+        "stage": "P",
+        "rootPid": 36300,
+        "firstObservedUtc": "2026-10-07T18:01:15.869462+00:00",
+        "termSent": false,
+        "cwdProbeExit": 0
+      }
+    }
+  },
+  "fixtureDefinition": "Each fixture is a minimal derived subset of saved M03 facts (root36300 and child36391), not a complete or fresh ps listing. Foreign-parent/start/exe/root-identity/incomplete-details variants are explicitly synthetic.",
+  "M03EvidenceUnchanged": true,
+  "elapsedMechanicalSeconds": 0.13799749999452615,
+  "externalAttempts": []
+}
