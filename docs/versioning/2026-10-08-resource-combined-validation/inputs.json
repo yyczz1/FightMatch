@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "task": "RES-COMBINED-V03",
+  "task": "RES-COMBINED-V04",
   "status": "DESIGN_COMPLETE_NOT_ACTIVATED",
   "observedUtc": "2026-10-07T21:50:03.979075+00:00",
   "owner": {
     "role": "source implementer",
     "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
     "host": "local",
-    "turn": "01a118ed-c52e-7a10-86da-5a22a63e6fd3",
+    "turn": "01a1190f-0cb8-71d2-a7a6-8fc82ca49834",
     "requestedModel": "gpt-6-astra",
     "requestedEffort": "xhigh",
     "returnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
@@ -16,9 +16,9 @@
     "R": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
     "P": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
     "K": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
-    "executionEvidence": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run",
-    "newBeeCache": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/bee-cache",
-    "activationTests": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V03/state-tests"
+    "executionEvidence": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
+    "newBeeCache": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
+    "activationTests": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests"
   },
   "identityAlgorithms": {
     "file": "regular single-link leaf; stable inode/size/mtime around read; bytes + SHA256; gitBlob SHA1(blob SP bytes NUL payload)",
@@ -65,6 +65,14 @@
     "docs/team/2026-09-30/resource-shared-integration-source-verdict.json": {
       "bytes": 2294,
       "sha256": "c02875ffc1bef9151e1d408fa09e5da83f9b555e62a570e74b1f8c3cd838b87f"
+    },
+    "docs/team/2026-09-30/central-resource-combined-v04-source.md": {
+      "bytes": 4506,
+      "sha256": "eb7aa2a3de8f6f3d4dcf765fc2ebb2e054e1680d2b9feb056d845039009b69f8"
+    },
+    "docs/team/2026-09-30/engineering-resource-combined-v04-correction.md": {
+      "bytes": 5818,
+      "sha256": "d82090d30e162c345867d32bd854e43036ef722c024773079168f1ede58e81dd"
     }
   },
   "shared": {
@@ -22478,7 +22486,7 @@
     "preserveInPlaceIdentities": {
       "Library/Bee/TundraBuildState.state": {
         "bytes": 136080,
-        "sha256": "4008107d99c4ffeb29b12acb7eb49269c43c5014a261d98561ed47e1ca851066"
+        "sha256": "195457cf3a5cfffd34bffe89758757ec8b916abbbae9b0de85fdcd8e95a802af"
       },
       "Library/Bee/bee_backend.info": {
         "bytes": 127,
@@ -22553,15 +22561,15 @@
   "newRootPreconditions": {
     "executionEvidence": {
       "absentAtObservation": true,
-      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run"
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run"
     },
     "newBeeCache": {
       "absentAtObservation": true,
-      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/bee-cache"
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache"
     },
     "activationTests": {
       "absentAtObservation": true,
-      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V03/state-tests"
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests"
     }
   },
   "allowedNewSettings": {
@@ -22571,7 +22579,7 @@
     "rule": "Only exact natural default bytes may appear, include in imported snapshot and archive on restoration; no other source additions."
   },
   "evidenceSlots": {
-    "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run",
+    "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
     "fixed": [
       "activation.json",
       "inputs.json",
@@ -22646,7 +22654,7 @@
       "-projectPath",
       "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
       "-logFile",
-      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/I/editor.log"
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/I/editor.log"
     ],
     "T": [
       "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
@@ -22662,18 +22670,18 @@
       "-testFilter",
       "^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceReleaseSetTests($|[.]);^FightMatch[.]Host[.]Tests[.]FightMatchResourceActivationStoreTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetProviderTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeTests($|[.])",
       "-testResults",
-      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/T/results.xml",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/T/results.xml",
       "-logFile",
-      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/T/editor.log"
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/T/editor.log"
     ],
     "environmentBoth": {
       "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
-      "TMPDIR": "fresh canonical /private/tmp/fm-rcv3.XXXXXXXX, actual path sealed at activation",
-      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/bee-cache",
+      "TMPDIR": "fresh canonical /private/tmp/fm-rcv4.XXXXXXXX, actual path sealed at activation",
+      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
       "DOTNET_EnableDiagnostics": "0"
     },
     "environmentTOnly": {
-      "FIGHTMATCH_ACTIVATION_TEST_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V03/state-tests"
+      "FIGHTMATCH_ACTIVATION_TEST_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests"
     },
     "shell": false
   },
@@ -22692,8 +22700,8 @@
         "sha256": "a64fbb31f03c2ec0a5fcd88da12ac4793e4d4c75d190965c6d7f148a4b4ebc27",
         "gitBlob": "5f7604ed0e50802e9822d620b5354051089c2a3c"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22710,8 +22718,8 @@
         "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9",
         "gitBlob": "2a66334508a048be52213a202fc41babe2ca77c0"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22728,8 +22736,8 @@
         "sha256": "feceefca6d529cbc9755f8f984db7b3b176bc0709730c83947ea07bb968cb687",
         "gitBlob": "fe26b9d3ffe0648871e5985b987ffb5e2ff2240a"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22746,8 +22754,8 @@
         "sha256": "d3774d5c9cf20cdf9649540f2479ebb198241188ecfdf88bdae09d1122c22456",
         "gitBlob": "642aedff712b33b9d9e2bd25256063512fae2cb2"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22764,8 +22772,8 @@
         "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60",
         "gitBlob": "29e699d867e7625170741207bab3840301f5748b"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22782,8 +22790,8 @@
         "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670",
         "gitBlob": "289ee0ff0002dbf9a3598d67cbd50a244d2327b9"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22800,8 +22808,8 @@
         "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05",
         "gitBlob": "e48a69da2aeb6bae1abda7170bcfd850415c640d"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22818,8 +22826,8 @@
         "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c",
         "gitBlob": "655743f9084e6de0102b8b8e9e123b13dfc56a55"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22836,8 +22844,8 @@
         "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9",
         "gitBlob": "0936d8eacbbd796f6cbe62fde73e611621c012d4"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22854,8 +22862,8 @@
         "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333",
         "gitBlob": "d07b523036f060710408a11cc0c8528b8e19b75d"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22872,8 +22880,8 @@
         "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf",
         "gitBlob": "c5acc6fa538a0d8a9cb2e8f086f2b94c99467634"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22890,8 +22898,8 @@
         "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0",
         "gitBlob": "d22aa1e72bc2a9b698b12b9c7f99ea54cc656172"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22908,8 +22916,8 @@
         "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd",
         "gitBlob": "66a6e5dc2af0b4f66ded65d0f954a59c422318b7"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22926,8 +22934,8 @@
         "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321",
         "gitBlob": "d07bb9352c1919264c5d2b9d02cc5f949d9b8317"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22944,8 +22952,8 @@
         "sha256": "c64edeac81aa6b22e1070b7e6919ba572016207777136f0d62b5cbe84ed256c2",
         "gitBlob": "6aa83902243ff374f7af8dbd4126f34578c4ee0e"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22962,8 +22970,8 @@
         "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d",
         "gitBlob": "3806576418a90b631ffe25424d030897f952809c"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22980,8 +22988,8 @@
         "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2",
         "gitBlob": "c9f815c5f244ca30cfa49a311dd652376c6c7ae9"
       },
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -22995,7 +23003,7 @@
         "gitBlob": "fb6d2630ffd91228142769208dad7f6cfb3b4650"
       },
       "backup": null,
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -23009,7 +23017,7 @@
         "gitBlob": "f07ea7b46d9207dab4f79a2457007b0049e98415"
       },
       "backup": null,
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -23023,7 +23031,7 @@
         "gitBlob": "d543a9e3611e633e33e3be87693a6f3729c1c010"
       },
       "backup": null,
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -23037,7 +23045,7 @@
         "gitBlob": "623fd5389a6c95877915e7ff1ea638044813c677"
       },
       "backup": null,
-      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "archive": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
     {
@@ -23050,7 +23058,7 @@
         "gitBlob": "3bd3fb13bd00487513bde919547ca25995d255c7"
       },
       "postimage": null,
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
       "archive": null,
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
@@ -23064,7 +23072,7 @@
         "gitBlob": "9db8de062c34e3f9e2dd5e40375a8a74fd5a8db7"
       },
       "postimage": null,
-      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+      "backup": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
       "archive": null,
       "restore": "exact original identity, or absence for add; only after owned closure and no consumer; no-clobber transfer"
     },
@@ -23075,8 +23083,8 @@
         "bytes": 2647042,
         "sha256": "b888c95ca13e887e8077bafb2e1c2df62ebbd597e0edd2f84c92b2ab3d95539f"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23086,8 +23094,8 @@
         "bytes": 6761072,
         "sha256": "25707ee8f0f7503110536820baa491e95b93e7905008f80c2e91a194992a2c07"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/200b0aEDbg.dag",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/200b0aEDbg.dag",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23097,8 +23105,8 @@
         "bytes": 3726169,
         "sha256": "e9259fc1e422f7e5b1ea713a3c0882592aa66b0295eabb64c27a3f926dbe8df3"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/200b0aEDbg.dag.json",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.json",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23108,8 +23116,8 @@
         "bytes": 22236,
         "sha256": "b5992f070789444c522605a1786b664ca741c453c345e24839be856c222c397f"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23119,8 +23127,8 @@
         "bytes": 3239786,
         "sha256": "09afccaf211c2b6c2c225b7c4afa6a5814077e84753aae0127ad577ae5cee9a7"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23130,8 +23138,8 @@
         "bytes": 205216,
         "sha256": "2657e13f2ae84bc3a6f4a6d3d4a581bfd252a7a28b0503700e865ebbf6c2411b"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23141,8 +23149,8 @@
         "bytes": 8,
         "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23152,8 +23160,8 @@
         "bytes": 247296,
         "sha256": "8688b646959b0324140107d2bb7df7583104262499e069e2e0762f42a1820790"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23163,8 +23171,8 @@
         "bytes": 68180,
         "sha256": "b7a3d13719fbf118ad62acdfe5093b22fb364891ae066e568873dc6c7a97f32e"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23174,8 +23182,8 @@
         "bytes": 29184,
         "sha256": "3ed6de34d5a71485b5e3ec22dc54c8a760331f5108669625a13792cc2eb0399b"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23185,8 +23193,8 @@
         "bytes": 52736,
         "sha256": "314963404382d333ff2e9e15d5451c970a443fe12fe975236a37c1efd8306813"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23196,8 +23204,8 @@
         "bytes": 29740,
         "sha256": "715eea44065e761c399a950b47b683798abbb3f5dd3fd7739bbe885f888ce86c"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23207,8 +23215,8 @@
         "bytes": 16896,
         "sha256": "1cb685385c834aa628f6146d1423309b980e2cc06010a8c505d6422c1a370722"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23218,8 +23226,8 @@
         "bytes": 1697792,
         "sha256": "c2b057a090a6d9e84913f0c42264484bbadebd81ec32c47207ab4c1fd22a1a37"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23229,8 +23237,8 @@
         "bytes": 499632,
         "sha256": "242d61c5adb671a35510a138b3964035840a13dbc101e322645eb4b70cab4a6a"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23240,8 +23248,8 @@
         "bytes": 339968,
         "sha256": "1778edd063944fb16493b3e82742c1af532f2dd89ed17e0e5052b88cb74f8df5"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23251,8 +23259,8 @@
         "bytes": 84480,
         "sha256": "882583b83fdeed5445f574a219d6ccf312611dd7a9b712953c94e8fc194f45ae"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23262,8 +23270,8 @@
         "bytes": 31904,
         "sha256": "121d3a1338f696cc6141eae4ade915c93c118cda3d4de6c4c3f33a64ee900309"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23273,8 +23281,8 @@
         "bytes": 10752,
         "sha256": "39d9b9c71b08794858e14fbbc2fcef786af77c41661dfe59db42846fc11e3c02"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23284,8 +23292,8 @@
         "bytes": 116736,
         "sha256": "b9a4e07bb6803de5cd81ab324150f7e87ddec7eb90304bd2d9e79f9ec1d116ee"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23295,8 +23303,8 @@
         "bytes": 48416,
         "sha256": "25b585e70481136420b070147cacafd38fe95ca31ff6af131960e52893871b43"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23306,8 +23314,8 @@
         "bytes": 26624,
         "sha256": "86a00286fbd6ece06bc96c30bd5ca320e2901febe595016f484c5304f91f7486"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23317,8 +23325,8 @@
         "bytes": 73728,
         "sha256": "8d4c26eaf8cd2d2cbfdc3b0de3713a594ea0f086981907f379d9be6ef128a174"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23328,8 +23336,8 @@
         "bytes": 41272,
         "sha256": "056d84f3910df925eb96177f5ca6c2c046992e5b498fcda588ce2d29220d4bd0"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23339,8 +23347,8 @@
         "bytes": 18432,
         "sha256": "c69ce3b9c249047d680779406213c4045eae93cd9f6130b49fb7dd1f69f90ef1"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23350,8 +23358,8 @@
         "bytes": 179712,
         "sha256": "d44ed9a9634f97c0195f1dcbaffbfa46e77d2ef0f8bae9363485988fc44863b2"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23361,8 +23369,8 @@
         "bytes": 71376,
         "sha256": "5541f7ca73cd266561dd7c6f0390e1809a62204574882e9d82d88dec98b79f2b"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23372,8 +23380,8 @@
         "bytes": 38400,
         "sha256": "9de789e4c6ce552e750310f86ebd982a71a6a8cb4a0729c7ba3403cdd32ea5ea"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23383,8 +23391,8 @@
         "bytes": 47616,
         "sha256": "3d7d734da5cd4772e6ff86354617c8720e403e148f8f9e4d0af545cc4036e5a5"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23394,8 +23402,8 @@
         "bytes": 33844,
         "sha256": "5b14f60dbc60bb2e7edffa34aff381d6d80609dac86c76d704c5bdc3bd713f53"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23405,8 +23413,8 @@
         "bytes": 18432,
         "sha256": "01fcd02c4b51158867c7c507338677647d1e730e7ff723bf318f28b810c3b538"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23416,8 +23424,8 @@
         "bytes": 238080,
         "sha256": "391e419df93a6e9d9c8112fd67980fe2f05e752b708c278171abf231ae46c33a"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23427,8 +23435,8 @@
         "bytes": 128540,
         "sha256": "9e275c2ec7e11e55a9e697729040269a8b5f249136d373280a358fbd325d8a06"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23438,8 +23446,8 @@
         "bytes": 83456,
         "sha256": "8d13fcf065a1a42fe48395989486f2504ec08e03a79c2e3eea413ab041175f19"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23449,8 +23457,8 @@
         "bytes": 9216,
         "sha256": "81e9cd9aef5f0740c12670dd30d407e6482bf1cd780bf00dbc81a2f589c29c75"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23460,8 +23468,8 @@
         "bytes": 19472,
         "sha256": "3d4f7980bb6047bc89e3167516b820ff3873b37bdfd1e1034124643f5eda8fa5"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23471,8 +23479,8 @@
         "bytes": 6656,
         "sha256": "a4c8a846b446b95a74aeb2bfe73b2f9c35cbde0514b30d2bca9c5dfed40d356a"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23482,8 +23490,8 @@
         "bytes": 303104,
         "sha256": "7cfeb2a84c07301b5995d2d5e28a1bde8119761aad59b9aa603cb6fbfe0d613b"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23493,8 +23501,8 @@
         "bytes": 174896,
         "sha256": "8e654f4bf411f44e3e95ab29a23255f9ab4e03d899d8d0bdb7b0345469e5e609"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23504,8 +23512,8 @@
         "bytes": 103936,
         "sha256": "2c4ae32d1143c1b2f0b2847d5a76a298e5bf6679ce52c43064ad6acbf6cffb86"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23515,8 +23523,8 @@
         "bytes": 427008,
         "sha256": "cbe9977938c9a0a2bfb2597068606d2a0ecf773a4bbe417d36959b31f1ed0831"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23526,8 +23534,8 @@
         "bytes": 261748,
         "sha256": "ced9d4c59bacbcf14a01b3d03d6dd3e3131b0c9b06576ec5e02a552c8c44049a"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     },
     {
@@ -23537,8 +23545,8 @@
         "bytes": 176640,
         "sha256": "719239ddaf34622ecc7273409be1943674f87ffa46d1fda83574ebd5ad1b5a3a"
       },
-      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
-      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V03/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
+      "park": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
+      "archiveReplacement": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
       "restore": "archive only the sealed generated replacement if present, then return exact parked original to absent target; stop on identity conflict"
     }
   ],
@@ -23548,5 +23556,69 @@
     "head": "dc1bba0537779983647f5e261f8e1c33a1210a49",
     "resultComment": 6047508107,
     "nativeRuns": 0
+  },
+  "beeIpcContract": {
+    "tools": {
+      "editor": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "bytes": 86759760,
+        "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f"
+      },
+      "beeBackend": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/bee_backend",
+        "bytes": 447008,
+        "sha256": "30906e376c379802b221e22fc6b5307812c13e5533beafd61476481bb9b15f43"
+      },
+      "beeDriver": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Managed/Bee.BeeDriver2.dll",
+        "bytes": 118784,
+        "sha256": "91b7f80fa3f7cd3d396858e831653d4f22c5f5a5579dd1f821d3aafbee9a5e2e"
+      },
+      "lsof": {
+        "path": "/usr/sbin/lsof",
+        "bytes": 470608,
+        "sha256": "deff85c7b4750a948a69fcd48eae3b394a37575e5048e5eb4a35b7a0482c3dc8"
+      }
+    },
+    "fdTimeoutSeconds": 5,
+    "directoryPattern": "[A-Za-z0-9]{8}[.][A-Za-z0-9]{3}",
+    "endpoints": [
+      "htc",
+      "cth"
+    ],
+    "maxDirectoriesPerStage": 1,
+    "maxEndpointsPerStage": 2,
+    "stages": [
+      "I",
+      "T"
+    ],
+    "ownerUid": "current-user",
+    "directoryOrSocketWritableByOthers": false,
+    "freshFdBindingRequired": true,
+    "signalPermissionsUnchanged": true
+  },
+  "sourceCorrection": {
+    "task": "RES-COMBINED-V04",
+    "baseline": "TestArtifacts/FightMatch/RES-COMBINED-V03/run",
+    "actualOwner": {
+      "role": "source implementer",
+      "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+      "host": "local",
+      "turn": "01a1190f-0cb8-71d2-a7a6-8fc82ca49834",
+      "requestedModel": "gpt-6-astra",
+      "requestedEffort": "xhigh",
+      "returnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+    },
+    "preparedStateObservations": {
+      "Library/Bee/TundraBuildState.state": {
+        "bytes": 136080,
+        "sha256": "195457cf3a5cfffd34bffe89758757ec8b916abbbae9b0de85fdcd8e95a802af"
+      },
+      "Library/Bee/bee_backend.info": {
+        "bytes": 127,
+        "sha256": "cd510c4af398ab352e5bd1fdb74a06658814c4e8da952cb8c068909ac45e87d1"
+      }
+    },
+    "scope": "Bee IPC admission and natural closure boundary only"
   }
 }

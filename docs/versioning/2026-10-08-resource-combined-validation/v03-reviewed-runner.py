@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RES-COMBINED-V04: sealed I then T; source preparation never activates native work."""
+"""RES-COMBINED-V03: sealed I then T; source preparation never activates native work."""
 import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy
 from collections import Counter
 import xml.etree.ElementTree as ET
@@ -9,8 +9,8 @@ LIMIT={'evidenceBytes':33554432,'perLogBytes':8388608,'newCacheBytes':1073741824
 allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())
 owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
-transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}
-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests'
+transfer_conflicts=set(); probe_deadline=None
+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V03/state-tests'
 compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
@@ -35,103 +35,10 @@ def write(name,data):
     probe_timeout()
 def event(kind,**kw):
     with (E/'process-events.jsonl').open('a') as f: f.write(json.dumps({'utc':utc(),'kind':kind,**kw},ensure_ascii=False)+'\n')
-class NaturalGraceExpired(Exception):
-    """The normal natural-grace boundary, never an I/O or total-budget failure."""
-def bee_stamp(s):
-    return {k:getattr(s,'st_'+k) for k in ('uid','gid','mode','dev','ino','nlink')}
-def bee_tools():
-    for role,item in D['beeIpcContract']['tools'].items():
-        no_links(pathlib.Path(item['path'])); check(ident(item['path'])=={'bytes':item['bytes'],'sha256':item['sha256']},'Bee fixed tool drift '+role)
-def bee_process(pid,stage,rootpid):
-    check(alive(process_snapshot,pid),'Bee PID/start/executable changed '+str(pid))
-    owner=owned[pid]; check(owner['stage']==stage and owner['rootPid']==rootpid and owner['ppid']==process_snapshot[pid]['ppid'],'Bee stage/parent mismatch')
-    recorded_chain(pid,rootpid)
-    expected=D['beeIpcContract']['tools']['editor' if pid==rootpid else 'beeBackend']['path']
-    check(owner['exe']==expected,'Bee executable mismatch')
-    if pid==rootpid: check(owner['argv']==D['commands'][stage],'Bee Editor argv mismatch')
-    else: check('--ipc' in owner['argv'],'Bee backend lacks --ipc')
-    line=cmd(['/bin/ps','-ww','-p',str(pid),'-o','pid=,ppid=,lstart=,stat=,comm=']).strip().split(None,8)
-    check(len(line)==9 and int(line[0])==pid and int(line[1])==owner['ppid'] and ' '.join(line[2:7])==owner['start'] and line[8]==owner['exe'] and not line[7].startswith('Z'),'Bee fresh process identity mismatch')
-    detail=details(pid)
-    check(detail['argv']==owner['argv'] and detail['cwd']==owner['cwd']==str(P) and detail['cwdProbeExit']==0,'Bee fresh argv/cwd mismatch')
-    return {'pid':pid,'start':owner['start'],'exe':owner['exe'],'argv':owner['argv'],'cwd':owner['cwd'],'ppid':owner['ppid'],'stage':stage}
-def bee_fd_bound(text,pid,path):
-    current=None; fd=None; found=False; saw_pid=False
-    for line in text.splitlines():
-        if not line: continue
-        tag,value=line[0],line[1:]
-        if tag=='p': check(value==str(pid) and not saw_pid,'Bee FD PID mismatch'); current=pid; saw_pid=True; fd=None
-        elif tag=='f': check(current==pid,'Bee FD missing process'); fd={'number':value,'type':None}
-        elif tag=='t': check(fd is not None,'Bee FD missing descriptor'); fd['type']=value
-        elif tag=='n':
-            check(fd is not None,'Bee FD missing descriptor')
-            exact=re.fullmatch(re.escape(str(path))+r'(?: type=STREAM(?: \(LISTEN\))?)?',value)
-            if exact: check(fd['type']=='unix' and re.fullmatch(r'\d+[a-zA-Z]*',fd['number']),'Bee FD wrong type'); found=True
-        else: check(tag=='c' and current==pid,'Bee unexpected FD record')
-    check(saw_pid,'Bee FD missing PID'); return found
-def bee_ipc_entry(path,observed=None):
-    path=pathlib.Path(path); known=None; stage=current_stage
-    for sid,state in bee_ipc.items():
-        if str(path) in state['endpoints']: known=state['endpoints'][str(path)]; stage=sid; break
-    match=re.fullmatch(r'ipc_(\d+)_(htc|cth)',path.name)
-    check(TMP is not None and path.parent.parent==TMP and re.fullmatch(D['beeIpcContract']['directoryPattern'],path.parent.name) and match,'Unknown Bee IPC path '+str(path))
-    pid=int(match[1]); state=bee_ipc.get(stage)
-    if known is not None:
-        check(state['rootPid']==pid and (stage==current_stage or state['closed']),'Bee endpoint stage mismatch')
-        for identity in [state['rootIdentity']]+known['fdOwners']:
-            row=process_snapshot.get(identity['pid'])
-            check(row is None or (row['start']==identity['start'] and row['exe']==identity['exe']),'Bee admitted PID reused')
-        try: ds=path.parent.lstat()
-        except FileNotFoundError: ds=None
-        if ds is not None: check(bee_stamp(ds)==state['directoryIdentity'],'Bee directory replaced')
-        try: current=path.lstat()
-        except FileNotFoundError:
-            if not known['absent']: known['absent']=True; event('bee_ipc_absent',stage=stage,path=str(path),identity=known['identity'])
-            return {'type':'bee-socket-absent','stage':stage,'identity':known['identity'],'contentsRead':False}
-        check(not known['absent'] and ds is not None and bee_stamp(current)==known['identity'],'Bee endpoint replaced or reappeared')
-        return {'type':'bee-socket','stage':stage,**known['identity'],'contentsRead':False}
-    check(stage in ('I','T') and pid==snapshot_root and alive(process_snapshot,pid),'Bee first binding lacks current Editor')
-    check(state is None or (not state['closed'] and state['rootPid']==pid and state['directory']==str(path.parent)),'Bee directory/stage changed')
-    no_links(path.parent); ds=path.parent.lstat()
-    check(stat.S_ISDIR(ds.st_mode) and ds.st_uid==os.getuid() and not stat.S_IMODE(ds.st_mode)&0o022,'Bee directory type/UID/mode')
-    if state is not None: check(bee_stamp(ds)==state['directoryIdentity'] and len(state['endpoints'])<2,'Bee directory replaced or endpoint limit')
-    try: before=path.lstat()
-    except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished before FD binding')
-    check(stat.S_ISSOCK(before.st_mode) and before.st_uid==os.getuid() and before.st_nlink==1 and not stat.S_IMODE(before.st_mode)&0o022,'Bee endpoint type/UID/mode/link')
-    if observed is not None: check(bee_stamp(observed)==bee_stamp(before),'Bee endpoint changed before binding')
-    bee_tools(); root_identity=bee_process(pid,stage,pid); holders=[]
-    candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]
-    for candidate in candidates:
-        identity=bee_process(candidate,stage,pid)
-        result=subprocess.run([D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn'],capture_output=True,text=True,timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],probe_timeout()))
-        # lsof exit1 with empty output means no Unix descriptors; it is not ownership evidence.
-        check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')
-        if result.returncode==0 and bee_fd_bound(result.stdout,candidate,path): holders.append(identity)
-        check(bee_process(candidate,stage,pid)==identity,'Bee process changed during FD probe')
-    check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')
-    try: after=path.lstat()
-    except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')
-    check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')
-    bee_tools()
-    if state is None:
-        state={'stage':stage,'rootPid':pid,'rootIdentity':root_identity,'directory':str(path.parent),'directoryIdentity':bee_stamp(ds),'endpoints':{},'closed':False}; bee_ipc[stage]=state
-    state['endpoints'][str(path)]={'identity':bee_stamp(after),'fdOwners':holders,'absent':False}
-    event('bee_ipc_admitted',stage=stage,path=str(path),directory=state['directoryIdentity'],identity=bee_stamp(after),fdOwners=holders)
-    return {'type':'bee-socket','stage':stage,**bee_stamp(after),'contentsRead':False}
-def bee_ipc_snapshot(root,out):
-    if root!=TMP: return
-    for state in bee_ipc.values():
-        for name in state['endpoints']:
-            path=pathlib.Path(name); key=path.relative_to(root).as_posix()
-            if key not in out: out[key]=bee_ipc_entry(path)
-
 def probe_timeout():
-    now=time.monotonic()
-    check(execution_deadline is None or now<execution_deadline,'Total mechanical deadline exhausted')
     deadline=work_deadline if probe_deadline is None else probe_deadline
-    if natural_boundary is not None and deadline==natural_boundary and now>=natural_boundary: raise NaturalGraceExpired('Natural grace elapsed')
-    remaining=5. if deadline is None else deadline-now
-    if execution_deadline is not None: remaining=min(remaining,execution_deadline-now)
+    remaining=5. if deadline is None else deadline-time.monotonic()
+    if execution_deadline is not None: remaining=min(remaining,execution_deadline-time.monotonic())
     check(remaining>0,'Closure probe deadline exhausted')
     return min(5.,remaining)
 def checked(values):
@@ -314,17 +221,14 @@ def monitor(phase,rows,stage,rootpid,strict=False,force=False):
     cycle={'utc':utc(),'phase':phase,'sincePreviousSeconds':None if not last_monitor else round(now-last_monitor,6),'failures':[]}; last_monitor=now
     for name,fn in [('consumers',lambda:snapshot_consumers(rows,stage,rootpid)),('resources',resources),('projection',projection_guard)]:
         try: probe_timeout(); fn()
-        except NaturalGraceExpired:
-            cycle['naturalGraceExpired']=True; break
         except BaseException as ex:
             item={'utc':utc(),'phase':phase,'scope':name,'error':str(ex)}; monitor_errors.append(item); cycle['failures'].append(item); event('monitor_failure',detail=item)
     cycle['elapsedSeconds']=round(time.monotonic()-now,6); monitor_cycles.append(cycle); event('monitor_cycle',cycle=cycle)
-    if cycle.get('naturalGraceExpired'): raise NaturalGraceExpired('Natural grace elapsed')
     if strict and cycle['failures']: raise RuntimeError(cycle['failures'][0]['error'])
     return cycle
 def closure(stage,rootpid,reason):
-    global closure_closed,probe_deadline,natural_boundary
-    previous_deadline=probe_deadline; previous_natural=natural_boundary; closure_closed=False; event('closure_begin',stage=stage,reason=reason)
+    global closure_closed,probe_deadline
+    previous_deadline=probe_deadline; closure_closed=False; event('closure_begin',stage=stage,reason=reason)
     def sample(phase,force=False):
         try:
             probe_timeout(); rows=ps()
@@ -332,23 +236,18 @@ def closure(stage,rootpid,reason):
             probe_timeout(); remaining=[p for p in owned if alive(rows,p)]
             clear=cycle is not None and not cycle['failures'] and not remaining and not pending_details and (active is None or active.poll() is not None)
             return remaining,clear
-        except NaturalGraceExpired: raise
         except BaseException as error:
             item={'utc':utc(),'phase':phase,'scope':'process-snapshot','error':str(error)}
             monitor_errors.append(item); event('monitor_failure',detail=item)
             monitor_cycles.append({'utc':utc(),'phase':phase,'failures':[item],'clear':False})
             return list(owned),False
     try:
-        natural_end=time.monotonic()+A['stopping']['naturalGraceSeconds']; deadline=natural_end; deadline=min(deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)-60-A['stopping']['termGraceSeconds']) if execution_deadline is not None else deadline; probe_deadline=deadline; natural_boundary=natural_end if deadline==natural_end else None; first=True; remaining=list(owned)
+        deadline=time.monotonic()+A['stopping']['naturalGraceSeconds']; deadline=min(deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)-60-A['stopping']['termGraceSeconds']) if execution_deadline is not None else deadline; probe_deadline=deadline; first=True; remaining=list(owned)
         while first or time.monotonic()<deadline:
             if active is not None: active.poll()
-            try: remaining,clear=sample('natural-closure',force=first)
-            except NaturalGraceExpired:
-                remaining=list(owned); event('natural_grace_elapsed',stage=stage); break
-            first=False
+            remaining,clear=sample('natural-closure',force=first); first=False
             if clear or time.monotonic()>=deadline: break
             time.sleep(max(0.,min(.25,deadline-time.monotonic())))
-        natural_boundary=None
         deadline=time.monotonic()+A['stopping']['termGraceSeconds']; deadline=min(deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)-60) if execution_deadline is not None else deadline; probe_deadline=deadline
         event('term_window',stage=stage,deadline=deadline)
         for pid in reversed(remaining):
@@ -376,8 +275,7 @@ def closure(stage,rootpid,reason):
         remaining,closure_closed=sample('closure-final',force=True)
         event('closure_end',stage=stage,remainingOwned=remaining,pendingIdentities=list(pending_details),closed=closure_closed,popenStillLive=active is not None and active.poll() is None)
         check(closure_closed,'BLOCKED: process closure lacks a successful clear sample '+str({'owned':remaining,'pending':list(pending_details),'root':rootpid}))
-        if stage in bee_ipc: bee_ipc[stage]['closed']=True
-    finally: probe_deadline=previous_deadline; natural_boundary=previous_natural
+    finally: probe_deadline=previous_deadline
 def no_links(p):
     for q in [pathlib.Path(p)]+list(pathlib.Path(p).parents): check(not q.is_symlink(),'Symlink '+str(q))
 def inventory(root,relative=None):
@@ -401,10 +299,7 @@ def tree_entries(root):
     root=pathlib.Path(root); no_links(root); out={}
     for base,dirs,files in scan_tree(root):
         for name in checked(dirs+files):
-            p=pathlib.Path(base)/name; rel=p.relative_to(root).as_posix()
-            if root==TMP and (p.name.startswith('ipc_') or any(str(p) in v['endpoints'] for v in bee_ipc.values())):
-                out[rel]=bee_ipc_entry(p); continue
-            s=p.lstat()
+            p=pathlib.Path(base)/name; s=p.lstat(); rel=p.relative_to(root).as_posix()
             if stat.S_ISLNK(s.st_mode): out[rel]={'type':'symlink','target':os.readlink(p)}
             elif stat.S_ISDIR(s.st_mode): out[rel]={'type':'directory','mode':stat.S_IMODE(s.st_mode)}
             elif stat.S_ISREG(s.st_mode): out[rel]={'type':'file',**ident(p)}
@@ -418,7 +313,6 @@ def tree_entries(root):
                 recorded_chain(pid,snapshot_root)
                 out[rel]={'type':'fifo','uid':s.st_uid,'gid':s.st_gid,'mode':stat.S_IMODE(s.st_mode),'device':s.st_dev,'inode':s.st_ino,'bytes':s.st_size,'contentsRead':False}
             else: raise RuntimeError('Special tree entry '+str(p))
-    bee_ipc_snapshot(root,out)
     return out
 def tree_identity(root):
     entries=tree_entries(root); return {'entries':len(entries),'bytes':sum(v.get('bytes',0) for v in entries.values()),'treeSha256':json_digest(entries)}
@@ -605,9 +499,8 @@ def preflight():
     check(A['stopping']=={'naturalGraceSeconds':60,'termGraceSeconds':30,'sigkill':False,'retries':0,'perOwnedPidTermMax':1},'Closure contract')
     check(A['environmentOverrides']=={'UPM_CACHE_ROOT':str(K),'TMPDIR':str(TMP),'BEE_CACHE_DIRECTORY':str(BC),'DOTNET_EnableDiagnostics':'0'},'Exact shared environment')
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')
-    bee_tools()
     no_links(TMP); s=TMP.stat()
-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv4\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv3\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')
     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')
     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())
@@ -859,7 +752,7 @@ def normalize_input(raw):
             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],
             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}
 def contract_guard(raw,qa):
-    check(raw['task']=='RES-COMBINED-V04' and raw['schemaVersion']==1,'Current combined schema required')
+    check(raw['task']=='RES-COMBINED-V03' and raw['schemaVersion']==1,'Current combined schema required')
     for key,count in [('shared',1036),('projectionBefore',1035)]:
         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)
     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta
@@ -1011,9 +904,9 @@ def main():
     clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))
-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V04','Current combined activation required')
+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V03','Current combined activation required')
     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']
-    check(ident(E/'inputs.json')=={'bytes':1244365,'sha256':'9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524'},'Current fixed inputs')
+    check(ident(E/'inputs.json')=={'bytes':1241674,'sha256':'dca26616f624469bbd5639b659e3a161eb55c56cd2ec117f3ec4c864e4aedd08'},'Current fixed inputs')
     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')
     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)
     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')
@@ -1046,7 +939,7 @@ def main():
             except BaseException as error: failure=(failure+'; ' if failure else '')+'restore: '+str(error)
             try:
                 probe_deadline=min(time.monotonic()+D['limits']['finalizationSeconds'],execution_deadline); probe_timeout(); rows=ps(); monitor('final',rows,current_stage,next(iter(owned),None),force=True); remaining=[dict(owned[p],current=rows[p]) for p in owned if alive(rows,p)]
-                check(not remaining and not pending_details and not monitor_errors,'Final monitor gate'); after['temporaryTree']=tree_entries(TMP); after['beeIpc']=copy.deepcopy(bee_ipc); after['beeTree']=tree_identity(BC); after['AS']=as_guard(True); probe_timeout()
+                check(not remaining and not pending_details and not monitor_errors,'Final monitor gate'); after['temporaryTree']=tree_entries(TMP); after['beeTree']=tree_identity(BC); after['AS']=as_guard(True); probe_timeout()
             except BaseException as error: failure=(failure+'; ' if failure else '')+str(error)
         else: probe_deadline=min(time.monotonic()+D['limits']['finalizationSeconds'],execution_deadline)
         if failure and not (status in ('INCOMPLETE','CONTRACT_MISMATCH') and restore and restore['complete'] and not monitor_errors): status='FAILED' if any(s['runCount'] for s in stages) else 'NOT_RUN_BLOCKED'

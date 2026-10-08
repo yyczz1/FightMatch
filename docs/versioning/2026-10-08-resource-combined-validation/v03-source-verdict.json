@@ -1,0 +1,91 @@
+{
+  "task": "RES-COMBINED-V03-SOURCE-INTEGRATION",
+  "date": "2026-10-08",
+  "verdict": "ACCEPT",
+  "scope": "Reviewed validation source and binding refresh only; no native, gameplay, Player, device or Demo acceptance",
+  "head": "dbd5a203fd7b4997a1e67d7269fb1d9b87d5cbea",
+  "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+  "parent": "281bb731ed08a21a25df67932068279853b3fd09",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "review": {
+    "service": "GitHub PR Code Review",
+    "trigger": 6049781982,
+    "result": 6049807634,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6049807634",
+    "reviewedCommitPrefix": "dbd5a203fd",
+    "originalConclusion": "Didn't find any major issues.",
+    "formalApproved": false,
+    "historicalP1ThreadsRetained": [
+      4212752227,
+      4212896382,
+      4212896391
+    ]
+  },
+  "qaReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-pr20-v03-review-receipt.json",
+    "bytes": 4749,
+    "sha256": "544f84fcfa292e96234ef036dd9c91339f5058326ccea88b78155a16ddf2ebaa",
+    "actualTurn": "01a118f6-c0dc-7532-8da3-213b46a48ad9",
+    "requestedModel": "gpt-6-luna",
+    "requestedEffort": "medium",
+    "effectiveModel": "Not exposed; requested values are not independent runtime verification"
+  },
+  "receiptClarification": {
+    "reported24DelegationCount": "The V03 dispatch specified no 24-blob count. That figure belongs to V02; the QA claim about V03 delegation is inaccurate and is not used for acceptance.",
+    "verifiedV03Blobs": 29,
+    "verifiedV03Bytes": 2471790,
+    "evidence": "Central publication metadata and all 29 remote blob SHA comparisons at exact head; source five leaves freshly matched before this verdict."
+  },
+  "validation": {
+    "runnerNormalizedByteIdenticalToReviewedV02": true,
+    "inputDataChanges": 142,
+    "inputPatchReconstructsExactly": true,
+    "singleCompilerStateHashChange": true,
+    "currentRootsConsistent": true,
+    "exitContractIdentical": true,
+    "allProductPackageTestIdentitiesUnchanged": true,
+    "checkerAndResultsReusedByteIdentical": true,
+    "noReplayOrNativeRerun": true,
+    "authorStaticSeconds": 0.073324
+  },
+  "replayReuse": "Exact V02 177/177 checker/results; no V03 replay run",
+  "currentNativeRuns": 0,
+  "sourceSeals": [
+    {
+      "source": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/runner.py",
+      "bytes": 83629,
+      "sha256": "c73a2214edb3c7359bbaac66ed01b51503500b66c3959025dae9a480d1a27dcb"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/replay-check.py",
+      "bytes": 111261,
+      "sha256": "1f16c745c82b0373483ed8f029a6831345c840f12e01cbfd05b0791a1fca8f09"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/replay-results.json",
+      "bytes": 451171,
+      "sha256": "ef6b9626be51273a64770d169beedc2a1eb39f5cd5acb1ac10e9b0986d00b556"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/inputs.json",
+      "bytes": 1241674,
+      "sha256": "dca26616f624469bbd5639b659e3a161eb55c56cd2ec117f3ec4c864e4aedd08"
+    },
+    {
+      "source": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/preparation.json",
+      "bytes": 88412,
+      "sha256": "184db403376a8a01ebb41f7c924ba80fd30701a9b3bcc58db90c00dfe2d7a504"
+    }
+  ],
+  "preservedFailures": [
+    "V01 FAILED / runner exit1 / I exit0 / T not started",
+    "V02 NOT_RUN_BLOCKED / native0 / preflight old Tundra state identity"
+  ],
+  "next": "C fresh activation and at most one I then one exact T89 under central-resource-combined-v03-execute.md; no old activation reuse or automatic retry",
+  "notAccepted": [
+    "Current combined Unity provenance and 89 tests",
+    "Real resources and formal LOC Host binding",
+    "APK, visual, device and gameplay/cold-reopen acceptance",
+    "Merge or release"
+  ]
+}
