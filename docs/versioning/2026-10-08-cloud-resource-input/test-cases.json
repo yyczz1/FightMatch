@@ -1,0 +1,403 @@
+{
+ "schemaVersion": 1,
+ "task": "RES-COMBINED-V01-CASES",
+ "date": "2026-10-08",
+ "status": "CASES_FIXED_NATIVE_NOT_RUN",
+ "owner": {
+  "role": "主测试",
+  "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "host": "local",
+  "actualTurn": "01a11849-ea4e-7372-b785-12d282077810"
+ },
+ "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+ "scope": "Design only: G01 43 never started; combine Provider27 and Runtime19 into one89 run.",
+ "fixedInput": {
+  "centralReceipt": {
+   "path": "docs/team/2026-09-30/resource-sdk-adopt-g02-central-receipt.json",
+   "bytes": 3131,
+   "sha256": "f67399effe031bbf2478d9ad86def792e73339177883c9e0b853f2a237ebcae5"
+  },
+  "engineeringPlan": {
+   "path": "docs/team/2026-09-30/engineering-resource-sdk-adoption-next.md",
+   "bytes": 8165,
+   "sha256": "7de3aedf0329539d0c1c202ce5f087bddcfc1cca070b8901c8030ab1bce8c68c"
+  },
+  "groupFreeze": {
+   "path": "TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/group-freeze.json",
+   "bytes": 262970,
+   "sha256": "f952d7239b261099804021d3d6a2b4de9ebcaa8f4265ed3de7102d8c90622ca7"
+  },
+  "shared": {
+   "files": 1036,
+   "bytes": 32657794,
+   "canonicalSha256": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8"
+  },
+  "canonicalAlgorithm": "SHA256(UTF-8 ordinal-sorted path NUL Git-blob-SHA1 NUL decimalBytes LF), over Assets/Packages/ProjectSettings ordinary files.",
+  "carrier": "TestArtifacts/FightMatch/RES-01A/P01/projection/",
+  "carrierContract": "Engineering owns final P01 inputs/delta/cache/restore baseline. This file binds shared1036; no new P or old lease reuse.",
+  "nativeOwner": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local",
+  "activation": "Central seals C turn, runner/inputs/case hashes, P01/cache/AS/evidence roots, budgets and closure/restore contract. Existing FIX05 acceptance does not authorize an altered runner.",
+  "nativeRunsThisTask": 0
+ },
+ "counts": {
+  "fixtures": 6,
+  "G01": 43,
+  "provider": 27,
+  "runtime": 19,
+  "RAW": 13,
+  "FAD": 6,
+  "total": 89,
+  "unique": 89,
+  "expectedOccurrencesPerFullname": 1
+ },
+ "nameInventory": {
+  "encoding": "UTF-8; ordinal-sort all fullnames; append LF after every name",
+  "bytes": 9628,
+  "sha256": "0e87531ce43789253b108dbcc271173ac92e25178f5076b3d7d224e8cc590f9f",
+  "total": 89,
+  "unique": 89
+ },
+ "g01Preservation": {
+  "total": 43,
+  "sha256": "4a5ae6c660d8966b7d6792dbb0a582c966e11d6daa3bef4ed2227fe9747de54c",
+  "meaning": "First four fixture names preserve the frozen G01 Counter. Six current test files equal G02 frozen identities and accepted source bytes."
+ },
+ "selection": {
+  "testPlatform": "EditMode",
+  "testFilterArgument": "^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceReleaseSetTests($|[.]);^FightMatch[.]Host[.]Tests[.]FightMatchResourceActivationStoreTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetProviderTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeTests($|[.])",
+  "construction": "Pass as one non-shell argv: six semicolon-separated anchored fixture regexes, literal dots; exact fixture or member prefix only.",
+  "frameworkEvidence": "UTF1.1.33 SettingsBuilder maps testFilter to groupNames; CommandLineOption splits ';'; RuntimeTestRunnerFilter ORs regex FullNameFilters (existing P01 package, read only).",
+  "plannedRuns": {
+   "I": 1,
+   "T": 1,
+   "retries": 0,
+   "separateDiscovery": 0
+  },
+  "sequencing": "T requires passed I and closed owned processes; one fresh XML for all89. No -quit with -runTests. Execution remains unactivated.",
+  "finalAuthority": "Exact fixtures[].testFullnames Counter. Static check: all89 each match exactly one filter; no native discovery/run."
+ },
+ "fixtures": [
+  {
+   "id": "B_CONTRACTS",
+   "fixture": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests",
+   "count": 11,
+   "source": {
+    "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+    "bytes": 16708,
+    "sha256": "6c65da27c7847d50e5a3c0beb1da30d58db025646be21b2eec493c816c3ba5fc"
+   },
+   "acceptanceReceipt": "B_FIX03",
+   "historicalXml": "B_M04",
+   "testFullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsAcceptExactAsciiBoundsAndUseOrdinalIdentity",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsRejectMalformedUnicodeCaseAndPathInputWithoutRetainingIt",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.BudgetsAcceptBothInclusiveBoundsAndRejectEveryAdjacentOutOfRangeValue",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.DiagnosticsEnforceEnumRangesAndAssetNullability",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsAcceptEveryAllowedCategoryAndCanonicalMaximum",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsRedactEntireInvalidOrSensitiveInput",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.InvalidReleaseSetsAreDiscardedAndNeverEchoed",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsContainExactlyOneLiveLeaseAndEchoPositiveEpochAndSet",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsRejectMissingReleasedMismatchedOrInvalidLeaseData",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedResultsContainOnlyDiagnosticAndEnforceOrdinalSetAgreement",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedEpochsPreserveEarlierFailuresAndRequireMatchingValidationStage"
+   ],
+   "acceptedSourceRoot": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/"
+  },
+  {
+   "id": "C_CONTRACTS",
+   "fixture": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests",
+   "count": 11,
+   "source": {
+    "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+    "bytes": 28399,
+    "sha256": "4fe6bb1ed6e2c5bc0d62685b807de42db9a38e2069d07547abbd27502503e13b"
+   },
+   "acceptanceReceipt": "C_FIX01",
+   "historicalXml": "RAW_M01",
+   "testFullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C11_ProgressStageRequiresConsistentRemainingWork"
+   ],
+   "acceptedSourceRoot": "TestArtifacts/FightMatch/RES-C-CONTRACT-001/FIX01/S/source/"
+  },
+  {
+   "id": "D_CODEC",
+   "fixture": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests",
+   "count": 13,
+   "source": {
+    "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+    "bytes": 56352,
+    "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+   },
+   "acceptanceReceipt": "AS_FACTORY_M02",
+   "historicalXml": "AS_FACTORY_M02",
+   "testFullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners"
+   ],
+   "acceptedSourceRoot": "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source/"
+  },
+  {
+   "id": "AS",
+   "fixture": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests",
+   "count": 8,
+   "source": {
+    "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs",
+    "bytes": 36336,
+    "sha256": "572c46a5c37734fe6cb8db4ec9b3a0c0c133ce7284ce6e0458451e6bcf9cb029"
+   },
+   "acceptanceReceipt": "AS_FACTORY_M02",
+   "historicalXml": "AS_FACTORY_M02",
+   "testFullnames": [
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS01_InitialBuiltInAndOrdinaryReentry",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS02_UpdateRequiresNextProcess",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS03_StrictBoundedRecords",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS04_PrePromotionFailuresPreserveActive",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS05_UnknownCommitNeverAdvances",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS06_RealFilesMoveReplaceAndReopen",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS07_RootAndResidueGuards",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS08_PlayerAndOldSetRemainUntouched"
+   ],
+   "acceptedSourceRoot": "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FIX02/S/source/"
+  },
+  {
+   "id": "PROVIDER",
+   "fixture": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests",
+   "count": 27,
+   "source": {
+    "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+    "bytes": 47591,
+    "sha256": "97ff52ade2839e312ec8a2dc698e17ec18c8bc643bccfccb6f1ab142c2fb6199"
+   },
+   "acceptanceReceipt": "B_FIX03",
+   "historicalXml": "B_M04",
+   "testFullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B00_CallersUseOnlyProjectInterfaceAndResults",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B02_B04_ValidationOrderRejectsInvalidUnknownTypesAndSetsWithoutSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B05_FailuresHaveDistinctStagesAndNoSdkText",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B06_B09_SharedPendingAndLiveHandlesHaveIndependentIdempotentLeases",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B10_B11_EpochAndForeignLateDuplicateCallbacksCannotPublishOrReleaseNewHandles",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B12_RequestAndModuleLimitsReserveBeforeStartingSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.AnyThreadDisposeUsesOneReservedWakeAndNeverReleasesOffThread",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedPostAndFailedReleaseRetainCleanupForNextMainEntry",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BackgroundAcquirePerformsPureValidationThenRejectsWithoutSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CloseWaitsForRealInitManifestOrLoadTerminalsAndDoesNotPublish",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ClosePreservesLiveLeaseAndRetriesFailedPackageDestruction",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BorrowedPackageAndGlobalAreNeverReinitializedSwitchedOrDestroyed",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CreatorShutdownCannotDestroyPackageUsedByAnotherProvider",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedDestructionDoesNotCreateAnAutomaticRetryLoop",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.SynchronousDuplicateAndPriorProviderCallbacksRemainExactOnce",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.OwnedPackageUnderBorrowedGlobalPreservesGlobalAndOtherPackages",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B15_B16_AssemblyBoundaryHasNoBusinessReferencesAndContractsNeedNoSdk",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ProductionConstructorRejectsThreadPoolContextsBeforeSdkAccess",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B13_B14_RemoteUrlsUseExactImmutableIdentityAndRejectInjection",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedInitializationCanBeRetriedByLaterAcquisition",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedManifestCanBeRetriedWithoutReinitializingPackage",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.InvalidReleaseSetsEmitExactCanonicalReasonBeforeSdkWork",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.PostLoadVersionMismatchRetriesManifestOnLaterAcquisition",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.PostLoadVersionExceptionRetriesManifestOnLaterAcquisition",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.PostLoadValidationFailureRemainsStableAcrossLaterAttempts",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.GlobalInitializationFailureCanBeRetriedBySameProvider",
+    "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B17_B18_AdapterHonorsIdentifierEpochAndBudgetBoundariesWithoutLeakingInputs"
+   ],
+   "acceptedSourceRoot": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/"
+  },
+  {
+   "id": "RUNTIME",
+   "fixture": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests",
+   "count": 19,
+   "source": {
+    "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs",
+    "bytes": 78064,
+    "sha256": "9431e5d173f4f914260d380d008e329cce15b226859fdb6aecfa1b551bb9d5ca"
+   },
+   "acceptanceReceipt": "AS_FACTORY_M02",
+   "historicalXml": "AS_FACTORY_M02",
+   "testFullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW01_PinnedRawMappingOnly",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW02_LengthAndBudgetBeforeAllocation",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW03_ExactBodyAndHashBeforePublication",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW04_ReadOnlyBoundedStream",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW05_TwoLeasesShareOneVerifiedPayload",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW06_StreamAndLeaseHaveSeparateOwners",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW07_StalePendingCannotPublish",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW08_CloseWaitsForEnsureAndLease",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW09_CallbackBudgetAndThreadRulesRemain",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW10_UnsafePackageAndBundleKindAreRejected",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW11_FailureDiagnosticsAreSafe",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW12_RawInterfaceAndRegressionSurfaceStayClosed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW13_FailedChunkSchedulingTerminatesWithoutExternalDrain",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD01_ValidPlanPreservesPinnedProjection",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD02_TrustSetAndPlatformAreRequired",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD03_CompatibilityAndTypePolicyRejectUnknown",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD04_ModeAndBudgetsAreBounded",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD05_InputAndProjectionAreIsolated",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.FAD06_AdmissionHasNoRuntimeSideEffects"
+   ],
+   "subgroups": {
+    "RAW": 13,
+    "FAD": 6
+   },
+   "acceptedSourceRoot": "TestArtifacts/FightMatch/RES-FACTORY-ADMISSION-001/S/source/"
+  }
+ ],
+ "historicalXml": {
+  "B_M04": {
+   "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/M04/T/results.xml",
+   "bytes": 25596,
+   "sha256": "973c1d792b247e8cb870bc620572c528d98bea0a50d7690cfd5725c1187393ff",
+   "counts": {
+    "total": 38,
+    "passed": 38
+   }
+  },
+  "RAW_M01": {
+   "path": "TestArtifacts/FightMatch/RES-RAW-JOINT-001/M01/T/results.xml",
+   "bytes": 46330,
+   "sha256": "141e8ef3f32250a534f52ffdb9939ba8a7b6dda60d9dd0cc66cd537ac6ceb593",
+   "counts": {
+    "total": 74,
+    "passed": 74
+   }
+  },
+  "AS_FACTORY_M02": {
+   "path": "TestArtifacts/FightMatch/RES-ACTIVATION-FACTORY-JOINT-001/M02/T/results.xml",
+   "bytes": 26547,
+   "sha256": "d76564a535c0c3bcdb6bb0d806e4ca8af12dd1e3fa59a104377ed9bd66e6e75f",
+   "counts": {
+    "total": 40,
+    "passed": 40
+   }
+  },
+  "RAW_PREF_M02": {
+   "path": "TestArtifacts/FightMatch/RES-RAW-PREF-JOINT-001/M02/T/results.xml",
+   "bytes": 97330,
+   "sha256": "b3286341050e2435e1a8f67fc1a9f6f00e2d664c335a51914554f6d8a8d3eb3a",
+   "counts": {
+    "total": 128,
+    "passed": 128
+   }
+  }
+ },
+ "acceptanceReceipts": {
+  "B_FIX03": {
+   "path": "docs/team/2026-09-30/yooasset-adapter-fix03-integration-receipt.json",
+   "bytes": 2313,
+   "sha256": "5ae1f9e734b76c6f65013b235875293c7d4604a00aa6eed6290f2a85e8ed77e0"
+  },
+  "C_FIX01": {
+   "path": "docs/team/2026-09-30/resource-contracts-fix01-integration-receipt.json",
+   "bytes": 2365,
+   "sha256": "3270614d861dbdd0e256bd6870a971e622ea793e5ed3af7cae3c19055e2a1204"
+  },
+  "AS_FACTORY_M02": {
+   "path": "docs/team/2026-09-30/resource-as-factory-m02-integration-receipt.json",
+   "bytes": 3757,
+   "sha256": "7128a692aa0fd725a76e9e5338166130e355a52adb57b03310b10b6057f43bf2"
+  }
+ },
+ "historyInterpretation": {
+  "correspondence": "Each fixture.source equals G02 and acceptedSourceRoot + source.path byte-for-byte. Its exact declaration Counter matches the indicated XML Passed subset.",
+  "mapping": "B_M04: B11+Provider27; RAW_M01: C11; AS_FACTORY_M02: D13+AS8+Runtime19. Historical XML roots all passed; no stitched-result acceptance.",
+  "sourceEvolution": "Current Provider/Lifecycle are RAW/FIX02; Provider tests remain B/FIX03. Factory/Runtime19 are FACTORY-ADMISSION. Their identities follow engineeringPlan/groupFreeze; old B results alone do not prove current shared integration.",
+  "supplemental": {
+   "xml": "RAW_PREF_M02",
+   "verifiedSubset": "B11+Provider27",
+   "receipt": "docs/team/2026-09-30/resource-raw-pref-m02-integration-receipt.json",
+   "limit": "Overall BLOCKED_OR_FAILED retained despite128 Passed and central's exact36B ADB telemetry-variance slice acceptance. PREF77 excluded."
+  },
+  "reusable": "Fixed source/meta/review identities, old case Counters and original-composite behavior; engineering's exact cache payload inventory.",
+  "preserved": "I01 FAILED/exit=null and unproven late cache observations; AS/factory M01 preparation failure; RAW/PREF M02 overall failure; FIX05 red/syntax failures and102/102 correction stay unchanged.",
+  "newRequired": "Current1036/P01 compile, added Adapter references, one89 XML and actual cache/closure/restore evidence; no historical pass substitutes."
+ },
+ "asIsolation": {
+  "environmentVariable": "FIGHTMATCH_ACTIVATION_TEST_ROOT",
+  "rootRule": "Engineering seals a fresh canonical absolute root containing /TestArtifacts/FightMatch/RES-D-ACTIVATION-001/<run-id>/state-tests, exactly two trailing segments.",
+  "runIdRegex": "^[a-zA-Z0-9_-][a-zA-Z0-9._-]{0,63}$",
+  "preconditions": "New empty lease; all ancestors real directories/no ReparsePoint; AS06/07/08 absent; fixed permissions/bounds; no old isolation tree or player-save access.",
+  "realIo": "AS06: actual Move/Replace/Flush/reopen. Process-token injection is not real process restart.",
+  "realSymlink": {
+   "case": "AS07_RootAndResidueGuards",
+   "link": "<lease>/AS07/product/resource-state/v1/active.json",
+   "targets": [
+    "<lease>/AS07/product/external.bin",
+    "<lease>/AS07/product/absent-target"
+   ],
+   "requirement": "Test both real existing-target/dangling links; Read/Enter reject, external sentinel unchanged, finally unlink only exact link.",
+   "api": "Mac libSystem.B.dylib symlink returns0; non-Mac File.CreateSymbolicLink availability must be proven. Unavailable means environment failure; no mocks/skips/assertion changes."
+  },
+  "protectedSentinels": [
+   "profiles/keep.bin",
+   "settings/keep.bin",
+   "old-resources/complete.bin"
+  ],
+  "teardown": "Frozen RealArea.Dispose whitelist only; final lease empty. Preserve/report unknown residue or sentinel drift; no broad cleanup."
+ },
+ "freshEvidence": {
+  "identity": "Actual owner/turn/argv/time windows; runner/activation/inputs/case hashes; shared1036 and engineering P01 inventory; Unity2022.3.18f1/UTF1.1.33,53-package graph.",
+  "sdkAssemblies": [
+   "YooAsset",
+   "YooAsset.Editor",
+   "Unity.ScriptableBuildPipeline",
+   "Unity.ScriptableBuildPipeline.Editor"
+  ],
+  "projectAssemblies": [
+   "FightMatch.AssetAccess",
+   "FightMatch.YooAssetAdapter",
+   "FightMatch.AssetAccess.Tests",
+   "FightMatch.Host",
+   "FightMatch.Host.Tests",
+   "FightMatch.Presentation",
+   "FightMatch.Host.Editor",
+   "FightMatch.Core.Tests"
+  ],
+  "compile": "Engineering seals all affected assemblies: contemporaneous source/asmdef/rsp/options/references/defines/output/DLL identities and actualCsc or proven cache chain. Exclude Samples~ nine asmdefs; DLL existence/final log line insufficient.",
+  "execution": "New I/T logs and actual exits; one complete XML with per-case results; AS I/O/link evidence; process/resource/deadline records, exact P01 restore and protected shared/cache/old-evidence comparison.",
+  "retention": "Raw evidence with bytes/SHA, first failure plus cleanup failures. Probes/signals share absolute deadlines. Central sole wait; QA independently receives completed raw evidence."
+ },
+ "acceptance": {
+  "xml": {
+   "total": 89,
+   "passed": 89,
+   "failed": 0,
+   "skipped": 0,
+   "inconclusive": 0,
+   "extra": 0,
+   "missing": 0,
+   "duplicate": 0,
+   "fullNameOccurrence": 1,
+   "everyCaseResult": "Passed"
+  },
+  "fixtureCounts": "11/11/13/8/27/19, including RAW13/FAD6; compare exact Counter, not total alone.",
+  "required": "Matched1036/P01/53-package/GUID identities; I/T real OS exit0; no compiler/load/UPM/domain errors; complete compile/cache provenance; AS real I/O/both links/sentinels/empty lease; closed owned processes, exact P01 restore/protection, all budgets.",
+  "outcomes": {
+   "NOT_RUN_BLOCKED": "Missing preconditions or download needed before launch: record gap, no start.",
+   "CONTRACT_MISMATCH": "Input/graph/GUID/filter/name Counter mismatch; partial Passed does not accept.",
+   "FAILED": "Test/compiler/UPM/domain errors, nonzero exit, timeout, closure/restore/protection failure.",
+   "INCOMPLETE": "Unknown exit, absent/corrupt XML, zero tests, truncated evidence or missing compiler/cache proof. Skipped/inconclusive also fail acceptance.",
+   "ACCEPT": "QA may accept this compile/89-case combination only after every condition. Shared integration review and real LOC/resources/Host/Windows/Android/device/Demo remain separate."
+  },
+  "noAutomaticRetry": true,
+  "currentIntegrationVerdict": null
+ }
+}
