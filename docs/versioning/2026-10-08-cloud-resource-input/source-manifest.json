@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "task": "RES-CLOUD-INPUT-001",
+  "task": "RES-CLOUD-INPUT-001-FIX01",
   "date": "2026-10-08",
-  "purpose": "Exact current shared candidate for cloud preflight; snapshot only, no new behavior or test execution",
+  "purpose": "Exact current Mac validation projection (shared candidate plus one retained natural meta); no new behavior or native run",
   "rootScope": [
     "Assets",
     "Packages",
     "ProjectSettings"
   ],
   "summary": {
-    "files": 1036,
-    "bytes": 32657794,
-    "canonicalSha256": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8"
+    "files": 1037,
+    "bytes": 32658037,
+    "canonicalSha256": "a27ee9a2192ea7a4fecf1ca85e3dbbe6cb011dc08a0c9cb6983da70192a6578a"
   },
   "files": {
     "Assets/FightMatchContent.meta": {
@@ -5193,6 +5193,11 @@
       "bytes": 158,
       "sha256": "edd2beb4a2e388312b4b7da241aa51070434005d82c59363f1237dd2e567585f",
       "gitBlob": "482590c196f7a82116679f58176b9d1aff21d7f9"
+    },
+    "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta": {
+      "bytes": 243,
+      "sha256": "97eb4963b6d27d4669a021853e7363a3bbe386269f9293ff6d4608c772be39c3",
+      "gitBlob": "ffa8d9eb97892999801231ade53f1471f9f982e6"
     }
   },
   "baseCommit": "dc1bba0537779983647f5e261f8e1c33a1210a49",
@@ -5201,9 +5206,9 @@
     "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
     "baseTree": "b5970750870214a9b92e6da4e7481f9e927c2b71",
     "shared": {
-      "files": 1036,
-      "bytes": 32657794,
-      "canonicalSha256": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8"
+      "files": 1037,
+      "bytes": 32658037,
+      "canonicalSha256": "a27ee9a2192ea7a4fecf1ca85e3dbbe6cb011dc08a0c9cb6983da70192a6578a"
     },
     "baseScopeFiles": 1039,
     "changed": [
@@ -5358,13 +5363,35 @@
       "Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs",
       "Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs.meta",
       "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
-      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
-      "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta"
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta"
     ],
-    "unchanged": 1026
+    "unchanged": 1027,
+    "comparisonMeaning": "Full validation projection compared with PR19; original shared summary remains separately recorded."
   },
   "nativeRuns": 0,
   "sourceReview": "PENDING_NEW_HEAD",
   "executionAuthorized": false,
-  "acceptanceBoundary": "No first-Demo, integration, device, Mac filesystem or build acceptance; snapshot does not revise the current source owner/allowlist."
+  "acceptanceBoundary": "No first-Demo, integration, device, Mac filesystem or build acceptance; snapshot does not revise the current source owner/allowlist.",
+  "originSharedSummary": {
+    "files": 1036,
+    "bytes": 32657794,
+    "canonicalSha256": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8"
+  },
+  "projectionSupplement": {
+    "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta": {
+      "bytes": 243,
+      "sha256": "97eb4963b6d27d4669a021853e7363a3bbe386269f9293ff6d4608c772be39c3",
+      "gitBlob": "ffa8d9eb97892999801231ade53f1471f9f982e6",
+      "source": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta",
+      "guid": "d85e93281a75342ac8d13378ff40cdba",
+      "reason": "GitHub PR21 P1 4213654050: preserve fixed sidecar before Unity import; same existing Mac P01 retained natural meta, not a new GUID"
+    }
+  },
+  "fix01": {
+    "finding": "https://github.com/yyczz1/FightMatch/pull/21#discussion_r4213654050",
+    "priorHead": "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a",
+    "newOrChangedGameCode": false,
+    "localProductFilesWritten": 0,
+    "testsRun": 0
+  }
 }
