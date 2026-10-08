@@ -1,0 +1,107 @@
+--- RES-COMBINED-V08/run/runner.py
++++ RES-COMBINED-V08/adb-followup/runner.py
+@@ -486,31 +486,75 @@
+ def sdk_adb_exception(rows):
+     global sdk_adb
+     spec=A['sdkAdb']; result=set()
++    def candidates_in(snapshot):
++        return [(pid,row) for pid,row in snapshot.items() if pathlib.Path(row['exe']).name.lower()=='adb' and not row['stat'].startswith('Z') and pid!=A['adbException']['pid']]
++    def observe(snapshot,reason):
++        previous=None if sdk_adb is None else dict(sdk_adb)
++        candidates=candidates_in(snapshot)
++        observation={'stage':current_stage,'rootPid':snapshot_root,'reason':reason,'snapshotUtc':utc(),'snapshotMonotonic':time.monotonic(),'oldBinding':previous,'boundRow':None if previous is None else snapshot.get(previous['pid']),'boundPidAbsent':previous is not None and previous['pid'] not in snapshot,'candidates':[{'pid':pid,**{k:row[k] for k in ('start','exe','stat')}} for pid,row in candidates]}
++        identity_event('sdk_adb_candidates',observation=observation)
++        return candidates
++    def fresh_snapshot(reason):
++        samples={};sample=None;fresh={}
++        try:
++            sample=identity_sample(['/bin/ps','-ww','-axo','pid=,ppid=,lstart=,stat=,comm='],samples,'snapshot')
++            text=sample['stdout'];check(sample['returncode']==0 and sample['stderr']=='' and text and text.endswith('\n') and '\x00' not in text,'INCOMPLETE: SDK fresh snapshot command/output')
++            for line in text.splitlines():
++                fields=line.split(None,8)
++                check(len(fields)==9 and fields[0].isdigit() and fields[1].isdigit() and fields[8] and re.fullmatch(r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{1,2} \d{2}:\d{2}:\d{2} \d{4}',' '.join(fields[2:7])),'INCOMPLETE: malformed SDK fresh snapshot row')
++                time.strptime(' '.join(fields[2:7]),'%a %b %d %H:%M:%S %Y')
++                check(re.fullmatch(r'[A-Za-z+<>]+',fields[7]),'INCOMPLETE: SDK fresh process state')
++                pid=int(fields[0]);check(pid>0 and pid not in fresh,'INCOMPLETE: duplicate/invalid SDK fresh PID')
++                fresh[pid]={'ppid':int(fields[1]),'start':' '.join(fields[2:7]),'stat':fields[7],'exe':fields[8]}
++            probe_timeout()
++        except BaseException as failure:
++            sample=samples.get('snapshot',{})
++            summary={k:v for k,v in sample.items() if k not in ('stdout','stderr')}
++            for name in ('stdout','stderr'):
++                if sample.get(name) is not None:summary[name+'Sha256']=hashlib.sha256(sample[name].encode('utf-8')).hexdigest()
++            identity_event('sdk_adb_snapshot_failed',stage=current_stage,rootPid=snapshot_root,reason=reason,sample=summary,failure={'type':type(failure).__name__,'message':str(failure)})
++            if isinstance(failure,NaturalGraceExpired):raise RuntimeError('INCOMPLETE: SDK fresh confirmation unavailable') from failure
++            raise
++        summary={k:v for k,v in sample.items() if k not in ('stdout','stderr')}
++        summary.update(stdoutSha256=hashlib.sha256(sample['stdout'].encode('utf-8')).hexdigest(),stderrSha256=hashlib.sha256(sample['stderr'].encode('utf-8')).hexdigest(),parsedComplete=True,rowCount=len(fresh))
++        observe(fresh,reason);return fresh,summary
++    def retire(fresh,confirmation):
++        global sdk_adb
++        check(sdk_adb is not None and sdk_adb['pid'] not in fresh,'Bound SDK ADB PID still present or reused after absence query')
++        retired={'kind':'bound-sdk-adb-retired','stage':current_stage,'rootPid':snapshot_root,'identity':dict(sdk_adb),'confirmation':confirmation}
++        identity_event('sdk_adb_retired',observation=retired)
++        sdk_observations.append(retired);sdk_adb=None;rows.clear();rows.update(fresh)
++    observe(rows,'supplied-current-snapshot')
++    if sdk_adb is not None and sdk_adb['pid'] not in rows:
++        fresh,proof=fresh_snapshot('bound-pid-not-in-supplied-snapshot')
++        retire(fresh,{'reason':'fresh-complete-pid-absent','snapshot':proof,'pidAbsent':sdk_adb['pid'] not in fresh})
+     bound_row=None if sdk_adb is None else rows.get(sdk_adb['pid'])
+     check(bound_row is None or not bound_row['stat'].startswith('Z'),'INCOMPLETE: bound SDK ADB PID remains present as zombie')
++    check(bound_row is None or (bound_row['start']==sdk_adb['start'] and bound_row['exe']==sdk_adb['exe']),'INCOMPLETE: bound SDK ADB PID identity reused')
+     def bound_detail(pid,row):
+         try: return details(pid)
+         except ChildArgsProbeError as error:
+             probe=error.probe
+             if not (sdk_adb is not None and all(sdk_adb.get(k)==v for k,v in [('pid',pid),('start',row['start']),('exe',row['exe'])]) and probe['argv']==['/bin/ps','-ww','-p',str(pid),'-o','args='] and probe['returncode']==1 and probe['stdout']==probe['stderr']==''):raise
+             confirmation={'identity':dict(sdk_adb),'initialRow':dict(row),'cause':probe,'startedMonotonic':time.monotonic()}
+-            try: fresh=ps()
++            try: fresh,snapshot_proof=fresh_snapshot('bound-args-exit1-double-empty')
+             except BaseException as failure:
+-                confirmation['failure']={'type':type(failure).__name__,'message':str(failure)};event('sdk_adb_exit_confirmation_failed',confirmation=confirmation)
++                confirmation['failure']={'type':type(failure).__name__,'message':str(failure)};identity_event('sdk_adb_exit_confirmation_failed',confirmation=confirmation)
+                 if isinstance(failure,NaturalGraceExpired):raise RuntimeError('INCOMPLETE: bound SDK fresh confirmation unavailable') from failure
+                 raise
+-            confirmation.update(freshSnapshot=fresh,pidAbsent=pid not in fresh,finishedMonotonic=time.monotonic())
+-            event('sdk_adb_exit_confirmation',confirmation=confirmation)
++            confirmation.update(snapshot=snapshot_proof,pidAbsent=pid not in fresh,finishedMonotonic=time.monotonic())
++            identity_event('sdk_adb_exit_confirmation',confirmation=confirmation)
+             check(pid not in fresh,'Bound SDK ADB PID still present or reused after args failure')
+-            rows.clear();rows.update(fresh);sdk_observations.append({'kind':'bound-sdk-adb-exited','confirmation':confirmation})
++            retire(fresh,confirmation)
+             return None
+-    candidates=[(pid,row) for pid,row in rows.items() if pathlib.Path(row['exe']).name.lower()=='adb' and not row['stat'].startswith('Z') and pid!=A['adbException']['pid']]
++    candidates=candidates_in(rows)
++    check(len(candidates)<=1,'More than one current SDK ADB server')
+     for pid,row in candidates:
+         check(root_launch_epoch is not None and pid not in baseline_processes,'ADB not a new process after current Unity launch')
+-        check(sdk_adb is None or (pid==sdk_adb['pid'] and row['start']==sdk_adb['start']),'More than one current SDK ADB server')
++        check(sdk_adb is None or (pid==sdk_adb['pid'] and row['start']==sdk_adb['start']),'Current SDK ADB differs from still-present binding')
+         start=time.mktime(time.strptime(row['start'],'%a %b %d %H:%M:%S %Y')); check(int(root_launch_epoch)<=start<=time.time()+1,'SDK ADB start timeline')
+         detail=bound_detail(pid,row)
+-        if detail is None:return result
++        if detail is None:return sdk_adb_exception(rows)
+         argv=detail['argv']; check(len(argv)==7 and argv[0] in ['adb',spec['path']] and argv[1:6]==['-L','tcp:5037','fork-server','server','--reply-fd'] and re.fullmatch(r'\d+',argv[6]),'SDK ADB exact server argv')
+         uid=int(cmd(['/bin/ps','-p',str(pid),'-o','uid=']).strip()); check(uid==os.getuid(),'SDK ADB UID')
+         check(ident(spec['path'])=={k:spec[k] for k in ['bytes','sha256']},'Frozen SDK executable bytes')
+@@ -532,14 +576,16 @@
+         pipes=[A['adbException']['priorCompilerPipe']]+[x.split(':',1)[1] for v in owned.values() for x in (v.get('argv') or []) if x.startswith('-pipename:')]
+         related=[f for f in files if any(x in f.get('n','') for x in [str(P),str(K),str(TMP),A['adbException']['tmpRoot'],*pipes]) or (f.get('n','').startswith(str(R)) and pathlib.Path(f.get('n','')).suffix.lower() in {'.cs','.dll','.asmdef','.asmref','.rsp','.csproj','.sln','.unity','.prefab'})]
+         check(all((f['fd']=='cwd' and f.get('n')==str(P) and f.get('t')=='DIR') or f in std for f in related),'SDK ADB forbidden related source/resource/compiler FD')
+-        fresh=ps().get(pid); check(fresh is not None and fresh['start']==row['start'] and fresh['exe']==row['exe'],'SDK ADB fresh identity')
++        fresh_rows,snapshot_proof=fresh_snapshot('candidate-after-fd')
++        check(len(candidates_in(fresh_rows))<=1,'More than one current SDK ADB server in fresh snapshot')
++        fresh=fresh_rows.get(pid); check(fresh is not None and fresh['start']==row['start'] and fresh['exe']==row['exe'] and not fresh['stat'].startswith('Z'),'SDK ADB fresh identity')
+         detail_after=bound_detail(pid,fresh)
+-        if detail_after is None:return result
++        if detail_after is None:return sdk_adb_exception(rows)
+         check(detail_after['argv']==argv,'SDK ADB fresh argv')
+         binding={'pid':pid,'start':row['start'],'exe':row['exe'],'argv':argv,'uid':uid,'mappedExecutable':mapped[0],'logDevice':ls.st_dev,'logInode':ls.st_ino}
+         check(sdk_adb is None or sdk_adb==binding,'SDK ADB identity/FD binding changed'); sdk_adb=binding
+-        item={'utc':utc(),'identity':binding,'relatedFDs':related,'cwd':detail['cwd'],'startupHeader':header,'rootLaunchEpoch':root_launch_epoch,'processStartEpoch':start,'metadataOnlyOutsideCurrentLog':True}
+-        sdk_observations.append(item); event('sdk_adb_verified',observation=item); result.add(pid)
++        item={'utc':utc(),'identity':binding,'relatedFDs':related,'cwd':detail['cwd'],'startupHeader':header,'rootLaunchEpoch':root_launch_epoch,'processStartEpoch':start,'metadataOnlyOutsideCurrentLog':True,'rawFDs':probe.stdout,'fdProbeExit':probe.returncode,'fdProbeStderr':probe.stderr,'freshSnapshotProof':snapshot_proof}
++        sdk_observations.append(item); identity_event('sdk_adb_verified',observation=item); result.add(pid)
+     return result
+ def consumer_guard(rows):
+     check(not pending_details,'Unverified child identities remain '+str(list(pending_details)))

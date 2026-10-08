@@ -1,0 +1,1519 @@
+{
+  "task": "RES-COMBINED-V08",
+  "status": "FAILED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a11a65-5b5a-7ac2-a8bf-fdcbec225ff1"
+  },
+  "startedUtc": "2026-10-08T07:25:55.474936+00:00",
+  "preparationSeconds": 160,
+  "stages": [
+    {
+      "stage": "I",
+      "status": "COMPILE_PASS",
+      "runCount": 1,
+      "exitCode": 0,
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-quit",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/run/I/editor.log"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+      "environmentOverrides": {
+        "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+        "TMPDIR": "/private/tmp/fm-rcv8.YcrVUAiK",
+        "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/bee-cache",
+        "DOTNET_EnableDiagnostics": "0"
+      },
+      "startedUtc": "2026-10-08T07:26:03.063744+00:00",
+      "pid": 89375,
+      "editorSeconds": 31.592184249995626,
+      "elapsedSecondsIncludingClosure": 88.67707933299243,
+      "finishedUtc": "2026-10-08T07:27:34.811788+00:00",
+      "failure": null
+    },
+    {
+      "stage": "T",
+      "status": "FAILED",
+      "runCount": 1,
+      "exitCode": 0,
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testFilter",
+        "^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceReleaseSetTests($|[.]);^FightMatch[.]Host[.]Tests[.]FightMatchResourceActivationStoreTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetProviderTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeTests($|[.])",
+        "-testResults",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/run/T/results.xml",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/run/T/editor.log"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+      "environmentOverrides": {
+        "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+        "TMPDIR": "/private/tmp/fm-rcv8.YcrVUAiK",
+        "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/bee-cache",
+        "DOTNET_EnableDiagnostics": "0"
+      },
+      "startedUtc": "2026-10-08T07:27:41.178973+00:00",
+      "pid": 89983,
+      "elapsedSecondsIncludingClosure": 43.178329082991695,
+      "finishedUtc": "2026-10-08T07:28:29.036219+00:00",
+      "failure": "More than one current SDK ADB server"
+    }
+  ],
+  "failure": "More than one current SDK ADB server; Final monitor gate",
+  "restore": {
+    "archived": [
+      "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+      "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+    ],
+    "restored": [
+      "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+      "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+    ],
+    "returnedParked": [
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta"
+    ],
+    "errors": [],
+    "complete": true,
+    "projection": {
+      "leaves": 1035,
+      "bytes": 32149498,
+      "defaultSettings": null,
+      "uniqueGUIDs": 535,
+      "hostArtifacts": {
+        "unchanged": true,
+        "newHostRigOrIsolation": 0
+      }
+    },
+    "transferConflicts": [],
+    "seconds": 2.6647342090000166,
+    "compiler": {
+      "archived": [
+        "Library/Bee/200b0aEDbg-inputdata.json",
+        "Library/Bee/200b0aEDbg.dag",
+        "Library/Bee/200b0aEDbg.dag.json",
+        "Library/Bee/200b0aEDbg.dag.outputdata",
+        "Library/Bee/200b0aEDbg.dag.payloads",
+        "Library/Bee/200b0aEDbg.dag_derived",
+        "Library/Bee/200b0aEDbg.dag_fsmtime",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
+      ],
+      "restored": [
+        "Library/Bee/200b0aEDbg-inputdata.json",
+        "Library/Bee/200b0aEDbg.dag",
+        "Library/Bee/200b0aEDbg.dag.json",
+        "Library/Bee/200b0aEDbg.dag.outputdata",
+        "Library/Bee/200b0aEDbg.dag.payloads",
+        "Library/Bee/200b0aEDbg.dag_derived",
+        "Library/Bee/200b0aEDbg.dag_fsmtime",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
+      ],
+      "afterIdentities": {
+        "Library/Bee/200b0aEDbg-inputdata.json": {
+          "bytes": 2647102,
+          "sha256": "d7e9f985c1fa74ca67dec70d1914e44d33ca7e0c2442c219d20b57a108622181"
+        },
+        "Library/Bee/200b0aEDbg.dag": {
+          "bytes": 6761184,
+          "sha256": "ee34e94fb1150febdc7936c4a98ee9104613f629543eb4cfc5eac0b8fc0b20cf"
+        },
+        "Library/Bee/200b0aEDbg.dag.json": {
+          "bytes": 3726238,
+          "sha256": "0392a3a5c3c6023461432c00196e30e9971733709f6523b3abc3aaad310ca694"
+        },
+        "Library/Bee/200b0aEDbg.dag.outputdata": {
+          "bytes": 22236,
+          "sha256": "b5992f070789444c522605a1786b664ca741c453c345e24839be856c222c397f"
+        },
+        "Library/Bee/200b0aEDbg.dag.payloads": {
+          "bytes": 3239846,
+          "sha256": "9a162ced9c5474760b1bc7d40546c0410b65da42eecb40936e317a9d83f07980"
+        },
+        "Library/Bee/200b0aEDbg.dag_derived": {
+          "bytes": 205216,
+          "sha256": "23aee88a4f9fd3694a8f8161920822aa8f98c1b5b188423ef452bf841625a2b2"
+        },
+        "Library/Bee/200b0aEDbg.dag_fsmtime": {
+          "bytes": 8,
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll": {
+          "bytes": 247296,
+          "sha256": "8688b646959b0324140107d2bb7df7583104262499e069e2e0762f42a1820790"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb": {
+          "bytes": 68180,
+          "sha256": "b7a3d13719fbf118ad62acdfe5093b22fb364891ae066e568873dc6c7a97f32e"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll": {
+          "bytes": 29184,
+          "sha256": "3ed6de34d5a71485b5e3ec22dc54c8a760331f5108669625a13792cc2eb0399b"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll": {
+          "bytes": 52736,
+          "sha256": "314963404382d333ff2e9e15d5451c970a443fe12fe975236a37c1efd8306813"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb": {
+          "bytes": 29740,
+          "sha256": "715eea44065e761c399a950b47b683798abbb3f5dd3fd7739bbe885f888ce86c"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll": {
+          "bytes": 16896,
+          "sha256": "1cb685385c834aa628f6146d1423309b980e2cc06010a8c505d6422c1a370722"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll": {
+          "bytes": 1832448,
+          "sha256": "af75763f622c2af19efa87a868eccb62eeb1cd651ee1ee373d3405e10711202c"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb": {
+          "bytes": 522144,
+          "sha256": "82c57cda4b403b9c7ec2c51abe2e5287db2d86d57f684a882759e56a2a88975a"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll": {
+          "bytes": 352256,
+          "sha256": "99f33f79dcd7502f8d7aaff3bf6c98e31c35e58473edfe71b235771aa4cf7269"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll": {
+          "bytes": 215040,
+          "sha256": "7a2f3c80b66feb803ab0fe51c0cabd93ddccdc7663ba682c292036d5f755696a"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb": {
+          "bytes": 50312,
+          "sha256": "418d9f452d746ce509d0a2a173a24e077824b144d2bcc2abad9255f424e61d70"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll": {
+          "bytes": 17408,
+          "sha256": "58354cf792dc3111a478e6fa7fd367caf44265e192cf19890ed14f94686a97f1"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll": {
+          "bytes": 104448,
+          "sha256": "88aa771d8d0e013c81cf5b6aa20e56852a2c37f1847940ac721517389df5d4dc"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb": {
+          "bytes": 44728,
+          "sha256": "317b9e4349dc09e95f4264f6376b816191adac5acf16f97e0b6f487628f5be69"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll": {
+          "bytes": 24576,
+          "sha256": "8b174e047f31c213f4d863a841a6b86c2b797bb975451b868e2d08eaccc31cfa"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll": {
+          "bytes": 78848,
+          "sha256": "afdcea2c8e36553ac57e02b5643add95d7454d77cd50072c42fbb34358406cd5"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb": {
+          "bytes": 43480,
+          "sha256": "69d6edf137a5be10e490bed45477237af4577dea2b339cf1255d4e1fc6fc68e6"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll": {
+          "bytes": 18944,
+          "sha256": "2522aaa9fc2bd75c17e70726bd7940b581fa0e248f52c00df900e03e818a281f"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll": {
+          "bytes": 191488,
+          "sha256": "36e9e92593cd0af10fb85a2a59ba289203a1519ad950705260829ca00d2e397e"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb": {
+          "bytes": 75380,
+          "sha256": "68349d7f3a53b6ac34bbe5b09d9e4d9f903e47ff59c124a05131313beab71f1f"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll": {
+          "bytes": 39936,
+          "sha256": "c4928101895a8dc74264de5a78f39b1f860e60d40f0070e0e8d1121eaf4037ea"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll": {
+          "bytes": 47616,
+          "sha256": "3d7d734da5cd4772e6ff86354617c8720e403e148f8f9e4d0af545cc4036e5a5"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb": {
+          "bytes": 33844,
+          "sha256": "5b14f60dbc60bb2e7edffa34aff381d6d80609dac86c76d704c5bdc3bd713f53"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll": {
+          "bytes": 18432,
+          "sha256": "01fcd02c4b51158867c7c507338677647d1e730e7ff723bf318f28b810c3b538"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll": {
+          "bytes": 238080,
+          "sha256": "391e419df93a6e9d9c8112fd67980fe2f05e752b708c278171abf231ae46c33a"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb": {
+          "bytes": 128540,
+          "sha256": "9e275c2ec7e11e55a9e697729040269a8b5f249136d373280a358fbd325d8a06"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll": {
+          "bytes": 83456,
+          "sha256": "8d13fcf065a1a42fe48395989486f2504ec08e03a79c2e3eea413ab041175f19"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll": {
+          "bytes": 9216,
+          "sha256": "81e9cd9aef5f0740c12670dd30d407e6482bf1cd780bf00dbc81a2f589c29c75"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb": {
+          "bytes": 19472,
+          "sha256": "3d4f7980bb6047bc89e3167516b820ff3873b37bdfd1e1034124643f5eda8fa5"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll": {
+          "bytes": 6656,
+          "sha256": "a4c8a846b446b95a74aeb2bfe73b2f9c35cbde0514b30d2bca9c5dfed40d356a"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll": {
+          "bytes": 303104,
+          "sha256": "7cfeb2a84c07301b5995d2d5e28a1bde8119761aad59b9aa603cb6fbfe0d613b"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb": {
+          "bytes": 174896,
+          "sha256": "8e654f4bf411f44e3e95ab29a23255f9ab4e03d899d8d0bdb7b0345469e5e609"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll": {
+          "bytes": 103936,
+          "sha256": "2c4ae32d1143c1b2f0b2847d5a76a298e5bf6679ce52c43064ad6acbf6cffb86"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll": {
+          "bytes": 427008,
+          "sha256": "cbe9977938c9a0a2bfb2597068606d2a0ecf773a4bbe417d36959b31f1ed0831"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb": {
+          "bytes": 261748,
+          "sha256": "ced9d4c59bacbcf14a01b3d03d6dd3e3131b0c9b06576ec5e02a552c8c44049a"
+        },
+        "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll": {
+          "bytes": 176640,
+          "sha256": "719239ddaf34622ecc7273409be1943674f87ffa46d1fda83574ebd5ad1b5a3a"
+        }
+      },
+      "errors": [],
+      "complete": true
+    }
+  },
+  "launchCounts": {
+    "I": 1,
+    "T": 1
+  },
+  "remainingOwned": [],
+  "closureClosed": true,
+  "unrun": [
+    "Play",
+    "downloads",
+    "real player saves",
+    "Git mutations",
+    "Android/device acceptance"
+  ],
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "evidence": {
+    "before.json": {
+      "bytes": 514041,
+      "sha256": "d25480c094098af4048ad72903c30b8e1728eb2ea57fee929c3fdce82d3df351"
+    },
+    "preparation.json": {
+      "bytes": 15856,
+      "sha256": "025e9b4bd925a4cdf6a179da3a5d6825a56aa152d0f49b0b5b2ae848bbda7b5a"
+    },
+    "activation.json": {
+      "bytes": 6778,
+      "sha256": "fde4062acf2a73ba684fa664b46d8284dab506d4bc8fdf5e959adfef175ea797"
+    },
+    "runner.py": {
+      "bytes": 114245,
+      "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+    },
+    "restore.json": {
+      "bytes": 17802,
+      "sha256": "72d5e1f5659d355214ef1cc3ecc4d9199c81d9bc183a58657a8f9293ab350f84"
+    },
+    "process-after.json": {
+      "bytes": 278604,
+      "sha256": "325ce60fbad8712a7a55b44524980da62a20aeb0cd954ebb174ea412b07dadbc"
+    },
+    "replay-results.json": {
+      "bytes": 130081,
+      "sha256": "ba0fafb9f81e59d98aa9b1555004e699bc0b32a5bf42f18b0f531c3fd4f04a2f"
+    },
+    "after.json": {
+      "bytes": 494,
+      "sha256": "3c48b700c59ed7bccb9562c79d183e392065ec1f8e89e9e16a27ed01a4472e28"
+    },
+    "inputs.json": {
+      "bytes": 1254426,
+      "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+    },
+    "replay-check.py": {
+      "bytes": 92286,
+      "sha256": "abcc293dfd479486d5c3f6a1aa7816bb8c40d90adc769299ad2c124f40942f6a"
+    },
+    "process-events.jsonl": {
+      "bytes": 502540,
+      "sha256": "11365b58467ac8867d3444a7a4cb59d2a7ef7a79685a961221284b91e834a4e9"
+    },
+    "compile.json": {
+      "bytes": 11303748,
+      "sha256": "e47863ffcf925023cfba5330d45cb56df8c17afa0c7569aa73bdf8521f270c87"
+    },
+    "archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+      "bytes": 1322960,
+      "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs": {
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs": {
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs": {
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta": {
+      "bytes": 243,
+      "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs": {
+      "bytes": 81160,
+      "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs": {
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+      "bytes": 50694,
+      "sha256": "c64edeac81aa6b22e1070b7e6919ba572016207777136f0d62b5cbe84ed256c2"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs": {
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321"
+    },
+    "archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs": {
+      "bytes": 30074,
+      "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+      "bytes": 18589,
+      "sha256": "feceefca6d529cbc9755f8f984db7b3b176bc0709730c83947ea07bb968cb687"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 23469,
+      "sha256": "d3774d5c9cf20cdf9649540f2479ebb198241188ecfdf88bdae09d1122c22456"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+      "bytes": 20308,
+      "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+      "bytes": 204772,
+      "sha256": "a64fbb31f03c2ec0a5fcd88da12ac4793e4d4c75d190965c6d7f148a4b4ebc27"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs": {
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs": {
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+      "bytes": 8707,
+      "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta": {
+      "bytes": 243,
+      "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf"
+    },
+    "archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs": {
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60"
+    },
+    "archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime": {
+      "bytes": 8,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    "archive/compiler/Library/Bee/200b0aEDbg.dag": {
+      "bytes": 6761184,
+      "sha256": "ee34e94fb1150febdc7936c4a98ee9104613f629543eb4cfc5eac0b8fc0b20cf"
+    },
+    "archive/compiler/Library/Bee/200b0aEDbg-inputdata.json": {
+      "bytes": 2647102,
+      "sha256": "d7e9f985c1fa74ca67dec70d1914e44d33ca7e0c2442c219d20b57a108622181"
+    },
+    "archive/compiler/Library/Bee/200b0aEDbg.dag.payloads": {
+      "bytes": 3239846,
+      "sha256": "9a162ced9c5474760b1bc7d40546c0410b65da42eecb40936e317a9d83f07980"
+    },
+    "archive/compiler/Library/Bee/200b0aEDbg.dag.json": {
+      "bytes": 3726238,
+      "sha256": "0392a3a5c3c6023461432c00196e30e9971733709f6523b3abc3aaad310ca694"
+    },
+    "archive/compiler/Library/Bee/200b0aEDbg.dag_derived": {
+      "bytes": 205216,
+      "sha256": "23aee88a4f9fd3694a8f8161920822aa8f98c1b5b188423ef452bf841625a2b2"
+    },
+    "archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata": {
+      "bytes": 22236,
+      "sha256": "b5992f070789444c522605a1786b664ca741c453c345e24839be856c222c397f"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb": {
+      "bytes": 50312,
+      "sha256": "418d9f452d746ce509d0a2a173a24e077824b144d2bcc2abad9255f424e61d70"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb": {
+      "bytes": 68180,
+      "sha256": "b7a3d13719fbf118ad62acdfe5093b22fb364891ae066e568873dc6c7a97f32e"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll": {
+      "bytes": 6656,
+      "sha256": "a4c8a846b446b95a74aeb2bfe73b2f9c35cbde0514b30d2bca9c5dfed40d356a"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll": {
+      "bytes": 176640,
+      "sha256": "719239ddaf34622ecc7273409be1943674f87ffa46d1fda83574ebd5ad1b5a3a"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb": {
+      "bytes": 19472,
+      "sha256": "3d4f7980bb6047bc89e3167516b820ff3873b37bdfd1e1034124643f5eda8fa5"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb": {
+      "bytes": 33844,
+      "sha256": "5b14f60dbc60bb2e7edffa34aff381d6d80609dac86c76d704c5bdc3bd713f53"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll": {
+      "bytes": 29184,
+      "sha256": "3ed6de34d5a71485b5e3ec22dc54c8a760331f5108669625a13792cc2eb0399b"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll": {
+      "bytes": 215040,
+      "sha256": "7a2f3c80b66feb803ab0fe51c0cabd93ddccdc7663ba682c292036d5f755696a"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll": {
+      "bytes": 247296,
+      "sha256": "8688b646959b0324140107d2bb7df7583104262499e069e2e0762f42a1820790"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll": {
+      "bytes": 39936,
+      "sha256": "c4928101895a8dc74264de5a78f39b1f860e60d40f0070e0e8d1121eaf4037ea"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll": {
+      "bytes": 9216,
+      "sha256": "81e9cd9aef5f0740c12670dd30d407e6482bf1cd780bf00dbc81a2f589c29c75"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll": {
+      "bytes": 47616,
+      "sha256": "3d7d734da5cd4772e6ff86354617c8720e403e148f8f9e4d0af545cc4036e5a5"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb": {
+      "bytes": 128540,
+      "sha256": "9e275c2ec7e11e55a9e697729040269a8b5f249136d373280a358fbd325d8a06"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb": {
+      "bytes": 522144,
+      "sha256": "82c57cda4b403b9c7ec2c51abe2e5287db2d86d57f684a882759e56a2a88975a"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll": {
+      "bytes": 352256,
+      "sha256": "99f33f79dcd7502f8d7aaff3bf6c98e31c35e58473edfe71b235771aa4cf7269"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll": {
+      "bytes": 104448,
+      "sha256": "88aa771d8d0e013c81cf5b6aa20e56852a2c37f1847940ac721517389df5d4dc"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb": {
+      "bytes": 29740,
+      "sha256": "715eea44065e761c399a950b47b683798abbb3f5dd3fd7739bbe885f888ce86c"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll": {
+      "bytes": 303104,
+      "sha256": "7cfeb2a84c07301b5995d2d5e28a1bde8119761aad59b9aa603cb6fbfe0d613b"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll": {
+      "bytes": 24576,
+      "sha256": "8b174e047f31c213f4d863a841a6b86c2b797bb975451b868e2d08eaccc31cfa"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll": {
+      "bytes": 103936,
+      "sha256": "2c4ae32d1143c1b2f0b2847d5a76a298e5bf6679ce52c43064ad6acbf6cffb86"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll": {
+      "bytes": 18432,
+      "sha256": "01fcd02c4b51158867c7c507338677647d1e730e7ff723bf318f28b810c3b538"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb": {
+      "bytes": 75380,
+      "sha256": "68349d7f3a53b6ac34bbe5b09d9e4d9f903e47ff59c124a05131313beab71f1f"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb": {
+      "bytes": 43480,
+      "sha256": "69d6edf137a5be10e490bed45477237af4577dea2b339cf1255d4e1fc6fc68e6"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb": {
+      "bytes": 261748,
+      "sha256": "ced9d4c59bacbcf14a01b3d03d6dd3e3131b0c9b06576ec5e02a552c8c44049a"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll": {
+      "bytes": 1832448,
+      "sha256": "af75763f622c2af19efa87a868eccb62eeb1cd651ee1ee373d3405e10711202c"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll": {
+      "bytes": 16896,
+      "sha256": "1cb685385c834aa628f6146d1423309b980e2cc06010a8c505d6422c1a370722"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb": {
+      "bytes": 174896,
+      "sha256": "8e654f4bf411f44e3e95ab29a23255f9ab4e03d899d8d0bdb7b0345469e5e609"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll": {
+      "bytes": 52736,
+      "sha256": "314963404382d333ff2e9e15d5451c970a443fe12fe975236a37c1efd8306813"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll": {
+      "bytes": 83456,
+      "sha256": "8d13fcf065a1a42fe48395989486f2504ec08e03a79c2e3eea413ab041175f19"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb": {
+      "bytes": 44728,
+      "sha256": "317b9e4349dc09e95f4264f6376b816191adac5acf16f97e0b6f487628f5be69"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll": {
+      "bytes": 238080,
+      "sha256": "391e419df93a6e9d9c8112fd67980fe2f05e752b708c278171abf231ae46c33a"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll": {
+      "bytes": 191488,
+      "sha256": "36e9e92593cd0af10fb85a2a59ba289203a1519ad950705260829ca00d2e397e"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll": {
+      "bytes": 427008,
+      "sha256": "cbe9977938c9a0a2bfb2597068606d2a0ecf773a4bbe417d36959b31f1ed0831"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll": {
+      "bytes": 78848,
+      "sha256": "afdcea2c8e36553ac57e02b5643add95d7454d77cd50072c42fbb34358406cd5"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll": {
+      "bytes": 17408,
+      "sha256": "58354cf792dc3111a478e6fa7fd367caf44265e192cf19890ed14f94686a97f1"
+    },
+    "archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll": {
+      "bytes": 18944,
+      "sha256": "2522aaa9fc2bd75c17e70726bd7940b581fa0e248f52c00df900e03e818a281f"
+    },
+    "I/result.json": {
+      "bytes": 1308,
+      "sha256": "b624281248d4b37a780afa6da6abca11a5b713b5993be8144d79de18894cae90"
+    },
+    "I/editor.log": {
+      "bytes": 65467,
+      "sha256": "fd7d3db204a3691af6b73cdeda5c96ceb7aff59362c0f536633d239028e31179"
+    },
+    "I/launcher.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T/result.json": {
+      "bytes": 1962,
+      "sha256": "febd02386a870bf48ef7d32de31ff02e4ec57f493b52d204416d4be7250cc37d"
+    },
+    "T/results.xml": {
+      "bytes": 56396,
+      "sha256": "b535cbfa2df56772657f07ff744a672848abbdd9d243b7dc48cf0fe26bba6720"
+    },
+    "T/editor.log": {
+      "bytes": 93437,
+      "sha256": "9c10247d72c9a74da35112c6f68841fb649c43b7ca968afb0b8bf81caf887643"
+    },
+    "T/launcher.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/200b0aEDbg.dag_fsmtime/retired": {
+      "bytes": 79,
+      "sha256": "a19ccf2e6cf96e92343e3d50a1e1570361e4456fd3bc05c92d3b6fa3b29a12b2"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb/retired": {
+      "bytes": 108,
+      "sha256": "2a60acd50b7551def5945b2d8f36d31329739d9310ec2505ad65dc04f7a2c869"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb/retired": {
+      "bytes": 114,
+      "sha256": "597521bee118cc0098c6ca7fc58dd6fcee2e3a49ee0cc90d3c266b92087554d6"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll/retired": {
+      "bytes": 119,
+      "sha256": "2c8c5f258a5011ccc5cea62423feb4c5ddb35fa869a73f6e25983c2a1a375516"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll/retired": {
+      "bytes": 98,
+      "sha256": "6235ef121c4a359009e0bf0691c552e71f2d29e545c9778989cba176f5c073d8"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb/retired": {
+      "bytes": 115,
+      "sha256": "5087f61803a4be963859681c5dd24d303b3cb76005039c96d5ba160a9a7a1f30"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb/retired": {
+      "bytes": 112,
+      "sha256": "945e1f37ded601aee1465a3ef8ec554d7a56178df6756280115363b490728328"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll/retired": {
+      "bytes": 118,
+      "sha256": "7be0b9eb7fb0bf0f1a5d9dc4e67269b5d276331f5ce61b962e31e8cdfb17403a"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll/retired": {
+      "bytes": 108,
+      "sha256": "1fab43e111ee166eb6269be1adb5d63d87ea2dd9d2c4bffd37c2e9727b397953"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll/retired": {
+      "bytes": 114,
+      "sha256": "738d8400b6dd0f191340c7debc1991fd48feed59cf590e6b5a5ffada7c1f4f58"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll/retired": {
+      "bytes": 113,
+      "sha256": "585e79ae3950fb5fd8ecb483da3ff3fb5446bb1a4590ca226c17408486c962b4"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll/retired": {
+      "bytes": 115,
+      "sha256": "62896693a029163a141416a76f07e377fc09303921ebf18b80072bd7f324fca1"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll/retired": {
+      "bytes": 112,
+      "sha256": "a28bfa913f2bdb44c35a06b083ee5c2960a3a1ae910bacdcd08135d8bbe32b76"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb/retired": {
+      "bytes": 122,
+      "sha256": "f92dfd93343954d3d9cce685881b2a4e36ee05195a99448e5d0cca29fafb65b5"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb/retired": {
+      "bytes": 107,
+      "sha256": "9cd9a531d9f735832ed52d9e8490a1594a28422085f4bf4cf1f55d8755338f18"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll/retired": {
+      "bytes": 111,
+      "sha256": "39b35f34009b650233a9b3042888b330d4149384ebb2d157575ff65644c7d0bb"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll/retired": {
+      "bytes": 107,
+      "sha256": "435d897a31f6bf9142e353e5ada7c70176c0c98c7cb338d50e6fa3a52d203cfc"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb/retired": {
+      "bytes": 108,
+      "sha256": "fbfad7da0265761329251b3aad9899fc22f996fb59095d440868ac872f3c6678"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll/retired": {
+      "bytes": 101,
+      "sha256": "c989d72b3c2cb1c66c4686abdf597136e38afc8f3419668903dbdfe8a5164192"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll/retired": {
+      "bytes": 111,
+      "sha256": "add043c02c580f4e17449e3f14ab004999e75441fa45fab6dcd754dc35fac2f9"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll/retired": {
+      "bytes": 105,
+      "sha256": "0e0da50c6d19243f4bf4fe15b3c96e6b67d23745779ab7ebc0461955d5da3e43"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll/retired": {
+      "bytes": 116,
+      "sha256": "4ec3811eb5237fbc9cd650cf7dddab3e8c5d8f5ed927920a40a6585a64bba322"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb/retired": {
+      "bytes": 109,
+      "sha256": "831418fff9eeb991c10902aeb4abfd5937b8e70897d7994ee851dc1f4b613bb8"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb/retired": {
+      "bytes": 101,
+      "sha256": "855189fdb2a4dfa6f9602d615918dcdbf8f69eccdf96ad790430d615f5c2701c"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb/retired": {
+      "bytes": 94,
+      "sha256": "cb1e7425cb2a977abd95b27999aab5e900ebc79f4c8aff0378a2261418d07b34"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll/retired": {
+      "bytes": 107,
+      "sha256": "56a2dea2841e0a13d62b9f4d164dd07dffa2d14bff1d1e2c402294c4945e5b42"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll/retired": {
+      "bytes": 112,
+      "sha256": "02e9f425ef522f14516321294176c0b0ed97c8658b0e333680103b3d551fca19"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb/retired": {
+      "bytes": 101,
+      "sha256": "9c64a96ef6946b876664fc971a8332d63ec30b811c33954ca2f7d5523c1e2d92"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll/retired": {
+      "bytes": 108,
+      "sha256": "fd6c7ac2edd08caba2df8f05ce66ba56386a56013471c1311fbb7d4344662127"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll/retired": {
+      "bytes": 126,
+      "sha256": "a93e4fdd41fa11ddf75603306fc665d4d14edfe44db40e091a986361f505be43"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb/retired": {
+      "bytes": 107,
+      "sha256": "d303a0b9f09035a46be503797db14091d5f56986ab346df6f23c7cb1d4ad734c"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll/retired": {
+      "bytes": 122,
+      "sha256": "c46135e0afec987584432dc4c1e72bb2614f2576e1a08f753ab2bddf0dcefd15"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll/retired": {
+      "bytes": 109,
+      "sha256": "3278799b8853827a34804d452b132eebdd9d8d595a08cd3d72cb1ea05c95a0ee"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll/retired": {
+      "bytes": 94,
+      "sha256": "23c693b5472ace5be647b6d3b5270b261c699c682f2fb7e26fbad0c680cc47b5"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll/retired": {
+      "bytes": 101,
+      "sha256": "d68c70bee65c09c73b1935e1e6878d9a50de2d137028087824aad8663d16673f"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll/retired": {
+      "bytes": 112,
+      "sha256": "229f99fc13a0d012941c6c3abb44051ccddd92e20a9282840ae90f49a8b23160"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll/retired": {
+      "bytes": 105,
+      "sha256": "dfcc69e3758ffb096b8e49f60d590be176546ad68eb8d5d51ad5bb194b349a29"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/200b0aEDbg.dag/retired": {
+      "bytes": 71,
+      "sha256": "9f6f6dcf65b8b8086e87a025a67ab781b4409860b21188caa72168de4b26e19f"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/200b0aEDbg-inputdata.json/retired": {
+      "bytes": 82,
+      "sha256": "bfdf552d1bb87bf681d0e61dfa0f0ff9280013ef5c5b6e07bf728528f396eb15"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/200b0aEDbg.dag.payloads/retired": {
+      "bytes": 80,
+      "sha256": "35644168d2ca7098e27ca217de70145687064ccc08f9c76eadc8cc4625201c8c"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/200b0aEDbg.dag.json/retired": {
+      "bytes": 76,
+      "sha256": "50890e4d6b8e1a26cea40f3928eb46b307a7647a44e885995aceb856f98a1f83"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/200b0aEDbg.dag_derived/retired": {
+      "bytes": 79,
+      "sha256": "4327db0719bae3b416ccccdfddf2d8fd6ca35ff6d2f4081c888688cfd6eb6fe2"
+    },
+    "atomic/transfer/compiler-archive/Library/Bee/200b0aEDbg.dag.outputdata/retired": {
+      "bytes": 82,
+      "sha256": "829f4e08da3d80d97860e3a07e07bb38adf99efad8d4cae156de685b78d50316"
+    },
+    "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta/retired": {
+      "bytes": 102,
+      "sha256": "c01213198a16a7bea121bdd7d5ed5f37f20ba1788359d7df9e24901ee1ca6c37"
+    },
+    "atomic/transfer/archive/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs/retired": {
+      "bytes": 97,
+      "sha256": "503e1a2862712c8116dc71713944b886ad730d26f5d21c8b9f6d0809dd06b80b"
+    },
+    "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired": {
+      "bytes": 104,
+      "sha256": "28e26581c0b1f5893944e0a29f706503ebad65caf2b8737df7156397940b9969"
+    },
+    "atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta/retired": {
+      "bytes": 109,
+      "sha256": "62881f3948d33289bf89c406c2a875d4d8a260eb327e595c95f5d0ef55a75a8f"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/200b0aEDbg.dag_fsmtime/retired": {
+      "bytes": 76,
+      "sha256": "f1815fd241252cabe15cd63f6d2786a382551b60c411d39b0620f1b81821181e"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb/retired": {
+      "bytes": 105,
+      "sha256": "b45e4c9c920f72fe1818467671ddd5f7b50480295dde9a2164604bb37fdf49ae"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb/retired": {
+      "bytes": 111,
+      "sha256": "fc995c884b7157bb57865858317e715dfd7cb115556f994c45db02a82c2e414e"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll/retired": {
+      "bytes": 116,
+      "sha256": "efa62c139780617753492c90f2a460562dc98e1e31501979398487db2f8dfb04"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll/retired": {
+      "bytes": 95,
+      "sha256": "f1f0269b3e8e706aa3b1f9f980ac73f5016a72eadfd8970e47eff23d37a2a507"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb/retired": {
+      "bytes": 112,
+      "sha256": "31aa7c9658569d5b7281cb744f2d7a7bc724ecb8ecdb58283ad1d7e5565fd663"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb/retired": {
+      "bytes": 109,
+      "sha256": "c334e1ad57d096890362a527f516fa2dc7c3c08f046826780ef7d9e2c42cd359"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll/retired": {
+      "bytes": 115,
+      "sha256": "6f2592d0a583a67c89937a0c1c93794829d155968f4f1c59c7281e75b9ceb885"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll/retired": {
+      "bytes": 105,
+      "sha256": "67636ce852178bf1ed5a612c15497e62d929c9ebaffbf953e2ff98589a2f0c08"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll/retired": {
+      "bytes": 111,
+      "sha256": "342bc9e92b3632ef68de19ba2e49dd01d6734f3641139b71693e108e1e6f8e39"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll/retired": {
+      "bytes": 110,
+      "sha256": "3306ab6b2d3d51145736bda79c02c3468c931b67b04d3f0602f2180854ed8656"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll/retired": {
+      "bytes": 112,
+      "sha256": "102c02bef1bd3fac8795bd005dad8a44472639c5a8dd978e34d789039edf5131"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll/retired": {
+      "bytes": 109,
+      "sha256": "14801b88979e851e00174b741dcef8733c7ed928a4d79a75478470167f21b696"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb/retired": {
+      "bytes": 119,
+      "sha256": "a0de766b71d37b7e2a802ff0db3b9bb2819b6d6ff847db2d8f1f0888fe25ddcb"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb/retired": {
+      "bytes": 104,
+      "sha256": "7a37246b2290f41d70c1596d245d99729f1855e081706e9c8595005200447aa8"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll/retired": {
+      "bytes": 108,
+      "sha256": "b9638d746c69b624fc319f9b713128b3339292d051ac42fa09508f5ab151b1da"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll/retired": {
+      "bytes": 104,
+      "sha256": "af893322d331d38bfa0b1158ade58c876a377e4220c1861431d8dc0d83c12f65"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb/retired": {
+      "bytes": 105,
+      "sha256": "8c8eb394d590eae1c4abaa54ad5f3b0882da0ef57a8616e443bde7c0ef3b5deb"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll/retired": {
+      "bytes": 98,
+      "sha256": "ebde2426d302635542d8363c657aa4ebe693ad017b2884b24cb1b2cebd3ee5a4"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll/retired": {
+      "bytes": 108,
+      "sha256": "4fe14075ad3e8cd56b2c98d0390dfffb57b40dde9e740c8bd161e8967ed7ba2d"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll/retired": {
+      "bytes": 102,
+      "sha256": "5a1b315932baa4faa2e1ad30679d26eb5c6f0bd40283c6570424b61dbfd7b865"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll/retired": {
+      "bytes": 113,
+      "sha256": "11375ce61670b8d98252313cb8f26ba40a062f9d37d52996db46200c9738b55e"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb/retired": {
+      "bytes": 106,
+      "sha256": "e6ad2a064d3d769de77fcaaa0dfbd59edd4f2a1816625114140580aca38e54aa"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb/retired": {
+      "bytes": 98,
+      "sha256": "1abe6dc87bf6a5ec10814a24a49c35b5179eaf0ce1827f1609dfeca679cf4dbb"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb/retired": {
+      "bytes": 91,
+      "sha256": "c81d422f9b7d8f25c0dc0cc8a33fca705153f6155a436de16f6fdf1fc214c1c2"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll/retired": {
+      "bytes": 104,
+      "sha256": "c0d06b853a5a7796d2c41ad5a9c417b279f3c996a69f59a2ab7123fd083f1fe3"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll/retired": {
+      "bytes": 109,
+      "sha256": "69c147644528e9926f7323f4d1b9898d08d6b64e4e1b3c9190c6ef2ee7719e31"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb/retired": {
+      "bytes": 98,
+      "sha256": "b9723529e1e63918af7205b5a7556e9bf97632272b597113b5b633c7ff15c263"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll/retired": {
+      "bytes": 105,
+      "sha256": "b60b79ddc3ee59b8b770178d714858ba427e632c49cc52a93bed7a6acde9eba3"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll/retired": {
+      "bytes": 123,
+      "sha256": "09a3cb5512f377a1b04cf44d9e1c20a8cb5710828658c07a32fafa573b32111c"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb/retired": {
+      "bytes": 104,
+      "sha256": "25c9a04ea02c45337795bb46d35474926beb246f0bd59d23ebe65996451723bd"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll/retired": {
+      "bytes": 119,
+      "sha256": "1b6a55e49d3a50093dcbe791db96e27dde25e0fcd6a0bcc3822f661a4035d006"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll/retired": {
+      "bytes": 106,
+      "sha256": "929278e4b79222a5c4508256909ff2011c7d8b12769f92033363a58ea5a94d18"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll/retired": {
+      "bytes": 91,
+      "sha256": "e86f7ce5ac9061fa0a2361d80a331230b85b09bff6a3e8785dc40539780f1748"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll/retired": {
+      "bytes": 98,
+      "sha256": "accb93d4909e8092d56d9da8d8252e6e8a938a7371639a86f9ad00b2f58692fb"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll/retired": {
+      "bytes": 109,
+      "sha256": "80c6b23e1689ea17fccd1cd30d931034b4648d68a15b3ced2ed5cf1661cd82c1"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll/retired": {
+      "bytes": 102,
+      "sha256": "df26d21e0ee346e28417338e0bf42cd46aaf375414e53090b2a3b79100118d92"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/200b0aEDbg.dag/retired": {
+      "bytes": 68,
+      "sha256": "6d5fde4422e62beb1cccc68905c5f50bc99f8eede4fd6473803273eed942c579"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/200b0aEDbg-inputdata.json/retired": {
+      "bytes": 79,
+      "sha256": "8e05293060c1d07fee8ccb18181fa5da242f2df2e53a92c961d44ea68ce4f8ab"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/200b0aEDbg.dag.payloads/retired": {
+      "bytes": 77,
+      "sha256": "b977a1958fa542cda96e31a062a662ecf83304fcb3798a7a666f1f0ae58db71a"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/200b0aEDbg.dag.json/retired": {
+      "bytes": 73,
+      "sha256": "1c326509102eb2a6f819c4d0e751d3c4270045c2a1fb10510982df92cbf26005"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/200b0aEDbg.dag_derived/retired": {
+      "bytes": 76,
+      "sha256": "8f825b9db9ac96dcada886bbf6bee487fd78770c0abea91a368452057c9b710b"
+    },
+    "atomic/transfer/compiler-park/Library/Bee/200b0aEDbg.dag.outputdata/retired": {
+      "bytes": 79,
+      "sha256": "3870f6f76f514566906e819f0f6c20e2b0821042005de44cb30e9f6cde78525b"
+    },
+    "atomic/transfer/park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs/retired": {
+      "bytes": 105,
+      "sha256": "b2990e6239ec68ac1c7ff93bf181b1aff9e25b85d0d5f413d2f25c2c7d77a2de"
+    },
+    "atomic/transfer/park/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta/retired": {
+      "bytes": 110,
+      "sha256": "dd26cd59fee31cd7fd4e33c9177f670ad1060178603bafa03acbb53f003cb2ca"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/200b0aEDbg.dag_fsmtime/retired": {
+      "bytes": 78,
+      "sha256": "02d8ad61feb17888952bbfdaa6825fc88f32b136497a63957fef38f33836251f"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb/retired": {
+      "bytes": 107,
+      "sha256": "57987244a534587b3ec7baae6ba6edfb7f35eda5a1d4a710ed3f5a35b30bd685"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb/retired": {
+      "bytes": 113,
+      "sha256": "e3d688493150ea500280acd5050fcc2a12a5a1162c1c08f898ce281aa953adb4"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll/retired": {
+      "bytes": 118,
+      "sha256": "5838fa3d4668c0b65d2f79ccad71d5bbf28f4a62582c1c6245b4dea9c7cd9e2c"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll/retired": {
+      "bytes": 97,
+      "sha256": "2fe1132bdc8bedbfb76e4a64ad8238a2da958300d01f66e18eadb2570a651389"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb/retired": {
+      "bytes": 114,
+      "sha256": "a7cdcbf28a3523ef9d6d72ad65bdb38f14b484c1c6c9dff388d8808d7c5dcf20"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb/retired": {
+      "bytes": 111,
+      "sha256": "a96b22c4f8b7ccc15ab6f1d3efa93c62c9331bf24c9ca495a1920753f8c26c66"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll/retired": {
+      "bytes": 117,
+      "sha256": "6dd6c0a9c7827751261293ea9eda6a74257817cc5cb13326165d5c3bdfe484c0"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll/retired": {
+      "bytes": 107,
+      "sha256": "6370dd5706207a558fc11cbec45b02ff862addb6434f8738927451f9fa0c8408"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll/retired": {
+      "bytes": 113,
+      "sha256": "16ec5714a7f889bb781ef77297d41188dbcb57164676c11f8389cd1d20d39e70"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll/retired": {
+      "bytes": 112,
+      "sha256": "80b268587588cbd0684982188b9bf1d6a2f42c2dfb74640a7ffbb3f38eaece56"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll/retired": {
+      "bytes": 114,
+      "sha256": "bf1e17e50c2676e1e4e6292178fb980ba07d03e6eb4ba9c71f8b6422eaeac9e8"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll/retired": {
+      "bytes": 111,
+      "sha256": "dac13f9c6bb0ffebb3d6ebc1db6c6c70d6a49a8c51eee320a8c6a817a0883e5f"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb/retired": {
+      "bytes": 121,
+      "sha256": "4324ca6ac78c1a653d050247bbbc5a732efa24f86a954d2da43789e1a1d144f2"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb/retired": {
+      "bytes": 106,
+      "sha256": "8dbfc1b3a05dc46f76f0f2e0d6715c7607cbd32b850aad6df4ff9e46f9cd6d2b"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll/retired": {
+      "bytes": 110,
+      "sha256": "2ebf8cfb0091cc615b6e8b3227cfb6f1084aa6d20922fb2684c8b3f4b742fb4b"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll/retired": {
+      "bytes": 106,
+      "sha256": "773b1e08e957185f52b9e9391d4993ca4343c4d87dc8e03859a651b95ddcc5a0"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb/retired": {
+      "bytes": 107,
+      "sha256": "79e744e6ef8bd6b1c57901f4b6949dedef88a1b3aab89b2fb2a5a51a5a807d98"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll/retired": {
+      "bytes": 100,
+      "sha256": "8002e7cc52b38444a86d85d7c036c04d4782f7360b2a9aba83a2d6cc98eb3237"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll/retired": {
+      "bytes": 110,
+      "sha256": "1e7f1b5cabc5d1888f8fa3fcfcbb7a401a8fb9e3f5f7396bf9caa29fed70730c"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll/retired": {
+      "bytes": 104,
+      "sha256": "d8b812628b992ad17d233784f692d663895f0f4a053ac36c672d67ffeb44356b"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll/retired": {
+      "bytes": 115,
+      "sha256": "0e6c714ecb4cd29c201fa4a00409e00eaade5d82ede303c447d0eac52cc9511b"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb/retired": {
+      "bytes": 108,
+      "sha256": "b6c793b658a5cc342ef0241c7cc65677d12194e12281962c2caf5f380d107e69"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb/retired": {
+      "bytes": 100,
+      "sha256": "e54a1c7c5e9fdd09563bc08a61a443f77b32b14276919092e998556b02821632"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb/retired": {
+      "bytes": 93,
+      "sha256": "f539ada4811bcdc6eeb1344e54de4ff713c382e6a042f94445d3656bdf7008ac"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll/retired": {
+      "bytes": 106,
+      "sha256": "bfabffc0289cb53979d5c3379f525e91f41ceb623e7a351d1c49d0bdc0a9200f"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll/retired": {
+      "bytes": 111,
+      "sha256": "2672f2d9d1f7734fd7167b4844f60c8c81e50f180fbb5dd2e26504596bf61ae3"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb/retired": {
+      "bytes": 100,
+      "sha256": "ec2090ce260d598fce65e117843f9f1d1ffb3c939dad052921e3700cc94b0b43"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll/retired": {
+      "bytes": 107,
+      "sha256": "2bd227ecdf40753cfca5188fd77b270df6f4d92e9b3af6f0c7ede0de2cbeec48"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll/retired": {
+      "bytes": 125,
+      "sha256": "43fff9c39d6f7c50dba089396c13f09cba810ad570654f0db1cf8b2529d90300"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb/retired": {
+      "bytes": 106,
+      "sha256": "a3ddabf5bf1150892ae3e66e70d060a85928a5e8a4511605ce32b4492e81e863"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll/retired": {
+      "bytes": 121,
+      "sha256": "96b9811378262f2fc028f5a3f83fcb1768809ba651b9fec5ee12f03198b1b09b"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll/retired": {
+      "bytes": 108,
+      "sha256": "9ab26e5e7d67a4a33e4e534dfb7b1c9bf88d9151f794cef21975ae0ca3b3f668"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll/retired": {
+      "bytes": 93,
+      "sha256": "98bde1ad5e82ab6efd3bfc40a7c6677140e537fdc183f6ec87cac6ce53da2343"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll/retired": {
+      "bytes": 100,
+      "sha256": "5a5975b7ecf915789187b35712ec1d97d83610ff6c0b17e5d9fc8a6be94a567f"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll/retired": {
+      "bytes": 111,
+      "sha256": "c6da3053244c171721847eef5869ed2f4c7c4d15c9382f3171d7abf4bd69d07c"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll/retired": {
+      "bytes": 104,
+      "sha256": "d2e21908b70cbdf178f5ea8568693afddf8321e3ebba5a0289a90c034b3fc580"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/200b0aEDbg.dag/retired": {
+      "bytes": 70,
+      "sha256": "793d831d41cf09ab1a54e044949dd7857d4b11654364aa0caf0d0f3b9d911af3"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/200b0aEDbg-inputdata.json/retired": {
+      "bytes": 81,
+      "sha256": "ec881d4d993ff0b0e5df7698b71faee587895e72dc2a0651df15ec7965f4da6d"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/200b0aEDbg.dag.payloads/retired": {
+      "bytes": 79,
+      "sha256": "c405f0c307180e2418758558bdb4aadc6e1c07d2dbfc1958b40713f47b688017"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/200b0aEDbg.dag.json/retired": {
+      "bytes": 75,
+      "sha256": "2ff50435ef9edd24d5f5acd82541d7f42ba93c651fcec707c1ee1e38046ed8c0"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/200b0aEDbg.dag_derived/retired": {
+      "bytes": 78,
+      "sha256": "d5b8ecd906b4c55e1f6e6635b789ba8e4c50823be998cef16d7b32eb957d361e"
+    },
+    "atomic/transfer/compiler-unpark/Library/Bee/200b0aEDbg.dag.outputdata/retired": {
+      "bytes": 81,
+      "sha256": "ec291ffd24d872379867eaf2733f92f01be84ba9aad529de1cf1a43c3e4073fb"
+    },
+    "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs/retired": {
+      "bytes": 107,
+      "sha256": "e234dedc5ab09e7bb8aaa3f7d1352e42e3582a75139a9d9b58cb5b3483568db8"
+    },
+    "atomic/transfer/unpark/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta/retired": {
+      "bytes": 112,
+      "sha256": "a453c8b023c9e55fc82b4c30da6331a9311d67164ddd8b9a3ce04c031ce6f2b3"
+    },
+    "atomic/sync/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+      "bytes": 1060568,
+      "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b"
+    },
+    "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs": {
+      "bytes": 16074,
+      "sha256": "d798f81816a6e9d1583b0ab7f54895731bb69676dbc2aae97355d4d8767f909a"
+    },
+    "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs": {
+      "bytes": 27609,
+      "sha256": "3f4e56ead7feb7e3c85b9f28cf315240010cbbbb20b71fa5baf7ca270a56fcca"
+    },
+    "atomic/sync/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs": {
+      "bytes": 28115,
+      "sha256": "16b3311b564777eb81fba4467a88afc100aaa8abaf80fe03ae0ac39989bb7337"
+    },
+    "atomic/sync/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs": {
+      "bytes": 15357,
+      "sha256": "684f9b81ff42f27e5a871a77e6f7f9278dbccf743289a54d7380b387a44fee64"
+    },
+    "atomic/sync/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+      "bytes": 24326,
+      "sha256": "0cfa14f00f541ad6d1be26745fffaf14703e7ac3af27d038b4a410b6a6d04fbb"
+    },
+    "atomic/sync/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs": {
+      "bytes": 17926,
+      "sha256": "00a3244998a419e140d23d25e0e2d8f7e2a4c72415caffc75fec9a53289902b8"
+    },
+    "atomic/sync/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs": {
+      "bytes": 30038,
+      "sha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+      "bytes": 14379,
+      "sha256": "d7a29970b0fb8b594e7114a883b82ffef92c47181218df1bec1f420dfda72136"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 19136,
+      "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+      "bytes": 18579,
+      "sha256": "892b9d494286f18e41e6f6bfbe474df591d9c06fa19644bec36332391cf50859"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+      "bytes": 83965,
+      "sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+      "bytes": 34540,
+      "sha256": "659d879b2154e3e7b9347638cfeaf5f3f33b4daea8908b14711712170b5ed3ed"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs": {
+      "bytes": 11337,
+      "sha256": "dbfdfe0e333777d19d76e8a84860d6912fbd916e44425a99cbb7b1a9ffd128e9"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+      "bytes": 25884,
+      "sha256": "3baa9fc9f2f4a565a4933130e7f5c46e6c16edf4e7a3a0d13c8dac9761201e7c"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs": {
+      "bytes": 18882,
+      "sha256": "b3f28fd28df9687e8a92b95a81b2bd8d65fe974e43b962436b2a75370bfb8cac"
+    },
+    "atomic/sync/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs": {
+      "bytes": 13944,
+      "sha256": "38c7cfbb999897db56e90c37b6c7cacdef95d0aaabae87b8c671e1f262ea6216"
+    },
+    "atomic/restore/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+      "bytes": 1322960,
+      "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+    },
+    "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs": {
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333"
+    },
+    "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs": {
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd"
+    },
+    "atomic/restore/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs": {
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf"
+    },
+    "atomic/restore/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs": {
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0"
+    },
+    "atomic/restore/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+      "bytes": 50694,
+      "sha256": "c64edeac81aa6b22e1070b7e6919ba572016207777136f0d62b5cbe84ed256c2"
+    },
+    "atomic/restore/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs": {
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321"
+    },
+    "atomic/restore/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs": {
+      "bytes": 30074,
+      "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+      "bytes": 18589,
+      "sha256": "feceefca6d529cbc9755f8f984db7b3b176bc0709730c83947ea07bb968cb687"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 23469,
+      "sha256": "d3774d5c9cf20cdf9649540f2479ebb198241188ecfdf88bdae09d1122c22456"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+      "bytes": 20308,
+      "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+      "bytes": 204772,
+      "sha256": "a64fbb31f03c2ec0a5fcd88da12ac4793e4d4c75d190965c6d7f148a4b4ebc27"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs": {
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs": {
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c"
+    },
+    "atomic/restore/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs": {
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60"
+    },
+    "restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+      "bytes": 1060568,
+      "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b"
+    },
+    "restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs": {
+      "bytes": 16074,
+      "sha256": "d798f81816a6e9d1583b0ab7f54895731bb69676dbc2aae97355d4d8767f909a"
+    },
+    "restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs": {
+      "bytes": 27609,
+      "sha256": "3f4e56ead7feb7e3c85b9f28cf315240010cbbbb20b71fa5baf7ca270a56fcca"
+    },
+    "restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs": {
+      "bytes": 28115,
+      "sha256": "16b3311b564777eb81fba4467a88afc100aaa8abaf80fe03ae0ac39989bb7337"
+    },
+    "restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs": {
+      "bytes": 15357,
+      "sha256": "684f9b81ff42f27e5a871a77e6f7f9278dbccf743289a54d7380b387a44fee64"
+    },
+    "restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+      "bytes": 24326,
+      "sha256": "0cfa14f00f541ad6d1be26745fffaf14703e7ac3af27d038b4a410b6a6d04fbb"
+    },
+    "restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs": {
+      "bytes": 17926,
+      "sha256": "00a3244998a419e140d23d25e0e2d8f7e2a4c72415caffc75fec9a53289902b8"
+    },
+    "restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs": {
+      "bytes": 30038,
+      "sha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+      "bytes": 14379,
+      "sha256": "d7a29970b0fb8b594e7114a883b82ffef92c47181218df1bec1f420dfda72136"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 19136,
+      "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+      "bytes": 18579,
+      "sha256": "892b9d494286f18e41e6f6bfbe474df591d9c06fa19644bec36332391cf50859"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+      "bytes": 83965,
+      "sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+      "bytes": 34540,
+      "sha256": "659d879b2154e3e7b9347638cfeaf5f3f33b4daea8908b14711712170b5ed3ed"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs": {
+      "bytes": 11337,
+      "sha256": "dbfdfe0e333777d19d76e8a84860d6912fbd916e44425a99cbb7b1a9ffd128e9"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+      "bytes": 25884,
+      "sha256": "3baa9fc9f2f4a565a4933130e7f5c46e6c16edf4e7a3a0d13c8dac9761201e7c"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs": {
+      "bytes": 18882,
+      "sha256": "b3f28fd28df9687e8a92b95a81b2bd8d65fe974e43b962436b2a75370bfb8cac"
+    },
+    "restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs": {
+      "bytes": 13944,
+      "sha256": "38c7cfbb999897db56e90c37b6c7cacdef95d0aaabae87b8c671e1f262ea6216"
+    }
+  },
+  "validationStatus": "FAILED",
+  "mechanicalExecutionSecondsThroughEvidence": 164.28597083299246,
+  "finishedUtcThroughEvidence": "2026-10-08T07:28:39.752237+00:00",
+  "measurementBoundary": "After all prior evidence writes/hashes; before receipt serialization/write/hash and stdout. The stdout completion record plus external OS exit and elapsed time are mandatory."
+}

@@ -1,0 +1,427 @@
+{
+  "task": "V08-ADB-FOLLOWUP",
+  "status": "SOURCE_READY",
+  "preparedUtc": "2026-10-08T07:55:07.465866+00:00",
+  "actual": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a11a79-3ba8-73c3-9b13-626daac21699"
+  },
+  "requestedModel": "gpt-6-astra",
+  "requestedEffort": "xhigh",
+  "authority": {
+    "packet": "docs/team/2026-09-30/central-resource-v08-adb-followup-source.md",
+    "design": "docs/team/2026-09-30/engineering-resource-v08-adb-followup.md",
+    "designSeal": {
+      "bytes": 7400,
+      "sha256": "577c040ec197cb9cd056acc142297a27b6a6380f7a46b5d3363b3653f61f541a"
+    },
+    "centralTurn": "01a11a60-d890-7660-b7ee-1accdb3ffe0c",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+  },
+  "packetSeal": {
+    "bytes": 1942,
+    "sha256": "adfa83b8cb89e18cd770f5f4d988688d2b91b5c4ed133ead1da69316b6dd0e42"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "returnRoute": "Current chat final only; central receives completion.",
+  "baseline": {
+    "root": "TestArtifacts/FightMatch/RES-COMBINED-V08/run",
+    "references": {
+      "runner.py": {
+        "bytes": 114245,
+        "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+      },
+      "inputs.json": {
+        "bytes": 1254426,
+        "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+      },
+      "receipt.json": {
+        "bytes": 78531,
+        "sha256": "2e8e402edee1b8d6f70481ecac71e277eaca4a38fddbc4ec794a6fcf36b3efb4"
+      },
+      "compile.json": {
+        "bytes": 11303748,
+        "sha256": "e47863ffcf925023cfba5330d45cb56df8c17afa0c7569aa73bdf8521f270c87"
+      },
+      "T/results.xml": {
+        "bytes": 56396,
+        "sha256": "b535cbfa2df56772657f07ff744a672848abbdd9d243b7dc48cf0fe26bba6720"
+      },
+      "process-events.jsonl": {
+        "bytes": 502540,
+        "sha256": "11365b58467ac8867d3444a7a4cb59d2a7ef7a79685a961221284b91e834a4e9"
+      },
+      "process-after.json": {
+        "bytes": 278604,
+        "sha256": "325ce60fbad8712a7a55b44524980da62a20aeb0cd954ebb174ea412b07dadbc"
+      }
+    },
+    "allReferencesRecheckedUnchanged": true
+  },
+  "changes": {
+    "onlyRunnerFunction": "sdk_adb_exception",
+    "topLevelAdded": [],
+    "removed": [],
+    "unchangedFunctions": 103,
+    "astSeals": {
+      "before": "15ab306c1490934c48938cd9c14084bce09cc09c7e8ffb2a3acb8908b809be59",
+      "after": "8c44eb182a82373b81d304ea9e68fe72c0a84133a4c4fe3a18ba1f1294bed409"
+    },
+    "nestedHelpers": [
+      "candidates_in",
+      "observe",
+      "fresh_snapshot",
+      "retire"
+    ],
+    "nestedHelpersScope": "Local SDK binding lifecycle and bounded related snapshot diagnostics; no shared process framework.",
+    "behavior": [
+      "Current binding retires only after one complete strict fresh snapshot proves exact PID absence; old identity retained in event.",
+      "Present/zombie/reused bound PID, failed/incomplete fresh query, and multiple current candidates reject.",
+      "After retirement any new candidate must repeat the original argv, UID, executable mapping, FD, current log/header, start-time and pre/post identity gates.",
+      "The existing bound args exit1/double-empty path also retires only after fresh absence; at most one following candidate is validated afresh.",
+      "Stage transition itself preserves binding; no signal or owned registration added.",
+      "Bounded diagnostics retain stage/root/old binding/current row-or-absence/candidate identities/times; complete verified SDK FD output retained."
+    ],
+    "productInputsByteIdentical": true,
+    "sourcePatch": {
+      "bytes": 10338,
+      "sha256": "faf93c3bb205a91f681df4870d26a52b84c7d7dbf1034f285eaed0e551b44a71"
+    }
+  },
+  "offline": {
+    "command": [
+      "python3",
+      "TestArtifacts/FightMatch/RES-COMBINED-V08/adb-followup/replay-check.py"
+    ],
+    "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+    "exitCode": 0,
+    "rawStdout": "{\"status\": \"SOURCE_REPLAY_PASS\", \"round\": 1, \"passedCases\": 42, \"seconds\": 0.15508545898774173, \"cumulativeSeconds\": 0.15508545898774173, \"failure\": null, \"activeCase\": \"late-two\", \"forbiddenAttempts\": []}\n",
+    "rounds": 1,
+    "seconds": 0.15508545898774173,
+    "cumulativeSeconds": 0.15508545898774173,
+    "cases": [
+      {
+        "name": "rebind",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "retire-only",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "stage-only",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "old-live-new",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "two-new",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "same-pid-start",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "same-pid-exe",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "bound-zombie",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "confirmation-live",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "confirmation-zombie",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "confirmation-reused",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "doubleempty-absent",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "doubleempty-rebind",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "doubleempty-live",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "doubleempty-zombie",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "doubleempty-query-failure",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "args-stderr",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "args-io",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "args-timeout",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "args-exit2",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "args-empty0",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "snapshot-io",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "snapshot-timeout",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "snapshot-exit",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "snapshot-stderr",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "snapshot-malformed",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "snapshot-truncated",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "missing-mapped",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "missing-log-fd",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "old-log",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "wrong-uid",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "wrong-sdk-hash",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "source-fd",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "invalid-argv",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "late-argv",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "fd-owner",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "fd-query-error",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "baseline-candidate",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "start-before-launch",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "late-reuse",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "late-zombie",
+        "passed": true,
+        "synthetic": true
+      },
+      {
+        "name": "late-two",
+        "passed": true,
+        "synthetic": true
+      }
+    ],
+    "actualFunctionsCalled": [
+      "<genexpr>",
+      "<module>",
+      "ChildArgsProbeError",
+      "IdentityProbeIncomplete",
+      "NaturalGraceExpired",
+      "__init__",
+      "blocking_probe_timeout",
+      "bound_detail",
+      "candidates_in",
+      "check",
+      "child_args",
+      "cmd",
+      "consumer_guard",
+      "details",
+      "fresh_snapshot",
+      "identity_args",
+      "identity_event",
+      "identity_sample",
+      "isolate_stage",
+      "no_links",
+      "observe",
+      "probe_timeout",
+      "ps",
+      "retire",
+      "sdk_adb_exception"
+    ],
+    "forbiddenAttempts": [],
+    "frozenSource": {
+      "runner": {
+        "bytes": 118591,
+        "sha256": "3f89fa3166251965960120c28cf1761cd5d6fd7e0515dcc8656132cef2b9348a"
+      },
+      "checker": {
+        "bytes": 15662,
+        "sha256": "52ab99aef326e031b27bd5f06e7fc9da3e3678d12c62372fd327703ca5c7c92f"
+      },
+      "fixture": {
+        "bytes": 12443,
+        "sha256": "5fa7c07ac85972e536be6af82e41a4a23c2745587b35bb89f57db16f8e2f899b"
+      }
+    },
+    "historicalSuitesRerun": false,
+    "maximumSecondsPerRound": 30,
+    "secondRoundUnused": true
+  },
+  "historicalEvidence": {
+    "originalNativeStatus": "FAILED",
+    "originalMismatchEventsPreserved": 14,
+    "originalVerifiedIEventsPreserved": 9,
+    "rawHistoricalTCandidateIdentityKnown": false,
+    "syntheticDataClaimedAsHistorical": false,
+    "compilationAnd89TestsRerun": false,
+    "prior12And89EvidenceReferencedOnly": true,
+    "nativeReceiptNotOverwritten": true
+  },
+  "sixLeafClosure": {
+    "allowed": [
+      "runner.py",
+      "replay-check.py",
+      "replay-results.json",
+      "receipt.json",
+      "fixture.json",
+      "source.patch"
+    ],
+    "identities": {
+      "runner.py": {
+        "bytes": 118591,
+        "sha256": "3f89fa3166251965960120c28cf1761cd5d6fd7e0515dcc8656132cef2b9348a"
+      },
+      "replay-check.py": {
+        "bytes": 15662,
+        "sha256": "52ab99aef326e031b27bd5f06e7fc9da3e3678d12c62372fd327703ca5c7c92f"
+      },
+      "replay-results.json": {
+        "bytes": 255096,
+        "sha256": "c20dfc60efad5090e8d7053da3fb0e1f8c8c7d794d0001774a2c0db6f66fe481"
+      },
+      "fixture.json": {
+        "bytes": 12443,
+        "sha256": "5fa7c07ac85972e536be6af82e41a4a23c2745587b35bb89f57db16f8e2f899b"
+      },
+      "source.patch": {
+        "bytes": 10338,
+        "sha256": "faf93c3bb205a91f681df4870d26a52b84c7d7dbf1034f285eaed0e551b44a71"
+      }
+    },
+    "receiptSelfIdentity": "Final receipt bytes/SHA256 returned externally; no circular self hash.",
+    "maximumTotalBytes": 4194304,
+    "actualTotalBytesReturnedExternally": true
+  },
+  "boundaries": {
+    "nativeRuns": 0,
+    "realPs": 0,
+    "realLsof": 0,
+    "realAdb": 0,
+    "realSignals": 0,
+    "cacheScans": 0,
+    "productWrites": 0,
+    "oldEvidenceWrites": 0,
+    "gitWrites": 0,
+    "sourceForReviewOnly": true,
+    "executeMainAuthorized": false,
+    "newV09": false
+  },
+  "review": {
+    "status": "PENDING_INDEPENDENT_GITHUB_EXACT_HEAD",
+    "owner": "central publication and independent GitHub service",
+    "authorIntegrationVerdict": null
+  },
+  "remaining": "Independent exact-head source review and central decision on remaining supervision acceptance. This fix cannot reconstruct the original T candidate or turn original FAILED into PASS.",
+  "wallSecondsThroughSealing": 592.4676649570465
+}
