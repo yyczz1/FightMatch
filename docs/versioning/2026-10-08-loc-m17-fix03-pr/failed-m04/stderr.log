@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host.py", line 76, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host.py", line 69, in main
+    result=module.execute(list(sys.orig_argv))
+  File "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py", line 952, in execute
+    return consume_m_stage(stage,work,finish)
+  File "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py", line 896, in consume_m_stage
+    require(failure is None,'M stopped: '+str(failure));return result
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py", line 65, in require
+    if not value:raise GateError(reason)
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+_fightmatch_m17_authorized_driver.GateError: M stopped: GateError: unsafe relative path

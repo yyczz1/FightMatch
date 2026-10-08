@@ -1,0 +1,247 @@
+--- M17-FIX02/source/m17_driver.py
++++ M17-FIX03/source/m17_driver.py
+@@ -27,9 +27,10 @@
+ DOC=REPO/'docs/team/2026-09-30'
+ OLD17=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17'
+ OLD17F1=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix01'
+-E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix02'
+-W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17')
+-M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17')
++OLD17F2=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix02'
++E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix03'
++W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03')
++M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix03')
+ TOOL=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0')
+ SOURCE=TOOL/'source'
+ DOTNET=TOOL/'dotnet-x64/dotnet'
+@@ -42,9 +43,9 @@
+ DRIVER=E/'source/m17_driver.py'
+ PREP=('source/m17_driver.py','source/m17-inputs.tsv','source/m17-write-set.tsv','source/source.patch',
+       'authority/prepare.json','authority/offline-checks.json','authority/source-freeze.json','authority/source-receipt.json')
+-OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a106e6-15b0-75a3-a1dd-b5b3108744d8'}
+-ISSUER={'threadId':'01a0f2e3-1a80-7671-a459-38d5c8de0e6b','hostId':'local','turnId':'01a106dc-0140-7783-9ec7-aab4235c4800'}
+-DISPATCH='fco_01a106e6-15b7-76e0-96d5-5d72688c0254'
++OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a11a84-fb46-79f1-9bd3-9fc6b1d1bf8b'}
++ISSUER={'threadId':'01a0e401-511d-79f2-b47f-3ab0ade1681b','hostId':'local','turnId':'01a11a60-d890-7660-b7ee-1accdb3ffe0c'}
++DISPATCH='fco_01a11a84-fb55-7622-8a99-66369ed9403d'
+ CENTRAL='01a0e401-511d-79f2-b47f-3ab0ade1681b'
+ TRUSTED_CENTRAL_ACTIVATION=None
+ FIXED_INDEX=(4916277,'043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381')
+@@ -331,6 +332,8 @@
+     basis.add(contract,reader(contract),'existing','authority','M-only 900-second FIX01 contract')
+     for name in ('engineering-loc-m17-timer-shadow-fix02.md','engineering-loc-m17-fix02-review-host-amendment.md'):
+         contract=DOC/name;basis.add(contract,reader(contract),'existing','authority','approved FIX02 and same-turn amendment')
++    contract=DOC/'engineering-loc-m17-fix03-path.md'
++    basis.add(contract,check_bytes(reader(contract),(7921,'1e083a841f946fc762af1d1291170d4cab7160f0a9f83d20739ba02e9dd80b01'),'FIX03 contract'),'existing','authority','approved FIX03 exact aliases and future roots')
+     authority=DOC/'central-resume-scene-loc-2026-10-04.json'
+     basis.fixed(authority,'authority')
+     basis.add(Path('/usr/bin/curl'),reader(Path('/usr/bin/curl')),'existing','tool','current host curl; fixed before future exact GET')
+@@ -843,7 +846,7 @@
+     rows=sorted([{k:p[k] for k in ('path','url','bytes','sha256')} for p in [*m['packages'],m['archive']]
+         if p['class']=='official-get'],key=lambda p:p['path'])
+     require(len(rows)==18 and sum(r['bytes'] for r in rows)==25172764 and
+-        sha(jb(rows))=='6761184244450758f97f5886582a2bd2ae9de2108b4d71b921943460efae215d','fixed 18-archive contract drift')
++        sha(jb(rows))=='c4f17bfb0e405cd2bc43e4ad1c3537374dff338feab58c9ace7743ca643f2de3','fixed 18-archive contract drift')
+     return rows
+ 
+ class MStage:
+@@ -958,11 +961,14 @@
+ def archive_entries(pkg,data):
+     """Future M-only memory decoding, never called by SOURCE prepare."""
+     import zipfile
+-    verify_archive(pkg,data);result={};total=0;folded=set()
++    verify_archive(pkg,data);result={};total=0;folded=set();aliases={}
++    if (pkg.get('key'),pkg['bytes'],pkg['sha256'])==('messagepackanalyzer.3.1.7',178005,'2566ef3915962caddb7063cf606ae06021650284f619192fc44b9a2f03f0f4ee'):
++        aliases={'analyzers/roslyn4.3/cs//MessagePack.Analyzers.CodeFixes.dll':'analyzers/roslyn4.3/cs/MessagePack.Analyzers.CodeFixes.dll',
++                 'analyzers/roslyn4.3/cs//MessagePack.SourceGenerator.dll':'analyzers/roslyn4.3/cs/MessagePack.SourceGenerator.dll'}
+     with zipfile.ZipFile(io.BytesIO(data)) as archive:
+         for entry in archive.infolist():
+             if entry.is_dir():continue
+-            rel=safe(entry.filename)
++            rel=safe(aliases.get(entry.filename,entry.filename))
+             require(rel.casefold() not in folded and len(result)<5000,'duplicate/oversized archive entry set')
+             require((entry.external_attr>>16)&0o170000 in (0,0o100000),'nonregular package entry')
+             total+=entry.file_size;require(total<=128*1024**2,'package expansion budget')
+@@ -1208,14 +1214,14 @@
+ def source_artifacts(m,driver_bytes,old_driver,checks,history):
+     result={'source/m17_driver.py':driver_bytes,**source_tables(m)}
+     patch=''.join(difflib.unified_diff(old_driver.decode().splitlines(True),driver_bytes.decode().splitlines(True),
+-        fromfile='M17-FIX01/source/m17_driver.py',tofile='M17-FIX02/source/m17_driver.py'))
+-    require(sum(line.startswith(('+','-')) and not line.startswith(('+++','---')) for line in patch.splitlines())<=180,'FIX02 source delta exceeds 180 lines')
++        fromfile='M17-FIX02/source/m17_driver.py',tofile='M17-FIX03/source/m17_driver.py'))
++    require(sum(line.startswith(('+','-')) and not line.startswith(('+++','---')) for line in patch.splitlines())<=160,'FIX03 source delta exceeds 160 lines')
+     result['source/source.patch']=patch.encode()
+     result['authority/prepare.json']=jb({'schemaVersion':1,'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,
+         'modelSha256':sha(jb(m)),'model':m,'executionBudget':execution_budget(m),
+         'inputClasses':{k:sum(r[0]==k for r in m['inputs']) for k in ('existing','official-get','generated')},
+         'old38Leaves':history,'states':m['states'],
+-        'limitations':['No archive acquired/unpacked; no material roots created.',
++        'limitations':['No archive acquired or unpacked to disk; only existing ZIPs decoded in memory; no material roots created.',
+             'Generated locks/assets have no hashes until actual isolated restore and independent comparison.',
+             'Existing SDK leaf identities are declared; fresh full SDK hashing is a required pre-launch gate.',
+             'Future M executor is present but unexecuted; its production trust pin is null. B/L are separately owned frozen command contracts.',
+@@ -1224,7 +1230,7 @@
+     result['authority/source-receipt.json']=jb({'status':'SOURCE_READY',
+         'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,'modelSha256':sha(jb(m)),
+         'sourceReady':True,'materialReady':False,'reviewReady':False,'executionAuthorized':False,'MOnlyBudget':execution_budget(m)['M'],
+-        'integrationVerdict':'NOT_ISSUED_AUTHOR_CANNOT_ACCEPT','historyPreserved':history,
++        'integrationVerdict':'NOT_ISSUED_AUTHOR_CANNOT_ACCEPT','historyPreserved':history,'validation':checks,
+         'returnPath':ISSUER,'pendingArchives':[{k:p[k] for k in ('path','bytes','sha256','url')} for p in [*m['packages'],m['archive']] if p['class']=='official-get'],
+         'generatedLocksAssets':len(m['generated']),
+         'blockingSlot':'fixed missing archives + actual M restore/comparison + new reviewed head + independent central execution pin; B/L separate execution owners'})
+@@ -1484,69 +1490,131 @@
+     budget_checks(m,case)
+     return results
+ 
++def fix03_protection():
++    frozen=check_bytes(read(OLD17F2/'authority/source-freeze.json'),(2806,'3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b'),'F2 seal')
++    records=strict(frozen)['filesExcludingThisSeal']+[identity(OLD17F2/'authority/source-freeze.json',frozen)]
++    oldrun=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-m04';receipt=oldrun/'receipt.json'
++    raw=check_bytes(read(receipt),(15266,'3b42fd9e70d26f6d31ec66f8110a3e3fd106b1cbe080e1631a2cc4f178db1777'),'M04 receipt')
++    records+=strict(raw)['evidence']['beforeAndRawLogs']+[identity(receipt,raw)]
++    for rel,count,digest in [('source/m17_driver.py',120382,'4df707e09d4c75419f93b6177e7a0bbaf9bc436f82b6e913f3b1ccbad0ae3658'),
++        ('authority/offline-checks.json',21144,'2d9ce6bcc6b5835c68301ff508b6eab914c671d77bd6d3d9652bb25f154de760'),
++        ('authority/source-receipt.json',25648,'ef34cef601c2c9c1c1f3073dc55011cc504b2fd669472ffeb815b1448d0de3b9')]:
++        p=E/'failed-prepare-01'/rel;records.append(identity(p,check_bytes(read(p),(count,digest),'failed prepare preserved')))
++    oldwork=W.with_name('m17');failed=oldwork/'receipts/material-validation.json'
++    records.append(identity(failed,check_bytes(read(failed),(254,'a51e3c3a362a3ed1df30401995ab9fa0fa5219ae744c322c4f12bfdfceb16a21'),'M04 failure')))
++    for row in records:check_bytes(read(Path(row['path'])),(row['bytes'],row['sha256']),'protected old leaf')
++    for root in (OLD17F2,oldrun,oldwork,E/'failed-prepare-01'):
++        paths=list(root.rglob('*'));require(not any(p.is_symlink() for p in paths) and {str(p) for p in paths if p.is_file()}=={r['path'] for r in records if Path(r['path']).is_relative_to(root)},'protected leaf set')
++    for root in (M,W,M.with_name('5.1.0-fm-yamldotnet-16.3.0-m17')):
++        require(not os.path.lexists(root) and not any(p.is_symlink() for p in root.parents),'future/old material root occupied or linked')
++    return records
++
++def fix03_checks(m,cached,history):
++    import zipfile,types,warnings,struct
++    results=[]
++    def case(name,action,reject=False):
++        tick=time.monotonic();error=None
++        try:action()
++        except Exception as exc:error=exc
++        results.append({'name':name,'expected':'REJECT' if reject else 'PASS','passed':isinstance(error,GateError) if reject else error is None,
++            'rawError':None if error is None else type(error).__name__+': '+str(error),'elapsedSeconds':time.monotonic()-tick})
++    nodes=[n for n in ast.parse(read(OLD17F2/'source/m17_driver.py')).body if isinstance(n,ast.FunctionDef) and n.name=='archive_entries']
++    old=dict(globals());exec(compile(ast.Module(body=nodes,type_ignores=[]),'F2-original-archive-entries','exec'),old)
++    pkg=next(p for p in m['packages'] if p['key']=='messagepackanalyzer.3.1.7');data=read(Path(pkg['path']))
++    case('F2 fixed official ZIP reproduces unsafe relative path',lambda:old['archive_entries'](pkg,data),True)
++    names=['analyzers/roslyn4.3/cs/MessagePack.Analyzers.CodeFixes.dll','analyzers/roslyn4.3/cs/MessagePack.SourceGenerator.dll']
++    def official():
++        actual=archive_entries(pkg,data);require(len(actual)==8 and all(n in actual for n in names),'eight entries and two canonical names')
++        with zipfile.ZipFile(io.BytesIO(data)) as z:
++            for entry in z.infolist():
++                if not entry.is_dir():
++                    target=next((n for n in names if entry.filename==n.replace('/cs/','/cs//')),entry.filename)
++                    require(actual[target]==z.read(entry),'original ZipInfo bytes changed')
++    case('F3 fixed official ZIP eight entries and original bytes',official)
++    for item in [p for p in m['packages'] if p['class']=='existing'][:5]:
++        case('unchanged preceding package '+item['key'],lambda p=item:require(archive_entries(p,read(Path(p['path'])))==old['archive_entries'](p,read(Path(p['path']))),'unchanged entries'))
++    for field,value in [('key','other.3.1.7'),('bytes',178006),('sha256','0'*64),('sha512','invalid')]:
++        case('real archive wrong '+field,lambda k=field,v=value:archive_entries(dict(pkg,**{k:v}),data),True)
++    def fixture(entries,mode=0o100644,oversize=False):
++        buf=io.BytesIO()
++        with warnings.catch_warnings():
++            warnings.simplefilter('ignore',UserWarning)
++            with zipfile.ZipFile(buf,'w') as z:
++                for name in entries:
++                    entry=zipfile.ZipInfo(name);entry.create_system=3;entry.external_attr=mode<<16;z.writestr(entry,b'SYNTHETIC')
++        blob=buf.getvalue()
++        if oversize:
++            blob=bytearray(blob);struct.pack_into('<I',blob,blob.index(b'PK\x01\x02')+24,128*1024**2+1);blob=bytes(blob)
++        ns=dict(globals());ns['verify_archive']=lambda p,b:require(p==pkg and b==blob,'synthetic fixture bytes/identity')
++        return types.FunctionType(archive_entries.__code__,ns)(pkg,blob)
++    for name in ('a//b','../outside','/absolute','a/../b','a\\b','a\nb','a\rb','a\tb'):
++        case('synthetic unsafe path '+repr(name),lambda n=name:fixture([n]),True)
++    alias=names[0].replace('/cs/','/cs//')
++    for label,entries in [('same-name',['a','a']),('alias duplicate',[alias,alias]),('alias canonical',[alias,names[0]]),('alias casefold',[alias,names[0].upper()])]:
++        case('synthetic collision '+label,lambda es=entries:fixture(es),True)
++    case('synthetic nonregular entry',lambda:fixture(['link'],0o120777),True)
++    case('synthetic expansion budget',lambda:fixture(['large'],oversize=True),True)
++    case('synthetic entry count budget',lambda:fixture([str(i) for i in range(5001)]),True)
++    return results
++
+ def prepare():
+     started=time.monotonic();checks_path=E/'authority/offline-checks.json'
+     previous_report=strict(read(checks_path)) if checks_path.exists() else {}
+     previous=previous_report.get('attempts',[]);superseded=list(previous_report.get('supersededSourceSeals',[]))
+     previous_seal=E/'authority/source-freeze.json'
+-    if previous_seal.exists():
+-        # Same task permits up to three source checks/corrections. Preserve the
+-        # actual prior source seal and every raw attempt; never touch old 22.
+-        old_bytes=read(previous_seal);old_seal=strict(old_bytes)
+-        require(len(previous)>0 and len(previous)<3,'sealed correction window exhausted')
+-        for item in old_seal['filesExcludingThisSeal']:
+-            if item['path']==str(DRIVER):continue
+-            check_bytes(read(Path(item['path'])),(item['bytes'],item['sha256']),'prior generated leaf before source correction')
+-        superseded.append({'identity':identity(previous_seal,old_bytes),'rawSeal':old_seal,
+-            'reason':'author found omitted inherited L control matrix before handoff; corrected in same approved source window'})
+-    require(len(previous)<3 and sum(a['elapsedSeconds'] for a in previous)<60,'offline attempt budget exhausted')
++    require(all(read(E/rel)==read(E/'failed-prepare-01'/rel) for rel in ('authority/offline-checks.json','authority/source-receipt.json')),'only sealed failed attempt may be superseded');previous=[]
++    require(not previous and not previous_seal.exists(),'FIX03 single offline attempt exhausted')
+     require(not M.exists() and not W.exists(),'SOURCE_ONLY must not create/use future roots')
+-    allowed={str(E/rel) for rel in PREP} if superseded else {str(DRIVER),str(checks_path)}
++    archived={str(E/'failed-prepare-01'/rel) for rel in ('source/m17_driver.py','authority/offline-checks.json','authority/source-receipt.json')}
++    allowed={str(DRIVER),str(checks_path),str(E/'authority/source-receipt.json')}|archived
+     require({str(p) for p in E.rglob('*') if p.is_file()}.issubset(allowed),'unexpected pre-seal leaves')
+-    command=[sys.executable,'-B',str(DRIVER),'prepare'];raw_results=[];failure=None;cached={}
++    command=list(sys.orig_argv);raw_results=[];failure=None;cached={};check_seconds=0.0;protected=fix03_protection()
+     def caching_reader(p):
+         p=Path(p)
+         if p not in cached:cached[p]=read(p)
+         return cached[p]
+     try:
+         history=old_seals(caching_reader);m=model(caching_reader)
+-        raw_results=offline_checks(m,cached,history)
++        checked=time.monotonic();raw_results=fix03_checks(m,cached,history);check_seconds=time.monotonic()-checked
++        require(check_seconds<=5,'FIX03 directed check time cap')
+         require(all(c['passed'] for c in raw_results),'offline case failures')
+         require(old_seals()==history,'old 38 leaves changed during source preparation')
+     except Exception as error:
+         import traceback
+         failure={'type':type(error).__name__,'message':str(error),'traceback':traceback.format_exc()}
+-    elapsed=time.monotonic()-started
+-    attempt={'command':command,'ran':True,'mode':'SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_UNPACK',
++    elapsed=check_seconds
++    attempt={'command':command,'ran':True,'mode':'SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_DISK_UNPACK',
+         'sourceIdentity':identity(DRIVER),'elapsedSeconds':elapsed,'exitCode':0 if failure is None else 20,
+         'rawCases':raw_results,'failure':failure}
+     attempts=previous+[attempt]
+-    checks={'scope':'pure in-process M17-FIX02; synthetic fixtures are not actual restore/material/build results',
++    checks={'scope':'FIX03 one directed archive seam run; synthetic fixtures are not official materials','protectedBefore':protected,
+         'attempts':attempts,'cumulativeSeconds':sum(a['elapsedSeconds'] for a in attempts),
+         'redReproduction':previous_report.get('redReproduction'),
+         'supersededSourceSeals':superseded,
+         'caseCount':len(raw_results),'passed':sum(c['passed'] for c in raw_results),
+-        'oldHistoricalResults':'23/46/25 preserved, not mechanically rerun',
+-        'futureRootsCreated':False,'dotnetStarts':0,'unityStarts':0,'networkRequests':0,'archivesUnpacked':0}
+-    require(checks['cumulativeSeconds']<=60,'offline cumulative time cap exceeded')
++        'oldHistoricalResults':'23/46/25/42/50/73 and FIX02 18 retained, not rerun',
++        'futureRootsCreated':False,'dotnetStarts':0,'unityStarts':0,'networkRequests':0,'archivesUnpackedToDisk':0}
++    require(checks['cumulativeSeconds']<=5,'offline cumulative time cap exceeded')
++    checks['rawStdout']=json.dumps(checks,ensure_ascii=False);print(checks['rawStdout'],flush=True)
+     checks_path.parent.mkdir(parents=True,exist_ok=True);checks_path.write_bytes(jb(checks))
+     if failure is not None:
+         print(json.dumps(checks,ensure_ascii=False));return 20
+-    artifacts=source_artifacts(m,cached[DRIVER],cached[OLD17F1/'source/m17_driver.py'],checks,history)
++    artifacts=source_artifacts(m,cached[DRIVER],read(OLD17F2/'source/m17_driver.py'),checks,history)
+     frozen=seal_source(m,artifacts)
+     memory={E/rel:b for rel,b in artifacts.items()}
+     consume_source(frozen,lambda p:memory[p],m)
+     for rel,b in artifacts.items():
+         path=E/rel
+         if path==DRIVER:check_bytes(read(path),(len(b),sha(b)),'driver at final generation');continue
+-        require(bool(superseded) or path==checks_path or not path.exists(),'unexpected source output already exists')
++        require(path in (checks_path,E/'authority/source-receipt.json') or not path.exists(),'unexpected source output already exists')
+         path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b)
+     freeze_path=E/'authority/source-freeze.json';freeze_path.write_bytes(frozen)
+     # Mandatory actual disk reread, including fresh deterministic input/model
+     # production (not merely memory fixture or author-supplied ready fields).
+     consume_source(read(freeze_path))
+-    require({p.relative_to(E).as_posix() for p in E.rglob('*') if p.is_file()}==set(PREP),'final eight-leaf set')
+-    require(old_seals()==history and not M.exists() and not W.exists(),'preservation/future-root invariant')
++    require({str(p) for p in E.rglob('*') if p.is_file()}=={str(E/rel) for rel in PREP}|archived,'final eight plus three preserved leaf set')
++    require(old_seals()==history and fix03_protection()==protected and not M.exists() and not W.exists(),'preservation/future-root invariant')
++    require(time.monotonic()-started-check_seconds<=30,'FIX03 mechanical preparation time cap')
+     print(json.dumps({'status':'SOURCE_READY_NOT_MATERIAL_READY','checks':checks['passed'],'attempts':len(attempts),
+         'cumulativeCheckSeconds':checks['cumulativeSeconds'],'totalInvocationSeconds':time.monotonic()-started,
+         'freeze':identity(freeze_path),'leaves':[identity(E/rel) for rel in PREP]},ensure_ascii=False))

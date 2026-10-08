@@ -1,0 +1,287 @@
+{
+  "archivesUnpackedToDisk": 0,
+  "attempts": [
+    {
+      "command": [
+        "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+        "-I",
+        "-B",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/m17_driver.py",
+        "prepare"
+      ],
+      "elapsedSeconds": 0.10838954200153239,
+      "exitCode": 0,
+      "failure": null,
+      "mode": "SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_DISK_UNPACK",
+      "ran": true,
+      "rawCases": [
+        {
+          "elapsedSeconds": 0.000818957996671088,
+          "expected": "REJECT",
+          "name": "F2 fixed official ZIP reproduces unsafe relative path",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 0.0011605000036070123,
+          "expected": "PASS",
+          "name": "F3 fixed official ZIP eight entries and original bytes",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.004318332998082042,
+          "expected": "PASS",
+          "name": "unchanged preceding package commandlineparser.2.9.1",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.0034199590008938685,
+          "expected": "PASS",
+          "name": "unchanged preceding package exceldatareader.3.7.0",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.012806417013052851,
+          "expected": "PASS",
+          "name": "unchanged preceding package google.protobuf.3.29.0",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.00811833399347961,
+          "expected": "PASS",
+          "name": "unchanged preceding package messagepack.3.1.7",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.0004838339955313131,
+          "expected": "PASS",
+          "name": "unchanged preceding package messagepack.annotations.3.1.7",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.00020466599380597472,
+          "expected": "REJECT",
+          "name": "real archive wrong key",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 5.51249977434054e-05,
+          "expected": "REJECT",
+          "name": "real archive wrong bytes",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: archive messagepackanalyzer.3.1.7"
+        },
+        {
+          "elapsedSeconds": 6.125000072643161e-05,
+          "expected": "REJECT",
+          "name": "real archive wrong sha256",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: archive messagepackanalyzer.3.1.7"
+        },
+        {
+          "elapsedSeconds": 0.0001867079990915954,
+          "expected": "REJECT",
+          "name": "real archive wrong sha512",
+          "passed": true,
+          "rawError": "GateError: archive catalog SHA512"
+        },
+        {
+          "elapsedSeconds": 6.029200449120253e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path 'a//b'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 3.5250006476417184e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path '../outside'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 2.400000812485814e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path '/absolute'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 2.0749997929669917e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path 'a/../b'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 2.2957989131100476e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path 'a\\\\b'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 1.866700768005103e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path 'a\\nb'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 1.8916005501523614e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path 'a\\rb'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 1.604200224392116e-05,
+          "expected": "REJECT",
+          "name": "synthetic unsafe path 'a\\tb'",
+          "passed": true,
+          "rawError": "GateError: unsafe relative path"
+        },
+        {
+          "elapsedSeconds": 5.01670001540333e-05,
+          "expected": "REJECT",
+          "name": "synthetic collision same-name",
+          "passed": true,
+          "rawError": "GateError: duplicate/oversized archive entry set"
+        },
+        {
+          "elapsedSeconds": 4.687500768341124e-05,
+          "expected": "REJECT",
+          "name": "synthetic collision alias duplicate",
+          "passed": true,
+          "rawError": "GateError: duplicate/oversized archive entry set"
+        },
+        {
+          "elapsedSeconds": 4.0333005017600954e-05,
+          "expected": "REJECT",
+          "name": "synthetic collision alias canonical",
+          "passed": true,
+          "rawError": "GateError: duplicate/oversized archive entry set"
+        },
+        {
+          "elapsedSeconds": 3.720801032613963e-05,
+          "expected": "REJECT",
+          "name": "synthetic collision alias casefold",
+          "passed": true,
+          "rawError": "GateError: duplicate/oversized archive entry set"
+        },
+        {
+          "elapsedSeconds": 2.1750005544163287e-05,
+          "expected": "REJECT",
+          "name": "synthetic nonregular entry",
+          "passed": true,
+          "rawError": "GateError: nonregular package entry"
+        },
+        {
+          "elapsedSeconds": 3.054100670851767e-05,
+          "expected": "REJECT",
+          "name": "synthetic expansion budget",
+          "passed": true,
+          "rawError": "GateError: package expansion budget"
+        },
+        {
+          "elapsedSeconds": 0.05920745800540317,
+          "expected": "REJECT",
+          "name": "synthetic entry count budget",
+          "passed": true,
+          "rawError": "GateError: duplicate/oversized archive entry set"
+        }
+      ],
+      "sourceIdentity": {
+        "bytes": 120382,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/m17_driver.py",
+        "sha256": "4df707e09d4c75419f93b6177e7a0bbaf9bc436f82b6e913f3b1ccbad0ae3658"
+      }
+    }
+  ],
+  "caseCount": 26,
+  "cumulativeSeconds": 0.10838954200153239,
+  "dotnetStarts": 0,
+  "futureRootsCreated": false,
+  "networkRequests": 0,
+  "oldHistoricalResults": "23/46/25/42/50/73 and FIX02 18 retained, not rerun",
+  "passed": 26,
+  "protectedBefore": [
+    {
+      "bytes": 111939,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/offline-checks.json",
+      "sha256": "a776418803a039e957bc1de2558b2f75accc884ab048d302dcd9ed8b4d1560a4"
+    },
+    {
+      "bytes": 5722418,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/prepare.json",
+      "sha256": "963384088acd9dbd134a59c17a9f2bba527bad58eca5389158176b7be003f2dd"
+    },
+    {
+      "bytes": 26047,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-receipt.json",
+      "sha256": "7fc8dcc6197db03cf981883304fc6fafa33f3c1f25cac70e2c1f93ec353f7e92"
+    },
+    {
+      "bytes": 1957958,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-inputs.tsv",
+      "sha256": "106c8e94d5fd5140896ebb9ccdcfa7b9e81ca8f514cdd5c37858a8b61aaf5716"
+    },
+    {
+      "bytes": 1428902,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-write-set.tsv",
+      "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+    },
+    {
+      "bytes": 114855,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py",
+      "sha256": "e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70"
+    },
+    {
+      "bytes": 9607,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/source.patch",
+      "sha256": "0549696da4948d17d699d6190982986406aa4eaffb28daac504955d25ed038dd"
+    },
+    {
+      "bytes": 2806,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json",
+      "sha256": "3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b"
+    },
+    {
+      "bytes": 25719,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/before.json",
+      "sha256": "8827488c2a744a15717b5fa1182da92cd305854cc962cc77a3bd383fae489fb9"
+    },
+    {
+      "bytes": 1301,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stderr.log",
+      "sha256": "5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8"
+    },
+    {
+      "bytes": 236,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stdout.log",
+      "sha256": "2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9"
+    },
+    {
+      "bytes": 15266,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/receipt.json",
+      "sha256": "3b42fd9e70d26f6d31ec66f8110a3e3fd106b1cbe080e1631a2cc4f178db1777"
+    },
+    {
+      "bytes": 254,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/material-validation.json",
+      "sha256": "a51e3c3a362a3ed1df30401995ab9fa0fa5219ae744c322c4f12bfdfceb16a21"
+    }
+  ],
+  "rawStdout": "{\"scope\": \"FIX03 one directed archive seam run; synthetic fixtures are not official materials\", \"protectedBefore\": [{\"bytes\": 111939, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/offline-checks.json\", \"sha256\": \"a776418803a039e957bc1de2558b2f75accc884ab048d302dcd9ed8b4d1560a4\"}, {\"bytes\": 5722418, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/prepare.json\", \"sha256\": \"963384088acd9dbd134a59c17a9f2bba527bad58eca5389158176b7be003f2dd\"}, {\"bytes\": 26047, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-receipt.json\", \"sha256\": \"7fc8dcc6197db03cf981883304fc6fafa33f3c1f25cac70e2c1f93ec353f7e92\"}, {\"bytes\": 1957958, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-inputs.tsv\", \"sha256\": \"106c8e94d5fd5140896ebb9ccdcfa7b9e81ca8f514cdd5c37858a8b61aaf5716\"}, {\"bytes\": 1428902, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-write-set.tsv\", \"sha256\": \"ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf\"}, {\"bytes\": 114855, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py\", \"sha256\": \"e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70\"}, {\"bytes\": 9607, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/source.patch\", \"sha256\": \"0549696da4948d17d699d6190982986406aa4eaffb28daac504955d25ed038dd\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json\", \"bytes\": 2806, \"sha256\": \"3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/before.json\", \"bytes\": 25719, \"sha256\": \"8827488c2a744a15717b5fa1182da92cd305854cc962cc77a3bd383fae489fb9\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stderr.log\", \"bytes\": 1301, \"sha256\": \"5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stdout.log\", \"bytes\": 236, \"sha256\": \"2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/receipt.json\", \"bytes\": 15266, \"sha256\": \"3b42fd9e70d26f6d31ec66f8110a3e3fd106b1cbe080e1631a2cc4f178db1777\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/material-validation.json\", \"bytes\": 254, \"sha256\": \"a51e3c3a362a3ed1df30401995ab9fa0fa5219ae744c322c4f12bfdfceb16a21\"}], \"attempts\": [{\"command\": [\"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python\", \"-I\", \"-B\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/m17_driver.py\", \"prepare\"], \"ran\": true, \"mode\": \"SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_DISK_UNPACK\", \"sourceIdentity\": {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/m17_driver.py\", \"bytes\": 120382, \"sha256\": \"4df707e09d4c75419f93b6177e7a0bbaf9bc436f82b6e913f3b1ccbad0ae3658\"}, \"elapsedSeconds\": 0.10838954200153239, \"exitCode\": 0, \"rawCases\": [{\"name\": \"F2 fixed official ZIP reproduces unsafe relative path\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 0.000818957996671088}, {\"name\": \"F3 fixed official ZIP eight entries and original bytes\", \"expected\": \"PASS\", \"passed\": true, \"rawError\": null, \"elapsedSeconds\": 0.0011605000036070123}, {\"name\": \"unchanged preceding package commandlineparser.2.9.1\", \"expected\": \"PASS\", \"passed\": true, \"rawError\": null, \"elapsedSeconds\": 0.004318332998082042}, {\"name\": \"unchanged preceding package exceldatareader.3.7.0\", \"expected\": \"PASS\", \"passed\": true, \"rawError\": null, \"elapsedSeconds\": 0.0034199590008938685}, {\"name\": \"unchanged preceding package google.protobuf.3.29.0\", \"expected\": \"PASS\", \"passed\": true, \"rawError\": null, \"elapsedSeconds\": 0.012806417013052851}, {\"name\": \"unchanged preceding package messagepack.3.1.7\", \"expected\": \"PASS\", \"passed\": true, \"rawError\": null, \"elapsedSeconds\": 0.00811833399347961}, {\"name\": \"unchanged preceding package messagepack.annotations.3.1.7\", \"expected\": \"PASS\", \"passed\": true, \"rawError\": null, \"elapsedSeconds\": 0.0004838339955313131}, {\"name\": \"real archive wrong key\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 0.00020466599380597472}, {\"name\": \"real archive wrong bytes\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: identity mismatch: archive messagepackanalyzer.3.1.7\", \"elapsedSeconds\": 5.51249977434054e-05}, {\"name\": \"real archive wrong sha256\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: identity mismatch: archive messagepackanalyzer.3.1.7\", \"elapsedSeconds\": 6.125000072643161e-05}, {\"name\": \"real archive wrong sha512\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: archive catalog SHA512\", \"elapsedSeconds\": 0.0001867079990915954}, {\"name\": \"synthetic unsafe path 'a//b'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 6.029200449120253e-05}, {\"name\": \"synthetic unsafe path '../outside'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 3.5250006476417184e-05}, {\"name\": \"synthetic unsafe path '/absolute'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 2.400000812485814e-05}, {\"name\": \"synthetic unsafe path 'a/../b'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 2.0749997929669917e-05}, {\"name\": \"synthetic unsafe path 'a\\\\\\\\b'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 2.2957989131100476e-05}, {\"name\": \"synthetic unsafe path 'a\\\\nb'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 1.866700768005103e-05}, {\"name\": \"synthetic unsafe path 'a\\\\rb'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 1.8916005501523614e-05}, {\"name\": \"synthetic unsafe path 'a\\\\tb'\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: unsafe relative path\", \"elapsedSeconds\": 1.604200224392116e-05}, {\"name\": \"synthetic collision same-name\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: duplicate/oversized archive entry set\", \"elapsedSeconds\": 5.01670001540333e-05}, {\"name\": \"synthetic collision alias duplicate\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: duplicate/oversized archive entry set\", \"elapsedSeconds\": 4.687500768341124e-05}, {\"name\": \"synthetic collision alias canonical\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: duplicate/oversized archive entry set\", \"elapsedSeconds\": 4.0333005017600954e-05}, {\"name\": \"synthetic collision alias casefold\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: duplicate/oversized archive entry set\", \"elapsedSeconds\": 3.720801032613963e-05}, {\"name\": \"synthetic nonregular entry\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: nonregular package entry\", \"elapsedSeconds\": 2.1750005544163287e-05}, {\"name\": \"synthetic expansion budget\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: package expansion budget\", \"elapsedSeconds\": 3.054100670851767e-05}, {\"name\": \"synthetic entry count budget\", \"expected\": \"REJECT\", \"passed\": true, \"rawError\": \"GateError: duplicate/oversized archive entry set\", \"elapsedSeconds\": 0.05920745800540317}], \"failure\": null}], \"cumulativeSeconds\": 0.10838954200153239, \"redReproduction\": null, \"supersededSourceSeals\": [], \"caseCount\": 26, \"passed\": 26, \"oldHistoricalResults\": \"23/46/25/42/50/73 and FIX02 18 retained, not rerun\", \"futureRootsCreated\": false, \"dotnetStarts\": 0, \"unityStarts\": 0, \"networkRequests\": 0, \"archivesUnpackedToDisk\": 0}",
+  "redReproduction": null,
+  "scope": "FIX03 one directed archive seam run; synthetic fixtures are not official materials",
+  "supersededSourceSeals": [],
+  "unityStarts": 0
+}

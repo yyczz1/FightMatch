@@ -1,0 +1,241 @@
+{
+  "task": "LOC-M17-M04",
+  "status": "M_FAILED",
+  "recordedAtUtc": "2026-10-08 07:25:43 UTC",
+  "owner": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a11a62-0e7c-7553-aa47-c16cd6a276b9",
+    "receivedItem": "fco_01a11a62-0e87-79d2-8f7a-4c6429618ca6"
+  },
+  "receiver": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local",
+    "route": "central read_thread/wait_threads only; no outbound message sent"
+  },
+  "directHumanAuthority": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local",
+    "turnId": "01a11a60-d890-7660-b7ee-1accdb3ffe0c",
+    "itemId": "01a11a60-d8c2-71f0-b832-a4e0c8db237e",
+    "text": "允许 LOC 会话重试一次：下载约 25MB 的 18 个官方归档，在外置硬盘执行 3 次依赖还原，最长 15 分钟，由中央读取结果。\n",
+    "verifiedVia": "read_thread direct userMessage",
+    "verifiedAtUtc": "2026-10-08T07:20:16Z"
+  },
+  "source": {
+    "reviewedHead": "6dfdc1897533d7734937f9c6964bccfc7c8be4d9",
+    "modelSha256": "318a02fc4930c4d896aebbe8a2db910300009289e5596fe8ebee7f8980d82a38",
+    "driver": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py",
+      "bytes": 114855,
+      "sha256": "e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70"
+    },
+    "sourceFreeze": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json",
+      "bytes": 2806,
+      "sha256": "3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b"
+    },
+    "binding": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host-binding-receipt.json",
+      "bytes": 2729,
+      "sha256": "42b057db91d4f13b289fd40ab2e7f4248e44e0d014cbab14f6003ce744c843f4"
+    },
+    "activation": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-activation.json",
+      "bytes": 33581,
+      "sha256": "3f2fd9a3c88bd4ad17fc72479f5fdb6ce6672073a38e4c650a1d9e4c4e45f871"
+    },
+    "host": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host.py",
+      "bytes": 4413,
+      "sha256": "8eeabefae529aae370bf441dcd21eafa8e09c29d300ffcea55f02f7f66c1c753"
+    },
+    "template": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py",
+      "bytes": 3109,
+      "sha256": "b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea"
+    }
+  },
+  "execution": {
+    "normalToolApproval": "ALLOWED; actual HOST_STARTED observed",
+    "attempts": 1,
+    "exactArgv": [
+      "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "-I",
+      "-B",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host.py",
+      "execute"
+    ],
+    "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+    "launchCommand": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B - <<'PY'\nimport datetime,hashlib,json,os,subprocess,time\nfrom pathlib import Path\nR=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\nE=R/'TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04'\nbefore=json.loads((E/'before.json').read_bytes())\nfor rec in [before['precheck'][k] for k in ('binding','activation','host','template','python','authorityRecord')]:\n p=Path(rec['path'])\n assert not any(q.is_symlink() for q in (p,*p.parents))\n b=p.read_bytes()\n assert (len(b),hashlib.sha256(b).hexdigest())==(rec['bytes'],rec['sha256'])\nassert not os.path.lexists(before['precheck']['rootsAbsent']['materialRoot'])\nassert not os.path.lexists(before['precheck']['rootsAbsent']['workRoot'])\nassert sorted(p.name for p in E.iterdir())==['before.json']\nargv=before['precheck']['argv']\nstart=time.monotonic();utc=datetime.datetime.now(datetime.timezone.utc).isoformat()\nwith (E/'stdout.log').open('xb') as out,(E/'stderr.log').open('xb') as err:\n process=subprocess.Popen(argv,cwd=str(R),stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)\n print(json.dumps({'event':'HOST_STARTED','pid':process.pid,'argv':argv,'cwd':str(R),'startedAtUtc':utc,'startedMonotonic':start,'environment':'inherited unchanged','MDeadline':'original reviewed execute() 870+30 seconds'}),flush=True)\n code=process.wait()\nend=time.monotonic()\nlogs=[]\nfor name in ('stdout.log','stderr.log'):\n p=E/name;b=p.read_bytes();logs.append({'path':str(p),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'withinMaxLogBytes':len(b)<=4194304})\nprint(json.dumps({'event':'HOST_EXITED','pid':process.pid,'exitCode':code,'startedAtUtc':utc,'endedAtUtc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'elapsedHostWallSeconds':end-start,'logs':logs}),flush=True)\nraise SystemExit(code)\nPY",
+    "host": {
+      "event": "HOST_EXITED",
+      "pid": 89023,
+      "exitCode": 1,
+      "startedAtUtc": "2026-10-08T07:24:01.988953+00:00",
+      "endedAtUtc": "2026-10-08T07:24:05.635718+00:00",
+      "elapsedHostWallSeconds": 3.646503833006136,
+      "logs": [
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stdout.log",
+          "bytes": 236,
+          "sha256": "2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9",
+          "withinMaxLogBytes": true
+        },
+        {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stderr.log",
+          "bytes": 1301,
+          "sha256": "5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8",
+          "withinMaxLogBytes": true
+        }
+      ]
+    },
+    "stageElapsedSeconds": 3.5709856249886798,
+    "rawReport": {
+      "bodyMeasurementComplete": true,
+      "elapsedSeconds": 3.5709856249886798,
+      "failure": "GateError: unsafe relative path",
+      "gets": {},
+      "measuredArchiveBodyBytes": 0,
+      "result": null,
+      "status": "M_FAILED",
+      "tlsProtocolTrafficMeasured": false
+    },
+    "toolStartResult": {
+      "chunk_id": "25f950",
+      "wall_time_seconds": 1.002699917,
+      "session_id": 27054,
+      "original_token_count": 141,
+      "output": "{\"event\": \"HOST_STARTED\", \"pid\": 89023, \"argv\": [\"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python\", \"-I\", \"-B\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host.py\", \"execute\"], \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch\", \"startedAtUtc\": \"2026-10-08T07:24:01.988953+00:00\", \"startedMonotonic\": 101787.928555625, \"environment\": \"inherited unchanged\", \"MDeadline\": \"original reviewed execute() 870+30 seconds\"}\n"
+    },
+    "toolCompletionResult": {
+      "chunk_id": "3444f9",
+      "wall_time_seconds": 0.000024125,
+      "exit_code": 1,
+      "original_token_count": 191,
+      "output": "{\"event\": \"HOST_EXITED\", \"pid\": 89023, \"exitCode\": 1, \"startedAtUtc\": \"2026-10-08T07:24:01.988953+00:00\", \"endedAtUtc\": \"2026-10-08T07:24:05.635718+00:00\", \"elapsedHostWallSeconds\": 3.646503833006136, \"logs\": [{\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stdout.log\", \"bytes\": 236, \"sha256\": \"2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9\", \"withinMaxLogBytes\": true}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stderr.log\", \"bytes\": 1301, \"sha256\": \"5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8\", \"withinMaxLogBytes\": true}]}\n"
+    }
+  },
+  "result": {
+    "officialGetsStarted": 0,
+    "measuredArchiveBodyBytes": 0,
+    "restoresStarted": 0,
+    "B": "NOT_RUN",
+    "L": "NOT_RUN",
+    "build": "NOT_RUN",
+    "Unity": "NOT_RUN",
+    "gitMutation": "NOT_PERFORMED",
+    "paidActivity": "NOT_PERFORMED",
+    "materialCandidate": "NOT_PRODUCED",
+    "failure": "GateError: unsafe relative path",
+    "specificOffendingPath": "NOT_REPORTED in production failure output; not reconstructed by rerun",
+    "freshSourceSDKValidation": "No separate completion marker in raw result; not claimed as an independent pass",
+    "bodyMeasurementCompleteNote": "True for empty GET set only; does not mean archives downloaded"
+  },
+  "postExit": {
+    "atUtc": "2026-10-08T07:24:57.141128+00:00",
+    "status": "M04_POST_EXIT_READ_ONLY_CHECK_PASSED",
+    "unchangedExactInputs": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-inputs.tsv",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-write-set.tsv",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/source.patch",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/prepare.json",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/offline-checks.json",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-receipt.json",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source-receipt.json",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host-binding-receipt.json",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-activation.json",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m04-host.py",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py",
+      "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-explicit-approval-2026-10-08.json"
+    ],
+    "materialRootAbsent": true,
+    "workRootLeaves": [
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/material-validation.json",
+        "bytes": 254,
+        "sha256": "a51e3c3a362a3ed1df30401995ab9fa0fa5219ae744c322c4f12bfdfceb16a21"
+      }
+    ],
+    "outerLeavesBeforeReceipt": [
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/before.json",
+        "bytes": 25719,
+        "sha256": "8827488c2a744a15717b5fa1182da92cd305854cc962cc77a3bd383fae489fb9"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stderr.log",
+        "bytes": 1301,
+        "sha256": "5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stdout.log",
+        "bytes": 236,
+        "sha256": "2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9"
+      }
+    ],
+    "rawMaterialReport": {
+      "bodyMeasurementComplete": true,
+      "elapsedSeconds": 3.5709856249886798,
+      "failure": "GateError: unsafe relative path",
+      "gets": {},
+      "measuredArchiveBodyBytes": 0,
+      "result": null,
+      "status": "M_FAILED",
+      "tlsProtocolTrafficMeasured": false
+    },
+    "restoreCommandReceipts": [],
+    "processEvidence": "Popen.wait returned 1; host reaped. Separate ps read denied by sandbox, no retry."
+  },
+  "evidence": {
+    "beforeAndRawLogs": [
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/before.json",
+        "bytes": 25719,
+        "sha256": "8827488c2a744a15717b5fa1182da92cd305854cc962cc77a3bd383fae489fb9"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stderr.log",
+        "bytes": 1301,
+        "sha256": "5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stdout.log",
+        "bytes": 236,
+        "sha256": "2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9"
+      }
+    ],
+    "materialFailureReceipt": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/material-validation.json",
+      "bytes": 254,
+      "sha256": "a51e3c3a362a3ed1df30401995ab9fa0fa5219ae744c322c4f12bfdfceb16a21"
+    },
+    "exactFourOuterLeaves": [
+      "before.json",
+      "stdout.log",
+      "stderr.log",
+      "receipt.json"
+    ],
+    "maxBytes": 16777216,
+    "maxLogBytes": 4194304
+  },
+  "preservation": {
+    "sourceAndBindingsUnchanged": true,
+    "materialRootAbsent": true,
+    "workRootPreserved": "Only receipts/material-validation.json, 254 bytes",
+    "noCleanupOrDeletion": true,
+    "noRetry": true,
+    "noInputOrAssertionChanges": true,
+    "oldEvidenceWrites": 0
+  },
+  "acceptance": {
+    "authorAcceptance": "NOT_CLAIMED",
+    "materialAcceptance": "NOT_ACCEPTED",
+    "integrationVerdict": null,
+    "requiredNext": "Central receives original failure; any diagnosis/fix/new execution needs its own scoped follow-up. Existing W failure receipt must remain preserved."
+  }
+}
