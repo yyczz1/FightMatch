@@ -10,8 +10,10 @@ using FightMatch.Presentation;
 using FlowPuzzle.Core;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using static FightMatch.Core.Tests.PlayerSessionTestData;
 
 namespace FightMatch.Core.Tests
@@ -133,6 +135,388 @@ namespace FightMatch.Core.Tests
     {
         private bool enteredPlayMode;
 
+        [UnityEngine.TestTools.UnityTest]
+        public System.Collections.IEnumerator SavedDemoScenePreservesUsableCanvasWithoutStaleOverrides()
+        {
+            const string scenePath = "Assets/Scenes/FightMatchDemo.unity";
+            const string prefabPath = "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab";
+            Assert.IsFalse(UnityEngine.Application.isPlaying);
+            Assert.IsFalse(SceneManager.GetSceneByPath(scenePath).IsValid(), "Do not close or reuse an already open Demo Scene.");
+            var originalActive = SceneManager.GetActiveScene();
+            var sceneBytes = File.ReadAllBytes(scenePath); var prefabBytes = File.ReadAllBytes(prefabPath);
+            var opened = default(Scene);
+            EditorApplication.CallbackFunction update = null;
+            try
+            {
+                var diskKeys = (string[])SceneCanvasCheck("LayoutRepairDiskKeys").Invoke(null, new object[] { sceneBytes, true });
+                opened = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
+                var roots = opened.GetRootGameObjects();
+                var hosts = roots.SelectMany(x => x.GetComponentsInChildren<FightMatchPlayerHost>(true)).ToArray();
+                var canvases = roots.SelectMany(x => x.GetComponentsInChildren<Canvas>(true)).ToArray();
+                Assert.AreEqual(1, hosts.Length); Assert.AreEqual(1, canvases.Length);
+                var instance = hosts[0].RuntimeRoot; Assert.IsNotNull(instance);
+                Assert.AreEqual(prefabPath, PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(instance));
+                Assert.AreSame(canvases[0].transform, instance.transform.Find("RuntimeCanvas"));
+                var rect = (RectTransform)canvases[0].transform;
+                var source = PrefabUtility.GetCorrespondingObjectFromSource(rect); Assert.IsNotNull(source);
+                Assert.AreEqual(prefabPath, AssetDatabase.GetAssetPath(source));
+                Assert.IsTrue(AssetDatabase.TryGetGUIDAndLocalFileIdentifier(source, out string guid, out long fileId));
+                Assert.AreEqual("c36df3cfc25424c8cb3ec6cae6be1237", guid); Assert.AreEqual(1013562322995895578L, fileId);
+                Assert.AreEqual(Vector3.one, source.localScale);
+                Assert.AreEqual(Vector2.zero, source.anchorMin); Assert.AreEqual(Vector2.one, source.anchorMax);
+                var canvas = canvases[0]; Canvas.ForceUpdateCanvases();
+                var deadline = EditorApplication.timeSinceStartup + 5; var ticks = 0; var pending = true; var ready = false;
+                Exception failure = null; SavedCanvasSample sample = null;
+                update = () => {
+                    if (!pending) return;
+                    try
+                    {
+                        if (EditorApplication.timeSinceStartup >= deadline) throw new TimeoutException("Two Editor updates exceeded five seconds.");
+                        if (++ticks == 1) return;
+                        pending = false; EditorApplication.update -= update;
+                        sample = CaptureSavedCanvasSample(canvas);
+                        if (EditorApplication.timeSinceStartup >= deadline) throw new TimeoutException("Canvas capture exceeded five seconds.");
+                    }
+                    catch (Exception error) { pending = false; failure = error; EditorApplication.update -= update; }
+                    finally { if (!pending) ready = true; }
+                };
+                EditorApplication.update += update; EditorApplication.QueuePlayerLoopUpdate();
+                while (!ready && EditorApplication.timeSinceStartup < deadline) yield return null;
+                Assert.IsTrue(ready && EditorApplication.timeSinceStartup < deadline, "Two subsequent Editor updates must finish within five seconds.");
+                Assert.IsNull(failure, failure?.ToString()); Assert.AreEqual(2, ticks); Assert.IsNotNull(sample);
+                var pixels = sample.pixels; var area = sample.area;
+                Assert.AreEqual(RenderMode.ScreenSpaceOverlay, sample.mode);
+                Assert.IsTrue(sample.enabled && sample.active && sample.isRootCanvas);
+                Assert.AreSame(canvas, sample.rootCanvas); Assert.AreSame(canvas, sample.driver);
+                Assert.AreSame(instance.transform, sample.parent); Assert.AreSame(source, sample.source);
+                foreach (var value in new[] { sample.localScale.x, sample.localScale.y, sample.localScale.z,
+                    sample.worldScale.x, sample.worldScale.y, sample.worldScale.z, area.width, area.height,
+                    pixels.width, pixels.height, sample.scaleFactor })
+                    Assert.IsTrue(!float.IsNaN(value) && !float.IsInfinity(value) && value > 0, "Canvas world scale must be finite and positive.");
+                foreach (var value in new[] { area.xMin, area.yMin, area.xMax, area.yMax, pixels.xMin, pixels.yMin, pixels.xMax, pixels.yMax })
+                    Assert.IsFalse(float.IsNaN(value) || float.IsInfinity(value), "Canvas bounds must be finite.");
+                var expected = new[] { new Vector2(pixels.xMin, pixels.yMin), new Vector2(pixels.xMin, pixels.yMax),
+                    new Vector2(pixels.xMax, pixels.yMax), new Vector2(pixels.xMax, pixels.yMin) };
+                for (var i = 0; i < 4; i++)
+                {
+                    var point = sample.screenCorners[i];
+                    Assert.IsFalse(float.IsNaN(point.x) || float.IsInfinity(point.x) || float.IsNaN(point.y) || float.IsInfinity(point.y));
+                    Assert.That(point.x, NUnit.Framework.Is.EqualTo(expected[i].x).Within(.5f), "Canvas screen x corner " + i);
+                    Assert.That(point.y, NUnit.Framework.Is.EqualTo(expected[i].y).Within(.5f), "Canvas screen y corner " + i);
+                }
+                SceneCanvasCheck("LayoutVerifyRepairOverrideEnvelope").Invoke(null, new object[] { diskKeys, sample.overrideKeys });
+                Assert.IsFalse(sample.dirty, "The scene check must remain read-only.");
+            }
+            finally
+            {
+                if (update != null) EditorApplication.update -= update;
+                try
+                {
+                    if (opened.IsValid()) Assert.IsTrue(EditorSceneManager.CloseScene(opened, true), "Close only the Scene opened by this test.");
+                }
+                finally
+                {
+                    if (originalActive.IsValid() && originalActive.isLoaded) SceneManager.SetActiveScene(originalActive);
+                    CollectionAssert.AreEqual(sceneBytes, File.ReadAllBytes(scenePath), "Scene bytes changed during read-only inspection.");
+                    CollectionAssert.AreEqual(prefabBytes, File.ReadAllBytes(prefabPath), "Prefab bytes changed during read-only inspection.");
+                }
+            }
+        }
+
+        private sealed class SavedCanvasSample
+        {
+            public Vector3 localScale, worldScale;
+            public Rect area, pixels;
+            public float scaleFactor;
+            public RenderMode mode;
+            public bool enabled, active, isRootCanvas, dirty;
+            public Canvas rootCanvas;
+            public UnityEngine.Object driver;
+            public Transform parent;
+            public RectTransform source;
+            public Vector2[] screenCorners;
+            public string[] overrideKeys;
+        }
+        private static SavedCanvasSample CaptureSavedCanvasSample(Canvas canvas)
+        {
+            var rect = (RectTransform)canvas.transform; var source = PrefabUtility.GetCorrespondingObjectFromSource(rect);
+            var corners = new Vector3[4]; rect.GetWorldCorners(corners);
+            return new SavedCanvasSample {
+                localScale = rect.localScale, worldScale = rect.lossyScale, area = rect.rect, pixels = canvas.pixelRect,
+                scaleFactor = canvas.scaleFactor, mode = canvas.renderMode, enabled = canvas.enabled, active = canvas.gameObject.activeInHierarchy,
+                isRootCanvas = canvas.isRootCanvas, rootCanvas = canvas.rootCanvas, driver = rect.drivenByObject, parent = rect.parent,
+                source = source, dirty = canvas.gameObject.scene.isDirty,
+                screenCorners = corners.Select(x => RectTransformUtility.WorldToScreenPoint(null, x)).ToArray(),
+                overrideKeys = (string[])SceneCanvasCheck("LayoutOverrideKeys").Invoke(null, new object[] {
+                    PrefabUtility.GetPropertyModifications(rect.parent.gameObject) ?? Array.Empty<PropertyModification>() })
+            };
+        }
+
+        private static string RepairKey(long id, string property, string value, string reference = "null")
+        {
+            return (string)SceneCanvasCheck("LayoutRepairOverrideKey").Invoke(null, new object[] { id, property, value, reference });
+        }
+        private static string[][] RepairOriginalRows()
+        {
+            var rows = new List<string[]> {
+                new[] { "686838913121989351", "m_Name", "FightMatchRuntimeRoot" },
+                new[] { "686838913121989351", "m_IsActive", "1" },
+                new[] { "1013562322995895578", "m_Pivot.x", "0" },
+                new[] { "1013562322995895578", "m_Pivot.y", "0" }
+            };
+            foreach (var id in new[] { "2223056809955240070", "2452066831200993119", "2783145704458770550",
+                "3538173933649760411", "4530181991579543270" })
+                rows.Add(new[] { id, "m_isOrthographic", "1" });
+            foreach (var property in new[] { "m_LocalPosition.x", "m_LocalPosition.y", "m_LocalPosition.z", "m_LocalRotation.w",
+                "m_LocalRotation.x", "m_LocalRotation.y", "m_LocalRotation.z", "m_LocalEulerAnglesHint.x", "m_LocalEulerAnglesHint.y", "m_LocalEulerAnglesHint.z" })
+                rows.Add(new[] { "4535975771220848728", property, property == "m_LocalRotation.w" ? "1" : "0" });
+            foreach (var id in new[] { "5265726911075511648", "7259531018279518139", "7481568776225615129" })
+                rows.Add(new[] { id, "m_isOrthographic", "1" });
+            return rows.ToArray();
+        }
+        private static string[] RepairOriginalKeys()
+        {
+            return RepairOriginalRows().Select(x => RepairKey(long.Parse(x[0], System.Globalization.CultureInfo.InvariantCulture), x[1], x[2])).ToArray();
+        }
+        private static string[] RepairObservedKeys()
+        {
+            var keys = new List<string>();
+            foreach (var id in new long[] { 20060541972559401L, 525732035437362821L, 2083101828246034960L, 3603424187799618609L,
+                3613386703531820566L, 5408553659951591733L, 6280369087512753137L, 6783473654260464751L,
+                8076177029604565045L, 8217930521597258139L, 9020564264068189081L, 9181528876988089927L })
+                foreach (var property in new[] { "m_AnchorMax.x", "m_AnchorMax.y", "m_AnchorMin.x", "m_AnchorMin.y",
+                    "m_SizeDelta.x", "m_SizeDelta.y", "m_AnchoredPosition.x", "m_AnchoredPosition.y" })
+                    keys.Add(RepairKey(id, property, "0"));
+            keys.Add(RepairKey(6960656654093734010L, "m_SizeDelta.y", "0"));
+            foreach (var property in new[] { "m_AnchorMax.x", "m_AnchorMax.y", "m_LocalScale.x", "m_LocalScale.y", "m_LocalScale.z" })
+                keys.Add(RepairKey(1013562322995895578L, property, "0"));
+            keys.Add(RepairKey(9054230707113910417L, "m_AdditionalShaderChannelsFlag", "25"));
+            foreach (var id in new long[] { 2223056809955240070L, 2452066831200993119L, 2783145704458770550L, 3538173933649760411L,
+                4530181991579543270L, 5257332161253344251L, 5265726911075511648L, 7259531018279518139L, 7481568776225615129L })
+                keys.Add(RepairKey(id, "m_TextStyleHashCode", "-1183493901"));
+            return keys.ToArray();
+        }
+        private static string[][] RepairFiveRows()
+        {
+            return new[] { "m_AnchorMax.x", "m_AnchorMax.y", "m_LocalScale.x", "m_LocalScale.y", "m_LocalScale.z" }
+                .Select(x => new[] { "1013562322995895578", x, "0" }).ToArray();
+        }
+        private static byte[] RepairDiskFixture(IEnumerable<string[]> rows, long instance = 1017091371L)
+        {
+            var text = "%YAML 1.1\n--- !u!1001 &" + instance.ToString(System.Globalization.CultureInfo.InvariantCulture) +
+                "\nPrefabInstance:\n  m_ObjectHideFlags: 0\n  serializedVersion: 2\n  m_Modification:\n" +
+                "    serializedVersion: 3\n    m_TransformParent: {fileID: 222360855}\n    m_Modifications:\n";
+            foreach (var row in rows)
+                text += "    - target: {fileID: " + row[0] + ", guid: c36df3cfc25424c8cb3ec6cae6be1237, type: 3}\n" +
+                    "      propertyPath: " + row[1] + "\n      value: " + row[2] + "\n      objectReference: {fileID: 0}\n";
+            text += "    m_RemovedComponents: []\n    m_RemovedGameObjects: []\n    m_AddedGameObjects: []\n    m_AddedComponents: []\n" +
+                "  m_SourcePrefab: {fileID: 100100000, guid: c36df3cfc25424c8cb3ec6cae6be1237, type: 3}\n" +
+                "--- !u!4 &1017091373 stripped\nTransform:\n  m_PrefabInstance: {fileID: 1017091371}\n";
+            return new System.Text.UTF8Encoding(false, true).GetBytes(text);
+        }
+        private static string[][] RepairBeforeRows()
+        {
+            var rows = RepairOriginalRows();
+            return rows.Take(4).Concat(RepairFiveRows()).Concat(rows.Skip(4)).ToArray();
+        }
+        private static void RepairReject(string method, params object[] arguments)
+        {
+            var failure = Assert.Throws<System.Reflection.TargetInvocationException>(() => SceneCanvasCheck(method).Invoke(null, arguments));
+            Assert.IsInstanceOf<InvalidOperationException>(failure.InnerException, "The production guard must reject the damaged input.");
+        }
+
+        [Test]
+        public void RepairOverrideEnvelopeAcceptsOnlyObservedInsertionsAndFrozenOriginals()
+        {
+            var original = RepairOriginalKeys(); var extra = RepairObservedKeys();
+            Assert.AreEqual(22, original.Length); Assert.AreEqual(112, extra.Length); Assert.AreEqual(112, extra.Distinct().Count());
+            var actual = extra.Take(56).Concat(original.Take(11)).Concat(extra.Skip(56)).Concat(original.Skip(11)).ToArray();
+            Assert.DoesNotThrow(() => SceneCanvasCheck("LayoutVerifyRepairOverrideEnvelope").Invoke(null, new object[] { original, actual }));
+            var source = new[] { new PropertyModification { propertyPath = "m_Name", value = "before" } };
+            var copy = (PropertyModification[])SceneCanvasCheck("LayoutCopyModifications").Invoke(null, new object[] { source });
+            Assert.AreNotSame(source[0], copy[0]); source[0].value = "after"; Assert.AreEqual("before", copy[0].value);
+        }
+        [Test]
+        public void RepairOverrideEnvelopeRejectsUnknownTargetOrProperty()
+        {
+            var original = RepairOriginalKeys();
+            foreach (var extra in new[] { RepairKey(999L, "m_AnchorMax.x", "0"), RepairKey(20060541972559401L, "m_Pivot.x", "0"),
+                RepairKey(20060541972559401L, "m_AnchorMax.x", "0").Replace("c36df3cfc25424c8cb3ec6cae6be1237", "00000000000000000000000000000000") })
+                RepairReject("LayoutVerifyRepairOverrideEnvelope", original, original.Concat(new[] { extra }).ToArray());
+        }
+        [Test]
+        public void RepairOverrideEnvelopeRejectsWrongValue()
+        {
+            var original = RepairOriginalKeys();
+            foreach (var value in new[] { "1", "", null })
+                RepairReject("LayoutVerifyRepairOverrideEnvelope", original,
+                    original.Concat(new[] { RepairKey(20060541972559401L, "m_AnchorMax.x", value) }).ToArray());
+        }
+        [Test]
+        public void RepairOverrideEnvelopeRejectsObjectReference()
+        {
+            var original = RepairOriginalKeys();
+            RepairReject("LayoutVerifyRepairOverrideEnvelope", original, original.Concat(new[] {
+                RepairKey(20060541972559401L, "m_AnchorMax.x", "0", "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-686838913121989351-0")
+            }).ToArray());
+        }
+        [Test]
+        public void RepairOverrideEnvelopeRejectsDuplicates()
+        {
+            var original = RepairOriginalKeys(); var extra = RepairObservedKeys()[0];
+            RepairReject("LayoutVerifyRepairOverrideEnvelope", original, original.Concat(new[] { extra, extra }).ToArray());
+            RepairReject("LayoutVerifyRepairOverrideEnvelope", original, original.Concat(new[] { original[0] }).ToArray());
+        }
+        [Test]
+        public void RepairOverrideEnvelopeRejectsMissingOriginal()
+        {
+            var original = RepairOriginalKeys();
+            RepairReject("LayoutVerifyRepairOverrideEnvelope", original, original.Skip(1).Concat(RepairObservedKeys()).ToArray());
+        }
+        [Test]
+        public void RepairOverrideEnvelopeRejectsChangedOriginal()
+        {
+            var original = RepairOriginalKeys(); var actual = original.ToArray();
+            actual[0] = RepairKey(686838913121989351L, "m_Name", "ChangedRoot");
+            RepairReject("LayoutVerifyRepairOverrideEnvelope", original, actual);
+        }
+        [Test]
+        public void RepairOverrideEnvelopeRejectsReorderedOriginals()
+        {
+            var original = RepairOriginalKeys(); var actual = original.ToArray();
+            actual[0] = original[1]; actual[1] = original[0];
+            RepairReject("LayoutVerifyRepairOverrideEnvelope", original, actual);
+        }
+        [Test]
+        public void RepairDiskDeltaAcceptsOnlyFiveBlockRemoval()
+        {
+            var before = RepairDiskFixture(RepairBeforeRows()); var after = RepairDiskFixture(RepairOriginalRows());
+            Assert.DoesNotThrow(() => SceneCanvasCheck("LayoutVerifyRepairDiskDelta").Invoke(null, new object[] { before, after }));
+            CollectionAssert.AreEqual(RepairOriginalKeys(), (string[])SceneCanvasCheck("LayoutRepairDiskKeys").Invoke(null, new object[] { after, true }));
+        }
+        [Test]
+        public void RepairDiskDeltaRejectsResidualCanvasBlock()
+        {
+            var before = RepairDiskFixture(RepairBeforeRows()); var original = RepairOriginalRows();
+            foreach (var residual in RepairFiveRows())
+            {
+                var after = RepairDiskFixture(original.Take(4).Concat(new[] { residual }).Concat(original.Skip(4)));
+                RepairReject("LayoutVerifyRepairDiskDelta", before, after);
+                RepairReject("LayoutRepairDiskKeys", after, true);
+                RepairReject("LayoutRepairDiskKeys", RepairDiskFixture(original.Take(21).Concat(new[] { residual })), true);
+            }
+        }
+        [Test]
+        public void RepairDiskDeltaRejectsUnrelatedBytes()
+        {
+            var after = RepairDiskFixture(RepairOriginalRows());
+            after[0] = (byte)'#';
+            RepairReject("LayoutVerifyRepairDiskDelta", RepairDiskFixture(RepairBeforeRows()), after);
+        }
+        [Test]
+        public void RepairDiskDeltaRejectsAdditionalRemoval()
+        {
+            RepairReject("LayoutVerifyRepairDiskDelta", RepairDiskFixture(RepairBeforeRows()), RepairDiskFixture(RepairOriginalRows().Skip(1)));
+        }
+        [Test]
+        public void RepairDiskDeltaRejectsWrongTargetOrInstance()
+        {
+            var rows = RepairBeforeRows(); rows[4] = new[] { "1013562322995895579", "m_AnchorMax.x", "0" };
+            RepairReject("LayoutVerifyRepairDiskDelta", RepairDiskFixture(rows), RepairDiskFixture(RepairOriginalRows()));
+            RepairReject("LayoutVerifyRepairDiskDelta", RepairDiskFixture(RepairBeforeRows(), 1017091372L), RepairDiskFixture(RepairOriginalRows(), 1017091372L));
+        }
+
+        [Test]
+        public void SceneCanvasGeometryRejectsZeroNonFiniteAndIncompleteScreenCoverage()
+        {
+            var method = SceneCanvasCheck("LayoutUsableSceneCanvasGeometry");
+            Func<object[]> sample = () => new object[] { new Vector3(.8f, .8f, 1), new Vector3(.8f, .8f, 1),
+                new Rect(-450, -800, 900, 1600), new Rect(8, 12, 720, 1280), .8f,
+                new[] { new Vector2(8, 12), new Vector2(8, 1292), new Vector2(728, 1292), new Vector2(728, 12) } };
+            Func<object[], bool> usable = values => (bool)method.Invoke(null, values);
+            Assert.IsTrue(usable(sample()));
+            foreach (var bad in new[] { 0f, -1f, float.NaN, float.PositiveInfinity, float.NegativeInfinity })
+            {
+                for (var group = 0; group < 2; group++)
+                    for (var axis = 0; axis < 3; axis++)
+                    {
+                        var values = sample(); var scale = (Vector3)values[group]; scale[axis] = bad; values[group] = scale;
+                        Assert.IsFalse(usable(values), "scale group/axis " + group + "/" + axis + " = " + bad);
+                    }
+                for (var group = 2; group < 4; group++)
+                    for (var axis = 0; axis < 2; axis++)
+                    {
+                        var values = sample(); var rect = (Rect)values[group];
+                        if (axis == 0) rect.width = bad; else rect.height = bad; values[group] = rect;
+                        Assert.IsFalse(usable(values), "rect group/axis " + group + "/" + axis + " = " + bad);
+                    }
+                var factor = sample(); factor[4] = bad; Assert.IsFalse(usable(factor), "scaleFactor = " + bad);
+                for (var corner = 0; corner < 4; corner++)
+                    for (var axis = 0; axis < 2; axis++)
+                    {
+                        var values = sample(); var points = (Vector2[])values[5]; var point = points[corner];
+                        point[axis] = bad; points[corner] = point; Assert.IsFalse(usable(values), "invalid corner coordinate");
+                    }
+            }
+            foreach (var bad in new[] { float.NaN, float.PositiveInfinity, float.NegativeInfinity })
+                for (var group = 2; group < 4; group++)
+                    for (var axis = 0; axis < 2; axis++)
+                    {
+                        var values = sample(); var rect = (Rect)values[group];
+                        if (axis == 0) rect.x = bad; else rect.y = bad; values[group] = rect;
+                        Assert.IsFalse(usable(values), "non-finite rect origin");
+                    }
+            for (var corner = 0; corner < 4; corner++)
+                for (var axis = 0; axis < 2; axis++)
+                    foreach (var delta in new[] { -.5f, .5f, -1f, 1f })
+                    {
+                        var values = sample(); var points = (Vector2[])values[5]; var point = points[corner];
+                        point[axis] += delta; points[corner] = point;
+                        Assert.AreEqual(Mathf.Abs(delta) <= .5f, usable(values), "pixel coverage tolerance");
+                    }
+            foreach (var corners in new[] { null, new Vector2[3], new Vector2[5] })
+            { var values = sample(); values[5] = corners; Assert.IsFalse(usable(values), "exactly four mapped corners required"); }
+        }
+
+        [Test]
+        public void SceneCanvasOverrideClassifierRejectsAllFiveStaleFields()
+        {
+            const string prefabPath = "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab";
+            var before = File.ReadAllBytes(prefabPath);
+            try
+            {
+                var root = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath); Assert.IsNotNull(root);
+                var source = root.transform.Find("RuntimeCanvas") as RectTransform; Assert.IsNotNull(source);
+                Assert.IsTrue(AssetDatabase.TryGetGUIDAndLocalFileIdentifier(source, out string guid, out long fileId));
+                Assert.AreEqual("c36df3cfc25424c8cb3ec6cae6be1237", guid); Assert.AreEqual(1013562322995895578L, fileId);
+                Assert.AreEqual(Vector3.one, source.localScale); Assert.AreEqual(Vector2.one, source.anchorMax);
+                var method = SceneCanvasCheck("LayoutStaleCanvasOverride"); var properties = new SerializedObject(source);
+                Func<PropertyModification, bool> stale = change => (bool)method.Invoke(null, new object[] { change, source });
+                foreach (var path in new[] { "m_LocalScale.x", "m_LocalScale.y", "m_LocalScale.z", "m_AnchorMax.x", "m_AnchorMax.y" })
+                {
+                    var modification = new PropertyModification { target = source, propertyPath = path };
+                    foreach (var bad in new[] { "0", "-1", "NaN", "Infinity", "-Infinity", "invalid", "", null })
+                    { modification.value = bad; Assert.IsTrue(stale(modification), path + " = " + bad); }
+                    modification.value = properties.FindProperty(path).floatValue.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+                    Assert.IsFalse(stale(modification), "Matching source value must survive: " + path);
+                    modification.target = root.transform; modification.value = "0";
+                    Assert.IsFalse(stale(modification), "Other target must survive: " + path);
+                }
+                foreach (var path in new[] { "m_Pivot.x", "m_Pivot.y", "m_AnchorMin.x", "m_AnchoredPosition.x", "m_SizeDelta.y" })
+                    Assert.IsFalse(stale(new PropertyModification { target = source, propertyPath = path, value = "invalid" }), path);
+                Assert.IsFalse(stale(null));
+            }
+            finally { CollectionAssert.AreEqual(before, File.ReadAllBytes(prefabPath), "Classifier test must not change the prefab."); }
+        }
+
+        private static System.Reflection.MethodInfo SceneCanvasCheck(string name)
+        {
+            var script = AssetDatabase.LoadAssetAtPath<MonoScript>("Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs");
+            Assert.IsNotNull(script); var type = script.GetClass(); Assert.IsNotNull(type);
+            var method = type.GetMethod(name, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            Assert.IsNotNull(method, name); return method;
+        }
+
         [UnityEngine.TestTools.UnityTearDown]
         public System.Collections.IEnumerator ExitControlledPlayModeAfterFailure()
         {
@@ -216,7 +600,8 @@ namespace FightMatch.Core.Tests
                     }
                     else Assert.AreEqual(LocalizedTmpText.Placeholder, text.text);
                 }
-                Assert.AreEqual(119, texts.Length); Assert.AreEqual(3, linkedInputs); Assert.AreEqual(116, texts.Length - linkedInputs);
+                UguiResponsiveLayoutTests.AssertExactTextTargets(rig.Root);
+                Assert.AreEqual(141, texts.Length); Assert.AreEqual(3, linkedInputs); Assert.AreEqual(138, texts.Length - linkedInputs);
                 Assert.AreEqual(0, rig.Root.GetComponentsInChildren<UnityEngine.UIElements.UIDocument>(true).Length);
                 rig.Bind();
                 Assert.IsFalse(rig.View.DiagnosticVisible, rig.View.DiagnosticCode);
