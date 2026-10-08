@@ -1,11 +1,12 @@
-# Resource combined validation V02
+# Resource combined validation V03 binding refresh
 
-Current candidate corrects two issues observed in the first native V01 attempt: CoreCLR diagnostic IPC was rejected by the existing TMP guard, and SDK CacheWrite telemetry was counted as a second Csc action. V02 sets DOTNET_EnableDiagnostics=0 only for the I/T child environment and distinguishes exact CacheWrite telemetry. Unknown IPC protections stay unchanged.
+V02 stopped before Unity because its expected TundraBuildState.state identity was from before V01. The contract preserves this generated state in place; V01 updated it during its only compile. V03 records its observed current SHA without modifying or clearing the cache. bee_backend.info is unchanged.
 
-- V01: one Unity compile process exited0, supervisor exited1; T89 never ran. External elapsed87.088998s plus160 preparation=247.088998s. Original FAILED, recovered1035 projection inputs/43 compiler leaves, and original evidence remain immutable.
-- V02: targeted red followed by177/177 offline checks, retaining all158 previous cases;12.600547s total. No new Unity/native execution or activation.
-- Current source is runner.py/replay-check.py; inputs, replay-results and preparation contain exact seals, input mapping and delta from v01-reviewed sources. v02-design/source-packet govern this correction. Earlier design/fix documents and FIX05 baseline files remain historical context.
-- New V02 run/cache/AS paths are independent. Shared1036/projection1035→1037,53 packages,43 compiler leaves and89 cases are unchanged. Overall900s includes160 preparation, reserved cleanup/restoration/finalization; no retries.
-- Candidate success remains provisional until exact receipt hash, TEST_PASS/no failure, real OS exit0 and external monotonic total verification.
+- Runner changes only current task/path/TMP labels and the inputs identity constant. After normalization its entire text equals the reviewed V02 runner. Diagnostics0 and CacheWrite behavior, ownership, deadlines and restoration are unchanged.
+-142 input changes are explicit: current owner/independent execution destinations and one compiler-state SHA. All product, package,43-leaf transfer and89-case identities remain.
+- V02's177/177 replay evidence and checker are copied byte-for-byte as historical evidence; they were not rerun for V03. One additional static correction check passed in0.073324s. The earlier0.160s draft check and its missing-field/path defects remain recorded.
+- Current preparation includes full activation and external exit contracts. No V03 activation or native execution. Fresh new-head GitHub review is required before C.
 
-GitHub review of the new head is required before fresh C activation. No game-source changes, PR merge, deployment, Android/device or Demo acceptance.
+V01: Unity I exit0 but supervisor FAILED on diagnostic IPC, T89=0; recovery preserved. V02: NOT_RUN_BLOCKED, I/T=0, runner exit1,8.380329s+160 preparation=168.380329s. Neither is a test pass. Prior source/QA/native records are separate files.
+
+Current runner/inputs/preparation are V03; replay-check/results are unchanged V02 evidence. v02-reviewed-runner is the immediate code baseline. Earlier documents and baseline files retain historical context. Overall900s including160 preparation, oneI then oneT89, no automatic retries. No game-source change, merge, release, deployment or Demo/device acceptance.

@@ -1,0 +1,88 @@
+{
+  "task": "RES-COMBINED-V02-SOURCE",
+  "date": "2026-10-08",
+  "verdict": "ACCEPT",
+  "scope": "Reviewed validation source only; enables fresh bounded C activation, not native or Demo acceptance",
+  "head": "281bb731ed08a21a25df67932068279853b3fd09",
+  "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6049501072",
+  "reviewResult": "No major issues; top-level bot comment, not formal APPROVED",
+  "qaReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-pr20-v02-review-receipt.json",
+    "bytes": 5849,
+    "sha256": "82b460a1c4122896f7fd7d14383db0e72c15dbeb9709701cc7f99d3697769903"
+  },
+  "publicationReceipt": {
+    "path": "docs/team/2026-09-30/resource-combined-v02-publication-receipt.json",
+    "bytes": 11135,
+    "sha256": "1a47710b3afd8366645874876d53bdfc9100b3efd759c5a906246bf60eab9c25"
+  },
+  "candidate": [
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V02/run/runner.py",
+      "bytes": 83629,
+      "sha256": "3d6215f29eacf35bad556a5ada01548cf4655132001c80292c87963b881171b1"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V02/run/replay-check.py",
+      "bytes": 111261,
+      "sha256": "1f16c745c82b0373483ed8f029a6831345c840f12e01cbfd05b0791a1fca8f09"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V02/run/replay-results.json",
+      "bytes": 451171,
+      "sha256": "ef6b9626be51273a64770d169beedc2a1eb39f5cd5acb1ac10e9b0986d00b556"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V02/run/inputs.json",
+      "bytes": 1241674,
+      "sha256": "5042438e26cd9e7fea1c5decee0f689f30af05ee667c25dbec57c472d363e636"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V02/run/preparation.json",
+      "bytes": 350556,
+      "sha256": "40c7f86f884240b6db62bc2b303711a4e97d110ee966aa3bba82842e9db62460"
+    }
+  ],
+  "validation": {
+    "fixedReferences": 40,
+    "unchangedFunctionAstMatches": 80,
+    "exactDiff": true,
+    "inputDifferenceCount": 150,
+    "inputPatchReconstructsExactly": true,
+    "preservedInputSections": [
+      "fixedReferences",
+      "shared",
+      "projectionBefore",
+      "projectionProposed",
+      "cache",
+      "compilePlan",
+      "testCases",
+      "limits",
+      "preparation",
+      "editor",
+      "resourceSourceGate"
+    ],
+    "previous158CasesPreserved": true,
+    "passed": 177,
+    "noTestsRerun": true
+  },
+  "offline": {
+    "passed": 177,
+    "rounds": 2,
+    "seconds": 12.60054683299677,
+    "original158Preserved": true,
+    "nativeV02": 0
+  },
+  "historicalThreads": "All three retained unresolved; exact new-head no-findings result closes only the current source gate. Prior V01 native FAILED remains unchanged.",
+  "owner": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a116c2-6a9d-7a03-b161-11bd6079a631"
+  },
+  "next": "central-resource-combined-v02-execute.md; fresh actual, one I then one T89, no automatic retry",
+  "remaining": [
+    "Actual compile provenance/89-case run and independent receipt",
+    "Formal LOC/Host interaction",
+    "Android/device and Demo acceptance"
+  ]
+}
