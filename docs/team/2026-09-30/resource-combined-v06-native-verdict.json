@@ -1,0 +1,60 @@
+{
+  "task": "RES-COMBINED-V06",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "scope": "Native validation failed; source gate is separate",
+  "actualC": "01a1198b-3beb-7052-b04c-5cd441a5eee7",
+  "reviewedSourceHead": "d8578a3bd4616ea81b26766600a47ebba4151b6e",
+  "native": {
+    "I": 1,
+    "unityExitCode": 0,
+    "T": 0,
+    "completeAssemblyProvenance": false,
+    "runnerExitCode": 1,
+    "external": {
+      "toolId": "exec-d7a9f215-e01c-4217-ac25-449c43324d61",
+      "exitCode": 1,
+      "externalStartMonotonic": 87561.278540625,
+      "externalEndMonotonic": 87678.54181925,
+      "runnerSeconds": 117.26327862498874,
+      "preparationSeconds": 160,
+      "totalSeconds": 277.26327862498874,
+      "osExitCode": 1
+    },
+    "activation": {
+      "bytes": 6483,
+      "sha256": "7ed7322c7fb2559fb539eab52c8d547822a0c6c9cfa0d6446b164c88b142db5c"
+    },
+    "receipt": {
+      "bytes": 30369,
+      "sha256": "c0da0f99a0675ddce7510cb257b2a7da971d500d1c81cfd5cf0c6b8f4e8d5755"
+    }
+  },
+  "observedCauses": {
+    "bee": "Event185 htc binding succeeded; event187 cth disappeared during inspection. Later directory/endpoint lifecycle rejected. Successful process-clear sample was blocked by resource errors.",
+    "other": "Structured empty-output args exit1 for PID73931 also recorded as monitor failure; needs evidence diagnosis, no automatic exception."
+  },
+  "restoration": {
+    "complete": false,
+    "projectionLeaves": 1037,
+    "remainingOwnedInFinalSnapshot": 0,
+    "closureClosed": false,
+    "sourcePreimages": 17,
+    "parkedSource": 2,
+    "compilerPreimages": 43,
+    "TERM": [
+      74014
+    ],
+    "KILL": false
+  },
+  "independentNativeIntake": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-v06-native-receipt.json",
+    "bytes": 4013,
+    "sha256": "6452a06f7ae8106efd98cffb3ea7ac5f56e59f5f3ad600f8e8967b36753e5cbe",
+    "actual": "01a11991-0f61-76b0-83f6-06fab2ae4c00",
+    "correctionActual": "01a11992-da22-7991-acb4-2519ac92826e",
+    "scope": "Original evidence seals/failed restoration; no active tree scan"
+  },
+  "next": "Prioritize separately scoped no-consumer restoration; no native retry",
+  "demoAccepted": false
+}

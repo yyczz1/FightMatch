@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "task": "RES-COMBINED-V06",
+  "verdict": "FAILED",
+  "scope": "native execution evidence receipt only; no code review or acceptance",
+  "identity": {
+    "testingThread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "intakeTurn": "01a11991-0f61-76b0-83f6-06fab2ae4c00",
+    "executionThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "executionHost": "local",
+    "executionTurn": "01a1198b-3beb-7052-b04c-5cd441a5eee7"
+  },
+  "source": "TestArtifacts/FightMatch/RES-COMBINED-V06/run",
+  "receiptSeal": {
+    "bytes": 30369,
+    "sha256": "c0da0f99a0675ddce7510cb257b2a7da971d500d1c81cfd5cf0c6b8f4e8d5755"
+  },
+  "evidenceSeals": {
+    "activation.json": [6483, "7ed7322c7fb2559fb539eab52c8d547822a0c6c9cfa0d6446b164c88b142db5c"],
+    "compile.json": [112, "c6e2d0c69276238ea981c7021536825e6e8c21382b3e754733b9b37a6de56323"],
+    "after.json": [379, "ba9603efa14d4a81ca35cad30e7c9abf78bde70e69a7998b9fcdb83845257a23"],
+    "process-after.json": [221295, "43f4cc4768d3d34694c684b6f774778feedce90c7562c6e242ac13cf770e7e1c"],
+    "process-events.jsonl": [343305, "4831dc9696809e9eb82b10f5e3787ef2512bda21be61154de5de9fba4e78bc04"],
+    "I/result.json": [1582, "e43292492d2ed5211eb435ecb3825737d3669b67367140ca86ebba53d24d92f7"],
+    "I/launcher.log": [0, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"],
+    "I/editor.log": [65462, "9c1cfa0d5346ef36194b9251330b851356cf085756600343294bbc266ff2ac97"]
+  },
+  "execution": {
+    "startedUtc": "2026-10-08T03:26:55.397395+00:00",
+    "preparationSeconds": 160,
+    "stage": "I",
+    "launchCount": 1,
+    "stageStatus": "FAILED",
+    "unityExitCode": 0,
+    "runnerStatus": "FAILED",
+    "runnerExitCode": 1,
+    "reportedElapsedSeconds": 117.263279,
+    "reportedElapsedSource": "central handoff; not observed by this receipt turn",
+    "receiptMeasuredSecondsThroughEvidence": 117.15194120799424,
+    "measurementBoundary": "before receipt serialization/write/hash and stdout",
+    "failure": "Missing /private/tmp/fm-rcv6.ivjDNVb8/w8gg3dvu.tst/ipc_73868_cth; process closure lacks successful clear sample; Bee directory replaced; final monitor gate failed."
+  },
+  "resourceAndClosure": {
+    "events": [
+      {"utc": "2026-10-08T03:27:21.092115+00:00", "kind": "bee_fd_observation", "endpoint": "ipc_73868_htc", "rootPid": 73868},
+      {"utc": "2026-10-08T03:27:21.149325+00:00", "kind": "bee_fd_observation", "endpoint": "ipc_73868_cth", "result": "FileNotFoundError", "rootPid": 73868},
+      {"utc": "2026-10-08T03:28:16.561162+00:00", "kind": "signal", "signal": "SIGTERM", "pid": 74014},
+      {"utc": "2026-10-08T03:28:46.503158+00:00", "kind": "closure_end", "stage": "I", "closed": false}
+    ],
+    "remainingOwned": [],
+    "closureClosed": false,
+    "popenStillLive": false,
+    "sigkill": false,
+    "restore": "not executed; receipt restore=null; restore.json absent",
+    "afterProjection": {"leaves": 1037, "bytes": 32658037, "uniqueGUIDs": 536, "hostArtifactsUnchanged": true, "newHostRigOrIsolation": 0},
+    "afterProtection": {"sharedUnchanged": true, "oldEvidenceUnchanged": true, "cacheFrozen": true},
+    "resourceError": "Bee directory replaced",
+    "leftovers": "handoff reported backup 17 + temp 2 + compiler 43 retained; not rescanned in this receipt"
+  },
+  "validation": {
+    "compilerAfterCount": 0,
+    "editModeTests": "not run",
+    "playerBuild": "not run",
+    "deviceAcceptance": "not run",
+    "offlineReplay": "34/34 is separate source evidence; not native execution acceptance"
+  },
+  "correction": {
+    "actualUtc": "2026-10-08T03:33:46Z",
+    "scope": "recomputed original receipt plus the eight listed evidence leaves; all eight sizes and SHA-256 values match receipt.json evidence entries",
+    "originalExecutionTiming": "central directly verified original tool exec-d7a9f215-e01c-4217-ac25-449c43324d61; exit 1; external monotonic 87561.278540625 to 87678.54181925 seconds (117.26327862498874 seconds), plus 160 seconds preparation = 277.26327862498874 seconds"
+  }
+}

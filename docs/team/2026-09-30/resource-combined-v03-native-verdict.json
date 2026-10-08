@@ -1,0 +1,53 @@
+{
+  "task": "RES-COMBINED-V03-NATIVE-INTEGRATION",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "independentNativeReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-v03-native-receipt.json",
+    "bytes": 8735,
+    "sha256": "097e3ea1233a3258da2e3da63ce1557a12753047c4c840186012c9576b6d63a6",
+    "actual": "01a118ff-7c90-77b0-b4a5-a0ebd7e38586",
+    "status": "RECEIVED_AND_MATCHED",
+    "boundary": "Independent sealed evidence intake; no repeated live-tree scan"
+  },
+  "scope": "Current run FAILED; cannot accept compile provenance or T89",
+  "actual": "01a118fa-4774-77f0-95b3-2760ea765e6c",
+  "sourceHead": "dbd5a203fd7b4997a1e67d7269fb1d9b87d5cbea",
+  "nativeStatus": "FAILED",
+  "failure": "Special tree entry /private/tmp/fm-rcv3.cqMuMGw3/sk63t1em.gmn/ipc_58366_cth; Final monitor gate",
+  "launchCounts": {
+    "I": 1
+  },
+  "T": 0,
+  "testsXmlExists": false,
+  "sourceAcceptanceSeparate": true,
+  "externalObservation": {
+    "toolEvent": "exec-821710a2-e3b2-475b-8ca2-bb25d7484272",
+    "startMonotonic": 78102.358665958,
+    "endMonotonic": 78198.685614,
+    "runnerSeconds": 96.32694804199855,
+    "preparationSeconds": 160,
+    "totalSeconds": 256.32694804199855,
+    "osExitCode": 1
+  },
+  "sourceReceipt": {
+    "bytes": 75933,
+    "sha256": "5e50c83945e07b83d687ae2116ef0b889d2d61abf947f43da8ef7963254f57de"
+  },
+  "restoreReported": {
+    "complete": true,
+    "projection": {
+      "leaves": 1035,
+      "bytes": 32149498,
+      "defaultSettings": null,
+      "uniqueGUIDs": 535,
+      "hostArtifacts": {
+        "unchanged": true,
+        "newHostRigOrIsolation": 0
+      }
+    },
+    "compilerRestored": 43,
+    "remainingOwned": []
+  },
+  "next": "V04 narrow Bee IPC and closure-window correction, then exact-head GitHub review before any fresh C activation. Cloud execution channel has recovered; license/dependencies still under separate read-only preflight."
+}
