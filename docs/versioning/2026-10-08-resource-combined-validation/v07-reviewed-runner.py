@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RES-COMBINED-V08: sealed I then T; source preparation never activates native work."""
+"""RES-COMBINED-V07: sealed I then T; source preparation never activates native work."""
 import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy
 from collections import Counter
 import xml.etree.ElementTree as ET
@@ -10,7 +10,7 @@ allowed=set('activation.json inputs.json before.json preparation.json runner.py 
 owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
 transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}; bee_observation_bytes=0
-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V08/state-tests'
+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V07/state-tests'
 compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
@@ -305,97 +305,26 @@ class ChildArgsProbeError(RuntimeError):
     def __init__(self,probe):
         self.probe=probe
         super().__init__('Single-PID args probe failed '+json.dumps(probe,ensure_ascii=False))
-class IdentityProbeIncomplete(RuntimeError):
-    def __init__(self,pid,detail):
-        self.detail=detail
-        super().__init__('Owned identity incomplete '+str(pid)+': '+','.join(detail.get('missingFields',[])))
-def identity_args(raw):
-    try: args=shlex.split(raw.strip(),posix=False)
-    except ValueError:
-        return (None,'<REDACTED: unparseable sensitive arguments>' if re.search(r'-(?:[^\s]*)(?:token|password|secret|serial|credential)',raw,re.I) else raw)
-    redacted=[]; pieces=[]; cursor=0; hide=False
-    for a in args:
-        index=raw.find(a,cursor); check(index>=cursor,'INCOMPLETE: args token source mismatch')
-        sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)
-        value='<REDACTED>' if hide else (a.split('=',1)[0]+'=<REDACTED>' if sensitive and '=' in a else a)
-        pieces.extend([raw[cursor:index],value]);cursor=index+len(a);redacted.append(value)
-        hide=False if hide else bool(sensitive and '=' not in a)
-    pieces.append(raw[cursor:]);return redacted,''.join(pieces)
-def identity_sample(argv,samples,label):
-    probe={'argv':argv,'startedUtc':utc(),'startedMonotonic':time.monotonic(),'returncode':None,'stdout':None,'stderr':None,'timeoutSeconds':None};samples[label]=probe
-    try:
-        probe['timeoutSeconds']=blocking_probe_timeout()
-        result=subprocess.run(argv,capture_output=True,text=True,timeout=probe['timeoutSeconds'])
-        probe['returncode']=result.returncode
-        streams={'stdout':result.stdout,'stderr':result.stderr}
-        limit=D['evidenceSlots']['perLogBytes'] if label=='snapshot' else D['beeObservationContract']['rawBytesPerStream']
-        for name,value in streams.items():
-            check(isinstance(value,str),'INCOMPLETE: nontext identity sample')
-            probe[name+'Bytes']=len(value.encode('utf-8'))
-        if any(probe[name+'Bytes']>limit for name in streams):
-            probe['capacityFailure']={'limit':limit,'status':'INCOMPLETE','rawRetained':False}
-            raise RuntimeError('INCOMPLETE: identity sample capacity exceeded')
-        for name,value in streams.items():probe[name]=identity_args(value)[1] if label=='args' else value
-        return probe
-    except BaseException as error:
-        probe['timedOut']=isinstance(error,subprocess.TimeoutExpired)
-        for name,attribute in [('stdout','output'),('stderr','stderr')]:
-            partial=getattr(error,attribute,None)
-            if partial is None:continue
-            if isinstance(partial,bytes):partial=partial.decode('utf-8',errors='replace')
-            limit=D['evidenceSlots']['perLogBytes'] if label=='snapshot' else D['beeObservationContract']['rawBytesPerStream']
-            probe[name+'Bytes']=len(partial.encode('utf-8'))
-            if probe[name+'Bytes']<=limit:probe[name]=identity_args(partial)[1] if label=='args' else partial
-            else:probe['capacityFailure']={'limit':limit,'status':'INCOMPLETE','rawRetained':False}
-        probe['failure']={'type':type(error).__name__,'message':str(error)};raise
-    finally:probe.update(finishedUtc=utc(),finishedMonotonic=time.monotonic())
-def identity_event(kind,**kw):
-    check(len(json.dumps({'kind':kind,**kw},ensure_ascii=False).encode('utf-8'))<=D['evidenceSlots']['perLogBytes'],'INCOMPLETE: identity event capacity exceeded')
-    event(kind,**kw)
-def child_args(pid,samples=None):
-    samples={} if samples is None else samples
-    probe=identity_sample(['/bin/ps','-ww','-p',str(pid),'-o','args='],samples,'args')
-    if probe['returncode']!=0: raise ChildArgsProbeError(probe)
-    check(probe['stderr']=='','INCOMPLETE: args probe stderr')
-    text=probe['stdout'];args,_=identity_args(text)
-    check(args is not None and '\x00' not in text and (not text or text.endswith('\n')) and len(text.splitlines())<=1,'INCOMPLETE: malformed/truncated args output')
-    probe['parsed']={'argv':args};return text
+def child_args(pid):
+    argv=['/bin/ps','-ww','-p',str(pid),'-o','args=']; started=time.monotonic()
+    timeout=blocking_probe_timeout()
+    result=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)
+    probe={'argv':argv,'returncode':result.returncode,'stdout':result.stdout,'stderr':result.stderr,'startedMonotonic':started,'finishedMonotonic':time.monotonic(),'timeoutSeconds':timeout}
+    if result.returncode!=0: raise ChildArgsProbeError(probe)
+    return result.stdout
 
 def details(pid):
-    samples={};args_error=None
-    try:
-        try: child_args(pid,samples)
-        except ChildArgsProbeError as error:
-            if not (error.probe['returncode']==1 and error.probe['stdout']==error.probe['stderr']==''):raise
-            args_error=error;samples['args']['parsed']={'argv':[]}
-        args=samples['args']['parsed']['argv']
-        probe=identity_sample(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],samples,'cwd')
-        text=probe['stdout'];check(probe['stderr']=='' and (probe['returncode']==0 or (probe['returncode']==1 and text=='')),'INCOMPLETE: cwd probe failed')
-        check('\x00' not in text and (not text or text.endswith('\n')),'INCOMPLETE: truncated cwd output')
-        cwd=None;owner=None;descriptor=False
-        for line in text.splitlines():
-            if line.startswith('p'):
-                check(owner is None and cwd is None and line=='p'+str(pid),'INCOMPLETE: cwd PID contradiction');owner=pid
-            elif line=='fcwd':
-                check(owner==pid and not descriptor and cwd is None,'INCOMPLETE: cwd descriptor contradiction');descriptor=True
-            elif line.startswith('n'):
-                check(owner==pid and cwd is None and line[1:].startswith('/'),'INCOMPLETE: cwd field contradiction');cwd=line[1:]
-            else:raise RuntimeError('INCOMPLETE: malformed cwd record')
-        probe['parsed']={'pid':owner,'cwd':cwd,'cwdDescriptor':descriptor}
-        missing=[]
-        if not args:missing.append('argv')
-        if cwd is None:missing.append('cwd')
-        if probe['returncode']!=0:missing.append('cwdProbeExit')
-        detail={'argv':args,'cwd':cwd,'cwdProbeExit':probe['returncode'],'identitySamples':samples,'presence':{'argv':bool(args),'cwd':cwd is not None,'cwdProbeExitZero':probe['returncode']==0},'missingFields':missing,'freshAbsentEligible':bool(missing)}
-        if args_error is not None:args_error.detail=detail;raise args_error
-        return detail
-    except BaseException as error:
-        identity_event('identity_probe_failed',pid=pid,samples=samples,failure={'type':type(error).__name__,'message':str(error)})
-        raise
+    args=shlex.split(child_args(pid).strip(),posix=False); redacted=[]; hide=False
+    for a in args:
+        if hide: redacted.append('<REDACTED>'); hide=False; continue
+        sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)
+        if sensitive and '=' in a: redacted.append(a.split('=',1)[0]+'=<REDACTED>')
+        else: redacted.append(a); hide=bool(sensitive)
+    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=blocking_probe_timeout())
+    cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)
+    return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}
 def register(pid,row,stage,rootpid,detail=None):
-    detail=details(pid) if detail is None else detail
-    if not (bool(detail.get('argv')) and detail.get('cwd') is not None and detail.get('cwdProbeExit')==0):raise IdentityProbeIncomplete(pid,detail)
-    check(pid not in owned,'Existing owned entry preserved '+str(pid))
+    detail=details(pid) if detail is None else detail; check(bool(detail.get('argv')) and detail.get('cwd') is not None and detail.get('cwdProbeExit')==0,'Owned identity incomplete '+str(pid)); check(pid not in owned,'Existing owned entry preserved '+str(pid))
     if pathlib.Path(row['exe']).name=='BeeLocalCacheTool':
         expected=pathlib.Path(N['editor']['path']).parent.parent/'Tools/BuildPipeline/BeeLocalCacheTool'
         check(row['exe']==str(expected),'Unbound BeeLocalCacheTool executable')
@@ -427,45 +356,31 @@ def discover(rows,stage,rootpid):
                 if prior is None: pending_details[pid]={'row':dict(row),'stage':stage,'rootPid':rootpid,'firstError':message,'firstObservedUtc':utc()}
                 pending_details[pid]['lastError']=message
                 if isinstance(error,ChildArgsProbeError): pending_details[pid]['argsProbe']=error.probe
-                incomplete=getattr(error,'detail',None) if isinstance(error,(ChildArgsProbeError,IdentityProbeIncomplete)) else None
-                if incomplete is not None:pending_details[pid]['identityProbeIncomplete']=incomplete
                 event('pending_identity',pid=pid,identity=pending_details[pid])
                 probe=error.probe if isinstance(error,ChildArgsProbeError) else None
-                if prior is None and incomplete is not None and incomplete.get('freshAbsentEligible'):
+                if prior is None and probe is not None and probe['argv']==['/bin/ps','-ww','-p',str(pid),'-o','args='] and probe['returncode']==1 and probe['stdout']=='' and probe['stderr']=='':
                     parent=row['ppid']; recorded_chain(parent,rootpid)
                     check(owned[parent]['stage']==stage and owned[parent]['rootPid']==rootpid,'Transient child parent stage mismatch')
                     chain=[]; ancestor=parent
                     while True:
-                        check(alive(rows,ancestor) and owned[ancestor]['ppid']==rows[ancestor]['ppid'] and owned[ancestor]['stage']==stage and owned[ancestor]['rootPid']==rootpid,'Transient child ancestry mismatch')
                         chain.append(dict(owned[ancestor]))
                         if ancestor==rootpid: break
                         ancestor=owned[ancestor]['ppid']
-                    confirmation={'pid':pid,'initialRow':dict(row),'parentChain':chain,'argsProbe':probe,'identityProbeIncomplete':incomplete,'stage':stage,'rootPid':rootpid,'startedMonotonic':time.monotonic()}
+                    confirmation={'pid':pid,'initialRow':dict(row),'parentChain':chain,'argsProbe':probe,'stage':stage,'rootPid':rootpid,'startedMonotonic':time.monotonic()}
                     try:
-                        sampled={};confirmation['freshProbe']=sampled
-                        sample=identity_sample(['/bin/ps','-ww','-axo','pid=,ppid=,lstart=,stat=,comm='],sampled,'snapshot')
-                        text=sample['stdout'];check(sample['returncode']==0 and sample['stderr']=='' and text and text.endswith('\n') and '\x00' not in text,'INCOMPLETE: fresh snapshot command/output')
-                        fresh={}
-                        for line in text.splitlines():
-                            fields=line.split(None,8)
-                            check(len(fields)==9 and fields[0].isdigit() and fields[1].isdigit() and fields[8] and re.fullmatch(r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{1,2} \d{2}:\d{2}:\d{2} \d{4}',' '.join(fields[2:7])),'INCOMPLETE: malformed fresh snapshot row')
-                            time.strptime(' '.join(fields[2:7]),'%a %b %d %H:%M:%S %Y')
-                            check(re.fullmatch(r'[A-Za-z+<>]+',fields[7]),'INCOMPLETE: invalid fresh process state')
-                            current=int(fields[0]);check(current>0 and current not in fresh,'INCOMPLETE: duplicate/invalid fresh PID')
-                            fresh[current]={'ppid':int(fields[1]),'start':' '.join(fields[2:7]),'stat':fields[7],'exe':fields[8]}
-                        sample['parsed']={'pids':list(fresh)};probe_timeout()
+                        fresh=ps()
                     except BaseException as fresh_error:
                         confirmation['failure']={'type':type(fresh_error).__name__,'message':str(fresh_error)}
-                        pending_details[pid]['freshConfirmation']=confirmation; identity_event('transient_child_confirmation_failed',confirmation=confirmation)
+                        pending_details[pid]['freshConfirmation']=confirmation; event('transient_child_confirmation_failed',confirmation=confirmation)
                         if isinstance(fresh_error,NaturalGraceExpired): raise RuntimeError('INCOMPLETE: transient child fresh confirmation unavailable after args failure') from fresh_error
                         raise
                     confirmation.update(finishedMonotonic=time.monotonic(),freshSnapshot=fresh,pidAbsent=pid not in fresh)
                     pending_details[pid]['freshConfirmation']=confirmation
                     rows.clear(); rows.update(fresh)
                     if pid not in fresh:
-                        identity_event('transient-child-exited',confirmation=confirmation); pending_details.pop(pid); changed=True
+                        event('transient-child-exited',confirmation=confirmation); pending_details.pop(pid); changed=True
                     else:
-                        identity_event('transient_child_confirmation_rejected',confirmation=confirmation)
+                        event('transient_child_confirmation_rejected',confirmation=confirmation)
                     break
     check(not pending_details,next((p['firstError'] for p in pending_details.values()),'Unverified child remains'))
 def adb_exception(rows):
@@ -886,7 +801,7 @@ def preflight():
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')
     bee_tools()
     no_links(TMP); s=TMP.stat()
-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv8\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv7\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')
     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')
     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())
@@ -1138,7 +1053,7 @@ def normalize_input(raw):
             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],
             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}
 def contract_guard(raw,qa):
-    check(raw['task']=='RES-COMBINED-V08' and raw['schemaVersion']==1,'Current combined schema required')
+    check(raw['task']=='RES-COMBINED-V07' and raw['schemaVersion']==1,'Current combined schema required')
     for key,count in [('shared',1036),('projectionBefore',1035)]:
         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)
     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta
@@ -1290,9 +1205,9 @@ def main():
     clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))
-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V08','Current combined activation required')
+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V07','Current combined activation required')
     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']
-    check(ident(E/'inputs.json')=={'bytes': 1254426, 'sha256': 'c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19'},'Current fixed inputs')
+    check(ident(E/'inputs.json')=={'bytes': 1251531, 'sha256': '5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c'},'Current fixed inputs')
     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')
     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)
     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "task": "V07 FIX02 documentary correction mechanical receipt",
+  "documentCorrectionVerdict": "ACCEPT",
+  "actualCurrentTurn": "01a119fd-2961-7c91-86b1-1b5405e9ec07",
+  "reviewedSourceHead": "6da2ad59c99fd88c732ff56a8ca415aafa4b2cf2",
+  "currentDocHead": "95e21ca8114d07dce52fee8ea0f47b46b37c5f6c",
+  "reviewContext": {
+    "reviewId": 5451909727,
+    "findingId": 4215140252,
+    "findingResolution": "The stale identity is retained as correction.supersededClaim; correction.performedByTurn records the actual correction turn, and qaActualTurn remains the actual original QA turn.",
+    "newHeadZeroFindings": false,
+    "formalApproved": false
+  },
+  "mechanicalCheck": {
+    "fix01ReceiptIdentityFields": {
+      "qaActualTurn": "01a119ef-cb58-7be0-aaa5-efdef9eb6ff1",
+      "correction.supersededClaim": "01a116c2-6a9d-7a03-b161-11bd6079a631",
+      "correction.performedByTurn": "01a119f4-68cc-7363-a3e7-90a9c8d6c691",
+      "allMatch": true
+    },
+    "findingHandling": {
+      "findingId": 4215140252,
+      "correctedNewInlineFindings": 1,
+      "basisRecordsCorrectionTurnAndSupersededClaim": true
+    },
+    "fiveLeaves": {
+      "manifest": "/tmp/resource-combined-v07-fix02-mechanical.json",
+      "runDirectory": "TestArtifacts/FightMatch/RES-COMBINED-V07/run",
+      "matched": true,
+      "files": [
+        {"path": "runner.py", "bytes": 107583, "sha256": "41ba871264309f905ffc0ed0747ac9fde15779e6a5ebbffd6370054b0144304c"},
+        {"path": "inputs.json", "bytes": 1251531, "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"},
+        {"path": "preparation.json", "bytes": 16106, "sha256": "507768dd02bada1aa1b76810be5ccd51e98c3ab9d42f43d92c568ff5caeb06bb"},
+        {"path": "replay-check.py", "bytes": 78976, "sha256": "7e8130cc3ee89f386f5093a4d9088b49e374a489560fdaff7737c32785c4df3d"},
+        {"path": "replay-results.json", "bytes": 37878, "sha256": "e2e5d223e994d9e218b709eb1197bd92f36f61fdd49760169514291eece4db9f"}
+      ]
+    }
+  },
+  "sourceDisposition": "No source edits in this documentary correction. Reuse the independently reviewed FIX02 source head and existing offline evidence; no tests or native acceptance were run.",
+  "scopeLimit": "This receipt accepts only the documentary identity correction. It is not a GitHub review of a new head, a zero-findings claim, or formal APPROVED."
+}

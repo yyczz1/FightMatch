@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "task": "RES-COMBINED-V07 native failed-run mechanical receipt",
+  "receiptStatus": "RECEIVED_FAILED_RUN",
+  "actualQaTurn": "01a11a04-27d3-7873-bd41-52b7db727006",
+  "sourceVerdict": "docs/team/2026-09-30/resource-combined-v07-native-verdict.json",
+  "execution": {
+    "actual": "01a119ff-3be9-75a0-bf48-2a6464c1ea93",
+    "tool": "exec-5151e923-89f0-43ff-9084-1d805df27840",
+    "activation": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V07/run/activation.json",
+      "bytes": 6656,
+      "sha256": "ccc1078f9b138129046a4ba8b345c5a59548a07671d86a90d672fadd6829944e"
+    },
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V07/run/receipt.json",
+      "bytes": 75940,
+      "sha256": "2e72eec4fcc8c6695aead816cac7d692153cdb47af15e46a90351b364d0c37d2"
+    },
+    "externalStartMonotonic": 95185.251777125,
+    "externalEndMonotonic": 95280.378145666,
+    "runnerSeconds": 95.12636854100856,
+    "preparationSeconds": 160,
+    "totalSeconds": 255.12636854100856,
+    "osExitCode": 1,
+    "status": "FAILED",
+    "validationStatus": "FAILED",
+    "firstReportedFailure": "Supplied-snapshot child identity failed 82401: Owned identity incomplete 82401; Final monitor gate",
+    "launchCounts": {"I": 1, "T": 0},
+    "nativeAcceptance": "FAILED; not a pass"
+  },
+  "restorationAndClosure": {
+    "afterProjectionLeaves": 1037,
+    "restoredProjectionLeaves": 1035,
+    "compilerArtifactsArchived": 43,
+    "compilerArtifactsRestored": 43,
+    "compilerErrors": [],
+    "restoreComplete": true,
+    "sharedUnchanged": true,
+    "cacheFrozen": true,
+    "oldEvidenceUnchanged": true,
+    "remainingOwned": [],
+    "pendingIdentities": {},
+    "closureClosed": true,
+    "termSent": {"pid": 82470, "count": 1},
+    "sigkill": false,
+    "transferConflicts": [],
+    "popenStillLive": false
+  },
+  "evidenceFiles": [
+    "TestArtifacts/FightMatch/RES-COMBINED-V07/run/receipt.json",
+    "TestArtifacts/FightMatch/RES-COMBINED-V07/run/after.json",
+    "TestArtifacts/FightMatch/RES-COMBINED-V07/run/restore.json",
+    "TestArtifacts/FightMatch/RES-COMBINED-V07/run/process-after.json"
+  ],
+  "scope": "Finite local evidence intake only. No code review, new test, new process probe, or process command was run."
+}

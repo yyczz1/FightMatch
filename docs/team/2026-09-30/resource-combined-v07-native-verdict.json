@@ -1,0 +1,50 @@
+{
+  "task": "RES-COMBINED-V07-NATIVE",
+  "verdict": "NEEDS_FIX",
+  "actual": "01a119ff-3be9-75a0-bf48-2a6464c1ea93",
+  "tool": "exec-5151e923-89f0-43ff-9084-1d805df27840",
+  "exitCode": 1,
+  "terminal": {
+    "status": "FAILED",
+    "validationStatus": "FAILED",
+    "failure": "Supplied-snapshot child identity failed 82401: Owned identity incomplete 82401; Final monitor gate",
+    "receipt": {
+      "bytes": 75940,
+      "sha256": "2e72eec4fcc8c6695aead816cac7d692153cdb47af15e46a90351b364d0c37d2"
+    },
+    "attemptedEvidence": [
+      "compile.json",
+      "after.json",
+      "process-after.json",
+      "receipt.json"
+    ],
+    "successRequires": "Validated TEST_PASS, this receipt hash, OS exit0, and externally observed completion within900 seconds including preparation.",
+    "mechanicalExecutionSecondsThroughReceiptHash": 95.06874712501303,
+    "preparationSeconds": 160,
+    "measurementBoundary": "After receipt write/close/hash; before this stdout serialization/flush. Deadline checked again after flush; external observer must record process exit and total elapsed time."
+  },
+  "external": {
+    "externalStartMonotonic": 95185.251777125,
+    "externalEndMonotonic": 95280.378145666,
+    "runnerSeconds": 95.12636854100856,
+    "preparationSeconds": 160,
+    "totalSeconds": 255.12636854100856,
+    "osExitCode": 1
+  },
+  "qaPending": false,
+  "qaReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-v07-native-receipt.json",
+    "bytes": 2264,
+    "sha256": "27311ef0c354176539a4095d3e19114e6613a6b11e32b90fb317ecaf692cf675"
+  },
+  "observedRestoration": {
+    "complete": true,
+    "projectionFiles": 1035,
+    "compilerComplete": true,
+    "closureClosed": true,
+    "remainingOwned": []
+  },
+  "qaActual": "01a11a04-27d3-7873-bd41-52b7db727006",
+  "receivedFailureAndRestoration": true,
+  "next": "Diagnose raw incomplete child identity82401; no unchanged native retry."
+}

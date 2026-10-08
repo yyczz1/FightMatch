@@ -27,13 +27,13 @@ def rejected(fn):
 SELECTED=['V04 Bee htc then cth', 'V04 Bee cth then htc', 'V04 Bee rejects post-inode', 'V04 Bee rejects post-dir', 'V04 Bee rejects reuse-during', 'V04 fresh sealed state accepted', 'V04 execution state drift rejected', 'V05 full blocking-probe allowance and real timeout', 'V05 near natural boundary actual chain preserves prior Bee error', 'V05 FIX01 natural observation success', 'V05 FIX01 natural observation capacity', 'V05 FIX01 natural observation io', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure stubborn']
 skipped=[]
 def case(name,fn):
-    if not name.startswith('V08 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
-    need(time.monotonic()-START<30 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<60,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
+    if not name.startswith('FIX02 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
+    need(time.monotonic()-START<15 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{},'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}
     for key,value in defaults.items():env.setdefault(key,value)
     if hasattr(env.get('P'),'fs'):env.setdefault('children',lambda path:path.iterdir())
-    names=list(names)+[n for n in ('BeeObservationIncomplete','NaturalGraceExpired','ChildArgsProbeError','IdentityProbeIncomplete','identity_args','identity_sample','identity_event','child_args','blocking_probe_timeout','bee_fd_binding','bee_capture_output','bee_observation_event','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
+    names=list(names)+[n for n in ('BeeObservationIncomplete','NaturalGraceExpired','ChildArgsProbeError','child_args','blocking_probe_timeout','bee_fd_binding','bee_capture_output','bee_observation_event','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
     exec(compile(ast.fix_missing_locations(ast.Module(body=[copy.deepcopy(F[n]) for n in names],type_ignores=[])),RUNNER_FILENAME,'exec'),env);return env
 def profile(frame,event,arg):
     if event=='call' and frame.f_code.co_filename==RUNNER_FILENAME:traces.add(frame.f_code.co_name)
@@ -139,7 +139,7 @@ def compiler_ledger():
     report['compilerLedger']={'parked':43,'restored':43,'archived':22,'primitiveFlags':sorted(set(x for x in fs.native_calls)),'actualCacheWrites':0}
 
 history=json.loads((E/'replay-results.json').read_text())
-need(history['task']=='RES-COMBINED-V08','Current V04 history')
+need(history['task']=='RES-COMBINED-V07','Current V04 history')
 need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'Maximum two rounds; first green stops')
 report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'realSockets':0,'actualProjectionWrites':0,'fixtureIOOnly':True}
 def stat_value(mode,ino,uid=501,nlink=1):
@@ -834,127 +834,6 @@ def fix02_priority(mode):
     need(not env['bee_ipc'],'No incomplete binding accepted')
     report.setdefault('priorityCases',[]).append({'mode':mode,'resourceError':None if not captured else type(captured[0]).__name__,'cause':None if not captured or captured[0].__cause__ is None else type(captured[0].__cause__).__name__,'monitorErrors':copy.deepcopy(env['monitor_errors']),'naturalGraceExpired':cycle.get('naturalGraceExpired',False),'observation':record})
 
-def v08_sdk_live():
-    argv=['adb','-L','tcp:5037','fork-server','server','--reply-fd','7'];pid=73931;rows={pid:{'pid':pid,'ppid':1,'start':'fixed','exe':'adb','stat':'S'}};log='/TMP/adb.501.log';calls=[]
-    class VPath(pathlib.PurePosixPath):
-        def resolve(self):return self
-        def is_symlink(self):return False
-        def lstat(self):
-            need(str(self)==log,'Only fixed log metadata');return stat_value(stat.S_IFREG|0o600,20)
-        def open(self):return io.StringIO('--- adb starting (pid 73931) ---\nInstalled as /sdk/adb\n10-08 00:00:00\n')
-    raw='p73931\nftxt\ntREG\nn/sdk/adb\ni10\nD0x7\nf1\ntREG\nn'+log+'\ni20\nD0x7\nf2\ntREG\nn'+log+'\ni20\nD0x7\n'
-    def probe(command,**kw):
-        calls.append(command)
-        out=(' '.join(argv)+'\n' if command==['/bin/ps','-ww','-p',str(pid),'-o','args='] else ('p'+str(pid)+'\nfcwd\nn/P\n' if command==['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'] else raw))
-        return types.SimpleNamespace(returncode=0,stdout=out,stderr='')
-    env=bind(['check','alive','no_links','details','sdk_adb_exception','consumer_guard'],{'pathlib':types.SimpleNamespace(Path=VPath),'time':types.SimpleNamespace(monotonic=lambda:10,mktime=lambda t:0,strptime=lambda *a:None,time=lambda:100,strftime=lambda *a:'10-08 00:00:00',localtime=lambda t:None),'os':types.SimpleNamespace(getuid=lambda:501),'stat':stat,'re':re,'A':{'sdkAdb':{'path':'/sdk/adb','device':7,'inode':10,**byteid(b'sdk')},'adbException':{'pid':999,'tmpRoot':'/OLDTMP','priorCompilerPipe':'oldpipe'}},'sdk_adb':None,'root_launch_epoch':0,'baseline_processes':{},'owned':{},'sdk_observations':[],'D':D,'shlex':shlex,'cmd':lambda a:'501','ident':lambda p:byteid(b'sdk'),'subprocess':types.SimpleNamespace(run=probe,TimeoutExpired=subprocess.TimeoutExpired),'TMP':VPath('/TMP'),'P':VPath('/P'),'K':VPath('/K'),'R':VPath('/R'),'ps':lambda:copy.deepcopy(rows),'adb_exception':lambda r:999,'event':lambda *a,**k:None})
-    env['consumer_guard'](rows);first=copy.deepcopy(env['sdk_adb']);env['consumer_guard'](rows)
-    need(first==env['sdk_adb'] and first['pid']==pid and len(calls)==10 and len(env['sdk_observations'])==2,'New and already-bound ordinary live SDK retain full verification')
-
-def v08_child(mode):
-    now=[10.];calls=[];events=[];guards=[];fresh_count=[0]
-    root={'pid':100,'ppid':1,'start':'Thu Oct 8 10:00:00 2026','stat':'S','exe':'/fixed/Unity','argv':['/fixed/Unity'],'cwd':'/P','cwdProbeExit':0,'stage':'I','rootPid':100,'termSent':False}
-    child={'ppid':100,'start':'Thu Oct 8 10:00:01 2026','stat':'S','exe':'/fixed/worker'}
-    rows={100:copy.deepcopy(root),101:copy.deepcopy(child)};fresh={100:copy.deepcopy(root),303:{'ppid':1,'start':'Thu Oct 8 10:00:02 2026','stat':'S','exe':'/unrelated/fresh'}}
-    args=[0,'',''];cwd=[0,'p101\nfcwd\nn/P\n','']
-    if mode.startswith('cwd-') or mode in ('complete','sensitive','owned-incomplete'):args[1]='/fixed/worker\n'
-    if mode=='args-whitespace':args[1]=' \n'
-    if mode=='args-exit1':args[0]=1
-    if mode in ('both-missing','cwd-empty'):cwd[1]=''
-    if mode=='cwd-pid-only':cwd[1]='p101\n'
-    if mode=='cwd-exit1':cwd[:]=[1,'','']
-    if mode=='sensitive':args[1]='/fixed/worker --password secret_value --token=token_value --serial "quoted secret"\n'
-    if mode in ('present','zombie','reused'):
-        fresh[101]=copy.deepcopy(child)
-        if mode=='zombie':fresh[101]['stat']='Z'
-        if mode=='reused':fresh[101].update(start='Thu Oct 8 10:00:09 2026',exe='/reused')
-    for prefix,value in [('args',args),('cwd',cwd)]:
-        if mode==prefix+'-stderr':value[2]='denied'
-        if mode==prefix+'-exit2':value[0]=2
-        if mode==prefix+'-exit1-nonempty':value[0]=1;value[1]='unexpected\n'
-        if mode==prefix+'-nul':value[1]='\x00\n'
-        if mode==prefix+'-truncated':value[1]='/worker' if prefix=='args' else 'p101\nfcwd\nn/P'
-        if mode==prefix+'-overflow':value[1]='x'*8193+'\n'
-    if mode=='args-malformed':args[1]='"unclosed\n'
-    if mode=='args-multiline':args[1]='/worker\n/second\n'
-    if mode=='cwd-wrongpid':cwd[1]='p999\nn/P\n'
-    if mode=='cwd-duplicate':cwd[1]='p101\nn/P\nn/Q\n'
-    if mode=='cwd-malformed':cwd[1]='p101\nxunknown\n'
-    if mode=='cwd-relative':cwd[1]='p101\nnrelative\n'
-    if mode=='cwd-missingpid':cwd[1]='n/P\n'
-    def run(argv,**kw):
-        calls.append({'argv':argv,'timeout':kw['timeout']})
-        label='args' if argv==['/bin/ps','-ww','-p','101','-o','args='] else ('cwd' if argv==['/usr/sbin/lsof','-a','-p','101','-d','cwd','-Fn'] else 'fresh')
-        if mode==label+'-io':raise PermissionError('synthetic permission error')
-        if mode==label+'-timeout':raise subprocess.TimeoutExpired(argv,kw['timeout'],output='partial stdout',stderr='partial stderr')
-        if label in ('args','cwd'):
-            value=args if label=='args' else cwd
-            if mode=='fresh-budget' and label=='cwd':now[0]=58.1
-            return types.SimpleNamespace(returncode=value[0],stdout=value[1],stderr=value[2])
-        need(argv==['/bin/ps','-ww','-axo','pid=,ppid=,lstart=,stat=,comm='],'Only fixed fresh snapshot command');fresh_count[0]+=1
-        out=''.join(str(pid)+' '+str(v['ppid'])+' '+v['start']+' '+v['stat']+' '+v['exe']+'\n' for pid,v in fresh.items())
-        if mode=='fresh-malformed':out+='bad row\n'
-        if mode=='fresh-truncated':out=out.rstrip('\n')
-        if mode=='fresh-empty':out=''
-        if mode=='fresh-duplicate':out+=out.splitlines()[0]+'\n'
-        if mode=='fresh-date':out=out.replace('Oct 8','Oct 99')
-        return types.SimpleNamespace(returncode=2 if mode=='fresh-exit' else 0,stdout=out,stderr='denied' if mode=='fresh-stderr' else '')
-    env=bind(['check','alive','details','register','discover','recorded_chain','recover_root','snapshot_consumers','monitor'],{
-        'json':json,'shlex':shlex,'re':re,'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:now[0],strptime=time.strptime),'subprocess':types.SimpleNamespace(run=run,TimeoutExpired=subprocess.TimeoutExpired),
-        'D':D,'P':pathlib.Path('/P'),'A':{'stages':[{'id':'I','argv':root['argv']},{'id':'T','argv':root['argv']}]},'N':{'editor':{'path':'/fixed/Unity'}},'owned':{100:copy.deepcopy(root)},'active':None,
-        'consumer_guard':lambda r:guards.append(copy.deepcopy(r)),'resources':lambda:None,'projection_guard':lambda:None,'event':lambda kind,**kw:events.append(copy.deepcopy({'kind':kind,**kw})),
-        'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'execution_deadline':300.,'work_deadline':120.,'probe_deadline':60. if mode=='fresh-budget' else None,'natural_boundary':60. if mode=='fresh-budget' else None})
-    if mode=='parent-stage':env['owned'][100]['stage']='T'
-    if mode=='parent-reused':env['owned'][100]['start']='older'
-    if mode=='owned-incomplete':env['owned'][101]={**child,'pid':101,'stage':'I','rootPid':100,'argv':[],'cwd':None,'cwdProbeExit':1}
-    if mode=='legacy82401':
-        source=R/'TestArtifacts/FightMatch/RES-COMBINED-V07/run/process-events.jsonl';lines=source.read_text().splitlines();old,failure,closure,resolved=[json.loads(lines[n-1]) for n in (185,186,192,193)]
-        need(old['pid']==82401 and 'argsProbe' not in old['identity'] and 'identityProbeIncomplete' not in old['identity'] and failure['kind']=='monitor_failure' and resolved['resolution']=='absent','Actual old evidence fields unknown, later absence does not supply them')
-        def old_details(pid):raise RuntimeError(old['identity']['firstError'])
-        env['details']=old_details;report['actual82401']={'lines':[185,186,192,193],'events':[old,failure,closure,resolved],'originalFailurePreserved':True,'rawFieldsKnown':False,'newEligibilityProven':False}
-    env['monitor']('running',rows,'I',100,force=True)
-    accepted=mode in ('args-empty','args-whitespace','args-exit1','cwd-empty','cwd-pid-only','cwd-exit1','both-missing')
-    lifecycle=[e for e in events if e['kind']=='transient-child-exited']
-    if accepted:
-        need(not env['monitor_errors'] and not env['pending_details'] and 101 not in env['owned'],'Only missing+fresh absent is exempt')
-        need(fresh_count[0]==1 and len(lifecycle)==1,'Exactly one immediate fresh snapshot')
-        proof=lifecycle[0]['confirmation'];detail=proof['identityProbeIncomplete']
-        need(proof['initialRow']==child and proof['parentChain'] and proof['pidAbsent'] and detail['missingFields'] and set(detail['identitySamples'])=={'args','cwd'},'Structured reason, initial row, verified ancestry and both samples')
-        for sample in detail['identitySamples'].values():need(all(k in sample for k in ('argv','startedUtc','finishedUtc','startedMonotonic','finishedMonotonic','timeoutSeconds','returncode','stdout','stderr','parsed')),'Complete structured sample fields')
-        need(set(rows)==set(env['process_snapshot'])=={100,303} and guards and set(guards[-1])=={100,303},'Subsequent guard receives fresh rows')
-    elif mode in ('complete','sensitive'):
-        need(101 in env['owned'] and not env['monitor_errors'] and not fresh_count[0] and not lifecycle,'Complete identity registers without special confirmation')
-        if mode=='sensitive':
-            serialized=json.dumps({'events':events,'owned':env['owned']})
-            need(all(value not in serialized for value in ['secret_value','token_value','quoted secret']) and '<REDACTED>' in serialized,'Original sensitive argv values never retained')
-    elif mode=='parent-reused':
-        need(not fresh_count[0] and 101 not in env['owned'] and not lifecycle,'Unverified parent cannot enter new exemption')
-    else:
-        need(env['monitor_errors'] and not lifecycle,'Error remains monitor failure '+mode)
-        if mode!='owned-incomplete':need(101 in env['pending_details'] and 101 not in env['owned'],'No failed child gains owned identity or signal authority')
-        else:need(not calls,'Already-owned completeness gate unchanged; no new probe exemption')
-        if mode.startswith('fresh-') and mode not in ('fresh-io','fresh-timeout','fresh-budget'):need(fresh_count[0]==1,'One failing fresh query, no retry')
-        elif mode in ('present','zombie','reused'):need(fresh_count[0]==1,'Presence, zombie or reuse rejected on one fresh query')
-        elif mode not in ('fresh-io','fresh-timeout','fresh-budget'):need(fresh_count[0]==0,'No disappearance inference for invalid samples')
-        if mode in ('args-timeout','cwd-timeout'):
-            observation=next(e for e in events if e['kind']=='identity_probe_failed');sample=observation['samples'][mode.split('-')[0]]
-            need(sample['timedOut'] and sample['stdout']=='partial stdout' and sample['stderr']=='partial stderr','Partial timeout streams retained without exempting error')
-    report.setdefault('identityCases',[]).append({'mode':mode,'calls':calls,'freshQueries':fresh_count[0],'ownedPids':sorted(env['owned']),'pending':copy.deepcopy(env['pending_details']),'monitorErrors':env['monitor_errors'],'events':events,'guardPids':[sorted(r) for r in guards]})
-
-def v08_sdk_exit(mode):
-    pid=73931;rows={pid:{'pid':pid,'ppid':1,'start':'fixed','exe':'adb','stat':'S'}};fresh_calls=[];events=[];bound=mode!='unbound'
-    def run(argv,**kw):
-        isargs=argv[0]=='/bin/ps'
-        if mode=='stderr' and isargs:return types.SimpleNamespace(returncode=1,stdout='',stderr='denied')
-        return types.SimpleNamespace(returncode=1,stdout='',stderr='')
-    def fresh():fresh_calls.append(True);return {} if mode not in ('live','zombie','reuse') else {pid:{**rows[pid],**({'stat':'Z'} if mode=='zombie' else {'start':'reused'} if mode=='reuse' else {})}}
-    env=bind(['check','alive','details','sdk_adb_exception'],{'D':D,'shlex':shlex,'re':re,'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:10,mktime=lambda t:0,strptime=lambda *a:None,time=lambda:100),'A':{'sdkAdb':{'path':'/sdk/adb'},'adbException':{'pid':999}},'sdk_adb':{'pid':pid,'start':'fixed','exe':'adb'} if bound else None,'root_launch_epoch':0,'baseline_processes':{},'owned':{},'sdk_observations':[],'subprocess':types.SimpleNamespace(run=run,TimeoutExpired=subprocess.TimeoutExpired),'ps':fresh,'event':lambda kind,**kw:events.append({'kind':kind,**kw})})
-    if mode=='absent':need(env['sdk_adb_exception'](rows)==set() and not rows and len(fresh_calls)==1,'Previously bound SDK exact exit1 double-empty still requires one absence confirmation')
-    else:need(rejected(lambda:env['sdk_adb_exception'](rows)),'SDK invalid/unbound/live absence remains rejected')
-    need(not env['owned'],'SDK still gains no owned signal authority')
-    if mode in ('unbound','stderr'):need(not fresh_calls,'No expanded SDK exemption')
-    report.setdefault('sdkCases',[]).append({'mode':mode,'freshQueries':len(fresh_calls),'events':events})
-
 try:
     D=json.loads((E/'inputs.json').read_text());F={n.name:n for n in ast.parse((E/'runner.py').read_text()).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
     compile(ast.parse((E/'runner.py').read_text()),RUNNER_FILENAME,'exec')
@@ -962,11 +841,8 @@ try:
     for name,value in history['baseline']['sourceIdentities'].items():need(identity(R/history['baseline']['root']/name)==value,'Immutable V06 '+name)
     env=bind(['basic','normalize_input'],{});N=env['normalize_input'](D)
     sys.setprofile(profile)
-    for mode in ['args-empty', 'args-whitespace', 'args-exit1', 'cwd-empty', 'cwd-pid-only', 'cwd-exit1', 'both-missing', 'present', 'zombie', 'reused', 'args-stderr', 'args-exit2', 'args-exit1-nonempty', 'args-malformed', 'args-multiline', 'args-truncated', 'args-nul', 'args-overflow', 'args-io', 'args-timeout', 'cwd-stderr', 'cwd-exit2', 'cwd-exit1-nonempty', 'cwd-wrongpid', 'cwd-duplicate', 'cwd-malformed', 'cwd-relative', 'cwd-missingpid', 'cwd-truncated', 'cwd-nul', 'cwd-overflow', 'cwd-io', 'cwd-timeout', 'fresh-io', 'fresh-timeout', 'fresh-exit', 'fresh-stderr', 'fresh-malformed', 'fresh-truncated', 'fresh-empty', 'fresh-duplicate', 'fresh-date', 'fresh-budget', 'complete', 'sensitive', 'parent-stage', 'parent-reused', 'owned-incomplete', 'legacy82401']:
-        case('V08 identity '+mode,lambda mode=mode:v08_child(mode))
-    case('V08 SDK complete new and bound through actual details',v08_sdk_live)
-    for mode in ('absent','live','zombie','reuse','unbound','stderr'):
-        case('V08 SDK unchanged exit '+mode,lambda mode=mode:v08_sdk_exit(mode))
+    for mode in ('grace-reappear','hard-reappear','none-reappear','grace-disappear','grace-stable','hard-disappear','normal-disappear'):
+        case('FIX02 actual monitor priority '+mode,lambda mode=mode:fix02_priority(mode))
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()
@@ -978,7 +854,7 @@ finally:
     if conflicts:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Unknown or changed fixture contents preserved'
     report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden
     report['runner']=identity(E/'runner.py');report['checker']=identity(E/'replay-check.py');report['inputs']=identity(E/'inputs.json')
-    if report['seconds']>30 or sum(x['seconds'] for x in history['rounds'])+report['seconds']>60:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V08 replay budget exceeded'
+    if report['seconds']>15 or sum(x['seconds'] for x in history['rounds'])+report['seconds']>30:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V07 replay budget exceeded'
     history['rounds'].append(report);history['status']=report['status'];history['cumulativeSeconds']=sum(x['seconds'] for x in history['rounds'])
     with (E/'replay-results.json').open('w') as stream:json.dump(history,stream,indent=2);stream.write('\n')
     print(json.dumps({'status':report['status'],'round':report['round'],'passedCases':len(cases),'seconds':report['seconds'],'cumulativeSeconds':history['cumulativeSeconds'],'failure':report.get('failure'),'preservedConflicts':conflicts,'forbiddenAttempts':forbidden}))

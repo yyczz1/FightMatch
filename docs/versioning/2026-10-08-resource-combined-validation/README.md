@@ -1,5 +1,7 @@
-# Resource combined validator V07
+# Resource combined validator V08
 
-V06 remains FAILED/T0. An independently reviewed recovery completed in 2.193398 seconds with actual OS exit0; QA verified P1035, 43 compiler targets, 62 original preimages and 58 preserved files. V07 treats transient Bee IPC observations separately from fresh consumer closure and safe restoration. Each live object still requires exact identity and ownership; the existing-bound SDK ADB empty-exit1 exception requires one fresh full snapshot proving absence.
+V07 remains FAILED/T0: a short-lived child had incomplete argv/cwd/cwd-probe identity, but the exact values were not preserved. Later absence cannot retrospectively pass that run. Its in-run restoration and consumer closure completed and were independently received.
 
-Current five source files are V07; canonical V07 design and source packet define scope. Product inputs, 12-assembly provenance, 89 cases, budgets and atomic operations remain fixed. Historical failures and evidence are retained. V07 native has not run; GitHub review and a separate C packet are required first.
+V08 retains structured raw probe observations and permits one immediate full-snapshot absence confirmation only for constrained missing-field results under an already verified owned parent chain. Probe errors, contradictory/live/reused/zombie identities still fail; an incomplete identity never gains owned or signal authority. No process-name exception is added.
+
+Current five files are V08; canonical design and source packet fix scope. Product inputs, 12-assembly provenance, 89 cases, budgets and atomic operations remain fixed. Historical failures and evidence are retained. V08 native has not run; GitHub source review precedes a separate C execution.

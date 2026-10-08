@@ -1,14 +1,5 @@
 {
-  "task": "RES-COMBINED-V08",
-  "author": {
-    "role": "source implementer",
-    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
-    "host": "local",
-    "turn": "01a11a08-464f-7440-9e10-5ba232b28cc4",
-    "requestedModel": "gpt-6-astra",
-    "requestedEffort": "xhigh",
-    "returnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
-  },
+  "task": "V08 source mechanical intake",
   "source": {
     "runner.py": {
       "bytes": 114230,
@@ -31,9 +22,34 @@
       "sha256": "74deaf1c7fad45f5045e526820b5b8a6ba6a51f9065eed210dd35fb05b2b2852"
     }
   },
-  "sourceDirectory": "docs/versioning/2026-10-08-resource-combined-validation",
-  "design": "docs/team/2026-09-30/engineering-resource-combined-v08-correction.md",
-  "packet": "docs/team/2026-09-30/central-resource-combined-v08-source.md",
+  "fixedReferencesMatched": 51,
+  "protectedSections": [
+    "shared",
+    "projectionBefore",
+    "projectionProposed",
+    "cache",
+    "testCases",
+    "editor",
+    "allowedNewSettings",
+    "limits",
+    "commands",
+    "transferPlan"
+  ],
+  "changed": [
+    "child_args",
+    "details",
+    "discover",
+    "register"
+  ],
+  "added": [
+    "IdentityProbeIncomplete",
+    "identity_args",
+    "identity_event",
+    "identity_sample"
+  ],
+  "removed": [],
+  "unchangedCount": 96,
+  "notCodeReview": true,
   "nativeRuns": 0,
-  "priorManifests": "Preserved in parent commits; this file identifies the current source candidate only."
+  "exactInputDeltaReconstructed": 171
 }
