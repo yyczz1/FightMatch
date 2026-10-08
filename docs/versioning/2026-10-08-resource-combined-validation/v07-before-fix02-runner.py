@@ -270,11 +270,10 @@ def bee_fd_binding(path,stage,pid,ds,before):
             if disappeared:
                 record['lifecycle']='reappeared-unbound'
                 record['reappearance']={'identity':record['afterLstat'],'monotonic':time.monotonic()}
-                failure=RuntimeError('INCOMPLETE: Bee endpoint reappeared after ENOENT; fresh binding required')
-                failure.__cause__=primary
-                if primary is not None:record['reappearance']['cause']={'type':type(primary).__name__,'message':str(primary)}
-                primary=failure
-                record['error']={'type':type(primary).__name__,'message':str(primary)}
+                if primary is None:
+                    primary=RuntimeError('INCOMPLETE: Bee endpoint reappeared after ENOENT; fresh binding required')
+                    record['error']={'type':type(primary).__name__,'message':str(primary)}
+                else: primary.add_note('Bee endpoint reappeared after ENOENT; final identity retained')
         except FileNotFoundError: record['afterLstat']={'ENOENT':True}; after=None; record['lifecycle']='observed-ENOENT-not-bound'
         except BaseException as error:
             record['afterLstat']={'errorType':type(error).__name__,'error':str(error)}

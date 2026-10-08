@@ -27,7 +27,7 @@ def rejected(fn):
 SELECTED=['V04 Bee htc then cth', 'V04 Bee cth then htc', 'V04 Bee rejects post-inode', 'V04 Bee rejects post-dir', 'V04 Bee rejects reuse-during', 'V04 fresh sealed state accepted', 'V04 execution state drift rejected', 'V05 full blocking-probe allowance and real timeout', 'V05 near natural boundary actual chain preserves prior Bee error', 'V05 FIX01 natural observation success', 'V05 FIX01 natural observation capacity', 'V05 FIX01 natural observation io', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure stubborn']
 skipped=[]
 def case(name,fn):
-    if not name.startswith('FIX02 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
+    if not name.startswith('FIX01 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
     need(time.monotonic()-START<15 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{},'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}
@@ -789,51 +789,6 @@ def fix01_reappearance(mode):
     else:need(type(caught) is RuntimeError and 'INCOMPLETE' in str(caught),'Bounded reappearance observation fails INCOMPLETE')
     report.setdefault('reappearance',[]).append({'mode':mode,'lstatCalls':count[0],'failureType':type(caught).__name__,'observation':record})
 
-def fix02_priority(mode):
-    env,entries,names,events,calls,VPath=bee_fixture('vanish-during' if mode=='normal-disappear' else 'valid');target=names[0];orig=VPath.lstat;lookups=[0];captured=[];values=[]
-    reappears=mode in ('grace-reappear','hard-reappear','none-reappear')
-    grace=mode.startswith('grace-');hard=mode.startswith('hard-');original_error=PermissionError('original hard FD error')
-    def lstat(path):
-        if str(path)==target:
-            lookups[0]+=1;n=lookups[0]
-            if mode=='none-reappear' and n in (2,3):raise FileNotFoundError(target)
-            if mode in ('grace-reappear','hard-reappear') and n==3:raise FileNotFoundError(target)
-            if mode in ('grace-disappear','hard-disappear') and n>=3:raise FileNotFoundError(target)
-            if reappears and n>=4:
-                v=orig(path);v.st_ino=999;return v
-        return orig(path)
-    VPath.lstat=lstat
-    if grace:env.update(time=types.SimpleNamespace(monotonic=lambda:58.),probe_deadline=60.,natural_boundary=60.,execution_deadline=300.,work_deadline=120.)
-    if hard:
-        def probe(*a,**kw):raise original_error
-        env['subprocess']=types.SimpleNamespace(run=probe,TimeoutExpired=subprocess.TimeoutExpired)
-    def resources():
-        try:values.append(env['bee_ipc_entry'](VPath(target)))
-        except BaseException as error:captured.append(error);raise
-    env.update(snapshot_consumers=lambda *a:None,resources=resources,projection_guard=lambda:None,monitor_errors=[],monitor_cycles=[],last_monitor=0.)
-    bind(['monitor'],env);outer=None
-    try:env['monitor']('natural-closure',env['process_snapshot'],'I',100,strict=True,force=True)
-    except BaseException as error:outer=error
-    record=next(x for x in events if x['kind']=='bee_fd_observation');cycle=env['monitor_cycles'][-1]
-    if reappears:
-        need(len(captured)==1 and type(captured[0]) is RuntimeError and 'INCOMPLETE' in str(captured[0]),'Reappearance always wins as independent hard failure')
-        cause=captured[0].__cause__
-        if grace:need(isinstance(cause,env['NaturalGraceExpired']) and not calls,'Real blocking-probe grace retained as cause; no FD call started')
-        elif hard:need(cause is original_error,'Original hard exception retained as exact cause')
-        else:need(cause is None,'No-primary reappearance explicitly fails')
-        need(type(outer) is RuntimeError and env['monitor_errors'] and not cycle.get('naturalGraceExpired'),'Actual strict monitor records hard error instead of normal grace transition')
-        need(record['lifecycle']=='reappeared-unbound' and record['reappearance']['identity']['ino']==999 and record['error']['type']=='RuntimeError','Observation records reappearance and winning failure')
-        if cause is not None:need(record['reappearance']['cause']=={'type':type(cause).__name__,'message':str(cause)},'Original cause also retained in evidence')
-    elif grace:
-        need(isinstance(outer,env['NaturalGraceExpired']) and isinstance(captured[0],env['NaturalGraceExpired']) and not env['monitor_errors'] and cycle.get('naturalGraceExpired'),'No reappearance retains normal natural grace')
-        need('reappearance' not in record,'No fabricated reappearance')
-    elif hard:
-        need(captured==[original_error] and env['monitor_errors'] and 'reappearance' not in record,'Unrelated hard failure unchanged')
-    else:
-        need(outer is None and not captured and values[0]['type']=='bee-socket-absent' and not env['monitor_errors'],'Ordinary exact disappearance stays a lifecycle observation')
-    need(not env['bee_ipc'],'No incomplete binding accepted')
-    report.setdefault('priorityCases',[]).append({'mode':mode,'resourceError':None if not captured else type(captured[0]).__name__,'cause':None if not captured or captured[0].__cause__ is None else type(captured[0].__cause__).__name__,'monitorErrors':copy.deepcopy(env['monitor_errors']),'naturalGraceExpired':cycle.get('naturalGraceExpired',False),'observation':record})
-
 try:
     D=json.loads((E/'inputs.json').read_text());F={n.name:n for n in ast.parse((E/'runner.py').read_text()).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
     compile(ast.parse((E/'runner.py').read_text()),RUNNER_FILENAME,'exec')
@@ -841,8 +796,13 @@ try:
     for name,value in history['baseline']['sourceIdentities'].items():need(identity(R/history['baseline']['root']/name)==value,'Immutable V06 '+name)
     env=bind(['basic','normalize_input'],{});N=env['normalize_input'](D)
     sys.setprofile(profile)
-    for mode in ('grace-reappear','hard-reappear','none-reappear','grace-disappear','grace-stable','hard-disappear','normal-disappear'):
-        case('FIX02 actual monitor priority '+mode,lambda mode=mode:fix02_priority(mode))
+    for mode in ('zombie','reused','absent'):case('FIX01 bound supplied SDK '+mode,lambda mode=mode:fix01_bound_zombie(mode))
+    case('FIX01 ordinary live SDK full verification',fix01_sdk_live)
+    case('FIX01 SDK double-empty fresh absent still accepted',lambda:v07_sdk('absent'))
+    case('FIX01 SDK fresh zombie still rejected',lambda:v07_sdk('zombie'))
+    for mode in ('before','during','same-inode','primary-error'):case('FIX01 final lstat reappearance '+mode,lambda mode=mode:fix01_reappearance(mode))
+    for mode in ('vanish-first','vanish-during'):case('FIX01 normal Bee disappearance '+mode,lambda mode=mode:v07_lifetime(mode))
+    case('FIX01 ordinary live Bee binding',bee_order)
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()
