@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RES-COMBINED-V06: sealed I then T; source preparation never activates native work."""
+"""RES-COMBINED-V05: sealed I then T; source preparation never activates native work."""
 import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy
 from collections import Counter
 import xml.etree.ElementTree as ET
@@ -10,7 +10,7 @@ allowed=set('activation.json inputs.json before.json preparation.json runner.py 
 owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
 transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}; bee_observation_bytes=0
-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests'
+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests'
 compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
@@ -55,11 +55,7 @@ def bee_process(pid,stage,rootpid):
     detail=details(pid)
     check(detail['argv']==owner['argv'] and detail['cwd']==owner['cwd']==str(P) and detail['cwdProbeExit']==0,'Bee fresh argv/cwd mismatch')
     return {'pid':pid,'start':owner['start'],'exe':owner['exe'],'argv':owner['argv'],'cwd':owner['cwd'],'ppid':owner['ppid'],'stage':stage}
-def bee_fd_bound(text,pid,path,matches=None):
-    spellings=[(str(path),'standard')]
-    target=pathlib.Path(path); endpoint=re.fullmatch(r'ipc_(\d+)_(htc|cth)',target.name)
-    if TMP is not None and target.parent.parent==TMP and re.fullmatch(D['beeIpcContract']['directoryPattern'],target.parent.name) and endpoint and int(endpoint[1])==snapshot_root:
-        spellings.append((str(TMP)+'//'+target.parent.name+'/'+target.name,'extra-tmp-separator'))
+def bee_fd_bound(text,pid,path):
     current=None; fd=None; found=False; saw_pid=False
     for line in text.splitlines():
         if not line: continue
@@ -69,10 +65,8 @@ def bee_fd_bound(text,pid,path,matches=None):
         elif tag=='t': check(fd is not None,'Bee FD missing descriptor'); fd['type']=value
         elif tag=='n':
             check(fd is not None,'Bee FD missing descriptor')
-            for spelling,label in spellings:
-                if re.fullmatch(re.escape(spelling)+r'(?: type=STREAM(?: \(LISTEN\))?)?',value):
-                    check(fd['type']=='unix' and re.fullmatch(r'\d+[a-zA-Z]*',fd['number']),'Bee FD wrong type'); found=True
-                    if matches is not None: matches.append({'spelling':label,'rawName':value,'fd':fd['number']})
+            exact=re.fullmatch(re.escape(str(path))+r'(?: type=STREAM(?: \(LISTEN\))?)?',value)
+            if exact: check(fd['type']=='unix' and re.fullmatch(r'\d+[a-zA-Z]*',fd['number']),'Bee FD wrong type'); found=True
         else: check(tag=='c' and current==pid,'Bee unexpected FD record')
     check(saw_pid,'Bee FD missing PID'); return found
 def bee_ipc_entry(path,observed=None):
@@ -210,7 +204,7 @@ def bee_fd_binding(path,stage,pid,ds,before):
                 item['exitCode']=result.returncode; complete=bee_capture_output(item,result.stdout,result.stderr)
                 check(complete,'INCOMPLETE: Bee raw FD output exceeds bound')
                 check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')
-                item['matchedSpellings']=[]; bound=result.returncode==0 and bee_fd_bound(result.stdout,candidate,path,item['matchedSpellings']); item['parseResult']=bound
+                bound=result.returncode==0 and bee_fd_bound(result.stdout,candidate,path); item['parseResult']=bound
                 if bound: holders.append(identity)
                 refreshed=bee_process(candidate,stage,pid); item['identityRecheck']=refreshed
                 check(refreshed==identity,'Bee process changed during FD probe')
@@ -262,20 +256,8 @@ def ps():
     return result
 def alive(rows,pid):
     return pid in rows and pid in owned and rows[pid]['start']==owned[pid]['start'] and rows[pid]['exe']==owned[pid]['exe'] and not rows[pid]['stat'].startswith('Z')
-class ChildArgsProbeError(RuntimeError):
-    def __init__(self,probe):
-        self.probe=probe
-        super().__init__('Single-PID args probe failed '+json.dumps(probe,ensure_ascii=False))
-def child_args(pid):
-    argv=['/bin/ps','-ww','-p',str(pid),'-o','args=']; started=time.monotonic()
-    timeout=blocking_probe_timeout()
-    result=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)
-    probe={'argv':argv,'returncode':result.returncode,'stdout':result.stdout,'stderr':result.stderr,'startedMonotonic':started,'finishedMonotonic':time.monotonic(),'timeoutSeconds':timeout}
-    if result.returncode!=0: raise ChildArgsProbeError(probe)
-    return result.stdout
-
 def details(pid):
-    args=shlex.split(child_args(pid).strip(),posix=False); redacted=[]; hide=False
+    args=shlex.split(cmd(['/bin/ps','-ww','-p',str(pid),'-o','args=']).strip(),posix=False); redacted=[]; hide=False
     for a in args:
         if hide: redacted.append('<REDACTED>'); hide=False; continue
         sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)
@@ -316,33 +298,7 @@ def discover(rows,stage,rootpid):
                 message='Supplied-snapshot child identity failed '+str(pid)+': '+str(error)
                 if prior is None: pending_details[pid]={'row':dict(row),'stage':stage,'rootPid':rootpid,'firstError':message,'firstObservedUtc':utc()}
                 pending_details[pid]['lastError']=message
-                if isinstance(error,ChildArgsProbeError): pending_details[pid]['argsProbe']=error.probe
                 event('pending_identity',pid=pid,identity=pending_details[pid])
-                probe=error.probe if isinstance(error,ChildArgsProbeError) else None
-                if prior is None and probe is not None and probe['argv']==['/bin/ps','-ww','-p',str(pid),'-o','args='] and probe['returncode']==1 and probe['stdout']=='' and probe['stderr']=='':
-                    parent=row['ppid']; recorded_chain(parent,rootpid)
-                    check(owned[parent]['stage']==stage and owned[parent]['rootPid']==rootpid,'Transient child parent stage mismatch')
-                    chain=[]; ancestor=parent
-                    while True:
-                        chain.append(dict(owned[ancestor]))
-                        if ancestor==rootpid: break
-                        ancestor=owned[ancestor]['ppid']
-                    confirmation={'pid':pid,'initialRow':dict(row),'parentChain':chain,'argsProbe':probe,'stage':stage,'rootPid':rootpid,'startedMonotonic':time.monotonic()}
-                    try:
-                        fresh=ps()
-                    except BaseException as fresh_error:
-                        confirmation['failure']={'type':type(fresh_error).__name__,'message':str(fresh_error)}
-                        pending_details[pid]['freshConfirmation']=confirmation; event('transient_child_confirmation_failed',confirmation=confirmation)
-                        if isinstance(fresh_error,NaturalGraceExpired): raise RuntimeError('INCOMPLETE: transient child fresh confirmation unavailable after args failure') from fresh_error
-                        raise
-                    confirmation.update(finishedMonotonic=time.monotonic(),freshSnapshot=fresh,pidAbsent=pid not in fresh)
-                    pending_details[pid]['freshConfirmation']=confirmation
-                    rows.clear(); rows.update(fresh)
-                    if pid not in fresh:
-                        event('transient-child-exited',confirmation=confirmation); pending_details.pop(pid); changed=True
-                    else:
-                        event('transient_child_confirmation_rejected',confirmation=confirmation)
-                    break
     check(not pending_details,next((p['firstError'] for p in pending_details.values()),'Unverified child remains'))
 def adb_exception(rows):
     spec=A['adbException']; pid=spec['pid']; row=rows.get(pid); item={'utc':utc(),'pid':pid,'present':row is not None}; adb_observations.append(item)
@@ -725,7 +681,7 @@ def preflight():
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')
     bee_tools()
     no_links(TMP); s=TMP.stat()
-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv6\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv5\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')
     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')
     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())
@@ -977,7 +933,7 @@ def normalize_input(raw):
             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],
             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}
 def contract_guard(raw,qa):
-    check(raw['task']=='RES-COMBINED-V06' and raw['schemaVersion']==1,'Current combined schema required')
+    check(raw['task']=='RES-COMBINED-V05' and raw['schemaVersion']==1,'Current combined schema required')
     for key,count in [('shared',1036),('projectionBefore',1035)]:
         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)
     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta
@@ -1129,9 +1085,9 @@ def main():
     clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))
-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V06','Current combined activation required')
+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V05','Current combined activation required')
     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']
-    check(ident(E/'inputs.json')=={'bytes':1248829,'sha256':'4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b'},'Current fixed inputs')
+    check(ident(E/'inputs.json')=={'bytes':1246296,'sha256':'465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3'},'Current fixed inputs')
     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')
     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)
     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')

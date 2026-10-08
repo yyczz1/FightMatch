@@ -1,0 +1,1743 @@
+{
+  "task": "RES-COMBINED-V05",
+  "status": "SOURCE_REPLAY_PASS",
+  "deliveryStatus": "SOURCE_READY",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a11960-3a66-7f51-9642-20d9296354ac",
+    "requestedModel": "gpt-6-astra",
+    "requestedEffort": "xhigh"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "returnRoute": "Direct final and central completion wait; no cross-chat messages.",
+  "preparedUtc": "2026-10-08T02:27:02.263298+00:00",
+  "mechanicalPreparationSeconds": 160,
+  "authority": {
+    "packet": "docs/team/2026-09-30/central-resource-combined-v05-source.md",
+    "design": "docs/team/2026-09-30/engineering-resource-combined-v05-correction.md",
+    "baselineReviewedHead": "ca0204b1aa67096d72f81e4e71c3596bfa1da9ff",
+    "correctionPacket": "docs/team/2026-09-30/central-resource-combined-v05-fix01.md"
+  },
+  "sourceIdentities": {
+    "runner.py": {
+      "bytes": 97866,
+      "sha256": "7c287b387570cca6c72c60165d1e0e9d8a229f7403740d36e8b658dbbbb97b67"
+    },
+    "replay-check.py": {
+      "bytes": 52516,
+      "sha256": "dada8645357f7f78fa624adfb2637c324ece66a0894a0f3374723df8dd579fa0"
+    },
+    "replay-results.json": {
+      "bytes": 350873,
+      "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
+    },
+    "inputs.json": {
+      "bytes": 1246296,
+      "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
+    }
+  },
+  "selfIdentity": "Final exact preparation.json bytes/SHA returned externally after serialization; no circular self hash.",
+  "baseline": {
+    "root": "TestArtifacts/FightMatch/RES-COMBINED-V04/run",
+    "sourceIdentities": {
+      "runner.py": {
+        "bytes": 92571,
+        "sha256": "2327cb60e5fff6406d9d0a56415eef005d9b11452755930f96d0c071314b2caf"
+      },
+      "inputs.json": {
+        "bytes": 1244365,
+        "sha256": "9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524"
+      },
+      "preparation.json": {
+        "bytes": 136069,
+        "sha256": "07e4bc5b437d8276040b0bfa26430a5eb9ee94cf654dd8d83864e9f29367f211"
+      },
+      "replay-check.py": {
+        "bytes": 36478,
+        "sha256": "08519cdfda274179bc472e34f0986f9dce9c1c166df50eb53baef5f2ca9c8f41"
+      },
+      "replay-results.json": {
+        "bytes": 257494,
+        "sha256": "2e61957f14f67199d64b1343014f2824b59ea1879de01df1a1095931de18f944"
+      }
+    }
+  },
+  "activationContract": {
+    "created": false,
+    "task": "RES-COMBINED-V05",
+    "statusRequired": "EXECUTION_BOUND",
+    "executorThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "freshTurn": true,
+    "requiredFields": [
+      "task",
+      "status",
+      "executionOwner",
+      "runner",
+      "seals.inputs",
+      "seals.preparation",
+      "seals.replay-check",
+      "seals.replay-results",
+      "sourceReview.runner",
+      "sourceReview.status=ACCEPT",
+      "sourceReview.head",
+      "sourceReview.resultUrl",
+      "projectRoot",
+      "cwd",
+      "cacheRoot",
+      "editor",
+      "stages",
+      "stopping",
+      "environmentOverrides",
+      "tmpIdentity",
+      "adbException",
+      "sdkAdb"
+    ],
+    "tmpIdentityFields": [
+      "dev",
+      "ino",
+      "uid",
+      "gid"
+    ],
+    "roots": {
+      "R": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "P": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+      "K": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+      "executionEvidence": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run",
+      "newBeeCache": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache",
+      "activationTests": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+    },
+    "tmpPrefix": "/private/tmp/fm-rcv5.XXXXXXXX",
+    "environmentBoth": {
+      "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+      "TMPDIR": "fresh canonical /private/tmp/fm-rcv5.XXXXXXXX, actual path sealed at activation",
+      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache",
+      "DOTNET_EnableDiagnostics": "0"
+    },
+    "environmentTOnly": {
+      "FIGHTMATCH_ACTIVATION_TEST_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+    },
+    "adb": "Freshly re-seal every inherited narrow exception field against the current host; no old approval is reusable.",
+    "completionObservation": {
+      "receiptStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+      "stdoutStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+      "validationStatusRequired": "TEST_PASS",
+      "failureMustBeAbsent": true,
+      "exactReceiptHashRequired": true,
+      "actualProcessExitCodeRequired": 0,
+      "externalClock": "C records monotonic start before invoking the runner and process completion after wait/exit; add the carried preparation160.",
+      "totalMaximumSeconds": 900,
+      "receiptMeasurement": "mechanicalExecutionSecondsThroughEvidence includes all earlier evidence writes/hashes; excludes receipt and stdout.",
+      "stdoutMeasurement": "mechanicalExecutionSecondsThroughReceiptHash includes receipt serialization/write/close/hash; excludes stdout flush and OS exit.",
+      "afterStdoutFlush": "Deadline checked again; overrun returns1 even after a provisional stdout record.",
+      "newOutputPaths": [],
+      "failureRetention": "Completed/partial existing evidence remains; one stdout failure/completion attempt; no recursive receipt rewrite or retry."
+    }
+  },
+  "completionObservationContract": {
+    "receiptStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+    "stdoutStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+    "validationStatusRequired": "TEST_PASS",
+    "failureMustBeAbsent": true,
+    "exactReceiptHashRequired": true,
+    "actualProcessExitCodeRequired": 0,
+    "externalClock": "C records monotonic start before invoking the runner and process completion after wait/exit; add the carried preparation160.",
+    "totalMaximumSeconds": 900,
+    "receiptMeasurement": "mechanicalExecutionSecondsThroughEvidence includes all earlier evidence writes/hashes; excludes receipt and stdout.",
+    "stdoutMeasurement": "mechanicalExecutionSecondsThroughReceiptHash includes receipt serialization/write/close/hash; excludes stdout flush and OS exit.",
+    "afterStdoutFlush": "Deadline checked again; overrun returns1 even after a provisional stdout record.",
+    "newOutputPaths": [],
+    "failureRetention": "Completed/partial existing evidence remains; one stdout failure/completion attempt; no recursive receipt rewrite or retry."
+  },
+  "activationSourceBindings": {
+    "runner": {
+      "bytes": 97866,
+      "sha256": "7c287b387570cca6c72c60165d1e0e9d8a229f7403740d36e8b658dbbbb97b67"
+    },
+    "seals": {
+      "inputs": {
+        "bytes": 1246296,
+        "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
+      },
+      "replay-check": {
+        "bytes": 52516,
+        "sha256": "dada8645357f7f78fa624adfb2637c324ece66a0894a0f3374723df8dd579fa0"
+      },
+      "replay-results": {
+        "bytes": 350873,
+        "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
+      }
+    },
+    "preparationSeal": "Use final externally returned preparation.json seal; no activation created."
+  },
+  "exactBaseDiff": {
+    "inputChanges": [
+      {
+        "path": "/beeObservationContract",
+        "beforeMissing": true,
+        "after": {
+          "rawBytesPerStream": 8192,
+          "recordBytes": 65536,
+          "totalBytes": 262144,
+          "failureStatus": "INCOMPLETE",
+          "parserChanged": false,
+          "candidateSetChanged": false
+        }
+      },
+      {
+        "path": "/commands/I/9",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/I/editor.log",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/I/editor.log"
+      },
+      {
+        "path": "/commands/T/13",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/T/results.xml",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/T/results.xml"
+      },
+      {
+        "path": "/commands/T/15",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/T/editor.log",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/T/editor.log"
+      },
+      {
+        "path": "/commands/environmentBoth/BEE_CACHE_DIRECTORY",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache"
+      },
+      {
+        "path": "/commands/environmentBoth/TMPDIR",
+        "before": "fresh canonical /private/tmp/fm-rcv4.XXXXXXXX, actual path sealed at activation",
+        "after": "fresh canonical /private/tmp/fm-rcv5.XXXXXXXX, actual path sealed at activation"
+      },
+      {
+        "path": "/commands/environmentTOnly/FIGHTMATCH_ACTIVATION_TEST_ROOT",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+      },
+      {
+        "path": "/compilePlan/preserveInPlaceIdentities/Library~1Bee~1TundraBuildState.state/sha256",
+        "before": "195457cf3a5cfffd34bffe89758757ec8b916abbbae9b0de85fdcd8e95a802af",
+        "after": "e7abae99c3c86f129ca1ee17e28423ff2a0fbd68d78caf9ef73153b6b43378e8"
+      },
+      {
+        "path": "/evidenceSlots/root",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run"
+      },
+      {
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-BEE-FD-PROBE-001~1probe.json",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 48709,
+          "sha256": "3e48b59b1ba56b3decf6ad62f579452abf0e2835ab95e6affe7049de3eb0c3ff"
+        }
+      },
+      {
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1inputs.json",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 1244365,
+          "sha256": "9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524"
+        }
+      },
+      {
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1preparation.json",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 136069,
+          "sha256": "07e4bc5b437d8276040b0bfa26430a5eb9ee94cf654dd8d83864e9f29367f211"
+        }
+      },
+      {
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1replay-check.py",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 36478,
+          "sha256": "08519cdfda274179bc472e34f0986f9dce9c1c166df50eb53baef5f2ca9c8f41"
+        }
+      },
+      {
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1replay-results.json",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 257494,
+          "sha256": "2e61957f14f67199d64b1343014f2824b59ea1879de01df1a1095931de18f944"
+        }
+      },
+      {
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1runner.py",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 92571,
+          "sha256": "2327cb60e5fff6406d9d0a56415eef005d9b11452755930f96d0c071314b2caf"
+        }
+      },
+      {
+        "path": "/fixedReferences/docs~1team~12026-09-30~1central-resource-combined-v05-source.md",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 4260,
+          "sha256": "5854c5d015b860d029dfe8b71d1ed23828585957c0d30085eecd512261b57ebe"
+        }
+      },
+      {
+        "path": "/fixedReferences/docs~1team~12026-09-30~1engineering-resource-combined-v05-correction.md",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 10134,
+          "sha256": "fe90ceef001eb80827890afed6ca8bd83a057e3be82259d973079fb3abe5e20c"
+        }
+      },
+      {
+        "path": "/naturalProbeContract",
+        "beforeMissing": true,
+        "after": {
+          "fixedBlockingProbeSeconds": 5,
+          "insufficientNaturalRemaining": "NaturalGraceExpired before subprocess call",
+          "inFlightFailure": "preserve",
+          "noDeadlineExtension": true
+        }
+      },
+      {
+        "path": "/newRootPreconditions/activationTests/path",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+      },
+      {
+        "path": "/newRootPreconditions/executionEvidence/path",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run"
+      },
+      {
+        "path": "/newRootPreconditions/newBeeCache/path",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache"
+      },
+      {
+        "path": "/owner/turn",
+        "before": "01a1190f-0cb8-71d2-a7a6-8fc82ca49834",
+        "after": "01a1194e-5fad-7102-a24c-ff8867edd49c"
+      },
+      {
+        "path": "/paths/activationTests",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+      },
+      {
+        "path": "/paths/executionEvidence",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run"
+      },
+      {
+        "path": "/paths/newBeeCache",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache"
+      },
+      {
+        "path": "/sourceCorrection/actualOwner/turn",
+        "before": "01a1190f-0cb8-71d2-a7a6-8fc82ca49834",
+        "after": "01a1194e-5fad-7102-a24c-ff8867edd49c"
+      },
+      {
+        "path": "/sourceCorrection/baseline",
+        "before": "TestArtifacts/FightMatch/RES-COMBINED-V03/run",
+        "after": "TestArtifacts/FightMatch/RES-COMBINED-V04/run"
+      },
+      {
+        "path": "/sourceCorrection/preparedStateObservations/Library~1Bee~1TundraBuildState.state/sha256",
+        "before": "195457cf3a5cfffd34bffe89758757ec8b916abbbae9b0de85fdcd8e95a802af",
+        "after": "e7abae99c3c86f129ca1ee17e28423ff2a0fbd68d78caf9ef73153b6b43378e8"
+      },
+      {
+        "path": "/sourceCorrection/scope",
+        "before": "Bee IPC admission and natural closure boundary only",
+        "after": "Bounded FD observations and full-five-second natural probe admission; Bee cause UNKNOWN"
+      },
+      {
+        "path": "/sourceCorrection/task",
+        "before": "RES-COMBINED-V04",
+        "after": "RES-COMBINED-V05"
+      },
+      {
+        "path": "/task",
+        "before": "RES-COMBINED-V04",
+        "after": "RES-COMBINED-V05"
+      },
+      {
+        "path": "/transferPlan/0/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"
+      },
+      {
+        "path": "/transferPlan/0/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"
+      },
+      {
+        "path": "/transferPlan/1/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs"
+      },
+      {
+        "path": "/transferPlan/1/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs"
+      },
+      {
+        "path": "/transferPlan/10/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs"
+      },
+      {
+        "path": "/transferPlan/10/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs"
+      },
+      {
+        "path": "/transferPlan/11/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs"
+      },
+      {
+        "path": "/transferPlan/11/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs"
+      },
+      {
+        "path": "/transferPlan/12/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs"
+      },
+      {
+        "path": "/transferPlan/12/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs"
+      },
+      {
+        "path": "/transferPlan/13/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs"
+      },
+      {
+        "path": "/transferPlan/13/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs"
+      },
+      {
+        "path": "/transferPlan/14/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+      },
+      {
+        "path": "/transferPlan/14/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+      },
+      {
+        "path": "/transferPlan/15/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+      },
+      {
+        "path": "/transferPlan/15/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+      },
+      {
+        "path": "/transferPlan/16/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
+      },
+      {
+        "path": "/transferPlan/16/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
+      },
+      {
+        "path": "/transferPlan/17/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+      },
+      {
+        "path": "/transferPlan/18/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+      },
+      {
+        "path": "/transferPlan/19/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs"
+      },
+      {
+        "path": "/transferPlan/2/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs"
+      },
+      {
+        "path": "/transferPlan/2/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs"
+      },
+      {
+        "path": "/transferPlan/20/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+      },
+      {
+        "path": "/transferPlan/21/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs"
+      },
+      {
+        "path": "/transferPlan/22/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta"
+      },
+      {
+        "path": "/transferPlan/23/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json"
+      },
+      {
+        "path": "/transferPlan/23/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json"
+      },
+      {
+        "path": "/transferPlan/24/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag"
+      },
+      {
+        "path": "/transferPlan/24/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag"
+      },
+      {
+        "path": "/transferPlan/25/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json"
+      },
+      {
+        "path": "/transferPlan/25/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.json"
+      },
+      {
+        "path": "/transferPlan/26/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata"
+      },
+      {
+        "path": "/transferPlan/26/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata"
+      },
+      {
+        "path": "/transferPlan/27/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads"
+      },
+      {
+        "path": "/transferPlan/27/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads"
+      },
+      {
+        "path": "/transferPlan/28/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived"
+      },
+      {
+        "path": "/transferPlan/28/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived"
+      },
+      {
+        "path": "/transferPlan/29/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime"
+      },
+      {
+        "path": "/transferPlan/29/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime"
+      },
+      {
+        "path": "/transferPlan/3/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+      },
+      {
+        "path": "/transferPlan/3/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+      },
+      {
+        "path": "/transferPlan/30/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll"
+      },
+      {
+        "path": "/transferPlan/30/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll"
+      },
+      {
+        "path": "/transferPlan/31/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb"
+      },
+      {
+        "path": "/transferPlan/31/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb"
+      },
+      {
+        "path": "/transferPlan/32/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll"
+      },
+      {
+        "path": "/transferPlan/32/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll"
+      },
+      {
+        "path": "/transferPlan/33/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll"
+      },
+      {
+        "path": "/transferPlan/33/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll"
+      },
+      {
+        "path": "/transferPlan/34/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb"
+      },
+      {
+        "path": "/transferPlan/34/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb"
+      },
+      {
+        "path": "/transferPlan/35/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll"
+      },
+      {
+        "path": "/transferPlan/35/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll"
+      },
+      {
+        "path": "/transferPlan/36/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll"
+      },
+      {
+        "path": "/transferPlan/36/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll"
+      },
+      {
+        "path": "/transferPlan/37/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb"
+      },
+      {
+        "path": "/transferPlan/37/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb"
+      },
+      {
+        "path": "/transferPlan/38/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll"
+      },
+      {
+        "path": "/transferPlan/38/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll"
+      },
+      {
+        "path": "/transferPlan/39/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll"
+      },
+      {
+        "path": "/transferPlan/39/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll"
+      },
+      {
+        "path": "/transferPlan/4/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs"
+      },
+      {
+        "path": "/transferPlan/4/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs"
+      },
+      {
+        "path": "/transferPlan/40/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb"
+      },
+      {
+        "path": "/transferPlan/40/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb"
+      },
+      {
+        "path": "/transferPlan/41/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll"
+      },
+      {
+        "path": "/transferPlan/41/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll"
+      },
+      {
+        "path": "/transferPlan/42/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll"
+      },
+      {
+        "path": "/transferPlan/42/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll"
+      },
+      {
+        "path": "/transferPlan/43/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb"
+      },
+      {
+        "path": "/transferPlan/43/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb"
+      },
+      {
+        "path": "/transferPlan/44/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll"
+      },
+      {
+        "path": "/transferPlan/44/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll"
+      },
+      {
+        "path": "/transferPlan/45/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll"
+      },
+      {
+        "path": "/transferPlan/45/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll"
+      },
+      {
+        "path": "/transferPlan/46/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb"
+      },
+      {
+        "path": "/transferPlan/46/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb"
+      },
+      {
+        "path": "/transferPlan/47/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll"
+      },
+      {
+        "path": "/transferPlan/47/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll"
+      },
+      {
+        "path": "/transferPlan/48/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll"
+      },
+      {
+        "path": "/transferPlan/48/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll"
+      },
+      {
+        "path": "/transferPlan/49/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb"
+      },
+      {
+        "path": "/transferPlan/49/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb"
+      },
+      {
+        "path": "/transferPlan/5/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs"
+      },
+      {
+        "path": "/transferPlan/5/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs"
+      },
+      {
+        "path": "/transferPlan/50/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll"
+      },
+      {
+        "path": "/transferPlan/50/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll"
+      },
+      {
+        "path": "/transferPlan/51/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll"
+      },
+      {
+        "path": "/transferPlan/51/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll"
+      },
+      {
+        "path": "/transferPlan/52/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb"
+      },
+      {
+        "path": "/transferPlan/52/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb"
+      },
+      {
+        "path": "/transferPlan/53/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll"
+      },
+      {
+        "path": "/transferPlan/53/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll"
+      },
+      {
+        "path": "/transferPlan/54/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
+      },
+      {
+        "path": "/transferPlan/54/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
+      },
+      {
+        "path": "/transferPlan/55/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb"
+      },
+      {
+        "path": "/transferPlan/55/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb"
+      },
+      {
+        "path": "/transferPlan/56/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll"
+      },
+      {
+        "path": "/transferPlan/56/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll"
+      },
+      {
+        "path": "/transferPlan/57/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
+      },
+      {
+        "path": "/transferPlan/57/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
+      },
+      {
+        "path": "/transferPlan/58/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb"
+      },
+      {
+        "path": "/transferPlan/58/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb"
+      },
+      {
+        "path": "/transferPlan/59/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll"
+      },
+      {
+        "path": "/transferPlan/59/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll"
+      },
+      {
+        "path": "/transferPlan/6/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs"
+      },
+      {
+        "path": "/transferPlan/6/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs"
+      },
+      {
+        "path": "/transferPlan/60/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
+      },
+      {
+        "path": "/transferPlan/60/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
+      },
+      {
+        "path": "/transferPlan/61/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb"
+      },
+      {
+        "path": "/transferPlan/61/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb"
+      },
+      {
+        "path": "/transferPlan/62/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll"
+      },
+      {
+        "path": "/transferPlan/62/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll"
+      },
+      {
+        "path": "/transferPlan/63/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
+      },
+      {
+        "path": "/transferPlan/63/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
+      },
+      {
+        "path": "/transferPlan/64/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb"
+      },
+      {
+        "path": "/transferPlan/64/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb"
+      },
+      {
+        "path": "/transferPlan/65/archiveReplacement",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
+      },
+      {
+        "path": "/transferPlan/65/park",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
+      },
+      {
+        "path": "/transferPlan/7/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs"
+      },
+      {
+        "path": "/transferPlan/7/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs"
+      },
+      {
+        "path": "/transferPlan/8/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs"
+      },
+      {
+        "path": "/transferPlan/8/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs"
+      },
+      {
+        "path": "/transferPlan/9/archive",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs"
+      },
+      {
+        "path": "/transferPlan/9/backup",
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs"
+      }
+    ],
+    "inputReconstructed": true,
+    "runnerUnifiedDiff": "--- V04/runner.py\n+++ V05-FIX01/runner.py\n@@ -1,5 +1,5 @@\n #!/usr/bin/env python3\n-\"\"\"RES-COMBINED-V04: sealed I then T; source preparation never activates native work.\"\"\"\n+\"\"\"RES-COMBINED-V05: sealed I then T; source preparation never activates native work.\"\"\"\n import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy\n from collections import Counter\n import xml.etree.ElementTree as ET\n@@ -9,8 +9,8 @@\n allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())\n owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None\n pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None\n-transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}\n-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests'\n+transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}; bee_observation_bytes=0\n+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests'\n compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None\n def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()\n def check(ok,why):\n@@ -99,20 +99,7 @@\n     except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished before FD binding')\n     check(stat.S_ISSOCK(before.st_mode) and before.st_uid==os.getuid() and before.st_nlink==1 and not stat.S_IMODE(before.st_mode)&0o022,'Bee endpoint type/UID/mode/link')\n     if observed is not None: check(bee_stamp(observed)==bee_stamp(before),'Bee endpoint changed before binding')\n-    bee_tools(); root_identity=bee_process(pid,stage,pid); holders=[]\n-    candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]\n-    for candidate in candidates:\n-        identity=bee_process(candidate,stage,pid)\n-        result=subprocess.run([D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn'],capture_output=True,text=True,timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],probe_timeout()))\n-        # lsof exit1 with empty output means no Unix descriptors; it is not ownership evidence.\n-        check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')\n-        if result.returncode==0 and bee_fd_bound(result.stdout,candidate,path): holders.append(identity)\n-        check(bee_process(candidate,stage,pid)==identity,'Bee process changed during FD probe')\n-    check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')\n-    try: after=path.lstat()\n-    except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')\n-    check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')\n-    bee_tools()\n+    root_identity,holders,after=bee_fd_binding(path,stage,pid,ds,before)\n     if state is None:\n         state={'stage':stage,'rootPid':pid,'rootIdentity':root_identity,'directory':str(path.parent),'directoryIdentity':bee_stamp(ds),'endpoints':{},'closed':False}; bee_ipc[stage]=state\n     state['endpoints'][str(path)]={'identity':bee_stamp(after),'fdOwners':holders,'absent':False}\n@@ -174,8 +161,92 @@\n     digest=hashlib.sha256()\n     for part in json_chunks(value,sort_keys=True,separators=(',',':')): digest.update(part.encode()); probe_timeout()\n     return digest.hexdigest()\n+def blocking_probe_timeout():\n+    remaining=probe_timeout()\n+    if natural_boundary is not None and probe_deadline==natural_boundary:\n+        now=time.monotonic()\n+        check(execution_deadline is None or now<execution_deadline,'Total mechanical deadline exhausted')\n+        if natural_boundary-now<5.: raise NaturalGraceExpired('normal-natural-boundary: insufficient full five-second probe allowance')\n+        return 5.\n+    return remaining\n+def bee_capture_output(record,stdout,stderr):\n+    complete=True; limit=D['beeObservationContract']['rawBytesPerStream']\n+    for key,value in (('rawStdout',stdout),('rawStderr',stderr)):\n+        value='' if value is None else value; raw=value if isinstance(value,bytes) else value.encode('utf-8')\n+        record[key]=raw[:limit].decode('utf-8',errors='replace'); record[key+'Bytes']=len(raw)\n+        if isinstance(value,bytes): record[key+'Hex']=raw[:limit].hex()\n+        if len(raw)>limit: record[key+'Truncated']=True; complete=False\n+    return complete\n+def bee_observation_event(record):\n+    global bee_observation_bytes\n+    payload={'utc':utc(),'kind':'bee_fd_observation',**record}; encoded=(json.dumps(payload,ensure_ascii=False)+'\\n').encode('utf-8')\n+    limits=D['beeObservationContract']\n+    check(len(encoded)<=limits['recordBytes'] and bee_observation_bytes+len(encoded)<=limits['totalBytes'],'INCOMPLETE: Bee observation capacity exceeded')\n+    try: previous=(E/'process-events.jsonl').lstat().st_size\n+    except FileNotFoundError: previous=0\n+    check(previous+len(encoded)<D['evidenceSlots']['maxBytes']-D['evidenceSlots']['reservedFinalReceiptBytes'],'INCOMPLETE: process-events capacity exceeded')\n+    event('bee_fd_observation',**record); bee_observation_bytes+=len(encoded)\n+def bee_fd_binding(path,stage,pid,ds,before):\n+    record={'stage':stage,'monotonic':time.monotonic(),'targetPath':str(path),'rootPid':pid,'beforeLstat':bee_stamp(before),'directoryBefore':bee_stamp(ds),'candidates':[],'probes':[]}\n+    primary=None; root_identity=None; holders=[]; after=None\n+    try:\n+        bee_tools(); root_identity=bee_process(pid,stage,pid); record['rootIdentity']=root_identity\n+        candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]\n+        record['candidates']=[{'pid':p,'ownedIdentity':dict(owned[p])} for p in candidates]\n+        for candidate in candidates:\n+            item={'candidatePid':candidate,'monotonic':time.monotonic(),'targetPath':str(path),'stage':stage,'exitCode':None,'parseResult':None,'identityRecheck':None}; record['probes'].append(item)\n+            probe_error=None\n+            try:\n+                item['beforeLstat']=bee_stamp(path.lstat()); identity=bee_process(candidate,stage,pid); item['identityBefore']=identity\n+                argv=[D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn']; item['argv']=argv\n+                timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],blocking_probe_timeout()); item['timeoutSeconds']=timeout\n+                result=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)\n+                item['exitCode']=result.returncode; complete=bee_capture_output(item,result.stdout,result.stderr)\n+                check(complete,'INCOMPLETE: Bee raw FD output exceeds bound')\n+                check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')\n+                bound=result.returncode==0 and bee_fd_bound(result.stdout,candidate,path); item['parseResult']=bound\n+                if bound: holders.append(identity)\n+                refreshed=bee_process(candidate,stage,pid); item['identityRecheck']=refreshed\n+                check(refreshed==identity,'Bee process changed during FD probe')\n+            except BaseException as error:\n+                probe_error=error; item['error']={'type':type(error).__name__,'message':str(error)}\n+                if isinstance(error,subprocess.TimeoutExpired) and not bee_capture_output(item,error.output,error.stderr):\n+                    item['capacityFailure']={'status':'INCOMPLETE','rawBytesPerStream':D['beeObservationContract']['rawBytesPerStream'],'stdoutBytes':item['rawStdoutBytes'],'stderrBytes':item['rawStderrBytes']}\n+                    raise RuntimeError('INCOMPLETE: Bee timeout partial FD output exceeds bound; TimeoutExpired: '+str(error)) from error\n+                raise\n+            finally:\n+                try: item['afterLstat']=bee_stamp(path.lstat())\n+                except FileNotFoundError: item['afterLstat']={'ENOENT':True}\n+                except BaseException as error:\n+                    item['afterLstat']={'errorType':type(error).__name__,'error':str(error)}\n+                    if probe_error is None: raise\n+                item['finishedMonotonic']=time.monotonic()\n+        check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')\n+        try: after=path.lstat()\n+        except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')\n+        check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')\n+        bee_tools()\n+    except BaseException as error:\n+        primary=error; record['error']={'type':type(error).__name__,'message':str(error)}\n+    finally:\n+        try: record['afterLstat']=bee_stamp(path.lstat())\n+        except FileNotFoundError: record['afterLstat']={'ENOENT':True}\n+        except BaseException as error:\n+            record['afterLstat']={'errorType':type(error).__name__,'error':str(error)}\n+            if primary is None: primary=error; record['error']={'type':type(error).__name__,'message':str(error)}\n+        record['finishedMonotonic']=time.monotonic(); record['fdOwners']=holders\n+        try: bee_observation_event(record)\n+        except BaseException as error:\n+            if primary is None: primary=RuntimeError('INCOMPLETE: Bee observation write failed: '+str(error))\n+            elif isinstance(primary,NaturalGraceExpired):\n+                failure=RuntimeError('INCOMPLETE: Bee observation write failed after natural boundary: '+str(error))\n+                failure.__cause__=primary; failure.__context__=error; primary=failure\n+            else: primary.add_note('INCOMPLETE: Bee observation write failed: '+str(error))\n+    if primary is not None: raise primary\n+    return root_identity,holders,after\n+\n def cmd(argv):\n-    p=subprocess.run(argv,capture_output=True,text=True,timeout=probe_timeout())\n+    p=subprocess.run(argv,capture_output=True,text=True,timeout=blocking_probe_timeout())\n     check(p.returncode==0,'Command failed '+json.dumps({'argv':argv,'exit':p.returncode,'stderr':p.stderr[:600]})); return p.stdout\n def ps():\n     result={}\n@@ -192,7 +263,7 @@\n         sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)\n         if sensitive and '=' in a: redacted.append(a.split('=',1)[0]+'=<REDACTED>')\n         else: redacted.append(a); hide=bool(sensitive)\n-    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=probe_timeout())\n+    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=blocking_probe_timeout())\n     cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)\n     return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}\n def register(pid,row,stage,rootpid,detail=None):\n@@ -200,7 +271,7 @@\n     if pathlib.Path(row['exe']).name=='BeeLocalCacheTool':\n         expected=pathlib.Path(N['editor']['path']).parent.parent/'Tools/BuildPipeline/BeeLocalCacheTool'\n         check(row['exe']==str(expected),'Unbound BeeLocalCacheTool executable')\n-        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-Fn'],capture_output=True,text=True,timeout=probe_timeout())\n+        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-Fn'],capture_output=True,text=True,timeout=blocking_probe_timeout())\n         names=[line[1:] for line in probe.stdout.splitlines() if line.startswith('n')]\n         check(probe.returncode==0 and not probe.stderr.strip() and any(name==str(BC) or name.startswith(str(BC)+'/') for name in names),'BeeLocalCacheTool lacks current BC evidence')\n         detail={**detail,'beeCacheEvidence':{'root':str(BC),'fds':names}}\n@@ -235,7 +306,7 @@\n     check({k:li[k] for k in spec['logIdentity']}==spec['logIdentity'],'Original ADB log identity changed')\n     if row is None or row['stat'].startswith('Z'): return pid\n     item['row']=row; check(row['start']==spec['start'] and row['exe']=='adb','Unknown ADB identity'); item['argv']=details(pid)['argv']; check(item['argv']==spec['argv'],'ADB argv changed')\n-    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout()); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None\n+    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=blocking_probe_timeout()); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None\n     for line in probe.stdout.splitlines():\n         if line.startswith('p'): ownerpid=int(line[1:])\n         elif line.startswith('f'): files.append({'fd':line[1:]})\n@@ -256,7 +327,7 @@\n         uid=int(cmd(['/bin/ps','-p',str(pid),'-o','uid=']).strip()); check(uid==os.getuid(),'SDK ADB UID')\n         check(ident(spec['path'])=={k:spec[k] for k in ['bytes','sha256']},'Frozen SDK executable bytes')\n         check(pathlib.Path(spec['path']).resolve()==pathlib.Path(spec['path']),'Canonical SDK executable')\n-        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout())\n+        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=blocking_probe_timeout())\n         check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete SDK ADB FD evidence'); files=[]; ownerpid=None\n         for line in probe.stdout.splitlines():\n             if line.startswith('p'): ownerpid=int(line[1:])\n@@ -610,7 +681,7 @@\n     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')\n     bee_tools()\n     no_links(TMP); s=TMP.stat()\n-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv4\\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')\n+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv5\\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')\n     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')\n     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')\n     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())\n@@ -862,7 +933,7 @@\n             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],\n             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}\n def contract_guard(raw,qa):\n-    check(raw['task']=='RES-COMBINED-V04' and raw['schemaVersion']==1,'Current combined schema required')\n+    check(raw['task']=='RES-COMBINED-V05' and raw['schemaVersion']==1,'Current combined schema required')\n     for key,count in [('shared',1036),('projectionBefore',1035)]:\n         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)\n     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta\n@@ -1014,9 +1085,9 @@\n     clock_start=time.monotonic()\n     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]\n     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))\n-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V04','Current combined activation required')\n+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V05','Current combined activation required')\n     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']\n-    check(ident(E/'inputs.json')=={'bytes':1244365,'sha256':'9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524'},'Current fixed inputs')\n+    check(ident(E/'inputs.json')=={'bytes':1246296,'sha256':'465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3'},'Current fixed inputs')\n     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')\n     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)\n     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')\n",
+    "changedFunctionsAfterBindingNormalization": [
+      "bee_ipc_entry",
+      "cmd",
+      "details",
+      "register",
+      "adb_exception",
+      "sdk_adb_exception"
+    ],
+    "addedFunctions": [
+      "bee_capture_output",
+      "bee_fd_binding",
+      "bee_observation_event",
+      "blocking_probe_timeout"
+    ],
+    "unchangedFunctions": [
+      "utc",
+      "check",
+      "ident",
+      "write",
+      "event",
+      "NaturalGraceExpired",
+      "bee_stamp",
+      "bee_tools",
+      "bee_process",
+      "bee_fd_bound",
+      "bee_ipc_snapshot",
+      "probe_timeout",
+      "checked",
+      "read_chunks",
+      "bounded_read",
+      "bounded_text",
+      "scan_tree",
+      "children",
+      "json_chunks",
+      "json_digest",
+      "ps",
+      "alive",
+      "discover",
+      "consumer_guard",
+      "recorded_chain",
+      "recover_root",
+      "snapshot_consumers",
+      "monitor",
+      "closure",
+      "no_links",
+      "inventory",
+      "same",
+      "old_evidence",
+      "tree_entries",
+      "tree_identity",
+      "size",
+      "evidence_paths",
+      "evidence_name",
+      "evidence_identity",
+      "dlls",
+      "transfer_slots",
+      "move_verified",
+      "transfer",
+      "rename_exclusive",
+      "rename_swap",
+      "swap_verified",
+      "atomic_write",
+      "basic",
+      "source_tree",
+      "canonical",
+      "host_io_guard",
+      "projection_guard",
+      "temp_snapshot",
+      "protection",
+      "resources",
+      "validate_inputs",
+      "preflight",
+      "capture_before",
+      "synchronize",
+      "frozen_text",
+      "compiler_graph",
+      "compiler_path",
+      "compiler_binding",
+      "cached_reuse_proven",
+      "compilation_passed",
+      "csc_events",
+      "compile_evidence",
+      "claim_stage",
+      "run_stage",
+      "log_guard",
+      "archive_and_restore",
+      "normalize_input",
+      "contract_guard",
+      "compiler_paths",
+      "dynamic_evidence",
+      "cache_guard",
+      "as_guard",
+      "isolate_stage",
+      "park_compiler",
+      "restore_compiler",
+      "restore_all",
+      "validate_xml",
+      "test_evidence",
+      "run_sequence",
+      "stage_environment",
+      "finalize",
+      "main"
+    ],
+    "functionAstSeals": {
+      "utc": {
+        "before": "39d6dad3fd1a18d0effe82508098c22d123d370265f4322e48f90ad0459f30c3",
+        "after": "39d6dad3fd1a18d0effe82508098c22d123d370265f4322e48f90ad0459f30c3"
+      },
+      "check": {
+        "before": "d07880496d42d7bbaa3564d88be03d7ebfdb6aa4ba51fac4f39a554b8051d513",
+        "after": "d07880496d42d7bbaa3564d88be03d7ebfdb6aa4ba51fac4f39a554b8051d513"
+      },
+      "ident": {
+        "before": "dd1839f7068ac9b852bf02d0a3def95a7f97ba56a547e596bb35e908bbbf2513",
+        "after": "dd1839f7068ac9b852bf02d0a3def95a7f97ba56a547e596bb35e908bbbf2513"
+      },
+      "write": {
+        "before": "9892527385dbe06f36059c68290dabab4ae826c409fa7a5366f98a3a0618e5c2",
+        "after": "9892527385dbe06f36059c68290dabab4ae826c409fa7a5366f98a3a0618e5c2"
+      },
+      "event": {
+        "before": "47d660c7735d1fc62c9e14a6ba9f3b9420d90625b2bb0edccf245755bea800c7",
+        "after": "47d660c7735d1fc62c9e14a6ba9f3b9420d90625b2bb0edccf245755bea800c7"
+      },
+      "NaturalGraceExpired": {
+        "before": "7632f96f67d45301832c4fc0ca04bfddbd0d16befa2bf80eb2bc7a554a935426",
+        "after": "7632f96f67d45301832c4fc0ca04bfddbd0d16befa2bf80eb2bc7a554a935426"
+      },
+      "bee_stamp": {
+        "before": "68fcc1b51b4237e06d725ce813c1a2804c1120db54d1cb91c374943ada944ebb",
+        "after": "68fcc1b51b4237e06d725ce813c1a2804c1120db54d1cb91c374943ada944ebb"
+      },
+      "bee_tools": {
+        "before": "12d2a7c41ad1dbe267ac88ebe1725282b14991e74e465fb1cdc985d6bd6297d0",
+        "after": "12d2a7c41ad1dbe267ac88ebe1725282b14991e74e465fb1cdc985d6bd6297d0"
+      },
+      "bee_process": {
+        "before": "4b4d6a393961f6301de058ab426b9b2c13ffd187906009995748f873cda15d5c",
+        "after": "4b4d6a393961f6301de058ab426b9b2c13ffd187906009995748f873cda15d5c"
+      },
+      "bee_fd_bound": {
+        "before": "3293ab09ab50e423dc33639f0bc41f7bbba74b95759bcc2969f48054386edefe",
+        "after": "3293ab09ab50e423dc33639f0bc41f7bbba74b95759bcc2969f48054386edefe"
+      },
+      "bee_ipc_entry": {
+        "before": "eb259220b2eea4a58f370d6ea1e87c2432bf1ab7a5e3c9ab5269ccf63423fb98",
+        "after": "c98b193844aef3a202dc53a8c1464fdcfc900efbf2fee54713138a41470e76df"
+      },
+      "bee_ipc_snapshot": {
+        "before": "dc2d56bbd1af078267ae3e4fa498b42d5c2bcdc764127fb58a68d152134728c8",
+        "after": "dc2d56bbd1af078267ae3e4fa498b42d5c2bcdc764127fb58a68d152134728c8"
+      },
+      "probe_timeout": {
+        "before": "85863734a5435e61a355f34212d358c2839f96cb199882caec582749e6bb4e1e",
+        "after": "85863734a5435e61a355f34212d358c2839f96cb199882caec582749e6bb4e1e"
+      },
+      "checked": {
+        "before": "baaffeeeafc19323684f3c1b9ae44b12c7149c239604dfce5cf76355461032e5",
+        "after": "baaffeeeafc19323684f3c1b9ae44b12c7149c239604dfce5cf76355461032e5"
+      },
+      "read_chunks": {
+        "before": "e7016767867b2f8e743f9df45740b58ce1d3422b9394162c213e7583e1838ba7",
+        "after": "e7016767867b2f8e743f9df45740b58ce1d3422b9394162c213e7583e1838ba7"
+      },
+      "bounded_read": {
+        "before": "ec8df9e2c502e73f071ea686fea945d1ab1b5567e258c4f20613cf3c42e9bb15",
+        "after": "ec8df9e2c502e73f071ea686fea945d1ab1b5567e258c4f20613cf3c42e9bb15"
+      },
+      "bounded_text": {
+        "before": "22469fad6a1af741660f607c2baf5d424fd302325257e707dd5ecd964b0826c8",
+        "after": "22469fad6a1af741660f607c2baf5d424fd302325257e707dd5ecd964b0826c8"
+      },
+      "scan_tree": {
+        "before": "9cfac4a18342a142bd96ab02f630a9bf7fe75da19b2335c2ca0392eaea39f95a",
+        "after": "9cfac4a18342a142bd96ab02f630a9bf7fe75da19b2335c2ca0392eaea39f95a"
+      },
+      "children": {
+        "before": "46c7c7548c272ef914866cafcfdc5574965188681163d863929bec6a8590a160",
+        "after": "46c7c7548c272ef914866cafcfdc5574965188681163d863929bec6a8590a160"
+      },
+      "json_chunks": {
+        "before": "fbfc9d5b3e56ca303f9a2540b26f92d551dcd9f9a26e2bec14c48b5cd9a31da0",
+        "after": "fbfc9d5b3e56ca303f9a2540b26f92d551dcd9f9a26e2bec14c48b5cd9a31da0"
+      },
+      "json_digest": {
+        "before": "8ff41ccd91f8b43aec76f651ab1ed128303a6798decadf746fa52839bf5de854",
+        "after": "8ff41ccd91f8b43aec76f651ab1ed128303a6798decadf746fa52839bf5de854"
+      },
+      "cmd": {
+        "before": "b0475b29b11fa20dc4336bf577020598bd38cd4fe04dc46995095531993a3171",
+        "after": "eac4121449af4993b4a29be7ec5c9862ad0209dbafe5a31edc0ac51d1abbf3d5"
+      },
+      "ps": {
+        "before": "620702f0c8c5580e76f1eec961c1b791b19fcdc81c3cc1eddc3c9b944d272bd6",
+        "after": "620702f0c8c5580e76f1eec961c1b791b19fcdc81c3cc1eddc3c9b944d272bd6"
+      },
+      "alive": {
+        "before": "b19c1a6e70801a514e87950a4d987a436c2129853de8a51732ca3f8504edb1d0",
+        "after": "b19c1a6e70801a514e87950a4d987a436c2129853de8a51732ca3f8504edb1d0"
+      },
+      "details": {
+        "before": "a73592a4ae1f7b3f84e8854e532b958a78074d916a3e662e1a405fc485702c62",
+        "after": "ccec265566ab9db0a02c7ca4140dfc519bc7291ea0fc8d59d9a0b3d7b9623541"
+      },
+      "register": {
+        "before": "53bd7075da21dac1a05ea05be3026ee22094ee1837d75d6e625e11b1dd9a6710",
+        "after": "a0da5b428fce64b6031ee9f287ca3611d83fb26332739049daf81539987c2124"
+      },
+      "discover": {
+        "before": "1f69e005c0816030bec4ade941bfc8f83f4258d94b52370d9af536a4f2c97915",
+        "after": "1f69e005c0816030bec4ade941bfc8f83f4258d94b52370d9af536a4f2c97915"
+      },
+      "adb_exception": {
+        "before": "02e21b741b0e9455e219eedea32f529437419179d780ea663df6c75d844f637e",
+        "after": "fe55faf282b48c9d6e42d2f9881995c878f68e5b1d3f9913f6b023c20fd19168"
+      },
+      "sdk_adb_exception": {
+        "before": "e0be59e8d94863904647fd07849d25900965c38ea430181e80389072e611db14",
+        "after": "e3ff4a382dcdcd4731917138baef886f0e7e63e737d49db01872be2ccf24fbee"
+      },
+      "consumer_guard": {
+        "before": "e610cea7e3aedb4245897bcadd236f506b2804ae7d908f138679aa9e65371f57",
+        "after": "e610cea7e3aedb4245897bcadd236f506b2804ae7d908f138679aa9e65371f57"
+      },
+      "recorded_chain": {
+        "before": "33d62050b5215032afd57e70f6c78cddd451d1563b44d5fcc76ae8c308198ed7",
+        "after": "33d62050b5215032afd57e70f6c78cddd451d1563b44d5fcc76ae8c308198ed7"
+      },
+      "recover_root": {
+        "before": "25017417fe70c47d6c14e6f10ff0411c33ddb1b9b09395043fccfac9bc02ac99",
+        "after": "25017417fe70c47d6c14e6f10ff0411c33ddb1b9b09395043fccfac9bc02ac99"
+      },
+      "snapshot_consumers": {
+        "before": "a24042beaa17097e644152b481016dc1f2e10dcfc3e44810f52d05ce53294190",
+        "after": "a24042beaa17097e644152b481016dc1f2e10dcfc3e44810f52d05ce53294190"
+      },
+      "monitor": {
+        "before": "0ae7761cb810d2b09e95808981a8487bea67d3e072e962585ad9147514db5ef9",
+        "after": "0ae7761cb810d2b09e95808981a8487bea67d3e072e962585ad9147514db5ef9"
+      },
+      "closure": {
+        "before": "cd1ad4f0e05ce5e36288d52dc0bc72b68e5f676b70451075f06e8b61addb8eea",
+        "after": "cd1ad4f0e05ce5e36288d52dc0bc72b68e5f676b70451075f06e8b61addb8eea"
+      },
+      "no_links": {
+        "before": "ad39932b9fbe7ca3e7e9ac65e7cc18b4d159630e869d2ba8436199fb5eacb860",
+        "after": "ad39932b9fbe7ca3e7e9ac65e7cc18b4d159630e869d2ba8436199fb5eacb860"
+      },
+      "inventory": {
+        "before": "05281e004022e7c0123c22f7cf2afba003437017d88b719c2f9902218dcfe3c6",
+        "after": "05281e004022e7c0123c22f7cf2afba003437017d88b719c2f9902218dcfe3c6"
+      },
+      "same": {
+        "before": "e5f3a33ee97bc27b70ab39f9f7ce5f73e4fb1e5b4e0d78c3f65b76b36047c4c2",
+        "after": "e5f3a33ee97bc27b70ab39f9f7ce5f73e4fb1e5b4e0d78c3f65b76b36047c4c2"
+      },
+      "old_evidence": {
+        "before": "71767bed5f71f0673442459e842eeeb581e10e4f5e2782c74a3e5699561e3068",
+        "after": "71767bed5f71f0673442459e842eeeb581e10e4f5e2782c74a3e5699561e3068"
+      },
+      "tree_entries": {
+        "before": "d1ce95ed6654fc768ae8660b612d03b65a27804fe44d2bb0892cff9718da72b6",
+        "after": "d1ce95ed6654fc768ae8660b612d03b65a27804fe44d2bb0892cff9718da72b6"
+      },
+      "tree_identity": {
+        "before": "091e923dded659711ef69bb3647c7c1ff82a1fb5d4e2feb40a08470ca7f740c4",
+        "after": "091e923dded659711ef69bb3647c7c1ff82a1fb5d4e2feb40a08470ca7f740c4"
+      },
+      "size": {
+        "before": "10d37ecf2e3a0dd853d776582f4ca993666b14a448e97cb2b88c55aed97dd81a",
+        "after": "10d37ecf2e3a0dd853d776582f4ca993666b14a448e97cb2b88c55aed97dd81a"
+      },
+      "evidence_paths": {
+        "before": "49eb29365ac1390ee644da72e181aa7de135bd40eef3c0ca1bcf023d35096bd1",
+        "after": "49eb29365ac1390ee644da72e181aa7de135bd40eef3c0ca1bcf023d35096bd1"
+      },
+      "evidence_name": {
+        "before": "d110fc696d8f07eaa0ca1a198f825174f4996ddd75216cc10446a9cd66513fb6",
+        "after": "d110fc696d8f07eaa0ca1a198f825174f4996ddd75216cc10446a9cd66513fb6"
+      },
+      "evidence_identity": {
+        "before": "e590fe1fe1e2643312bcf7bbca2fd6c47482e870c240bb1f2b68d7601afc10ee",
+        "after": "e590fe1fe1e2643312bcf7bbca2fd6c47482e870c240bb1f2b68d7601afc10ee"
+      },
+      "dlls": {
+        "before": "fa4ebc9d44501a9eba2d151225d5d769b1d3b6929f16a5db0408a909a096d0c6",
+        "after": "fa4ebc9d44501a9eba2d151225d5d769b1d3b6929f16a5db0408a909a096d0c6"
+      },
+      "transfer_slots": {
+        "before": "9a9ba4b181935629308a9b49b94e753780063ee808285004db643e451ae873e8",
+        "after": "9a9ba4b181935629308a9b49b94e753780063ee808285004db643e451ae873e8"
+      },
+      "move_verified": {
+        "before": "d0f4739a62a62a519fb6c737b294336f86cb52150563f7246ed0297fd192e07f",
+        "after": "d0f4739a62a62a519fb6c737b294336f86cb52150563f7246ed0297fd192e07f"
+      },
+      "transfer": {
+        "before": "a18b58b7e3a36d0d8e1fe53f0700f088aee70967be91b3ad4a385ab39099ea51",
+        "after": "a18b58b7e3a36d0d8e1fe53f0700f088aee70967be91b3ad4a385ab39099ea51"
+      },
+      "rename_exclusive": {
+        "before": "fc3e3ead7d368e7b088d6df68b87abca9582226ffa02ee748bf675257b45466c",
+        "after": "fc3e3ead7d368e7b088d6df68b87abca9582226ffa02ee748bf675257b45466c"
+      },
+      "rename_swap": {
+        "before": "9ef02b443602a7db148ef8f13d5171f43eaf14b9cac8acabdc0e35496c15e407",
+        "after": "9ef02b443602a7db148ef8f13d5171f43eaf14b9cac8acabdc0e35496c15e407"
+      },
+      "swap_verified": {
+        "before": "3f05f2d41ec98d64f42f5535605dd2ec43f9340f55bc440c5765fa5b7ccaa6ed",
+        "after": "3f05f2d41ec98d64f42f5535605dd2ec43f9340f55bc440c5765fa5b7ccaa6ed"
+      },
+      "atomic_write": {
+        "before": "394a4cb5041c142938923a360b28a8bcd58ef0044e7e080d4e4319969e632660",
+        "after": "394a4cb5041c142938923a360b28a8bcd58ef0044e7e080d4e4319969e632660"
+      },
+      "basic": {
+        "before": "5780a3c9d1dfd26fea48cae74c24ce30687c9845b7ce50efb21c06f01ebd1c12",
+        "after": "5780a3c9d1dfd26fea48cae74c24ce30687c9845b7ce50efb21c06f01ebd1c12"
+      },
+      "source_tree": {
+        "before": "76e2ec8d4f3f3cf4696898c8533382c5b16d218b8326d3792042ee6123814c08",
+        "after": "76e2ec8d4f3f3cf4696898c8533382c5b16d218b8326d3792042ee6123814c08"
+      },
+      "canonical": {
+        "before": "002f73d851ab1011ff93faa8c5bb4bd7abf13045ee2662f5f45c4554520004bc",
+        "after": "002f73d851ab1011ff93faa8c5bb4bd7abf13045ee2662f5f45c4554520004bc"
+      },
+      "host_io_guard": {
+        "before": "f90727e050c8c3e1dab3bf5e1f47a9e5298a410fcc2534cdb938489ee69ff499",
+        "after": "f90727e050c8c3e1dab3bf5e1f47a9e5298a410fcc2534cdb938489ee69ff499"
+      },
+      "projection_guard": {
+        "before": "5684cfd68ab217b5916fc32e579bc0a8978093193b144b5ffdbc430627cb2d1b",
+        "after": "5684cfd68ab217b5916fc32e579bc0a8978093193b144b5ffdbc430627cb2d1b"
+      },
+      "temp_snapshot": {
+        "before": "05bb7a4de825f554f05e2240eae9768b12f5719335d908c6c233d29c2a793440",
+        "after": "05bb7a4de825f554f05e2240eae9768b12f5719335d908c6c233d29c2a793440"
+      },
+      "protection": {
+        "before": "b99c15af79b798de78fcbd759d0317d933c903e22897357764f5587c165b7ce6",
+        "after": "b99c15af79b798de78fcbd759d0317d933c903e22897357764f5587c165b7ce6"
+      },
+      "resources": {
+        "before": "6a837df39faf7980a85fc9154dd10a1f5d7860c7544407b127da21abc71ae0f5",
+        "after": "6a837df39faf7980a85fc9154dd10a1f5d7860c7544407b127da21abc71ae0f5"
+      },
+      "validate_inputs": {
+        "before": "906883dd9e2ae17cca3749abf4f994e5430a3b1181d7556a3345903d2bd2c19d",
+        "after": "906883dd9e2ae17cca3749abf4f994e5430a3b1181d7556a3345903d2bd2c19d"
+      },
+      "preflight": {
+        "before": "2c57ac085ab990caae2a7f044f97d29e4291bbad68ad7650ad1f74252d39526f",
+        "after": "2c57ac085ab990caae2a7f044f97d29e4291bbad68ad7650ad1f74252d39526f"
+      },
+      "capture_before": {
+        "before": "4a537094b429ff0f186cb7b8ec9bc23c2df36a8ec56f4867463baa27313d9c91",
+        "after": "4a537094b429ff0f186cb7b8ec9bc23c2df36a8ec56f4867463baa27313d9c91"
+      },
+      "synchronize": {
+        "before": "ba9e5eb31aa4a9383e89e63cb9bb4fb224ac4f5aa820925afb5223b2a33bbeb9",
+        "after": "ba9e5eb31aa4a9383e89e63cb9bb4fb224ac4f5aa820925afb5223b2a33bbeb9"
+      },
+      "frozen_text": {
+        "before": "cd3554e7d006467e4d5837f526eb7b8a87e4a76eeb613d98db6f4069d4bd9384",
+        "after": "cd3554e7d006467e4d5837f526eb7b8a87e4a76eeb613d98db6f4069d4bd9384"
+      },
+      "compiler_graph": {
+        "before": "5951e791f2170b1bad76c82d3c0d11e93872101164d4aa75d6a5146bdf3c3d14",
+        "after": "5951e791f2170b1bad76c82d3c0d11e93872101164d4aa75d6a5146bdf3c3d14"
+      },
+      "compiler_path": {
+        "before": "fdcd3b75bf03054c84965dfd480f03cc2bbaadf4a5f893f47b698e5713c82ead",
+        "after": "fdcd3b75bf03054c84965dfd480f03cc2bbaadf4a5f893f47b698e5713c82ead"
+      },
+      "compiler_binding": {
+        "before": "f7e006535da1e7b2233d095f4f385ff409a7a99afd87402b9e65a8cfe70d0ce6",
+        "after": "f7e006535da1e7b2233d095f4f385ff409a7a99afd87402b9e65a8cfe70d0ce6"
+      },
+      "cached_reuse_proven": {
+        "before": "b3c6ca614bf7727f97f8908a2bb395686826a2aa68dd931a92d3a216b88546c9",
+        "after": "b3c6ca614bf7727f97f8908a2bb395686826a2aa68dd931a92d3a216b88546c9"
+      },
+      "compilation_passed": {
+        "before": "89aa05614d6edd5eb63db50c801ccbbb3b12c0f206412eee027ac03d88c42cad",
+        "after": "89aa05614d6edd5eb63db50c801ccbbb3b12c0f206412eee027ac03d88c42cad"
+      },
+      "csc_events": {
+        "before": "5efecbcb40c0b5a30d4e145caa93fe4e98818c8cf6d7e1285b3f2f6a656caeb9",
+        "after": "5efecbcb40c0b5a30d4e145caa93fe4e98818c8cf6d7e1285b3f2f6a656caeb9"
+      },
+      "compile_evidence": {
+        "before": "c5605e1cbc13a65a06938d2f29ad11e163a17a32b669aae15c4b5b887e0fd141",
+        "after": "c5605e1cbc13a65a06938d2f29ad11e163a17a32b669aae15c4b5b887e0fd141"
+      },
+      "claim_stage": {
+        "before": "8161b814fca5340d7c10ed1b73a1dcb43f52454d8337a3ec6d20f62fb58b287f",
+        "after": "8161b814fca5340d7c10ed1b73a1dcb43f52454d8337a3ec6d20f62fb58b287f"
+      },
+      "run_stage": {
+        "before": "ccfc155b4e15a0c208fadb834d6b8b334b8ca90c28ab7748ea264305ecabf69c",
+        "after": "ccfc155b4e15a0c208fadb834d6b8b334b8ca90c28ab7748ea264305ecabf69c"
+      },
+      "log_guard": {
+        "before": "b9e44f2df714a18027ceb61c38c3a5c0224669e994707c3af0e6f585835d7bc0",
+        "after": "b9e44f2df714a18027ceb61c38c3a5c0224669e994707c3af0e6f585835d7bc0"
+      },
+      "archive_and_restore": {
+        "before": "5420ddeee808cb5ba50a18d608a97b95c585d695b36219035b3f18f9adcc8650",
+        "after": "5420ddeee808cb5ba50a18d608a97b95c585d695b36219035b3f18f9adcc8650"
+      },
+      "normalize_input": {
+        "before": "05b5c3bdb05083bdb025866ebe9b8dfbeb4409cb67180e145a0eb6de3ef8fc91",
+        "after": "05b5c3bdb05083bdb025866ebe9b8dfbeb4409cb67180e145a0eb6de3ef8fc91"
+      },
+      "contract_guard": {
+        "before": "9c43ef109d4f0856654694d7cbd1af87399eac20312567de278fef2de454e27c",
+        "after": "9c43ef109d4f0856654694d7cbd1af87399eac20312567de278fef2de454e27c"
+      },
+      "compiler_paths": {
+        "before": "bac7d3cfbfc289b1392df3bdca21c77d643c1c30ecec3ab69678555fed704bf8",
+        "after": "bac7d3cfbfc289b1392df3bdca21c77d643c1c30ecec3ab69678555fed704bf8"
+      },
+      "dynamic_evidence": {
+        "before": "bd4899664fd63ddd76a99b9728c5331f0a989a634eb48aceed182efbcb1f9e18",
+        "after": "bd4899664fd63ddd76a99b9728c5331f0a989a634eb48aceed182efbcb1f9e18"
+      },
+      "cache_guard": {
+        "before": "416fdad7ee9e6494776c7b065aadf712c070e7f9b90b4fd61a397c10fd8529af",
+        "after": "416fdad7ee9e6494776c7b065aadf712c070e7f9b90b4fd61a397c10fd8529af"
+      },
+      "as_guard": {
+        "before": "f4a236e208c1c44c18ac770e43d6c494213691269706ad1f29f21b70decb60b1",
+        "after": "f4a236e208c1c44c18ac770e43d6c494213691269706ad1f29f21b70decb60b1"
+      },
+      "isolate_stage": {
+        "before": "ad013b7f1256c035fed51ff3c5418bbd5bc3f57407b8c66efe004112a3719a87",
+        "after": "ad013b7f1256c035fed51ff3c5418bbd5bc3f57407b8c66efe004112a3719a87"
+      },
+      "park_compiler": {
+        "before": "ff549ac15d6b3e8c51b022e9cfc50a53e6b0eeaaac1f3b730fd7a6e8894fafe9",
+        "after": "ff549ac15d6b3e8c51b022e9cfc50a53e6b0eeaaac1f3b730fd7a6e8894fafe9"
+      },
+      "restore_compiler": {
+        "before": "aa927bb2ef865447e4c725a7af761ac3b3c39655ce6d1a8b13e950af332eddb9",
+        "after": "aa927bb2ef865447e4c725a7af761ac3b3c39655ce6d1a8b13e950af332eddb9"
+      },
+      "restore_all": {
+        "before": "1ca15dde30990a34d3f4434ce4ca629eeb9fa21b0fc64c718262d0b17cec23ad",
+        "after": "1ca15dde30990a34d3f4434ce4ca629eeb9fa21b0fc64c718262d0b17cec23ad"
+      },
+      "validate_xml": {
+        "before": "403118f67ad7dfddb027c1aeec105842de8b4af983084edb14ce83aab15521ea",
+        "after": "403118f67ad7dfddb027c1aeec105842de8b4af983084edb14ce83aab15521ea"
+      },
+      "test_evidence": {
+        "before": "e0276f0a1291fde1dc280f255d060c2b110cf52308216e6866354a84232d3549",
+        "after": "e0276f0a1291fde1dc280f255d060c2b110cf52308216e6866354a84232d3549"
+      },
+      "run_sequence": {
+        "before": "3c8c0e3e3ea0762e4b0e6226bc1a416a5154eb6bc0b2d1d8ec87b8ebd881ac6a",
+        "after": "3c8c0e3e3ea0762e4b0e6226bc1a416a5154eb6bc0b2d1d8ec87b8ebd881ac6a"
+      },
+      "stage_environment": {
+        "before": "f51c097a4075ba05b2712cf18d84d6156610b4982476e44a5392f82702a5dcc8",
+        "after": "f51c097a4075ba05b2712cf18d84d6156610b4982476e44a5392f82702a5dcc8"
+      },
+      "finalize": {
+        "before": "262fd29cc01ccdae1473065884807f24f73a63e06590e0c416c80e77f5e3ac2c",
+        "after": "262fd29cc01ccdae1473065884807f24f73a63e06590e0c416c80e77f5e3ac2c"
+      },
+      "main": {
+        "before": "a52c8b1d95b80cbb240369fed704626e09447700711d138e3569db5116723236",
+        "after": "a52c8b1d95b80cbb240369fed704626e09447700711d138e3569db5116723236"
+      }
+    },
+    "checkerDelta": "Select only affected historical cases; add exact saved real FD strings, bounded success/failure/timeout/finally observations, full-five-second admission and independent-PID actual-chain early TERM. FIX01 adds five actual monitor/closure/Bee binding cases for grace plus observation failures and oversized timeout stdout/stderr.",
+    "addedFunctionAstSeals": {
+      "blocking_probe_timeout": "6adecb47e5cbe6d596c90c760e007a6319bb05b1584d65e61ab3ac41345e5445",
+      "bee_capture_output": "abf5c6b05553dd67478fd5c2c770f7a7a0e5bdf6f9eb6c2cf8d8c8b989777f4a",
+      "bee_observation_event": "ccb19ba1df68e09b0b253fd833274254bd5883573979a04493e6eb99bdb46f7d",
+      "bee_fd_binding": "c79ad19d9e7862d38cc7ab41b31b7cd9f42b86e13400af493689dc8f262441a9"
+    }
+  },
+  "staticValidation": {
+    "status": "PASS",
+    "inputChangeCount": 157,
+    "protectedInputSetsUnchanged": true,
+    "parserAstIdentical": true,
+    "candidateExpressionUnchanged": true,
+    "FIX01_FIX02Unchanged": true,
+    "existingBlockingCallsOnlyChangeTimeoutHelper": true,
+    "currentRootsConsistent": true,
+    "contractsEquivalent": true,
+    "seconds": 0.22230687500268687,
+    "fix01OnlyChangedFunction": "bee_fd_binding",
+    "fix01StaticSeconds": 0.1567412080039503
+  },
+  "evidenceReuse": {
+    "historical69": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V04/run/replay-results.json",
+      "bytes": 257494,
+      "sha256": "2e61957f14f67199d64b1343014f2824b59ea1879de01df1a1095931de18f944",
+      "cases": 69,
+      "reusedNotRerun": true
+    },
+    "historical177": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/replay-results.json",
+      "bytes": 451171,
+      "sha256": "ef6b9626be51273a64770d169beedc2a1eb39f5cd5acb1ac10e9b0986d00b556",
+      "newExecution": false
+    },
+    "selectedCurrentCases": [
+      "FIX01 actual discover-register natural propagation and TERM",
+      "FIX01 actual discover-register ordinary identity failure retained",
+      "FIX02 independent PID discovery closure during-term",
+      "FIX02 independent PID discovery closure parent-first",
+      "FIX02 independent PID discovery closure stubborn",
+      "FIX02 independent PID discovery closure unknown",
+      "V04 Bee complete FD path with stream annotation",
+      "V04 Bee cth then htc",
+      "V04 Bee htc then cth",
+      "V04 Bee real in-flight TimeoutExpired",
+      "V04 Bee rejects fd-error",
+      "V04 Bee rejects fd-io",
+      "V04 Bee rejects fd-mismatch",
+      "V04 Bee rejects fd-no-record",
+      "V04 Bee rejects fd-pid",
+      "V04 Bee rejects fd-type",
+      "V04 Bee rejects post-dir",
+      "V04 Bee rejects post-inode",
+      "V04 Bee rejects reuse-during",
+      "V04 Bee rejects vanish-during",
+      "V04 closure io",
+      "V04 closure natural",
+      "V04 closure timeout",
+      "V04 closure total",
+      "V04 closure unclosed-prior",
+      "V04 execution state drift rejected",
+      "V04 fresh sealed state accepted",
+      "V04 work and total deadlines preserved"
+    ],
+    "reusedCategories": [
+      "compiler provenance and CacheWrite classification",
+      "43 exact restoration ledger",
+      "89 exact case assertions and AS real I/O/symlink checks",
+      "atomic publication and rollback",
+      "package graph/cache protection",
+      "unchanged Bee path/type/directory lifecycle negatives"
+    ],
+    "boundary": "Selected old cases are freshly executed and counted separately; other69/177 evidence is historical, never relabeled as this head passing."
+  },
+  "observationScope": {
+    "recordBytes": 65536,
+    "rawBytesPerStream": 8192,
+    "totalObservationBytes": 262144,
+    "includedInExistingEvidenceBudget": true,
+    "rawTruncationMakesIncomplete": true,
+    "loggingFailureMakesIncompleteWithoutReplacingPriorError": true,
+    "parserOrCandidateChanges": false,
+    "beeRootCause": "UNKNOWN"
+  },
+  "replayContract": {
+    "maximumRounds": 2,
+    "maximumSecondsPerRound": 30,
+    "maximumCumulativeSeconds": 60,
+    "stopOnFirstGreen": true
+  },
+  "limitations": {
+    "nativeRuns": 0,
+    "realProcessCalls": 0,
+    "realSignals": 0,
+    "realSockets": 0,
+    "activationCreated": false,
+    "productOr89AssertionsChanged": false,
+    "beeRootCause": "UNKNOWN"
+  },
+  "review": {
+    "status": "PENDING_GITHUB_REREVIEW",
+    "findings": [
+      "4214034014",
+      "4214034022"
+    ],
+    "priorReviewedHead": "6cb1f6f10aad344d14876cd26c86650fd99b8401",
+    "requiredNextStep": "Central receives source, publishes revised head and obtains independent GitHub review. Native remains unauthorized."
+  },
+  "replayCorrection": {
+    "firstRoundFailure": "Offline bind environment omitted utc required by the new observation helper",
+    "correction": "Add utc fixture binding only; production runner unchanged",
+    "secondRoundReason": "Actual first-round failure",
+    "exactCheckerReplacement": {
+      "before": "'bee_observation_bytes':0,'json':json,'hashlib':hashlib}",
+      "after": "'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}"
+    },
+    "historicalEvidenceRoot": "TestArtifacts/FightMatch/RES-COMBINED-V05/source-before-fix01",
+    "appliesTo": "Original V05 two-round delivery, before FIX01; exact checker replacement applies to source-before-fix01/replay-check.py."
+  },
+  "completedUtc": "2026-10-08T02:42:29.086783+00:00",
+  "offline": {
+    "task": "RES-COMBINED-V05-FIX01",
+    "status": "SOURCE_REPLAY_PASS",
+    "roundsExecuted": 1,
+    "currentPassedCases": 42,
+    "seconds": 8.013370166998357,
+    "cumulativeSeconds": 8.013370166998357,
+    "secondRoundUsed": false,
+    "currentCaseNames": [
+      "V04 Bee htc then cth",
+      "V04 Bee cth then htc",
+      "V04 Bee complete FD path with stream annotation",
+      "V04 Bee rejects fd-mismatch",
+      "V04 Bee rejects fd-pid",
+      "V04 Bee rejects fd-type",
+      "V04 Bee rejects fd-no-record",
+      "V04 Bee rejects fd-error",
+      "V04 Bee rejects vanish-during",
+      "V04 Bee rejects post-inode",
+      "V04 Bee rejects post-dir",
+      "V04 Bee rejects reuse-during",
+      "V04 Bee rejects fd-io",
+      "V04 Bee real in-flight TimeoutExpired",
+      "V04 closure natural",
+      "V04 closure timeout",
+      "V04 closure io",
+      "V04 closure total",
+      "V04 closure unclosed-prior",
+      "V04 work and total deadlines preserved",
+      "FIX01 actual discover-register natural propagation and TERM",
+      "FIX01 actual discover-register ordinary identity failure retained",
+      "FIX02 independent PID discovery closure parent-first",
+      "FIX02 independent PID discovery closure during-term",
+      "FIX02 independent PID discovery closure stubborn",
+      "FIX02 independent PID discovery closure unknown",
+      "V04 fresh sealed state accepted",
+      "V04 execution state drift rejected",
+      "V05 saved real three-snapshot FD strings",
+      "V05 raw FD observation success",
+      "V05 raw FD observation mismatch",
+      "V05 raw FD observation oversize",
+      "V05 raw FD observation primary-and-after",
+      "V05 raw FD observation write-only",
+      "V05 raw FD observation write-with-primary",
+      "V05 full blocking-probe allowance and real timeout",
+      "V05 near natural boundary actual chain preserves prior Bee error",
+      "V05 FIX01 natural observation success",
+      "V05 FIX01 natural observation capacity",
+      "V05 FIX01 natural observation io",
+      "V05 FIX01 timeout partial capacity stdout",
+      "V05 FIX01 timeout partial capacity stderr"
+    ],
+    "newFix01Cases": 5,
+    "priorAffectedCasesRerun": 37,
+    "resultIdentity": {
+      "bytes": 350873,
+      "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
+    },
+    "forbiddenAttempts": [],
+    "preservedConflicts": [],
+    "nativeRuns": 0,
+    "priorV05Evidence": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V05/source-before-fix01/replay-results.json",
+      "bytes": 290549,
+      "sha256": "fd5a0b1e8c487bd56a7311a5c214bda6e8e695d5ac2143403b6d914f52865e16",
+      "rounds": 2,
+      "finalPassedCases": 37,
+      "initialFixtureFailurePreserved": true,
+      "cumulativeSeconds": 3.7207605010044063,
+      "historicalOnly": true
+    },
+    "historical69And177NotRerun": true
+  },
+  "finalSealValidation": {
+    "status": "PASS",
+    "baselineFiveUnchanged": true,
+    "fiveLeavesOnly": true,
+    "currentRunnerCheckerInputMatchReplay": true,
+    "initialFixtureFailureReconstructable": true,
+    "actualTurn": "01a11960-3a66-7f51-9642-20d9296354ac",
+    "activationBCASAbsent": true,
+    "beeRootCause": "UNKNOWN",
+    "wallSecondsThroughSealing": 576.5637681484222,
+    "snapshotFiveUnchanged": true,
+    "inputsUnchanged": true,
+    "beeFdBindingOnlyAstDelta": true,
+    "metadataGenerationSeconds": 0.1567447080014972
+  },
+  "fix01": {
+    "packet": "docs/team/2026-09-30/central-resource-combined-v05-fix01.md",
+    "githubFindings": [
+      "4214034014",
+      "4214034022"
+    ],
+    "reviewedHead": "6cb1f6f10aad344d14876cd26c86650fd99b8401",
+    "snapshotRoot": "TestArtifacts/FightMatch/RES-COMBINED-V05/source-before-fix01",
+    "snapshotSeals": {
+      "runner.py": {
+        "bytes": 97248,
+        "sha256": "cbcb2f26de2432fd8bada0418874c4f464c5d8fcb75ee3a770682fa1df60a43c"
+      },
+      "replay-check.py": {
+        "bytes": 46779,
+        "sha256": "7510565ba136c2acd64526810de117d655c57b1e24e42e386337c5cbd7196f5d"
+      },
+      "replay-results.json": {
+        "bytes": 290549,
+        "sha256": "fd5a0b1e8c487bd56a7311a5c214bda6e8e695d5ac2143403b6d914f52865e16"
+      },
+      "inputs.json": {
+        "bytes": 1246296,
+        "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
+      },
+      "preparation.json": {
+        "bytes": 122725,
+        "sha256": "7d751f0e336e3fe6f7a2ce0e9b93f9bd957835c4bdc031da864a35692de13355"
+      }
+    },
+    "runnerChangedFunctions": [
+      "bee_fd_binding"
+    ],
+    "otherRunnerFunctionsUnchanged": true,
+    "inputsByteIdentical": true,
+    "actualOwner": {
+      "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+      "host": "local",
+      "turn": "01a11960-3a66-7f51-9642-20d9296354ac",
+      "requestedModel": "gpt-6-astra",
+      "requestedEffort": "xhigh"
+    },
+    "staticStatus": "PASS",
+    "runnerUnifiedDiff": "--- source-before-fix01/runner.py\n+++ run/runner.py\n@@ -210,7 +210,9 @@\n                 check(refreshed==identity,'Bee process changed during FD probe')\n             except BaseException as error:\n                 probe_error=error; item['error']={'type':type(error).__name__,'message':str(error)}\n-                if isinstance(error,subprocess.TimeoutExpired): bee_capture_output(item,error.output,error.stderr)\n+                if isinstance(error,subprocess.TimeoutExpired) and not bee_capture_output(item,error.output,error.stderr):\n+                    item['capacityFailure']={'status':'INCOMPLETE','rawBytesPerStream':D['beeObservationContract']['rawBytesPerStream'],'stdoutBytes':item['rawStdoutBytes'],'stderrBytes':item['rawStderrBytes']}\n+                    raise RuntimeError('INCOMPLETE: Bee timeout partial FD output exceeds bound; TimeoutExpired: '+str(error)) from error\n                 raise\n             finally:\n                 try: item['afterLstat']=bee_stamp(path.lstat())\n@@ -236,6 +238,9 @@\n         try: bee_observation_event(record)\n         except BaseException as error:\n             if primary is None: primary=RuntimeError('INCOMPLETE: Bee observation write failed: '+str(error))\n+            elif isinstance(primary,NaturalGraceExpired):\n+                failure=RuntimeError('INCOMPLETE: Bee observation write failed after natural boundary: '+str(error))\n+                failure.__cause__=primary; failure.__context__=error; primary=failure\n             else: primary.add_note('INCOMPLETE: Bee observation write failed: '+str(error))\n     if primary is not None: raise primary\n     return root_identity,holders,after\n",
+    "beforeBeeFdBindingAstSha256": "e8f2eb6ed95690c22999721a914ecc15cd282af92aed00b58fdea1be2adeb0f7",
+    "afterBeeFdBindingAstSha256": "c79ad19d9e7862d38cc7ab41b31b7cd9f42b86e13400af493689dc8f262441a9",
+    "unchangedFunctionCount": 96,
+    "replayEvidence": [
+      "replay-results.json#/rounds/0/fix01NaturalObservation",
+      "replay-results.json#/rounds/0/fix01TimeoutCapacity"
+    ],
+    "roundsExecuted": 1,
+    "passedCases": 42,
+    "seconds": 8.013370166998357,
+    "wallSecondsThroughSealing": 250.1874029636383
+  }
+}

@@ -1,71 +1,72 @@
 {
-  "task": "RES-COMBINED-V05",
+  "task": "RES-COMBINED-V06",
   "status": "SOURCE_REPLAY_PASS",
   "deliveryStatus": "SOURCE_READY",
   "owner": {
+    "role": "source implementer",
     "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
     "host": "local",
-    "turn": "01a11960-3a66-7f51-9642-20d9296354ac",
+    "turn": "01a1197a-8dd9-71c2-aca3-96af65693227",
     "requestedModel": "gpt-6-astra",
-    "requestedEffort": "xhigh"
+    "requestedEffort": "xhigh",
+    "returnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
   },
   "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
   "returnRoute": "Direct final and central completion wait; no cross-chat messages.",
-  "preparedUtc": "2026-10-08T02:27:02.263298+00:00",
+  "preparedUtc": "2026-10-08T03:16:31.233869+00:00",
   "mechanicalPreparationSeconds": 160,
   "authority": {
-    "packet": "docs/team/2026-09-30/central-resource-combined-v05-source.md",
-    "design": "docs/team/2026-09-30/engineering-resource-combined-v05-correction.md",
-    "baselineReviewedHead": "ca0204b1aa67096d72f81e4e71c3596bfa1da9ff",
-    "correctionPacket": "docs/team/2026-09-30/central-resource-combined-v05-fix01.md"
+    "packet": "docs/team/2026-09-30/central-resource-combined-v06-source.md",
+    "design": "docs/team/2026-09-30/engineering-resource-combined-v06-correction.md",
+    "baselineReviewedHead": "10d76890e8eca82365f9a5c9d25c4dfb918c6a7c"
   },
   "sourceIdentities": {
     "runner.py": {
-      "bytes": 97866,
-      "sha256": "7c287b387570cca6c72c60165d1e0e9d8a229f7403740d36e8b658dbbbb97b67"
+      "bytes": 101320,
+      "sha256": "415a8a5bd312875e972363d4ad9cb504ac4b8579390eb2ad2081a0323fb36119"
     },
     "replay-check.py": {
-      "bytes": 52516,
-      "sha256": "dada8645357f7f78fa624adfb2637c324ece66a0894a0f3374723df8dd579fa0"
+      "bytes": 61647,
+      "sha256": "5e062c91e46102167aa509badf7942597f2331f72badd0724e1a56a4f4f287f4"
     },
     "replay-results.json": {
-      "bytes": 350873,
-      "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
+      "bytes": 175232,
+      "sha256": "87c920acffbce64eab678e85e1d7a198d7baf74d4f3b326e1ae02aee575eae4c"
     },
     "inputs.json": {
-      "bytes": 1246296,
-      "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
+      "bytes": 1248829,
+      "sha256": "4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b"
     }
   },
-  "selfIdentity": "Final exact preparation.json bytes/SHA returned externally after serialization; no circular self hash.",
+  "selfIdentity": "Final preparation.json bytes/SHA returned externally after serialization; no circular self hash.",
   "baseline": {
-    "root": "TestArtifacts/FightMatch/RES-COMBINED-V04/run",
+    "root": "TestArtifacts/FightMatch/RES-COMBINED-V05/run",
     "sourceIdentities": {
       "runner.py": {
-        "bytes": 92571,
-        "sha256": "2327cb60e5fff6406d9d0a56415eef005d9b11452755930f96d0c071314b2caf"
+        "bytes": 97866,
+        "sha256": "7c287b387570cca6c72c60165d1e0e9d8a229f7403740d36e8b658dbbbb97b67"
       },
       "inputs.json": {
-        "bytes": 1244365,
-        "sha256": "9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524"
+        "bytes": 1246296,
+        "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
       },
       "preparation.json": {
-        "bytes": 136069,
-        "sha256": "07e4bc5b437d8276040b0bfa26430a5eb9ee94cf654dd8d83864e9f29367f211"
+        "bytes": 126715,
+        "sha256": "215e19ef340729130b3332f5850e54d88f5a5de114519058d3ffa61bd6bf7f1d"
       },
       "replay-check.py": {
-        "bytes": 36478,
-        "sha256": "08519cdfda274179bc472e34f0986f9dce9c1c166df50eb53baef5f2ca9c8f41"
+        "bytes": 52516,
+        "sha256": "dada8645357f7f78fa624adfb2637c324ece66a0894a0f3374723df8dd579fa0"
       },
       "replay-results.json": {
-        "bytes": 257494,
-        "sha256": "2e61957f14f67199d64b1343014f2824b59ea1879de01df1a1095931de18f944"
+        "bytes": 350873,
+        "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
       }
     }
   },
   "activationContract": {
     "created": false,
-    "task": "RES-COMBINED-V05",
+    "task": "RES-COMBINED-V06",
     "statusRequired": "EXECUTION_BOUND",
     "executorThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
     "host": "local",
@@ -104,19 +105,19 @@
       "R": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
       "P": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
       "K": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
-      "executionEvidence": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run",
-      "newBeeCache": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache",
-      "activationTests": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+      "executionEvidence": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run",
+      "newBeeCache": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/bee-cache",
+      "activationTests": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests"
     },
-    "tmpPrefix": "/private/tmp/fm-rcv5.XXXXXXXX",
+    "tmpPrefix": "/private/tmp/fm-rcv6.XXXXXXXX",
     "environmentBoth": {
       "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
-      "TMPDIR": "fresh canonical /private/tmp/fm-rcv5.XXXXXXXX, actual path sealed at activation",
-      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache",
+      "TMPDIR": "fresh canonical /private/tmp/fm-rcv6.XXXXXXXX, actual path sealed at activation",
+      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/bee-cache",
       "DOTNET_EnableDiagnostics": "0"
     },
     "environmentTOnly": {
-      "FIGHTMATCH_ACTIVATION_TEST_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+      "FIGHTMATCH_ACTIVATION_TEST_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests"
     },
     "adb": "Freshly re-seal every inherited narrow exception field against the current host; no old approval is reusable.",
     "completionObservation": {
@@ -152,864 +153,893 @@
   },
   "activationSourceBindings": {
     "runner": {
-      "bytes": 97866,
-      "sha256": "7c287b387570cca6c72c60165d1e0e9d8a229f7403740d36e8b658dbbbb97b67"
+      "bytes": 101320,
+      "sha256": "415a8a5bd312875e972363d4ad9cb504ac4b8579390eb2ad2081a0323fb36119"
     },
     "seals": {
       "inputs": {
-        "bytes": 1246296,
-        "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
+        "bytes": 1248829,
+        "sha256": "4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b"
       },
       "replay-check": {
-        "bytes": 52516,
-        "sha256": "dada8645357f7f78fa624adfb2637c324ece66a0894a0f3374723df8dd579fa0"
+        "bytes": 61647,
+        "sha256": "5e062c91e46102167aa509badf7942597f2331f72badd0724e1a56a4f4f287f4"
       },
       "replay-results": {
-        "bytes": 350873,
-        "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
+        "bytes": 175232,
+        "sha256": "87c920acffbce64eab678e85e1d7a198d7baf74d4f3b326e1ae02aee575eae4c"
       }
     },
-    "preparationSeal": "Use final externally returned preparation.json seal; no activation created."
+    "preparationSeal": "Use final external preparation.json seal; no activation created."
   },
   "exactBaseDiff": {
     "inputChanges": [
       {
-        "path": "/beeObservationContract",
+        "path": "/beeObservationContract/parserChanged",
+        "before": false,
+        "after": true
+      },
+      {
+        "path": "/beePathSpellingContract",
         "beforeMissing": true,
         "after": {
-          "rawBytesPerStream": 8192,
-          "recordBytes": 65536,
-          "totalBytes": 262144,
-          "failureStatus": "INCOMPLETE",
-          "parserChanged": false,
-          "candidateSetChanged": false
+          "accepted": [
+            "standard complete path",
+            "one extra slash only at TMP/direct-child boundary"
+          ],
+          "allOtherNormalization": false,
+          "recordMatchedSpelling": true
         }
       },
       {
         "path": "/commands/I/9",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/I/editor.log",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/I/editor.log"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/I/editor.log",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/I/editor.log"
       },
       {
         "path": "/commands/T/13",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/T/results.xml",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/T/results.xml"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/T/results.xml",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/T/results.xml"
       },
       {
         "path": "/commands/T/15",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/T/editor.log",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/T/editor.log"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/T/editor.log",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/T/editor.log"
       },
       {
         "path": "/commands/environmentBoth/BEE_CACHE_DIRECTORY",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/bee-cache"
       },
       {
         "path": "/commands/environmentBoth/TMPDIR",
-        "before": "fresh canonical /private/tmp/fm-rcv4.XXXXXXXX, actual path sealed at activation",
-        "after": "fresh canonical /private/tmp/fm-rcv5.XXXXXXXX, actual path sealed at activation"
+        "before": "fresh canonical /private/tmp/fm-rcv5.XXXXXXXX, actual path sealed at activation",
+        "after": "fresh canonical /private/tmp/fm-rcv6.XXXXXXXX, actual path sealed at activation"
       },
       {
         "path": "/commands/environmentTOnly/FIGHTMATCH_ACTIVATION_TEST_ROOT",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests"
       },
       {
         "path": "/compilePlan/preserveInPlaceIdentities/Library~1Bee~1TundraBuildState.state/sha256",
-        "before": "195457cf3a5cfffd34bffe89758757ec8b916abbbae9b0de85fdcd8e95a802af",
-        "after": "e7abae99c3c86f129ca1ee17e28423ff2a0fbd68d78caf9ef73153b6b43378e8"
+        "before": "e7abae99c3c86f129ca1ee17e28423ff2a0fbd68d78caf9ef73153b6b43378e8",
+        "after": "901445dcf4ebb7cc5f19840de28f970069c98c798f97712ca0a5dc0493855f7d"
       },
       {
         "path": "/evidenceSlots/root",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run"
       },
       {
-        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-BEE-FD-PROBE-001~1probe.json",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1inputs.json",
         "beforeMissing": true,
         "after": {
-          "bytes": 48709,
-          "sha256": "3e48b59b1ba56b3decf6ad62f579452abf0e2835ab95e6affe7049de3eb0c3ff"
+          "bytes": 1246296,
+          "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
         }
       },
       {
-        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1inputs.json",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1preparation.json",
         "beforeMissing": true,
         "after": {
-          "bytes": 1244365,
-          "sha256": "9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524"
+          "bytes": 126715,
+          "sha256": "215e19ef340729130b3332f5850e54d88f5a5de114519058d3ffa61bd6bf7f1d"
         }
       },
       {
-        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1preparation.json",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1process-after.json",
         "beforeMissing": true,
         "after": {
-          "bytes": 136069,
-          "sha256": "07e4bc5b437d8276040b0bfa26430a5eb9ee94cf654dd8d83864e9f29367f211"
+          "bytes": 204210,
+          "sha256": "64edd144ea4c49d109451c2808073be68b54479eabc2f16b112310b790fdcaf0"
         }
       },
       {
-        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1replay-check.py",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1process-events.jsonl",
         "beforeMissing": true,
         "after": {
-          "bytes": 36478,
-          "sha256": "08519cdfda274179bc472e34f0986f9dce9c1c166df50eb53baef5f2ca9c8f41"
+          "bytes": 408971,
+          "sha256": "208761ecbdfc39732ec5deb4b209814b23c18cd395e46a37128df93de78679d5"
         }
       },
       {
-        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1replay-results.json",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1receipt.json",
         "beforeMissing": true,
         "after": {
-          "bytes": 257494,
-          "sha256": "2e61957f14f67199d64b1343014f2824b59ea1879de01df1a1095931de18f944"
+          "bytes": 75895,
+          "sha256": "0e5f6ea7c43d8c3d54aa65556e6e9033787c70a119953e3027eee9483c8b5c1c"
         }
       },
       {
-        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V04~1run~1runner.py",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1replay-check.py",
         "beforeMissing": true,
         "after": {
-          "bytes": 92571,
-          "sha256": "2327cb60e5fff6406d9d0a56415eef005d9b11452755930f96d0c071314b2caf"
+          "bytes": 52516,
+          "sha256": "dada8645357f7f78fa624adfb2637c324ece66a0894a0f3374723df8dd579fa0"
         }
       },
       {
-        "path": "/fixedReferences/docs~1team~12026-09-30~1central-resource-combined-v05-source.md",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1replay-results.json",
         "beforeMissing": true,
         "after": {
-          "bytes": 4260,
-          "sha256": "5854c5d015b860d029dfe8b71d1ed23828585957c0d30085eecd512261b57ebe"
+          "bytes": 350873,
+          "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
         }
       },
       {
-        "path": "/fixedReferences/docs~1team~12026-09-30~1engineering-resource-combined-v05-correction.md",
+        "path": "/fixedReferences/TestArtifacts~1FightMatch~1RES-COMBINED-V05~1run~1runner.py",
         "beforeMissing": true,
         "after": {
-          "bytes": 10134,
-          "sha256": "fe90ceef001eb80827890afed6ca8bd83a057e3be82259d973079fb3abe5e20c"
+          "bytes": 97866,
+          "sha256": "7c287b387570cca6c72c60165d1e0e9d8a229f7403740d36e8b658dbbbb97b67"
         }
       },
       {
-        "path": "/naturalProbeContract",
+        "path": "/fixedReferences/docs~1team~12026-09-30~1central-resource-combined-v06-source.md",
         "beforeMissing": true,
         "after": {
-          "fixedBlockingProbeSeconds": 5,
-          "insufficientNaturalRemaining": "NaturalGraceExpired before subprocess call",
-          "inFlightFailure": "preserve",
-          "noDeadlineExtension": true
+          "bytes": 3230,
+          "sha256": "a488863be565ab992f37294532a3fbbb4198d977d92705f8edb250edb5baad7d"
+        }
+      },
+      {
+        "path": "/fixedReferences/docs~1team~12026-09-30~1engineering-resource-combined-v06-correction.md",
+        "beforeMissing": true,
+        "after": {
+          "bytes": 6088,
+          "sha256": "45a506e3857b7749c39651f92a98b4e01d86e1399594d41cf4d7fc190b1ab2d9"
         }
       },
       {
         "path": "/newRootPreconditions/activationTests/path",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests"
       },
       {
         "path": "/newRootPreconditions/executionEvidence/path",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run"
       },
       {
         "path": "/newRootPreconditions/newBeeCache/path",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/bee-cache"
       },
       {
         "path": "/owner/turn",
-        "before": "01a1190f-0cb8-71d2-a7a6-8fc82ca49834",
-        "after": "01a1194e-5fad-7102-a24c-ff8867edd49c"
+        "before": "01a1194e-5fad-7102-a24c-ff8867edd49c",
+        "after": "01a1197a-8dd9-71c2-aca3-96af65693227"
       },
       {
         "path": "/paths/activationTests",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests"
       },
       {
         "path": "/paths/executionEvidence",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run"
       },
       {
         "path": "/paths/newBeeCache",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/bee-cache",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/bee-cache",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/bee-cache"
       },
       {
         "path": "/sourceCorrection/actualOwner/turn",
-        "before": "01a1190f-0cb8-71d2-a7a6-8fc82ca49834",
-        "after": "01a1194e-5fad-7102-a24c-ff8867edd49c"
+        "before": "01a1194e-5fad-7102-a24c-ff8867edd49c",
+        "after": "01a1197a-8dd9-71c2-aca3-96af65693227"
       },
       {
         "path": "/sourceCorrection/baseline",
-        "before": "TestArtifacts/FightMatch/RES-COMBINED-V03/run",
-        "after": "TestArtifacts/FightMatch/RES-COMBINED-V04/run"
+        "before": "TestArtifacts/FightMatch/RES-COMBINED-V04/run",
+        "after": "TestArtifacts/FightMatch/RES-COMBINED-V05/run"
       },
       {
         "path": "/sourceCorrection/preparedStateObservations/Library~1Bee~1TundraBuildState.state/sha256",
-        "before": "195457cf3a5cfffd34bffe89758757ec8b916abbbae9b0de85fdcd8e95a802af",
-        "after": "e7abae99c3c86f129ca1ee17e28423ff2a0fbd68d78caf9ef73153b6b43378e8"
+        "before": "e7abae99c3c86f129ca1ee17e28423ff2a0fbd68d78caf9ef73153b6b43378e8",
+        "after": "901445dcf4ebb7cc5f19840de28f970069c98c798f97712ca0a5dc0493855f7d"
       },
       {
         "path": "/sourceCorrection/scope",
-        "before": "Bee IPC admission and natural closure boundary only",
-        "after": "Bounded FD observations and full-five-second natural probe admission; Bee cause UNKNOWN"
+        "before": "Bounded FD observations and full-five-second natural probe admission; Bee cause UNKNOWN",
+        "after": "exact additional TMP separator and structurally proven transient child exit; old V05 FAILED preserved"
       },
       {
         "path": "/sourceCorrection/task",
-        "before": "RES-COMBINED-V04",
-        "after": "RES-COMBINED-V05"
+        "before": "RES-COMBINED-V05",
+        "after": "RES-COMBINED-V06"
       },
       {
         "path": "/task",
-        "before": "RES-COMBINED-V04",
-        "after": "RES-COMBINED-V05"
+        "before": "RES-COMBINED-V05",
+        "after": "RES-COMBINED-V06"
       },
       {
         "path": "/transferPlan/0/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"
       },
       {
         "path": "/transferPlan/0/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"
       },
       {
         "path": "/transferPlan/1/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs"
       },
       {
         "path": "/transferPlan/1/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs"
       },
       {
         "path": "/transferPlan/10/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs"
       },
       {
         "path": "/transferPlan/10/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs"
       },
       {
         "path": "/transferPlan/11/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs"
       },
       {
         "path": "/transferPlan/11/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs"
       },
       {
         "path": "/transferPlan/12/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs"
       },
       {
         "path": "/transferPlan/12/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs"
       },
       {
         "path": "/transferPlan/13/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs"
       },
       {
         "path": "/transferPlan/13/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs"
       },
       {
         "path": "/transferPlan/14/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
       },
       {
         "path": "/transferPlan/14/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
       },
       {
         "path": "/transferPlan/15/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
       },
       {
         "path": "/transferPlan/15/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
       },
       {
         "path": "/transferPlan/16/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
       },
       {
         "path": "/transferPlan/16/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab"
       },
       {
         "path": "/transferPlan/17/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
       },
       {
         "path": "/transferPlan/18/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
       },
       {
         "path": "/transferPlan/19/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs"
       },
       {
         "path": "/transferPlan/2/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs"
       },
       {
         "path": "/transferPlan/2/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchHostView.cs"
       },
       {
         "path": "/transferPlan/20/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
       },
       {
         "path": "/transferPlan/21/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs"
       },
       {
         "path": "/transferPlan/22/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta"
       },
       {
         "path": "/transferPlan/23/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/200b0aEDbg-inputdata.json"
       },
       {
         "path": "/transferPlan/23/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/200b0aEDbg-inputdata.json"
       },
       {
         "path": "/transferPlan/24/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/200b0aEDbg.dag"
       },
       {
         "path": "/transferPlan/24/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/200b0aEDbg.dag"
       },
       {
         "path": "/transferPlan/25/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/200b0aEDbg.dag.json"
       },
       {
         "path": "/transferPlan/25/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.json",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.json"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.json",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/200b0aEDbg.dag.json"
       },
       {
         "path": "/transferPlan/26/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/200b0aEDbg.dag.outputdata"
       },
       {
         "path": "/transferPlan/26/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/200b0aEDbg.dag.outputdata"
       },
       {
         "path": "/transferPlan/27/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/200b0aEDbg.dag.payloads"
       },
       {
         "path": "/transferPlan/27/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/200b0aEDbg.dag.payloads"
       },
       {
         "path": "/transferPlan/28/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/200b0aEDbg.dag_derived"
       },
       {
         "path": "/transferPlan/28/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/200b0aEDbg.dag_derived"
       },
       {
         "path": "/transferPlan/29/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/200b0aEDbg.dag_fsmtime"
       },
       {
         "path": "/transferPlan/29/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/200b0aEDbg.dag_fsmtime"
       },
       {
         "path": "/transferPlan/3/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
       },
       {
         "path": "/transferPlan/3/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
       },
       {
         "path": "/transferPlan/30/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll"
       },
       {
         "path": "/transferPlan/30/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll"
       },
       {
         "path": "/transferPlan/31/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb"
       },
       {
         "path": "/transferPlan/31/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.pdb"
       },
       {
         "path": "/transferPlan/32/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll"
       },
       {
         "path": "/transferPlan/32/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.ref.dll"
       },
       {
         "path": "/transferPlan/33/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll"
       },
       {
         "path": "/transferPlan/33/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll"
       },
       {
         "path": "/transferPlan/34/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb"
       },
       {
         "path": "/transferPlan/34/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.pdb"
       },
       {
         "path": "/transferPlan/35/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll"
       },
       {
         "path": "/transferPlan/35/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.ref.dll"
       },
       {
         "path": "/transferPlan/36/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll"
       },
       {
         "path": "/transferPlan/36/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll"
       },
       {
         "path": "/transferPlan/37/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb"
       },
       {
         "path": "/transferPlan/37/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.pdb"
       },
       {
         "path": "/transferPlan/38/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll"
       },
       {
         "path": "/transferPlan/38/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.ref.dll"
       },
       {
         "path": "/transferPlan/39/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll"
       },
       {
         "path": "/transferPlan/39/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll"
       },
       {
         "path": "/transferPlan/4/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs"
       },
       {
         "path": "/transferPlan/4/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs"
       },
       {
         "path": "/transferPlan/40/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb"
       },
       {
         "path": "/transferPlan/40/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.pdb"
       },
       {
         "path": "/transferPlan/41/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll"
       },
       {
         "path": "/transferPlan/41/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.ref.dll"
       },
       {
         "path": "/transferPlan/42/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll"
       },
       {
         "path": "/transferPlan/42/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll"
       },
       {
         "path": "/transferPlan/43/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb"
       },
       {
         "path": "/transferPlan/43/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.pdb"
       },
       {
         "path": "/transferPlan/44/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll"
       },
       {
         "path": "/transferPlan/44/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.ref.dll"
       },
       {
         "path": "/transferPlan/45/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll"
       },
       {
         "path": "/transferPlan/45/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll"
       },
       {
         "path": "/transferPlan/46/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb"
       },
       {
         "path": "/transferPlan/46/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.pdb"
       },
       {
         "path": "/transferPlan/47/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll"
       },
       {
         "path": "/transferPlan/47/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.ref.dll"
       },
       {
         "path": "/transferPlan/48/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll"
       },
       {
         "path": "/transferPlan/48/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll"
       },
       {
         "path": "/transferPlan/49/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb"
       },
       {
         "path": "/transferPlan/49/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.pdb"
       },
       {
         "path": "/transferPlan/5/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs"
       },
       {
         "path": "/transferPlan/5/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs"
       },
       {
         "path": "/transferPlan/50/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll"
       },
       {
         "path": "/transferPlan/50/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.ref.dll"
       },
       {
         "path": "/transferPlan/51/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll"
       },
       {
         "path": "/transferPlan/51/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll"
       },
       {
         "path": "/transferPlan/52/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb"
       },
       {
         "path": "/transferPlan/52/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.pdb"
       },
       {
         "path": "/transferPlan/53/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll"
       },
       {
         "path": "/transferPlan/53/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.ref.dll"
       },
       {
         "path": "/transferPlan/54/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
       },
       {
         "path": "/transferPlan/54/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
       },
       {
         "path": "/transferPlan/55/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb"
       },
       {
         "path": "/transferPlan/55/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.pdb"
       },
       {
         "path": "/transferPlan/56/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll"
       },
       {
         "path": "/transferPlan/56/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.ref.dll"
       },
       {
         "path": "/transferPlan/57/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
       },
       {
         "path": "/transferPlan/57/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
       },
       {
         "path": "/transferPlan/58/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb"
       },
       {
         "path": "/transferPlan/58/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.pdb"
       },
       {
         "path": "/transferPlan/59/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll"
       },
       {
         "path": "/transferPlan/59/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.ref.dll"
       },
       {
         "path": "/transferPlan/6/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs"
       },
       {
         "path": "/transferPlan/6/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs"
       },
       {
         "path": "/transferPlan/60/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
       },
       {
         "path": "/transferPlan/60/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
       },
       {
         "path": "/transferPlan/61/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb"
       },
       {
         "path": "/transferPlan/61/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.pdb"
       },
       {
         "path": "/transferPlan/62/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll"
       },
       {
         "path": "/transferPlan/62/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.ref.dll"
       },
       {
         "path": "/transferPlan/63/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
       },
       {
         "path": "/transferPlan/63/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
       },
       {
         "path": "/transferPlan/64/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb"
       },
       {
         "path": "/transferPlan/64/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.pdb"
       },
       {
         "path": "/transferPlan/65/archiveReplacement",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
       },
       {
         "path": "/transferPlan/65/park",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/compiler/Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.ref.dll"
       },
       {
         "path": "/transferPlan/7/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs"
       },
       {
         "path": "/transferPlan/7/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs"
       },
       {
         "path": "/transferPlan/8/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs"
       },
       {
         "path": "/transferPlan/8/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs"
       },
       {
         "path": "/transferPlan/9/archive",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/archive/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs"
       },
       {
         "path": "/transferPlan/9/backup",
-        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V04/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
-        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs"
+        "before": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V05/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/restore/source/Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs"
+      },
+      {
+        "path": "/transientChildContract",
+        "beforeMissing": true,
+        "after": {
+          "scope": "new child of verified owned parent chain, not registered",
+          "argv": [
+            "/bin/ps",
+            "-ww",
+            "-p",
+            "<pid>",
+            "-o",
+            "args="
+          ],
+          "requiredExit": 1,
+          "stdout": "",
+          "stderr": "",
+          "confirmation": "one fresh all-process snapshot; PID absent only",
+          "samePidZombieOrReuse": "failure",
+          "subsequentGuards": "fresh snapshot",
+          "signalAuthorityGranted": false
+        }
       }
     ],
     "inputReconstructed": true,
-    "runnerUnifiedDiff": "--- V04/runner.py\n+++ V05-FIX01/runner.py\n@@ -1,5 +1,5 @@\n #!/usr/bin/env python3\n-\"\"\"RES-COMBINED-V04: sealed I then T; source preparation never activates native work.\"\"\"\n+\"\"\"RES-COMBINED-V05: sealed I then T; source preparation never activates native work.\"\"\"\n import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy\n from collections import Counter\n import xml.etree.ElementTree as ET\n@@ -9,8 +9,8 @@\n allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())\n owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None\n pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None\n-transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}\n-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests'\n+transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}; bee_observation_bytes=0\n+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests'\n compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None\n def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()\n def check(ok,why):\n@@ -99,20 +99,7 @@\n     except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished before FD binding')\n     check(stat.S_ISSOCK(before.st_mode) and before.st_uid==os.getuid() and before.st_nlink==1 and not stat.S_IMODE(before.st_mode)&0o022,'Bee endpoint type/UID/mode/link')\n     if observed is not None: check(bee_stamp(observed)==bee_stamp(before),'Bee endpoint changed before binding')\n-    bee_tools(); root_identity=bee_process(pid,stage,pid); holders=[]\n-    candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]\n-    for candidate in candidates:\n-        identity=bee_process(candidate,stage,pid)\n-        result=subprocess.run([D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn'],capture_output=True,text=True,timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],probe_timeout()))\n-        # lsof exit1 with empty output means no Unix descriptors; it is not ownership evidence.\n-        check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')\n-        if result.returncode==0 and bee_fd_bound(result.stdout,candidate,path): holders.append(identity)\n-        check(bee_process(candidate,stage,pid)==identity,'Bee process changed during FD probe')\n-    check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')\n-    try: after=path.lstat()\n-    except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')\n-    check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')\n-    bee_tools()\n+    root_identity,holders,after=bee_fd_binding(path,stage,pid,ds,before)\n     if state is None:\n         state={'stage':stage,'rootPid':pid,'rootIdentity':root_identity,'directory':str(path.parent),'directoryIdentity':bee_stamp(ds),'endpoints':{},'closed':False}; bee_ipc[stage]=state\n     state['endpoints'][str(path)]={'identity':bee_stamp(after),'fdOwners':holders,'absent':False}\n@@ -174,8 +161,92 @@\n     digest=hashlib.sha256()\n     for part in json_chunks(value,sort_keys=True,separators=(',',':')): digest.update(part.encode()); probe_timeout()\n     return digest.hexdigest()\n+def blocking_probe_timeout():\n+    remaining=probe_timeout()\n+    if natural_boundary is not None and probe_deadline==natural_boundary:\n+        now=time.monotonic()\n+        check(execution_deadline is None or now<execution_deadline,'Total mechanical deadline exhausted')\n+        if natural_boundary-now<5.: raise NaturalGraceExpired('normal-natural-boundary: insufficient full five-second probe allowance')\n+        return 5.\n+    return remaining\n+def bee_capture_output(record,stdout,stderr):\n+    complete=True; limit=D['beeObservationContract']['rawBytesPerStream']\n+    for key,value in (('rawStdout',stdout),('rawStderr',stderr)):\n+        value='' if value is None else value; raw=value if isinstance(value,bytes) else value.encode('utf-8')\n+        record[key]=raw[:limit].decode('utf-8',errors='replace'); record[key+'Bytes']=len(raw)\n+        if isinstance(value,bytes): record[key+'Hex']=raw[:limit].hex()\n+        if len(raw)>limit: record[key+'Truncated']=True; complete=False\n+    return complete\n+def bee_observation_event(record):\n+    global bee_observation_bytes\n+    payload={'utc':utc(),'kind':'bee_fd_observation',**record}; encoded=(json.dumps(payload,ensure_ascii=False)+'\\n').encode('utf-8')\n+    limits=D['beeObservationContract']\n+    check(len(encoded)<=limits['recordBytes'] and bee_observation_bytes+len(encoded)<=limits['totalBytes'],'INCOMPLETE: Bee observation capacity exceeded')\n+    try: previous=(E/'process-events.jsonl').lstat().st_size\n+    except FileNotFoundError: previous=0\n+    check(previous+len(encoded)<D['evidenceSlots']['maxBytes']-D['evidenceSlots']['reservedFinalReceiptBytes'],'INCOMPLETE: process-events capacity exceeded')\n+    event('bee_fd_observation',**record); bee_observation_bytes+=len(encoded)\n+def bee_fd_binding(path,stage,pid,ds,before):\n+    record={'stage':stage,'monotonic':time.monotonic(),'targetPath':str(path),'rootPid':pid,'beforeLstat':bee_stamp(before),'directoryBefore':bee_stamp(ds),'candidates':[],'probes':[]}\n+    primary=None; root_identity=None; holders=[]; after=None\n+    try:\n+        bee_tools(); root_identity=bee_process(pid,stage,pid); record['rootIdentity']=root_identity\n+        candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]\n+        record['candidates']=[{'pid':p,'ownedIdentity':dict(owned[p])} for p in candidates]\n+        for candidate in candidates:\n+            item={'candidatePid':candidate,'monotonic':time.monotonic(),'targetPath':str(path),'stage':stage,'exitCode':None,'parseResult':None,'identityRecheck':None}; record['probes'].append(item)\n+            probe_error=None\n+            try:\n+                item['beforeLstat']=bee_stamp(path.lstat()); identity=bee_process(candidate,stage,pid); item['identityBefore']=identity\n+                argv=[D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn']; item['argv']=argv\n+                timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],blocking_probe_timeout()); item['timeoutSeconds']=timeout\n+                result=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)\n+                item['exitCode']=result.returncode; complete=bee_capture_output(item,result.stdout,result.stderr)\n+                check(complete,'INCOMPLETE: Bee raw FD output exceeds bound')\n+                check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')\n+                bound=result.returncode==0 and bee_fd_bound(result.stdout,candidate,path); item['parseResult']=bound\n+                if bound: holders.append(identity)\n+                refreshed=bee_process(candidate,stage,pid); item['identityRecheck']=refreshed\n+                check(refreshed==identity,'Bee process changed during FD probe')\n+            except BaseException as error:\n+                probe_error=error; item['error']={'type':type(error).__name__,'message':str(error)}\n+                if isinstance(error,subprocess.TimeoutExpired) and not bee_capture_output(item,error.output,error.stderr):\n+                    item['capacityFailure']={'status':'INCOMPLETE','rawBytesPerStream':D['beeObservationContract']['rawBytesPerStream'],'stdoutBytes':item['rawStdoutBytes'],'stderrBytes':item['rawStderrBytes']}\n+                    raise RuntimeError('INCOMPLETE: Bee timeout partial FD output exceeds bound; TimeoutExpired: '+str(error)) from error\n+                raise\n+            finally:\n+                try: item['afterLstat']=bee_stamp(path.lstat())\n+                except FileNotFoundError: item['afterLstat']={'ENOENT':True}\n+                except BaseException as error:\n+                    item['afterLstat']={'errorType':type(error).__name__,'error':str(error)}\n+                    if probe_error is None: raise\n+                item['finishedMonotonic']=time.monotonic()\n+        check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')\n+        try: after=path.lstat()\n+        except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')\n+        check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')\n+        bee_tools()\n+    except BaseException as error:\n+        primary=error; record['error']={'type':type(error).__name__,'message':str(error)}\n+    finally:\n+        try: record['afterLstat']=bee_stamp(path.lstat())\n+        except FileNotFoundError: record['afterLstat']={'ENOENT':True}\n+        except BaseException as error:\n+            record['afterLstat']={'errorType':type(error).__name__,'error':str(error)}\n+            if primary is None: primary=error; record['error']={'type':type(error).__name__,'message':str(error)}\n+        record['finishedMonotonic']=time.monotonic(); record['fdOwners']=holders\n+        try: bee_observation_event(record)\n+        except BaseException as error:\n+            if primary is None: primary=RuntimeError('INCOMPLETE: Bee observation write failed: '+str(error))\n+            elif isinstance(primary,NaturalGraceExpired):\n+                failure=RuntimeError('INCOMPLETE: Bee observation write failed after natural boundary: '+str(error))\n+                failure.__cause__=primary; failure.__context__=error; primary=failure\n+            else: primary.add_note('INCOMPLETE: Bee observation write failed: '+str(error))\n+    if primary is not None: raise primary\n+    return root_identity,holders,after\n+\n def cmd(argv):\n-    p=subprocess.run(argv,capture_output=True,text=True,timeout=probe_timeout())\n+    p=subprocess.run(argv,capture_output=True,text=True,timeout=blocking_probe_timeout())\n     check(p.returncode==0,'Command failed '+json.dumps({'argv':argv,'exit':p.returncode,'stderr':p.stderr[:600]})); return p.stdout\n def ps():\n     result={}\n@@ -192,7 +263,7 @@\n         sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)\n         if sensitive and '=' in a: redacted.append(a.split('=',1)[0]+'=<REDACTED>')\n         else: redacted.append(a); hide=bool(sensitive)\n-    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=probe_timeout())\n+    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=blocking_probe_timeout())\n     cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)\n     return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}\n def register(pid,row,stage,rootpid,detail=None):\n@@ -200,7 +271,7 @@\n     if pathlib.Path(row['exe']).name=='BeeLocalCacheTool':\n         expected=pathlib.Path(N['editor']['path']).parent.parent/'Tools/BuildPipeline/BeeLocalCacheTool'\n         check(row['exe']==str(expected),'Unbound BeeLocalCacheTool executable')\n-        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-Fn'],capture_output=True,text=True,timeout=probe_timeout())\n+        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-Fn'],capture_output=True,text=True,timeout=blocking_probe_timeout())\n         names=[line[1:] for line in probe.stdout.splitlines() if line.startswith('n')]\n         check(probe.returncode==0 and not probe.stderr.strip() and any(name==str(BC) or name.startswith(str(BC)+'/') for name in names),'BeeLocalCacheTool lacks current BC evidence')\n         detail={**detail,'beeCacheEvidence':{'root':str(BC),'fds':names}}\n@@ -235,7 +306,7 @@\n     check({k:li[k] for k in spec['logIdentity']}==spec['logIdentity'],'Original ADB log identity changed')\n     if row is None or row['stat'].startswith('Z'): return pid\n     item['row']=row; check(row['start']==spec['start'] and row['exe']=='adb','Unknown ADB identity'); item['argv']=details(pid)['argv']; check(item['argv']==spec['argv'],'ADB argv changed')\n-    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout()); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None\n+    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=blocking_probe_timeout()); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None\n     for line in probe.stdout.splitlines():\n         if line.startswith('p'): ownerpid=int(line[1:])\n         elif line.startswith('f'): files.append({'fd':line[1:]})\n@@ -256,7 +327,7 @@\n         uid=int(cmd(['/bin/ps','-p',str(pid),'-o','uid=']).strip()); check(uid==os.getuid(),'SDK ADB UID')\n         check(ident(spec['path'])=={k:spec[k] for k in ['bytes','sha256']},'Frozen SDK executable bytes')\n         check(pathlib.Path(spec['path']).resolve()==pathlib.Path(spec['path']),'Canonical SDK executable')\n-        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout())\n+        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=blocking_probe_timeout())\n         check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete SDK ADB FD evidence'); files=[]; ownerpid=None\n         for line in probe.stdout.splitlines():\n             if line.startswith('p'): ownerpid=int(line[1:])\n@@ -610,7 +681,7 @@\n     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')\n     bee_tools()\n     no_links(TMP); s=TMP.stat()\n-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv4\\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')\n+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv5\\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')\n     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')\n     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')\n     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())\n@@ -862,7 +933,7 @@\n             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],\n             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}\n def contract_guard(raw,qa):\n-    check(raw['task']=='RES-COMBINED-V04' and raw['schemaVersion']==1,'Current combined schema required')\n+    check(raw['task']=='RES-COMBINED-V05' and raw['schemaVersion']==1,'Current combined schema required')\n     for key,count in [('shared',1036),('projectionBefore',1035)]:\n         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)\n     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta\n@@ -1014,9 +1085,9 @@\n     clock_start=time.monotonic()\n     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]\n     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))\n-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V04','Current combined activation required')\n+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V05','Current combined activation required')\n     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']\n-    check(ident(E/'inputs.json')=={'bytes':1244365,'sha256':'9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524'},'Current fixed inputs')\n+    check(ident(E/'inputs.json')=={'bytes':1246296,'sha256':'465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3'},'Current fixed inputs')\n     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')\n     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)\n     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')\n",
+    "runnerUnifiedDiff": "--- V05/runner.py\n+++ V06/runner.py\n@@ -1,5 +1,5 @@\n #!/usr/bin/env python3\n-\"\"\"RES-COMBINED-V05: sealed I then T; source preparation never activates native work.\"\"\"\n+\"\"\"RES-COMBINED-V06: sealed I then T; source preparation never activates native work.\"\"\"\n import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy\n from collections import Counter\n import xml.etree.ElementTree as ET\n@@ -10,7 +10,7 @@\n owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None\n pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None\n transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}; bee_observation_bytes=0\n-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests'\n+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests'\n compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None\n def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()\n def check(ok,why):\n@@ -55,7 +55,11 @@\n     detail=details(pid)\n     check(detail['argv']==owner['argv'] and detail['cwd']==owner['cwd']==str(P) and detail['cwdProbeExit']==0,'Bee fresh argv/cwd mismatch')\n     return {'pid':pid,'start':owner['start'],'exe':owner['exe'],'argv':owner['argv'],'cwd':owner['cwd'],'ppid':owner['ppid'],'stage':stage}\n-def bee_fd_bound(text,pid,path):\n+def bee_fd_bound(text,pid,path,matches=None):\n+    spellings=[(str(path),'standard')]\n+    target=pathlib.Path(path); endpoint=re.fullmatch(r'ipc_(\\d+)_(htc|cth)',target.name)\n+    if TMP is not None and target.parent.parent==TMP and re.fullmatch(D['beeIpcContract']['directoryPattern'],target.parent.name) and endpoint and int(endpoint[1])==snapshot_root:\n+        spellings.append((str(TMP)+'//'+target.parent.name+'/'+target.name,'extra-tmp-separator'))\n     current=None; fd=None; found=False; saw_pid=False\n     for line in text.splitlines():\n         if not line: continue\n@@ -65,8 +69,10 @@\n         elif tag=='t': check(fd is not None,'Bee FD missing descriptor'); fd['type']=value\n         elif tag=='n':\n             check(fd is not None,'Bee FD missing descriptor')\n-            exact=re.fullmatch(re.escape(str(path))+r'(?: type=STREAM(?: \\(LISTEN\\))?)?',value)\n-            if exact: check(fd['type']=='unix' and re.fullmatch(r'\\d+[a-zA-Z]*',fd['number']),'Bee FD wrong type'); found=True\n+            for spelling,label in spellings:\n+                if re.fullmatch(re.escape(spelling)+r'(?: type=STREAM(?: \\(LISTEN\\))?)?',value):\n+                    check(fd['type']=='unix' and re.fullmatch(r'\\d+[a-zA-Z]*',fd['number']),'Bee FD wrong type'); found=True\n+                    if matches is not None: matches.append({'spelling':label,'rawName':value,'fd':fd['number']})\n         else: check(tag=='c' and current==pid,'Bee unexpected FD record')\n     check(saw_pid,'Bee FD missing PID'); return found\n def bee_ipc_entry(path,observed=None):\n@@ -204,7 +210,7 @@\n                 item['exitCode']=result.returncode; complete=bee_capture_output(item,result.stdout,result.stderr)\n                 check(complete,'INCOMPLETE: Bee raw FD output exceeds bound')\n                 check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')\n-                bound=result.returncode==0 and bee_fd_bound(result.stdout,candidate,path); item['parseResult']=bound\n+                item['matchedSpellings']=[]; bound=result.returncode==0 and bee_fd_bound(result.stdout,candidate,path,item['matchedSpellings']); item['parseResult']=bound\n                 if bound: holders.append(identity)\n                 refreshed=bee_process(candidate,stage,pid); item['identityRecheck']=refreshed\n                 check(refreshed==identity,'Bee process changed during FD probe')\n@@ -256,8 +262,20 @@\n     return result\n def alive(rows,pid):\n     return pid in rows and pid in owned and rows[pid]['start']==owned[pid]['start'] and rows[pid]['exe']==owned[pid]['exe'] and not rows[pid]['stat'].startswith('Z')\n+class ChildArgsProbeError(RuntimeError):\n+    def __init__(self,probe):\n+        self.probe=probe\n+        super().__init__('Single-PID args probe failed '+json.dumps(probe,ensure_ascii=False))\n+def child_args(pid):\n+    argv=['/bin/ps','-ww','-p',str(pid),'-o','args=']; started=time.monotonic()\n+    timeout=blocking_probe_timeout()\n+    result=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)\n+    probe={'argv':argv,'returncode':result.returncode,'stdout':result.stdout,'stderr':result.stderr,'startedMonotonic':started,'finishedMonotonic':time.monotonic(),'timeoutSeconds':timeout}\n+    if result.returncode!=0: raise ChildArgsProbeError(probe)\n+    return result.stdout\n+\n def details(pid):\n-    args=shlex.split(cmd(['/bin/ps','-ww','-p',str(pid),'-o','args=']).strip(),posix=False); redacted=[]; hide=False\n+    args=shlex.split(child_args(pid).strip(),posix=False); redacted=[]; hide=False\n     for a in args:\n         if hide: redacted.append('<REDACTED>'); hide=False; continue\n         sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)\n@@ -298,7 +316,33 @@\n                 message='Supplied-snapshot child identity failed '+str(pid)+': '+str(error)\n                 if prior is None: pending_details[pid]={'row':dict(row),'stage':stage,'rootPid':rootpid,'firstError':message,'firstObservedUtc':utc()}\n                 pending_details[pid]['lastError']=message\n+                if isinstance(error,ChildArgsProbeError): pending_details[pid]['argsProbe']=error.probe\n                 event('pending_identity',pid=pid,identity=pending_details[pid])\n+                probe=error.probe if isinstance(error,ChildArgsProbeError) else None\n+                if prior is None and probe is not None and probe['argv']==['/bin/ps','-ww','-p',str(pid),'-o','args='] and probe['returncode']==1 and probe['stdout']=='' and probe['stderr']=='':\n+                    parent=row['ppid']; recorded_chain(parent,rootpid)\n+                    check(owned[parent]['stage']==stage and owned[parent]['rootPid']==rootpid,'Transient child parent stage mismatch')\n+                    chain=[]; ancestor=parent\n+                    while True:\n+                        chain.append(dict(owned[ancestor]))\n+                        if ancestor==rootpid: break\n+                        ancestor=owned[ancestor]['ppid']\n+                    confirmation={'pid':pid,'initialRow':dict(row),'parentChain':chain,'argsProbe':probe,'stage':stage,'rootPid':rootpid,'startedMonotonic':time.monotonic()}\n+                    try:\n+                        fresh=ps()\n+                    except BaseException as fresh_error:\n+                        confirmation['failure']={'type':type(fresh_error).__name__,'message':str(fresh_error)}\n+                        pending_details[pid]['freshConfirmation']=confirmation; event('transient_child_confirmation_failed',confirmation=confirmation)\n+                        if isinstance(fresh_error,NaturalGraceExpired): raise RuntimeError('INCOMPLETE: transient child fresh confirmation unavailable after args failure') from fresh_error\n+                        raise\n+                    confirmation.update(finishedMonotonic=time.monotonic(),freshSnapshot=fresh,pidAbsent=pid not in fresh)\n+                    pending_details[pid]['freshConfirmation']=confirmation\n+                    rows.clear(); rows.update(fresh)\n+                    if pid not in fresh:\n+                        event('transient-child-exited',confirmation=confirmation); pending_details.pop(pid); changed=True\n+                    else:\n+                        event('transient_child_confirmation_rejected',confirmation=confirmation)\n+                    break\n     check(not pending_details,next((p['firstError'] for p in pending_details.values()),'Unverified child remains'))\n def adb_exception(rows):\n     spec=A['adbException']; pid=spec['pid']; row=rows.get(pid); item={'utc':utc(),'pid':pid,'present':row is not None}; adb_observations.append(item)\n@@ -681,7 +725,7 @@\n     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')\n     bee_tools()\n     no_links(TMP); s=TMP.stat()\n-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv5\\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')\n+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv6\\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')\n     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')\n     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')\n     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())\n@@ -933,7 +977,7 @@\n             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],\n             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}\n def contract_guard(raw,qa):\n-    check(raw['task']=='RES-COMBINED-V05' and raw['schemaVersion']==1,'Current combined schema required')\n+    check(raw['task']=='RES-COMBINED-V06' and raw['schemaVersion']==1,'Current combined schema required')\n     for key,count in [('shared',1036),('projectionBefore',1035)]:\n         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)\n     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta\n@@ -1085,9 +1129,9 @@\n     clock_start=time.monotonic()\n     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]\n     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))\n-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V05','Current combined activation required')\n+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V06','Current combined activation required')\n     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']\n-    check(ident(E/'inputs.json')=={'bytes':1246296,'sha256':'465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3'},'Current fixed inputs')\n+    check(ident(E/'inputs.json')=={'bytes':1248829,'sha256':'4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b'},'Current fixed inputs')\n     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')\n     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)\n     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')\n",
     "changedFunctionsAfterBindingNormalization": [
-      "bee_ipc_entry",
-      "cmd",
+      "bee_fd_bound",
+      "bee_fd_binding",
       "details",
-      "register",
-      "adb_exception",
-      "sdk_adb_exception"
+      "discover"
     ],
     "addedFunctions": [
-      "bee_capture_output",
-      "bee_fd_binding",
-      "bee_observation_event",
-      "blocking_probe_timeout"
+      "ChildArgsProbeError",
+      "child_args"
     ],
     "unchangedFunctions": [
       "utc",
@@ -1021,7 +1051,7 @@
       "bee_stamp",
       "bee_tools",
       "bee_process",
-      "bee_fd_bound",
+      "bee_ipc_entry",
       "bee_ipc_snapshot",
       "probe_timeout",
       "checked",
@@ -1032,9 +1062,15 @@
       "children",
       "json_chunks",
       "json_digest",
+      "blocking_probe_timeout",
+      "bee_capture_output",
+      "bee_observation_event",
+      "cmd",
       "ps",
       "alive",
-      "discover",
+      "register",
+      "adb_exception",
+      "sdk_adb_exception",
       "consumer_guard",
       "recorded_chain",
       "recover_root",
@@ -1139,10 +1175,10 @@
       },
       "bee_fd_bound": {
         "before": "3293ab09ab50e423dc33639f0bc41f7bbba74b95759bcc2969f48054386edefe",
-        "after": "3293ab09ab50e423dc33639f0bc41f7bbba74b95759bcc2969f48054386edefe"
+        "after": "bcfabba8a3947631f8444826e3c616fcb233ff0d54d8b7a3d6579da021552355"
       },
       "bee_ipc_entry": {
-        "before": "eb259220b2eea4a58f370d6ea1e87c2432bf1ab7a5e3c9ab5269ccf63423fb98",
+        "before": "c98b193844aef3a202dc53a8c1464fdcfc900efbf2fee54713138a41470e76df",
         "after": "c98b193844aef3a202dc53a8c1464fdcfc900efbf2fee54713138a41470e76df"
       },
       "bee_ipc_snapshot": {
@@ -1185,8 +1221,24 @@
         "before": "8ff41ccd91f8b43aec76f651ab1ed128303a6798decadf746fa52839bf5de854",
         "after": "8ff41ccd91f8b43aec76f651ab1ed128303a6798decadf746fa52839bf5de854"
       },
+      "blocking_probe_timeout": {
+        "before": "6adecb47e5cbe6d596c90c760e007a6319bb05b1584d65e61ab3ac41345e5445",
+        "after": "6adecb47e5cbe6d596c90c760e007a6319bb05b1584d65e61ab3ac41345e5445"
+      },
+      "bee_capture_output": {
+        "before": "abf5c6b05553dd67478fd5c2c770f7a7a0e5bdf6f9eb6c2cf8d8c8b989777f4a",
+        "after": "abf5c6b05553dd67478fd5c2c770f7a7a0e5bdf6f9eb6c2cf8d8c8b989777f4a"
+      },
+      "bee_observation_event": {
+        "before": "ccb19ba1df68e09b0b253fd833274254bd5883573979a04493e6eb99bdb46f7d",
+        "after": "ccb19ba1df68e09b0b253fd833274254bd5883573979a04493e6eb99bdb46f7d"
+      },
+      "bee_fd_binding": {
+        "before": "c79ad19d9e7862d38cc7ab41b31b7cd9f42b86e13400af493689dc8f262441a9",
+        "after": "c76981d4b6e7ee78ee89f411c2471e88483c4b2fc80a7e9225fd3751b6f3b274"
+      },
       "cmd": {
-        "before": "b0475b29b11fa20dc4336bf577020598bd38cd4fe04dc46995095531993a3171",
+        "before": "eac4121449af4993b4a29be7ec5c9862ad0209dbafe5a31edc0ac51d1abbf3d5",
         "after": "eac4121449af4993b4a29be7ec5c9862ad0209dbafe5a31edc0ac51d1abbf3d5"
       },
       "ps": {
@@ -1198,23 +1250,23 @@
         "after": "b19c1a6e70801a514e87950a4d987a436c2129853de8a51732ca3f8504edb1d0"
       },
       "details": {
-        "before": "a73592a4ae1f7b3f84e8854e532b958a78074d916a3e662e1a405fc485702c62",
-        "after": "ccec265566ab9db0a02c7ca4140dfc519bc7291ea0fc8d59d9a0b3d7b9623541"
+        "before": "ccec265566ab9db0a02c7ca4140dfc519bc7291ea0fc8d59d9a0b3d7b9623541",
+        "after": "accf1fcff5766fd033b1fcc2add476e33cb2e5dc7a23479c546fb9d5898ff7e5"
       },
       "register": {
-        "before": "53bd7075da21dac1a05ea05be3026ee22094ee1837d75d6e625e11b1dd9a6710",
+        "before": "a0da5b428fce64b6031ee9f287ca3611d83fb26332739049daf81539987c2124",
         "after": "a0da5b428fce64b6031ee9f287ca3611d83fb26332739049daf81539987c2124"
       },
       "discover": {
         "before": "1f69e005c0816030bec4ade941bfc8f83f4258d94b52370d9af536a4f2c97915",
-        "after": "1f69e005c0816030bec4ade941bfc8f83f4258d94b52370d9af536a4f2c97915"
+        "after": "133181498b47bd2baefabb8ff379f33b9f9effcdc21a6e0f0b9d0477b8f8acf1"
       },
       "adb_exception": {
-        "before": "02e21b741b0e9455e219eedea32f529437419179d780ea663df6c75d844f637e",
+        "before": "fe55faf282b48c9d6e42d2f9881995c878f68e5b1d3f9913f6b023c20fd19168",
         "after": "fe55faf282b48c9d6e42d2f9881995c878f68e5b1d3f9913f6b023c20fd19168"
       },
       "sdk_adb_exception": {
-        "before": "e0be59e8d94863904647fd07849d25900965c38ea430181e80389072e611db14",
+        "before": "e3ff4a382dcdcd4731917138baef886f0e7e63e737d49db01872be2ccf24fbee",
         "after": "e3ff4a382dcdcd4731917138baef886f0e7e63e737d49db01872be2ccf24fbee"
       },
       "consumer_guard": {
@@ -1350,8 +1402,8 @@
         "after": "906883dd9e2ae17cca3749abf4f994e5430a3b1181d7556a3345903d2bd2c19d"
       },
       "preflight": {
-        "before": "2c57ac085ab990caae2a7f044f97d29e4291bbad68ad7650ad1f74252d39526f",
-        "after": "2c57ac085ab990caae2a7f044f97d29e4291bbad68ad7650ad1f74252d39526f"
+        "before": "c3542233c021c6268d8f4bdfab1c07df04b955dbccb31497fea02688dd902a54",
+        "after": "c3542233c021c6268d8f4bdfab1c07df04b955dbccb31497fea02688dd902a54"
       },
       "capture_before": {
         "before": "4a537094b429ff0f186cb7b8ec9bc23c2df36a8ec56f4867463baa27313d9c91",
@@ -1414,8 +1466,8 @@
         "after": "05b5c3bdb05083bdb025866ebe9b8dfbeb4409cb67180e145a0eb6de3ef8fc91"
       },
       "contract_guard": {
-        "before": "9c43ef109d4f0856654694d7cbd1af87399eac20312567de278fef2de454e27c",
-        "after": "9c43ef109d4f0856654694d7cbd1af87399eac20312567de278fef2de454e27c"
+        "before": "1e407ce4248fcbade1b2c5a51e24c546e1c75d2c7b015c058660888fa1b7aca6",
+        "after": "1e407ce4248fcbade1b2c5a51e24c546e1c75d2c7b015c058660888fa1b7aca6"
       },
       "compiler_paths": {
         "before": "bac7d3cfbfc289b1392df3bdca21c77d643c1c30ecec3ab69678555fed704bf8",
@@ -1470,38 +1522,30 @@
         "after": "262fd29cc01ccdae1473065884807f24f73a63e06590e0c416c80e77f5e3ac2c"
       },
       "main": {
-        "before": "a52c8b1d95b80cbb240369fed704626e09447700711d138e3569db5116723236",
-        "after": "a52c8b1d95b80cbb240369fed704626e09447700711d138e3569db5116723236"
+        "before": "33e3efd13d94ff0d9fbbc4f712781bb04bf71acb39d2c2fb3f4089fe46bf50d9",
+        "after": "33e3efd13d94ff0d9fbbc4f712781bb04bf71acb39d2c2fb3f4089fe46bf50d9"
       }
     },
-    "checkerDelta": "Select only affected historical cases; add exact saved real FD strings, bounded success/failure/timeout/finally observations, full-five-second admission and independent-PID actual-chain early TERM. FIX01 adds five actual monitor/closure/Bee binding cases for grace plus observation failures and oversized timeout stdout/stderr.",
-    "addedFunctionAstSeals": {
-      "blocking_probe_timeout": "6adecb47e5cbe6d596c90c760e007a6319bb05b1584d65e61ab3ac41345e5445",
-      "bee_capture_output": "abf5c6b05553dd67478fd5c2c770f7a7a0e5bdf6f9eb6c2cf8d8c8b989777f4a",
-      "bee_observation_event": "ccb19ba1df68e09b0b253fd833274254bd5883573979a04493e6eb99bdb46f7d",
-      "bee_fd_binding": "c79ad19d9e7862d38cc7ab41b31b7cd9f42b86e13400af493689dc8f262441a9"
-    }
+    "checkerDelta": "14 affected previous cases selected;20 new real-V05-path/actual-discover/register/details/args/fresh-ps cases. No native probes."
   },
   "staticValidation": {
     "status": "PASS",
-    "inputChangeCount": 157,
+    "inputChangeCount": 160,
     "protectedInputSetsUnchanged": true,
-    "parserAstIdentical": true,
-    "candidateExpressionUnchanged": true,
-    "FIX01_FIX02Unchanged": true,
-    "existingBlockingCallsOnlyChangeTimeoutHelper": true,
+    "exactlyTwoPathSpellings": true,
+    "onlyStructuredDoubleEmptyCanConfirm": true,
+    "subsequentGuardsReceiveFreshRows": true,
+    "closureMonitorQuotasAndSignalChecksUnchanged": true,
     "currentRootsConsistent": true,
     "contractsEquivalent": true,
-    "seconds": 0.22230687500268687,
-    "fix01OnlyChangedFunction": "bee_fd_binding",
-    "fix01StaticSeconds": 0.1567412080039503
+    "seconds": 0.20598208300361875
   },
   "evidenceReuse": {
-    "historical69": {
-      "path": "TestArtifacts/FightMatch/RES-COMBINED-V04/run/replay-results.json",
-      "bytes": 257494,
-      "sha256": "2e61957f14f67199d64b1343014f2824b59ea1879de01df1a1095931de18f944",
-      "cases": 69,
+    "historical42": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V05/run/replay-results.json",
+      "bytes": 350873,
+      "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d",
+      "cases": 42,
       "reusedNotRerun": true
     },
     "historical177": {
@@ -1511,54 +1555,29 @@
       "newExecution": false
     },
     "selectedCurrentCases": [
-      "FIX01 actual discover-register natural propagation and TERM",
-      "FIX01 actual discover-register ordinary identity failure retained",
-      "FIX02 independent PID discovery closure during-term",
-      "FIX02 independent PID discovery closure parent-first",
-      "FIX02 independent PID discovery closure stubborn",
-      "FIX02 independent PID discovery closure unknown",
-      "V04 Bee complete FD path with stream annotation",
-      "V04 Bee cth then htc",
       "V04 Bee htc then cth",
-      "V04 Bee real in-flight TimeoutExpired",
-      "V04 Bee rejects fd-error",
-      "V04 Bee rejects fd-io",
-      "V04 Bee rejects fd-mismatch",
-      "V04 Bee rejects fd-no-record",
-      "V04 Bee rejects fd-pid",
-      "V04 Bee rejects fd-type",
-      "V04 Bee rejects post-dir",
+      "V04 Bee cth then htc",
       "V04 Bee rejects post-inode",
+      "V04 Bee rejects post-dir",
       "V04 Bee rejects reuse-during",
-      "V04 Bee rejects vanish-during",
-      "V04 closure io",
-      "V04 closure natural",
-      "V04 closure timeout",
-      "V04 closure total",
-      "V04 closure unclosed-prior",
-      "V04 execution state drift rejected",
       "V04 fresh sealed state accepted",
-      "V04 work and total deadlines preserved"
+      "V04 execution state drift rejected",
+      "V05 full blocking-probe allowance and real timeout",
+      "V05 near natural boundary actual chain preserves prior Bee error",
+      "V05 FIX01 natural observation success",
+      "V05 FIX01 natural observation capacity",
+      "V05 FIX01 natural observation io",
+      "FIX02 independent PID discovery closure during-term",
+      "FIX02 independent PID discovery closure stubborn"
     ],
     "reusedCategories": [
-      "compiler provenance and CacheWrite classification",
-      "43 exact restoration ledger",
-      "89 exact case assertions and AS real I/O/symlink checks",
-      "atomic publication and rollback",
-      "package graph/cache protection",
-      "unchanged Bee path/type/directory lifecycle negatives"
+      "compiler Csc/CacheWrite provenance and43 restoration",
+      "89 exact assertions/AS real I/O/symlink",
+      "atomic publication/rollback",
+      "53-package graph/cache protection",
+      "other unaffected69/177 cases"
     ],
-    "boundary": "Selected old cases are freshly executed and counted separately; other69/177 evidence is historical, never relabeled as this head passing."
-  },
-  "observationScope": {
-    "recordBytes": 65536,
-    "rawBytesPerStream": 8192,
-    "totalObservationBytes": 262144,
-    "includedInExistingEvidenceBudget": true,
-    "rawTruncationMakesIncomplete": true,
-    "loggingFailureMakesIncompleteWithoutReplacingPriorError": true,
-    "parserOrCandidateChanges": false,
-    "beeRootCause": "UNKNOWN"
+    "oldV05NativeStatus": "FAILED preserved; absent later does not establish prior double-empty stdout proof"
   },
   "replayContract": {
     "maximumRounds": 2,
@@ -1573,52 +1592,109 @@
     "realSockets": 0,
     "activationCreated": false,
     "productOr89AssertionsChanged": false,
-    "beeRootCause": "UNKNOWN"
+    "oldV05NativeAccepted": false
   },
   "review": {
-    "status": "PENDING_GITHUB_REREVIEW",
-    "findings": [
-      "4214034014",
-      "4214034022"
-    ],
-    "priorReviewedHead": "6cb1f6f10aad344d14876cd26c86650fd99b8401",
-    "requiredNextStep": "Central receives source, publishes revised head and obtains independent GitHub review. Native remains unauthorized."
+    "status": "PENDING_GITHUB",
+    "requiredNextStep": "Central exact-head independent GitHub review before any separately authorized native execution."
   },
-  "replayCorrection": {
-    "firstRoundFailure": "Offline bind environment omitted utc required by the new observation helper",
-    "correction": "Add utc fixture binding only; production runner unchanged",
-    "secondRoundReason": "Actual first-round failure",
-    "exactCheckerReplacement": {
-      "before": "'bee_observation_bytes':0,'json':json,'hashlib':hashlib}",
-      "after": "'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}"
-    },
-    "historicalEvidenceRoot": "TestArtifacts/FightMatch/RES-COMBINED-V05/source-before-fix01",
-    "appliesTo": "Original V05 two-round delivery, before FIX01; exact checker replacement applies to source-before-fix01/replay-check.py."
-  },
-  "completedUtc": "2026-10-08T02:42:29.086783+00:00",
+  "completedUtc": "2026-10-08T03:17:41.351548+00:00",
   "offline": {
-    "task": "RES-COMBINED-V05-FIX01",
+    "task": "RES-COMBINED-V06",
     "status": "SOURCE_REPLAY_PASS",
     "roundsExecuted": 1,
-    "currentPassedCases": 42,
-    "seconds": 8.013370166998357,
-    "cumulativeSeconds": 8.013370166998357,
+    "currentPassedCases": 34,
+    "selectedHistoricalCasesExecuted": 14,
+    "newCasesExecuted": 20,
+    "seconds": 4.346945291996235,
+    "cumulativeSeconds": 4.346945291996235,
     "secondRoundUsed": false,
     "currentCaseNames": [
       "V04 Bee htc then cth",
       "V04 Bee cth then htc",
+      "V04 Bee rejects post-inode",
+      "V04 Bee rejects post-dir",
+      "V04 Bee rejects reuse-during",
+      "FIX02 independent PID discovery closure during-term",
+      "FIX02 independent PID discovery closure stubborn",
+      "V04 fresh sealed state accepted",
+      "V04 execution state drift rejected",
+      "V05 full blocking-probe allowance and real timeout",
+      "V05 near natural boundary actual chain preserves prior Bee error",
+      "V05 FIX01 natural observation success",
+      "V05 FIX01 natural observation capacity",
+      "V05 FIX01 natural observation io",
+      "V06 real V05 exact path spellings and negatives",
+      "V06 full Bee binding records extra separator",
+      "V06 actual transient child chain absent",
+      "V06 actual transient child chain adb-label",
+      "V06 actual transient child chain present",
+      "V06 actual transient child chain reused",
+      "V06 actual transient child chain zombie",
+      "V06 actual transient child chain stdout",
+      "V06 actual transient child chain stderr",
+      "V06 actual transient child chain exit2",
+      "V06 actual transient child chain io",
+      "V06 actual transient child chain timeout",
+      "V06 actual transient child chain fresh-io",
+      "V06 actual transient child chain fresh-timeout",
+      "V06 actual transient child chain fresh-exit",
+      "V06 actual transient child chain fresh-natural",
+      "V06 actual transient child chain cwd-failure",
+      "V06 actual transient child chain complete",
+      "V06 actual transient child chain legacy",
+      "V06 actual transient child chain parent-stage"
+    ],
+    "skippedHistoricalCases": [
       "V04 Bee complete FD path with stream annotation",
+      "V04 Bee rejects stage",
+      "V04 Bee rejects pid",
+      "V04 Bee rejects start",
+      "V04 Bee rejects fresh-start",
+      "V04 Bee rejects exe",
+      "V04 Bee rejects parent",
+      "V04 Bee rejects argv",
+      "V04 Bee rejects cwd",
+      "V04 Bee rejects tool-editor",
+      "V04 Bee rejects tool-beeBackend",
+      "V04 Bee rejects tool-beeDriver",
+      "V04 Bee rejects tool-lsof",
       "V04 Bee rejects fd-mismatch",
       "V04 Bee rejects fd-pid",
       "V04 Bee rejects fd-type",
       "V04 Bee rejects fd-no-record",
       "V04 Bee rejects fd-error",
+      "V04 Bee rejects uid",
+      "V04 Bee rejects mode",
+      "V04 Bee rejects dir-uid",
+      "V04 Bee rejects dir-mode",
+      "V04 Bee rejects dir-link",
+      "V04 Bee rejects fifo",
+      "V04 Bee rejects link",
+      "V04 Bee rejects regular",
+      "V04 Bee rejects nlink",
+      "V04 Bee rejects vanish-first",
       "V04 Bee rejects vanish-during",
-      "V04 Bee rejects post-inode",
-      "V04 Bee rejects post-dir",
-      "V04 Bee rejects reuse-during",
+      "V04 Bee rejects before-io",
       "V04 Bee rejects fd-io",
       "V04 Bee real in-flight TimeoutExpired",
+      "V04 Bee admitted absent",
+      "V04 Bee admitted directory-absent",
+      "V04 Bee admitted residual",
+      "V04 Bee admitted closed-I-new-T",
+      "V04 Bee admitted inode",
+      "V04 Bee admitted dir-inode",
+      "V04 Bee admitted uid",
+      "V04 Bee admitted link",
+      "V04 Bee admitted reused-pid",
+      "V04 Bee admitted io",
+      "V04 Bee admitted reappear",
+      "V04 Bee admitted wrong-stage",
+      "V04 unknown socket stays forbidden",
+      "V04 unknown fifo stays forbidden",
+      "V04 one directory per stage",
+      "V04 rejects malformed IPC paths and wrong PID",
+      "V04 fresh T uses separate stage FD state",
       "V04 closure natural",
       "V04 closure timeout",
       "V04 closure io",
@@ -1628,11 +1704,8 @@
       "FIX01 actual discover-register natural propagation and TERM",
       "FIX01 actual discover-register ordinary identity failure retained",
       "FIX02 independent PID discovery closure parent-first",
-      "FIX02 independent PID discovery closure during-term",
-      "FIX02 independent PID discovery closure stubborn",
       "FIX02 independent PID discovery closure unknown",
-      "V04 fresh sealed state accepted",
-      "V04 execution state drift rejected",
+      "Retained actual 43-path compiler park and recovery ledger",
       "V05 saved real three-snapshot FD strings",
       "V05 raw FD observation success",
       "V05 raw FD observation mismatch",
@@ -1640,104 +1713,30 @@
       "V05 raw FD observation primary-and-after",
       "V05 raw FD observation write-only",
       "V05 raw FD observation write-with-primary",
-      "V05 full blocking-probe allowance and real timeout",
-      "V05 near natural boundary actual chain preserves prior Bee error",
-      "V05 FIX01 natural observation success",
-      "V05 FIX01 natural observation capacity",
-      "V05 FIX01 natural observation io",
       "V05 FIX01 timeout partial capacity stdout",
       "V05 FIX01 timeout partial capacity stderr"
     ],
-    "newFix01Cases": 5,
-    "priorAffectedCasesRerun": 37,
     "resultIdentity": {
-      "bytes": 350873,
-      "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
+      "bytes": 175232,
+      "sha256": "87c920acffbce64eab678e85e1d7a198d7baf74d4f3b326e1ae02aee575eae4c"
     },
     "forbiddenAttempts": [],
     "preservedConflicts": [],
     "nativeRuns": 0,
-    "priorV05Evidence": {
-      "path": "TestArtifacts/FightMatch/RES-COMBINED-V05/source-before-fix01/replay-results.json",
-      "bytes": 290549,
-      "sha256": "fd5a0b1e8c487bd56a7311a5c214bda6e8e695d5ac2143403b6d914f52865e16",
-      "rounds": 2,
-      "finalPassedCases": 37,
-      "initialFixtureFailurePreserved": true,
-      "cumulativeSeconds": 3.7207605010044063,
-      "historicalOnly": true
-    },
-    "historical69And177NotRerun": true
+    "evidenceKeys": [
+      "v06SavedPathEvidence",
+      "v06SpellingObservations",
+      "v06ChildEvidence"
+    ],
+    "oldV05NativeFAILEDUnchanged": true
   },
   "finalSealValidation": {
     "status": "PASS",
-    "baselineFiveUnchanged": true,
+    "baselineFiveAndNativeEvidenceUnchanged": true,
     "fiveLeavesOnly": true,
     "currentRunnerCheckerInputMatchReplay": true,
-    "initialFixtureFailureReconstructable": true,
-    "actualTurn": "01a11960-3a66-7f51-9642-20d9296354ac",
+    "actualTurn": "01a1197a-8dd9-71c2-aca3-96af65693227",
     "activationBCASAbsent": true,
-    "beeRootCause": "UNKNOWN",
-    "wallSecondsThroughSealing": 576.5637681484222,
-    "snapshotFiveUnchanged": true,
-    "inputsUnchanged": true,
-    "beeFdBindingOnlyAstDelta": true,
-    "metadataGenerationSeconds": 0.1567447080014972
-  },
-  "fix01": {
-    "packet": "docs/team/2026-09-30/central-resource-combined-v05-fix01.md",
-    "githubFindings": [
-      "4214034014",
-      "4214034022"
-    ],
-    "reviewedHead": "6cb1f6f10aad344d14876cd26c86650fd99b8401",
-    "snapshotRoot": "TestArtifacts/FightMatch/RES-COMBINED-V05/source-before-fix01",
-    "snapshotSeals": {
-      "runner.py": {
-        "bytes": 97248,
-        "sha256": "cbcb2f26de2432fd8bada0418874c4f464c5d8fcb75ee3a770682fa1df60a43c"
-      },
-      "replay-check.py": {
-        "bytes": 46779,
-        "sha256": "7510565ba136c2acd64526810de117d655c57b1e24e42e386337c5cbd7196f5d"
-      },
-      "replay-results.json": {
-        "bytes": 290549,
-        "sha256": "fd5a0b1e8c487bd56a7311a5c214bda6e8e695d5ac2143403b6d914f52865e16"
-      },
-      "inputs.json": {
-        "bytes": 1246296,
-        "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
-      },
-      "preparation.json": {
-        "bytes": 122725,
-        "sha256": "7d751f0e336e3fe6f7a2ce0e9b93f9bd957835c4bdc031da864a35692de13355"
-      }
-    },
-    "runnerChangedFunctions": [
-      "bee_fd_binding"
-    ],
-    "otherRunnerFunctionsUnchanged": true,
-    "inputsByteIdentical": true,
-    "actualOwner": {
-      "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
-      "host": "local",
-      "turn": "01a11960-3a66-7f51-9642-20d9296354ac",
-      "requestedModel": "gpt-6-astra",
-      "requestedEffort": "xhigh"
-    },
-    "staticStatus": "PASS",
-    "runnerUnifiedDiff": "--- source-before-fix01/runner.py\n+++ run/runner.py\n@@ -210,7 +210,9 @@\n                 check(refreshed==identity,'Bee process changed during FD probe')\n             except BaseException as error:\n                 probe_error=error; item['error']={'type':type(error).__name__,'message':str(error)}\n-                if isinstance(error,subprocess.TimeoutExpired): bee_capture_output(item,error.output,error.stderr)\n+                if isinstance(error,subprocess.TimeoutExpired) and not bee_capture_output(item,error.output,error.stderr):\n+                    item['capacityFailure']={'status':'INCOMPLETE','rawBytesPerStream':D['beeObservationContract']['rawBytesPerStream'],'stdoutBytes':item['rawStdoutBytes'],'stderrBytes':item['rawStderrBytes']}\n+                    raise RuntimeError('INCOMPLETE: Bee timeout partial FD output exceeds bound; TimeoutExpired: '+str(error)) from error\n                 raise\n             finally:\n                 try: item['afterLstat']=bee_stamp(path.lstat())\n@@ -236,6 +238,9 @@\n         try: bee_observation_event(record)\n         except BaseException as error:\n             if primary is None: primary=RuntimeError('INCOMPLETE: Bee observation write failed: '+str(error))\n+            elif isinstance(primary,NaturalGraceExpired):\n+                failure=RuntimeError('INCOMPLETE: Bee observation write failed after natural boundary: '+str(error))\n+                failure.__cause__=primary; failure.__context__=error; primary=failure\n             else: primary.add_note('INCOMPLETE: Bee observation write failed: '+str(error))\n     if primary is not None: raise primary\n     return root_identity,holders,after\n",
-    "beforeBeeFdBindingAstSha256": "e8f2eb6ed95690c22999721a914ecc15cd282af92aed00b58fdea1be2adeb0f7",
-    "afterBeeFdBindingAstSha256": "c79ad19d9e7862d38cc7ab41b31b7cd9f42b86e13400af493689dc8f262441a9",
-    "unchangedFunctionCount": 96,
-    "replayEvidence": [
-      "replay-results.json#/rounds/0/fix01NaturalObservation",
-      "replay-results.json#/rounds/0/fix01TimeoutCapacity"
-    ],
-    "roundsExecuted": 1,
-    "passedCases": 42,
-    "seconds": 8.013370166998357,
-    "wallSecondsThroughSealing": 250.1874029636383
+    "wallSecondsThroughSealing": 637.3533239364624
   }
 }

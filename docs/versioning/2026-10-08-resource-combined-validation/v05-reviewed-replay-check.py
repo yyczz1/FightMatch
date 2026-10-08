@@ -24,16 +24,16 @@ def rejected(fn):
     try: fn()
     except (RuntimeError,OSError): return True
     return False
-SELECTED=['V04 Bee htc then cth', 'V04 Bee cth then htc', 'V04 Bee rejects post-inode', 'V04 Bee rejects post-dir', 'V04 Bee rejects reuse-during', 'V04 fresh sealed state accepted', 'V04 execution state drift rejected', 'V05 full blocking-probe allowance and real timeout', 'V05 near natural boundary actual chain preserves prior Bee error', 'V05 FIX01 natural observation success', 'V05 FIX01 natural observation capacity', 'V05 FIX01 natural observation io', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure stubborn']
+SELECTED=['FIX01 actual discover-register natural propagation and TERM', 'FIX01 actual discover-register ordinary identity failure retained', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure parent-first', 'FIX02 independent PID discovery closure stubborn', 'FIX02 independent PID discovery closure unknown', 'V04 Bee complete FD path with stream annotation', 'V04 Bee cth then htc', 'V04 Bee htc then cth', 'V04 Bee real in-flight TimeoutExpired', 'V04 Bee rejects fd-error', 'V04 Bee rejects fd-io', 'V04 Bee rejects fd-mismatch', 'V04 Bee rejects fd-no-record', 'V04 Bee rejects fd-pid', 'V04 Bee rejects fd-type', 'V04 Bee rejects post-dir', 'V04 Bee rejects post-inode', 'V04 Bee rejects reuse-during', 'V04 Bee rejects vanish-during', 'V04 closure io', 'V04 closure natural', 'V04 closure timeout', 'V04 closure total', 'V04 closure unclosed-prior', 'V04 execution state drift rejected', 'V04 fresh sealed state accepted', 'V04 work and total deadlines preserved']
 skipped=[]
 def case(name,fn):
-    if name not in SELECTED and not name.startswith('V06 '): skipped.append(name); return
+    if name not in SELECTED and not name.startswith('V05 '): skipped.append(name); return
     need(time.monotonic()-START<30 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<60,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{},'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}
     for key,value in defaults.items():env.setdefault(key,value)
     if hasattr(env.get('P'),'fs'):env.setdefault('children',lambda path:path.iterdir())
-    names=list(names)+[n for n in ('NaturalGraceExpired','ChildArgsProbeError','child_args','blocking_probe_timeout','bee_fd_binding','bee_capture_output','bee_observation_event','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
+    names=list(names)+[n for n in ('NaturalGraceExpired','blocking_probe_timeout','bee_fd_binding','bee_capture_output','bee_observation_event','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
     exec(compile(ast.fix_missing_locations(ast.Module(body=[copy.deepcopy(F[n]) for n in names],type_ignores=[])),RUNNER_FILENAME,'exec'),env);return env
 def profile(frame,event,arg):
     if event=='call' and frame.f_code.co_filename==RUNNER_FILENAME:traces.add(frame.f_code.co_name)
@@ -139,7 +139,7 @@ def compiler_ledger():
     report['compilerLedger']={'parked':43,'restored':43,'archived':22,'primitiveFlags':sorted(set(x for x in fs.native_calls)),'actualCacheWrites':0}
 
 history=json.loads((E/'replay-results.json').read_text())
-need(history['task']=='RES-COMBINED-V06','Current V04 history')
+need(history['task']=='RES-COMBINED-V05','Current V04 history')
 need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'Maximum two rounds; first green stops')
 report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'realSockets':0,'actualProjectionWrites':0,'fixtureIOOnly':True}
 def stat_value(mode,ino,uid=501,nlink=1):
@@ -372,7 +372,7 @@ def state_before(drift):
 
 def actual_probe_strings():
     evidence=json.loads((R/'TestArtifacts/FightMatch/RES-BEE-FD-PROBE-001/probe.json').read_text())
-    env=bind(['check','bee_fd_bound'],{'re':re,'pathlib':pathlib,'TMP':None,'D':D,'snapshot_root':None});pid=evidence['pid'];total=0
+    env=bind(['check','bee_fd_bound'],{'re':re});pid=evidence['pid'];total=0
     for snapshot in evidence['snapshots']:
         raw=snapshot['rawStdout'];paths=sorted({line[1:] for line in raw.splitlines() if line.startswith('n/')})
         need(len(paths)==2,'Two real full endpoint paths per snapshot')
@@ -526,91 +526,6 @@ def fix01_timeout_capacity(stream):
     need(rejected(lambda:env['check'](not env['monitor_errors'],'Monitor failures')),'Timeout capacity failure cannot pass stage gate')
     report.setdefault('fix01TimeoutCapacity',[]).append({'stream':stream,'raisedType':type(caught[0]).__name__,'causeType':type(caught[0].__cause__).__name__,'capacityFailure':failure,'monitorErrors':env['monitor_errors'],'observation':records[0]})
 
-
-def v06_saved_paths():
-    lines=(R/'TestArtifacts/FightMatch/RES-COMBINED-V05/run/process-events.jsonl').read_text().splitlines();checks=[]
-    for line_no in (192,203,207,211,218):
-        event=json.loads(lines[line_no-1]);need(event['kind']=='bee_fd_observation','Fixed real event kind')
-        target=event['targetPath'];root=event['rootPid'];directory=pathlib.Path(target).parent;tmp=directory.parent
-        need(event['beforeLstat']==event['afterLstat'],'Real endpoint same before/after identity')
-        probe=next(p for p in event['probes'] if p['candidatePid']==root);raw=probe['rawStdout']
-        need(probe['exitCode']==0 and probe['parseResult'] is False,'Old V05 failed parse remains historical fact')
-        env=bind(['check','bee_fd_bound'],{'re':re,'pathlib':pathlib,'TMP':tmp,'D':D,'snapshot_root':root})
-        for suffix in ('htc','cth'):
-            endpoint=str(directory/('ipc_'+str(root)+'_'+suffix));matches=[]
-            need(env['bee_fd_bound'](raw,root,endpoint,matches),'Real extra-separator complete path binds')
-            need(matches and all(x['spelling']=='extra-tmp-separator' for x in matches),'Exact extra-separator spelling recorded')
-            canonical=raw.replace(str(tmp)+'//',str(tmp)+'/');matches=[]
-            need(env['bee_fd_bound'](canonical,root,endpoint,matches) and all(x['spelling']=='standard' for x in matches),'Standard spelling retained')
-            invalid=[raw.replace(str(tmp)+'//',str(tmp)+'///'),raw.replace(str(tmp)+'//',str(tmp)+'/./'),raw.replace(str(tmp)+'//',str(tmp)+'/../'),raw.replace(str(tmp)+'//',str(tmp)+'/wrong/'),raw.replace('/ipc_'+str(root),'//ipc_'+str(root)),raw.replace('ipc_'+str(root),'ipc_'+str(root+1)),raw.replace('_'+suffix,'_wrong')]
-            for value in invalid:need(not env['bee_fd_bound'](value,root,endpoint),'Other spelling must not bind')
-            need(rejected(lambda:env['bee_fd_bound'](raw,root+1,endpoint)),'Wrong FD PID rejected')
-            need(rejected(lambda:env['bee_fd_bound'](raw.replace('tunix','tREG'),root,endpoint)),'Wrong FD type rejected')
-        checks.append({'line':line_no,'oldParseResult':probe['parseResult'],'newMatches':'htc/cth exact extra separator','beforeAfterEqual':True})
-    report['v06SavedPathEvidence']=checks
-def v06_live_spelling():
-    env,entries,names,events,calls,VPath=bee_fixture();original=env['subprocess'].run
-    def run(argv,**kw):
-        result=original(argv,**kw);result.stdout=result.stdout.replace('/synthetic-tmp/','/synthetic-tmp//');return result
-    env['subprocess']=types.SimpleNamespace(run=run,TimeoutExpired=subprocess.TimeoutExpired)
-    env['bee_ipc_entry'](VPath(names[0]));env['bee_ipc_entry'](VPath(names[1]))
-    records=[e for e in events if e['kind']=='bee_fd_observation'];matches=[m for e in records for p in e['probes'] for m in p.get('matchedSpellings',[])]
-    need(len(env['bee_ipc']['I']['endpoints'])==2 and len(matches)==2 and all(m['spelling']=='extra-tmp-separator' for m in matches),'Full binding preserves exact alias labels in original raw observation')
-    need(all('/synthetic-tmp//' in p['rawStdout'] for e in records for p in e['probes']),'Raw FD strings not rewritten')
-    report['v06SpellingObservations']=records
-def v06_child(mode):
-    now=[10. if mode!='fresh-natural' else 54.];calls=[];events=[];seen=[];signals=[];fresh_count=[0]
-    root={'pid':100,'ppid':1,'start':'Thu Oct 8 10:00:00 2026','stat':'S','exe':'/fixed/Unity','argv':['/fixed/Unity'],'cwd':'/P','cwdProbeExit':0,'stage':'I','rootPid':100,'termSent':False}
-    child={'pid':101,'ppid':100,'start':'Thu Oct 8 10:51:37 2026','stat':'S','exe':'(adb)' if mode=='adb-label' else '/fixed/worker'}
-    initial={100:copy.deepcopy(root),101:copy.deepcopy(child)};fresh={100:copy.deepcopy(root),303:{'pid':303,'ppid':1,'start':'Thu Oct 8 10:10:00 2026','stat':'S','exe':'/unrelated/fresh'}}
-    if mode in ('present','reused','zombie'):
-        fresh[101]=copy.deepcopy(child)
-        if mode=='reused':fresh[101]['start']='Thu Oct 8 10:52:00 2026'
-        if mode=='zombie':fresh[101]['stat']='Z'
-    def run(argv,**kw):
-        calls.append({'argv':argv,'timeout':kw['timeout']})
-        if argv==['/bin/ps','-ww','-p','101','-o','args=']:
-            if mode=='io':raise PermissionError('synthetic args permission error')
-            if mode=='timeout':raise subprocess.TimeoutExpired(argv,kw['timeout'])
-            if mode=='fresh-natural':now[0]=58.1
-            return types.SimpleNamespace(returncode=2 if mode=='exit2' else (0 if mode in ('complete','cwd-failure') else 1),stdout='/fixed/worker' if mode in ('complete','cwd-failure') else ('not-empty' if mode=='stdout' else ''),stderr='not-empty' if mode=='stderr' else '')
-        if argv==['/usr/sbin/lsof','-a','-p','101','-d','cwd','-Fn']:
-            return types.SimpleNamespace(returncode=1 if mode=='cwd-failure' else 0,stdout='' if mode=='cwd-failure' else 'n/P\n',stderr='')
-        need(argv==['/bin/ps','-ww','-axo','pid=,ppid=,lstart=,stat=,comm='],'Only existing full fresh snapshot command')
-        fresh_count[0]+=1
-        if mode=='fresh-io':raise OSError('synthetic fresh snapshot IO')
-        if mode=='fresh-timeout':raise subprocess.TimeoutExpired(argv,kw['timeout'])
-        if mode=='fresh-exit':return types.SimpleNamespace(returncode=1,stdout='',stderr='denied')
-        out='\n'.join(str(pid)+' '+str(v['ppid'])+' '+v['start']+' '+v['stat']+' '+v['exe'] for pid,v in fresh.items())
-        return types.SimpleNamespace(returncode=0,stdout=out,stderr='')
-    env=bind(['check','cmd','ps','alive','details','register','discover','recorded_chain','recover_root','snapshot_consumers','monitor'],{
-        'json':json,'shlex':shlex,'re':re,'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:now[0]),'subprocess':types.SimpleNamespace(run=run,TimeoutExpired=subprocess.TimeoutExpired),
-        'P':pathlib.Path('/P'),'A':{'stages':[{'id':'I','argv':root['argv']},{'id':'T','argv':root['argv']}]},'N':{'editor':{'path':'/fixed/Unity'}},'owned':{100:copy.deepcopy(root)},'active':None,
-        'consumer_guard':lambda rows:seen.append(copy.deepcopy(rows)),'resources':lambda:None,'projection_guard':lambda:None,'utc':lambda:'fixture','event':lambda kind,**kw:events.append({'kind':kind,**kw}),
-        'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'execution_deadline':300.,'work_deadline':120.,'probe_deadline':60. if mode=='fresh-natural' else None,'natural_boundary':60. if mode=='fresh-natural' else None})
-    if mode=='parent-stage':env['owned'][100]['stage']='T'
-    if mode=='legacy':
-        lines=(R/'TestArtifacts/FightMatch/RES-COMBINED-V05/run/process-events.jsonl').read_text().splitlines();old=json.loads(lines[228]);failure=json.loads(lines[229])
-        need(old['kind']=='pending_identity' and failure['kind']=='monitor_failure' and 'argsProbe' not in old['identity'],'Old failure lacks structured double-empty proof')
-        def old_details(pid):raise RuntimeError(old['identity']['firstError'])
-        env['details']=old_details
-    env['monitor']('natural-closure',initial,'I',100,force=True)
-    accepted=mode in ('absent','adb-label')
-    if accepted:
-        need(not env['monitor_errors'] and not env['pending_details'] and 101 not in env['owned'],'Absent child has no fabricated owned identity or failure')
-        lifecycle=[e for e in events if e['kind']=='transient-child-exited'];need(len(lifecycle)==1 and fresh_count[0]==1,'Exactly one fresh confirmation lifecycle')
-        proof=lifecycle[0]['confirmation'];need(proof['pidAbsent'] and proof['argsProbe']['returncode']==1 and proof['argsProbe']['stdout']==proof['argsProbe']['stderr']=='' and proof['parentChain'],'Structured double-empty and verified chain evidence')
-        need(seen and set(seen[-1])=={100,303} and set(initial)=={100,303} and set(env['process_snapshot'])=={100,303},'Subsequent guards use fresh snapshot, not old absence guess')
-    elif mode=='complete':
-        need(101 in env['owned'] and not env['monitor_errors'] and not fresh_count[0],'Normal complete identity registration preserved')
-    else:
-        need(env['monitor_errors'] and 101 in env['pending_details'] and 101 not in env['owned'],'Unproved exit remains failure with no owned authority '+mode)
-        need(not any(e['kind']=='transient-child-exited' for e in events),'No lifecycle acceptance on failure')
-        if mode in ('stdout','stderr','exit2','io','timeout','cwd-failure','legacy','parent-stage'):need(not fresh_count[0],'No special confirmation for other failures')
-        if mode in ('present','reused','zombie','fresh-io','fresh-timeout','fresh-exit'):need(fresh_count[0]==1,'No repeated fresh query')
-    need(not signals,'No real or synthetic TERM permission granted to unregistered PID')
-    report.setdefault('v06ChildEvidence',[]).append({'mode':mode,'freshQueries':fresh_count[0],'calls':calls,'ownedPids':sorted(env['owned']),'pending':copy.deepcopy(env['pending_details']),'monitorErrors':env['monitor_errors'],'guardRows':seen,'events':events,'signals':signals})
-
 try:
     D=json.loads((E/'inputs.json').read_text());F={n.name:n for n in ast.parse((E/'runner.py').read_text()).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
     compile(ast.parse((E/'runner.py').read_text()),RUNNER_FILENAME,'exec')
@@ -654,10 +569,6 @@ try:
         case('V05 FIX01 natural observation '+mode,lambda mode=mode:fix01_natural_observation(mode))
     for stream in ('stdout','stderr'):
         case('V05 FIX01 timeout partial capacity '+stream,lambda stream=stream:fix01_timeout_capacity(stream))
-    case('V06 real V05 exact path spellings and negatives',v06_saved_paths)
-    case('V06 full Bee binding records extra separator',v06_live_spelling)
-    for mode in ('absent','adb-label','present','reused','zombie','stdout','stderr','exit2','io','timeout','fresh-io','fresh-timeout','fresh-exit','fresh-natural','cwd-failure','complete','legacy','parent-stage'):
-        case('V06 actual transient child chain '+mode,lambda mode=mode:v06_child(mode))
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()
