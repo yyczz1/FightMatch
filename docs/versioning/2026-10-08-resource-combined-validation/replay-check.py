@@ -470,6 +470,62 @@ def near_boundary_closure():
     need(any(e['kind']=='natural_grace_elapsed' for e in events) and calls,'Boundary and actual TERM probes observed')
     report['nearBoundaryClosure']={'signalsSynthetic':signals,'monitorErrors':env['monitor_errors'],'events':events,'subprocessInvocations':calls,'realProcessCalls':0}
 
+
+def fix01_natural_observation(mode):
+    env,entries,names,events,calls,VPath=bee_fixture()
+    clock=[0.];live={100:True,101:True};signals=[];caught=[];first=[True]
+    env['time']=types.SimpleNamespace(monotonic=lambda:clock[0],sleep=lambda s:clock.__setitem__(0,clock[0]+s))
+    original_event=env['event']
+    def event(kind,**kw):
+        if mode=='io' and kind=='bee_fd_observation':raise OSError('synthetic observation disk error')
+        original_event(kind,**kw)
+    if mode=='capacity':env['D']['beeObservationContract']['recordBytes']=1
+    env['event']=event;env['A']['stopping']={'naturalGraceSeconds':60,'termGraceSeconds':30};env['D']['limits']={'finalizationSeconds':30}
+    initial=copy.deepcopy(env['owned'])
+    def rows():return {p:copy.deepcopy(v) for p,v in initial.items() if live[p]}
+    def resources():
+        if not first[0]:return
+        first[0]=False;clock[0]=59.997439
+        try:env['bee_ipc_entry'](VPath(names[0]))
+        except BaseException as error:caught.append(error);raise
+    def kill(pid,sig):
+        need(sig==15 and live[pid] and pid not in signals,'One synthetic TERM per independently live PID')
+        signals.append(pid);live[pid]=False
+    env.update(ps=rows,active=types.SimpleNamespace(poll=lambda:None if live[100] else 0),consumer_guard=lambda rows:None,resources=resources,projection_guard=lambda:None,monitor_errors=[],monitor_cycles=[],last_monitor=0.,execution_deadline=300.,work_deadline=120.,os=types.SimpleNamespace(getuid=lambda:501,kill=kill),signal=types.SimpleNamespace(SIGTERM=15))
+    bind(['register','discover','recover_root','snapshot_consumers','monitor','closure'],env)
+    env['closure']('I',100,'synthetic natural plus observation path')
+    need(env['closure_closed'] and signals==[101,100] and not any(live.values()),'Fresh TERM and process closure remain intact')
+    need(len(caught)==1 and not calls,'No FD subprocess started with only2.561ms allowance')
+    if mode=='success':
+        need(isinstance(caught[0],env['NaturalGraceExpired']) and not env['monitor_errors'],'Successful observation retains normal boundary control')
+        need(any(e['kind']=='bee_fd_observation' for e in events),'Normal boundary observation persisted')
+    else:
+        error=caught[0]
+        need(type(error) is RuntimeError and 'INCOMPLETE' in str(error) and isinstance(error.__cause__,env['NaturalGraceExpired']),'Observation failure replaces control type and retains grace cause')
+        need(isinstance(error.__context__,(OSError,RuntimeError)),'Original observation write/capacity failure retained as context')
+        need(env['monitor_errors'] and any('INCOMPLETE' in item['error'] for item in env['monitor_errors']),'Actual monitor records observation failure')
+        need(rejected(lambda:env['check'](not env['monitor_errors'],'Monitor failures')),'Existing stage gate rejects despite closed processes')
+    report.setdefault('fix01NaturalObservation',[]).append({'mode':mode,'raisedType':type(caught[0]).__name__,'causeType':None if caught[0].__cause__ is None else type(caught[0].__cause__).__name__,'contextType':None if caught[0].__context__ is None else type(caught[0].__context__).__name__,'monitorErrors':env['monitor_errors'],'signalsSynthetic':signals,'closed':env['closure_closed'],'fdSubprocessCalls':calls})
+def fix01_timeout_capacity(stream):
+    env,entries,names,events,calls,VPath=bee_fixture();caught=[];limit=env['D']['beeObservationContract']['rawBytesPerStream']
+    partial=b'x'*(limit+1)
+    def timeout(argv,**kw):
+        raise subprocess.TimeoutExpired(argv,kw['timeout'],output=partial if stream=='stdout' else b'within-bound',stderr=partial if stream=='stderr' else b'within-bound')
+    env['subprocess']=types.SimpleNamespace(run=timeout,TimeoutExpired=subprocess.TimeoutExpired)
+    def resources():
+        try:env['bee_ipc_entry'](VPath(names[0]))
+        except BaseException as error:caught.append(error);raise
+    env.update(snapshot_consumers=lambda *a:None,resources=resources,projection_guard=lambda:None,monitor_errors=[],monitor_cycles=[],last_monitor=0.)
+    bind(['monitor'],env);env['monitor']('running',env['process_snapshot'],'I',100,force=True)
+    need(len(caught)==1 and type(caught[0]) is RuntimeError and isinstance(caught[0].__cause__,subprocess.TimeoutExpired),'Capacity INCOMPLETE retains original TimeoutExpired cause')
+    need('INCOMPLETE' in str(caught[0]) and 'TimeoutExpired' in str(caught[0]) and env['monitor_errors'],'Capacity and timeout both reach actual monitor failure')
+    records=[e for e in events if e['kind']=='bee_fd_observation'];need(len(records)==1,'Failure observation remains persisted')
+    item=records[0]['probes'][0];failure=item['capacityFailure']
+    need(failure['status']=='INCOMPLETE' and failure[stream+'Bytes']==limit+1 and item['error']['type']=='TimeoutExpired','Record preserves capacity limit, measured size, and timeout')
+    need(item['raw'+stream.capitalize()+'Truncated'] and item['afterLstat'] and records[0]['afterLstat'],'Bounded partial bytes and after images retained')
+    need(rejected(lambda:env['check'](not env['monitor_errors'],'Monitor failures')),'Timeout capacity failure cannot pass stage gate')
+    report.setdefault('fix01TimeoutCapacity',[]).append({'stream':stream,'raisedType':type(caught[0]).__name__,'causeType':type(caught[0].__cause__).__name__,'capacityFailure':failure,'monitorErrors':env['monitor_errors'],'observation':records[0]})
+
 try:
     D=json.loads((E/'inputs.json').read_text());F={n.name:n for n in ast.parse((E/'runner.py').read_text()).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
     compile(ast.parse((E/'runner.py').read_text()),RUNNER_FILENAME,'exec')
@@ -509,6 +565,10 @@ try:
         case('V05 raw FD observation '+mode,lambda mode=mode:observation_case(mode))
     case('V05 full blocking-probe allowance and real timeout',blocking_admission)
     case('V05 near natural boundary actual chain preserves prior Bee error',near_boundary_closure)
+    for mode in ('success','capacity','io'):
+        case('V05 FIX01 natural observation '+mode,lambda mode=mode:fix01_natural_observation(mode))
+    for stream in ('stdout','stderr'):
+        case('V05 FIX01 timeout partial capacity '+stream,lambda stream=stream:fix01_timeout_capacity(stream))
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()

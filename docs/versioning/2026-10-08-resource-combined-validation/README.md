@@ -1,9 +1,7 @@
-# Resource combined validator — V05
+# Resource combined validator — V05 FIX01
 
-V04 native failed after Unity I exited0: exact Bee FD binding was unavailable and a process probe began with only2.561ms of natural-close budget. T89 never ran. Projection/compiler restoration and owned-process closure were independently verified; the failed run is not reclassified.
+V05 records bounded raw Bee FD evidence without relaxing exact-path or candidate rules, and starts only full-budget probes during natural grace. FIX01 addresses GitHub4214034014/4214034022: observation-write failures must remain INCOMPLETE even alongside NaturalGraceExpired; timed-out partial output over capacity retains both the capacity failure and original timeout.
 
-A separate0.077s owned-socket probe showed exact server paths and pointer-only client names on this Mac. It does not establish actual Bee behavior. V05 keeps the existing exact-path parser and process candidate policy. It persists bounded raw FD output, identities and endpoint before/after state even on failure; natural-window probes require their full existing allowance before launch, otherwise the existing TERM phase starts early. Real probe timeouts and I/O errors still fail.
+Only bee_fd_binding changes since6cb1f6f10aad344d14876cd26c86650fd99b8401; inputs, other functions, activation/exit contracts stay unchanged. Current42/42 actual-chain replay passed once in8.013370s. Earlier37-case fixture failure/success,69/177 history and V04 native FAILED are retained.
 
-Current37/37 targeted replay passed on round2 in3.560088s; both rounds total3.720761s. The first fixture failure is preserved. Current coverage is28 affected prior cases plus9 new cases; other V04 69/V02 177 categories are reused within their documented scope. No V05 Unity/real ps/socket/signal was run. Bee root cause remains UNKNOWN.
-
-The10 protected product/configuration sections and real OS-exit contract are unchanged;20 fixed references and157 input binding changes reconstruct exactly. One retained Tundra identity was refreshed without changing the file. Prior fixes for natural-control propagation and new TERM candidates remain. After source review, a separately scoped fresh run may collect the missing actual Bee evidence; binding failure still stops T. No automatic retries, KILL, master merge or release.
+Bee root cause remains UNKNOWN. The owned-socket probe proves this Mac can expose server full paths, not actual Bee behavior. V05 native remains unrun. Source review alone cannot authorize product/game/device acceptance. The separately gated I→T89 still requires strict ownership, provenance, restoration and actual OS-exit proof within900s including160 preparation. No KILL, retries, master merge or release.

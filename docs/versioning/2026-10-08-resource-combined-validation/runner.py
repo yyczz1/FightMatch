@@ -210,7 +210,9 @@ def bee_fd_binding(path,stage,pid,ds,before):
                 check(refreshed==identity,'Bee process changed during FD probe')
             except BaseException as error:
                 probe_error=error; item['error']={'type':type(error).__name__,'message':str(error)}
-                if isinstance(error,subprocess.TimeoutExpired): bee_capture_output(item,error.output,error.stderr)
+                if isinstance(error,subprocess.TimeoutExpired) and not bee_capture_output(item,error.output,error.stderr):
+                    item['capacityFailure']={'status':'INCOMPLETE','rawBytesPerStream':D['beeObservationContract']['rawBytesPerStream'],'stdoutBytes':item['rawStdoutBytes'],'stderrBytes':item['rawStderrBytes']}
+                    raise RuntimeError('INCOMPLETE: Bee timeout partial FD output exceeds bound; TimeoutExpired: '+str(error)) from error
                 raise
             finally:
                 try: item['afterLstat']=bee_stamp(path.lstat())
@@ -236,6 +238,9 @@ def bee_fd_binding(path,stage,pid,ds,before):
         try: bee_observation_event(record)
         except BaseException as error:
             if primary is None: primary=RuntimeError('INCOMPLETE: Bee observation write failed: '+str(error))
+            elif isinstance(primary,NaturalGraceExpired):
+                failure=RuntimeError('INCOMPLETE: Bee observation write failed after natural boundary: '+str(error))
+                failure.__cause__=primary; failure.__context__=error; primary=failure
             else: primary.add_note('INCOMPLETE: Bee observation write failed: '+str(error))
     if primary is not None: raise primary
     return root_identity,holders,after
