@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RES-COMBINED-V04: sealed I then T; source preparation never activates native work."""
+"""RES-COMBINED-V05: sealed I then T; source preparation never activates native work."""
 import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy
 from collections import Counter
 import xml.etree.ElementTree as ET
@@ -9,8 +9,8 @@ LIMIT={'evidenceBytes':33554432,'perLogBytes':8388608,'newCacheBytes':1073741824
 allowed=set('activation.json inputs.json before.json preparation.json runner.py replay-check.py replay-results.json process-events.jsonl process-after.json compile.json after.json restore.json receipt.json I/editor.log I/launcher.log I/result.json'.split())
 owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
-transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}
-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V04/state-tests'
+transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}; bee_observation_bytes=0
+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V05/state-tests'
 compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
@@ -99,20 +99,7 @@ def bee_ipc_entry(path,observed=None):
     except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished before FD binding')
     check(stat.S_ISSOCK(before.st_mode) and before.st_uid==os.getuid() and before.st_nlink==1 and not stat.S_IMODE(before.st_mode)&0o022,'Bee endpoint type/UID/mode/link')
     if observed is not None: check(bee_stamp(observed)==bee_stamp(before),'Bee endpoint changed before binding')
-    bee_tools(); root_identity=bee_process(pid,stage,pid); holders=[]
-    candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]
-    for candidate in candidates:
-        identity=bee_process(candidate,stage,pid)
-        result=subprocess.run([D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn'],capture_output=True,text=True,timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],probe_timeout()))
-        # lsof exit1 with empty output means no Unix descriptors; it is not ownership evidence.
-        check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')
-        if result.returncode==0 and bee_fd_bound(result.stdout,candidate,path): holders.append(identity)
-        check(bee_process(candidate,stage,pid)==identity,'Bee process changed during FD probe')
-    check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')
-    try: after=path.lstat()
-    except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')
-    check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')
-    bee_tools()
+    root_identity,holders,after=bee_fd_binding(path,stage,pid,ds,before)
     if state is None:
         state={'stage':stage,'rootPid':pid,'rootIdentity':root_identity,'directory':str(path.parent),'directoryIdentity':bee_stamp(ds),'endpoints':{},'closed':False}; bee_ipc[stage]=state
     state['endpoints'][str(path)]={'identity':bee_stamp(after),'fdOwners':holders,'absent':False}
@@ -174,8 +161,87 @@ def json_digest(value):
     digest=hashlib.sha256()
     for part in json_chunks(value,sort_keys=True,separators=(',',':')): digest.update(part.encode()); probe_timeout()
     return digest.hexdigest()
+def blocking_probe_timeout():
+    remaining=probe_timeout()
+    if natural_boundary is not None and probe_deadline==natural_boundary:
+        now=time.monotonic()
+        check(execution_deadline is None or now<execution_deadline,'Total mechanical deadline exhausted')
+        if natural_boundary-now<5.: raise NaturalGraceExpired('normal-natural-boundary: insufficient full five-second probe allowance')
+        return 5.
+    return remaining
+def bee_capture_output(record,stdout,stderr):
+    complete=True; limit=D['beeObservationContract']['rawBytesPerStream']
+    for key,value in (('rawStdout',stdout),('rawStderr',stderr)):
+        value='' if value is None else value; raw=value if isinstance(value,bytes) else value.encode('utf-8')
+        record[key]=raw[:limit].decode('utf-8',errors='replace'); record[key+'Bytes']=len(raw)
+        if isinstance(value,bytes): record[key+'Hex']=raw[:limit].hex()
+        if len(raw)>limit: record[key+'Truncated']=True; complete=False
+    return complete
+def bee_observation_event(record):
+    global bee_observation_bytes
+    payload={'utc':utc(),'kind':'bee_fd_observation',**record}; encoded=(json.dumps(payload,ensure_ascii=False)+'\n').encode('utf-8')
+    limits=D['beeObservationContract']
+    check(len(encoded)<=limits['recordBytes'] and bee_observation_bytes+len(encoded)<=limits['totalBytes'],'INCOMPLETE: Bee observation capacity exceeded')
+    try: previous=(E/'process-events.jsonl').lstat().st_size
+    except FileNotFoundError: previous=0
+    check(previous+len(encoded)<D['evidenceSlots']['maxBytes']-D['evidenceSlots']['reservedFinalReceiptBytes'],'INCOMPLETE: process-events capacity exceeded')
+    event('bee_fd_observation',**record); bee_observation_bytes+=len(encoded)
+def bee_fd_binding(path,stage,pid,ds,before):
+    record={'stage':stage,'monotonic':time.monotonic(),'targetPath':str(path),'rootPid':pid,'beforeLstat':bee_stamp(before),'directoryBefore':bee_stamp(ds),'candidates':[],'probes':[]}
+    primary=None; root_identity=None; holders=[]; after=None
+    try:
+        bee_tools(); root_identity=bee_process(pid,stage,pid); record['rootIdentity']=root_identity
+        candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]
+        record['candidates']=[{'pid':p,'ownedIdentity':dict(owned[p])} for p in candidates]
+        for candidate in candidates:
+            item={'candidatePid':candidate,'monotonic':time.monotonic(),'targetPath':str(path),'stage':stage,'exitCode':None,'parseResult':None,'identityRecheck':None}; record['probes'].append(item)
+            probe_error=None
+            try:
+                item['beforeLstat']=bee_stamp(path.lstat()); identity=bee_process(candidate,stage,pid); item['identityBefore']=identity
+                argv=[D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn']; item['argv']=argv
+                timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],blocking_probe_timeout()); item['timeoutSeconds']=timeout
+                result=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)
+                item['exitCode']=result.returncode; complete=bee_capture_output(item,result.stdout,result.stderr)
+                check(complete,'INCOMPLETE: Bee raw FD output exceeds bound')
+                check((result.returncode==0 or (result.returncode==1 and not result.stdout)) and not result.stderr.strip(),'Bee FD probe failed')
+                bound=result.returncode==0 and bee_fd_bound(result.stdout,candidate,path); item['parseResult']=bound
+                if bound: holders.append(identity)
+                refreshed=bee_process(candidate,stage,pid); item['identityRecheck']=refreshed
+                check(refreshed==identity,'Bee process changed during FD probe')
+            except BaseException as error:
+                probe_error=error; item['error']={'type':type(error).__name__,'message':str(error)}
+                if isinstance(error,subprocess.TimeoutExpired): bee_capture_output(item,error.output,error.stderr)
+                raise
+            finally:
+                try: item['afterLstat']=bee_stamp(path.lstat())
+                except FileNotFoundError: item['afterLstat']={'ENOENT':True}
+                except BaseException as error:
+                    item['afterLstat']={'errorType':type(error).__name__,'error':str(error)}
+                    if probe_error is None: raise
+                item['finishedMonotonic']=time.monotonic()
+        check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')
+        try: after=path.lstat()
+        except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')
+        check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')
+        bee_tools()
+    except BaseException as error:
+        primary=error; record['error']={'type':type(error).__name__,'message':str(error)}
+    finally:
+        try: record['afterLstat']=bee_stamp(path.lstat())
+        except FileNotFoundError: record['afterLstat']={'ENOENT':True}
+        except BaseException as error:
+            record['afterLstat']={'errorType':type(error).__name__,'error':str(error)}
+            if primary is None: primary=error; record['error']={'type':type(error).__name__,'message':str(error)}
+        record['finishedMonotonic']=time.monotonic(); record['fdOwners']=holders
+        try: bee_observation_event(record)
+        except BaseException as error:
+            if primary is None: primary=RuntimeError('INCOMPLETE: Bee observation write failed: '+str(error))
+            else: primary.add_note('INCOMPLETE: Bee observation write failed: '+str(error))
+    if primary is not None: raise primary
+    return root_identity,holders,after
+
 def cmd(argv):
-    p=subprocess.run(argv,capture_output=True,text=True,timeout=probe_timeout())
+    p=subprocess.run(argv,capture_output=True,text=True,timeout=blocking_probe_timeout())
     check(p.returncode==0,'Command failed '+json.dumps({'argv':argv,'exit':p.returncode,'stderr':p.stderr[:600]})); return p.stdout
 def ps():
     result={}
@@ -192,7 +258,7 @@ def details(pid):
         sensitive=a.startswith('-') and re.search(r'token|password|secret|serial|credential',a,re.I)
         if sensitive and '=' in a: redacted.append(a.split('=',1)[0]+'=<REDACTED>')
         else: redacted.append(a); hide=bool(sensitive)
-    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=probe_timeout())
+    p=subprocess.run(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd','-Fn'],capture_output=True,text=True,timeout=blocking_probe_timeout())
     cwd=next((s[1:] for s in p.stdout.splitlines() if s.startswith('n')),None)
     return {'argv':redacted,'cwd':cwd,'cwdProbeExit':p.returncode}
 def register(pid,row,stage,rootpid,detail=None):
@@ -200,7 +266,7 @@ def register(pid,row,stage,rootpid,detail=None):
     if pathlib.Path(row['exe']).name=='BeeLocalCacheTool':
         expected=pathlib.Path(N['editor']['path']).parent.parent/'Tools/BuildPipeline/BeeLocalCacheTool'
         check(row['exe']==str(expected),'Unbound BeeLocalCacheTool executable')
-        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-Fn'],capture_output=True,text=True,timeout=probe_timeout())
+        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-Fn'],capture_output=True,text=True,timeout=blocking_probe_timeout())
         names=[line[1:] for line in probe.stdout.splitlines() if line.startswith('n')]
         check(probe.returncode==0 and not probe.stderr.strip() and any(name==str(BC) or name.startswith(str(BC)+'/') for name in names),'BeeLocalCacheTool lacks current BC evidence')
         detail={**detail,'beeCacheEvidence':{'root':str(BC),'fds':names}}
@@ -235,7 +301,7 @@ def adb_exception(rows):
     check({k:li[k] for k in spec['logIdentity']}==spec['logIdentity'],'Original ADB log identity changed')
     if row is None or row['stat'].startswith('Z'): return pid
     item['row']=row; check(row['start']==spec['start'] and row['exe']=='adb','Unknown ADB identity'); item['argv']=details(pid)['argv']; check(item['argv']==spec['argv'],'ADB argv changed')
-    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout()); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None
+    probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=blocking_probe_timeout()); check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete ADB FD probe'); item['rawFDs']=probe.stdout; files=[]; ownerpid=None
     for line in probe.stdout.splitlines():
         if line.startswith('p'): ownerpid=int(line[1:])
         elif line.startswith('f'): files.append({'fd':line[1:]})
@@ -256,7 +322,7 @@ def sdk_adb_exception(rows):
         uid=int(cmd(['/bin/ps','-p',str(pid),'-o','uid=']).strip()); check(uid==os.getuid(),'SDK ADB UID')
         check(ident(spec['path'])=={k:spec[k] for k in ['bytes','sha256']},'Frozen SDK executable bytes')
         check(pathlib.Path(spec['path']).resolve()==pathlib.Path(spec['path']),'Canonical SDK executable')
-        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=probe_timeout())
+        probe=subprocess.run(['/usr/sbin/lsof','-nP','-p',str(pid),'-FpcftnDi'],capture_output=True,text=True,timeout=blocking_probe_timeout())
         check(probe.returncode==0 and not probe.stderr.strip(),'Incomplete SDK ADB FD evidence'); files=[]; ownerpid=None
         for line in probe.stdout.splitlines():
             if line.startswith('p'): ownerpid=int(line[1:])
@@ -610,7 +676,7 @@ def preflight():
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')
     bee_tools()
     no_links(TMP); s=TMP.stat()
-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv4\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv5\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')
     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')
     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())
@@ -862,7 +928,7 @@ def normalize_input(raw):
             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],
             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}
 def contract_guard(raw,qa):
-    check(raw['task']=='RES-COMBINED-V04' and raw['schemaVersion']==1,'Current combined schema required')
+    check(raw['task']=='RES-COMBINED-V05' and raw['schemaVersion']==1,'Current combined schema required')
     for key,count in [('shared',1036),('projectionBefore',1035)]:
         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)
     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta
@@ -1014,9 +1080,9 @@ def main():
     clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))
-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V04','Current combined activation required')
+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V05','Current combined activation required')
     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']
-    check(ident(E/'inputs.json')=={'bytes':1244365,'sha256':'9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524'},'Current fixed inputs')
+    check(ident(E/'inputs.json')=={'bytes':1246296,'sha256':'465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3'},'Current fixed inputs')
     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')
     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)
     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')

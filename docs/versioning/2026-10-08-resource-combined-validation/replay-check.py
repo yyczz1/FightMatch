@@ -24,13 +24,16 @@ def rejected(fn):
     try: fn()
     except (RuntimeError,OSError): return True
     return False
+SELECTED=['FIX01 actual discover-register natural propagation and TERM', 'FIX01 actual discover-register ordinary identity failure retained', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure parent-first', 'FIX02 independent PID discovery closure stubborn', 'FIX02 independent PID discovery closure unknown', 'V04 Bee complete FD path with stream annotation', 'V04 Bee cth then htc', 'V04 Bee htc then cth', 'V04 Bee real in-flight TimeoutExpired', 'V04 Bee rejects fd-error', 'V04 Bee rejects fd-io', 'V04 Bee rejects fd-mismatch', 'V04 Bee rejects fd-no-record', 'V04 Bee rejects fd-pid', 'V04 Bee rejects fd-type', 'V04 Bee rejects post-dir', 'V04 Bee rejects post-inode', 'V04 Bee rejects reuse-during', 'V04 Bee rejects vanish-during', 'V04 closure io', 'V04 closure natural', 'V04 closure timeout', 'V04 closure total', 'V04 closure unclosed-prior', 'V04 execution state drift rejected', 'V04 fresh sealed state accepted', 'V04 work and total deadlines preserved']
+skipped=[]
 def case(name,fn):
+    if name not in SELECTED and not name.startswith('V05 '): skipped.append(name); return
     need(time.monotonic()-START<30 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<60,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
-    defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{}}
+    defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{},'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}
     for key,value in defaults.items():env.setdefault(key,value)
     if hasattr(env.get('P'),'fs'):env.setdefault('children',lambda path:path.iterdir())
-    names=list(names)+[n for n in ('NaturalGraceExpired','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
+    names=list(names)+[n for n in ('NaturalGraceExpired','blocking_probe_timeout','bee_fd_binding','bee_capture_output','bee_observation_event','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
     exec(compile(ast.fix_missing_locations(ast.Module(body=[copy.deepcopy(F[n]) for n in names],type_ignores=[])),RUNNER_FILENAME,'exec'),env);return env
 def profile(frame,event,arg):
     if event=='call' and frame.f_code.co_filename==RUNNER_FILENAME:traces.add(frame.f_code.co_name)
@@ -136,7 +139,7 @@ def compiler_ledger():
     report['compilerLedger']={'parked':43,'restored':43,'archived':22,'primitiveFlags':sorted(set(x for x in fs.native_calls)),'actualCacheWrites':0}
 
 history=json.loads((E/'replay-results.json').read_text())
-need(history['task']=='RES-COMBINED-V04','Current V04 history')
+need(history['task']=='RES-COMBINED-V05','Current V04 history')
 need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'Maximum two rounds; first green stops')
 report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'realSockets':0,'actualProjectionWrites':0,'fixtureIOOnly':True}
 def stat_value(mode,ino,uid=501,nlink=1):
@@ -181,8 +184,8 @@ def bee_fixture(mode='valid'):
         if mode=='fd-no-record':out=''
         return types.SimpleNamespace(returncode=1 if mode=='fd-no-record' else 0,stdout=out,stderr='failed' if mode=='fd-error' else '')
     env=bind(['check','alive','recorded_chain','no_links','bee_stamp','bee_tools','bee_process','bee_fd_bound','bee_ipc_entry','bee_ipc_snapshot','tree_entries'],{
-        'pathlib':types.SimpleNamespace(Path=VPath),'stat':stat,'re':re,'subprocess':types.SimpleNamespace(run=lsof),'os':types.SimpleNamespace(getuid=lambda:501),'P':VPath('/P'),'TMP':VPath(tmp),'A':{'stages':[{'id':sid,'argv':argv} for sid,argv in commands.items()]},
-        'D':{'beeIpcContract':{'tools':tools,'directoryPattern':'[A-Za-z0-9]{8}[.][A-Za-z0-9]{3}','fdTimeoutSeconds':5},'commands':commands},'owned':owned,'process_snapshot':rows,'snapshot_root':100,'ident':identity,'cmd':command,'details':detail,'event':lambda kind,**kw:events.append({'kind':kind,**kw}),'time':types.SimpleNamespace(monotonic=lambda:0.),
+        'pathlib':types.SimpleNamespace(Path=VPath),'stat':stat,'re':re,'subprocess':types.SimpleNamespace(run=lsof,TimeoutExpired=subprocess.TimeoutExpired),'os':types.SimpleNamespace(getuid=lambda:501),'P':VPath('/P'),'E':VPath('/synthetic-evidence'),'TMP':VPath(tmp),'A':{'stages':[{'id':sid,'argv':argv} for sid,argv in commands.items()]},
+        'D':{'beeIpcContract':{'tools':tools,'directoryPattern':'[A-Za-z0-9]{8}[.][A-Za-z0-9]{3}','fdTimeoutSeconds':5},'commands':commands,'beeObservationContract':copy.deepcopy(D['beeObservationContract']),'evidenceSlots':copy.deepcopy(D['evidenceSlots'])},'owned':owned,'process_snapshot':rows,'snapshot_root':100,'ident':identity,'cmd':command,'details':detail,'event':lambda kind,**kw:events.append({'kind':kind,**kw}),'time':types.SimpleNamespace(monotonic=lambda:0.),
         'scan_tree':lambda root:[(tmp,['abcdefgh.xyz'],[]),(directory,[],[pathlib.PurePosixPath(p).name for p in entries if pathlib.PurePosixPath(p).parent==pathlib.PurePosixPath(directory)])]})
     if mode=='stage':env['current_stage']='T'
     if mode=='pid':env['snapshot_root']=200
@@ -366,6 +369,107 @@ def state_before(drift):
     env=bind(['check','capture_before'],{'pathlib':pathlib,'json':json,'R':pathlib.Path('/R'),'P':pathlib.Path('/P'),'N':{'editor':D['editor'],'restoreBaseline':{},'requiredAssemblies':[]},'D':{'compilePlan':{'preserveInPlaceIdentities':expected,'previousGraph':{'path':'graph.json'}}},'dlls':lambda:{},'tree_entries':lambda p:{},'old_evidence':lambda:{},'inventory':lambda *a:{},'compiler_paths':lambda:{},'ident':identity,'bounded_text':lambda p:'{"Nodes":[]}','write':lambda *a:None,'time':types.SimpleNamespace(monotonic=lambda:0.)})
     if drift:need(rejected(env['capture_before']),'Exact state preimage drift rejected before synchronization')
     else:env['capture_before']()
+
+def actual_probe_strings():
+    evidence=json.loads((R/'TestArtifacts/FightMatch/RES-BEE-FD-PROBE-001/probe.json').read_text())
+    env=bind(['check','bee_fd_bound'],{'re':re});pid=evidence['pid'];total=0
+    for snapshot in evidence['snapshots']:
+        raw=snapshot['rawStdout'];paths=sorted({line[1:] for line in raw.splitlines() if line.startswith('n/')})
+        need(len(paths)==2,'Two real full endpoint paths per snapshot')
+        header='p'+str(pid)+'\ncPython\n';records=[];current=[]
+        for line in raw.splitlines():
+            if line.startswith('f'):
+                if current:records.append(current)
+                current=[line]
+            elif current:current.append(line)
+        if current:records.append(current)
+        arrows=header+''.join('\n'.join(x)+'\n' for x in records if any(line.startswith('n->') for line in x))
+        for path in paths:
+            need(env['bee_fd_bound'](raw,pid,path),'Actual server path matches')
+            need(not env['bee_fd_bound'](arrows,pid,path),'Client arrows do not bind target path')
+            need(not env['bee_fd_bound'](raw,pid,path+'.wrong'),'Wrong full path not accepted')
+            need(rejected(lambda:env['bee_fd_bound'](raw,pid+1,path)),'Wrong PID rejected')
+            need(rejected(lambda:env['bee_fd_bound'](raw.replace('tunix','tREG'),pid,path)),'Wrong descriptor type rejected');total+=1
+    report['actualProbeFixtures']={'snapshots':3,'exactPathMatches':total,'source':identity(R/'TestArtifacts/FightMatch/RES-BEE-FD-PROBE-001/probe.json'),'newRealProbes':0}
+def observation_case(mode):
+    fixture_mode='fd-mismatch' if mode in ('mismatch','write-with-primary') else 'valid'
+    env,entries,names,events,calls,VPath=bee_fixture(fixture_mode)
+    if mode=='oversize':
+        env['D']['beeObservationContract']['rawBytesPerStream']=8
+    if mode=='primary-and-after':
+        def failing(argv,**kwargs):
+            entries[names[0]]=PermissionError('secondary lstat failed')
+            raise subprocess.TimeoutExpired(argv,kwargs['timeout'],output=b'partial raw output',stderr=b'original stderr')
+        env['subprocess']=types.SimpleNamespace(run=failing,TimeoutExpired=subprocess.TimeoutExpired)
+    if mode in ('write-only','write-with-primary'):
+        prior=env['event']
+        def failed_write(kind,**kw):
+            if kind=='bee_fd_observation':raise OSError('synthetic evidence write failure')
+            prior(kind,**kw)
+        env['event']=failed_write
+    error=None
+    try:env['bee_ipc_entry'](VPath(names[0]))
+    except BaseException as ex:error=ex
+    if mode=='success':need(error is None,'Successful admission')
+    elif mode=='primary-and-after':
+        need(isinstance(error,subprocess.TimeoutExpired),'Finally lstat does not replace first TimeoutExpired')
+    elif mode=='write-with-primary':
+        need(type(error) is RuntimeError and str(error)=='INCOMPLETE: Bee endpoint lacks exact owned FD binding','Evidence write cannot replace primary binding failure')
+        need(any('observation write failed' in note for note in error.__notes__),'Secondary write failure recorded as INCOMPLETE note')
+    else:need(error is not None and ('INCOMPLETE' in str(error)),'Observation failure closes admission gate')
+    if mode not in ('write-only','write-with-primary'):
+        records=[e for e in events if e['kind']=='bee_fd_observation'];need(len(records)==1,'One bounded raw observation saved on success or failure')
+        record=records[0];need(record['beforeLstat'] and record['afterLstat'] and record['targetPath']==names[0] and record['candidates'],'Before/after and candidate selection retained')
+        for probe in record['probes']:
+            need('afterLstat' in probe and 'rawStdout' in probe and 'rawStderr' in probe and probe['argv'] and probe['timeoutSeconds']<=5,'Raw output, argv, timeout and after image retained')
+        if mode=='primary-and-after':
+            need(record['probes'][0]['rawStdout']=='partial raw output' and record['probes'][0]['rawStderr']=='original stderr' and record['afterLstat']['errorType']=='PermissionError','Partial raw output and failing after image preserved')
+        if mode=='oversize':need(record['probes'][0]['rawStdoutTruncated'],'Truncation explicit and never accepted')
+    report.setdefault('observationCases',[]).append({'mode':mode,'error':None if error is None else {'type':type(error).__name__,'message':str(error)},'observations':[e for e in events if e['kind']=='bee_fd_observation']})
+def blocking_admission():
+    clock=[59.997439];calls=[]
+    def run(argv,**kw):
+        calls.append({'argv':argv,'timeout':kw['timeout']})
+        raise subprocess.TimeoutExpired(argv,kw['timeout'])
+    env=bind(['check','cmd','ps'],{'time':types.SimpleNamespace(monotonic=lambda:clock[0]),'subprocess':types.SimpleNamespace(run=run),'json':json,'probe_deadline':60.,'natural_boundary':60.,'execution_deadline':300.})
+    try:env['ps']()
+    except env['NaturalGraceExpired']:pass
+    else:raise AssertionError('Insufficient natural allowance must be normal control')
+    need(not calls,'2.561ms remaining never launches ps')
+    clock[0]=50.
+    try:env['ps']()
+    except subprocess.TimeoutExpired:pass
+    else:raise AssertionError('Started real TimeoutExpired propagates')
+    need(len(calls)==1 and calls[0]['timeout']==5.,'Full fixed probe allowance only')
+    clock[0]=60.;env['execution_deadline']=60.
+    need(rejected(env['ps']) and len(calls)==1,'Total deadline outranks normal natural boundary')
+    report['blockingProbeAdmission']={'insufficientSeconds':0.002561,'callsAtInsufficientAllowance':0,'inFlightTimeoutPreserved':True,'totalDeadlineFirst':True}
+def near_boundary_closure():
+    clock=[0.];live={100:True,101:True};signals=[];calls=[];first=[True];events=[]
+    root={'pid':100,'ppid':1,'exe':'/fixed/Unity','start':'root','argv':['/fixed/Unity'],'cwd':'/P','cwdProbeExit':0,'stage':'I','rootPid':100,'termSent':False,'stat':'S'}
+    child={**root,'pid':101,'ppid':100,'exe':'/fixed/worker','argv':['/fixed/worker']};records={100:root,101:child}
+    def poll():
+        if first[0]:first[0]=False;clock[0]=59.997439
+        return None if live[100] else 0
+    def run(argv,**kw):
+        need(env['natural_boundary'] is None,'No subprocess launch in short natural remainder')
+        calls.append({'argv':argv,'timeout':kw['timeout']});return types.SimpleNamespace(returncode=0,stdout='',stderr='')
+    def rows():
+        env['cmd'](['/bin/ps','synthetic-offline-args'])
+        return {p:copy.deepcopy(v) for p,v in records.items() if live[p]}
+    def kill(pid,sig):signals.append(pid);live[pid]=False
+    env=bind(['check','alive','recorded_chain','register','discover','recover_root','snapshot_consumers','monitor','closure','cmd'],{
+        'time':types.SimpleNamespace(monotonic=lambda:clock[0],sleep=lambda seconds:clock.__setitem__(0,clock[0]+seconds)),'utc':lambda:'fixture','pathlib':pathlib,'json':json,
+        'subprocess':types.SimpleNamespace(run=run),'os':types.SimpleNamespace(kill=kill),'signal':types.SimpleNamespace(SIGTERM=15),
+        'P':pathlib.Path('/P'),'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30},'stages':[{'id':'I','argv':root['argv']}]},'D':{'limits':{'finalizationSeconds':30}},
+        'owned':{100:copy.deepcopy(root)},'active':types.SimpleNamespace(poll=poll),'ps':rows,'details':lambda p:{'argv':records[p]['argv'],'cwd':'/P','cwdProbeExit':0},'consumer_guard':lambda rows:None,
+        'resources':lambda:None,'projection_guard':lambda:None,'monitor_errors':[{'error':'prior Bee binding failure'}],'monitor_cycles':[],'last_monitor':0.,'event':lambda kind,**kw:events.append({'kind':kind,**kw}),'execution_deadline':300.,'work_deadline':120.})
+    env['closure']('I',100,'preserve prior Bee failure')
+    need(env['closure_closed'] and signals==[101,100] and not any(live.values()),'Normal short natural remainder transitions to fresh TERM discovery')
+    need(env['monitor_errors']==[{'error':'prior Bee binding failure'}],'Early transition does not erase prior Bee failure')
+    need(any(e['kind']=='natural_grace_elapsed' for e in events) and calls,'Boundary and actual TERM probes observed')
+    report['nearBoundaryClosure']={'signalsSynthetic':signals,'monitorErrors':env['monitor_errors'],'events':events,'subprocessInvocations':calls,'realProcessCalls':0}
+
 try:
     D=json.loads((E/'inputs.json').read_text());F={n.name:n for n in ast.parse((E/'runner.py').read_text()).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
     compile(ast.parse((E/'runner.py').read_text()),RUNNER_FILENAME,'exec')
@@ -400,6 +504,11 @@ try:
     case('V04 fresh sealed state accepted',lambda:state_before(False))
     case('V04 execution state drift rejected',lambda:state_before(True))
     case('Retained actual 43-path compiler park and recovery ledger',compiler_ledger)
+    case('V05 saved real three-snapshot FD strings',actual_probe_strings)
+    for mode in ('success','mismatch','oversize','primary-and-after','write-only','write-with-primary'):
+        case('V05 raw FD observation '+mode,lambda mode=mode:observation_case(mode))
+    case('V05 full blocking-probe allowance and real timeout',blocking_admission)
+    case('V05 near natural boundary actual chain preserves prior Bee error',near_boundary_closure)
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()
@@ -409,7 +518,7 @@ finally:
     except BaseException as error:conflicts.append('cleanup: '+str(error))
     report['preservedConflicts']=conflicts
     if conflicts:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Unknown or changed fixture contents preserved'
-    report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden
+    report['skippedHistoricalCases']=skipped;report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden
     report['runner']=identity(E/'runner.py');report['checker']=identity(E/'replay-check.py');report['inputs']=identity(E/'inputs.json')
     if report['seconds']>30 or sum(x['seconds'] for x in history['rounds'])+report['seconds']>60:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V04 replay budget exceeded'
     history['rounds'].append(report);history['status']=report['status'];history['cumulativeSeconds']=sum(x['seconds'] for x in history['rounds'])
