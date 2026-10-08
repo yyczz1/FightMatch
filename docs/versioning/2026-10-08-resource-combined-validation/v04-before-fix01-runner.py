@@ -222,7 +222,6 @@ def discover(rows,stage,rootpid):
             try:
                 register(pid,row,stage,rootpid); changed=True
                 if pid in pending_details: event('pending_resolved',pid=pid,resolution='complete-identity',identity=pending_details.pop(pid))
-            except NaturalGraceExpired: raise
             except Exception as error:
                 message='Supplied-snapshot child identity failed '+str(pid)+': '+str(error)
                 if prior is None: pending_details[pid]={'row':dict(row),'stage':stage,'rootPid':rootpid,'firstError':message,'firstObservedUtc':utc()}

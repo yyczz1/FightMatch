@@ -289,50 +289,6 @@ def boundary(mode):
     elif mode=='total':
         need(failed and not signals and any('Total mechanical deadline exhausted' in x['error'] for x in env['monitor_errors']),'Absolute total budget outranks natural boundary')
     report.setdefault('boundaryEvidence',[]).append({'mode':mode,'signalsSynthetic':signals,'closed':env['closure_closed'],'failure':failed,'monitorErrors':env['monitor_errors']})
-
-def discovery_boundary(kind):
-    clock=[0.];live=[True];first_child=[True];signals=[];events=[]
-    root={'pid':100,'ppid':1,'exe':'/fixed/Unity','start':'root-start','argv':['/fixed/Unity'],'cwd':'/P','cwdProbeExit':0,'stage':'I','rootPid':100,'termSent':False,'stat':'S'}
-    child={'pid':101,'ppid':100,'exe':'/fixed/worker','start':'child-start','argv':['/fixed/worker'],'cwd':'/P','cwdProbeExit':0,'stage':'I','rootPid':100,'termSent':False,'stat':'S'}
-    observed={100:copy.deepcopy(root),101:copy.deepcopy(child)}
-    def details(pid):
-        item=root if pid==100 else child
-        if pid==101 and first_child[0]:
-            first_child[0]=False
-            if kind=='natural':
-                clock[0]=60.001
-                env['probe_timeout']()
-            else:
-                raise RuntimeError('synthetic ordinary child identity failure')
-        return {'argv':item['argv'],'cwd':item['cwd'],'cwdProbeExit':0}
-    def kill(pid,sig):
-        need(pid==100 and sig==15,'Only owned root TERM in this synthetic chain')
-        signals.append(pid);live[0]=False
-    env=bind(['check','alive','recorded_chain','register','discover','recover_root','snapshot_consumers','monitor','closure'],{
-        'time':types.SimpleNamespace(monotonic=lambda:clock[0],sleep=lambda seconds:clock.__setitem__(0,clock[0]+seconds)),
-        'utc':lambda:'fixture','os':types.SimpleNamespace(kill=kill),'signal':types.SimpleNamespace(SIGTERM=15),'pathlib':pathlib,
-        'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30},'stages':[{'id':'I','argv':root['argv']}]},
-        'D':{'limits':{'finalizationSeconds':30}},'P':pathlib.Path('/P'),'owned':{100:copy.deepcopy(root)},
-        'active':types.SimpleNamespace(poll=lambda:None if live[0] else 0),'ps':lambda:copy.deepcopy(observed) if live[0] else {},
-        'details':details,'consumer_guard':lambda rows:None,'resources':lambda:None,'projection_guard':lambda:None,
-        'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'event':lambda event_kind,**kw:events.append({'kind':event_kind,**kw}),
-        'execution_deadline':300.,'work_deadline':120.})
-    # Exercise the actual monitor -> snapshot_consumers -> discover -> register chain.
-    if kind=='natural':
-        env['closure']('I',100,'synthetic discovery boundary')
-        need(env['closure_closed'] and signals==[100] and not env['pending_details'] and not env['monitor_errors'],'Natural control propagates through discovery and transitions to TERM cleanly')
-        need(not any(e['kind']=='pending_identity' for e in events),'Natural control never creates pending identity evidence')
-        need(any(e['kind']=='natural_grace_elapsed' for e in events),'Natural boundary remains observable')
-    else:
-        env['probe_deadline']=60.;env['natural_boundary']=60.
-        env['monitor']('natural-closure',copy.deepcopy(observed),'I',100,force=True)
-        need(101 in env['pending_details'] and env['monitor_errors'],'Ordinary identity failure remains pending and fails the monitor')
-        need('synthetic ordinary child identity failure' in env['pending_details'][101]['firstError'],'Original identity failure retained')
-        need(any(e['kind']=='pending_identity' for e in events),'Ordinary identity evidence retained')
-        need(rejected(lambda:env['check'](not env['monitor_errors'],'Monitor failures')),'Stage failure gate remains closed')
-    need({'snapshot_consumers','discover','register'}<=traces,'Actual discovery functions invoked')
-    report.setdefault('fix01DiscoveryEvidence',[]).append({'kind':kind,'pending':copy.deepcopy(env['pending_details']),'monitorErrors':copy.deepcopy(env['monitor_errors']),'signalsSynthetic':signals,'closed':env['closure_closed'],'events':events})
-
 def probe_budgets():
     env=bind(['check'],{'time':types.SimpleNamespace(monotonic=lambda:61.),'natural_boundary':60.,'probe_deadline':60.,'execution_deadline':61.,'work_deadline':0.})
     need(rejected(env['probe_timeout']),'Total deadline first')
@@ -376,8 +332,6 @@ try:
     case('V04 fresh T uses separate stage FD state',bee_fresh_T)
     for mode in ('natural','timeout','io','total','unclosed-prior'):case('V04 closure '+mode,lambda mode=mode:boundary(mode))
     case('V04 work and total deadlines preserved',probe_budgets)
-    case('FIX01 actual discover-register natural propagation and TERM',lambda:discovery_boundary('natural'))
-    case('FIX01 actual discover-register ordinary identity failure retained',lambda:discovery_boundary('ordinary'))
     case('V04 fresh sealed state accepted',lambda:state_before(False))
     case('V04 execution state drift rejected',lambda:state_before(True))
     case('Retained actual 43-path compiler park and recovery ledger',compiler_ledger)

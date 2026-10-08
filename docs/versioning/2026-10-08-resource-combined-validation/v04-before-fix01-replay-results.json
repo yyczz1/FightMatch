@@ -247,14 +247,6 @@
           "passed": true
         },
         {
-          "name": "FIX01 actual discover-register natural propagation and TERM",
-          "passed": true
-        },
-        {
-          "name": "FIX01 actual discover-register ordinary identity failure retained",
-          "passed": true
-        },
-        {
           "name": "V04 fresh sealed state accepted",
           "passed": true
         },
@@ -370,209 +362,6 @@
           ]
         }
       ],
-      "fix01DiscoveryEvidence": [
-        {
-          "kind": "natural",
-          "pending": {},
-          "monitorErrors": [],
-          "signalsSynthetic": [
-            100
-          ],
-          "closed": true,
-          "events": [
-            {
-              "kind": "closure_begin",
-              "stage": "I",
-              "reason": "synthetic discovery boundary"
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [],
-                "naturalGraceExpired": true,
-                "elapsedSeconds": 60.001
-              }
-            },
-            {
-              "kind": "natural_grace_elapsed",
-              "stage": "I"
-            },
-            {
-              "kind": "term_window",
-              "stage": "I",
-              "deadline": 90.001
-            },
-            {
-              "kind": "owned_discovered",
-              "process": {
-                "pid": 101,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "child-start",
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": false,
-                "stat": "S",
-                "firstObservedUtc": "fixture"
-              }
-            },
-            {
-              "kind": "signal",
-              "signal": "SIGTERM",
-              "pid": 100,
-              "identity": {
-                "pid": 100,
-                "ppid": 1,
-                "exe": "/fixed/Unity",
-                "start": "root-start",
-                "argv": [
-                  "/fixed/Unity"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S"
-              },
-              "rematched": {
-                "argv": [
-                  "/fixed/Unity"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": null,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "closure-final",
-                "sincePreviousSeconds": 0.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "closure_end",
-              "stage": "I",
-              "remainingOwned": [],
-              "pendingIdentities": [],
-              "closed": true,
-              "popenStillLive": false
-            }
-          ]
-        },
-        {
-          "kind": "ordinary",
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "child-start",
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": false,
-                "stat": "S"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: synthetic ordinary child identity failure",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: synthetic ordinary child identity failure"
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: synthetic ordinary child identity failure"
-            }
-          ],
-          "signalsSynthetic": [],
-          "closed": null,
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "exe": "/fixed/worker",
-                  "start": "child-start",
-                  "argv": [
-                    "/fixed/worker"
-                  ],
-                  "cwd": "/P",
-                  "cwdProbeExit": 0,
-                  "stage": "I",
-                  "rootPid": 100,
-                  "termSent": false,
-                  "stat": "S"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: synthetic ordinary child identity failure",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: synthetic ordinary child identity failure"
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: synthetic ordinary child identity failure"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: synthetic ordinary child identity failure"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ]
-        }
-      ],
       "compilerLedger": {
         "parked": 43,
         "restored": 43,
@@ -584,7 +373,7 @@
         "actualCacheWrites": 0
       },
       "preservedConflicts": [],
-      "seconds": 5.5611387499957345,
+      "seconds": 5.420995958003914,
       "actualFunctionsCalled": [
         "<genexpr>",
         "<lambda>",
@@ -602,32 +391,28 @@
         "checked",
         "closure",
         "compiler_paths",
-        "discover",
         "monitor",
         "move_verified",
         "no_links",
         "park_compiler",
         "probe_timeout",
         "recorded_chain",
-        "recover_root",
-        "register",
         "rename_exclusive",
         "rename_swap",
         "restore_compiler",
         "sample",
-        "snapshot_consumers",
         "transfer",
         "transfer_slots",
         "tree_entries"
       ],
       "forbiddenAttempts": [],
       "runner": {
-        "bytes": 92317,
-        "sha256": "c14d3c110e6e696ebbc6aabbc66ccb96449d53b43d7288d5dbd695801a9cd5b2"
+        "bytes": 92271,
+        "sha256": "e22ce18f50c929eebb442f86e0a2f551a8e82cb7702a8f8931f69fdf66dd2409"
       },
       "checker": {
-        "bytes": 34756,
-        "sha256": "26481360745270a40aaf0dcc15debd5388842c45e7ac66af0b7fbb41b34512f0"
+        "bytes": 30786,
+        "sha256": "e449a7f1ba2df94b05e8da27637a3f9b0b39c335634a241256e956616de301df"
       },
       "inputs": {
         "bytes": 1244365,
@@ -670,22 +455,5 @@
     "sha256": "ef6b9626be51273a64770d169beedc2a1eb39f5cd5acb1ac10e9b0986d00b556",
     "newExecution": false
   },
-  "cumulativeSeconds": 5.5611387499957345,
-  "correction": "RES-COMBINED-V04-FIX01",
-  "correctionOwner": {
-    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
-    "host": "local",
-    "turn": "01a11928-0c42-7cd2-8dc2-7f924539e200",
-    "requestedModel": "gpt-6-astra",
-    "requestedEffort": "xhigh"
-  },
-  "previousV04Evidence": {
-    "path": "TestArtifacts/FightMatch/RES-COMBINED-V04/source-before-fix01/replay-results.json",
-    "bytes": 11772,
-    "sha256": "6abbc4412a9b163938881e1421acaa797b3da0017ed2fa29a86e68a226270e13",
-    "rounds": 1,
-    "passedCases": 63,
-    "seconds": 5.420995958003914,
-    "reusedNotRerun": true
-  }
+  "cumulativeSeconds": 5.420995958003914
 }
