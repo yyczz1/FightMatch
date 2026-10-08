@@ -1,9 +1,7 @@
-# Resource combined validation — V04 FIX01
+# Resource combined validation — V04 FIX02
 
-V04 permits only freshly proven Bee sockets and transitions a normal natural-close expiry into the existing TERM window. FIX01 rethrows NaturalGraceExpired through discover, preventing normal expiry from being recorded as an identity failure. This addresses PR20 discussion4213725720.
+V04 proves Bee IPC identities and handles normal natural-close expiry. FIX01 propagates that control condition through discover. FIX02 addresses PR20 discussion4213782936 by refreshing TERM candidates throughout the existing bounded closure window, including newly discovered and fully verified owned children. Per-PID TERM remains at most once; unknown identities receive no signal.
 
-The current runner changes only discover relative to reviewed head47078ee0137cc9c6e0b1e34228b9270dd2acdcc0. All92 other function/class ASTs, input bytes, activation and real-process-exit contracts are unchanged. New actual discover→register tests cover natural propagation/TERM and ordinary identity failure. Current65/65 replay passed once in5.561139s; previous V04 63 and V02 177 remain historical evidence, not additional current runs.
+FIX02 changes only closure relative to a2949cfc655e95693c44b5bfd17f1252e239fe2d; other92 function/class ASTs, input bytes, activation and observed-OS-exit contracts remain unchanged. Actual discover/register/closure replay now uses independent per-PID liveness, including a surviving/reparented child and new members during TERM. Current69/69 passed once in5.869845s. Prior65/63/V02 177 results remain historical, within their reuse limits.
 
-V03 native remained FAILED after one I; T89 has never run. V04 activation/native is not yet authorized. Source review does not establish Unity, gameplay, visual or device acceptance. This draft review checkpoint does not modify product inputs, master or prior failure evidence.
-
-The fixed contract remains12 complete assembly provenances,89 exact Passed cases, real activation I/O and symlinks, protected source/cache state, closed owned processes, restored projection/compiler leaves and observed OS exit within900 seconds including160 preparation. No KILL or retries.
+V03 native remains FAILED after one I; T89 has never run. V04 native remains unrun. This review checkpoint is not product, gameplay, visual or device acceptance and does not merge into master. New execution still requires12 complete assembly provenances,89 exact Passed tests, actual activation I/O/symlinks, protected source/cache, restored leaves and observed OS exit within900s including160 preparation. No KILL or retries.

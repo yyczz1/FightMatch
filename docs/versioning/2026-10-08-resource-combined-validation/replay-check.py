@@ -291,47 +291,64 @@ def boundary(mode):
     report.setdefault('boundaryEvidence',[]).append({'mode':mode,'signalsSynthetic':signals,'closed':env['closure_closed'],'failure':failed,'monitorErrors':env['monitor_errors']})
 
 def discovery_boundary(kind):
-    clock=[0.];live=[True];first_child=[True];signals=[];events=[]
+    clock=[0.]; live={100:True,101:True}; first_child=[True]; signals=[]; events=[]
     root={'pid':100,'ppid':1,'exe':'/fixed/Unity','start':'root-start','argv':['/fixed/Unity'],'cwd':'/P','cwdProbeExit':0,'stage':'I','rootPid':100,'termSent':False,'stat':'S'}
     child={'pid':101,'ppid':100,'exe':'/fixed/worker','start':'child-start','argv':['/fixed/worker'],'cwd':'/P','cwdProbeExit':0,'stage':'I','rootPid':100,'termSent':False,'stat':'S'}
-    observed={100:copy.deepcopy(root),101:copy.deepcopy(child)}
+    records={100:copy.deepcopy(root),101:copy.deepcopy(child)}
     def details(pid):
-        item=root if pid==100 else child
+        item=records[pid]
         if pid==101 and first_child[0]:
             first_child[0]=False
-            if kind=='natural':
-                clock[0]=60.001
-                env['probe_timeout']()
+            if kind=='ordinary':raise RuntimeError('synthetic ordinary child identity failure')
+            if kind=='parent-first':
+                live[100]=False;records[101]['ppid']=1;clock[0]=60.001
             else:
-                raise RuntimeError('synthetic ordinary child identity failure')
+                clock[0]=60.001;env['probe_timeout']()
+        if kind=='unknown' and pid==101:raise RuntimeError('synthetic unverified child identity')
         return {'argv':item['argv'],'cwd':item['cwd'],'cwdProbeExit':0}
     def kill(pid,sig):
-        need(pid==100 and sig==15,'Only owned root TERM in this synthetic chain')
-        signals.append(pid);live[0]=False
+        need(pid in records and sig==15 and live[pid],'Only live independently verified PID receives TERM')
+        need(pid not in signals,'At most one TERM per PID')
+        signals.append(pid)
+        if not (kind=='stubborn' and pid==101):live[pid]=False
+        # Parent exit never makes a child disappear; surviving children reparent.
+        for other,item in records.items():
+            if live.get(other) and item['ppid']==pid:item['ppid']=1
+        if kind=='during-term' and pid==101:
+            records[102]={**copy.deepcopy(child),'pid':102,'ppid':100,'start':'late-start','argv':['/fixed/worker','late']};live[102]=True
     env=bind(['check','alive','recorded_chain','register','discover','recover_root','snapshot_consumers','monitor','closure'],{
         'time':types.SimpleNamespace(monotonic=lambda:clock[0],sleep=lambda seconds:clock.__setitem__(0,clock[0]+seconds)),
         'utc':lambda:'fixture','os':types.SimpleNamespace(kill=kill),'signal':types.SimpleNamespace(SIGTERM=15),'pathlib':pathlib,
         'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30},'stages':[{'id':'I','argv':root['argv']}]},
         'D':{'limits':{'finalizationSeconds':30}},'P':pathlib.Path('/P'),'owned':{100:copy.deepcopy(root)},
-        'active':types.SimpleNamespace(poll=lambda:None if live[0] else 0),'ps':lambda:copy.deepcopy(observed) if live[0] else {},
+        'active':types.SimpleNamespace(poll=lambda:None if live[100] else 0),'ps':lambda:{p:copy.deepcopy(item) for p,item in records.items() if live[p]},
         'details':details,'consumer_guard':lambda rows:None,'resources':lambda:None,'projection_guard':lambda:None,
         'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'event':lambda event_kind,**kw:events.append({'kind':event_kind,**kw}),
         'execution_deadline':300.,'work_deadline':120.})
-    # Exercise the actual monitor -> snapshot_consumers -> discover -> register chain.
-    if kind=='natural':
-        env['closure']('I',100,'synthetic discovery boundary')
-        need(env['closure_closed'] and signals==[100] and not env['pending_details'] and not env['monitor_errors'],'Natural control propagates through discovery and transitions to TERM cleanly')
-        need(not any(e['kind']=='pending_identity' for e in events),'Natural control never creates pending identity evidence')
-        need(any(e['kind']=='natural_grace_elapsed' for e in events),'Natural boundary remains observable')
-    else:
+    if kind=='ordinary':
         env['probe_deadline']=60.;env['natural_boundary']=60.
-        env['monitor']('natural-closure',copy.deepcopy(observed),'I',100,force=True)
-        need(101 in env['pending_details'] and env['monitor_errors'],'Ordinary identity failure remains pending and fails the monitor')
+        env['monitor']('natural-closure',env['ps'](),'I',100,force=True)
+        need(101 in env['pending_details'] and env['monitor_errors'],'Ordinary identity failure remains pending and fails monitor')
         need('synthetic ordinary child identity failure' in env['pending_details'][101]['firstError'],'Original identity failure retained')
-        need(any(e['kind']=='pending_identity' for e in events),'Ordinary identity evidence retained')
         need(rejected(lambda:env['check'](not env['monitor_errors'],'Monitor failures')),'Stage failure gate remains closed')
+    else:
+        failure=None
+        try:env['closure']('I',100,'synthetic discovery boundary')
+        except RuntimeError as error:failure=str(error)
+        if kind in ('natural','parent-first','during-term'):
+            expected={'natural':[101,100],'parent-first':[101],'during-term':[101,102,100]}[kind]
+            need(failure is None and env['closure_closed'] and signals==expected and not any(live.values()),'Every independently live owned member closed '+kind)
+            need(not env['pending_details'] and not env['monitor_errors'],'Normal boundary adds no identity or monitor failure')
+            need(not any(e['kind']=='pending_identity' for e in events),'Natural control never becomes identity failure')
+            need(any(e['kind']=='natural_grace_elapsed' for e in events),'Natural boundary observable')
+            if kind=='parent-first':need(records[101]['ppid']==1 and env['owned'][101]['ppid']==100,'Stored verified chain authorizes known reparented survivor')
+        elif kind=='stubborn':
+            need(failure and not env['closure_closed'] and signals==[101,100] and live[101] and not live[100],'Parent exit cannot hide surviving child; no repeated TERM')
+        elif kind=='unknown':
+            need(failure and not env['closure_closed'] and not signals and 101 in env['pending_details'] and env['monitor_errors'],'Unknown identity never receives signal; failed discovery closes signal gate')
+        need(clock[0]<=90.001001,'Original60+30 window never extended')
     need({'snapshot_consumers','discover','register'}<=traces,'Actual discovery functions invoked')
-    report.setdefault('fix01DiscoveryEvidence',[]).append({'kind':kind,'pending':copy.deepcopy(env['pending_details']),'monitorErrors':copy.deepcopy(env['monitor_errors']),'signalsSynthetic':signals,'closed':env['closure_closed'],'events':events})
+    report.setdefault('fix02DiscoveryEvidence',[]).append({'kind':kind,'pending':copy.deepcopy(env['pending_details']),'monitorErrors':copy.deepcopy(env['monitor_errors']),'signalsSynthetic':signals,'liveByPid':dict(live),'closed':env['closure_closed'],'clock':clock[0],'events':events})
 
 def probe_budgets():
     env=bind(['check'],{'time':types.SimpleNamespace(monotonic=lambda:61.),'natural_boundary':60.,'probe_deadline':60.,'execution_deadline':61.,'work_deadline':0.})
@@ -378,6 +395,8 @@ try:
     case('V04 work and total deadlines preserved',probe_budgets)
     case('FIX01 actual discover-register natural propagation and TERM',lambda:discovery_boundary('natural'))
     case('FIX01 actual discover-register ordinary identity failure retained',lambda:discovery_boundary('ordinary'))
+    for mode in ('parent-first','during-term','stubborn','unknown'):
+        case('FIX02 independent PID discovery closure '+mode,lambda mode=mode:discovery_boundary(mode))
     case('V04 fresh sealed state accepted',lambda:state_before(False))
     case('V04 execution state drift rejected',lambda:state_before(True))
     case('Retained actual 43-path compiler park and recovery ledger',compiler_ledger)

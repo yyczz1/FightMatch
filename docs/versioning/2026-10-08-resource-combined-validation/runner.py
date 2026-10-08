@@ -352,25 +352,27 @@ def closure(stage,rootpid,reason):
         natural_boundary=None
         deadline=time.monotonic()+A['stopping']['termGraceSeconds']; deadline=min(deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)-60) if execution_deadline is not None else deadline; probe_deadline=deadline
         event('term_window',stage=stage,deadline=deadline)
-        for pid in reversed(remaining):
-            if time.monotonic()>=deadline: break
-            try:
-                probe_timeout(); rows=ps()
-                if not alive(rows,pid): continue
-                check(pathlib.Path(owned[pid]['exe']).name.lower()!='adb','No permission to signal any ADB')
-                probe_timeout(); d=details(pid)
-                check(d['argv']==owned[pid]['argv'] and d['cwd']==owned[pid]['cwd'] and d['cwdProbeExit']==0,'Owned argv changed before TERM '+str(pid)); recorded_chain(pid,rootpid)
-                probe_timeout(); snapshot_consumers(rows,stage,rootpid)
-                check(not owned[pid]['termSent'],'Duplicate TERM refused')
-                probe_timeout(); event('signal',signal='SIGTERM',pid=pid,identity=owned[pid],rematched=d)
-                try:
-                    probe_timeout(); os.kill(pid,signal.SIGTERM); owned[pid]['termSent']=True
-                except ProcessLookupError: event('signal_race_already_exited',pid=pid)
-            except BaseException as ex:
-                item={'utc':utc(),'phase':'term-authorization','scope':'process','error':str(ex)}; monitor_errors.append(item); event('monitor_failure',detail=item)
-        first=True
+        first=True; attempted_terms=set()
         while first or time.monotonic()<deadline:
             if active is not None: active.poll()
+            try:
+                probe_timeout(); rows=ps()
+                probe_timeout(); snapshot_consumers(rows,stage,rootpid)
+                candidates=[p for p in reversed(list(owned)) if alive(rows,p) and p not in attempted_terms and not owned[p]['termSent']]
+                if candidates:
+                    pid=candidates[0]; attempted_terms.add(pid)
+                    check(pathlib.Path(owned[pid]['exe']).name.lower()!='adb','No permission to signal any ADB')
+                    probe_timeout(); d=details(pid)
+                    check(d['argv']==owned[pid]['argv'] and d['cwd']==owned[pid]['cwd'] and d['cwdProbeExit']==0,'Owned argv changed before TERM '+str(pid)); recorded_chain(pid,rootpid)
+                    probe_timeout(); snapshot_consumers(rows,stage,rootpid)
+                    check(not owned[pid]['termSent'],'Duplicate TERM refused')
+                    probe_timeout(); event('signal',signal='SIGTERM',pid=pid,identity=owned[pid],rematched=d)
+                    try:
+                        probe_timeout(); os.kill(pid,signal.SIGTERM); owned[pid]['termSent']=True
+                    except ProcessLookupError: event('signal_race_already_exited',pid=pid)
+                    continue
+            except BaseException as ex:
+                item={'utc':utc(),'phase':'term-authorization','scope':'process','error':str(ex)}; monitor_errors.append(item); event('monitor_failure',detail=item)
             remaining,clear=sample('term-confirmation',force=first); first=False
             if clear or time.monotonic()>=deadline: break
             time.sleep(max(0.,min(.25,deadline-time.monotonic())))
