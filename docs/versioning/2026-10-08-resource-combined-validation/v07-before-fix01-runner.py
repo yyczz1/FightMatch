@@ -265,15 +265,7 @@ def bee_fd_binding(path,stage,pid,ds,before):
     except BaseException as error:
         primary=error; record['error']={'type':type(error).__name__,'message':str(error)}
     finally:
-        try:
-            record['afterLstat']=bee_stamp(path.lstat())
-            if disappeared:
-                record['lifecycle']='reappeared-unbound'
-                record['reappearance']={'identity':record['afterLstat'],'monotonic':time.monotonic()}
-                if primary is None:
-                    primary=RuntimeError('INCOMPLETE: Bee endpoint reappeared after ENOENT; fresh binding required')
-                    record['error']={'type':type(primary).__name__,'message':str(primary)}
-                else: primary.add_note('Bee endpoint reappeared after ENOENT; final identity retained')
+        try: record['afterLstat']=bee_stamp(path.lstat())
         except FileNotFoundError: record['afterLstat']={'ENOENT':True}; after=None; record['lifecycle']='observed-ENOENT-not-bound'
         except BaseException as error:
             record['afterLstat']={'errorType':type(error).__name__,'error':str(error)}
@@ -400,8 +392,6 @@ def adb_exception(rows):
 def sdk_adb_exception(rows):
     global sdk_adb
     spec=A['sdkAdb']; result=set()
-    bound_row=None if sdk_adb is None else rows.get(sdk_adb['pid'])
-    check(bound_row is None or not bound_row['stat'].startswith('Z'),'INCOMPLETE: bound SDK ADB PID remains present as zombie')
     def bound_detail(pid,row):
         try: return details(pid)
         except ChildArgsProbeError as error:

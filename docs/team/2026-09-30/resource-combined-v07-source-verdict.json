@@ -1,0 +1,26 @@
+{
+  "task": "RES-COMBINED-V07-SOURCE",
+  "verdict": "NEEDS_FIX",
+  "head": "cf0b81cde82e09fabaf137db387a2fff4f83fb6a",
+  "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451715345",
+  "completionUtc": "2026-10-08T05:06:03.511772Z",
+  "reviewIntake": "Central fetched actual completed result after QA bounded wait ended pending; no local code review.",
+  "findings": [
+    {
+      "id": 4214974319,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214974319",
+      "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+      "line": 417,
+      "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject bound SDK zombies before declaring consumers clear**\n\nWhen an already-bound SDK ADB appears as a zombie in the supplied process snapshot, the candidate filter skips it before this new `bound_detail` path is reached, and `consumer_guard` also excludes zombies from `other`. The PID is therefore treated as clear without the required fresh full snapshot proving absence, allowing closure and restoration even though the V07 contract explicitly rejects a PID that remains present, including as a zombie. Handle the bound zombie before filtering candidates or make it a hard failure.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/cf0b81cde82e09fabaf137db387a2fff4f83fb6a/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+    },
+    {
+      "id": 4214974355,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214974355",
+      "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+      "line": 269,
+      "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject endpoints that reappear before the final lstat**\n\nIf a Bee endpoint disappears during the FD probes but is recreated before this final `lstat`, `disappeared` has already forced `after=None`; the successful final lookup is only recorded and the caller still returns `bee-socket-absent`. That leaves a currently present replacement without any fresh ownership binding, and a last resource sample can consequently succeed while representing the live socket as absent. Treat a successful final lookup after an observed ENOENT as a reappearance that requires rebinding or an incomplete observation.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/cf0b81cde82e09fabaf137db387a2fff4f83fb6a/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+    }
+  ],
+  "nativeRuns": 0,
+  "next": "V07 FIX01 two exact P1 issues only, affected replay then new GitHub head."
+}

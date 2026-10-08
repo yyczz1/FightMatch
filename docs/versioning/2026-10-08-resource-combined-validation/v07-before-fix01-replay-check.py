@@ -27,8 +27,8 @@ def rejected(fn):
 SELECTED=['V04 Bee htc then cth', 'V04 Bee cth then htc', 'V04 Bee rejects post-inode', 'V04 Bee rejects post-dir', 'V04 Bee rejects reuse-during', 'V04 fresh sealed state accepted', 'V04 execution state drift rejected', 'V05 full blocking-probe allowance and real timeout', 'V05 near natural boundary actual chain preserves prior Bee error', 'V05 FIX01 natural observation success', 'V05 FIX01 natural observation capacity', 'V05 FIX01 natural observation io', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure stubborn']
 skipped=[]
 def case(name,fn):
-    if not name.startswith('FIX01 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
-    need(time.monotonic()-START<15 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
+    if not name.startswith('V07 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
+    need(time.monotonic()-START<30 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<60,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{},'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}
     for key,value in defaults.items():env.setdefault(key,value)
@@ -737,58 +737,6 @@ def v07_gates():
     need(env['validate_xml'](ET.tostring(root,encoding='unicode'))['passed']==89,'89 exact testcase gate')
     root.remove(root[-1]);need(rejected(lambda:env['validate_xml'](ET.tostring(root,encoding='unicode'))),'Missing actual testcase refused')
 
-def fix01_bound_zombie(mode):
-    calls=[];row={'pid':73931,'start':'fixed','exe':'adb','stat':'Z'}
-    if mode=='reused':row.update(start='reused',exe='/other/process')
-    rows={} if mode=='absent' else {73931:row}
-    def forbidden_probe(*a,**kw):calls.append('probe');raise AssertionError('No probe may override supplied zombie evidence')
-    env=bind(['check','alive','sdk_adb_exception','consumer_guard','restore_all'],{'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:10),'A':{'sdkAdb':{'path':'/sdk/adb'},'adbException':{'pid':999}},'sdk_adb':{'pid':73931,'start':'fixed','exe':'adb'},'owned':{},'details':forbidden_probe,'ps':forbidden_probe,'adb_exception':lambda r:999,'D':{'limits':{'restoreSeconds':60,'finalizationSeconds':30}},'execution_deadline':200,'active':None,'closure_closed':True,'event':lambda *a,**k:None})
-    if mode=='absent':env['consumer_guard'](rows)
-    else:
-        need(rejected(lambda:env['consumer_guard'](rows)),'Bound supplied zombie must reject even reused identity')
-        env['ps']=lambda:rows
-        env['restore_compiler']=env['archive_and_restore']=forbidden_probe
-        need(rejected(env['restore_all']),'Actual restoration entry remains blocked by bound zombie')
-    need(not calls and not env['owned'],'No new probe, signal, owned identity, or restore effects')
-
-def fix01_sdk_live():
-    argv=['adb','-L','tcp:5037','fork-server','server','--reply-fd','7'];pid=73931;rows={pid:{'pid':pid,'ppid':1,'start':'fixed','exe':'adb','stat':'S'}};log='/TMP/adb.501.log';calls=[]
-    class VPath(pathlib.PurePosixPath):
-        def resolve(self):return self
-        def is_symlink(self):return False
-        def lstat(self):
-            need(str(self)==log,'Only fixed log metadata');return stat_value(stat.S_IFREG|0o600,20)
-        def open(self):return io.StringIO('--- adb starting (pid 73931) ---\nInstalled as /sdk/adb\n10-08 00:00:00\n')
-    raw='p73931\nftxt\ntREG\nn/sdk/adb\ni10\nD0x7\nf1\ntREG\nn'+log+'\ni20\nD0x7\nf2\ntREG\nn'+log+'\ni20\nD0x7\n'
-    def probe(command,**kw):calls.append(command);return types.SimpleNamespace(returncode=0,stdout=raw,stderr='')
-    env=bind(['check','alive','no_links','sdk_adb_exception','consumer_guard'],{'pathlib':types.SimpleNamespace(Path=VPath),'time':types.SimpleNamespace(monotonic=lambda:10,mktime=lambda t:0,strptime=lambda *a:None,time=lambda:100,strftime=lambda *a:'10-08 00:00:00',localtime=lambda t:None),'os':types.SimpleNamespace(getuid=lambda:501),'stat':stat,'re':re,'A':{'sdkAdb':{'path':'/sdk/adb','device':7,'inode':10,**byteid(b'sdk')},'adbException':{'pid':999,'tmpRoot':'/OLDTMP','priorCompilerPipe':'oldpipe'}},'sdk_adb':None,'root_launch_epoch':0,'baseline_processes':{},'owned':{},'sdk_observations':[],'details':lambda p:{'argv':argv,'cwd':'/P'},'cmd':lambda a:'501','ident':lambda p:byteid(b'sdk'),'subprocess':types.SimpleNamespace(run=probe),'TMP':VPath('/TMP'),'P':VPath('/P'),'K':VPath('/K'),'R':VPath('/R'),'ps':lambda:copy.deepcopy(rows),'adb_exception':lambda r:999,'event':lambda *a,**k:None})
-    env['consumer_guard'](rows);first=copy.deepcopy(env['sdk_adb']);env['consumer_guard'](rows)
-    need(first==env['sdk_adb'] and first['pid']==pid and len(calls)==2 and len(env['sdk_observations'])==2,'New and already-bound ordinary live SDK retain full verification')
-
-def fix01_reappearance(mode):
-    env,entries,names,events,calls,VPath=bee_fixture('fd-io' if mode=='primary-error' else 'valid');target=names[0];original=VPath.lstat;count=[0]
-    missing={2,3} if mode in ('before','same-inode') else ({3} if mode=='primary-error' else {3,4,5})
-    last=max(missing)+1
-    def lstat(path):
-        if str(path)==target:
-            count[0]+=1
-            if count[0] in missing:raise FileNotFoundError(target)
-            if count[0]>=last:
-                value=original(path)
-                if mode!='same-inode':value.st_ino=999
-                return value
-        return original(path)
-    VPath.lstat=lstat;caught=None
-    try:env['bee_ipc_entry'](VPath(target))
-    except Exception as error:caught=error
-    need(caught is not None and not env['bee_ipc'],'Present unbound endpoint cannot be accepted as absent')
-    record=next(x for x in events if x['kind']=='bee_fd_observation')
-    need(record['lifecycle']=='reappeared-unbound' and record['reappearance']['identity']==record['afterLstat'],'Final reappearance identity/time persisted')
-    need(record['afterLstat']['ino']==(10 if mode=='same-inode' else 999),'Exact final inode retained')
-    if mode=='primary-error':need(type(caught) is OSError and 'synthetic FD read error' in str(caught),'Original I/O failure remains primary')
-    else:need(type(caught) is RuntimeError and 'INCOMPLETE' in str(caught),'Bounded reappearance observation fails INCOMPLETE')
-    report.setdefault('reappearance',[]).append({'mode':mode,'lstatCalls':count[0],'failureType':type(caught).__name__,'observation':record})
-
 try:
     D=json.loads((E/'inputs.json').read_text());F={n.name:n for n in ast.parse((E/'runner.py').read_text()).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
     compile(ast.parse((E/'runner.py').read_text()),RUNNER_FILENAME,'exec')
@@ -796,13 +744,17 @@ try:
     for name,value in history['baseline']['sourceIdentities'].items():need(identity(R/history['baseline']['root']/name)==value,'Immutable V06 '+name)
     env=bind(['basic','normalize_input'],{});N=env['normalize_input'](D)
     sys.setprofile(profile)
-    for mode in ('zombie','reused','absent'):case('FIX01 bound supplied SDK '+mode,lambda mode=mode:fix01_bound_zombie(mode))
-    case('FIX01 ordinary live SDK full verification',fix01_sdk_live)
-    case('FIX01 SDK double-empty fresh absent still accepted',lambda:v07_sdk('absent'))
-    case('FIX01 SDK fresh zombie still rejected',lambda:v07_sdk('zombie'))
-    for mode in ('before','during','same-inode','primary-error'):case('FIX01 final lstat reappearance '+mode,lambda mode=mode:fix01_reappearance(mode))
-    for mode in ('vanish-first','vanish-during'):case('FIX01 normal Bee disappearance '+mode,lambda mode=mode:v07_lifetime(mode))
-    case('FIX01 ordinary live Bee binding',bee_order)
+    for mode in ('saved','vanish-first','vanish-during','nlink','inode','directory-inode','unknown-rebind','second-same','second-directory'):case('V07 Bee lifecycle '+mode,lambda mode=mode:v07_lifetime(mode))
+    for mode in ('uid','mode','dir-uid','dir-mode','dir-link','fifo','link','regular','nlink','before-io','fd-io','fd-mismatch','fd-error','fd-timeout','post-inode','post-dir'):case('V07 Bee hard failure '+mode,lambda mode=mode:bee_bad(mode))
+    for mode in ('absent','permission','io'):case('V07 incomplete enumeration '+mode,lambda mode=mode:v07_enumeration(mode))
+    for mode in ('bytes','leaves'):case('V07 capacity unchanged '+mode,lambda mode=mode:v07_capacity(mode))
+    for mode in ('absent','present','reused','zombie','fresh-error','fresh-natural','new-consumer','unbound','wrong-exe','stdout','stderr','exit2'):case('V07 bound SDK '+mode,lambda mode=mode:v07_sdk(mode))
+    for mode in ('absent','present','zombie'):case('V07 owned rules retained '+mode,lambda mode=mode:v06_child(mode))
+    for mode in ('timeout','io','unclosed-prior'):case('V07 current closure '+mode,lambda mode=mode:boundary(mode))
+    case('V07 persistent IPC errors do not fake current consumers',v07_current_closure)
+    for mode in ('historical','live-root','pending','consumer'):case('V07 independent restore '+mode,lambda mode=mode:v07_restore(mode))
+    case('V07 unknown target preimage blocks restore',v07_preimage)
+    case('V07 original12/89 acceptance gates',v07_gates)
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()
@@ -814,7 +766,7 @@ finally:
     if conflicts:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Unknown or changed fixture contents preserved'
     report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden
     report['runner']=identity(E/'runner.py');report['checker']=identity(E/'replay-check.py');report['inputs']=identity(E/'inputs.json')
-    if report['seconds']>15 or sum(x['seconds'] for x in history['rounds'])+report['seconds']>30:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V07 replay budget exceeded'
+    if report['seconds']>30 or sum(x['seconds'] for x in history['rounds'])+report['seconds']>60:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V07 replay budget exceeded'
     history['rounds'].append(report);history['status']=report['status'];history['cumulativeSeconds']=sum(x['seconds'] for x in history['rounds'])
     with (E/'replay-results.json').open('w') as stream:json.dump(history,stream,indent=2);stream.write('\n')
     print(json.dumps({'status':report['status'],'round':report['round'],'passedCases':len(cases),'seconds':report['seconds'],'cumulativeSeconds':history['cumulativeSeconds'],'failure':report.get('failure'),'preservedConflicts':conflicts,'forbiddenAttempts':forbidden}))
