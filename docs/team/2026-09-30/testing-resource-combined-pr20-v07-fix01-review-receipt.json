@@ -35,8 +35,16 @@
     "review": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451715345",
     "reviewedHead": "cf0b81cde82e09fabaf137db387a2fff4f83fb6a",
     "items": [
-      {"id": 4214974319, "resolved": false, "outdated": false},
-      {"id": 4214974355, "resolved": false, "outdated": true}
+      {
+        "id": 4214974319,
+        "resolved": false,
+        "outdated": false
+      },
+      {
+        "id": 4214974355,
+        "resolved": false,
+        "outdated": true
+      }
     ],
     "classification": "historical; not new FIX01 findings"
   },
@@ -48,11 +56,13 @@
   },
   "nativeAcceptance": "NOT_RUN; stated in trigger",
   "correction": {
-    "actualTurn": "01a116c2-6a9d-7a03-b161-11bd6079a631",
     "actualSource": "read_thread current-turn record",
     "previousReceiptClaimedNewInlineFindings": 0,
     "correctedNewInlineFindings": 1,
     "basis": "Central raw REST evidence identifies finding 4215063674 with pull_request_review_id 5451818067 and original_commit_id equal to this receipt's expected head.",
-    "methodCorrection": "For future checks, enumerate /pulls/20/reviews/{review_id}/comments and match pull_request_review_id plus original_commit_id; absence from a paginated review-thread response is not evidence of zero findings."
+    "methodCorrection": "For future checks, enumerate /pulls/20/reviews/{review_id}/comments and match pull_request_review_id plus original_commit_id; absence from a paginated review-thread response is not evidence of zero findings.",
+    "supersededClaim": "01a116c2-6a9d-7a03-b161-11bd6079a631",
+    "performedByTurn": "01a119f4-68cc-7363-a3e7-90a9c8d6c691",
+    "identityCorrectionBasis": "Central wait_threads observed correction turn01a119f4-68cc-7363-a3e7-90a9c8d6c691 completed; original review intake turn is qaActualTurn. P1 4215140252 resolved by retaining the old value only as supersededClaim."
   }
 }
