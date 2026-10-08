@@ -1,0 +1,1094 @@
+{
+  "archivesUnpacked": 0,
+  "attempts": [
+    {
+      "command": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py",
+        "prepare"
+      ],
+      "elapsedSeconds": 4.825299666998035,
+      "exitCode": 20,
+      "failure": {
+        "message": "offline case failures",
+        "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py\", line 1500, in prepare\n    require(all(c['passed'] for c in raw_results),'offline case failures')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py\", line 64, in require\n    if not value:raise GateError(reason)\n                 ^^^^^^^^^^^^^^^^^^^^^^^\nGateError: offline case failures\n",
+        "type": "GateError"
+      },
+      "mode": "SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_UNPACK",
+      "ran": true,
+      "rawCases": [
+        {
+          "elapsedSeconds": 1.821751,
+          "expected": "PASS",
+          "name": "actual model repeated byte equality",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.216762,
+          "expected": "PASS",
+          "name": "actual producer to actual consumer",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.109912,
+          "expected": "PASS",
+          "name": "actual producer deterministic seal",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.002854,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17_driver.py",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.002303,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-inputs.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.002732,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-write-set.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.216818,
+          "expected": "REJECT",
+          "name": "rehashed table cannot replace deterministic table",
+          "passed": true,
+          "rawError": "GateError: generated/consumed table byte mismatch"
+        },
+        {
+          "elapsedSeconds": 7e-06,
+          "expected": "REJECT",
+          "name": "missing dependency closure",
+          "passed": true,
+          "rawError": "GateError: missing package closure"
+        },
+        {
+          "elapsedSeconds": 3.4e-05,
+          "expected": "REJECT",
+          "name": "obsolete tmp cannot reenter model",
+          "passed": true,
+          "rawError": "GateError: historical temporary input leaked into build"
+        },
+        {
+          "elapsedSeconds": 0.006021,
+          "expected": "REJECT",
+          "name": "write outside roots",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Assets/forbidden.cs"
+        },
+        {
+          "elapsedSeconds": 0.000215,
+          "expected": "REJECT",
+          "name": "write wrong owner",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17/packages/x.nupkg"
+        },
+        {
+          "elapsedSeconds": 0.000208,
+          "expected": "PASS",
+          "name": "allowed exact evidence write",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.032966,
+          "expected": "REJECT",
+          "name": "fixed source drift",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: .editorconfig"
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "PASS",
+          "name": "fixed archive domains",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "archive bytes changed",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: archive yaml-source"
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "REJECT",
+          "name": "archive catalog hash changed",
+          "passed": true,
+          "rawError": "GateError: archive catalog SHA512"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "independent synthetic phase normalize/compare",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "missing graph lock",
+          "passed": true,
+          "rawError": "GateError: complete project lock/assets set required"
+        },
+        {
+          "elapsedSeconds": 1.4e-05,
+          "expected": "REJECT",
+          "name": "signed catalog hash cannot replace NuGet content hash",
+          "passed": true,
+          "rawError": "GateError: lock NuGet contentHash mismatch"
+        },
+        {
+          "elapsedSeconds": 2.8e-05,
+          "expected": "REJECT",
+          "name": "unexpected restore network source",
+          "passed": true,
+          "rawError": "GateError: unexpected NuGet source"
+        },
+        {
+          "elapsedSeconds": 1.1e-05,
+          "expected": "REJECT",
+          "name": "missing installed dependency",
+          "passed": true,
+          "rawError": "GateError: missing installed package"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "raw lock mismatch despite possible semantic equality",
+          "passed": true,
+          "rawError": "GateError: lock/canonical assets changed: src/Luban/Luban.csproj"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "complete fixed package union synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "missing union dependency",
+          "passed": true,
+          "rawError": "GateError: runner/test union must account for all 31 fixed packages"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "PASS",
+          "name": "full deployment includes project/resource/licenses",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 5.4e-05,
+          "expected": "REJECT",
+          "name": "missing selected runtime archive entry",
+          "passed": true,
+          "rawError": "GateError: selected archive entry absent"
+        },
+        {
+          "elapsedSeconds": 0.000237,
+          "expected": "PASS",
+          "name": "complete deployment actual byte gate synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 9.3e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing Luban.Core.dll",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/Luban.Core.dll')"
+        },
+        {
+          "elapsedSeconds": 7.7e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing nlog.xml",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/nlog.xml')"
+        },
+        {
+          "elapsedSeconds": 0.000126,
+          "expected": "REJECT",
+          "name": "complete deployment missing licenses/fallback/LICENSE",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/licenses/fallback/LICENSE')"
+        },
+        {
+          "elapsedSeconds": 0.00833,
+          "expected": "PASS",
+          "name": "oracle and two candidates actual bytes/semantics synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000818,
+          "expected": "REJECT",
+          "name": "missing control output",
+          "passed": true,
+          "rawError": "GateError: empty/duplicate control output set"
+        },
+        {
+          "elapsedSeconds": 0.002531,
+          "expected": "REJECT",
+          "name": "different control output",
+          "passed": true,
+          "rawError": "GateError: B control unity-asset candidate-2 raw mismatch"
+        },
+        {
+          "elapsedSeconds": 0.004704,
+          "expected": "REJECT",
+          "name": "false canonical digest",
+          "passed": true,
+          "rawError": "GateError: 005 semantic digest does not bind actual canonical bytes"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "PASS",
+          "name": "negative DUT diagnostic checked",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 4e-06,
+          "expected": "REJECT",
+          "name": "exit alone insufficient for negative",
+          "passed": true,
+          "rawError": "GateError: negative diagnostic differs"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "timeout is not pass",
+          "passed": true,
+          "rawError": "GateError: DUT process completion/budget"
+        },
+        {
+          "elapsedSeconds": 8e-06,
+          "expected": "PASS",
+          "name": "inherited L control matrix complete",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000968,
+          "expected": "PASS",
+          "name": "L full 12 tests/negatives/two publications synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1.2e-05,
+          "expected": "REJECT",
+          "name": "L summary cannot hide missing self-test",
+          "passed": true,
+          "rawError": "GateError: self-test names/results differ"
+        },
+        {
+          "elapsedSeconds": 0.000932,
+          "expected": "REJECT",
+          "name": "L published canonical mismatch",
+          "passed": true,
+          "rawError": "GateError: L actual bytes/semantics differ"
+        },
+        {
+          "elapsedSeconds": 0.000623,
+          "expected": "REJECT",
+          "name": "L missing raw publication",
+          "passed": true,
+          "rawError": "GateError: L complete raw/canonical set required"
+        },
+        {
+          "elapsedSeconds": 0.000165,
+          "expected": "REJECT",
+          "name": "L negative output must remain unpublished",
+          "passed": true,
+          "rawError": "GateError: negative canonical publication"
+        },
+        {
+          "elapsedSeconds": 8.4e-05,
+          "expected": "PASS",
+          "name": "official TRX completion synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 4.7e-05,
+          "expected": "REJECT",
+          "name": "official skipped/incomplete TRX rejected",
+          "passed": true,
+          "rawError": "GateError: official tests incomplete"
+        },
+        {
+          "elapsedSeconds": 0.066608,
+          "expected": "PASS",
+          "name": "pure independent-pin seam synthetic only",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000136,
+          "expected": "REJECT",
+          "name": "forged caller activation rejected",
+          "passed": true,
+          "rawError": "GateError: caller cannot replace central record"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "absent independent pin rejected",
+          "passed": true,
+          "rawError": "GateError: missing independent central pin"
+        },
+        {
+          "elapsedSeconds": 5e-06,
+          "expected": "REJECT",
+          "name": "production execute closed before any caller input or read",
+          "passed": true,
+          "rawError": "GateError: BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION"
+        },
+        {
+          "elapsedSeconds": 0.0,
+          "expected": "PASS",
+          "name": "no production read or pin mutation",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.014214,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget B",
+          "passed": true,
+          "rawError": "GateError: M-only activation; B/L require independent execution"
+        },
+        {
+          "elapsedSeconds": 0.014283,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget L",
+          "passed": true,
+          "rawError": "GateError: M-only activation; B/L require independent execution"
+        },
+        {
+          "elapsedSeconds": 0.014508,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget {}",
+          "passed": true,
+          "rawError": "GateError: activation budget"
+        },
+        {
+          "elapsedSeconds": 0.015146,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget {'maxConcurrentTrees",
+          "passed": true,
+          "rawError": "GateError: activation budget"
+        },
+        {
+          "elapsedSeconds": 0.000362,
+          "expected": "PASS",
+          "name": "M normal same production consumer",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 9e-06,
+          "expected": "PASS",
+          "name": "M prior elapsed time is deducted",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 4e-06,
+          "expected": "PASS",
+          "name": "M exact work deadline",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "PASS",
+          "name": "M input verification timeout",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "M in-memory decode timeout",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 5e-06,
+          "expected": "PASS",
+          "name": "M child wait capped, terminated, failure retained, no next command",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 6.2e-05,
+          "expected": "REJECT",
+          "name": "original 901-second MaterialWriter regression",
+          "passed": true,
+          "rawError": "GateError: M stage deadline exhausted"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "M hard deadline has no unlimited cleanup grace",
+          "passed": true,
+          "rawError": "GateError: M stage deadline exhausted"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "PASS",
+          "name": "M failure receipt reserve survives work deadline",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "M no new work once cleanup begins",
+          "passed": true,
+          "rawError": "GateError: M stage deadline exhausted"
+        },
+        {
+          "elapsedSeconds": 6.2e-05,
+          "expected": "PASS",
+          "name": "18 fixed GETs actual archive body total synthetic",
+          "passed": false,
+          "rawError": "GateError: missing/over-limit actual archive body measurement"
+        },
+        {
+          "elapsedSeconds": 7e-06,
+          "expected": "REJECT",
+          "name": "GET retry rejected",
+          "passed": true,
+          "rawError": "GateError: missing/over-limit actual archive body measurement"
+        },
+        {
+          "elapsedSeconds": 1.4e-05,
+          "expected": "REJECT",
+          "name": "18-archive size/hash contract cannot expand",
+          "passed": true,
+          "rawError": "GateError: fixed 18-archive contract drift"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "REJECT",
+          "name": "archive response aggregate overflow",
+          "passed": true,
+          "rawError": "GateError: missing/over-limit actual archive body measurement"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "partial transfer cannot fabricate complete body measurement",
+          "passed": true,
+          "rawError": "GateError: missing/over-limit actual archive body measurement"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "unmeasured partial body retained as lower bound",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "B action cannot borrow M GET budget",
+          "passed": true,
+          "rawError": "GateError: unlisted/repeated GET"
+        }
+      ],
+      "sourceIdentity": {
+        "bytes": 113769,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py",
+        "sha256": "faa7d6c531429fdcd28b4f5d8999aa4fac4921489101db2380b3d4acd3ef0a10"
+      }
+    },
+    {
+      "command": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py",
+        "prepare"
+      ],
+      "elapsedSeconds": 4.731755665998207,
+      "exitCode": 0,
+      "failure": null,
+      "mode": "SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_UNPACK",
+      "ran": true,
+      "rawCases": [
+        {
+          "elapsedSeconds": 1.809829,
+          "expected": "PASS",
+          "name": "actual model repeated byte equality",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.214734,
+          "expected": "PASS",
+          "name": "actual producer to actual consumer",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.110902,
+          "expected": "PASS",
+          "name": "actual producer deterministic seal",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.002825,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17_driver.py",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.002332,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-inputs.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.002725,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-write-set.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.215154,
+          "expected": "REJECT",
+          "name": "rehashed table cannot replace deterministic table",
+          "passed": true,
+          "rawError": "GateError: generated/consumed table byte mismatch"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "REJECT",
+          "name": "missing dependency closure",
+          "passed": true,
+          "rawError": "GateError: missing package closure"
+        },
+        {
+          "elapsedSeconds": 3e-05,
+          "expected": "REJECT",
+          "name": "obsolete tmp cannot reenter model",
+          "passed": true,
+          "rawError": "GateError: historical temporary input leaked into build"
+        },
+        {
+          "elapsedSeconds": 0.00592,
+          "expected": "REJECT",
+          "name": "write outside roots",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Assets/forbidden.cs"
+        },
+        {
+          "elapsedSeconds": 0.000193,
+          "expected": "REJECT",
+          "name": "write wrong owner",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17/packages/x.nupkg"
+        },
+        {
+          "elapsedSeconds": 0.000219,
+          "expected": "PASS",
+          "name": "allowed exact evidence write",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.032752,
+          "expected": "REJECT",
+          "name": "fixed source drift",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: .editorconfig"
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "PASS",
+          "name": "fixed archive domains",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "archive bytes changed",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: archive yaml-source"
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "REJECT",
+          "name": "archive catalog hash changed",
+          "passed": true,
+          "rawError": "GateError: archive catalog SHA512"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "independent synthetic phase normalize/compare",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "missing graph lock",
+          "passed": true,
+          "rawError": "GateError: complete project lock/assets set required"
+        },
+        {
+          "elapsedSeconds": 2e-05,
+          "expected": "REJECT",
+          "name": "signed catalog hash cannot replace NuGet content hash",
+          "passed": true,
+          "rawError": "GateError: lock NuGet contentHash mismatch"
+        },
+        {
+          "elapsedSeconds": 2.7e-05,
+          "expected": "REJECT",
+          "name": "unexpected restore network source",
+          "passed": true,
+          "rawError": "GateError: unexpected NuGet source"
+        },
+        {
+          "elapsedSeconds": 1.1e-05,
+          "expected": "REJECT",
+          "name": "missing installed dependency",
+          "passed": true,
+          "rawError": "GateError: missing installed package"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "raw lock mismatch despite possible semantic equality",
+          "passed": true,
+          "rawError": "GateError: lock/canonical assets changed: src/Luban/Luban.csproj"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "complete fixed package union synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "missing union dependency",
+          "passed": true,
+          "rawError": "GateError: runner/test union must account for all 31 fixed packages"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "PASS",
+          "name": "full deployment includes project/resource/licenses",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 5.5e-05,
+          "expected": "REJECT",
+          "name": "missing selected runtime archive entry",
+          "passed": true,
+          "rawError": "GateError: selected archive entry absent"
+        },
+        {
+          "elapsedSeconds": 0.00025,
+          "expected": "PASS",
+          "name": "complete deployment actual byte gate synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 9.5e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing Luban.Core.dll",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/Luban.Core.dll')"
+        },
+        {
+          "elapsedSeconds": 7.4e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing nlog.xml",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/nlog.xml')"
+        },
+        {
+          "elapsedSeconds": 0.000115,
+          "expected": "REJECT",
+          "name": "complete deployment missing licenses/fallback/LICENSE",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/licenses/fallback/LICENSE')"
+        },
+        {
+          "elapsedSeconds": 0.006808,
+          "expected": "PASS",
+          "name": "oracle and two candidates actual bytes/semantics synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000838,
+          "expected": "REJECT",
+          "name": "missing control output",
+          "passed": true,
+          "rawError": "GateError: empty/duplicate control output set"
+        },
+        {
+          "elapsedSeconds": 0.002608,
+          "expected": "REJECT",
+          "name": "different control output",
+          "passed": true,
+          "rawError": "GateError: B control unity-asset candidate-2 raw mismatch"
+        },
+        {
+          "elapsedSeconds": 0.004821,
+          "expected": "REJECT",
+          "name": "false canonical digest",
+          "passed": true,
+          "rawError": "GateError: 005 semantic digest does not bind actual canonical bytes"
+        },
+        {
+          "elapsedSeconds": 5e-06,
+          "expected": "PASS",
+          "name": "negative DUT diagnostic checked",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 4e-06,
+          "expected": "REJECT",
+          "name": "exit alone insufficient for negative",
+          "passed": true,
+          "rawError": "GateError: negative diagnostic differs"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "timeout is not pass",
+          "passed": true,
+          "rawError": "GateError: DUT process completion/budget"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "PASS",
+          "name": "inherited L control matrix complete",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000983,
+          "expected": "PASS",
+          "name": "L full 12 tests/negatives/two publications synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1.2e-05,
+          "expected": "REJECT",
+          "name": "L summary cannot hide missing self-test",
+          "passed": true,
+          "rawError": "GateError: self-test names/results differ"
+        },
+        {
+          "elapsedSeconds": 0.000955,
+          "expected": "REJECT",
+          "name": "L published canonical mismatch",
+          "passed": true,
+          "rawError": "GateError: L actual bytes/semantics differ"
+        },
+        {
+          "elapsedSeconds": 0.00066,
+          "expected": "REJECT",
+          "name": "L missing raw publication",
+          "passed": true,
+          "rawError": "GateError: L complete raw/canonical set required"
+        },
+        {
+          "elapsedSeconds": 0.000206,
+          "expected": "REJECT",
+          "name": "L negative output must remain unpublished",
+          "passed": true,
+          "rawError": "GateError: negative canonical publication"
+        },
+        {
+          "elapsedSeconds": 6.1e-05,
+          "expected": "PASS",
+          "name": "official TRX completion synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-05,
+          "expected": "REJECT",
+          "name": "official skipped/incomplete TRX rejected",
+          "passed": true,
+          "rawError": "GateError: official tests incomplete"
+        },
+        {
+          "elapsedSeconds": 0.066297,
+          "expected": "PASS",
+          "name": "pure independent-pin seam synthetic only",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000138,
+          "expected": "REJECT",
+          "name": "forged caller activation rejected",
+          "passed": true,
+          "rawError": "GateError: caller cannot replace central record"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "absent independent pin rejected",
+          "passed": true,
+          "rawError": "GateError: missing independent central pin"
+        },
+        {
+          "elapsedSeconds": 5e-06,
+          "expected": "REJECT",
+          "name": "production execute closed before any caller input or read",
+          "passed": true,
+          "rawError": "GateError: BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION"
+        },
+        {
+          "elapsedSeconds": 0.0,
+          "expected": "PASS",
+          "name": "no production read or pin mutation",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.014106,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget B",
+          "passed": true,
+          "rawError": "GateError: M-only activation; B/L require independent execution"
+        },
+        {
+          "elapsedSeconds": 0.013972,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget L",
+          "passed": true,
+          "rawError": "GateError: M-only activation; B/L require independent execution"
+        },
+        {
+          "elapsedSeconds": 0.01395,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget {}",
+          "passed": true,
+          "rawError": "GateError: activation budget"
+        },
+        {
+          "elapsedSeconds": 0.014005,
+          "expected": "REJECT",
+          "name": "trusted-record wrong stage/missing/expanded budget {'maxConcurrentTrees",
+          "passed": true,
+          "rawError": "GateError: activation budget"
+        },
+        {
+          "elapsedSeconds": 0.00039,
+          "expected": "PASS",
+          "name": "M normal same production consumer",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 9e-06,
+          "expected": "PASS",
+          "name": "M prior elapsed time is deducted",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 4e-06,
+          "expected": "PASS",
+          "name": "M exact work deadline",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "PASS",
+          "name": "M input verification timeout",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "M in-memory decode timeout",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 5e-06,
+          "expected": "PASS",
+          "name": "M child wait capped, terminated, failure retained, no next command",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 5.9e-05,
+          "expected": "REJECT",
+          "name": "original 901-second MaterialWriter regression",
+          "passed": true,
+          "rawError": "GateError: M stage deadline exhausted"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "M hard deadline has no unlimited cleanup grace",
+          "passed": true,
+          "rawError": "GateError: M stage deadline exhausted"
+        },
+        {
+          "elapsedSeconds": 0.0,
+          "expected": "PASS",
+          "name": "M failure receipt reserve survives work deadline",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "M no new work once cleanup begins",
+          "passed": true,
+          "rawError": "GateError: M stage deadline exhausted"
+        },
+        {
+          "elapsedSeconds": 8.7e-05,
+          "expected": "PASS",
+          "name": "18 fixed GETs actual archive body total synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2.8e-05,
+          "expected": "REJECT",
+          "name": "GET retry rejected",
+          "passed": true,
+          "rawError": "GateError: unlisted/repeated GET"
+        },
+        {
+          "elapsedSeconds": 0.0,
+          "expected": "PASS",
+          "name": "cache hits may reduce GET count to zero",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1.2e-05,
+          "expected": "REJECT",
+          "name": "18-archive size/hash contract cannot expand",
+          "passed": true,
+          "rawError": "GateError: fixed 18-archive contract drift"
+        },
+        {
+          "elapsedSeconds": 4.6e-05,
+          "expected": "REJECT",
+          "name": "fixed official URL cannot change",
+          "passed": true,
+          "rawError": "GateError: fixed 18-archive contract drift"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "REJECT",
+          "name": "archive response aggregate overflow",
+          "passed": true,
+          "rawError": "GateError: missing/over-limit actual archive body measurement"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "partial transfer cannot fabricate complete body measurement",
+          "passed": true,
+          "rawError": "GateError: missing/over-limit actual archive body measurement"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "PASS",
+          "name": "unmeasured partial body retained as lower bound",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "B action cannot borrow M GET budget",
+          "passed": true,
+          "rawError": "GateError: unlisted/repeated GET"
+        }
+      ],
+      "sourceIdentity": {
+        "bytes": 114268,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py",
+        "sha256": "2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f"
+      }
+    }
+  ],
+  "caseCount": 73,
+  "cumulativeSeconds": 9.557055332996242,
+  "dotnetStarts": 0,
+  "futureRootsCreated": false,
+  "networkRequests": 0,
+  "oldHistoricalResults": "23/46/25 preserved, not mechanically rerun",
+  "passed": 73,
+  "redReproduction": {
+    "command": "/opt/homebrew/bin/python3 -B - <<'PY'\nimport json, pathlib, runpy, time\nfrom unittest.mock import patch\nroot=pathlib.Path('TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17')\nnew=root.with_name(root.name+'-fix01')\nassert not new.exists(), 'new FIX01 root must be ABSENT'\nstart=time.perf_counter()\nns=runpy.run_path(str(root/'source/m17_driver.py'))\nm=json.loads((root/'authority/prepare.json').read_bytes())['model']\nassert not ns['M'].exists() and not ns['W'].exists()\nwith patch('time.monotonic', return_value=0): writer=ns['MaterialWriter'](m)\nwith patch('time.monotonic', return_value=901), patch('shutil.disk_usage', return_value=type('Space',(),{'free':10**12})()):\n    rejected=False\n    try: writer.budget()\n    except ns['GateError']: rejected=True\nprint(json.dumps({'test':'M stage must reject elapsed 901 seconds','newRootWasAbsent':True,'expectedRejected':True,'actualRejected':rejected,'oldCombinedLimit':ns['execution_budget'](m)['maxCumulativeCommandSeconds']+1800,'elapsedSeconds':time.perf_counter()-start,'realExternalActions':0}))\nraise SystemExit(0 if rejected else 1)\nPY",
+    "meaning": "Expected-red actual M17 MaterialWriter.budget call at synthetic elapsed 901s; no external execution; not one of the new full-source checks.",
+    "toolResult": {
+      "chunk_id": "ffc7e0",
+      "exit_code": 1,
+      "original_token_count": 56,
+      "output": "{\"test\": \"M stage must reject elapsed 901 seconds\", \"newRootWasAbsent\": true, \"expectedRejected\": true, \"actualRejected\": false, \"oldCombinedLimit\": 25140, \"elapsedSeconds\": 0.028444957999454346, \"realExternalActions\": 0}\n",
+      "wall_time_seconds": 5.917e-06
+    }
+  },
+  "scope": "pure in-process M17-FIX01; synthetic fixtures are not actual restore/material/build results",
+  "supersededSourceSeals": [],
+  "unityStarts": 0,
+  "commandCompletionEvents": [
+    {
+      "id": "exec-bc068b36-aae0-4933-8e15-6c6af46d2336",
+      "status": "failed",
+      "exitCode": 20,
+      "durationMs": 4758
+    },
+    {
+      "id": "exec-df0c10b5-0ac7-4dfc-91f4-a2e34946907f",
+      "status": "completed",
+      "exitCode": 0,
+      "durationMs": 7127
+    }
+  ],
+  "completionTimingSource": "Codex read_thread actual commandExecution events; both raw app durations and internal validation clocks retained without forcing equality.",
+  "lastSuccessfulPreparationStdoutSeconds": 7.1987832079976215
+}

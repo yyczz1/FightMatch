@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_READY_NOT_MATERIAL_READY",
+  "reviewStatus": "REVIEW_PENDING",
+  "scope": "Reviewed logic candidate only: a default-disabled central H template supplied with M17-FIX02 for the same future PR/head. No production H or activation A is created.",
+  "owner": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a106e6-15b0-75a3-a1dd-b5b3108744d8"
+  },
+  "issuer": {
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "hostId": "local",
+    "turnId": "01a106dc-0140-7783-9ec7-aab4235c4800"
+  },
+  "dispatchItem": "fco_01a106e6-15b7-76e0-96d5-5d72688c0254",
+  "returnPath": {
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "hostId": "local",
+    "turnId": "01a106dc-0140-7783-9ec7-aab4235c4800"
+  },
+  "authority": {
+    "standingRule": "AGENTS.md section 6",
+    "humanRecord": "docs/team/2026-09-30/central-resume-scene-loc-2026-10-04.json",
+    "humanThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "humanTurn": "01a1061c-3792-7a31-925f-0f6caac83979",
+    "humanItem": "01a1061c-4443-7311-8546-ec7f40ed085e",
+    "task": "docs/team/2026-09-30/engineering-loc-m17-timer-shadow-fix02.md",
+    "sameTurnAmendment": "docs/team/2026-09-30/engineering-loc-m17-fix02-review-host-amendment.md",
+    "authorDoesNotIssueIntegrationAcceptance": true,
+    "reviewAndExecutionAuthority": "Central alone publishes the final combined E2+H0 head; QA alone receives independent GitHub PR Code Review; a later actual central pin is required before M."
+  },
+  "template": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py",
+    "bytes": 3109,
+    "sha256": "b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea",
+    "nonblankLines": 56,
+    "limitBytes": 16384,
+    "limitNonblankLines": 100,
+    "defaultCONFIG": null,
+    "executionAuthorized": false,
+    "productionPinBuiltIn": false,
+    "inputChannels": "No CLI/env/stdin config or pin; sys.orig_argv is only compared to the explicit literal argv.",
+    "fixedBehavior": [
+      "Reject null CONFIG before any file read or execution.",
+      "Require exact record keys/types and canonical absolute paths; reject file and ancestor symlinks.",
+      "Require actual sys.orig_argv to match literal argv, and actual A/driver length and SHA256 to match.",
+      "Compile only the verified driver bytes in an ordinary independent module with original __file__ and non-main name.",
+      "Require driver production pin originally None; initialize only TRUSTED_CENTRAL_ACTIVATION and invoke original execute(list(sys.orig_argv)) once.",
+      "Preserve exceptions/SystemExit and integer returns. Serialize only the expected material-candidate dictionary and return zero without passing a dict to sys.exit."
+    ],
+    "fixedModuleName": "_fightmatch_m17_authorized_driver"
+  },
+  "futureCentralDataFill": {
+    "authorizedNow": false,
+    "beginMarker": "# CENTRAL_LITERAL_CONFIG_BEGIN",
+    "endMarker": "# CENTRAL_LITERAL_CONFIG_END",
+    "assignment": "CONFIG = None",
+    "configKeys": [
+      "driver",
+      "activation",
+      "argv"
+    ],
+    "driverKeys": [
+      "path",
+      "bytes",
+      "sha256"
+    ],
+    "activationKeys": [
+      "path",
+      "bytes",
+      "sha256",
+      "centralThread",
+      "centralHost",
+      "centralTurn",
+      "centralItem",
+      "ownerThread",
+      "ownerHost",
+      "ownerTurn"
+    ],
+    "allowedLiteralTypes": [
+      "dict with string keys",
+      "list",
+      "str",
+      "int",
+      "bool",
+      "None"
+    ],
+    "valueProvenance": "Only actual A, reviewed E2 driver and real central dispatch; never guessed/synthetic values.",
+    "mechanicalChecks": [
+      "Each fixed marker occurs exactly once; CONFIG is one top-level assignment inside the marked region.",
+      "ast.literal_eval parses the complete CONFIG value; recursively permit only the listed exact literal types.",
+      "All bytes outside the unique marked data region equal the reviewed template exactly.",
+      "Parse both sources, replace only that CONFIG Assign.value with ast.Constant(None), and require ast.dump(..., include_attributes=False) equality.",
+      "Verify the final data against actual A, reviewed source and real dispatch; no expressions or logic substitutions."
+    ],
+    "dependencyOrder": [
+      "Final independently reviewed E2 driver/seal",
+      "Actual central activation A referring to that source",
+      "Final H with only literal data filled, including actual A bytes/SHA",
+      "Actual trusted central dispatch pinning final A and H hashes"
+    ],
+    "noCycle": "A.hostExecutorSha256 equals the reviewed driver SHA256 per the existing interface, not H. A does not contain H's final digest; H contains A identity. H0 is not an extra E2 seal leaf."
+  },
+  "independentReviewInput": {
+    "priorPR": "https://github.com/yyczz1/FightMatch/pull/2",
+    "priorReviewedHead": "837dd4e39683548ee23dce5f5228074ec87231e5",
+    "priorReviewId": 5406086277,
+    "priorReviewState": "COMMENTED / Completed / NEEDS_FIX",
+    "newP2DiscussionId": 4177549312,
+    "receiptPath": "docs/team/2026-09-30/testing-loc-m17-fix01-pr2-final-review-receipt.json",
+    "receiptSha256": "4706acde56ac0df3cb25b29ccaa3e24aff74f6ea629d1369c52e5463534fa981",
+    "thisNewSourceReviewed": false
+  },
+  "sourceDelivery": {
+    "e2Root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02",
+    "e2Seal": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json",
+      "bytes": 2806,
+      "sha256": "3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b"
+    },
+    "e2Leaves": [
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py",
+        "bytes": 114855,
+        "sha256": "e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-inputs.tsv",
+        "bytes": 1957958,
+        "sha256": "106c8e94d5fd5140896ebb9ccdcfa7b9e81ca8f514cdd5c37858a8b61aaf5716"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-write-set.tsv",
+        "bytes": 1428902,
+        "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/source.patch",
+        "bytes": 9607,
+        "sha256": "0549696da4948d17d699d6190982986406aa4eaffb28daac504955d25ed038dd"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/prepare.json",
+        "bytes": 5722418,
+        "sha256": "963384088acd9dbd134a59c17a9f2bba527bad58eca5389158176b7be003f2dd"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/offline-checks.json",
+        "bytes": 111939,
+        "sha256": "a776418803a039e957bc1de2558b2f75accc884ab048d302dcd9ed8b4d1560a4"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json",
+        "bytes": 2806,
+        "sha256": "3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b"
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-receipt.json",
+        "bytes": 26047,
+        "sha256": "7fc8dcc6197db03cf981883304fc6fafa33f3c1f25cac70e2c1f93ec353f7e92"
+      }
+    ],
+    "e2TotalBytes": 9374532,
+    "e2LimitBytes": 16777216,
+    "driverDelta": {
+      "added": 22,
+      "deleted": 15,
+      "total": 37,
+      "limit": 180
+    },
+    "productionDelta": [
+      "run_material_command: rename only loop rule stage field to rule_stage, preserving writer.stage MStage object.",
+      "execute_material: real safe length/hash preflight of every present official-get archive before writer creation/first GET; retain post-download verification."
+    ],
+    "metadataOnlyAdaptations": [
+      "new evidence root and actual owner/issuer/dispatch",
+      "complete FIX01 patch baseline",
+      "retain M17 plus FIX01 in all 38 historical leaves",
+      "approved FIX02 contracts and seal/check labels"
+    ],
+    "old38Preserved": true,
+    "oldSuitesRerun": false
+  },
+  "targetedRegression": {
+    "SYNTHETIC_ONLY": true,
+    "currentFinalPassed": 18,
+    "currentFinalTotal": 18,
+    "greenRounds": 2,
+    "greenCumulativeSeconds": 0.2055271669960348,
+    "redReproductions": 2,
+    "redCumulativeSeconds": 0.06946162500389619,
+    "rawEvidence": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/offline-checks.json",
+      "bytes": 111939,
+      "sha256": "a776418803a039e957bc1de2558b2f75accc884ab048d302dcd9ed8b4d1560a4"
+    },
+    "realProcessesOrNetworkValidated": false,
+    "coverage": [
+      "Unmodified production run_material_command code objects with 177 real nonempty M rules; normal/near-deadline/timeout real wait/receipt branches.",
+      "Unmodified production execute_material and safe hash verifier; corrupt later package/Yaml causes zero simulated GET/writes, valid cache hashes all precede first simulated GET.",
+      "H null/argv/digest/symlink gates; synthetic valid module and single original execute call; nonzero return/SystemExit/exception preservation; non-null driver pin rejection; mechanical literal-only data edits."
+    ]
+  },
+  "preparationSealConsume": {
+    "command": "/opt/homebrew/bin/python3 -B - <<'PY'\nimport json,runpy,time,traceback\nfrom pathlib import Path\nstarted=time.monotonic();timings={};failure=None;report=None\nd=runpy.run_path(\"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py\",run_name=\"M17_FIX02_SOURCE_SEAL_ONLY\")\ndef checkpoint(name):\n    timings[name]=time.monotonic()-started\n    assert timings[name]<30,\"source preparation/consume 30-second budget\"\ntry:\n    E=d['E'];read=d['read'];sha=d['sha'];identity=d['identity'];PREP=d['PREP'];cached={}\n    assert d['TRUSTED_CENTRAL_ACTIVATION'] is None\n    assert not d['M'].exists() and not d['W'].exists()\n    assert {p.relative_to(E).as_posix() for p in E.rglob('*') if p.is_file()}=={'source/m17_driver.py','authority/offline-checks.json'}\n    def caching_reader(p):\n        p=Path(p)\n        if p not in cached:cached[p]=read(p)\n        return cached[p]\n    history=d['old_seals'](caching_reader);checkpoint('old38InitialCheck')\n    m=d['model'](caching_reader);checkpoint('freshModel')\n    checks=d['strict'](read(E/'authority/offline-checks.json'))\n    assert checks['passed']==checks['caseCount']==18\n    artifacts=d['source_artifacts'](m,cached[d['DRIVER']],cached[d['OLD17F1']/'source/m17_driver.py'],checks,history)\n    frozen=d['seal_source'](m,artifacts)\n    memory={E/rel:b for rel,b in artifacts.items()}\n    d['consume_source'](frozen,lambda p:memory[p],m);checkpoint('generatedMemoryConsume')\n    for rel,b in artifacts.items():\n        path=E/rel\n        if path==d['DRIVER']:\n            d['check_bytes'](read(path),(len(b),sha(b)),'already checked driver');continue\n        assert rel=='authority/offline-checks.json' or not path.exists()\n        path.parent.mkdir(parents=True,exist_ok=True)\n        path.write_bytes(b)\n    freeze_path=E/'authority/source-freeze.json'\n    assert not freeze_path.exists()\n    freeze_path.write_bytes(frozen)\n    checkpoint('sourceEightLeavesGenerated')\n    fresh=d['consume_source'](read(freeze_path))\n    checkpoint('finalActualDiskProductionConsume')\n    assert fresh==m\n    assert {p.relative_to(E).as_posix() for p in E.rglob('*') if p.is_file()}==set(PREP)\n    assert d['old_seals']()==history\n    assert not d['M'].exists() and not d['W'].exists()\n    assert d['TRUSTED_CENTRAL_ACTIVATION'] is None\n    assert b'TRUSTED_CENTRAL_ACTIVATION=None' in read(d['DRIVER'])\n    checkpoint('finalOld38AndAbsenceCheck')\n    leaves=[identity(E/rel) for rel in PREP]\n    report={'status':'SOURCE_READY_NOT_MATERIAL_READY','reviewStatus':'REVIEW_PENDING','sourceOnly':True,\n        'owner':d['OWNER'],'issuer':d['ISSUER'],'dispatchItem':d['DISPATCH'],\n        'freeze':identity(freeze_path),'leaves':leaves,'totalEvidenceBytes':sum(x['bytes'] for x in leaves),\n        'oldLeafCount':len(history),'old38Unchanged':True,'diskProductionConsumer':'consume_source(read(freeze_path)); expected_model omitted; fresh model rebuilt',\n        'sameGeneratedAndConsumedModel':True,'modelSha256':sha(d['jb'](m)),\n        'sourceCount':len(m['sources']),'packageCount':len(m['packages']),'executionBudget':d['execution_budget'](m)['M'],\n        'currentTargetedChecks':18,'oldSuitesRerun':False,'productionPin':None,\n        'futureMRootExists':d['M'].exists(),'futureWRootExists':d['W'].exists(),\n        'noSDKFullHashRerun':True,'noExternalMaterialActions':True,'timingMilestones':timings}\nexcept BaseException as error:\n    failure={'type':type(error).__name__,'message':str(error),'traceback':traceback.format_exc()}\nelapsed=time.monotonic()-started\nprint(json.dumps({'report':report,'failure':failure,'elapsedSeconds':elapsed,'budgetSeconds':30},ensure_ascii=False))\nraise SystemExit(0 if failure is None and elapsed<=30 else 1)\nPY",
+    "rawToolResult": {
+      "chunk_id": "6c3fb4",
+      "wall_time_seconds": 4.485433708,
+      "exit_code": 0,
+      "original_token_count": 2535,
+      "output": "{\"report\": {\"status\": \"SOURCE_READY_NOT_MATERIAL_READY\", \"reviewStatus\": \"REVIEW_PENDING\", \"sourceOnly\": true, \"owner\": {\"threadId\": \"01a0f40d-b0c5-7bc0-a2b2-be9d1213648a\", \"hostId\": \"local\", \"turnId\": \"01a106e6-15b0-75a3-a1dd-b5b3108744d8\"}, \"issuer\": {\"threadId\": \"01a0f2e3-1a80-7671-a459-38d5c8de0e6b\", \"hostId\": \"local\", \"turnId\": \"01a106dc-0140-7783-9ec7-aab4235c4800\"}, \"dispatchItem\": \"fco_01a106e6-15b7-76e0-96d5-5d72688c0254\", \"freeze\": {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json\", \"bytes\": 2806, \"sha256\": \"3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b\"}, \"leaves\": [{\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py\", \"bytes\": 114855, \"sha256\": \"e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-inputs.tsv\", \"bytes\": 1957958, \"sha256\": \"106c8e94d5fd5140896ebb9ccdcfa7b9e81ca8f514cdd5c37858a8b61aaf5716\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-write-set.tsv\", \"bytes\": 1428902, \"sha256\": \"ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/source.patch\", \"bytes\": 9607, \"sha256\": \"0549696da4948d17d699d6190982986406aa4eaffb28daac504955d25ed038dd\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/prepare.json\", \"bytes\": 5722418, \"sha256\": \"963384088acd9dbd134a59c17a9f2bba527bad58eca5389158176b7be003f2dd\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/offline-checks.json\", \"bytes\": 111939, \"sha256\": \"a776418803a039e957bc1de2558b2f75accc884ab048d302dcd9ed8b4d1560a4\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json\", \"bytes\": 2806, \"sha256\": \"3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-receipt.json\", \"bytes\": 26047, \"sha256\": \"7fc8dcc6197db03cf981883304fc6fafa33f3c1f25cac70e2c1f93ec353f7e92\"}], \"totalEvidenceBytes\": 9374532, \"oldLeafCount\": 38, \"old38Unchanged\": true, \"diskProductionConsumer\": \"consume_source(read(freeze_path)); expected_model omitted; fresh model rebuilt\", \"sameGeneratedAndConsumedModel\": true, \"modelSha256\": \"318a02fc4930c4d896aebbe8a2db910300009289e5596fe8ebee7f8980d82a38\", \"sourceCount\": 931, \"packageCount\": 31, \"executionBudget\": {\"wallSeconds\": 900, \"workSeconds\": 870, \"cleanupReserveSeconds\": 30, \"officialGets\": [{\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/microsoft.codecoverage.17.11.1.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/microsoft.codecoverage/17.11.1/microsoft.codecoverage.17.11.1.nupkg\", \"bytes\": 9139653, \"sha256\": \"d5d2e52b734687cf0fb85619898a53fa2cc0f7a7adc61537052822c4381db460\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/microsoft.net.test.sdk.17.11.1.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/microsoft.net.test.sdk/17.11.1/microsoft.net.test.sdk.17.11.1.nupkg\", \"bytes\": 34301, \"sha256\": \"d09504b9c43697368f824ae39bf3452c14dba94d5d7e1be13774e5de6a04ea62\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/microsoft.testplatform.objectmodel.17.11.1.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.objectmodel/17.11.1/microsoft.testplatform.objectmodel.17.11.1.nupkg\", \"bytes\": 1660096, \"sha256\": \"e6f5febc2cc56374bbc5f31522ff0e94c305b5d79d5bd50827373458473ebe6e\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/microsoft.testplatform.testhost.17.11.1.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.testhost/17.11.1/microsoft.testplatform.testhost.17.11.1.nupkg\", \"bytes\": 2882099, \"sha256\": \"c12918d07d5f400ab41f72dc293e2eed8e51ce10003daeb2b9e54df3883c1f15\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/newtonsoft.json.13.0.3.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg\", \"bytes\": 2441966, \"sha256\": \"872fc189e638ab1056555b03aaa38f68bcb54286e221aa646eb1129babf63c77\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/system.collections.immutable.1.5.0.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/system.collections.immutable/1.5.0/system.collections.immutable.1.5.0.nupkg\", \"bytes\": 804405, \"sha256\": \"0658aa6252fd9ed6cc5e8e5decd52b297c1837e3ea772a83212e5ba78a95afb4\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/system.reflection.metadata.1.6.0.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/system.reflection.metadata/1.6.0/system.reflection.metadata.1.6.0.nupkg\", \"bytes\": 852113, \"sha256\": \"2497e068f6afed47c4878c9101074684b645d5baebd2d5163e5eaa99f356abf1\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/system.text.encoding.codepages.8.0.0.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/system.text.encoding.codepages/8.0.0/system.text.encoding.codepages.8.0.0.nupkg\", \"bytes\": 4260927, \"sha256\": \"7e308b41cd4f456d08c7921995d8345cabfe2750ea3d27eef698ccc8d069edd1\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.2.9.2.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit/2.9.2/xunit.2.9.2.nupkg\", \"bytes\": 31616, \"sha256\": \"879fb24d37c29a89023f2e25a9d130f111b3425ae5b10016dc09b4261d2aee8a\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.abstractions.2.0.3.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit.abstractions/2.0.3/xunit.abstractions.2.0.3.nupkg\", \"bytes\": 75155, \"sha256\": \"d03d72fc2df8880448f7a81bddb00e1bcb5c18f323c7e7cc69b4cfa727469403\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.analyzers.1.16.0.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit.analyzers/1.16.0/xunit.analyzers.1.16.0.nupkg\", \"bytes\": 263548, \"sha256\": \"3f906f97d86f1ef17c298d5858b838b4a898c657d19e61f22f5e237d20020da5\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.assert.2.9.2.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit.assert/2.9.2/xunit.assert.2.9.2.nupkg\", \"bytes\": 244587, \"sha256\": \"104eabe76e90e1c1e7d0ebab7f510da57677ecb8ff3f6b8dbe89c782975c9eae\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.core.2.9.2.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit.core/2.9.2/xunit.core.2.9.2.nupkg\", \"bytes\": 33509, \"sha256\": \"ce18d5d48e7187444572481310aef6b4890bc5597808f9ad7abd9407efa8c9ef\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.extensibility.core.2.9.2.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit.extensibility.core/2.9.2/xunit.extensibility.core.2.9.2.nupkg\", \"bytes\": 298693, \"sha256\": \"310002ff877aecdb2cbb747ea473e1eaf1e2b415d06311046645553065bbdb47\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.extensibility.execution.2.9.2.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit.extensibility.execution/2.9.2/xunit.extensibility.execution.2.9.2.nupkg\", \"bytes\": 379785, \"sha256\": \"7fef547e83f22b72480e14125b462ef5ce0f1aa52a642f7a0cc20d0988b68bcd\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/xunit.runner.visualstudio.2.8.2.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/xunit.runner.visualstudio/2.8.2/xunit.runner.visualstudio.2.8.2.nupkg\", \"bytes\": 595969, \"sha256\": \"5257cadf8f2bf2426eadacb07dd0ada492711e4bf4e303cdce951acf850cffad\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/yamldotnet-v16.3.0.tar.gz\", \"url\": \"https://codeload.github.com/aaubry/YamlDotNet/tar.gz/refs/tags/v16.3.0\", \"bytes\": 397462, \"sha256\": \"4f73f08a0584af4e1cac36ccb0e3cb9d9cd982209b06f7eb10dd5e31badb1bce\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/acquire/yamldotnet.16.3.0.nupkg\", \"url\": \"https://api.nuget.org/v3-flatcontainer/yamldotnet/16.3.0/yamldotnet.16.3.0.nupkg\", \"bytes\": 776880, \"sha256\": \"e068bcc1243c46c8bfdfe2f27a026bfff03cde7c67d9f37c2cdd70bd24a9dfd4\"}], \"maxArchiveResponseBodyBytes\": 25172764, \"runnerGenerationRestores\": 1, \"testsGenerationRestores\": 1, \"testsVerificationRestores\": 1, \"explicitDeltaFromM16\": \"runner restore 0 -> 1 to regenerate the lost runner locks from fixed source/feed\"}, \"currentTargetedChecks\": 18, \"oldSuitesRerun\": false, \"productionPin\": null, \"futureMRootExists\": false, \"futureWRootExists\": false, \"noSDKFullHashRerun\": true, \"noExternalMaterialActions\": true, \"timingMilestones\": {\"old38InitialCheck\": 0.16224304100614972, \"freshModel\": 2.089954833005322, \"generatedMemoryConsume\": 2.4184243750059977, \"sourceEightLeavesGenerated\": 2.4805794580024667, \"finalActualDiskProductionConsume\": 4.527324208000209, \"finalOld38AndAbsenceCheck\": 4.546759208002186}}, \"failure\": null, \"elapsedSeconds\": 4.564795000005688, \"budgetSeconds\": 30}\n"
+    },
+    "elapsedSeconds": 4.564795000005688,
+    "budgetSeconds": 30,
+    "productionEntries": [
+      "old_seals",
+      "model",
+      "source_artifacts",
+      "seal_source",
+      "consume_source"
+    ],
+    "actualFinalDiskConsumer": true,
+    "expectedModelOverrideUsedAtFinalDiskConsumer": false,
+    "prepareOrOfflineChecksCalled": false,
+    "SDKFullHashRerun": false,
+    "note": "Scope mechanical comparator's first metadata-normalization assertion failure and corrected raw result are retained in E2 offline-checks; no source changed for that correction."
+  },
+  "finalGate": {
+    "productionDriverPin": null,
+    "templateCONFIG": null,
+    "actualAOrProductionHCreated": false,
+    "materialReady": false,
+    "executionAuthorized": false,
+    "M": "ABSENT",
+    "W": "ABSENT",
+    "realDownloads": 0,
+    "realArchiveUnpacks": 0,
+    "dotnetStarts": 0,
+    "restores": 0,
+    "unityStarts": 0,
+    "gitWrites": 0,
+    "oldEvidenceWrites": 0,
+    "sharedOrToolOrCentralFileWrites": 0,
+    "integrationVerdict": "NOT_ISSUED_AUTHOR_CANNOT_ACCEPT"
+  }
+}

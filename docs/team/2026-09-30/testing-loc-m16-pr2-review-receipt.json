@@ -1,0 +1,115 @@
+{
+  "task": "LOC-M16-PR2-REVIEW-RECEIPT",
+  "verdict": "NEEDS_FIX",
+  "scope": "Actual M16-head GitHub review-result intake only; not a duplicate local review, restore, material or runtime acceptance.",
+  "receivedUtc": "2026-10-02T07:39:19Z",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fb88-5ad9-7382-8b46-2f773b927942"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "User standing workflow and central dual-review delegation; this result is independent of PR4.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+    "base": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+    "parent": "1ac2081958d8cd91dd821d85ed7d071ec1310ee6",
+    "head": "bb642ab3897fa587b1f41f8298533229874f9617",
+    "tree": "c5186276933a74715e6c2e4f9a43e034d2c67818",
+    "draft": true,
+    "merged": false,
+    "identity": "Current PR head equals full reviewed commit_id; remote Git parent/tree match publication."
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/loc-m16-publication-receipt.json",
+    "receiptSha256": "6cf64d0ca8c7948bb460e7209c17998b3771fb6c967b113f10743b237a0177ea",
+    "manifest": "docs/versioning/2026-10-02-loc-m16-pr/publication-manifest.json",
+    "manifestSha256": "6d438e9b53a61deb689683c23a66c44bfb98f32b8a84a635385efa09b3a6568d",
+    "reportedVerification": "Central verified 12 published paths/all blobs and the exact six original leaves including driver, inputs, write set, prepare, checks and freeze. This intake does not repeat that audit or execute archived scripts.",
+    "priorM13ReviewDoesNotCoverThisHead": true,
+    "offlineChecksBoundary": "23 reported offline checks are not restore execution or material ACCEPT; they were not rerun here."
+  },
+  "review": {
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-5947404431",
+    "triggerCreatedUtc": "2026-10-02T07:30:50Z",
+    "id": 5389309132,
+    "url": "https://github.com/yyczz1/FightMatch/pull/2#pullrequestreview-5389309132",
+    "bot": "chatgpt-codex-connector[bot]",
+    "state": "COMMENTED",
+    "commitId": "bb642ab3897fa587b1f41f8298533229874f9617",
+    "submittedUtc": "2026-10-02T07:35:30Z",
+    "completion": "Completed",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-5928035293",
+    "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T07:35:33.458686Z\">2026-10-02T07:35:33.458686Z</relative-time> | `bb642ab` | Manual request |",
+    "findingCounts": {
+      "P1": 3,
+      "P2": 0
+    },
+    "formalApprovalClaimed": false
+  },
+  "findings": [
+    {
+      "id": 4163732952,
+      "priority": "P1",
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4163732952",
+      "path": "docs/versioning/2026-10-02-loc-m16-pr/source/m16_driver.py",
+      "line": 1477,
+      "reviewId": 5389309132,
+      "threadId": "PRRT_kwDOTDyjrM6oQpnb",
+      "isResolved": false,
+      "isOutdated": false,
+      "createdUtc": "2026-10-02T07:35:30Z",
+      "rawBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Compare control outputs before accepting them**\n\nAt reviewed head `bb642ab3897fa587b1f41f8298533229874f9617` (tree `c5186276933a74715e6c2e4f9a43e034d2c67818`), when a YAML, Unity-asset, FightMatch, or 005 candidate exits with the expected status but produces output different from the oracle, `assert_controls` checks only the receipt role, argv, quiescence, and exit code before succeeding. It never performs the semantic, raw-byte, or canonical comparisons required by `controlAssertions.otherBControls`, so a behaviorally broken B build can pass the final harness.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/bb642ab3897fa587b1f41f8298533229874f9617/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎.",
+      "disposition": "OPEN"
+    },
+    {
+      "id": 4163732956,
+      "priority": "P1",
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4163732956",
+      "path": "docs/versioning/2026-10-02-loc-m16-pr/source/m16_driver.py",
+      "line": 1452,
+      "reviewId": 5389309132,
+      "threadId": "PRRT_kwDOTDyjrM6oQpne",
+      "isResolved": false,
+      "isOutdated": false,
+      "createdUtc": "2026-10-02T07:35:30Z",
+      "rawBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Require the B runner to cover expected deployment**\n\nWhen a future B build omits required assemblies or resources and its receipt lists the same truncated files, this equality still passes because it compares the directory only with the receipt's self-declared set. The positive fixture confirms that just `YamlDotNet.dll` and two license files are accepted; the gate never joins `runnerFiles` to the frozen `expected-deployment.tsv` or package closure. An incomplete, nonfunctional runner can therefore be marked valid and passed into L.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/bb642ab3897fa587b1f41f8298533229874f9617/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎.",
+      "disposition": "OPEN"
+    },
+    {
+      "id": 4163732959,
+      "priority": "P1",
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4163732959",
+      "path": "docs/versioning/2026-10-02-loc-m16-pr/source/m16_driver.py",
+      "line": 316,
+      "reviewId": 5389309132,
+      "threadId": "PRRT_kwDOTDyjrM6oQpnh",
+      "isResolved": false,
+      "isOutdated": false,
+      "createdUtc": "2026-10-02T07:35:30Z",
+      "rawBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind execution to a verifiable central activation**\n\nWhen `execute` is invoked with caller-constructed stdin, any caller can satisfy this gate by copying the public central thread constant and inventing an `ownerTurn`; no central host, activation turn/item, or hash-bound central receipt is required. Consequently the driver cannot distinguish the separately authorized execution required by M14/M16 from a locally fabricated activation before starting the two restores and creating T16/M16.\n\nAGENTS.md reference: [AGENTS.md:L158-L162](https://github.com/yyczz1/FightMatch/blob/bb642ab3897fa587b1f41f8298533229874f9617/AGENTS.md#L158-L162)\n\nUseful? React with 👍 / 👎.",
+      "disposition": "OPEN"
+    }
+  ],
+  "next": {
+    "codeReviewGate": "OPEN_THREE_P1_FINDINGS",
+    "executionGate": "BLOCKED_PENDING_CORRECTION_AND_SEPARATE_ACTIVATION",
+    "action": "Central returns a scoped corrective packet to engineering/LOC for control-output comparisons, frozen expected-deployment closure, and verifiable central execution binding. Require review of the actual corrected head; no code, restore or test execution is authorized by this receipt.",
+    "materialAcceptance": false,
+    "priorEvidence": "Keep M13 review and all historical failures/checks scoped to their original inputs; do not reinterpret them as M16 runtime validation."
+  },
+  "thisTurn": {
+    "reviewTriggers": 0,
+    "reviewThreadMutations": 0,
+    "localCodeReviews": 0,
+    "RorWorkerDispatches": 0,
+    "archivedDriverExecutions": 0,
+    "restoreRuns": 0,
+    "dotnetRuns": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFile": "docs/team/2026-09-30/testing-loc-m16-pr2-review-receipt.json"
+  }
+}
