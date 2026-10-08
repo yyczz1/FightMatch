@@ -10,12 +10,12 @@
   },
   "soleReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
   "script": {
-    "bytes": 35487,
-    "sha256": "33c4b65fc6f184a3ff26780817bc4ea11309e86b579012135aac467c772b2eb5"
+    "bytes": 35455,
+    "sha256": "c9bc4fb977837a5b71d754999135607164ae1f82279b632985ab7c1161524b07"
   },
   "plan": {
     "bytes": 318676,
-    "sha256": "1ec7e9334379e4d81d03f6165cc9c5cf564836fa81927772705156e7b0880b67"
+    "sha256": "3c5b1e3062471ea18c54ab5e4614cf59e89e176dc20c41b4bdd00c0c0627b793"
   },
   "selfIdentity": "Returned externally after final serialization",
   "static": {
@@ -105,7 +105,7 @@
   },
   "originalV06": "FAILED",
   "review": "PENDING_INDEPENDENT_GITHUB_EXACT_HEAD",
-  "completedUtc": "2026-10-08T04:20:12.920319+00:00",
+  "completedUtc": "2026-10-08T04:12:17.293114+00:00",
   "sourceOnly": true,
   "oldV06StillFAILED": true,
   "executionGate": "Central must approve exact reviewed script/plan seals and bind fresh sole-C actual before one120-second execution. Source readiness is not recovery acceptance.",
@@ -226,49 +226,6 @@
       "recovery": 0,
       "realPsLsofUnity": 0,
       "actualOSExitClaimed": false
-    },
-    "oldV06": "FAILED"
-  },
-  "fix03": {
-    "packet": "docs/team/2026-09-30/central-resource-combined-v06-recovery-fix03.md",
-    "findings": [
-      "4214565396",
-      "4214565407"
-    ],
-    "actualTurn": "01a119bc-bdc6-72c1-890b-18c57aec992a",
-    "beforeSnapshot": "TestArtifacts/FightMatch/RES-COMBINED-V06/recovery-source-before-fix03",
-    "beforeSnapshotSeals": {
-      "recovery.py": {
-        "bytes": 35455,
-        "sha256": "c9bc4fb977837a5b71d754999135607164ae1f82279b632985ab7c1161524b07"
-      },
-      "plan.json": {
-        "bytes": 318676,
-        "sha256": "3c5b1e3062471ea18c54ab5e4614cf59e89e176dc20c41b4bdd00c0c0627b793"
-      },
-      "source-receipt.json": {
-        "bytes": 8370,
-        "sha256": "c0ac2345be42c7be4ba3a4eccd19a8b98167f0de4ad7b5545dbb481ce17b0270"
-      }
-    },
-    "sourceDiff": "Only main stdout summary adds failure=result.get('failure'); all other source bytes unchanged.",
-    "planDiff": "Only scriptIdentity updated; completionAddendum preserved byte-for-byte.",
-    "canonicalAddendum": {
-      "localPath": "docs/team/2026-09-30/central-resource-combined-v06-recovery-fix02.md",
-      "localPathExists": true,
-      "remotePublication": "Central owns publishing exact bytes to the review branch; not verified by this source task."
-    },
-    "smoke": {
-      "status": "PASS",
-      "elapsedSeconds": 0.006340834006550722,
-      "cases": [
-        "actual main AST tail: receipt-write failure retains original failure and receiptFailure in captured stdout",
-        "actual main AST tail: created=false preflight failure retains first failure in captured stdout",
-        "actual main AST tail: normal transient outputs failure=null and AWAITING_PROCESS_EXIT with matching receipt bytes/SHA"
-      ],
-      "method": "actual main tail AST and actual terminal_receipt helper; fake clock/writer/hash; stdout captured",
-      "realRecovery": 0,
-      "old7_4_2Tests": "NOT RERUN"
     },
     "oldV06": "FAILED"
   }
