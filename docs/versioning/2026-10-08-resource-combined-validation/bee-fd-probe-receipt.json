@@ -1,0 +1,292 @@
+{
+  "task": "RES-BEE-FD-PROBE-001",
+  "scope": "Environment observation only, not proof of Bee implementation",
+  "actual": "01a11945-ec1a-7281-8e01-a2f08ffc2c90",
+  "evidence": {
+    "path": "TestArtifacts/FightMatch/RES-BEE-FD-PROBE-001/probe.json",
+    "bytes": 48709,
+    "sha256": "3e48b59b1ba56b3decf6ad62f579452abf0e2835ab95e6affe7049de3eb0c3ff"
+  },
+  "sourceHashesVerified": true,
+  "lsofCalls": 3,
+  "lsofExitCodes": [
+    0,
+    0,
+    0
+  ],
+  "cleanupComplete": true,
+  "elapsedThroughCleanup": 0.07564841699786484,
+  "stages": [
+    {
+      "stage": "1_listening",
+      "rawStdout": "p63322\ncPython\nf3\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf4\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\n",
+      "comparisons": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "3",
+              "fd": 3,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "4",
+              "fd": 4,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        }
+      ]
+    },
+    {
+      "stage": "2_connected_listeners_open",
+      "rawStdout": "p63322\ncPython\nf3\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf4\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\nf5\ntunix\nn->0xfbd8628cd4a1de0\nf6\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf7\ntunix\nn->0x72f75e89e5bae1db\nf8\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\n",
+      "comparisons": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "3",
+              "fd": 3,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "4",
+              "fd": 4,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "5",
+              "fd": 5,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0xfbd8628cd4a1de0"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "6",
+              "fd": 6,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "7",
+              "fd": 7,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0x72f75e89e5bae1db"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "8",
+              "fd": 8,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        }
+      ]
+    },
+    {
+      "stage": "3_connected_listeners_closed",
+      "rawStdout": "p63322\ncPython\nf5\ntunix\nn->0xfbd8628cd4a1de0\nf6\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf7\ntunix\nn->0x72f75e89e5bae1db\nf8\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\n",
+      "comparisons": [
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "5",
+              "fd": 5,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0xfbd8628cd4a1de0"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "6",
+              "fd": 6,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "7",
+              "fd": 7,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0x72f75e89e5bae1db"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "8",
+              "fd": 8,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        }
+      ]
+    }
+  ],
+  "next": "Designer inspects current endpoint/FD selection against actual raw records; no native replay authorized."
+}

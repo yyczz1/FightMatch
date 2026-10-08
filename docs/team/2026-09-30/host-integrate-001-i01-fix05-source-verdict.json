@@ -1,0 +1,90 @@
+{
+  "packet": "HOST-INTEGRATE-001/I01-FIX05-source",
+  "date": "2026-10-08",
+  "verdict": "ACCEPT",
+  "scope": "Fixed source correction and offline replay only; no native or product acceptance.",
+  "head": "ac5378d566e1b0cbb43c400c3f302b5f0c3f82b8",
+  "tree": "3ab258bf07468eb53dd685c6b78b79a43a5f9780",
+  "publication": {
+    "path": "docs/team/2026-09-30/host-integrate-001-i01-fix05-publication-receipt.json",
+    "bytes": 10207,
+    "sha256": "f6e6c9c44e30bce6c3cb4231b444a6a66e66d017426c2cbd034c6c10757a6760",
+    "gitBlob": "0e1911ecc28c912655dbef94d0b903d18e59af55"
+  },
+  "independentReview": {
+    "path": "docs/team/2026-09-30/testing-host-integrate-pr18-fix05-review-receipt.json",
+    "bytes": 3319,
+    "sha256": "20bc81e9dd5bae3b796b2ee6288b42b62f344b63654d31c8bf1e50def328696f",
+    "gitBlob": "15029cb424090059d66261b3bf0d1325f3571939"
+  },
+  "qaActual": "01a1183e-a97e-7d91-b36d-4bb5f5d79707",
+  "qaCompletedCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:97",
+  "resultComment": 6047152775,
+  "reviewedAbbrev": "ac5378d566",
+  "result": "NO_MAJOR_ISSUES_REPORTED_ON_FIXED_HEAD",
+  "formalApproval": false,
+  "formalReviewSubmissionOnThisHead": false,
+  "oldFindingStates": [
+    {
+      "id": 4210875526,
+      "isResolved": false,
+      "isOutdated": true
+    },
+    {
+      "id": 4210875534,
+      "isResolved": false,
+      "isOutdated": true
+    },
+    {
+      "id": 4211058182,
+      "isResolved": false,
+      "isOutdated": true
+    },
+    {
+      "id": 4211058192,
+      "isResolved": false,
+      "isOutdated": true
+    },
+    {
+      "id": 4211236459,
+      "isResolved": false,
+      "isOutdated": true
+    },
+    {
+      "id": 4211887116,
+      "isResolved": false,
+      "isOutdated": false
+    },
+    {
+      "id": 4211887126,
+      "isResolved": false,
+      "isOutdated": true
+    }
+  ],
+  "oldFindingsAutoResolved": false,
+  "centralEvidenceInspection": {
+    "remoteCommentReadDirectly": true,
+    "publishedBlobsVerified": 24,
+    "deltaPathsVerified": 9,
+    "exactPatchVerified": true,
+    "priorFrozenLeavesVerified": 84,
+    "offlinePassed": 102,
+    "offlineTotal": 102,
+    "offlineSeconds": 10.27437391600688,
+    "rounds": 3,
+    "round2SyntaxFailurePreserved": true,
+    "nativeRuns": 0
+  },
+  "qaPublicationReferenceCorrection": {
+    "originalReceiptPreserved": true,
+    "reportedSha256": "2369289921c4c1f4de51eb1a0c9c018ab0ed7b8c15551b772fa247bc43fa54f4",
+    "actualPublicationSha256": "f6e6c9c44e30bce6c3cb4231b444a6a66e66d017426c2cbd034c6c10757a6760",
+    "explanation": "QA mistakenly copied the G01 central receipt hash into the PR publication reference. Central verified the actual publication file and direct GitHub result; correction is recorded here without altering the QA original."
+  },
+  "preserved": [
+    "Original I01 FAILED and null exit code",
+    "Recovery01 restored",
+    "Formal LOC not ready; shared1036 adoption separately compile pending"
+  ],
+  "futureExecution": "Requires current-input, cache, test and bounded process contract; no old I01 rerun authorized."
+}

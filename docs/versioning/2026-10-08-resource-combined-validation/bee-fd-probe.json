@@ -1,0 +1,917 @@
+{
+  "task": "RES-BEE-FD-PROBE-001",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a11945-ec1a-7281-8e01-a2f08ffc2c90"
+  },
+  "pid": 63322,
+  "uid": 501,
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": {
+    "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+    "version": "3.13.7 (main, Aug 14 2025, 11:12:11) [Clang 17.0.0 (clang-1700.0.13.3)]"
+  },
+  "source": "import time\nstarted_mono=time.monotonic()\nstarted_epoch=time.time()\nimport os,sys,json,pathlib,hashlib,stat,socket,subprocess,secrets,string,platform,base64,re\nTASK='RES-BEE-FD-PROBE-001'\nACTUAL='01a11945-ec1a-7281-8e01-a2f08ffc2c90'\nR=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\nE=R/'TestArtifacts/FightMatch/RES-BEE-FD-PROBE-001'\nOUT=E/'probe.json'\ndeadline=started_mono+15\nsockets=[];nodes={};directories={};snapshots=[];failure=None\ndef stamp(p):\n s=p.lstat()\n return {'dev':s.st_dev,'ino':s.st_ino,'uid':s.st_uid,'gid':s.st_gid,'mode':s.st_mode,'size':s.st_size,'mtimeNs':s.st_mtime_ns,'ctimeNs':s.st_ctime_ns}\ndef stable(a,b):\n return all(a[k]==b[k] for k in ('dev','ino','uid','gid','mode'))\ndef budget():\n if time.monotonic()>=deadline-2:raise TimeoutError('Probe work deadline; cleanup reserve')\ndef create_socket():\n budget()\n s=socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)\n s.settimeout(0.5);sockets.append(s)\n return s\ndef fd_meta(item):\n s=item['socket'];f=os.fstat(s.fileno())\n return {'role':item['role'],'fd':s.fileno(),'expectedFullPath':item['path'],'pathRelation':item['relation'],'fstat':{'dev':f.st_dev,'ino':f.st_ino,'uid':f.st_uid,'gid':f.st_gid,'mode':f.st_mode,'isSocket':stat.S_ISSOCK(f.st_mode)},'getsockname':s.getsockname()}\ndef observe(label,items):\n budget()\n argv=['/usr/sbin/lsof','-a','-p',str(os.getpid()),'-U','-Fpcftn']\n snap={'stage':label,'argv':argv,'startedEpoch':time.time(),'startedMonotonic':time.monotonic(),'knownFDs':[fd_meta(i) for i in items],'pathLstats':{str(p):stamp(p) for p in nodes}}\n snapshots.append(snap)\n timeout=min(2,deadline-2-time.monotonic());snap['timeoutSeconds']=timeout\n if timeout<=0:raise TimeoutError('No lsof time remaining')\n try:\n  proc=subprocess.run(argv,capture_output=True,timeout=timeout)\n  stdout,stderr=proc.stdout,proc.stderr;snap['exitCode']=proc.returncode\n except subprocess.TimeoutExpired as e:\n  stdout=e.stdout or b'';stderr=e.stderr or b'';snap['exitCode']=None;snap['timedOut']=True\n finally:\n  snap['finishedEpoch']=time.time();snap['finishedMonotonic']=time.monotonic()\n snap['rawStdout']=stdout.decode('utf-8','replace');snap['rawStderr']=stderr.decode('utf-8','replace')\n snap['rawStdoutBase64']=base64.b64encode(stdout).decode();snap['rawStderrBase64']=base64.b64encode(stderr).decode()\n records=[];pid=None;cur=None\n for line in snap['rawStdout'].splitlines():\n  if not line:continue\n  if line[0]=='p':pid=line[1:];cur=None\n  elif line[0]=='f':\n   token=line[1:];m=re.fullmatch(r'([0-9]+)[rwu]?',token)\n   cur={'ownerPid':pid,'fdToken':token,'fd':int(m.group(1)) if m else None,'t':[],'n':[]};records.append(cur)\n  elif cur is not None and line[0] in ('t','n'):cur[line[0]].append(line[1:])\n comparisons=[]\n for known in snap['knownFDs']:\n  matches=[r for r in records if r['ownerPid']==str(os.getpid()) and r['fd']==known['fd']]\n  comparisons.append({'role':known['role'],'fd':known['fd'],'expectedFullPath':known['expectedFullPath'],'pathRelation':known['pathRelation'],'matchingFDRecords':matches,'exactFullPathMatch':len(matches)==1 and matches[0]['n']==[known['expectedFullPath']],'unixTypeMatch':len(matches)==1 and matches[0]['t']==['unix']})\n snap['comparisons']=comparisons\n snap['afterFDs']=[fd_meta(i) for i in items]\n snap['allKnownFDsStable']=all(x['fd']==y['fd'] and x['fstat']==y['fstat'] for x,y in zip(snap['knownFDs'],snap['afterFDs']))\n if snap.get('timedOut'):raise TimeoutError('lsof exceeded its single-call limit')\n if proc.returncode!=0 or stderr:raise RuntimeError('lsof failed or emitted stderr')\n if not snap['allKnownFDsStable']:raise RuntimeError('Own FD identity changed during observation')\n budget()\ninline_command=\"python3 -B - <<'PY'\\nSOURCE = \"+json.dumps(SOURCE,ensure_ascii=False)+\"\\nexec(compile(SOURCE, '<RES-BEE-FD-PROBE-001>', 'exec'))\\nPY\"\nreport={'task':TASK,'owner':{'thread':'01a0fdbc-bf1e-7780-8f7f-dec13d6d590c','host':'local','turn':ACTUAL},'pid':os.getpid(),'uid':os.getuid(),'platform':platform.platform(),'python':{'executable':sys.executable,'version':sys.version},'source':SOURCE,'sourceSHA256':hashlib.sha256(SOURCE.encode()).hexdigest(),'inlineCommand':inline_command,'inlineCommandSHA256':hashlib.sha256(inline_command.encode()).hexdigest(),'startedEpoch':started_epoch,'startedMonotonic':started_mono,'limitSeconds':15,'maxLsofCalls':3,'snapshots':snapshots,'cleanup':[]}\nif os.path.lexists(E):raise RuntimeError('Evidence directory must be fresh')\nE.mkdir(mode=0o700)\ntry:\n budget()\n tool=pathlib.Path('/usr/sbin/lsof');tool_stat=stamp(tool);data=tool.read_bytes()\n report['lsof']={'path':str(tool),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'lstat':tool_stat}\n if len(data)!=470608 or report['lsof']['sha256']!='deff85c7b4750a948a69fcd48eae3b394a37575e5048e5eb4a35b7a0482c3dc8':raise RuntimeError('Frozen lsof identity mismatch')\n parent=pathlib.Path('/private/tmp')\n if parent.resolve()!=parent:raise RuntimeError('TMP parent is not canonical')\n root=parent/('fm-bee-fd.'+''.join(secrets.choice(string.ascii_letters+string.digits) for _ in range(8)))\n root.mkdir(mode=0o700);directories[root]=stamp(root)\n child=root/(''.join(secrets.choice(string.ascii_lowercase) for _ in range(8))+'.'+''.join(secrets.choice(string.ascii_lowercase) for _ in range(3)))\n child.mkdir(mode=0o700);directories[child]=stamp(child)\n for p,s in directories.items():\n  if p.resolve()!=p or not stat.S_ISDIR(s['mode']) or stat.S_IMODE(s['mode'])!=0o700 or s['uid']!=os.getuid():raise RuntimeError('New directory identity mismatch')\n report['directories']={str(p):s for p,s in directories.items()}\n listeners=[];connected=[]\n for channel in ('htc','cth'):\n  p=child/('ipc_'+str(os.getpid())+'_'+channel)\n  if os.path.lexists(p):raise RuntimeError('Socket path unexpectedly exists')\n  s=create_socket();s.bind(str(p));nodes[p]=stamp(p)\n  if not stat.S_ISSOCK(nodes[p]['mode']) or nodes[p]['uid']!=os.getuid():raise RuntimeError('Own bound socket metadata mismatch')\n  s.listen(1)\n  listeners.append({'role':channel+'.listener','socket':s,'path':str(p),'relation':'bound local path'})\n report['socketPreimages']={str(p):s for p,s in nodes.items()}\n observe('1_listening',listeners)\n for item in listeners:\n  budget();client=create_socket();client.connect(item['path'])\n  accepted,address=item['socket'].accept();accepted.settimeout(0.5);sockets.append(accepted)\n  channel=item['role'].split('.')[0]\n  connected.extend([{'role':channel+'.client','socket':client,'path':item['path'],'relation':'connected peer path; local endpoint unbound'},{'role':channel+'.accepted','socket':accepted,'path':item['path'],'relation':'accepted local path'}])\n observe('2_connected_listeners_open',listeners+connected)\n for item in listeners:item['socket'].close()\n observe('3_connected_listeners_closed',connected)\nexcept BaseException as error:\n failure={'type':type(error).__name__,'message':str(error)}\nfinally:\n for s in reversed(sockets):\n  try:\n   fd=s.fileno()\n   if fd>=0:s.close();report['cleanup'].append({'action':'close_owned_fd','fd':fd,'ok':True})\n  except BaseException as error:report['cleanup'].append({'action':'close_owned_fd','ok':False,'error':str(error)})\n for p,original in nodes.items():\n  try:\n   now=stamp(p)\n   if not stable(original,now) or not stat.S_ISSOCK(now['mode']):raise RuntimeError('Socket identity conflict; preserved')\n   p.unlink();report['cleanup'].append({'action':'unlink_owned_socket','path':str(p),'preUnlinkLstat':now,'ok':True})\n  except BaseException as error:report['cleanup'].append({'action':'unlink_owned_socket','path':str(p),'ok':False,'error':str(error)})\n for p in reversed(list(directories)):\n  try:\n   now=stamp(p)\n   if not stable(directories[p],now) or not stat.S_ISDIR(now['mode']):raise RuntimeError('Directory identity conflict; preserved')\n   if list(p.iterdir()):raise RuntimeError('Directory not empty; preserved')\n   p.rmdir();report['cleanup'].append({'action':'remove_owned_empty_directory','path':str(p),'ok':True})\n  except BaseException as error:report['cleanup'].append({'action':'remove_owned_empty_directory','path':str(p),'ok':False,'error':str(error)})\n report['failure']=failure\n report['cleanupComplete']=all(v['ok'] for v in report['cleanup'])\n report['observedLsofCalls']=len(snapshots)\n complete=len(snapshots)==3 and failure is None and report['cleanupComplete']\n exact=complete and all(c['exactFullPathMatch'] and c['unixTypeMatch'] for s in snapshots for c in s['comparisons'])\n report['observationStatus']='EXACT_PATH_OBSERVED' if exact else 'NOT_OBSERVABLE'\n report['executionStatus']='COMPLETED' if complete else 'FAILED'\n report['notProofOfBeeImplementation']=True\n report['finishedEpochThroughCleanup']=time.time();report['finishedMonotonicThroughCleanup']=time.monotonic()\n report['elapsedSecondsThroughCleanup']=report['finishedMonotonicThroughCleanup']-started_mono\n if report['elapsedSecondsThroughCleanup']>15:report['executionStatus']='FAILED';report['deadlineExceeded']=True\n payload=(json.dumps(report,ensure_ascii=False,indent=2)+'\\n').encode()\n if len(payload)>65536:raise RuntimeError('Evidence would exceed64KiB; refused')\n with OUT.open('xb') as f:f.write(payload);f.flush();os.fsync(f.fileno())\n identity={'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}\n end=time.monotonic()\n result={'task':TASK,'actual':ACTUAL,'pid':os.getpid(),'executionStatus':report['executionStatus'],'observationStatus':report['observationStatus'],'failure':failure,'lsofCalls':len(snapshots),'cleanupComplete':report['cleanupComplete'],'elapsedSecondsThroughEvidence':end-started_mono,'within15Seconds':end-started_mono<=15,'probe':{'path':str(OUT),**identity},'comparisonsByStage':[{'stage':s['stage'],'exitCode':s.get('exitCode'),'knownFDs':len(s['knownFDs']),'exactFullPathMatches':sum(c['exactFullPathMatch'] for c in s.get('comparisons',[]))} for s in snapshots]}\n print(json.dumps(result,ensure_ascii=False),flush=True)\n sys.exit(0 if complete and end-started_mono<=15 else 1)\n",
+  "sourceSHA256": "189e9ce947995b51635384d25c5e1fa4f733b4691a5bf1188160e09e16661d08",
+  "inlineCommand": "python3 -B - <<'PY'\nSOURCE = \"import time\\nstarted_mono=time.monotonic()\\nstarted_epoch=time.time()\\nimport os,sys,json,pathlib,hashlib,stat,socket,subprocess,secrets,string,platform,base64,re\\nTASK='RES-BEE-FD-PROBE-001'\\nACTUAL='01a11945-ec1a-7281-8e01-a2f08ffc2c90'\\nR=pathlib.Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\\nE=R/'TestArtifacts/FightMatch/RES-BEE-FD-PROBE-001'\\nOUT=E/'probe.json'\\ndeadline=started_mono+15\\nsockets=[];nodes={};directories={};snapshots=[];failure=None\\ndef stamp(p):\\n s=p.lstat()\\n return {'dev':s.st_dev,'ino':s.st_ino,'uid':s.st_uid,'gid':s.st_gid,'mode':s.st_mode,'size':s.st_size,'mtimeNs':s.st_mtime_ns,'ctimeNs':s.st_ctime_ns}\\ndef stable(a,b):\\n return all(a[k]==b[k] for k in ('dev','ino','uid','gid','mode'))\\ndef budget():\\n if time.monotonic()>=deadline-2:raise TimeoutError('Probe work deadline; cleanup reserve')\\ndef create_socket():\\n budget()\\n s=socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)\\n s.settimeout(0.5);sockets.append(s)\\n return s\\ndef fd_meta(item):\\n s=item['socket'];f=os.fstat(s.fileno())\\n return {'role':item['role'],'fd':s.fileno(),'expectedFullPath':item['path'],'pathRelation':item['relation'],'fstat':{'dev':f.st_dev,'ino':f.st_ino,'uid':f.st_uid,'gid':f.st_gid,'mode':f.st_mode,'isSocket':stat.S_ISSOCK(f.st_mode)},'getsockname':s.getsockname()}\\ndef observe(label,items):\\n budget()\\n argv=['/usr/sbin/lsof','-a','-p',str(os.getpid()),'-U','-Fpcftn']\\n snap={'stage':label,'argv':argv,'startedEpoch':time.time(),'startedMonotonic':time.monotonic(),'knownFDs':[fd_meta(i) for i in items],'pathLstats':{str(p):stamp(p) for p in nodes}}\\n snapshots.append(snap)\\n timeout=min(2,deadline-2-time.monotonic());snap['timeoutSeconds']=timeout\\n if timeout<=0:raise TimeoutError('No lsof time remaining')\\n try:\\n  proc=subprocess.run(argv,capture_output=True,timeout=timeout)\\n  stdout,stderr=proc.stdout,proc.stderr;snap['exitCode']=proc.returncode\\n except subprocess.TimeoutExpired as e:\\n  stdout=e.stdout or b'';stderr=e.stderr or b'';snap['exitCode']=None;snap['timedOut']=True\\n finally:\\n  snap['finishedEpoch']=time.time();snap['finishedMonotonic']=time.monotonic()\\n snap['rawStdout']=stdout.decode('utf-8','replace');snap['rawStderr']=stderr.decode('utf-8','replace')\\n snap['rawStdoutBase64']=base64.b64encode(stdout).decode();snap['rawStderrBase64']=base64.b64encode(stderr).decode()\\n records=[];pid=None;cur=None\\n for line in snap['rawStdout'].splitlines():\\n  if not line:continue\\n  if line[0]=='p':pid=line[1:];cur=None\\n  elif line[0]=='f':\\n   token=line[1:];m=re.fullmatch(r'([0-9]+)[rwu]?',token)\\n   cur={'ownerPid':pid,'fdToken':token,'fd':int(m.group(1)) if m else None,'t':[],'n':[]};records.append(cur)\\n  elif cur is not None and line[0] in ('t','n'):cur[line[0]].append(line[1:])\\n comparisons=[]\\n for known in snap['knownFDs']:\\n  matches=[r for r in records if r['ownerPid']==str(os.getpid()) and r['fd']==known['fd']]\\n  comparisons.append({'role':known['role'],'fd':known['fd'],'expectedFullPath':known['expectedFullPath'],'pathRelation':known['pathRelation'],'matchingFDRecords':matches,'exactFullPathMatch':len(matches)==1 and matches[0]['n']==[known['expectedFullPath']],'unixTypeMatch':len(matches)==1 and matches[0]['t']==['unix']})\\n snap['comparisons']=comparisons\\n snap['afterFDs']=[fd_meta(i) for i in items]\\n snap['allKnownFDsStable']=all(x['fd']==y['fd'] and x['fstat']==y['fstat'] for x,y in zip(snap['knownFDs'],snap['afterFDs']))\\n if snap.get('timedOut'):raise TimeoutError('lsof exceeded its single-call limit')\\n if proc.returncode!=0 or stderr:raise RuntimeError('lsof failed or emitted stderr')\\n if not snap['allKnownFDsStable']:raise RuntimeError('Own FD identity changed during observation')\\n budget()\\ninline_command=\\\"python3 -B - <<'PY'\\\\nSOURCE = \\\"+json.dumps(SOURCE,ensure_ascii=False)+\\\"\\\\nexec(compile(SOURCE, '<RES-BEE-FD-PROBE-001>', 'exec'))\\\\nPY\\\"\\nreport={'task':TASK,'owner':{'thread':'01a0fdbc-bf1e-7780-8f7f-dec13d6d590c','host':'local','turn':ACTUAL},'pid':os.getpid(),'uid':os.getuid(),'platform':platform.platform(),'python':{'executable':sys.executable,'version':sys.version},'source':SOURCE,'sourceSHA256':hashlib.sha256(SOURCE.encode()).hexdigest(),'inlineCommand':inline_command,'inlineCommandSHA256':hashlib.sha256(inline_command.encode()).hexdigest(),'startedEpoch':started_epoch,'startedMonotonic':started_mono,'limitSeconds':15,'maxLsofCalls':3,'snapshots':snapshots,'cleanup':[]}\\nif os.path.lexists(E):raise RuntimeError('Evidence directory must be fresh')\\nE.mkdir(mode=0o700)\\ntry:\\n budget()\\n tool=pathlib.Path('/usr/sbin/lsof');tool_stat=stamp(tool);data=tool.read_bytes()\\n report['lsof']={'path':str(tool),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'lstat':tool_stat}\\n if len(data)!=470608 or report['lsof']['sha256']!='deff85c7b4750a948a69fcd48eae3b394a37575e5048e5eb4a35b7a0482c3dc8':raise RuntimeError('Frozen lsof identity mismatch')\\n parent=pathlib.Path('/private/tmp')\\n if parent.resolve()!=parent:raise RuntimeError('TMP parent is not canonical')\\n root=parent/('fm-bee-fd.'+''.join(secrets.choice(string.ascii_letters+string.digits) for _ in range(8)))\\n root.mkdir(mode=0o700);directories[root]=stamp(root)\\n child=root/(''.join(secrets.choice(string.ascii_lowercase) for _ in range(8))+'.'+''.join(secrets.choice(string.ascii_lowercase) for _ in range(3)))\\n child.mkdir(mode=0o700);directories[child]=stamp(child)\\n for p,s in directories.items():\\n  if p.resolve()!=p or not stat.S_ISDIR(s['mode']) or stat.S_IMODE(s['mode'])!=0o700 or s['uid']!=os.getuid():raise RuntimeError('New directory identity mismatch')\\n report['directories']={str(p):s for p,s in directories.items()}\\n listeners=[];connected=[]\\n for channel in ('htc','cth'):\\n  p=child/('ipc_'+str(os.getpid())+'_'+channel)\\n  if os.path.lexists(p):raise RuntimeError('Socket path unexpectedly exists')\\n  s=create_socket();s.bind(str(p));nodes[p]=stamp(p)\\n  if not stat.S_ISSOCK(nodes[p]['mode']) or nodes[p]['uid']!=os.getuid():raise RuntimeError('Own bound socket metadata mismatch')\\n  s.listen(1)\\n  listeners.append({'role':channel+'.listener','socket':s,'path':str(p),'relation':'bound local path'})\\n report['socketPreimages']={str(p):s for p,s in nodes.items()}\\n observe('1_listening',listeners)\\n for item in listeners:\\n  budget();client=create_socket();client.connect(item['path'])\\n  accepted,address=item['socket'].accept();accepted.settimeout(0.5);sockets.append(accepted)\\n  channel=item['role'].split('.')[0]\\n  connected.extend([{'role':channel+'.client','socket':client,'path':item['path'],'relation':'connected peer path; local endpoint unbound'},{'role':channel+'.accepted','socket':accepted,'path':item['path'],'relation':'accepted local path'}])\\n observe('2_connected_listeners_open',listeners+connected)\\n for item in listeners:item['socket'].close()\\n observe('3_connected_listeners_closed',connected)\\nexcept BaseException as error:\\n failure={'type':type(error).__name__,'message':str(error)}\\nfinally:\\n for s in reversed(sockets):\\n  try:\\n   fd=s.fileno()\\n   if fd>=0:s.close();report['cleanup'].append({'action':'close_owned_fd','fd':fd,'ok':True})\\n  except BaseException as error:report['cleanup'].append({'action':'close_owned_fd','ok':False,'error':str(error)})\\n for p,original in nodes.items():\\n  try:\\n   now=stamp(p)\\n   if not stable(original,now) or not stat.S_ISSOCK(now['mode']):raise RuntimeError('Socket identity conflict; preserved')\\n   p.unlink();report['cleanup'].append({'action':'unlink_owned_socket','path':str(p),'preUnlinkLstat':now,'ok':True})\\n  except BaseException as error:report['cleanup'].append({'action':'unlink_owned_socket','path':str(p),'ok':False,'error':str(error)})\\n for p in reversed(list(directories)):\\n  try:\\n   now=stamp(p)\\n   if not stable(directories[p],now) or not stat.S_ISDIR(now['mode']):raise RuntimeError('Directory identity conflict; preserved')\\n   if list(p.iterdir()):raise RuntimeError('Directory not empty; preserved')\\n   p.rmdir();report['cleanup'].append({'action':'remove_owned_empty_directory','path':str(p),'ok':True})\\n  except BaseException as error:report['cleanup'].append({'action':'remove_owned_empty_directory','path':str(p),'ok':False,'error':str(error)})\\n report['failure']=failure\\n report['cleanupComplete']=all(v['ok'] for v in report['cleanup'])\\n report['observedLsofCalls']=len(snapshots)\\n complete=len(snapshots)==3 and failure is None and report['cleanupComplete']\\n exact=complete and all(c['exactFullPathMatch'] and c['unixTypeMatch'] for s in snapshots for c in s['comparisons'])\\n report['observationStatus']='EXACT_PATH_OBSERVED' if exact else 'NOT_OBSERVABLE'\\n report['executionStatus']='COMPLETED' if complete else 'FAILED'\\n report['notProofOfBeeImplementation']=True\\n report['finishedEpochThroughCleanup']=time.time();report['finishedMonotonicThroughCleanup']=time.monotonic()\\n report['elapsedSecondsThroughCleanup']=report['finishedMonotonicThroughCleanup']-started_mono\\n if report['elapsedSecondsThroughCleanup']>15:report['executionStatus']='FAILED';report['deadlineExceeded']=True\\n payload=(json.dumps(report,ensure_ascii=False,indent=2)+'\\\\n').encode()\\n if len(payload)>65536:raise RuntimeError('Evidence would exceed64KiB; refused')\\n with OUT.open('xb') as f:f.write(payload);f.flush();os.fsync(f.fileno())\\n identity={'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}\\n end=time.monotonic()\\n result={'task':TASK,'actual':ACTUAL,'pid':os.getpid(),'executionStatus':report['executionStatus'],'observationStatus':report['observationStatus'],'failure':failure,'lsofCalls':len(snapshots),'cleanupComplete':report['cleanupComplete'],'elapsedSecondsThroughEvidence':end-started_mono,'within15Seconds':end-started_mono<=15,'probe':{'path':str(OUT),**identity},'comparisonsByStage':[{'stage':s['stage'],'exitCode':s.get('exitCode'),'knownFDs':len(s['knownFDs']),'exactFullPathMatches':sum(c['exactFullPathMatch'] for c in s.get('comparisons',[]))} for s in snapshots]}\\n print(json.dumps(result,ensure_ascii=False),flush=True)\\n sys.exit(0 if complete and end-started_mono<=15 else 1)\\n\"\nexec(compile(SOURCE, '<RES-BEE-FD-PROBE-001>', 'exec'))\nPY",
+  "inlineCommandSHA256": "29f8fd5194e6b4860e1ff3f93a15c97cb52aeed0eafc430fe7387a4b0f217da1",
+  "startedEpoch": 1791425577.842228,
+  "startedMonotonic": 83123.849671708,
+  "limitSeconds": 15,
+  "maxLsofCalls": 3,
+  "snapshots": [
+    {
+      "stage": "1_listening",
+      "argv": [
+        "/usr/sbin/lsof",
+        "-a",
+        "-p",
+        "63322",
+        "-U",
+        "-Fpcftn"
+      ],
+      "startedEpoch": 1791425577.8807302,
+      "startedMonotonic": 83123.888173333,
+      "knownFDs": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10381,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10382,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        }
+      ],
+      "pathLstats": {
+        "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc": {
+          "dev": 16777232,
+          "ino": 34701110,
+          "uid": 501,
+          "gid": 0,
+          "mode": 49645,
+          "size": 0,
+          "mtimeNs": 1791425577880656825,
+          "ctimeNs": 1791425577880667617
+        },
+        "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth": {
+          "dev": 16777232,
+          "ino": 34701111,
+          "uid": 501,
+          "gid": 0,
+          "mode": 49645,
+          "size": 0,
+          "mtimeNs": 1791425577880707367,
+          "ctimeNs": 1791425577880717908
+        }
+      },
+      "timeoutSeconds": 2,
+      "exitCode": 0,
+      "finishedEpoch": 1791425577.8932679,
+      "finishedMonotonic": 83123.900712291,
+      "rawStdout": "p63322\ncPython\nf3\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf4\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\n",
+      "rawStderr": "",
+      "rawStdoutBase64": "cDYzMzIyCmNQeXRob24KZjMKdHVuaXgKbi9wcml2YXRlL3RtcC9mbS1iZWUtZmQudVBCUGhZcmEvaXlyaGJzcmMuc21oL2lwY182MzMyMl9odGMKZjQKdHVuaXgKbi9wcml2YXRlL3RtcC9mbS1iZWUtZmQudVBCUGhZcmEvaXlyaGJzcmMuc21oL2lwY182MzMyMl9jdGgK",
+      "rawStderrBase64": "",
+      "comparisons": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "3",
+              "fd": 3,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "4",
+              "fd": 4,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        }
+      ],
+      "afterFDs": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10381,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10382,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        }
+      ],
+      "allKnownFDsStable": true
+    },
+    {
+      "stage": "2_connected_listeners_open",
+      "argv": [
+        "/usr/sbin/lsof",
+        "-a",
+        "-p",
+        "63322",
+        "-U",
+        "-Fpcftn"
+      ],
+      "startedEpoch": 1791425577.8934321,
+      "startedMonotonic": 83123.900875708,
+      "knownFDs": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10381,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10382,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        },
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10383,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10384,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10385,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10386,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        }
+      ],
+      "pathLstats": {
+        "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc": {
+          "dev": 16777232,
+          "ino": 34701110,
+          "uid": 501,
+          "gid": 0,
+          "mode": 49645,
+          "size": 0,
+          "mtimeNs": 1791425577880656825,
+          "ctimeNs": 1791425577880667617
+        },
+        "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth": {
+          "dev": 16777232,
+          "ino": 34701111,
+          "uid": 501,
+          "gid": 0,
+          "mode": 49645,
+          "size": 0,
+          "mtimeNs": 1791425577880707367,
+          "ctimeNs": 1791425577880717908
+        }
+      },
+      "timeoutSeconds": 2,
+      "exitCode": 0,
+      "finishedEpoch": 1791425577.905482,
+      "finishedMonotonic": 83123.912926208,
+      "rawStdout": "p63322\ncPython\nf3\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf4\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\nf5\ntunix\nn->0xfbd8628cd4a1de0\nf6\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf7\ntunix\nn->0x72f75e89e5bae1db\nf8\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\n",
+      "rawStderr": "",
+      "rawStdoutBase64": "cDYzMzIyCmNQeXRob24KZjMKdHVuaXgKbi9wcml2YXRlL3RtcC9mbS1iZWUtZmQudVBCUGhZcmEvaXlyaGJzcmMuc21oL2lwY182MzMyMl9odGMKZjQKdHVuaXgKbi9wcml2YXRlL3RtcC9mbS1iZWUtZmQudVBCUGhZcmEvaXlyaGJzcmMuc21oL2lwY182MzMyMl9jdGgKZjUKdHVuaXgKbi0+MHhmYmQ4NjI4Y2Q0YTFkZTAKZjYKdHVuaXgKbi9wcml2YXRlL3RtcC9mbS1iZWUtZmQudVBCUGhZcmEvaXlyaGJzcmMuc21oL2lwY182MzMyMl9odGMKZjcKdHVuaXgKbi0+MHg3MmY3NWU4OWU1YmFlMWRiCmY4CnR1bml4Cm4vcHJpdmF0ZS90bXAvZm0tYmVlLWZkLnVQQlBoWXJhL2l5cmhic3JjLnNtaC9pcGNfNjMzMjJfY3RoCg==",
+      "rawStderrBase64": "",
+      "comparisons": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "3",
+              "fd": 3,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "4",
+              "fd": 4,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "5",
+              "fd": 5,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0xfbd8628cd4a1de0"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "6",
+              "fd": 6,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "7",
+              "fd": 7,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0x72f75e89e5bae1db"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "8",
+              "fd": 8,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        }
+      ],
+      "afterFDs": [
+        {
+          "role": "htc.listener",
+          "fd": 3,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10381,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.listener",
+          "fd": 4,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "bound local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10382,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        },
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10383,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10384,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10385,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10386,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        }
+      ],
+      "allKnownFDsStable": true
+    },
+    {
+      "stage": "3_connected_listeners_closed",
+      "argv": [
+        "/usr/sbin/lsof",
+        "-a",
+        "-p",
+        "63322",
+        "-U",
+        "-Fpcftn"
+      ],
+      "startedEpoch": 1791425577.9055429,
+      "startedMonotonic": 83123.912986166,
+      "knownFDs": [
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10383,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10384,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10385,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10386,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        }
+      ],
+      "pathLstats": {
+        "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc": {
+          "dev": 16777232,
+          "ino": 34701110,
+          "uid": 501,
+          "gid": 0,
+          "mode": 49645,
+          "size": 0,
+          "mtimeNs": 1791425577880656825,
+          "ctimeNs": 1791425577880667617
+        },
+        "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth": {
+          "dev": 16777232,
+          "ino": 34701111,
+          "uid": 501,
+          "gid": 0,
+          "mode": 49645,
+          "size": 0,
+          "mtimeNs": 1791425577880707367,
+          "ctimeNs": 1791425577880717908
+        }
+      },
+      "timeoutSeconds": 2,
+      "exitCode": 0,
+      "finishedEpoch": 1791425577.917585,
+      "finishedMonotonic": 83123.925028958,
+      "rawStdout": "p63322\ncPython\nf5\ntunix\nn->0xfbd8628cd4a1de0\nf6\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc\nf7\ntunix\nn->0x72f75e89e5bae1db\nf8\ntunix\nn/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth\n",
+      "rawStderr": "",
+      "rawStdoutBase64": "cDYzMzIyCmNQeXRob24KZjUKdHVuaXgKbi0+MHhmYmQ4NjI4Y2Q0YTFkZTAKZjYKdHVuaXgKbi9wcml2YXRlL3RtcC9mbS1iZWUtZmQudVBCUGhZcmEvaXlyaGJzcmMuc21oL2lwY182MzMyMl9odGMKZjcKdHVuaXgKbi0+MHg3MmY3NWU4OWU1YmFlMWRiCmY4CnR1bml4Cm4vcHJpdmF0ZS90bXAvZm0tYmVlLWZkLnVQQlBoWXJhL2l5cmhic3JjLnNtaC9pcGNfNjMzMjJfY3RoCg==",
+      "rawStderrBase64": "",
+      "comparisons": [
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "5",
+              "fd": 5,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0xfbd8628cd4a1de0"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "6",
+              "fd": 6,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "7",
+              "fd": 7,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "->0x72f75e89e5bae1db"
+              ]
+            }
+          ],
+          "exactFullPathMatch": false,
+          "unixTypeMatch": true
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "matchingFDRecords": [
+            {
+              "ownerPid": "63322",
+              "fdToken": "8",
+              "fd": 8,
+              "t": [
+                "unix"
+              ],
+              "n": [
+                "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+              ]
+            }
+          ],
+          "exactFullPathMatch": true,
+          "unixTypeMatch": true
+        }
+      ],
+      "afterFDs": [
+        {
+          "role": "htc.client",
+          "fd": 5,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10383,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "htc.accepted",
+          "fd": 6,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10384,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc"
+        },
+        {
+          "role": "cth.client",
+          "fd": 7,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "connected peer path; local endpoint unbound",
+          "fstat": {
+            "dev": -1,
+            "ino": 10385,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": ""
+        },
+        {
+          "role": "cth.accepted",
+          "fd": 8,
+          "expectedFullPath": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+          "pathRelation": "accepted local path",
+          "fstat": {
+            "dev": -1,
+            "ino": 10386,
+            "uid": 501,
+            "gid": 20,
+            "mode": 49590,
+            "isSocket": true
+          },
+          "getsockname": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth"
+        }
+      ],
+      "allKnownFDsStable": true
+    }
+  ],
+  "cleanup": [
+    {
+      "action": "close_owned_fd",
+      "fd": 8,
+      "ok": true
+    },
+    {
+      "action": "close_owned_fd",
+      "fd": 7,
+      "ok": true
+    },
+    {
+      "action": "close_owned_fd",
+      "fd": 6,
+      "ok": true
+    },
+    {
+      "action": "close_owned_fd",
+      "fd": 5,
+      "ok": true
+    },
+    {
+      "action": "unlink_owned_socket",
+      "path": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc",
+      "preUnlinkLstat": {
+        "dev": 16777232,
+        "ino": 34701110,
+        "uid": 501,
+        "gid": 0,
+        "mode": 49645,
+        "size": 0,
+        "mtimeNs": 1791425577880656825,
+        "ctimeNs": 1791425577880667617
+      },
+      "ok": true
+    },
+    {
+      "action": "unlink_owned_socket",
+      "path": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth",
+      "preUnlinkLstat": {
+        "dev": 16777232,
+        "ino": 34701111,
+        "uid": 501,
+        "gid": 0,
+        "mode": 49645,
+        "size": 0,
+        "mtimeNs": 1791425577880707367,
+        "ctimeNs": 1791425577880717908
+      },
+      "ok": true
+    },
+    {
+      "action": "remove_owned_empty_directory",
+      "path": "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh",
+      "ok": true
+    },
+    {
+      "action": "remove_owned_empty_directory",
+      "path": "/private/tmp/fm-bee-fd.uPBPhYra",
+      "ok": true
+    }
+  ],
+  "lsof": {
+    "path": "/usr/sbin/lsof",
+    "bytes": 470608,
+    "sha256": "deff85c7b4750a948a69fcd48eae3b394a37575e5048e5eb4a35b7a0482c3dc8",
+    "lstat": {
+      "dev": 16777232,
+      "ino": 1152921500312612110,
+      "uid": 0,
+      "gid": 0,
+      "mode": 33261,
+      "size": 470608,
+      "mtimeNs": 1790233837000000000,
+      "ctimeNs": 1790233837000000000
+    }
+  },
+  "directories": {
+    "/private/tmp/fm-bee-fd.uPBPhYra": {
+      "dev": 16777232,
+      "ino": 34701108,
+      "uid": 501,
+      "gid": 0,
+      "mode": 16832,
+      "size": 64,
+      "mtimeNs": 1791425577880499907,
+      "ctimeNs": 1791425577880519449
+    },
+    "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh": {
+      "dev": 16777232,
+      "ino": 34701109,
+      "uid": 501,
+      "gid": 0,
+      "mode": 16832,
+      "size": 64,
+      "mtimeNs": 1791425577880563241,
+      "ctimeNs": 1791425577880575116
+    }
+  },
+  "socketPreimages": {
+    "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_htc": {
+      "dev": 16777232,
+      "ino": 34701110,
+      "uid": 501,
+      "gid": 0,
+      "mode": 49645,
+      "size": 0,
+      "mtimeNs": 1791425577880656825,
+      "ctimeNs": 1791425577880667617
+    },
+    "/private/tmp/fm-bee-fd.uPBPhYra/iyrhbsrc.smh/ipc_63322_cth": {
+      "dev": 16777232,
+      "ino": 34701111,
+      "uid": 501,
+      "gid": 0,
+      "mode": 49645,
+      "size": 0,
+      "mtimeNs": 1791425577880707367,
+      "ctimeNs": 1791425577880717908
+    }
+  },
+  "failure": null,
+  "cleanupComplete": true,
+  "observedLsofCalls": 3,
+  "observationStatus": "NOT_OBSERVABLE",
+  "executionStatus": "COMPLETED",
+  "notProofOfBeeImplementation": true,
+  "finishedEpochThroughCleanup": 1791425577.917876,
+  "finishedMonotonicThroughCleanup": 83123.925320125,
+  "elapsedSecondsThroughCleanup": 0.07564841699786484
+}

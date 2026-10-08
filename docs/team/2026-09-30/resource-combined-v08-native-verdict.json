@@ -1,0 +1,113 @@
+{
+  "task": "RES-COMBINED-V08-NATIVE",
+  "verdict": "NEEDS_FIX",
+  "actual": "01a11a65-5b5a-7ac2-a8bf-fdcbec225ff1",
+  "rawToolId": "exec-ebfb85da-6807-4e31-8683-7a02302dc705",
+  "sourceHead": "a360ad864171a3b49f7785ab7c797028d583d5c0",
+  "sourceReviewResult": 6054341623,
+  "osExit": 1,
+  "externalStartMonotonic": 101901.355720625,
+  "externalEndMonotonic": 102065.720362583,
+  "runnerSeconds": 164.36464195800363,
+  "preparationSeconds": 160,
+  "totalSeconds": 324.36464195800363,
+  "receipt": {
+    "bytes": 78531,
+    "sha256": "2e8e402edee1b8d6f70481ecac71e277eaca4a38fddbc4ec794a6fcf36b3efb4"
+  },
+  "failure": "More than one current SDK ADB server; Final monitor gate",
+  "launchCounts": {
+    "I": 1,
+    "T": 1
+  },
+  "stages": [
+    {
+      "stage": "I",
+      "status": "COMPILE_PASS",
+      "runCount": 1,
+      "exitCode": 0,
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-quit",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/run/I/editor.log"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+      "environmentOverrides": {
+        "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+        "TMPDIR": "/private/tmp/fm-rcv8.YcrVUAiK",
+        "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/bee-cache",
+        "DOTNET_EnableDiagnostics": "0"
+      },
+      "startedUtc": "2026-10-08T07:26:03.063744+00:00",
+      "pid": 89375,
+      "editorSeconds": 31.592184249995626,
+      "elapsedSecondsIncludingClosure": 88.67707933299243,
+      "finishedUtc": "2026-10-08T07:27:34.811788+00:00",
+      "failure": null
+    },
+    {
+      "stage": "T",
+      "status": "FAILED",
+      "runCount": 1,
+      "exitCode": 0,
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testFilter",
+        "^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceReleaseSetTests($|[.]);^FightMatch[.]Host[.]Tests[.]FightMatchResourceActivationStoreTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetProviderTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeTests($|[.])",
+        "-testResults",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/run/T/results.xml",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/run/T/editor.log"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+      "environmentOverrides": {
+        "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+        "TMPDIR": "/private/tmp/fm-rcv8.YcrVUAiK",
+        "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/bee-cache",
+        "DOTNET_EnableDiagnostics": "0"
+      },
+      "startedUtc": "2026-10-08T07:27:41.178973+00:00",
+      "pid": 89983,
+      "elapsedSecondsIncludingClosure": 43.178329082991695,
+      "finishedUtc": "2026-10-08T07:28:29.036219+00:00",
+      "failure": "More than one current SDK ADB server"
+    }
+  ],
+  "reportedXml": {
+    "passed": 89,
+    "failed": 0,
+    "skipped": 0,
+    "qaPending": false
+  },
+  "restoreReported": {
+    "complete": true,
+    "sourceLeaves": 1035,
+    "compilerRestored": 43,
+    "closureClosed": true,
+    "remainingOwned": []
+  },
+  "qaPending": false,
+  "next": "Reuse verified 12-assembly and 89-test evidence; source-only SDK ADB lifecycle fix and GitHub review; do not repeat whole I/T by default",
+  "qaReceipt": "testing-resource-combined-v08-native-receipt.json",
+  "qaActual": "01a11a6e-7018-7d73-a5f3-e36aeb3bff9e",
+  "asClarificationPending": false,
+  "asClarificationReceipt": "testing-resource-combined-v08-as-clarification.json",
+  "asClarificationActual": "01a11a77-cef4-7a32-bfbf-3db19e8fc139",
+  "asResult": "AS06/AS07 contract-scoped real filesystem and symlink assertions supported by exact source, actual OSX compiler branch and Passed XML; no actual process-restart claim"
+}

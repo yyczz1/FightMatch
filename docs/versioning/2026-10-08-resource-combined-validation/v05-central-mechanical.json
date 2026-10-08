@@ -1,0 +1,58 @@
+{
+  "task": "V05 mechanical scope receipt",
+  "protectedSections": 10,
+  "fixedReferences": 20,
+  "reconstructedChanges": 157,
+  "changedFunctions": [
+    "bee_ipc_entry",
+    "cmd",
+    "details",
+    "register",
+    "adb_exception",
+    "sdk_adb_exception"
+  ],
+  "addedFunctions": [
+    "blocking_probe_timeout",
+    "bee_capture_output",
+    "bee_observation_event",
+    "bee_fd_binding"
+  ],
+  "unchangedFunctions": 87,
+  "mainInputSealOnlyChanged": true,
+  "parserAndPriorFixesUnchanged": true,
+  "exitContractSame": true,
+  "retainedState": {
+    "bytes": 136080,
+    "sha256": "e7abae99c3c86f129ca1ee17e28423ff2a0fbd68d78caf9ef73153b6b43378e8"
+  },
+  "seals": {
+    "runner.py": {
+      "bytes": 97248,
+      "sha256": "cbcb2f26de2432fd8bada0418874c4f464c5d8fcb75ee3a770682fa1df60a43c"
+    },
+    "replay-check.py": {
+      "bytes": 46779,
+      "sha256": "7510565ba136c2acd64526810de117d655c57b1e24e42e386337c5cbd7196f5d"
+    },
+    "replay-results.json": {
+      "bytes": 290549,
+      "sha256": "fd5a0b1e8c487bd56a7311a5c214bda6e8e695d5ac2143403b6d914f52865e16"
+    },
+    "inputs.json": {
+      "bytes": 1246296,
+      "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
+    },
+    "preparation.json": {
+      "bytes": 122725,
+      "sha256": "7d751f0e336e3fe6f7a2ce0e9b93f9bd957835c4bdc031da864a35692de13355"
+    }
+  },
+  "replay": {
+    "passed": 37,
+    "rounds": 2,
+    "seconds": 3.7207605010044063,
+    "firstRoundStatus": "SOURCE_REPLAY_FAILED"
+  },
+  "nativeRuns": 0,
+  "seconds": 0.0792314160062233
+}

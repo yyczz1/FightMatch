@@ -1,0 +1,420 @@
+{
+  "task": "RES-COMBINED-V08",
+  "status": "SOURCE_REPLAY_PASS",
+  "deliveryStatus": "SOURCE_READY",
+  "owner": {
+    "role": "source implementer",
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a11a22-678b-7b43-a80c-179df9eda21a",
+    "requestedModel": "gpt-6-astra",
+    "requestedEffort": "xhigh",
+    "returnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "returnRoute": "This chat final only; central wait_threads receives completion.",
+  "preparedUtc": "2026-10-08T06:13:32.042688+00:00",
+  "mechanicalPreparationSeconds": 160,
+  "authority": {
+    "packet": "docs/team/2026-09-30/central-resource-combined-v08-fix01.md",
+    "packetSeal": {
+      "bytes": 2102,
+      "sha256": "173bd4fb6bec04e5d3f598d30de8c9b1c91530a77a7c09d3296e4ee78eeb5413"
+    },
+    "reviewedBaselineHead": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+    "independentFinding": {
+      "reviewId": 5452286080,
+      "findingId": 4215462510,
+      "reviewedHead": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4215462510"
+    },
+    "reviewReceipt": {
+      "path": "docs/team/2026-09-30/testing-resource-combined-pr20-v08-review-receipt.json",
+      "bytes": 3881,
+      "sha256": "308571d002b5cc683ba4d54b9bf01533485c5a7ae86c6175a6e9e9eab70c7f96"
+    },
+    "namingCorrection": "The reviewed cwd parser is in details; central corrected the packet during this turn. No second repair or replay was started."
+  },
+  "baseline": {
+    "root": "TestArtifacts/FightMatch/RES-COMBINED-V08/source-before-fix01",
+    "sourceIdentities": {
+      "runner.py": {
+        "bytes": 114230,
+        "sha256": "5a1c83a7875f7132cb9769c3ce11721cb4cecc60d2a07b3b3b133a0de894631b"
+      },
+      "inputs.json": {
+        "bytes": 1254426,
+        "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+      },
+      "preparation.json": {
+        "bytes": 87230,
+        "sha256": "74deaf1c7fad45f5045e526820b5b8a6ba6a51f9065eed210dd35fb05b2b2852"
+      },
+      "replay-check.py": {
+        "bytes": 92638,
+        "sha256": "ca833c36e5ce15ae7fab448846eba987393ad60809a71547c5524369562d42e5"
+      },
+      "replay-results.json": {
+        "bytes": 464062,
+        "sha256": "363bb0bbe99892da21ba1e5f74481ffa6557f69dede4bdddd55c1bf67e30b06a"
+      }
+    }
+  },
+  "readOnlyPreparation": {
+    "sourcePreimages": 1035,
+    "compilerPreimages": 43,
+    "status": "PASS",
+    "seconds": 0.17223741600173526,
+    "stateBefore": {
+      "Library/Bee/TundraBuildState.state": {
+        "bytes": 136080,
+        "sha256": "0cb2ae0624d43dedcd32d7a90f21fa42e4321e93b33dc1498ea8e27f26253016"
+      },
+      "Library/Bee/bee_backend.info": {
+        "bytes": 127,
+        "sha256": "cd510c4af398ab352e5bd1fdb74a06658814c4e8da952cb8c068909ac45e87d1"
+      }
+    },
+    "stateCurrent": {
+      "Library/Bee/TundraBuildState.state": {
+        "bytes": 136080,
+        "sha256": "a2a3f660349eb118ed1071c7a2d1909d91075878dff4490bded2c2edd3e3ab4f"
+      },
+      "Library/Bee/bee_backend.info": {
+        "bytes": 127,
+        "sha256": "cd510c4af398ab352e5bd1fdb74a06658814c4e8da952cb8c068909ac45e87d1"
+      }
+    },
+    "packageCacheScan": false,
+    "writes": 0
+  },
+  "activationContract": {
+    "created": false,
+    "task": "RES-COMBINED-V08",
+    "statusRequired": "EXECUTION_BOUND",
+    "executorThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "freshTurn": true,
+    "requiredFields": [
+      "task",
+      "status",
+      "executionOwner",
+      "runner",
+      "seals.inputs",
+      "seals.preparation",
+      "seals.replay-check",
+      "seals.replay-results",
+      "sourceReview.runner",
+      "sourceReview.status=ACCEPT",
+      "sourceReview.head",
+      "sourceReview.resultUrl",
+      "projectRoot",
+      "cwd",
+      "cacheRoot",
+      "editor",
+      "stages",
+      "stopping",
+      "environmentOverrides",
+      "tmpIdentity",
+      "adbException",
+      "sdkAdb"
+    ],
+    "tmpIdentityFields": [
+      "dev",
+      "ino",
+      "uid",
+      "gid"
+    ],
+    "roots": {
+      "R": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "P": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+      "K": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+      "executionEvidence": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/run",
+      "newBeeCache": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/bee-cache",
+      "activationTests": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V08/state-tests"
+    },
+    "tmpPrefix": "/private/tmp/fm-rcv8.XXXXXXXX",
+    "environmentBoth": {
+      "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+      "TMPDIR": "fresh canonical /private/tmp/fm-rcv8.XXXXXXXX, actual path sealed at activation",
+      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V08/bee-cache",
+      "DOTNET_EnableDiagnostics": "0"
+    },
+    "environmentTOnly": {
+      "FIGHTMATCH_ACTIVATION_TEST_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V08/state-tests"
+    },
+    "adb": "Freshly re-seal every inherited narrow exception field against the current host; no old approval is reusable.",
+    "completionObservation": {
+      "receiptStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+      "stdoutStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+      "validationStatusRequired": "TEST_PASS",
+      "failureMustBeAbsent": true,
+      "exactReceiptHashRequired": true,
+      "actualProcessExitCodeRequired": 0,
+      "externalClock": "C records monotonic start before invoking the runner and process completion after wait/exit; add the carried preparation160.",
+      "totalMaximumSeconds": 900,
+      "receiptMeasurement": "mechanicalExecutionSecondsThroughEvidence includes all earlier evidence writes/hashes; excludes receipt and stdout.",
+      "stdoutMeasurement": "mechanicalExecutionSecondsThroughReceiptHash includes receipt serialization/write/close/hash; excludes stdout flush and OS exit.",
+      "afterStdoutFlush": "Deadline checked again; overrun returns1 even after a provisional stdout record.",
+      "newOutputPaths": [],
+      "failureRetention": "Completed/partial existing evidence remains; one stdout failure/completion attempt; no recursive receipt rewrite or retry."
+    }
+  },
+  "completionObservationContract": {
+    "receiptStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+    "stdoutStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+    "validationStatusRequired": "TEST_PASS",
+    "failureMustBeAbsent": true,
+    "exactReceiptHashRequired": true,
+    "actualProcessExitCodeRequired": 0,
+    "externalClock": "C records monotonic start before invoking the runner and process completion after wait/exit; add the carried preparation160.",
+    "totalMaximumSeconds": 900,
+    "receiptMeasurement": "mechanicalExecutionSecondsThroughEvidence includes all earlier evidence writes/hashes; excludes receipt and stdout.",
+    "stdoutMeasurement": "mechanicalExecutionSecondsThroughReceiptHash includes receipt serialization/write/close/hash; excludes stdout flush and OS exit.",
+    "afterStdoutFlush": "Deadline checked again; overrun returns1 even after a provisional stdout record.",
+    "newOutputPaths": [],
+    "failureRetention": "Completed/partial existing evidence remains; one stdout failure/completion attempt; no recursive receipt rewrite or retry."
+  },
+  "replayContract": {
+    "maximumRounds": 2,
+    "maximumSecondsPerRound": 30,
+    "maximumCumulativeSeconds": 60,
+    "firstGreenStops": true,
+    "retryOnlyFailedAndUnrun": true
+  },
+  "limitations": {
+    "nativeRuns": 0,
+    "realProcessCalls": 0,
+    "realSignals": 0,
+    "realSockets": 0,
+    "activationCreated": false,
+    "productWrites": 0,
+    "gitWrites": 0,
+    "v07NativeStatus": "FAILED",
+    "v07TStarts": 0,
+    "githubReview": "PENDING_INDEPENDENT_EXACT_HEAD"
+  },
+  "selfIdentity": "Final preparation bytes/SHA256 returned externally; no circular self hash.",
+  "sealedUtc": "2026-10-08T06:13:32.042688+00:00",
+  "sourceIdentities": {
+    "runner.py": {
+      "bytes": 114245,
+      "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+    },
+    "inputs.json": {
+      "bytes": 1254426,
+      "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+    },
+    "replay-check.py": {
+      "bytes": 92286,
+      "sha256": "abcc293dfd479486d5c3f6a1aa7816bb8c40d90adc769299ad2c124f40942f6a"
+    },
+    "replay-results.json": {
+      "bytes": 130081,
+      "sha256": "ba0fafb9f81e59d98aa9b1555004e699bc0b32a5bf42f18b0f531c3fd4f04a2f"
+    }
+  },
+  "activationSourceBindings": {
+    "runner": {
+      "bytes": 114245,
+      "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+    },
+    "seals": {
+      "inputs": {
+        "bytes": 1254426,
+        "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+      },
+      "replay-check": {
+        "bytes": 92286,
+        "sha256": "abcc293dfd479486d5c3f6a1aa7816bb8c40d90adc769299ad2c124f40942f6a"
+      },
+      "replay-results": {
+        "bytes": 130081,
+        "sha256": "ba0fafb9f81e59d98aa9b1555004e699bc0b32a5bf42f18b0f531c3fd4f04a2f"
+      }
+    },
+    "preparationSeal": "Final external seal required; no activation created."
+  },
+  "exactBaseDiff": {
+    "functions": {
+      "changed": [
+        "details"
+      ],
+      "added": [],
+      "removed": [],
+      "unchangedCount": 103,
+      "astSeals": {
+        "details": {
+          "before": "e1ded157ff5a055f19f6e20e9fc3ebda88fe3ae35352e7e78de22ff8a84568b1",
+          "after": "dc6715837e2dd22d6ca58246951633490c385ff858e22f87e8d609a6ba520be8"
+        }
+      }
+    },
+    "inputChanges": [],
+    "inputChangeCount": 0,
+    "inputsByteIdentical": true,
+    "sdkFunctionUnchanged": true,
+    "alreadyOwnedGateUnchanged": true,
+    "closureAndRestoreUnchanged": true,
+    "behavior": "A cwd n field requires the target PID and a preceding valid fcwd descriptor. Missing descriptor/name-before-descriptor remains a parser error with no fresh-absence exemption or owned/signal authority."
+  },
+  "staticValidation": {
+    "status": "PASS",
+    "syntax": "PASS via in-memory compilation",
+    "onlyChangedRunnerFunction": "details",
+    "remainingFunctionsUnchanged": true,
+    "inputBytesUnchanged": true,
+    "snapshotFiveExact": true,
+    "frozenRunnerCheckerInputMatchReplay": true,
+    "budgetsAndAlgorithmsOtherwiseUnchanged": true
+  },
+  "offline": {
+    "status": "SOURCE_REPLAY_PASS",
+    "rounds": 1,
+    "passedCases": 15,
+    "seconds": 2.0377913330012234,
+    "cumulativeSeconds": 2.0377913330012234,
+    "cases": [
+      "FIX01 cwd descriptor cwd-missing-descriptor",
+      "FIX01 cwd descriptor cwd-name-before-descriptor",
+      "FIX01 cwd descriptor cwd-descriptor-before-pid",
+      "FIX01 cwd descriptor cwd-other-descriptor",
+      "FIX01 cwd descriptor cwd-incomplete-pid",
+      "FIX01 cwd descriptor cwd-wrongpid",
+      "FIX01 cwd descriptor cwd-truncated",
+      "FIX01 cwd descriptor complete",
+      "FIX01 cwd descriptor cwd-empty",
+      "FIX01 cwd descriptor cwd-pid-only",
+      "FIX01 cwd descriptor cwd-exit1",
+      "FIX01 cwd descriptor present",
+      "FIX01 cwd descriptor zombie",
+      "FIX01 cwd descriptor reused",
+      "FIX01 SDK complete actual details"
+    ],
+    "actualFunctionsCalled": [
+      "<genexpr>",
+      "<lambda>",
+      "<module>",
+      "BeeObservationIncomplete",
+      "ChildArgsProbeError",
+      "IdentityProbeIncomplete",
+      "NaturalGraceExpired",
+      "__init__",
+      "alive",
+      "blocking_probe_timeout",
+      "bound_detail",
+      "check",
+      "child_args",
+      "consumer_guard",
+      "details",
+      "discover",
+      "identity_args",
+      "identity_event",
+      "identity_sample",
+      "monitor",
+      "no_links",
+      "probe_timeout",
+      "recorded_chain",
+      "recover_root",
+      "register",
+      "sdk_adb_exception",
+      "snapshot_consumers"
+    ],
+    "forbiddenAttempts": [],
+    "preservedConflicts": [],
+    "fullHistoricalSuitesRerun": false,
+    "runnerExecutedNatively": false,
+    "sourceFrozenBeforeReplay": {
+      "runner": {
+        "bytes": 114245,
+        "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+      },
+      "checker": {
+        "bytes": 92286,
+        "sha256": "abcc293dfd479486d5c3f6a1aa7816bb8c40d90adc769299ad2c124f40942f6a"
+      }
+    }
+  },
+  "evidenceReuse": {
+    "original56": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V08/source-before-fix01/replay-results.json",
+      "bytes": 464062,
+      "sha256": "363bb0bbe99892da21ba1e5f74481ffa6557f69dede4bdddd55c1bf67e30b06a",
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": 56
+    },
+    "fullSuiteRerun": false
+  },
+  "review": {
+    "status": "PENDING_INDEPENDENT_GITHUB_EXACT_HEAD",
+    "addressedFinding": {
+      "reviewId": 5452286080,
+      "findingId": 4215462510,
+      "reviewedHead": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4215462510"
+    },
+    "sourceAuthorAcceptance": false
+  },
+  "previousNative": {
+    "status": "FAILED",
+    "TStarts": 0,
+    "mechanicalExecutionSeconds": 95.126369,
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V07/run/receipt.json",
+      "bytes": 75940,
+      "sha256": "2e72eec4fcc8c6695aead816cac7d692153cdb47af15e46a90351b364d0c37d2"
+    },
+    "qaReceipt": {
+      "path": "docs/team/2026-09-30/testing-resource-combined-v07-native-receipt.json",
+      "bytes": 2264,
+      "sha256": "27311ef0c354176539a4095d3e19114e6613a6b11e32b90fb317ecaf692cf675"
+    },
+    "actual82401MissingFieldsKnown": false,
+    "laterAbsenceDoesNotChangeFailure": true
+  },
+  "deliveryWallSecondsThroughSealing": 188.0451021194458,
+  "previousDelivery": {
+    "preparation": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V08/source-before-fix01/preparation.json",
+      "bytes": 87230,
+      "sha256": "74deaf1c7fad45f5045e526820b5b8a6ba6a51f9065eed210dd35fb05b2b2852"
+    },
+    "replayResults": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V08/source-before-fix01/replay-results.json",
+      "bytes": 464062,
+      "sha256": "363bb0bbe99892da21ba1e5f74481ffa6557f69dede4bdddd55c1bf67e30b06a",
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": 56
+    }
+  },
+  "fix01": {
+    "task": "RES-COMBINED-V08-FIX01",
+    "actual": {
+      "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+      "host": "local",
+      "turn": "01a11a22-678b-7b43-a80c-179df9eda21a"
+    },
+    "sourceAndReplaySeals": {
+      "runner.py": {
+        "bytes": 114245,
+        "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+      },
+      "inputs.json": {
+        "bytes": 1254426,
+        "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+      },
+      "replay-check.py": {
+        "bytes": 92286,
+        "sha256": "abcc293dfd479486d5c3f6a1aa7816bb8c40d90adc769299ad2c124f40942f6a"
+      },
+      "replay-results.json": {
+        "bytes": 130081,
+        "sha256": "ba0fafb9f81e59d98aa9b1555004e699bc0b32a5bf42f18b0f531c3fd4f04a2f"
+      }
+    },
+    "preparationSeal": "External final seal; no circular hash.",
+    "nativeRuns": 0,
+    "realProbes": 0,
+    "gitWrites": 0
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V07 FIX01 review receipt",
+  "verdict": "NEEDS_FIX",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6052822393",
+  "triggerId": 6052822393,
+  "expectedHead": "b20db8119dc30da601a35a0a7d3afd931f3743ff",
+  "observedHead": "b20db8119dc30da601a35a0a7d3afd931f3743ff",
+  "qaActualTurn": "01a119ef-cb58-7be0-aaa5-efdef9eb6ff1",
+  "review": {
+    "status": "NEEDS_FIX",
+    "submissionState": "COMMENTED",
+    "reviewedCommit": "b20db8119d",
+    "reviewedAtUtc": "2026-10-08T05:16:42Z",
+    "completedSummaryUpdatedUtc": "2026-10-08T05:16:49Z",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451818067",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048274217",
+    "newInlineFindings": 1,
+    "finding": {
+      "id": 4215063674,
+      "pullRequestReviewId": 5451818067,
+      "originalCommitId": "b20db8119dc30da601a35a0a7d3afd931f3743ff",
+      "severity": "P1",
+      "title": "Promote reappearance above natural-grace expiry",
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4215063674",
+      "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+      "line": 276,
+      "summary": "If a Bee endpoint disappears during the FD probe but reappears before the final lstat while NaturalGraceExpired is active, the code only adds a note to that grace exception. monitor() then treats it as normal boundary expiry and may allow closure/restoration. Raise a distinct INCOMPLETE failure and retain the grace exception as its cause."
+    },
+    "note": "Corrected from the original zero-finding entry using the central raw REST review comment, whose pull_request_review_id matches this review and original_commit_id matches this head.",
+    "formalApproved": false
+  },
+  "priorHeadFindings": {
+    "review": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451715345",
+    "reviewedHead": "cf0b81cde82e09fabaf137db387a2fff4f83fb6a",
+    "items": [
+      {
+        "id": 4214974319,
+        "resolved": false,
+        "outdated": false
+      },
+      {
+        "id": 4214974355,
+        "resolved": false,
+        "outdated": true
+      }
+    ],
+    "classification": "historical; not new FIX01 findings"
+  },
+  "publication": {
+    "files": 178,
+    "bytes": 9909162,
+    "allGitBlobsAndSizesVerified": true,
+    "source": "central-provided resource-combined-v07-fix01-source-publication.json"
+  },
+  "nativeAcceptance": "NOT_RUN; stated in trigger",
+  "correction": {
+    "actualSource": "read_thread current-turn record",
+    "previousReceiptClaimedNewInlineFindings": 0,
+    "correctedNewInlineFindings": 1,
+    "basis": "Central raw REST evidence identifies finding 4215063674 with pull_request_review_id 5451818067 and original_commit_id equal to this receipt's expected head.",
+    "methodCorrection": "For future checks, enumerate /pulls/20/reviews/{review_id}/comments and match pull_request_review_id plus original_commit_id; absence from a paginated review-thread response is not evidence of zero findings.",
+    "supersededClaim": "01a116c2-6a9d-7a03-b161-11bd6079a631",
+    "performedByTurn": "01a119f4-68cc-7363-a3e7-90a9c8d6c691",
+    "identityCorrectionBasis": "Central wait_threads observed correction turn01a119f4-68cc-7363-a3e7-90a9c8d6c691 completed; original review intake turn is qaActualTurn. P1 4215140252 resolved by retaining the old value only as supersededClaim."
+  }
+}

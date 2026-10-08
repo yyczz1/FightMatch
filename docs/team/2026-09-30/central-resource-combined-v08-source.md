@@ -1,0 +1,13 @@
+# RES-COMBINED-V08 有限身份采样修正
+
+用户继续任务和普通技术问题自行处理范围。唯一作者01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c/local、Astra/xhigh、fresh actual；中央唯一收件，GitHub独立审查。V07真实失败/恢复已由QA收件，不重跑原版，本包不native。
+
+设计engineering-resource-combined-v08-correction.md 5307B/e24f2109797f33ff4d0cb69c21df468abbf808c4b3b370860bd2a3c997243d67。基线V07 FIX02已审程序head6da2ad59c99fd88c732ff56a8ca415aafa4b2cf2（仅文档修正checkpoint95e21ca8114d07dce52fee8ea0f47b46b37c5f6c）。E7/run五叶：runner107583/41ba871264309f905ffc0ed0747ac9fde15779e6a5ebbffd6370054b0144304c；inputs1251531/5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c；preparation16106/507768dd02bada1aa1b76810be5ccd51e98c3ab9d42f43d92c568ff5caeb06bb；replay-check78976/7e8130cc3ee89f386f5093a4d9088b49e374a489560fdaff7737c32785c4df3d；results37878/e2e5d223e994d9e218b709eb1197bd92f36f61fdd49760169514291eece4db9f。原native95.126369秒、T0；receipt75940/2e72eec4fcc8c6695aead816cac7d692153cdb47af15e46a90351b364d0c37d2，QA在testing-resource-combined-v07-native-receipt.json。
+
+唯一新增TestArtifacts/FightMatch/RES-COMBINED-V08/run/{runner.py,inputs.json,preparation.json,replay-check.py,replay-results.json}。旧文件只读，新E8/BC8/AS8/TMP8及fresh源码实际身份完整绑定，真实activation/缓存/测试根仍不得创建。只读当前保留生成state封签；按设计有限P1035/43编译叶核身份，不读取整个包缓存重做验收。不得改产品/包/依赖/既有测试断言/Git或运行Unity/真实探针/信号。
+
+按设计仅调整child_args/details的结构化采样证据、register的不完整原因、discover对已核owned父链的新未注册PID进行一次fresh absence确认，并使fresh rows传到当前消费者守卫。接受条件只限明确缺字段而非错误/矛盾：固定完整命令exit0/空stderr/可完整解析而缺目标字段，或固定单PID exit1双空；其它探测错误/格式截断/非空stderr/权限/I/O/Timeout/仍活或僵尸/重用都原失败。无完整身份不注册、不授信号；已owned及SDK独立规则不扩。记录原始采样与缺项，旧82401具体字段未知，不能凭后续消失追认。
+
+仅设计相关函数及必要调用传递；其它编译解析、12来源/89断言、原子算法、恢复/闭合、源和包图、900总含160准备/I360/T180/自然60/TERM30/恢复60/收尾30和各容量不变。JSON合同只做新根、身份、设计引用、当前state封签和本次有限采样描述。保持现有激活/实际OS退出协议；不得发明另一验证路线。
+
+冻结后一次受影响离线回放≤30秒；真失败修复只追加失败及未跑例一次≤30秒。覆盖设计正反边界和真实82401旧字段未知夹具，并只补受调用影响的原完整身份/SDK基本案例；旧7/13/55/34/42/69/177不整套重复。报告实际函数AST和完整inputs差量、五叶封签、准确新回放/复用范围与耗时。目标8分钟，范围外问题明确返回，不新增研究或自行审查。final短回执留本会话，中央收到源码后才发布/取得GitHub结果/另签C native。

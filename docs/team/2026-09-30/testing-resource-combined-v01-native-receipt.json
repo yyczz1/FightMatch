@@ -1,0 +1,183 @@
+{
+  "receipt": "RES-COMBINED-V01-FIX02-NATIVE-FAILURE-EVIDENCE-INTAKE",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a118c1-d1c5-7640-ada6-7fdb9a380b4d",
+    "authorThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "authorActual": "01a118bd-3ba0-7f31-843e-bcb2a6d00175",
+    "completionReceiver": "Central coordinator; no upstream message sent"
+  },
+  "authority": "Central mechanical receipt-intake delegation; no new review or execution authorized",
+  "execution": {
+    "evidenceRoot": "TestArtifacts/FightMatch/RES-COMBINED-V01/run",
+    "activation": {
+      "bytes": 6472,
+      "sha256": "33e7122a259708771eb9885ed2e26d6959104c9479044ade6eb74b743b75efa0"
+    },
+    "runReceipt": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/receipt.json",
+      "bytes": 75924,
+      "sha256": "4acab85e99917971de6b768cae12bd3601a39e3fbce5db19a40b30c4e89748d0",
+      "status": "FAILED",
+      "validationStatus": "FAILED",
+      "failure": "Special tree entry /private/tmp/fm-rcv1.uAvmwtPk/dotnet-diagnostic-54204-1791416511-socket; Final monitor gate",
+      "closureClosed": true,
+      "remainingOwned": [],
+      "launchCounts": {"I": 1},
+      "preparationSeconds": 160,
+      "mechanicalExecutionSecondsThroughEvidence": 87.02642941699014,
+      "mechanicalExecutionSecondsThroughReceiptHash": 87.03348187499796,
+      "finishedUtcThroughEvidence": "2026-10-07T23:43:06.742191+00:00"
+    },
+    "externalObservation": {
+      "source": "Completed author actual read_thread; minimal stdout from the outer runner invocation",
+      "rawTimingExitLine": "{\"externalStartMonotonic\":74045.731140291,\"externalEndMonotonic\":74132.820138541,\"runnerSeconds\":87.08899825000844,\"preparationSeconds\":160,\"totalSeconds\":247.08899825000844,\"osExitCode\":1}",
+      "runnerSeconds": 87.08899825000844,
+      "preparationSeconds": 160,
+      "totalSeconds": 247.08899825000844,
+      "osExitCode": 1,
+      "measurementNote": "The three runner elapsed values use different boundaries: through evidence, through receipt hash, and external process completion after stdout flush. The external total includes preparation and agrees with the author report; it is not substituted for the internal receipt field."
+    }
+  },
+  "stageEvidence": {
+    "I": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/I/result.json",
+      "bytes": 1314,
+      "sha256": "5b459c7ee3802038b44df55d2a83adec854136fb175056b46a0fb8f935bc96c3",
+      "manifestSealMatches": true,
+      "runnerStageStatus": "FAILED",
+      "unityExitCode": 0,
+      "runCount": 1,
+      "pid": 54193,
+      "elapsedSecondsIncludingClosure": 66.15186637500301,
+      "failure": "Special tree entry /private/tmp/fm-rcv1.uAvmwtPk/dotnet-diagnostic-54204-1791416511-socket"
+    },
+    "IEditorLog": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/I/editor.log",
+      "bytes": 75322,
+      "sha256": "ff3d89d412f814e0b12f325d00553e6f25c4cc2e5908ef17387e4e0ec900dc70",
+      "manifestSealMatches": true
+    },
+    "T89": {
+      "launchCount": 0,
+      "testXml": null,
+      "evidence": "Only I appears in receipt launchCounts/stages; the targeted run directory has no T stage directory.",
+      "acceptance": "NOT_RUN; no test pass may be claimed"
+    },
+    "compileMetadata": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/compile.json",
+      "bytes": 7935,
+      "sha256": "0f9eb25b1aa5840440c7e40d77822ea9e64b4e23d590d6535a8e18352cc3ff2d",
+      "manifestSealMatches": true,
+      "stages": {},
+      "fullImportedInputs": null,
+      "compilerAfterEntries": 43,
+      "acceptance": "Compile/import source acceptance incomplete; Unity process exit 0 alone is not compile acceptance"
+    }
+  },
+  "restorationAndProcessEvidence": {
+    "restore": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/restore.json",
+      "bytes": 17802,
+      "sha256": "bea8bd7765a35bc535315c73ed4240678846dece7e6a1449301b6bd4bb8f2b64",
+      "manifestSealMatches": true,
+      "complete": true,
+      "errors": [],
+      "transferConflicts": [],
+      "assetFilesArchivedAndRestored": 21,
+      "parkedFilesReturned": 2,
+      "compilerFilesArchivedAndRestored": 43,
+      "restoreSeconds": 3.2245859160029795,
+      "projectionAfterRestore": {"leaves": 1035, "bytes": 32149498, "uniqueGUIDs": 535}
+    },
+    "after": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/after.json",
+      "bytes": 494,
+      "sha256": "5008f4ca53dc030226d9a523bb96ec59c81e015b9346cd6096444573a41f196b",
+      "manifestSealMatches": true,
+      "projection": {"leaves": 1037, "bytes": 32658037, "uniqueGUIDs": 536},
+      "protection": {"sharedUnchanged": true, "oldEvidenceUnchanged": true, "cacheFrozen": true},
+      "tmpAtRecordedAfterSnapshot": {"bytes": 231110, "leaves": 7}
+    },
+    "processAfter": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/process-after.json",
+      "bytes": 229918,
+      "sha256": "915cf5c9f9d9c7d6e5817a92944a0dfd7b035872b594e27d7fc8ba105e1e2658",
+      "manifestSealMatches": true,
+      "ownedTrackedEntries": 16,
+      "remainingOwned": [],
+      "popenStillLive": false,
+      "closureClosed": true,
+      "sigkill": false,
+      "monitorErrorsRecorded": 30
+    },
+    "processEvents": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/process-events.jsonl",
+      "bytes": 396623,
+      "sha256": "2974b803ed1ee905fc9cdc7b5f20e94eac870e750b4db307811ed0bbf8cddc9e",
+      "manifestSealMatches": true,
+      "records": 500,
+      "signals": [{"signal": "SIGTERM", "pid": 54290, "executable": "dotnet", "count": 1}],
+      "sigkillRecords": 0,
+      "monitorFailures": {
+        "total": 30,
+        "fifoRootParentMismatch": 18,
+        "unknownFifoExecutable": 6,
+        "specialDiagnosticSocket": 4,
+        "fifoOwnerAbsentOrReused": 1,
+        "otherSpecialDiagnosticSocket": 1
+      },
+      "representativeFifoError": "FIFO root/parent mismatch /private/tmp/fm-rcv1.uAvmwtPk/clr-debug-pipe-54290-1791416522-out"
+    },
+    "tmpObservationAtReceiptIntake": {
+      "path": "/private/tmp/fm-rcv1.uAvmwtPk",
+      "exists": true,
+      "directEntries": ["UnityCBMCrashes", "VBCSCompiler", "adb.501.log", "ingoimct.77j"],
+      "directSpecialSocketOrFifo": 0,
+      "scopeNote": "Only direct entries were inspected; no recursive TMP scan was performed. This later observation does not negate socket/FIFO errors recorded during the run."
+    }
+  },
+  "consistencyAssessment": {
+    "authorSummaryMatches": [
+      "External runner exit 1 and Unity I exit 0",
+      "TMP diagnostic socket and FIFO monitoring failures caused validation to remain FAILED",
+      "T89 was not started and no XML/pass exists",
+      "Restoration completed; receipt reports 1035 projection leaves and 43 compiler files restored",
+      "One SIGTERM to PID 54290; no SIGKILL; no remaining owned process"
+    ],
+    "timingDifference": "The author summary's 87.088998 seconds is the external runner duration; receipt internal fields stop at evidence/hash boundaries (87.026429/87.033482 seconds). Adding the recorded 160-second preparation gives the external total 247.088998 seconds.",
+    "failureDetail": "The main receipt and I/result identify diagnostic socket entries; process-events also records FIFO ancestry/ownership errors. These are complementary monitor failures, not contradictory causes.",
+    "acceptanceGaps": [
+      "Overall run remains FAILED.",
+      "T89 acceptance is NOT_RUN; no test XML or 89-case pass.",
+      "Compile metadata has no completed stages and fullImportedInputs is null.",
+      "Restoration/process closure evidence is positive but does not convert the failed validation into acceptance."
+    ]
+  },
+  "evidenceSeals": {
+    "activation": {"bytes": 6472, "sha256": "33e7122a259708771eb9885ed2e26d6959104c9479044ade6eb74b743b75efa0", "matches": true},
+    "I/result.json": {"bytes": 1314, "sha256": "5b459c7ee3802038b44df55d2a83adec854136fb175056b46a0fb8f935bc96c3", "matches": true},
+    "I/editor.log": {"bytes": 75322, "sha256": "ff3d89d412f814e0b12f325d00553e6f25c4cc2e5908ef17387e4e0ec900dc70", "matches": true},
+    "compile.json": {"bytes": 7935, "sha256": "0f9eb25b1aa5840440c7e40d77822ea9e64b4e23d590d6535a8e18352cc3ff2d", "matches": true},
+    "restore.json": {"bytes": 17802, "sha256": "bea8bd7765a35bc535315c73ed4240678846dece7e6a1449301b6bd4bb8f2b64", "matches": true},
+    "after.json": {"bytes": 494, "sha256": "5008f4ca53dc030226d9a523bb96ec59c81e015b9346cd6096444573a41f196b", "matches": true},
+    "process-after.json": {"bytes": 229918, "sha256": "915cf5c9f9d9c7d6e5817a92944a0dfd7b035872b594e27d7fc8ba105e1e2658", "matches": true},
+    "process-events.jsonl": {"bytes": 396623, "sha256": "2974b803ed1ee905fc9cdc7b5f20e94eac870e750b4db307811ed0bbf8cddc9e", "matches": true},
+    "receipt.json": {"bytes": 75924, "sha256": "4acab85e99917971de6b768cae12bd3601a39e3fbce5db19a40b30c4e89748d0", "matchesExternalReceiptHash": true, "selfSealInEvidenceMap": false}
+  },
+  "method": {
+    "source": "Completed author actual read_thread and bounded reads of named local receipt/evidence files; targeted seal recomputation only",
+    "newCodeReview": false,
+    "newTests": false,
+    "unityRun": false,
+    "processQuery": false,
+    "recursiveCacheOrTmpScan": false,
+    "gitOperation": false,
+    "crossSessionMessage": false,
+    "githubWrite": false,
+    "writes": "Only this native evidence receipt"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "packet": "RES-COMBINED-V01-SOURCE",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "head": "8e47895761e110c5db531d83df7bbf5dfa960852",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "qaActual": "01a11882-d243-73f2-982c-ce49fdcec3a5",
+  "qaCompletionCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:114",
+  "qaReceiptSha256": "896ce90a90c995942e03a6662b5af0caeda0bbfd2c993b8522c4d6154d52bfa1",
+  "review": {
+    "state": "COMMENTED",
+    "formalApproval": false,
+    "finding": 4212752227,
+    "thread": "PRRT_kwDOTDyjrM6qH91Y",
+    "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+    "line": 36,
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212752227",
+    "priority": "P1",
+    "title": "Reserve the global deadline for process cleanup",
+    "centralDirectlyInspected": true
+  },
+  "qaClericalCorrection": "The finding is an inline review comment, not an Issue comment; use discussion_r4212752227. Formal review PRR_kwDOTDyjrM8AAAABRM1e9g is separate. Preserve original QA receipt.",
+  "reason": "Overall deadline can exhaust all process cleanup probes and restoration; reserve bounded closure/restore time inside the900-second cap.",
+  "sourceEvidence": {
+    "offlinePassed": 127,
+    "seconds": 8.725101625008392,
+    "newRunsByCentral": 0
+  },
+  "immutableOriginalSource": {
+    "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/V00-source",
+    "files": {
+      "inputs.json": {
+        "bytes": 1241557,
+        "sha256": "ff088efd0e6871d751a1f553a46e77ae06789e9f01c5743411ca93e1fa087f1d"
+      },
+      "preparation.json": {
+        "bytes": 330242,
+        "sha256": "d9c90ce2e5724763ba69f478e03b8431fe62706db0823c362f9b06ccce22582c"
+      },
+      "replay-check.py": {
+        "bytes": 73549,
+        "sha256": "aa6c5dda5e1601071e4e774dffc0406a3aae2ec7cfcda6e3360c37221a684002"
+      },
+      "replay-results.json": {
+        "bytes": 136103,
+        "sha256": "8a0e4b47b8e52317da6871122d9a48a34ff120b0c6dae640834586c48d4f7806"
+      },
+      "runner.py": {
+        "bytes": 75683,
+        "sha256": "9adaaf3cddbd9880b8f17ed9f06e5cc6957cdf97effbed978025f85c18829a89"
+      }
+    }
+  },
+  "nativeRuns": 0,
+  "nativeAuthorized": false,
+  "merged": false
+}

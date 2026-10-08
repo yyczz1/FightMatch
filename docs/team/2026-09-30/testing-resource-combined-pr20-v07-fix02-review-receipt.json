@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V07 FIX02 review receipt",
+  "verdict": "NEEDS_FIX",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6052962238",
+  "triggerId": 6052962238,
+  "expectedHead": "6da2ad59c99fd88c732ff56a8ca415aafa4b2cf2",
+  "observedHead": "6da2ad59c99fd88c732ff56a8ca415aafa4b2cf2",
+  "qaActualTurn": "01a119f8-6331-7e41-81df-bdd92749b813",
+  "review": {
+    "status": "NEEDS_FIX",
+    "submissionState": "COMMENTED",
+    "reviewId": 5451909727,
+    "reviewedCommit": "6da2ad59c99fd88c732ff56a8ca415aafa4b2cf2",
+    "reviewedAtUtc": "2026-10-08T05:26:27Z",
+    "completedSummaryAtUtc": "2026-10-08T05:26:29.811948Z",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451909727",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048274217",
+    "commentsEndpoint": "https://api.github.com/repos/yyczz1/FightMatch/pulls/20/reviews/5451909727/comments?per_page=100",
+    "commentsPagesFetched": 1,
+    "rawResponseCommentCount": 1,
+    "newInlineFindings": 1,
+    "findings": [
+      {
+        "id": 4215140252,
+        "pullRequestReviewId": 5451909727,
+        "originalCommitId": "6da2ad59c99fd88c732ff56a8ca415aafa4b2cf2",
+        "commitId": "6da2ad59c99fd88c732ff56a8ca415aafa4b2cf2",
+        "severity": "P1",
+        "title": "Correct the stale QA turn in the correction block",
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4215140252",
+        "path": "docs/team/2026-09-30/testing-resource-combined-pr20-v07-fix01-review-receipt.json",
+        "line": 0,
+        "body": "In this corrected FIX01 receipt, correction.actualTurn still identifies 01a116c2..., even though qaActualTurn above and resource-combined-v07-fix01-source-verdict.json identify 01a119ef... as the actual QA turn and explicitly classify 01a116c2... as the previously claimed identity. Any downstream intake that reads the correction block therefore attributes the review evidence to the wrong execution input; replace this value with the actual QA turn or rename the field to make clear that it records the superseded claim."
+      }
+    ],
+    "formalApproved": false
+  },
+  "publication": {
+    "files": 187,
+    "bytes": 11409066,
+    "allVerified": true,
+    "source": "FIX02 source-publication 187-file / 11,409,066-byte manifest, as supplied for this receipt"
+  },
+  "nativeAcceptance": "NOT_RUN; stated in trigger",
+  "scopeNote": "This receipt records the independent GitHub PR review only. No local review, test, or GitHub comment was performed.",
+  "actualTurnSource": "This testing-role session read its own current-thread record; not the central thread history."
+}

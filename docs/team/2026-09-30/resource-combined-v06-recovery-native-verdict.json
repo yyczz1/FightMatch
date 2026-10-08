@@ -1,0 +1,88 @@
+{
+  "actual": "01a119cd-215c-7710-8b33-34b140cc23d2",
+  "tool": "exec-f486084e-7e4d-4f6d-bcc7-821c26baa473",
+  "exitCode": 0,
+  "terminal": {
+    "status": "AWAITING_PROCESS_EXIT",
+    "validationStatus": "RESTORATION_CHECKS_PASS",
+    "elapsedSecondsThroughReceipt": 2.15208754199557,
+    "receipt": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/recovery-01/receipt.json",
+    "receiptIdentity": {
+      "bytes": 32030,
+      "sha256": "735c76f17848ceff4b3ef73b9efa08dbe8f50551fca96e935984b2a4eafa5b7b"
+    },
+    "receiptFailure": null,
+    "failure": null,
+    "totalLimitSeconds": 120,
+    "externalAcceptance": "RECOVERED requires actual OS exit 0, external monotonic duration <=120 seconds, receipt bytes/SHA-256 matching receiptIdentity, RESTORATION_CHECKS_PASS, no failure, 1035/43/62 protection, and fresh no-consumer evidence. Otherwise INCOMPLETE.",
+    "originalV06": "FAILED"
+  },
+  "external": {
+    "externalStartMonotonic": 91904.021468291,
+    "externalEndMonotonic": 91906.214866,
+    "recoverySeconds": 2.1933977089938708,
+    "totalLimitSeconds": 120,
+    "osExitCode": 0
+  },
+  "task": "V06-RECOVERY-ACTUAL",
+  "status": "RECOVERED",
+  "originalV06": "FAILED/T0",
+  "qaReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-v06-recovery-native-receipt.json",
+    "bytes": 2594,
+    "sha256": "6d183526fcf47d58d669da86a0dc04fbdf1cd826afe24198e1b967a9e30f3590"
+  },
+  "verdict": "ACCEPT",
+  "scope": "Independent restoration only. Original V06 FAILED/T0 remains.",
+  "qaActual": "01a119d1-f08d-7601-856c-369b3ee5384c",
+  "restoration": {
+    "receiptSealMatchesCentralVerdict": true,
+    "fixedEvidence": {
+      "count": 10,
+      "mismatches": 0
+    },
+    "projectionP": {
+      "listedFiles": 1035,
+      "bytes": 32149498,
+      "allListedFilesMatchPlan": true,
+      "canonicalSha256": "3871bc36f096be53d6570c4d277bdcf8ea4d232825353861cf86a04ca201b207"
+    },
+    "compilerTargets": {
+      "count": 43,
+      "mismatches": 0
+    },
+    "protectedPreimages": {
+      "count": 62,
+      "mismatches": 0
+    },
+    "preservedMovedFiles": {
+      "count": 58,
+      "archive": 41,
+      "staging": 17,
+      "mismatches": 0
+    },
+    "records": {
+      "RESTORED": 43,
+      "ALREADY_RESTORED": 23
+    },
+    "atomicConflicts": [],
+    "transferConflicts": [],
+    "processBeforeAfter": {
+      "recoveryConsumersClear": true,
+      "unityOrBeeProcesses": 0
+    },
+    "fdBeforeAfter": {
+      "lsofExitCode": 0,
+      "stderrEmpty": true,
+      "relatedRecords": 0,
+      "rawEvidenceHashes": [
+        "d73a7146a3dcad827aa105f36da8edf6a601f8e1badd66fc7bc976450c89f3ee",
+        "5ff26aa7f63c30af7f177e64126b983f941ea71361b299df092bf18b58fabc54"
+      ],
+      "rawOutputRetained": false
+    }
+  },
+  "reviewedHead": "ea467bc0467d5c1d9426109757e5eaa650ca6621",
+  "reviewResult": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6052277540",
+  "next": "V07 scoped source implementation; no native until new source gate."
+}

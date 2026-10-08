@@ -1,0 +1,3930 @@
+{
+  "task": "RES-COMBINED-V08",
+  "correction": "RES-COMBINED-V08-FIX01",
+  "actual": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a11a22-678b-7b43-a80c-179df9eda21a"
+  },
+  "status": "SOURCE_REPLAY_PASS",
+  "inputs": {
+    "bytes": 1254426,
+    "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+  },
+  "baseline": {
+    "root": "TestArtifacts/FightMatch/RES-COMBINED-V08/source-before-fix01",
+    "sourceIdentities": {
+      "runner.py": {
+        "bytes": 114230,
+        "sha256": "5a1c83a7875f7132cb9769c3ce11721cb4cecc60d2a07b3b3b133a0de894631b"
+      },
+      "inputs.json": {
+        "bytes": 1254426,
+        "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+      },
+      "preparation.json": {
+        "bytes": 87230,
+        "sha256": "74deaf1c7fad45f5045e526820b5b8a6ba6a51f9065eed210dd35fb05b2b2852"
+      },
+      "replay-check.py": {
+        "bytes": 92638,
+        "sha256": "ca833c36e5ce15ae7fab448846eba987393ad60809a71547c5524369562d42e5"
+      },
+      "replay-results.json": {
+        "bytes": 464062,
+        "sha256": "363bb0bbe99892da21ba1e5f74481ffa6557f69dede4bdddd55c1bf67e30b06a"
+      }
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": [
+        {
+          "name": "FIX01 cwd descriptor cwd-missing-descriptor",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-name-before-descriptor",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-descriptor-before-pid",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-other-descriptor",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-incomplete-pid",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-wrongpid",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-truncated",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor complete",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-empty",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-pid-only",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor cwd-exit1",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor present",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor zombie",
+          "passed": true
+        },
+        {
+          "name": "FIX01 cwd descriptor reused",
+          "passed": true
+        },
+        {
+          "name": "FIX01 SDK complete actual details",
+          "passed": true
+        }
+      ],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "realSockets": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "identityCases": [
+        {
+          "mode": "cwd-missing-descriptor",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+            }
+          ],
+          "events": [
+            {
+              "kind": "identity_probe_failed",
+              "pid": 101,
+              "samples": {
+                "args": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "101",
+                    "-o",
+                    "args="
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "/fixed/worker\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0,
+                  "parsed": {
+                    "argv": [
+                      "/fixed/worker"
+                    ]
+                  }
+                },
+                "cwd": {
+                  "argv": [
+                    "/usr/sbin/lsof",
+                    "-a",
+                    "-p",
+                    "101",
+                    "-d",
+                    "cwd",
+                    "-Fn"
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "p101\nn/P\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 9,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0
+                }
+              },
+              "failure": {
+                "type": "RuntimeError",
+                "message": "INCOMPLETE: cwd field contradiction"
+              }
+            },
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "cwd-name-before-descriptor",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+            }
+          ],
+          "events": [
+            {
+              "kind": "identity_probe_failed",
+              "pid": 101,
+              "samples": {
+                "args": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "101",
+                    "-o",
+                    "args="
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "/fixed/worker\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0,
+                  "parsed": {
+                    "argv": [
+                      "/fixed/worker"
+                    ]
+                  }
+                },
+                "cwd": {
+                  "argv": [
+                    "/usr/sbin/lsof",
+                    "-a",
+                    "-p",
+                    "101",
+                    "-d",
+                    "cwd",
+                    "-Fn"
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "p101\nn/P\nfcwd\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0
+                }
+              },
+              "failure": {
+                "type": "RuntimeError",
+                "message": "INCOMPLETE: cwd field contradiction"
+              }
+            },
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd field contradiction"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "cwd-descriptor-before-pid",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd descriptor contradiction",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd descriptor contradiction"
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd descriptor contradiction"
+            }
+          ],
+          "events": [
+            {
+              "kind": "identity_probe_failed",
+              "pid": 101,
+              "samples": {
+                "args": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "101",
+                    "-o",
+                    "args="
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "/fixed/worker\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0,
+                  "parsed": {
+                    "argv": [
+                      "/fixed/worker"
+                    ]
+                  }
+                },
+                "cwd": {
+                  "argv": [
+                    "/usr/sbin/lsof",
+                    "-a",
+                    "-p",
+                    "101",
+                    "-d",
+                    "cwd",
+                    "-Fn"
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "fcwd\np101\nn/P\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0
+                }
+              },
+              "failure": {
+                "type": "RuntimeError",
+                "message": "INCOMPLETE: cwd descriptor contradiction"
+              }
+            },
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd descriptor contradiction",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd descriptor contradiction"
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd descriptor contradiction"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd descriptor contradiction"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "cwd-other-descriptor",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: malformed cwd record",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: malformed cwd record"
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: malformed cwd record"
+            }
+          ],
+          "events": [
+            {
+              "kind": "identity_probe_failed",
+              "pid": 101,
+              "samples": {
+                "args": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "101",
+                    "-o",
+                    "args="
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "/fixed/worker\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0,
+                  "parsed": {
+                    "argv": [
+                      "/fixed/worker"
+                    ]
+                  }
+                },
+                "cwd": {
+                  "argv": [
+                    "/usr/sbin/lsof",
+                    "-a",
+                    "-p",
+                    "101",
+                    "-d",
+                    "cwd",
+                    "-Fn"
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "p101\nf1\nn/P\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 12,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0
+                }
+              },
+              "failure": {
+                "type": "RuntimeError",
+                "message": "INCOMPLETE: malformed cwd record"
+              }
+            },
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: malformed cwd record",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: malformed cwd record"
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: malformed cwd record"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: malformed cwd record"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "cwd-incomplete-pid",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+            }
+          ],
+          "events": [
+            {
+              "kind": "identity_probe_failed",
+              "pid": 101,
+              "samples": {
+                "args": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "101",
+                    "-o",
+                    "args="
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "/fixed/worker\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0,
+                  "parsed": {
+                    "argv": [
+                      "/fixed/worker"
+                    ]
+                  }
+                },
+                "cwd": {
+                  "argv": [
+                    "/usr/sbin/lsof",
+                    "-a",
+                    "-p",
+                    "101",
+                    "-d",
+                    "cwd",
+                    "-Fn"
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "p\nfcwd\nn/P\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 11,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0
+                }
+              },
+              "failure": {
+                "type": "RuntimeError",
+                "message": "INCOMPLETE: cwd PID contradiction"
+              }
+            },
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "cwd-wrongpid",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+            }
+          ],
+          "events": [
+            {
+              "kind": "identity_probe_failed",
+              "pid": 101,
+              "samples": {
+                "args": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "101",
+                    "-o",
+                    "args="
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "/fixed/worker\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0,
+                  "parsed": {
+                    "argv": [
+                      "/fixed/worker"
+                    ]
+                  }
+                },
+                "cwd": {
+                  "argv": [
+                    "/usr/sbin/lsof",
+                    "-a",
+                    "-p",
+                    "101",
+                    "-d",
+                    "cwd",
+                    "-Fn"
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "p999\nn/P\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 9,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0
+                }
+              },
+              "failure": {
+                "type": "RuntimeError",
+                "message": "INCOMPLETE: cwd PID contradiction"
+              }
+            },
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: cwd PID contradiction"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "cwd-truncated",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: truncated cwd output",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: truncated cwd output"
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: truncated cwd output"
+            }
+          ],
+          "events": [
+            {
+              "kind": "identity_probe_failed",
+              "pid": 101,
+              "samples": {
+                "args": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "101",
+                    "-o",
+                    "args="
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "/fixed/worker\n",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 14,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0,
+                  "parsed": {
+                    "argv": [
+                      "/fixed/worker"
+                    ]
+                  }
+                },
+                "cwd": {
+                  "argv": [
+                    "/usr/sbin/lsof",
+                    "-a",
+                    "-p",
+                    "101",
+                    "-d",
+                    "cwd",
+                    "-Fn"
+                  ],
+                  "startedUtc": "offline-fixture",
+                  "startedMonotonic": 10.0,
+                  "returncode": 0,
+                  "stdout": "p101\nfcwd\nn/P",
+                  "stderr": "",
+                  "timeoutSeconds": 5.0,
+                  "stdoutBytes": 13,
+                  "stderrBytes": 0,
+                  "finishedUtc": "offline-fixture",
+                  "finishedMonotonic": 10.0
+                }
+              },
+              "failure": {
+                "type": "RuntimeError",
+                "message": "INCOMPLETE: truncated cwd output"
+              }
+            },
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: INCOMPLETE: truncated cwd output",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: INCOMPLETE: truncated cwd output"
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: truncated cwd output"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: INCOMPLETE: truncated cwd output"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "complete",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 0,
+          "ownedPids": [
+            100,
+            101
+          ],
+          "pending": {},
+          "monitorErrors": [],
+          "events": [
+            {
+              "kind": "owned_discovered",
+              "process": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker",
+                "argv": [
+                  "/fixed/worker"
+                ],
+                "cwd": "/P",
+                "cwdProbeExit": 0,
+                "identitySamples": {
+                  "args": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-p",
+                      "101",
+                      "-o",
+                      "args="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "/fixed/worker\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 14,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "argv": [
+                        "/fixed/worker"
+                      ]
+                    }
+                  },
+                  "cwd": {
+                    "argv": [
+                      "/usr/sbin/lsof",
+                      "-a",
+                      "-p",
+                      "101",
+                      "-d",
+                      "cwd",
+                      "-Fn"
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "p101\nfcwd\nn/P\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 14,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pid": 101,
+                      "cwd": "/P",
+                      "cwdDescriptor": true
+                    }
+                  }
+                },
+                "presence": {
+                  "argv": true,
+                  "cwd": true,
+                  "cwdProbeExitZero": true
+                },
+                "missingFields": [],
+                "freshAbsentEligible": false,
+                "pid": 101,
+                "stage": "I",
+                "rootPid": 100,
+                "firstObservedUtc": "offline-fixture",
+                "termSent": false
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [],
+                "consumersClear": true,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": [
+            [
+              100,
+              101
+            ]
+          ]
+        },
+        {
+          "mode": "cwd-empty",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-axo",
+                "pid=,ppid=,lstart=,stat=,comm="
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 1,
+          "ownedPids": [
+            100
+          ],
+          "pending": {},
+          "monitorErrors": [],
+          "events": [
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: cwd",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: cwd",
+                "identityProbeIncomplete": {
+                  "argv": [
+                    "/fixed/worker"
+                  ],
+                  "cwd": null,
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "/fixed/worker\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": [
+                          "/fixed/worker"
+                        ]
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": null,
+                        "cwd": null,
+                        "cwdDescriptor": false
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": true,
+                    "cwd": false,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "cwd"
+                  ],
+                  "freshAbsentEligible": true
+                }
+              }
+            },
+            {
+              "kind": "transient-child-exited",
+              "confirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [
+                    "/fixed/worker"
+                  ],
+                  "cwd": null,
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "/fixed/worker\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": [
+                          "/fixed/worker"
+                        ]
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": null,
+                        "cwd": null,
+                        "cwdDescriptor": false
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": true,
+                    "cwd": false,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "cwd"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 94,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  }
+                },
+                "pidAbsent": true
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [],
+                "consumersClear": true,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": [
+            [
+              100,
+              303
+            ]
+          ]
+        },
+        {
+          "mode": "cwd-pid-only",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-axo",
+                "pid=,ppid=,lstart=,stat=,comm="
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 1,
+          "ownedPids": [
+            100
+          ],
+          "pending": {},
+          "monitorErrors": [],
+          "events": [
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: cwd",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: cwd",
+                "identityProbeIncomplete": {
+                  "argv": [
+                    "/fixed/worker"
+                  ],
+                  "cwd": null,
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "/fixed/worker\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": [
+                          "/fixed/worker"
+                        ]
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 5,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": null,
+                        "cwdDescriptor": false
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": true,
+                    "cwd": false,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "cwd"
+                  ],
+                  "freshAbsentEligible": true
+                }
+              }
+            },
+            {
+              "kind": "transient-child-exited",
+              "confirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [
+                    "/fixed/worker"
+                  ],
+                  "cwd": null,
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "/fixed/worker\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": [
+                          "/fixed/worker"
+                        ]
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 5,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": null,
+                        "cwdDescriptor": false
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": true,
+                    "cwd": false,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "cwd"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 94,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  }
+                },
+                "pidAbsent": true
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [],
+                "consumersClear": true,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": [
+            [
+              100,
+              303
+            ]
+          ]
+        },
+        {
+          "mode": "cwd-exit1",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-axo",
+                "pid=,ppid=,lstart=,stat=,comm="
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 1,
+          "ownedPids": [
+            100
+          ],
+          "pending": {},
+          "monitorErrors": [],
+          "events": [
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: cwd,cwdProbeExit",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: cwd,cwdProbeExit",
+                "identityProbeIncomplete": {
+                  "argv": [
+                    "/fixed/worker"
+                  ],
+                  "cwd": null,
+                  "cwdProbeExit": 1,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "/fixed/worker\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": [
+                          "/fixed/worker"
+                        ]
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 1,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": null,
+                        "cwd": null,
+                        "cwdDescriptor": false
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": true,
+                    "cwd": false,
+                    "cwdProbeExitZero": false
+                  },
+                  "missingFields": [
+                    "cwd",
+                    "cwdProbeExit"
+                  ],
+                  "freshAbsentEligible": true
+                }
+              }
+            },
+            {
+              "kind": "transient-child-exited",
+              "confirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [
+                    "/fixed/worker"
+                  ],
+                  "cwd": null,
+                  "cwdProbeExit": 1,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "/fixed/worker\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": [
+                          "/fixed/worker"
+                        ]
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 1,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": null,
+                        "cwd": null,
+                        "cwdDescriptor": false
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": true,
+                    "cwd": false,
+                    "cwdProbeExitZero": false
+                  },
+                  "missingFields": [
+                    "cwd",
+                    "cwdProbeExit"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 94,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  }
+                },
+                "pidAbsent": true
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [],
+                "consumersClear": true,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": [
+            [
+              100,
+              303
+            ]
+          ]
+        },
+        {
+          "mode": "present",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-axo",
+                "pid=,ppid=,lstart=,stat=,comm="
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 1,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+              "identityProbeIncomplete": {
+                "argv": [],
+                "cwd": "/P",
+                "cwdProbeExit": 0,
+                "identitySamples": {
+                  "args": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-p",
+                      "101",
+                      "-o",
+                      "args="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 0,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "argv": []
+                    }
+                  },
+                  "cwd": {
+                    "argv": [
+                      "/usr/sbin/lsof",
+                      "-a",
+                      "-p",
+                      "101",
+                      "-d",
+                      "cwd",
+                      "-Fn"
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "p101\nfcwd\nn/P\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 14,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pid": 101,
+                      "cwd": "/P",
+                      "cwdDescriptor": true
+                    }
+                  }
+                },
+                "presence": {
+                  "argv": false,
+                  "cwd": true,
+                  "cwdProbeExitZero": true
+                },
+                "missingFields": [
+                  "argv"
+                ],
+                "freshAbsentEligible": true
+              },
+              "freshConfirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n101 100 Thu Oct 8 10:00:01 2026 S /fixed/worker\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 142,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303,
+                        101
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  },
+                  "101": {
+                    "ppid": 100,
+                    "start": "Thu Oct 8 10:00:01 2026",
+                    "stat": "S",
+                    "exe": "/fixed/worker"
+                  }
+                },
+                "pidAbsent": false
+              }
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+            }
+          ],
+          "events": [
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                }
+              }
+            },
+            {
+              "kind": "transient_child_confirmation_rejected",
+              "confirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n101 100 Thu Oct 8 10:00:01 2026 S /fixed/worker\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 142,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303,
+                        101
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  },
+                  "101": {
+                    "ppid": 100,
+                    "start": "Thu Oct 8 10:00:01 2026",
+                    "stat": "S",
+                    "exe": "/fixed/worker"
+                  }
+                },
+                "pidAbsent": false
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "zombie",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-axo",
+                "pid=,ppid=,lstart=,stat=,comm="
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 1,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+              "identityProbeIncomplete": {
+                "argv": [],
+                "cwd": "/P",
+                "cwdProbeExit": 0,
+                "identitySamples": {
+                  "args": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-p",
+                      "101",
+                      "-o",
+                      "args="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 0,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "argv": []
+                    }
+                  },
+                  "cwd": {
+                    "argv": [
+                      "/usr/sbin/lsof",
+                      "-a",
+                      "-p",
+                      "101",
+                      "-d",
+                      "cwd",
+                      "-Fn"
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "p101\nfcwd\nn/P\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 14,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pid": 101,
+                      "cwd": "/P",
+                      "cwdDescriptor": true
+                    }
+                  }
+                },
+                "presence": {
+                  "argv": false,
+                  "cwd": true,
+                  "cwdProbeExitZero": true
+                },
+                "missingFields": [
+                  "argv"
+                ],
+                "freshAbsentEligible": true
+              },
+              "freshConfirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n101 100 Thu Oct 8 10:00:01 2026 Z /fixed/worker\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 142,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303,
+                        101
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  },
+                  "101": {
+                    "ppid": 100,
+                    "start": "Thu Oct 8 10:00:01 2026",
+                    "stat": "Z",
+                    "exe": "/fixed/worker"
+                  }
+                },
+                "pidAbsent": false
+              }
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+            }
+          ],
+          "events": [
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                }
+              }
+            },
+            {
+              "kind": "transient_child_confirmation_rejected",
+              "confirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n101 100 Thu Oct 8 10:00:01 2026 Z /fixed/worker\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 142,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303,
+                        101
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  },
+                  "101": {
+                    "ppid": 100,
+                    "start": "Thu Oct 8 10:00:01 2026",
+                    "stat": "Z",
+                    "exe": "/fixed/worker"
+                  }
+                },
+                "pidAbsent": false
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        },
+        {
+          "mode": "reused",
+          "calls": [
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-p",
+                "101",
+                "-o",
+                "args="
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/usr/sbin/lsof",
+                "-a",
+                "-p",
+                "101",
+                "-d",
+                "cwd",
+                "-Fn"
+              ],
+              "timeout": 5.0
+            },
+            {
+              "argv": [
+                "/bin/ps",
+                "-ww",
+                "-axo",
+                "pid=,ppid=,lstart=,stat=,comm="
+              ],
+              "timeout": 5.0
+            }
+          ],
+          "freshQueries": 1,
+          "ownedPids": [
+            100
+          ],
+          "pending": {
+            "101": {
+              "row": {
+                "ppid": 100,
+                "start": "Thu Oct 8 10:00:01 2026",
+                "stat": "S",
+                "exe": "/fixed/worker"
+              },
+              "stage": "I",
+              "rootPid": 100,
+              "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+              "firstObservedUtc": "offline-fixture",
+              "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+              "identityProbeIncomplete": {
+                "argv": [],
+                "cwd": "/P",
+                "cwdProbeExit": 0,
+                "identitySamples": {
+                  "args": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-p",
+                      "101",
+                      "-o",
+                      "args="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 0,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "argv": []
+                    }
+                  },
+                  "cwd": {
+                    "argv": [
+                      "/usr/sbin/lsof",
+                      "-a",
+                      "-p",
+                      "101",
+                      "-d",
+                      "cwd",
+                      "-Fn"
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "p101\nfcwd\nn/P\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 14,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pid": 101,
+                      "cwd": "/P",
+                      "cwdDescriptor": true
+                    }
+                  }
+                },
+                "presence": {
+                  "argv": false,
+                  "cwd": true,
+                  "cwdProbeExitZero": true
+                },
+                "missingFields": [
+                  "argv"
+                ],
+                "freshAbsentEligible": true
+              },
+              "freshConfirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n101 100 Thu Oct 8 10:00:09 2026 S /reused\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 136,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303,
+                        101
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  },
+                  "101": {
+                    "ppid": 100,
+                    "start": "Thu Oct 8 10:00:09 2026",
+                    "stat": "S",
+                    "exe": "/reused"
+                  }
+                },
+                "pidAbsent": false
+              }
+            }
+          },
+          "monitorErrors": [
+            {
+              "utc": "offline-fixture",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+            }
+          ],
+          "events": [
+            {
+              "kind": "pending_identity",
+              "pid": 101,
+              "identity": {
+                "row": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+                "firstObservedUtc": "offline-fixture",
+                "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv",
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                }
+              }
+            },
+            {
+              "kind": "transient_child_confirmation_rejected",
+              "confirmation": {
+                "pid": 101,
+                "initialRow": {
+                  "ppid": 100,
+                  "start": "Thu Oct 8 10:00:01 2026",
+                  "stat": "S",
+                  "exe": "/fixed/worker"
+                },
+                "parentChain": [
+                  {
+                    "pid": 100,
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity",
+                    "argv": [
+                      "/fixed/Unity"
+                    ],
+                    "cwd": "/P",
+                    "cwdProbeExit": 0,
+                    "stage": "I",
+                    "rootPid": 100,
+                    "termSent": false
+                  }
+                ],
+                "argsProbe": null,
+                "identityProbeIncomplete": {
+                  "argv": [],
+                  "cwd": "/P",
+                  "cwdProbeExit": 0,
+                  "identitySamples": {
+                    "args": {
+                      "argv": [
+                        "/bin/ps",
+                        "-ww",
+                        "-p",
+                        "101",
+                        "-o",
+                        "args="
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 0,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "argv": []
+                      }
+                    },
+                    "cwd": {
+                      "argv": [
+                        "/usr/sbin/lsof",
+                        "-a",
+                        "-p",
+                        "101",
+                        "-d",
+                        "cwd",
+                        "-Fn"
+                      ],
+                      "startedUtc": "offline-fixture",
+                      "startedMonotonic": 10.0,
+                      "returncode": 0,
+                      "stdout": "p101\nfcwd\nn/P\n",
+                      "stderr": "",
+                      "timeoutSeconds": 5.0,
+                      "stdoutBytes": 14,
+                      "stderrBytes": 0,
+                      "finishedUtc": "offline-fixture",
+                      "finishedMonotonic": 10.0,
+                      "parsed": {
+                        "pid": 101,
+                        "cwd": "/P",
+                        "cwdDescriptor": true
+                      }
+                    }
+                  },
+                  "presence": {
+                    "argv": false,
+                    "cwd": true,
+                    "cwdProbeExitZero": true
+                  },
+                  "missingFields": [
+                    "argv"
+                  ],
+                  "freshAbsentEligible": true
+                },
+                "stage": "I",
+                "rootPid": 100,
+                "startedMonotonic": 10.0,
+                "freshProbe": {
+                  "snapshot": {
+                    "argv": [
+                      "/bin/ps",
+                      "-ww",
+                      "-axo",
+                      "pid=,ppid=,lstart=,stat=,comm="
+                    ],
+                    "startedUtc": "offline-fixture",
+                    "startedMonotonic": 10.0,
+                    "returncode": 0,
+                    "stdout": "100 1 Thu Oct 8 10:00:00 2026 S /fixed/Unity\n303 1 Thu Oct 8 10:00:02 2026 S /unrelated/fresh\n101 100 Thu Oct 8 10:00:09 2026 S /reused\n",
+                    "stderr": "",
+                    "timeoutSeconds": 5.0,
+                    "stdoutBytes": 136,
+                    "stderrBytes": 0,
+                    "finishedUtc": "offline-fixture",
+                    "finishedMonotonic": 10.0,
+                    "parsed": {
+                      "pids": [
+                        100,
+                        303,
+                        101
+                      ]
+                    }
+                  }
+                },
+                "finishedMonotonic": 10.0,
+                "freshSnapshot": {
+                  "100": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:00 2026",
+                    "stat": "S",
+                    "exe": "/fixed/Unity"
+                  },
+                  "303": {
+                    "ppid": 1,
+                    "start": "Thu Oct 8 10:00:02 2026",
+                    "stat": "S",
+                    "exe": "/unrelated/fresh"
+                  },
+                  "101": {
+                    "ppid": 100,
+                    "start": "Thu Oct 8 10:00:09 2026",
+                    "stat": "S",
+                    "exe": "/reused"
+                  }
+                },
+                "pidAbsent": false
+              }
+            },
+            {
+              "kind": "monitor_failure",
+              "detail": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "scope": "consumers",
+                "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+              }
+            },
+            {
+              "kind": "monitor_cycle",
+              "cycle": {
+                "utc": "offline-fixture",
+                "phase": "running",
+                "sincePreviousSeconds": null,
+                "failures": [
+                  {
+                    "utc": "offline-fixture",
+                    "phase": "running",
+                    "scope": "consumers",
+                    "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101: argv"
+                  }
+                ],
+                "consumersClear": false,
+                "observations": [],
+                "elapsedSeconds": 0.0
+              }
+            }
+          ],
+          "guardPids": []
+        }
+      ],
+      "preservedConflicts": [],
+      "seconds": 2.0377913330012234,
+      "actualFunctionsCalled": [
+        "<genexpr>",
+        "<lambda>",
+        "<module>",
+        "BeeObservationIncomplete",
+        "ChildArgsProbeError",
+        "IdentityProbeIncomplete",
+        "NaturalGraceExpired",
+        "__init__",
+        "alive",
+        "blocking_probe_timeout",
+        "bound_detail",
+        "check",
+        "child_args",
+        "consumer_guard",
+        "details",
+        "discover",
+        "identity_args",
+        "identity_event",
+        "identity_sample",
+        "monitor",
+        "no_links",
+        "probe_timeout",
+        "recorded_chain",
+        "recover_root",
+        "register",
+        "sdk_adb_exception",
+        "snapshot_consumers"
+      ],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 114245,
+        "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+      },
+      "checker": {
+        "bytes": 92286,
+        "sha256": "abcc293dfd479486d5c3f6a1aa7816bb8c40d90adc769299ad2c124f40942f6a"
+      },
+      "inputs": {
+        "bytes": 1254426,
+        "sha256": "c20441f395bc7479484aec9436732280a8c68b6303797eb39f3a302b08249d19"
+      }
+    }
+  ],
+  "cumulativeSeconds": 2.0377913330012234,
+  "frozenSource": {
+    "runner": {
+      "bytes": 114245,
+      "sha256": "f5801212606db11dbf9bef5452b071c8b612c4a282ec1039af425abb154f6da8"
+    },
+    "checker": {
+      "bytes": 92286,
+      "sha256": "abcc293dfd479486d5c3f6a1aa7816bb8c40d90adc769299ad2c124f40942f6a"
+    }
+  },
+  "frozenCases": [
+    "FIX01 cwd descriptor cwd-missing-descriptor",
+    "FIX01 cwd descriptor cwd-name-before-descriptor",
+    "FIX01 cwd descriptor cwd-descriptor-before-pid",
+    "FIX01 cwd descriptor cwd-other-descriptor",
+    "FIX01 cwd descriptor cwd-incomplete-pid",
+    "FIX01 cwd descriptor cwd-wrongpid",
+    "FIX01 cwd descriptor cwd-truncated",
+    "FIX01 cwd descriptor complete",
+    "FIX01 cwd descriptor cwd-empty",
+    "FIX01 cwd descriptor cwd-pid-only",
+    "FIX01 cwd descriptor cwd-exit1",
+    "FIX01 cwd descriptor present",
+    "FIX01 cwd descriptor zombie",
+    "FIX01 cwd descriptor reused",
+    "FIX01 SDK complete actual details"
+  ],
+  "evidenceReuse": {
+    "original56": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V08/source-before-fix01/replay-results.json",
+      "bytes": 464062,
+      "sha256": "363bb0bbe99892da21ba1e5f74481ffa6557f69dede4bdddd55c1bf67e30b06a",
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": 56
+    },
+    "fullSuiteRerun": false
+  },
+  "independentFinding": {
+    "reviewId": 5452286080,
+    "findingId": 4215462510,
+    "reviewedHead": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4215462510"
+  }
+}

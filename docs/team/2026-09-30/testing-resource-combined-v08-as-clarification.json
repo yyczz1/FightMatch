@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "task": "RES-COMBINED-V08 AS06/AS07 test-scope evidence clarification",
+  "receiptStatus": "CONTRACT_TEST_EVIDENCE_SUPPORTED",
+  "actualQaTurn": "01a11a77-cef4-7a32-bfbf-3db19e8fc139",
+  "sourceDocuments": {
+    "adbFollowup": "docs/team/2026-09-30/engineering-resource-v08-adb-followup.md#AS06-AS07-evidence-interpretation-supplement",
+    "cases": {
+      "path": "docs/team/2026-09-30/testing-resource-combined-v01-cases.json",
+      "bytes": 24448,
+      "sha256": "d53c49167d522532a6cc87218bfa5e961ab3a096af06209fb694726fca2ed0e8"
+    }
+  },
+  "contract": {
+    "asIsolationPrecondition": "Fresh empty lease, real non-reparse ancestors, AS06/AS07/AS08 absent; no old tree or player-save access.",
+    "teardown": "Frozen RealArea.Dispose whitelist only; final lease empty; preserve/report unknown residue or sentinel drift.",
+    "emptyLeaseMeaning": "The verified empty post-run lease is the required using/Dispose postcondition, not evidence that AS tests did not execute."
+  },
+  "sealedTestSource": {
+    "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs",
+    "bytes": 36336,
+    "sha256": "572c46a5c37734fe6cb8db4ec9b3a0c0c133ce7284ce6e0458451e6bcf9cb029",
+    "compileImportedInputIdentityMatches": true,
+    "gitBlob": "1d2158c95242e42465711177cf42ee1205b260b4",
+    "methods": {
+      "AS06": {"lines": "381-409", "fixture": "using RealArea", "behavior": "Exercises real System.IO-backed activation files, Move/Replace/Flush, reads actual file bytes, and reopens state."},
+      "AS07": {"lines": "412-482", "fixture": "using RealArea", "behavior": "Creates and tests both an existing-target symlink and a dangling-target symlink; Read and Enter reject each, external sentinel bytes remain unchanged, and finally removes only the exact link."}
+    }
+  },
+  "compileBinding": {
+    "evidence": "TestArtifacts/FightMatch/RES-COMBINED-V08/run/compile.json",
+    "assembly": "FightMatch.Host.Tests",
+    "complete": true,
+    "proven": true,
+    "actualCsc": true,
+    "UNITY_EDITOR_OSXDefined": true,
+    "activationStoreTestSourceInCompilerInputs": true,
+    "outputBytes": 104448,
+    "outputSha256": "88aa771d8d0e013c81cf5b6aa20e56852a2c37f1847940ac721517389df5d4dc"
+  },
+  "xmlResults": {
+    "path": "TestArtifacts/FightMatch/RES-COMBINED-V08/run/T/results.xml",
+    "bytes": 56396,
+    "sha256": "b535cbfa2df56772657f07ff744a672848abbdd9d243b7dc48cf0fe26bba6720",
+    "AS06": {"fullname": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS06_RealFilesMoveReplaceAndReopen", "result": "Passed", "durationSeconds": 0.824151},
+    "AS07": {"fullname": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS07_RootAndResidueGuards", "result": "Passed", "durationSeconds": 0.058333}
+  },
+  "conclusion": {
+    "realFileIoContractAssertions": "SUPPORTED_BY_SEALED_SOURCE_AND_THIS_RUNS_HOST_TEST_COMPILATION_AND_PASSED_XML",
+    "bothRealSymlinkContractAssertions": "SUPPORTED_BY_UNITY_EDITOR_OSX_COMPILE_BRANCH_AND_PASSED_AS07_XML",
+    "independentSystemCallLog": "Not required by the asIsolation contract; its absence is not a contract gap.",
+    "realProcessRestart": "NOT_PROVEN; AS06 injects a next-process token and explicitly does not simulate an actual process restart.",
+    "scope": "This accepts evidence only within the specified AS06/AS07 contract-test scope; it is not an external filesystem audit."
+  },
+  "wholeRun": {
+    "status": "FAILED",
+    "failure": "More than one current SDK ADB server; Final monitor gate",
+    "priorReceipt": "docs/team/2026-09-30/testing-resource-combined-v08-native-receipt.json",
+    "priorReceiptPreserved": true,
+    "effect": "Clarifies only the AS06/AS07 evidence sufficiency interpretation; it does not change the failed runner verdict or trigger a rerun."
+  },
+  "scopeNote": "Read-only evidence clarification. No source edits, tests, Unity, cache scan, process probe, or Git operation was performed."
+}

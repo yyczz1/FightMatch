@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V06 recovery FIX03 GitHub review intake",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6052154370",
+  "triggerId": 6052154370,
+  "head": "b7b40d2989bc2dcabe5c28807c66adb339af03c8",
+  "observedHead": "b7b40d2989bc2dcabe5c28807c66adb339af03c8",
+  "completedReview": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451344048",
+  "reviewedAtUtc": "2026-10-08T04:24:05Z",
+  "reviewStatus": "FINDING_REPORTED",
+  "formalApproved": false,
+  "newFinding": {
+    "id": 4214626317,
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214626317",
+    "severity": "P1",
+    "title": "Publish the FIX03 packet at the recorded path",
+    "file": "docs/versioning/2026-10-08-resource-combined-validation/recovery-v06/source-receipt.json",
+    "line": 233,
+    "summary": "The new fix03.packet path does not exist; the published input is recovery-v06/fix03-packet.md. Point source-receipt.json at the published packet or publish the exact canonical file so FIX03 seals and smoke claims bind to an inspectable input.",
+    "resolved": false,
+    "outdated": false
+  },
+  "priorFindings": [
+    {"id": 4214565396, "status": "historical_outdated_unresolved"},
+    {"id": 4214565407, "status": "prior_unresolved_not_outdated"},
+    {"id": 4214422163, "status": "historical_outdated_unresolved"},
+    {"id": 4214487719, "status": "historical_outdated_unresolved"}
+  ],
+  "sourcePublicationGate": {
+    "publishedFiles": 99,
+    "totalBytes": 6587406,
+    "allGitBlobsAndSizesVerified": true,
+    "source": "central-provided FIX03 publication receipt verification"
+  },
+  "actualRecovery": {
+    "status": "NOT_RUN",
+    "source": "central handoff; review is source-only"
+  },
+  "limits": "No local review, tests, or GitHub writes were performed."
+}

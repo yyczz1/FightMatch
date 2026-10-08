@@ -1,0 +1,381 @@
+{
+  "task": "RES-COMBINED-V07",
+  "status": "SOURCE_REPLAY_PASS",
+  "deliveryStatus": "SOURCE_READY",
+  "owner": {
+    "role": "source implementer",
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a119e9-398f-79e3-9637-78abf284aa0e",
+    "requestedModel": "gpt-6-astra",
+    "requestedEffort": "xhigh",
+    "returnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "returnRoute": "This chat final only; central wait_threads receives completion.",
+  "preparedUtc": "2026-10-08T05:12:32.965967+00:00",
+  "mechanicalPreparationSeconds": 160,
+  "authority": {
+    "packet": "docs/team/2026-09-30/central-resource-combined-v07-fix01.md",
+    "design": "docs/team/2026-09-30/engineering-resource-combined-v07-correction.md",
+    "designSeal": {
+      "bytes": 5985,
+      "sha256": "6726b4e1ba4528cdef7539b010f3b3d7cab132a8848eafee75814de826dadc5f"
+    },
+    "prerequisite": "docs/team/2026-09-30/resource-combined-v06-recovery-native-verdict.json",
+    "prerequisiteStatus": "RECOVERED / independent restoration only; V06 native remains FAILED",
+    "reviewedBaselineHead": "cf0b81cde82e09fabaf137db387a2fff4f83fb6a"
+  },
+  "sourceIdentities": {
+    "runner.py": {
+      "bytes": 107531,
+      "sha256": "aa25085ff56559c8060a764686656f8b3dbee9b6f916b34f8b4ee193fa9d6812"
+    },
+    "inputs.json": {
+      "bytes": 1251531,
+      "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"
+    },
+    "replay-check.py": {
+      "bytes": 75451,
+      "sha256": "eba3d6c6275dd8cc1f9d0dccffff255b7e6d7d746e52729779c2a98c29c1d0e4"
+    },
+    "replay-results.json": {
+      "bytes": 25935,
+      "sha256": "b04c6feab5cb0a135296a39f191d9ab6b6caffa4f016bec1a633ede5544a3d4e"
+    }
+  },
+  "selfIdentity": "Final preparation.json bytes/SHA256 returned externally; no circular self hash.",
+  "baseline": {
+    "root": "TestArtifacts/FightMatch/RES-COMBINED-V07/source-before-fix01",
+    "sourceIdentities": {
+      "runner.py": {
+        "bytes": 106788,
+        "sha256": "4873fb61b3bb9937371cb50b25c0db7c6aca28f64fd86a4ad0365333af5f5973"
+      },
+      "inputs.json": {
+        "bytes": 1251531,
+        "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"
+      },
+      "preparation.json": {
+        "bytes": 88176,
+        "sha256": "2930887bdf0a990f829d5318532efa0399852cb571eafb58d7150dd8f765162b"
+      },
+      "replay-check.py": {
+        "bytes": 71321,
+        "sha256": "7ea08d83ebc2cdd5b9819ede99fb1fdcedfd2d233f975457077ed2fe266a6dff"
+      },
+      "replay-results.json": {
+        "bytes": 58582,
+        "sha256": "7403a28a82be5e4c4c2e85d85f8e0a3f18602efaa3cafbcd5d68ec76bd16a4a5"
+      }
+    }
+  },
+  "activationContract": {
+    "created": false,
+    "task": "RES-COMBINED-V07",
+    "statusRequired": "EXECUTION_BOUND",
+    "executorThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "freshTurn": true,
+    "requiredFields": [
+      "task",
+      "status",
+      "executionOwner",
+      "runner",
+      "seals.inputs",
+      "seals.preparation",
+      "seals.replay-check",
+      "seals.replay-results",
+      "sourceReview.runner",
+      "sourceReview.status=ACCEPT",
+      "sourceReview.head",
+      "sourceReview.resultUrl",
+      "projectRoot",
+      "cwd",
+      "cacheRoot",
+      "editor",
+      "stages",
+      "stopping",
+      "environmentOverrides",
+      "tmpIdentity",
+      "adbException",
+      "sdkAdb"
+    ],
+    "tmpIdentityFields": [
+      "dev",
+      "ino",
+      "uid",
+      "gid"
+    ],
+    "roots": {
+      "R": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "P": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+      "K": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+      "executionEvidence": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run",
+      "newBeeCache": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/bee-cache",
+      "activationTests": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V07/state-tests"
+    },
+    "tmpPrefix": "/private/tmp/fm-rcv7.XXXXXXXX",
+    "environmentBoth": {
+      "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+      "TMPDIR": "fresh canonical /private/tmp/fm-rcv7.XXXXXXXX, actual path sealed at activation",
+      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/bee-cache",
+      "DOTNET_EnableDiagnostics": "0"
+    },
+    "environmentTOnly": {
+      "FIGHTMATCH_ACTIVATION_TEST_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V07/state-tests"
+    },
+    "adb": "Freshly re-seal every inherited narrow exception field against the current host; no old approval is reusable.",
+    "completionObservation": {
+      "receiptStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+      "stdoutStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+      "validationStatusRequired": "TEST_PASS",
+      "failureMustBeAbsent": true,
+      "exactReceiptHashRequired": true,
+      "actualProcessExitCodeRequired": 0,
+      "externalClock": "C records monotonic start before invoking the runner and process completion after wait/exit; add the carried preparation160.",
+      "totalMaximumSeconds": 900,
+      "receiptMeasurement": "mechanicalExecutionSecondsThroughEvidence includes all earlier evidence writes/hashes; excludes receipt and stdout.",
+      "stdoutMeasurement": "mechanicalExecutionSecondsThroughReceiptHash includes receipt serialization/write/close/hash; excludes stdout flush and OS exit.",
+      "afterStdoutFlush": "Deadline checked again; overrun returns1 even after a provisional stdout record.",
+      "newOutputPaths": [],
+      "failureRetention": "Completed/partial existing evidence remains; one stdout failure/completion attempt; no recursive receipt rewrite or retry."
+    }
+  },
+  "completionObservationContract": {
+    "receiptStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+    "stdoutStatusOnCandidateSuccess": "AWAITING_PROCESS_EXIT",
+    "validationStatusRequired": "TEST_PASS",
+    "failureMustBeAbsent": true,
+    "exactReceiptHashRequired": true,
+    "actualProcessExitCodeRequired": 0,
+    "externalClock": "C records monotonic start before invoking the runner and process completion after wait/exit; add the carried preparation160.",
+    "totalMaximumSeconds": 900,
+    "receiptMeasurement": "mechanicalExecutionSecondsThroughEvidence includes all earlier evidence writes/hashes; excludes receipt and stdout.",
+    "stdoutMeasurement": "mechanicalExecutionSecondsThroughReceiptHash includes receipt serialization/write/close/hash; excludes stdout flush and OS exit.",
+    "afterStdoutFlush": "Deadline checked again; overrun returns1 even after a provisional stdout record.",
+    "newOutputPaths": [],
+    "failureRetention": "Completed/partial existing evidence remains; one stdout failure/completion attempt; no recursive receipt rewrite or retry."
+  },
+  "activationSourceBindings": {
+    "runner": {
+      "bytes": 107531,
+      "sha256": "aa25085ff56559c8060a764686656f8b3dbee9b6f916b34f8b4ee193fa9d6812"
+    },
+    "seals": {
+      "inputs": {
+        "bytes": 1251531,
+        "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"
+      },
+      "replay-check": {
+        "bytes": 75451,
+        "sha256": "eba3d6c6275dd8cc1f9d0dccffff255b7e6d7d746e52729779c2a98c29c1d0e4"
+      },
+      "replay-results": {
+        "bytes": 25935,
+        "sha256": "b04c6feab5cb0a135296a39f191d9ab6b6caffa4f016bec1a633ede5544a3d4e"
+      }
+    },
+    "preparationSeal": "Use final external seal; activation has not been created."
+  },
+  "exactBaseDiff": {
+    "functions": {
+      "changed": [
+        "bee_fd_binding",
+        "sdk_adb_exception"
+      ],
+      "added": [],
+      "removed": [],
+      "unchangedCount": 98,
+      "astSeals": {
+        "bee_fd_binding": {
+          "before": "9e4218192d1891511809058bb3895a0d737b8cddd12a6520afe96139e3488399",
+          "after": "49d933826c0451c688d20d6f8eb53be75e4e11c44a40055e96958f40b0bfee08"
+        },
+        "sdk_adb_exception": {
+          "before": "43f446b4c7a17dd0ad73176c0a7974aeec725527e90862a9acf1eb6d5c2fb5eb",
+          "after": "15ab306c1490934c48938cd9c14084bce09cc09c7e8ffb2a3acb8908b809be59"
+        }
+      }
+    },
+    "inputChanges": [],
+    "inputChangeCount": 0,
+    "inputsByteIdentical": true,
+    "behavior": [
+      "Bound SDK PID zombie checked before any candidate filtering or fresh probe; rejection gives no owned/signal authority.",
+      "After earlier exact ENOENT, successful final lstat records reappearance identity/time and fails this observation INCOMPLETE; original primary error retained."
+    ]
+  },
+  "staticValidation": {
+    "status": "PASS",
+    "changedFunctions": [
+      "bee_fd_binding",
+      "sdk_adb_exception"
+    ],
+    "remainingFunctionAstsUnchanged": true,
+    "inputsBytesUnchanged": true,
+    "snapshotFiveExact": true,
+    "syntax": "PASS",
+    "algorithmsAndBudgetsUnchanged": true
+  },
+  "evidenceReuse": {
+    "unchangedFunctionEvidenceOnly": true,
+    "historicalResults": [
+      {
+        "path": "TestArtifacts/FightMatch/RES-COMBINED-V06/run/replay-results.json",
+        "bytes": 175232,
+        "sha256": "87c920acffbce64eab678e85e1d7a198d7baf74d4f3b326e1ae02aee575eae4c",
+        "cases": 34,
+        "fullSuiteRerun": false
+      },
+      {
+        "path": "TestArtifacts/FightMatch/RES-COMBINED-V05/run/replay-results.json",
+        "bytes": 350873,
+        "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d",
+        "cases": 42,
+        "fullSuiteRerun": false
+      },
+      {
+        "path": "TestArtifacts/FightMatch/RES-COMBINED-V04/run/replay-results.json",
+        "bytes": 257494,
+        "sha256": "2e61957f14f67199d64b1343014f2824b59ea1879de01df1a1095931de18f944",
+        "cases": 69,
+        "fullSuiteRerun": false
+      },
+      {
+        "path": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/replay-results.json",
+        "bytes": 451171,
+        "sha256": "ef6b9626be51273a64770d169beedc2a1eb39f5cd5acb1ac10e9b0986d00b556",
+        "cases": 177,
+        "fullSuiteRerun": false
+      }
+    ],
+    "categories": [
+      "compiler source/response/reference provenance",
+      "atomic transfer and conflict preservation",
+      "package graph/cache protection",
+      "unaffected lifetime guards"
+    ],
+    "currentImpactCases": 13,
+    "originalV07_55": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V07/source-before-fix01/replay-results.json",
+      "bytes": 58582,
+      "sha256": "7403a28a82be5e4c4c2e85d85f8e0a3f18602efaa3cafbcd5d68ec76bd16a4a5",
+      "status": "SOURCE_REPLAY_PASS",
+      "distinctCases": 55,
+      "originalFailurePreserved": true,
+      "fullSuiteRerun": false
+    }
+  },
+  "replayContract": {
+    "maximumRounds": 2,
+    "maximumSecondsPerRound": 15,
+    "maximumCumulativeSeconds": 30,
+    "firstGreenStops": true
+  },
+  "offline": {
+    "status": "SOURCE_REPLAY_PASS",
+    "rounds": 1,
+    "passedCases": 13,
+    "seconds": 1.643686167008127,
+    "cumulativeSeconds": 1.643686167008127,
+    "cases": [
+      "FIX01 bound supplied SDK zombie",
+      "FIX01 bound supplied SDK reused",
+      "FIX01 bound supplied SDK absent",
+      "FIX01 ordinary live SDK full verification",
+      "FIX01 SDK double-empty fresh absent still accepted",
+      "FIX01 SDK fresh zombie still rejected",
+      "FIX01 final lstat reappearance before",
+      "FIX01 final lstat reappearance during",
+      "FIX01 final lstat reappearance same-inode",
+      "FIX01 final lstat reappearance primary-error",
+      "FIX01 normal Bee disappearance vanish-first",
+      "FIX01 normal Bee disappearance vanish-during",
+      "FIX01 ordinary live Bee binding"
+    ],
+    "forbiddenAttempts": [],
+    "preservedConflicts": [],
+    "old55FullSuiteRerun": false,
+    "originalFailedRoundPreservedInSnapshot": true
+  },
+  "limitations": {
+    "nativeRuns": 0,
+    "realProcessCalls": 0,
+    "realSignals": 0,
+    "realSockets": 0,
+    "activationCreated": false,
+    "productWrites": 0,
+    "gitWrites": 0,
+    "oldV06NativeAccepted": false,
+    "githubReview": "NOT_RUN; central must publish new head and obtain independent review before C execution"
+  },
+  "review": {
+    "status": "PENDING_INDEPENDENT_GITHUB_EXACT_HEAD",
+    "fixedFindings": [
+      "4214974319",
+      "4214974355"
+    ],
+    "baselineReview": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451715345"
+  },
+  "finalSealValidation": {
+    "status": "PASS",
+    "fiveLeavesOnly": true,
+    "fourLeavesChanged": [
+      "runner.py",
+      "replay-check.py",
+      "replay-results.json",
+      "preparation.json"
+    ],
+    "inputsUnchanged": {
+      "bytes": 1251531,
+      "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"
+    },
+    "snapshotUnchanged": true,
+    "actualTurn": "01a119e9-398f-79e3-9637-78abf284aa0e",
+    "currentRunnerCheckerInputMatchReplay": true,
+    "wallSecondsThroughSealing": 275.96642208099365
+  },
+  "previousDelivery": {
+    "preparation": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V07/source-before-fix01/preparation.json",
+      "bytes": 88176,
+      "sha256": "2930887bdf0a990f829d5318532efa0399852cb571eafb58d7150dd8f765162b"
+    },
+    "replayResults": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V07/source-before-fix01/replay-results.json",
+      "bytes": 58582,
+      "sha256": "7403a28a82be5e4c4c2e85d85f8e0a3f18602efaa3cafbcd5d68ec76bd16a4a5",
+      "status": "SOURCE_REPLAY_PASS",
+      "distinctCases": 55,
+      "originalFailurePreserved": true,
+      "fullSuiteRerun": false
+    }
+  },
+  "fix01": {
+    "task": "RES-COMBINED-V07-FIX01",
+    "actual": {
+      "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+      "host": "local",
+      "turn": "01a119e9-398f-79e3-9637-78abf284aa0e"
+    },
+    "sourceAndReplaySeals": {
+      "runner.py": {
+        "bytes": 107531,
+        "sha256": "aa25085ff56559c8060a764686656f8b3dbee9b6f916b34f8b4ee193fa9d6812"
+      },
+      "replay-check.py": {
+        "bytes": 75451,
+        "sha256": "eba3d6c6275dd8cc1f9d0dccffff255b7e6d7d746e52729779c2a98c29c1d0e4"
+      },
+      "replay-results.json": {
+        "bytes": 25935,
+        "sha256": "b04c6feab5cb0a135296a39f191d9ab6b6caffa4f016bec1a633ede5544a3d4e"
+      }
+    },
+    "preparationSeal": "Returned externally after final serialization; no circular hash.",
+    "nativeRuns": 0,
+    "realProbes": 0,
+    "gitWrites": 0
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "task": "RES-COMBINED-V06-RECOVERY-SOURCE",
+  "status": "SOURCE_READY",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a11994-d4c5-7ef3-815e-c07e16b07703",
+    "requestedModel": "gpt-6-astra",
+    "requestedEffort": "xhigh"
+  },
+  "soleReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "script": {
+    "bytes": 34017,
+    "sha256": "1b03c4f3891d47b06547080ffc6f01a71f9cc943c99598e3ef3db3bc96535117"
+  },
+  "plan": {
+    "bytes": 317407,
+    "sha256": "7af57098e6fcf2db9542cdd999edc3a75b0f473de087aa15c3252bb9585af751"
+  },
+  "selfIdentity": "Returned externally after final serialization",
+  "static": {
+    "syntax": "PASS",
+    "operations": 66,
+    "backups": 62,
+    "oldAtomicSlots": 62,
+    "fixedInputsVerified": true,
+    "QAbsent": true,
+    "status": "PASS",
+    "signalFunctionsAbsent": true,
+    "limitedPathsVerified": true,
+    "oldEvidenceAndBackupsUnchanged": true,
+    "sourceWritesOnlyThreeLeaves": true,
+    "reusedPrimitiveAstClassification": {
+      "verbatimReuse": [
+        "check",
+        "utc",
+        "read_chunks",
+        "bounded_read",
+        "bounded_text",
+        "checked",
+        "scan_tree",
+        "children",
+        "ident",
+        "no_links",
+        "inventory",
+        "source_tree",
+        "canonical",
+        "cmd",
+        "ps",
+        "alive",
+        "ChildArgsProbeError",
+        "child_args",
+        "details",
+        "adb_exception",
+        "sdk_adb_exception",
+        "consumer_guard",
+        "move_verified",
+        "transfer",
+        "swap_verified"
+      ],
+      "verbatimCount": 25,
+      "recoveryAdapterWrappers": [
+        "rename_exclusive",
+        "rename_swap"
+      ],
+      "adapterCount": 2,
+      "allOriginalFunctionBodiesVerbatim": false
+    }
+  },
+  "realPsLsofSignalsUnityRecoveryRuns": 0,
+  "executionCommand": "python3 recovery.py <plan-sha> <script-sha> <fresh-C-actual> <accepted-exact-head> <review-url>",
+  "smoke": {
+    "status": "PASS",
+    "round": 1,
+    "seconds": 0.0492731249978533,
+    "cases": [
+      {
+        "name": "actual verified move retains bytes and commits once",
+        "passed": true
+      },
+      {
+        "name": "existing third-party destination stops without mutation",
+        "passed": true
+      },
+      {
+        "name": "concurrent source retained and subsequent step not executed",
+        "passed": true
+      },
+      {
+        "name": "actual swap conflict makes one return and preserves preimage/third-party bytes",
+        "passed": true
+      }
+    ],
+    "failure": null,
+    "storage": "memory-only borrowed fixed historical FS model",
+    "realPsLsofSignalsSocketsRecovery": 0,
+    "scriptIdentity": {
+      "bytes": 34017,
+      "sha256": "1b03c4f3891d47b06547080ffc6f01a71f9cc943c99598e3ef3db3bc96535117"
+    },
+    "planIdentity": {
+      "bytes": 317034,
+      "sha256": "ec3b9e4090defbe012cd79f55f3ca10b52f9f3b51951d50f9e6652e19f02dbb8"
+    }
+  },
+  "originalV06": "FAILED",
+  "review": "PENDING_INDEPENDENT_GITHUB_EXACT_HEAD",
+  "completedUtc": "2026-10-08T04:01:32.176606+00:00",
+  "sourceOnly": true,
+  "oldV06StillFAILED": true,
+  "executionGate": "Central must approve exact reviewed script/plan seals and bind fresh sole-C actual before one120-second execution. Source readiness is not recovery acceptance.",
+  "sourceWallSecondsThroughSealing": 904.0437209606171,
+  "receiptCorrection": {
+    "owner": {
+      "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+      "host": "local",
+      "turn": "ACTUAL"
+    },
+    "reason": "The two rename helpers are recovery adapter wrappers; the other 25 listed functions are AST-identical to V06.",
+    "scriptAndPlanUnchanged": true,
+    "smokeReusedWithoutRerun": {
+      "status": "PASS",
+      "round": 1,
+      "seconds": 0.0492731249978533,
+      "cases": 4
+    }
+  },
+  "fix01": {
+    "packet": "docs/team/2026-09-30/central-resource-combined-v06-recovery-fix01.md",
+    "finding": "4214422163",
+    "actualTurn": "01a119ab-2a21-7590-8f13-8aba9456e0f4",
+    "beforeSnapshot": "TestArtifacts/FightMatch/RES-COMBINED-V06/recovery-source-before-fix01",
+    "beforeSnapshotSeals": {
+      "recovery.py": {
+        "bytes": 34017,
+        "sha256": "1b03c4f3891d47b06547080ffc6f01a71f9cc943c99598e3ef3db3bc96535117"
+      },
+      "plan.json": {
+        "bytes": 317034,
+        "sha256": "ec3b9e4090defbe012cd79f55f3ca10b52f9f3b51951d50f9e6652e19f02dbb8"
+      },
+      "source-receipt.json": {
+        "bytes": 3840,
+        "sha256": "bd4c2192f07681a3df48763e4b540fde21aa3580aef95096c812a8eb3f85a8ba"
+      }
+    },
+    "planChanges": [
+      {
+        "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "before": null,
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta",
+        "before": null,
+        "after": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta"
+      }
+    ],
+    "operations": 66,
+    "verifiedBackups": 62,
+    "verifiedParkInputs": {
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs": {
+        "bytes": 15710,
+        "sha256": "ed176ec6e87742359cfcd7767236619496180b25ad9783563582235ca1f8014d"
+      },
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta": {
+        "bytes": 243,
+        "sha256": "b6ecf5844647902cd3499b55c8948e0f2925bbdef9b379bfe13b2aa23e888535"
+      }
+    },
+    "smoke": {
+      "status": "PASS",
+      "seconds": 0.034783374998369254,
+      "kind": "actual recover_one with memory stage/install stand-ins",
+      "copyStagePaths": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V06/run/park/source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs.meta"
+      ]
+    },
+    "realRecovery": 0,
+    "recovery.pyUnchanged": true
+  }
+}

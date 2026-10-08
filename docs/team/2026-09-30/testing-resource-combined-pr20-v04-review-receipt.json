@@ -1,0 +1,103 @@
+{
+  "receipt": "RES-COMBINED-PR20-V04-GITHUB-REVIEW-RECEIPT",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a11921-43a0-79d3-8f1e-62a4acebb647",
+    "requestedModel": "gpt-6-luna",
+    "requestedEffort": "medium",
+    "runtimeModel": "Not exposed; effective model unverified",
+    "completionReceiver": "Central coordinator"
+  },
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/20",
+  "candidate": {
+    "head": "47078ee0137cc9c6e0b1e34228b9270dd2acdcc0",
+    "parent": "dbd5a203fd7b4997a1e67d7269fb1d9b87d5cbea",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "state": "OPEN_DRAFT",
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-combined-v04-publication-receipt.json",
+    "bytes": 17390,
+    "sha256": "05e65bf206459c102b81f9b40019484fb0990895b79b5b53c06887788bbdbe49",
+    "files": 38,
+    "remoteFiles": 38,
+    "allRemoteBlobsMatch": true,
+    "payloadBytes": 2672797,
+    "replay": {
+      "newPassed": 63,
+      "rounds": 1,
+      "seconds": 5.420995958003914,
+      "historical177": "V02 reuse; not rerun for V04"
+    },
+    "nativeRuns": 0,
+    "previousV03Native": "FAILED; T=0; restoration/process closure retained",
+    "integrationVerdict": null
+  },
+  "review": {
+    "trigger": {
+      "commentId": 6050299716,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6050299716",
+      "reposted": false
+    },
+    "completion": {
+      "summaryCommentId": 6048274217,
+      "status": "COMPLETED",
+      "completedAtUtc": "2026-10-08T01:32:58.033634Z",
+      "commit": "47078ee"
+    },
+    "formal": {
+      "id": "PRR_kwDOTDyjrM8AAAABRN4GGA",
+      "state": "COMMENTED",
+      "submittedAtUtc": "2026-10-08T01:32:55Z",
+      "author": "chatgpt-codex-connector",
+      "reviewedCommit": "47078ee013",
+      "matchesHead": true,
+      "approval": false
+    },
+    "topLevelResultComment": null,
+    "findings": [
+      {
+        "commentId": 4213725720,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4213725720",
+        "threadId": "PRRT_kwDOTDyjrM6qKRhM",
+        "priority": "P1",
+        "title": "Let natural-grace expiry escape process discovery",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 318,
+        "createdAtUtc": "2026-10-08T01:32:55Z",
+        "resolved": false,
+        "outdated": false,
+        "originalText": "When a child is first discovered near the end of the 60-second natural-close window, any `NaturalGraceExpired` raised by `register()` is caught by `discover()`'s broad `except Exception` and converted into a pending-identity error before this handler can see it. That error is added to `monitor_errors`, so the run remains `FAILED` even if the subsequent TERM window closes every process successfully—the same normal-boundary condition this V04 delta is intended to correct. Re-raise `NaturalGraceExpired` from `discover()` before handling ordinary identity failures."
+      }
+    ],
+    "historicalP1": [
+      {
+        "commentId": 4212752227,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212752227",
+        "threadId": "PRRT_kwDOTDyjrM6qH91Y",
+        "resolved": false,
+        "outdated": true
+      },
+      {
+        "commentId": 4212896382,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896382",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1L",
+        "resolved": false,
+        "outdated": true
+      },
+      {
+        "commentId": 4212896391,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896391",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1R",
+        "resolved": false,
+        "outdated": true
+      }
+    ],
+    "classification": "FORMAL_REVIEW_COMMENTED_WITH_P1; NOT_APPROVED"
+  },
+  "nextStep": "Address P1 in a separately scoped fix before fresh review; V04 native validation remains unrun."
+}
