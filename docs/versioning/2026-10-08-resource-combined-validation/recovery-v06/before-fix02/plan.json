@@ -6259,19 +6259,7 @@
   "signals": false,
   "retries": 0,
   "scriptIdentity": {
-    "bytes": 35455,
-    "sha256": "c9bc4fb977837a5b71d754999135607164ae1f82279b632985ab7c1161524b07"
-  },
-  "completionAddendum": "docs/team/2026-09-30/central-resource-combined-v06-recovery-fix02.md",
-  "completionContract": {
-    "totalLimitSeconds": 120,
-    "validationPassedReceiptStatus": "AWAITING_PROCESS_EXIT",
-    "validationPassedInternalStatus": "RESTORATION_CHECKS_PASS",
-    "failureStatus": "INCOMPLETE",
-    "receiptIdentity": "The exact persisted receipt byte count and SHA-256 are emitted in the final stdout summary after write/flush and hash.",
-    "externalAcceptance": "Only a separately observed actual OS exit code 0, external monotonic duration <=120 seconds, matching receipt byte count/SHA-256, RESTORATION_CHECKS_PASS with no failure, exact 1035 projection, 43 compiler leaves, 62 protected preimages, and fresh no-consumer evidence can be recorded RECOVERED. Otherwise INCOMPLETE.",
-    "postFlushDeadline": "Check the total deadline after receipt flush and hash and again after stdout flush. If expired, return exit 1 even if the durable receipt/stdout still says AWAITING_PROCESS_EXIT.",
-    "noRetryOrRewrite": "Write the terminal receipt at most once. Serialization, write, hash, flush, or deadline failures return INCOMPLETE and exit 1; preserve any original failure and never rewrite a transient receipt.",
-    "originalV06": "FAILED"
+    "bytes": 34017,
+    "sha256": "1b03c4f3891d47b06547080ffc6f01a71f9cc943c99598e3ef3db3bc96535117"
   }
 }

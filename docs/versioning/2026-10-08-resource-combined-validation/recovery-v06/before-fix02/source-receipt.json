@@ -10,12 +10,12 @@
   },
   "soleReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
   "script": {
-    "bytes": 35455,
-    "sha256": "c9bc4fb977837a5b71d754999135607164ae1f82279b632985ab7c1161524b07"
+    "bytes": 34017,
+    "sha256": "1b03c4f3891d47b06547080ffc6f01a71f9cc943c99598e3ef3db3bc96535117"
   },
   "plan": {
-    "bytes": 318676,
-    "sha256": "3c5b1e3062471ea18c54ab5e4614cf59e89e176dc20c41b4bdd00c0c0627b793"
+    "bytes": 317407,
+    "sha256": "7af57098e6fcf2db9542cdd999edc3a75b0f473de087aa15c3252bb9585af751"
   },
   "selfIdentity": "Returned externally after final serialization",
   "static": {
@@ -105,7 +105,7 @@
   },
   "originalV06": "FAILED",
   "review": "PENDING_INDEPENDENT_GITHUB_EXACT_HEAD",
-  "completedUtc": "2026-10-08T04:12:17.293114+00:00",
+  "completedUtc": "2026-10-08T04:01:32.176606+00:00",
   "sourceOnly": true,
   "oldV06StillFAILED": true,
   "executionGate": "Central must approve exact reviewed script/plan seals and bind fresh sole-C actual before one120-second execution. Source readiness is not recovery acceptance.",
@@ -179,54 +179,5 @@
     },
     "realRecovery": 0,
     "recovery.pyUnchanged": true
-  },
-  "fix02": {
-    "packet": "docs/team/2026-09-30/central-resource-combined-v06-recovery-fix02.md",
-    "finding": "4214487719",
-    "actualTurn": "01a119b3-fe85-7f62-b0f0-e91dad64cc3b",
-    "beforeSnapshot": "TestArtifacts/FightMatch/RES-COMBINED-V06/recovery-source-before-fix02",
-    "beforeSnapshotSeals": {
-      "recovery.py": {
-        "bytes": 34017,
-        "sha256": "1b03c4f3891d47b06547080ffc6f01a71f9cc943c99598e3ef3db3bc96535117"
-      },
-      "plan.json": {
-        "bytes": 317407,
-        "sha256": "7af57098e6fcf2db9542cdd999edc3a75b0f473de087aa15c3252bb9585af751"
-      },
-      "source-receipt.json": {
-        "bytes": 6443,
-        "sha256": "e4355afb458669ebbd1d6664b938865f936f2bf1bc5acca13e1f4429ecb844aa"
-      }
-    },
-    "changedScriptSections": [
-      "new terminal_receipt helper",
-      "main final receipt/status/stdout/exit tail"
-    ],
-    "unchangedScriptFunctions": "All top-level functions except main are AST-identical to before-snapshot; recovery, atomic, process/FD, and 66-operation logic unchanged.",
-    "planChanges": [
-      "scriptIdentity updated to current source",
-      "completionAddendum reference added",
-      "completionContract added"
-    ],
-    "operationsUnchanged": true,
-    "smoke": {
-      "status": "PASS",
-      "elapsedLimitSeconds": 10,
-      "function": "actual terminal_receipt function with memory-only writer, hash reader, and fake monotonic clock",
-      "cases": [
-        "normal transient receipt with matching bytes/SHA",
-        "write crossing deadline => INCOMPLETE, one write",
-        "hash crossing deadline => INCOMPLETE",
-        "write/flush exception => INCOMPLETE, no retry",
-        "flush at deadline => INCOMPLETE",
-        "first failure retained",
-        "serialization exception => INCOMPLETE, no retry"
-      ],
-      "recovery": 0,
-      "realPsLsofUnity": 0,
-      "actualOSExitClaimed": false
-    },
-    "oldV06": "FAILED"
   }
 }

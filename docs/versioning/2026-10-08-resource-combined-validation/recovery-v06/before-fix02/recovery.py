@@ -410,19 +410,6 @@ def finalize_checks():
     check(not atomic_conflicts and not transfer_conflicts,'Unresolved recovery atomic conflict')
     frozen();atomic_inventory();evidence_budget();proc,fd=consumers();write_new('process-after.json',proc);write_new('fd-after.json',fd)
     return {'projectionFiles':1035,'canonicalSha256':canonical(actual),'compilerLeaves':43,'originalPreimagesPreserved':62,'recoveryConsumersClear':True}
-def terminal_receipt(result,total_deadline,clock=time.monotonic,writer=write_new,identity_reader=ident):
-    passed=result.get('validationStatus')=='RESTORATION_CHECKS_PASS' and 'failure' not in result
-    result['status']='AWAITING_PROCESS_EXIT' if passed else 'INCOMPLETE'
-    if not passed:result['validationStatus']='RESTORATION_CHECKS_FAILED'
-    result['completionContract']=PLAN['completionContract']
-    if clock()>=total_deadline:return {'status':'INCOMPLETE','receiptIdentity':None,'receiptFailure':'120-second deadline expired before receipt write'}
-    try:
-        writer('receipt.json',result)
-        receipt_identity=identity_reader(E/'receipt.json')
-        if clock()>=total_deadline:return {'status':'INCOMPLETE','receiptIdentity':receipt_identity,'receiptFailure':'120-second deadline expired after receipt flush/hash'}
-        return {'status':result['status'],'receiptIdentity':receipt_identity,'receiptFailure':None}
-    except BaseException as error:
-        return {'status':'INCOMPLETE','receiptIdentity':None,'receiptFailure':type(error).__name__+': '+str(error)}
 def main():
     global PLAN,R,P,E,K,TMP,A,deadline,total_deadline,created,phase,sdk_adb,root_launch_epoch,baseline_processes,ROUTES
     started=time.monotonic();total_deadline=started+120.;deadline=started+30.;result={'task':'RES-COMBINED-V06-RECOVERY','status':'INCOMPLETE','originalV06':'FAILED','nativeRuns':0,'signalCalls':0,'records':records,'movedBytes':moved}
@@ -453,14 +440,15 @@ def main():
         if observed[settings['path']] is not None:
             consumer_tick();check(exact(P/settings['path'])==observed[settings['path']],'Settings drift')
             transfer(P/settings['path'],E/'archive/SceneTemplateSettings.json',observed[settings['path']],True);moved.append({'path':str(E/'archive/SceneTemplateSettings.json'),'identity':observed[settings['path']]})
-        phase='finalization';deadline=min(time.monotonic()+30,total_deadline);result['verification']=finalize_checks();result['validationStatus']='RESTORATION_CHECKS_PASS'
+        phase='finalization';deadline=min(time.monotonic()+30,total_deadline);result['verification']=finalize_checks();result['status']='RECOVERED'
     except BaseException as error:
         result['failure']={'phase':phase,'type':type(error).__name__,'message':str(error)}
         if phase!='finalization':deadline=min(time.monotonic()+30,total_deadline);phase='finalization-after-failure'
     result.update(elapsedSecondsThroughChecks=time.monotonic()-started,originalNativeSeconds=117.2632786,transferConflicts=sorted(transfer_conflicts),atomicConflicts=sorted(atomic_conflicts))
-    terminal=terminal_receipt(result,total_deadline) if created else {'status':'INCOMPLETE','receiptIdentity':None,'receiptFailure':None}
-    summary={'status':terminal['status'],'validationStatus':result.get('validationStatus'),'elapsedSecondsThroughReceipt':time.monotonic()-started,'receipt':str(E/'receipt.json') if created else None,'receiptIdentity':terminal['receiptIdentity'],'receiptFailure':terminal['receiptFailure'],'totalLimitSeconds':120,'externalAcceptance':'RECOVERED requires actual OS exit 0, external monotonic duration <=120 seconds, receipt bytes/SHA-256 matching receiptIdentity, RESTORATION_CHECKS_PASS, no failure, 1035/43/62 protection, and fresh no-consumer evidence. Otherwise INCOMPLETE.','originalV06':'FAILED'}
-    print(json.dumps(summary),flush=True)
-    if time.monotonic()>=total_deadline:return 1
-    return 0 if terminal['status']=='AWAITING_PROCESS_EXIT' else 1
+    if time.monotonic()>=total_deadline:result['status']='INCOMPLETE';result['budgetExceeded']=True
+    try:
+        if created:write_new('receipt.json',result)
+    except BaseException as error:result['status']='INCOMPLETE';result['receiptFailure']=str(error)
+    print(json.dumps({'status':result['status'],'elapsedSecondsThroughReceipt':time.monotonic()-started,'receipt':str(E/'receipt.json') if created else None,'failure':result.get('failure'),'originalV06':'FAILED'}),flush=True)
+    return 0 if result['status']=='RECOVERED' and time.monotonic()<total_deadline else 1
 if __name__=='__main__':sys.exit(main())
