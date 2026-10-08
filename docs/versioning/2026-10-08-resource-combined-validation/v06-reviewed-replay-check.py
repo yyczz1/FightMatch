@@ -22,18 +22,18 @@ def identity(path):
 def byteid(data): return {'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
 def rejected(fn):
     try: fn()
-    except (RuntimeError,OSError,subprocess.TimeoutExpired): return True
+    except (RuntimeError,OSError): return True
     return False
 SELECTED=['V04 Bee htc then cth', 'V04 Bee cth then htc', 'V04 Bee rejects post-inode', 'V04 Bee rejects post-dir', 'V04 Bee rejects reuse-during', 'V04 fresh sealed state accepted', 'V04 execution state drift rejected', 'V05 full blocking-probe allowance and real timeout', 'V05 near natural boundary actual chain preserves prior Bee error', 'V05 FIX01 natural observation success', 'V05 FIX01 natural observation capacity', 'V05 FIX01 natural observation io', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure stubborn']
 skipped=[]
 def case(name,fn):
-    if not name.startswith('V07 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
+    if name not in SELECTED and not name.startswith('V06 '): skipped.append(name); return
     need(time.monotonic()-START<30 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<60,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{},'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}
     for key,value in defaults.items():env.setdefault(key,value)
     if hasattr(env.get('P'),'fs'):env.setdefault('children',lambda path:path.iterdir())
-    names=list(names)+[n for n in ('BeeObservationIncomplete','NaturalGraceExpired','ChildArgsProbeError','child_args','blocking_probe_timeout','bee_fd_binding','bee_capture_output','bee_observation_event','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
+    names=list(names)+[n for n in ('NaturalGraceExpired','ChildArgsProbeError','child_args','blocking_probe_timeout','bee_fd_binding','bee_capture_output','bee_observation_event','probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
     exec(compile(ast.fix_missing_locations(ast.Module(body=[copy.deepcopy(F[n]) for n in names],type_ignores=[])),RUNNER_FILENAME,'exec'),env);return env
 def profile(frame,event,arg):
     if event=='call' and frame.f_code.co_filename==RUNNER_FILENAME:traces.add(frame.f_code.co_name)
@@ -139,7 +139,7 @@ def compiler_ledger():
     report['compilerLedger']={'parked':43,'restored':43,'archived':22,'primitiveFlags':sorted(set(x for x in fs.native_calls)),'actualCacheWrites':0}
 
 history=json.loads((E/'replay-results.json').read_text())
-need(history['task']=='RES-COMBINED-V07','Current V04 history')
+need(history['task']=='RES-COMBINED-V06','Current V04 history')
 need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'Maximum two rounds; first green stops')
 report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'realSockets':0,'actualProjectionWrites':0,'fixtureIOOnly':True}
 def stat_value(mode,ino,uid=501,nlink=1):
@@ -611,150 +611,53 @@ def v06_child(mode):
     need(not signals,'No real or synthetic TERM permission granted to unregistered PID')
     report.setdefault('v06ChildEvidence',[]).append({'mode':mode,'freshQueries':fresh_count[0],'calls':calls,'ownedPids':sorted(env['owned']),'pending':copy.deepcopy(env['pending_details']),'monitorErrors':env['monitor_errors'],'guardRows':seen,'events':events,'signals':signals})
 
-
-def v07_lifetime(mode):
-    env,entries,names,events,calls,VPath=bee_fixture()
-    if mode=='saved':
-        lines=(R/'TestArtifacts/FightMatch/RES-COMBINED-V06/run/process-events.jsonl').read_text().splitlines()
-        a,b,c=[json.loads(lines[n-1]) for n in (185,186,187)]
-        need(a['beforeLstat']['ino']==34720956 and b['identity']==a['beforeLstat'] and c['beforeLstat']['ino']==34720957 and c['afterLstat']=={'ENOENT':True},'Actual185-187 lifecycle evidence')
-        parser=bind(['check','bee_fd_bound'],{'re':re,'pathlib':pathlib,'TMP':pathlib.Path(a['targetPath']).parent.parent,'D':D,'snapshot_root':a['rootPid']})
-        raw=a['probes'][0]['rawStdout']
-        for name in (a['targetPath'],c['targetPath']):
-            need(parser['bee_fd_bound'](raw,a['rootPid'],name),'Saved complete raw FD path')
-            need(parser['bee_fd_bound'](raw.replace(str(parser['TMP'])+'//',str(parser['TMP'])+'/'),a['rootPid'],name),'Saved standard spelling')
-        env['bee_ipc_entry'](VPath(names[0]));orig=VPath.lstat;counts=[0]
-        def lstat(path):
-            if str(path)==names[1]:
-                counts[0]+=1
-                if counts[0]==2:entries.pop(names[1],None)
-            return orig(path)
-        VPath.lstat=lstat
-        result=env['bee_ipc_entry'](VPath(names[1]))
-        need(result['type']=='bee-socket-absent' and names[1] not in env['bee_ipc']['I']['endpoints'],'No fabricated binding for real187 before-probe disappearance')
-        need(any(x.get('lifecycle')=='observed-ENOENT-not-bound' for x in events),'Raw lifecycle event retained')
-        report['savedV06Evidence']={'lines':[185,186,187],'oldFailedUnchanged':True}
-        return
-    if mode in ('vanish-first','vanish-during'):
-        env,entries,names,events,calls,VPath=bee_fixture(mode)
-        need(env['bee_ipc_entry'](VPath(names[0]))['type']=='bee-socket-absent' and not env['bee_ipc'],'No fabricated vanished binding');return
-    env['bee_ipc_entry'](VPath(names[0]));before=len(calls)
-    if mode=='nlink':
-        entries[str(VPath(names[0]).parent)].st_nlink+=1
-        env['bee_ipc_entry'](VPath(names[0]))
-        need(len(calls)==before and any(x['kind']=='bee_directory_difference' and not x['identityChanged'] for x in events),'Directory mutable field recorded without identity replacement');return
-    if mode in ('inode','directory-inode','unknown-rebind'):
-        entries[names[0]].st_ino+=100
-        if mode=='directory-inode':entries[str(VPath(names[0]).parent)].st_ino+=100
-        if mode=='unknown-rebind':
-            env['subprocess']=types.SimpleNamespace(run=lambda *a,**k:types.SimpleNamespace(returncode=1,stdout='',stderr=''),TimeoutExpired=subprocess.TimeoutExpired)
-            need(rejected(lambda:env['bee_ipc_entry'](VPath(names[0]))),'Still-present unbound replacement rejected')
-            need(env['bee_ipc']['I']['endpoints'][names[0]]['absent'],'Old proof invalidated');return
-        env['bee_ipc_entry'](VPath(names[0]))
-        need(len(calls)>before and env['bee_ipc']['I']['endpoints'][names[0]]['identity']['ino']==110,'New inode gets full fresh FD binding');return
-    if mode in ('second-same','second-directory'):
-        env['bee_ipc_entry'](VPath(names[1]))
-        for name in names:entries.pop(name);env['bee_ipc_entry'](VPath(name))
-        oldnames=list(names)
-        if mode=='second-directory':
-            directory='/synthetic-tmp/ijklmnop.xyz';names[:]=[directory+'/ipc_100_htc',directory+'/ipc_100_cth'];entries[directory]=stat_value(stat.S_IFDIR|0o700,30,nlink=2)
-        for i,name in enumerate(names):entries[name]=stat_value(stat.S_IFSOCK|0o700,40+i)
-        env['owned'][102]=env['owned'].pop(101);env['owned'][102]['pid']=102;env['owned'][102]['start']='Tue Oct 6 00:00:00 2026';env['process_snapshot'].pop(101);env['process_snapshot'][102]=copy.deepcopy(env['owned'][102])
-        for name in names:env['bee_ipc_entry'](VPath(name))
-        state=env['bee_ipc']['I'];need(len(state['directories'])==(2 if mode=='second-directory' else 1),'Independent per-directory admission')
-        need(all(state['endpoints'][name]['identity']['ino']==40+i for i,name in enumerate(names)),'Second invocation current object identities');return
-    raise AssertionError(mode)
-
-def v07_enumeration(mode):
-    env,entries,names,events,calls,VPath=bee_fixture();VPath.exists=lambda p:str(p) in entries
-    def scandir(path):
-        if mode=='absent':raise FileNotFoundError(str(path))
-        if mode=='permission':raise PermissionError('fixture denied')
-        raise OSError('fixture I/O')
-    env['os']=types.SimpleNamespace(scandir=scandir,getuid=lambda:501)
-    bind(['scan_tree','size'],env)
-    try:env['size'](VPath(names[0]).parent)
-    except Exception as error:
-        need(isinstance(error,env['BeeObservationIncomplete']) if mode=='absent' else isinstance(error,OSError),'Only ENOENT becomes incomplete observation')
-        need(bool(events)==(mode=='absent'),'No partial capacity success; other errors stay hard');return
-    raise AssertionError('Partial enumeration accepted')
-
-def v07_capacity(kind):
-    limits=copy.deepcopy(D['limits']);tmp=pathlib.Path('/synthetic-tmp');e=pathlib.Path('/synthetic-evidence');p=pathlib.Path('/P');bc=pathlib.Path('/BC');k=pathlib.Path('/K')
-    env=bind(['check','resources'],{'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:0),'TMP':tmp,'E':e,'P':p,'BC':bc,'K':k,'D':D,'PREF':{'mechanicalPreparationSeconds':160},'clock_start':0,'evidence_paths':lambda:[],'children':lambda p:[],'size':lambda x:((limits['tmpBytes']+1,1) if kind=='bytes' else (0,limits['tmpLeaves']+1)) if x==tmp else (0,0),'shutil':types.SimpleNamespace(disk_usage=lambda p:types.SimpleNamespace(free=10**12)),'tree_entries':lambda p:{},'as_guard':lambda:None})
-    need(rejected(env['resources']),'Original TMP capacity bound still enforced '+kind)
-
-def v07_sdk(mode):
-    row={'pid':73931,'ppid':1,'start':'fixed','exe':'adb','stat':'S'};rows={73931:copy.deepcopy(row)};calls=[];events=[]
-    binding={'pid':73931,'start':'fixed','exe':'adb','argv':['adb'],'uid':501,'mappedExecutable':{},'logDevice':7,'logInode':9}
-    probe={'argv':['/bin/ps','-ww','-p','73931','-o','args='],'returncode':2 if mode=='exit2' else 1,'stdout':'x' if mode=='stdout' else '','stderr':'x' if mode=='stderr' else ''}
-    env=bind(['check','sdk_adb_exception','consumer_guard','alive'],{'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:10,mktime=lambda x:0,strptime=lambda *a:None,time=lambda:100),'A':{'sdkAdb':{'path':'/sdk/adb'},'adbException':{'pid':999}},'sdk_adb':None if mode=='unbound' else binding,'root_launch_epoch':0,'baseline_processes':{},'owned':{},'adb_exception':lambda rows:999,'sdk_observations':[],'event':lambda kind,**kw:events.append({'kind':kind,**kw}),'re':re})
-    def details(pid):raise env['ChildArgsProbeError'](probe)
-    def fresh():
-        calls.append('fresh')
-        if mode=='fresh-error':raise OSError('fresh failed')
-        if mode=='fresh-natural':raise env['NaturalGraceExpired']('fresh boundary')
-        if mode in ('present','reused','zombie'):
-            return {73931:{**row,'start':'reused' if mode=='reused' else row['start'],'stat':'Z' if mode=='zombie' else 'S'}}
-        if mode=='new-consumer':return {700:{**row,'pid':700,'exe':'Unity'}}
-        return {}
-    env.update(details=details,ps=fresh)
-    if mode=='wrong-exe':binding['exe']='other'
-    if mode=='absent':
-        env['consumer_guard'](rows);need(rows=={} and calls==['fresh'] and not env['owned'] and env['sdk_observations'],'Bound SDK exit changes subsequent snapshot without owned permission')
-    else:
-        need(rejected(lambda:env['consumer_guard'](rows)),'SDK negative rejected '+mode)
-        need(len(calls)==(0 if mode in ('unbound','wrong-exe','stdout','stderr','exit2') else 1),'Only one eligible fresh query')
-    report.setdefault('sdkCases',[]).append({'mode':mode,'freshQueries':len(calls),'events':events})
-
-def v07_restore(mode):
-    events=[];env=bind(['check','alive','restore_all'],{'time':types.SimpleNamespace(monotonic=lambda:10),'D':{'limits':{'restoreSeconds':60,'finalizationSeconds':30}},'execution_deadline':200,'closure_closed':False,'monitor_errors':[{'error':'historical IPC failure'}],'owned':{},'active':types.SimpleNamespace(poll=lambda:None) if mode=='live-root' else None,'ps':lambda:{},'consumer_guard':lambda rows:None,'restore_compiler':lambda:{'complete':True},'archive_and_restore':lambda emit:{'complete':True},'write':lambda *a:events.append(a),'snapshot_consumers':lambda *a:None})
-    if mode=='pending':env['pending_details'][42]={'unverified':True}
-    if mode=='consumer':env['consumer_guard']=lambda rows:(_ for _ in ()).throw(RuntimeError('current consumer'))
-    if mode=='historical':
-        need(env['restore_all']()['complete'] and env['monitor_errors'],'Historical errors retained while fresh safe restoration proceeds')
-    else:need(rejected(env['restore_all']) and not events,'Current uncertainty blocks restoration '+mode)
-
-def v07_current_closure():
-    clock=[0.];events=[]
-    env=bind(['check','alive','monitor','closure'],{'time':types.SimpleNamespace(monotonic=lambda:clock[0],sleep=lambda s:clock.__setitem__(0,clock[0]+s)),'owned':{},'active':None,'ps':lambda:{},'snapshot_consumers':lambda *a:None,'resources':lambda:(_ for _ in ()).throw(RuntimeError('historical and current IPC integrity error')),'projection_guard':lambda:None,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0,'A':{'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30}},'D':{'limits':{'finalizationSeconds':30}},'execution_deadline':300,'event':lambda kind,**kw:events.append({'kind':kind,**kw}),'utc':lambda:'fixture'})
-    env['closure']('I',100,'fixture')
-    need(env['closure_closed'] and env['monitor_errors'] and all(x['scope']=='resources' for x in env['monitor_errors']),'Fresh empty consumer proof closes; every integrity failure remains for acceptance')
-
-
-def v07_preimage():
-    env=bind(['check','archive_and_restore'],{'pathlib':pathlib,'time':types.SimpleNamespace(monotonic=lambda:10),'active':None,'owned':{},'closure_closed':False,'ps':lambda:{},'consumer_guard':lambda rows:None,'synchronized_paths':['source.cs'],'parked_paths':[],'atomic_conflicts':set(),'P':pathlib.Path('/P'),'E':pathlib.Path('/E'),'N':{'newPaths':[],'overwritten':['source.cs'],'restoreBaseline':{'source.cs':byteid(b'before')},'files':{'source.cs':byteid(b'after')},'allowedNewSettings':{'path':'settings.json'}},'stages':[],'ident':lambda p:byteid(b'foreign'),'projection_guard':lambda:None,'protection':lambda:None,'write':lambda *a:None})
-    result=env['archive_and_restore'](False);need(not result['complete'] and result['errors'],'Unknown target preimage blocks actual restore loop')
-
-def v07_gates():
-    q=json.loads((R/D['testCases']['path']).read_text());env=bind(['check','validate_xml','compilation_passed'],{'ET':ET,'Counter':Counter,'Q':q,'N':N})
-    proof={'assemblies':{n:{'proven':True} for n in N['requiredAssemblies']}};need(len(proof['assemblies'])==12 and env['compilation_passed'](proof),'Exactly12 proven assembly gates')
-    for name in N['requiredAssemblies']:
-        missing=copy.deepcopy(proof);del missing['assemblies'][name];need(not env['compilation_passed'](missing),'Missing assembly refused')
-    root=ET.Element('test-run',result='Passed',total='89',passed='89',failed='0',skipped='0',inconclusive='0')
-    for fixture in q['fixtures']:
-        for name in fixture['testFullnames']:ET.SubElement(root,'test-case',fullname=name,result='Passed')
-    need(env['validate_xml'](ET.tostring(root,encoding='unicode'))['passed']==89,'89 exact testcase gate')
-    root.remove(root[-1]);need(rejected(lambda:env['validate_xml'](ET.tostring(root,encoding='unicode'))),'Missing actual testcase refused')
-
 try:
     D=json.loads((E/'inputs.json').read_text());F={n.name:n for n in ast.parse((E/'runner.py').read_text()).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
     compile(ast.parse((E/'runner.py').read_text()),RUNNER_FILENAME,'exec')
-    need(identity(E/'inputs.json')==history['inputs'],'Fixed V07 input seal')
-    for name,value in history['baseline']['sourceIdentities'].items():need(identity(R/history['baseline']['root']/name)==value,'Immutable V06 '+name)
+    need(identity(E/'inputs.json')==history['inputs'],'Exact V04 input seal')
+    for name,value in history['baseline']['sourceIdentities'].items():need(identity(R/history['baseline']['root']/name)==value,'Immutable V03 '+name)
+    need(identity(R/history['reused177']['path'])=={k:history['reused177'][k] for k in ('bytes','sha256')},'Historical177 exact bytes')
     env=bind(['basic','normalize_input'],{});N=env['normalize_input'](D)
     sys.setprofile(profile)
-    for mode in ('saved','vanish-first','vanish-during','nlink','inode','directory-inode','unknown-rebind','second-same','second-directory'):case('V07 Bee lifecycle '+mode,lambda mode=mode:v07_lifetime(mode))
-    for mode in ('uid','mode','dir-uid','dir-mode','dir-link','fifo','link','regular','nlink','before-io','fd-io','fd-mismatch','fd-error','fd-timeout','post-inode','post-dir'):case('V07 Bee hard failure '+mode,lambda mode=mode:bee_bad(mode))
-    for mode in ('absent','permission','io'):case('V07 incomplete enumeration '+mode,lambda mode=mode:v07_enumeration(mode))
-    for mode in ('bytes','leaves'):case('V07 capacity unchanged '+mode,lambda mode=mode:v07_capacity(mode))
-    for mode in ('absent','present','reused','zombie','fresh-error','fresh-natural','new-consumer','unbound','wrong-exe','stdout','stderr','exit2'):case('V07 bound SDK '+mode,lambda mode=mode:v07_sdk(mode))
-    for mode in ('absent','present','zombie'):case('V07 owned rules retained '+mode,lambda mode=mode:v06_child(mode))
-    for mode in ('timeout','io','unclosed-prior'):case('V07 current closure '+mode,lambda mode=mode:boundary(mode))
-    case('V07 persistent IPC errors do not fake current consumers',v07_current_closure)
-    for mode in ('historical','live-root','pending','consumer'):case('V07 independent restore '+mode,lambda mode=mode:v07_restore(mode))
-    case('V07 unknown target preimage blocks restore',v07_preimage)
-    case('V07 original12/89 acceptance gates',v07_gates)
+    case('V04 Bee htc then cth',lambda:bee_order())
+    case('V04 Bee cth then htc',lambda:bee_order(True))
+    case('V04 Bee complete FD path with stream annotation',lambda:bee_order(suffix=True))
+    for mode in ('stage','pid','start','fresh-start','exe','parent','argv','cwd','tool-editor','tool-beeBackend','tool-beeDriver','tool-lsof','fd-mismatch','fd-pid','fd-type','fd-no-record','fd-error','uid','mode','dir-uid','dir-mode','dir-link','fifo','link','regular','nlink','vanish-first','vanish-during','before-io','post-inode','post-dir','reuse-during','fd-io'):
+        case('V04 Bee rejects '+mode,lambda mode=mode:bee_bad(mode))
+    def fd_timeout():
+        env,entries,names,events,calls,VPath=bee_fixture('fd-timeout')
+        try:env['bee_ipc_entry'](VPath(names[0]))
+        except subprocess.TimeoutExpired:return
+        raise AssertionError('Real in-flight TimeoutExpired must propagate')
+    case('V04 Bee real in-flight TimeoutExpired',fd_timeout)
+    for mode in ('absent','directory-absent','residual','closed-I-new-T','inode','dir-inode','uid','link','reused-pid','io','reappear','wrong-stage'):
+        case('V04 Bee admitted '+mode,lambda mode=mode:bee_after(mode))
+    for kind in ('socket','fifo'):case('V04 unknown '+kind+' stays forbidden',lambda kind=kind:bee_unknown(kind))
+    case('V04 one directory per stage',bee_second_directory)
+    case('V04 rejects malformed IPC paths and wrong PID',bee_path_rejections)
+    case('V04 fresh T uses separate stage FD state',bee_fresh_T)
+    for mode in ('natural','timeout','io','total','unclosed-prior'):case('V04 closure '+mode,lambda mode=mode:boundary(mode))
+    case('V04 work and total deadlines preserved',probe_budgets)
+    case('FIX01 actual discover-register natural propagation and TERM',lambda:discovery_boundary('natural'))
+    case('FIX01 actual discover-register ordinary identity failure retained',lambda:discovery_boundary('ordinary'))
+    for mode in ('parent-first','during-term','stubborn','unknown'):
+        case('FIX02 independent PID discovery closure '+mode,lambda mode=mode:discovery_boundary(mode))
+    case('V04 fresh sealed state accepted',lambda:state_before(False))
+    case('V04 execution state drift rejected',lambda:state_before(True))
+    case('Retained actual 43-path compiler park and recovery ledger',compiler_ledger)
+    case('V05 saved real three-snapshot FD strings',actual_probe_strings)
+    for mode in ('success','mismatch','oversize','primary-and-after','write-only','write-with-primary'):
+        case('V05 raw FD observation '+mode,lambda mode=mode:observation_case(mode))
+    case('V05 full blocking-probe allowance and real timeout',blocking_admission)
+    case('V05 near natural boundary actual chain preserves prior Bee error',near_boundary_closure)
+    for mode in ('success','capacity','io'):
+        case('V05 FIX01 natural observation '+mode,lambda mode=mode:fix01_natural_observation(mode))
+    for stream in ('stdout','stderr'):
+        case('V05 FIX01 timeout partial capacity '+stream,lambda stream=stream:fix01_timeout_capacity(stream))
+    case('V06 real V05 exact path spellings and negatives',v06_saved_paths)
+    case('V06 full Bee binding records extra separator',v06_live_spelling)
+    for mode in ('absent','adb-label','present','reused','zombie','stdout','stderr','exit2','io','timeout','fresh-io','fresh-timeout','fresh-exit','fresh-natural','cwd-failure','complete','legacy','parent-stage'):
+        case('V06 actual transient child chain '+mode,lambda mode=mode:v06_child(mode))
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()
@@ -764,9 +667,9 @@ finally:
     except BaseException as error:conflicts.append('cleanup: '+str(error))
     report['preservedConflicts']=conflicts
     if conflicts:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Unknown or changed fixture contents preserved'
-    report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden
+    report['skippedHistoricalCases']=skipped;report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden
     report['runner']=identity(E/'runner.py');report['checker']=identity(E/'replay-check.py');report['inputs']=identity(E/'inputs.json')
-    if report['seconds']>30 or sum(x['seconds'] for x in history['rounds'])+report['seconds']>60:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V07 replay budget exceeded'
+    if report['seconds']>30 or sum(x['seconds'] for x in history['rounds'])+report['seconds']>60:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V04 replay budget exceeded'
     history['rounds'].append(report);history['status']=report['status'];history['cumulativeSeconds']=sum(x['seconds'] for x in history['rounds'])
     with (E/'replay-results.json').open('w') as stream:json.dump(history,stream,indent=2);stream.write('\n')
     print(json.dumps({'status':report['status'],'round':report['round'],'passedCases':len(cases),'seconds':report['seconds'],'cumulativeSeconds':history['cumulativeSeconds'],'failure':report.get('failure'),'preservedConflicts':conflicts,'forbiddenAttempts':forbidden}))

@@ -1,5 +1,5 @@
-# Resource combined validator V06
+# Resource combined validator V07
 
-V05 native import exited zero, but supervision failed: Unity exposed its exact Bee endpoint with one additional slash at the TMP/direct-child boundary. A newly observed child also exited during its args probe. V06 accepts only that second complete spelling and handles a structured args exit1 with both streams empty only after a fresh snapshot confirms absence under an owned parent chain. No unverified PID gains signal permission.
+V06 remains FAILED/T0. An independently reviewed recovery completed in 2.193398 seconds with actual OS exit0; QA verified P1035, 43 compiler targets, 62 original preimages and 58 preserved files. V07 treats transient Bee IPC observations separately from fresh consumer closure and safe restoration. Each live object still requires exact identity and ownership; the existing-bound SDK ADB empty-exit1 exception requires one fresh full snapshot proving absence.
 
-Current five source/data files correspond to RES-COMBINED-V06. The v06 design and packet fix scope. Prior source, failures, QA and real timer records are retained. Product inputs, package graph, 89 cases, budgets, restoration, ownership checks and OS-exit gate remain unchanged. Offline replay is not Unity, device or Demo acceptance. V06 native is not yet run; GitHub review precedes a separately scoped C execution.
+Current five source files are V07; canonical V07 design and source packet define scope. Product inputs, 12-assembly provenance, 89 cases, budgets and atomic operations remain fixed. Historical failures and evidence are retained. V07 native has not run; GitHub review and a separate C packet are required first.

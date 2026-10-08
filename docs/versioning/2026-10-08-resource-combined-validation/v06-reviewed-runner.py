@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RES-COMBINED-V07: sealed I then T; source preparation never activates native work."""
+"""RES-COMBINED-V06: sealed I then T; source preparation never activates native work."""
 import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy
 from collections import Counter
 import xml.etree.ElementTree as ET
@@ -10,7 +10,7 @@ allowed=set('activation.json inputs.json before.json preparation.json runner.py 
 owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
 transfer_conflicts=set(); probe_deadline=None; natural_boundary=None; bee_ipc={}; bee_observation_bytes=0
-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V07/state-tests'
+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V06/state-tests'
 compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
@@ -37,10 +37,8 @@ def event(kind,**kw):
     with (E/'process-events.jsonl').open('a') as f: f.write(json.dumps({'utc':utc(),'kind':kind,**kw},ensure_ascii=False)+'\n')
 class NaturalGraceExpired(Exception):
     """The normal natural-grace boundary, never an I/O or total-budget failure."""
-class BeeObservationIncomplete(RuntimeError):
-    """A limited Bee enumeration disappeared; capacity requires a later complete sample."""
-def bee_stamp(s,directory=False):
-    return {k:getattr(s,'st_'+k) for k in (('uid','gid','mode','dev','ino') if directory else ('uid','gid','mode','dev','ino','nlink'))}
+def bee_stamp(s):
+    return {k:getattr(s,'st_'+k) for k in ('uid','gid','mode','dev','ino','nlink')}
 def bee_tools():
     for role,item in D['beeIpcContract']['tools'].items():
         no_links(pathlib.Path(item['path'])); check(ident(item['path'])=={'bytes':item['bytes'],'sha256':item['sha256']},'Bee fixed tool drift '+role)
@@ -89,39 +87,29 @@ def bee_ipc_entry(path,observed=None):
         for identity in [state['rootIdentity']]+known['fdOwners']:
             row=process_snapshot.get(identity['pid'])
             check(row is None or (row['start']==identity['start'] and row['exe']==identity['exe']),'Bee admitted PID reused')
-    else: check(stage in ('I','T') and pid==snapshot_root and alive(process_snapshot,pid),'Bee first observation lacks current Editor')
-    no_links(path.parent)
-    try: ds=path.parent.lstat(); current=path.lstat()
-    except FileNotFoundError:
-        if known is not None: known['absent']=True
-        event('bee_ipc_absent',stage=stage,path=str(path),identity=None if known is None else known['identity'],observed=None if observed is None else bee_stamp(observed),monotonic=time.monotonic())
-        return {'type':'bee-socket-absent','stage':stage,'contentsRead':False}
-    check(stat.S_ISDIR(ds.st_mode) and ds.st_uid==os.getuid() and not stat.S_IMODE(ds.st_mode)&0o022,'Bee directory type/UID/mode')
-    check(stat.S_ISSOCK(current.st_mode) and current.st_uid==os.getuid() and current.st_nlink==1 and not stat.S_IMODE(current.st_mode)&0o022,'Bee endpoint type/UID/mode/link')
-    old_directory=None if state is None else state['directories'].get(str(path.parent))
-    directory_changed=old_directory is not None and {k:v for k,v in old_directory.items() if k!='nlink'}!=bee_stamp(ds,True)
-    if old_directory is not None and old_directory!=bee_stamp(ds):
-        event('bee_directory_difference',stage=stage,path=str(path.parent),old=old_directory,new=bee_stamp(ds),identityChanged=directory_changed)
-    if directory_changed:
-        for name,value in state['endpoints'].items():
-            if pathlib.Path(name).parent==path.parent:value['absent']=True
-    if known is not None and not known['absent'] and not directory_changed and bee_stamp(current)==known['identity']:
-        state['directories'][str(path.parent)]=bee_stamp(ds)
+        try: ds=path.parent.lstat()
+        except FileNotFoundError: ds=None
+        if ds is not None: check(bee_stamp(ds)==state['directoryIdentity'],'Bee directory replaced')
+        try: current=path.lstat()
+        except FileNotFoundError:
+            if not known['absent']: known['absent']=True; event('bee_ipc_absent',stage=stage,path=str(path),identity=known['identity'])
+            return {'type':'bee-socket-absent','stage':stage,'identity':known['identity'],'contentsRead':False}
+        check(not known['absent'] and ds is not None and bee_stamp(current)==known['identity'],'Bee endpoint replaced or reappeared')
         return {'type':'bee-socket','stage':stage,**known['identity'],'contentsRead':False}
-    if known is not None:
-        known['absent']=True
-        event('bee_binding_invalidated',stage=stage,path=str(path),old=known['identity'],new=bee_stamp(current),directoryChanged=directory_changed)
-    check(stage==current_stage and pid==snapshot_root and alive(process_snapshot,pid),'Bee new binding lacks current Editor')
-    check(state is None or (not state['closed'] and state['rootPid']==pid),'Bee stage changed')
-    if observed is not None and bee_stamp(observed)!=bee_stamp(current):event('bee_observed_difference',path=str(path),old=bee_stamp(observed),new=bee_stamp(current))
-    root_identity,holders,after=bee_fd_binding(path,stage,pid,ds,current)
-    if after is None:
-        return {'type':'bee-socket-absent','stage':stage,'contentsRead':False}
+    check(stage in ('I','T') and pid==snapshot_root and alive(process_snapshot,pid),'Bee first binding lacks current Editor')
+    check(state is None or (not state['closed'] and state['rootPid']==pid and state['directory']==str(path.parent)),'Bee directory/stage changed')
+    no_links(path.parent); ds=path.parent.lstat()
+    check(stat.S_ISDIR(ds.st_mode) and ds.st_uid==os.getuid() and not stat.S_IMODE(ds.st_mode)&0o022,'Bee directory type/UID/mode')
+    if state is not None: check(bee_stamp(ds)==state['directoryIdentity'] and len(state['endpoints'])<2,'Bee directory replaced or endpoint limit')
+    try: before=path.lstat()
+    except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished before FD binding')
+    check(stat.S_ISSOCK(before.st_mode) and before.st_uid==os.getuid() and before.st_nlink==1 and not stat.S_IMODE(before.st_mode)&0o022,'Bee endpoint type/UID/mode/link')
+    if observed is not None: check(bee_stamp(observed)==bee_stamp(before),'Bee endpoint changed before binding')
+    root_identity,holders,after=bee_fd_binding(path,stage,pid,ds,before)
     if state is None:
-        state={'stage':stage,'rootPid':pid,'rootIdentity':root_identity,'directories':{},'endpoints':{},'closed':False}; bee_ipc[stage]=state
-    state['directories'][str(path.parent)]=bee_stamp(ds)
+        state={'stage':stage,'rootPid':pid,'rootIdentity':root_identity,'directory':str(path.parent),'directoryIdentity':bee_stamp(ds),'endpoints':{},'closed':False}; bee_ipc[stage]=state
     state['endpoints'][str(path)]={'identity':bee_stamp(after),'fdOwners':holders,'absent':False}
-    event('bee_ipc_admitted',stage=stage,path=str(path),directory=bee_stamp(ds),identity=bee_stamp(after),fdOwners=holders)
+    event('bee_ipc_admitted',stage=stage,path=str(path),directory=state['directoryIdentity'],identity=bee_stamp(after),fdOwners=holders)
     return {'type':'bee-socket','stage':stage,**bee_stamp(after),'contentsRead':False}
 def bee_ipc_snapshot(root,out):
     if root!=TMP: return
@@ -160,22 +148,11 @@ def scan_tree(root):
     pending=[pathlib.Path(root)]
     while pending:
         probe_timeout(); base=pending.pop(); check(not base.is_symlink(),'Symlink traversal '+str(base)); dirs=[]; files=[]
-        limited=TMP is not None and base.parent==TMP and re.fullmatch(D['beeIpcContract']['directoryPattern'],base.name)
         exists=base.exists(); probe_timeout()
-        if not exists:
-            if limited:
-                event('bee_directory_enumeration_absent',path=str(base),monotonic=time.monotonic(),capacityComplete=False)
-                raise BeeObservationIncomplete('Bee directory disappeared; fresh complete capacity sample required '+str(base))
-            continue
-        try:
-            with os.scandir(base) as entries:
-                for entry in checked(entries):
-                    (dirs if entry.is_dir(follow_symlinks=False) else files).append(entry.name); probe_timeout()
-        except FileNotFoundError:
-            if limited:
-                event('bee_directory_enumeration_absent',path=str(base),monotonic=time.monotonic(),capacityComplete=False)
-                raise BeeObservationIncomplete('Bee enumeration disappeared; fresh complete capacity sample required '+str(base))
-            raise
+        if not exists: continue
+        with os.scandir(base) as entries:
+            for entry in checked(entries):
+                (dirs if entry.is_dir(follow_symlinks=False) else files).append(entry.name); probe_timeout()
         yield str(base),dirs,files
         for name in checked(reversed(dirs)): pending.append(base/name)
 def children(root):
@@ -217,7 +194,7 @@ def bee_observation_event(record):
     event('bee_fd_observation',**record); bee_observation_bytes+=len(encoded)
 def bee_fd_binding(path,stage,pid,ds,before):
     record={'stage':stage,'monotonic':time.monotonic(),'targetPath':str(path),'rootPid':pid,'beforeLstat':bee_stamp(before),'directoryBefore':bee_stamp(ds),'candidates':[],'probes':[]}
-    primary=None; root_identity=None; holders=[]; after=None; disappeared=False
+    primary=None; root_identity=None; holders=[]; after=None
     try:
         bee_tools(); root_identity=bee_process(pid,stage,pid); record['rootIdentity']=root_identity
         candidates=[pid]+[p for p in owned if p!=pid and alive(process_snapshot,p) and owned[p]['exe']==D['beeIpcContract']['tools']['beeBackend']['path'] and owned[p]['stage']==stage and owned[p]['rootPid']==pid]
@@ -226,10 +203,7 @@ def bee_fd_binding(path,stage,pid,ds,before):
             item={'candidatePid':candidate,'monotonic':time.monotonic(),'targetPath':str(path),'stage':stage,'exitCode':None,'parseResult':None,'identityRecheck':None}; record['probes'].append(item)
             probe_error=None
             try:
-                try: item['beforeLstat']=bee_stamp(path.lstat())
-                except FileNotFoundError:
-                    item['beforeLstat']={'ENOENT':True}; disappeared=True; break
-                identity=bee_process(candidate,stage,pid); item['identityBefore']=identity
+                item['beforeLstat']=bee_stamp(path.lstat()); identity=bee_process(candidate,stage,pid); item['identityBefore']=identity
                 argv=[D['beeIpcContract']['tools']['lsof']['path'],'-a','-p',str(candidate),'-U','-Fpcftn']; item['argv']=argv
                 timeout=min(D['beeIpcContract']['fdTimeoutSeconds'],blocking_probe_timeout()); item['timeoutSeconds']=timeout
                 result=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)
@@ -248,25 +222,21 @@ def bee_fd_binding(path,stage,pid,ds,before):
                 raise
             finally:
                 try: item['afterLstat']=bee_stamp(path.lstat())
-                except FileNotFoundError: item['afterLstat']={'ENOENT':True}; disappeared=True
+                except FileNotFoundError: item['afterLstat']={'ENOENT':True}
                 except BaseException as error:
                     item['afterLstat']={'errorType':type(error).__name__,'error':str(error)}
                     if probe_error is None: raise
                 item['finishedMonotonic']=time.monotonic()
-        if not disappeared:
-            try: after=path.lstat(); directory_after=path.parent.lstat()
-            except FileNotFoundError: disappeared=True; after=None
-            if not disappeared:
-                record['directoryAfter']=bee_stamp(directory_after)
-                record['identityDifference']={'endpointBefore':bee_stamp(before),'endpointAfter':bee_stamp(after),'directoryBefore':bee_stamp(ds),'directoryAfter':bee_stamp(directory_after)}
-                check(bee_stamp(after)==bee_stamp(before) and bee_stamp(directory_after,True)==bee_stamp(ds,True),'Bee endpoint/directory identity changed during FD binding')
-                check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding'); bee_tools()
-        if disappeared: after=None; record['lifecycle']='observed-ENOENT-not-bound'
+        check(holders,'INCOMPLETE: Bee endpoint lacks exact owned FD binding')
+        try: after=path.lstat()
+        except FileNotFoundError: raise RuntimeError('INCOMPLETE: Bee endpoint vanished during FD binding')
+        check(bee_stamp(after)==bee_stamp(before) and bee_stamp(path.parent.lstat())==bee_stamp(ds),'Bee endpoint/directory changed during FD binding')
+        bee_tools()
     except BaseException as error:
         primary=error; record['error']={'type':type(error).__name__,'message':str(error)}
     finally:
         try: record['afterLstat']=bee_stamp(path.lstat())
-        except FileNotFoundError: record['afterLstat']={'ENOENT':True}; after=None; record['lifecycle']='observed-ENOENT-not-bound'
+        except FileNotFoundError: record['afterLstat']={'ENOENT':True}
         except BaseException as error:
             record['afterLstat']={'errorType':type(error).__name__,'error':str(error)}
             if primary is None: primary=error; record['error']={'type':type(error).__name__,'message':str(error)}
@@ -392,30 +362,12 @@ def adb_exception(rows):
 def sdk_adb_exception(rows):
     global sdk_adb
     spec=A['sdkAdb']; result=set()
-    def bound_detail(pid,row):
-        try: return details(pid)
-        except ChildArgsProbeError as error:
-            probe=error.probe
-            if not (sdk_adb is not None and all(sdk_adb.get(k)==v for k,v in [('pid',pid),('start',row['start']),('exe',row['exe'])]) and probe['argv']==['/bin/ps','-ww','-p',str(pid),'-o','args='] and probe['returncode']==1 and probe['stdout']==probe['stderr']==''):raise
-            confirmation={'identity':dict(sdk_adb),'initialRow':dict(row),'cause':probe,'startedMonotonic':time.monotonic()}
-            try: fresh=ps()
-            except BaseException as failure:
-                confirmation['failure']={'type':type(failure).__name__,'message':str(failure)};event('sdk_adb_exit_confirmation_failed',confirmation=confirmation)
-                if isinstance(failure,NaturalGraceExpired):raise RuntimeError('INCOMPLETE: bound SDK fresh confirmation unavailable') from failure
-                raise
-            confirmation.update(freshSnapshot=fresh,pidAbsent=pid not in fresh,finishedMonotonic=time.monotonic())
-            event('sdk_adb_exit_confirmation',confirmation=confirmation)
-            check(pid not in fresh,'Bound SDK ADB PID still present or reused after args failure')
-            rows.clear();rows.update(fresh);sdk_observations.append({'kind':'bound-sdk-adb-exited','confirmation':confirmation})
-            return None
     candidates=[(pid,row) for pid,row in rows.items() if pathlib.Path(row['exe']).name.lower()=='adb' and not row['stat'].startswith('Z') and pid!=A['adbException']['pid']]
     for pid,row in candidates:
         check(root_launch_epoch is not None and pid not in baseline_processes,'ADB not a new process after current Unity launch')
         check(sdk_adb is None or (pid==sdk_adb['pid'] and row['start']==sdk_adb['start']),'More than one current SDK ADB server')
         start=time.mktime(time.strptime(row['start'],'%a %b %d %H:%M:%S %Y')); check(int(root_launch_epoch)<=start<=time.time()+1,'SDK ADB start timeline')
-        detail=bound_detail(pid,row)
-        if detail is None:return result
-        argv=detail['argv']; check(len(argv)==7 and argv[0] in ['adb',spec['path']] and argv[1:6]==['-L','tcp:5037','fork-server','server','--reply-fd'] and re.fullmatch(r'\d+',argv[6]),'SDK ADB exact server argv')
+        detail=details(pid); argv=detail['argv']; check(len(argv)==7 and argv[0] in ['adb',spec['path']] and argv[1:6]==['-L','tcp:5037','fork-server','server','--reply-fd'] and re.fullmatch(r'\d+',argv[6]),'SDK ADB exact server argv')
         uid=int(cmd(['/bin/ps','-p',str(pid),'-o','uid=']).strip()); check(uid==os.getuid(),'SDK ADB UID')
         check(ident(spec['path'])=={k:spec[k] for k in ['bytes','sha256']},'Frozen SDK executable bytes')
         check(pathlib.Path(spec['path']).resolve()==pathlib.Path(spec['path']),'Canonical SDK executable')
@@ -436,19 +388,16 @@ def sdk_adb_exception(rows):
         pipes=[A['adbException']['priorCompilerPipe']]+[x.split(':',1)[1] for v in owned.values() for x in (v.get('argv') or []) if x.startswith('-pipename:')]
         related=[f for f in files if any(x in f.get('n','') for x in [str(P),str(K),str(TMP),A['adbException']['tmpRoot'],*pipes]) or (f.get('n','').startswith(str(R)) and pathlib.Path(f.get('n','')).suffix.lower() in {'.cs','.dll','.asmdef','.asmref','.rsp','.csproj','.sln','.unity','.prefab'})]
         check(all((f['fd']=='cwd' and f.get('n')==str(P) and f.get('t')=='DIR') or f in std for f in related),'SDK ADB forbidden related source/resource/compiler FD')
-        fresh=ps().get(pid); check(fresh is not None and fresh['start']==row['start'] and fresh['exe']==row['exe'],'SDK ADB fresh identity')
-        detail_after=bound_detail(pid,fresh)
-        if detail_after is None:return result
-        check(detail_after['argv']==argv,'SDK ADB fresh argv')
-        binding={'pid':pid,'start':row['start'],'exe':row['exe'],'argv':argv,'uid':uid,'mappedExecutable':mapped[0],'logDevice':ls.st_dev,'logInode':ls.st_ino}
+        fresh=ps().get(pid); check(fresh is not None and fresh['start']==row['start'] and fresh['exe']==row['exe'] and details(pid)['argv']==argv,'SDK ADB fresh identity')
+        binding={'pid':pid,'start':row['start'],'argv':argv,'uid':uid,'mappedExecutable':mapped[0],'logDevice':ls.st_dev,'logInode':ls.st_ino}
         check(sdk_adb is None or sdk_adb==binding,'SDK ADB identity/FD binding changed'); sdk_adb=binding
         item={'utc':utc(),'identity':binding,'relatedFDs':related,'cwd':detail['cwd'],'startupHeader':header,'rootLaunchEpoch':root_launch_epoch,'processStartEpoch':start,'metadataOnlyOutsideCurrentLog':True}
         sdk_observations.append(item); event('sdk_adb_verified',observation=item); result.add(pid)
     return result
 def consumer_guard(rows):
     check(not pending_details,'Unverified child identities remain '+str(list(pending_details)))
-    probe_timeout(); excluded_adb=sdk_adb_exception(rows)
-    probe_timeout(); excluded_adb.add(adb_exception(rows))
+    probe_timeout(); excluded_adb={adb_exception(rows)}
+    probe_timeout(); excluded_adb|=sdk_adb_exception(rows)
     names={'unity','unitypackagemanager','dotnet','csc','mcs','msbuild','bee_backend','unityshadercompiler','unity.licensing.client','beelocalcachetool','adb'}
     other=[dict(r,pid=p) for p,r in rows.items() if pathlib.Path(r['exe']).name.lower() in names and not r['stat'].startswith('Z') and p not in excluded_adb and (not alive(rows,p) or pathlib.Path(r['exe']).name.lower()=='adb')]
     check(not other,'Other potential compiler/Unity consumers '+json.dumps(other)); return []
@@ -478,13 +427,9 @@ def monitor(phase,rows,stage,rootpid,strict=False,force=False):
     global last_monitor
     now=time.monotonic()
     if not force and now-last_monitor<2: return
-    cycle={'utc':utc(),'phase':phase,'sincePreviousSeconds':None if not last_monitor else round(now-last_monitor,6),'failures':[],'consumersClear':False,'observations':[]}; last_monitor=now
+    cycle={'utc':utc(),'phase':phase,'sincePreviousSeconds':None if not last_monitor else round(now-last_monitor,6),'failures':[]}; last_monitor=now
     for name,fn in [('consumers',lambda:snapshot_consumers(rows,stage,rootpid)),('resources',resources),('projection',projection_guard)]:
-        try:
-            probe_timeout(); fn()
-            if name=='consumers':cycle['consumersClear']=True
-        except BeeObservationIncomplete as ex:
-            cycle['observations'].append({'scope':name,'error':str(ex),'capacityComplete':False});event('bee_observation_incomplete',detail=cycle['observations'][-1])
+        try: probe_timeout(); fn()
         except NaturalGraceExpired:
             cycle['naturalGraceExpired']=True; break
         except BaseException as ex:
@@ -501,7 +446,7 @@ def closure(stage,rootpid,reason):
             probe_timeout(); rows=ps()
             probe_timeout(); cycle=monitor(phase,rows,stage,rootpid,force=force)
             probe_timeout(); remaining=[p for p in owned if alive(rows,p)]
-            clear=cycle is not None and cycle.get('consumersClear',False) and not remaining and not pending_details and (active is None or active.poll() is not None)
+            clear=cycle is not None and not cycle['failures'] and not remaining and not pending_details and (active is None or active.poll() is not None)
             return remaining,clear
         except NaturalGraceExpired: raise
         except BaseException as error:
@@ -577,12 +522,7 @@ def tree_entries(root):
             p=pathlib.Path(base)/name; rel=p.relative_to(root).as_posix()
             if root==TMP and (p.name.startswith('ipc_') or any(str(p) in v['endpoints'] for v in bee_ipc.values())):
                 out[rel]=bee_ipc_entry(p); continue
-            try: s=p.lstat()
-            except FileNotFoundError:
-                if root==TMP and p.parent==TMP and re.fullmatch(D['beeIpcContract']['directoryPattern'],p.name):
-                    event('bee_directory_enumeration_absent',path=str(p),monotonic=time.monotonic(),capacityComplete=False)
-                    raise BeeObservationIncomplete('Bee directory disappeared during inventory '+str(p))
-                raise
+            s=p.lstat()
             if stat.S_ISLNK(s.st_mode): out[rel]={'type':'symlink','target':os.readlink(p)}
             elif stat.S_ISDIR(s.st_mode): out[rel]={'type':'directory','mode':stat.S_IMODE(s.st_mode)}
             elif stat.S_ISREG(s.st_mode): out[rel]={'type':'file',**ident(p)}
@@ -605,12 +545,7 @@ def size(root):
     for base,dirs,files in scan_tree(root):
         for n in checked(files):
             try: s=(pathlib.Path(base)/n).lstat(); total+=s.st_size; count+=1
-            except FileNotFoundError:
-                p=pathlib.Path(base)/n
-                if root==TMP and p.parent.parent==TMP and re.fullmatch(D['beeIpcContract']['directoryPattern'],p.parent.name) and re.fullmatch(r'ipc_'+str(snapshot_root)+r'_(htc|cth)',p.name):
-                    event('bee_capacity_observation_absent',path=str(p),monotonic=time.monotonic(),capacityComplete=False)
-                    raise BeeObservationIncomplete('Bee capacity observation disappeared '+str(p))
-                raise
+            except FileNotFoundError: pass
     return total,count
 def evidence_paths():
     result=[]
@@ -790,7 +725,7 @@ def preflight():
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')
     bee_tools()
     no_links(TMP); s=TMP.stat()
-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv7\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv6\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')
     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')
     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())
@@ -1002,14 +937,14 @@ def log_guard(text):
     check(not bad,'Compiler/network failure '+json.dumps(bad[-10:]))
 def archive_and_restore(emit=True):
     global restored
-    check(not pending_details,'Unverified process identities; restore forbidden')
+    check(closure_closed is not False,'Unclosed process sampling; restore forbidden')
     start=time.monotonic(); check(active is None or active.poll() is not None,'Launched Popen root still live; restore forbidden'); probe_timeout(); rows=ps(); snapshot_consumers(rows,'I',next(iter(owned),None)) if owned else consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned remains; restore forbidden')
     report={'archived':[],'restored':[],'returnedParked':[],'errors':[],'complete':False}; last=start
     def tick():
         nonlocal last
         probe_timeout(); now=time.monotonic(); check(now-start<=60 and (restore_deadline is None or now<restore_deadline),'Restore60 exceeded')
         if now-last>=2:
-            rows=ps(); consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned during restore'); check(shutil.disk_usage(E).free>=D['limits']['freeExternalBytesMin'],'Restore free-space budget'); check(sum(p.lstat().st_size for p in evidence_paths())<D['evidenceSlots']['maxBytes']-D['evidenceSlots']['reservedFinalReceiptBytes'],'Restore evidence budget'); last=now
+            rows=ps(); consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned during restore'); resources(); last=now
     for path in synchronized_paths:
         try:
             tick(); target=P/path; check(('sync',path) not in atomic_conflicts,'Preserve prior atomic conflict '+path)
@@ -1042,7 +977,7 @@ def normalize_input(raw):
             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],
             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}
 def contract_guard(raw,qa):
-    check(raw['task']=='RES-COMBINED-V07' and raw['schemaVersion']==1,'Current combined schema required')
+    check(raw['task']=='RES-COMBINED-V06' and raw['schemaVersion']==1,'Current combined schema required')
     for key,count in [('shared',1036),('projectionBefore',1035)]:
         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)
     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta
@@ -1123,7 +1058,7 @@ def restore_compiler():
     check(sum(v['bytes'] for v in compiler_after.values() if v is not None)<=D['evidenceSlots']['compilerArchiveMaxBytes'],'Compiler archive budget')
     for path in compiler_parked:
         try:
-            probe_timeout(); rows=ps(); consumer_guard(rows); check(not any(alive(rows,p) for p in owned),'Owned during compiler restore'); original=compiler_paths()[path]; backup=E/'park/compiler'/path
+            probe_timeout(); consumer_guard(ps()); original=compiler_paths()[path]; backup=E/'park/compiler'/path
             if not backup.exists(): check(ident(P/path)==original,'Missing parked compiler preimage '+path); continue
             check(ident(backup)==original,'Compiler backup drift '+path)
             if compiler_after[path] is not None:
@@ -1137,7 +1072,7 @@ def restore_compiler():
     return {'archived':archived,'restored':list(compiler_restored),'afterIdentities':dict(compiler_after),'errors':errors,'complete':not errors and not transfer_conflicts}
 def restore_all():
     global restore_deadline,probe_deadline
-    check(not pending_details and (active is None or active.poll() is not None),'Current process uncertainty; no restore')
+    check(closure_closed is not False and (active is None or active.poll() is not None),'Unclosed; no restore')
     restore_deadline=time.monotonic()+D['limits']['restoreSeconds']; restore_deadline=min(restore_deadline,execution_deadline-D.get('limits',{}).get('finalizationSeconds',0)) if execution_deadline is not None else restore_deadline; prior=probe_deadline; probe_deadline=restore_deadline
     try:
         probe_timeout(); rows=ps(); snapshot_consumers(rows,current_stage,next(iter(owned),None)) if owned else consumer_guard(rows)
@@ -1194,9 +1129,9 @@ def main():
     clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))
-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V07','Current combined activation required')
+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V06','Current combined activation required')
     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']
-    check(ident(E/'inputs.json')=={'bytes': 1251531, 'sha256': '5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c'},'Current fixed inputs')
+    check(ident(E/'inputs.json')=={'bytes':1248829,'sha256':'4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b'},'Current fixed inputs')
     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')
     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)
     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')

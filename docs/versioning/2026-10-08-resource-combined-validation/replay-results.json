@@ -1,145 +1,66 @@
 {
-  "task": "RES-COMBINED-V06",
+  "task": "RES-COMBINED-V07",
   "status": "SOURCE_REPLAY_PASS",
+  "inputs": {
+    "bytes": 1251531,
+    "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"
+  },
+  "baseline": {
+    "root": "TestArtifacts/FightMatch/RES-COMBINED-V06/run",
+    "sourceIdentities": {
+      "runner.py": {
+        "bytes": 101320,
+        "sha256": "415a8a5bd312875e972363d4ad9cb504ac4b8579390eb2ad2081a0323fb36119"
+      },
+      "inputs.json": {
+        "bytes": 1248829,
+        "sha256": "4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b"
+      },
+      "preparation.json": {
+        "bytes": 118136,
+        "sha256": "be0c627dd5ead4e44da4fd060afda19b68473325a861ee4908b7262677dbb2de"
+      },
+      "replay-check.py": {
+        "bytes": 61647,
+        "sha256": "5e062c91e46102167aa509badf7942597f2331f72badd0724e1a56a4f4f287f4"
+      },
+      "replay-results.json": {
+        "bytes": 175232,
+        "sha256": "87c920acffbce64eab678e85e1d7a198d7baf74d4f3b326e1ae02aee575eae4c"
+      }
+    }
+  },
   "rounds": [
     {
       "round": 1,
-      "status": "SOURCE_REPLAY_PASS",
+      "status": "SOURCE_REPLAY_FAILED",
       "cases": [
         {
-          "name": "V04 Bee htc then cth",
+          "name": "V07 Bee lifecycle saved",
           "passed": true
         },
         {
-          "name": "V04 Bee cth then htc",
+          "name": "V07 Bee lifecycle vanish-first",
           "passed": true
         },
         {
-          "name": "V04 Bee rejects post-inode",
+          "name": "V07 Bee lifecycle vanish-during",
           "passed": true
         },
         {
-          "name": "V04 Bee rejects post-dir",
+          "name": "V07 Bee lifecycle nlink",
           "passed": true
         },
         {
-          "name": "V04 Bee rejects reuse-during",
+          "name": "V07 Bee lifecycle inode",
           "passed": true
         },
         {
-          "name": "FIX02 independent PID discovery closure during-term",
+          "name": "V07 Bee lifecycle directory-inode",
           "passed": true
         },
         {
-          "name": "FIX02 independent PID discovery closure stubborn",
-          "passed": true
-        },
-        {
-          "name": "V04 fresh sealed state accepted",
-          "passed": true
-        },
-        {
-          "name": "V04 execution state drift rejected",
-          "passed": true
-        },
-        {
-          "name": "V05 full blocking-probe allowance and real timeout",
-          "passed": true
-        },
-        {
-          "name": "V05 near natural boundary actual chain preserves prior Bee error",
-          "passed": true
-        },
-        {
-          "name": "V05 FIX01 natural observation success",
-          "passed": true
-        },
-        {
-          "name": "V05 FIX01 natural observation capacity",
-          "passed": true
-        },
-        {
-          "name": "V05 FIX01 natural observation io",
-          "passed": true
-        },
-        {
-          "name": "V06 real V05 exact path spellings and negatives",
-          "passed": true
-        },
-        {
-          "name": "V06 full Bee binding records extra separator",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain absent",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain adb-label",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain present",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain reused",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain zombie",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain stdout",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain stderr",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain exit2",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain io",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain timeout",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain fresh-io",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain fresh-timeout",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain fresh-exit",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain fresh-natural",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain cwd-failure",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain complete",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain legacy",
-          "passed": true
-        },
-        {
-          "name": "V06 actual transient child chain parent-stage",
+          "name": "V07 Bee lifecycle unknown-rebind",
           "passed": true
         }
       ],
@@ -149,1239 +70,644 @@
       "realSockets": 0,
       "actualProjectionWrites": 0,
       "fixtureIOOnly": true,
-      "fix02DiscoveryEvidence": [
+      "savedV06Evidence": {
+        "lines": [
+          185,
+          186,
+          187
+        ],
+        "oldFailedUnchanged": true
+      },
+      "failure": "Bee fresh process identity mismatch",
+      "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/replay-check.py\", line 740, in <module>\n    for mode in ('saved','vanish-first','vanish-during','nlink','inode','directory-inode','unknown-rebind','second-same','second-directory'):case('V07 Bee lifecycle '+mode,lambda mode=mode:v07_lifetime(mode))\n                                                                                                                                             ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/replay-check.py\", line 31, in case\n    need(time.monotonic()-START<30 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<60,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})\n                                                                                                                                               ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/replay-check.py\", line 740, in <lambda>\n    for mode in ('saved','vanish-first','vanish-during','nlink','inode','directory-inode','unknown-rebind','second-same','second-directory'):case('V07 Bee lifecycle '+mode,lambda mode=mode:v07_lifetime(mode))\n                                                                                                                                                                                             ~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/replay-check.py\", line 663, in v07_lifetime\n    for name in names:env['bee_ipc_entry'](VPath(name))\n                      ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/runner.py\", line 117, in bee_ipc_entry\n    root_identity,holders,after=bee_fd_binding(path,stage,pid,ds,current)\n                                ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/runner.py\", line 281, in bee_fd_binding\n    if primary is not None: raise primary\n                            ^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/runner.py\", line 232, in bee_fd_binding\n    identity=bee_process(candidate,stage,pid); item['identityBefore']=identity\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/runner.py\", line 56, in bee_process\n    check(len(line)==9 and int(line[0])==pid and int(line[1])==owner['ppid'] and ' '.join(line[2:7])==owner['start'] and line[8]==owner['exe'] and not line[7].startswith('Z'),'Bee fresh process identity mismatch')\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V07/run/runner.py\", line 17, in check\n    if not ok: raise RuntimeError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Bee fresh process identity mismatch\n",
+      "preservedConflicts": [],
+      "seconds": 1.30369633299415,
+      "actualFunctionsCalled": [
+        "<genexpr>",
+        "<module>",
+        "BeeObservationIncomplete",
+        "ChildArgsProbeError",
+        "NaturalGraceExpired",
+        "alive",
+        "bee_capture_output",
+        "bee_fd_binding",
+        "bee_fd_bound",
+        "bee_ipc_entry",
+        "bee_observation_event",
+        "bee_process",
+        "bee_stamp",
+        "bee_tools",
+        "blocking_probe_timeout",
+        "check",
+        "no_links",
+        "probe_timeout",
+        "recorded_chain"
+      ],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 106788,
+        "sha256": "4873fb61b3bb9937371cb50b25c0db7c6aca28f64fd86a4ad0365333af5f5973"
+      },
+      "checker": {
+        "bytes": 70203,
+        "sha256": "2ddbfa1fb084990e61216c7e6f7688b8fd9b0da4f6d803711561c40df2ff024a"
+      },
+      "inputs": {
+        "bytes": 1251531,
+        "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"
+      }
+    },
+    {
+      "round": 2,
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": [
         {
-          "kind": "during-term",
-          "pending": {},
-          "monitorErrors": [],
-          "signalsSynthetic": [
-            101,
-            102,
-            100
-          ],
-          "liveByPid": {
-            "100": false,
-            "101": false,
-            "102": false
-          },
-          "closed": true,
-          "clock": 60.001,
+          "name": "V07 Bee lifecycle second-same",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee lifecycle second-directory",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure uid",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure mode",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure dir-uid",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure dir-mode",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure dir-link",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure fifo",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure link",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure regular",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure nlink",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure before-io",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure fd-io",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure fd-mismatch",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure fd-error",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure fd-timeout",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure post-inode",
+          "passed": true
+        },
+        {
+          "name": "V07 Bee hard failure post-dir",
+          "passed": true
+        },
+        {
+          "name": "V07 incomplete enumeration absent",
+          "passed": true
+        },
+        {
+          "name": "V07 incomplete enumeration permission",
+          "passed": true
+        },
+        {
+          "name": "V07 incomplete enumeration io",
+          "passed": true
+        },
+        {
+          "name": "V07 capacity unchanged bytes",
+          "passed": true
+        },
+        {
+          "name": "V07 capacity unchanged leaves",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK absent",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK present",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK reused",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK zombie",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK fresh-error",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK fresh-natural",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK new-consumer",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK unbound",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK wrong-exe",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK stdout",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK stderr",
+          "passed": true
+        },
+        {
+          "name": "V07 bound SDK exit2",
+          "passed": true
+        },
+        {
+          "name": "V07 owned rules retained absent",
+          "passed": true
+        },
+        {
+          "name": "V07 owned rules retained present",
+          "passed": true
+        },
+        {
+          "name": "V07 owned rules retained zombie",
+          "passed": true
+        },
+        {
+          "name": "V07 current closure timeout",
+          "passed": true
+        },
+        {
+          "name": "V07 current closure io",
+          "passed": true
+        },
+        {
+          "name": "V07 current closure unclosed-prior",
+          "passed": true
+        },
+        {
+          "name": "V07 persistent IPC errors do not fake current consumers",
+          "passed": true
+        },
+        {
+          "name": "V07 independent restore historical",
+          "passed": true
+        },
+        {
+          "name": "V07 independent restore live-root",
+          "passed": true
+        },
+        {
+          "name": "V07 independent restore pending",
+          "passed": true
+        },
+        {
+          "name": "V07 independent restore consumer",
+          "passed": true
+        },
+        {
+          "name": "V07 unknown target preimage blocks restore",
+          "passed": true
+        },
+        {
+          "name": "V07 original12/89 acceptance gates",
+          "passed": true
+        }
+      ],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "realSockets": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "sdkCases": [
+        {
+          "mode": "absent",
+          "freshQueries": 1,
           "events": [
             {
-              "kind": "closure_begin",
-              "stage": "I",
-              "reason": "synthetic discovery boundary"
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [],
-                "naturalGraceExpired": true,
-                "elapsedSeconds": 60.001
+              "kind": "sdk_adb_exit_confirmation",
+              "confirmation": {
+                "identity": {
+                  "pid": 73931,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "argv": [
+                    "adb"
+                  ],
+                  "uid": 501,
+                  "mappedExecutable": {},
+                  "logDevice": 7,
+                  "logInode": 9
+                },
+                "initialRow": {
+                  "pid": 73931,
+                  "ppid": 1,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "stat": "S"
+                },
+                "cause": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "73931",
+                    "-o",
+                    "args="
+                  ],
+                  "returncode": 1,
+                  "stdout": "",
+                  "stderr": ""
+                },
+                "startedMonotonic": 10,
+                "freshSnapshot": {},
+                "pidAbsent": true,
+                "finishedMonotonic": 10
               }
-            },
-            {
-              "kind": "natural_grace_elapsed",
-              "stage": "I"
-            },
-            {
-              "kind": "term_window",
-              "stage": "I",
-              "deadline": 90.001
-            },
-            {
-              "kind": "owned_discovered",
-              "process": {
-                "pid": 101,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "child-start",
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S",
-                "firstObservedUtc": "fixture"
-              }
-            },
-            {
-              "kind": "signal",
-              "signal": "SIGTERM",
-              "pid": 101,
-              "identity": {
-                "pid": 101,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "child-start",
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S",
-                "firstObservedUtc": "fixture"
-              },
-              "rematched": {
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0
-              }
-            },
-            {
-              "kind": "owned_discovered",
-              "process": {
-                "pid": 102,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "late-start",
-                "argv": [
-                  "/fixed/worker",
-                  "late"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S",
-                "firstObservedUtc": "fixture"
-              }
-            },
-            {
-              "kind": "signal",
-              "signal": "SIGTERM",
-              "pid": 102,
-              "identity": {
-                "pid": 102,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "late-start",
-                "argv": [
-                  "/fixed/worker",
-                  "late"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S",
-                "firstObservedUtc": "fixture"
-              },
-              "rematched": {
-                "argv": [
-                  "/fixed/worker",
-                  "late"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0
-              }
-            },
-            {
-              "kind": "signal",
-              "signal": "SIGTERM",
-              "pid": 100,
-              "identity": {
-                "pid": 100,
-                "ppid": 1,
-                "exe": "/fixed/Unity",
-                "start": "root-start",
-                "argv": [
-                  "/fixed/Unity"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S"
-              },
-              "rematched": {
-                "argv": [
-                  "/fixed/Unity"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": null,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "closure-final",
-                "sincePreviousSeconds": 0.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "closure_end",
-              "stage": "I",
-              "remainingOwned": [],
-              "pendingIdentities": [],
-              "closed": true,
-              "popenStillLive": false
             }
           ]
         },
         {
-          "kind": "stubborn",
-          "pending": {},
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "closure-final",
-              "scope": "process-snapshot",
-              "error": "Closure probe deadline exhausted"
-            }
-          ],
-          "signalsSynthetic": [
-            101,
-            100
-          ],
-          "liveByPid": {
-            "100": false,
-            "101": true
-          },
-          "closed": false,
-          "clock": 90.001,
+          "mode": "present",
+          "freshQueries": 1,
           "events": [
             {
-              "kind": "closure_begin",
-              "stage": "I",
-              "reason": "synthetic discovery boundary"
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [],
-                "naturalGraceExpired": true,
-                "elapsedSeconds": 60.001
+              "kind": "sdk_adb_exit_confirmation",
+              "confirmation": {
+                "identity": {
+                  "pid": 73931,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "argv": [
+                    "adb"
+                  ],
+                  "uid": 501,
+                  "mappedExecutable": {},
+                  "logDevice": 7,
+                  "logInode": 9
+                },
+                "initialRow": {
+                  "pid": 73931,
+                  "ppid": 1,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "stat": "S"
+                },
+                "cause": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "73931",
+                    "-o",
+                    "args="
+                  ],
+                  "returncode": 1,
+                  "stdout": "",
+                  "stderr": ""
+                },
+                "startedMonotonic": 10,
+                "freshSnapshot": {
+                  "73931": {
+                    "pid": 73931,
+                    "ppid": 1,
+                    "start": "fixed",
+                    "exe": "adb",
+                    "stat": "S"
+                  }
+                },
+                "pidAbsent": false,
+                "finishedMonotonic": 10
               }
-            },
-            {
-              "kind": "natural_grace_elapsed",
-              "stage": "I"
-            },
-            {
-              "kind": "term_window",
-              "stage": "I",
-              "deadline": 90.001
-            },
-            {
-              "kind": "owned_discovered",
-              "process": {
-                "pid": 101,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "child-start",
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S",
-                "firstObservedUtc": "fixture"
-              }
-            },
-            {
-              "kind": "signal",
-              "signal": "SIGTERM",
-              "pid": 101,
-              "identity": {
-                "pid": 101,
-                "ppid": 100,
-                "exe": "/fixed/worker",
-                "start": "child-start",
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S",
-                "firstObservedUtc": "fixture"
-              },
-              "rematched": {
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0
-              }
-            },
-            {
-              "kind": "signal",
-              "signal": "SIGTERM",
-              "pid": 100,
-              "identity": {
-                "pid": 100,
-                "ppid": 1,
-                "exe": "/fixed/Unity",
-                "start": "root-start",
-                "argv": [
-                  "/fixed/Unity"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": true,
-                "stat": "S"
-              },
-              "rematched": {
-                "argv": [
-                  "/fixed/Unity"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": null,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "term-confirmation",
-                "sincePreviousSeconds": 2.0,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "closure-final",
-                "scope": "process-snapshot",
-                "error": "Closure probe deadline exhausted"
-              }
-            },
-            {
-              "kind": "closure_end",
-              "stage": "I",
-              "remainingOwned": [
-                100,
-                101
-              ],
-              "pendingIdentities": [],
-              "closed": false,
-              "popenStillLive": false
             }
           ]
-        }
-      ],
-      "blockingProbeAdmission": {
-        "insufficientSeconds": 0.002561,
-        "callsAtInsufficientAllowance": 0,
-        "inFlightTimeoutPreserved": true,
-        "totalDeadlineFirst": true
-      },
-      "nearBoundaryClosure": {
-        "signalsSynthetic": [
-          101,
-          100
-        ],
-        "monitorErrors": [
-          {
-            "error": "prior Bee binding failure"
-          }
-        ],
-        "events": [
-          {
-            "kind": "closure_begin",
-            "stage": "I",
-            "reason": "preserve prior Bee failure"
-          },
-          {
-            "kind": "natural_grace_elapsed",
-            "stage": "I"
-          },
-          {
-            "kind": "term_window",
-            "stage": "I",
-            "deadline": 89.997439
-          },
-          {
-            "kind": "owned_discovered",
-            "process": {
-              "pid": 101,
-              "ppid": 100,
-              "exe": "/fixed/worker",
-              "start": "root",
-              "argv": [
-                "/fixed/worker"
-              ],
-              "cwd": "/P",
-              "cwdProbeExit": 0,
-              "stage": "I",
-              "rootPid": 100,
-              "termSent": true,
-              "stat": "S",
-              "firstObservedUtc": "fixture"
-            }
-          },
-          {
-            "kind": "signal",
-            "signal": "SIGTERM",
-            "pid": 101,
-            "identity": {
-              "pid": 101,
-              "ppid": 100,
-              "exe": "/fixed/worker",
-              "start": "root",
-              "argv": [
-                "/fixed/worker"
-              ],
-              "cwd": "/P",
-              "cwdProbeExit": 0,
-              "stage": "I",
-              "rootPid": 100,
-              "termSent": true,
-              "stat": "S",
-              "firstObservedUtc": "fixture"
-            },
-            "rematched": {
-              "argv": [
-                "/fixed/worker"
-              ],
-              "cwd": "/P",
-              "cwdProbeExit": 0
-            }
-          },
-          {
-            "kind": "signal",
-            "signal": "SIGTERM",
-            "pid": 100,
-            "identity": {
-              "pid": 100,
-              "ppid": 1,
-              "exe": "/fixed/Unity",
-              "start": "root",
-              "argv": [
-                "/fixed/Unity"
-              ],
-              "cwd": "/P",
-              "cwdProbeExit": 0,
-              "stage": "I",
-              "rootPid": 100,
-              "termSent": true,
-              "stat": "S"
-            },
-            "rematched": {
-              "argv": [
-                "/fixed/Unity"
-              ],
-              "cwd": "/P",
-              "cwdProbeExit": 0
-            }
-          },
-          {
-            "kind": "monitor_cycle",
-            "cycle": {
-              "utc": "fixture",
-              "phase": "term-confirmation",
-              "sincePreviousSeconds": null,
-              "failures": [],
-              "elapsedSeconds": 0.0
-            }
-          },
-          {
-            "kind": "monitor_cycle",
-            "cycle": {
-              "utc": "fixture",
-              "phase": "closure-final",
-              "sincePreviousSeconds": 0.0,
-              "failures": [],
-              "elapsedSeconds": 0.0
-            }
-          },
-          {
-            "kind": "closure_end",
-            "stage": "I",
-            "remainingOwned": [],
-            "pendingIdentities": [],
-            "closed": true,
-            "popenStillLive": false
-          }
-        ],
-        "subprocessInvocations": [
-          {
-            "argv": [
-              "/bin/ps",
-              "synthetic-offline-args"
-            ],
-            "timeout": 5.0
-          },
-          {
-            "argv": [
-              "/bin/ps",
-              "synthetic-offline-args"
-            ],
-            "timeout": 5.0
-          },
-          {
-            "argv": [
-              "/bin/ps",
-              "synthetic-offline-args"
-            ],
-            "timeout": 5.0
-          },
-          {
-            "argv": [
-              "/bin/ps",
-              "synthetic-offline-args"
-            ],
-            "timeout": 5.0
-          },
-          {
-            "argv": [
-              "/bin/ps",
-              "synthetic-offline-args"
-            ],
-            "timeout": 5.0
-          }
-        ],
-        "realProcessCalls": 0
-      },
-      "fix01NaturalObservation": [
-        {
-          "mode": "success",
-          "raisedType": "NaturalGraceExpired",
-          "causeType": null,
-          "contextType": null,
-          "monitorErrors": [],
-          "signalsSynthetic": [
-            101,
-            100
-          ],
-          "closed": true,
-          "fdSubprocessCalls": []
         },
         {
-          "mode": "capacity",
-          "raisedType": "RuntimeError",
-          "causeType": "NaturalGraceExpired",
-          "contextType": "RuntimeError",
-          "monitorErrors": [
+          "mode": "reused",
+          "freshQueries": 1,
+          "events": [
             {
-              "utc": "offline-fixture",
-              "phase": "natural-closure",
-              "scope": "resources",
-              "error": "INCOMPLETE: Bee observation write failed after natural boundary: INCOMPLETE: Bee observation capacity exceeded"
-            }
-          ],
-          "signalsSynthetic": [
-            101,
-            100
-          ],
-          "closed": true,
-          "fdSubprocessCalls": []
-        },
-        {
-          "mode": "io",
-          "raisedType": "RuntimeError",
-          "causeType": "NaturalGraceExpired",
-          "contextType": "OSError",
-          "monitorErrors": [
-            {
-              "utc": "offline-fixture",
-              "phase": "natural-closure",
-              "scope": "resources",
-              "error": "INCOMPLETE: Bee observation write failed after natural boundary: synthetic observation disk error"
-            }
-          ],
-          "signalsSynthetic": [
-            101,
-            100
-          ],
-          "closed": true,
-          "fdSubprocessCalls": []
-        }
-      ],
-      "v06SavedPathEvidence": [
-        {
-          "line": 192,
-          "oldParseResult": false,
-          "newMatches": "htc/cth exact extra separator",
-          "beforeAfterEqual": true
-        },
-        {
-          "line": 203,
-          "oldParseResult": false,
-          "newMatches": "htc/cth exact extra separator",
-          "beforeAfterEqual": true
-        },
-        {
-          "line": 207,
-          "oldParseResult": false,
-          "newMatches": "htc/cth exact extra separator",
-          "beforeAfterEqual": true
-        },
-        {
-          "line": 211,
-          "oldParseResult": false,
-          "newMatches": "htc/cth exact extra separator",
-          "beforeAfterEqual": true
-        },
-        {
-          "line": 218,
-          "oldParseResult": false,
-          "newMatches": "htc/cth exact extra separator",
-          "beforeAfterEqual": true
-        }
-      ],
-      "v06SpellingObservations": [
-        {
-          "kind": "bee_fd_observation",
-          "stage": "I",
-          "monotonic": 0.0,
-          "targetPath": "/synthetic-tmp/abcdefgh.xyz/ipc_100_htc",
-          "rootPid": 100,
-          "beforeLstat": {
-            "uid": 501,
-            "gid": 20,
-            "mode": 49600,
-            "dev": 7,
-            "ino": 10,
-            "nlink": 1
-          },
-          "directoryBefore": {
-            "uid": 501,
-            "gid": 20,
-            "mode": 16832,
-            "dev": 7,
-            "ino": 2,
-            "nlink": 2
-          },
-          "candidates": [
-            {
-              "pid": 100,
-              "ownedIdentity": {
-                "pid": 100,
-                "ppid": 1,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "stat": "S",
-                "exe": "/fixed/Unity",
-                "argv": [
-                  "/fixed/Unity",
-                  "-batchmode",
-                  "-projectPath",
-                  "/P"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": false
-              }
-            },
-            {
-              "pid": 101,
-              "ownedIdentity": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "stat": "S",
-                "exe": "/fixed/bee_backend",
-                "argv": [
-                  "/fixed/bee_backend",
-                  "--ipc"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": false
+              "kind": "sdk_adb_exit_confirmation",
+              "confirmation": {
+                "identity": {
+                  "pid": 73931,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "argv": [
+                    "adb"
+                  ],
+                  "uid": 501,
+                  "mappedExecutable": {},
+                  "logDevice": 7,
+                  "logInode": 9
+                },
+                "initialRow": {
+                  "pid": 73931,
+                  "ppid": 1,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "stat": "S"
+                },
+                "cause": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "73931",
+                    "-o",
+                    "args="
+                  ],
+                  "returncode": 1,
+                  "stdout": "",
+                  "stderr": ""
+                },
+                "startedMonotonic": 10,
+                "freshSnapshot": {
+                  "73931": {
+                    "pid": 73931,
+                    "ppid": 1,
+                    "start": "reused",
+                    "exe": "adb",
+                    "stat": "S"
+                  }
+                },
+                "pidAbsent": false,
+                "finishedMonotonic": 10
               }
             }
-          ],
-          "probes": [
+          ]
+        },
+        {
+          "mode": "zombie",
+          "freshQueries": 1,
+          "events": [
             {
-              "candidatePid": 100,
-              "monotonic": 0.0,
-              "targetPath": "/synthetic-tmp/abcdefgh.xyz/ipc_100_htc",
-              "stage": "I",
-              "exitCode": 0,
-              "parseResult": true,
-              "identityRecheck": {
-                "pid": 100,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/Unity",
-                "argv": [
-                  "/fixed/Unity",
-                  "-batchmode",
-                  "-projectPath",
-                  "/P"
-                ],
-                "cwd": "/P",
-                "ppid": 1,
-                "stage": "I"
-              },
-              "beforeLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 10,
-                "nlink": 1
-              },
-              "identityBefore": {
-                "pid": 100,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/Unity",
-                "argv": [
-                  "/fixed/Unity",
-                  "-batchmode",
-                  "-projectPath",
-                  "/P"
-                ],
-                "cwd": "/P",
-                "ppid": 1,
-                "stage": "I"
-              },
-              "argv": [
-                "/fixed/lsof",
-                "-a",
-                "-p",
-                "100",
-                "-U",
-                "-Fpcftn"
-              ],
-              "timeoutSeconds": 5,
-              "rawStdout": "p100\ncfixture\nf7u\ntunix\nn/synthetic-tmp//abcdefgh.xyz/ipc_100_htc\n",
-              "rawStdoutBytes": 66,
-              "rawStderr": "",
-              "rawStderrBytes": 0,
-              "matchedSpellings": [
-                {
-                  "spelling": "extra-tmp-separator",
-                  "rawName": "/synthetic-tmp//abcdefgh.xyz/ipc_100_htc",
-                  "fd": "7u"
+              "kind": "sdk_adb_exit_confirmation",
+              "confirmation": {
+                "identity": {
+                  "pid": 73931,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "argv": [
+                    "adb"
+                  ],
+                  "uid": 501,
+                  "mappedExecutable": {},
+                  "logDevice": 7,
+                  "logInode": 9
+                },
+                "initialRow": {
+                  "pid": 73931,
+                  "ppid": 1,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "stat": "S"
+                },
+                "cause": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "73931",
+                    "-o",
+                    "args="
+                  ],
+                  "returncode": 1,
+                  "stdout": "",
+                  "stderr": ""
+                },
+                "startedMonotonic": 10,
+                "freshSnapshot": {
+                  "73931": {
+                    "pid": 73931,
+                    "ppid": 1,
+                    "start": "fixed",
+                    "exe": "adb",
+                    "stat": "Z"
+                  }
+                },
+                "pidAbsent": false,
+                "finishedMonotonic": 10
+              }
+            }
+          ]
+        },
+        {
+          "mode": "fresh-error",
+          "freshQueries": 1,
+          "events": [
+            {
+              "kind": "sdk_adb_exit_confirmation_failed",
+              "confirmation": {
+                "identity": {
+                  "pid": 73931,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "argv": [
+                    "adb"
+                  ],
+                  "uid": 501,
+                  "mappedExecutable": {},
+                  "logDevice": 7,
+                  "logInode": 9
+                },
+                "initialRow": {
+                  "pid": 73931,
+                  "ppid": 1,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "stat": "S"
+                },
+                "cause": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "73931",
+                    "-o",
+                    "args="
+                  ],
+                  "returncode": 1,
+                  "stdout": "",
+                  "stderr": ""
+                },
+                "startedMonotonic": 10,
+                "failure": {
+                  "type": "OSError",
+                  "message": "fresh failed"
                 }
-              ],
-              "afterLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 10,
-                "nlink": 1
-              },
-              "finishedMonotonic": 0.0
-            },
-            {
-              "candidatePid": 101,
-              "monotonic": 0.0,
-              "targetPath": "/synthetic-tmp/abcdefgh.xyz/ipc_100_htc",
-              "stage": "I",
-              "exitCode": 0,
-              "parseResult": false,
-              "identityRecheck": {
-                "pid": 101,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/bee_backend",
-                "argv": [
-                  "/fixed/bee_backend",
-                  "--ipc"
-                ],
-                "cwd": "/P",
-                "ppid": 100,
-                "stage": "I"
-              },
-              "beforeLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 10,
-                "nlink": 1
-              },
-              "identityBefore": {
-                "pid": 101,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/bee_backend",
-                "argv": [
-                  "/fixed/bee_backend",
-                  "--ipc"
-                ],
-                "cwd": "/P",
-                "ppid": 100,
-                "stage": "I"
-              },
-              "argv": [
-                "/fixed/lsof",
-                "-a",
-                "-p",
-                "101",
-                "-U",
-                "-Fpcftn"
-              ],
-              "timeoutSeconds": 5,
-              "rawStdout": "p101\ncfixture\nf7u\ntunix\nn/synthetic-tmp//abcdefgh.xyz/ipc_100_cth\n",
-              "rawStdoutBytes": 66,
-              "rawStderr": "",
-              "rawStderrBytes": 0,
-              "matchedSpellings": [],
-              "afterLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 10,
-                "nlink": 1
-              },
-              "finishedMonotonic": 0.0
-            }
-          ],
-          "rootIdentity": {
-            "pid": 100,
-            "start": "Mon Oct 5 00:00:00 2026",
-            "exe": "/fixed/Unity",
-            "argv": [
-              "/fixed/Unity",
-              "-batchmode",
-              "-projectPath",
-              "/P"
-            ],
-            "cwd": "/P",
-            "ppid": 1,
-            "stage": "I"
-          },
-          "afterLstat": {
-            "uid": 501,
-            "gid": 20,
-            "mode": 49600,
-            "dev": 7,
-            "ino": 10,
-            "nlink": 1
-          },
-          "finishedMonotonic": 0.0,
-          "fdOwners": [
-            {
-              "pid": 100,
-              "start": "Mon Oct 5 00:00:00 2026",
-              "exe": "/fixed/Unity",
-              "argv": [
-                "/fixed/Unity",
-                "-batchmode",
-                "-projectPath",
-                "/P"
-              ],
-              "cwd": "/P",
-              "ppid": 1,
-              "stage": "I"
+              }
             }
           ]
         },
         {
-          "kind": "bee_fd_observation",
-          "stage": "I",
-          "monotonic": 0.0,
-          "targetPath": "/synthetic-tmp/abcdefgh.xyz/ipc_100_cth",
-          "rootPid": 100,
-          "beforeLstat": {
-            "uid": 501,
-            "gid": 20,
-            "mode": 49600,
-            "dev": 7,
-            "ino": 11,
-            "nlink": 1
-          },
-          "directoryBefore": {
-            "uid": 501,
-            "gid": 20,
-            "mode": 16832,
-            "dev": 7,
-            "ino": 2,
-            "nlink": 2
-          },
-          "candidates": [
+          "mode": "fresh-natural",
+          "freshQueries": 1,
+          "events": [
             {
-              "pid": 100,
-              "ownedIdentity": {
-                "pid": 100,
-                "ppid": 1,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "stat": "S",
-                "exe": "/fixed/Unity",
-                "argv": [
-                  "/fixed/Unity",
-                  "-batchmode",
-                  "-projectPath",
-                  "/P"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": false
-              }
-            },
-            {
-              "pid": 101,
-              "ownedIdentity": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "stat": "S",
-                "exe": "/fixed/bee_backend",
-                "argv": [
-                  "/fixed/bee_backend",
-                  "--ipc"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": false
-              }
-            }
-          ],
-          "probes": [
-            {
-              "candidatePid": 100,
-              "monotonic": 0.0,
-              "targetPath": "/synthetic-tmp/abcdefgh.xyz/ipc_100_cth",
-              "stage": "I",
-              "exitCode": 0,
-              "parseResult": false,
-              "identityRecheck": {
-                "pid": 100,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/Unity",
-                "argv": [
-                  "/fixed/Unity",
-                  "-batchmode",
-                  "-projectPath",
-                  "/P"
-                ],
-                "cwd": "/P",
-                "ppid": 1,
-                "stage": "I"
-              },
-              "beforeLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 11,
-                "nlink": 1
-              },
-              "identityBefore": {
-                "pid": 100,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/Unity",
-                "argv": [
-                  "/fixed/Unity",
-                  "-batchmode",
-                  "-projectPath",
-                  "/P"
-                ],
-                "cwd": "/P",
-                "ppid": 1,
-                "stage": "I"
-              },
-              "argv": [
-                "/fixed/lsof",
-                "-a",
-                "-p",
-                "100",
-                "-U",
-                "-Fpcftn"
-              ],
-              "timeoutSeconds": 5,
-              "rawStdout": "p100\ncfixture\nf7u\ntunix\nn/synthetic-tmp//abcdefgh.xyz/ipc_100_htc\n",
-              "rawStdoutBytes": 66,
-              "rawStderr": "",
-              "rawStderrBytes": 0,
-              "matchedSpellings": [],
-              "afterLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 11,
-                "nlink": 1
-              },
-              "finishedMonotonic": 0.0
-            },
-            {
-              "candidatePid": 101,
-              "monotonic": 0.0,
-              "targetPath": "/synthetic-tmp/abcdefgh.xyz/ipc_100_cth",
-              "stage": "I",
-              "exitCode": 0,
-              "parseResult": true,
-              "identityRecheck": {
-                "pid": 101,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/bee_backend",
-                "argv": [
-                  "/fixed/bee_backend",
-                  "--ipc"
-                ],
-                "cwd": "/P",
-                "ppid": 100,
-                "stage": "I"
-              },
-              "beforeLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 11,
-                "nlink": 1
-              },
-              "identityBefore": {
-                "pid": 101,
-                "start": "Mon Oct 5 00:00:00 2026",
-                "exe": "/fixed/bee_backend",
-                "argv": [
-                  "/fixed/bee_backend",
-                  "--ipc"
-                ],
-                "cwd": "/P",
-                "ppid": 100,
-                "stage": "I"
-              },
-              "argv": [
-                "/fixed/lsof",
-                "-a",
-                "-p",
-                "101",
-                "-U",
-                "-Fpcftn"
-              ],
-              "timeoutSeconds": 5,
-              "rawStdout": "p101\ncfixture\nf7u\ntunix\nn/synthetic-tmp//abcdefgh.xyz/ipc_100_cth\n",
-              "rawStdoutBytes": 66,
-              "rawStderr": "",
-              "rawStderrBytes": 0,
-              "matchedSpellings": [
-                {
-                  "spelling": "extra-tmp-separator",
-                  "rawName": "/synthetic-tmp//abcdefgh.xyz/ipc_100_cth",
-                  "fd": "7u"
+              "kind": "sdk_adb_exit_confirmation_failed",
+              "confirmation": {
+                "identity": {
+                  "pid": 73931,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "argv": [
+                    "adb"
+                  ],
+                  "uid": 501,
+                  "mappedExecutable": {},
+                  "logDevice": 7,
+                  "logInode": 9
+                },
+                "initialRow": {
+                  "pid": 73931,
+                  "ppid": 1,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "stat": "S"
+                },
+                "cause": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "73931",
+                    "-o",
+                    "args="
+                  ],
+                  "returncode": 1,
+                  "stdout": "",
+                  "stderr": ""
+                },
+                "startedMonotonic": 10,
+                "failure": {
+                  "type": "NaturalGraceExpired",
+                  "message": "fresh boundary"
                 }
-              ],
-              "afterLstat": {
-                "uid": 501,
-                "gid": 20,
-                "mode": 49600,
-                "dev": 7,
-                "ino": 11,
-                "nlink": 1
-              },
-              "finishedMonotonic": 0.0
-            }
-          ],
-          "rootIdentity": {
-            "pid": 100,
-            "start": "Mon Oct 5 00:00:00 2026",
-            "exe": "/fixed/Unity",
-            "argv": [
-              "/fixed/Unity",
-              "-batchmode",
-              "-projectPath",
-              "/P"
-            ],
-            "cwd": "/P",
-            "ppid": 1,
-            "stage": "I"
-          },
-          "afterLstat": {
-            "uid": 501,
-            "gid": 20,
-            "mode": 49600,
-            "dev": 7,
-            "ino": 11,
-            "nlink": 1
-          },
-          "finishedMonotonic": 0.0,
-          "fdOwners": [
-            {
-              "pid": 101,
-              "start": "Mon Oct 5 00:00:00 2026",
-              "exe": "/fixed/bee_backend",
-              "argv": [
-                "/fixed/bee_backend",
-                "--ipc"
-              ],
-              "cwd": "/P",
-              "ppid": 100,
-              "stage": "I"
+              }
             }
           ]
+        },
+        {
+          "mode": "new-consumer",
+          "freshQueries": 1,
+          "events": [
+            {
+              "kind": "sdk_adb_exit_confirmation",
+              "confirmation": {
+                "identity": {
+                  "pid": 73931,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "argv": [
+                    "adb"
+                  ],
+                  "uid": 501,
+                  "mappedExecutable": {},
+                  "logDevice": 7,
+                  "logInode": 9
+                },
+                "initialRow": {
+                  "pid": 73931,
+                  "ppid": 1,
+                  "start": "fixed",
+                  "exe": "adb",
+                  "stat": "S"
+                },
+                "cause": {
+                  "argv": [
+                    "/bin/ps",
+                    "-ww",
+                    "-p",
+                    "73931",
+                    "-o",
+                    "args="
+                  ],
+                  "returncode": 1,
+                  "stdout": "",
+                  "stderr": ""
+                },
+                "startedMonotonic": 10,
+                "freshSnapshot": {
+                  "700": {
+                    "pid": 700,
+                    "ppid": 1,
+                    "start": "fixed",
+                    "exe": "Unity",
+                    "stat": "S"
+                  }
+                },
+                "pidAbsent": true,
+                "finishedMonotonic": 10
+              }
+            }
+          ]
+        },
+        {
+          "mode": "unbound",
+          "freshQueries": 0,
+          "events": []
+        },
+        {
+          "mode": "wrong-exe",
+          "freshQueries": 0,
+          "events": []
+        },
+        {
+          "mode": "stdout",
+          "freshQueries": 0,
+          "events": []
+        },
+        {
+          "mode": "stderr",
+          "freshQueries": 0,
+          "events": []
+        },
+        {
+          "mode": "exit2",
+          "freshQueries": 0,
+          "events": []
         }
       ],
       "v06ChildEvidence": [
@@ -1600,227 +926,8 @@
                 "phase": "natural-closure",
                 "sincePreviousSeconds": null,
                 "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "adb-label",
-          "freshQueries": 1,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            },
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-axo",
-                "pid=,ppid=,lstart=,stat=,comm="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {},
-          "monitorErrors": [],
-          "guardRows": [
-            {
-              "100": {
-                "ppid": 1,
-                "start": "Thu Oct 8 10:00:00 2026",
-                "stat": "S",
-                "exe": "/fixed/Unity"
-              },
-              "303": {
-                "ppid": 1,
-                "start": "Thu Oct 8 10:10:00 2026",
-                "stat": "S",
-                "exe": "/unrelated/fresh"
-              }
-            }
-          ],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "(adb)"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "freshConfirmation": {
-                  "pid": 101,
-                  "initialRow": {
-                    "pid": 101,
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:51:37 2026",
-                    "stat": "S",
-                    "exe": "(adb)"
-                  },
-                  "parentChain": [
-                    {
-                      "pid": 100,
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity",
-                      "argv": [
-                        "/fixed/Unity"
-                      ],
-                      "cwd": "/P",
-                      "cwdProbeExit": 0,
-                      "stage": "I",
-                      "rootPid": 100,
-                      "termSent": false
-                    }
-                  ],
-                  "argsProbe": {
-                    "argv": [
-                      "/bin/ps",
-                      "-ww",
-                      "-p",
-                      "101",
-                      "-o",
-                      "args="
-                    ],
-                    "returncode": 1,
-                    "stdout": "",
-                    "stderr": "",
-                    "startedMonotonic": 10.0,
-                    "finishedMonotonic": 10.0,
-                    "timeoutSeconds": 5.0
-                  },
-                  "stage": "I",
-                  "rootPid": 100,
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "freshSnapshot": {
-                    "100": {
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity"
-                    },
-                    "303": {
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:10:00 2026",
-                      "stat": "S",
-                      "exe": "/unrelated/fresh"
-                    }
-                  },
-                  "pidAbsent": true
-                }
-              }
-            },
-            {
-              "kind": "transient-child-exited",
-              "confirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "(adb)"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "freshSnapshot": {
-                  "100": {
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity"
-                  },
-                  "303": {
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:10:00 2026",
-                    "stat": "S",
-                    "exe": "/unrelated/fresh"
-                  }
-                },
-                "pidAbsent": true
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [],
+                "consumersClear": true,
+                "observations": [],
                 "elapsedSeconds": 0.0
               }
             }
@@ -2161,346 +1268,8 @@
                     "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
                   }
                 ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "reused",
-          "freshQueries": 1,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            },
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-axo",
-                "pid=,ppid=,lstart=,stat=,comm="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "",
-                "stderr": "",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              },
-              "freshConfirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "freshSnapshot": {
-                  "100": {
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity"
-                  },
-                  "303": {
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:10:00 2026",
-                    "stat": "S",
-                    "exe": "/unrelated/fresh"
-                  },
-                  "101": {
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:52:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/worker"
-                  }
-                },
-                "pidAbsent": false
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "freshConfirmation": {
-                  "pid": 101,
-                  "initialRow": {
-                    "pid": 101,
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:51:37 2026",
-                    "stat": "S",
-                    "exe": "/fixed/worker"
-                  },
-                  "parentChain": [
-                    {
-                      "pid": 100,
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity",
-                      "argv": [
-                        "/fixed/Unity"
-                      ],
-                      "cwd": "/P",
-                      "cwdProbeExit": 0,
-                      "stage": "I",
-                      "rootPid": 100,
-                      "termSent": false
-                    }
-                  ],
-                  "argsProbe": {
-                    "argv": [
-                      "/bin/ps",
-                      "-ww",
-                      "-p",
-                      "101",
-                      "-o",
-                      "args="
-                    ],
-                    "returncode": 1,
-                    "stdout": "",
-                    "stderr": "",
-                    "startedMonotonic": 10.0,
-                    "finishedMonotonic": 10.0,
-                    "timeoutSeconds": 5.0
-                  },
-                  "stage": "I",
-                  "rootPid": 100,
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "freshSnapshot": {
-                    "100": {
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity"
-                    },
-                    "303": {
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:10:00 2026",
-                      "stat": "S",
-                      "exe": "/unrelated/fresh"
-                    },
-                    "101": {
-                      "ppid": 100,
-                      "start": "Thu Oct 8 10:52:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/worker"
-                    }
-                  },
-                  "pidAbsent": false
-                }
-              }
-            },
-            {
-              "kind": "transient_child_confirmation_rejected",
-              "confirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "freshSnapshot": {
-                  "100": {
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity"
-                  },
-                  "303": {
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:10:00 2026",
-                    "stat": "S",
-                    "exe": "/unrelated/fresh"
-                  },
-                  "101": {
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:52:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/worker"
-                  }
-                },
-                "pidAbsent": false
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-                  }
-                ],
+                "consumersClear": false,
+                "observations": [],
                 "elapsedSeconds": 0.0
               }
             }
@@ -2841,2098 +1610,8 @@
                     "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
                   }
                 ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "stdout",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"not-empty\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"not-empty\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "not-empty",
-                "stderr": "",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"not-empty\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"not-empty\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"not-empty\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "not-empty",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"not-empty\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"not-empty\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "stderr",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"not-empty\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"not-empty\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "",
-                "stderr": "not-empty",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"not-empty\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"not-empty\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"not-empty\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "not-empty",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"not-empty\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"not-empty\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "exit2",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 2, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 2, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 2,
-                "stdout": "",
-                "stderr": "",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 2, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 2, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 2, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 2,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 2, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 2, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "io",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: synthetic args permission error",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: synthetic args permission error"
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: synthetic args permission error"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: synthetic args permission error",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: synthetic args permission error"
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: synthetic args permission error"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: synthetic args permission error"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "timeout",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Command '['/bin/ps', '-ww', '-p', '101', '-o', 'args=']' timed out after 5.0 seconds",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Command '['/bin/ps', '-ww', '-p', '101', '-o', 'args=']' timed out after 5.0 seconds"
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: Command '['/bin/ps', '-ww', '-p', '101', '-o', 'args=']' timed out after 5.0 seconds"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Command '['/bin/ps', '-ww', '-p', '101', '-o', 'args=']' timed out after 5.0 seconds",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Command '['/bin/ps', '-ww', '-p', '101', '-o', 'args=']' timed out after 5.0 seconds"
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: Command '['/bin/ps', '-ww', '-p', '101', '-o', 'args=']' timed out after 5.0 seconds"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: Command '['/bin/ps', '-ww', '-p', '101', '-o', 'args=']' timed out after 5.0 seconds"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "fresh-io",
-          "freshQueries": 1,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            },
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-axo",
-                "pid=,ppid=,lstart=,stat=,comm="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "",
-                "stderr": "",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              },
-              "freshConfirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "failure": {
-                  "type": "OSError",
-                  "message": "synthetic fresh snapshot IO"
-                }
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "synthetic fresh snapshot IO"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "freshConfirmation": {
-                  "pid": 101,
-                  "initialRow": {
-                    "pid": 101,
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:51:37 2026",
-                    "stat": "S",
-                    "exe": "/fixed/worker"
-                  },
-                  "parentChain": [
-                    {
-                      "pid": 100,
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity",
-                      "argv": [
-                        "/fixed/Unity"
-                      ],
-                      "cwd": "/P",
-                      "cwdProbeExit": 0,
-                      "stage": "I",
-                      "rootPid": 100,
-                      "termSent": false
-                    }
-                  ],
-                  "argsProbe": {
-                    "argv": [
-                      "/bin/ps",
-                      "-ww",
-                      "-p",
-                      "101",
-                      "-o",
-                      "args="
-                    ],
-                    "returncode": 1,
-                    "stdout": "",
-                    "stderr": "",
-                    "startedMonotonic": 10.0,
-                    "finishedMonotonic": 10.0,
-                    "timeoutSeconds": 5.0
-                  },
-                  "stage": "I",
-                  "rootPid": 100,
-                  "startedMonotonic": 10.0,
-                  "failure": {
-                    "type": "OSError",
-                    "message": "synthetic fresh snapshot IO"
-                  }
-                }
-              }
-            },
-            {
-              "kind": "transient_child_confirmation_failed",
-              "confirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "failure": {
-                  "type": "OSError",
-                  "message": "synthetic fresh snapshot IO"
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "synthetic fresh snapshot IO"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "synthetic fresh snapshot IO"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "fresh-timeout",
-          "freshQueries": 1,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            },
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-axo",
-                "pid=,ppid=,lstart=,stat=,comm="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "",
-                "stderr": "",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              },
-              "freshConfirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "failure": {
-                  "type": "TimeoutExpired",
-                  "message": "Command '['/bin/ps', '-ww', '-axo', 'pid=,ppid=,lstart=,stat=,comm=']' timed out after 5.0 seconds"
-                }
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Command '['/bin/ps', '-ww', '-axo', 'pid=,ppid=,lstart=,stat=,comm=']' timed out after 5.0 seconds"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "freshConfirmation": {
-                  "pid": 101,
-                  "initialRow": {
-                    "pid": 101,
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:51:37 2026",
-                    "stat": "S",
-                    "exe": "/fixed/worker"
-                  },
-                  "parentChain": [
-                    {
-                      "pid": 100,
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity",
-                      "argv": [
-                        "/fixed/Unity"
-                      ],
-                      "cwd": "/P",
-                      "cwdProbeExit": 0,
-                      "stage": "I",
-                      "rootPid": 100,
-                      "termSent": false
-                    }
-                  ],
-                  "argsProbe": {
-                    "argv": [
-                      "/bin/ps",
-                      "-ww",
-                      "-p",
-                      "101",
-                      "-o",
-                      "args="
-                    ],
-                    "returncode": 1,
-                    "stdout": "",
-                    "stderr": "",
-                    "startedMonotonic": 10.0,
-                    "finishedMonotonic": 10.0,
-                    "timeoutSeconds": 5.0
-                  },
-                  "stage": "I",
-                  "rootPid": 100,
-                  "startedMonotonic": 10.0,
-                  "failure": {
-                    "type": "TimeoutExpired",
-                    "message": "Command '['/bin/ps', '-ww', '-axo', 'pid=,ppid=,lstart=,stat=,comm=']' timed out after 5.0 seconds"
-                  }
-                }
-              }
-            },
-            {
-              "kind": "transient_child_confirmation_failed",
-              "confirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "failure": {
-                  "type": "TimeoutExpired",
-                  "message": "Command '['/bin/ps', '-ww', '-axo', 'pid=,ppid=,lstart=,stat=,comm=']' timed out after 5.0 seconds"
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Command '['/bin/ps', '-ww', '-axo', 'pid=,ppid=,lstart=,stat=,comm=']' timed out after 5.0 seconds"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Command '['/bin/ps', '-ww', '-axo', 'pid=,ppid=,lstart=,stat=,comm=']' timed out after 5.0 seconds"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "fresh-exit",
-          "freshQueries": 1,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            },
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-axo",
-                "pid=,ppid=,lstart=,stat=,comm="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "",
-                "stderr": "",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              },
-              "freshConfirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "failure": {
-                  "type": "RuntimeError",
-                  "message": "Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-axo\", \"pid=,ppid=,lstart=,stat=,comm=\"], \"exit\": 1, \"stderr\": \"denied\"}"
-                }
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-axo\", \"pid=,ppid=,lstart=,stat=,comm=\"], \"exit\": 1, \"stderr\": \"denied\"}"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "freshConfirmation": {
-                  "pid": 101,
-                  "initialRow": {
-                    "pid": 101,
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:51:37 2026",
-                    "stat": "S",
-                    "exe": "/fixed/worker"
-                  },
-                  "parentChain": [
-                    {
-                      "pid": 100,
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity",
-                      "argv": [
-                        "/fixed/Unity"
-                      ],
-                      "cwd": "/P",
-                      "cwdProbeExit": 0,
-                      "stage": "I",
-                      "rootPid": 100,
-                      "termSent": false
-                    }
-                  ],
-                  "argsProbe": {
-                    "argv": [
-                      "/bin/ps",
-                      "-ww",
-                      "-p",
-                      "101",
-                      "-o",
-                      "args="
-                    ],
-                    "returncode": 1,
-                    "stdout": "",
-                    "stderr": "",
-                    "startedMonotonic": 10.0,
-                    "finishedMonotonic": 10.0,
-                    "timeoutSeconds": 5.0
-                  },
-                  "stage": "I",
-                  "rootPid": 100,
-                  "startedMonotonic": 10.0,
-                  "failure": {
-                    "type": "RuntimeError",
-                    "message": "Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-axo\", \"pid=,ppid=,lstart=,stat=,comm=\"], \"exit\": 1, \"stderr\": \"denied\"}"
-                  }
-                }
-              }
-            },
-            {
-              "kind": "transient_child_confirmation_failed",
-              "confirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 10.0,
-                "failure": {
-                  "type": "RuntimeError",
-                  "message": "Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-axo\", \"pid=,ppid=,lstart=,stat=,comm=\"], \"exit\": 1, \"stderr\": \"denied\"}"
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-axo\", \"pid=,ppid=,lstart=,stat=,comm=\"], \"exit\": 1, \"stderr\": \"denied\"}"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-axo\", \"pid=,ppid=,lstart=,stat=,comm=\"], \"exit\": 1, \"stderr\": \"denied\"}"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "fresh-natural",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 54.0, \"finishedMonotonic\": 58.1, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 54.0, \"finishedMonotonic\": 58.1, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "",
-                "stderr": "",
-                "startedMonotonic": 54.0,
-                "finishedMonotonic": 58.1,
-                "timeoutSeconds": 5.0
-              },
-              "freshConfirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 54.0,
-                  "finishedMonotonic": 58.1,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 58.1,
-                "failure": {
-                  "type": "NaturalGraceExpired",
-                  "message": "normal-natural-boundary: insufficient full five-second probe allowance"
-                }
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "INCOMPLETE: transient child fresh confirmation unavailable after args failure"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 54.0, \"finishedMonotonic\": 58.1, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 54.0, \"finishedMonotonic\": 58.1, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 54.0,
-                  "finishedMonotonic": 58.1,
-                  "timeoutSeconds": 5.0
-                },
-                "freshConfirmation": {
-                  "pid": 101,
-                  "initialRow": {
-                    "pid": 101,
-                    "ppid": 100,
-                    "start": "Thu Oct 8 10:51:37 2026",
-                    "stat": "S",
-                    "exe": "/fixed/worker"
-                  },
-                  "parentChain": [
-                    {
-                      "pid": 100,
-                      "ppid": 1,
-                      "start": "Thu Oct 8 10:00:00 2026",
-                      "stat": "S",
-                      "exe": "/fixed/Unity",
-                      "argv": [
-                        "/fixed/Unity"
-                      ],
-                      "cwd": "/P",
-                      "cwdProbeExit": 0,
-                      "stage": "I",
-                      "rootPid": 100,
-                      "termSent": false
-                    }
-                  ],
-                  "argsProbe": {
-                    "argv": [
-                      "/bin/ps",
-                      "-ww",
-                      "-p",
-                      "101",
-                      "-o",
-                      "args="
-                    ],
-                    "returncode": 1,
-                    "stdout": "",
-                    "stderr": "",
-                    "startedMonotonic": 54.0,
-                    "finishedMonotonic": 58.1,
-                    "timeoutSeconds": 5.0
-                  },
-                  "stage": "I",
-                  "rootPid": 100,
-                  "startedMonotonic": 58.1,
-                  "failure": {
-                    "type": "NaturalGraceExpired",
-                    "message": "normal-natural-boundary: insufficient full five-second probe allowance"
-                  }
-                }
-              }
-            },
-            {
-              "kind": "transient_child_confirmation_failed",
-              "confirmation": {
-                "pid": 101,
-                "initialRow": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "parentChain": [
-                  {
-                    "pid": 100,
-                    "ppid": 1,
-                    "start": "Thu Oct 8 10:00:00 2026",
-                    "stat": "S",
-                    "exe": "/fixed/Unity",
-                    "argv": [
-                      "/fixed/Unity"
-                    ],
-                    "cwd": "/P",
-                    "cwdProbeExit": 0,
-                    "stage": "I",
-                    "rootPid": 100,
-                    "termSent": false
-                  }
-                ],
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 54.0,
-                  "finishedMonotonic": 58.1,
-                  "timeoutSeconds": 5.0
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "startedMonotonic": 58.1,
-                "failure": {
-                  "type": "NaturalGraceExpired",
-                  "message": "normal-natural-boundary: insufficient full five-second probe allowance"
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "INCOMPLETE: transient child fresh confirmation unavailable after args failure"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "INCOMPLETE: transient child fresh confirmation unavailable after args failure"
-                  }
-                ],
-                "elapsedSeconds": 4.1
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "cwd-failure",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            },
-            {
-              "argv": [
-                "/usr/sbin/lsof",
-                "-a",
-                "-p",
-                "101",
-                "-d",
-                "cwd",
-                "-Fn"
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101"
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101"
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: Owned identity incomplete 101"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "complete",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            },
-            {
-              "argv": [
-                "/usr/sbin/lsof",
-                "-a",
-                "-p",
-                "101",
-                "-d",
-                "cwd",
-                "-Fn"
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100,
-            101
-          ],
-          "pending": {},
-          "monitorErrors": [],
-          "guardRows": [
-            {
-              "100": {
-                "pid": 100,
-                "ppid": 1,
-                "start": "Thu Oct 8 10:00:00 2026",
-                "stat": "S",
-                "exe": "/fixed/Unity",
-                "argv": [
-                  "/fixed/Unity"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "termSent": false
-              },
-              "101": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              }
-            }
-          ],
-          "events": [
-            {
-              "kind": "owned_discovered",
-              "process": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker",
-                "argv": [
-                  "/fixed/worker"
-                ],
-                "cwd": "/P",
-                "cwdProbeExit": 0,
-                "stage": "I",
-                "rootPid": 100,
-                "firstObservedUtc": "fixture",
-                "termSent": false
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "legacy",
-          "freshQueries": 0,
-          "calls": [],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Supplied-snapshot child identity failed 69374: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"69374\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Supplied-snapshot child identity failed 69374: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"69374\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}"
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Supplied-snapshot child identity failed 101: Supplied-snapshot child identity failed 69374: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"69374\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Supplied-snapshot child identity failed 69374: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"69374\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Supplied-snapshot child identity failed 69374: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"69374\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}"
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Supplied-snapshot child identity failed 101: Supplied-snapshot child identity failed 69374: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"69374\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Supplied-snapshot child identity failed 101: Supplied-snapshot child identity failed 69374: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"69374\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}"
-                  }
-                ],
-                "elapsedSeconds": 0.0
-              }
-            }
-          ],
-          "signals": []
-        },
-        {
-          "mode": "parent-stage",
-          "freshQueries": 0,
-          "calls": [
-            {
-              "argv": [
-                "/bin/ps",
-                "-ww",
-                "-p",
-                "101",
-                "-o",
-                "args="
-              ],
-              "timeout": 5.0
-            }
-          ],
-          "ownedPids": [
-            100
-          ],
-          "pending": {
-            "101": {
-              "row": {
-                "pid": 101,
-                "ppid": 100,
-                "start": "Thu Oct 8 10:51:37 2026",
-                "stat": "S",
-                "exe": "/fixed/worker"
-              },
-              "stage": "I",
-              "rootPid": 100,
-              "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "firstObservedUtc": "fixture",
-              "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-              "argsProbe": {
-                "argv": [
-                  "/bin/ps",
-                  "-ww",
-                  "-p",
-                  "101",
-                  "-o",
-                  "args="
-                ],
-                "returncode": 1,
-                "stdout": "",
-                "stderr": "",
-                "startedMonotonic": 10.0,
-                "finishedMonotonic": 10.0,
-                "timeoutSeconds": 5.0
-              }
-            }
-          },
-          "monitorErrors": [
-            {
-              "utc": "fixture",
-              "phase": "natural-closure",
-              "scope": "consumers",
-              "error": "Transient child parent stage mismatch"
-            }
-          ],
-          "guardRows": [],
-          "events": [
-            {
-              "kind": "pending_identity",
-              "pid": 101,
-              "identity": {
-                "row": {
-                  "pid": 101,
-                  "ppid": 100,
-                  "start": "Thu Oct 8 10:51:37 2026",
-                  "stat": "S",
-                  "exe": "/fixed/worker"
-                },
-                "stage": "I",
-                "rootPid": 100,
-                "firstError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "firstObservedUtc": "fixture",
-                "lastError": "Supplied-snapshot child identity failed 101: Single-PID args probe failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"101\", \"-o\", \"args=\"], \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"\", \"startedMonotonic\": 10.0, \"finishedMonotonic\": 10.0, \"timeoutSeconds\": 5.0}",
-                "argsProbe": {
-                  "argv": [
-                    "/bin/ps",
-                    "-ww",
-                    "-p",
-                    "101",
-                    "-o",
-                    "args="
-                  ],
-                  "returncode": 1,
-                  "stdout": "",
-                  "stderr": "",
-                  "startedMonotonic": 10.0,
-                  "finishedMonotonic": 10.0,
-                  "timeoutSeconds": 5.0
-                }
-              }
-            },
-            {
-              "kind": "monitor_failure",
-              "detail": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "scope": "consumers",
-                "error": "Transient child parent stage mismatch"
-              }
-            },
-            {
-              "kind": "monitor_cycle",
-              "cycle": {
-                "utc": "fixture",
-                "phase": "natural-closure",
-                "sincePreviousSeconds": null,
-                "failures": [
-                  {
-                    "utc": "fixture",
-                    "phase": "natural-closure",
-                    "scope": "consumers",
-                    "error": "Transient child parent stage mismatch"
-                  }
-                ],
+                "consumersClear": false,
+                "observations": [],
                 "elapsedSeconds": 0.0
               }
             }
@@ -4940,103 +1619,91 @@
           "signals": []
         }
       ],
-      "preservedConflicts": [],
-      "skippedHistoricalCases": [
-        "V04 Bee complete FD path with stream annotation",
-        "V04 Bee rejects stage",
-        "V04 Bee rejects pid",
-        "V04 Bee rejects start",
-        "V04 Bee rejects fresh-start",
-        "V04 Bee rejects exe",
-        "V04 Bee rejects parent",
-        "V04 Bee rejects argv",
-        "V04 Bee rejects cwd",
-        "V04 Bee rejects tool-editor",
-        "V04 Bee rejects tool-beeBackend",
-        "V04 Bee rejects tool-beeDriver",
-        "V04 Bee rejects tool-lsof",
-        "V04 Bee rejects fd-mismatch",
-        "V04 Bee rejects fd-pid",
-        "V04 Bee rejects fd-type",
-        "V04 Bee rejects fd-no-record",
-        "V04 Bee rejects fd-error",
-        "V04 Bee rejects uid",
-        "V04 Bee rejects mode",
-        "V04 Bee rejects dir-uid",
-        "V04 Bee rejects dir-mode",
-        "V04 Bee rejects dir-link",
-        "V04 Bee rejects fifo",
-        "V04 Bee rejects link",
-        "V04 Bee rejects regular",
-        "V04 Bee rejects nlink",
-        "V04 Bee rejects vanish-first",
-        "V04 Bee rejects vanish-during",
-        "V04 Bee rejects before-io",
-        "V04 Bee rejects fd-io",
-        "V04 Bee real in-flight TimeoutExpired",
-        "V04 Bee admitted absent",
-        "V04 Bee admitted directory-absent",
-        "V04 Bee admitted residual",
-        "V04 Bee admitted closed-I-new-T",
-        "V04 Bee admitted inode",
-        "V04 Bee admitted dir-inode",
-        "V04 Bee admitted uid",
-        "V04 Bee admitted link",
-        "V04 Bee admitted reused-pid",
-        "V04 Bee admitted io",
-        "V04 Bee admitted reappear",
-        "V04 Bee admitted wrong-stage",
-        "V04 unknown socket stays forbidden",
-        "V04 unknown fifo stays forbidden",
-        "V04 one directory per stage",
-        "V04 rejects malformed IPC paths and wrong PID",
-        "V04 fresh T uses separate stage FD state",
-        "V04 closure natural",
-        "V04 closure timeout",
-        "V04 closure io",
-        "V04 closure total",
-        "V04 closure unclosed-prior",
-        "V04 work and total deadlines preserved",
-        "FIX01 actual discover-register natural propagation and TERM",
-        "FIX01 actual discover-register ordinary identity failure retained",
-        "FIX02 independent PID discovery closure parent-first",
-        "FIX02 independent PID discovery closure unknown",
-        "Retained actual 43-path compiler park and recovery ledger",
-        "V05 saved real three-snapshot FD strings",
-        "V05 raw FD observation success",
-        "V05 raw FD observation mismatch",
-        "V05 raw FD observation oversize",
-        "V05 raw FD observation primary-and-after",
-        "V05 raw FD observation write-only",
-        "V05 raw FD observation write-with-primary",
-        "V05 FIX01 timeout partial capacity stdout",
-        "V05 FIX01 timeout partial capacity stderr"
+      "boundaryEvidence": [
+        {
+          "mode": "timeout",
+          "signalsSynthetic": [
+            101
+          ],
+          "closed": true,
+          "failure": null,
+          "monitorErrors": [
+            {
+              "utc": "fixture",
+              "phase": "natural-closure",
+              "scope": "resources",
+              "error": "Command '['synthetic']' timed out after 5 seconds"
+            }
+          ]
+        },
+        {
+          "mode": "io",
+          "signalsSynthetic": [
+            101
+          ],
+          "closed": true,
+          "failure": null,
+          "monitorErrors": [
+            {
+              "utc": "fixture",
+              "phase": "natural-closure",
+              "scope": "resources",
+              "error": "synthetic I/O error"
+            }
+          ]
+        },
+        {
+          "mode": "unclosed-prior",
+          "signalsSynthetic": [
+            101
+          ],
+          "closed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [100, 101], 'pending': [], 'root': 100}",
+          "monitorErrors": [
+            {
+              "utc": "fixture",
+              "phase": "natural-closure",
+              "scope": "resources",
+              "error": "Command '['synthetic']' timed out after 5 seconds"
+            },
+            {
+              "utc": "fixture",
+              "phase": "closure-final",
+              "scope": "process-snapshot",
+              "error": "Closure probe deadline exhausted"
+            }
+          ]
+        }
       ],
-      "seconds": 4.346945291996235,
+      "preservedConflicts": [],
+      "seconds": 4.769188958001905,
       "actualFunctionsCalled": [
         "<genexpr>",
         "<lambda>",
         "<module>",
+        "BeeObservationIncomplete",
         "ChildArgsProbeError",
         "NaturalGraceExpired",
         "__init__",
         "alive",
+        "archive_and_restore",
         "bee_capture_output",
         "bee_fd_binding",
         "bee_fd_bound",
         "bee_ipc_entry",
-        "bee_ipc_snapshot",
         "bee_observation_event",
         "bee_process",
         "bee_stamp",
         "bee_tools",
         "blocking_probe_timeout",
-        "capture_before",
+        "bound_detail",
         "check",
         "checked",
         "child_args",
         "closure",
         "cmd",
+        "compilation_passed",
+        "consumer_guard",
         "details",
         "discover",
         "monitor",
@@ -5046,82 +1713,37 @@
         "recorded_chain",
         "recover_root",
         "register",
+        "resources",
+        "restore_all",
         "sample",
+        "scan_tree",
+        "sdk_adb_exception",
+        "size",
         "snapshot_consumers",
-        "tree_entries"
+        "tick",
+        "validate_xml"
       ],
       "forbiddenAttempts": [],
       "runner": {
-        "bytes": 101320,
-        "sha256": "415a8a5bd312875e972363d4ad9cb504ac4b8579390eb2ad2081a0323fb36119"
+        "bytes": 106788,
+        "sha256": "4873fb61b3bb9937371cb50b25c0db7c6aca28f64fd86a4ad0365333af5f5973"
       },
       "checker": {
-        "bytes": 61647,
-        "sha256": "5e062c91e46102167aa509badf7942597f2331f72badd0724e1a56a4f4f287f4"
+        "bytes": 71321,
+        "sha256": "7ea08d83ebc2cdd5b9819ede99fb1fdcedfd2d233f975457077ed2fe266a6dff"
       },
       "inputs": {
-        "bytes": 1248829,
-        "sha256": "4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b"
+        "bytes": 1251531,
+        "sha256": "5d7409d1e9f1ee5984d3e1f7cb2b948fcbfdca62e8a6790b806b34d104d6ff0c"
       }
     }
   ],
-  "inputs": {
-    "bytes": 1248829,
-    "sha256": "4fdcfff78f03da819b028e596db29c4ea584c7fde79d9830b929da2d4321405b"
+  "historicalEvidenceReused": {
+    "V06": 34,
+    "V05": 42,
+    "V04": 69,
+    "V03": 177,
+    "scope": "unchanged functions only; affected lifecycle gates are new replay cases"
   },
-  "baseline": {
-    "root": "TestArtifacts/FightMatch/RES-COMBINED-V05/run",
-    "sourceIdentities": {
-      "runner.py": {
-        "bytes": 97866,
-        "sha256": "7c287b387570cca6c72c60165d1e0e9d8a229f7403740d36e8b658dbbbb97b67"
-      },
-      "inputs.json": {
-        "bytes": 1246296,
-        "sha256": "465aa6b038e80651ba35d19062a68beee6ea3c31a6a54ebfed66978333d4b5b3"
-      },
-      "preparation.json": {
-        "bytes": 126715,
-        "sha256": "215e19ef340729130b3332f5850e54d88f5a5de114519058d3ffa61bd6bf7f1d"
-      },
-      "replay-check.py": {
-        "bytes": 52516,
-        "sha256": "dada8645357f7f78fa624adfb2637c324ece66a0894a0f3374723df8dd579fa0"
-      },
-      "replay-results.json": {
-        "bytes": 350873,
-        "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d"
-      }
-    }
-  },
-  "reused177": {
-    "path": "TestArtifacts/FightMatch/RES-COMBINED-V03/run/replay-results.json",
-    "bytes": 451171,
-    "sha256": "ef6b9626be51273a64770d169beedc2a1eb39f5cd5acb1ac10e9b0986d00b556",
-    "newExecution": false
-  },
-  "historicalV05": {
-    "path": "TestArtifacts/FightMatch/RES-COMBINED-V05/run/replay-results.json",
-    "bytes": 350873,
-    "sha256": "1344ae736c99d83dcf1ea8bd422ac684b6f148dd360a3edf60c1122c3b37422d",
-    "cases": 42,
-    "reusedNotRerun": true
-  },
-  "selectedHistoricalCases": [
-    "V04 Bee htc then cth",
-    "V04 Bee cth then htc",
-    "V04 Bee rejects post-inode",
-    "V04 Bee rejects post-dir",
-    "V04 Bee rejects reuse-during",
-    "V04 fresh sealed state accepted",
-    "V04 execution state drift rejected",
-    "V05 full blocking-probe allowance and real timeout",
-    "V05 near natural boundary actual chain preserves prior Bee error",
-    "V05 FIX01 natural observation success",
-    "V05 FIX01 natural observation capacity",
-    "V05 FIX01 natural observation io",
-    "FIX02 independent PID discovery closure during-term",
-    "FIX02 independent PID discovery closure stubborn"
-  ],
-  "cumulativeSeconds": 4.346945291996235
+  "cumulativeSeconds": 6.072885290996055
 }
