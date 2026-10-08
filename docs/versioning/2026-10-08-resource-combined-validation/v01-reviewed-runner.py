@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RES-COMBINED-V02: sealed I then T; source preparation never activates native work."""
+"""RES-COMBINED-V01: sealed I then T; source preparation never activates native work."""
 import os,sys,json,hashlib,pathlib,stat,subprocess,time,datetime,signal,re,shlex,shutil,ctypes,copy
 from collections import Counter
 import xml.etree.ElementTree as ET
@@ -10,7 +10,7 @@ allowed=set('activation.json inputs.json before.json preparation.json runner.py 
 owned={}; stages=[]; active=None; synced=False; restored=False; synchronized_paths=[]; parked_paths=[]; stage_dlls={}; adb_observations=[]; sdk_observations=[]; sdk_adb=None; baseline_processes={}; monitor_errors=[]; monitor_cycles=[]; last_monitor=0.0; root_launch_epoch=None; clock_start=0.0; launch_attempts=0; full_inputs=None; atomic_conflicts=set(); launched_root=None
 pending_details={}; process_snapshot={}; snapshot_root=None; closure_closed=None
 transfer_conflicts=set(); probe_deadline=None
-D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V02/state-tests'
+D={}; Q={}; BC=E.parent/'bee-cache'; ASROOT=R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V01/state-tests'
 compiler_parked=[]; compiler_after={}; compiler_restored=[]; stage_history=[]; launch_counts={}; stage_bindings={}; current_stage='I'; restore_deadline=None; execution_deadline=None; work_deadline=None
 def utc(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def check(ok,why):
@@ -497,10 +497,10 @@ def preflight():
     check(OWNER=={'thread':'01a0fdbc-bf1e-7780-8f7f-dec13d6d590c','host':'local','turn':EXECUTION_TURN} and EXECUTION_TURN!=PREF['owner']['turn'],'Fresh C actual')
     check(A['projectRoot']==str(R) and A['cwd']==str(P) and A['cacheRoot']==str(K),'Fixed execution roots')
     check(A['stopping']=={'naturalGraceSeconds':60,'termGraceSeconds':30,'sigkill':False,'retries':0,'perOwnedPidTermMax':1},'Closure contract')
-    check(A['environmentOverrides']=={'UPM_CACHE_ROOT':str(K),'TMPDIR':str(TMP),'BEE_CACHE_DIRECTORY':str(BC),'DOTNET_EnableDiagnostics':'0'},'Exact shared environment')
+    check(A['environmentOverrides']=={'UPM_CACHE_ROOT':str(K),'TMPDIR':str(TMP),'BEE_CACHE_DIRECTORY':str(BC)},'Exact shared environment')
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Exact ordered I/T')
     no_links(TMP); s=TMP.stat()
-    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv2\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
+    check(TMP.resolve()==TMP and re.fullmatch(r'/private/tmp/fm-rcv1\.[A-Za-z0-9]{8}',str(TMP)) and len(os.fsencode(TMP))<=40 and s.st_uid==os.getuid() and stat.S_IMODE(s.st_mode)==0o700,'New short TMP')
     check({k:getattr(s,'st_'+k) for k in ('dev','ino','uid','gid')}==A['tmpIdentity'],'Sealed TMP identity')
     check(ident(N['editor']['path'])==basic({'x':N['editor']})['x'] and A['editor']==N['editor'],'Fixed Intel Editor')
     validate_inputs(source_tree(R),N['shared'],'Current shared input'); consumer_guard(ps())
@@ -610,36 +610,17 @@ def cached_reuse_proven(before,current,prior):
     return before.get('complete') is True and current.get('complete') is True and prior.get('proven') is True and prior.get('origin') in ('actualCsc','verifiedCacheChain') and all(k in prior and before.get(k)==current.get(k)==prior[k] for k in keys)
 def compilation_passed(proof):
     return set(proof.get('assemblies',{}))==set(N['requiredAssemblies']) and all(v.get('proven') is True for v in proof['assemblies'].values())
-def csc_events(log):
-    events=[]
-    output=r'(Library/Bee/[^\s]+\.dll)(?: \(\+(\d+) others\))?'
-    for index,line in checked(enumerate(log.splitlines())):
-        if not re.search(r'\bCsc\s+Library/Bee/',line): continue
-        action=re.fullmatch(r'\[(\d+)/(\d+)(?:[ \t]+\d+(?:\.\d+)?(?:ms|s))?\][ \t]+Csc '+output,line)
-        telemetry=re.fullmatch(r'\[[ \t]+\d+(?:\.\d+)?(?:ms|s)\][ \t]+Csc '+output+r' \[CacheWrite \]',line)
-        row={'line':index+1,'text':line}
-        if action:
-            current,total,path,others=action.groups(); check(0<int(current)<=int(total),'INCOMPLETE: invalid Csc action counter')
-            row.update(kind='ACTION',outputPath=path,otherOutputs=None if others is None else int(others))
-        elif telemetry:
-            path,others=telemetry.groups(); others=None if others is None else int(others); previous=events[-1] if events else {}
-            check(previous.get('kind')=='ACTION' and previous['line']==index and previous['outputPath']==path and previous['otherOutputs']==others,'INCOMPLETE: unassociated CacheWrite telemetry')
-            row.update(kind='CACHE_WRITE',outputPath=path,otherOutputs=others,actionLine=previous['line'])
-        else: raise RuntimeError('INCOMPLETE: unrecognized Csc/CacheRead format at line '+str(index+1))
-        events.append(row)
-    return events
 def compile_evidence(log,sid='I'):
     global full_inputs
     full_inputs=source_tree(P,True); extras=set(full_inputs)-set(N['files'])
     check(extras<={N['allowedNewSettings']['path']},'Imported additions'); validate_inputs({p:v for p,v in full_inputs.items() if p not in extras},N['files'],'Full compiled inputs')
     if extras: check(ident(P/N['allowedNewSettings']['path'])==basic({'x':N['allowedNewSettings']})['x'],'Natural settings identity')
     pair=compiler_graph(); graph=pair[1]; bindings={name:compiler_binding(name,pair) for name in N['requiredAssemblies']}; assemblies={}
-    events=csc_events(log)
+    events=[{'line':i+1,'text':line} for i,line in checked(enumerate(log.splitlines())) if re.search(r'\bCsc\s+Library/Bee/',line)]
     for name,binding in checked(bindings.items()):
-        related=[row for row in events if re.search(r'/'+re.escape(name)+r'\.dll$',row['outputPath'])]; matches=[row for row in related if row['kind']=='ACTION']
-        actual=len(matches)==1 and all(row['outputPath']==binding.get('outputPath') and (row['otherOutputs'] is None or row['otherOutputs']==len(binding.get('response',{}).get('outputs',{}))-1) for row in related)
-        cached=sid=='T' and not related and cached_reuse_proven(stage_bindings.get('T',{}).get(name,{}),binding,stage_dlls['I']['assemblies'].get(name,{}))
-        assemblies[name]={**binding,'actualCsc':actual,'event':matches[0] if actual else None,'cacheReuseClaimed':cached,'origin':'verifiedCacheChain' if cached else 'actualCsc','proven':cached,'referenceProof':[]}
+        matches=[row for row in events if re.search(r'\bCsc\s+Library/Bee/\S+/'+re.escape(name)+r'\.dll(?=\s|$)',row['text'])]
+        cached=sid=='T' and not matches and cached_reuse_proven(stage_bindings.get('T',{}).get(name,{}),binding,stage_dlls['I']['assemblies'].get(name,{}))
+        assemblies[name]={**binding,'actualCsc':len(matches)==1,'event':matches[0] if len(matches)==1 else None,'cacheReuseClaimed':cached,'origin':'verifiedCacheChain' if cached else 'actualCsc','proven':cached,'referenceProof':[]}
     def ancestors(index):
         found=set(); todo=list(graph['Nodes'][index].get('ToBuildDependencies',[]))+list(graph['Nodes'][index].get('ToUseDependencies',[]))
         while todo:
@@ -752,7 +733,7 @@ def normalize_input(raw):
             'allowedNewSettings':raw['allowedNewSettings'],'requiredAssemblies':raw['compilePlan']['requiredAssemblies'],
             'assemblySources':{n:v['expectedSources'] for n,v in raw['compilePlan']['assemblies'].items()},'priorCompileBindings':{},'editor':raw['editor']}
 def contract_guard(raw,qa):
-    check(raw['task']=='RES-COMBINED-V02' and raw['schemaVersion']==1,'Current combined schema required')
+    check(raw['task']=='RES-COMBINED-V01' and raw['schemaVersion']==1,'Current combined schema required')
     for key,count in [('shared',1036),('projectionBefore',1035)]:
         section=raw[key]; check(len(section['files'])==count and canonical(section['files'])==section['summary']['canonicalSha256'],'Fixed '+key)
     proposed=dict(raw['shared']['files']); meta=raw['projectionProposed']['retainedNaturalMeta']; proposed[meta['path']]=meta
@@ -767,7 +748,6 @@ def contract_guard(raw,qa):
     check(raw['commands']['T'][raw['commands']['T'].index('-testFilter')+1]==qa['selection']['testFilterArgument'],'Fixed filter')
     check('-quit' in raw['commands']['I'] and '-runTests' not in raw['commands']['I'] and '-quit' not in raw['commands']['T'],'Exact I/T mode')
     check(raw['limits']['mechanicalPreparationSeconds']==raw['preparation']['budgetSeconds']==160 and raw['limits']['finalizationSeconds']==30 and raw['limits']['totalMechanicalSeconds']==900,'Fixed preparation/finalization/total budgets')
-    check(raw['commands']['environmentBoth']['DOTNET_EnableDiagnostics']=='0','Diagnostics disabled for current I/T')
     return normalized
 def compiler_paths():
     return D.get('compilePlan',{}).get('proposedParkExactLeaves',{})
@@ -879,7 +859,6 @@ def stage_environment(sid):
     environment={k:v for k,v in os.environ.items() if k not in ('UPM_CACHE_ROOT','TMPDIR','BEE_CACHE_DIRECTORY','FIGHTMATCH_ACTIVATION_TEST_ROOT')}
     environment.update(A['environmentOverrides'])
     if sid=='T': environment.update(D['commands']['environmentTOnly'])
-    environment['DOTNET_EnableDiagnostics']='0'
     return environment
 def finalize(receipt,outputs):
     validation_status=receipt['status']; failure=receipt.get('failure'); attempted=[]
@@ -904,9 +883,9 @@ def main():
     clock_start=time.monotonic()
     check(len(sys.argv)==3,'Activation SHA and fresh C turn required'); ACT_SHA,EXECUTION_TURN=sys.argv[1:]
     check(ident(E/'activation.json')['sha256']==ACT_SHA,'Activation SHA'); A=json.loads(bounded_read(E/'activation.json'))
-    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V02','Current combined activation required')
+    check(A['status']=='EXECUTION_BOUND' and A['task']=='RES-COMBINED-V01','Current combined activation required')
     D=json.loads(bounded_read(E/'inputs.json')); PREF=json.loads(bounded_read(E/'preparation.json')); OWNER=A['executionOwner']
-    check(ident(E/'inputs.json')=={'bytes':1241674,'sha256':'5042438e26cd9e7fea1c5decee0f689f30af05ee667c25dbec57c472d363e636'},'Current fixed inputs')
+    check(ident(E/'inputs.json')=={'bytes':1241588,'sha256':'30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb'},'Current fixed inputs')
     check({k:str(v) for k,v in [('R',R),('P',P),('K',K),('executionEvidence',E),('newBeeCache',BC),('activationTests',ASROOT)]}==D['paths'],'Fixed path bindings')
     check(ident(R/D['testCases']['path'])==basic({'x':D['testCases']})['x'],'Case seal'); Q=json.loads(bounded_read(R/D['testCases']['path'])); N=contract_guard(D,Q)
     check(PREF['status']=='SOURCE_REPLAY_PASS' and PREF['mechanicalPreparationSeconds']<=160,'Preparation gate')
@@ -917,7 +896,7 @@ def main():
     check(A['sourceReview'].get('head') and A['sourceReview'].get('resultUrl'),'Review receipt required before effects')
     for key in ('inputs','preparation','replay-check','replay-results'):
         check(ident(E/(key+('.py' if key=='replay-check' else '.json')))==A['seals'][key],'Activation artifact seal '+key)
-    check(A['environmentOverrides']=={'UPM_CACHE_ROOT':str(K),'TMPDIR':str(TMP),'BEE_CACHE_DIRECTORY':str(BC),'DOTNET_EnableDiagnostics':'0'},'Environment gate')
+    check(A['environmentOverrides']=={'UPM_CACHE_ROOT':str(K),'TMPDIR':str(TMP),'BEE_CACHE_DIRECTORY':str(BC)},'Environment gate')
     check(A['stages']==[{'id':sid,'timeoutSeconds':D['limits'][sid+'Seconds'],'maxRuns':1,'argv':D['commands'][sid]} for sid in ('I','T')],'Ordered stage gate')
     execution_deadline=clock_start+D['limits']['totalMechanicalSeconds']-PREF['mechanicalPreparationSeconds']; work_deadline=execution_deadline-A['stopping']['naturalGraceSeconds']-A['stopping']['termGraceSeconds']-D['limits']['restoreSeconds']-D['limits']['finalizationSeconds']; started=utc(); failure=None; restore=None; after={}; status='NOT_RUN_BLOCKED'; remaining=None
     try:

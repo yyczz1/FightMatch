@@ -1,13 +1,11 @@
-# Combined resource validation — FIX02
+# Resource combined validation V02
 
-The current resource/Host combination needs one bounded compile followed by the fixed89-case EditMode run. The supervisor uses the existing P01 projection, recoverable file operations and a fresh external Bee cache. Native execution has not started.
+Current candidate corrects two issues observed in the first native V01 attempt: CoreCLR diagnostic IPC was rejected by the existing TMP guard, and SDK CacheWrite telemetry was counted as a second Csc action. V02 sets DOTNET_EnableDiagnostics=0 only for the I/T child environment and distinguishes exact CacheWrite telemetry. Unknown IPC protections stay unchanged.
 
-FIX01 reserved cleanup time inside the900-second cap. FIX02 addresses subsequent GitHub P1s4212896382/4212896391: filesystem iteration and bounded read/hash chunks now check deadlines internally, and final evidence/receipt/output has30 seconds reserved inside the same total. The prior90-second closure and60-second restoration ceilings remain. Preparation carries the old120 forward plus at most40 for this correction; shared1036/P01 proposed1037/89-case content is unchanged. inputs.json differs only in two preparation-limit fields and the new finalization reserve.
+- V01: one Unity compile process exited0, supervisor exited1; T89 never ran. External elapsed87.088998s plus160 preparation=247.088998s. Original FAILED, recovered1035 projection inputs/43 compiler leaves, and original evidence remain immutable.
+- V02: targeted red followed by177/177 offline checks, retaining all158 previous cases;12.600547s total. No new Unity/native execution or activation.
+- Current source is runner.py/replay-check.py; inputs, replay-results and preparation contain exact seals, input mapping and delta from v01-reviewed sources. v02-design/source-packet govern this correction. Earlier design/fix documents and FIX05 baseline files remain historical context.
+- New V02 run/cache/AS paths are independent. Shared1036/projection1035→1037,53 packages,43 compiler leaves and89 cases are unchanged. Overall900s includes160 preparation, reserved cleanup/restoration/finalization; no retries.
+- Candidate success remains provisional until exact receipt hash, TEST_PASS/no failure, real OS exit0 and external monotonic total verification.
 
-Receipts/stdout use AWAITING_PROCESS_EXIT for candidate success. Acceptance additionally requires validationStatus TEST_PASS, no failure, exact receipt identity, real OS exit0 and an external monotonic elapsed measurement plus preparation<=900. Evidence/receipt/output timing boundaries are explicit; serialization/hash/write/flush overrun cannot return success. Cooperative checks cannot interrupt a kernel I/O stall; that limitation is retained rather than claiming hard real-time guarantees.
-
-Validation: targeted red reproduced both issues; the second/full round passed158/158, preserving138 previous expectations. Two rounds total10.451651417 seconds. The current preparation ceiling is160; all V00/V01 successes and failures remain unchanged. Author actual01a1189d-7536-7522-8802-9f1b5b8588e0 completed. Central verified30 fixed references, retained-function ASTs, exact diff and the three-field input amendment without rerunning tests or doing a duplicate code review.
-
-preparation.json contains the exact V01-to-FIX02 diff and completion-observation contract. Original FIX05 reference files remain for context; the previous FIX01 candidate is preserved at parent0e83cf66e5167cbc54207b7efbc9525df5d35e99. No Unity, real ps/signals, cache/projection writes, downloads or activation occurred. The158 checks are offline script checks, not the Unity89-case run.
-
-New head requires independent GitHub review before C activation. Native compile/tests, formal localization, real download/Host, Windows, Android/device and Demo acceptance remain pending. Draft only; no merge/release/deployment.
+GitHub review of the new head is required before fresh C activation. No game-source changes, PR merge, deployment, Android/device or Demo acceptance.

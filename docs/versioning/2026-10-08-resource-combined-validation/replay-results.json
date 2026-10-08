@@ -1,9 +1,9 @@
 {
-  "task": "RES-COMBINED-V01-FIX02",
+  "task": "RES-COMBINED-V02",
   "baseline": {
-    "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/V01-source/replay-results.json",
-    "bytes": 422204,
-    "sha256": "1b9939265a6ef780f5b7d75576dfbc31b0885be4b4ee60ebbc1410774e4ff390"
+    "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/replay-results.json",
+    "bytes": 346894,
+    "sha256": "b038021836165db8ca356e2b74c9b69875268199ba09dbc1402896eb253feddd"
   },
   "rounds": [
     {
@@ -12,32 +12,46 @@
       "status": "SOURCE_REPLAY_FAILED",
       "cases": [
         {
-          "name": "FIX02 hash stops during chunks at working deadline while simulated root remains live",
+          "name": "V02 overrides inherited diagnostics1 for I/T",
           "passed": false,
-          "fakeSeconds": 4.0,
-          "reads": 4,
-          "simulatedRootLive": true
+          "actual": {
+            "I": "1",
+            "T": "1"
+          }
         },
         {
-          "name": "FIX02 final hashing/writing overrun cannot return success",
+          "name": "V02 real Csc plus exact CacheWrite is one action",
           "passed": false,
-          "hardDeadline": 30,
-          "fakeSeconds": 70.0,
-          "reportedSeconds": 0.0,
-          "receiptStatus": "TEST_PASS",
-          "exitCode": 0
+          "actual": [
+            {
+              "assembly": "YooAsset",
+              "count": 2
+            },
+            {
+              "assembly": "Unity.ScriptableBuildPipeline",
+              "count": 2
+            },
+            {
+              "assembly": "Unity.ScriptableBuildPipeline.Editor",
+              "count": 2
+            },
+            {
+              "assembly": "YooAsset.Editor",
+              "count": 2
+            }
+          ]
         }
       ],
-      "failure": "V01 scans/hash finish after work expiry; final receipt omits hash/write time and returns0 after overrun",
-      "seconds": 0.07585487500182353,
+      "failure": "V01 passes inherited diagnostics1; actual Csc matcher counts four action/CacheWrite pairs twice.",
       "runner": {
-        "bytes": 76790,
-        "sha256": "5e7708764a0b8663cffdbffb120eabc96b4bdf654e26af99b49e41a9d5e72f88"
+        "bytes": 81937,
+        "sha256": "1a30b4c6e1a5807664d047635c4fc20b131fe9d15191b128656dc366612aa7ba"
       },
       "checker": {
-        "bytes": 86222,
-        "sha256": "26baa804462579fa1b34e679bfc0ef53c621a721d00bddcf709e4a3756692975"
+        "bytes": 98829,
+        "sha256": "6b917019c5ad7354808dc38bbeaa128d5461e18e1dabe55187af3a633ac88175"
       },
+      "seconds": 0.013841457999660634,
       "nativeRuns": 0,
       "realPsCalls": 0,
       "realSignals": 0,
@@ -726,6 +740,82 @@
         {
           "name": "FIX02 chunked tree fingerprint preserves exact canonical hash",
           "passed": true
+        },
+        {
+          "name": "V02 exact five-function delta and unchanged IPC ownership deadlines",
+          "passed": true
+        },
+        {
+          "name": "V02 input changes are exactly current destinations task owner and environment",
+          "passed": true
+        },
+        {
+          "name": "V02 actual I Popen receives diagnostics0 overriding parent1",
+          "passed": true
+        },
+        {
+          "name": "V02 actual T Popen receives diagnostics0 overriding parent1",
+          "passed": true
+        },
+        {
+          "name": "V02 preflight and main require exact string0 environment mapping",
+          "passed": true
+        },
+        {
+          "name": "V02 diagnostic socket remains forbidden",
+          "passed": true
+        },
+        {
+          "name": "V02 ILPP FIFO remains forbidden",
+          "passed": true
+        },
+        {
+          "name": "V02 actual failed log contains twelve actions and four associated CacheWrite rows",
+          "passed": true
+        },
+        {
+          "name": "V02 real YooAsset action plus CacheWrite passes classification",
+          "passed": true
+        },
+        {
+          "name": "V02 real Unity.ScriptableBuildPipeline action plus CacheWrite passes classification",
+          "passed": true
+        },
+        {
+          "name": "V02 real Unity.ScriptableBuildPipeline.Editor action plus CacheWrite passes classification",
+          "passed": true
+        },
+        {
+          "name": "V02 real YooAsset.Editor action plus CacheWrite passes classification",
+          "passed": true
+        },
+        {
+          "name": "V02 Csc rejects double-action",
+          "passed": true
+        },
+        {
+          "name": "V02 Csc rejects cache-read",
+          "passed": true
+        },
+        {
+          "name": "V02 Csc rejects unknown",
+          "passed": true
+        },
+        {
+          "name": "V02 Csc rejects orphan-cache",
+          "passed": true
+        },
+        {
+          "name": "V02 Csc rejects duplicate-telemetry",
+          "passed": true
+        },
+        {
+          "name": "V02 Csc rejects node-mismatch",
+          "passed": true
+        },
+        {
+          "name": "V02 Csc rejects others-mismatch",
+          "passed": true
         }
       ],
       "nativeRuns": 0,
@@ -776,6 +866,7 @@
         "compiler_path",
         "compiler_paths",
         "contract_guard",
+        "csc_events",
         "dynamic_evidence",
         "finalize",
         "frozen_text",
@@ -795,7 +886,7 @@
       ],
       "static": {
         "syntax": true,
-        "runnerNonblankLines": 930,
+        "runnerNonblankLines": 951,
         "protectedFunctionsAstEqual": [
           "move_verified",
           "rename_exclusive",
@@ -1524,6 +1615,44 @@
               "phase": "running",
               "scope": "resources",
               "error": "Unknown FIFO /synthetic-tmp/foreign-pipe"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "diagnostic-socket",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Special tree entry /synthetic-tmp/dotnet-diagnostic-36391-1791404087-socket"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "ilpp-fifo",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO executable /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
             }
           ],
           "contentReads": 0,
@@ -3972,7 +4101,7 @@
         {
           "mode": "missing-rsp2",
           "passed": false,
-          "reason": "[Errno 2] No such file or directory: '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V01/run/offline-fixtures/missing-rsp2/P/Library/Bee/artifacts/g/A.rsp2'",
+          "reason": "[Errno 2] No such file or directory: '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V02/run/offline-fixtures/missing-rsp2/P/Library/Bee/artifacts/g/A.rsp2'",
           "sourceInputs": null
         },
         {
@@ -11918,6 +12047,3839 @@
             }
           ],
           "nativeRuns": 0
+        },
+        {
+          "stage": "I",
+          "mode": "work-exhaustion",
+          "popenTimes": [
+            270.0
+          ],
+          "failure": "I stage deadline exceeded",
+          "closureClosed": true,
+          "cleanupFinishedAt": 719.5,
+          "restorationFinishedAt": 759.5,
+          "hardDeadline": 780,
+          "preparationSeconds": 120,
+          "workDeadline": 630,
+          "finalizationReserve": 0,
+          "scanWhileLive": false,
+          "signals": [
+            {
+              "pid": 36300,
+              "signal": 15,
+              "at": 690.0
+            }
+          ],
+          "probeCount": 378,
+          "probes": [
+            {
+              "at": 270.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 270.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 300.25,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 330.5,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 360.75,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 391.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 421.25,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 451.5,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 481.75,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 512.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 542.25,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 572.5,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 602.75,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 630.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 630.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 630.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 630.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.25,
+              "timeout": 4.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.5,
+              "timeout": 4.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.75,
+              "timeout": 4.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.0,
+              "timeout": 4.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.25,
+              "timeout": 3.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.5,
+              "timeout": 3.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.75,
+              "timeout": 3.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.0,
+              "timeout": 3.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.25,
+              "timeout": 2.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.5,
+              "timeout": 2.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.75,
+              "timeout": 2.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.0,
+              "timeout": 2.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.25,
+              "timeout": 1.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.5,
+              "timeout": 1.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.75,
+              "timeout": 1.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.0,
+              "timeout": 1.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.25,
+              "timeout": 0.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.5,
+              "timeout": 0.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.75,
+              "timeout": 0.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 690.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.25,
+              "timeout": 4.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.5,
+              "timeout": 4.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.75,
+              "timeout": 4.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.0,
+              "timeout": 4.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.25,
+              "timeout": 3.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.5,
+              "timeout": 3.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.75,
+              "timeout": 3.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.0,
+              "timeout": 3.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.25,
+              "timeout": 2.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.5,
+              "timeout": 2.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.75,
+              "timeout": 2.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.0,
+              "timeout": 2.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.25,
+              "timeout": 1.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.5,
+              "timeout": 1.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.75,
+              "timeout": 1.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.0,
+              "timeout": 1.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.25,
+              "timeout": 0.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.5,
+              "timeout": 0.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.5,
+              "timeout": 0.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            },
+            {
+              "at": 719.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            },
+            {
+              "at": 739.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            },
+            {
+              "at": 759.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            }
+          ],
+          "restoredTransfers": [
+            {
+              "source": "/E/park/compiler/Library/compiled.dll",
+              "target": "/P/Library/compiled.dll",
+              "at": 719.5
+            },
+            {
+              "source": "/E/park/source/Assets/park.cs",
+              "target": "/P/Assets/park.cs",
+              "at": 739.5
+            }
+          ],
+          "nativeRuns": 0
+        },
+        {
+          "stage": "T",
+          "mode": "work-exhaustion",
+          "popenTimes": [
+            450.0
+          ],
+          "failure": "T stage deadline exceeded",
+          "closureClosed": true,
+          "cleanupFinishedAt": 719.5,
+          "restorationFinishedAt": 759.5,
+          "hardDeadline": 780,
+          "preparationSeconds": 120,
+          "workDeadline": 630,
+          "finalizationReserve": 0,
+          "scanWhileLive": false,
+          "signals": [
+            {
+              "pid": 36300,
+              "signal": 15,
+              "at": 690.0
+            }
+          ],
+          "probeCount": 373,
+          "probes": [
+            {
+              "at": 430.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 450.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 450.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 480.25,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 510.5,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 540.75,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 571.0,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 601.25,
+              "timeout": 5.0,
+              "deadline": 630.0
+            },
+            {
+              "at": 630.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 630.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 630.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 630.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 631.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 632.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 633.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 634.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 635.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 636.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 637.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 638.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 639.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 640.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 641.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 642.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 643.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 644.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 645.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 646.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 647.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 648.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 649.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 650.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 651.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 652.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 653.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 654.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 655.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 656.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 657.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 658.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 659.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 660.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 661.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 662.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 663.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 664.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 665.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 666.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 667.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 668.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 669.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 670.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 671.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 672.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 673.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 674.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 675.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 676.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 677.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 678.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 679.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 680.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 681.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 682.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 683.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.25,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.5,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 684.75,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.0,
+              "timeout": 5.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.25,
+              "timeout": 4.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.5,
+              "timeout": 4.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 685.75,
+              "timeout": 4.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.0,
+              "timeout": 4.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.25,
+              "timeout": 3.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.5,
+              "timeout": 3.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 686.75,
+              "timeout": 3.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.0,
+              "timeout": 3.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.25,
+              "timeout": 2.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.5,
+              "timeout": 2.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 687.75,
+              "timeout": 2.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.0,
+              "timeout": 2.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.25,
+              "timeout": 1.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.5,
+              "timeout": 1.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 688.75,
+              "timeout": 1.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.0,
+              "timeout": 1.0,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.25,
+              "timeout": 0.75,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.5,
+              "timeout": 0.5,
+              "deadline": 690.0
+            },
+            {
+              "at": 689.75,
+              "timeout": 0.25,
+              "deadline": 690.0
+            },
+            {
+              "at": 690.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 690.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 691.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 692.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 693.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 694.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 695.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 696.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 697.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 698.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 699.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 700.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 701.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 702.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 703.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 704.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 705.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 706.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 707.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 708.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 709.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 710.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 711.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 712.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 713.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.25,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.5,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 714.75,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.0,
+              "timeout": 5.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.25,
+              "timeout": 4.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.5,
+              "timeout": 4.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 715.75,
+              "timeout": 4.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.0,
+              "timeout": 4.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.25,
+              "timeout": 3.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.5,
+              "timeout": 3.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 716.75,
+              "timeout": 3.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.0,
+              "timeout": 3.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.25,
+              "timeout": 2.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.5,
+              "timeout": 2.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 717.75,
+              "timeout": 2.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.0,
+              "timeout": 2.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.25,
+              "timeout": 1.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.5,
+              "timeout": 1.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 718.75,
+              "timeout": 1.25,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.0,
+              "timeout": 1.0,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.25,
+              "timeout": 0.75,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.5,
+              "timeout": 0.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.5,
+              "timeout": 0.5,
+              "deadline": 720.0
+            },
+            {
+              "at": 719.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            },
+            {
+              "at": 719.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            },
+            {
+              "at": 739.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            },
+            {
+              "at": 759.5,
+              "timeout": 5.0,
+              "deadline": 779.5
+            }
+          ],
+          "restoredTransfers": [
+            {
+              "source": "/E/park/compiler/Library/compiled.dll",
+              "target": "/P/Library/compiled.dll",
+              "at": 719.5
+            },
+            {
+              "source": "/E/park/source/Assets/park.cs",
+              "target": "/P/Assets/park.cs",
+              "at": 739.5
+            }
+          ],
+          "nativeRuns": 0
         }
       ],
       "prior138Passed": true,
@@ -12483,6 +16445,296 @@
           ]
         }
       ],
+      "prior158Passed": true,
+      "V02ChangedFunctions": [
+        "compile_evidence",
+        "contract_guard",
+        "main",
+        "preflight",
+        "stage_environment"
+      ],
+      "V02NewFunctions": [
+        "csc_events"
+      ],
+      "V01Seals": {
+        "runner.py": {
+          "bytes": 81937,
+          "sha256": "1a30b4c6e1a5807664d047635c4fc20b131fe9d15191b128656dc366612aa7ba"
+        },
+        "replay-check.py": {
+          "bytes": 98829,
+          "sha256": "6b917019c5ad7354808dc38bbeaa128d5461e18e1dabe55187af3a633ac88175"
+        },
+        "replay-results.json": {
+          "bytes": 346894,
+          "sha256": "b038021836165db8ca356e2b74c9b69875268199ba09dbc1402896eb253feddd"
+        },
+        "inputs.json": {
+          "bytes": 1241588,
+          "sha256": "30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb"
+        },
+        "preparation.json": {
+          "bytes": 353328,
+          "sha256": "5d90f8ca8e91b081490faa8d963826ad828f6980ffe1c0c80d5cbb7cd0a6d336"
+        }
+      },
+      "V02InputIdentity": {
+        "bytes": 1241674,
+        "sha256": "5042438e26cd9e7fea1c5decee0f689f30af05ee667c25dbec57c472d363e636"
+      },
+      "V02InputFixedSections": [
+        "fixedReferences",
+        "shared",
+        "projectionBefore",
+        "projectionProposed",
+        "cache",
+        "compilePlan",
+        "testCases",
+        "limits",
+        "preparation",
+        "editor",
+        "resourceSourceGate"
+      ],
+      "V02PopenEnvironments": [
+        {
+          "stage": "I",
+          "environment": {
+            "DOTNET_EnableDiagnostics": "0",
+            "UNCHANGED": "parent",
+            "UPM_CACHE_ROOT": "fixed-K",
+            "TMPDIR": "fixed-TMP2",
+            "BEE_CACHE_DIRECTORY": "fixed-BC2"
+          }
+        },
+        {
+          "stage": "T",
+          "environment": {
+            "DOTNET_EnableDiagnostics": "0",
+            "UNCHANGED": "parent",
+            "UPM_CACHE_ROOT": "fixed-K",
+            "TMPDIR": "fixed-TMP2",
+            "BEE_CACHE_DIRECTORY": "fixed-BC2",
+            "FIGHTMATCH_ACTIVATION_TEST_ROOT": "fixed-AS2"
+          }
+        }
+      ],
+      "V02EnvironmentGateStatements": [
+        "preflight",
+        "main"
+      ],
+      "V02OriginalLogClassification": {
+        "identity": {
+          "bytes": 75322,
+          "sha256": "ff3d89d412f814e0b12f325d00553e6f25c4cc2e5908ef17387e4e0ec900dc70"
+        },
+        "actions": [
+          {
+            "line": 250,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.dll"
+          },
+          {
+            "line": 251,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll"
+          },
+          {
+            "line": 254,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
+          },
+          {
+            "line": 256,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.YooAssetAdapter.dll"
+          },
+          {
+            "line": 257,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll"
+          },
+          {
+            "line": 260,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
+          },
+          {
+            "line": 262,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll"
+          },
+          {
+            "line": 265,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.AssetAccess.Tests.dll"
+          },
+          {
+            "line": 266,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
+          },
+          {
+            "line": 268,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll"
+          },
+          {
+            "line": 271,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
+          },
+          {
+            "line": 273,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll"
+          }
+        ],
+        "cacheWrites": [
+          {
+            "line": 255,
+            "actionLine": 254,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.dll"
+          },
+          {
+            "line": 261,
+            "actionLine": 260,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.dll"
+          },
+          {
+            "line": 267,
+            "actionLine": 266,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/Unity.ScriptableBuildPipeline.Editor.dll"
+          },
+          {
+            "line": 272,
+            "actionLine": 271,
+            "outputPath": "Library/Bee/artifacts/200b0aEDbg.dag/YooAsset.Editor.dll"
+          }
+        ],
+        "nativeCompileProofClaimed": false
+      },
+      "V02CscCases": [
+        {
+          "assembly": "YooAsset",
+          "mode": "valid",
+          "passed": true,
+          "failure": null,
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "Unity.ScriptableBuildPipeline",
+          "mode": "valid",
+          "passed": true,
+          "failure": null,
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "Unity.ScriptableBuildPipeline.Editor",
+          "mode": "valid",
+          "passed": true,
+          "failure": null,
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset.Editor",
+          "mode": "valid",
+          "passed": true,
+          "failure": null,
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset",
+          "mode": "double-action",
+          "passed": false,
+          "failure": null,
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset",
+          "mode": "cache-read",
+          "passed": false,
+          "failure": "INCOMPLETE: unrecognized Csc/CacheRead format at line 2",
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset",
+          "mode": "unknown",
+          "passed": false,
+          "failure": "INCOMPLETE: unrecognized Csc/CacheRead format at line 1",
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset",
+          "mode": "orphan-cache",
+          "passed": false,
+          "failure": "INCOMPLETE: unassociated CacheWrite telemetry",
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset",
+          "mode": "duplicate-telemetry",
+          "passed": false,
+          "failure": "INCOMPLETE: unassociated CacheWrite telemetry",
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset",
+          "mode": "node-mismatch",
+          "passed": false,
+          "failure": null,
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        },
+        {
+          "assembly": "YooAsset",
+          "mode": "others-mismatch",
+          "passed": false,
+          "failure": null,
+          "actualFunctions": [
+            "csc_events",
+            "compile_evidence",
+            "compilation_passed"
+          ],
+          "bindingSource": "Synthetic isolated classification binding; existing full provenance tests retained."
+        }
+      ],
       "fixtureFiles": {
         "offline-fixtures/valid/Editor/Unity.app/Contents/NetCoreRuntime/dotnet": {
           "bytes": 6,
@@ -12522,7 +16774,7 @@
         },
         "offline-fixtures/valid/P/Library/Bee/artifacts/g/A.rsp": {
           "bytes": 241,
-          "sha256": "5be7e0fe76bf81ea552bf2947f1e079ca577304f9427e8700c2b895d659727f2"
+          "sha256": "ea82560f9a98514033c9c2f0cff98dd1bfcb6b52cc20e566cc88ec74b57263b9"
         },
         "offline-fixtures/valid/P/Library/Bee/artifacts/g/A.rsp2": {
           "bytes": 18,
@@ -12546,7 +16798,7 @@
         },
         "offline-fixtures/valid/P/Library/Bee/g.dag.json": {
           "bytes": 1363,
-          "sha256": "b6ecdb3e66fbfc2c6fe79d4d3cc8ab068f77d46b4d79a11a518237c1c5f8f470"
+          "sha256": "114a1aa2f56f182e91ef8d4b887eaf9aff227db82389e5c16bff255216416c8a"
         },
         "offline-fixtures/sdk-drift/Editor/Unity.app/Contents/NetCoreRuntime/dotnet": {
           "bytes": 6,
@@ -12586,7 +16838,7 @@
         },
         "offline-fixtures/sdk-drift/P/Library/Bee/artifacts/g/A.rsp": {
           "bytes": 245,
-          "sha256": "6f389388b90d5343b01f64f7943b0e38a029cc04b2d8e8e0755dd45734562dbd"
+          "sha256": "1a8ba26930235d20c04deb94c5a176d96dbf9b021cfbc087eb0569be0c3c8d4a"
         },
         "offline-fixtures/sdk-drift/P/Library/Bee/artifacts/g/A.rsp2": {
           "bytes": 18,
@@ -12610,7 +16862,7 @@
         },
         "offline-fixtures/sdk-drift/P/Library/Bee/g.dag.json": {
           "bytes": 1383,
-          "sha256": "fea4286a9e17d83152af8c1f27867b0ed9c3b74804b9f82ee742728a0ba28295"
+          "sha256": "d79d934c76dd03347fc07a49b5559834b080d88f012c16849cf686429ae61813"
         },
         "offline-fixtures/dll-postprocess/Editor/Unity.app/Contents/NetCoreRuntime/dotnet": {
           "bytes": 6,
@@ -12650,7 +16902,7 @@
         },
         "offline-fixtures/dll-postprocess/P/Library/Bee/artifacts/g/A.rsp": {
           "bytes": 251,
-          "sha256": "bda66c382cfcf987ef757919efedd7428ab0c7e4b6aec6d2abcf785729c85ec4"
+          "sha256": "2af5d94fa63da64b80eb335c0f9af15bf2c34c59368024f76e84fd83f2d45162"
         },
         "offline-fixtures/dll-postprocess/P/Library/Bee/artifacts/g/A.rsp2": {
           "bytes": 18,
@@ -12674,7 +16926,7 @@
         },
         "offline-fixtures/dll-postprocess/P/Library/Bee/g.dag.json": {
           "bytes": 1413,
-          "sha256": "6c9756fb18c3f987fed5ce23b39602a41d77c5b739792d7cda42153e9607fbe4"
+          "sha256": "c86159380adbb722e41005a2c905d1940ecac8ab22f6ecadff20c10e02d2bb30"
         },
         "offline-fixtures/missing-rsp2/Editor/Unity.app/Contents/NetCoreRuntime/dotnet": {
           "bytes": 6,
@@ -12714,7 +16966,7 @@
         },
         "offline-fixtures/missing-rsp2/P/Library/Bee/artifacts/g/A.rsp": {
           "bytes": 248,
-          "sha256": "67c3600d767eb9dcc7d627a3149ecdb574fd97611464ea1be7e6896136c7ecc8"
+          "sha256": "a0f7d3581d3230dd76497eaf8a064f0b0faab4c1e556775f63877d9cd69c89c8"
         },
         "offline-fixtures/missing-rsp2/P/Library/Bee/artifacts/g/A.dll": {
           "bytes": 6,
@@ -12734,7 +16986,7 @@
         },
         "offline-fixtures/missing-rsp2/P/Library/Bee/g.dag.json": {
           "bytes": 1398,
-          "sha256": "c7e2ebf4a546c97dc7456be14ad71b75d07cedeb422715e6a37436014e6f3dff"
+          "sha256": "d0ab045ad7d30c00dd997334604d1f0c407c304c4a39f4fbee16320d871bfa9f"
         },
         "offline-fixtures/reference-rewritten/Editor/Unity.app/Contents/NetCoreRuntime/dotnet": {
           "bytes": 6,
@@ -12774,7 +17026,7 @@
         },
         "offline-fixtures/reference-rewritten/P/Library/Bee/artifacts/g/A.rsp": {
           "bytes": 255,
-          "sha256": "6f5f3cdc9bcd8aaeafc37e492360b19e246f04c0b67b58b38bbd04c94e399f02"
+          "sha256": "cb61a858d2e7a91c7ad36a76a9868f200f4413038db338aed0664dc83e226f82"
         },
         "offline-fixtures/reference-rewritten/P/Library/Bee/artifacts/g/A.rsp2": {
           "bytes": 18,
@@ -12798,7 +17050,7 @@
         },
         "offline-fixtures/reference-rewritten/P/Library/Bee/g.dag.json": {
           "bytes": 1433,
-          "sha256": "a970e35abee951dc37e4360340883d9dd2f2d00fc80c6beced81c13548e4fd2c"
+          "sha256": "aa287423446ef66d7b6b8dced209e2f2a6584afc93b5eff3d0b67f110966e62c"
         },
         "offline-fixtures/no-csc/Editor/Unity.app/Contents/NetCoreRuntime/dotnet": {
           "bytes": 6,
@@ -12838,7 +17090,7 @@
         },
         "offline-fixtures/no-csc/P/Library/Bee/artifacts/g/A.rsp": {
           "bytes": 242,
-          "sha256": "252a392c2b31e11b88818d5a70dc70c5ce978d21b40de019f7e553a83df16e39"
+          "sha256": "a85c6ec6f8c55b31cc4e86686d17af9ad2bd6509d043ff280e1f5e82739ca0ac"
         },
         "offline-fixtures/no-csc/P/Library/Bee/artifacts/g/A.rsp2": {
           "bytes": 18,
@@ -12862,7 +17114,7 @@
         },
         "offline-fixtures/no-csc/P/Library/Bee/g.dag.json": {
           "bytes": 1368,
-          "sha256": "d724212034ba4e4d6a4a235402a508f5ae465ea2acf9c845aceb3f171c14eb99"
+          "sha256": "d372fccd83f10ea2221f1774475d73ad9835ba64a31b8a2eb467c405e6760377"
         },
         "offline-fixtures/aliases/Editor/Unity.app/Contents/NetCoreRuntime/dotnet": {
           "bytes": 6,
@@ -12902,7 +17154,7 @@
         },
         "offline-fixtures/aliases/P/Library/Bee/artifacts/g/A.rsp": {
           "bytes": 243,
-          "sha256": "c9dd8bc0b6d960a73edaa8024f32beb9a538a23bc20a8c2be414b92de1a09ea4"
+          "sha256": "610721ad32d35f26d99b956754570fdbcdbf00a6bed7a3c421816ca302c83abf"
         },
         "offline-fixtures/aliases/P/Library/Bee/artifacts/g/A.rsp2": {
           "bytes": 18,
@@ -12926,7 +17178,7 @@
         },
         "offline-fixtures/aliases/P/Library/Bee/g.dag.json": {
           "bytes": 1373,
-          "sha256": "4ce0a1c91d67269cf4ef1287488f073fcfeba9a7a84746ae190a937c74d942ee"
+          "sha256": "b27f765f1ed7adb5f7b1782f9f429d0091aaf32196a2813282fc3f8e9468423e"
         },
         "offline-fixtures/as/state-tests/AS07/product/external.bin": {
           "bytes": 3,
@@ -12934,10 +17186,10 @@
         }
       },
       "fixtureLinks": {
-        "offline-fixtures/as/state-tests/AS07/product/resource-state/v1/active.json": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V01/run/offline-fixtures/as/state-tests/foreign"
+        "offline-fixtures/as/state-tests/AS07/product/resource-state/v1/active.json": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V02/run/offline-fixtures/as/state-tests/foreign"
       },
       "preservedConflicts": [],
-      "seconds": 10.375796542008175,
+      "seconds": 12.58670537499711,
       "actualFunctionsCalled": [
         "<genexpr>",
         "<lambda>",
@@ -12965,6 +17217,7 @@
         "compiler_path",
         "compiler_paths",
         "consumer_guard",
+        "csc_events",
         "details",
         "discover",
         "evidence_paths",
@@ -13013,15 +17266,15 @@
       ],
       "forbiddenAttempts": [],
       "runner": {
-        "bytes": 81937,
-        "sha256": "1a30b4c6e1a5807664d047635c4fc20b131fe9d15191b128656dc366612aa7ba"
+        "bytes": 83629,
+        "sha256": "3d6215f29eacf35bad556a5ada01548cf4655132001c80292c87963b881171b1"
       },
       "checker": {
-        "bytes": 98829,
-        "sha256": "6b917019c5ad7354808dc38bbeaa128d5461e18e1dabe55187af3a633ac88175"
+        "bytes": 111261,
+        "sha256": "1f16c745c82b0373483ed8f029a6831345c840f12e01cbfd05b0791a1fca8f09"
       }
     }
   ],
   "status": "SOURCE_REPLAY_PASS",
-  "cumulativeSeconds": 10.451651417009998
+  "cumulativeSeconds": 12.60054683299677
 }

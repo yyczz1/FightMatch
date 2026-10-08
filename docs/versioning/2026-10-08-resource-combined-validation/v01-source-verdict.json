@@ -1,0 +1,73 @@
+{
+  "task": "RES-COMBINED-V01-FIX02-SOURCE",
+  "verdict": "ACCEPT",
+  "scope": "Reviewed validation runner/source preparation only; permits fresh bounded C activation, not native/game acceptance",
+  "date": "2026-10-08",
+  "owner": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a116c2-6a9d-7a03-b161-11bd6079a631"
+  },
+  "head": "5f43b7a8cdff0795ad91b342deb5d566be38da0f",
+  "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048937458",
+  "rawOutcome": "No major issues at reviewed commit 5f43b7a8cd; top-level bot comment, not formal approval",
+  "qaReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-pr20-fix02-review-receipt.json",
+    "bytes": 8428,
+    "sha256": "b51191c7d69663f09296451fefd10f0d524a747aa10e790c8d967c1ef26b702b"
+  },
+  "publicationReceipt": {
+    "path": "docs/team/2026-09-30/resource-combined-v01-fix02-publication-receipt.json",
+    "bytes": 8036,
+    "sha256": "e39d64b9b4075d8831eac67fd1b22cbf566f43a06272dbfb9fe44ba519d437bb"
+  },
+  "candidate": [
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/runner.py",
+      "bytes": 81937,
+      "sha256": "1a30b4c6e1a5807664d047635c4fc20b131fe9d15191b128656dc366612aa7ba"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/replay-check.py",
+      "bytes": 98829,
+      "sha256": "6b917019c5ad7354808dc38bbeaa128d5461e18e1dabe55187af3a633ac88175"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/replay-results.json",
+      "bytes": 346894,
+      "sha256": "b038021836165db8ca356e2b74c9b69875268199ba09dbc1402896eb253feddd"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/inputs.json",
+      "bytes": 1241588,
+      "sha256": "30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/preparation.json",
+      "bytes": 353328,
+      "sha256": "5d90f8ca8e91b081490faa8d963826ad828f6980ffe1c0c80d5cbb7cd0a6d336"
+    }
+  ],
+  "validation": {
+    "offlinePassed": 158,
+    "rounds": 2,
+    "seconds": 10.451651417009998,
+    "nativeRuns": 0,
+    "mechanicalEvidence": "Publication checks: 30 fixed references, 45 unchanged function ASTs, all previous 138 cases preserved, exact diff and only three approved input-budget edits."
+  },
+  "historicalFindings": {
+    "ids": [
+      4212752227,
+      4212896382,
+      4212896391
+    ],
+    "githubResolved": false,
+    "reason": "Corrective source and exact new-head GitHub no-findings result close this source gate only. Historical review threads and original failures remain unchanged; no bot APPROVED claim."
+  },
+  "remaining": [
+    "Fresh activation and externally observed one I/one T89 within900 including160 preparation",
+    "Independent native evidence receipt",
+    "Formal LOC/real resource loading and Host interaction",
+    "Android/device and complete Demo acceptance"
+  ]
+}

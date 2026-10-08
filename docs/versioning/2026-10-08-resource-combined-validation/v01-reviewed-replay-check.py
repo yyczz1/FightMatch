@@ -25,12 +25,12 @@ def rejected(fn):
     except (RuntimeError,OSError): return True
     return False
 def case(name,fn):
-    need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'V02 Replay30'); fn(); cases.append({'name':name,'passed':True})
+    need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'FIX02 Replay30'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy}
     for key,value in defaults.items():env.setdefault(key,value)
     if hasattr(env.get('P'),'fs'):env.setdefault('children',lambda path:path.iterdir())
-    names=list(names)+[n for n in ('probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest','csc_events') if n in F and n not in names and n not in env]
+    names=list(names)+[n for n in ('probe_timeout','transfer_slots','move_verified','compiler_paths','stage_environment','isolate_stage','checked','read_chunks','bounded_read','bounded_text','scan_tree','children','json_chunks','json_digest') if n in F and n not in names and n not in env]
     exec(compile(ast.fix_missing_locations(ast.Module(body=[copy.deepcopy(F[n]) for n in names],type_ignores=[])),RUNNER_FILENAME,'exec'),env);return env
 def profile(frame,event,arg):
     if event=='call' and frame.f_code.co_filename==RUNNER_FILENAME:traces.add(frame.f_code.co_name)
@@ -61,8 +61,8 @@ def cleanup():
         if path.is_dir() and not path.is_symlink() and not list(path.iterdir()):path.rmdir()
         else:conflicts.append(str(path))
 history=json.loads((E/'replay-results.json').read_text())
-need(history['task']=='RES-COMBINED-V02','Fresh correction history; V00 remains immutable')
-need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'V02 maximum two rounds; cumulative30; first green stops')
+need(history['task']=='RES-COMBINED-V01-FIX02','Fresh correction history; V00 remains immutable')
+need(len(history['rounds'])<2 and not any(x['status']=='SOURCE_REPLAY_PASS' for x in history['rounds']),'FIX02 maximum two rounds; cumulative30; first green stops')
 report={'round':len(history['rounds'])+1,'status':'SOURCE_REPLAY_FAILED','cases':cases,'nativeRuns':0,'realPsCalls':0,'realSignals':0,'actualProjectionWrites':0,'fixtureIOOnly':True};failure=None
 try:
     frozen=json.loads("{\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/preparation.json\":{\"bytes\":78308,\"sha256\":\"47e9ccc59d5af04934c77174432e7b81d16cc9d8a24b5089040884d77ced1244\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/runner.py\":{\"bytes\":54760,\"sha256\":\"148cbc0b63a3bb6371343ed20d6205ae9b44a02cdfde8c1cd6ad9766e4e2266d\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-results.json\":{\"bytes\":188906,\"sha256\":\"cf56463f83d919696aeda238676fbf02ba2e1ebc28267ed675f3942ac06cc046\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/correction.patch\":{\"bytes\":71680,\"sha256\":\"f0ac7065f4ba253e356d98ce483133fadc15251c80f0118c4aff015fd5858f90\"},\"TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\":{\"bytes\":68363,\"sha256\":\"56c5bc6a604ba12f7a5b150f53dc2619c61726f96f07bb194e104dfa2ec888b0\"},\"docs/team/2026-09-30/resource-sdk-adopt-g02-central-receipt.json\":{\"bytes\":3131,\"sha256\":\"f67399effe031bbf2478d9ad86def792e73339177883c9e0b853f2a237ebcae5\"},\"TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/group-freeze.json\":{\"bytes\":262970,\"sha256\":\"f952d7239b261099804021d3d6a2b4de9ebcaa8f4265ed3de7102d8c90622ca7\"},\"docs/team/2026-09-30/host-integrate-001-i01-fix05-source-verdict.json\":{\"bytes\":3037,\"sha256\":\"566b60deb4e204aa5cde0ec143888edf8859a862112a62891e2b545b22517a0b\"},\"TestArtifacts/FightMatch/RES-01A/P03/run.json\":{\"bytes\":43101,\"sha256\":\"b9bb096fc6eaeeaa77df33b84916ab2963e61b0191753e36600f3ebc97996d50\"},\"TestArtifacts/FightMatch/RES-01A/P02/resolved-package-graph.json\":{\"bytes\":56222,\"sha256\":\"1b696f4c41b763f4f4622fa83a36712dad7fc1b8d81084fa983cfc1c2bfe170c\"},\"docs/team/2026-09-30/testing-resource-combined-v01-cases.json\":{\"bytes\":24448,\"sha256\":\"d53c49167d522532a6cc87218bfa5e961ab3a096af06209fb694726fca2ed0e8\"},\"docs/team/2026-09-30/central-resource-combined-v01-design-handoff.md\":{\"bytes\":1243,\"sha256\":\"cd16c6c1b9a3ef02dc92d5ffb24dae0190f99be161933d2efd121dc15dac1c7a\"},\"docs/team/2026-09-30/engineering-i01-existing-compile-evidence.json\":{\"bytes\":21099,\"sha256\":\"9fd2ae56e81c5805b93637f27dab3ca67828cfdbd94ac290e211a601df5213f0\"},\"docs/team/2026-09-30/resource-shared-integration-source-verdict.json\":{\"bytes\":2294,\"sha256\":\"c02875ffc1bef9151e1d408fa09e5da83f9b555e62a570e74b1f8c3cd838b87f\"},\"docs/team/2026-09-30/engineering-resource-combined-v01.md\":{\"bytes\":10205,\"sha256\":\"c1f71459c8a34741bd5c5b075253d4df6266a777b801c6d7d6229748012d7062\"},\"docs/team/2026-09-30/central-resource-combined-v01-source.md\":{\"bytes\":4228,\"sha256\":\"49721b69b60a03845a38b464db200b8c12e04ab1a1b8d6f71d498d44e17d5b55\"},\"TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json\":{\"bytes\":1241557,\"sha256\":\"ff088efd0e6871d751a1f553a46e77ae06789e9f01c5743411ca93e1fa087f1d\"}}")
@@ -70,15 +70,14 @@ try:
     def frozen_unchanged():
         for name,value in frozen.items():need(identity(R/name)==value,'Frozen reference '+name)
     frozen_unchanged()
-    history_root=R/'TestArtifacts/FightMatch/RES-COMBINED-V01'; v02_base=history_root/'run'; v00=history_root/'V00-source'; v00prep=json.loads((v00/'preparation.json').read_text())
+    v00=E.parent/'V00-source'; v00prep=json.loads((v00/'preparation.json').read_text())
     for name,value in {**v00prep['sourceIdentities'],'preparation.json':{'bytes':330242,'sha256':'d9c90ce2e5724763ba69f478e03b8431fe62706db0823c362f9b06ccce22582c'}}.items():need(identity(v00/name)==value,'Immutable V00 '+name)
-    v01=history_root/'V01-source';v01prep=json.loads((v01/'preparation.json').read_text())
+    v01=E.parent/'V01-source';v01prep=json.loads((v01/'preparation.json').read_text())
     for name,value in {**v01prep['sourceIdentities'],'preparation.json':{'bytes':391631,'sha256':'2485b5fa707f20eb6dfd431677e973c88199e6210a6713134d9b3590bc53ec1a'}}.items():need(identity(v01/name)==value,'Immutable V01 '+name)
-    need(identity(v01/'replay-results.json')==v01prep['sourceIdentities']['replay-results.json'],'Original138 history sealed')
-    need(identity(v02_base/'replay-results.json')=={k:history['baseline'][k] for k in ('bytes','sha256')},'Original158 history sealed')
+    need(identity(v01/'replay-results.json')=={k:history['baseline'][k] for k in ('bytes','sha256')},'Original138 history sealed')
     amended=json.loads((v01/'inputs.json').read_text());amended['preparation']['budgetSeconds']=160;amended['limits'].update(mechanicalPreparationSeconds=160,finalizationSeconds=30)
-    need(amended==json.loads((v02_base/'inputs.json').read_text()),'Original FIX02 three input fields preserved at historical source')
-    need(identity(E/'inputs.json')=={'bytes':1241674,'sha256':'5042438e26cd9e7fea1c5decee0f689f30af05ee667c25dbec57c472d363e636'},'Exact V02 input seal')
+    need(amended==json.loads((E/'inputs.json').read_text()),'Only centrally authorized three input fields changed')
+    need(identity(E/'inputs.json')==frozen['TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json'],'Exact current input copy')
     text=(E/'runner.py').read_text();tree=ast.parse(text);compile(tree,RUNNER_FILENAME,'exec');compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec');F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
     oldfn={n.name:n for n in ast.parse((BASE/'runner.py').read_text()).body if isinstance(n,ast.FunctionDef)}
     unchanged=['move_verified','rename_exclusive','rename_swap','swap_verified','atomic_write','cached_reuse_proven','compilation_passed','recorded_chain','recover_root','discover','snapshot_consumers','monitor','details','adb_exception','sdk_adb_exception']
@@ -358,7 +357,7 @@ try:
         start=time.monotonic()
         try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})
         except Exception as error:cases.append({'name':name,'passed':False,'newFIX04':True,'error':str(error),'traceback':traceback.format_exc()})
-        need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'V02 Replay30')
+        need(time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<30,'FIX02 Replay30')
     def fifo_case(mode):
         import re,stat
         license_path=str(pathlib.Path(N['editor']['path']).parent.parent/'Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client')
@@ -367,19 +366,16 @@ try:
         rows[childid]['exe']=exe;detail={rootid:{k:root[k] for k in ('argv','cwd','cwdProbeExit')},childid:{'argv':[exe,'--namedPipe','fixture'],'cwd':root['cwd'],'cwdProbeExit':0}}
         if mode=='foreign-same-name':rows[childid]['ppid']=999999
         if mode=='foreign-exe':rows[childid]['exe']='/foreign/Unity.Licensing.Client'
-        if mode=='ilpp-fifo':
-            rows[childid]['exe']=str(pathlib.Path(N['editor']['path']).parent.parent/'Tools/ilpp/Unity.ILPP.Runner/Unity.ILPP.Runner');detail[childid]['argv']=[rows[childid]['exe'],'--namedPipe','fixture']
         if mode in ('reuse','wrong-ancestry'):
             initial[childid]={**copy.deepcopy(child),**detail[childid],**rows[childid]}
             if mode=='reuse':rows[childid]['start']='reused'
             else:initial[childid]['rootPid']=rootid+999
         reads=[];population=[];entries={};sequence=[]
         class FixturePath(pathlib.PurePosixPath):
-            def lstat(self):return types.SimpleNamespace(st_mode=(stat.S_IFSOCK if mode in ('non-fifo','diagnostic-socket') else stat.S_IFIFO)|0o600,st_uid=202 if mode=='wrong-uid' else 101,st_gid=20,st_dev=9,st_ino=10,st_size=0)
+            def lstat(self):return types.SimpleNamespace(st_mode=(stat.S_IFSOCK if mode=='non-fifo' else stat.S_IFIFO)|0o600,st_uid=202 if mode=='wrong-uid' else 101,st_gid=20,st_dev=9,st_ino=10,st_size=0)
         temporary=FixturePath('/synthetic-tmp');scan=FixturePath('/wrong-root') if mode=='wrong-root' else temporary
         filename='clr-debug-pipe-'+str(childid)+'-1791404087-in'
         if mode=='wrong-name':filename='foreign-pipe'
-        if mode=='diagnostic-socket':filename='dotnet-diagnostic-'+str(childid)+'-1791404087-socket'
         def no_read(p):reads.append(str(p));raise AssertionError('FIFO content read')
         def no_ps():population.append(True);raise AssertionError('Second population query')
         env={'json':json,'re':re,'stat':stat,'pathlib':types.SimpleNamespace(Path=FixturePath),'time':types.SimpleNamespace(monotonic=lambda:100.),'utc':lambda:'fixture-fifo','os':types.SimpleNamespace(walk=lambda root,followlinks:[(str(scan),[],[filename])],getuid=lambda:101),'TMP':temporary,'owned':initial,'active':None,'A':{'editor':N['editor'],'stages':[{'id':root['stage'],'argv':root['argv']}]},'P':FixturePath(root['cwd']),'details':lambda pid:copy.deepcopy(detail[pid]),'ps':no_ps,'event':lambda kind,**kw:sequence.append(kind),'adb_exception':lambda rows:-1,'sdk_adb_exception':lambda rows:set(),'projection_guard':lambda:None,'no_links':lambda p:None,'ident':no_read,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.}
@@ -710,7 +706,7 @@ try:
         need(rejected(env['synchronize']) and moves==['/P/a.cs'] and not env['synced'],'Sync stops before second transfer at work deadline')
         need(clock[0]==630. and env['execution_deadline']==780.,'Sync does not reset clock or consume reserve')
     case('FIX01 synchronization stops at work deadline before next transfer',fix01_sync_expiry)
-    def fix01_stage(sid,mode,final_seconds=0,scan_work=False,check_environment=False):
+    def fix01_stage(sid,mode,final_seconds=0,scan_work=False):
         fs=FS();p=fs.path('/P');e=fs.path('/E');clock=[(270. if sid=='I' else 450.)-20.];rows={};calls=[];signals=[];events=[];writes={};transfers=[];popens=[]
         if mode=='insufficient':clock[0]+=1
         argv=[root['exe'],'-batchmode','-projectPath',str(p)];source='Assets/park.cs';compiler='Library/compiled.dll';oldsource=b'original source';oldcompiler=b'original compiler'
@@ -726,13 +722,7 @@ try:
             timeout=env['probe_timeout']();calls.append({'at':clock[0],'timeout':timeout,'deadline':env['probe_deadline'] if env['probe_deadline'] is not None else env['work_deadline']})
             return copy.deepcopy(rows)
         def popen(args,**kw):
-            need(args==argv and kw['cwd'] is p,'Exact fake stage binding')
-            if check_environment:
-                expected={'UNCHANGED':'parent',**env['A']['environmentOverrides']}
-                if sid=='T':expected.update(env['D']['commands']['environmentTOnly'])
-                need(kw['env']==expected and kw['env']['DOTNET_EnableDiagnostics']=='0','Actual Popen exact diagnostic0 environment overrides parent1')
-                report.setdefault('V02PopenEnvironments',[]).append({'stage':sid,'environment':dict(kw['env'])})
-            popens.append(clock[0]);fs.add(str(e/sid/'editor.log'),b'fixture compiler output');rows[rootid]={k:root[k] for k in keys};return proc
+            need(args==argv and kw['cwd'] is p,'Exact fake stage binding');popens.append(clock[0]);fs.add(str(e/sid/'editor.log'),b'fixture compiler output');rows[rootid]={k:root[k] for k in keys};return proc
         def recover(given,stage,pid):env['owned'][pid]={**copy.deepcopy(root),'argv':argv,'cwd':str(p),'stage':stage,'rootPid':pid,'termSent':False}
         def details(pid):env['probe_timeout']();return {'argv':argv,'cwd':str(p),'cwdProbeExit':0}
         def monitor(phase,given,stage,pid,**kw):
@@ -749,10 +739,6 @@ try:
             transfers.append({'source':str(a),'target':str(b),'at':clock[0]});clock[0]+=20.
         def evidence(log,stage):clock[0]=630.;return {'assemblies':{}}
         env={'json':json,'pathlib':pathlib,'copy':copy,'time':types.SimpleNamespace(monotonic=lambda:clock[0],time=lambda:1791413008.,sleep=lambda d:clock.__setitem__(0,clock[0]+d)),'utc':lambda:'fixture-'+str(clock[0]),'P':p,'E':e,'work_deadline':630.,'execution_deadline':780.+final_seconds,'probe_deadline':None,'clock_start':70. if final_seconds else 0.,'A':{'stages':[{'id':k,'argv':argv,'timeoutSeconds':360 if k=='I' else 180} for k in ('I','T')],'stopping':{'naturalGraceSeconds':60,'termGraceSeconds':30},'editor':{'path':root['exe']},'environmentOverrides':{}},'D':{'limits':{'restoreSeconds':60,'finalizationSeconds':final_seconds},'compilePlan':{'proposedParkExactLeaves':{compiler:byteid(oldcompiler)}},'evidenceSlots':{'compilerArchiveMaxBytes':33554432},'commands':{'environmentTOnly':{}}},'N':{'requiredAssemblies':[],'overwritten':[],'newPaths':[],'restoreBaseline':{source:byteid(oldsource)},'allowedNewSettings':{'path':'ProjectSettings/SceneTemplateSettings.json'}},'owned':{},'pending_details':{},'active':None,'root_launch_epoch':None,'launch_attempts':1 if sid=='T' else 0,'launch_counts':{'I':1} if sid=='T' else {},'stages':[{'stage':'I','status':'COMPILE_PASS','runCount':1}] if sid=='T' else [],'stage_dlls':{'I':{'assemblies':{}}},'closure_closed':True if sid=='T' else None,'synced':True,'monitor_errors':[],'monitor_cycles':[],'last_monitor':0.,'launched_root':None,'synchronized_paths':[],'parked_paths':[source],'compiler_parked':[compiler],'compiler_after':{},'compiler_restored':[],'atomic_conflicts':set(),'subprocess':types.SimpleNamespace(Popen=popen,STDOUT=-2),'signal':types.SimpleNamespace(SIGTERM=15),'os':types.SimpleNamespace(environ={},kill=lambda pid,sig:signals.append({'pid':pid,'signal':sig,'at':clock[0]})),'ps':ps,'details':details,'recover_root':recover,'monitor':monitor,'recorded_chain':lambda pid,rpid:need(pid==rpid==rootid,'Owned root only'),'snapshot_consumers':lambda *a:env['probe_timeout'](),'consumer_guard':lambda rows:env['probe_timeout'](),'event':lambda kind,**kw:events.append({'kind':kind,'at':clock[0],**copy.deepcopy(kw)}),'write':lambda name,value:writes.update({name:copy.deepcopy(value)}),'preflight':preflight,'log_guard':lambda log:None,'resources':lambda:None,'projection_guard':lambda:None,'protection':lambda:None,'compile_evidence':evidence,'ident':lambda path:byteid(path.read_bytes()),'transfer':transfer}
-        if check_environment:
-            env['os'].environ={'DOTNET_EnableDiagnostics':'1','UNCHANGED':'parent','UPM_CACHE_ROOT':'old','TMPDIR':'old','BEE_CACHE_DIRECTORY':'old','FIGHTMATCH_ACTIVATION_TEST_ROOT':'old'}
-            env['A']['environmentOverrides']={'UPM_CACHE_ROOT':'fixed-K','TMPDIR':'fixed-TMP2','BEE_CACHE_DIRECTORY':'fixed-BC2','DOTNET_EnableDiagnostics':'0'}
-            env['D']['commands']['environmentTOnly']={'FIGHTMATCH_ACTIVATION_TEST_ROOT':'fixed-AS2'}
         bind(['check','alive','claim_stage','compilation_passed','run_stage','run_sequence','closure','restore_all','restore_compiler','archive_and_restore'],env)
         result=env['run_sequence']() if mode=='evidence-exhaustion' else env['run_stage'](sid)
         failure=result['failure'];closed=env['closure_closed'];before_restore=clock[0]
@@ -880,87 +866,6 @@ try:
         value={'unicode':'中文','nested':{'b':[1,True,None],'a':'x'*70000}};env=bind(['check','json_digest'],{'json':json,'hashlib':hashlib})
         need(env['json_digest'](value)==hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest(),'Bounded JSON hashing preserves original canonical bytes')
     case('FIX02 chunked tree fingerprint preserves exact canonical hash',stable_tree_digest)
-    prior_cases=json.loads((v02_base/'replay-results.json').read_text())['rounds'][-1]['cases']
-    need(len(cases)==158 and [(c['name'],c['passed']) for c in cases]==[(c['name'],c['passed']) for c in prior_cases],'All original158 names and expectations retained')
-    report['prior158Passed']=True
-    prior_seals={'runner.py':{'bytes':81937,'sha256':'1a30b4c6e1a5807664d047635c4fc20b131fe9d15191b128656dc366612aa7ba'},'replay-check.py':{'bytes':98829,'sha256':'6b917019c5ad7354808dc38bbeaa128d5461e18e1dabe55187af3a633ac88175'},'replay-results.json':{'bytes':346894,'sha256':'b038021836165db8ca356e2b74c9b69875268199ba09dbc1402896eb253feddd'},'inputs.json':{'bytes':1241588,'sha256':'30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb'},'preparation.json':{'bytes':353328,'sha256':'5d90f8ca8e91b081490faa8d963826ad828f6980ffe1c0c80d5cbb7cd0a6d336'}}
-    def v02_scope():
-        for name,value in prior_seals.items():need(identity(v02_base/name)==value,'Read-only V01 '+name)
-        previous={n.name:n for n in ast.parse((v02_base/'runner.py').read_text()).body if isinstance(n,ast.FunctionDef)}
-        changed={n for n in previous if ast.dump(previous[n])!=ast.dump(F[n])}
-        need(changed=={'compile_evidence','contract_guard','main','preflight','stage_environment'} and set(F)-set(previous)=={'csc_events'},'Only current bindings, environment and Csc classification changed')
-        for name in ('tree_entries','monitor','closure','restore_all','restore_compiler','archive_and_restore','finalize','probe_timeout','ident','checked','read_chunks','scan_tree'):
-            need(ast.dump(previous[name])==ast.dump(F[name]),'Exact retained supervisor/IPC/deadline guard '+name)
-        report['V02ChangedFunctions']=sorted(changed);report['V02NewFunctions']=['csc_events'];report['V01Seals']=prior_seals
-    case('V02 exact five-function delta and unchanged IPC ownership deadlines',v02_scope)
-    def v02_inputs():
-        before=json.loads((v02_base/'inputs.json').read_text());expected=copy.deepcopy(before);oldE=before['paths']['executionEvidence'];newE=str(E);newBC=str(E.parent/'bee-cache');newAS=str(R/'TestArtifacts/FightMatch/RES-D-ACTIVATION-001/RES-COMBINED-V02/state-tests')
-        expected['task']='RES-COMBINED-V02';expected['owner']={'role':'source implementer','thread':'01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c','host':'local','turn':'01a118ca-e3be-7183-a22a-69906300c877','requestedModel':'gpt-6-astra','requestedEffort':'xhigh','returnTo':'01a0e401-511d-79f2-b47f-3ab0ade1681b/local'}
-        for key,value in [('executionEvidence',newE),('newBeeCache',newBC),('activationTests',newAS)]:expected['paths'][key]=value;expected['newRootPreconditions'][key]['path']=value
-        expected['evidenceSlots']['root']=newE
-        for sid in ('I','T'):
-            for i,value in enumerate(expected['commands'][sid]):
-                if value.startswith(oldE+'/'):expected['commands'][sid][i]=newE+value[len(oldE):]
-        expected['commands']['environmentBoth'].update(TMPDIR='fresh canonical /private/tmp/fm-rcv2.XXXXXXXX, actual path sealed at activation',BEE_CACHE_DIRECTORY=newBC,DOTNET_EnableDiagnostics='0');expected['commands']['environmentTOnly']['FIGHTMATCH_ACTIVATION_TEST_ROOT']=newAS
-        for row in expected['transferPlan']:
-            for key in ('backup','archive','park','archiveReplacement'):
-                if row.get(key) is not None:need(row[key].startswith(oldE+'/'),'Only current destination prefix');row[key]=newE+row[key][len(oldE):]
-        need(expected==D,'All input fields accounted for; no source/reference rewrite')
-        report['V02InputIdentity']=identity(E/'inputs.json');report['V02InputFixedSections']=['fixedReferences','shared','projectionBefore','projectionProposed','cache','compilePlan','testCases','limits','preparation','editor','resourceSourceGate']
-        need(before['fixedReferences']==D['fixedReferences'] and len(D['shared']['files'])==1036 and len(D['projectionBefore']['files'])==1035 and len(N['files'])==1037,'Original identities retained')
-    case('V02 input changes are exactly current destinations task owner and environment',v02_inputs)
-    for sid in ('I','T'):case('V02 actual '+sid+' Popen receives diagnostics0 overriding parent1',lambda sid=sid:fix01_stage(sid,'work-exhaustion',check_environment=True))
-    def environment_gates():
-        expected={'UPM_CACHE_ROOT':'/K','TMPDIR':'/TMP2','BEE_CACHE_DIRECTORY':'/BC2','DOTNET_EnableDiagnostics':'0'};observed=[]
-        for name,label in [('preflight','Exact shared environment'),('main','Environment gate')]:
-            statement=next(n for n in ast.walk(F[name]) if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call) and isinstance(n.value.func,ast.Name) and n.value.func.id=='check' and len(n.value.args)==2 and isinstance(n.value.args[1],ast.Constant) and n.value.args[1].value==label)
-            code=compile(ast.Module(body=[copy.deepcopy(statement)],type_ignores=[]),RUNNER_FILENAME,'exec');env=bind(['check'],{'K':'/K','TMP':'/TMP2','BC':'/BC2','A':{'environmentOverrides':dict(expected)}});exec(code,env)
-            for variant in ('missing','one','integer','extra'):
-                bad=dict(expected)
-                if variant=='missing':bad.pop('DOTNET_EnableDiagnostics')
-                elif variant=='one':bad['DOTNET_EnableDiagnostics']='1'
-                elif variant=='integer':bad['DOTNET_EnableDiagnostics']=0
-                else:bad['FOREIGN']='x'
-                env['A']['environmentOverrides']=bad;need(rejected(lambda:exec(code,env)),'Exact activation environment rejects '+variant)
-            observed.append(name)
-        report['V02EnvironmentGateStatements']=observed
-    case('V02 preflight and main require exact string0 environment mapping',environment_gates)
-    def illegal_ipc(mode,expected):
-        fifo_case(mode);errors=report['fifoEvidence'][-1]['errors'];need(any(expected in item['error'] for item in errors),'Original special-entry/FIFO-executable failure retained')
-    case('V02 diagnostic socket remains forbidden',lambda:illegal_ipc('diagnostic-socket','Special tree entry'))
-    case('V02 ILPP FIFO remains forbidden',lambda:illegal_ipc('ilpp-fifo','Unknown FIFO executable'))
-    native_log_path=v02_base/'I/editor.log';need(identity(native_log_path)=={'bytes':75322,'sha256':'ff3d89d412f814e0b12f325d00553e6f25c4cc2e5908ef17387e4e0ec900dc70'},'Exact failed V01 log')
-    native_log=native_log_path.read_text();native_lines=native_log.splitlines();pairs=[(i,native_lines[i-1],line) for i,line in enumerate(native_lines) if 'Csc Library/Bee/' in line and line.endswith('[CacheWrite ]')]
-    need(len(pairs)==4,'Four observed SDK telemetry pairs')
-    def original_log_classification():
-        env=bind(['check','csc_events'],{'re':re});events=env['csc_events'](native_log);actions=[v for v in events if v['kind']=='ACTION'];writes=[v for v in events if v['kind']=='CACHE_WRITE']
-        need(len(actions)==12 and len(writes)==4 and Counter(pathlib.PurePosixPath(v['outputPath']).stem for v in actions)==Counter(N['requiredAssemblies']),'Original twelve actions and four telemetry rows distinguished')
-        report['V02OriginalLogClassification']={'identity':identity(native_log_path),'actions':[{'line':v['line'],'outputPath':v['outputPath']} for v in actions],'cacheWrites':[{'line':v['line'],'actionLine':v['actionLine'],'outputPath':v['outputPath']} for v in writes],'nativeCompileProofClaimed':False}
-    case('V02 actual failed log contains twelve actions and four associated CacheWrite rows',original_log_classification)
-    def csc_model(action,telemetry,mode='valid'):
-        path=re.search(r'Csc (Library/Bee/\S+\.dll)',action).group(1);name=pathlib.PurePosixPath(path).stem;stamp=byteid(b'fixture DLL');binding_path=path.replace('/artifacts/','/wrong-node/') if mode=='node-mismatch' else path
-        outputs={value:{'identity':stamp} for value in [binding_path,binding_path[:-4]+'.pdb',binding_path[:-4]+'.ref.dll']};binding={'complete':True,'response':{'outputs':outputs},'sourceInputs':{},'references':{},'defines':[],'compilerOutput':stamp,'dll':stamp,'outputPath':binding_path,'outputMtimeNs':10,'nodeIndex':0}
-        graph={'Nodes':[{'ToBuildDependencies':[],'ToUseDependencies':[]}],'_sealedIdentity':stamp};p=pathlib.Path('/synthetic-P');graphpath=p/'Library/Bee/fixture.dag.json'
-        env=bind(['check','basic','same','validate_inputs','canonical','cached_reuse_proven','compilation_passed','compile_evidence'],{'json':json,'re':re,'hashlib':hashlib,'pathlib':pathlib,'P':p,'N':{'requiredAssemblies':[name],'files':{},'allowedNewSettings':{'path':'ProjectSettings/SceneTemplateSettings.json'}},'source_tree':lambda *a:{},'compiler_graph':lambda:(graphpath,graph),'compiler_binding':lambda *a:copy.deepcopy(binding),'compiler_path':lambda value:p/value,'ident':lambda value:stamp,'B':{'referencePreimages':{}},'stage_bindings':{},'stage_dlls':{}})
-        log=action+'\n'+telemetry
-        if mode=='double-action':log=log+'\n'+log
-        elif mode=='cache-read':log=action+'\n'+telemetry.replace('CacheWrite','CacheRead')
-        elif mode=='unknown':log=action+' [Unknown ]'
-        elif mode=='orphan-cache':log=telemetry
-        elif mode=='duplicate-telemetry':log=log+'\n'+telemetry
-        elif mode=='others-mismatch':log=log.replace('(+2 others)','(+3 others)')
-        failure=None
-        try:proof=env['compile_evidence'](log,'I');passed=env['compilation_passed'](proof)
-        except RuntimeError as error:failure=str(error);proof=None;passed=False
-        need(passed==(mode=='valid'),'Actual compile_evidence classification gate '+mode)
-        if mode=='valid':need(proof['assemblies'][name]['actualCsc'] and len(proof['events'])==2 and proof['events'][1]['actionLine']==proof['events'][0]['line'],'One action with associated telemetry, no deduplication')
-        if mode=='double-action':need(proof is not None and len([v for v in proof['events'] if v['kind']=='ACTION'])==2 and not proof['assemblies'][name]['actualCsc'],'Both real actions remain visible and fail')
-        report.setdefault('V02CscCases',[]).append({'assembly':name,'mode':mode,'passed':passed,'failure':failure,'actualFunctions':['csc_events','compile_evidence','compilation_passed'],'bindingSource':'Synthetic isolated classification binding; existing full provenance tests retained.'})
-    for _,action,telemetry in pairs:
-        name=pathlib.PurePosixPath(re.search(r'Csc (Library/Bee/\S+\.dll)',action).group(1)).stem
-        case('V02 real '+name+' action plus CacheWrite passes classification',lambda action=action,telemetry=telemetry:csc_model(action,telemetry))
-    for mode in ('double-action','cache-read','unknown','orphan-cache','duplicate-telemetry','node-mismatch','others-mismatch'):
-        case('V02 Csc rejects '+mode,lambda mode=mode:csc_model(pairs[0][1],pairs[0][2],mode))
     frozen_unchanged();need(all(c['passed'] for c in cases),'Retained regression failed');need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     failure=str(error);report['failure']=failure;report['traceback']=traceback.format_exc()
@@ -971,7 +876,7 @@ finally:
     report['fixtureFiles']={str(path.relative_to(E)):value for path,value in fixture_files.items()};report['fixtureLinks']={str(path.relative_to(E)):value for path,value in fixture_links.items()};report['preservedConflicts']=conflicts
     if conflicts:report['status']='SOURCE_REPLAY_FAILED';report['failure']='Unknown or changed fixture contents preserved'
     report['seconds']=time.monotonic()-START;report['actualFunctionsCalled']=sorted(traces);report['forbiddenAttempts']=forbidden;report['runner']=identity(E/'runner.py');report['checker']=identity(E/'replay-check.py')
-    if sum(x['seconds'] for x in history['rounds'])+report['seconds']>30:report['status']='SOURCE_REPLAY_FAILED';report['failure']='V02 Cumulative30 exceeded'
+    if sum(x['seconds'] for x in history['rounds'])+report['seconds']>30:report['status']='SOURCE_REPLAY_FAILED';report['failure']='FIX02 Cumulative30 exceeded'
     history['rounds'].append(report);history['status']=report['status'];history['cumulativeSeconds']=sum(x['seconds'] for x in history['rounds'])
     with (E/'replay-results.json').open('w') as stream:json.dump(history,stream,indent=2);stream.write('\n')
     print(json.dumps({'status':report['status'],'round':report['round'],'passedCases':sum(c['passed'] for c in cases),'failedCases':[c['name'] for c in cases if not c['passed']],'seconds':report['seconds'],'cumulativeSeconds':history['cumulativeSeconds'],'failure':report.get('failure'),'preservedConflicts':conflicts,'forbiddenAttempts':forbidden}))
