@@ -27,7 +27,7 @@ def rejected(fn):
 SELECTED=['V04 Bee htc then cth', 'V04 Bee cth then htc', 'V04 Bee rejects post-inode', 'V04 Bee rejects post-dir', 'V04 Bee rejects reuse-during', 'V04 fresh sealed state accepted', 'V04 execution state drift rejected', 'V05 full blocking-probe allowance and real timeout', 'V05 near natural boundary actual chain preserves prior Bee error', 'V05 FIX01 natural observation success', 'V05 FIX01 natural observation capacity', 'V05 FIX01 natural observation io', 'FIX02 independent PID discovery closure during-term', 'FIX02 independent PID discovery closure stubborn']
 skipped=[]
 def case(name,fn):
-    if not name.startswith('FIX01 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
+    if not name.startswith('V08 ') or any(c['name']==name for r in history['rounds'] for c in r['cases'] if c['passed']): skipped.append(name); return
     need(time.monotonic()-START<30 and time.monotonic()-START+sum(x['seconds'] for x in history['rounds'])<60,'V04 per-round30 cumulative60'); fn(); cases.append({'name':name,'passed':True})
 def bind(names,env):
     defaults={'pending_details':{},'process_snapshot':{},'snapshot_root':None,'closure_closed':None,'transfer_conflicts':set(),'probe_deadline':None,'execution_deadline':None,'work_deadline':None,'restore_deadline':None,'launch_counts':{},'stage_bindings':{},'stage_history':[],'current_stage':'I','D':{},'compiler_parked':[],'compiler_after':{},'compiler_restored':[],'copy':copy,'natural_boundary':None,'bee_ipc':{},'bee_observation_bytes':0,'json':json,'hashlib':hashlib,'utc':lambda:'offline-fixture'}
@@ -882,11 +882,6 @@ def v08_child(mode):
     if mode=='cwd-malformed':cwd[1]='p101\nxunknown\n'
     if mode=='cwd-relative':cwd[1]='p101\nnrelative\n'
     if mode=='cwd-missingpid':cwd[1]='n/P\n'
-    if mode=='cwd-missing-descriptor':cwd[1]='p101\nn/P\n'
-    if mode=='cwd-name-before-descriptor':cwd[1]='p101\nn/P\nfcwd\n'
-    if mode=='cwd-descriptor-before-pid':cwd[1]='fcwd\np101\nn/P\n'
-    if mode=='cwd-other-descriptor':cwd[1]='p101\nf1\nn/P\n'
-    if mode=='cwd-incomplete-pid':cwd[1]='p\nfcwd\nn/P\n'
     def run(argv,**kw):
         calls.append({'argv':argv,'timeout':kw['timeout']})
         label='args' if argv==['/bin/ps','-ww','-p','101','-o','args='] else ('cwd' if argv==['/usr/sbin/lsof','-a','-p','101','-d','cwd','-Fn'] else 'fresh')
@@ -967,9 +962,11 @@ try:
     for name,value in history['baseline']['sourceIdentities'].items():need(identity(R/history['baseline']['root']/name)==value,'Immutable V06 '+name)
     env=bind(['basic','normalize_input'],{});N=env['normalize_input'](D)
     sys.setprofile(profile)
-    for mode in ['cwd-missing-descriptor', 'cwd-name-before-descriptor', 'cwd-descriptor-before-pid', 'cwd-other-descriptor', 'cwd-incomplete-pid', 'cwd-wrongpid', 'cwd-truncated', 'complete', 'cwd-empty', 'cwd-pid-only', 'cwd-exit1', 'present', 'zombie', 'reused']:
-        case('FIX01 cwd descriptor '+mode,lambda mode=mode:v08_child(mode))
-    case('FIX01 SDK complete actual details',v08_sdk_live)
+    for mode in ['args-empty', 'args-whitespace', 'args-exit1', 'cwd-empty', 'cwd-pid-only', 'cwd-exit1', 'both-missing', 'present', 'zombie', 'reused', 'args-stderr', 'args-exit2', 'args-exit1-nonempty', 'args-malformed', 'args-multiline', 'args-truncated', 'args-nul', 'args-overflow', 'args-io', 'args-timeout', 'cwd-stderr', 'cwd-exit2', 'cwd-exit1-nonempty', 'cwd-wrongpid', 'cwd-duplicate', 'cwd-malformed', 'cwd-relative', 'cwd-missingpid', 'cwd-truncated', 'cwd-nul', 'cwd-overflow', 'cwd-io', 'cwd-timeout', 'fresh-io', 'fresh-timeout', 'fresh-exit', 'fresh-stderr', 'fresh-malformed', 'fresh-truncated', 'fresh-empty', 'fresh-duplicate', 'fresh-date', 'fresh-budget', 'complete', 'sensitive', 'parent-stage', 'parent-reused', 'owned-incomplete', 'legacy82401']:
+        case('V08 identity '+mode,lambda mode=mode:v08_child(mode))
+    case('V08 SDK complete new and bound through actual details',v08_sdk_live)
+    for mode in ('absent','live','zombie','reuse','unbound','stderr'):
+        case('V08 SDK unchanged exit '+mode,lambda mode=mode:v08_sdk_exit(mode))
     need(not forbidden,'No forbidden operations');report['status']='SOURCE_REPLAY_PASS'
 except BaseException as error:
     report['failure']=str(error);report['traceback']=traceback.format_exc()

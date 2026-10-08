@@ -379,7 +379,7 @@ def details(pid):
             elif line=='fcwd':
                 check(owner==pid and not descriptor and cwd is None,'INCOMPLETE: cwd descriptor contradiction');descriptor=True
             elif line.startswith('n'):
-                check(owner==pid and descriptor and cwd is None and line[1:].startswith('/'),'INCOMPLETE: cwd field contradiction');cwd=line[1:]
+                check(owner==pid and cwd is None and line[1:].startswith('/'),'INCOMPLETE: cwd field contradiction');cwd=line[1:]
             else:raise RuntimeError('INCOMPLETE: malformed cwd record')
         probe['parsed']={'pid':owner,'cwd':cwd,'cwdDescriptor':descriptor}
         missing=[]
