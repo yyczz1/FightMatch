@@ -1,0 +1,31 @@
+{
+  "task": "LOC-M17-FIX05-REVIEW01 source integration",
+  "verdict": "NEEDS_FIX",
+  "scope": "SOURCE-only",
+  "centralTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+  "head": "5c12ddabfc784927a936b428d9f1b90638cf108e",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+  "qaActualTurnObservedByCentral": "01a12c34-8b55-7663-8e04-13b0dc910be4",
+  "qaActualTurnDurationMs": 249879,
+  "independentIntake": {
+    "path": "docs/team/2026-09-30/testing-loc-m17-fix05-review01-review.json",
+    "bytes": 5014,
+    "sha256": "1ba69d4d0376ce66909e621aba54733df9702404e568633d35e8f31291826b9a"
+  },
+  "newExactHeadFinding": {
+    "id": 4242690950,
+    "severity": "P1",
+    "scope": "Declared sidecar requirement is not enforced before material execution"
+  },
+  "previousFindings": {
+    "ids": [
+      4242623018,
+      4242623020
+    ],
+    "reportedAgainOnCurrentHead": false,
+    "threadState": "unresolved/non-outdated on historical F5 files; not treated as formally closed"
+  },
+  "acceptedEvidenceOnly": "15/15 directed checks, successful 4.737614750-second seal and archived actual tool result; no material acceptance.",
+  "next": "Engineering defines minimal activation-bound external receipt gate, then LOC implements REVIEW02 and requests exact-head GitHub review.",
+  "materialExecutionAuthorized": false
+}

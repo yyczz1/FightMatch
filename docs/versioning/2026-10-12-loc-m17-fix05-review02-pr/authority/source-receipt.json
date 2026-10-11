@@ -1,0 +1,2477 @@
+{
+  "MOnlyBudget": {
+    "cleanupReserveSeconds": 30,
+    "explicitDeltaFromM16": "runner restore 0 -> 1 to regenerate the lost runner locks from fixed source/feed",
+    "maxArchiveResponseBodyBytes": 0,
+    "officialGets": [],
+    "runnerGenerationRestores": 1,
+    "testsGenerationRestores": 1,
+    "testsVerificationRestores": 1,
+    "wallSeconds": 900,
+    "workSeconds": 870
+  },
+  "blockingSlot": "actual new M restore/comparison + new reviewed head + independent central execution pin; B/L remain independently gated",
+  "dispatchItem": "fco_01a12c3f-ebde-70c0-ab03-d6bd91fe2102",
+  "executionAuthorized": false,
+  "externalCommandReceiptRequirement": {
+    "activationBinding": {
+      "exactKeys": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "field": "sourceCommandReceipt",
+      "freshBoundedRead": true,
+      "gate": "verify_activation before material state and before every native command"
+    },
+    "capture": "read_thread original completed commandExecution after tool return",
+    "includeAsOwnSourceInput": false,
+    "independentReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "location": "outside the sealed eight leaves",
+    "maxBytes": 65536,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix05-review02-command-receipt.json",
+    "receiptAbsenceBlocksAcceptanceAndActivation": true,
+    "requiredBindings": [
+      "source author thread/host/turn",
+      "actual sealing thread/host/turn",
+      "tool ID",
+      "complete command and untruncated original output",
+      "exitCode 0",
+      "full invocation clock <=30 seconds",
+      "final source-freeze bytes/SHA256",
+      "all eight leaf identities"
+    ],
+    "requiredFor": [
+      "independent central SOURCE acceptance",
+      "any subsequent material activation"
+    ],
+    "schemaVersion": 1
+  },
+  "generatedLocksAssets": 216,
+  "historyPreserved": [
+    {
+      "bytes": 125870,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16_driver.py",
+      "sha256": "0d4f0e7baccf14862eb5fce8dfdb558ccafacdd45f1683e8880c70c482d7dbf8"
+    },
+    {
+      "bytes": 4911291,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16-inputs.tsv",
+      "sha256": "946cc41177d30cc5f53cd99a9c675933073af8b357493cdef96245ee8112f41d"
+    },
+    {
+      "bytes": 1047831,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16-write-set.tsv",
+      "sha256": "44b554a689f71c230ae42ad73abc507d8a1ba4ff40ebd0d40c9f8f3d766396b0"
+    },
+    {
+      "bytes": 2497865,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/prepare.json",
+      "sha256": "f36e61e053cc61e87a1f635962fe64d46fd9d4ab98f742cd0ff9cb54b4131fd6"
+    },
+    {
+      "bytes": 2977,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/offline-checks.json",
+      "sha256": "b8c09607f3a7f4c2eb6bfa497fccc07ee586973acff30f0fcd84e989f9675844"
+    },
+    {
+      "bytes": 2666,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/source-freeze.json",
+      "sha256": "0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50"
+    },
+    {
+      "bytes": 172015,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16_driver.py",
+      "sha256": "11f56aacf087c141277bacd0d929bafcaf903ffe534fea699349f12931ffb2a3"
+    },
+    {
+      "bytes": 4913531,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16-inputs.tsv",
+      "sha256": "101cfe1239d9ada030fb246adcd7e5455b3ae162b7bc909cdfdd1048ece4ed42"
+    },
+    {
+      "bytes": 1048259,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16-write-set.tsv",
+      "sha256": "a6cf4621dd35bcec79b15aabbd16f1e2f6d5dc4c9f86c3cd009c1b79960ded55"
+    },
+    {
+      "bytes": 4135,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/prepare.json",
+      "sha256": "a92ed7617eeb76d86d3838568ef710581becc90e842d4fbc67690e57bd19089e"
+    },
+    {
+      "bytes": 17143,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/offline-checks.json",
+      "sha256": "d1bb12dd9563f2a6001adfb5c36f6e6507e55e8d7c394e36636b95bbd9a36985"
+    },
+    {
+      "bytes": 15921,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/correction-receipt.json",
+      "sha256": "874035a35a41497bf9ffe93ff9980eb918c78b23ea73f7682e4107b3328f30fb"
+    },
+    {
+      "bytes": 57488,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/source.patch",
+      "sha256": "577ca3e7c4ec0de7b219ee67a09c8996c8a99f5c34b3ac9021e3d0f58ba3fc8c"
+    },
+    {
+      "bytes": 3881,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/source-freeze.json",
+      "sha256": "d84ef5066b7a7e9450c372fa46e252a78864dfad75b2902b111bc238aa7ca0dc"
+    },
+    {
+      "bytes": 204239,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16_driver.py",
+      "sha256": "5df4a9acd58b3242c18945c66ab9e7dd0fb9f21b295801be78b18fa1b71d377f"
+    },
+    {
+      "bytes": 4916277,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-inputs.tsv",
+      "sha256": "043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381"
+    },
+    {
+      "bytes": 1047931,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-write-set.tsv",
+      "sha256": "8b59f96616686a63a89df7884fa91be9e73f1b1a471f7247d9f729e142912347"
+    },
+    {
+      "bytes": 4415,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/prepare.json",
+      "sha256": "879a089c62d7026dbee1a41d7ed67d6f74b371c2e0e560c984a1fc9498549ea5"
+    },
+    {
+      "bytes": 16784,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/offline-checks.json",
+      "sha256": "57bd1e19f6a87990ba4c8ad796fb1e4d3a0989e0091f17e2dd93ee1be1b79d23"
+    },
+    {
+      "bytes": 31211,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/correction-receipt.json",
+      "sha256": "30fcde0965285a614b809612160bc1b6b00f7ce7e4e81a4c08d58db88c417400"
+    },
+    {
+      "bytes": 43029,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/source.patch",
+      "sha256": "3df19e9dd310b44862921ab8b18243055fb46f20586503c7092b4fab8378c683"
+    },
+    {
+      "bytes": 6033,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/source-freeze.json",
+      "sha256": "db19910e7cbfe207a604c394304c539f73f50c222a3f2edc33d881ce64921880"
+    },
+    {
+      "bytes": 27194,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/offline-checks.json",
+      "sha256": "9f9f5b552175607d459aa8b6c2e132fb9238ee1869d1558b680f1b497fc93486"
+    },
+    {
+      "bytes": 5708172,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/prepare.json",
+      "sha256": "80419b453c4534e66a6cc7d54b891a14b3aecaafda976fee32b7a4c63e955bba"
+    },
+    {
+      "bytes": 14135,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/source-receipt.json",
+      "sha256": "33d530b4fde0eecee7971d1832d48c8763409dd99338ed4bd95324218cdd0731"
+    },
+    {
+      "bytes": 1957208,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17-inputs.tsv",
+      "sha256": "48624e698c799845b12e400c96737d97ff42904e3fd0fe941343f3496665fe96"
+    },
+    {
+      "bytes": 1428902,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17-write-set.tsv",
+      "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+    },
+    {
+      "bytes": 104059,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17_driver.py",
+      "sha256": "203be2d994db81da1722f5334cd1ac49b383b5aafaa64695f7325a6b3addc6f0"
+    },
+    {
+      "bytes": 310985,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/source.patch",
+      "sha256": "f986979d47c95514f200e27309baf7f07fcf7f28cdac67d4052dd5a96ac8cb90"
+    },
+    {
+      "bytes": 2765,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/source-freeze.json",
+      "sha256": "d572872d038a19418c75c776cef3ae7299616a69118b6a63619c774f0b2fb244"
+    },
+    {
+      "bytes": 38692,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/offline-checks.json",
+      "sha256": "e107d435097355fdcafe36e991ae1ed1349fa310020cac8d59ac1c2ba3f6b2e4"
+    },
+    {
+      "bytes": 5719389,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/prepare.json",
+      "sha256": "c426579fbe09d4754871558eb9342a14272b193887396f2474679864bff771a3"
+    },
+    {
+      "bytes": 24440,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/source-receipt.json",
+      "sha256": "000a3935a03d4d88759d5bb40b4ab472f7582c3dab9fe8a70ae6ae10520ed9ea"
+    },
+    {
+      "bytes": 1957455,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17-inputs.tsv",
+      "sha256": "cc1f7f3c34fb2a8a23a6028530f008ab29e7a0cfe09273b9358fa66e8f5d7b30"
+    },
+    {
+      "bytes": 1428902,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17-write-set.tsv",
+      "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+    },
+    {
+      "bytes": 114268,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py",
+      "sha256": "2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f"
+    },
+    {
+      "bytes": 29823,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/source.patch",
+      "sha256": "24676822154de49eb95953109b32c7484607b2a16686ad0dddd727a29ac28cc6"
+    },
+    {
+      "bytes": 2806,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/source-freeze.json",
+      "sha256": "8c8e50f8af094918bdac323ab4080c942616e646d4c4a56a12eaf6a8b74cc2d1"
+    }
+  ],
+  "independentAcceptance": "BLOCKED_UNTIL_EXTERNAL_RECEIPT_AND_NEW_HEAD_REVIEW",
+  "integrationVerdict": "NOT_ISSUED_AUTHOR_CANNOT_ACCEPT",
+  "issuer": {
+    "hostId": "local",
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "turnId": "01a12bf9-e665-7d20-ab65-31ca1dfc8613"
+  },
+  "materialReady": false,
+  "mechanicalGeneration": {
+    "SDKScan": false,
+    "attempts": 1,
+    "entry": "m17_driver.py prepare",
+    "externalCommandReceiptRequirement": {
+      "activationBinding": {
+        "exactKeys": [
+          "path",
+          "bytes",
+          "sha256"
+        ],
+        "field": "sourceCommandReceipt",
+        "freshBoundedRead": true,
+        "gate": "verify_activation before material state and before every native command"
+      },
+      "capture": "read_thread original completed commandExecution after tool return",
+      "includeAsOwnSourceInput": false,
+      "independentReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+      "location": "outside the sealed eight leaves",
+      "maxBytes": 65536,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix05-review02-command-receipt.json",
+      "receiptAbsenceBlocksAcceptanceAndActivation": true,
+      "requiredBindings": [
+        "source author thread/host/turn",
+        "actual sealing thread/host/turn",
+        "tool ID",
+        "complete command and untruncated original output",
+        "exitCode 0",
+        "full invocation clock <=30 seconds",
+        "final source-freeze bytes/SHA256",
+        "all eight leaf identities"
+      ],
+      "requiredFor": [
+        "independent central SOURCE acceptance",
+        "any subsequent material activation"
+      ],
+      "schemaVersion": 1
+    },
+    "historicalSuitesRerun": false,
+    "maxSeconds": 30,
+    "partialNewEnumerations": 0,
+    "sourceAuthor": {
+      "hostId": "local",
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "turnId": "01a12c3f-ebd9-70d0-92f0-74666adab242"
+    }
+  },
+  "modelPolicy": {
+    "actualAuthorTurn": "01a12c3f-ebd9-70d0-92f0-74666adab242",
+    "actualModelVisibleToSourceProcess": false,
+    "requestedEffort": "xhigh",
+    "requestedModel": "gpt-6-astra"
+  },
+  "modelSha256": "de9f7e47850dcd2f6cdcb3e6f2c605b3d45975c2116dd3d19722cf16623b2580",
+  "owner": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12c3f-ebd9-70d0-92f0-74666adab242"
+  },
+  "partialProtection": {
+    "captureOwner": {
+      "hostId": "local",
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "turnId": "01a12c14-512d-7331-8acc-fd240ca1de4a"
+    },
+    "capturedAtUtc": "2026-10-11T17:51:20.113573+00:00",
+    "directories": 909,
+    "files": 2576,
+    "historicalExitAndFullLineageClosure": "UNKNOWN_NOT_INFERRED",
+    "manifestSha256": "cd1fc4983e3d83bd48d897c86fe35cb016d4dad4509adf6a801df597c6203cb6",
+    "materialAccepted": false,
+    "newEnumerationsThisDelivery": 0,
+    "originalEnumerationsPerRoot": 1,
+    "rawManifest": "authority/prepare.json#/model/partialProtection"
+  },
+  "pendingArchives": [],
+  "returnPath": {
+    "hostId": "local",
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "turnId": "01a12bf9-e665-7d20-ab65-31ca1dfc8613"
+  },
+  "reviewFixes": {
+    "4242690950": {
+      "activationField": "sourceCommandReceipt",
+      "authority": [
+        {
+          "bytes": 3149,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix05-review02.md",
+          "sha256": "a9840a59e3d1cef2793aa80e6e07d00e6806ad621a8d17a9d434f9b33520f138"
+        },
+        {
+          "bytes": 12849,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/engineering-loc-fix05-review02-activation.md",
+          "sha256": "9f95d738b9b2930aab7ca128b217defbeafc9386fddb62ee3d78e2d2e2bfa5d7"
+        }
+      ],
+      "beforeEveryNative": true,
+      "beforeMaterialState": true,
+      "currentExternalRequirement": {
+        "activationBinding": {
+          "exactKeys": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "field": "sourceCommandReceipt",
+          "freshBoundedRead": true,
+          "gate": "verify_activation before material state and before every native command"
+        },
+        "capture": "read_thread original completed commandExecution after tool return",
+        "includeAsOwnSourceInput": false,
+        "independentReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+        "location": "outside the sealed eight leaves",
+        "maxBytes": 65536,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix05-review02-command-receipt.json",
+        "receiptAbsenceBlocksAcceptanceAndActivation": true,
+        "requiredBindings": [
+          "source author thread/host/turn",
+          "actual sealing thread/host/turn",
+          "tool ID",
+          "complete command and untruncated original output",
+          "exitCode 0",
+          "full invocation clock <=30 seconds",
+          "final source-freeze bytes/SHA256",
+          "all eight leaf identities"
+        ],
+        "requiredFor": [
+          "independent central SOURCE acceptance",
+          "any subsequent material activation"
+        ],
+        "schemaVersion": 1
+      },
+      "requiredFreshGate": "verify_activation"
+    }
+  },
+  "reviewReady": false,
+  "sourceDelta": {
+    "changedExistingFunctions": [
+      "_fix05_protection",
+      "_fix05_source_model",
+      "prepare",
+      "source_artifacts",
+      "verify_activation"
+    ],
+    "changedFields": [
+      "SOURCE E/sidecar path and actual author/dispatch",
+      "REVIEW02 packet/design and R1 evidence bindings",
+      "mandatory central A.sourceCommandReceipt descriptor",
+      "fresh bounded sidecar validation at existing verify_activation gate",
+      "SOURCE metadata, gate-only regressions and after-return sidecar contract"
+    ],
+    "newPrivateHelpers": [
+      "_review02_authority",
+      "_review02_bounded_read",
+      "_review02_delta",
+      "_review02_documents",
+      "_review02_fixture",
+      "_review02_ident",
+      "_review02_int",
+      "_review02_leaf_map",
+      "_review02_number",
+      "_review02_prior",
+      "_review02_receipt_content",
+      "_review02_same",
+      "_review02_source_receipt",
+      "_review02_uuid",
+      "review02_checks"
+    ],
+    "patchBaseline": {
+      "bytes": 162125,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/source/m17_driver.py",
+      "sha256": "ec629ed6be21319add7d0a5b75bcd0747ca07930aef91f88a114ade1347b6b81"
+    },
+    "unchangedExistingFunctions": [
+      "Basis",
+      "GateError",
+      "MStage",
+      "MaterialWriter",
+      "_fix04_source_model",
+      "_fix05_base",
+      "_fix05_core_digest",
+      "_fix05_delta",
+      "_fix05_download_receipts",
+      "_fix05_existing",
+      "_fix05_output",
+      "_fix05_partial_inventory",
+      "_fix05_partial_unchanged",
+      "_fix05_roots_absent",
+      "_fix05_stamp",
+      "_nupkg_relative_name",
+      "_review01_delta",
+      "_review01_documents",
+      "_review01_partial",
+      "_review01_prior",
+      "archive_entries",
+      "assert_controls",
+      "authorize_write",
+      "budget_checks",
+      "canonical_assets",
+      "check_b_receipt",
+      "check_bytes",
+      "child_sandbox",
+      "command_plan",
+      "command_write_rules",
+      "compare_restore",
+      "complete_package_union",
+      "consume_m_stage",
+      "consume_source",
+      "control_groups",
+      "deployment_from_assets",
+      "download_contract",
+      "execute",
+      "execute_material",
+      "execution_budget",
+      "fix04_checks",
+      "fix04_protection",
+      "fix05_checks",
+      "frozen_material_json",
+      "generated_contract",
+      "graph_model",
+      "helper_functions",
+      "identity",
+      "inspect_command_outputs",
+      "install_sandbox",
+      "jb",
+      "main",
+      "memory_tree",
+      "model",
+      "offline_checks",
+      "old_seals",
+      "package_model",
+      "parse_tsv",
+      "phase_env",
+      "phase_root",
+      "read",
+      "require",
+      "restore_fixture",
+      "review01_checks",
+      "run_material_command",
+      "safe",
+      "seal_source",
+      "sha",
+      "source_tables",
+      "strict",
+      "tsv",
+      "validate_l_outputs",
+      "validate_model",
+      "validate_official_trx",
+      "validate_process",
+      "validate_restore",
+      "verify_archive",
+      "write_plan",
+      "yaml_entries"
+    ],
+    "unchangedFields": [
+      "execute ordering and cleanup state gate",
+      "native recheck call site",
+      "host template",
+      "M5/W5 paths",
+      "31+1 archive identities",
+      "0GET/3restore/870+30 seconds",
+      "partial capture/SDK declaration",
+      "archive/restore/process algorithms",
+      "sidecar excluded from its own SOURCE inputs"
+    ]
+  },
+  "sourceReady": true,
+  "status": "SOURCE_READY",
+  "validation": {
+    "GETs": 0,
+    "SDKScan": false,
+    "attempts": 1,
+    "caseCount": 109,
+    "cases": [
+      {
+        "elapsedSeconds": 0.0020378340004754136,
+        "name": "valid record passes; distinct source/seal/material turns; command string inert; two clocks may differ",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00014245800048229285,
+        "name": "missing trusted pin rejected before sidecar reads and all material effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00025712499973451486,
+        "name": "missing A.sourceCommandReceipt / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00024366700017708354,
+        "name": "null descriptor / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00024258299981738674,
+        "name": "extra descriptor key / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00024204100009228569,
+        "name": "string bytes / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.000238291000641766,
+        "name": "bool bytes / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00023591599983774358,
+        "name": "zero bytes / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0002393750000919681,
+        "name": "over64KiB bytes / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00024900000062189065,
+        "name": "wrong byte count / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00023591700028191553,
+        "name": "uppercase hash / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0002494999998816638,
+        "name": "wrong hash / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00024045800000749296,
+        "name": "R1 receipt replacement / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00023279099968931405,
+        "name": "relative receipt path / real execute zero-side-effect gate",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00023966700064192992,
+        "name": "missing sidecar / real execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00023808300011296524,
+        "name": "oversized sidecar read despite valid-sized descriptor",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0003237920000174199,
+        "name": "outer duplicate JSON keys",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0003153749994453392,
+        "name": "outer nonfinite value",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0003128749995084945,
+        "name": "missing required field; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0003190420002283645,
+        "name": "bool schema; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00040187500053434633,
+        "name": "source author mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006512500003736932,
+        "name": "seal thread mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006437080000978312,
+        "name": "seal host mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006595419999939622,
+        "name": "seal turn/capture mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.000668083000164188,
+        "name": "missing executor item; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007242090005092905,
+        "name": "authority packet mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006862090003778576,
+        "name": "authority issuer mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006382909996318631,
+        "name": "authority bytes bool; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007110420001481543,
+        "name": "capture before return; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006669579997833353,
+        "name": "capture wrong turn; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006238750002012239,
+        "name": "wrong freeze identity; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0005923340004301281,
+        "name": "wrong raw freeze; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006131250001999433,
+        "name": "wrong summary model; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0004673749999710708,
+        "name": "leaf missing; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0004818340003112098,
+        "name": "leaf duplicated; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.000541082999916398,
+        "name": "leaf alternate path; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0005740840006183134,
+        "name": "leaf wrong hash; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0004701249999925494,
+        "name": "leaf identity extra key; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0004677919996538549,
+        "name": "leaf bytes bool; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006189999994603568,
+        "name": "wrong total; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0003395000003365567,
+        "name": "wrong external requirement; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.000667291000354453,
+        "name": "non-command tool; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006698339993818081,
+        "name": "invalid actual tool ID; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006698329998471308,
+        "name": "unfinished tool; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006706659996780218,
+        "name": "failed tool disguised by summaries; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006737920002706232,
+        "name": "bool tool exit; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006713330003549345,
+        "name": "negative tool duration; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006732499996360275,
+        "name": "overlimit tool duration; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.000684124999679625,
+        "name": "float tool duration; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006757920000382001,
+        "name": "blank command; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006719159991916968,
+        "name": "wrong cwd; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006707500006086775,
+        "name": "truncated original output; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007946249997985433,
+        "name": "missing original output; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007686250000915607,
+        "name": "extra original JSON line; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007332080003834562,
+        "name": "double original clock; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006694579997201799,
+        "name": "only original clock; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006886250002935412,
+        "name": "only original result; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.000728166000044439,
+        "name": "reversed original lines; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007362919996012351,
+        "name": "summary clock differs from original; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010687089998100419,
+        "name": "directed tool identity mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010940419997496065,
+        "name": "directed >10 seconds; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010920830000031856,
+        "name": "directed bool time; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010471249997863197,
+        "name": "directed nonzero exit; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010474589998921147,
+        "name": "directed case count mismatch; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.001045332999638049,
+        "name": "directed false pass count; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0009962499998437124,
+        "name": "directed wrong evidence; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0003294159996585222,
+        "name": "sidecar permits material; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00032616700082144234,
+        "name": "sidecar claims independent accept; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0009699169995656121,
+        "name": "sidecar claims SDK scan; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0009809590001168544,
+        "name": "sidecar hides material with bool zero; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010088330000144197,
+        "name": "sidecar historical rerun; rebound outer hash; execute zero effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0008408339999732561,
+        "name": "wrong original model despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0009559589998389129,
+        "name": "wrong original source author despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0008210829992094659,
+        "name": "wrong original freeze despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0008133750006891205,
+        "name": "missing original leaf despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0008097919999272563,
+        "name": "duplicate original leaf despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0009143329998551053,
+        "name": "wrong original total despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0008308750002470333,
+        "name": "bool mechanical time despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0014455840000664466,
+        "name": "function time exceeds full time despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0011894580002262956,
+        "name": "wrong original check count despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0012270839997654548,
+        "name": "wrong original directed local time despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010022910000770935,
+        "name": "material-like GET output despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0009673750000729342,
+        "name": "bool result zero despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0009576669999660226,
+        "name": "old suite claimed in output despite rebound sidecar hash",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007707080003456213,
+        "name": "original clock timeout with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007662910002181889,
+        "name": "original clock bool time with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007566670001324383,
+        "name": "original clock negative time with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007645409996257513,
+        "name": "original clock failed exit with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.000764416000492929,
+        "name": "original clock failure reason with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007634589992449037,
+        "name": "original clock duplicate attempt with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0010319170005459455,
+        "name": "original clock changed budget with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0008632919998490252,
+        "name": "original clock non-UTC with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0008166669995262055,
+        "name": "original clock reversed UTC with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007965410004544538,
+        "name": "original clock invalid UTC with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007949170003485051,
+        "name": "original clock mismatched executor with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0007998749997568666,
+        "name": "original clock admits material with matching copied summary still rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0003025409996553208,
+        "name": "original nonfinite clock rejected",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.001300249999985681,
+        "name": "sealed checks bind another driver",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0012511660006566672,
+        "name": "sealed checks fail",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.001247958999556431,
+        "name": "sealed checks local time >10",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0012792079996870598,
+        "name": "sealed checks original clock fails",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.001141374999861,
+        "name": "production bounded reader requests at most 65537B and validates regular file",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00027475000024423935,
+        "name": "production bounded reader rejects file-link before effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0002648330000738497,
+        "name": "production bounded reader rejects ancestor-link before effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00025708399971335893,
+        "name": "production bounded reader rejects nonregular before effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.00026362500011600787,
+        "name": "production bounded reader rejects oversize before effects",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.005582875000072818,
+        "name": "native gate fresh reread detects deletion; zero native/write calls",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.0006578329994226806,
+        "name": "native gate fresh reread detects tampering; zero native/write calls",
+        "passed": true,
+        "rawError": null
+      },
+      {
+        "elapsedSeconds": 0.017711208000037004,
+        "name": "source AST/material budget/host template bindings unchanged except allowed activation gate",
+        "passed": true,
+        "rawError": null
+      }
+    ],
+    "command": [
+      "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "-I",
+      "-B",
+      "-"
+    ],
+    "completedAtUtc": "2026-10-11T18:47:43.126526+00:00",
+    "coreModelSha256": "8ff4dd110bbe7561ece3c5f30de5f787fc8371a74f06e76c0a86b82893a383ff",
+    "elapsedSeconds": 2.0302216250001948,
+    "executionReceipt": {
+      "actualOwner": {
+        "hostId": "local",
+        "receivedItem": "fco_01a12c3f-ebde-70c0-ab03-d6bd91fe2102",
+        "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+        "turnId": "01a12c3f-ebd9-70d0-92f0-74666adab242"
+      },
+      "directedTool": {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B - <<'PY'\nimport time\nstarted=time.monotonic()\nimport datetime,json,runpy,signal,sys\nfrom pathlib import Path\nroot=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review02')\noutput=root/'authority/offline-checks.json'\nclass BudgetExpired(BaseException):pass\ndef expired(signum,frame):raise BudgetExpired('REVIEW02 directed full invocation exceeded 10 seconds')\nsignal.signal(signal.SIGALRM,expired);signal.setitimer(signal.ITIMER_REAL,max(0.001,10-(time.monotonic()-started)))\nchecks=None;code=20;startutc=datetime.datetime.now(datetime.timezone.utc).isoformat()\ntry:\n assert not output.exists(),'directed attempt already exists'\n ns=runpy.run_path(str(root/'source/m17_driver.py'))\n assert ns['OWNER']['turnId']=='01a12c3f-ebd9-70d0-92f0-74666adab242' and ns['DISPATCH']=='fco_01a12c3f-ebde-70c0-ab03-d6bd91fe2102'\n checks=ns['review02_checks']()\n checks.update(status='DIRECTED_CHECKS_PASSED' if checks['caseCount']==checks['passed'] else 'DIRECTED_CHECKS_FAILED',attempts=1,maxSeconds=10,startedAtUtc=startutc,elapsedSeconds=time.monotonic()-started,command=list(sys.orig_argv),invocation='review02_checks once: synthetic activation/sidecar gate and real execute/native-call-site sentinels; no real material/native/historical suite')\n code=0 if checks['status']=='DIRECTED_CHECKS_PASSED' else 20\nexcept BaseException as error:\n checks={'status':'DIRECTED_CHECKS_FAILED','attempts':1,'maxSeconds':10,'startedAtUtc':startutc,'elapsedSeconds':time.monotonic()-started,'rawError':type(error).__name__+': '+str(error)}\nfinally:signal.setitimer(signal.ITIMER_REAL,0)\nchecks['completedAtUtc']=datetime.datetime.now(datetime.timezone.utc).isoformat()\noutput.parent.mkdir(parents=True,exist_ok=True)\nwith output.open('xb') as stream:stream.write((json.dumps(checks,sort_keys=True,ensure_ascii=False,indent=2,allow_nan=False)+'\\\\n').encode())\nelapsed=time.monotonic()-started\nif elapsed>10:code=20\nprint(json.dumps({'event':'FINAL_COMMAND_CLOCK','scope':'FIX05 REVIEW02 directed once','status':checks['status'],'caseCount':checks.get('caseCount'),'passed':checks.get('passed'),'failures':[r for r in checks.get('cases',[]) if not r['passed']],'rawError':checks.get('rawError'),'startedAtUtc':startutc,'completedAtUtc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'fullInvocationSeconds':elapsed,'exitCode':code,'checksPath':str(output)},ensure_ascii=False))\nraise SystemExit(code)\nPY\"",
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "durationMs": 1945,
+        "exitCode": 0,
+        "id": "exec-c7c44372-29f7-420f-8755-7ccb02ee2e08",
+        "output": {
+          "text": "{\"event\": \"FINAL_COMMAND_CLOCK\", \"scope\": \"FIX05 REVIEW02 directed once\", \"status\": \"DIRECTED_CHECKS_PASSED\", \"caseCount\": 109, \"passed\": 109, \"failures\": [], \"rawError\": null, \"startedAtUtc\": \"2026-10-11T18:47:41.104243+00:00\", \"completedAtUtc\": \"2026-10-11T18:47:43.128959+00:00\", \"fullInvocationSeconds\": 2.0326659169995764, \"exitCode\": 0, \"checksPath\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review02/authority/offline-checks.json\"}\n",
+          "truncated": false
+        },
+        "status": "completed",
+        "type": "commandExecution"
+      },
+      "fullInvocationSeconds": 2.0326659169995764,
+      "historicalSuitesRerun": false,
+      "sourceChangedAfterDirectedRun": false
+    },
+    "externalCommandReceiptRequirement": {
+      "activationBinding": {
+        "exactKeys": [
+          "path",
+          "bytes",
+          "sha256"
+        ],
+        "field": "sourceCommandReceipt",
+        "freshBoundedRead": true,
+        "gate": "verify_activation before material state and before every native command"
+      },
+      "capture": "read_thread original completed commandExecution after tool return",
+      "includeAsOwnSourceInput": false,
+      "independentReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+      "location": "outside the sealed eight leaves",
+      "maxBytes": 65536,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix05-review02-command-receipt.json",
+      "receiptAbsenceBlocksAcceptanceAndActivation": true,
+      "requiredBindings": [
+        "source author thread/host/turn",
+        "actual sealing thread/host/turn",
+        "tool ID",
+        "complete command and untruncated original output",
+        "exitCode 0",
+        "full invocation clock <=30 seconds",
+        "final source-freeze bytes/SHA256",
+        "all eight leaf identities"
+      ],
+      "requiredFor": [
+        "independent central SOURCE acceptance",
+        "any subsequent material activation"
+      ],
+      "schemaVersion": 1
+    },
+    "fixtures": "synthetic A/S/freeze/logs in memory only; unchanged execute and native gate call sites cloned with side-effect sentinels",
+    "historicalSuitesRerun": false,
+    "invocation": "review02_checks once: synthetic activation/sidecar gate and real execute/native-call-site sentinels; no real material/native/historical suite",
+    "maxSeconds": 10,
+    "modelSha256": "de9f7e47850dcd2f6cdcb3e6f2c605b3d45975c2116dd3d19722cf16623b2580",
+    "native": 0,
+    "partialNewEnumerations": 0,
+    "passed": 109,
+    "protectedBefore": [
+      {
+        "bytes": 9139653,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.codecoverage.17.11.1.nupkg",
+        "sha256": "d5d2e52b734687cf0fb85619898a53fa2cc0f7a7adc61537052822c4381db460"
+      },
+      {
+        "bytes": 34301,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.net.test.sdk.17.11.1.nupkg",
+        "sha256": "d09504b9c43697368f824ae39bf3452c14dba94d5d7e1be13774e5de6a04ea62"
+      },
+      {
+        "bytes": 1660096,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.testplatform.objectmodel.17.11.1.nupkg",
+        "sha256": "e6f5febc2cc56374bbc5f31522ff0e94c305b5d79d5bd50827373458473ebe6e"
+      },
+      {
+        "bytes": 2882099,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.testplatform.testhost.17.11.1.nupkg",
+        "sha256": "c12918d07d5f400ab41f72dc293e2eed8e51ce10003daeb2b9e54df3883c1f15"
+      },
+      {
+        "bytes": 2441966,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/newtonsoft.json.13.0.3.nupkg",
+        "sha256": "872fc189e638ab1056555b03aaa38f68bcb54286e221aa646eb1129babf63c77"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.codecoverage.17.11.1.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 23,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.codecoverage.17.11.1.stdout",
+        "sha256": "5a8d60e8ba4e2e316d554ed850c1ca29fbd7bf076d8d98525d357f420fd160f3"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.net.test.sdk.17.11.1.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 21,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.net.test.sdk.17.11.1.stdout",
+        "sha256": "8cf1372c8c2602fa1dff0f344f9b3999709cd7736fb0f1dbba4f6a8a6e526345"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.testplatform.objectmodel.17.11.1.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 23,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.testplatform.objectmodel.17.11.1.stdout",
+        "sha256": "1c095f8369a67a525512481acde51d42e71173d9e7140f6d98c065f34ccc955d"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.testplatform.testhost.17.11.1.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 23,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-microsoft.testplatform.testhost.17.11.1.stdout",
+        "sha256": "eb966aeb012f9e71a935d9d19822b13c927e1f3647671b2b355d35cd0acec17b"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-newtonsoft.json.13.0.3.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 23,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/logs/M-get-newtonsoft.json.13.0.3.stdout",
+        "sha256": "bbac7cac8a0e718400fcc2da101d8982cf89ea56e69abd45e9a216ebb5a07591"
+      },
+      {
+        "bytes": 2558,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/receipts/M-get-microsoft.codecoverage.17.11.1.json",
+        "sha256": "a54311485b7427ca14d5cfb215ef0054c3bec80f35175ea6dad21d6ec355a541"
+      },
+      {
+        "bytes": 2557,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/receipts/M-get-microsoft.net.test.sdk.17.11.1.json",
+        "sha256": "c841099d1f2c346c4739420c7ab051e0dcf34237cd6b84b923fce8dd43f490ba"
+      },
+      {
+        "bytes": 2664,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/receipts/M-get-microsoft.testplatform.objectmodel.17.11.1.json",
+        "sha256": "d338256866a21b999fff6503b477019de3298ec308b5945340070a2d1f3957d9"
+      },
+      {
+        "bytes": 2637,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/receipts/M-get-microsoft.testplatform.testhost.17.11.1.json",
+        "sha256": "f894bbd8ff19658c400613da1e9e457e531ab138e74fd0d5cb5031d0feb14f46"
+      },
+      {
+        "bytes": 2486,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/receipts/M-get-newtonsoft.json.13.0.3.json",
+        "sha256": "9e898c4bea44686cf7b0f8f67e490d1d555ff20ddd3fd7a1576d4d6b523d3e2a"
+      },
+      {
+        "bytes": 3453,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/receipts/material-validation.json",
+        "sha256": "1597ae60144f4dc2077d26f66397f2163bb31bdb484be09d2352c624c60429ab"
+      },
+      {
+        "bytes": 804405,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.collections.immutable.1.5.0.nupkg",
+        "sha256": "0658aa6252fd9ed6cc5e8e5decd52b297c1837e3ea772a83212e5ba78a95afb4"
+      },
+      {
+        "bytes": 852113,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.reflection.metadata.1.6.0.nupkg",
+        "sha256": "2497e068f6afed47c4878c9101074684b645d5baebd2d5163e5eaa99f356abf1"
+      },
+      {
+        "bytes": 4260927,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.text.encoding.codepages.8.0.0.nupkg",
+        "sha256": "7e308b41cd4f456d08c7921995d8345cabfe2750ea3d27eef698ccc8d069edd1"
+      },
+      {
+        "bytes": 31616,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.2.9.2.nupkg",
+        "sha256": "879fb24d37c29a89023f2e25a9d130f111b3425ae5b10016dc09b4261d2aee8a"
+      },
+      {
+        "bytes": 75155,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.abstractions.2.0.3.nupkg",
+        "sha256": "d03d72fc2df8880448f7a81bddb00e1bcb5c18f323c7e7cc69b4cfa727469403"
+      },
+      {
+        "bytes": 263548,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.analyzers.1.16.0.nupkg",
+        "sha256": "3f906f97d86f1ef17c298d5858b838b4a898c657d19e61f22f5e237d20020da5"
+      },
+      {
+        "bytes": 244587,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.assert.2.9.2.nupkg",
+        "sha256": "104eabe76e90e1c1e7d0ebab7f510da57677ecb8ff3f6b8dbe89c782975c9eae"
+      },
+      {
+        "bytes": 33509,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.core.2.9.2.nupkg",
+        "sha256": "ce18d5d48e7187444572481310aef6b4890bc5597808f9ad7abd9407efa8c9ef"
+      },
+      {
+        "bytes": 298693,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.extensibility.core.2.9.2.nupkg",
+        "sha256": "310002ff877aecdb2cbb747ea473e1eaf1e2b415d06311046645553065bbdb47"
+      },
+      {
+        "bytes": 379785,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.extensibility.execution.2.9.2.nupkg",
+        "sha256": "7fef547e83f22b72480e14125b462ef5ce0f1aa52a642f7a0cc20d0988b68bcd"
+      },
+      {
+        "bytes": 595969,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.runner.visualstudio.2.8.2.nupkg",
+        "sha256": "5257cadf8f2bf2426eadacb07dd0ada492711e4bf4e303cdce951acf850cffad"
+      },
+      {
+        "bytes": 397462,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/yamldotnet-v16.3.0.tar.gz",
+        "sha256": "4f73f08a0584af4e1cac36ccb0e3cb9d9cd982209b06f7eb10dd5e31badb1bce"
+      },
+      {
+        "bytes": 776880,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/yamldotnet.16.3.0.nupkg",
+        "sha256": "e068bcc1243c46c8bfdfe2f27a026bfff03cde7c67d9f37c2cdd70bd24a9dfd4"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.collections.immutable.1.5.0.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.collections.immutable.1.5.0.stdout",
+        "sha256": "ff1b5914fd9965e356d254a457a33ad2c526a2df6c6411f2724d52985eba7c61"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.reflection.metadata.1.6.0.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.reflection.metadata.1.6.0.stdout",
+        "sha256": "b063611ba64d4d93b01873902e7ba00ef9a2c160c8153bfa26c291774be5d40c"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.text.encoding.codepages.8.0.0.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 23,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.text.encoding.codepages.8.0.0.stdout",
+        "sha256": "02d474100e32dfa26e19eafb935b7c7786058205140095a4f5cb0d1291e771b1"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.2.9.2.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 21,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.2.9.2.stdout",
+        "sha256": "9b20e9585ffed28ba15116ac0b72cb7f5f0c29e3b25a36304aaa60a93748adc4"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.abstractions.2.0.3.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 21,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.abstractions.2.0.3.stdout",
+        "sha256": "e964f7d7ea56b0bc5da545cc3c6d6b911d99285f44ade6f8c8dd894865b0ef73"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.analyzers.1.16.0.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.analyzers.1.16.0.stdout",
+        "sha256": "59497322c4363adb5ecbb7d7b7c00718a91334cb210542c5eca037d6d4865df8"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.assert.2.9.2.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.assert.2.9.2.stdout",
+        "sha256": "a34117a944291fb54e78993803f8d4e0193a3974247854a3497f18dc59f1a642"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.core.2.9.2.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 21,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.core.2.9.2.stdout",
+        "sha256": "d4f421bcae416cc4a559f7d6389b5ebcec7068b4740f95ead41aa6fa89ee5585"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.core.2.9.2.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.core.2.9.2.stdout",
+        "sha256": "9e8fbdd0792841ca8e0cb8787e547584bed4ea4ac55906093910fe57e8e17b05"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.execution.2.9.2.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.execution.2.9.2.stdout",
+        "sha256": "c462827bd6ea87892dac30836cf4ba7c1d7fb6be2be936980299f3f2ae3b803d"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.runner.visualstudio.2.8.2.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.runner.visualstudio.2.8.2.stdout",
+        "sha256": "8328e1898de1bb99f8dc03b3235c128a686af279f97eb8543ee573df28a18ed0"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yaml-source.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yaml-source.stdout",
+        "sha256": "3e6d3adedb45a1dae8ddabbfcdba75bd5e754c38a3511b2969fd672c24522a10"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yamldotnet.16.3.0.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 22,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yamldotnet.16.3.0.stdout",
+        "sha256": "0f2e54e0f89d30355237d9b6b84683ba5bdd9d6bbca64a43ebeec8ea00194369"
+      },
+      {
+        "bytes": 2592,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-system.collections.immutable.1.5.0.json",
+        "sha256": "93b3c4e0b34c9eb570d0aaa144050003c14733cd9607c1b970888623f4521116"
+      },
+      {
+        "bytes": 2575,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-system.reflection.metadata.1.6.0.json",
+        "sha256": "0eb38a77e049e7c40725e76c29c27be76bd5448da2c3c4c6926ef679d6f9e3a2"
+      },
+      {
+        "bytes": 2612,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-system.text.encoding.codepages.8.0.0.json",
+        "sha256": "b32e549958b9f12a1c34aba05ad86e81cae0f1e0b78479e656f5fceebbf63a11"
+      },
+      {
+        "bytes": 2386,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.2.9.2.json",
+        "sha256": "f2c7012f2f1aa856b8757cbb8a7f572a564e3f51d5642832cf0256439b7850ed"
+      },
+      {
+        "bytes": 2501,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.abstractions.2.0.3.json",
+        "sha256": "42fa868621251e9f5fc9812e28589eb9e092cca0a2143a977c295967b31144e6"
+      },
+      {
+        "bytes": 2485,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.analyzers.1.16.0.json",
+        "sha256": "c5c246df1296e95d163ac5455a9fcc2d47fa0577b18bd9875b9f474d75c045eb"
+      },
+      {
+        "bytes": 2449,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.assert.2.9.2.json",
+        "sha256": "cc8b008d348e200f18d33a66acbce11d40a9d29da74cc69ec9a21ef8873ecbfd"
+      },
+      {
+        "bytes": 2430,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.core.2.9.2.json",
+        "sha256": "003aa77599c95bd6a369d5e7b82b3bc059f947425909570d9495db49787ef756"
+      },
+      {
+        "bytes": 2556,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.extensibility.core.2.9.2.json",
+        "sha256": "92ee510e02a44fa83d8b5233bbc8f01138e2a80cfbe3e5a85513d32267e62a5c"
+      },
+      {
+        "bytes": 2602,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.extensibility.execution.2.9.2.json",
+        "sha256": "dbf0050e00b2f229aab090cdda8e42aaf257bea6354ad0c4943344d171ba5981"
+      },
+      {
+        "bytes": 2566,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.runner.visualstudio.2.8.2.json",
+        "sha256": "d8536b515f0cc21f0a81bd92dfcc3c51735b59ae113f6dae54bbe6923fbde7ca"
+      },
+      {
+        "bytes": 2396,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-yaml-source.json",
+        "sha256": "14484277ba49819ff3ea2496074c702868d333737be101a08dd4817f0919a318"
+      },
+      {
+        "bytes": 2439,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-yamldotnet.16.3.0.json",
+        "sha256": "386c498d6dd604bfaf7d205cd51455ef9ad3dfffc99c8320681b0f1e46da79fb"
+      },
+      {
+        "bytes": 254,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17/receipts/material-validation.json",
+        "sha256": "a51e3c3a362a3ed1df30401995ab9fa0fa5219ae744c322c4f12bfdfceb16a21"
+      },
+      {
+        "bytes": 15921,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/correction-receipt.json",
+        "sha256": "874035a35a41497bf9ffe93ff9980eb918c78b23ea73f7682e4107b3328f30fb"
+      },
+      {
+        "bytes": 17143,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/offline-checks.json",
+        "sha256": "d1bb12dd9563f2a6001adfb5c36f6e6507e55e8d7c394e36636b95bbd9a36985"
+      },
+      {
+        "bytes": 4135,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/prepare.json",
+        "sha256": "a92ed7617eeb76d86d3838568ef710581becc90e842d4fbc67690e57bd19089e"
+      },
+      {
+        "bytes": 3881,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/authority/source-freeze.json",
+        "sha256": "d84ef5066b7a7e9450c372fa46e252a78864dfad75b2902b111bc238aa7ca0dc"
+      },
+      {
+        "bytes": 4913531,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16-inputs.tsv",
+        "sha256": "101cfe1239d9ada030fb246adcd7e5455b3ae162b7bc909cdfdd1048ece4ed42"
+      },
+      {
+        "bytes": 1048259,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16-write-set.tsv",
+        "sha256": "a6cf4621dd35bcec79b15aabbd16f1e2f6d5dc4c9f86c3cd009c1b79960ded55"
+      },
+      {
+        "bytes": 172015,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16_driver.py",
+        "sha256": "11f56aacf087c141277bacd0d929bafcaf903ffe534fea699349f12931ffb2a3"
+      },
+      {
+        "bytes": 57488,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/source.patch",
+        "sha256": "577ca3e7c4ec0de7b219ee67a09c8996c8a99f5c34b3ac9021e3d0f58ba3fc8c"
+      },
+      {
+        "bytes": 31211,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/correction-receipt.json",
+        "sha256": "30fcde0965285a614b809612160bc1b6b00f7ce7e4e81a4c08d58db88c417400"
+      },
+      {
+        "bytes": 16784,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/offline-checks.json",
+        "sha256": "57bd1e19f6a87990ba4c8ad796fb1e4d3a0989e0091f17e2dd93ee1be1b79d23"
+      },
+      {
+        "bytes": 4415,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/prepare.json",
+        "sha256": "879a089c62d7026dbee1a41d7ed67d6f74b371c2e0e560c984a1fc9498549ea5"
+      },
+      {
+        "bytes": 6033,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/source-freeze.json",
+        "sha256": "db19910e7cbfe207a604c394304c539f73f50c222a3f2edc33d881ce64921880"
+      },
+      {
+        "bytes": 4916277,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-inputs.tsv",
+        "sha256": "043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381"
+      },
+      {
+        "bytes": 1047931,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-write-set.tsv",
+        "sha256": "8b59f96616686a63a89df7884fa91be9e73f1b1a471f7247d9f729e142912347"
+      },
+      {
+        "bytes": 204239,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16_driver.py",
+        "sha256": "5df4a9acd58b3242c18945c66ab9e7dd0fb9f21b295801be78b18fa1b71d377f"
+      },
+      {
+        "bytes": 43029,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/source.patch",
+        "sha256": "3df19e9dd310b44862921ab8b18243055fb46f20586503c7092b4fab8378c683"
+      },
+      {
+        "bytes": 2977,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/offline-checks.json",
+        "sha256": "b8c09607f3a7f4c2eb6bfa497fccc07ee586973acff30f0fcd84e989f9675844"
+      },
+      {
+        "bytes": 2497865,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/prepare.json",
+        "sha256": "f36e61e053cc61e87a1f635962fe64d46fd9d4ab98f742cd0ff9cb54b4131fd6"
+      },
+      {
+        "bytes": 2666,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/authority/source-freeze.json",
+        "sha256": "0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50"
+      },
+      {
+        "bytes": 4911291,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16-inputs.tsv",
+        "sha256": "946cc41177d30cc5f53cd99a9c675933073af8b357493cdef96245ee8112f41d"
+      },
+      {
+        "bytes": 1047831,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16-write-set.tsv",
+        "sha256": "44b554a689f71c230ae42ad73abc507d8a1ba4ff40ebd0d40c9f8f3d766396b0"
+      },
+      {
+        "bytes": 125870,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16_driver.py",
+        "sha256": "0d4f0e7baccf14862eb5fce8dfdb558ccafacdd45f1683e8880c70c482d7dbf8"
+      },
+      {
+        "bytes": 38692,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/offline-checks.json",
+        "sha256": "e107d435097355fdcafe36e991ae1ed1349fa310020cac8d59ac1c2ba3f6b2e4"
+      },
+      {
+        "bytes": 5719389,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/prepare.json",
+        "sha256": "c426579fbe09d4754871558eb9342a14272b193887396f2474679864bff771a3"
+      },
+      {
+        "bytes": 2806,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/source-freeze.json",
+        "sha256": "8c8e50f8af094918bdac323ab4080c942616e646d4c4a56a12eaf6a8b74cc2d1"
+      },
+      {
+        "bytes": 24440,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/authority/source-receipt.json",
+        "sha256": "000a3935a03d4d88759d5bb40b4ab472f7582c3dab9fe8a70ae6ae10520ed9ea"
+      },
+      {
+        "bytes": 1957455,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17-inputs.tsv",
+        "sha256": "cc1f7f3c34fb2a8a23a6028530f008ab29e7a0cfe09273b9358fa66e8f5d7b30"
+      },
+      {
+        "bytes": 1428902,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17-write-set.tsv",
+        "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+      },
+      {
+        "bytes": 114268,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/m17_driver.py",
+        "sha256": "2198eeae7616b31821c77453507886ec5640f7432225d76fcf0c794096121a2f"
+      },
+      {
+        "bytes": 29823,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix01/source/source.patch",
+        "sha256": "24676822154de49eb95953109b32c7484607b2a16686ad0dddd727a29ac28cc6"
+      },
+      {
+        "bytes": 111939,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/offline-checks.json",
+        "sha256": "a776418803a039e957bc1de2558b2f75accc884ab048d302dcd9ed8b4d1560a4"
+      },
+      {
+        "bytes": 5722418,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/prepare.json",
+        "sha256": "963384088acd9dbd134a59c17a9f2bba527bad58eca5389158176b7be003f2dd"
+      },
+      {
+        "bytes": 2806,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-freeze.json",
+        "sha256": "3eebabf254cb2e3fd39e45757551e396d8db2613ee03b9eebc100a1652892d7b"
+      },
+      {
+        "bytes": 26047,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/authority/source-receipt.json",
+        "sha256": "7fc8dcc6197db03cf981883304fc6fafa33f3c1f25cac70e2c1f93ec353f7e92"
+      },
+      {
+        "bytes": 1957958,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-inputs.tsv",
+        "sha256": "106c8e94d5fd5140896ebb9ccdcfa7b9e81ca8f514cdd5c37858a8b61aaf5716"
+      },
+      {
+        "bytes": 1428902,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17-write-set.tsv",
+        "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+      },
+      {
+        "bytes": 114855,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/m17_driver.py",
+        "sha256": "e2da00b70058835c2e268c42451f27125f1ba2f7eb6deb9a5ab4d01547699b70"
+      },
+      {
+        "bytes": 9607,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix02/source/source.patch",
+        "sha256": "0549696da4948d17d699d6190982986406aa4eaffb28daac504955d25ed038dd"
+      },
+      {
+        "bytes": 22974,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/authority/offline-checks.json",
+        "sha256": "742cbb74c2baeb09495f654b6c7be376a5868365d81e771ea8ed7a6f4d306e3f"
+      },
+      {
+        "bytes": 5732267,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/authority/prepare.json",
+        "sha256": "7ac926130888c6cd0ac90a07bd1a6e418ea0107c544532989ecd9104a0e1a9f1"
+      },
+      {
+        "bytes": 2806,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/authority/source-freeze.json",
+        "sha256": "b4013360f34e139006d2c4abb463e64482a7520c68debe76f08406c2ed270978"
+      },
+      {
+        "bytes": 92264,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/authority/source-receipt.json",
+        "sha256": "80553facfcfee213b50145c17c054b3708e538b3d57589a356b60ea9d6ac2194"
+      },
+      {
+        "bytes": 21144,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/failed-prepare-01/authority/offline-checks.json",
+        "sha256": "2d9ce6bcc6b5835c68301ff508b6eab914c671d77bd6d3d9652bb25f154de760"
+      },
+      {
+        "bytes": 25648,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/failed-prepare-01/authority/source-receipt.json",
+        "sha256": "ef34cef601c2c9c1c1f3073dc55011cc504b2fd669472ffeb815b1448d0de3b9"
+      },
+      {
+        "bytes": 120382,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/failed-prepare-01/source/m17_driver.py",
+        "sha256": "4df707e09d4c75419f93b6177e7a0bbaf9bc436f82b6e913f3b1ccbad0ae3658"
+      },
+      {
+        "bytes": 1959608,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/m17-inputs.tsv",
+        "sha256": "0d4f0c47e3268ae26504de6fda8f108c34350d48233f42e69116e54ce1e1a981"
+      },
+      {
+        "bytes": 1428902,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/m17-write-set.tsv",
+        "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+      },
+      {
+        "bytes": 121284,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/m17_driver.py",
+        "sha256": "6f3511bcb06ba7f85a640a58f9d6a6aaaa6d9d87247eb82fd9ac7fa2774d6b20"
+      },
+      {
+        "bytes": 20051,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix03/source/source.patch",
+        "sha256": "2721c74a22335137c14fd8404b8c19dc62c18ff0645b30a38ffb39f38dfbdcc1"
+      },
+      {
+        "bytes": 283614,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/authority/offline-checks.json",
+        "sha256": "fe97b1b962b4be3f4128b3f46ac6e70c00fc9f727d747b791f7822a881989218"
+      },
+      {
+        "bytes": 5731946,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/authority/prepare.json",
+        "sha256": "5cd3fc921154b8538216c24c0f09c5f4056273282cf28129c9a017c422a26617"
+      },
+      {
+        "bytes": 2808,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/authority/source-freeze.json",
+        "sha256": "9b5ea95beb2f148f6c3f99a55aff33df5bf3d192aa66403f7f7ba7d15213b7c8"
+      },
+      {
+        "bytes": 323935,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/authority/source-receipt.json",
+        "sha256": "a75861b3b986866e8b8156de40c26ed82d459377cf648db0d5cc1e1a99cfda3c"
+      },
+      {
+        "bytes": 1987485,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/source/m17-inputs.tsv",
+        "sha256": "34a5799e10745b35c864d07754346fd6f7edaff273bed195a32e4c3ae0bb1e61"
+      },
+      {
+        "bytes": 1420199,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/source/m17-write-set.tsv",
+        "sha256": "5c133c3ab9b1df8573633cc074e252277db04ed2fae1d5cdebefb1dcb0b84879"
+      },
+      {
+        "bytes": 132552,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/source/m17_driver.py",
+        "sha256": "8dd4d5daa8b46f2e1a2fdb076636a095e9c0b398a5f8ae9aff83ced8c3f8db6c"
+      },
+      {
+        "bytes": 42976,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix04/source/source.patch",
+        "sha256": "eecf49659a7976c14b0cd19bd8b20f0e438faf7bd67d09dee66aafb287f5a5ba"
+      },
+      {
+        "bytes": 90751,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-identity-before/authority/offline-checks.json",
+        "sha256": "2c0977c3e94941383a4916c36c50bf62ec13dc1f4d614b2784f0704b5d36d51e"
+      },
+      {
+        "bytes": 2060,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-identity-before/receipt.json",
+        "sha256": "dd6ced9b9e62bd3cef6e383ad82d03ea7d095ddbbb64903a8e1b3f4a7641ca29"
+      },
+      {
+        "bytes": 148848,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-identity-before/source/m17_driver.py",
+        "sha256": "8c6a24bc52ec914a6dc382b182586d71f57ca278d3401da74be9a023558b032e"
+      },
+      {
+        "bytes": 70410,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/authority/offline-checks.json",
+        "sha256": "aabc9b87c213e4cca33c457e39c7479de1b8bdb7e66b8922655381edb3c595bb"
+      },
+      {
+        "bytes": 8580875,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/authority/prepare.json",
+        "sha256": "3ef8eda37266ef1ae6f77b29282c5b3c8438c1dfbfc74817e01111dbecfe31ad"
+      },
+      {
+        "bytes": 2869,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/authority/source-freeze.json",
+        "sha256": "d9a387c7918b9d0dfb27c302e31d073ce3a0aa11915d7d6f93b32135258782b3"
+      },
+      {
+        "bytes": 94539,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/authority/source-receipt.json",
+        "sha256": "121500b6c3347ad8f78ad3c1adc78ab6f8120c583b1fabce7b9852056a8b04fc"
+      },
+      {
+        "bytes": 2830977,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/source/m17-inputs.tsv",
+        "sha256": "c0ff5f81ab98a55c3140e5bfdcd4be691f09094f46a3be26aee9a0ae6713cb9b"
+      },
+      {
+        "bytes": 1399702,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/source/m17-write-set.tsv",
+        "sha256": "fa7d0fa3e5c812f7bbf20fc52f297d4d2801b072864dffc28cc0a281ab307371"
+      },
+      {
+        "bytes": 162125,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/source/m17_driver.py",
+        "sha256": "ec629ed6be21319add7d0a5b75bcd0747ca07930aef91f88a114ade1347b6b81"
+      },
+      {
+        "bytes": 26842,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/source/source.patch",
+        "sha256": "3591ef37ca7b785e16ea837a060b839e99e8177e8ce81fdd36a62cf80348beec"
+      },
+      {
+        "bytes": 94491,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-seal-before/authority/offline-checks.json",
+        "sha256": "20e0b9f6b59e1bf293ae00cf93657ce12b22f61d5d5b81b1bb1449e305e747b6"
+      },
+      {
+        "bytes": 8570376,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-seal-before/authority/prepare.json",
+        "sha256": "10ee667d11e9581d2ed97e790d574c17ee10f252875d196d46b74f51d6af704d"
+      },
+      {
+        "bytes": 16621,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-seal-before/receipt.json",
+        "sha256": "880d5245cb71820b9e916ff9aed51f7b0fd8a44f310f133d10b2ec22e0842533"
+      },
+      {
+        "bytes": 2824293,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-seal-before/source/m17-inputs.tsv",
+        "sha256": "7523361279477f0c600962816405561670fe29491ce3acc544c72cf66d36170c"
+      },
+      {
+        "bytes": 1399702,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-seal-before/source/m17-write-set.tsv",
+        "sha256": "fa7d0fa3e5c812f7bbf20fc52f297d4d2801b072864dffc28cc0a281ab307371"
+      },
+      {
+        "bytes": 148848,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-seal-before/source/m17_driver.py",
+        "sha256": "1d294a975d47dc851eb43a3c7667818b70cf29b51936a51a6287b18d5e8bd473"
+      },
+      {
+        "bytes": 49003,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-seal-before/source/source.patch",
+        "sha256": "37861e0dee67cb80f824e047b5ca432e1327a1088757b0a2725f87c555860b9b"
+      },
+      {
+        "bytes": 94491,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/authority/offline-checks.json",
+        "sha256": "8d761d2a158ea1afd74ed07ccca778437b6d922fb848caee939e3c96bb5f41d3"
+      },
+      {
+        "bytes": 8570376,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/authority/prepare.json",
+        "sha256": "10ee667d11e9581d2ed97e790d574c17ee10f252875d196d46b74f51d6af704d"
+      },
+      {
+        "bytes": 2807,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/authority/source-freeze.json",
+        "sha256": "504da445d54b7d08effc34146dfc0af1d78fba6e5952db9c47f6f58de9658956"
+      },
+      {
+        "bytes": 127613,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/authority/source-receipt.json",
+        "sha256": "06a4f30b716bfda17e9e7d037f6dd03f7c83dd1700b8a8557f2c5cb9faaec1e5"
+      },
+      {
+        "bytes": 2824293,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/source/m17-inputs.tsv",
+        "sha256": "7523361279477f0c600962816405561670fe29491ce3acc544c72cf66d36170c"
+      },
+      {
+        "bytes": 1399702,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/source/m17-write-set.tsv",
+        "sha256": "fa7d0fa3e5c812f7bbf20fc52f297d4d2801b072864dffc28cc0a281ab307371"
+      },
+      {
+        "bytes": 148848,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/source/m17_driver.py",
+        "sha256": "1d294a975d47dc851eb43a3c7667818b70cf29b51936a51a6287b18d5e8bd473"
+      },
+      {
+        "bytes": 49003,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05/source/source.patch",
+        "sha256": "37861e0dee67cb80f824e047b5ca432e1327a1088757b0a2725f87c555860b9b"
+      },
+      {
+        "bytes": 25719,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/before.json",
+        "sha256": "8827488c2a744a15717b5fa1182da92cd305854cc962cc77a3bd383fae489fb9"
+      },
+      {
+        "bytes": 15266,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/receipt.json",
+        "sha256": "3b42fd9e70d26f6d31ec66f8110a3e3fd106b1cbe080e1631a2cc4f178db1777"
+      },
+      {
+        "bytes": 1301,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stderr.log",
+        "sha256": "5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8"
+      },
+      {
+        "bytes": 236,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04/stdout.log",
+        "sha256": "2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9"
+      },
+      {
+        "bytes": 37124,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/before.json",
+        "sha256": "9981dd315faf94b1ec51dde8bcb569012308bcf623eaa6a3f592ec2c593da73c"
+      },
+      {
+        "bytes": 75244,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/receipt.json",
+        "sha256": "c9804dd75e44a9efbeefc9cbc57ff2e7833cb84a10fbd2cf49e2e076a062fb3b"
+      },
+      {
+        "bytes": 1317,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/stderr.log",
+        "sha256": "89cccd444a7fe7b70e819ed6172fa7a90fef0e0be57b38b6ae09c8cd986f3f6c"
+      },
+      {
+        "bytes": 3061,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/stdout.log",
+        "sha256": "647c47d6382904715b183a82faf5abd948364440325af529c5eb285e800cee67"
+      },
+      {
+        "bytes": 56492,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05/before.json",
+        "sha256": "c832f180013ccc27764a99cbb81f5b0edafb09ba3177a6ffb9cf1135fb386a2b"
+      },
+      {
+        "bytes": 77440,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/before.json",
+        "sha256": "b3f10fa10bfc5d1a0dffb0f8834404412ba6a7898e6719b4bc7d601c5f591a67"
+      },
+      {
+        "bytes": 74084,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/receipt.json",
+        "sha256": "0d3facf1273c829bd830e8c27e71406bbdfb774dd1223f2997f0cf38c3c1d039"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 71834,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06/before.json",
+        "sha256": "dd89d9d6d2227eb48c4636ec464c141069fb9fe205e95945033be8e4a4f7e325"
+      },
+      {
+        "bytes": 14461,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06/receipt.json",
+        "sha256": "c5587e720ccb9df134b46164403008d214ebaee0606cf1091c2e8b7c0c2bde58"
+      },
+      {
+        "bytes": 366,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06/stderr.log",
+        "sha256": "498308747736c177c4000f31a8375c659cc2d5a47fa075a2ef4814d5b2f0f153"
+      },
+      {
+        "bytes": 0,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06/stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 27194,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/offline-checks.json",
+        "sha256": "9f9f5b552175607d459aa8b6c2e132fb9238ee1869d1558b680f1b497fc93486"
+      },
+      {
+        "bytes": 5708172,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/prepare.json",
+        "sha256": "80419b453c4534e66a6cc7d54b891a14b3aecaafda976fee32b7a4c63e955bba"
+      },
+      {
+        "bytes": 2765,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/source-freeze.json",
+        "sha256": "d572872d038a19418c75c776cef3ae7299616a69118b6a63619c774f0b2fb244"
+      },
+      {
+        "bytes": 14135,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/source-receipt.json",
+        "sha256": "33d530b4fde0eecee7971d1832d48c8763409dd99338ed4bd95324218cdd0731"
+      },
+      {
+        "bytes": 1957208,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17-inputs.tsv",
+        "sha256": "48624e698c799845b12e400c96737d97ff42904e3fd0fe941343f3496665fe96"
+      },
+      {
+        "bytes": 1428902,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17-write-set.tsv",
+        "sha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf"
+      },
+      {
+        "bytes": 104059,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17_driver.py",
+        "sha256": "203be2d994db81da1722f5334cd1ac49b383b5aafaa64695f7325a6b3addc6f0"
+      },
+      {
+        "bytes": 310985,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/source.patch",
+        "sha256": "f986979d47c95514f200e27309baf7f07fcf7f28cdac67d4052dd5a96ac8cb90"
+      },
+      {
+        "bytes": 3109,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py",
+        "sha256": "b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea"
+      },
+      {
+        "bytes": 727,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m05-approval-2026-10-11.json",
+        "sha256": "ea2c62bc02dbd93901c921a7770822ead6e9dd6380d4f40de8ce3b036ceee08e"
+      },
+      {
+        "bytes": 766,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m06-approval-2026-10-11.json",
+        "sha256": "77729b16823c48cfdb81777971ee31c8330abe1a5792035d3c479129e2f42d01"
+      },
+      {
+        "bytes": 1424,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m06-process-observation.json",
+        "sha256": "ce5c29ad70909ac5339edd28a19bf9c320b6be46c7d98efee9cca8096c50af85"
+      },
+      {
+        "bytes": 2337,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix03-final-review.json",
+        "sha256": "d3e1277c545556cbca73da24691bd3661301209dd6f672b2b6c5bd56e06e080e"
+      },
+      {
+        "bytes": 1498,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix05-identity01.md",
+        "sha256": "e7dff4bb80e409295d90c8c65027ff79a18d35a933f2d58253987a41631261d3"
+      },
+      {
+        "bytes": 3826,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix05-review01.md",
+        "sha256": "3cf1312d5d3309ce9ea51d702c2b3f13a34d183ef25e370debfeaad257594354"
+      },
+      {
+        "bytes": 3149,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix05-review02.md",
+        "sha256": "a9840a59e3d1cef2793aa80e6e07d00e6806ad621a8d17a9d434f9b33520f138"
+      },
+      {
+        "bytes": 18336,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix05-seal-success.json",
+        "sha256": "ea5b2c865b7f7b239f52767f5de7d79ab8e71225252ddc53229e85866a8db69b"
+      },
+      {
+        "bytes": 1445,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix05-seal01.md",
+        "sha256": "5544b3063290194e20e99c93a06e26e51dd3f0265f2a3dbeb2d80c178853223d"
+      },
+      {
+        "bytes": 3654,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix05-source.md",
+        "sha256": "3e85dd8e5332718ba4cc912113806cea6fc87b6ffa807cfb3be7668ccb5ad10d"
+      },
+      {
+        "bytes": 33559,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m05-activation.json",
+        "sha256": "40d71823f7225c48e65c4ba10438ff0f9685a3b1ec125ca923218be97a9c53db"
+      },
+      {
+        "bytes": 2964,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m05-host-binding-receipt.json",
+        "sha256": "a9ac0231f75c14a315bb7e2b023c77c840f6cfd5c95f13163fa9d67b054a7d80"
+      },
+      {
+        "bytes": 4413,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m05-host.py",
+        "sha256": "a3c3518e78001b8c54c101585d167ed4ae6d724f667a7bfeff498cc5be4cf095"
+      },
+      {
+        "bytes": 33856,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m05-resume1-activation.json",
+        "sha256": "1658ab121857d28f3552a899034e3f5eb280ec888196692b176cc80332b94f0a"
+      },
+      {
+        "bytes": 3730,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m05-resume1-host-binding-receipt.json",
+        "sha256": "ccdc3a7ccf057e83e48449d550f52aa82ca43d5a34ccbc45c2ee4894ed4bd0ee"
+      },
+      {
+        "bytes": 4429,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m05-resume1-host.py",
+        "sha256": "34aeadee14b9456d37838f3b1b0e85cc63385018f20e4b1f578944ee32c82554"
+      },
+      {
+        "bytes": 30413,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-activation.json",
+        "sha256": "2d5ea2bf31779e432379c686f3e62e14578a5262a63afb31aac22d97d00bac79"
+      },
+      {
+        "bytes": 1434,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-approval-timeout-disposition.json",
+        "sha256": "b1156f2e47726b77ecf23c800ddae470081e1f4326621d8c916a90366508222b"
+      },
+      {
+        "bytes": 2944,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-host-binding-receipt.json",
+        "sha256": "aef8102006f186ba192e5e91176ac5fd9b8941d55e962e808d74806702e022ba"
+      },
+      {
+        "bytes": 4413,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-host.py",
+        "sha256": "75c8dcb8c1ed32baf4bd831756d6ef3ee88b7419765653dec1a6c79436fc709f"
+      },
+      {
+        "bytes": 30879,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-resume1-activation.json",
+        "sha256": "b99a746a6b630ad051f5374dcf8d3ed4130ab4fb3b4ba85483a488c836a00766"
+      },
+      {
+        "bytes": 4418,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-resume1-host-binding-receipt.json",
+        "sha256": "94f45444d34480f44dae2119cfb77651a38aa034a28d3b215abb2760fa910cc9"
+      },
+      {
+        "bytes": 4429,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-resume1-host.py",
+        "sha256": "85f9c422ea1c8589b7eff325c561fa71e8c41563ce03e93f93f11b4000a3503c"
+      },
+      {
+        "bytes": 8979,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/engineering-loc-after-m06-interruption.md",
+        "sha256": "0ce328ffbc982df5f5f3a50277eb92651c338ae8039eb1371cfe1b9d4fc0ebe6"
+      },
+      {
+        "bytes": 12849,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/engineering-loc-fix05-review02-activation.md",
+        "sha256": "9f95d738b9b2930aab7ca128b217defbeafc9386fddb62ee3d78e2d2e2bfa5d7"
+      },
+      {
+        "bytes": 1326,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix03-source-verdict.json",
+        "sha256": "719764afef55769e28a894711b08e33fb07646b8f1e905214e71bf38b79d7e24"
+      },
+      {
+        "bytes": 2821,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix04-source-verdict.json",
+        "sha256": "c630bef98134994a30f2e6fd6b56ac15367fb4417f015702c3b57cc8af9a3d48"
+      },
+      {
+        "bytes": 20148,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix05-review01-command-receipt.json",
+        "sha256": "a419a868035f9bdc8817aa91a6b5ccdda593c1cd404e13409214af9218161160"
+      },
+      {
+        "bytes": 2210,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-m05-native-verdict.json",
+        "sha256": "1b3bb6eabba066de4a76bff5aed29e735eacdeba2d7a0d307517c84056cebae4"
+      },
+      {
+        "bytes": 3060,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-m06-interruption-receipt.json",
+        "sha256": "28a5d17a5a47cc8493b54fad9f7f492427b7b36c1265bae2a5c07e518e43f9dc"
+      },
+      {
+        "bytes": 5138,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/testing-loc-m17-fix04-review.json",
+        "sha256": "6da90462f8e83666b4a6f5905ce2c1cf3a80af70bba7c1c7e5cee3e4cf0ef5f3"
+      },
+      {
+        "bytes": 5637,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/testing-loc-m17-m05-native-receipt.json",
+        "sha256": "850386cc76df7e3ccb51aba3e4440bbc3d08f4c832c54cd4b8488ededc12da99"
+      },
+      {
+        "bytes": 51584,
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+        "sha256": "118e0584d0d61952b3039768169ff6731db8b5ade373c53de65c07bbd3877360"
+      }
+    ],
+    "restores": 0,
+    "scope": "REVIEW02 new small-memory activation regressions; no historical suites or native work",
+    "sourceDelta": {
+      "changedExistingFunctions": [
+        "_fix05_protection",
+        "_fix05_source_model",
+        "prepare",
+        "source_artifacts",
+        "verify_activation"
+      ],
+      "changedFields": [
+        "SOURCE E/sidecar path and actual author/dispatch",
+        "REVIEW02 packet/design and R1 evidence bindings",
+        "mandatory central A.sourceCommandReceipt descriptor",
+        "fresh bounded sidecar validation at existing verify_activation gate",
+        "SOURCE metadata, gate-only regressions and after-return sidecar contract"
+      ],
+      "newPrivateHelpers": [
+        "_review02_authority",
+        "_review02_bounded_read",
+        "_review02_delta",
+        "_review02_documents",
+        "_review02_fixture",
+        "_review02_ident",
+        "_review02_int",
+        "_review02_leaf_map",
+        "_review02_number",
+        "_review02_prior",
+        "_review02_receipt_content",
+        "_review02_same",
+        "_review02_source_receipt",
+        "_review02_uuid",
+        "review02_checks"
+      ],
+      "patchBaseline": {
+        "bytes": 162125,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01/source/m17_driver.py",
+        "sha256": "ec629ed6be21319add7d0a5b75bcd0747ca07930aef91f88a114ade1347b6b81"
+      },
+      "unchangedExistingFunctions": [
+        "Basis",
+        "GateError",
+        "MStage",
+        "MaterialWriter",
+        "_fix04_source_model",
+        "_fix05_base",
+        "_fix05_core_digest",
+        "_fix05_delta",
+        "_fix05_download_receipts",
+        "_fix05_existing",
+        "_fix05_output",
+        "_fix05_partial_inventory",
+        "_fix05_partial_unchanged",
+        "_fix05_roots_absent",
+        "_fix05_stamp",
+        "_nupkg_relative_name",
+        "_review01_delta",
+        "_review01_documents",
+        "_review01_partial",
+        "_review01_prior",
+        "archive_entries",
+        "assert_controls",
+        "authorize_write",
+        "budget_checks",
+        "canonical_assets",
+        "check_b_receipt",
+        "check_bytes",
+        "child_sandbox",
+        "command_plan",
+        "command_write_rules",
+        "compare_restore",
+        "complete_package_union",
+        "consume_m_stage",
+        "consume_source",
+        "control_groups",
+        "deployment_from_assets",
+        "download_contract",
+        "execute",
+        "execute_material",
+        "execution_budget",
+        "fix04_checks",
+        "fix04_protection",
+        "fix05_checks",
+        "frozen_material_json",
+        "generated_contract",
+        "graph_model",
+        "helper_functions",
+        "identity",
+        "inspect_command_outputs",
+        "install_sandbox",
+        "jb",
+        "main",
+        "memory_tree",
+        "model",
+        "offline_checks",
+        "old_seals",
+        "package_model",
+        "parse_tsv",
+        "phase_env",
+        "phase_root",
+        "read",
+        "require",
+        "restore_fixture",
+        "review01_checks",
+        "run_material_command",
+        "safe",
+        "seal_source",
+        "sha",
+        "source_tables",
+        "strict",
+        "tsv",
+        "validate_l_outputs",
+        "validate_model",
+        "validate_official_trx",
+        "validate_process",
+        "validate_restore",
+        "verify_archive",
+        "write_plan",
+        "yaml_entries"
+      ],
+      "unchangedFields": [
+        "execute ordering and cleanup state gate",
+        "native recheck call site",
+        "host template",
+        "M5/W5 paths",
+        "31+1 archive identities",
+        "0GET/3restore/870+30 seconds",
+        "partial capture/SDK declaration",
+        "archive/restore/process algorithms",
+        "sidecar excluded from its own SOURCE inputs"
+      ]
+    },
+    "sourceIdentity": {
+      "bytes": 205640,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review02/source/m17_driver.py",
+      "sha256": "ae1d2c3cb2a8cc1ea95d92fd5c7f3c5fce0eb90fcfa2235e9650023b9bd4ec5f"
+    },
+    "startedAtUtc": "2026-10-11T18:47:41.104243+00:00",
+    "status": "DIRECTED_CHECKS_PASSED"
+  }
+}
