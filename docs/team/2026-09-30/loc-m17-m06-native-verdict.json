@@ -1,0 +1,67 @@
+{
+  "task": "LOC-M17-M06 material integration",
+  "verdict": "NEEDS_FIX",
+  "scope": "Interrupted M06 material attempt; FIX04 source acceptance remains valid.",
+  "centralTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+  "originalOwnerTurn": "01a12998-5f4d-7a03-83c3-c5670144e1cc",
+  "originalToolId": "exec-177da352-5c1b-4a9e-a39e-82082f70591f",
+  "sourceReview": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+    "head": "816263eaacf4f3e276c0cef7703c5824af086cc6",
+    "resultComment": 6105581700,
+    "meaning": "No major issues reported for FIX04 SOURCE; does not establish material acceptance."
+  },
+  "evidence": [
+    {
+      "path": "docs/team/2026-09-30/loc-m17-m06-interruption-receipt.json",
+      "bytes": 3060,
+      "sha256": "28a5d17a5a47cc8493b54fad9f7f492427b7b36c1265bae2a5c07e518e43f9dc"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/receipt.json",
+      "bytes": 74084,
+      "sha256": "0d3facf1273c829bd830e8c27e71406bbdfb774dd1223f2997f0cf38c3c1d039"
+    },
+    {
+      "path": "docs/team/2026-09-30/testing-loc-m17-m06-interruption.json",
+      "bytes": 8975,
+      "sha256": "c4ad87956694c2e4647f055087f19205ca129abc507d5cc9d4b913943370ec77"
+    },
+    {
+      "path": "docs/team/2026-09-30/central-loc-m06-process-observation.json",
+      "bytes": 1424,
+      "sha256": "ce5c29ad70909ac5339edd28a19bf9c320b6be46c7d98efee9cca8096c50af85"
+    }
+  ],
+  "independentIntake": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "actualTurn": "01a12c02-06c4-7c52-bc23-0ea3c637a286"
+  },
+  "observed": {
+    "verifiedDownloads": 13,
+    "archiveBodyBytes": 9014649,
+    "unchangedProtectedIdentities": 123,
+    "restoresStarted": "UNKNOWN",
+    "restoresCompleted": "UNKNOWN",
+    "dutExit": null,
+    "dutRuntimeSeconds": null,
+    "materialManifest": "ABSENT",
+    "materialValidation": "ABSENT",
+    "toolExitMinusOneIsDutExit": false,
+    "currentExactHostAndRootCommandMatches": 0,
+    "historicalDescendantClosure": "UNKNOWN"
+  },
+  "reason": "No completed restore/lock/assets validation or final material receipt. Interrupted host final OS exit/runtime cannot be recovered from tool -1. Reusable verified archives do not satisfy M acceptance.",
+  "recordedLimitations": [
+    "LOC fact collection82s; receipt authoring included136s exceeds120s; original turn214283ms.",
+    "Engineering150s plan inspection budget exceeded; reported150.714s inspection stop; actualturn296194ms.",
+    "QA actualturn265923ms; its internal completedAt is an author field, not the final turn completion time."
+  ],
+  "next": {
+    "packet": "docs/team/2026-09-30/central-loc-m17-fix05-source.md",
+    "owner": "LOC",
+    "scope": "SOURCE-only, reuse all32 archive inputs, zero GET, fresh output roots declared only. New material execution awaits separately fixed reviewed source and authorization.",
+    "BAndL": "LOCKED"
+  },
+  "preservation": "Original partial roots/logs/approvals untouched; no native execution or repeated tests in this central turn."
+}
