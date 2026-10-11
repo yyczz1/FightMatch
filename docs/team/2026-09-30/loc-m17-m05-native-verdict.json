@@ -1,0 +1,47 @@
+{
+  "task": "LOC-M17-M05 materials",
+  "verdict": "NEEDS_FIX",
+  "scope": "The actual materials execution only; earlier source-only ACCEPT remains historical, not M acceptance.",
+  "centralTurn": "01a12926-663f-78a0-bee9-38392d8c0f5e",
+  "recordedAtUtc": "2026-10-11T04:27:13.449809+00:00",
+  "qa": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/testing-loc-m17-m05-native-receipt.json",
+    "bytes": 5637,
+    "sha256": "850386cc76df7e3ccb51aba3e4440bbc3d08f4c832c54cd4b8488ededc12da99"
+  },
+  "executionReceipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/receipt.json",
+    "bytes": 75244,
+    "sha256": "c9804dd75e44a9efbeefc9cbc57ff2e7833cb84a10fbd2cf49e2e076a062fb3b"
+  },
+  "logs": [
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/stdout.log",
+      "bytes": 3061,
+      "sha256": "647c47d6382904715b183a82faf5abd948364440325af529c5eb285e800cee67"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/stderr.log",
+      "bytes": 1317,
+      "sha256": "89cccd444a7fe7b70e819ed6172fa7a90fef0e0be57b38b6ae09c8cd986f3f6c"
+    }
+  ],
+  "sourceReview": {
+    "head": "c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d",
+    "resultComment": 6055811693,
+    "formalApproval": false
+  },
+  "actual": {
+    "ownerTurn": "01a12931-9e6f-79b1-ac3d-ab9ce3ab4ac0",
+    "toolId": "exec-4f9e3510-3f50-4e1d-b33f-f2c983b48133",
+    "exitCode": 1,
+    "hostWallSeconds": 42.36910795798758,
+    "gets": 5,
+    "archiveBodyBytes": 16158115,
+    "restores": 0,
+    "failure": "GateError: unsafe relative path",
+    "normalToolApprovalAllowed": true
+  },
+  "preservation": "74 protected identities unchanged per author and QA; partial W retained; original preflight/failed run not overwritten.",
+  "next": "Engineering diagnoses the new failure and scopes a minimal source correction. No automatic second materials run, cleanup, B/L or Unity."
+}

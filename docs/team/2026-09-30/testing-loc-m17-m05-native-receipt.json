@@ -1,0 +1,138 @@
+{
+  "task": "LOC-M17-M05 resume1 native receipt intake",
+  "receivedAtUtc": "2026-10-11T04:26:00Z",
+  "qaTurn": "01a12934-c86d-78d2-990f-85bb058ded0f",
+  "sourceReceipt": {
+    "path": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05-resume1/receipt.json",
+    "ownerTurn": "01a12931-9e6f-79b1-ac3d-ab9ce3ab4ac0",
+    "toolExecutionId": "exec-4f9e3510-3f50-4e1d-b33f-f2c983b48133",
+    "status": "M_FAILED",
+    "reviewedHead": "c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d",
+    "reviewedModelSha256": "9bc598c1c6964285f47a642f9d53f98e5e596ce33d62f7ce1269ca53d22a4753"
+  },
+  "authorityBinding": {
+    "approvalRecord": {
+      "path": "docs/team/2026-09-30/central-loc-m05-approval-2026-10-11.json",
+      "bytes": 727,
+      "sha256": "ea2c62bc02dbd93901c921a7770822ead6e9dd6380d4f40de8ce3b036ceee08e"
+    },
+    "hostBindingReceipt": {
+      "path": "docs/team/2026-09-30/central-loc-m17-m05-resume1-host-binding-receipt.json",
+      "bytes": 3730,
+      "sha256": "ccdc3a7ccf057e83e48449d550f52aa82ca43d5a34ccbc45c2ee4894ed4bd0ee"
+    },
+    "activation": {
+      "path": "docs/team/2026-09-30/central-loc-m17-m05-resume1-activation.json",
+      "bytes": 33856,
+      "sha256": "1658ab121857d28f3552a899034e3f5eb280ec888196692b176cc80332b94f0a"
+    },
+    "hostWrapper": {
+      "path": "docs/team/2026-09-30/central-loc-m17-m05-resume1-host.py",
+      "bytes": 4429,
+      "sha256": "34aeadee14b9456d37838f3b1b0e85cc63385018f20e4b1f578944ee32c82554"
+    },
+    "hashesRechecked": true
+  },
+  "execution": {
+    "startedAtUtc": "2026-10-11T04:22:58.941407+00:00",
+    "endedAtUtc": "2026-10-11T04:23:41.311003+00:00",
+    "hostExitCode": 1,
+    "elapsedHostWallSeconds": 42.36910795798758,
+    "attemptsConsumed": 1,
+    "automaticRetries": 0,
+    "ownHostReaped": true
+  },
+  "materialOutcome": {
+    "result": "FAILED",
+    "failure": "GateError: unsafe relative path",
+    "failedPath": null,
+    "failedPathNote": "The original exception/traceback did not include a path; no further diagnosis or source execution was performed.",
+    "materialValidationReceipt": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/receipts/material-validation.json",
+      "bytes": 3453,
+      "sha256": "1597ae60144f4dc2077d26f66397f2163bb31bdb484be09d2352c624c60429ab",
+      "status": "M_FAILED"
+    },
+    "materialCandidateProduced": false,
+    "restoresStarted": 0,
+    "restoresPermitted": 3,
+    "materialRootExists": false,
+    "build": "NOT_RUN",
+    "unity": "NOT_RUN",
+    "sourceTestsRerun": false,
+    "sourcePrepareRerun": false
+  },
+  "downloads": {
+    "successfulGetCount": 5,
+    "permittedGetCount": 18,
+    "archiveResponseBodyBytes": 16158115,
+    "archiveResponseBodyByteLimit": 25172764,
+    "bodyMeasurementComplete": true,
+    "tlsProtocolTrafficMeasured": false,
+    "interpretation": "This is the measured sum of the five archive response bodies, not a measurement of total TLS/protocol traffic.",
+    "archives": [
+      {
+        "file": "microsoft.codecoverage.17.11.1.nupkg",
+        "bytes": 9139653,
+        "sha256": "d5d2e52b734687cf0fb85619898a53fa2cc0f7a7adc61537052822c4381db460",
+        "getReceiptBytes": 2558,
+        "getReceiptSha256": "a54311485b7427ca14d5cfb215ef0054c3bec80f35175ea6dad21d6ec355a541"
+      },
+      {
+        "file": "microsoft.net.test.sdk.17.11.1.nupkg",
+        "bytes": 34301,
+        "sha256": "d09504b9c43697368f824ae39bf3452c14dba94d5d7e1be13774e5de6a04ea62",
+        "getReceiptBytes": 2557,
+        "getReceiptSha256": "c841099d1f2c346c4739420c7ab051e0dcf34237cd6b84b923fce8dd43f490ba"
+      },
+      {
+        "file": "microsoft.testplatform.objectmodel.17.11.1.nupkg",
+        "bytes": 1660096,
+        "sha256": "e6f5febc2cc56374bbc5f31522ff0e94c305b5d79d5bd50827373458473ebe6e",
+        "getReceiptBytes": 2664,
+        "getReceiptSha256": "d338256866a21b999fff6503b477019de3298ec308b5945340070a2d1f3957d9"
+      },
+      {
+        "file": "microsoft.testplatform.testhost.17.11.1.nupkg",
+        "bytes": 2882099,
+        "sha256": "c12918d07d5f400ab41f72dc293e2eed8e51ce10003daeb2b9e54df3883c1f15",
+        "getReceiptBytes": 2637,
+        "getReceiptSha256": "f894bbd8ff19658c400613da1e9a457e531ab138e74fd0d5cb5031d0feb14f46"
+      },
+      {
+        "file": "newtonsoft.json.13.0.3.nupkg",
+        "bytes": 2441966,
+        "sha256": "872fc189e638ab1056555b03aaa38f68bcb54286e221aa646eb1129babf63c77",
+        "getReceiptBytes": 2486,
+        "getReceiptSha256": "9e898c4bea44686cf7b0f8f67e490d1d555ff20ddd3fd7a1576d4d6b523d3e2a"
+      }
+    ],
+    "getReceiptsMatchedPostExecutionEvidence": true
+  },
+  "preservation": {
+    "all74UniqueProtectedIdentitiesUnchanged": true,
+    "sourceInputsModified": false,
+    "partialWorkRetained": true,
+    "deletedOrCleaned": false,
+    "fiveCommandReceiptsQuiescent": true,
+    "childrenDeniedBySandbox": true,
+    "globalProcessSweep": "NOT_RUN; no claim about unrelated processes"
+  },
+  "gates": {
+    "M": "FAILED",
+    "B": "NOT_RUN",
+    "L": "NOT_RUN",
+    "build": "NOT_RUN",
+    "Unity": "NOT_RUN",
+    "integrationVerdict": "NOT_ISSUED",
+    "overall": "FAILED; STOPPED after this one authorized attempt; no retry, cleanup, code fix, or next stage authorized"
+  },
+  "intakeActions": {
+    "scope": "Read the four outer evidence files, central fresh A/H bindings, original M05 tool output, and the exact W material-validation plus five GET receipt evidence only.",
+    "largeScanRepeated": false,
+    "testOrBuildRerun": false,
+    "restoreOrUnityInvoked": false,
+    "externalMessagesSent": false,
+    "extraDiagnosisPerformed": false
+  }
+}
