@@ -1,0 +1,83 @@
+{
+  "actual": "01a12e4f-69be-72e2-b3ef-ca33e7c4303b",
+  "cases": [
+    {
+      "id": "P1-literal-directory",
+      "profileSha256": "6dc5a97bcfb80b9004c8c58c204d44c360ed31777235a3b76b7a3821acabe947"
+    },
+    {
+      "id": "P2-production-counted-string",
+      "profileSha256": "e31b0f69ee79a22f3e9f29a17f24a617542cd59f2b2aaec79ebaaf8975f16e7c"
+    },
+    {
+      "id": "P3-expanded-string",
+      "profileSha256": "8a3b1e85b0020e180169c533383587f4d5b0014685f2f5efb589a8ac3a97e160"
+    },
+    {
+      "id": "P4-counted-regex-literal",
+      "profileSha256": "c53ced57cfa4750344b7dbb7aa1ca86f4137a29307f2b5fa27ed0d031441773e"
+    },
+    {
+      "id": "P5-expanded-regex-literal",
+      "profileSha256": "f30c34cf6eadadf6bcbb85fa7a0bd890bafcb4abbb739ccfa7582cbb3114888f"
+    },
+    {
+      "id": "P6-literal-no-directory",
+      "profileSha256": "0e45b1ec5e9cff4c89a4f91506b9efc331cf51d4a058266b84248027a2fb8a2b"
+    }
+  ],
+  "childArgv": [
+    "<current Python executable>",
+    "-I",
+    "-B",
+    "-c",
+    "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+  ],
+  "command": [
+    "/opt/homebrew/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/probe.py",
+    "run"
+  ],
+  "driverSha256": "715e54c8657265c2311b203e07719b0cb177f88d3140c52fbcc43a6e67e81fb1",
+  "fixtureDifferences": [
+    "minimal rule slice, not full production profile",
+    "precreated obj directory",
+    "Python os.open/write, not NuGet/.NET",
+    "literal AND regex restricts every case to one fixture leaf",
+    "inherited tool permissions remain active; none of M/W/SDK becomes writable"
+  ],
+  "fixtureParent": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj",
+  "hypotheses": [
+    "H1 counted repetition differs in Seatbelt",
+    "H2 SBPL string versus regex-literal escaping differs",
+    "H3 DIRECTORY vnode permission affects file creation"
+  ],
+  "maxCallSeconds": 20,
+  "maxChildSeconds": 2,
+  "maxChildren": 6,
+  "maxWriteBytesPerChild": 1,
+  "originalParent": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix06/phases/M-runner-generation/source/src/Luban.DataLoader.Builtin/obj",
+  "originalRule": [
+    "work",
+    "phases/M-runner-generation/source/src/Luban.DataLoader.Builtin/obj/{guid-tmp}",
+    "bounded-guid-tmp",
+    "M",
+    "M-runner-generation-restore",
+    1,
+    16777216,
+    "direct lowercase GUID.tmp; resident quota only, not cumulative/native proof"
+  ],
+  "prepareSha256": "98e0b067b18e1e94240c1356a6a0f1006034b6d236d3d32aea64e34da644a745",
+  "productionProfileBytes": 64487,
+  "productionProfileSha256": "5f769139403d229b1ba22378f979019f9a7ac9425c305c73b5e5b7bca3abb916",
+  "ruleCount": 200,
+  "scope": "one <=20s call; <=6 isolated children, <=2s each; 1-byte fixture writes only",
+  "stopConditions": [
+    "literal positive control fails",
+    "sandbox_init fails",
+    "timeout",
+    "unexpected residual fixture"
+  ]
+}

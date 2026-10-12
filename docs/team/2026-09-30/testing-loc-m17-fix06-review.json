@@ -1,0 +1,121 @@
+{
+  "task": "LOC-M17-FIX06 exact-head GitHub review receipt",
+  "qaActualTurn": "01a12def-6bc4-79c1-b89e-06044c8487ad",
+  "qaThread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "sourceInput": {
+    "packet": "docs/team/2026-09-30/central-loc-m17-fix06-source.md",
+    "engineeringDesign": "docs/team/2026-09-30/engineering-loc-after-m07-failure.md",
+    "candidateRoot": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix06",
+    "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+    "head": "454eb4da250262a396b17da97d83c71de408bd48",
+    "parent": "01a5ab7afa5f3d2d55df4b5d6b72c8fa6e353736",
+    "publishedFiles": 29,
+    "remoteBlobAndSizeVerification": "Central reported 29 files verified against Git blob and size; 1809 prior blobs unchanged.",
+    "sourceModelSha256": "5edefd5ebe5f443818f80cf3958e631e5a5e166015fe44b42959a800df80debf",
+    "freeze": {
+      "bytes": 2807,
+      "sha256": "08d12270a97b2a87be19debc9a711b71854d9d8cacacddf256e517db23387521",
+      "status": "SOURCE_READY"
+    },
+    "commandReceipt": {
+      "path": "docs/team/2026-09-30/loc-m17-fix06-command-receipt.json",
+      "bytes": 19691,
+      "sha256": "10cc6a35761da1464cf3508ccaa9ad0755a92804796ec4a6cde362da3731812b"
+    },
+    "sourceOwner": {
+      "thread": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "host": "local",
+      "turn": "01a12dde-888b-7591-bb45-0a3576b1b5c5"
+    },
+    "verifiedAuthorEvidence": {
+      "directedChecks": {
+        "tool": "exec-0ebdd043-18a9-4a3d-bf5f-0a4b125d67f2",
+        "passed": 55,
+        "total": 55,
+        "seconds": 4.6384931659995345,
+        "exitCode": 0
+      },
+      "seal": {
+        "tool": "exec-76a43d8d-8253-4532-9806-dfad1037b1fa",
+        "seconds": 8.009652291002567,
+        "exitCode": 0
+      },
+      "basis": "Central inspected the actual tool outputs, exact command/cwd/IDs/status/exit/duration/untruncated output, and final freeze/eight source leaves; this receipt does not rely only on the author's claim."
+    }
+  },
+  "reviewTrigger": {
+    "commentId": 6116642338,
+    "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6116642338",
+    "createdAtUtc": "2026-10-12T02:25:55Z",
+    "requestedHead": "454eb4da250262a396b17da97d83c71de408bd48"
+  },
+  "reviewWatch": {
+    "startedAtUtc": "2026-10-12T02:27:11Z",
+    "startedAtBasis": "clock__curr_time",
+    "maxMinutes": 6,
+    "completedAtUtc": "2026-10-12T02:29:02Z"
+  },
+  "serviceResult": {
+    "summaryCommentId": 5928035293,
+    "status": "Completed",
+    "reviewedCommitPrefix": "454eb4d",
+    "completedAtUtc": "2026-10-12T02:29:01.486968Z",
+    "resultComment": {
+      "id": 6116669351,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6116669351",
+      "createdAtUtc": "2026-10-12T02:28:54Z",
+      "reviewedCommit": "454eb4da25",
+      "verbatimConclusion": "Codex Review: Didn't find any major issues. Bravo."
+    },
+    "newExactHeadFindings": [],
+    "exactHeadFormalReviewSubmission": null,
+    "formalApproved": false,
+    "interpretation": "Completed exact-head service result with no major issues reported; not a formal GitHub APPROVED submission and not a claim of zero findings at all severities."
+  },
+  "previousFindings": [
+    {
+      "commentId": 4242623018,
+      "threadId": "PRRT_kwDOTDyjrM6rQE5E",
+      "resolved": true,
+      "outdated": false
+    },
+    {
+      "commentId": 4242623020,
+      "threadId": "PRRT_kwDOTDyjrM6rQE5F",
+      "resolved": true,
+      "outdated": false
+    },
+    {
+      "commentId": 4242690950,
+      "threadId": "PRRT_kwDOTDyjrM6rQPh1",
+      "resolved": true,
+      "outdated": false
+    }
+  ],
+  "pullRequestAtReview": {
+    "head": "454eb4da250262a396b17da97d83c71de408bd48",
+    "headMatchesRequested": true,
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "sourceReceiptVerdict": {
+    "status": "ACCEPT_SOURCE_ONLY",
+    "basis": "Exact requested PR head was reviewed and the completed service reported no major issues or new inline findings; the 55/55 directed source checks and successful source seal are bound to actual tool records and the sealed candidate.",
+    "boundary": "This closes only the FIX06 source/review gate. The result is not formal GitHub APPROVED, OS sandbox acceptance, material execution, native restore acceptance, Unity/build, Android/device, merge, or release acceptance."
+  },
+  "materialStatus": {
+    "M07": "NEEDS_FIX",
+    "failure": "The one authorized M07 attempt exited 1 during its first runner restore with filesystem Operation not permitted; two restores did not start. No new native authorization was included with FIX06.",
+    "retryOrNativeRun": false
+  },
+  "nonActions": {
+    "localCodeReview": false,
+    "reviewRetriggered": false,
+    "testsRerun": false,
+    "nativeOrRestoreRun": false,
+    "SDKScan": false,
+    "Unity": false,
+    "GitWrites": false
+  }
+}

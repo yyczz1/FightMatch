@@ -1,0 +1,79 @@
+{
+  "author": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12e5d-f4c9-7443-87c9-3eb4d3f47ce4"
+  },
+  "childStarts": 3,
+  "completedAtUtc": "2026-10-12T04:39:06.524224+00:00",
+  "elapsedSeconds": 0.6235947089953697,
+  "failure": null,
+  "materialRuns": 0,
+  "plan": {
+    "bytes": 9148,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-plan.json",
+    "sha256": "4aa871f2771755a59152a6437b26ab8d039a885ca4c79ff64b0ee21288f6d703"
+  },
+  "priorSixProbesRerun": false,
+  "records": [
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-I",
+        "-B",
+        "-c",
+        "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+      ],
+      "childReaped": true,
+      "elapsedSeconds": 0.02860908299771836,
+      "exitCode": 0,
+      "id": "valid",
+      "pid": 52710,
+      "profileSha256": "74a333a8f6cc01249516248c27327b5a1b43c436c9d796f562d6a48e0c734775",
+      "stderr": "",
+      "stdout": "{\"case\": \"valid\", \"sandboxReturn\": 0, \"sandboxErrno\": 0, \"sandboxError\": null, \"openErrno\": null, \"writeErrno\": null, \"cleanupErrno\": null, \"writtenBytes\": 1, \"pid\": 52710, \"elapsedSeconds\": 0.005357082998671103}\n",
+      "timedOut": false
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-I",
+        "-B",
+        "-c",
+        "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+      ],
+      "childReaped": true,
+      "elapsedSeconds": 0.02362333299970487,
+      "exitCode": 1,
+      "id": "invalid-length",
+      "pid": 52711,
+      "profileSha256": "921c4f8af61330c272bcbc0a2f2421ac038ec563309fa91c87823f332a0f78c3",
+      "stderr": "",
+      "stdout": "{\"case\": \"invalid-length\", \"sandboxReturn\": 0, \"sandboxErrno\": 0, \"sandboxError\": null, \"openErrno\": 1, \"writeErrno\": null, \"cleanupErrno\": null, \"writtenBytes\": 0, \"pid\": 52711, \"openError\": \"[Errno 1] Operation not permitted: '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba-1be1-4a9f-996e-d51404ed0ba5.tmp'\", \"elapsedSeconds\": 0.004913625001790933}\n",
+      "timedOut": false
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-I",
+        "-B",
+        "-c",
+        "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+      ],
+      "childReaped": true,
+      "elapsedSeconds": 0.02344545900268713,
+      "exitCode": 1,
+      "id": "extra-suffix",
+      "pid": 52712,
+      "profileSha256": "5e739ecbb78c01e317adef3a51723150b4c83190803f154ddd9f06e88996939b",
+      "stderr": "",
+      "stdout": "{\"case\": \"extra-suffix\", \"sandboxReturn\": 0, \"sandboxErrno\": 0, \"sandboxError\": null, \"openErrno\": 1, \"writeErrno\": null, \"cleanupErrno\": null, \"writtenBytes\": 0, \"pid\": 52712, \"openError\": \"[Errno 1] Operation not permitted: '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp.extra'\", \"elapsedSeconds\": 0.004735417001938913}\n",
+      "timedOut": false
+    }
+  ],
+  "residual": [],
+  "restoreRuns": 0,
+  "schemaVersion": 1,
+  "startedAtUtc": "2026-10-12T04:39:06.447674+00:00",
+  "status": "OS_FIXTURE_PASSED_NOT_NUGET"
+}

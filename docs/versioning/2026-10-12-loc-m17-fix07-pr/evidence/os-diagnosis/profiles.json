@@ -1,0 +1,38 @@
+[
+  {
+    "id": "P1-literal-directory",
+    "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp\"))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj\")))",
+    "profileSha256": "6dc5a97bcfb80b9004c8c58c204d44c360ed31777235a3b76b7a3821acabe947",
+    "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp"
+  },
+  {
+    "id": "P2-production-counted-string",
+    "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (require-all (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp\") (regex \"^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\\\-LIC\\\\-ALT\\\\-M/loc\\\\-m08\\\\-sandbox\\\\-diagnosis\\\\-01/obj/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\\\.tmp$\")))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj\")))",
+    "profileSha256": "e31b0f69ee79a22f3e9f29a17f24a617542cd59f2b2aaec79ebaaf8975f16e7c",
+    "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp"
+  },
+  {
+    "id": "P3-expanded-string",
+    "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (require-all (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp\") (regex \"^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\\\-LIC\\\\-ALT\\\\-M/loc\\\\-m08\\\\-sandbox\\\\-diagnosis\\\\-01/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\\\.tmp$\")))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj\")))",
+    "profileSha256": "8a3b1e85b0020e180169c533383587f4d5b0014685f2f5efb589a8ac3a97e160",
+    "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp"
+  },
+  {
+    "id": "P4-counted-regex-literal",
+    "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (require-all (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp\") (regex #\"^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\\\-LIC\\\\-ALT\\\\-M/loc\\\\-m08\\\\-sandbox\\\\-diagnosis\\\\-01/obj/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\\\.tmp$\")))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj\")))",
+    "profileSha256": "c53ced57cfa4750344b7dbb7aa1ca86f4137a29307f2b5fa27ed0d031441773e",
+    "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp"
+  },
+  {
+    "id": "P5-expanded-regex-literal",
+    "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (require-all (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp\") (regex #\"^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\\\-LIC\\\\-ALT\\\\-M/loc\\\\-m08\\\\-sandbox\\\\-diagnosis\\\\-01/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\\\.tmp$\")))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj\")))",
+    "profileSha256": "f30c34cf6eadadf6bcbb85fa7a0bd890bafcb4abbb739ccfa7582cbb3114888f",
+    "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp"
+  },
+  {
+    "id": "P6-literal-no-directory",
+    "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp\"))",
+    "profileSha256": "0e45b1ec5e9cff4c89a4f91506b9efc331cf51d4a058266b84248027a2fb8a2b",
+    "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m08-sandbox-diagnosis-01/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp"
+  }
+]
