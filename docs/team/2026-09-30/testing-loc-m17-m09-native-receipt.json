@@ -1,0 +1,129 @@
+{
+  "task": "LOC-M17-M09 independent native evidence receipt",
+  "qaActual": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a12eed-ac9b-76d3-a7b3-d71dd17569b9"
+  },
+  "authorization": {
+    "centralTurn": "01a12ee5-5e38-7863-b291-95e758e24669",
+    "humanItem": "01a12ee5-62af-73d3-a5b5-c3827b86dfba",
+    "approvalRecord": "docs/team/2026-09-30/central-loc-m09-approval-2026-10-12.json",
+    "scope": "One M09 attempt on reviewed FIX07; reuse all downloaded inputs, zero new downloads, up to three external-disk restores, 900-second ceiling, central receives.",
+    "attemptsAuthorized": 1,
+    "attemptsConsumed": 1,
+    "newDownloadsAllowed": 0,
+    "restoreBudget": 3,
+    "retryAuthorizedByThisReceipt": false
+  },
+  "binding": {
+    "executionPacket": "docs/team/2026-09-30/central-loc-m17-m09-execute.md",
+    "activation": {
+      "path": "docs/team/2026-09-30/central-loc-m17-m09-activation.json",
+      "bytes": 22699,
+      "sha256": "4a3ccea7f3a71c0f3730ecc974faca9a88100eebb818b583c9207948b2c6d321"
+    },
+    "hostBinding": {
+      "path": "docs/team/2026-09-30/central-loc-m17-m09-host-binding-receipt.json",
+      "bytes": 3789,
+      "sha256": "d128c506c63615e9fc48e92513b9c1d0cfb06b098752f89e2cdfa78a76c338dc"
+    },
+    "ownerActual": {
+      "thread": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "host": "local",
+      "turn": "01a12ee6-b260-7693-9f5f-ecf014c0482d",
+      "receivedItem": "fco_01a12ee6-b27b-79c0-be1f-feeba6f943f2"
+    },
+    "fix07Head": "bd92f6bcedaf89751256a4a7e0084d39cd244893",
+    "fix07SourceFreeze": {
+      "bytes": 2807,
+      "sha256": "5f747b1441f79bb43ff00f17757b36fee2e7c374d3e8dd00570d42d54b835027"
+    },
+    "fix07SourceReview": "ACCEPT / SOURCE_ONLY; does not constitute native/material acceptance."
+  },
+  "execution": {
+    "evidenceRoot": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09",
+    "status": "M09_FAILED_OR_BLOCKED",
+    "failureClass": "ACTUAL_NATIVE_EXECUTION_FAILED_NOT_TOOL_APPROVAL_REJECTION",
+    "originalToolId": "exec-6240c5ef-e6bf-4d38-af3b-48716e784015",
+    "hostExitCode": 1,
+    "hostStartCount": 1,
+    "outerFailure": null,
+    "timedOut": false,
+    "startedAtUtc": "2026-10-12T06:59:41.565067+00:00",
+    "hostStartedAtUtc": "2026-10-12T06:59:41.600902+00:00",
+    "hostEndedAtUtc": "2026-10-12T07:01:50.183094+00:00",
+    "completedAtUtc": "2026-10-12T07:01:50.364920+00:00",
+    "fullInvocationSeconds": 128.8186241250005,
+    "untruncatedOriginalOutputCaptured": true,
+    "toolIdNote": "The originalToolId is exec-6240c5ef-e6bf-4d38-af3b-48716e784015, matching the sole M09 execution command verified by central from the LOC actual turn and matching receipt.toolCapture.originalCommandExecution. The previously recorded exec-dd926858-13e5-40a6-880c-eaed023723e6 was mistakenly carried over from historical M08 context and was not the M09 tool."
+  },
+  "restoreResults": {
+    "M-runner-generation-restore": {
+      "started": true,
+      "exitCode": 1,
+      "elapsedSeconds": 6.3423956249971525,
+      "diagnostic": "NuGet.targets(174,5) recorded Access denied / Operation not permitted writing /Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban.Gdscript/43195cad-a941-4061-8b31-b7e1a14bbb92.tmp.",
+      "diagnosticSource": "Captured restore stdout in receipt; observed leaf is directly inside Luban.Gdscript project directory, not under obj. This is recorded observation, not a new root-cause diagnosis."
+    },
+    "M-tests-generation-restore": {
+      "started": false,
+      "receiptExists": false
+    },
+    "M-tests-verification-restore": {
+      "started": false,
+      "receiptExists": false
+    }
+  },
+  "materialOutputs": {
+    "newDownloads": 0,
+    "measuredArchiveBodyBytes": 0,
+    "bodyMeasurementComplete": true,
+    "materialValidationStatus": "M_FAILED",
+    "materialResult": null,
+    "manifest": null,
+    "partialRootsPreserved": true
+  },
+  "protectionAndProcess": {
+    "protectedItems": 284,
+    "protectedChanges": [],
+    "knownProcessQuiescent": true,
+    "stillOwned": []
+  },
+  "evidenceFileIdentities": {
+    "before.json": {
+      "bytes": 83886,
+      "sha256": "c8b1b9ece3e7d8afd292065cdfda442524f1c4ecdbdd778e95a3c4f5dccccb01"
+    },
+    "stdout.log": {
+      "bytes": 282,
+      "sha256": "a82391bce86f6c35379d4a475ba662f9c4dfcde4c8cca81f918939c2e1008c6d"
+    },
+    "stderr.log": {
+      "bytes": 1348,
+      "sha256": "f3cf7eb75c64d684fe82f97e24700372f32e2f21235d727cdf61939563b1d0d6"
+    },
+    "receipt.json": {
+      "finalBytes": 34508,
+      "finalSha256": "ed69aba6bd241bf6f35f3153fdf2305f13b865d9c903584f4367af1fb10aeada",
+      "preCaptureBytes": 7641,
+      "preCaptureSha256": "855ff99544fc13a72cd71a799ac5d97ba4cc9c49a590471477f5a4854d0a8bfa",
+      "interpretation": "The tool clock references the pre-capture receipt. The final receipt embeds the original untruncated command result; this post-return evidence supplement does not alter the actual host exit 1 or imply successful material execution."
+    },
+    "totalE09Bytes": 120024
+  },
+  "receiptVerdict": {
+    "M": "NEEDS_FIX",
+    "basis": "The one authorized host invocation actually ran and exited 1 during the first restore. Both subsequent restore steps did not start, no downloads or archive bodies were transferred, there is no material manifest/result, and all 284 protected inputs remained unchanged. The one-attempt allowance is consumed; no retry is authorized by this receipt.",
+    "independentAcceptance": true,
+    "rootCauseDiagnosis": "NOT_PERFORMED_BY_QA"
+  },
+  "nonActions": {
+    "rerun": false,
+    "SDKOrUnity": false,
+    "tests": false,
+    "codeReview": false,
+    "GitWrites": false,
+    "otherThreadsMessaged": false
+  }
+}
