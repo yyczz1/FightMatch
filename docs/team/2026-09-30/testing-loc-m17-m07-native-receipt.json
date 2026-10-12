@@ -1,0 +1,132 @@
+{
+  "task": "LOC-M17-M07 independent native evidence receipt",
+  "qaActualTurn": "01a12dd3-79cc-7321-bae8-0545a149914e",
+  "qaThread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "authorization": {
+    "centralTurn": "01a12dc8-58f5-7150-aa6d-c763dd9d9e02",
+    "humanItem": "01a12dc8-5fb9-7e43-8659-7026352c2050",
+    "approvedAttempts": 1,
+    "newDownloads": 0,
+    "restoresBudget": 3,
+    "maximumSeconds": 900,
+    "executionOwner": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a/local"
+  },
+  "binding": {
+    "packet": "docs/team/2026-09-30/central-loc-m17-m07-execute.md",
+    "activation": "docs/team/2026-09-30/central-loc-m17-m07-activation.json",
+    "hostBindingReceipt": {
+      "path": "docs/team/2026-09-30/central-loc-m17-m07-host-binding-receipt.json",
+      "bytes": 3806,
+      "sha256": "d12fabc2c46f9e6dbf00a560d8a179723da50cc58ebe6cc4fc7f7f024cdd2b9c"
+    },
+    "ownerActual": {
+      "thread": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "host": "local",
+      "turn": "01a12dca-5f12-7d21-8c65-31ac1d70c49e",
+      "receivedItem": "fco_01a12dca-5f22-7360-89af-c9b699a5914a"
+    },
+    "sourceHead": "01a5ab7afa5f3d2d55df4b5d6b72c8fa6e353736",
+    "activationBoundCorrectly": true,
+    "freshSourceVerification": true,
+    "budgetsBoundToReviewedPrepare": true,
+    "authorizationSource": "docs/team/2026-09-30/central-loc-m07-approval-2026-10-12.json"
+  },
+  "execution": {
+    "status": "NEEDS_FIX",
+    "failureClassification": "ACTUAL_NATIVE_FAILURE_NOT_TOOL_APPROVAL_REJECTION",
+    "toolId": "exec-4def70d8-d499-409c-aefa-385c90732e0f",
+    "hostExitCode": 1,
+    "hostStartCount": 1,
+    "startedAtUtc": "2026-10-12T01:51:24.673135+00:00",
+    "hostStartedAtUtc": "2026-10-12T01:51:24.698517+00:00",
+    "hostEndedAtUtc": "2026-10-12T01:53:20.464666+00:00",
+    "completedAtUtc": "2026-10-12T01:53:20.591947+00:00",
+    "fullInvocationSeconds": 115.92915500000163,
+    "outerFailure": null,
+    "timedOut": false,
+    "automaticRetry": false
+  },
+  "failureEvidence": {
+    "firstRestore": {
+      "id": "M-runner-generation-restore",
+      "exitCode": 1,
+      "elapsedSeconds": 8.010706375000154,
+      "startCount": 1,
+      "childrenDeniedBySandbox": true,
+      "failure": "GateError: process exit failure",
+      "diagnostic": "NuGet.targets(174,5): Access denied / Operation not permitted writing Luban.Protobuf/obj/fad540fa-601a-42d8-9369-591cbb6955e3.tmp.",
+      "diagnosticsAreNativeRunOutput": true
+    },
+    "laterRestores": [
+      { "id": "M-tests-generation-restore", "started": false, "receiptExists": false },
+      { "id": "M-tests-verification-restore", "started": false, "receiptExists": false }
+    ],
+    "downloads": 0,
+    "measuredArchiveBodyBytes": 0,
+    "bodyMeasurementComplete": true,
+    "manifest": null,
+    "materialResult": null,
+    "rootCause": "NOT_DIAGNOSED_IN_THIS_EXECUTION_PACKET"
+  },
+  "evidenceFiles": {
+    "root": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m07",
+    "outerEvidenceBytes": 93720,
+    "before.json": {
+      "bytes": 65669,
+      "sha256": "1b6413cd88fef7887438729e72615fa116f237572be19670b3eb04575574ab12"
+    },
+    "stdout.log": {
+      "bytes": 282,
+      "sha256": "74b531a3600e6823cebbd860ed9fad8a48441b385cf0198a7bf7ce58a194ca31"
+    },
+    "stderr.log": {
+      "bytes": 1375,
+      "sha256": "7acf2f45c7fbc8f5e4e2327dac9abf6f5e2ab3028c809b2b5418797fc27e495b"
+    },
+    "receipt.json": {
+      "bytes": 26394,
+      "sha256": "f0c94dc11946997cac0e3faa143cab4b7b8a0f3e17d3d95183a9a6c6619e3edb",
+      "note": "File includes post-return tool-capture evidence; its embedded pre-capture receipt identity is separately preserved in the host output."
+    }
+  },
+  "protectionAndProcessEvidence": {
+    "protectedCount": 216,
+    "protectedChanges": [],
+    "preservedRoots": true,
+    "partialRootsDeleted": false,
+    "manifestAbsent": true,
+    "atHostCompletion": {
+      "knownProcessQuiescent": true,
+      "stillOwned": [],
+      "knownProcessIdentities": [
+        { "pid": 26008, "pgid": 26008 },
+        { "pid": 26319, "pgid": 26319 }
+      ]
+    },
+    "supplementalPostReturnPs": {
+      "status": "SUPPLEMENTAL_READ_BLOCKED_BY_DEFAULT_SANDBOX",
+      "error": "PermissionError: [Errno 1] Operation not permitted: '/bin/ps'",
+      "notRetried": true,
+      "interpretation": "Does not negate the in-run completion quiescence record and is not an execution approval rejection; no claim that a later supplemental process check passed."
+    }
+  },
+  "receiptVerdict": {
+    "M": "NEEDS_FIX",
+    "basis": "The authorized native execution actually started, performed its first restore and exited 1 on a recorded filesystem Operation not permitted error. Two planned restores never started; no downloads occurred; no manifest/material result exists. 216 protected items remained unchanged. This is not an acceptance pass and not a tool-approval rejection.",
+    "independentAcceptance": true,
+    "nativeOrMaterialRerun": false,
+    "UnityOrDevice": "NOT_RUN",
+    "nextAction": "Central to route the recorded restore failure for scoped disposition; this receipt does not authorize another M attempt."
+  },
+  "nonActions": {
+    "testsRerun": false,
+    "nativeRerun": false,
+    "psRetried": false,
+    "directoryRescan": false,
+    "downloads": 0,
+    "restoresByQA": 0,
+    "Unity": false,
+    "GitWrites": false,
+    "otherThreadsMessaged": false
+  }
+}
