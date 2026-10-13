@@ -46,6 +46,7 @@ namespace FightMatch.AssetAccess.Tests
             using (var dispatcher = new Dispatcher())
             {
                 var sdk = new FakeSdk(); var runtime = Runtime(sdk, dispatcher);
+                Exception bodyFailure = null;
                 try
                 {
                     var inspection = runtime.InspectAsync(7, CancellationToken.None).Result;
@@ -68,7 +69,8 @@ namespace FightMatch.AssetAccess.Tests
                     dispatcher.Complete(runtime.Stopped);
                     Assert.IsFalse(sdk.Initialized); Assert.AreEqual(0, sdk.PackageCount);
                 }
-                finally { runtime.Dispose(); dispatcher.Complete(runtime.Stopped); }
+                catch (Exception error) { bodyFailure = error; throw; }
+                finally { Cleanup(runtime, dispatcher, bodyFailure); }
             }
         }
 
@@ -78,6 +80,7 @@ namespace FightMatch.AssetAccess.Tests
             using (var dispatcher = new Dispatcher())
             {
                 var sdk = new FakeSdk { HoldRaw = true }; var runtime = Runtime(sdk, dispatcher);
+                Exception bodyFailure = null;
                 using (var cancellation = new CancellationTokenSource())
                 {
                     try
@@ -94,9 +97,10 @@ namespace FightMatch.AssetAccess.Tests
                         dispatcher.Complete(task);
                         Assert.AreEqual(ResourceTransportStatus.Cancelled, task.Result.Status);
                         Assert.IsTrue(runtime.Stopped.IsCompleted); Assert.AreEqual(sdk.Reads, sdk.Releases);
-                        Assert.IsFalse(sdk.Initialized);
+                        Assert.IsFalse(sdk.Initialized); Assert.AreEqual(0, sdk.PackageCount);
                     }
-                    finally { sdk.HoldRaw = false; runtime.Dispose(); dispatcher.Complete(runtime.Stopped); }
+                    catch (Exception error) { bodyFailure = error; throw; }
+                    finally { sdk.HoldRaw = false; Cleanup(runtime, dispatcher, bodyFailure); }
                 }
             }
         }
@@ -107,6 +111,7 @@ namespace FightMatch.AssetAccess.Tests
             using (var dispatcher = new Dispatcher())
             {
                 var sdk = new FakeSdk { CorruptRaw = true }; var runtime = Runtime(sdk, dispatcher);
+                Exception bodyFailure = null;
                 try
                 {
                     var inspection = runtime.InspectAsync(1, CancellationToken.None).Result;
@@ -118,7 +123,18 @@ namespace FightMatch.AssetAccess.Tests
                     Assert.IsFalse(runtime.Assets.AcquireAsync<FightMatchRawBytes>(Id(), inspection.ReleaseSetId, Budget(), 1).Result.IsAccepted);
                     Assert.AreEqual(0, sdk.PackageCount); Assert.AreEqual(sdk.Reads, sdk.Releases);
                 }
-                finally { runtime.Dispose(); dispatcher.Complete(runtime.Stopped); }
+                catch (Exception error) { bodyFailure = error; throw; }
+                finally { Cleanup(runtime, dispatcher, bodyFailure); }
+            }
+        }
+
+        private static void Cleanup(YooAssetResourceRuntime runtime, Dispatcher dispatcher, Exception bodyFailure)
+        {
+            try { runtime.Dispose(); dispatcher.Complete(runtime.Stopped); }
+            catch (Exception cleanupFailure)
+            {
+                if (bodyFailure == null) throw;
+                throw new AggregateException("Test body failed before cleanup also failed.", bodyFailure, cleanupFailure);
             }
         }
 
@@ -186,28 +202,29 @@ namespace FightMatch.AssetAccess.Tests
             internal bool CorruptRaw, PinConfigured;
             internal int Reads, Releases;
             private object package;
+            private bool ready, empty = true;
             private string version;
             public bool Initialized { get; private set; }
             public int PackageCount => package == null ? 0 : 1;
             public void Initialize() { Initialized = true; }
-            public void Destroy() { Initialized = false; }
+            public void Destroy() { Assert.IsNull(package); Initialized = false; }
             public object Find(string name) => package;
             public object Create(string name) => package = new object();
-            public bool Ready(object value) => true;
+            public bool Ready(object value) => ready;
             public bool Busy(object value) => false;
-            public bool Empty(object value) => false;
+            public bool Empty(object value) => empty;
             public string Version(object value) => version;
             public IYooOperation Initialize(object value, string root) => throw new AssertionException("Pinned initialization required.");
             public IYooOperation InitializePinned(object value, string root, long length, string sha)
             {
                 Assert.AreEqual(FightMatchResourceBuildTests.TestManifest.Length, length);
                 Assert.AreEqual(FightMatchResourceBuild.Hash(FightMatchResourceBuildTests.TestManifest), sha);
-                PinConfigured = true; return new Operation();
+                PinConfigured = true; ready = true; empty = false; return new Operation();
             }
             public IYooOperation Manifest(object value, string selected) { version = selected; return new Operation(); }
             public bool HasLocation(object value, string location, Type type) => Bytes.ContainsKey(location);
             public IYooOperation Load(object value, string location, Type type) => throw new AssertionException("Raw operation required.");
-            public IYooOperation Destroy(object value) => new Operation();
+            public IYooOperation Destroy(object value) { ready = false; empty = true; return new Operation(); }
             public void Remove(string name) { package = null; }
             public IRawYooOperation BeginRaw(object value, AssetMapping map, long limit, Action wake)
             { Reads++; wakeRaw = wake; return new Raw(this, map, limit); }
