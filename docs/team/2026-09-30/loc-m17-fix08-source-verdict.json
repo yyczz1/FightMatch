@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-FIX08 NuGet project-root temporary-write correction",
+  "integrationVerdict": "ACCEPT",
+  "scope": "SOURCE_ONLY",
+  "central": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local",
+    "turnId": "01a12ee5-5e38-7863-b291-95e758e24669",
+    "userItem": "01a12ee5-62af-73d3-a5b5-c3827b86dfba"
+  },
+  "sourceOwner": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a12efd-cd09-7972-8b24-057c07dd2217"
+  },
+  "sealExecutor": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a12efd-cd09-7972-8b24-057c07dd2217",
+    "receivedItem": "fco_01a12f08-80dc-78d2-aa99-4e71934027f2"
+  },
+  "sidecarRecorder": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a12f16-9330-7332-8381-e66f9fd33a61",
+    "receivedItem": "fco_01a12f16-934c-7c42-aeaa-f48860635a49"
+  },
+  "sourceFreeze": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix08/authority/source-freeze.json",
+    "bytes": 2808,
+    "sha256": "c942f1456cdccf2c1a55f8685eb4d055aad72325d4848877e12d97a380824c0f"
+  },
+  "sourceModelSha256": "edf98191eb9cf105d8e4c6361aea2b69718dc75a2380b853128bd03eb5392209",
+  "sourceCommandReceipt": {
+    "path": "docs/team/2026-09-30/loc-m17-fix08-command-receipt.json",
+    "bytes": 27675,
+    "sha256": "313f9cc46d470adb5689c273800ceb6f846628ba1567ee0a4d335dbce014e7e1"
+  },
+  "sourceChecks": {
+    "toolId": "exec-15571154-421b-4695-a585-1c3b1d84919f",
+    "fullInvocationSeconds": 7.0085888340036036,
+    "exitCode": 0,
+    "caseCount": 42,
+    "passed": 42,
+    "evidence": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix08/authority/offline-checks.json",
+      "bytes": 121466,
+      "sha256": "a0587695636e807a4df48f841a1adf633056ca35a5cbcff7d83ac72f625bb77a"
+    },
+    "maxSeconds": 10,
+    "newNativeStarts": 0,
+    "scope": "42 static/simulated FIX08 delta checks; historical OS receipts reused"
+  },
+  "sourceSeal": {
+    "toolId": "exec-d3b7bdc3-ee9a-42ab-945a-a8164d990b30",
+    "exitCode": 0,
+    "fullInvocationClock": {
+      "event": "FINAL_COMMAND_CLOCK",
+      "scope": "FIX08 mechanical seal once",
+      "sealExecutor": {
+        "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+        "hostId": "local",
+        "turnId": "01a12efd-cd09-7972-8b24-057c07dd2217",
+        "receivedItem": "fco_01a12f08-80dc-78d2-aa99-4e71934027f2"
+      },
+      "startedAtUtc": "2026-10-12T07:44:43.263724+00:00",
+      "completedAtUtc": "2026-10-12T07:44:58.196878+00:00",
+      "fullInvocationSeconds": 14.938371292002557,
+      "exitCode": 0,
+      "rawError": null,
+      "maxSeconds": 30,
+      "attempts": 1,
+      "materialExecution": false,
+      "SDKScan": false,
+      "partialNewEnumerations": 0,
+      "historicalSuitesRerun": false,
+      "newNativeStarts": 0,
+      "blockedEvents": []
+    },
+    "eightLeaves": 8,
+    "totalBytes": 13519942
+  },
+  "osVerification": {
+    "reused": true,
+    "newChildStarts": 0,
+    "newProjectRootParentsOSValidated": false,
+    "fullNuGetValidation": false,
+    "evidence": [
+      {
+        "bytes": 9148,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-plan.json",
+        "sha256": "4aa871f2771755a59152a6437b26ab8d039a885ca4c79ff64b0ee21288f6d703"
+      },
+      {
+        "bytes": 7669,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-result.json",
+        "sha256": "2b55efb01c89f3508a0d63615d35d93b062470b2c924f0b36764a367d2af661e"
+      }
+    ]
+  },
+  "centralEvidenceInspection": {
+    "originalToolFieldsAndCompleteUntruncatedOutput": "Directed and seal objects match actual original returned tool items; object key order ignored",
+    "sourceFreezeUtf8": "Exact match",
+    "finalEightLeafBytesAndSHA256": "All matched",
+    "remoteBlobIdentitiesAndSizes": "31 new files match; 1883 previous blobs unchanged",
+    "testRerun": false,
+    "localCodeReview": false
+  },
+  "independentReview": {
+    "service": "GitHub PR Code Review",
+    "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+    "reviewedHead": "a0bfe7007be65eed6d1afda317934195cb6ebbd6",
+    "triggerId": 6120173614,
+    "resultId": 6120235084,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6120235084",
+    "status": "Completed",
+    "conclusion": "No major issues reported",
+    "formalApproved": false,
+    "newFindings": [],
+    "historicalUnresolvedFindings": [
+      {
+        "commentId": 4177549312,
+        "threadId": "PRRT_kwDOTDyjrM6oyRcu",
+        "severity": "P2",
+        "title": "Validate all cached archives before downloading",
+        "path": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+        "line": 1131,
+        "resolved": false,
+        "outdated": false,
+        "attribution": "Historical FIX01 finding; not a new FIX08 finding."
+      }
+    ],
+    "qaActual": {
+      "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+      "host": "local",
+      "turn": "01a12f20-e81f-75f3-b746-85ebb8ee1906"
+    },
+    "qaReceipt": {
+      "path": "docs/team/2026-09-30/testing-loc-m17-fix08-review.json",
+      "bytes": 3536,
+      "sha256": "34d1d76798475466894af4d0ab3c329e52c4e872974bdb125c9a94a170763aae"
+    },
+    "centralReadServiceResultAndCurrentHead": true
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/central-loc-m17-fix08-publication.json",
+    "head": "a0bfe7007be65eed6d1afda317934195cb6ebbd6",
+    "newFiles": 31,
+    "merged": false
+  },
+  "materialStatus": {
+    "M09": "NEEDS_FIX",
+    "oneAttemptConsumed": true,
+    "newNativeExecutionAuthorized": false,
+    "newNativeRuns": 0,
+    "downloadCount": 0,
+    "remainingEvidence": "All three actual dependency restores on FIX08, manifest, process closure and independent receipt"
+  },
+  "limitations": [
+    "New project-root allowances were statically checked, not executed against macOS or NuGet in this source-only delivery.",
+    "Historical OS checks validate the expanded filename expression in fixture parents, not the new whole profile.",
+    "Resident GUID quotas are not OS per-write limits.",
+    "M7/W7 reuse the captured fixed inventory; it does not prove future unlisted paths absent.",
+    "SOURCE acceptance does not accept B/L, Unity, APK, devices or first Demo."
+  ],
+  "next": "New explicit one-run permission is required for central-loc-fix08-next-material-proposal.md; M09 and all historical failures remain."
+}

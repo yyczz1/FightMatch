@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-FIX09-SOURCE",
+  "status": "BLOCKED_DRIVER_SIZE_CONTRACT",
+  "actual": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a13000-142a-7681-9540-9f6227d41b50",
+    "receivedItem": "fco_01a13000-1433-7923-8b83-ea982afa8c74"
+  },
+  "receiver": {
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "hostId": "local",
+    "method": "final reply received with wait_threads"
+  },
+  "packet": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/engineering-loc-m11-diagnosis.md",
+    "bytes": 7688,
+    "sha256": "d30cf94f63176471de62be3bb5e3a61be99588719b09f147e7cd4acbeacdb299"
+  },
+  "baseline": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix08/source/m17_driver.py",
+    "bytes": 278195,
+    "sha256": "666faf4d3ed8bc586e8edb91d2c4d07013490d045a11dc47716ef4aa5cd93dbb"
+  },
+  "budget": {
+    "driverMaxBytes": 278528,
+    "baselineHeadroomBytes": 333,
+    "productionAndFixtureNetBytes": 272,
+    "productionAndFixtureCandidateBytes": 278467,
+    "remainingAfterProductionBytes": 61,
+    "newPacketBindingBytes": 114,
+    "priorF8EightProtectionBytes": 266,
+    "measuredRequiredSubsetCandidateBytes": 278847,
+    "measuredNetGrowthBytes": 652,
+    "measuredOverCapBytes": 319,
+    "completeCandidate": false,
+    "minimumForThisMeasuredSubsetBytes": 278847,
+    "minimumSufficientCompleteCandidateBudgetEstablished": false,
+    "remainingRequiredAdaptation": [
+      "external static-check script binding",
+      "FIX09 current roots/identity/authority and delta-check/seal routing",
+      "M11 evidence and corrected F8 sidecar protection"
+    ]
+  },
+  "necessaryChanges": {
+    "archiveIntegrity": "Keep verify_archive fixed bytes/SHA256/archive SHA512; compare installed archive sidecar against the same catalog SHA512.",
+    "contentHashSource": "Read archive, archive .sha512, and .nupkg.metadata; validate metadata integer version 2, fixed W/feed source, and the existing strict 64-byte Base64 requirement before comparing lock/assets.",
+    "fixture": "Supply archive SHA512 separately from metadata contentHash.",
+    "protection": "Retain all old protection statements and fixed document entries; add fixed current packet and the pinned F8 eight-leaf seal.",
+    "relatedDocumentation": "Update the installed-record docstring for its three-byte-source tuple; no unrelated formatting or assertion removal."
+  },
+  "measuredUnifiedDiff": "--- M17-FIX08/source/m17_driver.py\n+++ M17-FIX09/source/m17_driver.py\n@@ -44,6 +44,7 @@\n M7=M.with_name('5.1.0-fm-yamldotnet-16.3.0-m17-fix07')\n M09_E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-m09'\n FIX08_DOCUMENTS=(\n+    ('engineering-loc-m11-diagnosis.md',7688,'d30cf94f63176471de62be3bb5e3a61be99588719b09f147e7cd4acbeacdb299'),\n     ('central-loc-m17-fix08-source.md',5044,'fca1b6ffa942423bb29d88f134195cb438d7d38336ca1a9e31aee5d7d8e3919c'),\n     ('engineering-loc-after-m09-failure.md',13561,'731a8c1e1c0d995255f549ee6b09a281d1df324df7ff1378498b86f1d81af096'),\n     ('central-loc-m09-partial-capture.json',1334742,'46033e3be907cc0dac725e09fe6bf28a2caf08c0ed1781c51df089575acd3f20'),\n@@ -673,11 +674,7 @@\n     return True\n \n def validate_restore(m,phase,graph,files,installed):\n-    \"\"\"Pure post-restore checker. Both mappings must contain actual read bytes.\n-\n-    installed maps (lowercase ID/version) to (signed nupkg bytes, NuGet .sha512\n-    sidecar bytes). The two hash domains are deliberately never interchanged.\n-    \"\"\"\n+    \"\"\"Validate lock/assets using (archive, archive SHA512, NuGet metadata) bytes.\"\"\"\n     expected=m['graphs'][graph];require(set(files)==set(expected['nodes']),'complete project lock/assets set required')\n     allowed={p['id'].lower()+'/'+p['version']:p for p in m['packages']}\n     result={};seen=set();edges=set()\n@@ -692,8 +689,12 @@\n             if entry['type'].lower()=='project':continue\n             key=name.lower()+'/'+entry['resolved'];require(key in allowed,'lock package outside 31 closure')\n             require(key in installed,'missing installed package')\n-            archive,sidecar=installed[key];verify_archive(allowed[key],archive)\n-            content=sidecar.decode('ascii').strip()\n+            archive,sidecar,metadata=installed[key];verify_archive(allowed[key],archive)\n+            require(sidecar.decode('ascii').strip()==allowed[key]['sha512'],'archive sidecar hash')\n+            metadata=strict(metadata)\n+            require(type(metadata) is dict and type(metadata.get('version')) is int and\n+                metadata['version']==2 and metadata.get('source')==str(W/'feed'),'NuGet metadata')\n+            content=metadata['contentHash']\n             require(len(base64.b64decode(content,validate=True))==64 and entry['contentHash']==content,'lock NuGet contentHash mismatch')\n             selected[key]=content;seen.add(key)\n         for direct in expected['direct'][project]:\n@@ -1250,7 +1251,7 @@\n             files[project]=(reader(parent/'packages.lock.json'),reader(parent/'obj/project.assets.json'))\n         for pkg in m['packages']:\n             path=root/'env/packages'/pkg['id'].lower()/pkg['version']/(pkg['key']+'.nupkg')\n-            if path.is_file():installed[pkg['id'].lower()+'/'+pkg['version']]=(reader(path),reader(Path(str(path)+'.sha512')))\n+            if path.is_file():installed[pkg['id'].lower()+'/'+pkg['version']]=(reader(path),reader(Path(str(path)+'.sha512')),reader(path.parent/'.nupkg.metadata'))\n         restored[phase]=validate_restore(m,phase,graph,files,installed)\n     compare_restore(restored['M-tests-generation'],restored['M-tests-verification'])\n     complete_package_union(m,restored['M-runner-generation'],restored['M-tests-generation'])\n@@ -1351,7 +1352,7 @@\n         {'output':'licenses/fallback/LICENSE','bytes':len(fallback),'sha256':sha(fallback)}]}\n     source={project:b'<Project><ItemGroup><None Update=\"nlog.xml\"><CopyToOutputDirectory>Always</CopyToOutputDirectory></None></ItemGroup></Project>',\n             child:b'<Project/>','src/Luban/nlog.xml':b'<nlog/>'}\n-    return m,files,{'yamldotnet/16.3.0':(archive,content.encode())},source\n+    return m,files,{'yamldotnet/16.3.0':(archive,pkg['sha512'].encode(),jb({'version':2,'source':str(W/'feed'),'contentHash':content}))},source\n \n def budget_checks(m,case):\n     def scenario(elapsed,phase='work',wait=False):\n@@ -1811,6 +1812,9 @@\n     records+=_review02_documents(reader)+_review02_prior(reader)\n     records+=_fix06_documents(reader)+_fix06_prior(reader)\n     records+=_fix07_documents(reader)+_fix07_prior(reader)+_fix08_prior(reader)\n+    p=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix08/authority/source-freeze.json'\n+    raw=check_bytes(reader(p),(2808,'c942f1456cdccf2c1a55f8685eb4d055aad72325d4848877e12d97a380824c0f'),'F8 seal')\n+    records+=strict(raw)['filesExcludingThisSeal']+[identity(p,raw)]\n     before=strict(reader(M06_E/'before.json'));precheck=before['precheck']\n     records+=precheck['protectedExpectedIdsFromSealedSource']+before['preservationExpected']\n     for key in ('binding','retryDisposition','preservedPreviousBinding','activation','host','template',\n",
+  "measuredUnifiedDiffBytes": 4660,
+  "measuredUnifiedDiffSha256": "07aade9acffd3bde8c74f5e9d393c310de77945589453540156b473f8a25764c",
+  "textMeasurement": {
+    "role": "Read-only text replacement and byte accounting only; not a static test, SOURCE generation, or seal.",
+    "method": "read_thread",
+    "afterToolReturned": true,
+    "toolOutputUntruncated": true,
+    "rawOutputEqualsReturnedExecOutput": true,
+    "originalCommandExecution": {
+      "type": "commandExecution",
+      "id": "exec-8901b81c-2fb1-4518-9334-48c8cd3a5dfc",
+      "command": "/bin/zsh -lc \"/opt/homebrew/bin/python3 -I -B - <<'PY'\nimport difflib,hashlib,json,os\nfrom pathlib import Path\nbase=Path('TestArtifacts/FightMatch/LOC-LIC-ALT-M');p=base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix08/source/m17_driver.py';b=p.read_bytes()\nassert len(b)==278195 and hashlib.sha256(b).hexdigest()=='666faf4d3ed8bc586e8edb91d2c4d07013490d045a11dc47716ef4aa5cd93dbb'\ns=b.decode()\ndef replace(old,new):\n global s\n assert s.count(old)==1,old\n s=s.replace(old,new)\nreplace('''    \\\"\\\"\\\"Pure post-restore checker. Both mappings must contain actual read bytes.\n\n    installed maps (lowercase ID/version) to (signed nupkg bytes, NuGet .sha512\n    sidecar bytes). The two hash domains are deliberately never interchanged.\n    \\\"\\\"\\\"''','''    \\\"\\\"\\\"Validate lock/assets using (archive, archive SHA512, NuGet metadata) bytes.\\\"\\\"\\\"''')\nreplace('''            archive,sidecar=installed[key];verify_archive(allowed[key],archive)\n            content=sidecar.decode('ascii').strip()''','''            archive,sidecar,metadata=installed[key];verify_archive(allowed[key],archive)\n            require(sidecar.decode('ascii').strip()==allowed[key]['sha512'],'archive sidecar hash')\n            metadata=strict(metadata)\n            require(type(metadata) is dict and type(metadata.get('version')) is int and\n                metadata['version']==2 and metadata.get('source')==str(W/'feed'),'NuGet metadata')\n            content=metadata['contentHash']''')\nreplace(\\\"(reader(path),reader(Path(str(path)+'.sha512')))\\\",\\\"(reader(path),reader(Path(str(path)+'.sha512')),reader(path.parent/'.nupkg.metadata'))\\\")\nreplace(\\\"(archive,content.encode())\\\",\\\"(archive,pkg['sha512'].encode(),jb({'version':2,'source':str(W/'feed'),'contentHash':content}))\\\")\nproduction=len(s.encode())\npacket=\\\"    ('engineering-loc-m11-diagnosis.md',7688,'d30cf94f63176471de62be3bb5e3a61be99588719b09f147e7cd4acbeacdb299'),\\\\n\\\"\nreplace('FIX08_DOCUMENTS=(\\\\n','FIX08_DOCUMENTS=(\\\\n'+packet)\nprotection=\\\"    p=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix08/authority/source-freeze.json'\\\\n    raw=check_bytes(reader(p),(2808,'c942f1456cdccf2c1a55f8685eb4d055aad72325d4848877e12d97a380824c0f'),'F8 seal')\\\\n    records+=strict(raw)['filesExcludingThisSeal']+[identity(p,raw)]\\\\n\\\"\nanchor='    records+=_fix07_documents(reader)+_fix07_prior(reader)+_fix08_prior(reader)\\\\n';replace(anchor,anchor+protection)\nraw=s.encode();patch=''.join(difflib.unified_diff(b.decode().splitlines(True),s.splitlines(True),fromfile='M17-FIX08/source/m17_driver.py',tofile='M17-FIX09/source/m17_driver.py'))\ntarget=base/'loc-lic-alt-yamldotnet-16.3.0-m17-fix09/source/source.patch'\nassert not os.path.lexists(target) and not any(q.is_symlink() for q in target.parents)\nprint(json.dumps({'kind':'UNSEALED_PARTIAL_TEXT_BUDGET_LOWER_BOUND','actual':{'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a13000-142a-7681-9540-9f6227d41b50','receivedItem':'fco_01a13000-1433-7923-8b83-ea982afa8c74'},'baselineBytes':len(b),'productionAndFixtureBytes':production,'packetBindingNetBytes':len(packet.encode()),'preserveF8EightNetBytes':len(protection.encode()),'measuredPartialCandidateBytes':len(raw),'capBytes':278528,'overCapBytes':len(raw)-278528,'netGrowthBytes':len(raw)-len(b),'notIncluded':['external static-check script binding','FIX09 current roots/identity/authority and delta-check/seal routing','M11 evidence and corrected F8 sidecar protection'],'testCalls':0,'sealCalls':0,'candidateDriverWritten':False,'sourcePatch':patch,'sourcePatchBytes':len(patch.encode()),'sourcePatchSha256':hashlib.sha256(patch.encode()).hexdigest()},ensure_ascii=False))\nPY\"",
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "status": "completed",
+      "exitCode": 0,
+      "durationMs": 8,
+      "output": {
+        "text": "{\"kind\": \"UNSEALED_PARTIAL_TEXT_BUDGET_LOWER_BOUND\", \"actual\": {\"threadId\": \"01a0f40d-b0c5-7bc0-a2b2-be9d1213648a\", \"hostId\": \"local\", \"turnId\": \"01a13000-142a-7681-9540-9f6227d41b50\", \"receivedItem\": \"fco_01a13000-1433-7923-8b83-ea982afa8c74\"}, \"baselineBytes\": 278195, \"productionAndFixtureBytes\": 278467, \"packetBindingNetBytes\": 114, \"preserveF8EightNetBytes\": 266, \"measuredPartialCandidateBytes\": 278847, \"capBytes\": 278528, \"overCapBytes\": 319, \"netGrowthBytes\": 652, \"notIncluded\": [\"external static-check script binding\", \"FIX09 current roots/identity/authority and delta-check/seal routing\", \"M11 evidence and corrected F8 sidecar protection\"], \"testCalls\": 0, \"sealCalls\": 0, \"candidateDriverWritten\": false, \"sourcePatch\": \"--- M17-FIX08/source/m17_driver.py\\n+++ M17-FIX09/source/m17_driver.py\\n@@ -44,6 +44,7 @@\\n M7=M.with_name('5.1.0-fm-yamldotnet-16.3.0-m17-fix07')\\n M09_E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-m09'\\n FIX08_DOCUMENTS=(\\n+    ('engineering-loc-m11-diagnosis.md',7688,'d30cf94f63176471de62be3bb5e3a61be99588719b09f147e7cd4acbeacdb299'),\\n     ('central-loc-m17-fix08-source.md',5044,'fca1b6ffa942423bb29d88f134195cb438d7d38336ca1a9e31aee5d7d8e3919c'),\\n     ('engineering-loc-after-m09-failure.md',13561,'731a8c1e1c0d995255f549ee6b09a281d1df324df7ff1378498b86f1d81af096'),\\n     ('central-loc-m09-partial-capture.json',1334742,'46033e3be907cc0dac725e09fe6bf28a2caf08c0ed1781c51df089575acd3f20'),\\n@@ -673,11 +674,7 @@\\n     return True\\n \\n def validate_restore(m,phase,graph,files,installed):\\n-    \\\"\\\"\\\"Pure post-restore checker. Both mappings must contain actual read bytes.\\n-\\n-    installed maps (lowercase ID/version) to (signed nupkg bytes, NuGet .sha512\\n-    sidecar bytes). The two hash domains are deliberately never interchanged.\\n-    \\\"\\\"\\\"\\n+    \\\"\\\"\\\"Validate lock/assets using (archive, archive SHA512, NuGet metadata) bytes.\\\"\\\"\\\"\\n     expected=m['graphs'][graph];require(set(files)==set(expected['nodes']),'complete project lock/assets set required')\\n     allowed={p['id'].lower()+'/'+p['version']:p for p in m['packages']}\\n     result={};seen=set();edges=set()\\n@@ -692,8 +689,12 @@\\n             if entry['type'].lower()=='project':continue\\n             key=name.lower()+'/'+entry['resolved'];require(key in allowed,'lock package outside 31 closure')\\n             require(key in installed,'missing installed package')\\n-            archive,sidecar=installed[key];verify_archive(allowed[key],archive)\\n-            content=sidecar.decode('ascii').strip()\\n+            archive,sidecar,metadata=installed[key];verify_archive(allowed[key],archive)\\n+            require(sidecar.decode('ascii').strip()==allowed[key]['sha512'],'archive sidecar hash')\\n+            metadata=strict(metadata)\\n+            require(type(metadata) is dict and type(metadata.get('version')) is int and\\n+                metadata['version']==2 and metadata.get('source')==str(W/'feed'),'NuGet metadata')\\n+            content=metadata['contentHash']\\n             require(len(base64.b64decode(content,validate=True))==64 and entry['contentHash']==content,'lock NuGet contentHash mismatch')\\n             selected[key]=content;seen.add(key)\\n         for direct in expected['direct'][project]:\\n@@ -1250,7 +1251,7 @@\\n             files[project]=(reader(parent/'packages.lock.json'),reader(parent/'obj/project.assets.json'))\\n         for pkg in m['packages']:\\n             path=root/'env/packages'/pkg['id'].lower()/pkg['version']/(pkg['key']+'.nupkg')\\n-            if path.is_file():installed[pkg['id'].lower()+'/'+pkg['version']]=(reader(path),reader(Path(str(path)+'.sha512')))\\n+            if path.is_file():installed[pkg['id'].lower()+'/'+pkg['version']]=(reader(path),reader(Path(str(path)+'.sha512')),reader(path.parent/'.nupkg.metadata'))\\n         restored[phase]=validate_restore(m,phase,graph,files,installed)\\n     compare_restore(restored['M-tests-generation'],restored['M-tests-verification'])\\n     complete_package_union(m,restored['M-runner-generation'],restored['M-tests-generation'])\\n@@ -1351,7 +1352,7 @@\\n         {'output':'licenses/fallback/LICENSE','bytes':len(fallback),'sha256':sha(fallback)}]}\\n     source={project:b'<Project><ItemGroup><None Update=\\\"nlog.xml\\\"><CopyToOutputDirectory>Always</CopyToOutputDirectory></None></ItemGroup></Project>',\\n             child:b'<Project/>','src/Luban/nlog.xml':b'<nlog/>'}\\n-    return m,files,{'yamldotnet/16.3.0':(archive,content.encode())},source\\n+    return m,files,{'yamldotnet/16.3.0':(archive,pkg['sha512'].encode(),jb({'version':2,'source':str(W/'feed'),'contentHash':content}))},source\\n \\n def budget_checks(m,case):\\n     def scenario(elapsed,phase='work',wait=False):\\n@@ -1811,6 +1812,9 @@\\n     records+=_review02_documents(reader)+_review02_prior(reader)\\n     records+=_fix06_documents(reader)+_fix06_prior(reader)\\n     records+=_fix07_documents(reader)+_fix07_prior(reader)+_fix08_prior(reader)\\n+    p=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix08/authority/source-freeze.json'\\n+    raw=check_bytes(reader(p),(2808,'c942f1456cdccf2c1a55f8685eb4d055aad72325d4848877e12d97a380824c0f'),'F8 seal')\\n+    records+=strict(raw)['filesExcludingThisSeal']+[identity(p,raw)]\\n     before=strict(reader(M06_E/'before.json'));precheck=before['precheck']\\n     records+=precheck['protectedExpectedIdsFromSealedSource']+before['preservationExpected']\\n     for key in ('binding','retryDisposition','preservedPreviousBinding','activation','host','template',\\n\", \"sourcePatchBytes\": 4660, \"sourcePatchSha256\": \"07aade9acffd3bde8c74f5e9d393c310de77945589453540156b473f8a25764c\"}\n",
+        "truncated": false
+      }
+    }
+  },
+  "execution": {
+    "staticCheckAttempts": 0,
+    "sourceSealAttempts": 0,
+    "driverWritten": false,
+    "staticCheckScriptWritten": false,
+    "materialRootsCreated": false,
+    "hostStarts": 0,
+    "restoreStarts": 0,
+    "archiveInvestigations": 0,
+    "SDKScans": 0,
+    "OSProbes": 0,
+    "newDownloads": 0,
+    "UnityRuns": 0,
+    "GitWrites": 0,
+    "oldFilesModified": [],
+    "newFiles": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix09-command-receipt.json"
+    ]
+  },
+  "outcome": {
+    "sourceReady": false,
+    "materialAccepted": false,
+    "integrationVerdict": "NOT_ISSUED_AUTHOR_CANNOT_ACCEPT",
+    "next": "Engineering receives the concrete size-contract gap before any check or seal; the measured subset is a lower bound, not a completed candidate or a sufficient proposed new cap."
+  }
+}
