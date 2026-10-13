@@ -1,32 +1,39 @@
 # FightMatch 当前接续快照
 
-2026-10-01 · 唯一维护者：中央 `01a0e401-511d-79f2-b47f-3ab0ade1681b/local`。只在状态改变时更新；任务只读相关包，历史按需定位。
+2026-10-13：开发继续，首Demo尚未验收。用户已批准简化工具检查后直接推进游戏接入，不逐步请示。实际权限和范围以[START_HERE](../../../START_HERE.md)及当前用户请求为准。
 
-## 当前约束
+## 当前任务
 
-- 继续同一产品的首Demo，保留玩法和存档；不扩到完整安卓首版。
-- 运行时uGUI、编辑器UI Toolkit；英／简中及错误占位符；Luban表格与YooAsset路线不变。
-- Unity2022.3.18f1，工具／缓存优先外置盘；本机Unity仍只由C串行执行。
-- 代码审查只走GitHub PR；自动化优先dots，实际云环境不等于已就绪或免费。
-- 主要角色默认`gpt-6-astra/xhigh`；明确重复小任务可`gpt-6-luna/low`。无工作就结束回合，每任务只设一个完成接收者。
+| 工作 | 当前事实 | 唯一明细入口 |
+| --- | --- | --- |
+| 工具功能 | 复用264条真实导表；标准重复键检查2.541秒按预期拒绝，无下载/还原 | [结果](../../../TestArtifacts/FightMatch/LOC-STANDARD-001/result.md) |
+| 游戏接入 | 三平台资源和Windows既有存储入口已接线；先前Mac Session/简中已观察，实际点击尚未通过 | [主程索引顶部](engineering.md) |
+| Unity/实际观察 | 三平台raw构建成功；平台13pass/1 Windows原生Ignore，复用既有通过项。新GUI启动被自动审批拒绝，窗口未打开 | [执行记录](../../../TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)、[8项人工清单](testing.md) |
+| 代码审查 | 平台修正已推送PR22/ef4c33f，待新head复审；不自行关闭前两次NEEDS_FIX | [PR22新发现](https://github.com/yyczz1/FightMatch/pull/22#discussion_r4256607300) |
+| 美术 | 继续使用现有占位；Warrior Idle Initial01已有用户选择但尚未Unity导入 | [主美记录](art.md#104-用户采用为-initial-01同日) |
 
-## 固定候选与任务
+当前缺口：新head独立审查、真实交互、新uGUI安卓包、玩家保存复开/冷启动/真机证据。GUI两次审批拒绝要求人类直接在C聊天授权，详见START_HERE；窗口未打开，中央尚未要求点击。iQOO Neo5未接入。PR4旧Canvas问题以真实显示、交互和保存复开闭合；Scene保存不等于玩家存档保存。
 
-| 任务／owner | 事实与下一动作 |
+新增已查明边界：WindowsEditorSaveStorage/WindowsContentPublicationStorage已存在，缺的是Host系统根与存储选择接线，并非缺少存储实现。本轮已复用接线；Windows原生运行仍未测，存档规则不变。
+
+Luban M17/FIX11旧链已停止。旧Yaml依赖许可证资料未解决；源码/工具功能通过不等于该项通过。dots最近实际同步因proxy:8080失败，当前就绪不可假定，见[云记录](resource-cloud-sync01-central-receipt.json)。本轮必要本机验证已由用户授权，仍由C串行承担。
+
+## 执行与角色
+
+专业负责人自行分发、接收和修正普通已授权工作；只将跨组协调、整体里程碑或真正阻塞汇总中央。默认Astra/xhigh，明确机械任务可Luna。遵循[简化验收规则](../../../.agent/TEAM_WORKFLOW.md#5-测试申请与回执)，每项一个完成接收者。
+
+| 角色 | thread（host均local，云例外） |
 | --- | --- |
-| uGUI PR #1／GitHub reviewer；中央收件 | [PR](https://github.com/yyczz1/FightMatch/pull/1)，已审基线`656a94e4feda942b575b9429921fb4d0b3fdce52`；最新head以PR为准，draft，基线GitHub审查已Completed，未发现重大问题；[原结论](https://github.com/yyczz1/FightMatch/pull/1#issuecomment-5926702254)。109文件Git tree与本机快照一致；未合并，测试门未关闭。 |
-| FIX17／C已结束 | exact2=2/2、Host30=30/30；Core190超时无XML，未带Release优化；资源37和产品29稳定，222并集及复开未完成。[原始证据选集](../../versioning/2026-10-01-ugui-pr/README.md)。 |
-| FIX18／C已交SOURCE_READY；中央收件 | [准备包](engineering-ugui-01-q4-progress-delta-fix-18.md)：回合`01a0f657-799c-72c1-9b0f-1b3804054c6b`已交两条test-only路径及静态证据，原90路径相等；编译与运行未验证。后续才激活一次exact190、Release、逐项跨域进度、600s。不机械拆组重跑。 |
-| 云图形preflight受阻／durable已结束 | 单次Xorg :97 exit1：非root无法创建/tmp/.X11-unix及socket；进程已回收，85.7s，未运行Unity。分辨率／GL和当前许可未验证；后续仅修此环境缺口或签本机例外，不重装工具。 |
-| LOC M12／LOC待激活 | [准备包](engineering-loc-license-alt-m-materials-continuation-12.md)：补两包、复用旧runner与已下载字节；Linux三包验签后才开放tests restore。工具链尚未接收。 |
-| 后续／按需唤醒 | LAYOUT设计与主美限定接收已完成；实际布局、语言偏好、YooAsset、API24／GLES3、APK与L1设备验收仍缺。 |
+| 中央 | 01a0e401-511d-79f2-b47f-3ab0ade1681b |
+| 主程 | 01a0f2e3-1a80-7671-a459-38d5c8de0e6b |
+| 主策 | 01a0f2e3-2c47-7273-88da-20513bcbfaf4 |
+| 主美 | 01a0f2e3-3a47-78f2-819c-cbe52e8d7e47 |
+| 主测试 | 01a0f2e3-4bd2-7130-b43a-19afa702e7bb |
+| 唯一C | 01a0fdbc-bf1e-7780-8f7f-dec13d6d590c |
+| 源码执行 | 01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c |
+| LOC | 01a0f40d-b0c5-7bc0-a2b2-be9d1213648a |
+| 云测试 | 01a0f13c-3d87-753a-ad11-16302add9084/durable |
 
-## 调度和接收
+本机master125b849及既有WIP保留；PR均为草稿、未合并。Unity2022.3.18f1 Intel与大型工具位于外置盘。运行时uGUI、Editor UI Toolkit、英/简中、Luban、YooAsset方向保持。
 
-- 中央直接收当前任务的唯一回执；主程／主测试已完成准备回合，按需唤醒，不重复空等。
-- 主程 `01a0f2e3-1a80-7671-a459-38d5c8de0e6b`；主策 `01a0f2e3-2c47-7273-88da-20513bcbfaf4`；主美 `01a0f2e3-3a47-78f2-819c-cbe52e8d7e47`；主测试 `01a0f2e3-4bd2-7130-b43a-19afa702e7bb`，均local。
-- C `01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local`；LOC `01a0f40d-b0c5-7bc0-a2b2-be9d1213648a/local`；云 `01a0f13c-3d87-753a-ad11-16302add9084/durable`。
-- 本机HEAD仍为`125b849`且保留WIP；审查分支通过GitHub连接器上传，未改本机分支／暂存区。后续以源码manifest与实际PR/head绑定，不能混同两者。
-- Goal工具仍paused；用户已授权的当前开发继续。首Demo尚未验收，无新APK；iQOO真机门尚待连接。
-
-[协作规则](../../../.agent/TEAM_WORKFLOW.md) · [实际模型回合](model-switch-receipt.json) · [完整历史登记](run-history-through-2026-10-01.md) · [主程索引](engineering.md) · [测试证据索引](testing.md)。不要为恢复一个小任务整篇读取这些历史。
+历史按需查[2026-10-13入口原文](central-entry-history-through-2026-10-13.md)、[V08及之前](run-history-through-v08-native.md)；历史“当前任务”和旧一次额度不得用于新派发。负责人索引只读顶部当前段，其后历史按需定位。

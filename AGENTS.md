@@ -151,6 +151,12 @@ and [execution agreement](.agent/TEAM_WORKFLOW.md).
   （主策）, engineering lead（主程）, art lead（主美）, and testing lead（主测试）.
   The central coordinator maintains the project overview and handles dispatch,
   dependencies, progress and receipt; specialist leads own detailed decisions.
+- **User update (2026-10-12):** engineering, planning, art and testing leads
+  independently dispatch, receive, correct and continue ordinary authorized
+  work in their own groups. Report to central only when cross-group coordination
+  is needed or overall progress is affected. Keep routine evidence and receipts
+  with the responsible lead; central does not duplicate them. Follow
+  [the reporting triggers](.agent/TEAM_WORKFLOW.md#6-回传与继续推进).
 - Engineering delegates architecture → system design → implementation.
   Planning, art and testing delegate through their documented specialist roles.
   Keep design and production in separate role chats; code review runs through
@@ -188,6 +194,11 @@ and [execution agreement](.agent/TEAM_WORKFLOW.md).
   and wake them on useful work/results. Do not have central, engineering and
   testing all wait on or forward the same result. Run mechanical checks in
   scripts; do not add review rounds or long documents for routine bookkeeping.
+- **Validation update (user, 2026-10-13):** prefer standard tools, reuse valid
+  results, and check only remaining gaps. Use actual manual observation where
+  suitable; continue authorized technical work without per-step confirmation.
+  Follow [the simplified validation rule](.agent/TEAM_WORKFLOW.md#5-测试申请与回执)
+  rather than creating a bespoke acceptance framework.
 - **Model policy (user update, 2026-10-01):** central and specialist lead,
   architecture, system-design and implementation chats default to
   `gpt-6-astra` / `xhigh` (极高), including new chats and subsequent dispatches.
