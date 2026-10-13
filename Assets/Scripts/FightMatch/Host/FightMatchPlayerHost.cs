@@ -19,11 +19,15 @@ namespace FightMatch.Host
         [SerializeField] private TMP_FontAsset fontAsset;
         [SerializeField] private UnityEngine.TextAsset fontLicense;
         [SerializeField] private FightMatchHostView runtimeRoot;
-        [SerializeField] private TextAsset resourceBoot;
-        [SerializeField] private string resourceBootSha256;
-        [SerializeField] private string resourceSetId;
-        [SerializeField] private string resourcePlatform;
-        [SerializeField] private int resourceAppProtocol = 1;
+        [Serializable] private sealed class PlatformResourceBoot
+        {
+            public TextAsset boot;
+            public string pinnedSha256;
+            public string resourceSetId;
+        }
+        [SerializeField] private PlatformResourceBoot macResourceBoot = new PlatformResourceBoot();
+        [SerializeField] private PlatformResourceBoot windowsResourceBoot = new PlatformResourceBoot();
+        [SerializeField] private PlatformResourceBoot androidResourceBoot = new PlatformResourceBoot();
         public TMP_FontAsset FontAsset => fontAsset;
         public UnityEngine.TextAsset FontLicense => fontLicense;
         public FightMatchHostView RuntimeRoot => runtimeRoot;
@@ -137,6 +141,10 @@ namespace FightMatch.Host
                 Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
                     new AndroidContentPublicationStorage(locator),
                     id => new AndroidLocalSaveStorage(profiles, id, SavePurpose.PlayerSave));
+#elif UNITY_EDITOR_WIN
+                Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
+                    new WindowsContentPublicationStorage(locator),
+                    id => new WindowsEditorSaveStorage(profiles, id, SavePurpose.PlayerSave));
 #else
                 Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
                     new MacContentPublicationStorage(locator),
@@ -158,14 +166,30 @@ namespace FightMatch.Host
         private bool CurrentResourceStartup(long epoch) => !destroyed && !startupCancelled &&
             resourceEpoch == epoch && resourceCancellation != null && !resourceCancellation.IsCancellationRequested;
 
+        private ResourceBootstrapInput CreateResourceInput(RuntimePlatform platform)
+        {
+            PlatformResourceBoot selected;
+            string expectedPlatform;
+            switch (platform)
+            {
+                case RuntimePlatform.OSXEditor: selected = macResourceBoot; expectedPlatform = "macOS"; break;
+                case RuntimePlatform.WindowsEditor: selected = windowsResourceBoot; expectedPlatform = "windows"; break;
+                case RuntimePlatform.Android: selected = androidResourceBoot; expectedPlatform = "android"; break;
+                default: return null;
+            }
+            if (selected == null || selected.boot == null || string.IsNullOrEmpty(selected.pinnedSha256) ||
+                string.IsNullOrEmpty(selected.resourceSetId)) return null;
+            return new ResourceBootstrapInput(selected.boot.bytes, selected.pinnedSha256, selected.resourceSetId,
+                expectedPlatform, 1, new[] { "resource-schema-v1" });
+        }
+
         private async Task<FightMatchResourceBridgeResult> OpenResourcesAsync(long epoch, CancellationToken cancellationToken)
         {
             FightMatchResourceBridgeResult Failed(string code) => new FightMatchResourceBridgeResult(null, null, null, code);
             try
             {
                 if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
-                var created = YooAssetRuntimeFactory.Create(new ResourceBootstrapInput(resourceBoot != null ? resourceBoot.bytes : null,
-                    resourceBootSha256, resourceSetId, resourcePlatform, resourceAppProtocol, new[] { "resource-schema-v1" }));
+                var created = YooAssetRuntimeFactory.Create(CreateResourceInput(UnityEngine.Application.platform));
                 if (!created.IsAccepted) return Failed(created.SafeCode);
                 resourceRuntime = created.Runtime;
                 VerifyLocaleStorage();
@@ -245,6 +269,15 @@ namespace FightMatch.Host
             if (preferenceRoot == null || Path.Combine(preferenceRoot, "FightMatch") != CanonicalProductRoot)
                 throw new IOException("Locale storage root changed.");
 #if UNITY_EDITOR
+            if (UnityEngine.Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                if (acceptancePersistentRoot != null)
+                    throw new PlatformNotSupportedException("Acceptance storage requires OSXEditor.");
+                var windowsSettings = Path.Combine(CanonicalProductRoot, "settings");
+                new WindowsContentPublicationStorage(windowsSettings);
+                new WindowsContentPublicationStorage(Path.Combine(windowsSettings, "locale-preference-v1.json"));
+                return;
+            }
             if (acceptancePersistentRoot != null)
             {
                 if (!(acceptanceStorageLease is FileStream lease) || !lease.CanWrite || preferenceRoot != acceptancePersistentRoot)
@@ -297,8 +330,13 @@ namespace FightMatch.Host
 #if UNITY_ANDROID && !UNITY_EDITOR
             return AndroidLocalSaveStorage.CanonicalPersistentDataPath(path);
 #else
+            if (UnityEngine.Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                new WindowsContentPublicationStorage(path);
+                return Path.GetFullPath(path);
+            }
             if (UnityEngine.Application.platform != RuntimePlatform.OSXEditor)
-                throw new PlatformNotSupportedException("This host supports Android Player and the Mac Editor.");
+                throw new PlatformNotSupportedException("This host supports Android Player and the Mac or Windows Editor.");
             Directory.CreateDirectory(path);
             var buffer = new byte[4096];
             if (MacRealPath(path, buffer) == IntPtr.Zero) throw new IOException("Cannot resolve the system save directory.");

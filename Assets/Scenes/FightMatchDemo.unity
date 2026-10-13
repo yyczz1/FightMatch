@@ -155,11 +155,18 @@ MonoBehaviour:
   fontAsset: {fileID: 11400000, guid: 42f00453155c748a6ae38266840489f5, type: 2}
   fontLicense: {fileID: 4900000, guid: e6f3cf4d3cbf34266af76d305095c7e9, type: 3}
   runtimeRoot: {fileID: 1017091372}
-  resourceBoot: {fileID: 4900000, guid: ce31e6ed903a84cd89483cf21b47878f, type: 3}
-  resourceBootSha256: 5c1d6721f9e1c2d8bc3b45dce5aabfe5e730bcf66fcd02f511ba765010093b5b
-  resourceSetId: fm.builtin.r1.macos
-  resourcePlatform: macOS
-  resourceAppProtocol: 1
+  macResourceBoot:
+    boot: {fileID: 4900000, guid: ce31e6ed903a84cd89483cf21b47878f, type: 3}
+    pinnedSha256: 5c1d6721f9e1c2d8bc3b45dce5aabfe5e730bcf66fcd02f511ba765010093b5b
+    resourceSetId: fm.builtin.r1.macos
+  windowsResourceBoot:
+    boot: {fileID: 4900000, guid: 8beeca79207eb4eba894bab57d21e7a6, type: 3}
+    pinnedSha256: 1da6bc5daedb5f2f2d916ba772ff7f411f87f1f043cbc3a33c8f462cb6d5904e
+    resourceSetId: fm.builtin.r1.windows
+  androidResourceBoot:
+    boot: {fileID: 4900000, guid: 74b447c2052e84c6f87e3f7fb5b3d839, type: 3}
+    pinnedSha256: 7819a00bba3f175908080fd590623c1b81f498098f219ad43b0f3357621960c6
+    resourceSetId: fm.builtin.r1.android
 --- !u!4 &222360855
 Transform:
   m_ObjectHideFlags: 0

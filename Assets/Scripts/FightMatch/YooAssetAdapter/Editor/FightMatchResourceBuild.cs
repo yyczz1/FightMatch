@@ -96,7 +96,7 @@ namespace FightMatch.YooAssetAdapter.Editor
             var builtin = output + "/builtin/" + Package;
             File.WriteAllBytes(builtin + "/fm-text-source.receipt.json", input[7]);
             var inventory = Directory.GetFiles(builtin, "*", SearchOption.AllDirectories).OrderBy(x => x, StringComparer.Ordinal)
-                .Select(path => Obj("source", path, "playerPath", "Assets/StreamingAssets/FightMatchResources/" + Package + "/" +
+                .Select(path => Obj("source", path, "playerPath", PlayerRoot(target) + "/" +
                     path.Substring(builtin.Length + 1).Replace('\\', '/'), "length", new FileInfo(path).Length,
                     "sha256", Hash(ReadBounded(path, 268435456)))).ToArray();
             File.WriteAllBytes(output + "/inventory.json", Encode(Obj("schemaVersion", 1, "platform", platform,
@@ -132,6 +132,7 @@ namespace FightMatch.YooAssetAdapter.Editor
         internal static string Platform(BuildTarget target) => target == BuildTarget.Android ? "android" :
             target == BuildTarget.StandaloneOSX ? "macOS" : target == BuildTarget.StandaloneWindows64 ? "windows" :
             throw new ArgumentException("Unsupported BuiltIn platform.", nameof(target));
+        internal static string PlayerRoot(BuildTarget target) => "Assets/StreamingAssets/FightMatchResources/" + Platform(target) + "/" + Package;
         private static string SetId(Plan plan, string platform) => plan.resourceSetPrefix + "." + platform.ToLowerInvariant();
 
         private sealed class FixedRawMap : IBuildTask, IAssetIgnoreRule

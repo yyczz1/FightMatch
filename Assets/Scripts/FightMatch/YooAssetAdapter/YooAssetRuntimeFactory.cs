@@ -154,18 +154,25 @@ namespace FightMatch.YooAssetAdapter
                 if (mapping.Kind != "raw") return ResourceRuntimeCreationResult.Rejected("RES_UNSUPPORTED");
             if (!FightMatchResourceReleaseSet.TryDecodePinned(input.BootBytes, input.ExpectedBootSha256, out var set, out var code))
                 return ResourceRuntimeCreationResult.Rejected(code);
-            IAssetDispatcher dispatcher;
-            try { dispatcher = new UnityAssetDispatcher(); }
-            catch (InvalidOperationException) { return ResourceRuntimeCreationResult.Rejected("RES_MAIN_THREAD"); }
             var platform = UnityEngine.Application.platform;
             var actual = platform == UnityEngine.RuntimePlatform.Android ? "android" :
                 platform == UnityEngine.RuntimePlatform.OSXEditor ? "macOS" :
                 platform == UnityEngine.RuntimePlatform.WindowsEditor ? "windows" : "";
             if (plan.Platform != actual) return ResourceRuntimeCreationResult.Rejected("RES_SCHEMA");
-            var root = UnityEngine.Application.streamingAssetsPath + "/FightMatchResources/" + plan.PackageName;
+            IAssetDispatcher dispatcher;
+            try { dispatcher = new UnityAssetDispatcher(); }
+            catch (InvalidOperationException) { return ResourceRuntimeCreationResult.Rejected("RES_MAIN_THREAD"); }
+            var root = BuiltInRoot(UnityEngine.Application.streamingAssetsPath, actual, plan.PackageName);
             return ResourceRuntimeCreationResult.Accepted(
                 new YooAssetResourceRuntime(set, plan, root, dispatcher, RealYooSdk.Instance),
                 plan.ReleaseSetId, plan.DescriptorSha256);
+        }
+
+        internal static string BuiltInRoot(string streamingAssetsPath, string platform, string packageName)
+        {
+            if (platform != "macOS" && platform != "windows" && platform != "android")
+                throw new ArgumentException("Unsupported BuiltIn platform.", nameof(platform));
+            return streamingAssetsPath + "/FightMatchResources/" + platform + "/" + packageName;
         }
 
         private sealed class Rejection : Exception

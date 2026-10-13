@@ -337,6 +337,10 @@ namespace FightMatch.Host
         private static extern IntPtr AndroidReadLink(string path, byte[] buffer, UIntPtr size);
         private static void NoLinks(string path)
         {
+#if UNITY_EDITOR_WIN
+            new WindowsContentPublicationStorage(path);
+            return;
+#else
             for (var current = path; !string.IsNullOrEmpty(current); current = Path.GetDirectoryName(current))
             {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -348,6 +352,7 @@ namespace FightMatch.Host
                 var error = Marshal.GetLastWin32Error();
                 if (error != 22 && error != 2) throw new IOException("Root inspection failed: " + error);
             }
+#endif
         }
 
         private bool EmptyRoot()
