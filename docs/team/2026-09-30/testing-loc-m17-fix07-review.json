@@ -1,0 +1,92 @@
+{
+  "task": "LOC-M17-FIX07 GitHub PR review receipt",
+  "qaActual": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a12e80-9746-7f73-a30c-8b802e2f5f26"
+  },
+  "source": {
+    "publication": "docs/team/2026-09-30/central-loc-m17-fix07-publication.json",
+    "candidateRoot": "docs/versioning/2026-10-12-loc-m17-fix07-pr/",
+    "head": "bd92f6bcedaf89751256a4a7e0084d39cd244893",
+    "parent": "454eb4da250262a396b17da97d83c71de408bd48",
+    "tree": "d325203eaf17c59e1737282002c1d43e26420097",
+    "newFiles": 45,
+    "previousBlobs": 1838,
+    "previousBlobsUnchanged": true,
+    "sourceOriginalToolRecordsVerifiedByCentral": true,
+    "readOnlyValidation": "16/16 repair-delta checks passed in 6.4328825 seconds, exit 0; three prior OS probes were reused, with no new native starts.",
+    "sourceSeal": "Successful 11.299-second seal, as recorded in the central publication context.",
+    "retainedInitialFailure": "The earlier aggregate attempt remains recorded as failed (exit 20, 2.401538 seconds) on inventory SHA representation mismatch; the repaired candidate has a separate successful result.",
+    "nativeAfterM08": "None; full dependency restores remain unaccepted."
+  },
+  "reviewWatch": {
+    "startedAtUtc": "2026-10-12T05:05:46Z",
+    "startedAtBasis": "clock__curr_time",
+    "maximumMinutes": 6,
+    "completedAtUtc": "2026-10-12T05:08:37Z",
+    "outcome": "COMPLETED_WITHIN_WINDOW"
+  },
+  "github": {
+    "repository": "yyczz1/FightMatch",
+    "pullRequest": 2,
+    "url": "https://github.com/yyczz1/FightMatch/pull/2",
+    "headAtFinalCheck": "bd92f6bcedaf89751256a4a7e0084d39cd244893",
+    "headMatchesExpected": true,
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "trigger": {
+      "commentId": 6118099176,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6118099176",
+      "createdAtUtc": "2026-10-12T05:05:07Z"
+    },
+    "reviewSummary": {
+      "commentId": 5928035293,
+      "status": "Completed",
+      "reviewedCommitPrefix": "bd92f6b",
+      "completedAtUtc": "2026-10-12T05:08:36.769614Z"
+    },
+    "result": {
+      "commentId": 6118132100,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6118132100",
+      "createdAtUtc": "2026-10-12T05:08:28Z",
+      "reviewedCommit": "bd92f6bced",
+      "verbatimConclusion": "Codex Review: Didn't find any major issues. Another round soon, please!"
+    },
+    "exactHeadNewFindings": [],
+    "formalReviewSubmission": null,
+    "formalApproved": false
+  },
+  "historicalUnresolvedFindings": [
+    {
+      "commentId": 4177549312,
+      "threadId": "PRRT_kwDOTDyjrM6oyRcu",
+      "severity": "P2",
+      "title": "Validate all cached archives before downloading",
+      "path": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+      "resolved": false,
+      "outdated": false,
+      "attribution": "Historical FIX01 thread; not a new finding from the FIX07 review."
+    }
+  ],
+  "reviewGate": {
+    "status": "ACCEPT_SOURCE_ONLY_NO_MAJOR_ISSUES_REPORTED",
+    "basis": "GitHub completed review for the exact requested head and returned no major issues or new inline findings; central publication records source identities and actual source tool records.",
+    "formalApproved": false,
+    "scopeLimit": "This closes only FIX07 source review. It does not resolve the unrelated historical P2 thread, claim zero findings at every severity, or accept native/material execution, M08, Unity/build, device, merge, or release."
+  },
+  "materialStatus": {
+    "M08": "NEEDS_FIX",
+    "newNativeRunsAfterM08": 0,
+    "nativeRerunAuthorizedByThisReceipt": false
+  },
+  "nonActions": {
+    "reviewRetriggered": false,
+    "localCodeReview": false,
+    "testsRerun": false,
+    "nativeOrSDKRun": false,
+    "Unity": false,
+    "GitWrites": false
+  }
+}

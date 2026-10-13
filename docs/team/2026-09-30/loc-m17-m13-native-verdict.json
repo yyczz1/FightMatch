@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-M13",
+  "integrationVerdict": "NEEDS_FIX",
+  "scope": "M_NATIVE",
+  "central": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local",
+    "turnId": "01a13323-9503-7942-8536-bb479256d06b",
+    "humanItem": "01a13323-95c4-77a2-910c-5a03d6e5bb02"
+  },
+  "owner": {
+    "hostId": "local",
+    "receivedItem": "fco_01a13327-e0a9-7143-8ad2-68818e170acb",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a13327-e085-7760-846e-d6b6014f86b4"
+  },
+  "sourceHead": "7be2852330b7a0138be7b4fe3a8bed06924f0da6",
+  "sourceReview": "testing-loc-m17-fix10-review.json; SOURCE_ONLY ACCEPT retained",
+  "actualToolId": "exec-eeefca3c-5a72-4e15-8810-696c9cbeee51",
+  "centralOriginalToolComparison": "read_thread completed actual turn; original id/command/cwd/status/exitCode/durationMs and full untruncated output exactly equal toolCapture.originalCommandExecution",
+  "hostStartCount": 1,
+  "fullInvocationSeconds": 216.20272404199932,
+  "hostExitCode": 1,
+  "restoreResults": [
+    {
+      "id": "M-runner-generation-restore",
+      "started": true,
+      "exitCode": 0,
+      "seconds": 6.029368874995271,
+      "failure": null
+    },
+    {
+      "id": "M-tests-generation-restore",
+      "started": true,
+      "exitCode": 143,
+      "seconds": 3.5541034579946427,
+      "failure": "FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix10/phases/M-tests-generation/env/packages/microsoft.testplatform.objectmodel/17.11.1/qci5yr0f.zv2'"
+    },
+    {
+      "id": "M-tests-verification-restore",
+      "started": false,
+      "exitCode": null,
+      "seconds": null,
+      "failure": null
+    }
+  ],
+  "newDownloads": 0,
+  "protectedCount": 378,
+  "protectedChanges": [],
+  "knownProcessQuiescent": true,
+  "stillOwned": [],
+  "manifest": null,
+  "evidence": [
+    {
+      "path": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m13/before.json",
+      "bytes": 108636,
+      "sha256": "77f65a6a522570dcfdefc07aee7aa76adb57a91ce8859eebd3fec5b88ac4e5fc"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m13/stdout.log",
+      "bytes": 482,
+      "sha256": "e5d7d018d4c454c3f8fbdf3f44b0bace0daa80050a491a30f4fa7d02af15f313"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m13/stderr.log",
+      "bytes": 1549,
+      "sha256": "899a869cdc0a37002bbe3d4e22ce791aac2981b8ddb4ffe7e7ee5c19f5457df2"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m13/receipt.json",
+      "bytes": 53631,
+      "sha256": "48041e19655215148800095d6e001a21053e071b9d44e9dad44fd1e4c348d876"
+    }
+  ],
+  "oneAttemptConsumed": true,
+  "automaticRetryAuthorized": false,
+  "next": {
+    "packet": "central-loc-m13-diagnosis.md",
+    "engineeringActual": "01a1332f-61b9-7e53-a24b-d5451446635a",
+    "scope": "Ordinary group-owned deterministic diagnosis and minimal source correction; no extra native restore/download."
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-M08",
+  "integrationVerdict": "NEEDS_FIX",
+  "scope": "Actual M material execution",
+  "central": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local",
+    "turnId": "01a12e46-6af4-7b82-958d-d18c1146d85d",
+    "humanItem": "01a12e46-6b4a-7fb2-aea1-235e64f1268f"
+  },
+  "ownerTurn": "01a12e47-da22-7b32-a9be-046bc0919c4b",
+  "sourceHead": "454eb4da250262a396b17da97d83c71de408bd48",
+  "sourceAcceptance": "FIX06 SOURCE_ONLY retained; not native acceptance",
+  "actualTool": {
+    "id": "exec-dd926858-13e5-40a6-880c-eaed023723e6",
+    "centralReadThreadAndComparedOriginal": true,
+    "fullCommandAndOutputMatch": true,
+    "untruncated": true,
+    "status": "failed",
+    "exitCode": 1,
+    "fullInvocationSeconds": 129.05750433300273
+  },
+  "execution": {
+    "onceOnlyAttemptConsumed": true,
+    "approvalRejected": false,
+    "timedOut": false,
+    "hostPid": 47093,
+    "hostStartedAtUtc": "2026-10-12T04:05:49.793295+00:00",
+    "hostEndedAtUtc": "2026-10-12T04:07:58.523709+00:00",
+    "firstRestore": {
+      "id": "M-runner-generation-restore",
+      "exitCode": 1,
+      "elapsedSeconds": 5.987138499993307,
+      "error": "Access denied / Operation not permitted writing Luban.DataLoader.Builtin/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp",
+      "sandboxProfileSha256": "5f769139403d229b1ba22378f979019f9a7ac9425c305c73b5e5b7bca3abb916"
+    },
+    "followingRestores": "NOT_STARTED",
+    "downloads": 0,
+    "archiveResponseBodyBytes": 0,
+    "protectedCount": 244,
+    "protectedChanges": [],
+    "knownProcessesQuiescent": true,
+    "stillOwned": [],
+    "manifest": null
+  },
+  "rawEvidence": {
+    "root": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m08",
+    "finalReceiptBytes": 26370,
+    "finalReceiptSha256": "30e1696bfc55bd478704b23ad48b6206a643ef65c1bbfd0e704d48c02492b77a",
+    "originalToolClockReceipt": {
+      "bytes": 7641,
+      "sha256": "de70a8d60a7eafec6edd2b534828561dc1c60e722c18d01470243fbb542f944a"
+    },
+    "postReturnEnrichment": "Original tool capture and native failure details; does not alter host outcome"
+  },
+  "independentReceipt": {
+    "qaTurn": "01a12e4f-7cf9-7b33-ba5a-390682fbecb2",
+    "path": "docs/team/2026-09-30/testing-loc-m17-m08-native-receipt.json",
+    "verdict": "NEEDS_FIX"
+  },
+  "next": {
+    "fullRestoreRetryAuthorized": false,
+    "task": "Bounded microscopic OS-rule diagnosis",
+    "packet": "docs/team/2026-09-30/central-loc-m08-diagnosis.md",
+    "engineeringTurn": "01a12e4f-69be-72e2-b3ef-ca33e7c4303b",
+    "preserveAllOldInputsAndOutputs": true
+  },
+  "limitations": [
+    "Offline profile matching and GitHub source review did not establish OS acceptance",
+    "No successful M, B/L, Unity, APK or device acceptance"
+  ]
+}

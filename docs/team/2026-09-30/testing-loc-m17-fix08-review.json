@@ -1,0 +1,98 @@
+{
+  "task": "LOC-M17-FIX08 GitHub PR review receipt",
+  "qaActual": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a12f20-e81f-75f3-b746-85ebb8ee1906"
+  },
+  "source": {
+    "packet": "docs/team/2026-09-30/central-loc-m17-fix08-source.md",
+    "candidateDirectory": "docs/versioning/2026-10-12-loc-m17-fix08-pr/",
+    "publication": "docs/team/2026-09-30/central-loc-m17-fix08-publication.json",
+    "head": "a0bfe7007be65eed6d1afda317934195cb6ebbd6",
+    "parent": "bd92f6bcedaf89751256a4a7e0084d39cd244893",
+    "tree": "0c771474305ace711498c1fd6a1aee369b1f1e35",
+    "publishedFiles": 31,
+    "remoteNewBlobsMatched": 31,
+    "previousBlobsUnchanged": 1883,
+    "validation": {
+      "directedChecksPassed": 42,
+      "directedChecksSeconds": 7.0085888340036036,
+      "sealSeconds": 14.938371292002557,
+      "newNativeRuns": 0,
+      "GETs": 0,
+      "restores": 0
+    }
+  },
+  "reviewWatch": {
+    "startedAtUtc": "2026-10-12T08:00:53Z",
+    "startedAtBasis": "clock__curr_time",
+    "maximumMinutes": 6,
+    "completedAtUtc": "2026-10-12T08:04:51Z",
+    "outcome": "COMPLETED_WITHIN_WINDOW"
+  },
+  "github": {
+    "repository": "yyczz1/FightMatch",
+    "pullRequest": 2,
+    "url": "https://github.com/yyczz1/FightMatch/pull/2",
+    "headAtFinalCheck": "a0bfe7007be65eed6d1afda317934195cb6ebbd6",
+    "headMatchesExpected": true,
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "trigger": {
+      "commentId": 6120173614,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6120173614",
+      "createdAtUtc": "2026-10-12T08:00:17Z"
+    },
+    "reviewSummary": {
+      "commentId": 5928035293,
+      "status": "Completed",
+      "reviewedCommitPrefix": "a0bfe70",
+      "completedAtUtc": "2026-10-12T08:04:50.159325Z"
+    },
+    "result": {
+      "commentId": 6120235084,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6120235084",
+      "createdAtUtc": "2026-10-12T08:04:43Z",
+      "reviewedCommit": "a0bfe7007b",
+      "verbatimConclusion": "Codex Review: Didn't find any major issues. You're on a roll."
+    },
+    "exactHeadNewFindings": [],
+    "formalReviewSubmission": null,
+    "formalApproved": false
+  },
+  "historicalFindings": [
+    {
+      "commentId": 4177549312,
+      "threadId": "PRRT_kwDOTDyjrM6oyRcu",
+      "severity": "P2",
+      "title": "Validate all cached archives before downloading",
+      "path": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+      "line": 1131,
+      "resolved": false,
+      "outdated": false,
+      "attribution": "Historical FIX01 finding; not a new FIX08 finding."
+    }
+  ],
+  "sourceGate": {
+    "status": "ACCEPT_SOURCE_ONLY_NO_MAJOR_ISSUES_REPORTED",
+    "basis": "GitHub completed the exact-head review and reported no major issues or new inline findings; publication records remote file identity checks and successful source validation/seal.",
+    "formalApproved": false,
+    "scopeLimit": "This is source-review acceptance only, not a claim of zero findings at all severities. The historical FIX01 P2 remains unresolved; no material/native, Unity, device, merge, or release acceptance is implied."
+  },
+  "materialStatus": {
+    "M09": "NEEDS_FIX",
+    "nativeRunsAfterM09": 0,
+    "nativeRetryAuthorizedByThisReceipt": false
+  },
+  "nonActions": {
+    "reviewRetriggered": false,
+    "localCodeReview": false,
+    "testsRun": false,
+    "nativeOrSDK": false,
+    "Unity": false,
+    "GitWrites": false,
+    "otherThreadsMessaged": false
+  }
+}

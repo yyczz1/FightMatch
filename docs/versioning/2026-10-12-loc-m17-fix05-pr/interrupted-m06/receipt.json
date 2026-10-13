@@ -1,0 +1,1387 @@
+{
+  "task": "LOC-M06-INTERRUPTION-RECEIPT",
+  "status": "POST_INTERRUPTION_INCOMPLETE_FINAL_EXIT_UNKNOWN",
+  "kind": "Retrospective read-only intake, not a new material run.",
+  "owner": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a12bfe-0633-7001-9613-18780415e1a1",
+    "receivedItem": "fco_01a12bfe-0658-7480-ad71-c71b6e9a853f"
+  },
+  "authority": {
+    "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "centralHost": "local",
+    "centralTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+    "humanItem": "01a12bf9-ee2d-7140-a43f-a33e3bafec6c",
+    "directReadExactText": "继续任务\n",
+    "scope": "Read-only interruption intake; create only this receipt and central summary; no execute/retry/kill."
+  },
+  "original": {
+    "ownerTurn": "01a12998-5f4d-7a03-83c3-c5670144e1cc",
+    "ownerTurnStatus": "interrupted",
+    "toolRecord": {
+      "type": "commandExecution",
+      "id": "exec-177da352-5c1b-4a9e-a39e-82082f70591f",
+      "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B - <<'PY'\nimport datetime,hashlib,json,os,subprocess,time\nfrom pathlib import Path\nR=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\nE=R/'TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1'\nbefore=json.loads((E/'before.json').read_bytes())\nfor rec in [before['precheck'][k] for k in ('binding','activation','host','template','driver','sourceFreeze','python','humanAuthorityRecord')]:\n p=Path(rec['path']);assert not any(q.is_symlink() for q in (p,*p.parents))\n b=p.read_bytes();assert (len(b),hashlib.sha256(b).hexdigest())==(rec['bytes'],rec['sha256'])\nassert not os.path.lexists(before['precheck']['rootsAbsent']['materialRoot'])\nassert not os.path.lexists(before['precheck']['rootsAbsent']['workRoot'])\nassert sorted(p.name for p in E.iterdir())==['before.json']\nargv=before['precheck']['argv']\nstart=time.monotonic();utc=datetime.datetime.now(datetime.timezone.utc).isoformat()\nwith (E/'stdout.log').open('xb') as out,(E/'stderr.log').open('xb') as err:\n process=subprocess.Popen(argv,cwd=str(R),stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)\n print(json.dumps({'event':'HOST_STARTED','pid':process.pid,'argv':argv,'cwd':str(R),'startedAtUtc':utc,'startedMonotonic':start,'environment':'inherited unchanged','MDeadline':'original reviewed execute() 870+30 seconds'}),flush=True)\n code=process.wait()\nend=time.monotonic();logs=[]\nfor name in ('stdout.log','stderr.log'):\n p=E/name;b=p.read_bytes();logs.append({'path':str(p),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'withinMaxLogBytes':len(b)<=4194304})\nprint(json.dumps({'event':'HOST_EXITED','pid':process.pid,'exitCode':code,'startedAtUtc':utc,'endedAtUtc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'elapsedHostWallSeconds':end-start,'logs':logs}),flush=True)\nraise SystemExit(code)\nPY\"",
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "status": "failed",
+      "exitCode": -1,
+      "durationMs": 102534,
+      "output": {
+        "text": "{\"event\": \"HOST_STARTED\", \"pid\": 60792, \"argv\": [\"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python\", \"-I\", \"-B\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-resume1-host.py\", \"execute\"], \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch\", \"startedAtUtc\": \"2026-10-11T06:15:23.066145+00:00\", \"startedMonotonic\": 325410.497692416, \"environment\": \"inherited unchanged\", \"MDeadline\": \"original reviewed execute() 870+30 seconds\"}\n",
+        "truncated": false
+      }
+    },
+    "hostStarted": {
+      "event": "HOST_STARTED",
+      "pid": 60792,
+      "argv": [
+        "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+        "-I",
+        "-B",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m06-resume1-host.py",
+        "execute"
+      ],
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "startedAtUtc": "2026-10-11T06:15:23.066145+00:00",
+      "startedMonotonic": 325410.497692416,
+      "environment": "inherited unchanged",
+      "MDeadline": "original reviewed execute() 870+30 seconds"
+    },
+    "hostExitedEventObserved": false,
+    "hostFinalOsExitCode": null,
+    "hostFinalRuntimeSeconds": null,
+    "warning": "Tool status failed / exitCode -1 / durationMs 102534 describes the interrupted tool call only. It is not a DUT OS exit code or verified host runtime."
+  },
+  "processObservation": {
+    "status": "UNKNOWN_PERMISSION_UNAVAILABLE",
+    "pid": 60792,
+    "checks": [
+      {
+        "chunk_id": "d228cc",
+        "wall_time_seconds": 0,
+        "exit_code": 127,
+        "original_token_count": 10,
+        "output": "zsh:1: operation not permitted: /bin/ps\n"
+      },
+      {
+        "chunk_id": "f28b66",
+        "wall_time_seconds": 0.000006208,
+        "exit_code": 3,
+        "original_token_count": 23,
+        "output": "sysmon request failed with error: sysmond service not found\npgrep: Cannot get process list\n"
+      },
+      {
+        "chunk_id": "e6f804",
+        "wall_time_seconds": 0,
+        "exit_code": 127,
+        "original_token_count": 10,
+        "output": "zsh:1: operation not permitted: /bin/ps\n"
+      }
+    ],
+    "meaning": "The once-only scoped ps/pgrep checks could not obtain process data. Neither host absence nor quiescence is established. No process was killed and no alternate process-list route was attempted."
+  },
+  "facts": {
+    "archivesVerified": 13,
+    "archiveBytes": 9014649,
+    "downloadReceiptsSuccess": 13,
+    "measuredBodyBytes": 9014649,
+    "downloadBodyMeasurementsComplete": true,
+    "restoreStartCount": null,
+    "restoreCompletedCount": null,
+    "restoreStatus": "UNKNOWN: none of three exact receipt/log/lock/assets paths provides startup or completion evidence; absence is not proof of zero attempts.",
+    "all123ProtectedUnchanged": true
+  },
+  "readOnlyCollection": {
+    "status": "POST_INTERRUPTION_COLLECTION",
+    "startedAtUtc": "2026-10-11T17:25:45.732987+00:00",
+    "before": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/before.json",
+      "bytes": 77440,
+      "sha256": "b3f10fa10bfc5d1a0dffb0f8834404412ba6a7898e6719b4bc7d601c5f591a67"
+    },
+    "originalLogs": [
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exists": true
+      },
+      {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exists": true
+      }
+    ],
+    "existingReceipt": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/receipt.json",
+      "exists": false
+    },
+    "existingSummary": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-m06-interruption-receipt.json",
+      "exists": false
+    },
+    "sourceModelMatches": true,
+    "downloads": [
+      {
+        "id": "M-get-system.collections.immutable.1.5.0",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.collections.immutable.1.5.0.nupkg",
+          "bytes": 804405,
+          "sha256": "0658aa6252fd9ed6cc5e8e5decd52b297c1837e3ea772a83212e5ba78a95afb4",
+          "url": "https://api.nuget.org/v3-flatcontainer/system.collections.immutable/1.5.0/system.collections.immutable.1.5.0.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.collections.immutable.1.5.0.nupkg",
+          "bytes": 804405,
+          "sha256": "0658aa6252fd9ed6cc5e8e5decd52b297c1837e3ea772a83212e5ba78a95afb4",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-system.collections.immutable.1.5.0.json",
+          "bytes": 2592,
+          "sha256": "93b3c4e0b34c9eb570d0aaa144050003c14733cd9607c1b970888623f4521116",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.collections.immutable.1.5.0.stdout",
+          "bytes": 22,
+          "sha256": "ff1b5914fd9965e356d254a457a33ad2c526a2df6c6411f2724d52985eba7c61",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.collections.immutable.1.5.0.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 7.421536082983948,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          804405
+        ]
+      },
+      {
+        "id": "M-get-system.reflection.metadata.1.6.0",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.reflection.metadata.1.6.0.nupkg",
+          "bytes": 852113,
+          "sha256": "2497e068f6afed47c4878c9101074684b645d5baebd2d5163e5eaa99f356abf1",
+          "url": "https://api.nuget.org/v3-flatcontainer/system.reflection.metadata/1.6.0/system.reflection.metadata.1.6.0.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.reflection.metadata.1.6.0.nupkg",
+          "bytes": 852113,
+          "sha256": "2497e068f6afed47c4878c9101074684b645d5baebd2d5163e5eaa99f356abf1",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-system.reflection.metadata.1.6.0.json",
+          "bytes": 2575,
+          "sha256": "0eb38a77e049e7c40725e76c29c27be76bd5448da2c3c4c6926ef679d6f9e3a2",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.reflection.metadata.1.6.0.stdout",
+          "bytes": 22,
+          "sha256": "b063611ba64d4d93b01873902e7ba00ef9a2c160c8153bfa26c291774be5d40c",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.reflection.metadata.1.6.0.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 3.3493275829823688,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          852113
+        ]
+      },
+      {
+        "id": "M-get-system.text.encoding.codepages.8.0.0",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.text.encoding.codepages.8.0.0.nupkg",
+          "bytes": 4260927,
+          "sha256": "7e308b41cd4f456d08c7921995d8345cabfe2750ea3d27eef698ccc8d069edd1",
+          "url": "https://api.nuget.org/v3-flatcontainer/system.text.encoding.codepages/8.0.0/system.text.encoding.codepages.8.0.0.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/system.text.encoding.codepages.8.0.0.nupkg",
+          "bytes": 4260927,
+          "sha256": "7e308b41cd4f456d08c7921995d8345cabfe2750ea3d27eef698ccc8d069edd1",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-system.text.encoding.codepages.8.0.0.json",
+          "bytes": 2612,
+          "sha256": "b32e549958b9f12a1c34aba05ad86e81cae0f1e0b78479e656f5fceebbf63a11",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.text.encoding.codepages.8.0.0.stdout",
+          "bytes": 23,
+          "sha256": "02d474100e32dfa26e19eafb935b7c7786058205140095a4f5cb0d1291e771b1",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-system.text.encoding.codepages.8.0.0.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 15.827151416044217,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          4260927
+        ]
+      },
+      {
+        "id": "M-get-xunit.2.9.2",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.2.9.2.nupkg",
+          "bytes": 31616,
+          "sha256": "879fb24d37c29a89023f2e25a9d130f111b3425ae5b10016dc09b4261d2aee8a",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit/2.9.2/xunit.2.9.2.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.2.9.2.nupkg",
+          "bytes": 31616,
+          "sha256": "879fb24d37c29a89023f2e25a9d130f111b3425ae5b10016dc09b4261d2aee8a",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.2.9.2.json",
+          "bytes": 2386,
+          "sha256": "f2c7012f2f1aa856b8757cbb8a7f572a564e3f51d5642832cf0256439b7850ed",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.2.9.2.stdout",
+          "bytes": 21,
+          "sha256": "9b20e9585ffed28ba15116ac0b72cb7f5f0c29e3b25a36304aaa60a93748adc4",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.2.9.2.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 0.47451770899351686,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          31616
+        ]
+      },
+      {
+        "id": "M-get-xunit.abstractions.2.0.3",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.abstractions.2.0.3.nupkg",
+          "bytes": 75155,
+          "sha256": "d03d72fc2df8880448f7a81bddb00e1bcb5c18f323c7e7cc69b4cfa727469403",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.abstractions/2.0.3/xunit.abstractions.2.0.3.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.abstractions.2.0.3.nupkg",
+          "bytes": 75155,
+          "sha256": "d03d72fc2df8880448f7a81bddb00e1bcb5c18f323c7e7cc69b4cfa727469403",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.abstractions.2.0.3.json",
+          "bytes": 2501,
+          "sha256": "42fa868621251e9f5fc9812e28589eb9e092cca0a2143a977c295967b31144e6",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.abstractions.2.0.3.stdout",
+          "bytes": 21,
+          "sha256": "e964f7d7ea56b0bc5da545cc3c6d6b911d99285f44ade6f8c8dd894865b0ef73",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.abstractions.2.0.3.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 1.374881625000853,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          75155
+        ]
+      },
+      {
+        "id": "M-get-xunit.analyzers.1.16.0",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.analyzers.1.16.0.nupkg",
+          "bytes": 263548,
+          "sha256": "3f906f97d86f1ef17c298d5858b838b4a898c657d19e61f22f5e237d20020da5",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.analyzers/1.16.0/xunit.analyzers.1.16.0.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.analyzers.1.16.0.nupkg",
+          "bytes": 263548,
+          "sha256": "3f906f97d86f1ef17c298d5858b838b4a898c657d19e61f22f5e237d20020da5",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.analyzers.1.16.0.json",
+          "bytes": 2485,
+          "sha256": "c5c246df1296e95d163ac5455a9fcc2d47fa0577b18bd9875b9f474d75c045eb",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.analyzers.1.16.0.stdout",
+          "bytes": 22,
+          "sha256": "59497322c4363adb5ecbb7d7b7c00718a91334cb210542c5eca037d6d4865df8",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.analyzers.1.16.0.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 1.9033177500241436,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          263548
+        ]
+      },
+      {
+        "id": "M-get-xunit.assert.2.9.2",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.assert.2.9.2.nupkg",
+          "bytes": 244587,
+          "sha256": "104eabe76e90e1c1e7d0ebab7f510da57677ecb8ff3f6b8dbe89c782975c9eae",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.assert/2.9.2/xunit.assert.2.9.2.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.assert.2.9.2.nupkg",
+          "bytes": 244587,
+          "sha256": "104eabe76e90e1c1e7d0ebab7f510da57677ecb8ff3f6b8dbe89c782975c9eae",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.assert.2.9.2.json",
+          "bytes": 2449,
+          "sha256": "cc8b008d348e200f18d33a66acbce11d40a9d29da74cc69ec9a21ef8873ecbfd",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.assert.2.9.2.stdout",
+          "bytes": 22,
+          "sha256": "a34117a944291fb54e78993803f8d4e0193a3974247854a3497f18dc59f1a642",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.assert.2.9.2.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 1.2211062909918837,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          244587
+        ]
+      },
+      {
+        "id": "M-get-xunit.core.2.9.2",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.core.2.9.2.nupkg",
+          "bytes": 33509,
+          "sha256": "ce18d5d48e7187444572481310aef6b4890bc5597808f9ad7abd9407efa8c9ef",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.core/2.9.2/xunit.core.2.9.2.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.core.2.9.2.nupkg",
+          "bytes": 33509,
+          "sha256": "ce18d5d48e7187444572481310aef6b4890bc5597808f9ad7abd9407efa8c9ef",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.core.2.9.2.json",
+          "bytes": 2430,
+          "sha256": "003aa77599c95bd6a369d5e7b82b3bc059f947425909570d9495db49787ef756",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.core.2.9.2.stdout",
+          "bytes": 21,
+          "sha256": "d4f421bcae416cc4a559f7d6389b5ebcec7068b4740f95ead41aa6fa89ee5585",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.core.2.9.2.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 0.5359628750011325,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          33509
+        ]
+      },
+      {
+        "id": "M-get-xunit.extensibility.core.2.9.2",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.extensibility.core.2.9.2.nupkg",
+          "bytes": 298693,
+          "sha256": "310002ff877aecdb2cbb747ea473e1eaf1e2b415d06311046645553065bbdb47",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.extensibility.core/2.9.2/xunit.extensibility.core.2.9.2.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.extensibility.core.2.9.2.nupkg",
+          "bytes": 298693,
+          "sha256": "310002ff877aecdb2cbb747ea473e1eaf1e2b415d06311046645553065bbdb47",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.extensibility.core.2.9.2.json",
+          "bytes": 2556,
+          "sha256": "92ee510e02a44fa83d8b5233bbc8f01138e2a80cfbe3e5a85513d32267e62a5c",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.core.2.9.2.stdout",
+          "bytes": 22,
+          "sha256": "9e8fbdd0792841ca8e0cb8787e547584bed4ea4ac55906093910fe57e8e17b05",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.core.2.9.2.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 2.995541582989972,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          298693
+        ]
+      },
+      {
+        "id": "M-get-xunit.extensibility.execution.2.9.2",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.extensibility.execution.2.9.2.nupkg",
+          "bytes": 379785,
+          "sha256": "7fef547e83f22b72480e14125b462ef5ce0f1aa52a642f7a0cc20d0988b68bcd",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.extensibility.execution/2.9.2/xunit.extensibility.execution.2.9.2.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.extensibility.execution.2.9.2.nupkg",
+          "bytes": 379785,
+          "sha256": "7fef547e83f22b72480e14125b462ef5ce0f1aa52a642f7a0cc20d0988b68bcd",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.extensibility.execution.2.9.2.json",
+          "bytes": 2602,
+          "sha256": "dbf0050e00b2f229aab090cdda8e42aaf257bea6354ad0c4943344d171ba5981",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.execution.2.9.2.stdout",
+          "bytes": 22,
+          "sha256": "c462827bd6ea87892dac30836cf4ba7c1d7fb6be2be936980299f3f2ae3b803d",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.extensibility.execution.2.9.2.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 3.2004418749711476,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          379785
+        ]
+      },
+      {
+        "id": "M-get-xunit.runner.visualstudio.2.8.2",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.runner.visualstudio.2.8.2.nupkg",
+          "bytes": 595969,
+          "sha256": "5257cadf8f2bf2426eadacb07dd0ada492711e4bf4e303cdce951acf850cffad",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.runner.visualstudio/2.8.2/xunit.runner.visualstudio.2.8.2.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/xunit.runner.visualstudio.2.8.2.nupkg",
+          "bytes": 595969,
+          "sha256": "5257cadf8f2bf2426eadacb07dd0ada492711e4bf4e303cdce951acf850cffad",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-xunit.runner.visualstudio.2.8.2.json",
+          "bytes": 2566,
+          "sha256": "d8536b515f0cc21f0a81bd92dfcc3c51735b59ae113f6dae54bbe6923fbde7ca",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.runner.visualstudio.2.8.2.stdout",
+          "bytes": 22,
+          "sha256": "8328e1898de1bb99f8dc03b3235c128a686af279f97eb8543ee573df28a18ed0",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-xunit.runner.visualstudio.2.8.2.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 2.7997548329876736,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          595969
+        ]
+      },
+      {
+        "id": "M-get-yamldotnet.16.3.0",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/yamldotnet.16.3.0.nupkg",
+          "bytes": 776880,
+          "sha256": "e068bcc1243c46c8bfdfe2f27a026bfff03cde7c67d9f37c2cdd70bd24a9dfd4",
+          "url": "https://api.nuget.org/v3-flatcontainer/yamldotnet/16.3.0/yamldotnet.16.3.0.nupkg"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/yamldotnet.16.3.0.nupkg",
+          "bytes": 776880,
+          "sha256": "e068bcc1243c46c8bfdfe2f27a026bfff03cde7c67d9f37c2cdd70bd24a9dfd4",
+          "exists": true
+        },
+        "identityMatches": true,
+        "catalogSha512Matches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-yamldotnet.16.3.0.json",
+          "bytes": 2439,
+          "sha256": "386c498d6dd604bfaf7d205cd51455ef9ad3dfffc99c8320681b0f1e46da79fb",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yamldotnet.16.3.0.stdout",
+          "bytes": 22,
+          "sha256": "0f2e54e0f89d30355237d9b6b84683ba5bdd9d6bbca64a43ebeec8ea00194369",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yamldotnet.16.3.0.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 3.451295208011288,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          776880
+        ]
+      },
+      {
+        "id": "M-get-yaml-source",
+        "expected": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/yamldotnet-v16.3.0.tar.gz",
+          "bytes": 397462,
+          "sha256": "4f73f08a0584af4e1cac36ccb0e3cb9d9cd982209b06f7eb10dd5e31badb1bce",
+          "url": "https://codeload.github.com/aaubry/YamlDotNet/tar.gz/refs/tags/v16.3.0"
+        },
+        "archive": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/acquire/yamldotnet-v16.3.0.tar.gz",
+          "bytes": 397462,
+          "sha256": "4f73f08a0584af4e1cac36ccb0e3cb9d9cd982209b06f7eb10dd5e31badb1bce",
+          "exists": true
+        },
+        "identityMatches": true,
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-get-yaml-source.json",
+          "bytes": 2396,
+          "sha256": "14484277ba49819ff3ea2496074c702868d333737be101a08dd4817f0919a318",
+          "exists": true
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yaml-source.stdout",
+          "bytes": 22,
+          "sha256": "3e6d3adedb45a1dae8ddabbfcdba75bd5e754c38a3511b2969fd672c24522a10",
+          "exists": true
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-get-yaml-source.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "exists": true
+        },
+        "recordedProcess": {
+          "exitCode": 0,
+          "startCount": 1,
+          "childStarts": 0,
+          "quiescent": true,
+          "timedOut": false,
+          "elapsedSeconds": 3.3446619160240516,
+          "failure": null
+        },
+        "exactArgvMatches": true,
+        "recordedBodyBytes": [
+          397462
+        ]
+      }
+    ],
+    "downloadCountVerified": 13,
+    "verifiedDownloadedBytes": 9014649,
+    "restores": [
+      {
+        "id": "M-runner-generation-restore",
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-runner-generation-restore.json",
+          "exists": false
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-runner-generation-restore.stdout",
+          "exists": false
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-runner-generation-restore.stderr",
+          "exists": false
+        },
+        "phaseRoot": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation",
+          "exists": true,
+          "directory": true
+        },
+        "config": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/NuGet.Config",
+          "exists": false
+        },
+        "project": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban/Luban.csproj",
+          "exists": false
+        },
+        "generatedPaths": [
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Bson/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Bson/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.CSharp/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.CSharp/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Core/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Core/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Cpp/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Cpp/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Dart/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Dart/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.DataLoader.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.DataLoader.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.DataTarget.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.DataTarget.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.DataValidator.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.DataValidator.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.FlatBuffers/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.FlatBuffers/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Gdscript/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Gdscript/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Golang/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Golang/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Java/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Java/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Javascript/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Javascript/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.L10N/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.L10N/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Lua/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Lua/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.MsgPack/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.MsgPack/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.PHP/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.PHP/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Protobuf/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Protobuf/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Python/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Python/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Rust/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Rust/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Schema.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Schema.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Typescript/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban.Typescript/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-runner-generation/source/src/Luban/obj/project.assets.json",
+            "exists": false
+          }
+        ],
+        "startConclusion": "UNKNOWN_NO_START_RECEIPT",
+        "completionConclusion": "UNKNOWN"
+      },
+      {
+        "id": "M-tests-generation-restore",
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-tests-generation-restore.json",
+          "exists": false
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-tests-generation-restore.stdout",
+          "exists": false
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-tests-generation-restore.stderr",
+          "exists": false
+        },
+        "phaseRoot": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation",
+          "exists": false
+        },
+        "config": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/NuGet.Config",
+          "exists": false
+        },
+        "project": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Tests/Luban.Tests.csproj",
+          "exists": false
+        },
+        "generatedPaths": [
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Bson/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Bson/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.CSharp/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.CSharp/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Core/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Core/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.DataLoader.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.DataLoader.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.DataTarget.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.DataTarget.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.DataValidator.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.DataValidator.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.FlatBuffers/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.FlatBuffers/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.L10N/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.L10N/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Lua/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Lua/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.MsgPack/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.MsgPack/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Protobuf/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Protobuf/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Schema.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Schema.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Tests/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-generation/source/src/Luban.Tests/obj/project.assets.json",
+            "exists": false
+          }
+        ],
+        "startConclusion": "UNKNOWN_NO_START_RECEIPT",
+        "completionConclusion": "UNKNOWN"
+      },
+      {
+        "id": "M-tests-verification-restore",
+        "receipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/M-tests-verification-restore.json",
+          "exists": false
+        },
+        "stdout": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-tests-verification-restore.stdout",
+          "exists": false
+        },
+        "stderr": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/logs/M-tests-verification-restore.stderr",
+          "exists": false
+        },
+        "phaseRoot": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification",
+          "exists": false
+        },
+        "config": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/NuGet.Config",
+          "exists": false
+        },
+        "project": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Tests/Luban.Tests.csproj",
+          "exists": false
+        },
+        "generatedPaths": [
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Bson/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Bson/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.CSharp/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.CSharp/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Core/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Core/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.DataLoader.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.DataLoader.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.DataTarget.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.DataTarget.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.DataValidator.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.DataValidator.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.FlatBuffers/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.FlatBuffers/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.L10N/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.L10N/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Lua/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Lua/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.MsgPack/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.MsgPack/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Protobuf/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Protobuf/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Schema.Builtin/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Schema.Builtin/obj/project.assets.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Tests/packages.lock.json",
+            "exists": false
+          },
+          {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/phases/M-tests-verification/source/src/Luban.Tests/obj/project.assets.json",
+            "exists": false
+          }
+        ],
+        "startConclusion": "UNKNOWN_NO_START_RECEIPT",
+        "completionConclusion": "UNKNOWN"
+      }
+    ],
+    "materialValidation": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts/material-validation.json",
+      "exists": false
+    },
+    "materialManifest": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix04/identity/manifest.json",
+      "exists": false
+    },
+    "roots": {
+      "material": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix04",
+        "exists": true,
+        "directory": true
+      },
+      "work": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04",
+        "exists": true,
+        "directory": true
+      },
+      "workReceiptNames": [
+        "M-get-system.collections.immutable.1.5.0.json",
+        "M-get-system.reflection.metadata.1.6.0.json",
+        "M-get-system.text.encoding.codepages.8.0.0.json",
+        "M-get-xunit.2.9.2.json",
+        "M-get-xunit.abstractions.2.0.3.json",
+        "M-get-xunit.analyzers.1.16.0.json",
+        "M-get-xunit.assert.2.9.2.json",
+        "M-get-xunit.core.2.9.2.json",
+        "M-get-xunit.extensibility.core.2.9.2.json",
+        "M-get-xunit.extensibility.execution.2.9.2.json",
+        "M-get-xunit.runner.visualstudio.2.8.2.json",
+        "M-get-yaml-source.json",
+        "M-get-yamldotnet.16.3.0.json"
+      ]
+    },
+    "protection": {
+      "expectedUniqueCount": 123,
+      "verifiedUnchangedCount": 123,
+      "differences": [],
+      "unknown": [],
+      "expectedSource": "original before.json listed protected records, preservationExpected, current source seal and fixed binding identities"
+    },
+    "reusedFive": [
+      {
+        "actual": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.codecoverage.17.11.1.nupkg",
+          "bytes": 9139653,
+          "sha256": "d5d2e52b734687cf0fb85619898a53fa2cc0f7a7adc61537052822c4381db460",
+          "exists": true
+        },
+        "identityMatches": true
+      },
+      {
+        "actual": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.net.test.sdk.17.11.1.nupkg",
+          "bytes": 34301,
+          "sha256": "d09504b9c43697368f824ae39bf3452c14dba94d5d7e1be13774e5de6a04ea62",
+          "exists": true
+        },
+        "identityMatches": true
+      },
+      {
+        "actual": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.testplatform.objectmodel.17.11.1.nupkg",
+          "bytes": 1660096,
+          "sha256": "e6f5febc2cc56374bbc5f31522ff0e94c305b5d79d5bd50827373458473ebe6e",
+          "exists": true
+        },
+        "identityMatches": true
+      },
+      {
+        "actual": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.testplatform.testhost.17.11.1.nupkg",
+          "bytes": 2882099,
+          "sha256": "c12918d07d5f400ab41f72dc293e2eed8e51ce10003daeb2b9e54df3883c1f15",
+          "exists": true
+        },
+        "identityMatches": true
+      },
+      {
+        "actual": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/newtonsoft.json.13.0.3.nupkg",
+          "bytes": 2441966,
+          "sha256": "872fc189e638ab1056555b03aaa38f68bcb54286e221aa646eb1129babf63c77",
+          "exists": true
+        },
+        "identityMatches": true
+      }
+    ],
+    "completedAtUtc": "2026-10-11T17:25:45.927871+00:00",
+    "elapsedSeconds": 0.19490433400005713
+  },
+  "collectionCommand": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B - <<'PY'\nimport json,hashlib,base64,os,time,datetime,re\nfrom pathlib import Path\nstart=time.monotonic();deadline=datetime.datetime.fromisoformat('2026-10-11T17:26:23+00:00').timestamp()\nR=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\nE=R/'TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1'\ndef bound():\n if time.time()>deadline:raise TimeoutError('120-second collection deadline')\ndef blob(p):\n bound();p=Path(p)\n if any(x.is_symlink() for x in (p,*p.parents)):raise ValueError('symlink: '+str(p))\n return p.read_bytes()\ndef ident(p):\n b=blob(p);return {'path':str(p),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()}\ndef obj(p):return json.loads(blob(p))\ndef state(p):\n bound();p=Path(p)\n if not os.path.lexists(p):return {'path':str(p),'exists':False}\n if p.is_symlink():return {'path':str(p),'exists':True,'symlink':True}\n if p.is_file():return dict(ident(p),exists=True)\n return {'path':str(p),'exists':True,'directory':p.is_dir()}\nout={'status':'POST_INTERRUPTION_COLLECTION','startedAtUtc':datetime.datetime.now(datetime.timezone.utc).isoformat()}\ntry:\n b=obj(E/'before.json');p=b['precheck'];M=Path(p['rootsAbsent']['materialRoot']);W=Path(p['rootsAbsent']['workRoot'])\n seal=obj(p['sourceFreeze']['path']);F=Path(p['sourceFreeze']['path']).parent.parent\n prepared=obj(F/'authority/prepare.json');m=prepared['model']\n out['before']=ident(E/'before.json');out['originalLogs']=[state(E/x) for x in ('stdout.log','stderr.log')]\n out['existingReceipt']=state(E/'receipt.json');out['existingSummary']=state(R/'docs/team/2026-09-30/loc-m17-m06-interruption-receipt.json')\n out['sourceModelMatches']=hashlib.sha256((json.dumps(m,sort_keys=True,ensure_ascii=False,indent=2,allow_nan=False)+'\\n').encode()).hexdigest()==p['modelSha256']==prepared['modelSha256']\n downloads=[]\n for c in m['commands']:\n  if c['stage']!='M' or not c['id'].startswith('M-get-'):continue\n  row=next(x for x in [*m['packages'],m['archive']] if x['path']==c['argv'][c['argv'].index('--output')+1])\n  d={'id':c['id'],'expected':{k:row[k] for k in ('path','bytes','sha256','url')},'archive':state(row['path'])}\n  if d['archive'].get('exists'):\n   d['identityMatches']=all(d['archive'].get(k)==row[k] for k in ('bytes','sha256'))\n   if 'sha512' in row:d['catalogSha512Matches']=base64.b64encode(hashlib.sha512(blob(row['path'])).digest()).decode()==row['sha512']\n  d['receipt']=state(c['receiptPath']);d['stdout']=state(c['stdoutPath']);d['stderr']=state(c['stderrPath'])\n  if d['receipt'].get('exists'):\n   rr=obj(c['receiptPath']);d['recordedProcess']={k:rr.get(k) for k in ('exitCode','startCount','childStarts','quiescent','timedOut','elapsedSeconds','failure')}\n   d['exactArgvMatches']=rr.get('argv')==c['argv'];d['recordedBodyBytes']=[int(v) for v in re.findall(rb'^M17_BODY_BYTES=([0-9]+)\\r?$',blob(c['stdoutPath']),re.M)]\n  downloads.append(d)\n out['downloads']=downloads;out['downloadCountVerified']=sum(x.get('identityMatches',False) for x in downloads)\n out['verifiedDownloadedBytes']=sum(x['archive'].get('bytes',0) for x in downloads if x.get('identityMatches'))\n restores=[]\n for c in m['commands']:\n  if c['stage']!='M' or not c['id'].endswith('-restore'):continue\n  phase=c['id'].removesuffix('-restore');root=W/'phases'/phase;graph='runner' if phase=='M-runner-generation' else 'tests'\n  rr={'id':c['id'],'receipt':state(c['receiptPath']),'stdout':state(c['stdoutPath']),'stderr':state(c['stderrPath']),\n      'phaseRoot':state(root),'config':state(root/'NuGet.Config'),'project':state(Path(c['argv'][2])),'generatedPaths':[]}\n  for project in m['graphs'][graph]['nodes']:\n   parent=root/'source'/Path(project).parent\n   for name in ('packages.lock.json','obj/project.assets.json'):rr['generatedPaths'].append(state(parent/name))\n  if rr['receipt'].get('exists'):rr['recordedProcess']=obj(c['receiptPath'])\n  rr['startConclusion']='UNKNOWN_NO_START_RECEIPT' if not rr['receipt'].get('exists') else 'RECORDED'\n  rr['completionConclusion']='UNKNOWN' if not rr['receipt'].get('exists') else 'SEE_RECORDED_PROCESS'\n  restores.append(rr)\n out['restores']=restores;out['materialValidation']=state(W/'receipts/material-validation.json');out['materialManifest']=state(M/'identity/manifest.json')\n out['roots']={'material':state(M),'work':state(W),'workReceiptNames':sorted(x.name for x in (W/'receipts').iterdir()) if (W/'receipts').is_dir() else []}\n records=p['protectedExpectedIdsFromSealedSource']+b.get('preservationExpected',[])+seal['filesExcludingThisSeal']+[p[k] for k in ('binding','activation','host','template','driver','sourceFreeze','sourceReceipt','writeSet','reviewReceipt','sourceVerdict','humanAuthorityRecord','python')]\n unique={x['path']:x for x in records};verified=[];differences=[];unknown=[]\n for path,expected in unique.items():\n  try:\n   actual=ident(path)\n   if actual==expected:verified.append(path)\n   else:differences.append({'expected':expected,'actual':actual})\n  except Exception as error:unknown.append({'path':path,'error':str(error)})\n out['protection']={'expectedUniqueCount':len(unique),'verifiedUnchangedCount':len(verified),'differences':differences,'unknown':unknown,\n  'expectedSource':'original before.json listed protected records, preservationExpected, current source seal and fixed binding identities'}\n out['reusedFive']=[]\n for r in p['reusedArchiveDescriptors']:\n  actual=state(r['path']);out['reusedFive'].append({'actual':actual,'identityMatches':all(actual.get(k)==r[k] for k in ('path','bytes','sha256'))})\n out['completedAtUtc']=datetime.datetime.now(datetime.timezone.utc).isoformat();out['elapsedSeconds']=time.monotonic()-start\nexcept Exception as error:out['collectionError']={'type':type(error).__name__,'message':str(error),'elapsedSeconds':time.monotonic()-start}\nprint(json.dumps(out,ensure_ascii=False))\n\nPY",
+  "collectionToolMetadata": {
+    "chunk_id": "9b1992",
+    "wall_time_seconds": 0.110011709,
+    "exit_code": 0,
+    "original_token_count": 11893,
+    "output": "Exact parsed output retained under readOnlyCollection."
+  },
+  "budget": {
+    "limitSeconds": 120,
+    "startedAtUtc": "2026-10-11 17:24:23 UTC",
+    "lastFactClockUtc": "2026-10-11 17:25:45 UTC",
+    "factCollectionWallSeconds": 82,
+    "firstReceiptWriteObservedAtUtc": "2026-10-11T17:26:39Z",
+    "wallSecondsThroughFirstReceiptWrite": 136,
+    "overall120SecondBudgetIncludingReceiptAuthoringExceeded": true,
+    "timingNote": "Read-only fact collection ended at 82 seconds. Including receipt composition/write, the observed wall clock reached 136 seconds. Report this overrun conservatively; no further evidence scans or process queries were performed after the 120-second deadline.",
+    "helperSeconds": 0.19490433400005713,
+    "scopeExpansion": false
+  },
+  "preservation": {
+    "beforeAndOriginalLogsReadOnly": true,
+    "sourceAndAHUnchanged": true,
+    "oldApprovalTimeoutEvidenceUnchanged": true,
+    "materialAndWorkRootsReadOnly": true,
+    "deleted": false,
+    "restarted": false
+  },
+  "acceptance": {
+    "authorIntegrationVerdict": "NOT_ISSUED",
+    "materialAccepted": false,
+    "manifestMissing": true,
+    "materialValidationMissing": true,
+    "remaining": [
+      "Actual host/process closure",
+      "Final DUT OS exit code and runtime",
+      "Three restore startup/completion facts",
+      "Validated locks/assets and material manifest",
+      "Independent material acceptance"
+    ]
+  },
+  "thisTurn": {
+    "GETs": 0,
+    "restores": 0,
+    "prepare": 0,
+    "SDKTreeScans": 0,
+    "nativeTests": 0,
+    "Unity": 0,
+    "GitWrites": 0,
+    "activationWrites": 0,
+    "retries": 0,
+    "processKills": 0
+  },
+  "next": "Central receives incomplete interrupted-run evidence. Verified downloads are reusable candidate inputs only; this receipt authorizes no second execution or cleanup."
+}

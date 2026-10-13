@@ -1,0 +1,116 @@
+{
+  "task": "LOC-M17-FIX05-REVIEW01 GitHub PR review intake",
+  "qaThread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "qaActualTurn": "CURRENT_REVIEW_INTAKE_TURN_NOT_RETURNED_BY_THREAD_READ",
+  "authorActualTurn": "01a12c28-d01f-7731-a6e9-51fc7ac522f4",
+  "authorTurnRead": {
+    "attempted": true,
+    "result": "UNAVAILABLE_OR_FAILED_HOST",
+    "note": "read_thread could not determine whether this thread exists on durable host; command receipt and publication evidence were independently checked."
+  },
+  "watch": {
+    "startedAtUtc": "2026-10-11T18:23:37Z",
+    "startedAtBasis": "clock__curr_time",
+    "maxMinutes": 6,
+    "resultObservedAtUtc": "2026-10-11T18:26:03Z",
+    "outcome": "COMPLETED_WITHIN_WINDOW"
+  },
+  "publication": {
+    "source": "docs/team/2026-09-30/loc-m17-fix05-review01-publication.json",
+    "repository": "yyczz1/FightMatch",
+    "pullRequest": 2,
+    "pullRequestUrl": "https://github.com/yyczz1/FightMatch/pull/2",
+    "expectedHead": "5c12ddabfc784927a936b428d9f1b90638cf108e",
+    "expectedParent": "c4c7a5d313c1193191447b525ade226268b616e1",
+    "expectedTree": "e4de9434cd99b1782d888126b0fa36207551d54d",
+    "triggerCommentId": 6112203396,
+    "remoteBlobAndSizeVerified": true,
+    "publishedFileCount": 13,
+    "publishedSourceLeaves": 8,
+    "publishedSourceBytes": 13168339,
+    "validationEvidence": {
+      "directedPassed": 15,
+      "directedTotal": 15,
+      "directedSeconds": 5.3513036250005825,
+      "directedTool": "exec-502f08f7-9656-4fcd-848b-cd1cd31ddca8",
+      "directedExitCode": 0,
+      "sealSeconds": 4.73761475000083,
+      "sealTool": "exec-4d2e2bcb-1926-4062-87c6-07821dde46aa",
+      "sealExitCode": 0,
+      "previous81And66SuitesRerun": false
+    },
+    "sidecar": {
+      "path": "docs/team/2026-09-30/loc-m17-fix05-review01-command-receipt.json",
+      "bytes": 20148,
+      "sha256": "a419a868035f9bdc8817aa91a6b5ccdda593c1cd404e13409214af9218161160",
+      "publishedAndMatchesFreeze": true
+    }
+  },
+  "pullRequestAtFinalCheck": {
+    "head": "5c12ddabfc784927a936b428d9f1b90638cf108e",
+    "headMatchesExpected": true,
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "serviceResult": {
+    "summary": {
+      "commentId": 5928035293,
+      "latestStatus": "Completed",
+      "reviewedCommitPrefix": "5c12dda",
+      "completedAtUtc": "2026-10-11T18:26:02.952993Z",
+      "observedUpdatedAtUtc": "2026-10-11T18:26:03Z"
+    },
+    "exactHeadReviewSubmission": {
+      "id": "PRR_kwDOTDyjrM8AAAABRuWCkw",
+      "state": "COMMENTED",
+      "submittedAtUtc": "2026-10-11T18:25:56Z",
+      "reviewedCommitPrefix": "5c12ddabfc",
+      "formalApproved": false
+    },
+    "newExactHeadFindings": [
+      {
+        "threadId": "PRRT_kwDOTDyjrM6rQPh1",
+        "commentId": 4242690950,
+        "severity": "P1",
+        "title": "Enforce the sidecar at material activation",
+        "path": "docs/versioning/2026-10-12-loc-m17-fix05-review01-pr/source/m17_driver.py",
+        "line": 221,
+        "resolved": false,
+        "outdated": false,
+        "body": "When a later reviewed source installs TRUSTED_CENTRAL_ACTIVATION, deleting or altering this sidecar still does not block material execution: execute() calls consume_source() and verify_activation(), but neither reads REVIEW01_SIDECAR, validates its required bindings, or requires its hash in the activation record. Thus this newly declared receiptAbsenceBlocksAcceptanceAndActivation condition is only metadata, and execution can proceed without the successful receipt that is supposed to bind the final freeze and eight leaves. Bind and verify the sidecar identity and contents before execute_material() is reachable."
+      }
+    ],
+    "priorFindingServiceStatus": {
+      "4242623018": {
+        "reportedAgainOnThisHead": false,
+        "serviceResolvedState": "NOT_REPORTED"
+      },
+      "4242623020": {
+        "reportedAgainOnThisHead": false,
+        "serviceResolvedState": "NOT_REPORTED"
+      },
+      "note": "No inference of resolution from omission: both historical PR threads still report is_resolved=false and is_outdated=false; they remain anchored to the prior c4c7a5d files."
+    }
+  },
+  "reviewGate": {
+    "status": "NEEDS_FIX",
+    "newExactHeadFindingCount": 1,
+    "formalApproved": false,
+    "basis": "Exact-head review is COMMENTED and has one P1 finding; the two prior findings were not reported as resolved by the service and remain unresolved/non-outdated in their original thread metadata.",
+    "boundary": "Source review only; no material execution, Unity/build, Android, device, merge, or release acceptance."
+  },
+  "deliveryContext": {
+    "materialsExecution": "NOT_RUN by this review intake; M06 material/device acceptance remains incomplete.",
+    "testsRerun": false,
+    "localCodeReview": "NOT_RUN",
+    "getOrRestore": "NOT_RUN",
+    "unityOrNative": "NOT_RUN"
+  },
+  "pollingActions": {
+    "reviewRetriggered": false,
+    "commentsPosted": false,
+    "otherThreadsContacted": false,
+    "sourceChecksRerun": false
+  }
+}

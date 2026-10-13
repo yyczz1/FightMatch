@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-M04 failed execution evidence receipt",
+  "receiptStatus": "EVIDENCE_RECEIVED_FAILED",
+  "verdict": "M_FAILED",
+  "actualQaTurn": "01a11a69-6fac-79c0-ae24-14a1b0fe613f",
+  "executionActual": "01a11a62-0e7c-7553-aa47-c16cd6a276b9",
+  "evidenceRoot": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m04",
+  "sealedFiles": [
+    {"path": "receipt.json", "bytes": 15266, "sha256": "3b42fd9e70d26f6d31ec66f8110a3e3fd106b1cbe080e1631a2cc4f178db1777"},
+    {"path": "before.json", "bytes": 25719, "sha256": "8827488c2a744a15717b5fa1182da92cd305854cc962cc77a3bd383fae489fb9"},
+    {"path": "stdout.log", "bytes": 236, "sha256": "2a6d3737e603febed4ede39eb95e14e0589f46a65825d7b2ac140dce68b864f9"},
+    {"path": "stderr.log", "bytes": 1301, "sha256": "5f43fe03470c540fed2db6b12b73654c41050b418799476fb56aa97778d778f8"}
+  ],
+  "rawReport": {
+    "status": "M_FAILED",
+    "failure": "GateError: unsafe relative path",
+    "stageElapsedSeconds": 3.5709856249886798,
+    "gets": {},
+    "getCount": 0,
+    "measuredArchiveBodyBytes": 0,
+    "bodyMeasurementComplete": true,
+    "result": null,
+    "tlsProtocolTrafficMeasured": false,
+    "interpretation": "An empty GET measurement is not evidence that a download completed; result is null and M failed before any GET."
+  },
+  "hostExecution": {
+    "popenWaitExitCode": 1,
+    "hostWallSeconds": 3.646503833006136,
+    "stageSeconds": 3.5709856249886798,
+    "hostReaped": true,
+    "toolExitCode": 1
+  },
+  "materialState": {
+    "MRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17",
+    "MRootObservedAbsent": true,
+    "WRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17",
+    "WEntriesObserved": ["receipts/material-validation.json"],
+    "WReceiptBytes": 254,
+    "WReceiptSha256": "a51e3c3a362a3ed1df30401995ab9fa0fa5219ae744c322c4f12bfdfceb16a21",
+    "WReceiptBody": {
+      "status": "M_FAILED",
+      "failure": "GateError: unsafe relative path",
+      "result": null,
+      "elapsedSeconds": 3.5709856249886798,
+      "gets": {},
+      "measuredArchiveBodyBytes": 0,
+      "bodyMeasurementComplete": true,
+      "tlsProtocolTrafficMeasured": false
+    },
+    "observedAtUtc": "2026-10-08T07:24:57.141128+00:00"
+  },
+  "processEvidenceLimit": "Receipt records Popen.wait exit 1 and reaping. Separate read-only ps inspection was denied by sandbox and was not retried; no process probe was run.",
+  "scopeNote": "One finite read-only check of the four sealed evidence leaves, embedded raw report, and the single M/W state. No source/SDK rescan, test, download, process probe, or rerun was performed. Material acceptance is not claimed."
+}

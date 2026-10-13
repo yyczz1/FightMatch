@@ -1,0 +1,54 @@
+{
+  "task": "FIX05-IDENTITY-01",
+  "status": "IMMUTABLE_PRE_CORRECTION_EVIDENCE_NOT_SOURCE_ACCEPTANCE",
+  "owner": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a12c14-512d-7331-8acc-fd240ca1de4a",
+    "receivedItem": "fco_01a12c14-5133-7c72-a751-1cd616c98d5a"
+  },
+  "authority": {
+    "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "issuerTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+    "dispatchItem": "fco_01a12c14-5133-7c72-a751-1cd616c98d5a",
+    "scope": "Preserve these exact two leaves and this receipt; change only F5 OWNER/DISPATCH literals; one added <=10-second directed check; previously unused one <=30-second mechanical seal."
+  },
+  "originals": [
+    {
+      "relativePath": "source/m17_driver.py",
+      "bytes": 148848,
+      "sha256": "8c6a24bc52ec914a6dc382b182586d71f57ca278d3401da74be9a023558b032e"
+    },
+    {
+      "relativePath": "authority/offline-checks.json",
+      "bytes": 90751,
+      "sha256": "2c0977c3e94941383a4916c36c50bf62ec13dc1f4d614b2784f0704b5d36d51e"
+    }
+  ],
+  "oldCheck": {
+    "toolId": "exec-65f72717-c592-4d07-80bc-cba8fb1084de",
+    "actualTurn": "01a12c0b-aa4f-79a2-b089-d263e2d77e2a",
+    "startedAtUtc": "2026-10-11T17:45:31.846372+00:00",
+    "completedAtUtc": "2026-10-11T17:45:35.165477+00:00",
+    "fullInvocationSeconds": 3.328089000000091,
+    "exitCode": 0,
+    "caseCount": 81,
+    "passed": 81,
+    "rerunOfHistorical66": false
+  },
+  "discrepancy": {
+    "sourceDeclaredOwnerTurn": "01a12c04-f7b5-7f83-a011-da722589e688",
+    "sourceDeclaredDispatch": "fco_01a12c04-f7ba-78a3-9649-d7a125c50069",
+    "actualOriginalAuthorTurn": "01a12c0b-aa4f-79a2-b089-d263e2d77e2a",
+    "correctionActual": {
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "hostId": "local",
+      "turnId": "01a12c14-512d-7331-8acc-fd240ca1de4a",
+      "receivedItem": "fco_01a12c14-5133-7c72-a751-1cd616c98d5a"
+    }
+  },
+  "priorMechanicalAttempts": 0,
+  "priorPartialEnumerations": 0,
+  "materialExecuted": false,
+  "immutable": true
+}

@@ -1,0 +1,194 @@
+{
+  "asOf": "before M13/FIX10 current attempt",
+  "scope": "Material preparation only; excludes source-only fixes, static checks, reviews, cloud signature tasks, and other game/Unity work",
+  "earlyMaterialBatches": [
+    {
+      "series": "early-materials",
+      "batch": "M01",
+      "status": "BLOCKED_PACKAGE_SIGNATURE",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m01/result.json",
+      "restoreStarts": 0,
+      "reason": "YamlDotNet 16.3.0 package signature verification"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M02",
+      "status": "BLOCKED_PROCESS_MODEL",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m02/result.json",
+      "restoreStarts": 1,
+      "reason": "runner lock generation"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M03",
+      "status": "BLOCKED_MATERIAL_FREEZE",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m03/result.json",
+      "restoreStarts": 1,
+      "reason": "runner lock complete graph freeze"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M04",
+      "status": "BLOCKED_STOP_GATE_VIOLATION",
+      "restoreStarts": 0,
+      "result": "M05.result.m04History plus preserved M04 comparison files"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M05",
+      "status": "BLOCKED_M04_FAILURE_PRESERVATION",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m05/result.json",
+      "restoreStarts": 0,
+      "reason": "M04 evidence ordered absolute-path shasum stream identity"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M06",
+      "status": "BLOCKED_PREFLIGHT",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m06/result.json",
+      "restoreStarts": 0,
+      "reason": "owner-added M02 comparison/temp-files.tsv byte-size assertion"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M07",
+      "status": "BLOCKED_PREFLIGHT_CHECKER",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m07/result.json",
+      "restoreStarts": 0,
+      "reason": "frozen table checker row 34 runtime file semantics"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M08",
+      "status": "BLOCKED_RECEIPT_FORMAT",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m08/result.json",
+      "restoreStarts": 0,
+      "reason": "The required once-only raw preflight stdout receipt differs from the sole checker tool output. Per the immutable receipt and first-failure gates it was not rewritten and all dependent phases stopped."
+    },
+    {
+      "series": "early-materials",
+      "batch": "M09",
+      "status": "BLOCKED_MATERIAL_GAP",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m09/result.json",
+      "restoreStarts": 3,
+      "reason": "tests-generation-local-feed-closure"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M10",
+      "status": "BLOCKED_ACQUISITION_DRIVER",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m10/result.json",
+      "restoreStarts": 0,
+      "reason": "registration-leaf-parser-after-first-fixed-request"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M11",
+      "status": "BLOCKED_LICENSE_EXPRESSION",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m11/result.json",
+      "restoreStarts": 0,
+      "reason": "system-reflection-metadata-license-expression-and-source-identity"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M12",
+      "status": "BLOCKED_LICENSE_EVIDENCE",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m12/result.json",
+      "restoreStarts": 0,
+      "reason": "Blocked:BLOCKED_LICENSE_EVIDENCE:[{\"id\": \"xunit.abstractions\", \"reason\": \"BLOCKED_LICENSE_CLOSURE:no exact repository identity:xunit.abstractions\"}]"
+    },
+    {
+      "series": "early-materials",
+      "batch": "M13",
+      "status": "WAITING_SIGNATURE_REVIEW",
+      "result": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m13/result.json",
+      "restoreStarts": 0,
+      "reason": null
+    }
+  ],
+  "recentActualHostAttempts": [
+    {
+      "batch": "M17/M04",
+      "actualHostStarts": 1,
+      "restoreStarts": 0,
+      "verdict": "docs/team/2026-09-30/loc-m17-m04-native-verdict.json"
+    },
+    {
+      "batch": "M17/M05",
+      "actualHostStarts": 1,
+      "restoreStarts": 0,
+      "verdict": "docs/team/2026-09-30/loc-m17-m05-native-verdict.json"
+    },
+    {
+      "batch": "M17/M06",
+      "actualHostStarts": 1,
+      "restoreStarts": null,
+      "verdict": "docs/team/2026-09-30/loc-m17-m06-native-verdict.json"
+    },
+    {
+      "batch": "M17/M07",
+      "actualHostStarts": 1,
+      "restoreStarts": 1,
+      "verdict": "docs/team/2026-09-30/loc-m17-m07-native-verdict.json"
+    },
+    {
+      "batch": "M17/M08",
+      "actualHostStarts": 1,
+      "restoreStarts": 1,
+      "verdict": "docs/team/2026-09-30/loc-m17-m08-native-verdict.json"
+    },
+    {
+      "batch": "M17/M09",
+      "actualHostStarts": 1,
+      "restoreStarts": 1,
+      "verdict": "docs/team/2026-09-30/loc-m17-m09-native-verdict.json"
+    },
+    {
+      "batch": "M17/M10",
+      "actualHostStarts": 1,
+      "restoreStarts": 0,
+      "verdict": "docs/team/2026-09-30/loc-m17-m10-native-verdict.json"
+    },
+    {
+      "batch": "M17/M11",
+      "actualHostStarts": 1,
+      "restoreStarts": 1,
+      "verdict": "docs/team/2026-09-30/loc-m17-m11-native-verdict.json"
+    },
+    {
+      "batch": "M17/M12",
+      "actualHostStarts": 1,
+      "restoreStarts": 1,
+      "verdict": "docs/team/2026-09-30/loc-m17-m12-native-verdict.json"
+    }
+  ],
+  "recentCount": 9,
+  "recentCompleteFailures": 8,
+  "recentInterrupted": 1,
+  "confirmedRestoreCommandStartsBeforeCurrent": 10,
+  "interruptedM06RestoreStarts": "UNKNOWN; cannot give an exact all-history restore total",
+  "notExecuted": [
+    "M17/M01: approval rejected before process creation",
+    "M17/M02 and M03: activation prepared; no execution evidence root",
+    "M17/M05 initial: before only; actual attempt is resume1",
+    "M17/M06 initial: approval deadline; actual attempt is resume1"
+  ],
+  "sourceOnlyStages": [
+    "early M14",
+    "early M15",
+    "early M16",
+    "early M17",
+    "subsequent FIX source revisions"
+  ],
+  "interpretation": "13 earlier material preparation/validation batches plus 9 recent host attempts = 22 work batches before current, not 22 restore runs; 10 restore commands confirmed, interruption leaves total uncertain.",
+  "currentAttempt": {
+    "batch": "M17/M13 FIX10",
+    "actualHostStartOrdinalRecent": 10,
+    "materialWorkBatchOrdinalIncludingEarly": 23,
+    "fullInvocationSeconds": 216.20272404199932,
+    "restoreStarts": 2,
+    "restoreSucceeded": 1,
+    "thirdRestore": "NOT_STARTED",
+    "verdict": "loc-m17-m13-native-verdict.json"
+  }
+}

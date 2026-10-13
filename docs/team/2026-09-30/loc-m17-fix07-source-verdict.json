@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-FIX07 macOS GUID sandbox expression correction",
+  "integrationVerdict": "ACCEPT",
+  "scope": "SOURCE_ONLY",
+  "central": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local",
+    "turnId": "01a12e46-6af4-7b82-958d-d18c1146d85d",
+    "userItem": "01a12e46-6b4a-7fb2-aea1-235e64f1268f"
+  },
+  "originalSourceAuthor": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12e5d-f4c9-7443-87c9-3eb4d3f47ce4"
+  },
+  "sourceOwner": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12e6f-1e7a-7732-a9ac-871c55a04271"
+  },
+  "repairAuthor": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12e6f-1e7a-7732-a9ac-871c55a04271"
+  },
+  "sealExecutor": {
+    "hostId": "local",
+    "receivedItem": "fco_01a12e6f-1e89-7c31-89f8-bbfb8e07e9de",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12e6f-1e7a-7732-a9ac-871c55a04271"
+  },
+  "sourceFreeze": {
+    "bytes": 2807,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix07/authority/source-freeze.json",
+    "sha256": "5f747b1441f79bb43ff00f17757b36fee2e7c374d3e8dd00570d42d54b835027"
+  },
+  "sourceModelSha256": "8c66978b5f7a86d77e158baf7b34b7f1c7ab9616987b20e263ff70ec7e6a5f58",
+  "sourceCommandReceipt": {
+    "path": "docs/team/2026-09-30/loc-m17-fix07-command-receipt.json",
+    "bytes": 35151,
+    "sha256": "5c027e28a18b37d2e8abca762bbb84b6304d276840b824f75f04aa7faea56797"
+  },
+  "sourceChecks": {
+    "actualRepairAuthor": {
+      "hostId": "local",
+      "receivedItem": "fco_01a12e6f-1e89-7c31-89f8-bbfb8e07e9de",
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "turnId": "01a12e6f-1e7a-7732-a9ac-871c55a04271"
+    },
+    "caseCount": 16,
+    "evidence": {
+      "bytes": 97953,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix07/authority/offline-checks.json",
+      "sha256": "a5563a86c14fb443549b2d86784ddc6d585a9ccce673b8055a56bfc136a4b8d0"
+    },
+    "exitCode": 0,
+    "fullInvocationSeconds": 6.43288250000478,
+    "maxSeconds": 10,
+    "newNativeStarts": 0,
+    "passed": 16,
+    "scope": "one repair01 read-only delta, 16 checks; three assertions consume historical OS receipts, not new OS launches",
+    "toolId": "exec-a1eccca7-37fc-4200-8ccd-deb24e654385"
+  },
+  "osVerification": {
+    "originalAuthor": {
+      "hostId": "local",
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "turnId": "01a12e5d-f4c9-7443-87c9-3eb4d3f47ce4"
+    },
+    "originalToolId": "exec-4edf9488-4e3e-4c64-8627-a36ae7e16de9",
+    "originalAggregateStatus": "FAILED_METADATA_DIGEST_NOT_OS_FAILURE",
+    "caseCount": 3,
+    "expectedOutcomes": 3,
+    "reused": true,
+    "newChildStartsInRepair": 0,
+    "evidence": [
+      {
+        "bytes": 9148,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-plan.json",
+        "sha256": "4aa871f2771755a59152a6437b26ab8d039a885ca4c79ff64b0ee21288f6d703"
+      },
+      {
+        "bytes": 7669,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-result.json",
+        "sha256": "2b55efb01c89f3508a0d63615d35d93b062470b2c924f0b36764a367d2af661e"
+      }
+    ],
+    "fullNuGetValidation": false
+  },
+  "sourceSeal": {
+    "toolId": "exec-771a28c8-29b7-4337-9e8b-ae6439bd6532",
+    "exitCode": 0,
+    "fullInvocationClock": {
+      "SDKScan": false,
+      "attempts": 1,
+      "blockedEvents": [],
+      "completedAtUtc": "2026-10-12T04:52:04.635617+00:00",
+      "event": "FINAL_COMMAND_CLOCK",
+      "exitCode": 0,
+      "fullInvocationSeconds": 11.298967709000863,
+      "historicalSuitesRerun": false,
+      "materialExecution": false,
+      "maxSeconds": 30,
+      "newNativeStarts": 0,
+      "partialNewEnumerations": 0,
+      "rawError": null,
+      "scope": "FIX07 mechanical seal once",
+      "sealExecutor": {
+        "hostId": "local",
+        "receivedItem": "fco_01a12e6f-1e89-7c31-89f8-bbfb8e07e9de",
+        "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+        "turnId": "01a12e6f-1e7a-7732-a9ac-871c55a04271"
+      },
+      "startedAtUtc": "2026-10-12T04:51:53.342431+00:00"
+    },
+    "eightLeaves": 8,
+    "totalBytes": 13423756
+  },
+  "centralEvidenceInspection": {
+    "originalToolFieldsAndCompleteUntruncatedOutput": "Directed, original OS aggregate, and seal records match actual tool items",
+    "sourceFreezeUtf8": "Exact match",
+    "finalEightLeafBytesAndSHA256": "All matched",
+    "remoteBlobIdentitiesAndSizes": "45 match; 1838 previous blobs unchanged",
+    "testRerun": false,
+    "localCodeReview": false
+  },
+  "independentReview": {
+    "service": "GitHub PR Code Review",
+    "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+    "reviewedHead": "bd92f6bcedaf89751256a4a7e0084d39cd244893",
+    "triggerId": 6118099176,
+    "resultId": 6118132100,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6118132100",
+    "status": "Completed",
+    "conclusion": "No major issues reported",
+    "formalApproved": false,
+    "newFindings": [],
+    "historicalUnresolvedFindings": [
+      {
+        "commentId": 4177549312,
+        "threadId": "PRRT_kwDOTDyjrM6oyRcu",
+        "severity": "P2",
+        "path": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+        "title": "Validate all cached archives before downloading",
+        "disposition": "Retained historical finding; not resolved by this receipt. FIX07's frozen all-reuse/zero-GET contract does not perform the offending download sequence."
+      }
+    ],
+    "qaActual": "01a12e80-9746-7f73-a30c-8b802e2f5f26",
+    "qaReceipt": {
+      "path": "docs/team/2026-09-30/testing-loc-m17-fix07-review.json",
+      "bytes": 3836,
+      "sha256": "32131e982610289a0e7f6ec3eeb5ce91f7ab990af52db4af650b0d99ef6233ae"
+    },
+    "centralReadServiceResultAndCurrentHead": true
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/central-loc-m17-fix07-publication.json",
+    "head": "bd92f6bcedaf89751256a4a7e0084d39cd244893",
+    "newFiles": 45,
+    "merged": false
+  },
+  "materialStatus": {
+    "M08": "NEEDS_FIX",
+    "oneAttemptConsumed": true,
+    "newNativeExecutionAuthorized": false,
+    "newNativeRuns": 0,
+    "downloadCount": 0,
+    "remainingEvidence": "All three actual dependency restores on FIX07, manifest, process closure and independent receipt"
+  },
+  "limitations": [
+    "The OS probes exercise the production regex/serialization mapped to isolated fixture parents with literal intersections; they do not establish full NuGet or whole-profile success.",
+    "Resident GUID quotas are not OS per-write limits.",
+    "The normalized inventory copy preserves captured entries and timestamps, without rediscovery of partial roots.",
+    "SOURCE acceptance does not accept B/L, Unity, APK, devices or first Demo."
+  ],
+  "next": "New explicit one-run permission is required for central-loc-fix07-next-material-proposal.md; all historical failures remain."
+}

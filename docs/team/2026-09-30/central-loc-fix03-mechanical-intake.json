@@ -1,0 +1,41 @@
+{
+  "task": "LOC-FIX03 mechanical publication intake",
+  "notCodeReview": true,
+  "sourceModel": "9bc598c1c6964285f47a642f9d53f98e5e596ce33d62f7ce1269ca53d22a4753",
+  "author": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a11a84-fb46-79f1-9bd3-9fc6b1d1bf8b"
+  },
+  "sevenSourceSealFilesMatched": true,
+  "sourceLinesChanged": 142,
+  "changedExistingFunctions": [
+    "model",
+    "download_contract",
+    "archive_entries",
+    "source_artifacts",
+    "prepare"
+  ],
+  "unchanged": 57,
+  "downloadContractOnlyFixedLiteralChanged": true,
+  "relativeWriteSetByteIdentical": true,
+  "packageIdentityCount": 31,
+  "getCount": 18,
+  "getResponseBodyBytes": 25172764,
+  "executionBudgetOnlyGetDestinationPrefixChanged": true,
+  "offlineCases": 26,
+  "timings": {
+    "directedCheckSeconds": 0.1121859579870943,
+    "totalPrepareInvocationSeconds": 5.103700457999366,
+    "prepareCapSeconds": 5,
+    "fullPrepareCapMet": false,
+    "fullPrepareOverrunSeconds": 0.10370045799936634,
+    "nonDirectedPortionIncludesMechanicalSealingSeconds": 4.991514500012272,
+    "mechanicalSealingCapSeconds": 30,
+    "note": "Exact full prepare invocation was 5.103700458s, 0.103700458s above the amendment's 5s wording. Do not reclassify or round down as within 5s. Initial source generation+disk-consumption completed; central must decide receipt of this timing deviation. No automatic retry."
+  },
+  "mechanicalCorrection": "Initial checker compared entire budget including approved destination paths; correcting only the exact W prefix in officialGets makes all budget fields match. No source/test rerun.",
+  "deviationDisposition": "Retain 5.104-second SOURCE prepare overrun of central 5-second budget as explicit procedural deviation; receive existing scoped test/seal evidence for publication, without rerun or changing original limit. This is separate from the human 15-minute material budget; no material execution occurred.",
+  "sourceReview": "PENDING",
+  "materialAuthorized": false
+}

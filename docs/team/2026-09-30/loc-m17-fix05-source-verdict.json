@@ -1,0 +1,30 @@
+{
+  "task": "LOC-M17-FIX05 source integration",
+  "verdict": "NEEDS_FIX",
+  "scope": "SOURCE-only, no material acceptance",
+  "centralTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+  "head": "c4c7a5d313c1193191447b525ade226268b616e1",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+  "independentIntake": {
+    "path": "docs/team/2026-09-30/testing-loc-m17-fix05-review.json",
+    "bytes": 5279,
+    "sha256": "2c19a6029cade4380c9eee42e3db0c6d577f86a2a22f1f42a17a51ff6fdb8b20",
+    "actualTurn": "01a12c1f-be8b-70e1-9ba6-f932a8f01031"
+  },
+  "unresolvedFindings": [
+    {
+      "id": 4242623018,
+      "severity": "P1",
+      "scope": "Missing correction authority bindings"
+    },
+    {
+      "id": 4242623020,
+      "severity": "P1",
+      "scope": "Successful seal tool result not archived in published evidence"
+    }
+  ],
+  "existingValidEvidence": "81/81 final-source checks and successful 4.916111583-second seal retained; original M06 remains interrupted/incomplete.",
+  "next": "LOC FIX05 REVIEW01: bind correction records and archive actual successful command evidence; new head review required.",
+  "formalApproved": false,
+  "materialExecutionAuthorized": false
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-FIX06 narrow GUID temporary-write correction",
+  "integrationVerdict": "ACCEPT",
+  "scope": "SOURCE_ONLY",
+  "central": {
+    "threadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "hostId": "local",
+    "turnId": "01a12dc8-58f5-7150-aa6d-c763dd9d9e02",
+    "userItem": "01a12dc8-5fb9-7e43-8659-7026352c2050"
+  },
+  "sourceOwner": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12dde-888b-7591-bb45-0a3576b1b5c5"
+  },
+  "sourceFreeze": {
+    "bytes": 2807,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix06/authority/source-freeze.json",
+    "sha256": "08d12270a97b2a87be19debc9a711b71854d9d8cacacddf256e517db23387521"
+  },
+  "sourceModelSha256": "5edefd5ebe5f443818f80cf3958e631e5a5e166015fe44b42959a800df80debf",
+  "sourceCommandReceipt": {
+    "path": "docs/team/2026-09-30/loc-m17-fix06-command-receipt.json",
+    "bytes": 19691,
+    "sha256": "10cc6a35761da1464cf3508ccaa9ad0755a92804796ec4a6cde362da3731812b"
+  },
+  "sourceChecks": {
+    "cases": 55,
+    "passed": 55,
+    "attempts": 1,
+    "fullInvocationSeconds": 4.6384931659995345,
+    "exitCode": 0,
+    "toolId": "exec-0ebdd043-18a9-4a3d-bf5f-0a4b125d67f2",
+    "oldProductionProfileSha256": "25af8b0b9b0bdbb3e7ecbfb93c54ab495c61e0380159d69dca79a202485279f5"
+  },
+  "sourceSeal": {
+    "attempts": 1,
+    "fullInvocationSeconds": 8.009652291002567,
+    "exitCode": 0,
+    "toolId": "exec-76a43d8d-8253-4532-9806-dfad1037b1fa",
+    "eightLeaves": 8,
+    "totalBytes": 13351416
+  },
+  "centralEvidenceInspection": {
+    "readActualAuthorTurn": true,
+    "originalToolFieldsAndCompleteUntruncatedOutput": "Both matched their recorded evidence",
+    "finalEightLeafBytesAndSHA256": "All matched",
+    "sourceFreezeUtf8": "Matched original complete tool sidecar",
+    "testRerun": false,
+    "localCodeReview": false
+  },
+  "independentReview": {
+    "service": "GitHub PR Code Review",
+    "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+    "reviewedHead": "454eb4da250262a396b17da97d83c71de408bd48",
+    "triggerId": 6116642338,
+    "resultId": 6116669351,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6116669351",
+    "status": "Completed",
+    "conclusion": "No major issues reported",
+    "formalApproved": false,
+    "newFindings": [],
+    "unresolvedHistoricalFindings": [],
+    "qaActual": "01a12def-6bc4-79c1-b89e-06044c8487ad",
+    "qaReceipt": {
+      "path": "docs/team/2026-09-30/testing-loc-m17-fix06-review.json",
+      "bytes": 4868,
+      "sha256": "c500b668a15a13bed4ead13fe985d53c4a8064dd4f7e7dfe304d3ef0256e8d49"
+    },
+    "centralReadServiceResultAndCurrentHead": true
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/central-loc-m17-fix06-publication.json",
+    "head": "454eb4da250262a396b17da97d83c71de408bd48",
+    "newFiles": 29,
+    "remoteBlobIdentitiesAndSizes": "MATCH",
+    "historicalBlobsPreserved": 1809,
+    "merged": false
+  },
+  "materialStatus": {
+    "M07": "NEEDS_FIX",
+    "oneAttemptConsumed": true,
+    "newNativeExecutionAuthorized": false,
+    "newNativeRuns": 0,
+    "downloadCount": 0,
+    "remainingEvidence": "OS accepts new profile and all three actual restores pass, followed by independent material receipt"
+  },
+  "limitations": [
+    "Resident GUID quota is not an OS per-write or cumulative-write limit",
+    "Fixed partial inventory verifies known file hashes and directory types/links, not historical directory timestamps or discovery of new paths",
+    "SOURCE acceptance does not accept B/L, Unity, APK, devices or first Demo"
+  ],
+  "next": "Request one concrete M attempt using central-loc-fix06-next-material-proposal.md; preserve M07 and all older failures."
+}

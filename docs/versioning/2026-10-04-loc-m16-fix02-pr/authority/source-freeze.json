@@ -1,0 +1,140 @@
+{
+  "authority": {
+    "exactText": "canvas，多语言和你说的已经通过验证的资源、存档、语言偏好模块接入这些看起来似乎都是你自己可以完成的，不需要我确认吧？\n允许继续真实场景修复、保存复开和限定验证是具体要做什么？\n授权这两项，按既定范围继续",
+    "host": "local",
+    "item": "01a1061c-4443-7311-8546-ec7f40ed085e",
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "turn": "01a1061c-3792-7a31-925f-0f6caac83979"
+  },
+  "completionReceiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "declaration": {
+    "completionEvidence": {
+      "currentPreparationLeaves": [
+        "source/m16_driver.py",
+        "source/m16-inputs.tsv",
+        "source/m16-write-set.tsv",
+        "authority/prepare.json",
+        "authority/offline-checks.json",
+        "authority/source-freeze.json",
+        "authority/correction-receipt.json",
+        "source/source.patch"
+      ],
+      "historicalRules": 10231,
+      "inheritedSealSha256": "0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50",
+      "interpretation": "source implementation and finite declarations only; material availability is separate",
+      "projectedRules": 10233,
+      "requiredFunctions": [
+        "execute",
+        "check_activation",
+        "verify_central_activation",
+        "assemble_model",
+        "consume_source_contract",
+        "run_isolated_restore",
+        "produce_material",
+        "verify_preservation",
+        "build_write_set",
+        "source_tables_bytes"
+      ]
+    },
+    "hashLayers": [
+      "driver + immutable historical inputs + authority context",
+      "generated input/write-set tables (never include themselves)",
+      "prepare/checks/patch/correction receipt",
+      "source-freeze binds the other seven leaves; external activation pins this seal"
+    ],
+    "materialAvailabilityReason": "historical temporary material inputs are missing; not restored in SOURCE_ONLY",
+    "materialInputsAvailable": false,
+    "owner": {
+      "hostId": "local",
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "turnId": "01a10651-d401-7fe3-812e-f81d83680e6f"
+    },
+    "roots": {
+      "E16": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02",
+      "M16": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m16",
+      "T16": "/private/tmp/fightmatch-loc-lic-alt-m16/loc-lic-alt-yamldotnet-16.3.0-m16"
+    },
+    "tableIdentities": {
+      "source/m16-inputs.tsv": {
+        "bytes": 4916277,
+        "sha256": "043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381"
+      },
+      "source/m16-write-set.tsv": {
+        "bytes": 1047931,
+        "sha256": "8b59f96616686a63a89df7884fa91be9e73f1b1a471f7247d9f729e142912347"
+      }
+    }
+  },
+  "dispatchItem": "fco_01a10651-d40a-78b3-914a-140426428603",
+  "executeAuthorized": false,
+  "executorComplete": true,
+  "expectedEightLeaves": [
+    "source/m16_driver.py",
+    "source/m16-inputs.tsv",
+    "source/m16-write-set.tsv",
+    "authority/prepare.json",
+    "authority/offline-checks.json",
+    "authority/source-freeze.json",
+    "authority/correction-receipt.json",
+    "source/source.patch"
+  ],
+  "filesExcludingThisSeal": [
+    {
+      "bytes": 204239,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16_driver.py",
+      "sha256": "5df4a9acd58b3242c18945c66ab9e7dd0fb9f21b295801be78b18fa1b71d377f"
+    },
+    {
+      "bytes": 4916277,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-inputs.tsv",
+      "sha256": "043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381"
+    },
+    {
+      "bytes": 1047931,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/m16-write-set.tsv",
+      "sha256": "8b59f96616686a63a89df7884fa91be9e73f1b1a471f7247d9f729e142912347"
+    },
+    {
+      "bytes": 4415,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/prepare.json",
+      "sha256": "879a089c62d7026dbee1a41d7ed67d6f74b371c2e0e560c984a1fc9498549ea5"
+    },
+    {
+      "bytes": 16784,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/offline-checks.json",
+      "sha256": "57bd1e19f6a87990ba4c8ad796fb1e4d3a0989e0091f17e2dd93ee1be1b79d23"
+    },
+    {
+      "bytes": 31211,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/authority/correction-receipt.json",
+      "sha256": "30fcde0965285a614b809612160bc1b6b00f7ce7e4e81a4c08d58db88c417400"
+    },
+    {
+      "bytes": 43029,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix02/source/source.patch",
+      "sha256": "3df19e9dd310b44862921ab8b18243055fb46f20586503c7092b4fab8378c683"
+    }
+  ],
+  "independentReviewRequired": true,
+  "issuer": {
+    "hostId": "local",
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "turnId": "01a10641-a816-71d1-919b-97413f71ea56"
+  },
+  "materialInputsAvailable": false,
+  "materialWriteSetComplete": true,
+  "owner": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a10651-d401-7fe3-812e-f81d83680e6f"
+  },
+  "productStatus": [
+    "UNCOMPILED",
+    "UNTESTED"
+  ],
+  "schemaVersion": 2,
+  "scope": "SOURCE_ONLY",
+  "sourceReady": true,
+  "status": "SOURCE_READY",
+  "trustedCentralActivationPin": null
+}

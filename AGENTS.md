@@ -153,7 +153,8 @@ and [execution agreement](.agent/TEAM_WORKFLOW.md).
   dependencies, progress and receipt; specialist leads own detailed decisions.
 - Engineering delegates architecture → system design → implementation.
   Planning, art and testing delegate through their documented specialist roles.
-  Keep design, production and independent review in separate role chats.
+  Keep design and production in separate role chats; code review runs through
+  GitHub PR Code Review under the rule below.
 - For user-authorized FightMatch tasks, reuse suitable chats or create necessary
   role/execution chats, dispatch scoped work and exchange task receipts within
   this team. This approved coordination does not require repeated per-packet
@@ -163,9 +164,17 @@ and [execution agreement](.agent/TEAM_WORKFLOW.md).
   relevant approved decisions, observable acceptance criteria and a return path.
   Implementers report proposed changes to approved choices to their lead before
   proceeding; changes to user decisions go through the central coordinator.
-- The testing lead coordinates cases, existing evidence, cloud/device execution
-  and independent R review. Authors cannot approve their own delivery. Preserve
-  R's independent `ACCEPT`, `NEEDS_FIX`, or `REJECT` verdict.
+- The testing lead coordinates cases, existing evidence, dots/cloud and device
+  execution, and receipt of independent GitHub PR Code Review. Authors cannot
+  approve their own delivery. Preserve existing R verdicts as historical evidence.
+- **User update (2026-10-01):** delegate new code reviews to GitHub PR Code
+  Review, not local `/review`, R chats or duplicate reviewer agents. Follow
+  [the PR review procedure](.agent/TEAM_WORKFLOW.md#7-github-pr-code-review).
+  Track the reviewed head and findings separately from test and device acceptance.
+  An unavailable reviewer blocks that gate; it does not authorize an automatic
+  fallback that spends general Codex usage. dots remains the preferred route
+  for supported automated tests; local Unity and device exceptions need the
+  existing scoped execution contract.
 - Use completion events or available wait tools to receive actual results,
   resolve required fixes and dispatch the next ready packet. While tests run,
   continue independent work with non-conflicting write scopes. Do not end
@@ -173,11 +182,25 @@ and [execution agreement](.agent/TEAM_WORKFLOW.md).
 - Keep detailed evidence in the responsible role's files and send concise
   receipts upstream. Reuse valid evidence; new runs must address relevant
   changes or unresolved failures, with explicit scope and resource limits.
+- **Token economy:** keep role identities, not idle running turns. Use the
+  short [current snapshot](docs/team/2026-09-30/README.md); dispatch only the
+  relevant delta. Assign one completion receiver per task, then end idle turns
+  and wake them on useful work/results. Do not have central, engineering and
+  testing all wait on or forward the same result. Run mechanical checks in
+  scripts; do not add review rounds or long documents for routine bookkeeping.
+- **Model policy (user update, 2026-10-01):** central and specialist lead,
+  architecture, system-design and implementation chats default to
+  `gpt-6-astra` / `xhigh` (极高), including new chats and subsequent dispatches.
+  Use `gpt-6-luna` for clearly specified, repetitive low-complexity work;
+  escalate ambiguous or substantive design/code decisions to Astra. Set the
+  model and effort explicitly when dispatching. This supersedes old C/R
+  `max` defaults; GitHub review uses its service configuration.
 
 Existing SD00/C/R assignments are the transition baseline, not a reason to
 revert to a single all-purpose chat. Record responsibility transfers before new
 owners write shared files. Until that transfer, SD00 remains design/dispatch/
-receipt only, C remains the serial Unity executor, and R stays independent.
+receipt only and C remains the serial local Unity executor. New code review
+ownership is transferred to GitHub; existing R chats receive no new code reviews.
 This workflow approval does not resume the paused product goal or expand Git,
 paid-service, deployment or release permissions. Actual new chats and cloud
 test readiness must be verified rather than inferred from this policy.
@@ -190,9 +213,11 @@ Codex must:
 - clarify scope and risks;
 - create small external-worker task packets;
 - define allowed and forbidden files;
-- review returned patches independently;
+- obtain independent GitHub PR review for code changes and inspect its findings;
 - run or inspect applicable validation;
-- issue exactly one review verdict: `ACCEPT`, `NEEDS_FIX`, or `REJECT`;
+- record exactly one integration verdict: `ACCEPT`, `NEEDS_FIX`, or `REJECT`,
+  citing the independent review and required validation rather than inventing
+  a bot approval or conducting a duplicate local code review;
 - create a smaller corrective task packet after `NEEDS_FIX`.
 
 Codex does **not** directly invoke DeepSeek, Claude, Claude Code, or another external model. The user manually transfers task packets and patches between environments.
@@ -245,7 +270,8 @@ The required external-worker prompt is [`.agent/DEEPSEEK_WORKER_PROMPT.md`](.age
 - Changes to public APIs, dependencies, configuration, assets, generated files, persistence, or serialization require explicit permission in the packet.
 - DeepSeek must list changed files and report each acceptance criterion.
 - Ambiguity or required out-of-scope work must produce `BLOCKED`.
-- Codex reviews every patch with [`.agent/REVIEW_CHECKLIST.md`](.agent/REVIEW_CHECKLIST.md).
+- Code changes follow the GitHub PR review procedure; its review context and
+  delivery receipt use [`.agent/REVIEW_CHECKLIST.md`](.agent/REVIEW_CHECKLIST.md).
 - Validation follows [`.agent/VALIDATION.md`](.agent/VALIDATION.md).
 - Planning and task lifecycle follow [`.agent/PLANS.md`](.agent/PLANS.md).
 
@@ -258,3 +284,18 @@ The required external-worker prompt is [`.agent/DEEPSEEK_WORKER_PROMPT.md`](.age
 - No broad formatting or comment rewrites.
 - No fabricated build, test, lint, or verification results.
 - No accepting an external worker's claims without inspecting the actual patch and evidence.
+
+## Code Review Rules
+
+For a GitHub review, inspect the PR diff and its scoped approved design. Do not
+dispatch workers, resume development, or run the historical startup commands.
+
+- Flag changes that break shared Demo/Android gameplay or save semantics,
+  duplicate rewards, or discard protected ad benefits. A UI migration must
+  preserve the existing Application and persistence contracts.
+- Player UI must use uGUI, with project-owned English/Simplified Chinese
+  bindings and diagnostic prefab placeholders. UI Toolkit is allowed for
+  Editor tools; missing runtime bindings must remain visible and testable.
+- Flag weakened acceptance assertions, lost lifecycle cleanup, unowned global
+  state, or evidence attributed to a different input. A blocked or timed-out
+  test is not a pass, and code review cannot establish device/visual acceptance.

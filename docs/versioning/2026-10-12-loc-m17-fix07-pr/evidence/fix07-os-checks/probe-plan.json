@@ -1,0 +1,70 @@
+{
+  "author": {
+    "hostId": "local",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12e5d-f4c9-7443-87c9-3eb4d3f47ce4"
+  },
+  "cases": [
+    {
+      "expectedExit": 0,
+      "id": "valid",
+      "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (require-all (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp\") (regex \"^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\\\-LIC\\\\-ALT\\\\-M/loc\\\\-m17\\\\-fix07\\\\-os\\\\-checks\\\\-01/\\\\.work/phase/source/src/Luban\\\\.DataLoader\\\\.Builtin/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\\\.tmp$\")))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj\")))",
+      "profileSha256": "74a333a8f6cc01249516248c27327b5a1b43c436c9d796f562d6a48e0c734775",
+      "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp"
+    },
+    {
+      "expectedExit": 1,
+      "id": "invalid-length",
+      "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (require-all (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba-1be1-4a9f-996e-d51404ed0ba5.tmp\") (regex \"^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\\\-LIC\\\\-ALT\\\\-M/loc\\\\-m17\\\\-fix07\\\\-os\\\\-checks\\\\-01/\\\\.work/phase/source/src/Luban\\\\.DataLoader\\\\.Builtin/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\\\.tmp$\")))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj\")))",
+      "profileSha256": "921c4f8af61330c272bcbc0a2f2421ac038ec563309fa91c87823f332a0f78c3",
+      "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba-1be1-4a9f-996e-d51404ed0ba5.tmp"
+    },
+    {
+      "expectedExit": 1,
+      "id": "extra-suffix",
+      "profile": "(version 1)\n(allow default)\n(deny file-write*)\n(deny process-fork)\n(deny network*)\n(allow file-write* (require-all (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp.extra\") (regex \"^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\\\-LIC\\\\-ALT\\\\-M/loc\\\\-m17\\\\-fix07\\\\-os\\\\-checks\\\\-01/\\\\.work/phase/source/src/Luban\\\\.DataLoader\\\\.Builtin/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\\\.tmp$\")))\n(allow file-write* (require-all (vnode-type DIRECTORY) (literal \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj\")))",
+      "profileSha256": "5e739ecbb78c01e317adef3a51723150b4c83190803f154ddd9f06e88996939b",
+      "target": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp.extra"
+    }
+  ],
+  "childArgv": [
+    "/opt/homebrew/opt/python@3.13/bin/python3.13",
+    "-I",
+    "-B",
+    "-c",
+    "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+  ],
+  "differences": [
+    "one literal intersection, not full production profile",
+    "precreated fixture parents",
+    "Python 1B open/write/unlink, not NuGet"
+  ],
+  "dispatchItem": "fco_01a12e5d-f4d3-7921-95ba-af0e0c15ae0c",
+  "fixtureParent": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj",
+  "mappedExpression": "^/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC\\-LIC\\-ALT\\-M/loc\\-m17\\-fix07\\-os\\-checks\\-01/\\.work/phase/source/src/Luban\\.DataLoader\\.Builtin/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\.tmp$",
+  "mapping": "replace only escaped exact parent prefix; retain generated leaf expression and ordinary JSON/SBPL string",
+  "materialValidation": false,
+  "maxChildSeconds": 2,
+  "maxChildren": 3,
+  "maxFixtureBytes": 65536,
+  "maxWriteBytesPerChild": 1,
+  "productionExpression": "^/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/\\.work/m17\\-fix07/phases/M\\-runner\\-generation/source/src/Luban\\.DataLoader\\.Builtin/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\.tmp$",
+  "productionGrant": "(allow file-write* (regex \"^/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/\\\\.work/m17\\\\-fix07/phases/M\\\\-runner\\\\-generation/source/src/Luban\\\\.DataLoader\\\\.Builtin/obj/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\\\\.tmp$\"))",
+  "productionParent": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban.DataLoader.Builtin/obj",
+  "productionRule": [
+    "work",
+    "phases/M-runner-generation/source/src/Luban.DataLoader.Builtin/obj/{guid-tmp}",
+    "bounded-guid-tmp",
+    "M",
+    "M-runner-generation-restore",
+    1,
+    16777216,
+    "direct lowercase GUID.tmp; resident quota only, not cumulative/native proof"
+  ],
+  "schemaVersion": 1,
+  "sourceIdentity": {
+    "bytes": 260786,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix07/source/m17_driver.py",
+    "sha256": "dc1c9293582e77ca6e46a34e9ad60c39afc82c16ca5a21de020a80246e00a7d4"
+  }
+}

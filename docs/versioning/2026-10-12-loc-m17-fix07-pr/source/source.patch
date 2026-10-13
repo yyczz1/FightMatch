@@ -1,0 +1,527 @@
+--- M17-FIX06/source/m17_driver.py
++++ M17-FIX07/source/m17_driver.py
+@@ -33,9 +33,15 @@
+ OLD17F5=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05'
+ OLD17R1=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01'
+ OLD17R2=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review02'
+-E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix06'
+-W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix06')
+-M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix06')
++OLD17F6=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix06'
++E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix07'
++FIX07_OS=BASE/'loc-m17-fix07-os-checks-01'
++FIX07_DIAG=BASE/'loc-m08-sandbox-diagnosis-01'
++W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07')
++M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix07')
++W6=W.with_name('m17-fix06')
++M6=M.with_name('5.1.0-fm-yamldotnet-16.3.0-m17-fix06')
++M08_E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-m08'
+ W5=W.with_name('m17-fix05')
+ M5=M.with_name('5.1.0-fm-yamldotnet-16.3.0-m17-fix05')
+ M07_E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-m07'
+@@ -54,9 +60,16 @@
+ DRIVER=E/'source/m17_driver.py'
+ PREP=('source/m17_driver.py','source/m17-inputs.tsv','source/m17-write-set.tsv','source/source.patch',
+       'authority/prepare.json','authority/offline-checks.json','authority/source-freeze.json','authority/source-receipt.json')
+-OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a12dde-888b-7591-bb45-0a3576b1b5c5'}
+-ISSUER={'threadId':'01a0e401-511d-79f2-b47f-3ab0ade1681b','hostId':'local','turnId':'01a12dc8-58f5-7150-aa6d-c763dd9d9e02'}
+-DISPATCH='fco_01a12dde-889d-7051-a875-1287c840da37'
++OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a12e6f-1e7a-7732-a9ac-871c55a04271'}
++FIX07_ORIGINAL_OWNER=dict(OWNER,turnId='01a12e5d-f4c9-7443-87c9-3eb4d3f47ce4')
++ISSUER={'threadId':'01a0e401-511d-79f2-b47f-3ab0ade1681b','hostId':'local','turnId':'01a12e46-6af4-7b82-958d-d18c1146d85d'}
++DISPATCH='fco_01a12e6f-1e89-7c31-89f8-bbfb8e07e9de'
++FIX07_ORIGINAL_DISPATCH='fco_01a12e5d-f4d3-7921-95ba-af0e0c15ae0c'
++FIX07_REPAIR_INPUT=BASE/'loc-m17-fix07-repair01-inputs'
++FIX07_REPAIR_FILES=(
++    ('original-driver.py',260786,'dc1c9293582e77ca6e46a34e9ad60c39afc82c16ca5a21de020a80246e00a7d4'),
++    ('failed-checks.json',273,'ce3972823d56b69ee7db3f101e05b1b8f679c5affc1fbf95a69eb45a22a84d43'),
++    ('failed-tool.json',4119,'f03178a56aefb269cc83c4a4828a953c06063e2874bc63011cfaea9328e548e7'))
+ REUSED_ROOT=W.with_name('m17-fix03')
+ REUSED_KEYS=frozenset(('microsoft.codecoverage.17.11.1','microsoft.net.test.sdk.17.11.1',
+     'microsoft.testplatform.objectmodel.17.11.1','microsoft.testplatform.testhost.17.11.1','newtonsoft.json.13.0.3'))
+@@ -74,7 +87,7 @@
+     ('central-loc-m17-fix05-review01.md',3826,'3cf1312d5d3309ce9ea51d702c2b3f13a34d183ef25e370debfeaad257594354'),
+     ('central-loc-m17-fix05-seal-success.json',18336,'ea5b2c865b7f7b239f52767f5de7d79ab8e71225252ddc53229e85866a8db69b'))
+ REVIEW01_SIDECAR=DOC/'loc-m17-fix05-review01-command-receipt.json'
+-REVIEW02_SIDECAR=DOC/'loc-m17-fix06-command-receipt.json'  # Current mandatory receipt; gate implementation retained.
++REVIEW02_SIDECAR=DOC/'loc-m17-fix07-command-receipt.json'  # Current mandatory receipt; gate implementation retained.
+ REVIEW02_DOCUMENTS=(
+     ('central-loc-m17-fix05-review02.md',3149,'a9840a59e3d1cef2793aa80e6e07d00e6806ad621a8d17a9d434f9b33520f138'),
+     ('engineering-loc-fix05-review02-activation.md',12849,'9f95d738b9b2930aab7ca128b217defbeafc9386fddb62ee3d78e2d2e2bfa5d7'))
+@@ -91,7 +104,32 @@
+     ('central-loc-m17-m07-execute.md',3294,'b9f3a4723338df3d025bd0c8590c81200e407f6e64b2f6112497475cd34cbd37'),
+     ('loc-m17-fix05-review02-source-verdict.json',3594,'613059fea358c67b5d3ca61871e12b220c8892959c43f0b8e904061f74de2f72'),
+ )
+-FIX06_GUID=r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.tmp'
++FIX06_GUID='-'.join('[0-9a-f]'*n for n in (8,4,4,4,12))+r'\.tmp'
++FIX07_DOCUMENTS=(
++    ('central-loc-m17-fix07-repair01.md',3455,'dc141de5272b20e65d01e3776669aa8ba68eb03a2917ed1a206e5e8ee5aca916'),
++    ('central-loc-m08-partial-capture-normalized.json',1333581,'f84843c252c67ba0c34b6297814b29868f3dc3ef958ed841efc3afc0cefddd70'),
++    ('central-loc-m17-fix07-source.md',5047,'e99243adec66e9d2d978695d323b4464eb4d97b02cdf8d6d0f0bee2096e8c6c6'),
++    ('engineering-loc-after-m08-failure.md',7969,'04ba6aa42fb6da7414dee1c864f573bed0ddb22360e17f52754e245c75225d9c'),
++    ('central-loc-m08-partial-capture.json',1332764,'d6ab4afd8891eba5625852407e2ef5cd7431048d7907feae5e6618d7ddfd5777'),
++    ('testing-loc-m17-m08-native-receipt.json',5480,'b8e5d0f138a787342a9800c9f21638a11651bb76b6a0ec1a8235ddb66bb30acc'),
++    ('loc-m17-m08-native-verdict.json',2803,'92f218134c75980c70cd100b1b14ebb41a169043bebf4943c11f1107bc25aca7'),
++    ('central-loc-m17-m08-activation.json',22834,'2513f98accf91f61344bf1dd26a2ec35a2b6f34a44c6810b4ddef9c3d8e52e48'),
++    ('central-loc-m17-m08-host.py',4203,'17f4e0ab263516941e02c6071b3ba029b7e9841562b2e1987c3fe68a050bf977'),
++    ('central-loc-m17-m08-host-binding-receipt.json',3791,'689d1bd7c4ccbf8a7b27a6c00b86d34986af3dd7258f412643e0bfbbad8baba2'),
++    ('central-loc-m08-approval-2026-10-12.json',861,'feb8597cab217ca1d25e89d4cc0779ee1e3b4f19feebc2ba52c52aadf13a4052'),
++    ('central-loc-m17-m08-execute.md',3582,'3f1b577943f0715234b4608e5c33e7fe7c5ccdb27e6fcda2948152c93cb377cc'),
++    ('loc-m17-fix06-source-verdict.json',3825,'9a6bdbb0fa4e831acac37c63c8e490faf07910d8c9cfed8438db86e0c0a922ec'),
++)
++FIX07_DIAG_FILES=(
++    ('plan.json',4436,'8da77ba20231b20d7d7da259eb0bad156cfdb73006d65ce8ff6dc09d4db46b78'),
++    ('probe.py',11978,'909b648238a3d6e196bbe380d4ffbfb680bf01aa3944137be853495ab39a9ee1'),
++    ('profiles.json',6191,'e483645ffeadab716e4be5caaf7ea538a5f8ec3c4de0cea841d5bd0f497caa75'),
++    ('production-profile.sb',64487,'5f769139403d229b1ba22378f979019f9a7ac9425c305c73b5e5b7bca3abb916'),
++    ('run-start.json',528,'94e8c4c0f522bc28cd8e7b97ab04a547f56c5c17da0bb9ad8a8c93d642fabad5'),
++    ('result.json',13805,'705fdbfca0467b47715add521197f3cf263cfe4f5f75f8d5b46e7ba9018b6eba'),
++    ('tool-receipt.json',1357,'db31ccb83a33c6852663b0940c34c02f35fbde055942148d05d7966843eab86c'),
++)
++FIX07_CHILD="\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+ PARTIAL_CAPTURE_OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local',
+     'turnId':'01a12c14-512d-7331-8acc-fd240ca1de4a'}
+ PARTIAL_CAPTURE_SHA='cd1fc4983e3d83bd48d897c86fe35cb016d4dad4509adf6a801df597c6203cb6'
+@@ -1223,10 +1261,10 @@
+ def source_artifacts(m,driver_bytes,old_driver,checks,history):
+     result={'source/m17_driver.py':driver_bytes,**source_tables(m)}
+     patch=''.join(difflib.unified_diff(old_driver.decode().splitlines(True),driver_bytes.decode().splitlines(True),
+-        fromfile='M17-FIX05-REVIEW02/source/m17_driver.py',tofile='M17-FIX06/source/m17_driver.py'))
++        fromfile='M17-FIX06/source/m17_driver.py',tofile='M17-FIX07/source/m17_driver.py'))
+     result['source/source.patch']=patch.encode()
+     result['authority/prepare.json']=jb({'schemaVersion':1,'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,
+-        'modelSha256':sha(jb(m)),'model':m,'executionBudget':execution_budget(m),
++        'originalSourceAuthor':FIX07_ORIGINAL_OWNER,'modelSha256':sha(jb(m)),'model':m,'executionBudget':execution_budget(m),
+         'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT,
+         'inputClasses':{k:sum(r[0]==k for r in m['inputs']) for k in ('existing','official-get','generated')},
+         'old38Leaves':history,'states':m['states'],
+@@ -1708,7 +1746,7 @@
+     return prepared['model']
+ 
+ def _fix05_roots_absent(occupied=os.path.lexists):
+-    require(not occupied(M) and not occupied(W),'FIX06 future M6/W6 roots must be absent')
++    require(not occupied(M) and not occupied(W),'FIX07 future M7/W7 roots must be absent')
+ 
+ def _fix05_existing(item,reader=read):
+     require(item['class']=='existing','FIX05 archive must be existing; no fallback')
+@@ -1758,6 +1796,7 @@
+     records+=_review01_documents(reader)+_review01_prior(reader)
+     records+=_review02_documents(reader)+_review02_prior(reader)
+     records+=_fix06_documents(reader)+_fix06_prior(reader)
++    records+=_fix07_documents(reader)+_fix07_prior(reader)
+     before=strict(reader(M06_E/'before.json'));precheck=before['precheck']
+     records+=precheck['protectedExpectedIdsFromSealedSource']+before['preservationExpected']
+     for key in ('binding','retryDisposition','preservedPreviousBinding','activation','host','template',
+@@ -1793,11 +1832,13 @@
+     _review02_documents(reader)
+     _fix06_documents(reader)
+     partial_ref=_fix06_partial_unchanged(reader)
++    new_partial=_fix07_partial(reader);os_evidence=_fix07_os_evidence(reader)
+     _fix05_roots_absent()
+     old=_fix05_base(reader);m=copy.deepcopy(old)
+     m['owner']=OWNER;m['issuer']=ISSUER;m['roots']={k:str(v) for k,v in ROOTS.items()}
+     m['externalCommandReceiptRequirement']=copy.deepcopy(EXTERNAL_SOURCE_RECEIPT)
+     m['fix06PartialProtection']=partial_ref
++    m['fix07PartialProtection']=new_partial;m['osSourceEvidence']=os_evidence
+     for body in m['licenses']:
+         if body['kind']=='generated':body['path']=_fix05_output(body['path'])
+     for pkg in m['packages']:
+@@ -1823,6 +1864,7 @@
+         add(item,'nupkg' if 'key' in item else 'yaml-source-archive',item['url'])
+     add(identity(DRIVER,reader(DRIVER)),'source-layer','no generated E17 outputs included')
+     for row in _fix05_protection(reader):add(row,'preserved-evidence','F4/M06 immutable input; not material acceptance')
++    for row in os_evidence:add(row,'source-os-regression','FIX07 actual bounded OS fixture; not NuGet validation')
+     if partial is not None:
+         _fix05_partial_unchanged(partial,reader)
+         m['partialProtection']=copy.deepcopy(partial)
+@@ -2226,7 +2268,7 @@
+         if descriptor is not None:os.close(descriptor)
+ 
+ def _review02_authority():
+-    name,count,digest=FIX06_DOCUMENTS[0]
++    name,count,digest=FIX07_DOCUMENTS[0]
+     return {'centralThread':ISSUER['threadId'],'centralHost':ISSUER['hostId'],'centralIssuerTurn':ISSUER['turnId'],
+         'packet':str(DOC/name),'packetBytes':count,'packetSha256':digest}
+ 
+@@ -2294,7 +2336,7 @@
+     require(type(result) is dict and result.get('status')=='SOURCE_SEALED_EXTERNAL_RECEIPT_REQUIRED' and
+         type(clock) is dict and clock.get('event')=='FINAL_COMMAND_CLOCK','original result/clock order')
+     _review02_same(s['fullInvocationClock'],clock,'summary versus original clock')
+-    _review02_same(clock.get('scope'),'FIX06 mechanical seal once','clock scope')
++    _review02_same(clock.get('scope'),'FIX07 mechanical seal once','clock scope')
+     _review02_int(clock.get('attempts'),1,1,'mechanical attempts')
+     _review02_int(clock.get('maxSeconds'),30,30,'mechanical limit')
+     _review02_int(clock.get('exitCode'),0,0,'original full clock exit')
+@@ -2322,7 +2364,7 @@
+     scope=s['scope'];require(type(scope) is dict,'SOURCE scope object')
+     for key,value in {'newSourceLeaves':8,'sidecars':1,'maxSidecarBytes':65536,'partialNewEnumerations':0,
+             'SDKScans':0,'GETs':0,'restores':0,'materialExecutions':0,'GitWrites':0,'UnityRuns':0,
+-            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False,'historical109Rerun':False}.items():
++            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False,'historical109Rerun':False,'historical55Rerun':False}.items():
+         _review02_same(scope.get(key),value,'sidecar SOURCE-only '+key)
+     directed=s['directedVerification'];require(type(directed) is dict,'directed verification object')
+     evidence=expected[str(E/'authority/offline-checks.json')]
+@@ -2355,6 +2397,7 @@
+     _review02_same(direct_clock.get('passed'),count,'directed raw clock passed')
+     _review02_same(direct_clock.get('fullInvocationSeconds'),full,'directed raw full clock')
+     _review02_same(recorded.get('fullInvocationSeconds'),full,'sealed full invocation metadata')
++    _fix07_os_sidecar(s,checks,direct_clock,m,source_reader)
+     return True
+ 
+ def _review02_documents(reader=read):
+@@ -2425,7 +2468,7 @@
+     freeze_id=identity(E/'authority/source-freeze.json',frozen);leaves=[identity(p,b) for p,b in sorted(files.items())]+[freeze_id]
+     executor={'threadId':OWNER['threadId'],'hostId':'local','turnId':'00000000-0000-0000-0000-000000000021',
+         'receivedItem':'fco_00000000-0000-0000-0000-000000000022'}
+-    clock={'event':'FINAL_COMMAND_CLOCK','scope':'FIX06 mechanical seal once','sealExecutor':executor,
++    clock={'event':'FINAL_COMMAND_CLOCK','scope':'FIX07 mechanical seal once','sealExecutor':executor,
+         'startedAtUtc':'2026-10-12T00:00:00+00:00','completedAtUtc':'2026-10-12T00:00:02.125000+00:00',
+         'fullInvocationSeconds':2.125,'exitCode':0,'rawError':None,'maxSeconds':30,'attempts':1,
+         'materialExecution':False,'SDKScan':False,'partialNewEnumerations':0,'historicalSuitesRerun':False}
+@@ -2448,7 +2491,7 @@
+         'newHeadReviewRequired':True,'materialExecutionAuthorized':False,
+         'scope':{'newSourceLeaves':8,'sidecars':1,'maxSidecarBytes':65536,'partialNewEnumerations':0,'SDKScans':0,
+             'GETs':0,'restores':0,'materialExecutions':0,'GitWrites':0,'UnityRuns':0,
+-            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False,'historical109Rerun':False}}
++            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False,'historical109Rerun':False,'historical55Rerun':False}}
+     argv=['synthetic-host','execute']
+     record={'centralThread':CENTRAL,'centralHost':'local','centralTurn':ISSUER['turnId'],
+         'centralItem':'00000000-0000-0000-0000-000000000041','ownerThread':OWNER['threadId'],'ownerHost':'local',
+@@ -3113,18 +3156,283 @@
+         'partialProtection':m['fix06PartialProtection'],'SDKScan':False,'partialNewEnumerations':0,'GETs':0,'restores':0,
+         'native':0,'historicalSuitesRerun':False,'nativeGreen':'NOT_RUN','scope':'one FIX06 SOURCE-only call; profile text and memory sentinels are SIMULATED'}
+ 
++
++def _fix07_documents(reader=read):
++    return [identity(DOC/n,check_bytes(reader(DOC/n),(b,h),'FIX07 authority')) for n,b,h in FIX07_DOCUMENTS]+[
++        identity(FIX07_REPAIR_INPUT/n,check_bytes(reader(FIX07_REPAIR_INPUT/n),(b,h),'FIX07 failed attempt backup'))
++        for n,b,h in FIX07_REPAIR_FILES]
++
++def _fix07_prior(reader=read):
++    path=OLD17F6/'authority/source-freeze.json'
++    raw=check_bytes(reader(path),(2807,'08d12270a97b2a87be19debc9a711b71854d9d8cacacddf256e517db23387521'),'F6 freeze')
++    rows=strict(raw)['filesExcludingThisSeal']+[identity(path,raw)]
++    require(len(rows)==8 and {r['path'] for r in rows}=={str(OLD17F6/r) for r in PREP},'F6 eight')
++    path=DOC/'loc-m17-fix06-command-receipt.json'
++    rows.append(identity(path,check_bytes(reader(path),(19691,'10cc6a35761da1464cf3508ccaa9ad0755a92804796ec4a6cde362da3731812b'),'F6 sidecar')))
++    for n,b,h in (
++        ('before.json',73188,'0c5dafff4858c79a684f6ecb839a6fed499468638520d74286c1864fa2a0724d'),
++        ('stdout.log',282,'3661c2d267fde008f9ff5cda02c9448cc2d9cef8e588b51d000d2ddaf8a3b855'),
++        ('stderr.log',1348,'8230ac291f8cb00ff16c4c4e81e5154f5fa60ed94354b6e65fe9eb6fb220c36f'),
++        ('receipt.json',26370,'30e1696bfc55bd478704b23ad48b6206a643ef65c1bbfd0e704d48c02492b77a')):
++        path=M08_E/n;rows.append(identity(path,check_bytes(reader(path),(b,h),'M08 outer evidence')))
++    report=strict(reader(M08_E/'receipt.json'))
++    require(report['toolCapture']['originalCommandExecution']['id']=='exec-dd926858-13e5-40a6-880c-eaed023723e6' and
++        report['hostExitCode']==1 and report['hostStartCount']==1,'M08 actual identity')
++    rows+=[report['materialReport']['identity']]
++    rows.extend(r['identity'] for r in report['restoreReceipts'] if r['exists'])
++    rows.extend(r['identity'] for r in report['nativeFailureEvidence']['logs'])
++    for n,b,h in FIX07_DIAG_FILES:
++        path=FIX07_DIAG/n;rows.append(identity(path,check_bytes(reader(path),(b,h),'engineering OS diagnosis')))
++    for r in rows:check_bytes(reader(Path(r['path'])),(r['bytes'],r['sha256']),'F6/M08 immutable evidence')
++    return rows
++
++def _fix07_partial(reader=read):
++    import stat
++    n,b,h=next(r for r in FIX07_DOCUMENTS if r[0]=='central-loc-m08-partial-capture-normalized.json')
++    path=DOC/n;raw=check_bytes(reader(path),(b,h),'M08 fixed partial')
++    c=strict(raw);v=c['inventory'];dirs=set(v['directories']);files=v['files']
++    original=strict(reader(DOC/'central-loc-m08-partial-capture.json'))
++    require(v==original['inventory'] and sha(jb(v))==original['canonicalInventorySha256'] and
++        all(c[k]==original[k] for k in ('central','startedAtUtc','completedAtUtc','directoryCaptureLimitation')),
++        'normalization changed captured inventory or provenance')
++    require(sha(json.dumps(v,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode())==
++        c['canonicalInventorySha256']=='44bd29bd122c4adacfaf58921f68259d4365f38f785dad960475b2903a5b7ff1','M08 inventory SHA')
++    require(v['roots']==[str(M6),str(W6)] and len(files)==c['fileCount']==3695 and len(dirs)==c['directoryCount']==1328 and
++        sum(r['bytes'] for r in files)==c['fileBytes']==129466323 and c['linksOrNonRegularFiles']==0,'M08 capture counts')
++    require(c['central']=={'threadId':CENTRAL,'hostId':'local','turnId':'01a12e46-6af4-7b82-958d-d18c1146d85d'} and
++        c['startedAtUtc']=='2026-10-12T04:21:05.360158+00:00' and c['completedAtUtc']=='2026-10-12T04:21:05.954093+00:00',
++        'M08 original capture identity/time')
++    paths=[r['path'] for r in files]
++    require(len(set(paths))==3695 and not dirs.intersection(paths) and {str(M6),str(W6)}<=dirs,'M08 closed-set collision')
++    for value in [*v['directories'],*paths]:
++        p=Path(value);require(p.is_absolute() and str(p)==value and '..' not in p.parts and
++            any(p==root or p.is_relative_to(root) for root in (M6,W6)) and
++            (value in v['roots'] or str(p.parent) in dirs) and _fix06_no_links(p),'M08 protected path/link')
++        mode=p.lstat().st_mode
++        require(stat.S_ISDIR(mode) if value in dirs else stat.S_ISREG(mode),'M08 protected type')
++    for r in files:
++        p=Path(r['path']);require(p.lstat().st_nlink==1,'M08 hardlink')
++        check_bytes(reader(p),(r['bytes'],r['sha256']),'M08 listed partial leaf')
++    return {'capture':identity(path,raw),'canonicalInventorySha256':c['canonicalInventorySha256'],
++        'startedAtUtc':c['startedAtUtc'],'completedAtUtc':c['completedAtUtc'],'files':3695,'directories':1328,
++        'newEnumerations':0,'limitation':c['directoryCaptureLimitation']+' No discovery of extra paths.'}
++
++def _fix07_rebase(value):
++    if isinstance(value,list):return [_fix07_rebase(v) for v in value]
++    if isinstance(value,dict):return {k:_fix07_rebase(v) for k,v in value.items()}
++    if isinstance(value,str):
++        for old,new in ((OLD17F6,E),(M6,M),(W6,W)):value=value.replace(str(old),str(new))
++    return value
++
++def _fix07_plan(reader=read):
++    old=strict(check_bytes(reader(OLD17F6/'authority/prepare.json'),
++        (8611590,'98e0b067b18e1e94240c1356a6a0f1006034b6d236d3d32aea64e34da644a745'),'F6 model'))
++    m=_fix07_rebase(old['model']);m['writes']=write_plan(m)
++    command=next(c for c in m['commands'] if c['id']=='M-runner-generation-restore')
++    rules=command_write_rules(m,command);profile=child_sandbox(rules,command['network'])
++    row=next(r for r in rules if r[2]=='bounded-guid-tmp' and r[1].endswith('/Luban.DataLoader.Builtin/obj/{guid-tmp}'))
++    parent,expression=_fix06_guid_rule(row)
++    production_line='(allow file-write* (regex '+json.dumps(expression)+'))'
++    require(profile.splitlines().count(production_line)==1,'candidate production serialized grant absent')
++    target_parent=FIX07_OS/'.work/phase/source/src/Luban.DataLoader.Builtin/obj'
++    prefix='^'+re.escape(str(parent))+'/'
++    require(expression.startswith(prefix),'production expression prefix')
++    mapped='^'+re.escape(str(target_parent))+'/'+expression[len(prefix):]
++    leaves=['371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp',
++        '371f9ba-1be1-4a9f-996e-d51404ed0ba5.tmp','371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp.extra']
++    cases=[]
++    for i,leaf in enumerate(leaves):
++        target=target_parent/leaf
++        profile='\n'.join(['(version 1)','(allow default)','(deny file-write*)','(deny process-fork)','(deny network*)',
++            '(allow file-write* (require-all (literal '+json.dumps(str(target))+') (regex '+json.dumps(mapped)+')))',
++            '(allow file-write* (require-all (vnode-type DIRECTORY) (literal '+json.dumps(str(target_parent))+')))'])
++        cases.append({'id':['valid','invalid-length','extra-suffix'][i],'target':str(target),
++            'expectedExit':0 if i==0 else 1,'profile':profile,'profileSha256':sha(profile.encode())})
++    return {'schemaVersion':1,'author':OWNER,'dispatchItem':DISPATCH,'sourceIdentity':identity(DRIVER,reader(DRIVER)),
++        'productionRule':row,'productionParent':str(parent),'productionExpression':expression,'productionGrant':production_line,
++        'fixtureParent':str(target_parent),'mappedExpression':mapped,'mapping':'replace only escaped exact parent prefix; retain generated leaf expression and ordinary JSON/SBPL string',
++        'childArgv':[sys.executable,'-I','-B','-c',FIX07_CHILD],'cases':cases,
++        'maxChildren':3,'maxChildSeconds':2,'maxWriteBytesPerChild':1,'maxFixtureBytes':65536,
++        'differences':['one literal intersection, not full production profile','precreated fixture parents','Python 1B open/write/unlink, not NuGet'],
++        'materialValidation':False}
++
++def _fix07_repair(reader=read):
++    """Read-only proof that old OS evidence applies; never launch its child."""
++    original=reader(FIX07_REPAIR_INPUT/'original-driver.py');current=reader(DRIVER)
++    check_bytes(original,FIX07_REPAIR_FILES[0][1:],'original tested driver')
++    def nodes(data):
++        return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(data).body
++            if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
++    a=nodes(original);b=nodes(current)
++    allowed={'_fix07_run_os','_fix07_documents','_fix07_partial','_fix07_os_evidence','_fix07_os_sidecar',
++        '_fix07_delta','fix07_checks','prepare','_review02_receipt_content','source_artifacts'}
++    changed=sorted(k for k in a.keys()&b.keys() if a[k]!=b[k])
++    require(set(changed)<=allowed and a.keys()-b.keys()=={'_fix07_run_os'} and
++        b.keys()-a.keys()=={'_fix07_repair'},'repair changed production functions')
++    def assignments(data):
++        return {t.id:ast.dump(n.value,include_attributes=False) for n in ast.parse(data).body
++            if isinstance(n,ast.Assign) for t in n.targets if isinstance(t,ast.Name)}
++    x=assignments(original);y=assignments(current)
++    require(not x.keys()-y.keys() and all(x[k]==y[k] for k in x if k not in
++        ('OWNER','DISPATCH','FIX07_DOCUMENTS')),'repair changed production globals')
++    failed=strict(reader(FIX07_REPAIR_INPUT/'failed-tool.json'));tool=failed['tool']
++    require(failed['authorTurn']==FIX07_ORIGINAL_OWNER['turnId'] and
++        tool['id']=='exec-4edf9488-4e3e-4c64-8627-a36ae7e16de9' and tool['exitCode']==20 and
++        tool['output']['truncated'] is False,'original failed tool identity')
++    clock=strict(tool['output']['text'].encode());r=strict(reader(FIX07_OS/'probe-result.json'))
++    require(clock['rawError']=='GateError: M08 inventory SHA' and clock['fullInvocationSeconds']<=15 and
++        clock['startedAtUtc']<=r['startedAtUtc']<=r['completedAtUtc']<=clock['completedAtUtc'],'old OS tool/time binding')
++    return {'originalAuthor':FIX07_ORIGINAL_OWNER,'repairAuthor':OWNER,'repairDispatch':DISPATCH,
++        'originalTestedDriver':identity(DRIVER,original),'preservedDriver':identity(FIX07_REPAIR_INPUT/'original-driver.py',original),
++        'originalToolId':tool['id'],'changedFunctions':changed,'productionFunctionsAndGlobalsUnchanged':True,
++        'originalAggregate':'FAILED; preserved, not converted to a pass','osEvidenceReused':True,'newOSChildStarts':0}
++
++def _fix07_os_evidence(reader=read):
++    planpath=FIX07_OS/'probe-plan.json';resultpath=FIX07_OS/'probe-result.json'
++    pb=check_bytes(reader(planpath),(9148,'4aa871f2771755a59152a6437b26ab8d039a885ca4c79ff64b0ee21288f6d703'),'old OS plan')
++    rb=check_bytes(reader(resultpath),(7669,'2b55efb01c89f3508a0d63615d35d93b062470b2c924f0b36764a367d2af661e'),'old OS result');p=strict(pb);r=strict(rb)
++    reuse=_fix07_repair(reader);candidate=_fix07_plan(reader)
++    candidate.update(author=FIX07_ORIGINAL_OWNER,dispatchItem=FIX07_ORIGINAL_DISPATCH,
++        sourceIdentity=reuse['originalTestedDriver'])
++    require(pb==jb(candidate) and len(pb)+len(rb)<=65536,'old OS plan differs from unchanged production generator')
++    require(r['author']==FIX07_ORIGINAL_OWNER and r['plan']==identity(planpath,pb) and
++        r['status']=='OS_FIXTURE_PASSED_NOT_NUGET' and r['failure'] is None and r['residual']==[] and
++        r['childStarts']==len(r['records'])==3 and r['materialRuns']==r['restoreRuns']==0 and r['priorSixProbesRerun'] is False,
++        'OS actual result boundary')
++    for case,record in zip(p['cases'],r['records']):
++        out=strict(record['stdout'].encode())
++        require(record['id']==case['id'] and record['argv']==p['childArgv'] and record['profileSha256']==sha(case['profile'].encode()) and
++            record['exitCode']==case['expectedExit'] and record['timedOut'] is False and record['childReaped'] is True and
++            type(record['pid']) is int and record['pid']>0 and out['pid']==record['pid'] and out['case']==case['id'] and
++            0<=record['elapsedSeconds']<=2 and out['sandboxReturn']==0 and out['cleanupErrno'] is None and
++            out['writtenBytes']==(1 if case['expectedExit']==0 else 0) and
++            (out['openErrno'] is None if case['expectedExit']==0 else out['openErrno'] in (1,13)),'OS process receipt mismatch')
++    return [identity(planpath,pb),identity(resultpath,rb)]
++
++def _fix07_os_sidecar(s,checks,clock,m,reader):
++    os_record=s['osVerification'];evidence=_fix07_os_evidence(reader)
++    _review02_same(evidence,m['osSourceEvidence'],'model OS fixture binding')
++    for value in (checks['osEvidence'],clock['osEvidence'],os_record['evidence']):_review02_same(value,evidence,'OS evidence binding')
++    reuse=_fix07_repair(reader)
++    _review02_same(os_record['toolId'],reuse['originalToolId'],'original OS outer tool, not repair tool')
++    _review02_same(s['repairProvenance'],reuse,'repair lineage')
++    require(os_record['reused'] is True and checks['osChildStarts']==0,'OS reuse boundary')
++    _review02_same(os_record['childStarts'],3,'OS starts')
++    require(clock['osChildStarts']==0,'repair raw clock must have zero OS starts')
++    r=strict(reader(FIX07_OS/'probe-result.json'))
++    _review02_same(os_record['records'],r['records'],'actual OS records')
++    _review02_same(os_record['elapsedSeconds'],r['elapsedSeconds'],'actual OS window')
++
++def _fix07_delta(old,new):
++    def bodies(blob):
++        return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(blob).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
++    a=bodies(old);b=bodies(new);changed=sorted(n for n in a.keys()&b.keys() if a[n]!=b[n])
++    require(set(changed)=={'_fix05_protection','_fix05_source_model','_fix05_roots_absent','_review02_authority',
++        '_review02_receipt_content','_review02_fixture','source_artifacts','prepare'},'FIX07 changes beyond metadata')
++    require(not a.keys()-b.keys() and all(n.startswith('_fix07_') or n=='fix07_checks' for n in b.keys()-a.keys()),'FIX07 helper scope')
++    for name in ('_fix06_guid_rule','_fix06_guid_hit','_fix06_guid_snapshot','_fix06_inspect_guid','_fix06_prepare_directories',
++        'write_plan','validate_model','authorize_write','child_sandbox','inspect_command_outputs','run_material_command',
++        'verify_activation','execute','execute_material','command_plan','phase_env','MStage','consume_m_stage','execution_budget'):
++        require(a[name]==b[name],'production consumer changed: '+name)
++    return {'baseline':identity(OLD17F6/'source/m17_driver.py',old),'changedExistingFunctions':changed,
++        'newHelpers':sorted(b.keys()-a.keys()),'productionBehavior':'FIX06_GUID counted repetitions expanded to equivalent character classes only',
++        'nativeScope':'reuse prior three 1B OS children; zero new children; not NuGet or material acceptance'}
++
++
++def fix07_checks():
++    """One repair-only read-only delta; prior probes and suites never rerun."""
++    import types
++    cache={}
++    def reader(p):
++        p=Path(p)
++        if p not in cache:cache[p]=read(p)
++        return cache[p]
++    old_bytes=check_bytes(reader(OLD17F6/'source/m17_driver.py'),
++        (236347,'715e54c8657265c2311b203e07719b0cb177f88d3140c52fbcc43a6e67e81fb1'),'F6 source')
++    old=strict(check_bytes(reader(OLD17F6/'authority/prepare.json'),
++        (8611590,'98e0b067b18e1e94240c1356a6a0f1006034b6d236d3d32aea64e34da644a745'),'F6 prepare'))['model']
++    tree=ast.parse(old_bytes);names={'child_sandbox','_fix06_guid_rule'}
++    old_guid=ast.literal_eval(next(n.value for n in tree.body if isinstance(n,ast.Assign) and
++        any(isinstance(t,ast.Name) and t.id=='FIX06_GUID' for t in n.targets)))
++    ns=dict(globals(),FIX06_GUID=old_guid,ROOTS={k:Path(v) for k,v in old['roots'].items()})
++    exec(compile(ast.Module(body=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names],
++        type_ignores=[]),'pinned-F6-profile-consumers','exec'),ns)
++    command=next(c for c in old['commands'] if c['id']=='M-runner-generation-restore')
++    old_profile=ns['child_sandbox'](command_write_rules(old,command),command['network'])
++    require(sha(old_profile.encode())=='5f769139403d229b1ba22378f979019f9a7ac9425c305c73b5e5b7bca3abb916',
++        'old actual profile identity mismatch; stop before OS')
++    require(FIX06_GUID==re.sub(r'\[0-9a-f\]\{(\d+)\}',lambda m:'[0-9a-f]'*int(m.group(1)),old_guid),
++        'new expression not equivalent literal expansion')
++    # Prior OS results stay fixed; compare the actual tested source and generator.
++    reuse=_fix07_repair(reader);os_evidence=_fix07_os_evidence(reader)
++    os_result=strict(reader(FIX07_OS/'probe-result.json'))
++    protected=_fix05_protection(reader);m=model(reader,partial=_review01_partial(reader))
++    delta=_fix07_delta(old_bytes,reader(DRIVER));results=[]
++    def case(name,fn):
++        error=None
++        try:fn()
++        except Exception as exc:error=type(exc).__name__+': '+str(exc)
++        results.append({'name':name,'passed':error is None,'rawError':error})
++    def equal(a,b):require(a==b,'comparison differs')
++    def reject(fn):
++        try:fn()
++        except (GateError,OSError):return
++        raise AssertionError('expected rejection')
++    def equivalence():
++        good='371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp';values={good}
++        for i,ch in enumerate(good):
++            for v in '0123456789abcdefABCDEF_-./x':values.add(good[:i]+v+good[i+1:])
++        for n in range(len(good)+2):values.add(good[:n]);values.add('0'*n+'.tmp')
++        values.update((good+'.extra','../'+good,'sub/'+good,good.upper()))
++        for value in values:equal(bool(re.fullmatch(old_guid,value)),bool(re.fullmatch(FIX06_GUID,value)))
++    case('character-class expansion preserves allowed names and all sampled boundary mutations',equivalence)
++    case('49 rules and legacy write contract unchanged',lambda:(_fix06_validate_rules(m),
++        equal(m['writes'],_fix07_rebase(old['writes']))))
++    for key in ('commands','packages','archive','graphs','licenses','sources'):
++        case('unchanged '+key,lambda key=key:equal(m[key],_fix07_rebase(old[key])))
++    case('all M budgets and zero GET unchanged',lambda:(equal(execution_budget(m),execution_budget(old)),equal(download_contract(m),[])))
++    case('unchanged consumer ASTs, only expression and metadata delta',lambda:equal(_fix07_delta(old_bytes,reader(DRIVER)),delta))
++    def closed_gate(kind):
++        f=_review02_fixture();a=f['record'];a['sourceCommandReceipt']=identity(REVIEW02_SIDECAR,b'absent')
++        data=jb(a);pin=identity(E/'not-written-A.json',data)
++        pin.update({k:a[k] for k in ('centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn')})
++        counts={'writes':0}
++        def missing(path):raise FileNotFoundError('SIMULATED missing FIX07 sidecar')
++        def no_write(*args):counts['writes']+=1;raise AssertionError('material reached')
++        def gate(*args):return verify_activation(*args,receipt_reader=missing)
++        def drive(stage,work,finish):
++            try:return work(stage)
++            except GateError as error:finish(stage,None,str(error));raise
++        g=dict(globals(),TRUSTED_CENTRAL_ACTIVATION=pin if kind=='missing-sidecar' else None,
++            consume_source=lambda *args:f['model'],verify_activation=gate,MaterialWriter=no_write,
++            execute_material=no_write,consume_m_stage=drive,print=lambda *args,**kwargs:None)
++        fn=types.FunctionType(execute.__code__,g,argdefs=execute.__defaults__)
++        reject(lambda:fn(f['argv'],lambda p:f['frozen'] if p==E/'authority/source-freeze.json' else data))
++        equal(counts['writes'],0)
++    for kind in ('closed-pin','missing-sidecar'):case('real execute rejects before M writes: '+kind,lambda kind=kind:closed_gate(kind))
++    case('OS two-leaf evidence is bound to source and model',lambda:equal(m['osSourceEvidence'],os_evidence))
++    for record in os_result['records']:
++        case('reused isolated OS '+record['id'],lambda record=record:require(record['childReaped'] and not record['timedOut'],'OS process incomplete'))
++    return {'caseCount':len(results),'passed':sum(r['passed'] for r in results),'cases':results,
++        'sourceIdentity':identity(DRIVER,reader(DRIVER)),'sourceDelta':delta,'modelSha256':sha(jb(m)),
++        'coreModelSha256':_fix05_core_digest(m),'protectedBefore':protected,'osEvidence':os_evidence,
++        'osChildStarts':0,'reusedOSChildStarts':3,'repairProvenance':reuse,'osWindowSeconds':os_result['elapsedSeconds'],'osRecords':os_result['records'],
++        'oldProfileSha256':sha(old_profile.encode()),'SDKScan':False,'partialNewEnumerations':0,
++        'GETs':0,'restores':0,'materialExecution':False,'historicalSuitesRerun':False,'priorSixProbesRerun':False,
++        'scope':'FIX07 repair01 metadata delta; reuse prior OS fixture; no native/NuGet/full profile acceptance'}
++
+ def prepare():
+     """One new eight-leaf SOURCE seal; consume the existing partial list only."""
+     started=time.monotonic();checks_path=E/'authority/offline-checks.json'
+     _fix05_roots_absent()
+     require(not os.path.lexists(REVIEW02_SIDECAR),'external command receipt already occupied')
+     require({str(p) for p in E.rglob('*') if p.is_file()}=={str(DRIVER),str(checks_path)},
+-        'single FIX06 attempt / exact initial leaves')
++        'single FIX07 attempt / exact initial leaves')
+     require(not any(p.is_symlink() for p in [E,*E.parents,*E.rglob('*')]),'SOURCE symlink forbidden')
+     checks_bytes=read(checks_path);checks=strict(checks_bytes)
+     require(checks_bytes==jb(checks),'canonical check metadata required before sealing')
+     require(checks['status']=='DIRECTED_CHECKS_PASSED' and checks['attempts']==1 and checks['elapsedSeconds']<=10 and
+-        checks['caseCount']==checks['passed'],'one successful <=10-second FIX06 directed run required')
++        checks['caseCount']==checks['passed'],'one successful <=10-second FIX07 repair delta required')
+     require(checks['sourceIdentity']==identity(DRIVER),'source changed after directed checks')
+     cached={}
+     def caching_reader(p):
+@@ -3137,23 +3445,22 @@
+     m=model(caching_reader,partial=partial)
+     require(sha(jb(m))==checks['modelSha256'] and _fix05_core_digest(m)==checks['coreModelSha256'],
+         'directed/generated model identity differs')
+-    old_driver=caching_reader(OLD17R2/'source/m17_driver.py');driver=caching_reader(DRIVER)
+-    delta=_fix06_delta(old_driver,driver);require(delta==checks['sourceDelta'],'source function delta differs')
++    old_driver=caching_reader(OLD17F6/'source/m17_driver.py');driver=caching_reader(DRIVER)
++    delta=_fix07_delta(old_driver,driver);require(delta==checks['sourceDelta'],'source function delta differs')
+     artifacts=source_artifacts(m,driver,old_driver,checks,history)
+     receipt=strict(artifacts['authority/source-receipt.json'])
+     receipt['sourceDelta']=delta
+     receipt['mechanicalGeneration']={'entry':'m17_driver.py prepare','attempts':1,'maxSeconds':30,
+-        'sourceAuthor':OWNER,'SDKScan':False,'historicalSuitesRerun':False,'partialNewEnumerations':0,
++        'sourceAuthor':OWNER,'originalSourceAuthor':FIX07_ORIGINAL_OWNER,'sealExecutor':dict(OWNER,receivedItem=DISPATCH),'SDKScan':False,'historicalSuitesRerun':False,'partialNewEnumerations':0,
+         'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT}
+     receipt['partialProtection']={'captureOwner':partial['owner'],'capturedAtUtc':partial['capturedAtUtc'],
+         'files':len(partial['files']),'directories':len(partial['directories']),'manifestSha256':PARTIAL_CAPTURE_SHA,
+         'rawManifest':'authority/prepare.json#/model/partialProtection','originalEnumerationsPerRoot':1,
+         'newEnumerationsThisDelivery':0,'historicalExitAndFullLineageClosure':'UNKNOWN_NOT_INFERRED','materialAccepted':False}
+-    receipt['fix06']={'authority':_fix06_documents(caching_reader),'newGuidRules':49,
+-        'scope':'three M restore phases; direct GUID.tmp; resident 1 file/16MiB per obj',
+-        'partialProtection':m['fix06PartialProtection'],'oldProfileSha256':checks['oldProfileSha256'],
+-        'quotaLimitation':'polling resident quota, not an OS per-write cap or a cumulative write measurement',
+-        'nativeGreen':'NOT_RUN; separate authorization and exact new-head GitHub review required'}
++    receipt['fix07']={'authority':_fix07_documents(caching_reader),'osEvidence':m['osSourceEvidence'],
++        'osChildStarts':0,'reusedOSChildStarts':3,'repairProvenance':checks['repairProvenance'],'partialProtection':m['fix07PartialProtection'],
++        'scope':'equivalent GUID expression; prior 3-case OS fixture reused; no new native validation',
++        'nativeMaterialGreen':'NOT_RUN; exact new-head GitHub review and separate material authorization required'}
+     receipt['modelPolicy']={'requestedModel':'gpt-6-astra','requestedEffort':'xhigh',
+         'actualModelVisibleToSourceProcess':False,'actualAuthorTurn':OWNER['turnId']}
+     artifacts['authority/source-receipt.json']=jb(receipt)
+@@ -3172,16 +3479,16 @@
+     consume_source(read(freeze_path))
+     require({str(p) for p in E.rglob('*') if p.is_file()}=={str(E/rel) for rel in PREP},'exact eight source leaves')
+     require(_fix05_protection()==protected and old_seals()==history,'final historical preservation')
+-    _fix05_partial_unchanged(partial);_fix06_partial_unchanged();_fix05_roots_absent()
++    _fix05_partial_unchanged(partial);_fix06_partial_unchanged();_fix07_partial();_fix05_roots_absent()
+     require(not os.path.lexists(REVIEW02_SIDECAR),'sidecar must be captured only after tool completion')
+     leaves=[identity(E/rel) for rel in PREP];elapsed=time.monotonic()-started
+-    require(elapsed<=30,'FIX06 mechanical generation time cap')
++    require(elapsed<=30,'FIX07 mechanical generation time cap')
+     print(json.dumps({'status':'SOURCE_SEALED_EXTERNAL_RECEIPT_REQUIRED','sourceAuthor':OWNER,'checks':checks['passed'],
+         'attempts':1,'directedSeconds':checks['elapsedSeconds'],'mechanicalFunctionSeconds':elapsed,
+         'modelSha256':sha(jb(m)),'freeze':identity(freeze_path),'leaves':leaves,
+         'totalBytes':sum(r['bytes'] for r in leaves),'sourceDelta':delta,
+-        'protectedCount':len(protected),'partialFiles':6289,'partialDirectories':2247,'partialNewEnumerations':0,
+-        'GETs':0,'restores':0,'SDKScan':False,'historicalSuitesRerun':False,
++        'protectedCount':len(protected),'partialFiles':9984,'partialDirectories':3575,'partialNewEnumerations':0,
++        'GETs':0,'restores':0,'SDKScan':False,'historicalSuitesRerun':False,'osEvidence':m['osSourceEvidence'],'osChildStarts':0,'reusedOSChildStarts':3,
+         'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT},ensure_ascii=False))
+     return 0
+ 

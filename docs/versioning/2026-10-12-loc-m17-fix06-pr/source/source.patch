@@ -1,0 +1,699 @@
+--- M17-FIX05-REVIEW02/source/m17_driver.py
++++ M17-FIX06/source/m17_driver.py
+@@ -32,9 +32,13 @@
+ OLD17F4=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix04'
+ OLD17F5=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05'
+ OLD17R1=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01'
+-E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review02'
+-W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix05')
+-M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix05')
++OLD17R2=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review02'
++E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix06'
++W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix06')
++M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix06')
++W5=W.with_name('m17-fix05')
++M5=M.with_name('5.1.0-fm-yamldotnet-16.3.0-m17-fix05')
++M07_E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-m07'
+ W4=W.with_name('m17-fix04')
+ M4=M.with_name('5.1.0-fm-yamldotnet-16.3.0-m17-fix04')
+ M06_E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1'
+@@ -50,9 +54,9 @@
+ DRIVER=E/'source/m17_driver.py'
+ PREP=('source/m17_driver.py','source/m17-inputs.tsv','source/m17-write-set.tsv','source/source.patch',
+       'authority/prepare.json','authority/offline-checks.json','authority/source-freeze.json','authority/source-receipt.json')
+-OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a12c3f-ebd9-70d0-92f0-74666adab242'}
+-ISSUER={'threadId':'01a0e401-511d-79f2-b47f-3ab0ade1681b','hostId':'local','turnId':'01a12bf9-e665-7d20-ab65-31ca1dfc8613'}
+-DISPATCH='fco_01a12c3f-ebde-70c0-ab03-d6bd91fe2102'
++OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a12dde-888b-7591-bb45-0a3576b1b5c5'}
++ISSUER={'threadId':'01a0e401-511d-79f2-b47f-3ab0ade1681b','hostId':'local','turnId':'01a12dc8-58f5-7150-aa6d-c763dd9d9e02'}
++DISPATCH='fco_01a12dde-889d-7051-a875-1287c840da37'
+ REUSED_ROOT=W.with_name('m17-fix03')
+ REUSED_KEYS=frozenset(('microsoft.codecoverage.17.11.1','microsoft.net.test.sdk.17.11.1',
+     'microsoft.testplatform.objectmodel.17.11.1','microsoft.testplatform.testhost.17.11.1','newtonsoft.json.13.0.3'))
+@@ -70,10 +74,24 @@
+     ('central-loc-m17-fix05-review01.md',3826,'3cf1312d5d3309ce9ea51d702c2b3f13a34d183ef25e370debfeaad257594354'),
+     ('central-loc-m17-fix05-seal-success.json',18336,'ea5b2c865b7f7b239f52767f5de7d79ab8e71225252ddc53229e85866a8db69b'))
+ REVIEW01_SIDECAR=DOC/'loc-m17-fix05-review01-command-receipt.json'
+-REVIEW02_SIDECAR=DOC/'loc-m17-fix05-review02-command-receipt.json'
++REVIEW02_SIDECAR=DOC/'loc-m17-fix06-command-receipt.json'  # Current mandatory receipt; gate implementation retained.
+ REVIEW02_DOCUMENTS=(
+     ('central-loc-m17-fix05-review02.md',3149,'a9840a59e3d1cef2793aa80e6e07d00e6806ad621a8d17a9d434f9b33520f138'),
+     ('engineering-loc-fix05-review02-activation.md',12849,'9f95d738b9b2930aab7ca128b217defbeafc9386fddb62ee3d78e2d2e2bfa5d7'))
++FIX06_DOCUMENTS=(
++    ('central-loc-m17-fix06-source.md',5047,'d4595075919f6643b31b782d86f13724149144c2d875ec1994528dc46b0e3c1b'),
++    ('engineering-loc-after-m07-failure.md',11368,'5a2943ca3037632dca72b3bb03eda3f6a49cb67daa34fd6ebdb2cab52f46fbb3'),
++    ('testing-loc-m17-m07-native-receipt.json',5385,'f1a7d7bc2cdb73ff843d59b13815b8b99af354c94ab4b1651cec56c507c6e23c'),
++    ('loc-m17-m07-native-verdict.json',3479,'ef1152b0aae3004031c72a1b48cf9a72b8678b97a63a9baf2bfdbaa24a4c5104'),
++    ('central-loc-m07-partial-capture.json',1340246,'4af68e331d1bfb8c78b66283dd4a4703446f1c9742b7860bbf5253f8a5131430'),
++    ('central-loc-m17-m07-activation.json',22841,'7da3ee4859bd5d4bb720eb3d2734e329554eb0ac2e7a46502188ea99db34f3ce'),
++    ('central-loc-m17-m07-host.py',4212,'6e475cafa73caa19f5e050a8fcf1018ee9ea2e267cb591098f6f519c039084f1'),
++    ('central-loc-m17-m07-host-binding-receipt.json',3806,'d12fabc2c46f9e6dbf00a560d8a179723da50cc58ebe6cc4fc7f7f024cdd2b9c'),
++    ('central-loc-m07-approval-2026-10-12.json',950,'351a233b41162cdbbfb8d677e32155496df01699ffd6accece5275d3ec44089b'),
++    ('central-loc-m17-m07-execute.md',3294,'b9f3a4723338df3d025bd0c8590c81200e407f6e64b2f6112497475cd34cbd37'),
++    ('loc-m17-fix05-review02-source-verdict.json',3594,'613059fea358c67b5d3ca61871e12b220c8892959c43f0b8e904061f74de2f72'),
++)
++FIX06_GUID=r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.tmp'
+ PARTIAL_CAPTURE_OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local',
+     'turnId':'01a12c14-512d-7331-8acc-fd240ca1de4a'}
+ PARTIAL_CAPTURE_SHA='cd1fc4983e3d83bd48d897c86fe35cb016d4dad4509adf6a801df597c6203cb6'
+@@ -452,13 +470,13 @@
+ 
+ def write_plan(m):
+     rules=[]
+-    def add(path,stage,writer,files=1,size=16777216,purpose='generated exact leaf',pattern=False):
++    def add(path,stage,writer,files=1,size=16777216,purpose='generated exact leaf',pattern=False,guid_tmp=False):
+         path=Path(path)
+         root=next((key for key,value in ROOTS.items() if path.is_relative_to(value)),None)
+         require(root is not None,'declared write outside roots')
+         rel=path.relative_to(ROOTS[root]).as_posix()
+-        if not pattern:safe(rel)
+-        rules.append([root,rel,'bounded-pattern' if pattern else 'exact',stage,writer,files,size,purpose])
++        if not pattern and not guid_tmp:safe(rel)
++        rules.append([root,rel,'bounded-guid-tmp' if guid_tmp else ('bounded-pattern' if pattern else 'exact'),stage,writer,files,size,purpose])
+     for rel in PREP:add(E/rel,'SOURCE','prepare',size=16*1024**2,purpose='only current eight source leaves')
+     for pkg in m['packages']:
+         if pkg['class']=='official-get':add(Path(pkg['path']),'M','M-get-'+pkg['key'],size=pkg['bytes'],purpose='fixed official archive')
+@@ -486,6 +504,9 @@
+                         'obj/'+Path(project).name+'.nuget.dgspec.json','obj/'+Path(project).name+'.nuget.g.props',
+                         'obj/'+Path(project).name+'.nuget.g.targets'):
+                 add(parent/rel,stage,name+'-restore',size=16*1024**2,purpose='exact project restore output')
++            if stage=='M':
++                add(parent/'obj/{guid-tmp}',stage,name+'-restore',files=1,size=16*1024**2,
++                    purpose='direct lowercase GUID.tmp; resident quota only, not cumulative/native proof',guid_tmp=True)
+             if stage=='B':
+                 build_writer=name+('-build' if graph=='tests' else '-publish')
+                 add(parent/'obj/Release/net8.0/{safe-leaf}',stage,build_writer,files=2000,size=128*1024**2,
+@@ -535,12 +556,13 @@
+     unique={tuple(r):r for r in rules}
+     return sorted(unique.values())
+ 
+-def authorize_write(m,path,stage,writer):
++def authorize_write(m,path,stage,writer,guid_links=None):
+     p=Path(path);require(p.is_absolute() and '..' not in p.parts,'unsafe output path')
+     matches=[]
+     for root,rel,kind,role,owner,files,size,purpose in m['writes']:
+         if role!=stage or owner!=writer:continue
+         if kind=='exact':hit=p==ROOTS[root]/rel
++        elif kind=='bounded-guid-tmp':hit=_fix06_guid_hit([root,rel,kind,role,owner,files,size,purpose],p,guid_links)
+         else:
+             prefix=rel.removesuffix('{safe-leaf}')
+             parent=ROOTS[root]/prefix
+@@ -564,6 +586,7 @@
+         require(not set(command['env']['updates']).intersection(('HOME','home','CODEX_HOME')),'protected environment replacement')
+         require(all('/private/tmp/' not in value for value in command['argv']),'old temp argument leaked')
+         require(command['cwd'].startswith(str(REPO)) or command['cwd'].startswith(str(W)),'cwd outside declared roots')
++    _fix06_validate_rules(m)
+     for graph,count,edges in [('runner',23,56),('tests',13,29)]:
+         require(len(m['graphs'][graph]['nodes'])==count and len(m['graphs'][graph]['edges'])==edges,'project dependency graph drift')
+     return True
+@@ -1011,6 +1034,11 @@
+     if network=='OS denied; local feed only':lines.append('(deny network*)')
+     directories=set()
+     for root,rel,kind,stage,writer,files,size,purpose in rules:
++        if kind=='bounded-guid-tmp':
++            parent,expression=_fix06_guid_rule([root,rel,kind,stage,writer,files,size,purpose])
++            lines.append('(allow file-write* (regex '+json.dumps(expression)+'))')
++            while parent.is_relative_to(ROOTS[root]):directories.add(str(parent));parent=parent.parent
++            continue
+         p=ROOTS[root]/rel.removesuffix('{safe-leaf}')
+         if kind=='exact':lines.append('(allow file-write* (literal '+json.dumps(str(p))+'))');parent=p.parent
+         else:lines.append('(allow file-write* (regex '+json.dumps('^'+re.escape(str(p).rstrip('/'))+'/')+'))');parent=p
+@@ -1025,9 +1053,11 @@
+     lib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]
+     if lib.sandbox_init(profile.encode(),0,ctypes.byref(error))!=0:os._exit(126)
+ 
+-def inspect_command_outputs(rules):
++def inspect_command_outputs(rules,guid_probe=None):
+     """Fresh actual file enumeration against each finite rule and quota."""
+     for root,rel,kind,stage,writer,files,size,purpose in rules:
++        if kind=='bounded-guid-tmp':
++            _fix06_inspect_guid([root,rel,kind,stage,writer,files,size,purpose],guid_probe);continue
+         path=ROOTS[root]/rel.removesuffix('{safe-leaf}')
+         leaves=([path] if path.is_file() else []) if kind=='exact' else ([p for p in path.rglob('*') if p.is_file()] if path.exists() else [])
+         require(len(leaves)<=files and sum(p.stat().st_size for p in leaves)<=size,'command write quota exceeded')
+@@ -1046,9 +1076,7 @@
+     require(command in m['commands'],'command differs from frozen M plan')
+     require(command['id'] not in writer.outputs,'command retry forbidden')
+     rules=command_write_rules(m,command);profile=child_sandbox(rules,command['network'])
+-    for root,rel,kind,rule_stage,owner,files,size,purpose in rules:
+-        path=ROOTS[root]/rel.removesuffix('{safe-leaf}')
+-        writer.path(path.parent if kind=='exact' else path).mkdir(parents=True,exist_ok=True)
++    _fix06_prepare_directories(rules,writer)
+     env=dict(os.environ);env.update(command['env']['updates'])
+     env['PATH']=str(SDK)+os.pathsep+os.environ.get('PATH','')
+     for key in command['env']['preserve']:require(env.get(key)==os.environ.get(key),'protected environment drift')
+@@ -1195,7 +1223,7 @@
+ def source_artifacts(m,driver_bytes,old_driver,checks,history):
+     result={'source/m17_driver.py':driver_bytes,**source_tables(m)}
+     patch=''.join(difflib.unified_diff(old_driver.decode().splitlines(True),driver_bytes.decode().splitlines(True),
+-        fromfile='M17-FIX05-REVIEW01/source/m17_driver.py',tofile='M17-FIX05-REVIEW02/source/m17_driver.py'))
++        fromfile='M17-FIX05-REVIEW02/source/m17_driver.py',tofile='M17-FIX06/source/m17_driver.py'))
+     result['source/source.patch']=patch.encode()
+     result['authority/prepare.json']=jb({'schemaVersion':1,'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,
+         'modelSha256':sha(jb(m)),'model':m,'executionBudget':execution_budget(m),
+@@ -1680,7 +1708,7 @@
+     return prepared['model']
+ 
+ def _fix05_roots_absent(occupied=os.path.lexists):
+-    require(not occupied(M) and not occupied(W),'FIX05 future M5/W5 roots must be absent')
++    require(not occupied(M) and not occupied(W),'FIX06 future M6/W6 roots must be absent')
+ 
+ def _fix05_existing(item,reader=read):
+     require(item['class']=='existing','FIX05 archive must be existing; no fallback')
+@@ -1729,6 +1757,7 @@
+     records+=_fix05_download_receipts(old,reader)
+     records+=_review01_documents(reader)+_review01_prior(reader)
+     records+=_review02_documents(reader)+_review02_prior(reader)
++    records+=_fix06_documents(reader)+_fix06_prior(reader)
+     before=strict(reader(M06_E/'before.json'));precheck=before['precheck']
+     records+=precheck['protectedExpectedIdsFromSealedSource']+before['preservationExpected']
+     for key in ('binding','retryDisposition','preservedPreviousBinding','activation','host','template',
+@@ -1762,10 +1791,13 @@
+ def _fix05_source_model(reader=read,partial=None):
+     _review01_documents(reader)  # Fail missing/changed authority before other material reads.
+     _review02_documents(reader)
++    _fix06_documents(reader)
++    partial_ref=_fix06_partial_unchanged(reader)
+     _fix05_roots_absent()
+     old=_fix05_base(reader);m=copy.deepcopy(old)
+     m['owner']=OWNER;m['issuer']=ISSUER;m['roots']={k:str(v) for k,v in ROOTS.items()}
+     m['externalCommandReceiptRequirement']=copy.deepcopy(EXTERNAL_SOURCE_RECEIPT)
++    m['fix06PartialProtection']=partial_ref
+     for body in m['licenses']:
+         if body['kind']=='generated':body['path']=_fix05_output(body['path'])
+     for pkg in m['packages']:
+@@ -2194,7 +2226,7 @@
+         if descriptor is not None:os.close(descriptor)
+ 
+ def _review02_authority():
+-    name,count,digest=REVIEW02_DOCUMENTS[0]
++    name,count,digest=FIX06_DOCUMENTS[0]
+     return {'centralThread':ISSUER['threadId'],'centralHost':ISSUER['hostId'],'centralIssuerTurn':ISSUER['turnId'],
+         'packet':str(DOC/name),'packetBytes':count,'packetSha256':digest}
+ 
+@@ -2262,7 +2294,7 @@
+     require(type(result) is dict and result.get('status')=='SOURCE_SEALED_EXTERNAL_RECEIPT_REQUIRED' and
+         type(clock) is dict and clock.get('event')=='FINAL_COMMAND_CLOCK','original result/clock order')
+     _review02_same(s['fullInvocationClock'],clock,'summary versus original clock')
+-    _review02_same(clock.get('scope'),'FIX05 REVIEW02 mechanical seal once','clock scope')
++    _review02_same(clock.get('scope'),'FIX06 mechanical seal once','clock scope')
+     _review02_int(clock.get('attempts'),1,1,'mechanical attempts')
+     _review02_int(clock.get('maxSeconds'),30,30,'mechanical limit')
+     _review02_int(clock.get('exitCode'),0,0,'original full clock exit')
+@@ -2290,7 +2322,7 @@
+     scope=s['scope'];require(type(scope) is dict,'SOURCE scope object')
+     for key,value in {'newSourceLeaves':8,'sidecars':1,'maxSidecarBytes':65536,'partialNewEnumerations':0,
+             'SDKScans':0,'GETs':0,'restores':0,'materialExecutions':0,'GitWrites':0,'UnityRuns':0,
+-            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False}.items():
++            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False,'historical109Rerun':False}.items():
+         _review02_same(scope.get(key),value,'sidecar SOURCE-only '+key)
+     directed=s['directedVerification'];require(type(directed) is dict,'directed verification object')
+     evidence=expected[str(E/'authority/offline-checks.json')]
+@@ -2393,7 +2425,7 @@
+     freeze_id=identity(E/'authority/source-freeze.json',frozen);leaves=[identity(p,b) for p,b in sorted(files.items())]+[freeze_id]
+     executor={'threadId':OWNER['threadId'],'hostId':'local','turnId':'00000000-0000-0000-0000-000000000021',
+         'receivedItem':'fco_00000000-0000-0000-0000-000000000022'}
+-    clock={'event':'FINAL_COMMAND_CLOCK','scope':'FIX05 REVIEW02 mechanical seal once','sealExecutor':executor,
++    clock={'event':'FINAL_COMMAND_CLOCK','scope':'FIX06 mechanical seal once','sealExecutor':executor,
+         'startedAtUtc':'2026-10-12T00:00:00+00:00','completedAtUtc':'2026-10-12T00:00:02.125000+00:00',
+         'fullInvocationSeconds':2.125,'exitCode':0,'rawError':None,'maxSeconds':30,'attempts':1,
+         'materialExecution':False,'SDKScan':False,'partialNewEnumerations':0,'historicalSuitesRerun':False}
+@@ -2416,7 +2448,7 @@
+         'newHeadReviewRequired':True,'materialExecutionAuthorized':False,
+         'scope':{'newSourceLeaves':8,'sidecars':1,'maxSidecarBytes':65536,'partialNewEnumerations':0,'SDKScans':0,
+             'GETs':0,'restores':0,'materialExecutions':0,'GitWrites':0,'UnityRuns':0,
+-            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False}}
++            'historical81Rerun':False,'historical66Rerun':False,'historical15Rerun':False,'historical109Rerun':False}}
+     argv=['synthetic-host','execute']
+     record={'centralThread':CENTRAL,'centralHost':'local','centralTurn':ISSUER['turnId'],
+         'centralItem':'00000000-0000-0000-0000-000000000041','ownerThread':OWNER['threadId'],'ownerHost':'local',
+@@ -2677,18 +2709,422 @@
+         'fixtures':'synthetic A/S/freeze/logs in memory only; unchanged execute and native gate call sites cloned with side-effect sentinels',
+         'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT}
+ 
++
++def _fix06_guid_rule(rule):
++    """One contract for the direct parent, leaf matcher and profile expression."""
++    root,rel,kind,stage,writer,files,size,purpose=rule
++    require(root=='work' and kind=='bounded-guid-tmp' and stage=='M' and
++        writer in ('M-runner-generation-restore','M-tests-generation-restore','M-tests-verification-restore') and
++        type(files) is int and files==1 and type(size) is int and size==16*1024**2,'GUID rule scope/quota')
++    require(rel.endswith('/obj/{guid-tmp}'),'GUID rule marker')
++    parent_rel=rel.removesuffix('/{guid-tmp}');safe(parent_rel)
++    phase=writer.removesuffix('-restore')
++    require(parent_rel.startswith('phases/'+phase+'/source/'),'GUID rule phase/writer')
++    parent=ROOTS[root]/parent_rel
++    return parent,'^'+re.escape(str(parent))+'/'+FIX06_GUID+'$'
++
++def _fix06_no_links(path):
++    return not any(p.is_symlink() for p in (path,*path.parents))
++
++def _fix06_guid_hit(rule,path,links=None):
++    parent,expression=_fix06_guid_rule(rule)
++    hit=re.fullmatch(expression,str(path)) is not None
++    if hit:
++        require(path.parent==parent,'GUID direct child required')
++        require((_fix06_no_links if links is None else links)(path),'GUID output symlink')
++        if path.exists():
++            import stat
++            value=path.lstat()
++            require(stat.S_ISREG(value.st_mode) and value.st_nlink==1,'GUID output must be an unlinked regular file')
++    return hit
++
++def _fix06_guid_snapshot(parent,expression):
++    """Inspect only matching direct children, never the obj subtree."""
++    require(_fix06_no_links(parent),'GUID parent symlink')
++    if not parent.exists():return []
++    require(parent.is_dir(),'GUID parent is not a directory')
++    rows=[]
++    for path in parent.iterdir():
++        if re.fullmatch(expression,str(path)):
++            value=path.lstat()
++            rows.append({'path':str(path),'mode':value.st_mode,'bytes':value.st_size,'nlink':value.st_nlink})
++    return rows
++
++def _fix06_inspect_guid(rule,probe=None):
++    import stat
++    parent,expression=_fix06_guid_rule(rule)
++    rows=(_fix06_guid_snapshot if probe is None else probe)(parent,expression)
++    require(type(rows) is list and len(rows)<=rule[5],'GUID resident file quota')
++    paths=set();total=0
++    for row in rows:
++        path=Path(row['path'])
++        require(str(path) not in paths and path.parent==parent and re.fullmatch(expression,str(path)) is not None,
++            'GUID inspection outside direct matcher or duplicate')
++        require(type(row['mode']) is int and stat.S_ISREG(row['mode']) and row['nlink']==1,
++            'GUID nonregular/symlink/hardlink')
++        require(type(row['bytes']) is int and row['bytes']>=0,'GUID invalid size')
++        paths.add(str(path));total+=row['bytes']
++    require(total<=rule[6],'GUID resident byte quota')
++    return True
++
++def _fix06_prepare_directories(rules,writer):
++    for row in rules:
++        root,rel,kind,stage,owner,files,size,purpose=row
++        if kind=='bounded-guid-tmp':directory,_=_fix06_guid_rule(row)
++        else:
++            path=ROOTS[root]/rel.removesuffix('{safe-leaf}')
++            directory=path.parent if kind=='exact' else path
++        writer.path(directory).mkdir(parents=True,exist_ok=True)
++
++def _fix06_validate_rules(m):
++    expected=set()
++    for phase,graph in (('M-runner-generation','runner'),('M-tests-generation','tests'),('M-tests-verification','tests')):
++        for project in m['graphs'][graph]['nodes']:
++            path=phase_root(phase)/'source'/Path(project).parent/'obj/{guid-tmp}'
++            expected.add((path.relative_to(W).as_posix(),phase+'-restore'))
++    require(len(expected)==49,'GUID parent set must be 23+13+13 distinct directories')
++    actual=[]
++    for row in m['writes']:
++        require(row[2] in ('exact','bounded-pattern','bounded-guid-tmp'),'unknown write rule type')
++        if row[2]=='bounded-guid-tmp':
++            _fix06_guid_rule(row);actual.append((row[1],row[4]))
++    require(len(actual)==49 and set(actual)==expected,'GUID rules missing/duplicate/outside graph')
++    return True
++
++def _fix06_documents(reader=read):
++    return [identity(DOC/name,check_bytes(reader(DOC/name),(count,digest),'FIX06 authority '+name))
++        for name,count,digest in FIX06_DOCUMENTS]
++
++def _fix06_partial_unchanged(reader=read):
++    """Verify the central closed list without rediscovery or partial traversal."""
++    import stat
++    name,count,digest=next(r for r in FIX06_DOCUMENTS if r[0]=='central-loc-m07-partial-capture.json')
++    path=DOC/name;raw=check_bytes(reader(path),(count,digest),'central M07 partial capture')
++    capture=strict(raw);inventory=capture['inventory']
++    canonical=json.dumps(inventory,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
++    require(sha(canonical)==capture['canonicalInventorySha256']=='54eff583f444642b1663a24bc1741374bd107982ef158a9d6b4983940562ea82',
++        'central M07 inventory digest')
++    require(capture['centralThread']==CENTRAL and capture['centralTurn']=='01a12dc8-58f5-7150-aa6d-c763dd9d9e02' and
++        capture['humanItem']=='01a12dc8-5fb9-7e43-8659-7026352c2050' and
++        capture['startedAtUtc']=='2026-10-12T02:06:34.019222+00:00' and
++        capture['completedAtUtc']=='2026-10-12T02:06:34.646650+00:00','central M07 capture provenance')
++    require(inventory['roots']==[str(M5),str(W5)] and len(inventory['files'])==capture['fileCount']==3713 and
++        len(inventory['directories'])==capture['directoryCount']==1338 and
++        sum(r['bytes'] for r in inventory['files'])==capture['totalFileBytes']==136062723 and
++        capture['symlinks']==capture['nonregularLeaves']==capture['rootWrites']==capture['nativeRuns']==capture['sdkScans']==0,
++        'central M07 capture closed set/counts')
++    dirs=set(inventory['directories']);files=inventory['files'];paths=[r['path'] for r in files]
++    require(len(dirs)==1338 and len(set(paths))==3713 and not dirs.intersection(paths) and
++        {str(M5),str(W5)}<=dirs,'central M07 path collisions/roots')
++    for value in [*inventory['directories'],*paths]:
++        p=Path(value)
++        require(p.is_absolute() and str(p)==value and '..' not in p.parts and
++            any(p==root or p.is_relative_to(root) for root in (M5,W5)),'M07 protected path outside roots')
++        require(value in (str(M5),str(W5)) or str(p.parent) in dirs,'M07 parent missing from closed list')
++        require(_fix06_no_links(p),'M07 protected symlink')
++        mode=p.lstat().st_mode
++        require(stat.S_ISDIR(mode) if value in dirs else stat.S_ISREG(mode),'M07 protected entry type')
++    for row in files:
++        p=Path(row['path']);require(p.lstat().st_nlink==1,'M07 protected hardlink')
++        check_bytes(reader(p),(row['bytes'],row['sha256']),'M07 protected known leaf')
++    return {'capture':identity(path,raw),'canonicalInventorySha256':capture['canonicalInventorySha256'],
++        'startedAtUtc':capture['startedAtUtc'],'completedAtUtc':capture['completedAtUtc'],
++        'fileCount':3713,'directoryCount':1338,'newEnumerations':0,'freshVerification':'known closed file hashes and known directory types/links; no discovery of extra paths',
++        'directoryStampLimitation':'Central capture contains directory paths, not historical stat timestamps.'}
++
++def _fix06_prior(reader=read):
++    sealpath=OLD17R2/'authority/source-freeze.json'
++    raw=check_bytes(reader(sealpath),(2870,'d32e5af44ba61473b333f919910167c6cad2b6691d19cc12e1395fe45e7147de'),'R2 freeze')
++    frozen=strict(raw);records=frozen['filesExcludingThisSeal']+[identity(sealpath,raw)]
++    require(len(records)==8 and {r['path'] for r in records}=={str(OLD17R2/rel) for rel in PREP},'R2 closed eight leaves')
++    prior_path=DOC/'loc-m17-fix05-review02-command-receipt.json'
++    prior=check_bytes(reader(prior_path),(20990,'55cb8c419ab9fe4da8f3a4b0a4fb69e38d925bed45a27bab8d510d177cf25cc5'),'R2 original command receipt')
++    receipt=strict(prior)
++    require(receipt['sourceFreeze']==identity(sealpath,raw) and receipt['sourceFreezeUtf8'].encode()==raw and
++        sorted(receipt['eightLeaves'],key=lambda r:r['path'])==sorted(records,key=lambda r:r['path']),'R2 receipt bound to eight')
++    records.append(identity(prior_path,prior))
++    for name,count,digest in (
++        ('before.json',65669,'1b6413cd88fef7887438729e72615fa116f237572be19670b3eb04575574ab12'),
++        ('stdout.log',282,'74b531a3600e6823cebbd860ed9fad8a48441b385cf0198a7bf7ce58a194ca31'),
++        ('stderr.log',1375,'7acf2f45c7fbc8f5e4e2327dac9abf6f5e2ab3028c809b2b5418797fc27e495b'),
++        ('receipt.json',26394,'f0c94dc11946997cac0e3faa143cab4b7b8a0f3e17d3d95183a9a6c6619e3edb')):
++        path=M07_E/name;records.append(identity(path,check_bytes(reader(path),(count,digest),'M07 original outer evidence')))
++    m07=strict(reader(M07_E/'receipt.json'))
++    require(m07['toolCapture']['originalCommandExecution']['id']=='exec-4def70d8-d499-409c-aefa-385c90732e0f' and
++        m07['hostExitCode']==1 and m07['hostStartCount']==1 and m07['manifest'] is None,'M07 failed run identity')
++    records.append(m07['materialReport']['identity'])
++    records.extend(r['identity'] for r in m07['restoreReceipts'] if r['exists'])
++    records.extend(r['identity'] for r in m07['nativeFailureEvidence']['logs'])
++    for row in records:check_bytes(reader(Path(row['path'])),(row['bytes'],row['sha256']),'R2/M07 protected leaf')
++    return records
++
++def _fix06_rebase(value):
++    """Comparison of old future outputs only; never rewrite archive input paths."""
++    if isinstance(value,list):return [_fix06_rebase(v) for v in value]
++    if isinstance(value,dict):return {k:_fix06_rebase(v) for k,v in value.items()}
++    if isinstance(value,str):
++        for before,after in ((OLD17R2,E),(M5,M),(W5,W)):value=value.replace(str(before),str(after))
++    return value
++
++def _fix06_delta(old_driver,new_driver):
++    def functions(blob):
++        return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(blob).body
++            if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
++    old=functions(old_driver);new=functions(new_driver)
++    changed=sorted(k for k in old.keys()&new.keys() if old[k]!=new[k])
++    expected={'write_plan','authorize_write','validate_model','child_sandbox','inspect_command_outputs','run_material_command',
++        '_fix05_roots_absent','_fix05_protection','_fix05_source_model','_review02_authority','_review02_receipt_content',
++        '_review02_fixture','source_artifacts','prepare'}
++    require(set(changed)==expected,'FIX06 existing function whitelist')
++    require(not old.keys()-new.keys() and all(n.startswith('_fix06_') or n=='fix06_checks' for n in new.keys()-old.keys()),
++        'FIX06 helper scope')
++    for name in ('execute','consume_source','MaterialWriter','verify_activation','_review02_source_receipt','_review02_bounded_read',
++            'archive_entries','yaml_entries','validate_restore','compare_restore','consume_m_stage','MStage',
++            'execution_budget','download_contract','command_plan','phase_env','command_write_rules','install_sandbox'):
++        require(old[name]==new[name],'FIX06 protected behavior changed: '+name)
++    return {'patchBaseline':identity(OLD17R2/'source/m17_driver.py',old_driver),'changedExistingFunctions':changed,
++        'newPrivateHelpers':sorted(new.keys()-old.keys()),'behaviorDelta':'49 direct GUID.tmp resident rules and their shared consumers',
++        'unchanged':'exact/bounded semantics, archive/graph/restore validation, command/env/network/process/watchdog and activation/sidecar gates',
++        'nativeGreen':'NOT_RUN_REQUIRES_SEPARATE_AUTHORIZATION'}
++
++
++def fix06_checks():
++    """One bounded SOURCE-only regression; every filesystem write/native call is simulated."""
++    import types,stat
++    cached={}
++    def reader(path):
++        path=Path(path)
++        if path not in cached:cached[path]=read(path)
++        return cached[path]
++    old_source=check_bytes(reader(OLD17R2/'source/m17_driver.py'),
++        (205640,'ae1d2c3cb2a8cc1ea95d92fd5c7f3c5fce0eb90fcfa2235e9650023b9bd4ec5f'),'R2 driver baseline')
++    old_prepared=strict(check_bytes(reader(OLD17R2/'authority/prepare.json'),
++        (8585649,'55b8bc4796604d221a083883221a2dedc2968f65a9f4bf212149e604c361fb5e'),'R2 model container'))
++    old=old_prepared['model']
++    require(sha(jb(old))==old_prepared['modelSha256']=='de9f7e47850dcd2f6cdcb3e6f2c605b3d45975c2116dd3d19722cf16623b2580','R2 model SHA')
++    old_ns=dict(globals());old_ns['ROOTS']={k:Path(v) for k,v in old['roots'].items()}
++    selected={'authorize_write','child_sandbox','inspect_command_outputs'}
++    nodes=[n for n in ast.parse(old_source).body if isinstance(n,ast.FunctionDef) and n.name in selected]
++    require({n.name for n in nodes}==selected,'old real production bodies missing')
++    exec(compile(ast.Module(body=nodes,type_ignores=[]),'pinned-R2-rule-consumers','exec'),old_ns)
++    old_command=next(c for c in old['commands'] if c['id']=='M-runner-generation-restore')
++    old_rules=command_write_rules(old,old_command)
++    old_profile=old_ns['child_sandbox'](old_rules,old_command['network'])
++    actual_receipt=strict(check_bytes(reader(W5/'receipts/M-runner-generation-restore.json'),
++        (2997,'ac2fe4b8a1c2e6b812b196b68bc5e88b516c17823e1d9e1b1f7a074a3a8cf7c1'),'actual M07 restore receipt'))
++    expected_profile='25af8b0b9b0bdbb3e7ecbfb93c54ab495c61e0380159d69dca79a202485279f5'
++    require(sha(old_profile.encode())==actual_receipt['sandboxProfileSha256']==expected_profile,
++        'STOP: production profile does not reproduce actual M07 hash')
++    protected=_fix05_protection(reader);partial=_review01_partial(reader)
++    m=model(reader,partial=partial);new_source=reader(DRIVER)
++    delta=_fix06_delta(old_source,new_source)
++    results=[]
++    def case(name,action):
++        tick=time.monotonic();error=None
++        try:action()
++        except Exception as exc:error=type(exc).__name__+': '+str(exc)
++        results.append({'name':name,'passed':error is None,'rawError':error,
++            'elapsedSeconds':time.monotonic()-tick,'execution':'SIMULATED_OR_READ_ONLY_SOURCE'})
++    def reject(action):
++        try:action()
++        except (GateError,OSError):return True
++        raise AssertionError('expected rejection')
++    def equal(a,b):require(a==b,'expected equal values')
++    guid='fad540fa-601a-42d8-9369-591cbb6955e3.tmp'
++    another='01234567-89ab-cdef-0123-456789abcdef.tmp'
++    old_failure=W5/'phases/M-runner-generation/source/src/Luban.Protobuf/obj'/guid
++    new_failure=Path(_fix06_rebase(str(old_failure)));writer='M-runner-generation-restore'
++    case('RED: actual M07 path rejected by old production authorization',
++        lambda:reject(lambda:old_ns['authorize_write'](old,old_failure,'M',writer)))
++    case('old production full profile exactly matches actual receipt before GREEN',
++        lambda:equal(sha(old_profile.encode()),expected_profile))
++    def profile_hit(profile,path):
++        # Model literal/regex file rules; DIRECTORY rules deliberately do not
++        # grant regular-file access. This does not load or prove Seatbelt.
++        for line in profile.splitlines():
++            prefix='(allow file-write* (literal '
++            if line.startswith(prefix) and str(path)==json.loads(line[len(prefix):-2]):return True
++            prefix='(allow file-write* (regex '
++            if line.startswith(prefix) and re.search(json.loads(line[len(prefix):-2]),str(path)):return True
++        return False
++    case('RED: actual old profile has no regular-file grant for failing tmp',
++        lambda:equal(profile_hit(old_profile,old_failure),False))
++    case('old project.assets.json exact positive control',
++        lambda:equal(old_ns['authorize_write'](old,old_failure.parent/'project.assets.json','M',writer),(1,16*1024**2)))
++    case('GREEN: actual GUID authorized once by new production rule',
++        lambda:equal(authorize_write(m,new_failure,'M',writer),(1,16*1024**2)))
++    case('new final project.assets.json exact contract retained',
++        lambda:equal(authorize_write(m,new_failure.parent/'project.assets.json','M',writer),(1,16*1024**2)))
++    narrow=[r for r in m['writes'] if r[2]=='bounded-guid-tmp']
++    def all_directories():
++        _fix06_validate_rules(m);require(len(narrow)==49,'49 rules')
++        for rule in narrow:
++            parent,expression=_fix06_guid_rule(rule)
++            for leaf in (guid,another):
++                equal(authorize_write(m,parent/leaf,'M',rule[4]),(1,16*1024**2))
++                require(re.fullmatch(expression,str(parent/leaf)) is not None,'GUID expression mismatch')
++        for phase,count in (('M-runner-generation',23),('M-tests-generation',13),('M-tests-verification',13)):
++            command=next(c for c in m['commands'] if c['id']==phase+'-restore')
++            rows=command_write_rules(m,command);profile=child_sandbox(rows,command['network'])
++            equal(len([r for r in rows if r[2]=='bounded-guid-tmp']),count)
++            for rule in narrow:
++                parent,_=_fix06_guid_rule(rule)
++                equal(profile_hit(profile,parent/guid),rule[4]==command['id'])
++    case('all 49 exact obj parents; two GUIDs; phase/writer-specific profiles',all_directories)
++    case('only 49 new rows; every legacy rule unchanged after output rebinding',
++        lambda:equal(sorted(r for r in m['writes'] if r[2]!='bounded-guid-tmp'),sorted(_fix06_rebase(old['writes']))))
++    for key in ('packages','archive','graphs','sources','commands','licenses'):
++        case('unchanged fixed '+key,lambda key=key:equal(m[key],_fix06_rebase(old[key])))
++    case('zero GET and all original M/B/L budgets retained',lambda:(equal(download_contract(m),[]),
++        equal(execution_budget(m),old_prepared['executionBudget'])))
++    for phase in ('M-runner-generation','M-tests-generation','M-tests-verification'):
++        def command_unchanged(phase=phase):
++            c=next(c for c in m['commands'] if c['id']==phase+'-restore')
++            equal(c['timeoutSeconds'],180);equal(c['maxStarts'],1);equal(c['maxChildren'],0)
++            equal(c['network'],'OS denied; local feed only')
++            oldc=next(v for v in old['commands'] if v['id']==c['id'])
++            # Strip no grants: rebuilding the legacy subset must retain the old
++            # expression/ordering byte-for-byte, with only new output paths.
++            legacy=[r for r in command_write_rules(m,c) if r[2]!='bounded-guid-tmp']
++            rebound=types.FunctionType(old_ns['child_sandbox'].__code__,dict(old_ns,ROOTS=ROOTS))
++            require(child_sandbox(legacy,c['network'])==rebound(command_write_rules(old,oldc),oldc['network']),
++                'legacy profile changed')
++        case(phase+' exact legacy profile and command limits',command_unchanged)
++    negatives=[
++        ('non tmp','not-a-guid.tmp'),('extra suffix',guid+'.bak'),('uppercase',guid.upper()),
++        ('upper hex',guid.replace('a','A')),('wrong segment',guid.replace('601a','601')),
++        ('extensionless',guid[:-4]),('nested','sub/'+guid),('prefix sibling','../obj-neighbor/'+guid),
++        ('dot traversal','../obj/'+guid),('different extension',guid[:-4]+'.json')]
++    for label,leaf in negatives:
++        def invalid_leaf(leaf=leaf):
++            path=new_failure.parent/leaf;reject(lambda:authorize_write(m,path,'M',writer))
++            command=next(c for c in m['commands'] if c['id']==writer)
++            equal(profile_hit(child_sandbox(command_write_rules(m,command),command['network']),path),False)
++        case('reject authorization/profile '+label,invalid_leaf)
++    for label,path,stage,owner in [
++        ('outside graph',W/'phases/M-runner-generation/source/src/NotInGraph/obj'/guid,'M',writer),
++        ('wrong phase',W/'phases/M-tests-generation/source/src/Luban.Protobuf/obj'/guid,'M',writer),
++        ('wrong writer',new_failure,'M','M-tests-generation-restore'),
++        ('B stage',new_failure,'B',writer),
++        ('old W5 root',old_failure,'M',writer)]:
++        case('reject '+label,lambda path=path,stage=stage,owner=owner:reject(lambda:authorize_write(m,path,stage,owner)))
++    case('matching leaf or parent link denied through production authorization seam',
++        lambda:reject(lambda:authorize_write(m,new_failure,'M',writer,guid_links=lambda p:False)))
++    rule=next(r for r in narrow if _fix06_guid_rule(r)[0]==new_failure.parent)
++    def entry(leaf=guid,size=1,mode=stat.S_IFREG|0o600,nlink=1):
++        return {'path':str(new_failure.parent/leaf),'bytes':size,'mode':mode,'nlink':nlink}
++    for label,rows,valid in [
++        ('zero resident',[],True),('one at 16MiB',[entry(size=16*1024**2)],True),
++        ('one over 16MiB',[entry(size=16*1024**2+1)],False),
++        ('two residents',[entry(),entry(another)],False),
++        ('symlink',[entry(mode=stat.S_IFLNK|0o777)],False),
++        ('directory leaf',[entry(mode=stat.S_IFDIR|0o700)],False),
++        ('fifo',[entry(mode=stat.S_IFIFO|0o600)],False),
++        ('hardlink',[entry(nlink=2)],False),('nested injected leaf',[entry('sub/'+guid)],False),
++        ('nonmatching injected leaf',[entry('x.tmp')],False)]:
++        def quota(rows=rows,valid=valid):
++            action=lambda:inspect_command_outputs([rule],guid_probe=lambda parent,expression:rows)
++            action() if valid else reject(action)
++        case('production output inspection '+label,quota)
++    def directories():
++        created=[]
++        class Marker:
++            def __init__(self,path):self.path=path
++            def mkdir(self,**kwargs):created.append((str(self.path),kwargs))
++        fake=types.SimpleNamespace(path=lambda path:Marker(path))
++        _fix06_prepare_directories(narrow,fake)
++        equal(len(created),49);equal(len({p for p,k in created}),49)
++        require(all(p.endswith('/obj') and '{' not in p and k=={'parents':True,'exist_ok':True} for p,k in created),
++            'placeholder/wrong directory preparation')
++        rows=command_write_rules(m,next(c for c in m['commands'] if c['id']==writer))
++        _fix06_prepare_directories(rows,fake)
++        require(all('{' not in p for p,k in created),'marker directory created')
++        node=next(n for n in ast.parse(new_source).body if isinstance(n,ast.FunctionDef) and n.name=='run_material_command')
++        calls=[n for n in ast.walk(node) if isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='_fix06_prepare_directories']
++        require(len(calls)==1,'real native consumer not wired to tested directory helper')
++    case('production directory preparation is simulated; no literal marker directories',directories)
++    # Keep the old exact/bounded output branches under the same in-memory files.
++    def legacy_checks():
++        data={}
++        class MemoryPath:
++            def __init__(self,path):self.path=Path(path)
++            def __truediv__(self,rel):return MemoryPath(self.path/rel)
++            def is_file(self):return str(self.path) in data
++            def exists(self):return self.is_file() or any(Path(p).is_relative_to(self.path) for p in data)
++            def rglob(self,pattern):return [MemoryPath(p) for p in data if Path(p).is_relative_to(self.path)]
++            def stat(self):return types.SimpleNamespace(st_size=data[str(self.path)][0])
++            def is_symlink(self):return data.get(str(self.path),(0,False))[1]
++        roots={'work':MemoryPath(W)}
++        old_inspect=types.FunctionType(old_ns['inspect_command_outputs'].__code__,dict(old_ns,ROOTS=roots))
++        new_inspect=types.FunctionType(inspect_command_outputs.__code__,dict(globals(),ROOTS=roots),
++            argdefs=inspect_command_outputs.__defaults__)
++        legacy=[['work','fixed.bin','exact','M','x',1,10,'fixture'],
++                ['work','cache/{safe-leaf}','bounded-pattern','M','x',2,20,'fixture']]
++        for files in ({},{str(W/'fixed.bin'):(10,False),str(W/'cache/a/b'):(20,False)},
++                {str(W/'fixed.bin'):(11,False)},{str(W/'cache/a'):(1,True)},
++                {str(W/'cache/a'):(1,False),str(W/'cache/b'):(1,False),str(W/'cache/c'):(1,False)}):
++            data.clear();data.update(files);verdict=[]
++            for fn in (old_inspect,new_inspect):
++                try:fn(legacy);verdict.append(True)
++                except GateError:verdict.append(False)
++            equal(verdict[0],verdict[1])
++    case('real legacy exact/bounded output checks retain quota/link semantics',legacy_checks)
++    for label,change in [('missing rule',lambda x:x['writes'].remove(narrow[0])),
++                         ('extra count',lambda x:next(r for r in x['writes'] if r[2]=='bounded-guid-tmp').__setitem__(5,2)),
++                         ('B grant',lambda x:next(r for r in x['writes'] if r[2]=='bounded-guid-tmp').__setitem__(3,'B'))]:
++        def model_reject(change=change):
++            changed=copy.deepcopy(m);change(changed);reject(lambda:validate_model(changed))
++        case('model rejects '+label,model_reject)
++    def gate(kind):
++        f=_review02_fixture();data=jb(f['sidecar']);a=copy.deepcopy(f['record'])
++        a['sourceCommandReceipt']=identity(REVIEW02_SIDECAR,data)
++        if kind=='old-sidecar':a['sourceCommandReceipt']['path']=str(DOC/'loc-m17-fix05-review02-command-receipt.json')
++        b=jb(a);pin=identity(E/'synthetic-A-not-written.json',b)
++        pin.update({k:a[k] for k in ('centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn')})
++        counts={'sideReads':0,'material':0,'writer':0}
++        def side(path):
++            counts['sideReads']+=1
++            if kind=='missing':raise FileNotFoundError('SIMULATED missing F6 sidecar')
++            return data
++        def verify(*args):return verify_activation(*args,receipt_reader=side,source_reader=lambda p:f['files'][p])
++        def write(*args):counts['writer']+=1;raise AssertionError('material writer reached')
++        def material(*args):counts['material']+=1;return 'SENTINEL'
++        def drive(stage,work,finish):
++            try:return work(stage)
++            except GateError as error:finish(stage,None,str(error));raise
++        ns=dict(globals(),TRUSTED_CENTRAL_ACTIVATION=None if kind=='closed-pin' else pin,
++            verify_activation=verify,consume_source=lambda *args:f['model'],MaterialWriter=write,
++            execute_material=material,consume_m_stage=drive,print=lambda *args,**kwargs:None)
++        fn=types.FunctionType(execute.__code__,ns,argdefs=execute.__defaults__)
++        def source(path):return f['frozen'] if path==E/'authority/source-freeze.json' else b
++        if kind=='valid':equal(fn(f['argv'],source),'SENTINEL')
++        else:reject(lambda:fn(f['argv'],source))
++        equal(counts['writer'],0);equal(counts['material'],1 if kind=='valid' else 0)
++        if kind=='closed-pin':equal(counts['sideReads'],0)
++    for kind in ('closed-pin','missing','old-sidecar','valid'):
++        case('real execute closure retains F6 sidecar/pin boundary: '+kind,lambda kind=kind:gate(kind))
++    case('source delta only allowed consumers/metadata; no legacy suite rerun',lambda:equal(_fix06_delta(old_source,new_source),delta))
++    case('M5/W5 immutable capture is fixed reference, never copied into output authority',
++        lambda:(equal(m['fix06PartialProtection']['capture']['sha256'],'4af68e331d1bfb8c78b66283dd4a4703446f1c9742b7860bbf5253f8a5131430'),
++            require(not any(r[2]==str(REVIEW02_SIDECAR) for r in m['inputs']),'sidecar self-input cycle')))
++    return {'caseCount':len(results),'passed':sum(r['passed'] for r in results),'cases':results,'sourceIdentity':identity(DRIVER,new_source),
++        'sourceDelta':delta,'modelSha256':sha(jb(m)),'coreModelSha256':_fix05_core_digest(m),'protectedBefore':protected,
++        'oldProfileSha256':sha(old_profile.encode()),'oldRules':len(old_rules),'newGuidRules':49,
++        'partialProtection':m['fix06PartialProtection'],'SDKScan':False,'partialNewEnumerations':0,'GETs':0,'restores':0,
++        'native':0,'historicalSuitesRerun':False,'nativeGreen':'NOT_RUN','scope':'one FIX06 SOURCE-only call; profile text and memory sentinels are SIMULATED'}
++
+ def prepare():
+     """One new eight-leaf SOURCE seal; consume the existing partial list only."""
+     started=time.monotonic();checks_path=E/'authority/offline-checks.json'
+     _fix05_roots_absent()
+     require(not os.path.lexists(REVIEW02_SIDECAR),'external command receipt already occupied')
+     require({str(p) for p in E.rglob('*') if p.is_file()}=={str(DRIVER),str(checks_path)},
+-        'single REVIEW02 attempt / exact initial leaves')
++        'single FIX06 attempt / exact initial leaves')
+     require(not any(p.is_symlink() for p in [E,*E.parents,*E.rglob('*')]),'SOURCE symlink forbidden')
+     checks_bytes=read(checks_path);checks=strict(checks_bytes)
+     require(checks_bytes==jb(checks),'canonical check metadata required before sealing')
+     require(checks['status']=='DIRECTED_CHECKS_PASSED' and checks['attempts']==1 and checks['elapsedSeconds']<=10 and
+-        checks['caseCount']==checks['passed'],'one successful <=10-second REVIEW02 directed run required')
++        checks['caseCount']==checks['passed'],'one successful <=10-second FIX06 directed run required')
+     require(checks['sourceIdentity']==identity(DRIVER),'source changed after directed checks')
+     cached={}
+     def caching_reader(p):
+@@ -2701,8 +3137,8 @@
+     m=model(caching_reader,partial=partial)
+     require(sha(jb(m))==checks['modelSha256'] and _fix05_core_digest(m)==checks['coreModelSha256'],
+         'directed/generated model identity differs')
+-    old_driver=caching_reader(OLD17R1/'source/m17_driver.py');driver=caching_reader(DRIVER)
+-    delta=_review02_delta(old_driver,driver);require(delta==checks['sourceDelta'],'source function delta differs')
++    old_driver=caching_reader(OLD17R2/'source/m17_driver.py');driver=caching_reader(DRIVER)
++    delta=_fix06_delta(old_driver,driver);require(delta==checks['sourceDelta'],'source function delta differs')
+     artifacts=source_artifacts(m,driver,old_driver,checks,history)
+     receipt=strict(artifacts['authority/source-receipt.json'])
+     receipt['sourceDelta']=delta
+@@ -2713,9 +3149,11 @@
+         'files':len(partial['files']),'directories':len(partial['directories']),'manifestSha256':PARTIAL_CAPTURE_SHA,
+         'rawManifest':'authority/prepare.json#/model/partialProtection','originalEnumerationsPerRoot':1,
+         'newEnumerationsThisDelivery':0,'historicalExitAndFullLineageClosure':'UNKNOWN_NOT_INFERRED','materialAccepted':False}
+-    receipt['reviewFixes']={'4242690950':{'authority':_review02_documents(caching_reader),
+-        'activationField':'sourceCommandReceipt','requiredFreshGate':'verify_activation',
+-        'beforeMaterialState':True,'beforeEveryNative':True,'currentExternalRequirement':EXTERNAL_SOURCE_RECEIPT}}
++    receipt['fix06']={'authority':_fix06_documents(caching_reader),'newGuidRules':49,
++        'scope':'three M restore phases; direct GUID.tmp; resident 1 file/16MiB per obj',
++        'partialProtection':m['fix06PartialProtection'],'oldProfileSha256':checks['oldProfileSha256'],
++        'quotaLimitation':'polling resident quota, not an OS per-write cap or a cumulative write measurement',
++        'nativeGreen':'NOT_RUN; separate authorization and exact new-head GitHub review required'}
+     receipt['modelPolicy']={'requestedModel':'gpt-6-astra','requestedEffort':'xhigh',
+         'actualModelVisibleToSourceProcess':False,'actualAuthorTurn':OWNER['turnId']}
+     artifacts['authority/source-receipt.json']=jb(receipt)
+@@ -2734,15 +3172,15 @@
+     consume_source(read(freeze_path))
+     require({str(p) for p in E.rglob('*') if p.is_file()}=={str(E/rel) for rel in PREP},'exact eight source leaves')
+     require(_fix05_protection()==protected and old_seals()==history,'final historical preservation')
+-    _fix05_partial_unchanged(partial);_fix05_roots_absent()
++    _fix05_partial_unchanged(partial);_fix06_partial_unchanged();_fix05_roots_absent()
+     require(not os.path.lexists(REVIEW02_SIDECAR),'sidecar must be captured only after tool completion')
+     leaves=[identity(E/rel) for rel in PREP];elapsed=time.monotonic()-started
+-    require(elapsed<=30,'REVIEW02 mechanical generation time cap')
++    require(elapsed<=30,'FIX06 mechanical generation time cap')
+     print(json.dumps({'status':'SOURCE_SEALED_EXTERNAL_RECEIPT_REQUIRED','sourceAuthor':OWNER,'checks':checks['passed'],
+         'attempts':1,'directedSeconds':checks['elapsedSeconds'],'mechanicalFunctionSeconds':elapsed,
+         'modelSha256':sha(jb(m)),'freeze':identity(freeze_path),'leaves':leaves,
+         'totalBytes':sum(r['bytes'] for r in leaves),'sourceDelta':delta,
+-        'protectedCount':len(protected),'partialFiles':2576,'partialDirectories':909,'partialNewEnumerations':0,
++        'protectedCount':len(protected),'partialFiles':6289,'partialDirectories':2247,'partialNewEnumerations':0,
+         'GETs':0,'restores':0,'SDKScan':False,'historicalSuitesRerun':False,
+         'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT},ensure_ascii=False))
+     return 0

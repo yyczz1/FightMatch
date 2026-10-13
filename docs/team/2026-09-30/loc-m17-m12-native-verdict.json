@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-M12",
+  "integrationVerdict": "NEEDS_FIX",
+  "scope": "NATIVE_M_ONLY",
+  "authority": "central-loc-m12-approval-2026-10-12.json",
+  "actual": {
+    "hostId": "local",
+    "receivedItem": "fco_01a132f2-affd-7300-84f3-071e17da9f19",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a132f2-afd1-7233-874f-dbd4f03f78ad"
+  },
+  "reviewedSourceHead": "5e2d3790d371659552c9bb24084252c70972f474",
+  "sourceReviewReceipt": "testing-loc-m17-fix09-review.json",
+  "sourceReviewVerdict": "ACCEPT_SOURCE_REVIEW_ONLY",
+  "originalTool": {
+    "id": "exec-02799c51-cd8f-4322-a9e4-c4ec07684a46",
+    "exitCode": 1,
+    "durationMs": 114672,
+    "centralComparedOriginalCommandCwdStatusExitDurationAndUntruncatedOutput": true
+  },
+  "fullInvocationSeconds": 114.75532137500704,
+  "hostExitCode": 1,
+  "failure": "GateError: unexpected fallback package folder",
+  "restores": [
+    {
+      "id": "M-runner-generation-restore",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "elapsedSeconds": 5.648133082999266
+    },
+    {
+      "id": "M-tests-generation-restore",
+      "status": "NOT_STARTED",
+      "exitCode": null,
+      "elapsedSeconds": null
+    },
+    {
+      "id": "M-tests-verification-restore",
+      "status": "NOT_STARTED",
+      "exitCode": null,
+      "elapsedSeconds": null
+    }
+  ],
+  "newDownloads": 0,
+  "protectedRecords": 353,
+  "protectedChanges": [],
+  "knownProcessQuiescent": true,
+  "stillOwned": [],
+  "materialManifest": null,
+  "receipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m12/receipt.json",
+    "bytes": 39510,
+    "sha256": "b47ea4ca686273d61fc2a7dd054fcf780704ff6e966608b94cd36cfcd96ff08d"
+  },
+  "evidenceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m12",
+  "oneNativeAttemptConsumed": true,
+  "automaticRetry": false,
+  "next": "Engineering owns read-only root cause and a minimum source correction within approved 280 KiB; no further native attempt authorized. No B/L or Unity acceptance."
+}

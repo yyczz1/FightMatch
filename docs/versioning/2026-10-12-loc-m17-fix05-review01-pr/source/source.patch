@@ -1,0 +1,338 @@
+--- M17-FIX05/source/m17_driver.py
++++ M17-FIX05-REVIEW01/source/m17_driver.py
+@@ -30,7 +30,8 @@
+ OLD17F2=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix02'
+ OLD17F3=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix03'
+ OLD17F4=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix04'
+-E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05'
++OLD17F5=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05'
++E=BASE/'loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review01'
+ W=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix05')
+ M=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix05')
+ W4=W.with_name('m17-fix04')
+@@ -48,9 +49,9 @@
+ DRIVER=E/'source/m17_driver.py'
+ PREP=('source/m17_driver.py','source/m17-inputs.tsv','source/m17-write-set.tsv','source/source.patch',
+       'authority/prepare.json','authority/offline-checks.json','authority/source-freeze.json','authority/source-receipt.json')
+-OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a12c14-512d-7331-8acc-fd240ca1de4a'}
++OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a12c28-d01f-7731-a6e9-51fc7ac522f4'}
+ ISSUER={'threadId':'01a0e401-511d-79f2-b47f-3ab0ade1681b','hostId':'local','turnId':'01a12bf9-e665-7d20-ab65-31ca1dfc8613'}
+-DISPATCH='fco_01a12c14-5133-7c72-a751-1cd616c98d5a'
++DISPATCH='fco_01a12c28-d034-7030-aa27-ac19eeaae2af'
+ REUSED_ROOT=W.with_name('m17-fix03')
+ REUSED_KEYS=frozenset(('microsoft.codecoverage.17.11.1','microsoft.net.test.sdk.17.11.1',
+     'microsoft.testplatform.objectmodel.17.11.1','microsoft.testplatform.testhost.17.11.1','newtonsoft.json.13.0.3'))
+@@ -62,6 +63,23 @@
+     ('loc-m17-m06-interruption-receipt.json',3060,'28a5d17a5a47cc8493b54fad9f7f492427b7b36c1265bae2a5c07e518e43f9dc'),
+     ('central-loc-m06-process-observation.json',1424,'ce5c29ad70909ac5339edd28a19bf9c320b6be46c7d98efee9cca8096c50af85'))
+ FIX05_BASE_MODEL='fefbc7a1002760a2231922069bd839864084421f888576e99a10518c5b7c6605'
++REVIEW01_DOCUMENTS=(
++    ('central-loc-m17-fix05-identity01.md',1498,'e7dff4bb80e409295d90c8c65027ff79a18d35a933f2d58253987a41631261d3'),
++    ('central-loc-m17-fix05-seal01.md',1445,'5544b3063290194e20e99c93a06e26e51dd3f0265f2a3dbeb2d80c178853223d'),
++    ('central-loc-m17-fix05-review01.md',3826,'3cf1312d5d3309ce9ea51d702c2b3f13a34d183ef25e370debfeaad257594354'),
++    ('central-loc-m17-fix05-seal-success.json',18336,'ea5b2c865b7f7b239f52767f5de7d79ab8e71225252ddc53229e85866a8db69b'))
++REVIEW01_SIDECAR=DOC/'loc-m17-fix05-review01-command-receipt.json'
++PARTIAL_CAPTURE_OWNER={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local',
++    'turnId':'01a12c14-512d-7331-8acc-fd240ca1de4a'}
++PARTIAL_CAPTURE_SHA='cd1fc4983e3d83bd48d897c86fe35cb016d4dad4509adf6a801df597c6203cb6'
++EXTERNAL_SOURCE_RECEIPT={'schemaVersion':1,'path':str(REVIEW01_SIDECAR),'maxBytes':65536,
++    'location':'outside the sealed eight leaves','capture':'read_thread original completed commandExecution after tool return',
++    'requiredFor':['independent central SOURCE acceptance','any subsequent material activation'],
++    'requiredBindings':['source author thread/host/turn','actual sealing thread/host/turn','tool ID',
++        'complete command and untruncated original output','exitCode 0','full invocation clock <=30 seconds',
++        'final source-freeze bytes/SHA256','all eight leaf identities'],
++    'independentReceiver':'01a0e401-511d-79f2-b47f-3ab0ade1681b',
++    'includeAsOwnSourceInput':False,'receiptAbsenceBlocksAcceptanceAndActivation':True}
+ CENTRAL='01a0e401-511d-79f2-b47f-3ab0ade1681b'
+ TRUSTED_CENTRAL_ACTIVATION=None
+ FIXED_INDEX=(4916277,'043588329ad559fcb33d9578fbe3b584e55cbac265fe8a603b82f42b2dc3d381')
+@@ -1169,10 +1187,11 @@
+ def source_artifacts(m,driver_bytes,old_driver,checks,history):
+     result={'source/m17_driver.py':driver_bytes,**source_tables(m)}
+     patch=''.join(difflib.unified_diff(old_driver.decode().splitlines(True),driver_bytes.decode().splitlines(True),
+-        fromfile='M17-FIX04/source/m17_driver.py',tofile='M17-FIX05/source/m17_driver.py'))
++        fromfile='M17-FIX05/source/m17_driver.py',tofile='M17-FIX05-REVIEW01/source/m17_driver.py'))
+     result['source/source.patch']=patch.encode()
+     result['authority/prepare.json']=jb({'schemaVersion':1,'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,
+         'modelSha256':sha(jb(m)),'model':m,'executionBudget':execution_budget(m),
++        'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT,
+         'inputClasses':{k:sum(r[0]==k for r in m['inputs']) for k in ('existing','official-get','generated')},
+         'old38Leaves':history,'states':m['states'],
+         'limitations':['All 32 archives reused read-only; no GET, restore, disk extraction or new material/work roots. Historical archive safety results reused, not rerun.',
+@@ -1184,6 +1203,7 @@
+     result['authority/source-receipt.json']=jb({'status':'SOURCE_READY',
+         'owner':OWNER,'issuer':ISSUER,'dispatchItem':DISPATCH,'modelSha256':sha(jb(m)),
+         'sourceReady':True,'materialReady':False,'reviewReady':False,'executionAuthorized':False,'MOnlyBudget':execution_budget(m)['M'],
++        'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT,'independentAcceptance':'BLOCKED_UNTIL_EXTERNAL_RECEIPT_AND_NEW_HEAD_REVIEW',
+         'integrationVerdict':'NOT_ISSUED_AUTHOR_CANNOT_ACCEPT','historyPreserved':history,'validation':checks,
+         'returnPath':ISSUER,'pendingArchives':[{k:p[k] for k in ('path','bytes','sha256','url')} for p in [*m['packages'],m['archive']] if p['class']=='official-get'],
+         'generatedLocksAssets':len(m['generated']),
+@@ -1699,6 +1719,7 @@
+     seal=strict(raw)
+     records=seal['filesExcludingThisSeal']+[identity(sealpath,raw)]
+     records+=_fix05_download_receipts(old,reader)
++    records+=_review01_documents(reader)+_review01_prior(reader)
+     before=strict(reader(M06_E/'before.json'));precheck=before['precheck']
+     records+=precheck['protectedExpectedIdsFromSealedSource']+before['preservationExpected']
+     for key in ('binding','retryDisposition','preservedPreviousBinding','activation','host','template',
+@@ -1730,9 +1751,11 @@
+     return value
+ 
+ def _fix05_source_model(reader=read,partial=None):
++    _review01_documents(reader)  # Fail missing/changed authority before other material reads.
+     _fix05_roots_absent()
+     old=_fix05_base(reader);m=copy.deepcopy(old)
+     m['owner']=OWNER;m['issuer']=ISSUER;m['roots']={k:str(v) for k,v in ROOTS.items()}
++    m['externalCommandReceiptRequirement']=copy.deepcopy(EXTERNAL_SOURCE_RECEIPT)
+     for body in m['licenses']:
+         if body['kind']=='generated':body['path']=_fix05_output(body['path'])
+     for pkg in m['packages']:
+@@ -1808,7 +1831,7 @@
+ def _fix05_partial_unchanged(snapshot,reader=read):
+     import stat
+     require(snapshot.get('schemaVersion')==1 and snapshot.get('kind')=='NEW_FIX05_READ_ONLY_PARTIAL_INVENTORY' and
+-        snapshot.get('owner')==OWNER and snapshot.get('roots')==[str(M4),str(W4)] and
++        snapshot.get('owner')==PARTIAL_CAPTURE_OWNER and sha(jb(snapshot))==PARTIAL_CAPTURE_SHA and snapshot.get('roots')==[str(M4),str(W4)] and
+         snapshot.get('enumerationsPerRoot')==1 and snapshot.get('linksAccepted')==0,'partial manifest identity')
+     files=snapshot['files'];directories=snapshot['directories']
+     allrows=files+directories;paths=[r['path'] for r in allrows]
+@@ -1975,67 +1998,206 @@
+         'partialInventory':'not collected in directed run; one new collection only during mechanical sealing',
+         'productionTrustPin':None,'SDKScan':False,'fullOfflineSuite':False,'GETs':0,'restores':0,'native':0,'diskExtraction':0}
+ 
++def _review01_documents(reader=read):
++    return [identity(DOC/name,check_bytes(reader(DOC/name),(count,digest),'REVIEW01 fixed authority: '+name))
++        for name,count,digest in REVIEW01_DOCUMENTS]
++
++def _review01_prior(reader=read):
++    sealpath=OLD17F5/'authority/source-freeze.json'
++    raw=check_bytes(reader(sealpath),(2807,'504da445d54b7d08effc34146dfc0af1d78fba6e5952db9c47f6f58de9658956'),'F5 frozen evidence')
++    seal=strict(raw);records=seal['filesExcludingThisSeal']+[identity(sealpath,raw)]
++    require(len(records)==8 and {r['path'] for r in records}=={str(OLD17F5/r) for r in PREP},'exact F5 seal set')
++    for row in records:check_bytes(reader(Path(row['path'])),(row['bytes'],row['sha256']),'immutable F5 leaf')
++    receipt=strict(reader(OLD17F5/'authority/source-receipt.json'))
++    records+=receipt['identityCorrection']['preservedBefore']+receipt['formatCorrection']['preservedSixLeaves']
++    records.append(receipt['formatCorrection']['backupReceipt'])
++    # This is a fixed, genuinely completed historical tool record, not an
++    # invented ID for the current not-yet-completed sealing command.
++    success=strict(reader(DOC/'central-loc-m17-fix05-seal-success.json'));tool=success['tool']
++    require(tool['id']=='exec-0a6d03d4-489e-4f65-bd61-282109520212' and tool['status']=='completed' and
++        tool['exitCode']==0 and tool['output']['truncated'] is False and tool['command'],'historical successful tool record')
++    output=[strict(line.encode()) for line in tool['output']['text'].splitlines() if line.strip()]
++    result=[r for r in output if r.get('status')=='SOURCE_READY_NOT_MATERIAL_READY']
++    clocks=[r for r in output if r.get('event')=='FINAL_COMMAND_CLOCK']
++    require(len(result)==len(clocks)==1 and clocks[0]['exitCode']==0 and
++        0<=clocks[0]['fullInvocationSeconds']<=30,'historical complete successful clock')
++    require(result[0]['freeze']==identity(sealpath,raw) and
++        sorted(result[0]['leaves'],key=lambda r:r['path'])==sorted(seal['filesExcludingThisSeal']+[identity(sealpath,raw)],key=lambda r:r['path']),
++        'historical success/final F5 seal mismatch')
++    require(result[0]['modelSha256']==success['sourceModelSha256']==seal['modelSha256'],'historical success/model mismatch')
++    for root in (OLD17F5,OLD17F5.with_name(OLD17F5.name+'-identity-before'),OLD17F5.with_name(OLD17F5.name+'-seal-before')):
++        paths=list(root.rglob('*'))
++        require(not any(p.is_symlink() for p in [root,*root.parents,*paths]) and
++            {str(p) for p in paths if p.is_file()}=={r['path'] for r in records if Path(r['path']).is_relative_to(root)},
++            'immutable F5/history leaf set')
++    return records
++
++def _review01_partial(reader=read):
++    prepared=strict(check_bytes(reader(OLD17F5/'authority/prepare.json'),
++        (8570376,'10ee667d11e9581d2ed97e790d574c17ee10f252875d196d46b74f51d6af704d'),'F5 partial manifest container'))
++    partial=prepared['model']['partialProtection']
++    require(sha(jb(partial))==PARTIAL_CAPTURE_SHA and len(partial['files'])==2576 and
++        len(partial['directories'])==909 and partial['capturedAtUtc']=='2026-10-11T17:51:20.113573+00:00',
++        'exact original F5 partial capture')
++    return partial
++
++def _review01_delta(old_driver,new_driver):
++    def functions(blob):
++        return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(blob).body
++            if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
++    old=functions(old_driver);new=functions(new_driver)
++    changed=sorted(k for k in old.keys()&new.keys() if old[k]!=new[k])
++    require(set(changed)=={'_fix05_protection','_fix05_source_model','_fix05_partial_unchanged','source_artifacts','prepare'},
++        'REVIEW01 function delta outside source/evidence binding')
++    require(not old.keys()-new.keys() and
++        all(k.startswith('_review01_') or k=='review01_checks' for k in new.keys()-old.keys()),'unexpected helper change')
++    return {'patchBaseline':identity(OLD17F5/'source/m17_driver.py',old_driver),
++        'changedExistingFunctions':changed,'newPrivateHelpers':sorted(new.keys()-old.keys()),
++        'unchangedExistingFunctions':sorted(k for k in old.keys()&new.keys() if old[k]==new[k]),
++        'changedFields':['fixed four REVIEW01 authority/evidence identities','preserved F5 and its failure history',
++            'SOURCE E root and actual author/dispatch identities','structured external command receipt requirement',
++            'frozen partial capture owner independent of new source author','directed authority regression and fixed-list-only prepare'],
++        'unchangedFields':['future M5/W5 paths','31+1 existing archive identities','0 GET/0 body','3 restore/870+30 seconds',
++            'archive path/contents checks','process, activation, contamination and source consumption gates','original partial capture bytes/time']}
++
++def review01_checks():
++    """Single regression run; inherited 81/66 results are referenced, not rerun."""
++    results=[];cached={}
++    def caching_reader(p):
++        p=Path(p)
++        if p not in cached:cached[p]=read(p)
++        return cached[p]
++    def case(name,action,reject=False,contains=''):
++        tick=time.monotonic();error=None
++        try:action()
++        except Exception as exc:error=exc
++        passed=isinstance(error,GateError) if reject else error is None
++        if reject and error is not None:passed=passed and contains in str(error)
++        results.append({'name':name,'expected':'REJECT' if reject else 'PASS','passed':passed,
++            'rawError':None if error is None else type(error).__name__+': '+str(error),'elapsedSeconds':time.monotonic()-tick})
++    m=model(caching_reader,partial=_review01_partial(caching_reader));protected=_fix05_protection(caching_reader)
++    old=strict(caching_reader(OLD17F5/'authority/prepare.json'))['model']
++    old_driver=caching_reader(OLD17F5/'source/m17_driver.py');driver=caching_reader(DRIVER)
++    delta=_review01_delta(old_driver,driver)
++    def invariants():
++        for field in ('packages','archive','sources','licenses','graphs','generated','writes','sdkVersion','sourceCommit','stages','states','partialProtection'):
++            require(m[field]==old[field],'unchanged F5 model field: '+field)
++        require(m['roots']['work']==old['roots']['work'] and m['roots']['material']==old['roots']['material'],'M5/W5 changed')
++        expected=copy.deepcopy(old['commands'])
++        def remap(value):
++            if isinstance(value,dict):return {k:remap(v) for k,v in value.items()}
++            if isinstance(value,list):return [remap(v) for v in value]
++            return value.replace(str(OLD17F5),str(E)) if isinstance(value,str) else value
++        require(m['commands']==remap(expected),'commands changed beyond source E references')
++        require(download_contract(m)==[] and execution_budget(m)['M']==strict(caching_reader(OLD17F5/'authority/prepare.json'))['executionBudget']['M'],'M budget changed')
++        require([r for r in m['inputs'] if r[1]=='sdk-frozen-leaf']==[r for r in old['inputs'] if r[1]=='sdk-frozen-leaf'],'SDK identity ledger changed')
++        require(TRUSTED_CENTRAL_ACTIVATION is None,'activation remains closed')
++    case('F5 product/material/safety contracts unchanged; only source E changes',invariants)
++    def bindings():
++        for row in _review01_documents(caching_reader):
++            require(any(r[0]=='existing' and r[2:5]==[row['path'],row['bytes'],row['sha256']] for r in m['inputs']),
++                'required authority missing from fixed model')
++        require(m['externalCommandReceiptRequirement']==EXTERNAL_SOURCE_RECEIPT and
++            not any(r[2]==str(REVIEW01_SIDECAR) for r in m['inputs']),'sidecar contract/self-reference')
++        require(EXTERNAL_SOURCE_RECEIPT['receiptAbsenceBlocksAcceptanceAndActivation'] is True and
++            EXTERNAL_SOURCE_RECEIPT['requiredFor']==['independent central SOURCE acceptance','any subsequent material activation'],
++            'external evidence gate omitted')
++    case('all four fixed documents present; external receipt required without self-cycle',bindings)
++    # Use a sealed in-memory candidate to exercise actual consume_source,
++    # not merely the low-level hash helper. No output files are generated here.
++    artifacts=source_artifacts(m,driver,old_driver,{'scope':'in-memory authority rejection fixture'},old_seals(caching_reader))
++    frozen=seal_source(m,artifacts);memory={E/rel:b for rel,b in artifacts.items()}
++    def combined(p):return memory[p] if p in memory else caching_reader(p)
++    case('production source consumer accepts unchanged bound authority',lambda:consume_source(frozen,combined))
++    for name,count,digest in REVIEW01_DOCUMENTS:
++        path=DOC/name
++        def missing(p,path=path):
++            if p==path:raise GateError('synthetic missing fixed authority: '+str(path))
++            return combined(p)
++        def tampered(p,path=path):
++            return combined(p)+b' ' if p==path else combined(p)
++        case('consume_source rejects missing '+name,lambda reader=missing:consume_source(frozen,reader),True,'missing fixed authority')
++        case('consume_source rejects tampered '+name,lambda reader=tampered:consume_source(frozen,reader),True,'identity mismatch')
++    case('fixed historical successful command matches exact F5 freeze',lambda:_review01_prior(caching_reader))
++    case('original partial capture owner/time/hash retained',lambda:require(m['partialProtection']==old['partialProtection'],'partial recaptured'))
++    case('no sidecar before actual successful tool return',lambda:require(not os.path.lexists(REVIEW01_SIDECAR),'sidecar collision'))
++    case('protection unchanged and future roots absent',lambda:require(_fix05_protection()==protected and not os.path.lexists(M) and not os.path.lexists(W),'protection drift'))
++    return {'scope':'FIX05 REVIEW01 single authority/receipt SOURCE regression','cases':results,'caseCount':len(results),
++        'passed':sum(r['passed'] for r in results),'sourceIdentity':identity(DRIVER,driver),'modelSha256':sha(jb(m)),
++        'coreModelSha256':_fix05_core_digest(m),'protectedBefore':protected,'sourceDelta':delta,
++        'historicalEvidence':{'F5FinalChecks':identity(OLD17F5/'authority/offline-checks.json',caching_reader(OLD17F5/'authority/offline-checks.json')),
++            'F5Cases':81,'F4Cases':66,'rerun':False,'F5SuccessfulTool':identity(DOC/'central-loc-m17-fix05-seal-success.json',caching_reader(DOC/'central-loc-m17-fix05-seal-success.json'))},
++        'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT,'partialNewEnumerations':0,
++        'SDKScan':False,'GETs':0,'restores':0,'native':0,'diskExtraction':0}
++
+ def prepare():
+-    """One mechanical seal, including one new exact partial-root enumeration."""
+-    started=time.monotonic();command=list(sys.orig_argv);checks_path=E/'authority/offline-checks.json'
++    """One new eight-leaf SOURCE seal; consume the existing partial list only."""
++    started=time.monotonic();checks_path=E/'authority/offline-checks.json'
+     _fix05_roots_absent()
++    require(not os.path.lexists(REVIEW01_SIDECAR),'external command receipt already occupied')
+     require({str(p) for p in E.rglob('*') if p.is_file()}=={str(DRIVER),str(checks_path)},
+-        'single FIX05 mechanical attempt / exact initial leaves')
++        'single REVIEW01 attempt / exact initial leaves')
+     require(not any(p.is_symlink() for p in [E,*E.parents,*E.rglob('*')]),'SOURCE symlink forbidden')
+-    checks=strict(read(checks_path))
+-    require(checks['status']=='DIRECTED_CHECKS_PASSED' and checks['attempts']==1 and
+-        checks['elapsedSeconds']<=10 and checks['caseCount']==checks['passed'],'one successful <=10-second directed run required')
++    checks_bytes=read(checks_path);checks=strict(checks_bytes)
++    require(checks_bytes==jb(checks),'canonical check metadata required before sealing')
++    require(checks['status']=='DIRECTED_CHECKS_PASSED' and checks['attempts']==1 and checks['elapsedSeconds']<=10 and
++        checks['caseCount']==checks['passed'],'one successful <=10-second REVIEW01 directed run required')
+     require(checks['sourceIdentity']==identity(DRIVER),'source changed after directed checks')
+-    protected=_fix05_protection();require(checks['protectedBefore']==protected,'protection differs from directed run')
+     cached={}
+     def caching_reader(p):
+         p=Path(p)
+         if p not in cached:cached[p]=read(p)
+         return cached[p]
+-    history=old_seals(caching_reader)
+-    partial=_fix05_partial_inventory()
++    protected=_fix05_protection(caching_reader)
++    require(checks['protectedBefore']==protected,'protection differs from directed run')
++    history=old_seals(caching_reader);partial=_review01_partial(caching_reader)
+     m=model(caching_reader,partial=partial)
+-    require(_fix05_core_digest(m)==checks['coreModelSha256'],'directed/generation core model mismatch')
+-    old_driver=caching_reader(OLD17F4/'source/m17_driver.py');driver=caching_reader(DRIVER)
+-    delta=_fix05_delta(old_driver,driver)
++    require(sha(jb(m))==checks['modelSha256'] and _fix05_core_digest(m)==checks['coreModelSha256'],
++        'directed/generated model identity differs')
++    old_driver=caching_reader(OLD17F5/'source/m17_driver.py');driver=caching_reader(DRIVER)
++    delta=_review01_delta(old_driver,driver);require(delta==checks['sourceDelta'],'source function delta differs')
+     artifacts=source_artifacts(m,driver,old_driver,checks,history)
+     receipt=strict(artifacts['authority/source-receipt.json'])
+     receipt['sourceDelta']=delta
+-    receipt['partialProtection']={'kind':partial['kind'],'owner':OWNER,'capturedAtUtc':partial['capturedAtUtc'],
+-        'roots':partial['roots'],'files':len(partial['files']),'directories':len(partial['directories']),
+-        'manifestSha256':sha(jb(partial)),'rawManifest':'authority/prepare.json#/model/partialProtection',
+-        'enumerationsPerRoot':1,'linksAccepted':0,'newEvidenceNotOldReceipt':True,
+-        'historicalHostExitAndFullLineageClosure':'UNKNOWN_NOT_INFERRED','materialAccepted':False}
++    receipt['mechanicalGeneration']={'entry':'m17_driver.py prepare','attempts':1,'maxSeconds':30,
++        'sourceAuthor':OWNER,'SDKScan':False,'historicalSuitesRerun':False,'partialNewEnumerations':0,
++        'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT}
++    receipt['partialProtection']={'captureOwner':partial['owner'],'capturedAtUtc':partial['capturedAtUtc'],
++        'files':len(partial['files']),'directories':len(partial['directories']),'manifestSha256':PARTIAL_CAPTURE_SHA,
++        'rawManifest':'authority/prepare.json#/model/partialProtection','originalEnumerationsPerRoot':1,
++        'newEnumerationsThisDelivery':0,'historicalExitAndFullLineageClosure':'UNKNOWN_NOT_INFERRED','materialAccepted':False}
++    receipt['reviewFixes']={'4242623018':_review01_documents(caching_reader),
++        '4242623020':{'historicalSuccessRecord':identity(DOC/'central-loc-m17-fix05-seal-success.json',
++            caching_reader(DOC/'central-loc-m17-fix05-seal-success.json')),'currentExternalRequirement':EXTERNAL_SOURCE_RECEIPT}}
+     receipt['modelPolicy']={'requestedModel':'gpt-6-astra','requestedEffort':'xhigh',
+-        'sourceProcessCanObserveActualModel':False,'ownerActualTurn':OWNER['turnId']}
+-    receipt['mechanicalGeneration']={'command':command,'attempts':1,'maxSeconds':30,'SDKScan':False,'fullSuite':False,
+-        'F4ModelOnlyBaseline':True,'directedCoreModelMatches':True,'elapsedBeforeSealing':time.monotonic()-started,
+-        'fullInvocationClock':'invoking tool stdout FINAL_COMMAND_CLOCK includes interpreter/import, prepare, final disk readback and hashes',
+-        'actualToolId':'assigned by invoking tool; bind from this exact owner turn, not a fabricated chunk ID'}
+-    receipt['verificationLimits']={'directedAttempts':1,'directedSeconds':10,'mechanicalAttempts':1,'mechanicalSeconds':30,
+-        'sourceBytes':16*1024**2,'driverBytes':256*1024,'materialExecution':False,'automaticRetry':False}
++        'actualModelVisibleToSourceProcess':False,'actualAuthorTurn':OWNER['turnId']}
+     artifacts['authority/source-receipt.json']=jb(receipt)
++    # Validate every pre-existing leaf before any additional candidate write.
++    require(artifacts['source/m17_driver.py']==read(DRIVER) and
++        artifacts['authority/offline-checks.json']==checks_bytes,'immutable authored/checked input')
+     frozen=seal_source(m,artifacts);memory={E/rel:b for rel,b in artifacts.items()}
+     consume_source(frozen,lambda p:memory[p],m)
+     for rel,b in artifacts.items():
+         path=E/rel
+-        if path in (DRIVER,checks_path):
+-            require(read(path)==b,'existing source/checks immutable during sealing');continue
++        if path in (DRIVER,checks_path):continue
+         require(not os.path.lexists(path),'new source leaf collision');path.parent.mkdir(parents=True,exist_ok=True)
+         with path.open('xb') as stream:stream.write(b)
+     freeze_path=E/'authority/source-freeze.json'
+     with freeze_path.open('xb') as stream:stream.write(frozen)
+-    consume_source(read(freeze_path),expected_model=m)
++    consume_source(read(freeze_path))
+     require({str(p) for p in E.rglob('*') if p.is_file()}=={str(E/rel) for rel in PREP},'exact eight source leaves')
+     require(_fix05_protection()==protected and old_seals()==history,'final historical preservation')
+     _fix05_partial_unchanged(partial);_fix05_roots_absent()
++    require(not os.path.lexists(REVIEW01_SIDECAR),'sidecar must be captured only after tool completion')
+     leaves=[identity(E/rel) for rel in PREP];elapsed=time.monotonic()-started
+-    require(elapsed<=30,'FIX05 mechanical generation time cap')
+-    print(json.dumps({'status':'SOURCE_READY_NOT_MATERIAL_READY','checks':checks['passed'],'attempts':1,
+-        'directedSeconds':checks['elapsedSeconds'],'mechanicalFunctionSeconds':elapsed,
+-        'modelSha256':sha(jb(m)),'freeze':identity(freeze_path),'leaves':leaves,'totalBytes':sum(r['bytes'] for r in leaves),
+-        'sourceDelta':delta,'protectedCount':len(protected),'partialFiles':len(partial['files']),
+-        'partialDirectories':len(partial['directories']),'GETs':0,'restores':0,'SDKScan':False},ensure_ascii=False))
++    require(elapsed<=30,'REVIEW01 mechanical generation time cap')
++    print(json.dumps({'status':'SOURCE_SEALED_EXTERNAL_RECEIPT_REQUIRED','sourceAuthor':OWNER,'checks':checks['passed'],
++        'attempts':1,'directedSeconds':checks['elapsedSeconds'],'mechanicalFunctionSeconds':elapsed,
++        'modelSha256':sha(jb(m)),'freeze':identity(freeze_path),'leaves':leaves,
++        'totalBytes':sum(r['bytes'] for r in leaves),'sourceDelta':delta,
++        'protectedCount':len(protected),'partialFiles':2576,'partialDirectories':909,'partialNewEnumerations':0,
++        'GETs':0,'restores':0,'SDKScan':False,'historicalSuitesRerun':False,
++        'externalCommandReceiptRequirement':EXTERNAL_SOURCE_RECEIPT},ensure_ascii=False))
+     return 0
+ 
+ def main():

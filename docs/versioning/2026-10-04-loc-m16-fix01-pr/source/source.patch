@@ -1,0 +1,664 @@
+--- /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16/source/m16_driver.py
++++ /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16-fix01/source/m16_driver.py
+@@ -28,7 +28,8 @@
+ def evidence(n):
+     return BASE / f'loc-lic-alt-yamldotnet-16.3.0-m{n:02}'
+ T09, T13, T = temp(9), temp(13), temp(16)
+-E13, E14, E = evidence(13), evidence(14), evidence(16)
++E13, E14, ORIGINAL_E16 = evidence(13), evidence(14), evidence(16)
++E = BASE / 'loc-lic-alt-yamldotnet-16.3.0-m16-fix01'
+ M = Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m16')
+ G = BASE / 'license-gap-bodies-15'
+ DRIVER = E / 'source/m16_driver.py'
+@@ -37,13 +38,20 @@
+ SOURCE = T09 / 'replay/m01/source-patched'
+ DOTNET = Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet')
+ OWNER = {'threadId': '01a0f40d-b0c5-7bc0-a2b2-be9d1213648a', 'hostId': 'local',
+-         'turnId': '01a0f70e-ccb6-7ed0-ba29-f94ca6de4fdc'}
++         'turnId': '01a10625-f930-7e51-a03a-d47ea096074a'}
+ AUTHORITY = {'threadId': '01a0e401-511d-79f2-b47f-3ab0ade1681b', 'hostId': 'local',
+-             'activationItem': 'fco_01a0f70e-ccc0-77f2-97f5-f5e3a9e0c0cd',
++             'activationItem': 'fco_01a10625-f938-7d41-b43f-d0ff6b145a98',
+              'scope': 'SOURCE_PREPARATION_ONLY'}
+ PREP = ('source/m16_driver.py', 'source/m16-inputs.tsv', 'source/m16-write-set.tsv',
+-        'authority/prepare.json', 'authority/offline-checks.json', 'authority/source-freeze.json')
++        'authority/prepare.json', 'authority/offline-checks.json', 'authority/source-freeze.json',
++        'authority/correction-receipt.json', 'source/source.patch')
+ PROTECTED = ('HOME', 'home', 'CODEX_HOME')
++# FIX01 has source authority only. Neither stdin, argv nor environment may
++# supply this trust root. A future reviewed host integration must pin the
++# independently issued central record before any execute call is possible.
++TRUSTED_CENTRAL_ACTIVATION = None
++FIX01_RED = json.loads("{\"phase\":\"initial-red\",\"checks\":[{\"finding\":4163732956,\"status\":\"RED_REPRODUCED\",\"symptom\":\"truncated DLL plus two licenses accepted\"},{\"finding\":4163732959,\"status\":\"RED_REPRODUCED\",\"symptom\":\"caller-invented stdin activation accepted\"},{\"finding\":4163732952,\"status\":\"RED_REPRODUCED\",\"symptom\":\"successful receipts accepted without reading any candidate output\"}],\"expectedFailedAssertions\":3,\"oldSixLeavesBefore\":[{\"relativePath\":\"source/m16_driver.py\",\"bytes\":125870,\"sha256\":\"0d4f0e7baccf14862eb5fce8dfdb558ccafacdd45f1683e8880c70c482d7dbf8\"},{\"relativePath\":\"source/m16-inputs.tsv\",\"bytes\":4911291,\"sha256\":\"946cc41177d30cc5f53cd99a9c675933073af8b357493cdef96245ee8112f41d\"},{\"relativePath\":\"source/m16-write-set.tsv\",\"bytes\":1047831,\"sha256\":\"44b554a689f71c230ae42ad73abc507d8a1ba4ff40ebd0d40c9f8f3d766396b0\"},{\"relativePath\":\"authority/prepare.json\",\"bytes\":2497865,\"sha256\":\"f36e61e053cc61e87a1f635962fe64d46fd9d4ab98f742cd0ff9cb54b4131fd6\"},{\"relativePath\":\"authority/offline-checks.json\",\"bytes\":2977,\"sha256\":\"b8c09607f3a7f4c2eb6bfa497fccc07ee586973acff30f0fcd84e989f9675844\"},{\"relativePath\":\"authority/source-freeze.json\",\"bytes\":2666,\"sha256\":\"0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50\"}],\"newRootAbsent\":true,\"rootsUnchangedBefore\":{\"T16\":false,\"M16\":false},\"childStarts\":0,\"networkRequests\":0,\"durationSeconds\":0.04565016600099625}")
++FIX01_RED_COMMAND = "/opt/homebrew/bin/python3 -B - <<'PY'\nimport ast, contextlib, hashlib, io, json, time\nfrom pathlib import Path\nstarted=time.monotonic()\nrepo=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\nold=repo/'TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m16'\nnew=Path(str(old)+'-fix01')\nsha=lambda b:hashlib.sha256(b).hexdigest()\nfreeze=json.loads((old/'authority/source-freeze.json').read_bytes())\nassert not new.exists()\nassert sha((old/'authority/source-freeze.json').read_bytes())=='0c9960ae9b861e023b26a8ff914ace2e6cd0021edf8784650261076ab1abaf50'\nbefore=[]\nfor rel in freeze['expectedSixLeaves']:\n    p=old/rel;b=p.read_bytes();before.append({'relativePath':rel,'bytes':len(b),'sha256':sha(b)})\nfor item in freeze['filesExcludingThisSeal']:\n    b=Path(item['path']).read_bytes();assert len(b)==item['bytes'] and sha(b)==item['sha256']\nassert {p.relative_to(old).as_posix() for p in old.rglob('*') if p.is_file()}==set(freeze['expectedSixLeaves'])\nns={'__name__':'m16_red_baseline'}\nexec(compile((old/'source/m16_driver.py').read_bytes(),str(old/'source/m16_driver.py'),'exec'),ns)\nhead='a'*40;manifest='b'*64;runner=Path('/synthetic-b-runner')\ndata={runner/'YamlDotNet.dll':b'fixture-dll',runner/'licenses/YamlDotNet/LICENSE':b'yaml-license',runner/'licenses/fallback/LICENSE':b'fallback-license'}\nindependent=Path('/synthetic-independent.json');accepted=ns['json_bytes']({'verdict':'ACCEPT','reviewedHead':head});data[independent]=accepted\nreceipt={'status':'B-ACCEPTED','materialManifestSha256':manifest,'reviewedHead':head,'authorThread':'author','independentAcceptance':{'verdict':'ACCEPT','ownerThread':'independent','reviewedHead':head,'receiptPath':str(independent),'receiptSha256':sha(accepted)},'runnerFiles':[{'relativePath':'YamlDotNet.dll','bytes':11,'sha256':sha(b'fixture-dll')}],'licenseFiles':[{'relativePath':p.relative_to(runner).as_posix(),'bytes':len(b),'sha256':sha(b)} for p,b in data.items() if p.is_relative_to(runner/'licenses')],'fallbackLicenseFiles':['licenses/fallback/LICENSE']}\nchecks=[]\nassert ns['check_b_data'](receipt,runner,lambda p:data[p],lambda root:[p.relative_to(root).as_posix() for p in data if p.is_relative_to(root)],manifest) is True\nchecks.append({'finding':4163732956,'status':'RED_REPRODUCED','symptom':'truncated DLL plus two licenses accepted'})\nfake={'centralThread':ns['AUTHORITY']['threadId'],'scope':'EXECUTE_M16','ownerThread':ns['OWNER']['threadId'],'ownerHost':'local','ownerTurn':'invented-turn','reviewedHead':head,'executionHead':head,'reviewStatus':'COMPLETED_NO_UNRESOLVED_FINDINGS','sourceFreezeSha256':'f'*64,'driverSha256':'d'*64,'argv':['synthetic'],'restoreLimits':{'runner':0,'testsGeneration':1,'testsVerification':1}}\nassert ns['check_activation'](fake,{'sourceReady':True,'executorComplete':True,'materialWriteSetComplete':True},'f'*64,'d'*64,['synthetic']) is True\nchecks.append({'finding':4163732959,'status':'RED_REPRODUCED','symptom':'caller-invented stdin activation accepted'})\ncommands=[];documents={}\nfor scenario in ('yaml','unity-asset','fightmatch','005'):\n    for side in ('oracle','candidate-1','candidate-2'):\n        cid='B-'+scenario+'-'+side\n        command={'id':cid,'stage':'B','role':'DUT','receiptPath':'/synthetic/'+cid+'.json','argv':['dotnet',cid],'expectedExit':0,'creates':['/synthetic/'+cid+'/raw']}\n        commands.append(command);documents[command['receiptPath']]={'role':'DUT','argv':command['argv'],'quiescent':True,'exitCode':0}\ndocuments[str(ns['M']/'identity/commands.json')]={'commands':commands,'controlAssertions':{'otherBControls':'semantic, raw-byte and canonical publication comparisons required'}}\nns['jload']=lambda p:documents[str(p)]\nwith contextlib.redirect_stdout(io.StringIO()):\n    assert ns['assert_controls']('B')==0\nchecks.append({'finding':4163732952,'status':'RED_REPRODUCED','symptom':'successful receipts accepted without reading any candidate output'})\nresult={'phase':'initial-red','checks':checks,'expectedFailedAssertions':3,'oldSixLeavesBefore':before,'newRootAbsent':True,'rootsUnchangedBefore':{'T16':ns['T'].exists(),'M16':ns['M'].exists()},'childStarts':0,'networkRequests':0,'durationSeconds':time.monotonic()-started}\nprint(json.dumps(result,ensure_ascii=False))\nraise SystemExit(1)\nPY"
+ 
+ class GateError(RuntimeError):
+     pass
+@@ -307,7 +315,27 @@
+ 
+ 
+ def check_activation(activation,freeze,freeze_sha,source_sha,argv):
+-    """Pure data gate; absence of any authority/review binding fails closed."""
++    """Production entry: this SOURCE_ONLY revision has no execution trust pin."""
++    require(TRUSTED_CENTRAL_ACTIVATION is not None,'BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION')
++    pin=TRUSTED_CENTRAL_ACTIVATION
++    return verify_central_activation(pin,raw(Path(pin['path'])),activation,freeze,freeze_sha,source_sha,argv)
++
++def verify_central_activation(pin,record_bytes,activation,freeze,freeze_sha,source_sha,argv):
++    """Pure verifier for a host-provided pin; never an alternative CLI entry.
++
++    Positive offline fixtures exercise this seam, not an authorized execution.
++    A pin copied from the caller is not a trusted-host integration.
++    """
++    require(isinstance(pin,dict) and Path(pin.get('path','')).is_absolute(),'BLOCKED_CENTRAL_PIN')
++    require(pin.get('bytes')==len(record_bytes) and pin.get('sha256')==digest(record_bytes),'BLOCKED_CENTRAL_RECORD_IDENTITY')
++    record=json_data(record_bytes)
++    for field in ('centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn'):
++        require(isinstance(pin.get(field),str) and pin[field] and record.get(field)==pin[field],'BLOCKED_CENTRAL_RECORD_'+field)
++    require(record['centralThread']==AUTHORITY['threadId'] and record['centralHost']=='local','BLOCKED_CENTRAL_HOST')
++    require(all(re.fullmatch('[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}',record[field])
++                for field in ('centralTurn','centralItem','ownerTurn')),'BLOCKED_CENTRAL_MESSAGE_IDENTITY')
++    require(record.get('scope')=='EXECUTE_M16','BLOCKED_CENTRAL_SCOPE')
++    require(activation==record,'BLOCKED_CALLER_RECORD_DIFFERS_FROM_TRUSTED_RECORD')
+     require(isinstance(activation,dict),'BLOCKED_EXECUTION_NOT_AUTHORIZED')
+     require(freeze.get('sourceReady') is True and freeze.get('executorComplete') is True and
+             freeze.get('materialWriteSetComplete') is True,'BLOCKED_SOURCE_NOT_READY')
+@@ -454,7 +482,7 @@
+ BROOT=Path('/private/tmp/fightmatch-loc-lic-alt-b01/loc-lic-alt-yamldotnet-16.3.0-b01')
+ LROOT=Path('/private/tmp/fightmatch-loc-lic-alt-l01/loc-lic-alt-yamldotnet-16.3.0-l01')
+ STAGE=T/'stage-material'
+-ROOTS={'T16':T,'E16':E,'M16':M}
++ROOTS={'T16':T,'E16':ORIGINAL_E16,'M16':M,'F01':E}
+ DOTNET_SHA='e307c181562634fd59416032f56d506f85de5b405604dae4a20e2117e8709686'
+ PYTHON_SHA='a708f6e9f4803b806b29146c4e0feecfd9bf2d9eb60f3e15b850cd7cb56f200b'
+ FIX02=REPO/'TestArtifacts/FightMatch/LOC-IMPL-A/ea05eae763b6facb54c3db540f52c5d63867c7de48ca08ab6455c009c871eedf-fix-02'
+@@ -1060,12 +1088,15 @@
+         c['role']='harness' if c['id'].endswith('-assert-controls') else 'DUT'
+         c['receiptPath']=str((BROOT if c['stage']=='B' else LROOT)/'logs'/(c['id']+'.json'))
+     return {'schemaVersion':1,'commands':commands,'executionAuthorized':False,
++        'outputComparisons':b_output_comparisons(),
+         'setup':{'B':'Fresh source and per-project locks copied from M for each of three roots; local-only NuGet.Config. Copy harness/preflight-005 scratch into each of three controls/005 roots before its fixed DAG.',
+             'L':'Copy compiler runtimeconfig and three negative inputs from fixed FIX02 receipts into L. Bind accepted B receipt hash in separate L authority before identity adaptation.',
+             'BOfficialHarness':'Unchanged CsharpCompileHarness runs in testhost; its GeneratedConsumer builds use the isolated TMPDIR and local config at that root; no network or global fallback.'},
+         'officialFixtureMatrix':{'authority':'source-patched/src/Luban.Tests; all fixtures retained','topLevelTests':1,'noFiltering':True},
+         'futureBReceiptContract':{'path':str(BROOT/'identity/accepted-b.json'),'requiredStatus':'B-ACCEPTED',
+-            'requiredFields':['materialManifestSha256','runnerFiles','licenseFiles','reviewedHead','independentAcceptance'],
++            'requiredFields':['materialManifestSha256','deploymentContractSha256','runnerPackageKeys','runnerFiles','licenseFiles','reviewedHead','independentAcceptance'],
++            'independentReceiptRequiredFields':['materialManifestSha256','deploymentContractSha256','runnerPackageKeys',
++                'runnerFilesSha256','licenseFilesSha256','reviewedHead','verdict'],
+             'filesSchema':['relativePath','bytes','sha256'],'noFutureBuildBytesInvented':True},
+         'LSourceContract':'Future L owns private identity adaptation of source/Program.cs from accepted B receipt; no source modification authorized by M.',
+         'controlAssertions':{'malformed-yaml':'both DUT nonzero; diagnostics nonempty; no output files',
+@@ -1221,7 +1252,7 @@
+                                     output=Path(entry).name
+                                     if kind=='resource':output=metadata['locale']+'/'+output
+                                     if kind=='runtimeTargets':output=entry
+-                                elif kind=='contentFiles' and metadata.get('copyToOutput') is True:
++                                elif graph=='runner' and kind=='contentFiles' and metadata.get('copyToOutput') is True:
+                                     output=metadata.get('outputPath',Path(entry).name)
+                                 if output!='N/A_NOT_DEPLOYED':
+                                     safe_relative(output)
+@@ -1247,6 +1278,15 @@
+                     if node.tag.split('}')[-1]=='AssemblyName':assembly=node.text
+                 deployment.add(('project',assembly,'v5.1.0+two-package-references',project,assembly+'.dll','project-output',
+                                 'licenses/Luban/LICENSE','a7bfa87431fde61f7408e30cd6ce57fe676638c651f5c04dc90fa3de43d28841'))
++                # Fixed Release publish uses portable PDBs and the root apphost
++                # metadata. These are a frozen set, not future B self-reports.
++                extras=[(assembly+'.pdb','project-symbols')]
++                if project==graphs['runner']['root']:
++                    extras += [(assembly,'apphost'),(assembly+'.deps.json','dependency-manifest'),
++                               (assembly+'.runtimeconfig.json','runtime-config')]
++                for output,kind in extras:
++                    deployment.add(('project',assembly,'v5.1.0+two-package-references',project,output,kind,
++                        'licenses/Luban/LICENSE','a7bfa87431fde61f7408e30cd6ce57fe676638c651f5c04dc90fa3de43d28841'))
+                 for node in root.iter():
+                     if node.tag.split('}')[-1] not in ('Content','None'):continue
+                     copy_to=next((c.text for c in node if c.tag.split('}')[-1]=='CopyToOutputDirectory'),None)
+@@ -1424,7 +1464,95 @@
+             'materialFiles':len(entries)+1}
+ 
+ 
+-def check_b_data(receipt,runner,read,enumerate_files,manifest_sha):
++def table_data(data,required_header):
++    require(not data.startswith(b'\xef\xbb\xbf') and b'\r' not in data and data.endswith(b'\n'),'noncanonical material table')
++    reader=csv.DictReader(io.StringIO(data.decode('utf-8')),delimiter='\t')
++    require(reader.fieldnames==required_header,'material table header differs')
++    result=list(reader)
++    require(all(None not in r and all(v is not None for v in r.values()) for r in result),'material table width differs')
++    return result
++
++def frozen_material_file(relative,read=raw,manifest_bytes=None):
++    manifest_bytes=read(M/'identity/material-files.tsv') if manifest_bytes is None else manifest_bytes
++    entries=table_data(manifest_bytes,SCHEMAS['material-files.tsv'].split())
++    bypath={safe_relative(r['relativePath']):r for r in entries}
++    require(len(bypath)==len(entries) and relative in bypath,'material manifest set invalid')
++    item=bypath[relative];data=read(M/safe_relative(relative))
++    require(len(data)==int(item['bytes']) and digest(data)==item['sha256'],'frozen material file drift: '+relative)
++    return data
++
++def deployment_contract(manifest_bytes,read=raw):
++    names=('expected-deployment.tsv','package-closure.tsv','package-files.tsv','package-entries.tsv',
++           'license-files.tsv','source-files.tsv','runner-projects.tsv')
++    tables={};hashes={}
++    for name in names:
++        b=frozen_material_file('identity/'+name,read,manifest_bytes);hashes[name]=digest(b)
++        header=SCHEMAS['tests-projects.tsv'].split() if name=='runner-projects.tsv' else SCHEMAS[name].split()
++        tables[name]=table_data(b,header)
++    package_keys={(r['packageId'].lower(),r['version']) for r in tables['package-files.tsv'] if r['graph']=='runner'}
++    closure_keys={(r['packageId'].lower(),r['version']) for r in tables['package-closure.tsv'] if r['graph']=='runner'}
++    require(package_keys and package_keys==closure_keys,'runner package closure differs from frozen package set')
++    require(not any(k[0]=='yamldotnet.netcore' for k in package_keys),'forbidden old YAML package')
++    project_paths={r['projectRelativePath'] for r in tables['runner-projects.tsv']}
++    required_licenses={};source_bytes={};required_runner={};selected={};seen_projects=set()
++    for row in tables['license-files.tsv']:
++        if (row['component'].lower(),row['version']) in package_keys or row['component']=='Luban':
++            rel=safe_relative(row['localRelativePath']);value=(int(row['bytes']),row['sha256'])
++            require(rel not in required_licenses or required_licenses[rel]==value,'license identity conflict')
++            b=frozen_material_file(rel,read,manifest_bytes)
++            require((len(b),digest(b))==value,'license table/file identity mismatch')
++            required_licenses[rel]=value
++    covered_owners={(r['component'].lower(),r['version']) for r in tables['license-files.tsv']}
++    require(package_keys.issubset(covered_owners) and required_licenses,'package lacks frozen full-license identity')
++    for row in tables['source-files.tsv']:
++        source_bytes[row['relativePath']]=(int(row['bytes']),row['sha256'])
++    for row in tables['package-entries.tsv']:
++        if row['graph']!='runner' or row['selected']!='true' or row['expectedDeploymentPath']=='N/A_NOT_DEPLOYED':continue
++        key=(row['packageId'].lower(),row['version'],row['entryPath'],safe_relative(row['expectedDeploymentPath']))
++        require(key[:2] in package_keys,'deployment entry outside package closure')
++        value=(int(row['bytes']),row['sha256'])
++        require(key not in selected or selected[key]==value,'selected entry identity conflict');selected[key]=value
++    mapped=set()
++    for row in tables['expected-deployment.tsv']:
++        target=safe_relative(row['expectedRunnerRelativePath']);license_path=safe_relative(row['licenseRelativePath'])
++        require(license_path in required_licenses and required_licenses[license_path][1]==row['licenseSha256'],
++                'deployment license outside complete frozen license set')
++        if row['ownerKind']=='package':
++            key=(row['ownerId'].lower(),row['ownerVersion'],row['sourceEntryOrProject'],target)
++            require(key in selected,'expected deployment not selected by frozen runner assets')
++            identity_value=selected[key];mapped.add(key)
++        else:
++            require(row['ownerKind']=='project','unsupported deployment owner')
++            if row['assetKind']=='content':
++                key='source-patched/'+safe_relative(row['sourceEntryOrProject'])
++                require(key in source_bytes,'project content source absent');identity_value=source_bytes[key]
++            else:
++                require(row['sourceEntryOrProject'] in project_paths,'project output outside frozen graph')
++                identity_value=None  # B bytes must be bound by its independent receipt.
++                if row['assetKind']=='project-output':seen_projects.add(row['sourceEntryOrProject'])
++        require(target not in required_runner or required_runner[target]==identity_value,'deployment target identity collision')
++        required_runner[target]=identity_value
++    require(mapped==set(selected) and seen_projects==project_paths,'incomplete frozen deployment mapping')
++    require(required_runner and not set(required_runner).intersection(required_licenses),'runner/license namespace collision')
++    return {'runnerFiles':required_runner,'licenseFiles':required_licenses,
++            'packageKeys':[list(k) for k in sorted(package_keys)],
++            'sha256':digest(json_bytes({'materialManifestSha256':digest(manifest_bytes),'tables':hashes}))}
++
++def receipt_file_map(items):
++    require(isinstance(items,list) and items,'empty receipt file list')
++    result={}
++    for item in items:
++        rel=safe_relative(item['relativePath'])
++        require(rel not in result and type(item['bytes']) is int and item['bytes']>=0 and
++                re.fullmatch('[0-9a-f]{64}',item['sha256']),'invalid/duplicate receipt identity')
++        result[rel]=(item['bytes'],item['sha256'])
++    return result
++
++def file_map_digest(file_map):
++    return digest(json_bytes([[rel,*file_map[rel]] for rel in sorted(file_map)]))
++
++def check_b_data(receipt,runner,read,enumerate_files,manifest_sha,deployment=None):
++    require(deployment is not None,'B gate requires independently frozen deployment/closure')
+     require(receipt.get('status')=='B-ACCEPTED','B receipt not accepted')
+     require(receipt.get('materialManifestSha256')==manifest_sha,'B receipt material mismatch')
+     require(re.fullmatch('[0-9a-f]{40}',receipt.get('reviewedHead','')) is not None,'B head missing')
+@@ -1437,6 +1565,20 @@
+     independent=json_data(accepted_raw)
+     require(independent.get('verdict')=='ACCEPT' and independent.get('reviewedHead')==receipt['reviewedHead'],
+             'B independent receipt does not accept this head')
++    runner_map=receipt_file_map(receipt['runnerFiles']);license_map=receipt_file_map(receipt['licenseFiles'])
++    require(set(runner_map)==set(deployment['runnerFiles']) and set(license_map)==set(deployment['licenseFiles']),
++            'B runner/license set differs from complete frozen deployment')
++    require(receipt.get('runnerPackageKeys')==deployment['packageKeys'] and
++            receipt.get('deploymentContractSha256')==deployment['sha256'],'B package/deployment contract mismatch')
++    for expected_group,actual_group in [(deployment['runnerFiles'],runner_map),(deployment['licenseFiles'],license_map)]:
++        for rel,expected in expected_group.items():
++            require(expected is None or actual_group[rel]==expected,'B frozen entry/license identity mismatch: '+rel)
++    require(independent.get('materialManifestSha256')==manifest_sha and
++            independent.get('deploymentContractSha256')==deployment['sha256'] and
++            independent.get('runnerPackageKeys')==deployment['packageKeys'] and
++            independent.get('runnerFilesSha256')==file_map_digest(runner_map) and
++            independent.get('licenseFilesSha256')==file_map_digest(license_map),
++            'B independent acceptance does not bind full artifact identities')
+     expected={};licenses=set()
+     for group in ('runnerFiles','licenseFiles'):
+         require(isinstance(receipt.get(group),list) and receipt[group],'B empty file set')
+@@ -1456,9 +1598,10 @@
+ def check_b(receipt_path,runner,expect):
+     # A future L activation must additionally pin the independently accepted
+     # receipt itself. This gate checks its contents; it grants no execution.
+-    receipt=jload(receipt_path);manifest=identity(M/'identity/material-files.tsv')['sha256']
++    receipt=jload(receipt_path);manifest_bytes=raw(M/'identity/material-files.tsv');manifest=digest(manifest_bytes)
++    deployment=deployment_contract(manifest_bytes)
+     try:
+-        check_b_data(receipt,runner,raw,lambda root:[p.relative_to(root).as_posix() for p in files(root)],manifest)
++        check_b_data(receipt,runner,raw,lambda root:[p.relative_to(root).as_posix() for p in files(root)],manifest,deployment)
+         passed=True;reason=None
+     except (GateError,OSError,ValueError,KeyError) as error:
+         passed=False;reason=str(error)
+@@ -1466,23 +1609,115 @@
+     print(json.dumps({'gatePassed':passed,'role':'DUT','exitCode':0 if passed else 20,'expected':expect,'reason':reason},ensure_ascii=False))
+     return 0 if passed else 20
+ 
+-def assert_controls(stage):
+-    contract=jload(M/'identity/commands.json');checked=[]
++def b_output_comparisons():
++    sides=('oracle','candidate-1','candidate-2');groups=[]
++    for scenario in ('yaml','unity-asset','fightmatch'):
++        groups.append({'id':scenario,'format':'yaml-fixture' if scenario=='yaml' else 'json',
++            'outputs':{side:{'rawRoot':str(BROOT/'controls'/scenario/side)} for side in sides}})
++    for number in (1,2):
++        groups.append({'id':'005-pass-'+str(number),'format':'json','outputs':{
++            side:{'rawRoot':str(BROOT/'controls/005'/side/f'pass-{number}/raw'),
++                  'canonicalPath':str(BROOT/'controls/005'/side/f'pass-{number}/canonical.json'),
++                  'semanticDigestPath':str(BROOT/'controls/005'/side/f'pass-{number}/semantic-digest.txt')} for side in sides}})
++    return groups
++
++def yaml_fixture_semantics(data):
++    """Parse only the frozen yml Item fixture's sequence of flat scalar maps.
++
++    The approved fixture has id/name/price fields. Unsupported YAML constructs
++    fail closed instead of being normalized by an unpinned new dependency.
++    """
++    result=[];current=None
++    for line in data.decode('utf-8-sig').splitlines():
++        if not line.strip() or line in ('---','...'):continue
++        first=line.startswith('- ')
++        require(first or line.startswith('  '),'unsupported YAML fixture indentation')
++        if first:current={};result.append(current)
++        require(current is not None,'YAML fixture mapping before sequence')
++        match=re.fullmatch(r'([A-Za-z_][A-Za-z_0-9]*):\s*(.*)',line[2:])
++        require(match is not None,'unsupported YAML fixture mapping')
++        name,value=match.groups();require(name not in current,'duplicate YAML field')
++        if name in ('id','price'):
++            require(re.fullmatch(r'-?(?:0|[1-9][0-9]*)',value) is not None,'YAML fixture integer type differs')
++            value=int(value)
++        elif name=='name':
++            if value.startswith("'"):
++                require(re.fullmatch(r"'(?:[^']|'')*'",value) is not None,'invalid YAML quoted scalar')
++                value=value[1:-1].replace("''","'")
++            elif value.startswith('"'):
++                value=json_data(value.encode());require(isinstance(value,str),'YAML scalar type differs')
++            else:
++                require(re.fullmatch(r'[A-Za-z][A-Za-z0-9 _-]*',value) is not None,'unsupported YAML plain scalar')
++        else:raise GateError('unexpected YAML fixture field')
++        current[name]=value
++    require(result and all(set(row)=={'id','name','price'} for row in result),'incomplete YAML fixture record')
++    return result
++
++def compare_control_outputs(groups,read,enumerate_files):
++    receipts=[]
++    for group in groups:
++        observations={}
++        require(set(group['outputs'])=={'oracle','candidate-1','candidate-2'},'control counterpart missing')
++        for side,paths in group['outputs'].items():
++            root=Path(paths['rawRoot']);relative=list(enumerate_files(root))
++            require(relative and len(relative)==len(set(relative)),'empty/duplicate control output set')
++            raw_outputs={};semantic={}
++            for rel in sorted(relative):
++                b=read(root/safe_relative(rel));raw_outputs[rel]=b
++                if group['format']=='yaml-fixture':
++                    require(Path(rel).suffix in ('.yml','.yaml'),'unexpected YAML output extension')
++                    semantic[rel]=yaml_fixture_semantics(b)
++                else:
++                    require(group['format']=='json' and Path(rel).suffix=='.json','unexpected JSON control output')
++                    semantic[rel]=json_data(b)
++            canonical=json_bytes(semantic)
++            item={'raw':raw_outputs,'semantic':semantic,'canonical':canonical}
++            if 'canonicalPath' in paths:
++                publication=read(Path(paths['canonicalPath']));parsed=json_data(publication)
++                reported_digest=read(Path(paths['semanticDigestPath'])).decode('ascii').strip()
++                require(re.fullmatch('[0-9a-f]{64}',reported_digest) and reported_digest==digest(publication),
++                        '005 semantic digest does not bind actual canonical bytes')
++                item.update({'publicationRaw':publication,'publicationSemantic':parsed,
++                             'publicationCanonical':json_bytes(parsed),'publicationDigest':reported_digest})
++            observations[side]=item
++        oracle=observations['oracle']
++        for side in ('candidate-1','candidate-2'):
++            actual=observations[side]
++            for layer in oracle:
++                require(actual[layer]==oracle[layer],'B control '+group['id']+' '+side+' '+layer+' mismatch')
++        receipts.append({'id':group['id'],'raw':'PASS','semantic':'PASS','canonical':'PASS',
++                         'publication':'PASS' if 'publicationRaw' in oracle else 'canonical projection of actual raw outputs',
++                         'files':len(oracle['raw']),'canonicalSha256':digest(oracle['canonical'])})
++    require(receipts,'B control comparisons missing')
++    return receipts
++
++def assert_controls_data(stage,contract,read,enumerate_files):
++    checked=[]
+     for command in contract['commands']:
+         if command['stage']!=stage or command['role']=='harness':continue
+-        receipt=jload(Path(command['receiptPath']))
++        receipt=json_data(read(Path(command['receiptPath'])))
+         require(receipt['role']=='DUT' and receipt['argv']==command['argv'] and receipt['quiescent'] is True,
+                 'actual DUT process receipt incomplete')
+         actual=receipt['exitCode'];expected=command['expectedExit']
+         require((actual!=0) if expected=='nonzero' else (actual==expected),'DUT exit differs: '+command['id'])
+         if 'malformed-yaml' in command['id']:
+-            require(raw(Path(command['stderrPath'])),'malformed YAML lacks direct diagnostic')
+-            for root in map(Path,command['creates']):require(not root.exists() or not files(root),'malformed YAML published')
++            require(read(Path(command['stderrPath'])),'malformed YAML lacks direct diagnostic')
++            for root in map(Path,command['creates']):require(not enumerate_files(root),'malformed YAML published')
+         if command['id'] in ('L-negative-duplicate','L-negative-parameters','L-negative-severity'):
+             marker={'L-negative-duplicate':b'FMLOC002','L-negative-parameters':b'FMLOC007','L-negative-severity':b'FMLOC004'}[command['id']]
+-            require(marker in raw(Path(command['stdoutPath']))+raw(Path(command['stderrPath'])),'negative diagnostic differs')
++            require(marker in read(Path(command['stdoutPath']))+read(Path(command['stderrPath'])),'negative diagnostic differs')
+         checked.append(command['id'])
+-    print(json.dumps({'role':'harness','exitCode':0,'checkedActualDutReceipts':checked}));return 0
++    comparisons=[]
++    if stage=='B':
++        require(contract.get('outputComparisons')==b_output_comparisons(),'frozen B comparison set missing or altered')
++        comparisons=compare_control_outputs(contract['outputComparisons'],read,enumerate_files)
++    return {'role':'harness','exitCode':0,'checkedActualDutReceipts':checked,'outputComparisons':comparisons}
++
++def assert_controls(stage):
++    contract=json_data(frozen_material_file('identity/commands.json'))
++    result=assert_controls_data(stage,contract,raw,
++        lambda root:[p.relative_to(root).as_posix() for p in files(root)] if root.exists() else [])
++    print(json.dumps(result));return 0
+ 
+ 
+ def assemble_model():
+@@ -1649,6 +1884,7 @@
+ 
+ 
+ def execute():
++    require(TRUSTED_CENTRAL_ACTIVATION is not None,'BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION')
+     started=time.monotonic();freeze_path=E/'authority/source-freeze.json';freeze=jload(freeze_path)
+     freeze_sha=digest(raw(freeze_path));source_sha=digest(raw(DRIVER))
+     require(len(sys.argv)==2 and sys.argv[1]=='execute','exact execute argv required')
+@@ -1742,6 +1978,276 @@
+     return 1 if blocked else 0
+ 
+ 
++def fix01_memory_tree(data):
++    return lambda root:sorted(p.relative_to(root).as_posix() for p in data if p.is_relative_to(root))
++
++def fix01_b_fixture():
++    contract=future_command_contract({});data={}
++    for command in contract['commands']:
++        if command['stage']!='B' or command['role']=='harness':continue
++        actual=1 if command['expectedExit']=='nonzero' else command['expectedExit']
++        data[Path(command['receiptPath'])]=json_bytes({'role':'DUT','argv':command['argv'],'quiescent':True,'exitCode':actual})
++        data[Path(command['stdoutPath'])]=b'fixture stdout\n';data[Path(command['stderrPath'])]=b'fixture diagnostic\n'
++    for group in contract['outputComparisons']:
++        for paths in group['outputs'].values():
++            name='tbitem.yml' if group['format']=='yaml-fixture' else 'data.json'
++            body=b"- id: 1\n  name: 'sword'\n  price: 100\n- id: 2\n  name: 'shield'\n  price: 80\n" if name.endswith('.yml') else b'[{"id":1,"value":"same"}]\n'
++            data[Path(paths['rawRoot'])/name]=body
++            if 'canonicalPath' in paths:
++                b=json_bytes({'records':[{'id':1,'value':'same'}]})
++                data[Path(paths['canonicalPath'])]=b
++                data[Path(paths['semanticDigestPath'])]=(digest(b)+'\n').encode()
++    return contract,data
++
++def fix01_deployment_fixture():
++    data={};runner=Path('/synthetic-fix01/runner')
++    lic={'licenses/YamlDotNet/LICENSE':b'yaml-license','licenses/fallback/LICENSE':b'fallback-license',
++         'licenses/Luban/LICENSE':b'luban-license'}
++    packages=[('YamlDotNet','16.3.0','YamlDotNet.dll',b'yaml-dll','licenses/YamlDotNet/LICENSE'),
++              ('Fallback','1.0.0','Fallback.dll',b'fallback-dll','licenses/fallback/LICENSE')]
++    projects=['src/Luban/Luban.csproj','src/Luban.Core/Luban.Core.csproj']
++    table_rows={name:[] for name in ('expected-deployment.tsv','package-closure.tsv','package-files.tsv','package-entries.tsv',
++                                   'license-files.tsv','source-files.tsv','runner-projects.tsv')}
++    for name,version,leaf,body,license_path in packages:
++        table_rows['package-files.tsv'].append(['runner',name,version,'packages/'+name.lower()+'.nupkg',1,'a'*64,'fixture-sha512','fixture-catalog','fixture-url','fixture','','','fixture'])
++        table_rows['package-closure.tsv'].append(['runner',projects[0],projects[0],'N/A_PROJECT',name,version,'['+version+']','exact','Direct','net8.0','all','none','fixture'])
++        table_rows['package-entries.tsv'].append(['runner',projects[0],name,version,'lib/net8.0/'+leaf,'runtime','net8.0',len(body),digest(body),'true',leaf])
++        table_rows['expected-deployment.tsv'].append(['package',name,version,'lib/net8.0/'+leaf,leaf,'runtime',license_path,digest(lic[license_path])])
++        table_rows['license-files.tsv'].append([name,version,'MIT','fixture-url','fixture-tag','fixture-commit','LICENSE',license_path,len(lic[license_path]),digest(lic[license_path]),'fixture-relationship'])
++        data[runner/leaf]=body
++    table_rows['license-files.tsv'].append(['Luban','5.1.0','MIT','fixture-url','v5.1.0','fixture-commit','LICENSE','licenses/Luban/LICENSE',len(lic['licenses/Luban/LICENSE']),digest(lic['licenses/Luban/LICENSE']),'fixture-source'])
++    for project in projects:
++        assembly=Path(project).stem
++        table_rows['runner-projects.tsv'].append([project,1,'a'*64,'net8.0',str(project==projects[0]).lower()])
++        for suffix,kind in [('.dll','project-output'),('.pdb','project-symbols')]:
++            leaf=assembly+suffix;data[runner/leaf]=('synthetic build '+leaf).encode()
++            table_rows['expected-deployment.tsv'].append(['project',assembly,'5.1.0',project,leaf,kind,'licenses/Luban/LICENSE',digest(lic['licenses/Luban/LICENSE'])])
++    for leaf in ('Luban','Luban.deps.json','Luban.runtimeconfig.json'):
++        data[runner/leaf]=('synthetic build '+leaf).encode()
++        table_rows['expected-deployment.tsv'].append(['project','Luban','5.1.0',projects[0],leaf,'runtime-metadata','licenses/Luban/LICENSE',digest(lic['licenses/Luban/LICENSE'])])
++    data[runner/'nlog.xml']=b'<nlog />'
++    table_rows['source-files.tsv'].append(['Luban-patched','source-patched/src/Luban/nlog.xml',8,digest(b'<nlog />'),'fixture-git-id','official'])
++    table_rows['expected-deployment.tsv'].append(['project','Luban','5.1.0','src/Luban/nlog.xml','nlog.xml','content','licenses/Luban/LICENSE',digest(lic['licenses/Luban/LICENSE'])])
++    for rel,b in lic.items():data[M/rel]=b;data[runner/rel]=b
++    for name,body in table_rows.items():
++        header=SCHEMAS['tests-projects.tsv'].split() if name=='runner-projects.tsv' else SCHEMAS[name].split()
++        data[M/'identity'/name]=tsv_bytes(header,body)
++    manifest=tsv_bytes(SCHEMAS['material-files.tsv'].split(),[
++        [p.relative_to(M).as_posix(),len(b),digest(b),'fixture','fixture','fixture'] for p,b in sorted(data.items(),key=lambda x:str(x[0])) if p.is_relative_to(M)])
++    data[M/'identity/material-files.tsv']=manifest
++    deployment=deployment_contract(manifest,lambda p:data[p])
++    head='a'*40;acceptance_path=Path('/synthetic-fix01/independent.json')
++    receipt={'status':'B-ACCEPTED','materialManifestSha256':digest(manifest),'reviewedHead':head,'authorThread':'author',
++        'deploymentContractSha256':deployment['sha256'],'runnerPackageKeys':deployment['packageKeys'],
++        'runnerFiles':[{'relativePath':rel,'bytes':len(data[runner/rel]),'sha256':digest(data[runner/rel])} for rel in deployment['runnerFiles']],
++        'licenseFiles':[{'relativePath':rel,'bytes':len(data[runner/rel]),'sha256':digest(data[runner/rel])} for rel in deployment['licenseFiles']],
++        'fallbackLicenseFiles':['licenses/fallback/LICENSE'],
++        'independentAcceptance':{'verdict':'ACCEPT','ownerThread':'reviewer','reviewedHead':head,'receiptPath':str(acceptance_path)}}
++    fix01_sign_fixture_receipt(receipt,data)
++    return receipt,runner,data,deployment
++
++def fix01_sign_fixture_receipt(receipt,data):
++    # Fixture-only synthetic independent records; never material evidence.
++    independent={'verdict':'ACCEPT','reviewedHead':receipt['reviewedHead'],'materialManifestSha256':receipt['materialManifestSha256'],
++        'deploymentContractSha256':receipt['deploymentContractSha256'],'runnerPackageKeys':receipt['runnerPackageKeys'],
++        'runnerFilesSha256':file_map_digest(receipt_file_map(receipt['runnerFiles'])),
++        'licenseFilesSha256':file_map_digest(receipt_file_map(receipt['licenseFiles']))}
++    b=json_bytes(independent);data[Path(receipt['independentAcceptance']['receiptPath'])]=b
++    receipt['independentAcceptance']['receiptSha256']=digest(b)
++
++def fix01_regressions(results):
++    def case(finding,name,action,reject=False):
++        try:action()
++        except (GateError,KeyError,ValueError,OSError) as error:
++            require(reject,'fixture '+name+' unexpectedly failed: '+str(error))
++            results.append({'finding':finding,'name':name,'expected':'reject','status':'PASS','reason':str(error)});return
++        require(not reject,'fixture '+name+' wrongly accepted')
++        results.append({'finding':finding,'name':name,'expected':'pass','status':'PASS'})
++    contract,data=fix01_b_fixture()
++    gate=lambda d,c=contract:assert_controls_data('B',c,lambda p:d[p],fix01_memory_tree(d))
++    case(4163732952,'complete-oracle-and-two-candidates',lambda:gate(data))
++    for group in contract['outputComparisons']:
++        for side in ('candidate-1','candidate-2'):
++            changed=dict(data);root=Path(group['outputs'][side]['rawRoot'])
++            path=next(p for p in data if p.is_relative_to(root))
++            changed[path]=data[path].replace(b'100',b'101') if group['format']=='yaml-fixture' else b'[{"id":1,"value":"WRONG"}]\n'
++            case(4163732952,group['id']+'-'+side+'-wrong-content',lambda d=changed:gate(d),True)
++    changed=dict(data);group=contract['outputComparisons'][2];path=Path(group['outputs']['candidate-1']['rawRoot'])/'data.json'
++    changed[path]=b' '+data[path]
++    case(4163732952,'raw-difference-despite-equal-JSON-semantics',lambda:gate(changed),True)
++    canonical=dict(data);paths=contract['outputComparisons'][3]['outputs']['candidate-2'];p=Path(paths['canonicalPath'])
++    canonical[p]=json_bytes({'records':[{'id':2,'value':'wrong'}]});canonical[Path(paths['semanticDigestPath'])]=(digest(canonical[p])+'\n').encode()
++    case(4163732952,'canonical-publication-difference-with-correct-self-digest',lambda:gate(canonical),True)
++    digest_bad=dict(data);digest_bad[Path(paths['semanticDigestPath'])]=b'0'*64+b'\n'
++    case(4163732952,'semantic-digest-not-bound-to-actual-bytes',lambda:gate(digest_bad),True)
++    absent=dict(data);del absent[path]
++    case(4163732952,'missing-candidate-output',lambda:gate(absent),True)
++    extra=dict(data);extra[Path(group['outputs']['candidate-1']['rawRoot'])/'extra.json']=b'{}'
++    case(4163732952,'extra-candidate-output',lambda:gate(extra),True)
++    altered=copy.deepcopy(contract);altered['outputComparisons']=altered['outputComparisons'][:1]
++    case(4163732952,'shortened-comparison-plan',lambda:gate(data,altered),True)
++    duplicate=dict(data)
++    for paths in contract['outputComparisons'][1]['outputs'].values():duplicate[Path(paths['rawRoot'])/'data.json']=b'{"x":1,"x":2}'
++    case(4163732952,'equal-raw-invalid-JSON-rejected',lambda:gate(duplicate),True)
++    receipt,runner,body,deployment=fix01_deployment_fixture()
++    b_gate=lambda r,d=body:check_b_data(r,runner,lambda p:d[p],fix01_memory_tree(d),receipt['materialManifestSha256'],deployment)
++    case(4163732956,'full-frozen-deployment-and-closure',lambda:b_gate(receipt))
++    truncated=copy.deepcopy(receipt);truncated['runnerFiles']=[r for r in truncated['runnerFiles'] if r['relativePath']=='YamlDotNet.dll']
++    truncated['licenseFiles']=[r for r in truncated['licenseFiles'] if r['relativePath']!='licenses/Luban/LICENSE']
++    short=dict(body);keep={r['relativePath'] for group in ('runnerFiles','licenseFiles') for r in truncated[group]}
++    short={p:b for p,b in short.items() if not p.is_relative_to(runner) or p.relative_to(runner).as_posix() in keep}
++    fix01_sign_fixture_receipt(truncated,short)
++    case(4163732956,'old-DLL-plus-two-licenses-false-positive',lambda:b_gate(truncated,short),True)
++    for target,group in [('Luban.Core.dll','runnerFiles'),('nlog.xml','runnerFiles'),('licenses/fallback/LICENSE','licenseFiles')]:
++        r=copy.deepcopy(receipt);d=dict(body);del d[runner/target];r[group]=[v for v in r[group] if v['relativePath']!=target]
++        fix01_sign_fixture_receipt(r,d)
++        case(4163732956,'self-consistent-missing-'+target,lambda r=r,d=d:b_gate(r,d),True)
++    r=copy.deepcopy(receipt);d=dict(body);d[runner/'extra.dll']=b'extra'
++    r['runnerFiles'].append({'relativePath':'extra.dll','bytes':5,'sha256':digest(b'extra')});fix01_sign_fixture_receipt(r,d)
++    case(4163732956,'self-consistent-extra-DLL',lambda:b_gate(r,d),True)
++    for target,group in [('YamlDotNet.dll','runnerFiles'),('licenses/YamlDotNet/LICENSE','licenseFiles')]:
++        r=copy.deepcopy(receipt);d=dict(body);d[runner/target]=b'tampered'
++        for item in r[group]:
++            if item['relativePath']==target:item.update(bytes=8,sha256=digest(b'tampered'))
++        fix01_sign_fixture_receipt(r,d)
++        case(4163732956,'self-consistent-tamper-'+target,lambda r=r,d=d:b_gate(r,d),True)
++    r=copy.deepcopy(receipt);r['runnerPackageKeys']=r['runnerPackageKeys'][:1]
++    case(4163732956,'shortened-package-closure',lambda:b_gate(r),True)
++    r=copy.deepcopy(receipt);r['runnerFiles'][0]['sha256']='0'*64
++    case(4163732956,'independent-receipt-does-not-bind-new-manifest',lambda:b_gate(r),True)
++    material_bad=dict(body);material_bad[M/'identity/expected-deployment.tsv']+=b'corrupt\n'
++    case(4163732956,'frozen-deployment-table-tamper',lambda:deployment_contract(body[M/'identity/material-files.tsv'],lambda p:material_bad[p]),True)
++    head='a'*40;uuid='11111111-1111-1111-1111-111111111111';argv=['synthetic-execute']
++    record={'centralThread':AUTHORITY['threadId'],'centralHost':'local','centralTurn':uuid,'centralItem':uuid,
++        'ownerThread':OWNER['threadId'],'ownerHost':'local','ownerTurn':uuid,'scope':'EXECUTE_M16',
++        'sourceFreezeSha256':'f'*64,'driverSha256':'d'*64,'reviewedHead':head,'executionHead':head,
++        'reviewStatus':'COMPLETED_NO_UNRESOLVED_FINDINGS','argv':argv,
++        'restoreLimits':{'runner':0,'testsGeneration':1,'testsVerification':1}}
++    pinned=json_bytes(record);pin={k:record[k] for k in ('centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn')}
++    pin.update(path='/synthetic-trusted-host/activation.json',bytes=len(pinned),sha256=digest(pinned))
++    freeze={'sourceReady':True,'executorComplete':True,'materialWriteSetComplete':True}
++    pure=lambda p,b,a:verify_central_activation(p,b,a,freeze,'f'*64,'d'*64,argv)
++    case(4163732959,'pure-verifier-valid-synthetic-host-pin-not-execution',lambda:pure(pin,pinned,record))
++    case(4163732959,'production-rejects-even-synthetically-valid-record',lambda:check_activation(record,freeze,'f'*64,'d'*64,argv),True)
++    for field,value in [('ownerTurn','invented-turn'),('centralHost','remote'),('centralItem',uuid[::-1]),
++                        ('sourceFreezeSha256','c'*64),('driverSha256','c'*64),('reviewedHead','c'*40),('argv',['different'])]:
++        a=copy.deepcopy(record);a[field]=value
++        case(4163732959,'trusted-record-field-drift-'+field,lambda a=a:pure(pin,pinned,a),True)
++    fake=copy.deepcopy(record);fake['trustedPin']=pin
++    case(4163732959,'stdin-cannot-provide-or-replace-pin',lambda:check_activation(fake,freeze,'f'*64,'d'*64,argv),True)
++    case(4163732959,'self-hashed-forged-record-has-no-production-authority',lambda:check_activation(record,freeze,'f'*64,'d'*64,argv),True)
++    bad=copy.deepcopy(pin);bad['sha256']='0'*64
++    case(4163732959,'central-file-hash-mismatch',lambda:pure(bad,pinned,record),True)
++    source_only=dict(record,scope='SOURCE_PREPARATION_ONLY');b=json_bytes(source_only);p=dict(pin,bytes=len(b),sha256=digest(b))
++    case(4163732959,'source-only-record-never-execute',lambda:pure(p,b,source_only),True)
++    case(4163732959,'actual-execute-entry-stops-before-stdin-or-files',execute,True)
++    case('regression','strict-JSON-duplicate',lambda:json_data(b'{"x":1,"x":2}'),True)
++    case('regression','safe-relative-traversal',lambda:safe_relative('../escape'),True)
++    case('regression','parent-environment-unchanged',lambda:require(all(child_environment(phase_layout('generation'))[1].values()),'env'))
++    return results
++
++def prepare_fix01():
++    import difflib
++    import traceback
++    started=time.monotonic();command=['/opt/homebrew/bin/python3','-B',str(DRIVER),'prepare']
++    require(set(files(E))=={DRIVER},'FIX01 requires only its new source leaf at entry')
++    before=FIX01_RED['oldSixLeavesBefore']
++    def check_original():
++        require({p.relative_to(ORIGINAL_E16).as_posix() for p in files(ORIGINAL_E16)}=={r['relativePath'] for r in before},'old E16 set drift')
++        for row in before:fixed(ORIGINAL_E16/row['relativePath'],row['bytes'],row['sha256'])
++        require(T.exists()==FIX01_RED['rootsUnchangedBefore']['T16'] and M.exists()==FIX01_RED['rootsUnchangedBefore']['M16'],'T16/M16 state changed')
++    check_original()
++    source=raw(DRIVER);ast.parse(source.decode('utf-8'))
++    original=raw(ORIGINAL_E16/'source/m16_driver.py')
++    source_patch=''.join(difflib.unified_diff(original.decode().splitlines(keepends=True),source.decode().splitlines(keepends=True),
++        fromfile=str(ORIGINAL_E16/'source/m16_driver.py'),tofile=str(DRIVER))).encode()
++    old_inputs=rows(ORIGINAL_E16/'source/m16-inputs.tsv')
++    inputs={r['sourcePath']:[r['sourcePath'],int(r['bytes']),r['sha256'],r['authority']] for r in old_inputs}
++    for row in before:
++        p=ORIGINAL_E16/row['relativePath'];inputs[str(p)]=[str(p),row['bytes'],row['sha256'],'immutable reviewed M16 six-leaf seal']
++    context_files=[DOC/'engineering-loc-m16-pr2-fix01.md',DOC/'central-resume-scene-loc-2026-10-04.json',DOC/'testing-loc-m16-pr2-review-receipt.json']
++    context_identities=[]
++    for p in context_files:
++        i=identity(p);context_identities.append(i);inputs[str(p)]=[str(p),i['bytes'],i['sha256'],'FIX01 scoped authority/review input']
++    authority=jload(context_files[1]);user=authority['userAuthority']
++    require(user['thread']=='01a0e401-511d-79f2-b47f-3ab0ade1681b' and user['host']=='local' and
++        user['turn']=='01a1061c-3792-7a31-925f-0f6caac83979' and user['item']=='01a1061c-4443-7311-8546-ec7f40ed085e','source authority identity drift')
++    for p in (P005/'commands.json',FIX02/'commands.json'):
++        row=inputs[str(p)];fixed(p,row[1],row[2])
++    cases=[];failure=None
++    try:fix01_regressions(cases)
++    except Exception as error:failure={'type':type(error).__name__,'message':str(error),'traceback':traceback.format_exc()}
++    elapsed=time.monotonic()-started
++    if elapsed+FIX01_RED['durationSeconds']>120:failure={'type':'Budget','message':'120-second cumulative validation cap exceeded'}
++    check_original()
++    rules=[list(row.values()) for row in rows(ORIGINAL_E16/'source/m16-write-set.tsv')]
++    rules += [['F01',rel,'exact','SOURCE_ONLY_FIX01'] for rel in PREP]
++    rules.sort()
++    writer=ScopedWriter([['F01',rel,'exact','SOURCE_ONLY_FIX01'] for rel in PREP])
++    writer.tsv(E/'source/m16-inputs.tsv',['sourcePath','bytes','sha256','authority'],sorted(inputs.values()))
++    writer.tsv(E/'source/m16-write-set.tsv',['root','relativePath','matchKind','role'],rules)
++    writer.write(E/'source/source.patch',source_patch)
++    zero={'childStarts':0,'networkRequests':0,'dotnet':0,'restore':0,'Unity':0,'GitWrites':0,'materialWrites':0,'productionWrites':0}
++    checks={'schemaVersion':1,'scope':'three P1 corrections; pure in-memory fixtures only',
++        'status':'PASS' if failure is None else 'FAIL','checks':cases,'passed':len(cases),'failure':failure,
++        'attempts':[{'argv':FIX01_RED_COMMAND,'exitCode':1,'toolChunk':'b1687e','result':FIX01_RED},
++                    {'argv':command,'exitCode':0 if failure is None else 1,'durationSeconds':elapsed,'result':'PASS' if failure is None else 'FAIL'}],
++        'validationAttemptCount':2,'validationAttemptLimit':2,'cumulativeSeconds':elapsed+FIX01_RED['durationSeconds'],
++        'budgetSeconds':120,'inheritedChecks':'Historical old E16 checks retained; no claim to rerun material pipeline.',
++        'fixtureIndependence':'All B outputs, acceptance records and trusted pins in these tests are explicitly synthetic.',
++        'zeroExecution':zero}
++    writer.json(E/'authority/offline-checks.json',checks)
++    ready=failure is None
++    prep={'schemaVersion':1,'status':'SOURCE_READY' if ready else 'BLOCKED_OFFLINE_CHECKS','sourceReady':ready,
++        'owner':OWNER,'issuer':{'threadId':'01a0f2e3-1a80-7671-a459-38d5c8de0e6b','hostId':'local','turnId':'01a1061d-c7b2-79b0-a72e-7fc5c30d7f1a'},
++        'sourceAuthority':user,'dispatchItem':AUTHORITY['activationItem'],'scope':'SOURCE_ONLY',
++        'completionReceiver':'01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local','reviewedBaselineHead':'bb642ab3897fa587b1f41f8298533229874f9617',
++        'originalSourceFreeze':identity(ORIGINAL_E16/'authority/source-freeze.json'),'oldSixLeavesUnchanged':True,
++        'contextFiles':context_identities,'inputRows':len(inputs),'writeRules':len(rules),
++        'futureWrites':'Inherited T16/E16/M16 rows remain deferred data, not this FIX01 write authority; only eight F01 leaves authorized.',
++        'currentRoot':str(E),'sourceOnlyLeaves':list(PREP),'trustedCentralActivationPin':None,'executeAuthorized':False,
++        'externalTrustRequirement':{'supplier':'central; independent of driver caller',
++            'integration':'future separately reviewed host pin, not stdin/argv/env; this revision has no pin',
++            'recordFields':['centralThread','centralHost','centralTurn','centralItem','ownerThread','ownerHost','ownerTurn','scope',
++                'sourceFreezeSha256','driverSha256','reviewedHead','executionHead','reviewStatus','argv','restoreLimits'],
++            'pinFields':['absolute record path','record bytes','record SHA256','central and owner real identities']},
++        'materialInputsAvailabilityReverified':False,'observedHistoricalTempSourcePresent':SOURCE.exists(),
++        'futureExecutionNeeds':'Fresh input/root availability checks, central activation and independent GitHub review of corrected head; no material/OS execution proven.',
++        'productStatus':['UNCOMPILED','UNTESTED'],'zeroExecution':zero}
++    writer.json(E/'authority/prepare.json',prep)
++    tree=ast.parse(source.decode());locations={node.name:node.lineno for node in tree.body if isinstance(node,ast.FunctionDef)}
++    findings=[]
++    for finding,functions in [(4163732952,['assert_controls','assert_controls_data','compare_control_outputs','b_output_comparisons']),
++        (4163732956,['check_b','check_b_data','deployment_contract','package_tables']),
++        (4163732959,['check_activation','verify_central_activation','execute'])]:
++        findings.append({'finding':finding,'status':'CORRECTED_SOURCE_PENDING_INDEPENDENT_REVIEW' if ready else 'NOT_VERIFIED',
++            'locations':[{'function':name,'line':locations[name]} for name in functions],
++            'red':next(r for r in FIX01_RED['checks'] if r['finding']==finding),
++            'greenChecks':[r for r in cases if r['finding']==finding]})
++    receipt={'schemaVersion':1,'status':prep['status'],'owner':OWNER,'issuer':prep['issuer'],'sourceAuthority':user,
++        'completionReceiver':prep['completionReceiver'],'findings':findings,'originalSixLeavesBeforeAndAfter':before,
++        'originalSixLeavesUnchanged':True,'historicalRootsUnchanged':FIX01_RED['rootsUnchangedBefore'],
++        'newLeaves':list(PREP),'identityIndex':'authority/source-freeze.json binds all other seven leaves; its own identity is returned by this command.',
++        'sourcePatch':identity(E/'source/source.patch'),'offlineChecks':identity(E/'authority/offline-checks.json'),
++        'validationAttemptCount':2,'cumulativeValidationSeconds':checks['cumulativeSeconds'],'zeroExecution':zero,
++        'executeGate':'CLOSED_SOURCE_ONLY_NO_TRUSTED_PIN','independentReview':'NOT_RUN_BY_AUTHOR; corrected head must use GitHub PR Code Review',
++        'integrationVerdict':'NOT_GRANTED','skill':'diagnosing-bugs: three actual red repros, scoped repairs and one bounded corrective green pass',
++        'failure':failure}
++    writer.json(E/'authority/correction-receipt.json',receipt)
++    seal={'schemaVersion':1,'status':prep['status'],'sourceReady':ready,'scope':'SOURCE_ONLY','owner':OWNER,
++        'issuer':prep['issuer'],'authority':user,'expectedEightLeaves':list(PREP),'filesExcludingThisSeal':[
++            identity(E/rel) for rel in PREP if rel!='authority/source-freeze.json'],
++        'originalSixLeavesUnchanged':True,'offlineChecks':{'passed':len(cases),'status':checks['status'],'seconds':checks['cumulativeSeconds']},
++        'zeroExecution':zero,'executeAuthorized':False,'trustedCentralActivationPin':None,
++        'completionReceiver':prep['completionReceiver'],'independentReviewRequired':True,'createdAtUtc':datetime.now(timezone.utc).isoformat()}
++    writer.json(E/'authority/source-freeze.json',seal)
++    check_original();require({p.relative_to(E).as_posix() for p in files(E)}==set(PREP),'FIX01 exact eight-leaf set differs')
++    sizes=sum(p.stat().st_size for p in files(E));require(sizes<=16*1024*1024,'FIX01 storage limit')
++    print(json.dumps({'status':prep['status'],'sourceFreeze':identity(E/'authority/source-freeze.json'),
++        'eightLeaves':[identity(E/rel) for rel in PREP],'checks':len(cases),'elapsedSeconds':time.monotonic()-started,
++        'cumulativeCheckSeconds':checks['cumulativeSeconds'],'rootBytes':sizes,'failure':failure},ensure_ascii=False))
++    if failure is not None:raise GateError('FIX01 corrective offline verification failed; no retry authorized')
++
+ def main():
+     parser=argparse.ArgumentParser();sub=parser.add_subparsers(dest='mode',required=True)
+     sub.add_parser('prepare');sub.add_parser('execute')
+@@ -1749,7 +2255,7 @@
+     gate=sub.add_parser('check-b');gate.add_argument('--receipt',type=Path,required=True)
+     gate.add_argument('--runner',type=Path,required=True);gate.add_argument('--expect',choices=('pass','reject'),required=True)
+     args=parser.parse_args()
+-    if args.mode=='prepare':prepare();return 0
++    if args.mode=='prepare':prepare_fix01();return 0
+     if args.mode=='execute':return execute()
+     if args.mode=='assert-controls':return assert_controls(args.stage)
+     return check_b(args.receipt,args.runner,args.expect)

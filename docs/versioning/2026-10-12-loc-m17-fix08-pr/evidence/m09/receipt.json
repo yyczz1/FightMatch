@@ -1,0 +1,246 @@
+{
+  "B": "NOT_RUN",
+  "GitWrites": 0,
+  "L": "NOT_RUN",
+  "Unity": "NOT_RUN",
+  "actual": {
+    "hostId": "local",
+    "receivedItem": "fco_01a12ee6-b27b-79c0-be1f-feeba6f943f2",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12ee6-b260-7693-9f5f-ecf014c0482d"
+  },
+  "argv": [
+    "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+    "-I",
+    "-B",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m09-host.py",
+    "execute"
+  ],
+  "automaticRetry": false,
+  "binding": {
+    "bytes": 3789,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m09-host-binding-receipt.json",
+    "sha256": "d128c506c63615e9fc48e92513b9c1d0cfb06b098752f89e2cdfa78a76c338dc"
+  },
+  "completedAtUtc": "2026-10-12T07:01:50.364920+00:00",
+  "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "executionOutcome": "ACTUALLY_EXECUTED_AND_FAILED_NOT_TOOL_APPROVAL_DENIAL",
+  "fullInvocationSeconds": 128.8186241250005,
+  "hostEndedAtUtc": "2026-10-12T07:01:50.183094+00:00",
+  "hostExitCode": 1,
+  "hostPid": 66159,
+  "hostStartCount": 1,
+  "hostStartedAtUtc": "2026-10-12T06:59:41.600902+00:00",
+  "independentAcceptance": false,
+  "knownProcessIdentities": [
+    {
+      "pgid": 66159,
+      "pid": 66159
+    },
+    {
+      "pgid": 67254,
+      "pid": 67254
+    }
+  ],
+  "knownProcessQuiescent": true,
+  "logs": {
+    "stderr": {
+      "bytes": 1348,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09/stderr.log",
+      "sha256": "f3cf7eb75c64d684fe82f97e24700372f32e2f21235d727cdf61939563b1d0d6"
+    },
+    "stdout": {
+      "bytes": 282,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09/stdout.log",
+      "sha256": "a82391bce86f6c35379d4a475ba662f9c4dfcde4c8cca81f918939c2e1008c6d"
+    }
+  },
+  "manifest": null,
+  "materialReport": {
+    "identity": {
+      "bytes": 300,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/material-validation.json",
+      "sha256": "ac24074145834fa660df6a3f3d011aedf936a524236e0171cac55202ce4007a7"
+    },
+    "record": {
+      "bodyMeasurementComplete": true,
+      "elapsedSeconds": 128.37090875000285,
+      "failure": "GateError: material command failed; no retry: GateError: process exit failure",
+      "gets": {},
+      "measuredArchiveBodyBytes": 0,
+      "result": null,
+      "status": "M_FAILED",
+      "tlsProtocolTrafficMeasured": false
+    }
+  },
+  "nativeFailureEvidence": {
+    "SDKProbeOrNativeRetryAfterFailure": false,
+    "actualRestoreExitCode": 1,
+    "actualRestoreSeconds": 6.3423956249971525,
+    "failedCommandId": "M-runner-generation-restore",
+    "logs": [
+      {
+        "identity": {
+          "bytes": 1758,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/logs/M-runner-generation-restore.stdout",
+          "sha256": "700e3ef31fcd97e35fe04a575d247d9c5fd2414848d01855f27ac350c0e4c5e9"
+        },
+        "utf8": "\n欢迎使用 .NET 8.0!\r\n---------------------\r\nSDK 版本: 8.0.425\n\n遥测\r\n---------\r\n.NET 工具会收集用法数据，帮助我们改善你的体验。它由 Microsoft 收集并与社区共享。你可通过使用喜欢的 shell 将 DOTNET_CLI_TELEMETRY_OPTOUT 环境变量设置为 \"1\" 或 \"true\" 来选择退出遥测。\r\n\r\n阅读有关 .NET CLI 工具遥测的更多信息: https://aka.ms/dotnet-cli-telemetry\n\n----------------\r\n编写第一个应用: https://aka.ms/dotnet-hello-world\r\n了解新增功能: https://aka.ms/dotnet-whats-new\r\n浏览文档: https://aka.ms/dotnet-docs\r\n报告问题并在 GitHub 上查找来源: https://github.com/dotnet/core\r\n使用 \"dotnet --help\" 查看可用命令或访问: https://aka.ms/dotnet-cli\r\n--------------------------------------------------------------------------------------\n验证工作负载时遇到问题。有关详细信息，请运行 \"dotnet workload update\"。\nMSBuild version 17.11.48+02bf66295 for .NET\n  Determining projects to restore...\n/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/sdk/8.0.425/NuGet.targets(174,5): error : Access to the path '/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban.Gdscript/43195cad-a941-4061-8b31-b7e1a14bbb92.tmp' is denied. [/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban/Luban.csproj]\n/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/sdk/8.0.425/NuGet.targets(174,5): error :   Operation not permitted [/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban/Luban.csproj]\n"
+      },
+      {
+        "identity": {
+          "bytes": 0,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/logs/M-runner-generation-restore.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "utf8": ""
+      }
+    ],
+    "newDownloads": 0,
+    "observedDeniedPath": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban.Gdscript/43195cad-a941-4061-8b31-b7e1a14bbb92.tmp",
+    "pathObservation": "The denied leaf is directly in the project directory, not under obj. This is observed output, not a completed diagnosis or authority to expand scope.",
+    "subsequentRestoreStarts": 0
+  },
+  "outerFailure": null,
+  "outerTimedOut": false,
+  "protectedChanges": [],
+  "protectedCount": 284,
+  "restoreReceipts": [
+    {
+      "exists": true,
+      "id": "M-runner-generation-restore",
+      "identity": {
+        "bytes": 2998,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-runner-generation-restore.json",
+        "sha256": "226df45e042af1e7a18c368163dac58529094a77f342dfb5dcbc8d23ec35a65a"
+      },
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-runner-generation-restore.json",
+      "record": {
+        "argv": [
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet",
+          "msbuild",
+          "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban/Luban.csproj",
+          "-target:Restore",
+          "-maxCpuCount:1",
+          "-nodeReuse:false",
+          "-noAutoResponse",
+          "-verbosity:minimal",
+          "-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/NuGet.Config",
+          "-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/packages",
+          "-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/feed",
+          "-property:RestoreFallbackFolders=",
+          "-property:RestoreDisableParallel=true",
+          "-property:RestoreNoHttpCache=true",
+          "-property:RestoreIgnoreFailedSources=false",
+          "-property:RestorePackagesWithLockFile=true",
+          "-property:RestoreLockedMode=false",
+          "-property:NuGetAudit=false"
+        ],
+        "childStarts": 0,
+        "childrenDeniedBySandbox": true,
+        "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source",
+        "elapsedSeconds": 6.3423956249971525,
+        "env": {
+          "inheritParent": true,
+          "pathPrepend": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64",
+          "pathSuffix": "unchanged parent PATH; resolved dotnet must equal fixed DOTNET",
+          "preserve": [
+            "HOME",
+            "home",
+            "CODEX_HOME"
+          ],
+          "updates": {
+            "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+            "DOTNET_CLI_HOME": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/dotnet-home",
+            "DOTNET_CLI_USE_MSBUILD_SERVER": "0",
+            "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+            "DOTNET_MULTILEVEL_LOOKUP": "0",
+            "MSBUILDDISABLENODEREUSE": "1",
+            "NUGET_HTTP_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/http",
+            "NUGET_PACKAGES": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/packages",
+            "NUGET_PLUGINS_CACHE_PATH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/plugins",
+            "NUGET_SCRATCH": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/scratch",
+            "TMPDIR": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/tmp"
+          }
+        },
+        "exitCode": 1,
+        "failure": "GateError: process exit failure",
+        "quiescent": true,
+        "role": "DUT",
+        "sandboxProfileSha256": "7616e122dd4e4e5a1a5e85ada600e95df8e430d4c4adde3b9d9610fb17f12d6c",
+        "startCount": 1,
+        "timedOut": false
+      }
+    },
+    {
+      "exists": false,
+      "id": "M-tests-generation-restore",
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-tests-generation-restore.json"
+    },
+    {
+      "exists": false,
+      "id": "M-tests-verification-restore",
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-tests-verification-restore.json"
+    }
+  ],
+  "sourceFreeze": {
+    "bytes": 2807,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix07/authority/source-freeze.json",
+    "sha256": "5f747b1441f79bb43ff00f17757b36fee2e7c374d3e8dd00570d42d54b835027"
+  },
+  "startedAtUtc": "2026-10-12T06:59:41.565067+00:00",
+  "status": "M09_FAILED_OR_BLOCKED",
+  "stillOwned": [],
+  "task": "LOC-M17-M09",
+  "toolCapture": {
+    "actual": {
+      "hostId": "local",
+      "receivedItem": "fco_01a12ee6-b27b-79c0-be1f-feeba6f943f2",
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "turnId": "01a12ee6-b260-7693-9f5f-ecf014c0482d"
+    },
+    "afterToolReturned": true,
+    "method": "read_thread",
+    "originalCommandExecution": {
+      "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B - <<'PY'\nimport time\nstarted=time.monotonic()\nimport ast,datetime,hashlib,json,os,selectors,signal,subprocess,sys\nfrom pathlib import Path\nREPO=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch')\nDOC=REPO/'docs/team/2026-09-30'\nE=REPO/'TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09'\nSRC=REPO/'TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix07'\nM=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix07')\nW=Path('/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07')\nACTUAL={'threadId':'01a0f40d-b0c5-7bc0-a2b2-be9d1213648a','hostId':'local','turnId':'01a12ee6-b260-7693-9f5f-ecf014c0482d','receivedItem':'fco_01a12ee6-b27b-79c0-be1f-feeba6f943f2'}\nstartutc=datetime.datetime.now(datetime.timezone.utc).isoformat()\ndef stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()\ndef jb(v):return (json.dumps(v,sort_keys=True,ensure_ascii=False,indent=2,allow_nan=False)+'\\\\n').encode()\ndef read(p):\n p=Path(p);assert not any(q.is_symlink() for q in (p,*p.parents)),'symlink '+str(p)\n assert p.is_file(),'missing '+str(p)\n return p.read_bytes()\ndef ident(p,b=None):\n b=read(p) if b is None else b\n return {'path':str(p),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()}\ndef fixed(r):\n b=read(r['path']);assert len(b)==r['bytes'] and hashlib.sha256(b).hexdigest()==r['sha256'],'identity '+r['path']\n return b\ndef create(p,v):\n b=jb(v);assert len(b)<8*1024**2,'outer evidence size'\n with p.open('xb') as f:f.write(b)\ndef snapshot():\n data=subprocess.run(['/bin/ps','-axo','pid=,ppid=,pgid='],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=2,check=True).stdout\n return {int(a):{'ppid':int(b),'pgid':int(c)} for a,b,c in (line.split() for line in data.decode().splitlines())}\nbinding_path=DOC/'central-loc-m17-m09-host-binding-receipt.json'\nbinding_bytes=read(binding_path);binding=json.loads(binding_bytes)\nassert binding['owner']=={'ownerThread':ACTUAL['threadId'],'ownerHost':'local','ownerTurn':ACTUAL['turnId']}\nassert binding['activation']['bytes']==22699 and binding['activation']['sha256']=='4a3ccea7f3a71c0f3730ecc974faca9a88100eebb818b583c9207948b2c6d321'\nassert binding['host']['bytes']==4203 and binding['host']['sha256']=='5183b9d2781c2315aa5e04235a5fdf5b90580e953e53cbcec6ee6a872ab648a3'\nassert binding['central']['centralTurn']=='01a12ee5-5e38-7863-b291-95e758e24669' and binding['central']['centralItem']=='01a12ee5-62af-73d3-a5b5-c3827b86dfba'\nactivation=json.loads(fixed(binding['activation']));host=fixed(binding['host']);template=fixed(binding['template'])\nfor key in ('authority','packet','sourceCommandReceipt'):fixed(binding[key])\nfor key,value in binding['owner'].items():assert activation[key]==value\nassert activation['sourceCommandReceipt']==binding['sourceCommandReceipt']\nassert activation['materialRoot']==str(M) and activation['workRoot']==str(W) and activation['outerEvidence']['root']==str(E)\nassert activation['budgets']['M']['wallSeconds']==900 and activation['budgets']['M']['workSeconds']==870\nassert activation['budgets']['M']['officialGets']==[] and activation['budgets']['M']['maxArchiveResponseBodyBytes']==0\nassert activation['executionHead']==binding['sourceHead']=='bd92f6bcedaf89751256a4a7e0084d39cd244893'\nmarker1=b'# CENTRAL_LITERAL_CONFIG_BEGIN';marker2=b'# CENTRAL_LITERAL_CONFIG_END'\nassert host.split(marker1)[0]==template.split(marker1)[0] and host.split(marker2)[1]==template.split(marker2)[1]\ntree=ast.parse(host);config=ast.literal_eval(next(n.value for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='CONFIG' for t in n.targets)))\nassert config==binding['config'] and config['argv']==activation['argv']\nfor target in (E,M,W):\n assert not os.path.lexists(target),'new root occupied '+str(target)\n assert not any(q.is_symlink() for q in target.parents),'root ancestor symlink'\nfreeze_bytes=read(SRC/'authority/source-freeze.json')\nassert hashlib.sha256(freeze_bytes).hexdigest()==activation['sourceFreezeSha256']\nfreeze=json.loads(freeze_bytes);rows={Path(r['path']).name:r for r in freeze['filesExcludingThisSeal']}\nprepare=json.loads(fixed(rows['prepare.json']));checks=json.loads(fixed(rows['offline-checks.json']))\nassert prepare['executionBudget']==activation['budgets'] and prepare['modelSha256']==activation['modelSha256']\nmodel=prepare['model'];protected=checks['protectedBefore']\ncommands=[c for c in model['commands'] if c['stage']=='M']\nassert len(commands)==3 and all(c['id'].endswith('-restore') and c['network']=='OS denied; local feed only' for c in commands)\nassert len(model['packages'])==31 and all(r['class']=='existing' for r in model['packages']+[model['archive']])\nassert time.monotonic()-started<870\nE.mkdir()\nbefore={'task':'LOC-M17-M09','actual':ACTUAL,'startedAtUtc':startutc,'binding':ident(binding_path,binding_bytes),'bindingContent':binding,'argv':config['argv'],'cwd':str(REPO),'sourceFreeze':ident(SRC/'authority/source-freeze.json',freeze_bytes),'protectedExpectedFromSealedChecks':protected,'protectionVerification':'reviewed driver performs fresh source/SDK checks within its M watchdog; outer final compares the declared protected paths without enumerating SDK or partial trees','rootsAbsent':{'E':True,'M':True,'W':True},'limits':activation['executionLimits'],'preserveParentEnvironment':['HOME','home','CODEX_HOME'],'oneAttempt':True}\ncreate(E/'before.json',before)\nprocess=None;failure=None;host_started=None;host_ended=None;exit_code=None;timed_out=False\nstreams={};sizes={'stdout':0,'stderr':0};sel=selectors.DefaultSelector();known={};last_scan=0;last_progress=0\ndef discover():\n global last_scan\n current=snapshot();owned={process.pid}\n changed=True\n while changed:\n  changed=False\n  for pid,row in current.items():\n   if row['ppid'] in owned and pid not in owned:owned.add(pid);changed=True\n for pid in owned:\n  if pid in current:known[pid]=current[pid]['pgid']\n last_scan=time.monotonic()\n return current\ndef stop_owned():\n if process is None:return\n current=discover()\n groups={pgid for pid,pgid in known.items() if pid in current and current[pid]['pgid']==pgid and pgid==pid}\n for sig in (signal.SIGTERM,signal.SIGKILL):\n  for pgid in sorted(groups,reverse=True):\n   try:os.killpg(pgid,sig)\n   except ProcessLookupError:pass\n  if sig==signal.SIGTERM:time.sleep(.1)\n try:process.wait(timeout=1)\n except subprocess.TimeoutExpired:pass\ntry:\n for label in sizes:streams[label]=(E/(label+'.log')).open('xb')\n process=subprocess.Popen(config['argv'],cwd=str(REPO),stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)\n host_started=stamp();known[process.pid]=process.pid\n print(json.dumps({'event':'HOST_STARTED','task':'M09','atUtc':host_started,'pid':process.pid,'argv':config['argv'],'actual':ACTUAL}),flush=True)\n for label,stream in (('stdout',process.stdout),('stderr',process.stderr)):\n  os.set_blocking(stream.fileno(),False);sel.register(stream,selectors.EVENT_READ,label)\n while sel.get_map():\n  now=time.monotonic()\n  if now-started>=900:timed_out=True;raise TimeoutError('M09 complete outer invocation exceeded 900 seconds')\n  if now-last_scan>=1:discover()\n  if now-last_progress>=40:\n   print(json.dumps({'event':'HOST_PROGRESS','elapsedSeconds':now-started,'pid':process.pid,'stdoutBytes':sizes['stdout'],'stderrBytes':sizes['stderr']}),flush=True);last_progress=now\n  for key,_ in sel.select(min(.25,max(.001,900-(now-started)))):\n   chunk=os.read(key.fd,65536)\n   if not chunk:sel.unregister(key.fileobj);key.fileobj.close();continue\n   label=key.data;room=4194304-sizes[label]\n   streams[label].write(chunk[:room]);sizes[label]+=min(len(chunk),room)\n   if len(chunk)>room:raise RuntimeError('outer '+label+' log cap exceeded; captured prefix retained')\n exit_code=process.wait(timeout=max(.001,900-(time.monotonic()-started)));host_ended=stamp()\nexcept BaseException as error:\n failure=type(error).__name__+': '+str(error)\n stop_owned()\n if process is not None:exit_code=process.poll();host_ended=stamp()\nfinally:\n sel.close()\n for stream in streams.values():stream.close()\nfinal_processes=snapshot();still_owned=[{'pid':pid,'pgid':pgid} for pid,pgid in known.items() if pid in final_processes and final_processes[pid]['pgid']==pgid]\nrestores=[]\nfor command in commands:\n path=Path(command['receiptPath'])\n row={'id':command['id'],'path':str(path),'exists':path.is_file()}\n if row['exists']:row.update(identity=ident(path),record=json.loads(read(path)))\n restores.append(row)\nreport_path=W/'receipts/material-validation.json';material_report=None\nif report_path.is_file():material_report={'identity':ident(report_path),'record':json.loads(read(report_path))}\nmanifest_path=M/'identity/manifest.json';manifest=ident(manifest_path) if manifest_path.is_file() else None\nprotected_changes=[]\nfor row in protected:\n try:\n  actual=ident(Path(row['path']))\n  if actual\"'!={k:row[k] for k in ('\"'path','bytes','sha256')}:protected_changes.append({'expected':row,'actual':actual})\n except Exception as error:protected_changes.append({'expected':row,'error':type(error).__name__+': '+str(error)})\nelapsed=time.monotonic()-started\nreceipt={'task':'LOC-M17-M09','status':'HOST_RETURNED_PENDING_INDEPENDENT_INTAKE' if exit_code==0 and not failure and not still_owned and not protected_changes and elapsed<=900 else 'M09_FAILED_OR_BLOCKED','actual':ACTUAL,'startedAtUtc':startutc,'hostStartedAtUtc':host_started,'hostEndedAtUtc':host_ended,'completedAtUtc':stamp(),'fullInvocationSeconds':elapsed,'hostPid':process.pid if process else None,'hostExitCode':exit_code,'hostStartCount':int(process is not None),'outerFailure':failure,'outerTimedOut':timed_out,'argv':config['argv'],'cwd':str(REPO),'binding':before['binding'],'sourceFreeze':before['sourceFreeze'],'logs':{label:ident(E/(label+'.log')) for label in sizes},'protectedCount':len(protected),'protectedChanges':protected_changes,'knownProcessIdentities':[{'pid':pid,'pgid':pgid} for pid,pgid in sorted(known.items())],'stillOwned':still_owned,'knownProcessQuiescent':not still_owned,'restoreReceipts':restores,'materialReport':material_report,'manifest':manifest,'independentAcceptance':False,'B':'NOT_RUN','L':'NOT_RUN','Unity':'NOT_RUN','GitWrites':0,'automaticRetry':False,'toolCapture':'Original commandExecution is captured after this tool returns; not yet available inside its running process.'}\ncreate(E/'receipt.json',receipt)\ntotal=sum((E/name).stat().st_size for name in ('before.json','stdout.log','stderr.log','receipt.json'))\nassert total<=16777216,'outer total cap exceeded'\nprint(json.dumps({'event':'HOST_EXITED','hostExitCode':exit_code,'atUtc':host_ended,'outerFailure':failure,'pid':process.pid if process else None,'knownProcessQuiescent':not still_owned}),flush=True)\nprint(json.dumps({'event':'FINAL_COMMAND_CLOCK','task':'M09','status':receipt['status'],'startedAtUtc':startutc,'completedAtUtc':receipt['completedAtUtc'],'fullInvocationSeconds':elapsed,'hostExitCode':exit_code,'outerFailure':failure,'restoreReceiptsPresent':sum(r['exists'] for r in restores),'protectedChanges':len(protected_changes),'manifest':manifest,'receipt':ident(E/'receipt.json'),'outerEvidenceBytes':total,'retry':False},ensure_ascii=False),flush=True)\nraise SystemExit(0 if receipt['status']=='HOST_RETURNED_PENDING_INDEPENDENT_INTAKE' else (exit_code if type(exit_code) is int and 0<exit_code<256 else 20))\nPY\"",
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "durationMs": 128733,
+      "exitCode": 1,
+      "id": "exec-6240c5ef-e6bf-4d38-af3b-48716e784015",
+      "output": {
+        "text": "{\"event\": \"HOST_STARTED\", \"task\": \"M09\", \"atUtc\": \"2026-10-12T06:59:41.600902+00:00\", \"pid\": 66159, \"argv\": [\"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python\", \"-I\", \"-B\", \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m09-host.py\", \"execute\"], \"actual\": {\"threadId\": \"01a0f40d-b0c5-7bc0-a2b2-be9d1213648a\", \"hostId\": \"local\", \"turnId\": \"01a12ee6-b260-7693-9f5f-ecf014c0482d\", \"receivedItem\": \"fco_01a12ee6-b27b-79c0-be1f-feeba6f943f2\"}}\n{\"event\": \"HOST_PROGRESS\", \"elapsedSeconds\": 0.05547162500442937, \"pid\": 66159, \"stdoutBytes\": 0, \"stderrBytes\": 0}\n{\"event\": \"HOST_PROGRESS\", \"elapsedSeconds\": 40.10536579100153, \"pid\": 66159, \"stdoutBytes\": 0, \"stderrBytes\": 0}\n{\"event\": \"HOST_PROGRESS\", \"elapsedSeconds\": 80.14408433299832, \"pid\": 66159, \"stdoutBytes\": 0, \"stderrBytes\": 0}\n{\"event\": \"HOST_PROGRESS\", \"elapsedSeconds\": 120.3611357080008, \"pid\": 66159, \"stdoutBytes\": 0, \"stderrBytes\": 0}\n{\"event\": \"HOST_EXITED\", \"hostExitCode\": 1, \"atUtc\": \"2026-10-12T07:01:50.183094+00:00\", \"outerFailure\": null, \"pid\": 66159, \"knownProcessQuiescent\": true}\n{\"event\": \"FINAL_COMMAND_CLOCK\", \"task\": \"M09\", \"status\": \"M09_FAILED_OR_BLOCKED\", \"startedAtUtc\": \"2026-10-12T06:59:41.565067+00:00\", \"completedAtUtc\": \"2026-10-12T07:01:50.364920+00:00\", \"fullInvocationSeconds\": 128.8186241250005, \"hostExitCode\": 1, \"outerFailure\": null, \"restoreReceiptsPresent\": 1, \"protectedChanges\": 0, \"manifest\": null, \"receipt\": {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09/receipt.json\", \"bytes\": 7641, \"sha256\": \"855ff99544fc13a72cd71a799ac5d97ba4cc9c49a590471477f5a4854d0a8bfa\"}, \"outerEvidenceBytes\": 93157, \"retry\": false}\n",
+        "truncated": false
+      },
+      "status": "failed",
+      "type": "commandExecution"
+    },
+    "originalFullInvocationClock": {
+      "completedAtUtc": "2026-10-12T07:01:50.364920+00:00",
+      "event": "FINAL_COMMAND_CLOCK",
+      "fullInvocationSeconds": 128.8186241250005,
+      "hostExitCode": 1,
+      "manifest": null,
+      "outerEvidenceBytes": 93157,
+      "outerFailure": null,
+      "protectedChanges": 0,
+      "receipt": {
+        "bytes": 7641,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09/receipt.json",
+        "sha256": "855ff99544fc13a72cd71a799ac5d97ba4cc9c49a590471477f5a4854d0a8bfa"
+      },
+      "restoreReceiptsPresent": 1,
+      "retry": false,
+      "startedAtUtc": "2026-10-12T06:59:41.565067+00:00",
+      "status": "M09_FAILED_OR_BLOCKED",
+      "task": "M09"
+    },
+    "rawOutputEqualsReturnedExecOutput": true,
+    "receiptBeforeCaptureIdentity": {
+      "bytes": 7641,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09/receipt.json",
+      "sha256": "855ff99544fc13a72cd71a799ac5d97ba4cc9c49a590471477f5a4854d0a8bfa"
+    },
+    "receiptBeforeCaptureUtf8": "{\n  \"B\": \"NOT_RUN\",\n  \"GitWrites\": 0,\n  \"L\": \"NOT_RUN\",\n  \"Unity\": \"NOT_RUN\",\n  \"actual\": {\n    \"hostId\": \"local\",\n    \"receivedItem\": \"fco_01a12ee6-b27b-79c0-be1f-feeba6f943f2\",\n    \"threadId\": \"01a0f40d-b0c5-7bc0-a2b2-be9d1213648a\",\n    \"turnId\": \"01a12ee6-b260-7693-9f5f-ecf014c0482d\"\n  },\n  \"argv\": [\n    \"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python\",\n    \"-I\",\n    \"-B\",\n    \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m09-host.py\",\n    \"execute\"\n  ],\n  \"automaticRetry\": false,\n  \"binding\": {\n    \"bytes\": 3789,\n    \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m09-host-binding-receipt.json\",\n    \"sha256\": \"d128c506c63615e9fc48e92513b9c1d0cfb06b098752f89e2cdfa78a76c338dc\"\n  },\n  \"completedAtUtc\": \"2026-10-12T07:01:50.364920+00:00\",\n  \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch\",\n  \"fullInvocationSeconds\": 128.8186241250005,\n  \"hostEndedAtUtc\": \"2026-10-12T07:01:50.183094+00:00\",\n  \"hostExitCode\": 1,\n  \"hostPid\": 66159,\n  \"hostStartCount\": 1,\n  \"hostStartedAtUtc\": \"2026-10-12T06:59:41.600902+00:00\",\n  \"independentAcceptance\": false,\n  \"knownProcessIdentities\": [\n    {\n      \"pgid\": 66159,\n      \"pid\": 66159\n    },\n    {\n      \"pgid\": 67254,\n      \"pid\": 67254\n    }\n  ],\n  \"knownProcessQuiescent\": true,\n  \"logs\": {\n    \"stderr\": {\n      \"bytes\": 1348,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09/stderr.log\",\n      \"sha256\": \"f3cf7eb75c64d684fe82f97e24700372f32e2f21235d727cdf61939563b1d0d6\"\n    },\n    \"stdout\": {\n      \"bytes\": 282,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m09/stdout.log\",\n      \"sha256\": \"a82391bce86f6c35379d4a475ba662f9c4dfcde4c8cca81f918939c2e1008c6d\"\n    }\n  },\n  \"manifest\": null,\n  \"materialReport\": {\n    \"identity\": {\n      \"bytes\": 300,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/material-validation.json\",\n      \"sha256\": \"ac24074145834fa660df6a3f3d011aedf936a524236e0171cac55202ce4007a7\"\n    },\n    \"record\": {\n      \"bodyMeasurementComplete\": true,\n      \"elapsedSeconds\": 128.37090875000285,\n      \"failure\": \"GateError: material command failed; no retry: GateError: process exit failure\",\n      \"gets\": {},\n      \"measuredArchiveBodyBytes\": 0,\n      \"result\": null,\n      \"status\": \"M_FAILED\",\n      \"tlsProtocolTrafficMeasured\": false\n    }\n  },\n  \"outerFailure\": null,\n  \"outerTimedOut\": false,\n  \"protectedChanges\": [],\n  \"protectedCount\": 284,\n  \"restoreReceipts\": [\n    {\n      \"exists\": true,\n      \"id\": \"M-runner-generation-restore\",\n      \"identity\": {\n        \"bytes\": 2998,\n        \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-runner-generation-restore.json\",\n        \"sha256\": \"226df45e042af1e7a18c368163dac58529094a77f342dfb5dcbc8d23ec35a65a\"\n      },\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-runner-generation-restore.json\",\n      \"record\": {\n        \"argv\": [\n          \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64/dotnet\",\n          \"msbuild\",\n          \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source/src/Luban/Luban.csproj\",\n          \"-target:Restore\",\n          \"-maxCpuCount:1\",\n          \"-nodeReuse:false\",\n          \"-noAutoResponse\",\n          \"-verbosity:minimal\",\n          \"-property:RestoreConfigFile=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/NuGet.Config\",\n          \"-property:RestorePackagesPath=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/packages\",\n          \"-property:RestoreSources=/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/feed\",\n          \"-property:RestoreFallbackFolders=\",\n          \"-property:RestoreDisableParallel=true\",\n          \"-property:RestoreNoHttpCache=true\",\n          \"-property:RestoreIgnoreFailedSources=false\",\n          \"-property:RestorePackagesWithLockFile=true\",\n          \"-property:RestoreLockedMode=false\",\n          \"-property:NuGetAudit=false\"\n        ],\n        \"childStarts\": 0,\n        \"childrenDeniedBySandbox\": true,\n        \"cwd\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/source\",\n        \"elapsedSeconds\": 6.3423956249971525,\n        \"env\": {\n          \"inheritParent\": true,\n          \"pathPrepend\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0/dotnet-x64\",\n          \"pathSuffix\": \"unchanged parent PATH; resolved dotnet must equal fixed DOTNET\",\n          \"preserve\": [\n            \"HOME\",\n            \"home\",\n            \"CODEX_HOME\"\n          ],\n          \"updates\": {\n            \"DOTNET_ADD_GLOBAL_TOOLS_TO_PATH\": \"false\",\n            \"DOTNET_CLI_HOME\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/dotnet-home\",\n            \"DOTNET_CLI_USE_MSBUILD_SERVER\": \"0\",\n            \"DOTNET_GENERATE_ASPNET_CERTIFICATE\": \"false\",\n            \"DOTNET_MULTILEVEL_LOOKUP\": \"0\",\n            \"MSBUILDDISABLENODEREUSE\": \"1\",\n            \"NUGET_HTTP_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/http\",\n            \"NUGET_PACKAGES\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/packages\",\n            \"NUGET_PLUGINS_CACHE_PATH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/plugins\",\n            \"NUGET_SCRATCH\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/scratch\",\n            \"TMPDIR\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/phases/M-runner-generation/env/tmp\"\n          }\n        },\n        \"exitCode\": 1,\n        \"failure\": \"GateError: process exit failure\",\n        \"quiescent\": true,\n        \"role\": \"DUT\",\n        \"sandboxProfileSha256\": \"7616e122dd4e4e5a1a5e85ada600e95df8e430d4c4adde3b9d9610fb17f12d6c\",\n        \"startCount\": 1,\n        \"timedOut\": false\n      }\n    },\n    {\n      \"exists\": false,\n      \"id\": \"M-tests-generation-restore\",\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-tests-generation-restore.json\"\n    },\n    {\n      \"exists\": false,\n      \"id\": \"M-tests-verification-restore\",\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix07/receipts/M-tests-verification-restore.json\"\n    }\n  ],\n  \"sourceFreeze\": {\n    \"bytes\": 2807,\n    \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix07/authority/source-freeze.json\",\n    \"sha256\": \"5f747b1441f79bb43ff00f17757b36fee2e7c374d3e8dd00570d42d54b835027\"\n  },\n  \"startedAtUtc\": \"2026-10-12T06:59:41.565067+00:00\",\n  \"status\": \"M09_FAILED_OR_BLOCKED\",\n  \"stillOwned\": [],\n  \"task\": \"LOC-M17-M09\",\n  \"toolCapture\": \"Original commandExecution is captured after this tool returns; not yet available inside its running process.\"\n}\n",
+    "toolOutputUntruncated": true
+  }
+}

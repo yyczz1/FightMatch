@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "verdict": "ACCEPT",
+  "scope": "LOC M16 FIX02 source-only correction of generated source seal and frozen contract consistency",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+  "head": "9b8423bda3baf9545ca98e15b6ee4c0149fdf89e",
+  "tree": "517a139a6157e1206dd7cd27d86625a6c984a68c",
+  "independentReview": {
+    "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-5978917541",
+    "result": "NO_MAJOR_ISSUES_REPORTED",
+    "formalApproval": false,
+    "qaReceipt": "docs/team/2026-09-30/testing-loc-m16-fix02-pr2-review-receipt.json",
+    "qaSha256": "5a5e16a09ea6032536493ff3f15ee17ed138abe7853ef03eb6e85aeb1f35a9f0",
+    "actualQaTurnObservedByCentral": "01a10664-88b9-7063-b1c4-33b8db9c7339"
+  },
+  "validation": {
+    "newChecks": 25,
+    "attempts": 2,
+    "totalSeconds": 7.167942625,
+    "evidence": "docs/versioning/2026-10-04-loc-m16-fix02-pr/authority/correction-receipt.json",
+    "authorTurn": "01a10651-d401-7fe3-812e-f81d83680e6f",
+    "evidenceVerified": "Engineering verified raw output and fixed source; central verified sealed artifact identities, prior 14 immutable leaves, publication blobs and complete tree; no redundant test run or local code review"
+  },
+  "history": "Original E16/FIX01 evidence and prior NEEDS_FIX verdicts unchanged; historical GitHub discussions not relabelled as approvals.",
+  "excluded": [
+    "Missing temporary material input restoration",
+    "Trusted production activation",
+    "Material execution/acceptance",
+    "Generated localization content",
+    "Real Host integration",
+    "Android/Demo acceptance"
+  ]
+}
