@@ -363,6 +363,12 @@ namespace FightMatch.Host
             {
                 var name = Path.GetFileName(child);
                 NoLinks(child);
+                if (name == "resource-state")
+                {
+                    if (new FightMatchResourceActivationStore(ProductRoot).Read().Outcome != ActivationOutcome.Confirmed)
+                        return false;
+                    continue;
+                }
                 if (name == "settings")
                 {
                     if (!OnlyOwnedPreferences(child)) return false;

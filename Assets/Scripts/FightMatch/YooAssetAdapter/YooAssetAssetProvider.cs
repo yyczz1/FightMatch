@@ -39,6 +39,8 @@ namespace FightMatch.YooAssetAdapter
         internal readonly bool Raw;
         internal readonly long? RawBytes;
         internal readonly RawEntry RawSource;
+        internal readonly long ManifestLength;
+        internal readonly string ManifestSha256;
         internal AssetMapping(string id, string set, string package, string version, string location,
             Type type, string root, bool raw = false, long? rawBytes = null)
         {
@@ -49,18 +51,19 @@ namespace FightMatch.YooAssetAdapter
             Id = id; Set = set; Package = package; Version = version; Location = location;
             Type = type; Root = root; Raw = raw; RawBytes = rawBytes;
         }
-        private AssetMapping(RawEntry entry, string root)
+        private AssetMapping(RawEntry entry, string root, long manifestLength, string manifestSha256)
             : this(entry.AssetId, entry.Set, entry.Package, entry.ManifestVersion, entry.Location,
-                typeof(FightMatchRawBytes), root, true, entry.Length) { RawSource = entry; }
+                typeof(FightMatchRawBytes), root, true, entry.Length)
+        { RawSource = entry; ManifestLength = manifestLength; ManifestSha256 = manifestSha256; }
         internal static bool TryFromPinnedRaw(FightMatchResourceReleaseSet source, FightMatchAssetId id,
-            string expectedSet, string expectedPlatform, string builtinRoot, out AssetMapping mapping)
+            string expectedSet, string expectedPlatform, string builtinRoot, out AssetMapping mapping, long manifestLength = 0, string manifestSha256 = null)
         {
             mapping = null;
             if (source == null || id == null || string.IsNullOrEmpty(builtinRoot) ||
                 !string.Equals(source.ReleaseSetId, expectedSet, StringComparison.Ordinal) ||
                 !string.Equals(source.Platform, expectedPlatform, StringComparison.Ordinal) ||
                 !source.TryGetRawEntry(id.Value, out var entry)) return false;
-            mapping = new AssetMapping(entry, builtinRoot);
+            mapping = new AssetMapping(entry, builtinRoot, manifestLength, manifestSha256);
             return true;
         }
         internal static bool ValidSet(string value) =>

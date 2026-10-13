@@ -136,8 +136,38 @@ namespace FightMatch.YooAssetAdapter
         }
     }
 
-    internal static class YooAssetRuntimeFactory
+    public static class YooAssetRuntimeFactory
     {
+        public static ResourceRuntimeCreationResult Create(ResourceBootstrapInput input)
+        {
+            if (input == null) return ResourceRuntimeCreationResult.Rejected("RES_SCHEMA");
+            if (input.Mode != ResourceDeliveryMode.BuiltIn)
+                return ResourceRuntimeCreationResult.Rejected("RES_UNSUPPORTED");
+            var admission = new ResourceAdmissionInput(input.BootBytes, input.ExpectedBootSha256,
+                input.ExpectedSet, input.ExpectedPlatform, input.ExpectedAppProtocol, input.SupportedCapabilities,
+                Array.Empty<string>(), DeliveryMode.BuiltIn, Array.Empty<string>(),
+                new ResourceAdmissionBudget(input.MaxBootBytes, input.MaxPhysicalFileBytes,
+                    input.MaxTotalPhysicalBytes, input.MaxRawFileBytes));
+            if (!TryAdmit(admission, out var plan, out var diagnostic))
+                return ResourceRuntimeCreationResult.Rejected(diagnostic.SafeCode);
+            foreach (var mapping in plan.Mappings)
+                if (mapping.Kind != "raw") return ResourceRuntimeCreationResult.Rejected("RES_UNSUPPORTED");
+            if (!FightMatchResourceReleaseSet.TryDecodePinned(input.BootBytes, input.ExpectedBootSha256, out var set, out var code))
+                return ResourceRuntimeCreationResult.Rejected(code);
+            IAssetDispatcher dispatcher;
+            try { dispatcher = new UnityAssetDispatcher(); }
+            catch (InvalidOperationException) { return ResourceRuntimeCreationResult.Rejected("RES_MAIN_THREAD"); }
+            var platform = UnityEngine.Application.platform;
+            var actual = platform == UnityEngine.RuntimePlatform.Android ? "android" :
+                platform == UnityEngine.RuntimePlatform.OSXEditor ? "macOS" :
+                platform == UnityEngine.RuntimePlatform.WindowsEditor ? "windows" : "";
+            if (plan.Platform != actual) return ResourceRuntimeCreationResult.Rejected("RES_SCHEMA");
+            var root = UnityEngine.Application.streamingAssetsPath + "/FightMatchResources/" + plan.PackageName;
+            return ResourceRuntimeCreationResult.Accepted(
+                new YooAssetResourceRuntime(set, plan, root, dispatcher, RealYooSdk.Instance),
+                plan.ReleaseSetId, plan.DescriptorSha256);
+        }
+
         private sealed class Rejection : Exception
         {
             internal DiagnosticCode Code { get; }

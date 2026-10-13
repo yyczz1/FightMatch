@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using FightMatch.AssetAccess;
+using FightMatch.YooAssetAdapter;
 using FightMatch.Core;
 using FightMatch.Platform;
 using FightMatch.Presentation;
@@ -15,6 +19,11 @@ namespace FightMatch.Host
         [SerializeField] private TMP_FontAsset fontAsset;
         [SerializeField] private UnityEngine.TextAsset fontLicense;
         [SerializeField] private FightMatchHostView runtimeRoot;
+        [SerializeField] private TextAsset resourceBoot;
+        [SerializeField] private string resourceBootSha256;
+        [SerializeField] private string resourceSetId;
+        [SerializeField] private string resourcePlatform;
+        [SerializeField] private int resourceAppProtocol = 1;
         public TMP_FontAsset FontAsset => fontAsset;
         public UnityEngine.TextAsset FontLicense => fontLicense;
         public FightMatchHostView RuntimeRoot => runtimeRoot;
@@ -22,6 +31,12 @@ namespace FightMatch.Host
         public string SystemPersistentDataPath { get; private set; }
         public string CanonicalProductRoot { get; private set; }
         private LocalizationService localization;
+        private IFightMatchResourceRuntime resourceRuntime;
+        private CancellationTokenSource resourceCancellation;
+        private long resourceEpoch;
+        private FightMatchResourceActivationStore resourceActivation;
+        private string resourceActivationId;
+        private bool resourceBusinessReady;
         private bool destroyed;
         private ILocalePreferenceStore localePreference;
         private string preferenceRoot, startupFailure;
@@ -84,8 +99,6 @@ namespace FightMatch.Host
                 ShowFailure("MissingHostResources");
                 yield break;
             }
-            // LOC-TOOL-01 owns the production source. UGUI-01 never turns the draft into a runtime catalog.
-            localization = new LocalizationService(null, UnityEngine.Application.systemLanguage);
             try
             {
                 SystemPersistentDataPath = UnityEngine.Application.persistentDataPath;
@@ -96,50 +109,36 @@ namespace FightMatch.Host
                     CanonicalSystemRoot(SystemPersistentDataPath);
                 CanonicalProductRoot = Path.Combine(preferenceRoot, "FightMatch");
                 VerifyLocaleStorage();
-                InitializeLocalePreference(localization,
-                    new FileLocalePreferenceStore(preferenceRoot, new LocalePreferenceFiles()), UnityEngine.Application.systemLanguage);
-                if (!startupCancelled && !destroyed) BindView();
             }
             catch (Exception error) { RejectLocaleStorage(error); yield break; }
-            if (startupCancelled || destroyed) yield break;
-            if (!localization.IsReady)
-            {
-                startupFailure = "LocalizationNotReady";
-                runtimeRoot.ShowFailure(startupFailure);
-                yield break;
-            }
             runtimeRoot.SetLoading(true);
-            var loader = new FightMatchStreamingAssetsLoader();
-            var loading = loader.Load(UnityEngine.Application.streamingAssetsPath);
-            var epoch = localeEpoch;
+            var epoch = ++resourceEpoch;
+            resourceCancellation = new CancellationTokenSource();
+            var loading = OpenResourcesAsync(epoch, resourceCancellation.Token);
+            while (!loading.IsCompleted && CurrentResourceStartup(epoch)) yield return null;
+            if (!CurrentResourceStartup(epoch)) yield break;
+            if (loading.IsFaulted || loading.IsCanceled)
+            { ShowFailure("RES_STORAGE"); yield break; }
+            var resources = loading.Result;
+            if (!resources.IsDataReady)
+            { ShowFailure(resources.DiagnosticCode); yield break; }
             try
             {
-                while (CheckLocalePreference(epoch))
-                {
-                    bool more;
-                    try { more = loading.MoveNext(); }
-                    catch (Exception error) { Debug.LogException(error); ShowFailure("ContentReadFailed"); yield break; }
-                    if (!more) break;
-                    yield return loading.Current;
-                }
+                InitializeLocalePreference(new LocalizationService(resources.TextSource, UnityEngine.Application.systemLanguage),
+                    new FileLocalePreferenceStore(preferenceRoot, new LocalePreferenceFiles()), UnityEngine.Application.systemLanguage);
             }
-            finally { (loading as IDisposable)?.Dispose(); }
-            if (!CheckLocalePreference(epoch)) yield break;
-            if (loader.Catalog == null)
-            {
-                ShowFailure("ContentValidationFailed");
-                yield break;
-            }
+            catch (Exception error) { RejectLocaleStorage(error); yield break; }
+            if (!CurrentResourceStartup(epoch) || !localization.IsReady) yield break;
             try
             {
                 var locator = Path.Combine(CanonicalProductRoot, "locator");
                 var profiles = Path.Combine(CanonicalProductRoot, "profiles");
 #if UNITY_ANDROID && !UNITY_EDITOR
-                Session = new FightMatchHostSession(loader.Catalog, CanonicalProductRoot,
+                Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
                     new AndroidContentPublicationStorage(locator),
                     id => new AndroidLocalSaveStorage(profiles, id, SavePurpose.PlayerSave));
 #else
-                Session = new FightMatchHostSession(loader.Catalog, CanonicalProductRoot,
+                Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
                     new MacContentPublicationStorage(locator),
                     id => new MacEditorSaveStorage(profiles, id, SavePurpose.PlayerSave));
 #endif
@@ -153,6 +152,63 @@ namespace FightMatch.Host
             {
                 try { CancelStartup(); } finally { DisposeSessionAndLease(); }
                 Debug.LogException(error); ShowFailure("HostInitializationFailed");
+            }
+        }
+
+        private bool CurrentResourceStartup(long epoch) => !destroyed && !startupCancelled &&
+            resourceEpoch == epoch && resourceCancellation != null && !resourceCancellation.IsCancellationRequested;
+
+        private async Task<FightMatchResourceBridgeResult> OpenResourcesAsync(long epoch, CancellationToken cancellationToken)
+        {
+            FightMatchResourceBridgeResult Failed(string code) => new FightMatchResourceBridgeResult(null, null, null, code);
+            try
+            {
+                if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                var created = YooAssetRuntimeFactory.Create(new ResourceBootstrapInput(resourceBoot != null ? resourceBoot.bytes : null,
+                    resourceBootSha256, resourceSetId, resourcePlatform, resourceAppProtocol, new[] { "resource-schema-v1" }));
+                if (!created.IsAccepted) return Failed(created.SafeCode);
+                resourceRuntime = created.Runtime;
+                VerifyLocaleStorage();
+                Directory.CreateDirectory(CanonicalProductRoot);
+                VerifyLocaleStorage();
+                resourceActivation = new FightMatchResourceActivationStore(CanonicalProductRoot);
+                var entered = resourceActivation.EnterAtProcessStart(created.ReleaseSetId, created.DescriptorSha256);
+                if (entered.Outcome != ActivationOutcome.Confirmed || entered.Snapshot?.Active == null)
+                    return Failed(entered.SafeCode ?? "RES_STATE");
+                resourceActivationId = entered.Snapshot.Active.ActivationId;
+                var inspection = await resourceRuntime.InspectAsync(epoch, cancellationToken);
+                if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                if (!ResourceDownloadPermit.TryCreate(inspection, false, out var permit, out var diagnostic))
+                    return Failed(diagnostic.SafeCode);
+                var prepared = await resourceRuntime.PrepareAsync(permit, null, cancellationToken);
+                if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                if (prepared.Status != ResourceTransportStatus.TransportVerified)
+                    return Failed(prepared.Diagnostic?.SafeCode ?? "RES_STOP");
+                var bridge = await FightMatchResourceBridge.OpenAsync(resourceRuntime, epoch, cancellationToken);
+                return CurrentResourceStartup(epoch) ? bridge : Failed("RES_STOP");
+            }
+            catch (OperationCanceledException) { return Failed("RES_STOP"); }
+            catch (Exception) { return Failed("RES_STORAGE"); }
+            finally { resourceRuntime?.Dispose(); }
+        }
+
+        private void ObserveResourceBusinessReady()
+        {
+            // First-run creation and recovery remain CodeEntered until the existing save gate verifies a real head.
+            if (resourceBusinessReady || resourceActivation == null || resourceActivationId == null ||
+                startupCancelled || destroyed || !isActiveAndEnabled || Session == null || Session.LastCall == null ||
+                runtimeRoot == null || runtimeRoot.DiagnosticCode != null || localization?.BindingDiagnostic != null ||
+                Session.LastCall.Diagnostic != null || Session.LastCall.View?.IsPublishedHeadVerified != true ||
+                Session.LastCall.View.Phase != FightMatch.Application.CandidateApplicationPhase.Ready ||
+                (Session.Page != FightMatchHostPage.Navigation && Session.Page != FightMatchHostPage.Battle)) return;
+            try { VerifyLocaleStorage(); }
+            catch (Exception error) { RejectLocaleStorage(error); return; }
+            var ready = resourceActivation.MarkBusinessReady(resourceActivationId);
+            if (ready.Outcome == ActivationOutcome.Confirmed) resourceBusinessReady = true;
+            else
+            {
+                ShowFailure(ready.SafeCode ?? "RES_STATE");
+                CancelStartup();
             }
         }
 
@@ -214,7 +270,11 @@ namespace FightMatch.Host
         private void CancelStartup()
         {
             if (startupCancelled) return;
-            startupCancelled = true; localeEpoch++; localePreference = null; localeSelectionEnabled = false;
+            startupCancelled = true;
+            resourceEpoch++;
+            resourceCancellation?.Cancel();
+            resourceRuntime?.Dispose();
+            localeEpoch++; localePreference = null; localeSelectionEnabled = false;
             startupFailure = startupFailure ?? "HostInitializationFailed";
             try { StopAllCoroutines(); }
             finally
@@ -257,6 +317,13 @@ namespace FightMatch.Host
             localeSelectionEnabled = true;
             runtimeRoot.Bind(Session, localization, fontLicense.text,
                 locale => epoch == localeEpoch ? SelectLocalePreference(locale) : null);
+            if (Session != null)
+            {
+                // Observe after the view renders, including after a disable/enable rebind.
+                Session.Changed -= ObserveResourceBusinessReady;
+                Session.Changed += ObserveResourceBusinessReady;
+                ObserveResourceBusinessReady();
+            }
         }
         private void OnEnable()
         {
@@ -297,6 +364,7 @@ namespace FightMatch.Host
                 var session = Session;
                 Session = null;
                 session.QuitRequested -= Quit;
+                session.Changed -= ObserveResourceBusinessReady;
                 session.Dispose();
             }
             finally
@@ -461,7 +529,11 @@ namespace FightMatch.Host
                 CancelStartup();
                 runtimeRoot?.Unbind();
             }
-            finally { DisposeSessionAndLease(); }
+            finally
+            {
+                try { DisposeSessionAndLease(); }
+                finally { resourceCancellation?.Dispose(); resourceCancellation = null; }
+            }
         }
     }
 }
