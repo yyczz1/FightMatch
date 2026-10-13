@@ -7,10 +7,11 @@
 用户已明确批准：按简化方案继续，复用已有结果、补必要检查后推进游戏接入；可人工验收，普通技术步骤不逐项请示。中央回合 `01a13404-21d1-7262-abae-9d52295727c2`，人类消息 `01a13404-223c-7893-b069-dae699e44e19`。
 
 - **已完成：** 当前264条文本与既有导出逐字段一致；标准Luban重复键检查2.541秒，按预期exit1并报告重复key，正式输入未修改。见[实际结果](TestArtifacts/FightMatch/LOC-STANDARD-001/result.md)。没有新下载、依赖还原或上游重建。
-- **当前完成与阻塞：** 正式文本/内置资源/Host已接线；原Mac正常Session和简中曾实际观察，按钮自动点击无响应原因未定。三平台资源选择、Windows既有存储/路径入口接线已修，平台定向检查13通过/1 Windows原生跳过/0失败，Android和Windows真实raw构建成功，Mac产物复用，Scene已绑定三平台。原103pass、Bridge5+HCP8及最后Fake3/3均保留。源码/资源已推送`ef4c33f`至PR22，等待该修正的独立复审。详见[运行记录](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)、[平台证据](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/platform-verification.json)，只读[主程索引顶部](docs/team/2026-09-30/engineering.md)取具体范围，不从历史恢复旧任务。
+- **当前完成与阻塞：** 正式文本/内置资源/Host已接线；原Mac正常Session和简中曾实际观察，按钮自动点击无响应原因未定。三平台资源选择、Windows既有存储/路径入口接线已修，平台定向检查13通过/1 Windows原生跳过/0失败，Android和Windows真实raw构建成功，Mac产物复用，Scene已绑定三平台。原103pass、Bridge5+HCP8及最后Fake3/3均保留。源码/资源已推送`ef4c33f`至PR22，第三轮独立审查已完成，详见下方收件。详见[运行记录](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)、[平台证据](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/platform-verification.json)，只读[主程索引顶部](docs/team/2026-09-30/engineering.md)取具体范围，不从历史恢复旧任务。
 - **真实工具阻塞，仅限GUI：** 阶段B隔离窗口启动被auto-review拒绝两次，第二次附本轮人类原文仍被拒，要求用户直接在执行聊天确认。C当前未运行Unity，新Game窗口未打开，不能请用户点未打开的按钮；不得换工具/入口/聊天绕过此拒绝。需用户在“FightMatch C-MAC-HISO 定向验证”（`01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local`）直接批准“使用冻结候选和新HISO隔离档启动一次Unity GUI，进入Demo Play并留窗人工检查；允许隔离状态写入，不重跑测试/构建、不扩大范围，结果按既定链路交主程和中央”。这是本次工具审批要求，不是新增逐包请示规则。发布、独立审查及其普通代码修正继续；窗口READY后中央再统一请求一次人工点击判别。
 - **验收：** 按[主测试8项清单](docs/team/2026-09-30/testing.md)检查真实启动、文本、语言切换、保存复开、地图/战斗及存档连续性。源码、自动化、实际观察、真机分开记录；新增代码交GitHub PR Code Review。
-- **仍缺：** 修正后独立复审、真实点击/切语种/玩家保存复开、新uGUI安卓包及设备证据。[PR22](https://github.com/yyczz1/FightMatch/pull/22)前两次审查为NEEDS_FIX，旧问题已做接线修正，不能在新审查前自行关闭。iQOO Neo5未接入；Windows原生未测。资源构建不等于APK/设备通过，Scene保存不等于玩家存档保存。
+- **独立审查已收件：** [PR22第三轮结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6143365353)于2026-10-13 18:17:56完成，准确审查版本`23f00824db710f0c35299e7006f824384a267f02`，服务未发现重大问题，主测试接收此版本的源码审查门。两个旧P1已过期但GitHub线程未关闭，不能称formal APPROVED。此后仅更新接续文档，源码/资源仍为`ef4c33f`，不重跑已通过验证。
+- **集成判定：NEEDS_FIX。** 仍缺真实点击/切语种/玩家保存复开、新uGUI安卓包及设备证据。iQOO Neo5未接入；Windows原生未测。资源构建不等于APK/设备通过，Scene保存不等于玩家存档保存。
 - **已停止：** Luban M17/FIX11自制还原/验收链。旧失败与候选保留；Yaml旧依赖许可证资料单列未解决，不再以重建整套工具链作为游戏接入前置。
 
 角色与跨组状态见[团队快照](docs/team/2026-09-30/README.md)。详细历史只在定位特定证据时读取：[本次入口归档](docs/team/2026-09-30/central-entry-history-through-2026-10-13.md)、[旧执行次数与原因](docs/team/2026-09-30/central-loc-execution-history-2026-10-13.md)。历史中的“当前”“待激活”和一次授权均描述原时点。
