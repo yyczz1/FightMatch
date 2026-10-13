@@ -1,0 +1,25 @@
+{
+  "kind": "current direct human authorization",
+  "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+  "centralHost": "local",
+  "centralTurn": "01a13323-9503-7942-8536-bb479256d06b",
+  "userItem": "01a13323-95c4-77a2-910c-5a03d6e5bb02",
+  "exactText": "允许 FIX10 再执行一轮：复用全部下载文件、零新增下载，在外置硬盘执行最多三次依赖还原，总计不超过15分钟，由中央接收结果。继续推进，减少重复记录和会话交接。\n\n这个任务已经执行了多少次了？告诉我，这是在做什么，为什么一直都无法推进",
+  "driverMaxBytes": 286720,
+  "sourceScope": "Execute the already fixed and reviewed FIX10; no source edits or duplicate static checks.",
+  "nativePrerequisites": [
+    "Completed correction",
+    "Passed relevant static checks",
+    "Independent GitHub review of the exact source head"
+  ],
+  "nativeLimits": {
+    "attempts": 1,
+    "newDownloads": 0,
+    "restores": 3,
+    "externalDisk": true,
+    "wallSeconds": 900,
+    "centralReceives": true
+  },
+  "otherBudgets": "unchanged",
+  "priorNativeAttempts": "M12 and all earlier attempts remain historical; this direct approval authorizes one new M13 attempt."
+}
