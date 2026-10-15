@@ -202,7 +202,8 @@ namespace FightMatch.Presentation
                     UnityAction action = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch && DisplayLayoutSupported) owner.SelectMember(id); };
                     button.onClick.AddListener(action); buttons.Add(id, button); memberActions.Add(id, action);
                 }
-                BattleText.MemberHp(localization, id, member.Hp, member.Member.Stats.MaxHp)
+                new BattleTextLine("fm.battle.hud.member_hp", BattleText.Arg("characterName", BattleText.Character(localization, id) + "\n"),
+                    BattleText.Arg("currentHp", BattleText.Hp(member.Hp)), BattleText.Arg("maxHp", BattleText.Hp(member.Member.Stats.MaxHp)))
                     .Bind(button.GetComponentInChildren<LocalizedTmpText>(true), localization);
                 button.interactable = problem == null && member.Hp.Numerator.Sign > 0;
                 button.gameObject.SetActive(true);

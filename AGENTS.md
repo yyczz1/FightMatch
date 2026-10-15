@@ -157,10 +157,12 @@ and [execution agreement](.agent/TEAM_WORKFLOW.md).
   is needed or overall progress is affected. Keep routine evidence and receipts
   with the responsible lead; central does not duplicate them. Follow
   [the reporting triggers](.agent/TEAM_WORKFLOW.md#6-回传与继续推进).
-- Engineering delegates architecture → system design → implementation.
-  Planning, art and testing delegate through their documented specialist roles.
-  Keep design and production in separate role chats; code review runs through
-  GitHub PR Code Review under the rule below.
+- **Workflow update (user, 2026-10-14):** size the process to the change using
+  [task routing](.agent/TEAM_WORKFLOW.md#0-按任务选择流程). Keep five lead roles;
+  ordinary fixes go directly from the responsible lead to an implementer.
+  Activate architecture/system design only for an unresolved design decision.
+  Keep design and production separate when both are needed. Use one task record
+  and receiver; central receives milestones and overall blockers, not each retry.
 - For user-authorized FightMatch tasks, reuse suitable chats or create necessary
   role/execution chats, dispatch scoped work and exchange task receipts within
   this team. This approved coordination does not require repeated per-packet
@@ -222,14 +224,15 @@ Codex must:
 
 - inspect the repository and approved documents;
 - clarify scope and risks;
-- create small external-worker task packets;
+- use the short internal task record, or an external-worker packet when needed;
 - define allowed and forbidden files;
 - obtain independent GitHub PR review for code changes and inspect its findings;
 - run or inspect applicable validation;
 - record exactly one integration verdict: `ACCEPT`, `NEEDS_FIX`, or `REJECT`,
   citing the independent review and required validation rather than inventing
   a bot approval or conducting a duplicate local code review;
-- create a smaller corrective task packet after `NEEDS_FIX`.
+- append bounded corrections to the same internal task; use a separate corrective
+  packet for external workers or a materially changed scope.
 
 Codex does **not** directly invoke DeepSeek, Claude, Claude Code, or another external model. The user manually transfers task packets and patches between environments.
 

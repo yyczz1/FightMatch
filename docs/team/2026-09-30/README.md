@@ -1,18 +1,18 @@
 # FightMatch 当前接续快照
 
-2026-10-13：开发继续，首Demo尚未验收。用户已批准简化工具检查后直接推进游戏接入，不逐步请示。实际权限和范围以[START_HERE](../../../START_HERE.md)及当前用户请求为准。
+2026-10-15：首Demo尚未验收；用户已新授权隔离档最多两次Unity启动完成UI验证，以及PR22推送/审查。按简化流程由主程接收UI收尾，中央负责发布；实际结果以[START_HERE](../../../START_HERE.md)及本线记录为准。
 
 ## 当前任务
 
 | 工作 | 当前事实 | 唯一明细入口 |
 | --- | --- | --- |
 | 工具功能 | 复用264条真实导表；标准重复键检查2.541秒按预期拒绝，无下载/还原 | [结果](../../../TestArtifacts/FightMatch/LOC-STANDARD-001/result.md) |
-| 游戏接入 | 三平台资源和Windows既有存储入口已接线；先前Mac Session/简中已观察，实际点击尚未通过 | [主程索引顶部](engineering.md) |
-| Unity/实际观察 | 三平台raw构建成功；平台13pass/1 Windows原生Ignore，复用既有通过项。新GUI启动被自动审批拒绝，窗口未打开 | [执行记录](../../../TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)、[8项人工清单](testing.md) |
-| 代码审查 | PR22第三轮已完成，准确版本23f0082无重大问题；源码审查门接收，两个旧P1已过期但线程未关闭 | [独立结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6143365353) |
+| 游戏接入 | 三平台资源和Windows既有存储入口已接线；先前Mac Session/简中已观察，按钮/语言下拉修正已在本机完成；实际英文及完整交互验收待补 | [主程索引顶部](engineering.md) |
+| Unity/实际观察 | 三平台raw构建成功；平台13pass/1 Windows原生Ignore，复用既有通过项。本轮Apply成功，12项通过＋修正后单项通过；简中地图已观察，C已关闭窗口 | [执行记录](../../../TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)、[8项人工清单](testing.md) |
+| 代码审查 | 前轮23f0082无重大问题；本轮按钮/下拉新代码尚待推送和新审查，用户已明确授权 | [独立结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6143365353) |
 | 美术 | 继续使用现有占位；Warrior Idle Initial01已有用户选择但尚未Unity导入 | [主美记录](art.md#104-用户采用为-initial-01同日) |
 
-当前集成判定NEEDS_FIX：仍缺真实交互、新uGUI安卓包、玩家保存复开/冷启动/真机证据。GUI两次审批拒绝要求人类直接在C聊天授权，详见START_HERE；窗口未打开，中央尚未要求点击。iQOO Neo5未接入。PR4旧Canvas问题以真实显示、交互和保存复开闭合；Scene保存不等于玩家存档保存。最终收件仅更新文档，源码/资源保持ef4c33f；不把文档新提交冒充已经审查的新代码。
+当前集成判定NEEDS_FIX：原46按钮/3模板已修正，语言改TMP下拉；本轮新代码尚未推送/审查。两个无图形窗口用例仍未通过；上轮GUI恢复旧资料及简中540×960地图，但自动点击下拉无响应，英文/其它页/动态克隆/语言复开未验证。上轮已退出Editor，审批拒绝原因保留为历史；本次新授权已送达主程，继续原任务，不恢复旧N07。14产品路径及clean发布适配保存在`TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/publish/`。PR22实核仍a1affde7；前轮23f0082审查不覆盖新UI变更。
 
 新增已查明边界：WindowsEditorSaveStorage/WindowsContentPublicationStorage已存在，缺的是Host系统根与存储选择接线，并非缺少存储实现。本轮已复用接线；Windows原生运行仍未测，存档规则不变。
 
@@ -20,7 +20,7 @@ Luban M17/FIX11旧链已停止。旧Yaml依赖许可证资料未解决；源码/
 
 ## 执行与角色
 
-专业负责人自行分发、接收和修正普通已授权工作；只将跨组协调、整体里程碑或真正阻塞汇总中央。默认Astra/xhigh，明确机械任务可Luna。遵循[简化验收规则](../../../.agent/TEAM_WORKFLOW.md#5-测试申请与回执)，每项一个完成接收者。
+新派工遵循[任务分级与短流程](../../../.agent/TEAM_WORKFLOW.md#0-按任务选择流程)；五位负责人保留，普通修正直接交执行者，只在需要设计时启用设计层。同一任务一份记录、一个接收者，中央只接跨组协调、里程碑或整体阻塞。默认Astra/xhigh，明确机械任务可Luna。
 
 | 角色 | thread（host均local，云例外） |
 | --- | --- |

@@ -2,9 +2,13 @@
 
 This file defines general workflow. It is not a product roadmap.
 
+Internal team tasks follow [task routing](TEAM_WORKFLOW.md#0-按任务选择流程).
+Use an existing approved design and one short task record for ordinary fixes;
+the external-worker splitting and handoff sections below apply to DeepSeek.
+
 ## 1. When Codex must plan
 
-Create an explicit plan before work that:
+Create or update an explicit plan before work that:
 
 - affects multiple modules;
 - changes architecture or public APIs;
@@ -13,7 +17,10 @@ Create an explicit plan before work that:
 - has ambiguous acceptance criteria;
 - includes migration or compatibility risk.
 
-A trivial, isolated edit may use a short inline plan, but still needs acceptance criteria and verification.
+A bounded change under an approved design, including a UI prefab correction,
+may use the short internal task record as its plan. List asset/meta permissions
+explicitly. Escalate to detailed design for actual contract, persistence or
+compatibility changes; file count alone does not require another design chat.
 
 ## 2. Requirement-to-plan process
 
@@ -26,7 +33,8 @@ Codex:
 5. defines observable success criteria;
 6. maps affected files and protected boundaries;
 7. sequences tasks by dependency;
-8. gets user approval before complex implementation.
+8. checks whether the existing user authorization covers the plan; asks only
+   for unresolved user decisions or actions outside that authorization.
 
 Do not plan from filenames alone. Do not claim existing behavior without reading it.
 
@@ -111,7 +119,8 @@ Rules:
 - everything not allowed is forbidden;
 - permit new files explicitly;
 - name protected files even when obviously forbidden;
-- include a maximum changed-file and approximate diff budget.
+- keep scope and resource limits proportionate to the change; use exact file
+  lists without arbitrary byte/line limits that turn ordinary edits into new approvals.
 
 ## 5. Acceptance criteria
 
@@ -160,16 +169,11 @@ Codex does not invoke or monitor the external model.
 
 ## 8. Patch review
 
-When the user returns a patch:
-
-1. compare changed files to the whitelist;
-2. inspect the full diff;
-3. check protected changes;
-4. evaluate correctness and simplicity;
-5. run focused validation;
-6. run integration validation when warranted;
-7. use `REVIEW_CHECKLIST.md`;
-8. return `ACCEPT`, `NEEDS_FIX`, or `REJECT`.
+Check scope and protected changes, obtain applicable validation, then follow
+[GitHub PR Code Review](TEAM_WORKFLOW.md#7-github-pr-code-review) and
+`REVIEW_CHECKLIST.md`. The testing lead records `ACCEPT`, `NEEDS_FIX`, or
+`REJECT` against the actual reviewed input and evidence. Scope receipt is not
+a second local code review; authors cannot approve their own delivery.
 
 For a group, Codex first returns a verdict for every packet, then a group
 integration verdict. One failed packet does not invalidate earlier independent
@@ -181,7 +185,10 @@ accepted commits.
 
 Use for a bounded repair.
 
-Codex creates a smaller corrective TASK_PACKET containing:
+For internal work, append the specific failure, correction scope and necessary
+recheck to the same task record, and continue with the same implementer within
+the authorized budget. A new packet is needed for external DeepSeek or a
+material scope change. That corrective packet contains:
 
 - exact defective file/hunk;
 - expected correction;
@@ -202,7 +209,9 @@ Use when the approach is unsafe or scope contamination is extensive.
 
 ## 10. Task records
 
-When task packets begin to be used, store approved packets under:
+For internal tasks, use one record and link it from the responsible lead's index;
+store raw results separately and link them rather than duplicating receipts.
+For external task packets, store approved packets under:
 
 ```text
 .agent/tasks/<TASK-ID>.md
@@ -242,23 +251,30 @@ ACCEPTED
 
 ## 12. Rollback and integration
 
-Preferred workflow:
+When Git operations are authorized, prefer a known branch/base for each coherent
+delivery and test the candidate that will be submitted. Preserve existing WIP
+before reorganizing it; do not reset a dirty checkout to manufacture a clean base.
+If local inputs differ from the PR candidate, state that limitation and resolve
+the relevant differences before final acceptance, rather than claiming they are
+the same tested version.
+
+External-worker workflow:
 
 1. clean baseline;
-2. one branch/worktree per task;
+2. an authorized review branch; create a worktree only when needed and authorized;
 3. external worker produces an uncommitted patch;
-4. Codex reviews and validates;
-5. one focused commit after `ACCEPT`;
-6. revert the single commit if regression appears.
+4. an authorized publisher commits/pushes the scoped candidate to a draft PR;
+5. GitHub reviews it and the testing lead receives validation before `ACCEPT`;
+6. integration, merge or rollback follows its own actual user authorization.
 
 Grouped variant:
 
 1. clean baseline and recorded start commit;
 2. packets executed in dependency order;
 3. one local commit per packet;
-4. Codex reviews commit-by-commit;
+4. an authorized publisher submits the commits for GitHub review;
 5. Codex runs group integration verification;
-6. only the user or Codex may push after the group is accepted.
+6. acceptance precedes integration; draft review publication is not a merge or release.
 
 Git is currently valid, but branch, worktree, commit, merge, and push operations still require user authorization. Until such authorization is given:
 

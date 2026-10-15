@@ -200,6 +200,7 @@ namespace FightMatch.Host.Editor
                 detail.gameObject.SetActive(false);
             }
             Id(rect.gameObject, id);
+            FightMatchUiButtonDropdownCorrection.ConfigureButton(button);
             return button;
         }
         private static TMPro.TMP_InputField Input(string name, Transform parent, string id)
@@ -419,10 +420,9 @@ namespace FightMatch.Host.Editor
                 "dialog", Modal("BattleConfirmation", confirmationContainer), "recovery", Modal("BattleRecovery", recoveryContainer),
                 "receipt", resultRows, "buttonTemplate", battleButton, "textTemplate", textTemplate);
 
-            var language = Modal("LanguagePopup", popups, "fm.popup.language");
-            var languageTitle = Label("Title", language); var feedback = Label("Feedback", language);
-            var english = Button("English", language, RowId("language.en")); var chinese = Button("Chinese", language, RowId("language.zhHans"));
-            var languageClose = Button("Close", language, "fm.action.close");
+            var language = FightMatchUiButtonDropdownCorrection.CreateLanguageDropdown(hud, preparingFont);
+            var feedback = Label("Feedback", hud);
+            var feedbackPanel = FightMatchUiButtonDropdownCorrection.CreateFeedbackPanel(hud, feedback.transform);
             var license = Modal("LicensePopup", popups, "fm.popup.license");
             var licenseTitle = Label("Title", license);
             var licenseScrollRect = Rect("LicenseScrollContainer", license);
@@ -437,17 +437,18 @@ namespace FightMatch.Host.Editor
             var loading = Modal("LoadingOverlay", systems, RowId("system.Loading")); var loadingLabel = Label("Loading", loading);
             var diagnostic = Modal("BlockingDiagnostic", systems, "fm.popup.blocking"); var diagnosticText = Label("Diagnostic", diagnostic, height: 192);
             References(hostView, "startupPage", startup.gameObject, "navigationPage", navigation.gameObject,
-                "battlePage", battle.gameObject, "resultPage", result.gameObject, "languagePopup", language.gameObject,
+                "battlePage", battle.gameObject, "resultPage", result.gameObject,
                 "licensePopup", license.gameObject, "quitPopup", quit.gameObject, "loadingOverlay", loading.gameObject,
                 "blockingDiagnostic", diagnostic.gameObject, "navigationView", navView, "battleView", battleView, "board", board,
-                "profileTitle", profileTitle, "startupStatus", startupStatus, "languageTitle", languageTitle, "languageFeedback", feedback,
+                "profileTitle", profileTitle, "startupStatus", startupStatus,
                 "licenseTitle", licenseTitle, "quitTitle", quitTitle, "quitBody", quitBody, "loadingLabel", loadingLabel,
                 "diagnosticText", diagnosticText, "licenseBody", licenseBody, "createButton", create, "continueButton", continuation,
                 "reloadButton", reload, "backButton", Button("Back", hud, "fm.action.back"),
-                "languageButton", Button("Language", hud, "fm.action.language.open"), "languageEnglishButton", english,
-                "languageChineseButton", chinese, "languageCloseButton", languageClose,
                 "licenseButton", Button("License", hud, RowId("license.Open")), "licenseCloseButton", licenseClose,
                 "quitConfirmButton", quitConfirm, "quitCancelButton", quitCancel);
+            var languageFields = new SerializedObject(hostView);
+            FightMatchUiButtonDropdownCorrection.WireLanguage(languageFields, language, feedbackPanel);
+            languageFields.ApplyModifiedPropertiesWithoutUndo();
             navigation.gameObject.SetActive(false); battle.gameObject.SetActive(false); result.gameObject.SetActive(false);
             return root;
         }

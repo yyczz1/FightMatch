@@ -11,24 +11,26 @@ namespace FightMatch.Host
     public sealed class FightMatchHostView : MonoBehaviour, IDisposable
     {
         [SerializeField] private GameObject startupPage, navigationPage, battlePage, resultPage;
-        [SerializeField] private GameObject languagePopup, licensePopup, quitPopup, loadingOverlay, blockingDiagnostic;
+        [SerializeField] private GameObject languageFeedbackPanel, licensePopup, quitPopup, loadingOverlay, blockingDiagnostic;
         [SerializeField] private PlayerNavigationView navigationView;
         [SerializeField] private PlayerBattleView battleView;
         [SerializeField] private CandidateBoardElement board;
         [SerializeField] private FightMatchResponsiveLayout responsiveLayout;
         [SerializeField] private GameObject confirmationPopupRoot, confirmationRootMask, navigationConfirmationPanel, battleConfirmationPanel;
         [SerializeField] private GameObject recoveryScreenRoot, recoveryRootMask, navigationRecoveryPanel, battleRecoveryPanel;
-        [SerializeField] private LocalizedTmpText profileTitle, startupStatus, languageTitle, languageFeedback;
+        [SerializeField] private LocalizedTmpText profileTitle, startupStatus, languageCaption, languageFeedback;
+        [SerializeField] private LocalizedTmpText languageEnglishOption, languageChineseOption;
         [SerializeField] private LocalizedTmpText licenseTitle, quitTitle, quitBody, loadingLabel, diagnosticText;
         [SerializeField] private TextMeshProUGUI licenseBody;
         [SerializeField] private UnityEngine.UI.Button createButton, continueButton, reloadButton, backButton;
-        [SerializeField] private UnityEngine.UI.Button languageButton, languageEnglishButton, languageChineseButton, languageCloseButton;
+        [SerializeField] private FightMatchLocaleDropdown languageDropdown;
         [SerializeField] private UnityEngine.UI.Button licenseButton, licenseCloseButton, quitConfirmButton, quitCancelButton;
         private readonly List<KeyValuePair<UnityEngine.UI.Button, UnityAction>> listeners = new List<KeyValuePair<UnityEngine.UI.Button, UnityAction>>();
         private readonly List<LocalizedTmpText> labels = new List<LocalizedTmpText>();
         private FightMatchHostSession session;
         private LocalizationService localization;
         private Func<LocaleId, LocalePreferenceSaveResult> selectLocalePreference;
+        private UnityAction<int> localeSelection;
         private FightMatchHostPage contentPage = FightMatchHostPage.Startup;
         private long generation;
         private string infrastructureDiagnostic;
@@ -48,14 +50,15 @@ namespace FightMatch.Host
             Unbind();
             if (service == null) throw new ArgumentNullException(nameof(service));
             if (startupPage == null || navigationPage == null || battlePage == null || resultPage == null ||
-                languagePopup == null || licensePopup == null || quitPopup == null || loadingOverlay == null || blockingDiagnostic == null ||
+                languageFeedbackPanel == null || licensePopup == null || quitPopup == null || loadingOverlay == null || blockingDiagnostic == null ||
                 navigationView == null || battleView == null || board == null || licenseBody == null || responsiveLayout == null ||
                 confirmationPopupRoot == null || confirmationRootMask == null || navigationConfirmationPanel == null || battleConfirmationPanel == null ||
                 recoveryScreenRoot == null || recoveryRootMask == null || navigationRecoveryPanel == null || battleRecoveryPanel == null ||
-                profileTitle == null || startupStatus == null || languageTitle == null || languageFeedback == null ||
+                profileTitle == null || startupStatus == null || languageCaption == null || languageFeedback == null ||
+                languageEnglishOption == null || languageChineseOption == null ||
                 licenseTitle == null || quitTitle == null || quitBody == null || loadingLabel == null || diagnosticText == null ||
                 createButton == null || continueButton == null || reloadButton == null || backButton == null ||
-                languageButton == null || languageEnglishButton == null || languageChineseButton == null || languageCloseButton == null ||
+                languageDropdown == null || languageDropdown.placeholder != languageCaption.Target ||
                 licenseButton == null || licenseCloseButton == null || quitConfirmButton == null || quitCancelButton == null)
                 throw new InvalidOperationException("Host serialized bindings are incomplete.");
             session = owner; localization = service; selectLocalePreference = selectLocale; bound = true;
@@ -68,26 +71,34 @@ namespace FightMatch.Host
             licenseBody.text = string.IsNullOrEmpty(fontLicense) ? LocalizedTmpText.Placeholder : fontLicense;
             if (string.IsNullOrEmpty(fontLicense)) infrastructureDiagnostic = "MissingFontLicense";
             BindText(profileTitle, "fm.profile.title");
-            BindText(languageTitle, "fm.language.entry.label");
+            RefreshLocaleOptions(service.CurrentLocale);
             BindText(licenseTitle, "fm.font_licenses.title");
             BindText(quitTitle, "fm.exit_app.title"); BindText(quitBody, "fm.exit_app.body");
             BindText(loadingLabel, "fm.common.state.loading");
-            languageFeedback.gameObject.SetActive(false);
+            SetLanguageFeedbackVisible(false);
             AddButton(createButton, "fm.profile.create.button", () => session?.CreateProfile());
             AddButton(continueButton, "fm.profile.creation_pending.continue_button", () => session?.ContinueCreation());
             AddButton(reloadButton, "fm.profile.reload.button", () => session?.ObserveStartup());
             AddButton(backButton, "fm.common.action.back", () => session?.Back());
-            AddButton(languageButton, "fm.language.entry.label", () => ShowLanguage(true));
-            AddButton(languageEnglishButton, "fm.language.option.en", () => SelectLocale(LocaleId.En));
-            AddButton(languageChineseButton, "fm.language.option.zh_cn", () => SelectLocale(LocaleId.ZhHans));
-            AddButton(languageCloseButton, "fm.common.action.close", () => ShowLanguage(false));
+            var epoch = generation;
+            languageDropdown.CanOpen = () => bound && epoch == generation && CanSelectLocale();
+            localeSelection = index =>
+            {
+                if (!bound || epoch != generation) return;
+                if (!CanSelectLocale() || index < 0 || index > 1)
+                { languageDropdown.Close(); languageDropdown.SetValueWithoutNotify(-1); return; }
+                SelectLocale(index == 0 ? LocaleId.En : LocaleId.ZhHans);
+                if (bound && epoch == generation) languageDropdown.SetValueWithoutNotify(-1);
+            };
+            languageDropdown.onValueChanged.AddListener(localeSelection);
             AddButton(licenseButton, "fm.font_licenses.open_button", () => ShowLicense(true));
             AddButton(licenseCloseButton, "fm.common.action.back", () => ShowLicense(false));
             AddButton(quitConfirmButton, "fm.exit_app.confirm_button", () => session?.ConfirmQuit());
             AddButton(quitCancelButton, "fm.exit_app.stay_button", () => session?.CancelQuit());
             if (session != null) session.Changed += Render;
             localization.DiagnosticsChanged += RefreshDiagnostic;
-            languagePopup.SetActive(false); licensePopup.SetActive(false); loadingOverlay.SetActive(false);
+            localization.LocaleChanged += RefreshLocaleOptions;
+            licensePopup.SetActive(false); loadingOverlay.SetActive(false);
             Render();
         }
 
@@ -111,7 +122,7 @@ namespace FightMatch.Host
         }
         private void SelectLocale(LocaleId locale)
         {
-            if (!bound || !languagePopup.activeSelf) return;
+            if (!bound) return;
             var epoch = generation;
             var select = selectLocalePreference;
             LocalePreferenceSaveResult result = null;
@@ -121,18 +132,35 @@ namespace FightMatch.Host
             BindText(languageFeedback, result?.LocalizationKey ?? "fm.language.changed",
                 result?.ErrorCode == null ? Array.Empty<KeyValuePair<string, string>>() :
                 new[] { new KeyValuePair<string, string>("errorCode", result.ErrorCode) });
-            languageFeedback.gameObject.SetActive(true);
+            SetLanguageFeedbackVisible(true);
         }
-        private void ShowLanguage(bool show)
+        private bool CanSelectLocale() => bound && DiagnosticCode == null && !board.HasActivePointer &&
+            !recoveryScreenRoot.activeSelf && !overlayConflict && !confirmationPopupRoot.activeSelf &&
+            !navigationRecoveryPanel.activeSelf && !battleRecoveryPanel.activeSelf &&
+            !navigationConfirmationPanel.activeSelf && !battleConfirmationPanel.activeSelf &&
+            !licensePopup.activeSelf && !quitPopup.activeSelf && !loadingOverlay.activeSelf;
+        private void RefreshLocaleOptions(LocaleId locale)
         {
-            if (!bound || (show && (board.HasActivePointer || recoveryScreenRoot.activeSelf || overlayConflict))) return;
-            languagePopup.SetActive(show);
-            if (show) licensePopup.SetActive(false);
+            if (!bound) return;
+            languageDropdown.Close();
+            BindText(languageEnglishOption, "fm.language.option.en");
+            BindText(languageChineseOption, "fm.language.option.zh_cn");
+            BindText(languageCaption, locale == LocaleId.En ? "fm.language.option.en" : "fm.language.option.zh_cn");
+            languageDropdown.options = new List<TMP_Dropdown.OptionData> {
+                new TMP_Dropdown.OptionData(languageEnglishOption.Target.text),
+                new TMP_Dropdown.OptionData(languageChineseOption.Target.text) };
+            languageDropdown.SetValueWithoutNotify(-1);
+            languageDropdown.RefreshShownValue();
+        }
+        private void SetLanguageFeedbackVisible(bool visible)
+        {
+            if (languageFeedback != null) languageFeedback.gameObject.SetActive(visible);
+            if (languageFeedbackPanel != null) languageFeedbackPanel.SetActive(visible);
         }
         private void ShowLicense(bool show)
         {
             if (!bound || (show && (recoveryScreenRoot.activeSelf || overlayConflict))) return;
-            if (show) { PausePresentation(); languagePopup.SetActive(false); }
+            if (show) { PausePresentation(); SetLanguageFeedbackVisible(false); }
             licensePopup.SetActive(show);
         }
         private void Render()
@@ -197,11 +225,13 @@ namespace FightMatch.Host
             confirmationRootMask.SetActive(confirmation); confirmationPopupRoot.SetActive(confirmation);
             if (recovery || overlayConflict)
             {
-                if (languagePopup != null) languagePopup.SetActive(false);
+                if (languageDropdown != null) languageDropdown.Close();
+                SetLanguageFeedbackVisible(false);
                 if (licensePopup != null) licensePopup.SetActive(false);
                 if (quitPopup != null) quitPopup.SetActive(false);
             }
             recoveryRootMask.SetActive(recovery); recoveryScreenRoot.SetActive(recovery);
+            if (bound && !CanSelectLocale() && languageDropdown != null && languageDropdown.IsExpanded) languageDropdown.Close();
             RefreshDiagnostic();
         }
         private void RefreshDiagnostic()
@@ -209,6 +239,7 @@ namespace FightMatch.Host
             if (rendering || blockingDiagnostic == null) return;
             var code = DiagnosticCode;
             blockingDiagnostic.SetActive(code != null);
+            if (code != null && languageDropdown != null) languageDropdown.Close();
             if (code != null && board != null) board.CancelPointer();
             if (bound && diagnosticText != null && code != null && diagnosticText.DiagnosticCode == null)
             {
@@ -228,15 +259,27 @@ namespace FightMatch.Host
         internal void PausePresentation() => PausePresentation(PointerCancellationCause.Cancelled);
         internal void PausePresentation(PointerCancellationCause cause)
         {
+            if (languageDropdown != null) languageDropdown.Close();
             if (board != null) board.CancelPointer(cause);
             session?.PausePresentation();
         }
         private void Update()
-        { if (bound && languageButton != null) languageButton.interactable = !board.HasActivePointer && DiagnosticCode == null; }
+        {
+            if (!bound || languageDropdown == null) return;
+            languageDropdown.interactable = CanSelectLocale();
+            if (!languageDropdown.interactable && languageDropdown.IsExpanded) languageDropdown.Close();
+        }
         public void Unbind() => Unbind(PointerCancellationCause.Cancelled);
         internal void Unbind(PointerCancellationCause cause)
         {
             bound = false; generation++; selectLocalePreference = null;
+            if (languageDropdown != null)
+            {
+                languageDropdown.CanOpen = null;
+                if (localeSelection != null) languageDropdown.onValueChanged.RemoveListener(localeSelection);
+                languageDropdown.Close();
+            }
+            localeSelection = null;
             Canvas.willRenderCanvases -= SynchronizeOverlayRoots;
             if (!ReferenceEquals(responsiveLayout, null))
             {
@@ -249,7 +292,11 @@ namespace FightMatch.Host
             foreach (var listener in listeners) if (listener.Key != null) listener.Key.onClick.RemoveListener(listener.Value);
             listeners.Clear();
             if (session != null) session.Changed -= Render;
-            if (localization != null) localization.DiagnosticsChanged -= RefreshDiagnostic;
+            if (localization != null)
+            {
+                localization.DiagnosticsChanged -= RefreshDiagnostic;
+                localization.LocaleChanged -= RefreshLocaleOptions;
+            }
             foreach (var label in labels) if (label != null) label.Unbind();
             labels.Clear();
             if (startupStatus != null) startupStatus.Unbind();
@@ -263,7 +310,7 @@ namespace FightMatch.Host
             if (recoveryRootMask != null) recoveryRootMask.SetActive(false);
             if (recoveryScreenRoot != null) recoveryScreenRoot.SetActive(false);
             if (resultPage != null) resultPage.SetActive(false);
-            if (languagePopup != null) languagePopup.SetActive(false);
+            SetLanguageFeedbackVisible(false);
             if (licensePopup != null) licensePopup.SetActive(false);
             if (quitPopup != null) quitPopup.SetActive(false);
             if (loadingOverlay != null) loadingOverlay.SetActive(false);

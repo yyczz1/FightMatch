@@ -13,6 +13,7 @@ namespace FightMatch.Presentation
         [SerializeField] private RectTransform screenLayer, topBar, battleContent, stage, battleStatus, boardRegion, bottomHud;
         [SerializeField] private RectTransform normalHudRoot, historyDrawerRoot, referenceDrawerRoot, normalStatusViewport, normalMainRow;
         [SerializeField] private RectTransform startupViewport, navigationViewport, resultViewport;
+        [SerializeField] private RectTransform languageFeedbackPanel;
         [SerializeField] private RectTransform[] dialogPanels;
         [SerializeField] private GameObject layoutDiagnostic;
         [SerializeField] private LocalizedTmpText layoutDiagnosticText;
@@ -43,7 +44,7 @@ namespace FightMatch.Presentation
                 stage == null || battleStatus == null || boardRegion == null || bottomHud == null || normalHudRoot == null ||
                 historyDrawerRoot == null || referenceDrawerRoot == null || normalStatusViewport == null || normalMainRow == null ||
                 startupViewport == null || navigationViewport == null || resultViewport == null || layoutDiagnostic == null ||
-                layoutDiagnosticText == null || battleInteraction == null || dialogPanels == null || dialogPanels.Length != 7) return false;
+                layoutDiagnosticText == null || battleInteraction == null || languageFeedbackPanel == null || dialogPanels == null || dialogPanels.Length != 6) return false;
             foreach (var panel in dialogPanels) if (panel == null) return false;
             return true;
         }
@@ -105,6 +106,10 @@ namespace FightMatch.Presentation
                 Fill(screenLayer);
                 Box(topBar, left, breathing, board, 56 * k, k);
                 var pageTop = breathing + 56 * k;
+                languageFeedbackPanel.anchorMin = languageFeedbackPanel.anchorMax = languageFeedbackPanel.pivot = new Vector2(0, 1);
+                languageFeedbackPanel.anchoredPosition = new Vector2(left + 8 * k, -pageTop);
+                languageFeedbackPanel.localScale = new Vector3(k, k, 1);
+                languageFeedbackPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 492);
                 var pageHeight = height - pageTop - breathing;
                 foreach (var viewport in new[] { startupViewport, navigationViewport, resultViewport })
                     Box(viewport, left, pageTop, board, pageHeight, k);

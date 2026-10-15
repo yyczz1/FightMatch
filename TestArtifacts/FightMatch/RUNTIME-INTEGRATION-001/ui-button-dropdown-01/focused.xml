@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="15" result="Failed(Child)" total="15" passed="12" failed="3" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-13 12:39:07Z" end-time="2026-10-13 12:39:15Z" duration="8.0495392">
+  <test-suite type="TestSuite" id="1000" name="FightMatch" fullname="FightMatch" runstate="Runnable" testcasecount="4549" result="Failed" site="Child" start-time="2026-10-13 12:39:07Z" end-time="2026-10-13 12:39:15Z" duration="8.049539" total="15" passed="12" failed="3" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="5455" name="FightMatch.Core.Tests.dll" fullname="/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/ScriptAssemblies/FightMatch.Core.Tests.dll" runstate="Runnable" testcasecount="3773" result="Failed" site="Child" start-time="2026-10-13 12:39:08Z" end-time="2026-10-13 12:39:10Z" duration="1.521592" total="4" passed="2" failed="2" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="20216" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="5456" name="FightMatch" fullname="FightMatch" runstate="Runnable" testcasecount="3773" result="Failed" site="Child" start-time="2026-10-13 12:39:08Z" end-time="2026-10-13 12:39:10Z" duration="1.249295" total="4" passed="2" failed="2" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="5458" name="Core" fullname="FightMatch.Core" runstate="Runnable" testcasecount="3694" result="Failed" site="Child" start-time="2026-10-13 12:39:09Z" end-time="2026-10-13 12:39:10Z" duration="0.966297" total="4" passed="2" failed="2" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="5459" name="Tests" fullname="FightMatch.Core.Tests" runstate="Runnable" testcasecount="3694" result="Failed" site="Child" start-time="2026-10-13 12:39:09Z" end-time="2026-10-13 12:39:10Z" duration="0.699867" total="4" passed="2" failed="2" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="5419" name="UguiResponsiveLayoutTests" fullname="FightMatch.Core.Tests.UguiResponsiveLayoutTests" classname="FightMatch.Core.Tests.UguiResponsiveLayoutTests" runstate="Runnable" testcasecount="12" result="Failed" site="Child" start-time="2026-10-13 12:39:10Z" end-time="2026-10-13 12:39:10Z" duration="0.036609" total="3" passed="1" failed="2" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="5425" name="LAYOUT_06_LayoutOwnershipHasNoSameAxisControllerConflict" fullname="FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_06_LayoutOwnershipHasNoSameAxisControllerConflict" methodname="LAYOUT_06_LayoutOwnershipHasNoSameAxisControllerConflict" classname="FightMatch.Core.Tests.UguiResponsiveLayoutTests" runstate="Runnable" seed="234830753" result="Passed" start-time="2026-10-13 12:38:30Z" end-time="2026-10-13 12:38:33Z" duration="3.095284" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="5430" name="LAYOUT_11_SystemRecoveryPrecedesEveryOrdinaryPopup" fullname="FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_11_SystemRecoveryPrecedesEveryOrdinaryPopup" methodname="LAYOUT_11_SystemRecoveryPrecedesEveryOrdinaryPopup" classname="FightMatch.Core.Tests.UguiResponsiveLayoutTests" runstate="Runnable" seed="1984249527" result="Failed" start-time="2026-10-13 12:38:33Z" end-time="2026-10-13 12:38:40Z" duration="7.135515" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Unhandled log message: '[Error] No graphic device is available to initialize the view.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+                  <stack-trace><![CDATA[UnityEditor.EditorWindow:GetWindow (System.Type)
+FightMatch.Core.Tests.UguiResponsiveLayoutTests/OverlayResolution:.ctor (int,int) (at Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs:208)
+FightMatch.Core.Tests.UguiResponsiveLayoutTests/<LAYOUT_11_SystemRecoveryPrecedesEveryOrdinaryPopup>d__43:MoveNext () (at Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs:972)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[No graphic device is available to initialize the view.
+No graphic device is available to show the window.
+No graphic device is available to initialize the view.
+GfxDevice renderer is null. Unity cannot update the Ambient Probe and Reflection Probes that the SkyManager generates. Run the Editor without the -nographics argument or generate lighting for your scene.
+]]></output>
+              </test-case>
+              <test-case id="5431" name="LAYOUT_12_RaycastTargetsExistOnlyOnInteractiveSurfaces" fullname="FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_12_RaycastTargetsExistOnlyOnInteractiveSurfaces" methodname="LAYOUT_12_RaycastTargetsExistOnlyOnInteractiveSurfaces" classname="FightMatch.Core.Tests.UguiResponsiveLayoutTests" runstate="Runnable" seed="1965764008" result="Failed" start-time="2026-10-13 12:38:40Z" end-time="2026-10-13 12:38:47Z" duration="6.820634" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Actual GameView width
+  Expected: 540
+  But was:  640
+]]></message>
+                  <stack-trace><![CDATA[at FightMatch.Core.Tests.UguiResponsiveLayoutTests+OverlayResolution+<Ready>d__6.MoveNext () [0x00081] in /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs:222
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0004e] in ./Library/PackageCache/com.unity.test-framework@1.1.33/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:46
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[GfxDevice renderer is null. Unity cannot update the Ambient Probe and Reflection Probes that the SkyManager generates. Run the Editor without the -nographics argument or generate lighting for your scene.
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="5432" name="UguiSceneCompositionTests" fullname="FightMatch.Core.Tests.UguiSceneCompositionTests" classname="FightMatch.Core.Tests.UguiSceneCompositionTests" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-10-13 12:39:10Z" end-time="2026-10-13 12:39:10Z" duration="0.023604" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="5449" name="SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem" fullname="FightMatch.Core.Tests.UguiSceneCompositionTests.SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem" methodname="SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem" classname="FightMatch.Core.Tests.UguiSceneCompositionTests" runstate="Runnable" seed="329041812" result="Passed" start-time="2026-10-13 12:38:47Z" end-time="2026-10-13 12:38:50Z" duration="3.373645" asserts="0">
+                <properties />
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="5751" name="FightMatch.Host.Tests.dll" fullname="/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/ScriptAssemblies/FightMatch.Host.Tests.dll" runstate="Runnable" testcasecount="239" result="Failed" site="Child" start-time="2026-10-13 12:39:10Z" end-time="2026-10-13 12:39:15Z" duration="5.311688" total="11" passed="10" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="20216" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="5752" name="FightMatch" fullname="FightMatch" runstate="Runnable" testcasecount="239" result="Failed" site="Child" start-time="2026-10-13 12:39:10Z" end-time="2026-10-13 12:39:15Z" duration="5.308627" total="11" passed="10" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="5753" name="Host" fullname="FightMatch.Host" runstate="Runnable" testcasecount="239" result="Failed" site="Child" start-time="2026-10-13 12:39:10Z" end-time="2026-10-13 12:39:15Z" duration="5.308101" total="11" passed="10" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="5754" name="Tests" fullname="FightMatch.Host.Tests" runstate="Runnable" testcasecount="239" result="Failed" site="Child" start-time="2026-10-13 12:39:10Z" end-time="2026-10-13 12:39:15Z" duration="5.307741" total="11" passed="10" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="5462" name="FightMatchButtonDropdownTests" fullname="FightMatch.Host.Tests.FightMatchButtonDropdownTests" classname="FightMatch.Host.Tests.FightMatchButtonDropdownTests" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-10-13 12:39:10Z" end-time="2026-10-13 12:39:14Z" duration="3.864873" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="5465" name="DragAndRecoveryGuardOpeningAndPendingChoiceSynchronously" fullname="FightMatch.Host.Tests.FightMatchButtonDropdownTests.DragAndRecoveryGuardOpeningAndPendingChoiceSynchronously" methodname="DragAndRecoveryGuardOpeningAndPendingChoiceSynchronously" classname="FightMatch.Host.Tests.FightMatchButtonDropdownTests" runstate="Runnable" seed="974355893" result="Passed" start-time="2026-10-13 12:38:50Z" end-time="2026-10-13 12:39:03Z" duration="12.530189" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+                <output><![CDATA[GfxDevice renderer is null. Unity cannot update the Ambient Probe and Reflection Probes that the SkyManager generates. Run the Editor without the -nographics argument or generate lighting for your scene.
+]]></output>
+              </test-case>
+              <test-case id="5464" name="RealPointerAndKeyboardSelectionPreserveRetryFeedbackAndLifetime" fullname="FightMatch.Host.Tests.FightMatchButtonDropdownTests.RealPointerAndKeyboardSelectionPreserveRetryFeedbackAndLifetime" methodname="RealPointerAndKeyboardSelectionPreserveRetryFeedbackAndLifetime" classname="FightMatch.Host.Tests.FightMatchButtonDropdownTests" runstate="Runnable" seed="641953231" result="Failed" start-time="2026-10-13 12:39:03Z" end-time="2026-10-13 12:39:14Z" duration="10.781300" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Rebind leaves one selection listener.
+  Expected: 8
+  But was:  7
+]]></message>
+                  <stack-trace><![CDATA[at FightMatch.Host.Tests.FightMatchButtonDropdownTests+<RealPointerAndKeyboardSelectionPreserveRetryFeedbackAndLifetime>d__12.MoveNext () [0x007d7] in /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Assets/Tests/EditMode/FightMatchHost/FightMatchButtonDropdownTests.cs:166
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0004e] in ./Library/PackageCache/com.unity.test-framework@1.1.33/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:46
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[GfxDevice renderer is null. Unity cannot update the Ambient Probe and Reflection Probes that the SkyManager generates. Run the Editor without the -nographics argument or generate lighting for your scene.
+]]></output>
+              </test-case>
+              <test-case id="5463" name="SavedButtonsAndTemplatesUseWrappedOwnedLayoutAndTwoLanguageOptions" fullname="FightMatch.Host.Tests.FightMatchButtonDropdownTests.SavedButtonsAndTemplatesUseWrappedOwnedLayoutAndTwoLanguageOptions" methodname="SavedButtonsAndTemplatesUseWrappedOwnedLayoutAndTwoLanguageOptions" classname="FightMatch.Host.Tests.FightMatchButtonDropdownTests" runstate="Runnable" seed="1121856590" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:14Z" duration="0.030426" asserts="0">
+                <properties />
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="5466" name="FightMatchHostLocaleWiringTests" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:15Z" duration="1.400448" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="5467" name="HCP_01_LoadBeforeBind" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_01_LoadBeforeBind" methodname="HCP_01_LoadBeforeBind" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="2005002471" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:14Z" duration="0.147439" asserts="0">
+                <properties />
+                <output><![CDATA[FightMatch locale preference: PreferenceReadFailed
+FightMatch locale preference: PreferenceInvalidDocument
+]]></output>
+              </test-case>
+              <test-case id="5468" name="HCP_02_SelectAndRetry" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_02_SelectAndRetry" methodname="HCP_02_SelectAndRetry" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="1989827288" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:14Z" duration="0.031461" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="5469" name="HCP_03_Feedback" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_03_Feedback" methodname="HCP_03_Feedback" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="158361854" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:14Z" duration="0.031441" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="5470" name="HCP_04_Rebind" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_04_Rebind" methodname="HCP_04_Rebind" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="1753167075" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:14Z" duration="0.031123" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="5471" name="HCP_05_CancelStartup" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_05_CancelStartup" methodname="HCP_05_CancelStartup" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="2060913688" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:14Z" duration="0.025975" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="5472" name="HCP_06_DisposeOrder" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_06_DisposeOrder" methodname="HCP_06_DisposeOrder" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="2033809537" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:14Z" duration="0.058465" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="5473" name="HCP_07_SettingsFirst" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_07_SettingsFirst" methodname="HCP_07_SettingsFirst" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="707737915" result="Passed" start-time="2026-10-13 12:39:14Z" end-time="2026-10-13 12:39:15Z" duration="0.967768" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="5474" name="HCP_08_NullSourceAndIsolation" fullname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests.HCP_08_NullSourceAndIsolation" methodname="HCP_08_NullSourceAndIsolation" classname="FightMatch.Host.Tests.FightMatchHostLocaleWiringTests" runstate="Runnable" seed="1015927263" result="Passed" start-time="2026-10-13 12:39:15Z" end-time="2026-10-13 12:39:15Z" duration="0.099221" asserts="0">
+                <properties />
+                <output><![CDATA[IOException: Acceptance storage contains a symbolic link.
+FightMatch UI: HostSaveIsolationRejected
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

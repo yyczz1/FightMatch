@@ -168,7 +168,7 @@ namespace FightMatch.Presentation
                     id == "fm.action.victory.settle" ? 248 : 152;
                 var cell = button.GetComponent<UnityEngine.UI.LayoutElement>();
                 if (cell == null) cell = button.gameObject.AddComponent<UnityEngine.UI.LayoutElement>();
-                cell.minWidth = cell.preferredWidth = width; cell.minHeight = cell.preferredHeight = 48;
+                cell.minWidth = cell.preferredWidth = width;
             }
             button.GetComponentInChildren<LocalizedTmpText>(true).Bind(localization, key, arguments);
             UnityAction callback = () =>
