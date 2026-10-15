@@ -7,12 +7,12 @@
 | 工作 | 当前事实 | 唯一明细入口 |
 | --- | --- | --- |
 | 工具功能 | 复用264条真实导表；标准重复键检查2.541秒按预期拒绝，无下载/还原 | [结果](../../../TestArtifacts/FightMatch/LOC-STANDARD-001/result.md) |
-| 游戏接入 | 三平台资源和Windows既有存储入口已接线；先前Mac Session/简中已观察，按钮/语言下拉修正已在本机完成；实际英文及完整交互验收待补 | [主程索引顶部](engineering.md) |
-| Unity/实际观察 | 三平台raw构建成功；平台13pass/1 Windows原生Ignore，复用既有通过项。本轮Apply成功，12项通过＋修正后单项通过；简中地图已观察，C已关闭窗口 | [执行记录](../../../TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)、[8项人工清单](testing.md) |
-| 代码审查 | 前轮23f0082无重大问题；本轮按钮/下拉新代码尚待推送和新审查，用户已明确授权 | [独立结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6143365353) |
+| 游戏接入 | 三平台资源与既有存储已接线；等宽/对齐/样式及返回键修正已接入并推送c07d807，修后尚未编译运行 | [主程索引顶部](engineering.md) |
+| Unity/实际观察 | 用户确认旧下拉可展开并反馈尺寸问题；已关闭Unity，C核进程退出及锁释放。2/2启动已满，新候选只完成静态检查 | [离线收件](../../../TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/fix-20261015/integration/result.json) |
+| 代码审查 | fe1ced8发现返回键P2；修正c07d807复审未发现重大问题，主测试仅接收源码门 | [独立结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6194951891) |
 | 美术 | 继续使用现有占位；Warrior Idle Initial01已有用户选择但尚未Unity导入 | [主美记录](art.md#104-用户采用为-initial-01同日) |
 
-当前集成判定NEEDS_FIX：原46按钮/3模板已修正，语言改TMP下拉；本轮新代码尚未推送/审查。两个无图形窗口用例仍未通过；上轮GUI恢复旧资料及简中540×960地图，但自动点击下拉无响应，英文/其它页/动态克隆/语言复开未验证。上轮已退出Editor，审批拒绝原因保留为历史；本次新授权已送达主程，继续原任务，不恢复旧N07。14产品路径及clean发布适配保存在`TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/publish/`。PR22实核仍a1affde7；前轮23f0082审查不覆盖新UI变更。
+当前集成判定NEEDS_FIX：离线5文件修正已推送PR22产品提交c07d807；独立复审未发现重大问题，仅源码门ACCEPT；编译/定向回归/实际英简中按钮与下拉/保存冷开尚未验证。Unity已关闭，没有可操作窗口；原2/2启动额度用尽，不自动再开。复用旧证据，两个旧headless失败保留。详情见[START_HERE](../../../START_HERE.md)，本轮不扩展安装或验收框架。
 
 新增已查明边界：WindowsEditorSaveStorage/WindowsContentPublicationStorage已存在，缺的是Host系统根与存储选择接线，并非缺少存储实现。本轮已复用接线；Windows原生运行仍未测，存档规则不变。
 
