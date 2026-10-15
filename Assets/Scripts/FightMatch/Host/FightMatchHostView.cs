@@ -256,6 +256,13 @@ namespace FightMatch.Host
         }
         internal void SetLoading(bool loading)
         { if (loadingOverlay != null) loadingOverlay.SetActive(loading); }
+        internal bool TryCloseLanguageDropdown()
+        {
+            if (!bound || languageDropdown == null || !languageDropdown.IsExpanded) return false;
+            // TMP Cancel defers list destruction, so this also catches EventSystem running first.
+            languageDropdown.Close();
+            return true;
+        }
         internal void PausePresentation() => PausePresentation(PointerCancellationCause.Cancelled);
         internal void PausePresentation(PointerCancellationCause cause)
         {

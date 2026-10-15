@@ -241,6 +241,99 @@ namespace FightMatch.Host.Tests
             yield return new ExitPlayMode(); enteredPlayMode = false;
         }
 
+        [UnityTest]
+        public IEnumerator BackClosesDropdownBeforePageForEitherCancelOrderAndAfterRebind()
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            yield return new EnterPlayMode(); enteredPlayMode = true;
+            using (var rig = new HostRig())
+            using (var panel = new HostPanel(rig))
+            {
+                var view = panel.View; var service = RealLocalization(); var saves = 0; var quits = 0;
+                Func<LocaleId, LocalePreferenceSaveResult> select = locale =>
+                { saves++; service.SetLocale(locale); return LocalePreferenceSaveResult.Saved(); };
+                view.Bind(rig.Session, service, License, select);
+                rig.Session.QuitRequested += () => quits++;
+                // Exercise Update's real route without starting another host or opening product storage.
+                var hostObject = new GameObject("DropdownBackTestHost"); hostObject.SetActive(false);
+                var host = hostObject.AddComponent<FightMatchPlayerHost>();
+                var sessionField = typeof(FightMatchPlayerHost).GetField("<Session>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                sessionField.SetValue(host, rig.Session);
+                typeof(FightMatchPlayerHost).GetField("runtimeRoot", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(host, view);
+                try
+                {
+                    var dropdown = Field<FightMatchLocaleDropdown>(view, "languageDropdown");
+                    var quitPopup = Field<GameObject>(view, "quitPopup");
+                    foreach (var page in new[] { FightMatchHostPage.Navigation, FightMatchHostPage.Battle })
+                    {
+                        if (page == FightMatchHostPage.Battle) rig.Enter();
+                        yield return panel.Ready();
+                        Assert.AreEqual(page, rig.Session.Page);
+                        var head = rig.Head; var files = rig.Files();
+                        foreach (var eventSystemFirst in new[] { false, true })
+                        foreach (var cancelOption in new[] { false, true })
+                        {
+                            Submit(dropdown.gameObject);
+                            var option = Items(dropdown)[1].gameObject;
+                            var target = cancelOption ? option : dropdown.gameObject;
+                            EventSystem.current.SetSelectedGameObject(target);
+                            if (eventSystemFirst)
+                            {
+                                Assert.IsTrue(ExecuteEvents.Execute(target, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler),
+                                    "The actual generated option and dropdown root must both receive native Cancel.");
+                                Assert.IsTrue(dropdown.IsExpanded, "TMP defers destruction even at zero fade speed until after Update.");
+                            }
+                            host.HandleBack();
+                            if (!eventSystemFirst)
+                            {
+                                Assert.AreEqual(!cancelOption,
+                                    ExecuteEvents.Execute(target, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler),
+                                    "Host-first closes the option synchronously; a later root Cancel is harmless.");
+                            }
+                            Assert.IsFalse(dropdown.IsExpanded);
+                            Assert.IsFalse(option.activeInHierarchy);
+                            Assert.IsFalse(view.GetComponentsInChildren<Canvas>(true).Any(x => x.name == "Blocker" && x.gameObject.activeInHierarchy));
+                            Assert.AreEqual(page, rig.Session.Page, "One Back must only close the dropdown.");
+                            Assert.IsFalse(quitPopup.activeInHierarchy);
+                            Assert.AreEqual(0, saves); Assert.AreEqual(0, quits);
+                            Assert.AreSame(head, rig.Head); rig.SameFiles(files);
+                            yield return null;
+                            host.HandleBack();
+                            Assert.AreEqual(FightMatchHostPage.QuitConfirmation, rig.Session.Page, "The next Back retains the existing page behavior.");
+                            Assert.IsTrue(quitPopup.activeInHierarchy);
+                            host.HandleBack();
+                            Assert.AreEqual(page, rig.Session.Page);
+                            Assert.AreEqual(0, saves); Assert.AreEqual(0, quits);
+                            Assert.AreSame(head, rig.Head); rig.SameFiles(files);
+                        }
+                    }
+                    var finalHead = rig.Head; var finalFiles = rig.Files();
+                    foreach (var rebindBeforeBack in new[] { false, true })
+                    {
+                        Submit(dropdown.gameObject);
+                        var option = Items(dropdown)[1].gameObject;
+                        EventSystem.current.SetSelectedGameObject(option);
+                        Assert.IsTrue(ExecuteEvents.Execute(option, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler));
+                        view.Unbind();
+                        if (rebindBeforeBack) view.Bind(rig.Session, service, License, select);
+                        Assert.IsFalse(dropdown.IsExpanded);
+                        host.HandleBack();
+                        Assert.AreEqual(FightMatchHostPage.QuitConfirmation, rig.Session.Page, "Unbind/rebind must not retain a swallowed Back.");
+                        host.HandleBack(); Assert.AreEqual(FightMatchHostPage.Battle, rig.Session.Page);
+                        if (!rebindBeforeBack) view.Bind(rig.Session, service, License, select);
+                        Assert.AreEqual(0, saves); Assert.AreEqual(0, quits);
+                        Assert.AreSame(finalHead, rig.Head); rig.SameFiles(finalFiles);
+                    }
+                }
+                finally
+                {
+                    sessionField.SetValue(host, null); // HostRig retains ownership of the session.
+                    UnityEngine.Object.DestroyImmediate(hostObject);
+                }
+            }
+            yield return new ExitPlayMode(); enteredPlayMode = false;
+        }
+
         [UnityTearDown]
         public IEnumerator LeavePlayModeAfterFailure()
         {

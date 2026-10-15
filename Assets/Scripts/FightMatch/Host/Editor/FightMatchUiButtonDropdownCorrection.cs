@@ -33,6 +33,7 @@ namespace FightMatch.Host.Editor
                     dropdown = CreateLanguageDropdown(top, font);
                     dropdown.transform.SetSiblingIndex(index);
                 }
+                else ConfigureLanguageDropdownTemplate(dropdown);
                 var feedbackPanel = safe.Find("HudLayer/LanguageFeedback");
                 if (feedbackPanel == null)
                 {
@@ -136,8 +137,7 @@ namespace FightMatch.Host.Editor
             var arrowImage = Surface(arrow); arrowImage.color = Color.white; arrowImage.raycastTarget = false;
             var options = Rect("OptionLabels", rect);
             Label("English", options, font); Label("Chinese", options, font); options.gameObject.SetActive(false);
-            var template = Rect("Template", rect); template.anchorMin = template.anchorMax = new Vector2(1, 0);
-            template.pivot = new Vector2(1, 1); template.sizeDelta = new Vector2(180, 96); Surface(template).raycastTarget = false;
+            var template = Rect("Template", rect); Surface(template).raycastTarget = false;
             var viewport = Rect("Viewport", template); Fill(viewport); Surface(viewport);
             viewport.gameObject.AddComponent<UnityEngine.UI.Mask>().showMaskGraphic = false;
             var content = Rect("Content", viewport); content.anchorMin = new Vector2(0, 1); content.anchorMax = Vector2.one;
@@ -162,7 +162,32 @@ namespace FightMatch.Host.Editor
             var id = Script(rect.gameObject, "FightMatchViewId");
             var idFields = new SerializedObject(id); idFields.FindProperty("id").stringValue = "fm.action.language.open";
             idFields.ApplyModifiedPropertiesWithoutUndo();
+            ConfigureLanguageDropdownTemplate(dropdown);
             return dropdown;
+        }
+
+        private static void ConfigureLanguageDropdownTemplate(FightMatchLocaleDropdown dropdown)
+        {
+            var template = dropdown.template;
+            template.anchorMin = Vector2.zero; template.anchorMax = new Vector2(1, 0);
+            template.pivot = new Vector2(0, 1); template.anchoredPosition = Vector2.zero;
+            template.sizeDelta = new Vector2(0, 96);
+            template.GetComponent<UnityEngine.UI.Image>().color = new Color(.10f, .13f, .17f, 1);
+            var content = (RectTransform)template.Find("Viewport/Content");
+            content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 48);
+            var item = content.Find("Item").GetComponent<UnityEngine.UI.Toggle>();
+            ((RectTransform)item.transform).SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 48);
+            item.targetGraphic.color = Color.white;
+            var colors = item.colors;
+            colors.normalColor = new Color(.16f, .20f, .25f, 1);
+            colors.highlightedColor = colors.selectedColor = new Color(.25f, .34f, .43f, 1);
+            colors.pressedColor = new Color(.20f, .28f, .36f, 1);
+            item.colors = colors;
+            item.graphic.color = new Color(.55f, .80f, .72f, 1);
+            Inset(dropdown.itemText.rectTransform, 24, 8);
+            dropdown.itemText.alignment = TextAlignmentOptions.Left;
+            dropdown.itemText.color = Color.white;
+            dropdown.itemText.enableWordWrapping = false;
         }
 
         internal static Transform CreateFeedbackPanel(Transform parent, Transform feedback)

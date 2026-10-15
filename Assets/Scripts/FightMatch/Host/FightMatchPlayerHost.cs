@@ -381,7 +381,13 @@ namespace FightMatch.Host
         }
         private void Update()
         {
-            if (Session != null && UnityEngine.Input.GetKeyDown(KeyCode.Escape)) Session.Back();
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape)) HandleBack();
+        }
+        internal void HandleBack()
+        {
+            if (Session == null) return;
+            if (runtimeRoot != null && runtimeRoot.TryCloseLanguageDropdown()) return;
+            Session.Back();
         }
         private void OnApplicationPause(bool paused) { if (paused) runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost); }
         private void OnApplicationFocus(bool focused) => HandleApplicationFocus(focused);
