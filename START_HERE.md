@@ -1,19 +1,21 @@
 # FightMatch 当前开发接续入口
 
-更新：2026-10-15。**当前继续开发，首 Demo 尚未完成。** 没有活动 Goal 对象，不新增定时任务。
+更新：2026-10-16。**当前继续开发，首 Demo 尚未完成。** 没有活动 Goal 对象，不新增定时任务。
 
 ## 1. 当前工作与下一步
+
+**最新追加验证授权（2026-10-15）：** 用户在turn `01a14023-7ebb-7a90-b1e8-8b3acd5feb3e` 明确追加最多2次Unity启动、主动检查合计900秒，复用现有隔离档，完成下拉/中英文按钮/返回键/语言保存复开，不重跑全量测试。此为独立的新额度，旧2/2保留历史，不混算。派发首次因混算旧额度被自动审批拒绝，补充实际人类授权时间证据后，同一入口已获准送达C；当前先验证固定产品候选，计数和结果由主程唯一接收。
 
 用户2026-10-15直接批准：使用隔离测试档启动Unity最多两次，完成下拉框、中英文按钮和语言保存复开；推送本轮修改到PR22并发起GitHub审查，普通步骤不再确认。主程接收本轮UI收尾，C唯一运行Unity，中央负责发布。此为上轮实际拒绝后的新授权，不复用旧N07额度；实际启动和结果以主程当前记录为准。
 
 - **已完成：** 当前264条文本与既有导出逐字段一致；标准Luban重复键检查2.541秒，按预期exit1并报告重复key，正式输入未修改。见[实际结果](TestArtifacts/FightMatch/LOC-STANDARD-001/result.md)。没有新下载、依赖还原或上游重建。
 - **当前完成与阻塞：** 正式文本/内置资源/Host已接线；原Mac正常Session和简中曾实际观察，按钮早期自动点击无响应；随后人工操作反馈正常（见本轮修正）。三平台资源选择、Windows既有存储/路径入口接线已修，平台定向检查13通过/1 Windows原生跳过/0失败，Android和Windows真实raw构建成功，Mac产物复用，Scene已绑定三平台。原103pass、Bridge5+HCP8及最后Fake3/3均保留。源码/资源已推送`ef4c33f`至PR22，第三轮独立审查已完成，详见下方收件。详见[运行记录](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)、[平台证据](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/platform-verification.json)，只读[主程索引顶部](docs/team/2026-09-30/engineering.md)取具体范围，不从历史恢复旧任务。
 - **前一版UI实现与证据（fe1ced8）：** 原46个Button（含3模板）已统一调整中英排版；语言窗口改为TMP下拉框，保留偏好保存与输入/解绑保护。14产品路径固定；Prefab SHA`77c17069…`，最终测试SHA`f0052bb5…`。Apply27.57秒exit0；15项定向为12通过/3失败，其中重绑定一项只修测试旧控件定位后1/1通过38.09秒；两个无图形窗口用例仍未通过。不得写成15/15或整个clean PR树全测。详见[主程索引顶部](docs/team/2026-09-30/engineering.md)和[实际记录](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/result.md)。
-- **GUI现状：** 用户确认旧候选下拉可展开，但列表比按钮大且偏左，要求等宽。当前已离线应用等宽/左对齐/下接、暗色样式及返回键修正：4源和Prefab，Prefab仅6对象12字段，静态补丁检查通过。用户随后关闭Unity，C已核进程退出和隔离锁释放；启动2/2已用尽，本轮新增启动/测试/构建均0。修后编译、英简中/返回键实看、语言保存及冷启动均未验证；当前没有窗口，不能要求用户找按钮。详见[离线收件](TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/fix-20261015/integration/result.json)。
-- **本轮发布/审查：** 当前产品修正已正常推送PR22，提交 `c07d80758696cfdda3dd0558d2b730963cf87ac0`，相对fe1ced8仅5路径；draft未合并。前轮fe1ced8发现展开下拉时Esc同时触发Host返回的P2；本次[GitHub复审](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6194951891)已完成，服务未发现重大问题，主测试ACCEPT仅此产品版本的源码审查门。旧P2线程仍未关闭；此结论不替代编译/运行/视觉验收。
+- **GUI现状：** 用户10月16日实际Play确认等宽左对齐、Esc只收列表、中英可见按钮不超框三项正常，最后选择English；C已核locale=en真实落盘及原玩家资料主要文件不变。成功反馈常驻已收敛为两源候选，尚未接入当前Editor。中央已发唯一人工操作：退出Play后⌘Q正常退出Unity；收到退出事实后，C接入同一候选并用最后一次冷开核提示自动消失和语言/原档连续性。新额度仍1/2次，主动643.849413/900秒、余256.150587秒，人工等待单列；详细证据仅在[主程顶部](docs/team/2026-09-30/engineering.md)。
+- **本轮发布/审查：** 最新两源提示候选已推送PR22提交`c3f0812404a1223a4b5024cca7617aa054e4cc40`，仅HostView成功约2秒隐藏和既有测试内新增回归；无独立通用Toast系统。状态STAGED_UNCOMPILED_UNRUN，当前共享产品仍c07d807；[本轮独立结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6207548412)已完成且未发现重大问题，主测试仅接收c3f0812源码审查门；不是formal APPROVED。此前c07d807复审未发现重大问题及人工三项通过保留原输入，不代替新head验收；PR保持draft未合并。
 - **验收：** 按[主测试8项清单](docs/team/2026-09-30/testing.md)检查真实启动、文本、语言切换、保存复开、地图/战斗及存档连续性。源码、自动化、实际观察、真机分开记录；新增代码交GitHub PR Code Review。
 - **上一轮独立审查已收件：** [PR22第三轮结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6143365353)于2026-10-13 18:17:56完成，准确审查版本`23f00824db710f0c35299e7006f824384a267f02`，服务未发现重大问题，主测试接收此版本的源码审查门。两个旧P1已过期但GitHub线程未关闭，不能称formal APPROVED。当时后续只补文档；本轮fe1ced8另行审查已发现返回键P2，修正见当前条目。
-- **集成判定：NEEDS_FIX。** 等宽样式及返回键代码已接入，修后编译/定向回归/英简中实看和语言保存复开仍缺；新uGUI安卓包及设备也未验收。iQOO Neo5未接入；Windows原生未测。重新启动须取得追加额度，既有2/2不得复用。
+- **集成判定：NEEDS_FIX。** c07d807源码审查、编译、人工三项UI及English落盘已完成；新c3f0812源码审查已接收，仍待本机接入/编译、提示修后观察及冷开。中央已完成可独立的候选发布，当前Unity操作等待用户正常退出；不重置启动或时间额度。首Demo的安卓包及设备、Windows原生验收仍未完成。
 - **已停止：** Luban M17/FIX11自制还原/验收链。旧失败与候选保留；Yaml旧依赖许可证资料单列未解决，不再以重建整套工具链作为游戏接入前置。
 
 角色与跨组状态见[团队快照](docs/team/2026-09-30/README.md)。详细历史只在定位特定证据时读取：[本次入口归档](docs/team/2026-09-30/central-entry-history-through-2026-10-13.md)、[旧执行次数与原因](docs/team/2026-09-30/central-loc-execution-history-2026-10-13.md)。历史中的“当前”“待激活”和一次授权均描述原时点。
