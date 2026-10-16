@@ -425,6 +425,111 @@ namespace FightMatch.Host.Tests
             yield return new ExitPlayMode(); enteredPlayMode = false;
         }
 
+        [UnityTest]
+        public IEnumerator ProfileCreationRequiresCurrentConfirmationAndPreservesBackAndQuit()
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            yield return new EnterPlayMode(); enteredPlayMode = true;
+            using (var rig = new HostRig(false))
+            using (var panel = new HostPanel(rig))
+            {
+                var view = panel.View; var service = RealLocalization(); var writes = 0; var quits = 0;
+                rig.Profile.Writing = () => writes++;
+                rig.Session.QuitRequested += () => quits++;
+                view.Bind(rig.Session, service, License);
+                rig.Session.ObserveStartup(); Assert.IsTrue(rig.Session.CanCreate);
+                yield return null; Canvas.ForceUpdateCanvases();
+                var empty = rig.Files();
+                var writerLock = Path.DirectorySeparatorChar + Path.Combine("locator", "writer.lock");
+                CollectionAssert.AreEquivalent(new[] { writerLock }, empty.Keys);
+                Assert.AreEqual(0, empty[writerLock].Length);
+                var create = Field<UnityEngine.UI.Button>(view, "createButton");
+                var confirm = Field<UnityEngine.UI.Button>(view, "quitConfirmButton");
+                var cancel = Field<UnityEngine.UI.Button>(view, "quitCancelButton");
+                var back = Field<UnityEngine.UI.Button>(view, "backButton");
+                var popup = Field<GameObject>(view, "quitPopup");
+                var title = Field<LocalizedTmpText>(view, "quitTitle");
+                var body = Field<LocalizedTmpText>(view, "quitBody");
+                var dropdown = Field<FightMatchLocaleDropdown>(view, "languageDropdown");
+                Func<UnityEngine.UI.Button, UnityAction> callback = button =>
+                    Field<System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<UnityEngine.UI.Button, UnityAction>>>(view,
+                        "listeners").Single(x => x.Key == button).Value;
+                Action unchanged = () =>
+                {
+                    Assert.AreEqual(0, writes); Assert.AreEqual(0, rig.FactoryCalls); Assert.AreEqual(0, quits);
+                    Assert.IsNull(rig.Session.OriginalProfile); Assert.IsNull(rig.Head); rig.SameFiles(empty);
+                };
+                var hostObject = new GameObject("ProfileConfirmationTestHost"); hostObject.SetActive(false);
+                var host = hostObject.AddComponent<FightMatchPlayerHost>();
+                var sessionField = typeof(FightMatchPlayerHost).GetField("<Session>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                sessionField.SetValue(host, rig.Session);
+                typeof(FightMatchPlayerHost).GetField("runtimeRoot", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(host, view);
+                try
+                {
+                    foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+                    {
+                        service.SetLocale(locale); Assert.IsTrue(Click(create.gameObject));
+                        Assert.IsTrue(popup.activeInHierarchy); Assert.AreEqual(FightMatchHostPage.Startup, rig.Session.Page);
+                        Assert.AreEqual("fm.profile.create.confirm_title", title.Key);
+                        Assert.AreEqual("fm.profile.create.confirm_body", body.Key);
+                        Assert.AreEqual(service.Resolve(body.Key, null).Text, body.Target.text); Assert.IsNull(body.DiagnosticCode);
+                        Assert.AreEqual("fm.profile.create.confirm_button", confirm.GetComponentInChildren<LocalizedTmpText>(true).Key);
+                        Assert.AreEqual("fm.common.action.cancel", cancel.GetComponentInChildren<LocalizedTmpText>(true).Key);
+                        unchanged(); Click(cancel.gameObject);
+                        Assert.IsFalse(popup.activeSelf); Assert.AreEqual(FightMatchHostPage.Startup, rig.Session.Page); unchanged();
+                    }
+                    Click(create.gameObject); Click(back.gameObject);
+                    Assert.IsFalse(popup.activeSelf); Assert.AreEqual(FightMatchHostPage.Startup, rig.Session.Page); unchanged();
+                    Click(create.gameObject); host.HandleBack();
+                    Assert.IsFalse(popup.activeSelf); Assert.AreEqual(FightMatchHostPage.Startup, rig.Session.Page); unchanged();
+                    host.HandleBack();
+                    Assert.AreEqual(FightMatchHostPage.QuitConfirmation, rig.Session.Page);
+                    Assert.AreEqual("fm.exit_app.title", title.Key);
+                    Assert.AreEqual("fm.exit_app.confirm_button", confirm.GetComponentInChildren<LocalizedTmpText>(true).Key);
+                    Click(cancel.gameObject); Assert.AreEqual(FightMatchHostPage.Startup, rig.Session.Page); unchanged();
+                    Submit(dropdown.gameObject); Assert.IsTrue(dropdown.IsExpanded); host.HandleBack();
+                    Assert.IsFalse(dropdown.IsExpanded); Assert.AreEqual(FightMatchHostPage.Startup, rig.Session.Page); unchanged();
+
+                    Click(create.gameObject); var lostConfirmation = callback(confirm);
+                    rig.Profile.ReadFailure = true; rig.Session.ObserveStartup();
+                    Assert.IsFalse(rig.Session.CanCreate); Assert.IsFalse(popup.activeSelf);
+                    lostConfirmation(); unchanged();
+                    rig.Profile.ReadFailure = false; rig.Session.ObserveStartup(); Assert.IsTrue(rig.Session.CanCreate);
+                    Click(create.gameObject); var staleCreate = callback(create); var staleConfirm = callback(confirm);
+                    view.Bind(rig.Session, service, License);
+                    Assert.IsFalse(popup.activeSelf); staleCreate(); staleConfirm();
+                    Assert.IsFalse(popup.activeSelf); unchanged();
+                    Click(create.gameObject); staleConfirm();
+                    Assert.IsTrue(popup.activeSelf, "A previous binding cannot confirm the new dialog."); unchanged();
+                    view.enabled = false; Assert.IsFalse(popup.activeSelf); staleConfirm(); unchanged();
+                    view.enabled = true; view.Bind(rig.Session, service, License);
+                    Click(create.gameObject); unchanged();
+                    var currentConfirm = callback(confirm);
+                    rig.BeforeStorage = () => Assert.IsFalse(popup.activeSelf, "Clear the local confirmation before entering profile creation.");
+                    Assert.IsTrue(Click(confirm.gameObject));
+                    Assert.AreEqual(FightMatchHostPage.Navigation, rig.Session.Page);
+                    Assert.AreEqual(LocalPlayerProfileState.Active, rig.Session.Observation.State);
+                    Assert.AreEqual(1, rig.FactoryCalls); Assert.Greater(writes, 0); Assert.AreEqual(0, quits);
+                    var createdFiles = rig.Files(); var head = rig.Head; var createdWrites = writes;
+                    Assert.IsNotNull(head); Assert.IsTrue(rig.Session.Application.QueryView().View.IsPublishedHeadVerified);
+                    currentConfirm(); Assert.IsFalse(Click(confirm.gameObject));
+                    Assert.AreEqual(1, rig.FactoryCalls); Assert.AreEqual(createdWrites, writes);
+                    Assert.AreSame(head, rig.Head); rig.SameFiles(createdFiles);
+                    host.HandleBack(); Assert.AreEqual(FightMatchHostPage.QuitConfirmation, rig.Session.Page);
+                    Assert.AreEqual("fm.exit_app.title", title.Key); Assert.AreEqual("fm.exit_app.body", body.Key);
+                    Click(confirm.gameObject); Assert.AreEqual(1, quits);
+                    Click(cancel.gameObject); Assert.AreEqual(FightMatchHostPage.Navigation, rig.Session.Page);
+                    Assert.AreEqual(1, rig.FactoryCalls); Assert.AreEqual(createdWrites, writes); rig.SameFiles(createdFiles);
+                }
+                finally
+                {
+                    sessionField.SetValue(host, null);
+                    UnityEngine.Object.DestroyImmediate(hostObject);
+                }
+            }
+            yield return new ExitPlayMode(); enteredPlayMode = false;
+        }
+
         [UnityTearDown]
         public IEnumerator LeavePlayModeAfterFailure()
         {

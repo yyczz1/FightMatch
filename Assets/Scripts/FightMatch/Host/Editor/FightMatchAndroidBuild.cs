@@ -9,6 +9,7 @@ using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
 using UnityEditor.TestTools;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 [assembly: TestPlayerBuildModifier(typeof(FightMatch.Host.Editor.FightMatchAndroidBuild))]
@@ -19,6 +20,7 @@ namespace FightMatch.Host.Editor
     public sealed class FightMatchAndroidBuild : ITestPlayerBuildModifier, IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
         private const string Stage = "DEMO-029-MAC-R1";
+        private const string DemoNextStage = "DEMO-NEXT-001";
         private const string Project = "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch";
         private const string ScenePath = "Assets/Scenes/FightMatchDemo.unity";
         private const string Ui = "Assets/UI/FightMatch/";
@@ -30,11 +32,21 @@ namespace FightMatch.Host.Editor
         private static SceneSetup[] originalScenes;
         private static string apk, runDirectory, temporaryScene;
         private static bool qa, finishing, finished, buildObserved, loggedError;
+        private static bool demoNext;
         private static BuildReport actualReport;
         public int callbackOrder => int.MaxValue;
 
         static FightMatchAndroidBuild()
         {
+            if (Args.Contains("-fmDemoNextOutput"))
+            {
+                Require(Arg("-executeMethod") == "FightMatch.Host.Editor.FightMatchAndroidBuild.BuildDemo" &&
+                    !Args.Any(x => x.StartsWith("-fm", StringComparison.OrdinalIgnoreCase) && x != "-fmDemoNextOutput" ||
+                        x.StartsWith("-test", StringComparison.OrdinalIgnoreCase) || x.StartsWith("-runTests", StringComparison.OrdinalIgnoreCase) ||
+                        x.Equals("-runEditorTests", StringComparison.OrdinalIgnoreCase) || x.Equals("-runPlayModeTests", StringComparison.OrdinalIgnoreCase) ||
+                        x.Equals("-assemblyNames", StringComparison.OrdinalIgnoreCase) || x.Equals("-buildPlayerPath", StringComparison.OrdinalIgnoreCase)),
+                    "Demo next requires the normal BuildDemo entry without QA/test or other stage arguments");
+            }
             if (!Args.Contains("-fm029QaBuildOnly") || Arg("-fm029Stage") != Stage) return;
             qa = true;
             GuardOutput(Arg("-buildPlayerPath"), "fightmatch-qa.apk");
@@ -760,8 +772,10 @@ namespace FightMatch.Host.Editor
             Require(PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android) == ScriptingImplementation.IL2CPP &&
                 PlayerSettings.Android.targetArchitectures == AndroidArchitecture.ARM64, "IL2CPP/ARM64");
             Require(PlayerSettings.GetManagedStrippingLevel(BuildTargetGroup.Android) == ManagedStrippingLevel.Minimal, "Minimal stripping");
-            Require((int)PlayerSettings.Android.minSdkVersion == 22 && (int)PlayerSettings.Android.targetSdkVersion == 32 &&
+            Require(PlayerSettings.Android.minSdkVersion == AndroidSdkVersions.AndroidApiLevel24 && (int)PlayerSettings.Android.targetSdkVersion == 32 &&
                 PlayerSettings.Android.bundleVersionCode == 1 && PlayerSettings.bundleVersion == "0.1", "Version/SDK");
+            Require(!PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android) &&
+                PlayerSettings.GetGraphicsAPIs(BuildTarget.Android).SequenceEqual(new[] { GraphicsDeviceType.OpenGLES3 }), "Android graphics API");
             Require(!EditorUserBuildSettings.buildAppBundle && !PlayerSettings.Android.useAPKExpansionFiles, "Single APK required");
             Require(EditorUserBuildSettings.androidCreateSymbols == AndroidCreateSymbols.Disabled, "No separate symbols package");
         }
@@ -824,9 +838,45 @@ namespace FightMatch.Host.Editor
             PlayerSettings.Android.keystorePass = password;
             PlayerSettings.Android.keyaliasPass = password;
         }
+        private static void GuardDemoNextOutput(string output)
+        {
+            Require(!qa && saved == null && !EditorApplication.isPlayingOrWillChangePlaymode && !BuildPipeline.isBuildingPlayer &&
+                Path.GetDirectoryName(UnityEngine.Application.dataPath) == Project, "Demo next project/build state");
+            var match = Regex.Match(output ?? "", @"\A" + Regex.Escape(Project + "/Builds/" + DemoNextStage + "/") +
+                @"([A-Za-z0-9][A-Za-z0-9_-]{0,63})/fightmatch-demo\.apk\z");
+            Require(match.Success && Path.GetFullPath(output) == output, "Demo next exact output path");
+            var outputDirectory = Path.GetDirectoryName(output);
+            var evidenceDirectory = Project + "/TestArtifacts/FightMatch/" + DemoNextStage + "/" + match.Groups[1].Value;
+            foreach (var directory in new[] { outputDirectory, evidenceDirectory })
+            {
+                Require(!Directory.Exists(directory) && !File.Exists(directory), "Demo next requires new output/evidence directories");
+                for (var current = directory; !string.IsNullOrEmpty(current); current = Path.GetDirectoryName(current))
+                {
+                    try { Require((File.GetAttributes(current) & FileAttributes.ReparsePoint) == 0, "Demo next path contains a link"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                }
+            }
+            Directory.CreateDirectory(evidenceDirectory);
+            Directory.CreateDirectory(outputDirectory);
+            apk = output; runDirectory = evidenceDirectory; demoNext = true;
+        }
         public static void BuildDemo()
         {
-            GuardOutput(Arg("-fm029Output"), "fightmatch-demo.apk");
+            var output = Arg("-fmDemoNextOutput");
+            if (output == null) GuardOutput(Arg("-fm029Output"), "fightmatch-demo.apk");
+            else
+            {
+                GuardDemoNextOutput(output);
+                PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel24;
+                PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
+                PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[] { GraphicsDeviceType.OpenGLES3 });
+                AssetDatabase.SaveAssets();
+                Require(PlayerSettings.Android.minSdkVersion == AndroidSdkVersions.AndroidApiLevel24 &&
+                    !PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android) &&
+                    PlayerSettings.GetGraphicsAPIs(BuildTarget.Android).SequenceEqual(new[] { GraphicsDeviceType.OpenGLES3 }),
+                    "Demo next persistent settings read-back");
+            }
             CheckProduction();
             saved = Settings.Capture();
             WriteSettings();
@@ -943,7 +993,7 @@ namespace FightMatch.Host.Editor
         {
             var summary = report.summary;
             File.WriteAllText(runDirectory + "/build-report.json", JsonUtility.ToJson(new BuildResultRecord {
-                stage = Stage, result = summary.result.ToString(), output = summary.outputPath, target = summary.platform.ToString(),
+                stage = demoNext ? DemoNextStage : Stage, result = summary.result.ToString(), output = summary.outputPath, target = summary.platform.ToString(),
                 options = summary.options.ToString(), errors = summary.totalErrors, warnings = summary.totalWarnings,
                 startedUtc = summary.buildStartedAt.ToUniversalTime().ToString("O"), endedUtc = summary.buildEndedAt.ToUniversalTime().ToString("O"),
                 bytes = File.Exists(apk) ? new FileInfo(apk).Length : 0, sha256 = File.Exists(apk) ? Sha(apk) : null,
@@ -951,6 +1001,9 @@ namespace FightMatch.Host.Editor
                 backend = PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android).ToString(),
                 architecture = PlayerSettings.Android.targetArchitectures.ToString(),
                 stripping = PlayerSettings.GetManagedStrippingLevel(BuildTargetGroup.Android).ToString(),
+                minSdk = (int)PlayerSettings.Android.minSdkVersion,
+                graphicsAutomatic = PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android),
+                graphicsApis = PlayerSettings.GetGraphicsAPIs(BuildTarget.Android).Select(x => x.ToString()).ToArray(),
                 files = report.GetFiles().Select(x => x.role + "|" + x.path + "|" + x.size).ToArray() }, true));
         }
         [Serializable] private sealed class ResourceResult
@@ -969,9 +1022,10 @@ namespace FightMatch.Host.Editor
         [Serializable] private sealed class BuildResultRecord
         {
             public string stage, result, output, target, options, startedUtc, endedUtc, sha256, package, backend, architecture, stripping;
-            public int errors, warnings;
+            public int errors, warnings, minSdk;
             public long bytes;
-            public string[] files;
+            public bool graphicsAutomatic;
+            public string[] files, graphicsApis;
         }
 #pragma warning disable 618
         [Serializable] private sealed class Settings
@@ -1018,6 +1072,14 @@ namespace FightMatch.Host.Editor
                 customKey == PlayerSettings.Android.useCustomKeystore && keystore == PlayerSettings.Android.keystoreName && alias == PlayerSettings.Android.keyaliasName;
             internal void Apply()
             {
+                Require(graphics != null && graphics.Length != 0, "Captured Android graphics APIs");
+                var capturedGraphics = graphics.Select(name =>
+                {
+                    GraphicsDeviceType value;
+                    Require(Enum.TryParse(name, false, out value) && Enum.IsDefined(typeof(GraphicsDeviceType), value) &&
+                        value.ToString() == name, "Captured Android graphics API name");
+                    return value;
+                }).ToArray();
                 if (identifier != PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android)) PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, identifier);
                 if (strip != PlayerSettings.stripEngineCode) PlayerSettings.stripEngineCode = strip;
                 if (product != PlayerSettings.productName) PlayerSettings.productName = product;
@@ -1034,6 +1096,11 @@ namespace FightMatch.Host.Editor
                 if (architecture != (int)PlayerSettings.Android.targetArchitectures) PlayerSettings.Android.targetArchitectures = (AndroidArchitecture)architecture;
                 if (bundle != EditorUserBuildSettings.buildAppBundle) EditorUserBuildSettings.buildAppBundle = bundle;
                 if (expansion != PlayerSettings.Android.useAPKExpansionFiles) PlayerSettings.Android.useAPKExpansionFiles = expansion;
+                if (!capturedGraphics.SequenceEqual(PlayerSettings.GetGraphicsAPIs(BuildTarget.Android)))
+                {
+                    if (PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android)) PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
+                    PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, capturedGraphics);
+                }
                 if (autoGraphics != PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android)) PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, autoGraphics);
                 if (customKey != PlayerSettings.Android.useCustomKeystore) PlayerSettings.Android.useCustomKeystore = customKey;
                 if (keystore != PlayerSettings.Android.keystoreName) PlayerSettings.Android.keystoreName = keystore;

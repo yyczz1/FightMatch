@@ -37,6 +37,7 @@ namespace FightMatch.Host
         private bool rendering, bound;
         private bool overlayConflict;
         private float? languageFeedbackDeadline;
+        private bool profileCreationPending;
         public PlayerBattleView BattleView => battleView;
         internal PlayerNavigationView NavigationView => navigationView;
         internal string DiagnosticCode => infrastructureDiagnostic ?? (overlayConflict ? "OverlappingPanelOwners" : localization?.BindingDiagnostic);
@@ -77,10 +78,10 @@ namespace FightMatch.Host
             BindText(quitTitle, "fm.exit_app.title"); BindText(quitBody, "fm.exit_app.body");
             BindText(loadingLabel, "fm.common.state.loading");
             SetLanguageFeedbackVisible(false);
-            AddButton(createButton, "fm.profile.create.button", () => session?.CreateProfile());
+            AddButton(createButton, "fm.profile.create.button", OpenProfileCreation);
             AddButton(continueButton, "fm.profile.creation_pending.continue_button", () => session?.ContinueCreation());
             AddButton(reloadButton, "fm.profile.reload.button", () => session?.ObserveStartup());
-            AddButton(backButton, "fm.common.action.back", () => session?.Back());
+            AddButton(backButton, "fm.common.action.back", () => { if (!TryCloseProfileCreation()) session?.Back(); });
             var epoch = generation;
             languageDropdown.CanOpen = () => bound && epoch == generation && CanSelectLocale();
             localeSelection = index =>
@@ -94,8 +95,8 @@ namespace FightMatch.Host
             languageDropdown.onValueChanged.AddListener(localeSelection);
             AddButton(licenseButton, "fm.font_licenses.open_button", () => ShowLicense(true));
             AddButton(licenseCloseButton, "fm.common.action.back", () => ShowLicense(false));
-            AddButton(quitConfirmButton, "fm.exit_app.confirm_button", () => session?.ConfirmQuit());
-            AddButton(quitCancelButton, "fm.exit_app.stay_button", () => session?.CancelQuit());
+            AddButton(quitConfirmButton, "fm.exit_app.confirm_button", ConfirmQuitOrCreateProfile);
+            AddButton(quitCancelButton, "fm.exit_app.stay_button", () => { if (!TryCloseProfileCreation()) session?.CancelQuit(); });
             if (session != null) session.Changed += Render;
             localization.DiagnosticsChanged += RefreshDiagnostic;
             localization.LocaleChanged += RefreshLocaleOptions;
@@ -120,6 +121,28 @@ namespace FightMatch.Host
             UnityAction callback = () => { if (bound && epoch == generation && DiagnosticCode == null) action(); };
             button.onClick.AddListener(callback);
             listeners.Add(new KeyValuePair<UnityEngine.UI.Button, UnityAction>(button, callback));
+        }
+        private void OpenProfileCreation()
+        {
+            if (!bound || session == null || session.Page != FightMatchHostPage.Startup || !session.CanCreate || !CanSelectLocale()) return;
+            profileCreationPending = true;
+            languageDropdown.Close(); SetLanguageFeedbackVisible(false);
+            Render();
+        }
+        internal bool TryCloseProfileCreation()
+        {
+            if (!bound || !profileCreationPending) return false;
+            profileCreationPending = false;
+            Render();
+            return true;
+        }
+        private void ConfirmQuitOrCreateProfile()
+        {
+            if (!profileCreationPending) { session?.ConfirmQuit(); return; }
+            var owner = session;
+            TryCloseProfileCreation();
+            if (bound && ReferenceEquals(owner, session) && owner != null && owner.Page == FightMatchHostPage.Startup && owner.CanCreate)
+                owner.CreateProfile();
         }
         private void SelectLocale(LocaleId locale)
         {
@@ -200,7 +223,14 @@ namespace FightMatch.Host
                 startupPage.SetActive(contentPage == FightMatchHostPage.Startup);
                 navigationPage.SetActive(navigation); battlePage.SetActive(battle);
                 if (!battle) resultPage.SetActive(false);
-                quitPopup.SetActive(session.Page == FightMatchHostPage.QuitConfirmation);
+                if (!session.CanCreate || session.Page != FightMatchHostPage.Startup) profileCreationPending = false;
+                BindText(quitTitle, profileCreationPending ? "fm.profile.create.confirm_title" : "fm.exit_app.title");
+                BindText(quitBody, profileCreationPending ? "fm.profile.create.confirm_body" : "fm.exit_app.body");
+                BindText(quitConfirmButton.GetComponentInChildren<LocalizedTmpText>(true),
+                    profileCreationPending ? "fm.profile.create.confirm_button" : "fm.exit_app.confirm_button");
+                BindText(quitCancelButton.GetComponentInChildren<LocalizedTmpText>(true),
+                    profileCreationPending ? "fm.common.action.cancel" : "fm.exit_app.stay_button");
+                quitPopup.SetActive(profileCreationPending || session.Page == FightMatchHostPage.QuitConfirmation);
                 if (session.CanCreate) BindText(startupStatus, "fm.profile.empty.body");
                 else if (session.Status == "ContinueCreation") BindText(startupStatus, "fm.profile.creation_pending.body");
                 else if (session.Status == "UnclaimedData") BindText(startupStatus, "fm.profile.unclaimed_data.blocking");
@@ -286,6 +316,7 @@ namespace FightMatch.Host
         internal void Unbind(PointerCancellationCause cause)
         {
             bound = false; generation++; selectLocalePreference = null;
+            profileCreationPending = false;
             if (languageDropdown != null)
             {
                 languageDropdown.CanOpen = null;

@@ -387,6 +387,7 @@ namespace FightMatch.Host
         {
             if (Session == null) return;
             if (runtimeRoot != null && runtimeRoot.TryCloseLanguageDropdown()) return;
+            if (runtimeRoot != null && runtimeRoot.TryCloseProfileCreation()) return;
             Session.Back();
         }
         private void OnApplicationPause(bool paused) { if (paused) runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost); }
