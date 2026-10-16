@@ -4,17 +4,17 @@
 
 ## 当前任务
 
-用户实际Play三项UI通过，English真实落盘且原资料主要文件保持。成功提示常驻的两源修正c3f0812已推送PR22，GitHub审查未发现重大问题；本地尚未接入/编译/运行。中央已发唯一人工正常退出Unity操作；主程收到退出后交C接入同一候选并用最后一次冷开验证。预算1/2次、主动643.849413/900秒，详细证据/计数只在[主程顶部](engineering.md)。
+本轮UI修正ACCEPT：c3f0812已审查、接入、编译；用户确认冷开即English、原档/进度正常、切换语言后成功提示约2秒消失，最后保持English及Unity打开。追加启动2/2已使用；C收尾触发900秒主动时间守卫失败，已停止新增验证并保留超时事实，不重置额度或重试；详细预算与证据只在[主程顶部](engineering.md)。首Demo仍未完成。
 
 | 工作 | 当前事实 | 唯一明细入口 |
 | --- | --- | --- |
 | 工具功能 | 复用264条真实导表；标准重复键检查2.541秒按预期拒绝，无下载/还原 | [结果](../../../TestArtifacts/FightMatch/LOC-STANDARD-001/result.md) |
-| 游戏接入 | c07d807已审/已编译/人工三项通过；c3f0812提示修正已推送、尚未本机接入 | [主程索引顶部](engineering.md) |
-| Unity/实际观察 | English落盘已核；待人工正常退出，再接入修正及最后冷开 | [主程索引顶部](engineering.md) |
+| 游戏接入 | 本轮下拉/可见按钮、语言保存冷开和短时成功提示修正已接收；完整Demo仍待验 | [主程索引顶部](engineering.md) |
+| Unity/实际观察 | c3f0812编译成功；用户冷开与2秒提示人工通过，保持English | [主程索引顶部](engineering.md) |
 | 代码审查 | c3f0812独立审查未发现重大问题；主测试仅接收源码门 | [独立结果](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6207548412) |
 | 美术 | 继续使用现有占位；Warrior Idle Initial01已有用户选择但尚未Unity导入 | [主美记录](art.md#104-用户采用为-initial-01同日) |
 
-当前集成判定NEEDS_FIX：新提示候选接入/运行及语言冷开未完成；旧审查、编译、人工观察和English落盘证据保留其版本边界。当前不是已完成通用Toast系统。详情见[START_HERE](../../../START_HERE.md)。
+本轮UI集成判定ACCEPT，结合独立审查、编译和上述实际用户观察；新增UnityTest未运行，历史两个headless失败仍保留。该结论不代表独立通用Toast系统、全部页面、首Demo或安卓真机已完成。详情见[START_HERE](../../../START_HERE.md)。
 
 新增已查明边界：WindowsEditorSaveStorage/WindowsContentPublicationStorage已存在，缺的是Host系统根与存储选择接线，并非缺少存储实现。本轮已复用接线；Windows原生运行仍未测，存档规则不变。
 
