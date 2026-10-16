@@ -36,6 +36,7 @@ namespace FightMatch.Host
         private string infrastructureDiagnostic;
         private bool rendering, bound;
         private bool overlayConflict;
+        private float? languageFeedbackDeadline;
         public PlayerBattleView BattleView => battleView;
         internal PlayerNavigationView NavigationView => navigationView;
         internal string DiagnosticCode => infrastructureDiagnostic ?? (overlayConflict ? "OverlappingPanelOwners" : localization?.BindingDiagnostic);
@@ -133,6 +134,8 @@ namespace FightMatch.Host
                 result?.ErrorCode == null ? Array.Empty<KeyValuePair<string, string>>() :
                 new[] { new KeyValuePair<string, string>("errorCode", result.ErrorCode) });
             SetLanguageFeedbackVisible(true);
+            if (result == null || result.Disposition == LocalePreferenceSaveDisposition.Saved)
+                languageFeedbackDeadline = Time.unscaledTime + 2f;
         }
         private bool CanSelectLocale() => bound && DiagnosticCode == null && !board.HasActivePointer &&
             !recoveryScreenRoot.activeSelf && !overlayConflict && !confirmationPopupRoot.activeSelf &&
@@ -154,6 +157,7 @@ namespace FightMatch.Host
         }
         private void SetLanguageFeedbackVisible(bool visible)
         {
+            languageFeedbackDeadline = null;
             if (languageFeedback != null) languageFeedback.gameObject.SetActive(visible);
             if (languageFeedbackPanel != null) languageFeedbackPanel.SetActive(visible);
         }
@@ -273,6 +277,8 @@ namespace FightMatch.Host
         private void Update()
         {
             if (!bound || languageDropdown == null) return;
+            if (languageFeedbackDeadline.HasValue && Time.unscaledTime >= languageFeedbackDeadline.Value)
+                SetLanguageFeedbackVisible(false);
             languageDropdown.interactable = CanSelectLocale();
             if (!languageDropdown.interactable && languageDropdown.IsExpanded) languageDropdown.Close();
         }

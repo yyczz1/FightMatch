@@ -334,6 +334,97 @@ namespace FightMatch.Host.Tests
             yield return new ExitPlayMode(); enteredPlayMode = false;
         }
 
+        [UnityTest]
+        public IEnumerator LanguageFeedbackExpiresOnlyForLatestSuccessAndClearsOnUnbind()
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            yield return new EnterPlayMode(); enteredPlayMode = true;
+            using (var rig = new HostRig(false))
+            using (var panel = new HostPanel(rig))
+            {
+                var view = panel.View; var service = RealLocalization(); var saves = 0;
+                var result = LocalePreferenceSaveResult.Saved();
+                Func<LocaleId, LocalePreferenceSaveResult> select = locale =>
+                { saves++; if (result != null) service.SetLocale(locale); return result; };
+                view.Bind(rig.Session, service, License, select);
+                yield return null; Canvas.ForceUpdateCanvases();
+                var dropdown = Field<FightMatchLocaleDropdown>(view, "languageDropdown");
+                var feedback = Field<LocalizedTmpText>(view, "languageFeedback");
+                var feedbackPanel = Field<GameObject>(view, "languageFeedbackPanel");
+                Action<int> choose = index =>
+                {
+                    Assert.IsTrue(dropdown.interactable, "Feedback must not block another language choice.");
+                    Submit(dropdown.gameObject);
+                    Assert.IsTrue(Click(Items(dropdown)[index].gameObject));
+                    Assert.AreEqual(-1, dropdown.value);
+                };
+                var originalTimeScale = Time.timeScale;
+                try
+                {
+                    choose(0);
+                    Assert.IsTrue(feedbackPanel.activeInHierarchy); Assert.AreEqual("fm.language.saved", feedback.Key);
+                    yield return new WaitForSecondsRealtime(1.1f); yield return null;
+                    result = null; choose(0);
+                    Assert.AreEqual("fm.language.saved", feedback.Key, "A null callback result must preserve the existing message and deadline.");
+                    yield return new WaitForSecondsRealtime(1.1f); yield return null;
+                    Assert.IsFalse(feedbackPanel.activeSelf); Assert.IsFalse(feedback.gameObject.activeSelf);
+                    Assert.AreEqual(2, saves);
+
+                    Time.timeScale = 0;
+                    result = LocalePreferenceSaveResult.Saved(); choose(1);
+                    yield return new WaitForSecondsRealtime(1.2f); yield return null;
+                    Assert.IsTrue(feedbackPanel.activeInHierarchy);
+                    choose(1); // Same-language success starts a fresh interval while play is paused.
+                    yield return new WaitForSecondsRealtime(1.1f); yield return null;
+                    Assert.IsTrue(feedbackPanel.activeInHierarchy, "The first success deadline must not hide the second success.");
+                    yield return new WaitForSecondsRealtime(1.1f); yield return null;
+                    Assert.IsFalse(feedbackPanel.activeSelf); Assert.IsFalse(feedback.gameObject.activeSelf);
+                    Assert.AreEqual(4, saves);
+
+                    view.Bind(rig.Session, service, License);
+                    choose(0);
+                    Assert.AreEqual("fm.language.changed", feedback.Key); Assert.IsTrue(feedbackPanel.activeInHierarchy);
+                    Assert.AreEqual(LocaleId.En, service.CurrentLocale);
+                    yield return new WaitForSecondsRealtime(2.1f); yield return null;
+                    Assert.IsFalse(feedbackPanel.activeSelf); Assert.AreEqual(4, saves);
+                    view.Bind(rig.Session, service, License, select);
+                    foreach (var failure in new[] { LocalePreferenceSaveResult.Failed("PreferenceCommitFailed"),
+                        LocalePreferenceSaveResult.Failed("PreferenceTargetReopenFailed", true) })
+                    {
+                        result = LocalePreferenceSaveResult.Saved(); choose(1);
+                        yield return null; yield return null;
+                        result = failure; choose(1);
+                        Assert.AreEqual(failure.LocalizationKey, feedback.Key);
+                        yield return new WaitForSecondsRealtime(2.1f); yield return null;
+                        Assert.IsTrue(feedbackPanel.activeInHierarchy, "A later failed or unknown save must outlive the old success deadline.");
+                        Assert.IsTrue(feedback.gameObject.activeInHierarchy); Assert.IsNull(feedback.DiagnosticCode);
+                    }
+                    Assert.AreEqual(8, saves);
+
+                    foreach (var cleanup in new[] { "Unbind", "Rebind", "Disable" })
+                    {
+                        result = LocalePreferenceSaveResult.Saved(); choose(0);
+                        yield return null; yield return null;
+                        Assert.IsTrue(feedbackPanel.activeInHierarchy);
+                        if (cleanup == "Unbind") view.Unbind();
+                        else if (cleanup == "Rebind") view.Bind(rig.Session, service, License, select);
+                        else view.enabled = false;
+                        Assert.IsFalse(feedbackPanel.activeSelf, cleanup);
+                        Assert.AreEqual(LocalizedTmpText.Placeholder, feedback.Target.text, cleanup);
+                        if (cleanup == "Disable") view.enabled = true;
+                        if (cleanup != "Rebind") view.Bind(rig.Session, service, License, select);
+                        result = LocalePreferenceSaveResult.Failed("PreferenceTargetReopenFailed", true); choose(1);
+                        yield return new WaitForSecondsRealtime(2.1f); yield return null;
+                        Assert.IsTrue(feedbackPanel.activeInHierarchy, cleanup + " must retire the old success deadline.");
+                        Assert.AreEqual(result.LocalizationKey, feedback.Key); Assert.IsNull(feedback.DiagnosticCode);
+                    }
+                    Assert.AreEqual(14, saves);
+                }
+                finally { Time.timeScale = originalTimeScale; }
+            }
+            yield return new ExitPlayMode(); enteredPlayMode = false;
+        }
+
         [UnityTearDown]
         public IEnumerator LeavePlayModeAfterFailure()
         {
