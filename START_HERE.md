@@ -4,7 +4,7 @@
 
 ## 1. 当前工作与下一步
 
-**最新里程碑：新版普通APK已构建成功，首Demo仍待验收。** `Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk`为36583902字节，SHA256 `4d72f265bd437d9d0e5131128ae46f71fb4fd968310f3a2d93344a791c017ab6`。用户明确许可后的唯一构建自然exit0，前检至结果落盘252.466秒；minSDK24、仅GLES3及Auto=false已由Unity实际保存，原包名/签名保持。三项针对检查为原2项通过＋修正锁文件基线后单项通过，原失败不覆盖。四源码及真实Settings共5产品路径待中央统一发布与GitHub独立审查；本机保留字体/旧WIP不同于clean PR输入，不能声称整个PR树已全测。依据[实际构建回执](TestArtifacts/FightMatch/DEMO-NEXT-001/execution-android01-result.json)和[试玩指南](docs/demo/PLAY_FIRST_DEMO.md)。尚未安装、普通图标启动、完整L1或设备验收；本轮一次构建许可已用，不追加运行。以下为准备及旧UI过程记录，时点状态不覆盖本条。
+**最新里程碑：新版普通APK已构建成功，首Demo仍待验收。** `Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk`为36583902字节，SHA256 `4d72f265bd437d9d0e5131128ae46f71fb4fd968310f3a2d93344a791c017ab6`。用户明确许可后的唯一构建自然exit0，前检至结果落盘252.466秒；minSDK24、仅GLES3及Auto=false已由Unity实际保存，原包名/签名保持。三项针对检查为原2项通过＋修正锁文件基线后单项通过，原失败不覆盖。四源码及真实Settings共5产品路径已推送PR22产品提交`c78f8a52ba589534171b5990328e9cac2d42a752`；主测试核对[同head独立审查](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6211066540)未发现重大问题，仅源码审查门ACCEPT，首Demo整体NEEDS_FIX。本机保留字体/旧WIP不同于clean PR输入，不能声称整个PR树已全测。依据[实际构建回执](TestArtifacts/FightMatch/DEMO-NEXT-001/execution-android01-result.json)和[试玩指南](docs/demo/PLAY_FIRST_DEMO.md)。尚未安装、普通图标启动、完整L1或设备验收；本轮一次构建许可已用，不追加运行。以下为准备及旧UI过程记录，时点状态不覆盖本条。
 
 **当前接续：DEMO-NEXT-001（用户2026-10-16直接要求）。** 本轮UI已结案，用户要求列清首Demo未完项并继续能独立完成的工作。主程核L1正常流程与新版Android普通APK准备，继续已定API24/GLES3及必要构建入口的最小候选；主测试合并当前有效证据与剩余实际验收；主策接管`docs/demo/PLAY_FIRST_DEMO.md`更新真实uGUI试玩说明。两项源码已暂存冻结，用户已正常退出Editor；运行按新阶段短合同，不复用已结束且超时的UI启动/时间额度。各组直接完成普通任务，中央收里程碑及必要人工动作；不因旧LOC/1036冻结历史恢复长验证链。首Demo仍限已批准L1、占位美术和同产品正式业务/存档；广告、后台、CDN、账号及完整Google Play首版不扩入此阶段。
 

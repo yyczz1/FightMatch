@@ -1,10 +1,10 @@
 # FightMatch 当前接续快照
 
-2026-10-16：首Demo尚未验收；窄范围UI修正已结案，用户要求列清剩余内容并自主继续。当前为DEMO-NEXT-001，新Android普通包已构建成功，待源码独立审查和实际试玩；原UI两次启动和时间额度已结束。实际结果以[START_HERE](../../../START_HERE.md)及本线记录为准。
+2026-10-16：首Demo尚未验收；窄范围UI修正已结案，用户要求列清剩余内容并自主继续。当前为DEMO-NEXT-001，新Android普通包已构建成功，同版本源码独立审查已接收，待实际试玩；原UI两次启动和时间额度已结束。实际结果以[START_HERE](../../../START_HERE.md)及本线记录为准。
 
 ## 当前任务
 
-**最新实际结果：** 新普通APK已生成，minSDK24/仅GLES3由Unity实际保存，原签名保持；一次构建及检查252.466秒。原2项针对检查通过＋FIX01单例通过，完整L1、视觉和设备仍未验。四源码＋真实Settings共5产品路径由中央统一发布，主测试接新head独立审查。唯一构建许可已使用，不追加安装/GUI/测试。详见[实际回执](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/execution-android01-result.json)及[当前试玩指南](../../demo/PLAY_FIRST_DEMO.md)；下面各段保留此前时点。
+**最新实际结果：** 新普通APK已生成，minSDK24/仅GLES3由Unity实际保存，原签名保持；一次构建及检查252.466秒。原2项针对检查通过＋FIX01单例通过，完整L1、视觉和设备仍未验。四源码＋真实Settings共5产品路径已发布到PR22产品提交`c78f8a52ba589534171b5990328e9cac2d42a752`；主测试已核[同head独立审查](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6211066540)未发现重大问题，仅源码审查门ACCEPT，首Demo整体NEEDS_FIX。唯一构建许可已使用，不追加安装/GUI/测试。详见[实际回执](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/execution-android01-result.json)及[当前试玩指南](../../demo/PLAY_FIRST_DEMO.md)；下面各段保留此前时点。
 
 **DEMO-NEXT-001已接续：** 主程继续L1/新Android包的具体缺口与已定设置候选；主测试收敛剩余验收；主策更新唯一试玩指南。实际lead turns为主程`01a14307-7371-7d92-bd04-5c08dad5c90e`、QA`01a14307-8195-7750-a9b1-7737a4d084f6`、主策`01a14307-92ea-7bc1-a940-e5d671d348a1`，均local/Astra-xhigh。两项源码候选已冻结，用户已正常退出Unity；主程继续派C执行新短合同，旧UI额度不复用。美术继续占位，不激活无关角色。
 
