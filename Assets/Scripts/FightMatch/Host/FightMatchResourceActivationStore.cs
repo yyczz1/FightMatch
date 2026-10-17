@@ -19,11 +19,11 @@ namespace FightMatch.Host
         internal string Phase { get; }
         internal string ProcessToken { get; }
         internal string ResourceSetId { get; }
-        internal int SchemaVersion => 1;
-        internal ActivationRecord(string id, string basis, string sha, string phase, string token, string set)
+        internal int SchemaVersion { get; }
+        internal ActivationRecord(string id, string basis, string sha, string phase, string token, string set, int schemaVersion = 1)
         {
             ActivationId = id; BaseActivationId = basis; DescriptorSha256 = sha;
-            Phase = phase; ProcessToken = token; ResourceSetId = set;
+            Phase = phase; ProcessToken = token; ResourceSetId = set; SchemaVersion = schemaVersion;
         }
     }
 
@@ -79,13 +79,15 @@ namespace FightMatch.Host
         private static readonly HashSet<string> Names = new HashSet<string>(
             MainNames.SelectMany(n => new[] { n, n + ".tmp", n + ".bak" }), StringComparer.Ordinal);
         private const string TokenPattern = @"p[1-9][0-9]{0,9}-[1-9][0-9]{0,18}";
+        private const string AndroidTokenPattern = @"a2-b(?:0|[1-9][0-9]{0,9})-p[1-9][0-9]{0,9}-e(?:0|[1-9][0-9]{0,18})";
         private static readonly Regex RecordPattern = new Regex(
             "\\A\\{\"activationId\":\"([0-9a-f]{32})\",\"baseActivationId\":\"(|[0-9a-f]{32})\"," +
             "\"descriptorSha256\":\"([0-9a-f]{64})\",\"phase\":\"(CodeEntered|BusinessReady|Prepared|RequestRestart)\"," +
-            "\"processToken\":\"(" + TokenPattern + ")\",\"resourceSetId\":\"([a-z0-9][a-z0-9._-]{0,127})\",\"schemaVersion\":1\\}\\z",
+            "\"processToken\":\"(" + TokenPattern + "|" + AndroidTokenPattern + ")\",\"resourceSetId\":\"([a-z0-9][a-z0-9._-]{0,127})\",\"schemaVersion\":([12])\\}\\z",
             RegexOptions.CultureInvariant);
         private readonly string root, token;
         private readonly IActivationFiles files;
+        private readonly int schemaVersion;
         private ActivationSnapshot confirmed;
         private bool unknown;
         private string Outer => Path.Combine(root, "resource-state");
@@ -94,10 +96,16 @@ namespace FightMatch.Host
         internal FightMatchResourceActivationStore(string productRoot)
             : this(productRoot, new SystemActivationFiles(), RealToken()) { }
         internal FightMatchResourceActivationStore(string productRoot, IActivationFiles files, string processToken)
-        { root = productRoot; this.files = files; token = processToken; }
+        {
+            root = productRoot; this.files = files; token = processToken;
+            schemaVersion = processToken != null && processToken.StartsWith("a2-", StringComparison.Ordinal) ? 2 : 1;
+        }
 
         private static string RealToken()
         {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return AndroidProcessToken.Value;
+#else
             try
             {
                 using (var process = Process.GetCurrentProcess())
@@ -105,6 +113,60 @@ namespace FightMatch.Host
                         process.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture);
             }
             catch (Exception) { return null; }
+#endif
+        }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        // First read is made by Host startup on Unity's main thread; cache failures too.
+        private static readonly Lazy<string> AndroidProcessToken = new Lazy<string>(ReadAndroidProcessToken);
+        private static string ReadAndroidProcessToken()
+        {
+            try
+            {
+                using (var player = new UnityEngine.AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+                using (var activity = player.GetStatic<UnityEngine.AndroidJavaObject>("currentActivity"))
+                using (var resolver = activity.Call<UnityEngine.AndroidJavaObject>("getContentResolver"))
+                using (var settings = new UnityEngine.AndroidJavaClass("android.provider.Settings$Global"))
+                using (var process = new UnityEngine.AndroidJavaClass("android.os.Process"))
+                using (var clock = new UnityEngine.AndroidJavaClass("android.os.SystemClock"))
+                {
+                    var key = settings.GetStatic<string>("BOOT_COUNT");
+                    if (string.IsNullOrEmpty(key)) return null;
+                    var before = settings.CallStatic<int>("getInt", resolver, key);
+                    var pid = process.CallStatic<int>("myPid");
+                    var start = process.CallStatic<long>("getStartElapsedRealtime");
+                    var now = clock.CallStatic<long>("elapsedRealtime");
+                    var after = settings.CallStatic<int>("getInt", resolver, key);
+                    return AndroidTokenFromSample(before, pid, start, now, after);
+                }
+            }
+            catch (Exception) { return null; }
+        }
+#endif
+        internal static string AndroidTokenFromSample(long bootBefore, long pid, long start, long elapsedNow, long bootAfter)
+        {
+            if (bootBefore < 0 || bootBefore > int.MaxValue || bootBefore != bootAfter ||
+                pid <= 0 || pid > int.MaxValue || start < 0 || elapsedNow < 0 || start > elapsedNow) return null;
+            return "a2-b" + bootBefore.ToString(CultureInfo.InvariantCulture) + "-p" + pid.ToString(CultureInfo.InvariantCulture) +
+                "-e" + start.ToString(CultureInfo.InvariantCulture);
+        }
+        private static bool TryAndroidToken(string value, out int boot, out int pid, out long start)
+        {
+            boot = 0; pid = 0; start = 0;
+            if (!Matches(value, AndroidTokenPattern)) return false;
+            var parts = value.Split('-');
+            return int.TryParse(parts[1].Substring(1), NumberStyles.None, CultureInfo.InvariantCulture, out boot) &&
+                int.TryParse(parts[2].Substring(1), NumberStyles.None, CultureInfo.InvariantCulture, out pid) &&
+                long.TryParse(parts[3].Substring(1), NumberStyles.None, CultureInfo.InvariantCulture, out start);
+        }
+        private static bool ValidToken(string value, int version) => version == 1
+            ? Matches(value, TokenPattern) : version == 2 && TryAndroidToken(value, out _, out _, out _);
+        private bool IsSuccessor(string previous)
+        {
+            if (schemaVersion == 1) return previous != token;
+            return TryAndroidToken(previous, out var oldBoot, out _, out var oldStart) &&
+                TryAndroidToken(token, out var boot, out _, out var start) &&
+                (boot > oldBoot || boot == oldBoot && start > oldStart);
         }
 
         private sealed class Fault : Exception
@@ -131,7 +193,7 @@ namespace FightMatch.Host
             p.BaseActivationId == a.ActivationId && p.ResourceSetId != a.ResourceSetId;
         private static bool Pending(ActivationSnapshot s) => s.Restart != null && !Key(s.Restart, s.Active);
         private static ActivationRecord Phase(ActivationRecord r, string phase, string token) =>
-            new ActivationRecord(r.ActivationId, r.BaseActivationId, r.DescriptorSha256, phase, token, r.ResourceSetId);
+            new ActivationRecord(r.ActivationId, r.BaseActivationId, r.DescriptorSha256, phase, token, r.ResourceSetId, r.SchemaVersion);
 
         internal ActivationResult Read() => Execute(null, null);
         internal ActivationResult EnterAtProcessStart(string exactSet, string descriptorSha256) =>
@@ -140,16 +202,17 @@ namespace FightMatch.Host
                 Target(exactSet, descriptorSha256);
                 var active = s.Active;
                 if (active == null)
-                    return new ActivationRecord(Guid.NewGuid().ToString("N"), "", descriptorSha256, "CodeEntered", token, exactSet);
+                    return new ActivationRecord(Guid.NewGuid().ToString("N"), "", descriptorSha256, "CodeEntered", token, exactSet, schemaVersion);
                 if (Pending(s))
                 {
-                    Require(active.Phase == "BusinessReady" && s.Restart.ProcessToken != token &&
+                    Require(active.Phase == "BusinessReady" && IsSuccessor(s.Restart.ProcessToken) &&
+                        (schemaVersion == 1 || IsSuccessor(active.ProcessToken)) &&
                         SameTarget(s.Restart, exactSet, descriptorSha256), "RES_STATE");
                     return Phase(s.Restart, "CodeEntered", token);
                 }
                 Require(SameTarget(active, exactSet, descriptorSha256), "RES_STATE");
                 if (active.Phase == "CodeEntered" && active.ProcessToken == token) return null;
-                Require(active.Phase == "CodeEntered" || active.ProcessToken != token, "RES_STATE");
+                Require(IsSuccessor(active.ProcessToken), "RES_STATE");
                 return Phase(active, "CodeEntered", token);
             });
         internal ActivationResult MarkBusinessReady(string activationId) =>
@@ -169,7 +232,7 @@ namespace FightMatch.Host
                 foreach (var record in new[] { s.Active, s.Prepared, s.Restart })
                     Require(record == null || record.ResourceSetId != exactSet || record.DescriptorSha256 == descriptorSha256, "RES_STATE");
                 return new ActivationRecord(Guid.NewGuid().ToString("N"), s.Active.ActivationId,
-                    descriptorSha256, "Prepared", token, exactSet);
+                    descriptorSha256, "Prepared", token, exactSet, schemaVersion);
             });
         internal ActivationResult RequestRestart(string activationId) =>
             Execute("restart.json", s =>
@@ -188,7 +251,7 @@ namespace FightMatch.Host
             if (unknown) return Result(ActivationOutcome.UnknownCommit, "RES_COMMIT_UNKNOWN");
             try
             {
-                Require(Matches(token, TokenPattern), "RES_STATE");
+                Require(ValidToken(token, schemaVersion), "RES_STATE");
                 var state = Load();
                 var next = transition == null ? null : transition(state);
                 if (next != null) return Commit(state, leaf, next);
@@ -289,7 +352,9 @@ namespace FightMatch.Host
             var m = RecordPattern.Match(text);
             Require(m.Success, "RES_SCHEMA");
             var r = new ActivationRecord(m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value,
-                m.Groups[4].Value, m.Groups[5].Value, m.Groups[6].Value);
+                m.Groups[4].Value, m.Groups[5].Value, m.Groups[6].Value, m.Groups[7].Value == "1" ? 1 : 2);
+            Require(ValidToken(r.ProcessToken, r.ProcessToken.StartsWith("a2-", StringComparison.Ordinal) ? 2 : 1), "RES_SCHEMA");
+            Require(ValidToken(r.ProcessToken, r.SchemaVersion), "RES_STATE");
             Target(r.ResourceSetId, r.DescriptorSha256);
             Require(r.BaseActivationId != r.ActivationId, "RES_SCHEMA");
             if (leaf.StartsWith("active.json", StringComparison.Ordinal))
@@ -305,7 +370,8 @@ namespace FightMatch.Host
         {
             var text = "{\"activationId\":\"" + r.ActivationId + "\",\"baseActivationId\":\"" + r.BaseActivationId +
                 "\",\"descriptorSha256\":\"" + r.DescriptorSha256 + "\",\"phase\":\"" + r.Phase +
-                "\",\"processToken\":\"" + r.ProcessToken + "\",\"resourceSetId\":\"" + r.ResourceSetId + "\",\"schemaVersion\":1}";
+                "\",\"processToken\":\"" + r.ProcessToken + "\",\"resourceSetId\":\"" + r.ResourceSetId +
+                "\",\"schemaVersion\":" + r.SchemaVersion.ToString(CultureInfo.InvariantCulture) + "}";
             Require(text.Length <= Limit, "RES_SCHEMA");
             var bytes = Utf8.GetBytes(text);
             Require(bytes.Length <= Limit, "RES_SCHEMA");
@@ -329,7 +395,9 @@ namespace FightMatch.Host
             foreach (var path in paths)
             {
                 var name = Path.GetFileName(path);
-                records.Add(name, Decode(ReadLeaf(path), name));
+                var record = Decode(ReadLeaf(path), name);
+                Require(record.SchemaVersion == schemaVersion, "RES_STATE");
+                records.Add(name, record);
             }
             records.TryGetValue(MainNames[0], out var active);
             records.TryGetValue(MainNames[1], out var prepared);

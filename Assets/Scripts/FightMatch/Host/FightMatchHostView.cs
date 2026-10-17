@@ -275,12 +275,22 @@ namespace FightMatch.Host
             blockingDiagnostic.SetActive(code != null);
             if (code != null && languageDropdown != null) languageDropdown.Close();
             if (code != null && board != null) board.CancelPointer();
+            if (!bound && diagnosticText != null && diagnosticText.Target != null && code != null)
+                diagnosticText.Target.text = PreBindDiagnostic(code);
             if (bound && diagnosticText != null && code != null && diagnosticText.DiagnosticCode == null)
             {
                 rendering = true;
                 try { BindText(diagnosticText, "fm.diagnostic.missing_binding", new KeyValuePair<string, string>("errorCode", code)); }
                 finally { rendering = false; }
             }
+        }
+        private static string PreBindDiagnostic(string code)
+        {
+            if (code.Length > 64) return LocalizedTmpText.Placeholder;
+            foreach (var c in code)
+                if (!(c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '_'))
+                    return LocalizedTmpText.Placeholder;
+            return LocalizedTmpText.Placeholder + "\n" + code;
         }
         internal void ShowFailure(string code)
         {

@@ -1,0 +1,177 @@
+{
+  "task": "DEMO-NEXT-001/emulator-01 resume",
+  "ownerTurn": "01a147a5-20ee-7771-b60c-d80f45cdafeb",
+  "startedUtc": "2026-10-17T02:16:59.986469+00:00",
+  "startedMonotonic": 465897.860932375,
+  "limitSeconds": 1440,
+  "wrapUpAtElapsedSeconds": 1320,
+  "priorActualSeconds": 358.870665,
+  "status": "NEEDS_FIX_ANDROID_STARTUP_RES_STATE",
+  "authority": {
+    "humanTurn": "01a147a0-eb99-7481-9b08-cb077025fa68",
+    "humanItem": "01a147a0-ee27-73a1-9433-40c5fc3cab4d",
+    "answer": "可以，现有模拟器存档就是测试档"
+  },
+  "timingCorrection": "Original team-imposed continuous deadline expired and old evidence is preserved. Human waiting excluded from actual execution; same unfinished acceptance resumes with only 1440 seconds, not a new 30-minute allocation.",
+  "target": "127.0.0.1:5555",
+  "adb": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb",
+  "installCount": 1,
+  "gameLaunchCount": 1,
+  "observations": {
+    "installation": "One standard adb install -r succeeded; no uninstall, clear data or downgrade.",
+    "defaultStartup": "One ordinary CUA FightMatch launcher icon click, PID6236. CommandLine empty and GLES3 observed in target-only logcat.",
+    "failure": "10:17:59.269 device-local log: FightMatch UI: RES_STATE during InitializeHost; screenshot remains diagnostic placeholder.",
+    "resourceState": "resource-state and resource-state/v1 absent in read-only checks.",
+    "profileRetention": "Same existing profile directory and eight locator/profile file names remain. No game interaction or direct data mutation. File bytes were not reread/compared, so no exact-byte continuity claim.",
+    "rewardBaseline": "Not observed because Host startup did not reach gameplay."
+  },
+  "actions": [
+    {
+      "utc": "2026-10-17T02:18:08.976962+00:00",
+      "action": "CUA default FightMatch launcher icon clicked, no extras",
+      "pidQueryExit": 0,
+      "pid": "6236"
+    }
+  ],
+  "elapsedSeconds": 146.18575766601134,
+  "apk": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk",
+    "bytes": 36583902,
+    "sha256": "4d72f265bd437d9d0e5131128ae46f71fb4fd968310f3a2d93344a791c017ab6"
+  },
+  "connection": {
+    "exit": 0,
+    "stdout": "device\n",
+    "stderr": ""
+  },
+  "installedBefore": [
+    "userId=10081",
+    "versionCode=1 minSdk=22 targetSdk=32",
+    "versionName=0.1",
+    "dataDir=/data/user/0/com.yyczz1.fightmatch"
+  ],
+  "install": {
+    "command": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb",
+      "-s",
+      "127.0.0.1:5555",
+      "install",
+      "-r",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk"
+    ],
+    "startedUtc": "2026-10-17T02:16:59.986469+00:00",
+    "elapsedSeconds": 1.4341419159900397,
+    "exit": 0,
+    "stdout": "Performing Streamed Install\nSuccess\n",
+    "stderr": ""
+  },
+  "startupFailureStorageReadOnly": [
+    {
+      "command": [
+        "shell",
+        "ls",
+        "-ld",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/resource-state",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/resource-state/v1"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "ls: /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/resource-state: No such file or directory\nls: /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/resource-state/v1: No such file or directory\n"
+    },
+    {
+      "command": [
+        "shell",
+        "find",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch",
+        "-maxdepth",
+        "6",
+        "-type",
+        "f"
+      ],
+      "exit": 0,
+      "stdout": "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/writer.lock\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/writer.lock\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "shell",
+        "pidof",
+        "com.yyczz1.fightmatch"
+      ],
+      "exit": 0,
+      "stdout": "6236\n",
+      "stderr": ""
+    }
+  ],
+  "integrationVerdict": "NEEDS_FIX",
+  "readonlyLocalization": {
+    "primary": "FightMatchPlayerHost.InitializeHost/OpenResourcesAsync calls resourceActivation.EnterAtProcessStart before binding localization/creating Session. Enter failure returns RES_STATE.",
+    "candidate": "FightMatchResourceActivationStore.RealToken uses Process.GetCurrentProcess().Id and StartTime.ToUniversalTime().Ticks, catches exceptions to null; Execute first rejects nonmatching token with RES_STATE. Actual runtime token/exception not logged, so Android process-token incompatibility is a hypothesis, not proven root cause.",
+    "secondary": "FightMatchHostView.RefreshDiagnostic only binds diagnostic text when bound==true; this pre-bind failure displays the prefab placeholder, matching the observed image.",
+    "scopeForLead": "Inspect Android resource activation/process identity and pre-bind failure display; no source or APK change made in this acceptance run."
+  },
+  "states": {
+    "L1 complete": {
+      "result": "NOT_RUN",
+      "reason": "Blocked by startup RES_STATE before gameplay"
+    },
+    "active cold recovery": {
+      "result": "NOT_RUN",
+      "reason": "Blocked by startup RES_STATE before gameplay"
+    },
+    "pending cold recovery": {
+      "result": "NOT_RUN",
+      "reason": "Blocked by startup RES_STATE before gameplay"
+    },
+    "settled cold recovery": {
+      "result": "NOT_RUN",
+      "reason": "Blocked by startup RES_STATE before gameplay"
+    },
+    "reward exactly once": {
+      "result": "NOT_RUN",
+      "reason": "Blocked by startup RES_STATE before gameplay"
+    }
+  },
+  "finalState": {
+    "targetPid": 6236,
+    "processObservedAlive": true,
+    "app": "Left open on diagnostic placeholder failure screen for inspection",
+    "forceStops": 0,
+    "coldRestarts": 0,
+    "gameplayInputs": 0
+  },
+  "evidence": {
+    "install.txt": {
+      "bytes": 506,
+      "sha256": "dc35ae1d0bac85008535e9866da49396a0c10a364e0d1f2cfa0f85c9d1bc09a9"
+    },
+    "logcat.txt": {
+      "bytes": 25469,
+      "sha256": "8e16e0c35aa1079680c2be091a212edffeb596915a6ad2b97df7d4ed3113c6e8"
+    },
+    "start.png": {
+      "bytes": 59046,
+      "sha256": "fa320e40517d4a9b503caa92c7178ab28354c4b6343d6caf9052be038afdb81e"
+    },
+    "issue.png": {
+      "bytes": 59046,
+      "sha256": "fa320e40517d4a9b503caa92c7178ab28354c4b6343d6caf9052be038afdb81e"
+    }
+  },
+  "notPerformed": [
+    "Unity",
+    "build",
+    "download",
+    "uninstall",
+    "clear data",
+    "new Android user/instance",
+    "direct business data edit",
+    "gameplay callbacks",
+    "retry/relaunch",
+    "Git/product edits"
+  ],
+  "endedUtc": "2026-10-17T02:20:16.854789+00:00",
+  "endedMonotonic": 466094.731289458,
+  "continuousResumeSeconds": 196.87035708298208,
+  "cumulativeActualSeconds": 555.741022082982
+}
