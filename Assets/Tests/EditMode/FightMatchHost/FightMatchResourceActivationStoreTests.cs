@@ -207,6 +207,146 @@ namespace FightMatch.Host.Tests
             }
         }
 
+        private const string A1 = "a2-b5-p101-e1000";
+        private static byte[] AndroidJson(ActivationRecord record) =>
+            Bytes(Encoding.UTF8.GetString(Json(record)).Replace("\"schemaVersion\":1", "\"schemaVersion\":2"));
+
+        [Test]
+        public void AS09_AndroidSamplesAndCanonicalTokenBounds()
+        {
+            Assert.AreEqual("a2-b0-p1-e0", FightMatchResourceActivationStore.AndroidTokenFromSample(0, 1, 0, 0, 0));
+            var maximum = "a2-b2147483647-p2147483647-e9223372036854775807";
+            Assert.AreEqual(maximum, FightMatchResourceActivationStore.AndroidTokenFromSample(int.MaxValue,
+                int.MaxValue, long.MaxValue, long.MaxValue, int.MaxValue));
+            foreach (var sample in new[] {
+                new long[] { -1, 1, 0, 0, -1 }, new long[] { 2147483648L, 1, 0, 0, 2147483648L },
+                new long[] { 5, 0, 1, 2, 5 }, new long[] { 5, -1, 1, 2, 5 },
+                new long[] { 5, 2147483648L, 1, 2, 5 }, new long[] { 5, 1, -1, 2, 5 },
+                new long[] { 5, 1, 0, -1, 5 }, new long[] { 5, 1, 3, 2, 5 },
+                new long[] { 5, 1, 1, 2, 6 }, new long[] { 5, 1, 1, 2, 4 } })
+            {
+                var token = FightMatchResourceActivationStore.AndroidTokenFromSample(sample[0], sample[1], sample[2], sample[3], sample[4]);
+                Assert.IsNull(token); var f = new MemoryFiles(); var old = f.Copy();
+                var nodes = f.Nodes.ToArray(); Rejected(f.Store(token).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                SameData(old, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray()); Assert.AreEqual(0, f.Promotions);
+            }
+            foreach (var token in new[] { null, "", "a2-b05-p1-e0", "a2-b5-p01-e0", "a2-b5-p1-e00",
+                "a2-b-1-p1-e0", "a2-b2147483648-p1-e0", "a2-b5-p0-e0", "a2-b5-p2147483648-e0",
+                "a2-b5-p1-e9223372036854775808", "a2-b5-p1-e-1", A1 + " ", "a2-b5-p1-e+1" })
+            {
+                var f = new MemoryFiles(); var old = f.Copy();
+                Rejected(f.Store(token).Read(), "RES_STATE"); SameData(old, f); Assert.AreEqual(0, f.ReadCalls);
+            }
+            foreach (var token in new[] { "a2-b0-p1-e0", maximum })
+            {
+                var f = new MemoryFiles(); var active = Ok(f.Store(token).EnterAtProcessStart("set.a", H1)).Active;
+                Assert.AreEqual(2, active.SchemaVersion); Assert.AreEqual(token, active.ProcessToken);
+                Same(AndroidJson(active), f.Data[f.Leaf("active.json")]); Ok(f.Store(token).Read());
+            }
+        }
+
+        [Test]
+        public void AS10_AndroidOrdinaryEntryRequiresStrictSuccessor()
+        {
+            foreach (var ready in new[] { false, true })
+            {
+                var f = new MemoryFiles(); var first = Ok(f.Store(A1).EnterAtProcessStart("set.a", H1)).Active;
+                if (ready) Ok(f.Store(A1).MarkBusinessReady(first.ActivationId));
+                var original = f.Copy(); var promotions = f.Promotions;
+                var same = f.Store(A1).EnterAtProcessStart("set.a", H1);
+                if (ready) Rejected(same, "RES_STATE"); else Ok(same);
+                SameData(original, f); Assert.AreEqual(promotions, f.Promotions);
+                foreach (var token in new[] { "a2-b5-p102-e1000", "a2-b5-p101-e999", "a2-b5-p102-e999", "a2-b4-p103-e9999" })
+                {
+                    Rejected(f.Store(token).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                    Rejected(f.Store(token).MarkBusinessReady(first.ActivationId), "RES_STATE");
+                    SameData(original, f); Assert.AreEqual(promotions, f.Promotions);
+                }
+                foreach (var token in new[] { "a2-b5-p101-e1001", "a2-b5-p102-e1001", "a2-b6-p101-e0" })
+                {
+                    f.Restore(original); var successor = f.Store(token);
+                    var active = Ok(successor.EnterAtProcessStart("set.a", H1)).Active;
+                    Assert.AreEqual(first.ActivationId, active.ActivationId); Assert.AreEqual(token, active.ProcessToken);
+                    Assert.AreEqual(2, active.SchemaVersion);
+                    var entered = f.Copy(); Ok(f.Store(token).EnterAtProcessStart("set.a", H1)); SameData(entered, f);
+                    Ok(successor.MarkBusinessReady(active.ActivationId));
+                    var after = f.Copy(); Rejected(f.Store(A1).Prepare("set.b", H2), "RES_STATE"); SameData(after, f);
+                }
+            }
+        }
+
+        [Test]
+        public void AS11_AndroidPendingRestartRequiresStrictSuccessor()
+        {
+            var f = new MemoryFiles(); var owner = f.Store(A1); var ready = Ready(owner);
+            var prepared = Ok(owner.Prepare("set.b", H2)).Prepared; Ok(owner.RequestRestart(prepared.ActivationId));
+            f.Data[f.Leaf("active.json.bak")] = AndroidJson(ready.Active);
+            var pending = f.Copy(); var promotions = f.Promotions;
+            foreach (var token in new[] { A1, "a2-b5-p102-e1000", "a2-b5-p101-e999", "a2-b4-p103-e9999" })
+            {
+                Rejected(f.Store(token).EnterAtProcessStart("set.b", H2), "RES_STATE");
+                if (token != A1)
+                {
+                    Rejected(f.Store(token).Prepare("set.c", H3), "RES_STATE");
+                    Rejected(f.Store(token).RequestRestart(prepared.ActivationId), "RES_STATE");
+                }
+                SameData(pending, f); Assert.AreEqual(promotions, f.Promotions);
+            }
+            foreach (var token in new[] { "a2-b5-p101-e1001", "a2-b5-p102-e1001", "a2-b6-p101-e0" })
+            {
+                f.Restore(pending); var successor = f.Store(token);
+                Rejected(successor.EnterAtProcessStart("set.b", H3), "RES_STATE"); SameData(pending, f);
+                var entered = Ok(successor.EnterAtProcessStart("set.b", H2)).Active;
+                Assert.AreEqual(prepared.ActivationId, entered.ActivationId); Assert.AreEqual(token, entered.ProcessToken);
+                Same(AndroidJson(ready.Active), f.Data[f.Leaf("active.json.bak")]);
+                Same(pending[f.Leaf("prepared.json")], f.Data[f.Leaf("prepared.json")]);
+                Same(pending[f.Leaf("restart.json")], f.Data[f.Leaf("restart.json")]);
+                Ok(successor.MarkBusinessReady(entered.ActivationId)); Rejected(successor.RequestRestart(entered.ActivationId), "RES_STATE");
+                Same(pending[f.Sentinel], f.Data[f.Sentinel]);
+            }
+            f.Restore(pending);
+            f.Data[f.Leaf("active.json")] = Bytes(Encoding.UTF8.GetString(f.Data[f.Leaf("active.json")]).Replace(A1, "a2-b5-p101-e2000"));
+            var contradictory = f.Copy();
+            Rejected(f.Store("a2-b5-p102-e1500").EnterAtProcessStart("set.b", H2), "RES_STATE"); SameData(contradictory, f);
+        }
+
+        [Test]
+        public void AS12_AndroidRejectsLegacyMixedAndMismatchedSchemasWithoutWrites()
+        {
+            var f = new MemoryFiles(); var legacy = f.Store(); Ready(legacy);
+            var oldPrepared = Ok(legacy.Prepare("set.b", H2)).Prepared; Ok(legacy.RequestRestart(oldPrepared.ActivationId));
+            foreach (var leaf in Main) f.Data[f.Leaf(leaf + ".bak")] = (byte[])f.Data[f.Leaf(leaf)].Clone();
+            var old = f.Copy(); var promotions = f.Promotions; var nodes = f.Nodes.ToArray();
+            var android = f.Store(A1);
+            foreach (var result in new[] { android.Read(), android.EnterAtProcessStart("set.a", H1),
+                android.EnterAtProcessStart("set.b", H2), android.MarkBusinessReady(oldPrepared.ActivationId),
+                android.Prepare("set.c", H3), android.RequestRestart(oldPrepared.ActivationId) }) Rejected(result, "RES_STATE");
+            SameData(old, f); Assert.AreEqual(promotions, f.Promotions); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+
+            var v = new MemoryFiles(); var store = v.Store(A1); Ready(store);
+            var prepared = Ok(store.Prepare("set.b", H2)).Prepared; Ok(store.RequestRestart(prepared.ActivationId));
+            foreach (var leaf in Main) v.Data[v.Leaf(leaf + ".bak")] = (byte[])v.Data[v.Leaf(leaf)].Clone();
+            var baseline = v.Copy(); promotions = v.Promotions;
+            Rejected(v.Store(T2).Read(), "RES_STATE"); Rejected(v.Store(T2).EnterAtProcessStart("set.b", H2), "RES_STATE"); SameData(baseline, v);
+            foreach (var name in Main.SelectMany(x => new[] { x, x + ".bak" }))
+            {
+                v.Restore(baseline); v.Data[v.Leaf(name)] = old[f.Leaf(name)]; var mixed = v.Copy();
+                Rejected(v.Store("a2-b6-p102-e0").Read(), "RES_STATE");
+                Rejected(v.Store("a2-b6-p102-e0").EnterAtProcessStart("set.b", H2), "RES_STATE");
+                SameData(mixed, v); Assert.AreEqual(promotions, v.Promotions);
+            }
+            var json = Encoding.UTF8.GetString(baseline[v.Leaf("active.json")]);
+            foreach (var change in new[] { new[] { "\"schemaVersion\":2", "\"schemaVersion\":1" },
+                new[] { A1, T1 }, new[] { "\"schemaVersion\":2", "\"schemaVersion\":3" },
+                new[] { A1, "a2-b05-p101-e1000" }, new[] { A1, "a2-b5-p101-e9223372036854775808" } })
+            {
+                v.Restore(baseline); v.Data[v.Leaf("active.json")] = Bytes(json.Replace(change[0], change[1]));
+                var bad = v.Copy(); Rejected(v.Store(A1).Read());
+                Rejected(v.Store("a2-b6-p102-e0").EnterAtProcessStart("set.b", H2)); SameData(bad, v);
+                Assert.AreEqual(promotions, v.Promotions);
+            }
+        }
+
         [Test]
         public void AS01_InitialBuiltInAndOrdinaryReentry()
         {

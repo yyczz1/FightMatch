@@ -2,6 +2,10 @@
 
 Validation evidence is required before a patch can be accepted.
 
+Select only checks relevant to the change using [team validation](TEAM_WORKFLOW.md#5-测试申请与回执).
+Reuse valid results; a process/documentation edit does not trigger Unity tests.
+The Windows commands below are references, not a requirement to rerun them.
+
 ## 1. Evidence standard
 
 For each command report:
@@ -32,10 +36,11 @@ Reason: <specific blocker>
 
 - Unity version: `2022.3.18f1`.
 - Unity Test Framework `1.1.33` is available through package dependencies.
-- No project test assembly exists yet.
+- Project test assemblies exist under `Assets/Tests/EditMode/`.
 - No lint command is currently defined.
 - No CI command is currently defined.
-- No Player build method is currently defined.
+- Current build entry points and candidate status are recorded in `START_HERE.md`;
+  inspect the relevant implementation before running it.
 - Git is initialized on `master` with remote `origin`.
 - Git mutations still require user authorization.
 
@@ -99,7 +104,7 @@ Expected: no matches.
 
 ## 6. EditMode tests
 
-After a project test assembly exists:
+For tests compatible with headless execution:
 
 ```powershell
 & $env:UNITY_EXE `
@@ -116,6 +121,11 @@ Expected:
 - XML reports zero failed tests.
 
 Do not claim tests pass merely because the log file exists.
+
+Tests requiring a GameView or graphics device use a suitable graphical environment.
+Use actual UI observation for layout and interaction; a `-nographics` environment
+failure is not a product failure or a pass. Record product, test-code and
+environment failures separately before choosing the next action.
 
 Do not add `-quit` to a `-runTests` invocation. Unity Test Framework exits after
 the run; `-quit` can terminate the Editor during an initial import or domain
@@ -152,7 +162,8 @@ For Markdown rule/template changes:
 
 ## 9. Manual validation
 
-Use manual validation only for behavior that automated checks cannot cover, such as:
+Use manual validation when it directly and efficiently answers the acceptance
+question, including behavior that could also be automated, such as:
 
 - Editor window layout and resizing;
 - pointer interaction;
@@ -160,6 +171,11 @@ Use manual validation only for behavior that automated checks cannot cover, such
 - asset selection and undo behavior.
 
 Record the exact actions and observed result. “Looks fine” is not enough.
+For UI fixes, observe the actual affected screen early, after successful import/
+compilation. Record language, resolution, candidate and observer. A failed
+automation click leaves interaction unverified; prepare a real manual check
+instead of repeatedly rebuilding the input/test machinery. Preserve unrelated
+automated failures as historical results when a suitable check replaces them.
 
 ## 10. Acceptance rule
 

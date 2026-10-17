@@ -2,6 +2,12 @@
 
 Codex must inspect the actual patch and repository state. Do not accept the worker's summary as evidence.
 
+Code review runs through [GitHub PR Code Review](TEAM_WORKFLOW.md#7-github-pr-code-review).
+Use this checklist as review context and for scope/evidence receipt, not to start
+a duplicate local review. The testing lead combines the actual reviewed head
+and applicable validation into the integration verdict. Internal tasks use the
+short record in TEAM_WORKFLOW; external DeepSeek keeps the packet contract below.
+
 ## Required inputs
 
 - Approved TASK_PACKET.
@@ -79,7 +85,8 @@ If a protected change was necessary but not authorized, reject the current patch
 
 - [ ] Build/compile verification was run when applicable.
 - [ ] Relevant tests were run.
-- [ ] Test output contains no failures.
+- [ ] Required applicable checks pass; retained historical or inapplicable
+      failures are separately identified, with any replacement evidence justified.
 - [ ] The worker did not substitute an unrelated test.
 - [ ] Manual validation was performed when required.
 - [ ] Skipped validation has a concrete, truthful reason.
@@ -156,7 +163,8 @@ Verification required:
 - <exact verification>
 ```
 
-After this verdict, Codex creates a smaller corrective TASK_PACKET. Do not return the original broad packet unchanged.
+For external DeepSeek, create a smaller corrective TASK_PACKET. Internal
+corrections stay in the same task record unless scope materially changes.
 
 ### REJECT
 

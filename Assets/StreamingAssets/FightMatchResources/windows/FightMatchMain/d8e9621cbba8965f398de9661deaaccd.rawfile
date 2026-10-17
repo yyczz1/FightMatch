@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "Verdict": "ACCEPT",
+  "AuthorTaskId": "01a0c403-bfa1-7e90-b503-c0fcd61f23c1",
+  "AuthorTurnId": "01a0d3fd-4b73-7102-b92c-a59b0d45d96a",
+  "ReviewerTaskId": "01a0c1cd-dce1-7ac3-8780-06163cb0acfc",
+  "ReviewerTurnId": "01a0d3fe-25b0-72c0-8e44-8500ba78de4b",
+  "SourcePacketRangeSha256": "1f0e1639396e90d77851e092ee5f66a370b636c6cc01405803357934978fed9a",
+  "ApprovalBasis": "Independent overall acceptance of 025-P2B-PREPARE including C1 and C2 under system-task-packets.md sections 271, 292-294 and 308-309. Original content approval: section 292-294 normalized SHA256 687ef834f7b556fe1f6c8ed75e3fe406e58757292b45eda021382b707054b2de; selected P1 candidate 5db393d0441880fc387ce7db0421bdf855b3b38b20edbfe818a83144bcbb5a12. Unchanged approved mapping 117327 bytes SHA256 da286b0a01f2bd06c74bef915422f94d76e99b33d00683b33fb3389b5949c9f6; prior independent report demo-025-p2b-prepare-c1-code-review.md 22094 bytes SHA256 a7fcbfefc5cc5e6234495186c6a022312d63bb468c63f27f4b71a2d9b0396f75. Its verified 393-field mapping, 31 exact coefficients/epsilon, geometry, replay, canonical payload and frozen new-profile findings remain valid because all nine new authoring outputs are byte-identical to original B; its sole R1 is closed by the C2 root-null guard and regressions. C2 author completed 2026-09-24T15:58:07.017Z with non-async formal COMPLETED. Delivery 15036 bytes SHA256 2e89e1cb138d8adce04785a6e02eeb9399d1088e46690743fe1c1ddb992280e1; scope 1564823 bytes SHA256 da2a19b47161f0cc7d9f2a5cff5ce96b93d8dcc67ce6f1c102f6fb1493993269. New evidence root TestArtifacts/FMDemo025P2/p2b-prepare-c2: root-identity.json 786 bytes SHA256 8b26bdfb385266d4d0d407559f0ec97d83686d5a29401faf74d8a33c1d743162; read-manifest.json 16346 bytes SHA256 4323c10a7a3a66f882f93d6724e0dd0386d0e6058f66ab95c8621bacd65ccd25. All 75 manifest items and physical files were independently checked. Reviewed production PublishedContentCodec.cs 18992 bytes SHA256 c64558961a7958b6ab426ecf5da8c47f3e62a76c47fc4bf96eb5cf5813755726; FightMatch.Content.dll 122368 bytes SHA256 a52e3c19ae9ef6017ccc4a5fecce4613008157f95d1d5184f47c146a486a7a55; FightMatch.Content.pdb 43276 bytes SHA256 e77907eb6a36eff6b5477ae35a1d2d7375d63f915b4670168c4c853368e461fe. Actual new prepare runs/004: Unity 2022.3.18f1 PID 27324, 2026-09-24T15:42:24.1619325Z to 2026-09-24T15:42:36.1257175Z, exit 0, FightMatch.Content.PublishedContentAuthoring.Run -fmMode prepare; run.json 1297 bytes SHA256 f2c5026f6940afa1670c1eb5270be073ee0b8e3471d1f0589672cae98db2c4d7; result.json 1145 bytes SHA256 e13e434496931e65c40ff80fff57d7b2dbf5ea1035186a0d4b8b6872b53774ab. Prepare before.json 484744 bytes SHA256 56d0f1c731e4b58bdc81a3c17658ec75c113e9140f1e56ec818103f1ff10f2be; after.json 484744 bytes SHA256 0c13007f60e1042afd3f5db888ead39664aa41fd85c8817c318de192fd0ca067. All 36 DLL/PDB identities agree across compile 003 after, prepare 004 before/after, tests 005 before/after and reviewed current files. New authoring descriptor 2173 bytes SHA256 a5a06494af58cb918f18d8f55ade689933b45ad00f2a5a1eec99b45458c862b7; field-map 17301 bytes SHA256 59db573a43926f8c36d072ef977b6484a602f08b497d27bbcfb54c6a16d9f717; replay 2389832 bytes SHA256 86e9f3aa1708fcdd9b9f6eb080ab74cc81acba4709f8c0f12e203bb4366cbfc4. Red runs/002 preserved six expected NullReferenceException failures with original 3556 and nested-null positive passing. Final full EditMode runs/005 exit 0, 3563 passed, 0 failed, 0 skipped; tests.xml 2501518 bytes SHA256 23a835e60e4be9c12084c692231be9e7be7440cb5a842128cf6338702198f6d0. Initial runs/001 CS1061 compilation failure is preserved. Current independent report: docs/system-design/2026-09-17/demo-025-p2b-prepare-c2-code-review.md. This evidence approves only the exact prepared content bound below; real Publish, activation, PlayerSave and P2C remain outside this completed review and require their separately signed scope.",
+  "ApprovedMappingSha256": "da286b0a01f2bd06c74bef915422f94d76e99b33d00683b33fb3389b5949c9f6",
+  "DraftId": "draft:fightmatch-demo-r1",
+  "Revision": "1",
+  "Binding": {
+    "ContentFingerprint": "b2247d3f951626edfdf25753520f3421dc20e8d8cab7731c9ab3ba6ece1a5129",
+    "NumericContractVersion": "RC01",
+    "PackageId": "package:fightmatch-demo-r1",
+    "RandomContractVersion": "PC01+SC01",
+    "RuleVersion": "demo-r1"
+  },
+  "DefinitionBindings": [
+    {
+      "LevelId": "level:ch01-01",
+      "LevelVersion": "1"
+    }
+  ],
+  "SourceBytes": 20443,
+  "SourceSha256": "fc2a6e8ec7cdba10992b9e0de7433020b75b1a4ef2b18b5570b199b9983a261a",
+  "PayloadBytes": 11486,
+  "PayloadSha256": "b2247d3f951626edfdf25753520f3421dc20e8d8cab7731c9ab3ba6ece1a5129",
+  "ValidationBytes": 664,
+  "ValidationSha256": "512b2f9b5027674dee1eed127e811a7b7c31322562f2dd81604d1faf1c79b38d"
+}

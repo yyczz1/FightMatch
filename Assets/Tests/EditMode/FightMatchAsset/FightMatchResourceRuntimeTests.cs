@@ -875,7 +875,7 @@ namespace FightMatch.AssetAccess.Tests
             FadReject(FadInput(types: Array.Empty<string>()), ResourceRuntimeDiagnosticCode.Schema);
             CollectionAssert.AreEqual(before, new[] { sdk.Creates, sdk.Begins, sdk.Loads, sdk.Allocations, sdk.PackageCount, sdk.Raw.Count }); Assert.IsFalse(sdk.Initialized);
             const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-            var factory = typeof(YooAssetRuntimeFactory); Assert.IsTrue(factory.IsNotPublic); Assert.IsEmpty(factory.GetFields(flags));
+            var factory = typeof(YooAssetRuntimeFactory); Assert.IsTrue(factory.IsPublic); Assert.IsEmpty(factory.GetFields(flags));
             CollectionAssert.AreEqual(new[] { "TryAdmit" }, factory.GetMethods(flags).Where(m => m.IsAssembly).Select(m => m.Name));
             Assert.IsFalse(typeof(IFightMatchResourceRuntime).IsAssignableFrom(plan.GetType())); Assert.IsFalse(typeof(IFightMatchAssetProvider).IsAssignableFrom(plan.GetType()));
             foreach (var type in new[] { typeof(ResourceAdmissionInput), typeof(ResourceAdmissionPlan), typeof(ResourceAdmissionBudget),

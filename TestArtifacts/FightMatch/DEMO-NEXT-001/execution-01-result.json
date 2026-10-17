@@ -1,0 +1,185 @@
+{
+  "task": "DEMO-NEXT-001",
+  "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+  "ownerTurn": "01a1437d-a662-7543-ae7d-34b0f470cb18",
+  "status": "NEEDS_FIX_FOCUSED_2_PASS_1_FAIL_BUILD_NOT_RUN",
+  "integrationVerdict": "NEEDS_FIX",
+  "limitsSeconds": {
+    "preflight": 60,
+    "focused": 300,
+    "build": 900,
+    "postflight": 60,
+    "total": 1320
+  },
+  "stages": [
+    {
+      "name": "preflight",
+      "startedUtc": "2026-10-16T06:58:51.958210+00:00",
+      "startedMonotonic": 396410.121367875,
+      "endedUtc": "2026-10-16T06:58:52.613107+00:00",
+      "endedMonotonic": 396410.776261166,
+      "elapsedSeconds": 0.6548932909499854,
+      "exitCode": 0,
+      "sourceCandidateEquality": true,
+      "errors": []
+    },
+    {
+      "name": "focused",
+      "startedUtc": "2026-10-16T07:01:28.988539+00:00",
+      "startedMonotonic": 396567.151299875,
+      "limitSeconds": 300,
+      "workLimitSeconds": 285,
+      "pid": 35816,
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testFilter",
+        "FightMatch.Host.Tests.FightMatchButtonDropdownTests.ProfileCreationRequiresCurrentConfirmationAndPreservesBackAndQuit;FightMatch.Host.Tests.FightMatchButtonDropdownTests.BackClosesDropdownBeforePageForEitherCancelOrderAndAfterRebind;FightMatch.Host.Tests.FightMatchButtonDropdownTests.LanguageFeedbackExpiresOnlyForLatestSuccessAndClearsOnUnbind",
+        "-testResults",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/profile-confirm-focused.xml",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/profile-confirm-focused.log"
+      ],
+      "commandStartedUtc": "2026-10-16T07:01:29.018067+00:00",
+      "endedUtc": "2026-10-16T07:02:56.796786+00:00",
+      "endedMonotonic": 396654.959286833,
+      "elapsedSeconds": 87.80798695801059,
+      "exitCode": 2,
+      "timedOut": false,
+      "error": null,
+      "xmlSummary": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "2",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-16 07:02:48Z",
+        "end-time": "2026-10-16 07:02:53Z",
+        "duration": "4.7233116"
+      },
+      "cases": [
+        {
+          "fullname": "FightMatch.Host.Tests.FightMatchButtonDropdownTests.BackClosesDropdownBeforePageForEitherCancelOrderAndAfterRebind",
+          "result": "Passed",
+          "duration": "11.424445",
+          "failure": "",
+          "stack": ""
+        },
+        {
+          "fullname": "FightMatch.Host.Tests.FightMatchButtonDropdownTests.LanguageFeedbackExpiresOnlyForLatestSuccessAndClearsOnUnbind",
+          "result": "Passed",
+          "duration": "27.609998",
+          "failure": "",
+          "stack": ""
+        },
+        {
+          "fullname": "FightMatch.Host.Tests.FightMatchButtonDropdownTests.ProfileCreationRequiresCurrentConfirmationAndPreservesBackAndQuit",
+          "result": "Failed",
+          "duration": "8.891370",
+          "failure": "  Expected: 0\n  But was:  1\n",
+          "stack": "at FightMatch.Host.Tests.FightMatchButtonDropdownTests+<ProfileCreationRequiresCurrentConfirmationAndPreservesBackAndQuit>d__16.MoveNext () [0x0020f] in /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Assets/Tests/EditMode/FightMatchHost/FightMatchButtonDropdownTests.cs:442\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0004e] in ./Library/PackageCache/com.unity.test-framework@1.1.33/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:46\n"
+        }
+      ],
+      "unexpectedProductChanges": {}
+    },
+    {
+      "name": "postflight",
+      "startedUtc": "2026-10-16T07:04:19.983615+00:00",
+      "startedMonotonic": 396738.145945041,
+      "limitSeconds": 60,
+      "editorProcessesAfter": [],
+      "isolationChanges": {},
+      "settingsUnchanged": true,
+      "editorBuildSettingsUnchanged": true,
+      "signingKeyUnchanged": true,
+      "passwordFileMetadataUnchanged": true,
+      "buildOutputsAbsent": {
+        "Builds/DEMO-NEXT-001/android-01": true,
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01": true,
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-unity.log": true
+      },
+      "testEvidence": {
+        "profile-confirm-focused.log": {
+          "bytes": 122425,
+          "sha256": "e66fc21c105af2f4e0ab72bc51a8a911b4022ef7936dc03ffa558a3e15247b98"
+        },
+        "profile-confirm-focused.xml": {
+          "bytes": 6340,
+          "sha256": "f1293daf2182d419c2435f89acaf846a43287af0f614cf14c4f9534427cdea14"
+        }
+      },
+      "failureSourceContext": [
+        {
+          "line": 434,
+          "text": "            using (var panel = new HostPanel(rig))"
+        },
+        {
+          "line": 435,
+          "text": "            {"
+        },
+        {
+          "line": 436,
+          "text": "                var view = panel.View; var service = RealLocalization(); var writes = 0; var quits = 0;"
+        },
+        {
+          "line": 437,
+          "text": "                rig.Profile.Writing = () => writes++;"
+        },
+        {
+          "line": 438,
+          "text": "                rig.Session.QuitRequested += () => quits++;"
+        },
+        {
+          "line": 439,
+          "text": "                view.Bind(rig.Session, service, License);"
+        },
+        {
+          "line": 440,
+          "text": "                rig.Session.ObserveStartup(); Assert.IsTrue(rig.Session.CanCreate);"
+        },
+        {
+          "line": 441,
+          "text": "                yield return null; Canvas.ForceUpdateCanvases();"
+        },
+        {
+          "line": 442,
+          "text": "                var empty = rig.Files(); Assert.AreEqual(0, empty.Count);"
+        },
+        {
+          "line": 443,
+          "text": "                var create = Field<UnityEngine.UI.Button>(view, \"createButton\");"
+        },
+        {
+          "line": 444,
+          "text": "                var confirm = Field<UnityEngine.UI.Button>(view, \"quitConfirmButton\");"
+        }
+      ],
+      "endedUtc": "2026-10-16T07:04:20.015291+00:00",
+      "endedMonotonic": 396738.177617958,
+      "elapsedSeconds": 0.03167291701538488,
+      "exitCode": 0,
+      "error": null
+    }
+  ],
+  "unityLaunches": 1,
+  "testLaunches": 1,
+  "buildLaunches": 0,
+  "cumulativeStageSeconds": 88.49455316597596,
+  "remainingGates": [
+    "Fix and validate the profile-creation confirmation failure under a new bounded correction authorization",
+    "Ordinary APK build and actual API24/GLES3 settings application were not run",
+    "Independent GitHub review of the eventual published candidate",
+    "Actual L1/UI/device acceptance remains incomplete"
+  ]
+}

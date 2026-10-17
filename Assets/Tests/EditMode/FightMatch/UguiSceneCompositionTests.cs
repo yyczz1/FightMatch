@@ -39,7 +39,7 @@ namespace FightMatch.Core.Tests
             Session = new FightMatchHostSession(RealCatalog(), path, new NavigationProfileStorage(), id => Storage ?? (Storage = new MemorySave(id)));
             Session.ObserveStartup();
             if (create) { Assert.IsTrue(Session.CanCreate); Session.CreateProfile(); Assert.IsNotNull(Head); }
-            Localization = new LocalizationService(source ?? new UguiTestTextSource(), SystemLanguage.English);
+            Localization = new LocalizationService(source ?? RealTextSource(), SystemLanguage.English);
             previousEvents = UnityEngine.Object.FindObjectsOfType<EventSystem>().Where(x => x.enabled).ToArray();
             foreach (var previous in previousEvents) previous.enabled = false;
             Driver = new UguiPointerDriver();
@@ -62,6 +62,13 @@ namespace FightMatch.Core.Tests
         {
             var serialized = new SerializedObject(target); var property = serialized.FindProperty(field);
             Assert.IsNotNull(property, field); property.objectReferenceValue = value; serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+        private static ILocalizedTextSource RealTextSource()
+        {
+            var bytes = File.ReadAllBytes(Path.Combine(UnityEngine.Application.dataPath, "../Generated/FightMatch/Localization/fm-text-v1.json"));
+            Assert.IsTrue(FightMatchLocalizationCatalogParser.TryParse(bytes,
+                "f48264f9ce94cd3bb2ef8d1b6a0be7b241916144b6d5764d11633bb6d6e456bc", 264, out var source, out var code), code);
+            return source;
         }
         internal void Bind()
         {
@@ -203,7 +210,7 @@ namespace FightMatch.Core.Tests
                 Assert.IsTrue(FightMatchViewId.Validate(rig.Root.transform, out var diagnostic), diagnostic);
                 foreach (var id in new[] { "fm.page.startup", "fm.page.navigation", "fm.page.battle", "fm.page.result",
                     "fm.section.map", "fm.section.party", "fm.section.inventory", "fm.section.preparation", "fm.board.candidate",
-                    "fm.popup.language", "fm.popup.reference", "fm.popup.confirmation", "fm.popup.recovery", "fm.popup.license", "fm.popup.quit", "fm.popup.blocking" })
+                    "fm.action.language.open", "fm.popup.reference", "fm.popup.confirmation", "fm.popup.recovery", "fm.popup.license", "fm.popup.quit", "fm.popup.blocking" })
                     Assert.IsNotNull(rig.Find<FightMatchViewId>(id));
                 var texts = rig.Root.GetComponentsInChildren<TMPro.TextMeshProUGUI>(true); var linkedInputs = 0;
                 foreach (var text in texts)
@@ -216,7 +223,8 @@ namespace FightMatch.Core.Tests
                     }
                     else Assert.AreEqual(LocalizedTmpText.Placeholder, text.text);
                 }
-                Assert.AreEqual(119, texts.Length); Assert.AreEqual(3, linkedInputs); Assert.AreEqual(116, texts.Length - linkedInputs);
+                // The shipped stage/drawer prefab already has 141 texts; replacing the language UI keeps that total.
+                Assert.AreEqual(141, texts.Length); Assert.AreEqual(3, linkedInputs); Assert.AreEqual(138, texts.Length - linkedInputs);
                 Assert.AreEqual(0, rig.Root.GetComponentsInChildren<UnityEngine.UIElements.UIDocument>(true).Length);
                 rig.Bind();
                 Assert.IsFalse(rig.View.DiagnosticVisible, rig.View.DiagnosticCode);
