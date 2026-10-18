@@ -127,9 +127,11 @@ namespace FightMatch.Host.Tests
                 {
                     foreach (var outcome in new[] { LocalePreferenceSaveResult.Failed("PreferenceCommitFailed"),
                         LocalePreferenceSaveResult.Failed("PreferenceTargetReopenFailed", true), LocalePreferenceSaveResult.Saved() })
+                    foreach (var keyboardOpen in new[] { false, true })
                     {
                         result = outcome;
-                        var previous = saves; Click(dropdown.gameObject);
+                        var previous = saves;
+                        if (keyboardOpen) Submit(dropdown.gameObject); else Click(dropdown.gameObject);
                         var items = Items(dropdown);
                         Click(items[locale == LocaleId.En ? 0 : 1].gameObject);
                         yield return null; yield return null; Canvas.ForceUpdateCanvases();
@@ -159,17 +161,20 @@ namespace FightMatch.Host.Tests
                 }
                 // The outside-click blocker uses TMP Hide even when the root already owns focus.
                 var beforeDismiss = saves;
-                EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
-                Click(dropdown.gameObject);
-                var blocker = view.GetComponentsInChildren<UnityEngine.UI.Button>()
-                    .Single(x => x.name == "Blocker" && x.gameObject.activeInHierarchy);
-                Assert.IsTrue(Click(blocker.gameObject));
-                yield return new WaitForSecondsRealtime(dropdown.alphaFadeSpeed + dropdown.colors.fadeDuration + .05f);
-                Assert.IsFalse(dropdown.IsExpanded);
-                Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
-                Assert.AreEqual(dropdown.colors.normalColor * dropdown.colors.colorMultiplier,
-                    dropdown.targetGraphic.canvasRenderer.GetColor());
-                Assert.AreEqual(beforeDismiss, saves, "Outside-click dismissal does not save.");
+                foreach (var keyboardOpen in new[] { false, true })
+                {
+                    EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
+                    if (keyboardOpen) Submit(dropdown.gameObject); else Click(dropdown.gameObject);
+                    var blocker = view.GetComponentsInChildren<UnityEngine.UI.Button>()
+                        .Single(x => x.name == "Blocker" && x.gameObject.activeInHierarchy);
+                    Assert.IsTrue(Click(blocker.gameObject));
+                    yield return new WaitForSecondsRealtime(dropdown.alphaFadeSpeed + dropdown.colors.fadeDuration + .05f);
+                    Assert.IsFalse(dropdown.IsExpanded);
+                    Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
+                    Assert.AreEqual(dropdown.colors.normalColor * dropdown.colors.colorMultiplier,
+                        dropdown.targetGraphic.canvasRenderer.GetColor());
+                    Assert.AreEqual(beforeDismiss, saves, "Outside-click dismissal does not save.");
+                }
                 Submit(dropdown.gameObject); Assert.IsTrue(dropdown.IsExpanded);
                 ExecuteEvents.Execute(dropdown.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler);
                 yield return new WaitForSecondsRealtime(dropdown.alphaFadeSpeed + dropdown.colors.fadeDuration + .05f);
@@ -190,22 +195,35 @@ namespace FightMatch.Host.Tests
                 Assert.AreEqual(dropdown.colors.selectedColor * dropdown.colors.colorMultiplier,
                     dropdown.targetGraphic.canvasRenderer.GetColor(), "Later keyboard focus is not a pointer-close return.");
 
-                Submit(dropdown.gameObject); var keyboardItems = Items(dropdown);
-                EventSystem.current.SetSelectedGameObject(keyboardItems[0].gameObject);
-                ExecuteEvents.Execute(keyboardItems[0].gameObject,
-                    new AxisEventData(EventSystem.current) { moveDir = MoveDirection.Down }, ExecuteEvents.moveHandler);
-                Assert.AreSame(keyboardItems[1].gameObject, EventSystem.current.currentSelectedGameObject);
-                var beforeKeyboard = saves; Submit(EventSystem.current.currentSelectedGameObject);
-                yield return null; yield return null;
-                Assert.AreEqual(beforeKeyboard + 1, saves); Assert.AreEqual(LocaleId.ZhHans, service.CurrentLocale);
-                yield return new WaitForSecondsRealtime(dropdown.colors.fadeDuration + .05f);
-                Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
-                Assert.AreEqual(dropdown.colors.selectedColor * dropdown.colors.colorMultiplier,
-                    dropdown.targetGraphic.canvasRenderer.GetColor(), "Keyboard selection keeps its return-focus tint.");
-                Submit(dropdown.gameObject); Assert.IsTrue(dropdown.IsExpanded);
-                ExecuteEvents.Execute(dropdown.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler);
-                yield return null; yield return null; Assert.IsFalse(dropdown.IsExpanded);
-                Assert.AreEqual(beforeKeyboard + 1, saves, "Cancel does not save.");
+                foreach (var pointerOpen in new[] { false, true })
+                {
+                    if (pointerOpen) Click(dropdown.gameObject); else Submit(dropdown.gameObject);
+                    var keyboardItems = Items(dropdown);
+                    EventSystem.current.SetSelectedGameObject(keyboardItems[0].gameObject);
+                    ExecuteEvents.Execute(keyboardItems[0].gameObject,
+                        new AxisEventData(EventSystem.current) { moveDir = MoveDirection.Down }, ExecuteEvents.moveHandler);
+                    Assert.AreSame(keyboardItems[1].gameObject, EventSystem.current.currentSelectedGameObject);
+                    var beforeKeyboard = saves; Submit(EventSystem.current.currentSelectedGameObject);
+                    yield return null; yield return null;
+                    Assert.AreEqual(beforeKeyboard + 1, saves); Assert.AreEqual(LocaleId.ZhHans, service.CurrentLocale);
+                    yield return new WaitForSecondsRealtime(dropdown.colors.fadeDuration + .05f);
+                    Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
+                    Assert.AreEqual(dropdown.colors.selectedColor * dropdown.colors.colorMultiplier,
+                        dropdown.targetGraphic.canvasRenderer.GetColor(), "Keyboard selection keeps its return-focus tint.");
+                    foreach (var cancelOption in new[] { false, true })
+                    {
+                        if (pointerOpen) Click(dropdown.gameObject); else Submit(dropdown.gameObject);
+                        var cancelTarget = cancelOption ? Items(dropdown)[1].gameObject : dropdown.gameObject;
+                        EventSystem.current.SetSelectedGameObject(cancelTarget);
+                        ExecuteEvents.Execute(cancelTarget, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler);
+                        yield return new WaitForSecondsRealtime(dropdown.alphaFadeSpeed + dropdown.colors.fadeDuration + .05f);
+                        Assert.IsFalse(dropdown.IsExpanded);
+                        Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
+                        Assert.AreEqual(dropdown.colors.selectedColor * dropdown.colors.colorMultiplier,
+                            dropdown.targetGraphic.canvasRenderer.GetColor(), "Cancel keeps keyboard focus regardless of opening input.");
+                        Assert.AreEqual(beforeKeyboard + 1, saves, "Cancel does not save.");
+                    }
+                }
 
                 var stale = Field<UnityAction<int>>(view, "localeSelection");
                 Click(dropdown.gameObject); Assert.IsTrue(dropdown.IsExpanded);
