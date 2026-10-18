@@ -2,11 +2,11 @@
 
 更新：2026-10-18 · DEMO-NEXT-001 · 主策维护
 
-> 当前 **android-05 已保留测试档安装，结算入口、实际奖励及三种冷进程恢复已通过限定验证**。未选人点击的语言外观仍有“刚关语言菜单后首次按棋盘”的残留色差；英文战斗文字重叠及初次未归因退出也保留，首 Demo 整体尚未验收。当前包与证据见第 1.1 节，完整剩余清单见[主测试](../team/2026-09-30/testing.md)。
+> 当前 **android-06 已保档安装，原始未选人点击的语言外观及混合输入已完成限定验证**。结算入口、26经验/2锡片实际到账及三状态冷恢复沿用android-05已接收证据。英文战斗文字重叠、历史未归因退出和其余完整流程仍待处理，首Demo整体尚未验收；见[主测试](../team/2026-09-30/testing.md)。
 
 ## 1. 适用范围与启动前检查
 
-- 本页记录已定 uGUI 正常玩家路线；当前 android-05 的身份及保留资料安装示例见第 1.1 节，实际通过与剩余问题以该节运行验收段为准，不把当前候选或历史失败包当作已完成 L1 验收的试玩包。
+- 本页记录已定 uGUI 正常玩家路线；当前 android-06 的身份及保留资料安装示例见第 1.1 节，实际通过与剩余问题以该节运行验收段为准，不把当前候选或历史失败包当作已完成 L1 验收的试玩包。
 - 内容仅为“第 1 关 / Level 1”（L1，版本 1）、一名战士、两个空槽、单面 4×4 棋盘和两名发条步兵。使用占位美术；与正式产品共用业务和存档，不是另做一套演示数据。
 - 真正的新资料为战士等级 1、经验 0、生命 100，背包及携带为空、无已学主动技能。已有资料保留真实成长、库存及战斗，不为匹配本指南清档。
 - 没有下一关解锁、额外首通奖励、职业证、卡牌或已发布配方。不包含 L2、新职业、广告、后台服务、账号／云档、资源下载体验或最终美术。
@@ -14,32 +14,34 @@
 
 既有 Mac 人工观察覆盖语言下拉、部分双语按钮、语言冷开记忆、原资料连续性和成功提示消失；本轮 Android 模拟器的限定通过项另见第 1.1 节。**模拟器不替代 iQOO Neo5 真机，也不代表所有页面和完整流程均已通过。** 本指南不新增 Unity 启动或设备测试授权。
 
-### 1.1 当前 APK 与安装示例（限定运行通过，整体仍待验收）
+### 1.1 当前 APK 与安装示例（本轮修正通过，整体仍待验收）
 
 | 项目 | 本轮实际产物 |
 | --- | --- |
-| 文件 | [fightmatch-demo.apk](../../Builds/DEMO-NEXT-001/android-05/fightmatch-demo.apk)（`Builds/DEMO-NEXT-001/android-05/fightmatch-demo.apk`） |
-| 大小／SHA256 | 36583902 字节；`c468bae5255fcd99ab639a2cce3baca9f70feb56441be2e3ff1ea6b1a50a683e` |
+| 文件 | [fightmatch-demo.apk](../../Builds/DEMO-NEXT-001/android-06/fightmatch-demo.apk)（`Builds/DEMO-NEXT-001/android-06/fightmatch-demo.apk`） |
+| 大小／SHA256 | 46139736 字节；`66bafa41b30f773461bbd67642083f160ec3f4d1e2a4f5d1ccc663863f97290f` |
 | 包名／版本 | `com.yyczz1.fightmatch`；0.1 / code 1 |
-| 平台 | Android 7 / min API24，target API32；ARM64 (`arm64-v8a`)、IL2CPP、Development；仅 GLES3 |
-| 公有签名证书 SHA256 | `2045e6c0b3dd319ae5682d10701ffcdd2337fdf5a539c7a065d1d7c8024bac51`，与 android-01／02／03／旧 019 普通包一致 |
-| 当前边界 | 标准 manifest／签名检查通过；中英结算入口、奖励到账及三状态冷恢复已有实测，剩余问题见下段，不是完整通关或 Google Play 发行就绪结论 |
+| 平台 | Android 7 / min API24，target API32；ARM64、IL2CPP、Development；仅 GLES3 |
+| 公有签名证书 SHA256 | `2045e6c0b3dd319ae5682d10701ffcdd2337fdf5a539c7a065d1d7c8024bac51`，与现有普通包一致 |
+| 当前边界 | 已保档安装并正常启动；语言修正限定验证完成，完整首Demo及Google Play发行尚未验收 |
 
-依据：[检查及构建结果](../../TestArtifacts/FightMatch/DEMO-NEXT-001/board-input-run01/result.json)、[三项针对检查](../../TestArtifacts/FightMatch/DEMO-NEXT-001/board-input-run01/focused.xml)、[android-05 构建报告](../../TestArtifacts/FightMatch/DEMO-NEXT-001/android-05/build-report.json)、[manifest](../../TestArtifacts/FightMatch/DEMO-NEXT-001/board-input-run01/manifest.txt)、[签名](../../TestArtifacts/FightMatch/DEMO-NEXT-001/board-input-run01/signature.txt)。真实构建成功；三项检查为 **1 通过、2 在目标操作前被布局诊断拦截失败**，没有改写为 3/3。本机 WIP 与 clean PR 树的边界保留，独立源码审查通过仅对应 `6babe331`。
+依据：[运行回执](../../TestArtifacts/FightMatch/DEMO-NEXT-001/focus-run01/result.json)、[三项针对检查](../../TestArtifacts/FightMatch/DEMO-NEXT-001/focus-run01/focused.xml)、[构建报告](../../TestArtifacts/FightMatch/DEMO-NEXT-001/android-06/build-report.json)、[签名](../../TestArtifacts/FightMatch/DEMO-NEXT-001/focus-run01/signature.txt)、[设备证据](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-06/result.json)。已审`af35b600`两源实际接入；三项菜单/混合输入、门禁、返回键检查 **3/3通过、零跳过**，一次构建及保档安装成功，整体主动执行含收尾873.734/900秒。没有第二次构建、下载、清档或全量测试。本机WIP边界保持，旧场景用例的两项布局前置失败不改写为通过。
 
-**实际设备结果（2026-10-18）：** 同一 BlueStacks / API33 / ARM64，标准 Android 触屏输入，保档安装前后10份可读业务文件一致。中文与英文结算按钮均完整可见；一次显式结算后显示[26经验、2锡片收据](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/settled-receipt.png)，队伍由0/60到26/60，背包持有锡片2；已结算冷开后仍保持，未重复发奖。**26是现有测试档本次实得，不修改下文新建等级1路线的20经验预期。** 待结算、已结算、第二局完成首个行动后三次均以真实进程结束再正常启动验证，业务哈希和相应画面保持。最终留在第二局一条锁定路线、战士95/100、两敌0/15与15/15、简体中文，未再结算。详见[设备回执](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/result.json)和[QA限定收件](../team/2026-09-30/testing.md)。
+**本轮设备实测：** 同一BlueStacks/API33/ARM64，标准Android输入。中英文均从“刚选择语言、收起菜单”直接开始，不先清焦点、不选战士，首次棋盘DOWN/hold/UP时语言矩形像素一致。键盘打开后触屏选项或遮罩关闭、触屏打开后键盘选择和Esc关闭均符合预期；Esc只收菜单，不退出战斗页。短拖线出现预览后释放，预览移除、无业务提交；拖线期间禁止切语言由指定自动用例证明，不把短拖线观察冒充第二指针门禁验证。安装前后及结束时所有可读业务字节一致。最终保留简中、第二局原红色锁定线、战士95/100、两敌0/15及15/15，战士仅在内存中被选中。
 
-**未通过与边界：** 未选战士且语言控件无焦点时，棋盘按住不再改变语言外观；但刚选简中并收菜单后的首次棋盘按压仍有选中色回落，最小修正候选尚未进入此APK。初次启动出现一次未归因的退出，后续重开及上述三次冷恢复正常；英文战斗敌人名及状态文字仍重叠裁切。保留以上问题，不宣称全部输入、全部布局、完整流程或真机验收通过；原失败包与原始日志不覆盖。
+**复用的结算与恢复证据：** android-05已经显示中英文完整结算按钮；一次显式领取的[真实收据](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/settled-receipt.png)为26经验、2锡片，队伍0/60→26/60、背包持有锡片2。待结算、已结算、第二局首行动后三次真实进程冷恢复保持对应业务哈希和画面，已结算复开未重复奖励。本轮仅改语言组件，按用户许可复用这些已接收结果，没有在android-06再结算或重跑恢复。**26是现有测试档本次实得，不修改下文新建等级1路线的20经验预期。** 见[原设备回执](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/result.json)。
 
-**以下是 android-05 的受控安装示例，不是完整试玩已通过的承诺，也不是本页已执行的命令。** 设备操作由主程安排的唯一执行者在既有授权及时间限制内进行；本指南不新增设备操作权限或额外次数。在项目根目录使用现有 Android SDK platform-tools 的 `adb`；先核对目标设备、API／ABI和已有安装包身份，再把“实际序列号”替换为设备列表中的目标。保留资料安装使用 `install -r`，不使用卸载、清数据或强制降级参数。
+**仍有的缺口：** 英文战斗敌人名/状态文字重叠裁切、android-05初次未归因退出和主测试清单内其他完整流程尚未闭合；模拟器也不替代真机。已完成的语言修正不需重复确认，剩余项另按实际范围推进。
+
+**以下是android-06保留资料安装示例。** 设备操作仍由唯一执行者按实际授权安排，本页不追加次数。先核目标设备、API/ABI及已有包身份，用现有SDK的`adb`，将“实际序列号”替换为目标；不卸载、清数据或强制降级。
 
 ```sh
 adb devices -l
 adb -s "实际序列号" shell pm path com.yyczz1.fightmatch
-adb -s "实际序列号" install -r "Builds/DEMO-NEXT-001/android-05/fightmatch-demo.apk"
+adb -s "实际序列号" install -r "Builds/DEMO-NEXT-001/android-06/fightmatch-demo.apk"
 ```
 
-若签名冲突、版本降级拒绝或设备不满足要求，停止并保留原安装及资料，交主程核对；不要卸载或清档绕过。同包名、同签名是覆盖安装的必要条件，不是存档兼容性或各状态冷恢复均已通过的证明。下文保留既定操作路线，已观察与未验范围以本节运行验收段为准。
+若签名冲突、版本降级拒绝或设备不满足要求，保留原安装与资料并核对原因。同签名覆盖安装不替代完整存档兼容验收。下文保留既定试玩路线，已观察范围以本节和主测试回执为准。
 
 ## 2. 最短试玩路线
 
@@ -88,7 +90,7 @@ adb -s "实际序列号" install -r "Builds/DEMO-NEXT-001/android-05/fightmatch-
 
 ## 6. 首 Demo 仍需交付／观察的内容
 
-1. 当前包已验证结算入口、奖励与三状态冷恢复；仍需修复原语言序列残留色差、英文战斗文字重叠，并查明初次退出原因。其余完整流程缺口沿主测试清单，复用已通过结果。
+1. 本轮语言修正已完成限定验证，结算/奖励/三状态恢复复用有效证据；仍需修复英文战斗文字重叠并查明历史初次退出原因。其余完整流程沿主测试缺口清单推进，复用已通过结果。
 2. 主测试组织当前版本完整 L1 人工路线：创建／读取、地图／队伍、入场、参考、选人拖线、回退／重来／退出、胜利结算、重打和两类存档复开；已有有效证据只补缺口，不机械重跑全量。
 3. 在实际交付版本检查中文和英语的相关页面、棋盘、弹窗、触摸命中与安全区。Android 模拟器观察与 iQOO Neo5 真机观察分别记录，模拟器不能替代真机；Windows 原生状态也单列，不写成已通过。
 
@@ -98,7 +100,7 @@ adb -s "实际序列号" install -r "Builds/DEMO-NEXT-001/android-05/fightmatch-
 
 ## 7. 失败包与旧 Toolkit／APK 资料（仅历史）
 
-**android-01 是启动失败的历史包，不再推荐安装或试玩。** `Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk`（36583902 字节，SHA256 `4d72f265bd437d9d0e5131128ae46f71fb4fd968310f3a2d93344a791c017ab6`）虽于 2026-10-16 构建及静态包检查成功，但 2026-10-17 已实际安装、从普通图标启动，初始化报 `RES_STATE` 并停在诊断占位符，未进入 L1／奖励／恢复验收。失败事实保留于[模拟器原回执](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-01/resume-result.json)，不要把它与第 1.1 节的 android-05 混用，也不通过清档修复。
+**android-01 是启动失败的历史包，不再推荐安装或试玩。** `Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk`（36583902 字节，SHA256 `4d72f265bd437d9d0e5131128ae46f71fb4fd968310f3a2d93344a791c017ab6`）虽于 2026-10-16 构建及静态包检查成功，但 2026-10-17 已实际安装、从普通图标启动，初始化报 `RES_STATE` 并停在诊断占位符，未进入 L1／奖励／恢复验收。失败事实保留于[模拟器原回执](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-01/resume-result.json)，不要把它与第 1.1 节的 android-06 混用，也不通过清档修复。
 
 **android-02 是随后仍未进入玩法的历史包，不推荐 L1 试玩。** `Builds/DEMO-NEXT-001/android-02/fightmatch-demo.apk`（36583902 字节，SHA256 `e50b711ecbebc7d380fa62d1abd5d7bbedfda0760b292eba2cf6eb17ea8b2480`）的[8 项定向及构建阶段](../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-run01/result.json)全部通过、构建成功，阶段用时约 6 分 45 秒。[emulator-02 回执](../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-02/result.json)记录保留资料安装和普通图标 GLES3 启动后报 `RES_STORAGE`，设备阶段 354.195276 秒；L1／三状态复开／奖励均 `NOT_RUN`。当时 6 份可读业务文件哈希不变、2 份 lock 拒读；该包的检查通过与运行失败均保留，不由 android-03 诊断替代或改写。
 
@@ -116,4 +118,4 @@ adb -s "实际序列号" install -r "Builds/DEMO-NEXT-001/android-05/fightmatch-
 - 既有观察基线：2026-10-16 接续入口所记 `c3f0812` 窄 UI 收件；本轮建档确认和 APK 证据另列，不扩大旧视觉观察范围。本页核对不是首 Demo 的 `ACCEPT`。
 - 历史静态收件：原作者 actual turn `01a1430e-b2f7-75e0-bc67-e2437c3fcb11` 确认当时入口、战斗选人和路线坐标；其中直接建档已被本轮确认门修正取代，其余路线沿用，不把该只读回执当运行证据。
 - 既有建档修正依据：[原定向记录](../../TestArtifacts/FightMatch/DEMO-NEXT-001/profile-confirm-focused.xml)为返回键、语言反馈两项通过及建档确认一项失败；修正测试基线后的[建档确认单例](../../TestArtifacts/FightMatch/DEMO-NEXT-001/profile-confirm-focused-fix01.xml)通过，不改写旧失败。
-- 当前修正／产物依据：第 1.1 节的 `board-input-run01`、`android-05`、`emulator-05`；执行者 C actual turn `01a14e81-4a4b-7e13-a5ef-c64d3607efa1`，QA actual `01a14e96-99ca-7e23-8d69-2758ab40e0d3`。保留1过/2失败及设备实测的不同边界，不称 clean PR 全树已测。主策接续回合因remote compact失败且未写文件；按团队快照登记由中央仅同步已收事实，未改策划方案或新增运行。
+- 当前修正／产物依据：第1.1节`focus-run01`、`android-06`、`emulator-06`，执行者C actual turn `01a14ecc-21d4-7eb0-9865-c48bfc517784`；结算及恢复沿用`emulator-05`已接收记录。最新源码审查为af35b600/[6249275509](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6249275509)，实际运行无后续源码差量。中央按已登记的指南事实同步职责更新，不改策划方案、不增加执行；最终限定收件见主测试。
