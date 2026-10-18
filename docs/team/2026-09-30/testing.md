@@ -6,6 +6,14 @@
 
 **首Demo集成结论仍为NEEDS_FIX：6babe331对应android-05已构建；本轮自动检查1过/2失败。模拟器已实见中英结算入口、显式领取26 XP＋2锡片、待结算/已结算/首行动后三段冷恢复及本次冷开不重奖。** 原用户序列“刚切简中关菜单→未选人首次按棋盘”的语言控件色差仍在；中性焦点对照通过不覆盖它。首次未归因退出、英文战斗文字重叠及其余PQA缺口保留。android-04的7/7、BusinessReady及既有活动局恢复有效；旧CUA无响应不再写成全局输入失败。原902006fa诊断6/6与android-03的RES_STORAGE、1d75386的8/8与android-02、旧RES_STATE各自保留输入边界，不覆盖失败历史或合称同批全测。已完成的窄UI修正不重开：c3f0812独立GitHub审查无重大问题、[第二次GUI日志](../../../TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/gui-resume-20261015-02.log)编译成功；用户确认真冷开直接English、原档/进度正常、切简中再English的成功提示约2秒消失。c07d807等宽左对齐、Esc只收列表、可见双语按钮不超框及Back/提示回归历史保持，旧2项headless失败不改写为全通过。
 
+### 最新GitHub收件：focus-fix01 P2复审／af35b600源码门ACCEPT
+
+QA actual `01a14eb9-afdc-7ed0-9051-996884101889`：准确head `af35b6006113d8b924150f67a9cdd57b7421deca`，parent8f87e9e、固定base不变，仅原两代码文件。无自动触发后发[唯一请求6249241783](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6249241783)，明确覆盖混合输入P2；服务19:19:32上海Completed、has_any_findings=false。[原始结果6249275509](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6249275509)：“Codex Review: Didn't find any major issues. Delightful!”，Reviewed commit `af35b60061`。19:20:23终核head/base不变、draft未合并；**ACCEPT仅此head源码审查门**，非formal APPROVED，无新增inline/review submission。原P2现outdated但未resolved，未代关闭。候选未接入/编译/测试，android-05不含它，**唯一集成结论仍NEEDS_FIX**。仅本短段及中央一次回执，无本地R/测试/设备操作。
+
+### 既有GitHub收件：focus-fix01／8f87e9e源码门NEEDS_FIX
+
+QA actual `01a14ea8-ace2-7a33-b29a-354c4a329192`：准确head `8f87e9e227c46b2d5ff81e5b578c38c6068e9d34`，parent已审6babe331、base不变，draft未合并。[唯一请求6249016142](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6249016142)后，19:01:51上海服务Completed；[原始review5562644243](https://github.com/yyczz1/FightMatch/pull/22#pullrequestreview-5562644243)准确对应此head，COMMENTED。**NEEDS_FIX（1项新P2）**：[Track how the menu closes, not how it opens](https://github.com/yyczz1/FightMatch/pull/22#discussion_r4306763070)，`FightMatchLocaleDropdown.cs:74`。键盘打开→触控关闭仍留Selected，指针打开→Escape关闭则压掉键盘焦点；需按关闭方式判断，并覆盖两种混合输入。已回中央，由同一短C纠正；候选未接入/编译/运行，android-05不含它。QA无本地审查或运行，旧验收边界不变。
+
 ### 最新运行收件：board-input-run01／android-05限定通过，原序列色差未闭合
 
 QA唯一收件actual `01a14e96-99ca-7e23-8d69-2758ab40e0d3`，依据中央本轮派发及真人新增A≤600秒/B active≤900秒许可（卡`call_0f527edc517c4f39b419f95b032fc1e9`）。新短C `01a14e81-4917-7440-b0db-b790ea4ddcde/local`／actual `01a14e81-4a4b-7e13-a5ef-c64d3607efa1`执行。QA实读[A原始结果](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/board-input-run01/result.json)、完整[三例XML](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/board-input-run01/focused.xml)、[B原始结果](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/result.json)、目标日志及实际截图，独立只读核源码/APK身份、业务SHA对和色差；不重审源码、不运行Unity/设备、不追旧C。受审6babe331源码门复用下方原始结果，无新产品diff。
@@ -17,7 +25,7 @@ QA唯一收件actual `01a14e96-99ca-7e23-8d69-2758ab40e0d3`，依据中央本轮
 - **原序列色差仍在：** 未选人英文按/放及简中中性焦点对照的语言框矩形(464,48,672,144)像素完全相同、业务14文件SHA相同。但[刚切简中关菜单](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/actorless-zh-before.png)→[首次按棋盘](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/actorless-zh-held.png)→拖动/释放仍有色差，QA独立核(470,55)由RGBA(49,59,71,255)变为(51,61,74,255)。没有伴随行动提交、菜单展开或语言值改变；[中性焦点对照](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/actorless-zh-neutral-held.png)通过不能替代原分支。C的“残余选中/高亮回Normal而非Disabled”解释与像素相容，但**无当时EventSystem选中对象/状态实读，只是支持性推断，未确诊**。
 - **其他未闭合：** [PID3021日志](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/pid3021-logcat.txt)349–350行先onDestroy后自身SIG9，首次退出原因未归属；空crash buffer不证明无错，随后三次受控冷开正常也不抹除它。[英文待结算图](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-05/pending-english.png)敌人名/状态明显重叠裁切，属于功能可读性缺口，不按占位美术豁免。新两例自动化失败、原序列色差及其余PQA未观察项均保留，**唯一集成结论NEEDS_FIX**。仅更新本索引并向中央一次回传，不自动消费剩余额度或新增验证链。
 
-### 最新GitHub收件：board-input01／6babe331源码门ACCEPT
+### 既有GitHub收件：board-input01／6babe331源码门ACCEPT
 
 QA唯一收件actual `01a14e65-c261-72d1-8893-e7426f15b8ba`。已核[PR22](https://github.com/yyczz1/FightMatch/pull/22) head `6babe331f048366e058e97b33b92213dc3a4e653`、parent `e1e2ab8b27dfd3292eb44fd9cdac46d0a81eebfe`、固定base `dc1bba0537779983647f5e261f8e1c33a1210a49`，draft/open/unmerged；实读发布diff/PR最终合同，对parent恰1提交、6路径：HostView +4/−3、PlayerBattleView +33/−1、UguiSceneCompositionTests +230/−0及三入口文档。只读核[三暂存发布候选](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/board-input01/)SHA为e1120467…、a9e4fce1…、043296f4…，本机旧Canvas/Responsive WIP未纳入本轮发布。合同保持完整语言打开/选择/收起门禁、actorless历史、真实行动一次提交及原播放/保存/显式结算；仅在结算可用边界把已有按钮移入视窗，不自动领取或每帧抢滚动。这是范围收件，非QA另做本地代码审查。
 
