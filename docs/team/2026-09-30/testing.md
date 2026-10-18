@@ -6,6 +6,16 @@
 
 **首Demo集成结论仍为NEEDS_FIX：已审902006fa诊断四源已接入，精确6/6通过且android-03构建成功；实测祖先目录枚举报UnauthorizedAccessException，Host仍为RES_STORAGE，玩法/恢复未到达。** 失败操作/类别已明确，但不等于存储修复或正常启动通过；原1d75386的8/8及android-02、旧RES_STATE各自保留输入边界。已完成的窄UI修正不重开：c3f0812独立GitHub审查无重大问题、[第二次GUI日志](../../../TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/gui-resume-20261015-02.log)编译成功；用户确认真冷开直接English、原档/进度正常、切简中再English的成功提示约2秒消失。c07d807等宽左对齐、Esc只收列表、可见双语按钮不超框及Back/提示回归历史保持，旧2项headless失败不改写为全通过。
 
+### 最新GitHub收件：startup-storage-fix01／15378d0存储修正源码门ACCEPT
+
+主测试唯一收件actual `01a0f2e3-4bd2-7130-b43a-19afa702e7bb/local/01a14d89-e6ae-7233-a05a-edae9262fc67`。已读[PR22](https://github.com/yyczz1/FightMatch/pull/22)正文与[主程已签平台合同](engineering.md)，核head `15378d05f0f8d8d27cd60f8dfc5b4d0e76ada0a2`、parent `902006fa002088556caa69002ecc1b021c9146f1`、base `dc1bba0537779983647f5e261f8e1c33a1210a49`；实际一提交、22净变更路径，仅Store/StoreTests/PlayerHost三产品源，其余为接续、合同、试玩说明和诊断证据，无APK/玩家档。只读核三暂存候选、[补丁](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage-fix01/source.patch)26218B／SHA256 `b8be629b16cb166ba6d5bdc5bed9f3510e9dc280e9c3c8ba0554b5599ae9b134`及本地[最终result](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage-fix01/result.md)13173B／SHA256 `b9dff2a5084a5ec881079ec642cab4c2c5513e261bb2376580e6e0e56e26c08d`匹配。**最终result未包含在该受审head**，不冒称服务读取了本地文档；已发布engineering合同、PR正文及固定补丁确定本轮范围，文档后补不移动受审输入。
+
+合同明确Android系统canonical应用目录锚A由Host显式传入，productRoot精确绑定A/FightMatch；锚上名字不再由应用枚举独立证明，但每次IO仍核全链目录/native无链接及锚身份，A及以下精确枚举/大小写/链接/布局保持，Host创建前校验、创建后复核。**这是已签平台证明责任调整，不称与旧模型完全等价**；禁止由任意产品根或token反推策略，访问/探测错误仍失败关闭，桌面及记录/提交/UnknownCommit/玩家存档边界保持。以上为审查输入合同，不是QA重复本地代码审查或native实测结论。
+
+中央[唯一触发6246212428](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6246212428)对应[服务状态](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6141318771)于北京时间2026-10-18 **13:46:14** Completed，精确head匹配、`has_any_findings=false`。[原始结果6246233251](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6246233251)为“Codex Review: Didn't find any major issues. Breezy!”，`Reviewed commit: 15378d05f0`。13:47:05最终核head/base未变、draft/open/unmerged。**ACCEPT（仅该head源码审查门）**，issue comment不是formal APPROVED；无新review submission/inline，三个旧讨论及回复仍未变（两P1 outdated、下拉P2未outdated，均未resolved），未代关闭。
+
+三源尚未接入/编译/测试；AS04/05、AS16–20共7项、修复APK及同档实际启动/资源状态写入、L1三状态仍待，旧诊断6例和902006fa审查不覆盖此修正。原A692.094034167/900、B800.433024334/1200不重置；A余207.905966秒小于上次测试＋构建236.563830秒，新增运行须中央集中确认时限，主程建议不当许可。**整体NEEDS_FIX**，原RES_STORAGE/图标入口未证/L1及恢复奖励NOT_RUN保留。QA仅更新本文件并向中央/主程各回一次源码门，不重复触发、本地review、追C或增加运行额度。
+
 ### 最新运行收件：诊断6/6通过，emulator-03确认失败操作
 
 QA actual `01a14d6c-dc46-7723-a4f4-e28c7a1cb333`接主程一次最终回执；C actual `01a14d5e-4abc-7593-b740-4e86e8bfacf3`已由主程wait核completed/idle。QA实读[诊断执行结果](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage-run01/result.json)、完整[六例XML](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage-run01/focused.xml)、[设备最终结果](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-03/result.json)与目标日志，并查看实际[start.png](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-03/start.png)；只读核APK、四共享源、五份设备证据和六份业务hash记录，没有新增执行或追C。
@@ -17,7 +27,7 @@ QA actual `01a14d6c-dc46-7723-a4f4-e28c7a1cb333`接主程一次最终回执；C 
 
 **唯一集成结论NEEDS_FIX。** 902006fa源码门、六例及诊断运行有效，但诊断不是修复，图标入口、L1/恢复/奖励及真机均未通过。主程已交原作者同任务SOURCE-only安全修正准备；不因枚举异常自行放宽守卫、吞异常放行或调整信任边界。QA只更新本文件并向主程回一次，不重复审查/测试、追C或另报中央；旧失败与原始现场证据保持。
 
-### 最新GitHub收件：startup-storage01／902006f诊断源码门ACCEPT
+### 既有GitHub收件：startup-storage01／902006f诊断源码门ACCEPT
 
 主测试唯一收件actual `01a0f2e3-4bd2-7130-b43a-19afa702e7bb/local/01a14d5e-d498-7242-a75f-726d6bdcad50`。已读[PR22](https://github.com/yyczz1/FightMatch/pull/22)描述、[候选/设计与六项后验](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage01/result.md)，只读核四暂存候选SHA/字节数及[source.patch](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage01/source.patch)24900B／SHA256 `d84054d945b47afdafe0f6221d38c02c5e158d3f6a93fadda9a4eb4214089128`一致。准确head `902006fa002088556caa69002ecc1b021c9146f1`、parent `8f3d3e4fb74ad2324732f654504c32ca2e442d0f`、base `dc1bba0537779983647f5e261f8e1c33a1210a49`；GitHub比较为一提交、**实际9路径＝4诊断源码＋3中央入口＋result/source.patch**。交接/触发所述10是构树请求项数，中央已确认engineering.md与parent相同，不构成净差量；无额外产品变化，不因此重触发或复验。
 
@@ -106,7 +116,7 @@ QA actual `01a14403-072d-7741-a7f9-090617d48574`只读[原结果](../../../TestA
 | PQA-11／Q5 首次系统语言 | 旧自动LocalePolicy/LocalizationContract已过中文变体→简中、非中文→English | 不重跑解析矩阵；在无语言偏好的隔离安装/根实际观察中文与非中文两种首开。**缺平台接线观察**，无安全隔离则保留未验，不清原档 | M/S可配置测试系统；D实际系统，不以注入值冒充 |
 | PQA-12／Q2、Q3、Q4 手选/重建页 | **当前页面双向切换、English持久化真冷开、成功提示消失已过**；旧自动覆盖重建不改head/request/token | 随L1路线看战斗、结果、恢复等未到达页面的切换/重建、动态参数、缺字/溢出。**仅缺这些页面观察**，不重做已过冷开/提示 | M；S/D实际尺寸 |
 | PQA-13／Q2 本地化诊断 | 旧诊断/动态克隆/正式264条/提示回归证据保留；H06及新增H07实际通过；emulator-02/03已见占位＋RES_STORAGE安全code，03同PID有限stage/类别已采 | **pre-bind诊断显示与本次有限日志已验证，不重列待验**；不等于Host正常本地化或翻译表缺项归因，其余页面/动态参数/缺字及字体显示仍缺，不破坏正式表造缺key | S故障code/有限日志已实观；M/D剩余画面 |
-| PQA-14／Q8 安卓 | **902006fa源码门ACCEPT，诊断6/6及android-03构建通过**；API24/GLES3/原签名保持，保档安装成功；标准MAIN/LAUNCHER生产Activity COLD启动PID11887，真实日志确认ancestor.entries/UnauthorizedAccessException | **Host仍RES_STORAGE，安全修正未完成**；不推确切路径/errno。本包图标点击未证，L1/三状态恢复/触控/安全区/奖励未到达；旧8例与新6例分输入，不推API24/Activity/系统重启或真机全分支，保留本机/clean差异 | S诊断完成、启动失败；D仍未验 |
+| PQA-14／Q8 安卓 | **902006fa诊断6/6及android-03构建通过**；保档安装后标准MAIN/LAUNCHER COLD启动PID11887，日志确认ancestor.entries/UnauthorizedAccessException；新15378d0存储修正源码门ACCEPT | **现装包仍RES_STORAGE，修正三源未接入/编译/测试**；7例/修复APK/真实UID后验待时限确认，系统锚为明确契约调整而非等价证明。图标/L1/三状态/触控/奖励未验，不推精确路径/errno、API24/Activity/系统重启或真机全分支；本机/clean差异保持 | S诊断完成、修正未验；D仍未验 |
 | PQA-15／Q1、Q6、Q8 返回/退出 | **下拉Esc实际已过**；执行01 Back取消顺序/重绑通过，FIX01建档确认与Back/quit单例通过；旧H04保留 | 关闭列表后的实际子页Back、根页取消/确认、新建档确认、战斗退出提示与Android系统Back分别实看。**剩余缺实际界面/设备观察**，不重列Back UnityTest待跑 | M页面；S/D系统Back |
 
 “缺观察”不声称所有接线已经正确，也不预判有代码缺陷；若实际入口失败，由主程在同任务最小纠正。首次Android构建已收，后续候选发布由中央处理，QA不重复源码盘点。L1自然不可达的补线、换面、非致命临时路线、蓄力、全员倒下，以及无装备/无配方动作，继续沿既有业务自动证据；不为人工验收改变正式敌人HP、伤害或内容。历史通过只覆盖原输入/语义，不声称每个不可达表现都有当前uGUI画面证据。
@@ -117,7 +127,7 @@ QA actual `01a14403-072d-7741-a7f9-090617d48574`只读[原结果](../../../TestA
 
 ### 开跑前与最少实际观察路线
 
-1. **当前前置：** 902006fa诊断接入、六例、android-03及同PID阶段日志已收；失败为ancestor.entries/UnauthorizedAccessException，安全修正尚未完成。主程已交原作者SOURCE-only准备，按剩余A207.905965833/B399.566975666秒核算后验，不重置预算。QA不派C、复跑或重复审旧head。正常Host启动、当前图标入口与L1/恢复仍待，不用清档/注入状态/削弱守卫绕过；iQOO Neo5仍未验，本机字体/WIP与clean树差异继续注明。
+1. **当前前置：** 15378d0存储修正三源已获独立源码门ACCEPT，未接入/编译/测试；Android系统锚按已签证明责任调整验收，不沿用旧“必须完全等价”的裁定前条件，也不放行探测失败。A余207.905965833秒不足，7例/修复APK及同档真实启动/L1三状态须中央集中确认所需时限；旧A/B累计不重置，QA不派C/复跑/重复审旧head。现装android-03仍RES_STORAGE，图标/恢复及真机未验；本机字体/WIP与clean树差异保持。
 2. **一条Mac主线优先：** 用安全新测试档检查创建/空态→地图L1→准备页Start Battle→打开默认参考→战斗内选Warrior→错线/取消零提交→真实合法线→回退预览取消再确认/按原开局重来（重来后重新选战士）→真实走到胜利、明确基础结算→队伍/背包核新Lv1正常路线20XP＋2锡片→四去向/重打。沿途同时看未到达页面的英/简中、动态值与返回；不单独再跑语言冷开/提示。
 3. **恢复检查插在自然节点：** 活动战斗、胜利待结算、已结算各保留基线后实际进程重开；核同一状态且奖励一次。安卓同一普通包至少走真实触控L1，首个有效行动后Home→恢复，并做系统Back、一次进程重启/再开；真机补多指/安全区。复用已过业务分支，只留下标准日志/必要截图/观察事实，不生成另一套台账。具体次数/预计与上限耗时由新运行合同固定后才执行。
 
