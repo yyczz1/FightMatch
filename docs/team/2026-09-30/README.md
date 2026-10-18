@@ -4,6 +4,8 @@
 
 ## 当前任务
 
+**2026-10-18里程碑：** 四源已接入，8项定向全过，修复APK `android-02`成功，A段404.808553秒；保留原测试档安装／普通启动后报新的`RES_STORAGE`，B段354.195276秒，L1及三状态仍未运行。主程继续最小存储诊断与修正准备，唯一接执行结果；主策同步[试玩指南](../../demo/PLAY_FIRST_DEMO.md)，主测试接实际证据。源码仍为已审`1d75386b`，无新增源码差量，不重复审查。原两阶段15／20分钟边界及数据保护保持，首Demo仍NEEDS_FIX。详情见[主程当前记录](engineering.md)及[设备结果](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-02/result.json)。
+
 **2026-10-17实际启动失败及修正候选：** 用户已确认模拟器原档为测试档；普通覆盖安装/图标启动/GLES3成功，但资源初始化报RES_STATE，L1与三状态恢复未运行。主程已收startup-fix01四源静态候选，替换Android不可用进程时间接口，保留玩家档并增加绑定前安全错误码。产品提交`1d75386b2ba30e6746cb0123b12e86dfa70f4907`已发布，[同head独立审查](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6228731368)无重大问题，源码门ACCEPT；本机未接入/编译/运行，待必要后验；首Demo仍NEEDS_FIX。唯一[候选与后验说明](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-fix01/result.md)，下方为此前里程碑。
 
 **最新实际结果：** 新普通APK已生成，minSDK24/仅GLES3由Unity实际保存，原签名保持；一次构建及检查252.466秒。原2项针对检查通过＋FIX01单例通过，完整L1、视觉和设备仍未验。四源码＋真实Settings共5产品路径已发布到PR22产品提交`c78f8a52ba589534171b5990328e9cac2d42a752`；主测试已核[同head独立审查](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6211066540)未发现重大问题，仅源码审查门ACCEPT，首Demo整体NEEDS_FIX。唯一构建许可已使用，不追加安装/GUI/测试。详见[实际回执](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/execution-android01-result.json)及[当前试玩指南](../../demo/PLAY_FIRST_DEMO.md)；下面各段保留此前时点。
