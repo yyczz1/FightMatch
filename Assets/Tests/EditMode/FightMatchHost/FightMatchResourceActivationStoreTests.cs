@@ -48,6 +48,9 @@ namespace FightMatch.Host.Tests
             internal readonly Dictionary<string, byte[]> Data = new Dictionary<string, byte[]>(StringComparer.Ordinal);
             internal readonly Dictionary<string, FileAttributes> Nodes = new Dictionary<string, FileAttributes>(StringComparer.Ordinal);
             internal string FailAt, ReadMode;
+            internal string DeferredDirectory;
+            internal Exception DeferredError;
+            internal int DeferredMoves;
             internal bool Fired;
             internal int Promotions, ReadCalls, Flushes, FaultPromotionBase;
             internal string State => Path.Combine(Root, "resource-state", "v1");
@@ -78,8 +81,15 @@ namespace FightMatch.Host.Tests
             public IEnumerable<string> Entries(string directory)
             {
                 Hit("enumerate");
+                if (directory == DeferredDirectory) return DeferredEntries();
                 return Nodes.Keys.Concat(Data.Keys).Distinct(StringComparer.Ordinal)
                     .Where(p => Path.GetDirectoryName(p) == directory).ToArray();
+            }
+            private IEnumerable<string> DeferredEntries()
+            {
+                DeferredMoves++;
+                if (DeferredError != null) throw DeferredError;
+                yield break;
             }
             public void CreateDirectory(string path)
             { Hit("directory-before"); AddDirectory(path); Hit("directory-after"); }
@@ -481,6 +491,74 @@ namespace FightMatch.Host.Tests
                     if (old.ContainsKey(f.Leaf(leaf))) Same(old[f.Leaf(leaf)], f.Data[f.Leaf(leaf)]);
                 }
             }
+        }
+
+        [Test]
+        public void AS13_StorageFailureReportsTheOriginalOperationBeforeCleanup()
+        {
+            var cases = new[] {
+                new[] { "attributes", "activation.guard.ancestor.attributes" },
+                new[] { "enumerate", "activation.guard.ancestor.entries" },
+                new[] { "directory-before", "activation.create.outer" },
+                new[] { "create-before", "activation.commit.create" },
+                new[] { "write-before", "activation.commit.write" },
+                new[] { "flush-before", "activation.commit.flush" },
+                new[] { "close-before", "activation.commit.close" },
+                new[] { "tmp-open-before", "activation.read.open" },
+                new[] { "tmp-read-before", "activation.read.body" } };
+            foreach (var item in cases)
+            {
+                var f = new MemoryFiles(); var store = f.Store();
+                if (item[0] != "directory-before") Ready(store);
+                var snapshot = Ok(store.Read()); var old = f.Copy(); var promotions = f.Promotions;
+                f.Arm(item[0]);
+                var result = item[0] == "directory-before" ? store.EnterAtProcessStart("set.a", H1) : store.Prepare("set.b", H2);
+                Rejected(result, "RES_STORAGE"); Assert.IsTrue(f.Fired, item[0]);
+                Assert.AreEqual(item[1] + "; error=IOException", store.StorageDiagnostic);
+                Assert.AreSame(snapshot, result.Snapshot); Assert.AreEqual(promotions, f.Promotions);
+                SameData(old, f);
+                f.FailAt = null; Ok(store.Read()); Assert.IsNull(store.StorageDiagnostic);
+            }
+        }
+
+        [Test]
+        public void AS14_DeferredEnumerationFailureReportsScopeWithoutLeakingExceptionData()
+        {
+            const string secret = "/private/profile-secret?token=never-return\nforged-log";
+            var errors = new Exception[] { new UnauthorizedAccessException(secret), new IOException(secret),
+                new DirectoryNotFoundException(secret), new InvalidOperationException(secret) };
+            var kinds = new[] { "UnauthorizedAccessException", "IOException", "DirectoryNotFoundException", "OtherException" };
+            for (var i = 0; i < errors.Length; i++)
+            foreach (var scope in new[] { "ancestor", "product", "outer", "state" })
+            {
+                var f = new MemoryFiles(); var store = f.Store("a2-b5-p101-e1000");
+                if (scope == "outer" || scope == "state") Ready(store);
+                f.DeferredDirectory = scope == "ancestor" ? Path.GetPathRoot(f.Root) : scope == "product" ? f.Root :
+                    scope == "outer" ? Path.GetDirectoryName(f.State) : f.State;
+                f.DeferredError = errors[i]; var old = f.Copy(); var nodes = f.Nodes.ToArray(); var promotions = f.Promotions;
+                Rejected(store.EnterAtProcessStart("set.a", H1), "RES_STORAGE");
+                var stage = scope == "ancestor" ? "guard.ancestor" : scope == "product" ? "exists.product" : "layout." + scope;
+                Assert.AreEqual("activation." + stage + ".entries; error=" + kinds[i], store.StorageDiagnostic);
+                Assert.AreEqual(1, f.DeferredMoves); Assert.AreEqual(promotions, f.Promotions);
+                SameData(old, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+                f.DeferredDirectory = null; Ok(store.Read()); Assert.IsNull(store.StorageDiagnostic);
+            }
+        }
+
+        [Test]
+        public void AS15_UnknownCommitKeepsItsDiagnosticAndDoesNotRetry()
+        {
+            var f = new MemoryFiles(); var store = f.Store(); var snapshot = Ready(store); f.Arm("promotion-before");
+            var result = store.Prepare("set.b", H2);
+            Assert.AreEqual(ActivationOutcome.UnknownCommit, result.Outcome);
+            Assert.AreEqual("RES_COMMIT_UNKNOWN", result.SafeCode); Assert.AreSame(snapshot, result.Snapshot);
+            const string diagnostic = "activation.commit.move; error=IOException";
+            Assert.AreEqual(diagnostic, store.StorageDiagnostic);
+            var uncertain = f.Copy(); var promotions = f.Promotions;
+            Assert.AreEqual(ActivationOutcome.UnknownCommit, store.Read().Outcome);
+            Assert.AreEqual(ActivationOutcome.UnknownCommit, store.Prepare("set.b", H2).Outcome);
+            Assert.AreEqual(diagnostic, store.StorageDiagnostic); Assert.AreEqual(promotions, f.Promotions);
+            SameData(uncertain, f);
         }
 
         [Test]

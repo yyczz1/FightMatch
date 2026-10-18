@@ -90,6 +90,8 @@ namespace FightMatch.Host
         private readonly int schemaVersion;
         private ActivationSnapshot confirmed;
         private bool unknown;
+        private string storageOperation;
+        internal string StorageDiagnostic { get; private set; }
         private string Outer => Path.Combine(root, "resource-state");
         private string StateDirectory => Path.Combine(Outer, "v1");
 
@@ -249,18 +251,43 @@ namespace FightMatch.Host
         private ActivationResult Execute(string leaf, Func<ActivationSnapshot, ActivationRecord> transition)
         {
             if (unknown) return Result(ActivationOutcome.UnknownCommit, "RES_COMMIT_UNKNOWN");
+            StorageDiagnostic = null;
+            storageOperation = "activation.load";
             try
             {
                 Require(ValidToken(token, schemaVersion), "RES_STATE");
                 var state = Load();
+                storageOperation = "activation.transition";
                 var next = transition == null ? null : transition(state);
                 if (next != null) return Commit(state, leaf, next);
                 confirmed = state;
                 return Result(ActivationOutcome.Confirmed);
             }
             catch (Fault fault) { return Result(ActivationOutcome.Rejected, fault.Code); }
-            catch (Exception) { return Result(ActivationOutcome.Rejected, "RES_STORAGE"); }
+            catch (Exception error)
+            {
+                CaptureStorageFailure(error);
+                return Result(ActivationOutcome.Rejected, "RES_STORAGE");
+            }
         }
+
+        private void CaptureStorageFailure(Exception error)
+        {
+            if (StorageDiagnostic == null)
+                StorageDiagnostic = storageOperation + "; error=" + StorageExceptionKind(error);
+        }
+        internal static string StorageExceptionKind(Exception error) =>
+            error is UnauthorizedAccessException ? "UnauthorizedAccessException" :
+            error is DirectoryNotFoundException ? "DirectoryNotFoundException" :
+            error is FileNotFoundException ? "FileNotFoundException" :
+            error is PathTooLongException ? "PathTooLongException" :
+            error is IOException ? "IOException" :
+            error is System.Security.SecurityException ? "SecurityException" :
+            error is NotSupportedException ? "NotSupportedException" :
+            error is ArgumentException ? "ArgumentException" :
+            error is Fault ? "ValidationFault" : "OtherException";
+        private string DirectoryScope(string path) => path == root ? "product" :
+            path == Outer ? "outer" : path == StateDirectory ? "state" : "ancestor";
 
         private static void Canonical(string path, bool product)
         {
@@ -276,6 +303,7 @@ namespace FightMatch.Host
         }
         private void DirectoryGuard(string directory)
         {
+            storageOperation = "activation.guard.path";
             Canonical(directory, false);
             var chain = new Stack<string>();
             for (var p = directory; p != null; p = Path.GetDirectoryName(p)) chain.Push(p);
@@ -283,10 +311,14 @@ namespace FightMatch.Host
             while (chain.Count != 0)
             {
                 var path = chain.Pop();
+                storageOperation = "activation.guard." + DirectoryScope(path) + ".attributes";
                 var attributes = files.Attributes(path);
                 Require((attributes & FileAttributes.Directory) != 0 && (attributes & FileAttributes.ReparsePoint) == 0, "RES_ROOT");
                 if (parent != null)
+                {
+                    storageOperation = "activation.guard." + DirectoryScope(parent) + ".entries";
                     Require(files.Entries(parent).Any(p => string.Equals(p, path, StringComparison.Ordinal)), "RES_ROOT");
+                }
                 parent = path;
             }
         }
@@ -294,6 +326,7 @@ namespace FightMatch.Host
         {
             var parent = Path.GetDirectoryName(path);
             DirectoryGuard(parent);
+            storageOperation = "activation.exists." + DirectoryScope(parent) + ".entries";
             foreach (var entry in files.Entries(parent))
             {
                 if (entry == path) return true;
@@ -303,20 +336,24 @@ namespace FightMatch.Host
         }
         private string[] Layout()
         {
+            storageOperation = "activation.layout.path";
             Require(files != null, "RES_ROOT");
             Canonical(root, true);
             DirectoryGuard(root);
             if (!Exists(Outer)) return Array.Empty<string>();
             DirectoryGuard(Outer);
+            storageOperation = "activation.layout.outer.entries";
             var outerEntries = files.Entries(Outer).Take(2).ToArray();
             Require(outerEntries.All(p => p == StateDirectory), "RES_ROOT");
             if (outerEntries.Length == 0) return Array.Empty<string>();
             DirectoryGuard(StateDirectory);
+            storageOperation = "activation.layout.state.entries";
             var entries = files.Entries(StateDirectory).Take(10).ToArray();
             Require(entries.Length <= 9 && entries.Distinct(StringComparer.Ordinal).Count() == entries.Length, "RES_ROOT");
             foreach (var path in entries)
             {
                 Require(Path.GetDirectoryName(path) == StateDirectory && Names.Contains(Path.GetFileName(path)), "RES_ROOT");
+                storageOperation = "activation.layout.leaf.attributes";
                 var attributes = files.Attributes(path);
                 Require((attributes & (FileAttributes.Directory | FileAttributes.ReparsePoint)) == 0, "RES_ROOT");
             }
@@ -325,9 +362,11 @@ namespace FightMatch.Host
         private byte[] ReadLeaf(string path)
         {
             Require(Layout().Contains(path), "RES_STATE");
+            storageOperation = "activation.read.open";
             using (var stream = files.OpenRead(path))
             {
                 Layout();
+                storageOperation = "activation.read.length";
                 var length = stream.Length;
                 Require(length >= 0 && length <= Limit, "RES_SCHEMA");
                 var bytes = new byte[(int)length];
@@ -335,12 +374,15 @@ namespace FightMatch.Host
                 while (offset < bytes.Length)
                 {
                     Layout();
+                    storageOperation = "activation.read.body";
                     var count = stream.Read(bytes, offset, bytes.Length - offset);
                     Require(count > 0 && count <= bytes.Length - offset, "RES_SCHEMA");
                     offset += count;
                 }
                 Layout();
+                storageOperation = "activation.read.tail";
                 Require(stream.ReadByte() == -1 && stream.Length == length, "RES_SCHEMA");
+                storageOperation = "activation.read.close";
                 return bytes;
             }
         }
@@ -395,7 +437,9 @@ namespace FightMatch.Host
             foreach (var path in paths)
             {
                 var name = Path.GetFileName(path);
-                var record = Decode(ReadLeaf(path), name);
+                var bytes = ReadLeaf(path);
+                storageOperation = "activation.decode";
+                var record = Decode(bytes, name);
                 Require(record.SchemaVersion == schemaVersion, "RES_STATE");
                 records.Add(name, record);
             }
@@ -409,13 +453,14 @@ namespace FightMatch.Host
         private void CreateDirectories()
         {
             Layout();
-            if (!Exists(Outer)) { DirectoryGuard(root); files.CreateDirectory(Outer); }
+            if (!Exists(Outer)) { DirectoryGuard(root); storageOperation = "activation.create.outer"; files.CreateDirectory(Outer); }
             Layout();
-            if (!Exists(StateDirectory)) { DirectoryGuard(Outer); files.CreateDirectory(StateDirectory); }
+            if (!Exists(StateDirectory)) { DirectoryGuard(Outer); storageOperation = "activation.create.state"; files.CreateDirectory(StateDirectory); }
             Layout();
         }
         private ActivationResult Commit(ActivationSnapshot state, string leaf, ActivationRecord record)
         {
+            storageOperation = "activation.encode";
             var bytes = Encode(record, leaf);
             var next = new ActivationSnapshot(leaf == MainNames[0] ? record : state.Active,
                 leaf == MainNames[1] ? record : state.Prepared, leaf == MainNames[2] ? record : state.Restart);
@@ -428,16 +473,22 @@ namespace FightMatch.Host
             {
                 CreateDirectories();
                 Require(!Layout().Any(p => p.EndsWith(".tmp", StringComparison.Ordinal)), "RES_STATE");
+                storageOperation = "activation.commit.create";
                 using (var output = files.CreateNew(temporary))
                 {
                     created = true;
                     Layout();
+                    storageOperation = "activation.commit.write";
                     output.Write(bytes, 0, bytes.Length);
                     Layout();
+                    storageOperation = "activation.commit.flush";
                     files.Flush(output);
                     Layout();
+                    storageOperation = "activation.commit.close";
                 }
-                Require(ReadLeaf(temporary).SequenceEqual(bytes), "RES_STORAGE");
+                var staged = ReadLeaf(temporary);
+                storageOperation = "activation.commit.verify-temporary";
+                Require(staged.SequenceEqual(bytes), "RES_STORAGE");
                 var entries = Layout();
                 var prior = leaf == MainNames[0] ? state.Active : leaf == MainNames[1] ? state.Prepared : state.Restart;
                 Require(entries.Contains(target) == (prior != null), "RES_STATE");
@@ -445,16 +496,19 @@ namespace FightMatch.Host
                 if (leaf == MainNames[0] && !(record.Phase == "CodeEntered" && state.Active?.Phase == "BusinessReady"))
                     backup = null;
                 promoted = true;
+                storageOperation = prior == null ? "activation.commit.move" : "activation.commit.replace";
                 if (prior == null) files.Move(temporary, target);
                 else files.Replace(temporary, target, backup);
                 var actual = ReadLeaf(target);
+                storageOperation = "activation.commit.verify-target";
                 Require(actual.SequenceEqual(bytes) && Key(Decode(actual, leaf), record), "RES_STORAGE");
                 Require(!Layout().Any(p => p.EndsWith(".tmp", StringComparison.Ordinal)), "RES_STATE");
                 confirmed = next;
                 return Result(ActivationOutcome.Confirmed);
             }
-            catch (Exception)
+            catch (Exception error)
             {
+                CaptureStorageFailure(error);
                 if (promoted)
                 {
                     unknown = true;

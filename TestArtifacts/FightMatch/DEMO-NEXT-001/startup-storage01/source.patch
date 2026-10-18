@@ -1,0 +1,433 @@
+--- a/Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs
++++ b/Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs
+@@ -90,6 +90,8 @@
+         private readonly int schemaVersion;
+         private ActivationSnapshot confirmed;
+         private bool unknown;
++        private string storageOperation;
++        internal string StorageDiagnostic { get; private set; }
+         private string Outer => Path.Combine(root, "resource-state");
+         private string StateDirectory => Path.Combine(Outer, "v1");
+ 
+@@ -249,18 +251,43 @@
+         private ActivationResult Execute(string leaf, Func<ActivationSnapshot, ActivationRecord> transition)
+         {
+             if (unknown) return Result(ActivationOutcome.UnknownCommit, "RES_COMMIT_UNKNOWN");
++            StorageDiagnostic = null;
++            storageOperation = "activation.load";
+             try
+             {
+                 Require(ValidToken(token, schemaVersion), "RES_STATE");
+                 var state = Load();
++                storageOperation = "activation.transition";
+                 var next = transition == null ? null : transition(state);
+                 if (next != null) return Commit(state, leaf, next);
+                 confirmed = state;
+                 return Result(ActivationOutcome.Confirmed);
+             }
+             catch (Fault fault) { return Result(ActivationOutcome.Rejected, fault.Code); }
+-            catch (Exception) { return Result(ActivationOutcome.Rejected, "RES_STORAGE"); }
+-        }
++            catch (Exception error)
++            {
++                CaptureStorageFailure(error);
++                return Result(ActivationOutcome.Rejected, "RES_STORAGE");
++            }
++        }
++
++        private void CaptureStorageFailure(Exception error)
++        {
++            if (StorageDiagnostic == null)
++                StorageDiagnostic = storageOperation + "; error=" + StorageExceptionKind(error);
++        }
++        internal static string StorageExceptionKind(Exception error) =>
++            error is UnauthorizedAccessException ? "UnauthorizedAccessException" :
++            error is DirectoryNotFoundException ? "DirectoryNotFoundException" :
++            error is FileNotFoundException ? "FileNotFoundException" :
++            error is PathTooLongException ? "PathTooLongException" :
++            error is IOException ? "IOException" :
++            error is System.Security.SecurityException ? "SecurityException" :
++            error is NotSupportedException ? "NotSupportedException" :
++            error is ArgumentException ? "ArgumentException" :
++            error is Fault ? "ValidationFault" : "OtherException";
++        private string DirectoryScope(string path) => path == root ? "product" :
++            path == Outer ? "outer" : path == StateDirectory ? "state" : "ancestor";
+ 
+         private static void Canonical(string path, bool product)
+         {
+@@ -276,6 +303,7 @@
+         }
+         private void DirectoryGuard(string directory)
+         {
++            storageOperation = "activation.guard.path";
+             Canonical(directory, false);
+             var chain = new Stack<string>();
+             for (var p = directory; p != null; p = Path.GetDirectoryName(p)) chain.Push(p);
+@@ -283,10 +311,14 @@
+             while (chain.Count != 0)
+             {
+                 var path = chain.Pop();
++                storageOperation = "activation.guard." + DirectoryScope(path) + ".attributes";
+                 var attributes = files.Attributes(path);
+                 Require((attributes & FileAttributes.Directory) != 0 && (attributes & FileAttributes.ReparsePoint) == 0, "RES_ROOT");
+                 if (parent != null)
++                {
++                    storageOperation = "activation.guard." + DirectoryScope(parent) + ".entries";
+                     Require(files.Entries(parent).Any(p => string.Equals(p, path, StringComparison.Ordinal)), "RES_ROOT");
++                }
+                 parent = path;
+             }
+         }
+@@ -294,6 +326,7 @@
+         {
+             var parent = Path.GetDirectoryName(path);
+             DirectoryGuard(parent);
++            storageOperation = "activation.exists." + DirectoryScope(parent) + ".entries";
+             foreach (var entry in files.Entries(parent))
+             {
+                 if (entry == path) return true;
+@@ -303,20 +336,24 @@
+         }
+         private string[] Layout()
+         {
++            storageOperation = "activation.layout.path";
+             Require(files != null, "RES_ROOT");
+             Canonical(root, true);
+             DirectoryGuard(root);
+             if (!Exists(Outer)) return Array.Empty<string>();
+             DirectoryGuard(Outer);
++            storageOperation = "activation.layout.outer.entries";
+             var outerEntries = files.Entries(Outer).Take(2).ToArray();
+             Require(outerEntries.All(p => p == StateDirectory), "RES_ROOT");
+             if (outerEntries.Length == 0) return Array.Empty<string>();
+             DirectoryGuard(StateDirectory);
++            storageOperation = "activation.layout.state.entries";
+             var entries = files.Entries(StateDirectory).Take(10).ToArray();
+             Require(entries.Length <= 9 && entries.Distinct(StringComparer.Ordinal).Count() == entries.Length, "RES_ROOT");
+             foreach (var path in entries)
+             {
+                 Require(Path.GetDirectoryName(path) == StateDirectory && Names.Contains(Path.GetFileName(path)), "RES_ROOT");
++                storageOperation = "activation.layout.leaf.attributes";
+                 var attributes = files.Attributes(path);
+                 Require((attributes & (FileAttributes.Directory | FileAttributes.ReparsePoint)) == 0, "RES_ROOT");
+             }
+@@ -325,9 +362,11 @@
+         private byte[] ReadLeaf(string path)
+         {
+             Require(Layout().Contains(path), "RES_STATE");
++            storageOperation = "activation.read.open";
+             using (var stream = files.OpenRead(path))
+             {
+                 Layout();
++                storageOperation = "activation.read.length";
+                 var length = stream.Length;
+                 Require(length >= 0 && length <= Limit, "RES_SCHEMA");
+                 var bytes = new byte[(int)length];
+@@ -335,12 +374,15 @@
+                 while (offset < bytes.Length)
+                 {
+                     Layout();
++                    storageOperation = "activation.read.body";
+                     var count = stream.Read(bytes, offset, bytes.Length - offset);
+                     Require(count > 0 && count <= bytes.Length - offset, "RES_SCHEMA");
+                     offset += count;
+                 }
+                 Layout();
++                storageOperation = "activation.read.tail";
+                 Require(stream.ReadByte() == -1 && stream.Length == length, "RES_SCHEMA");
++                storageOperation = "activation.read.close";
+                 return bytes;
+             }
+         }
+@@ -395,7 +437,9 @@
+             foreach (var path in paths)
+             {
+                 var name = Path.GetFileName(path);
+-                var record = Decode(ReadLeaf(path), name);
++                var bytes = ReadLeaf(path);
++                storageOperation = "activation.decode";
++                var record = Decode(bytes, name);
+                 Require(record.SchemaVersion == schemaVersion, "RES_STATE");
+                 records.Add(name, record);
+             }
+@@ -409,13 +453,14 @@
+         private void CreateDirectories()
+         {
+             Layout();
+-            if (!Exists(Outer)) { DirectoryGuard(root); files.CreateDirectory(Outer); }
++            if (!Exists(Outer)) { DirectoryGuard(root); storageOperation = "activation.create.outer"; files.CreateDirectory(Outer); }
+             Layout();
+-            if (!Exists(StateDirectory)) { DirectoryGuard(Outer); files.CreateDirectory(StateDirectory); }
++            if (!Exists(StateDirectory)) { DirectoryGuard(Outer); storageOperation = "activation.create.state"; files.CreateDirectory(StateDirectory); }
+             Layout();
+         }
+         private ActivationResult Commit(ActivationSnapshot state, string leaf, ActivationRecord record)
+         {
++            storageOperation = "activation.encode";
+             var bytes = Encode(record, leaf);
+             var next = new ActivationSnapshot(leaf == MainNames[0] ? record : state.Active,
+                 leaf == MainNames[1] ? record : state.Prepared, leaf == MainNames[2] ? record : state.Restart);
+@@ -428,16 +473,22 @@
+             {
+                 CreateDirectories();
+                 Require(!Layout().Any(p => p.EndsWith(".tmp", StringComparison.Ordinal)), "RES_STATE");
++                storageOperation = "activation.commit.create";
+                 using (var output = files.CreateNew(temporary))
+                 {
+                     created = true;
+                     Layout();
++                    storageOperation = "activation.commit.write";
+                     output.Write(bytes, 0, bytes.Length);
+                     Layout();
++                    storageOperation = "activation.commit.flush";
+                     files.Flush(output);
+                     Layout();
+-                }
+-                Require(ReadLeaf(temporary).SequenceEqual(bytes), "RES_STORAGE");
++                    storageOperation = "activation.commit.close";
++                }
++                var staged = ReadLeaf(temporary);
++                storageOperation = "activation.commit.verify-temporary";
++                Require(staged.SequenceEqual(bytes), "RES_STORAGE");
+                 var entries = Layout();
+                 var prior = leaf == MainNames[0] ? state.Active : leaf == MainNames[1] ? state.Prepared : state.Restart;
+                 Require(entries.Contains(target) == (prior != null), "RES_STATE");
+@@ -445,16 +496,19 @@
+                 if (leaf == MainNames[0] && !(record.Phase == "CodeEntered" && state.Active?.Phase == "BusinessReady"))
+                     backup = null;
+                 promoted = true;
++                storageOperation = prior == null ? "activation.commit.move" : "activation.commit.replace";
+                 if (prior == null) files.Move(temporary, target);
+                 else files.Replace(temporary, target, backup);
+                 var actual = ReadLeaf(target);
++                storageOperation = "activation.commit.verify-target";
+                 Require(actual.SequenceEqual(bytes) && Key(Decode(actual, leaf), record), "RES_STORAGE");
+                 Require(!Layout().Any(p => p.EndsWith(".tmp", StringComparison.Ordinal)), "RES_STATE");
+                 confirmed = next;
+                 return Result(ActivationOutcome.Confirmed);
+             }
+-            catch (Exception)
+-            {
++            catch (Exception error)
++            {
++                CaptureStorageFailure(error);
+                 if (promoted)
+                 {
+                     unknown = true;
+--- a/Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs
++++ b/Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs
+@@ -48,6 +48,9 @@
+             internal readonly Dictionary<string, byte[]> Data = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+             internal readonly Dictionary<string, FileAttributes> Nodes = new Dictionary<string, FileAttributes>(StringComparer.Ordinal);
+             internal string FailAt, ReadMode;
++            internal string DeferredDirectory;
++            internal Exception DeferredError;
++            internal int DeferredMoves;
+             internal bool Fired;
+             internal int Promotions, ReadCalls, Flushes, FaultPromotionBase;
+             internal string State => Path.Combine(Root, "resource-state", "v1");
+@@ -78,8 +81,15 @@
+             public IEnumerable<string> Entries(string directory)
+             {
+                 Hit("enumerate");
++                if (directory == DeferredDirectory) return DeferredEntries();
+                 return Nodes.Keys.Concat(Data.Keys).Distinct(StringComparer.Ordinal)
+                     .Where(p => Path.GetDirectoryName(p) == directory).ToArray();
++            }
++            private IEnumerable<string> DeferredEntries()
++            {
++                DeferredMoves++;
++                if (DeferredError != null) throw DeferredError;
++                yield break;
+             }
+             public void CreateDirectory(string path)
+             { Hit("directory-before"); AddDirectory(path); Hit("directory-after"); }
+@@ -484,6 +494,74 @@
+         }
+ 
+         [Test]
++        public void AS13_StorageFailureReportsTheOriginalOperationBeforeCleanup()
++        {
++            var cases = new[] {
++                new[] { "attributes", "activation.guard.ancestor.attributes" },
++                new[] { "enumerate", "activation.guard.ancestor.entries" },
++                new[] { "directory-before", "activation.create.outer" },
++                new[] { "create-before", "activation.commit.create" },
++                new[] { "write-before", "activation.commit.write" },
++                new[] { "flush-before", "activation.commit.flush" },
++                new[] { "close-before", "activation.commit.close" },
++                new[] { "tmp-open-before", "activation.read.open" },
++                new[] { "tmp-read-before", "activation.read.body" } };
++            foreach (var item in cases)
++            {
++                var f = new MemoryFiles(); var store = f.Store();
++                if (item[0] != "directory-before") Ready(store);
++                var snapshot = Ok(store.Read()); var old = f.Copy(); var promotions = f.Promotions;
++                f.Arm(item[0]);
++                var result = item[0] == "directory-before" ? store.EnterAtProcessStart("set.a", H1) : store.Prepare("set.b", H2);
++                Rejected(result, "RES_STORAGE"); Assert.IsTrue(f.Fired, item[0]);
++                Assert.AreEqual(item[1] + "; error=IOException", store.StorageDiagnostic);
++                Assert.AreSame(snapshot, result.Snapshot); Assert.AreEqual(promotions, f.Promotions);
++                SameData(old, f);
++                f.FailAt = null; Ok(store.Read()); Assert.IsNull(store.StorageDiagnostic);
++            }
++        }
++
++        [Test]
++        public void AS14_DeferredEnumerationFailureReportsScopeWithoutLeakingExceptionData()
++        {
++            const string secret = "/private/profile-secret?token=never-return\nforged-log";
++            var errors = new Exception[] { new UnauthorizedAccessException(secret), new IOException(secret),
++                new DirectoryNotFoundException(secret), new InvalidOperationException(secret) };
++            var kinds = new[] { "UnauthorizedAccessException", "IOException", "DirectoryNotFoundException", "OtherException" };
++            for (var i = 0; i < errors.Length; i++)
++            foreach (var scope in new[] { "ancestor", "product", "outer", "state" })
++            {
++                var f = new MemoryFiles(); var store = f.Store("a2-b5-p101-e1000");
++                if (scope == "outer" || scope == "state") Ready(store);
++                f.DeferredDirectory = scope == "ancestor" ? Path.GetPathRoot(f.Root) : scope == "product" ? f.Root :
++                    scope == "outer" ? Path.GetDirectoryName(f.State) : f.State;
++                f.DeferredError = errors[i]; var old = f.Copy(); var nodes = f.Nodes.ToArray(); var promotions = f.Promotions;
++                Rejected(store.EnterAtProcessStart("set.a", H1), "RES_STORAGE");
++                var stage = scope == "ancestor" ? "guard.ancestor" : scope == "product" ? "exists.product" : "layout." + scope;
++                Assert.AreEqual("activation." + stage + ".entries; error=" + kinds[i], store.StorageDiagnostic);
++                Assert.AreEqual(1, f.DeferredMoves); Assert.AreEqual(promotions, f.Promotions);
++                SameData(old, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
++                f.DeferredDirectory = null; Ok(store.Read()); Assert.IsNull(store.StorageDiagnostic);
++            }
++        }
++
++        [Test]
++        public void AS15_UnknownCommitKeepsItsDiagnosticAndDoesNotRetry()
++        {
++            var f = new MemoryFiles(); var store = f.Store(); var snapshot = Ready(store); f.Arm("promotion-before");
++            var result = store.Prepare("set.b", H2);
++            Assert.AreEqual(ActivationOutcome.UnknownCommit, result.Outcome);
++            Assert.AreEqual("RES_COMMIT_UNKNOWN", result.SafeCode); Assert.AreSame(snapshot, result.Snapshot);
++            const string diagnostic = "activation.commit.move; error=IOException";
++            Assert.AreEqual(diagnostic, store.StorageDiagnostic);
++            var uncertain = f.Copy(); var promotions = f.Promotions;
++            Assert.AreEqual(ActivationOutcome.UnknownCommit, store.Read().Outcome);
++            Assert.AreEqual(ActivationOutcome.UnknownCommit, store.Prepare("set.b", H2).Outcome);
++            Assert.AreEqual(diagnostic, store.StorageDiagnostic); Assert.AreEqual(promotions, f.Promotions);
++            SameData(uncertain, f);
++        }
++
++        [Test]
+         public void AS05_UnknownCommitNeverAdvances()
+         {
+             foreach (var fault in new[] { "promotion-before", "promotion-after", "target-open-before", "target-open-after",
+--- a/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs
++++ b/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs
+@@ -185,35 +185,60 @@
+ 
+         private async Task<FightMatchResourceBridgeResult> OpenResourcesAsync(long epoch, CancellationToken cancellationToken)
+         {
+-            FightMatchResourceBridgeResult Failed(string code) => new FightMatchResourceBridgeResult(null, null, null, code);
++            var stage = "host.factory";
++            FightMatchResourceBridgeResult Failed(string code, string detail = null)
++            {
++                if (code == "RES_STORAGE")
++                    Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
++                        "FightMatch resource startup: stage={0}", detail ?? stage + "; error=ReturnedCode");
++                return new FightMatchResourceBridgeResult(null, null, null, code);
++            }
+             try
+             {
+                 if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                 var created = YooAssetRuntimeFactory.Create(CreateResourceInput(UnityEngine.Application.platform));
+                 if (!created.IsAccepted) return Failed(created.SafeCode);
+                 resourceRuntime = created.Runtime;
++                stage = "host.locale-before-create";
+                 VerifyLocaleStorage();
++                stage = "host.product-create";
+                 Directory.CreateDirectory(CanonicalProductRoot);
++                stage = "host.locale-after-create";
+                 VerifyLocaleStorage();
++                stage = "host.activation-create";
+                 resourceActivation = new FightMatchResourceActivationStore(CanonicalProductRoot);
++                stage = "host.activation-enter";
+                 var entered = resourceActivation.EnterAtProcessStart(created.ReleaseSetId, created.DescriptorSha256);
+                 if (entered.Outcome != ActivationOutcome.Confirmed || entered.Snapshot?.Active == null)
+-                    return Failed(entered.SafeCode ?? "RES_STATE");
++                    return Failed(entered.SafeCode ?? "RES_STATE", resourceActivation.StorageDiagnostic);
+                 resourceActivationId = entered.Snapshot.Active.ActivationId;
++                stage = "host.inspect";
+                 var inspection = await resourceRuntime.InspectAsync(epoch, cancellationToken);
+                 if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
++                stage = "host.permit";
+                 if (!ResourceDownloadPermit.TryCreate(inspection, false, out var permit, out var diagnostic))
+                     return Failed(diagnostic.SafeCode);
++                stage = "host.prepare";
+                 var prepared = await resourceRuntime.PrepareAsync(permit, null, cancellationToken);
+                 if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                 if (prepared.Status != ResourceTransportStatus.TransportVerified)
+                     return Failed(prepared.Diagnostic?.SafeCode ?? "RES_STOP");
++                stage = "host.bridge";
+                 var bridge = await FightMatchResourceBridge.OpenAsync(resourceRuntime, epoch, cancellationToken);
+                 return CurrentResourceStartup(epoch) ? bridge : Failed("RES_STOP");
+             }
+             catch (OperationCanceledException) { return Failed("RES_STOP"); }
+-            catch (Exception) { return Failed("RES_STORAGE"); }
+-            finally { resourceRuntime?.Dispose(); }
++            catch (Exception error) { return Failed("RES_STORAGE", stage + "; error=" + FightMatchResourceActivationStore.StorageExceptionKind(error)); }
++            finally
++            {
++                try { resourceRuntime?.Dispose(); }
++                catch (Exception error)
++                {
++                    Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
++                        "FightMatch resource startup: stage=host.dispose; error={0}", FightMatchResourceActivationStore.StorageExceptionKind(error));
++                    throw;
++                }
++            }
+         }
+ 
+         private void ObserveResourceBusinessReady()
+--- a/Assets/Tests/EditMode/FightMatchHost/FightMatchHostResourceTests.cs
++++ b/Assets/Tests/EditMode/FightMatchHost/FightMatchHostResourceTests.cs
+@@ -194,5 +194,44 @@
+             }
+             finally { view?.Unbind(); UnityEngine.Object.DestroyImmediate(root); }
+         }
++
++        [UnityEngine.TestTools.UnityTest]
++        public System.Collections.IEnumerator H07_ResourceStartupReportsSafeStageAndKeepsStorageFailureClosed()
++        {
++            yield return null;
++            var windows = UnityEngine.Application.platform == RuntimePlatform.WindowsEditor;
++            Assert.IsTrue(windows || UnityEngine.Application.platform == RuntimePlatform.OSXEditor,
++                "This Host startup fixture requires its supported Mac or Windows Editor.");
++            var bootPath = "Assets/FightMatch/ResourceBuild/" +
++                (windows ? "fm-resource-boot-windows-v1.json" : "fm-resource-boot-v1.json");
++            var boot = AssetDatabase.LoadAssetAtPath<TextAsset>(bootPath); Assert.IsNotNull(boot);
++            var go = new GameObject("resource-storage-diagnostic-test"); go.SetActive(false);
++            var host = go.AddComponent<FightMatchPlayerHost>();
++            var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
++            try
++            {
++                var type = typeof(FightMatchPlayerHost);
++                type.GetField("resourceEpoch", flags).SetValue(host, 1L);
++                type.GetField("resourceCancellation", flags).SetValue(host, new System.Threading.CancellationTokenSource());
++                var config = type.GetField(windows ? "windowsResourceBoot" : "macResourceBoot", flags).GetValue(host);
++                config.GetType().GetField("boot").SetValue(config, boot);
++                config.GetType().GetField("pinnedSha256").SetValue(config, windows
++                    ? "1da6bc5daedb5f2f2d916ba772ff7f411f87f1f043cbc3a33c8f462cb6d5904e"
++                    : "5c1d6721f9e1c2d8bc3b45dce5aabfe5e730bcf66fcd02f511ba765010093b5b");
++                config.GetType().GetField("resourceSetId").SetValue(config, windows ? "fm.builtin.r1.windows" : "fm.builtin.r1.macos");
++                // A missing preference root reaches the real catch before any directory creation or SDK initialization.
++                UnityEngine.TestTools.LogAssert.Expect(LogType.Warning,
++                    "FightMatch resource startup: stage=host.locale-before-create; error=IOException");
++                var task = (System.Threading.Tasks.Task<FightMatchResourceBridgeResult>)type.GetMethod("OpenResourcesAsync", flags)
++                    .Invoke(host, new object[] { 1L, System.Threading.CancellationToken.None });
++                Assert.IsTrue(task.IsCompleted); Assert.IsFalse(task.IsFaulted); Assert.IsFalse(task.IsCanceled);
++                Assert.IsFalse(task.Result.IsDataReady); Assert.AreEqual("RES_STORAGE", task.Result.DiagnosticCode);
++                Assert.IsNotNull(type.GetField("resourceRuntime", flags).GetValue(host));
++                Assert.IsNull(type.GetField("resourceActivation", flags).GetValue(host));
++                Assert.IsNull(host.CanonicalProductRoot); Assert.IsNull(host.Session);
++                UnityEngine.TestTools.LogAssert.NoUnexpectedReceived();
++            }
++            finally { UnityEngine.Object.DestroyImmediate(go); }
++        }
+     }
+ }

@@ -185,35 +185,60 @@ namespace FightMatch.Host
 
         private async Task<FightMatchResourceBridgeResult> OpenResourcesAsync(long epoch, CancellationToken cancellationToken)
         {
-            FightMatchResourceBridgeResult Failed(string code) => new FightMatchResourceBridgeResult(null, null, null, code);
+            var stage = "host.factory";
+            FightMatchResourceBridgeResult Failed(string code, string detail = null)
+            {
+                if (code == "RES_STORAGE")
+                    Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
+                        "FightMatch resource startup: stage={0}", detail ?? stage + "; error=ReturnedCode");
+                return new FightMatchResourceBridgeResult(null, null, null, code);
+            }
             try
             {
                 if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
                 var created = YooAssetRuntimeFactory.Create(CreateResourceInput(UnityEngine.Application.platform));
                 if (!created.IsAccepted) return Failed(created.SafeCode);
                 resourceRuntime = created.Runtime;
+                stage = "host.locale-before-create";
                 VerifyLocaleStorage();
+                stage = "host.product-create";
                 Directory.CreateDirectory(CanonicalProductRoot);
+                stage = "host.locale-after-create";
                 VerifyLocaleStorage();
+                stage = "host.activation-create";
                 resourceActivation = new FightMatchResourceActivationStore(CanonicalProductRoot);
+                stage = "host.activation-enter";
                 var entered = resourceActivation.EnterAtProcessStart(created.ReleaseSetId, created.DescriptorSha256);
                 if (entered.Outcome != ActivationOutcome.Confirmed || entered.Snapshot?.Active == null)
-                    return Failed(entered.SafeCode ?? "RES_STATE");
+                    return Failed(entered.SafeCode ?? "RES_STATE", resourceActivation.StorageDiagnostic);
                 resourceActivationId = entered.Snapshot.Active.ActivationId;
+                stage = "host.inspect";
                 var inspection = await resourceRuntime.InspectAsync(epoch, cancellationToken);
                 if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                stage = "host.permit";
                 if (!ResourceDownloadPermit.TryCreate(inspection, false, out var permit, out var diagnostic))
                     return Failed(diagnostic.SafeCode);
+                stage = "host.prepare";
                 var prepared = await resourceRuntime.PrepareAsync(permit, null, cancellationToken);
                 if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
                 if (prepared.Status != ResourceTransportStatus.TransportVerified)
                     return Failed(prepared.Diagnostic?.SafeCode ?? "RES_STOP");
+                stage = "host.bridge";
                 var bridge = await FightMatchResourceBridge.OpenAsync(resourceRuntime, epoch, cancellationToken);
                 return CurrentResourceStartup(epoch) ? bridge : Failed("RES_STOP");
             }
             catch (OperationCanceledException) { return Failed("RES_STOP"); }
-            catch (Exception) { return Failed("RES_STORAGE"); }
-            finally { resourceRuntime?.Dispose(); }
+            catch (Exception error) { return Failed("RES_STORAGE", stage + "; error=" + FightMatchResourceActivationStore.StorageExceptionKind(error)); }
+            finally
+            {
+                try { resourceRuntime?.Dispose(); }
+                catch (Exception error)
+                {
+                    Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
+                        "FightMatch resource startup: stage=host.dispose; error={0}", FightMatchResourceActivationStore.StorageExceptionKind(error));
+                    throw;
+                }
+            }
         }
 
         private void ObserveResourceBusinessReady()

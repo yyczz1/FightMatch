@@ -194,5 +194,44 @@ namespace FightMatch.Host.Tests
             }
             finally { view?.Unbind(); UnityEngine.Object.DestroyImmediate(root); }
         }
+
+        [UnityEngine.TestTools.UnityTest]
+        public System.Collections.IEnumerator H07_ResourceStartupReportsSafeStageAndKeepsStorageFailureClosed()
+        {
+            yield return null;
+            var windows = UnityEngine.Application.platform == RuntimePlatform.WindowsEditor;
+            Assert.IsTrue(windows || UnityEngine.Application.platform == RuntimePlatform.OSXEditor,
+                "This Host startup fixture requires its supported Mac or Windows Editor.");
+            var bootPath = "Assets/FightMatch/ResourceBuild/" +
+                (windows ? "fm-resource-boot-windows-v1.json" : "fm-resource-boot-v1.json");
+            var boot = AssetDatabase.LoadAssetAtPath<TextAsset>(bootPath); Assert.IsNotNull(boot);
+            var go = new GameObject("resource-storage-diagnostic-test"); go.SetActive(false);
+            var host = go.AddComponent<FightMatchPlayerHost>();
+            var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+            try
+            {
+                var type = typeof(FightMatchPlayerHost);
+                type.GetField("resourceEpoch", flags).SetValue(host, 1L);
+                type.GetField("resourceCancellation", flags).SetValue(host, new System.Threading.CancellationTokenSource());
+                var config = type.GetField(windows ? "windowsResourceBoot" : "macResourceBoot", flags).GetValue(host);
+                config.GetType().GetField("boot").SetValue(config, boot);
+                config.GetType().GetField("pinnedSha256").SetValue(config, windows
+                    ? "1da6bc5daedb5f2f2d916ba772ff7f411f87f1f043cbc3a33c8f462cb6d5904e"
+                    : "5c1d6721f9e1c2d8bc3b45dce5aabfe5e730bcf66fcd02f511ba765010093b5b");
+                config.GetType().GetField("resourceSetId").SetValue(config, windows ? "fm.builtin.r1.windows" : "fm.builtin.r1.macos");
+                // A missing preference root reaches the real catch before any directory creation or SDK initialization.
+                UnityEngine.TestTools.LogAssert.Expect(LogType.Warning,
+                    "FightMatch resource startup: stage=host.locale-before-create; error=IOException");
+                var task = (System.Threading.Tasks.Task<FightMatchResourceBridgeResult>)type.GetMethod("OpenResourcesAsync", flags)
+                    .Invoke(host, new object[] { 1L, System.Threading.CancellationToken.None });
+                Assert.IsTrue(task.IsCompleted); Assert.IsFalse(task.IsFaulted); Assert.IsFalse(task.IsCanceled);
+                Assert.IsFalse(task.Result.IsDataReady); Assert.AreEqual("RES_STORAGE", task.Result.DiagnosticCode);
+                Assert.IsNotNull(type.GetField("resourceRuntime", flags).GetValue(host));
+                Assert.IsNull(type.GetField("resourceActivation", flags).GetValue(host));
+                Assert.IsNull(host.CanonicalProductRoot); Assert.IsNull(host.Session);
+                UnityEngine.TestTools.LogAssert.NoUnexpectedReceived();
+            }
+            finally { UnityEngine.Object.DestroyImmediate(go); }
+        }
     }
 }

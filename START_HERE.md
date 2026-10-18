@@ -4,6 +4,8 @@
 
 ## 1. 当前工作与下一步
 
+**同日最小诊断候选已齐：** [startup-storage01](TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage01/result.md)仅在四份源码中补受控操作阶段／异常类别及相关回归，保持存储行为与守卫；不是根因修复，尚未编译、测试或完成新审查。后验沿本轮剩余时限安排，原通过与失败证据不重跑或改写。
+
 **2026-10-18实际结果及接续：** 用户“许可”后，四份已审启动修复源码接入；8项定向全部通过、无跳过，`android-02`普通APK构建成功，检查与构建总段404.808553秒（≤15分钟）。新包SHA256 `e50b711ecbebc7d380fa62d1abd5d7bbedfda0760b292eba2cf6eb17ea8b2480`，API24／ARM64／仅GLES3／原签名。保留测试档安装及普通图标启动后，越过原进程身份故障，但报`RES_STORAGE`；L1／三状态复开／奖励均未运行。设备段354.195276秒（≤20分钟），六份可读业务文件前后相同，两份锁文件不可读，不外推全部存档字节证明。主程继续同任务最小存储诊断与修正准备，保留现场、复用证据，不清档或放宽守卫；必要相关后验仍受本轮时限约束。源码审查沿用`1d75386b`，本轮未新增源码差量。详情：[主程](docs/team/2026-09-30/engineering.md)、[定向与构建结果](TestArtifacts/FightMatch/DEMO-NEXT-001/startup-run01/result.json)、[设备结果](TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-02/result.json)。首Demo仍NEEDS_FIX。
 
 **最新接续（2026-10-17）：** 用户直接确认“可以，现有模拟器存档就是测试档”，现有档用途阻塞解除，主程已收到继续原模拟器安装/试玩任务。保留现有档，允许正式游戏自然推进；零下载/重建/卸载/清档。昨日约6分钟已执行前检复用，本次自限最多24分钟连续设备操作及收尾，不另开30分钟。昨日17:41绝对截止系内部增加的约定，并非用户要求答复在当日到达；本次按最新答复恢复剩余验收，等待人类答复不计测试耗时，原时间证据不改。实际已覆盖安装并从普通图标启动，但初始化报`RES_STATE`，画面停在诊断占位符；L1/三状态恢复/奖励未运行。此次设备段196.870357秒，加昨日累计555.741022秒；未清档、重启或重建。已确认`Process.StartTime`通向IL2CPP不支持的接口；主程已收完整四源修正候选：Android改用boot/PID/elapsed身份及资源技术记录v2，保留玩家档；pre-bind诊断显示安全错误码。四源已发布PR22产品提交`1d75386b2ba30e6746cb0123b12e86dfa70f4907`，[同head独立审查](https://github.com/yyczz1/FightMatch/pull/22#issuecomment-6228731368)未发现重大问题，源码审查门ACCEPT；本机未接入/编译/运行，等待必要后验；修后效果尚未闭环，首Demo仍NEEDS_FIX。详情沿[主程同任务记录](docs/team/2026-09-30/engineering.md)及[实际回执](TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-01/resume-result.json)。
