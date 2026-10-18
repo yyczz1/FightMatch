@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -71,6 +72,13 @@ namespace FightMatch.Host
         public void Delete(string path) => File.Delete(path);
     }
 
+    internal interface IActivationAndroidPaths
+    {
+        // Zero denotes a link; EINVAL (22) alone proves an existing path is not a link.
+        int ReadLinkError(string path);
+        string CanonicalDirectory(string path);
+    }
+
     internal sealed class FightMatchResourceActivationStore
     {
         private const int Limit = 2048;
@@ -88,6 +96,9 @@ namespace FightMatch.Host
         private readonly string root, token;
         private readonly IActivationFiles files;
         private readonly int schemaVersion;
+        private readonly bool androidStorage;
+        private readonly string systemAnchor;
+        private readonly IActivationAndroidPaths androidPaths;
         private ActivationSnapshot confirmed;
         private bool unknown;
         private string storageOperation;
@@ -101,6 +112,77 @@ namespace FightMatch.Host
         {
             root = productRoot; this.files = files; token = processToken;
             schemaVersion = processToken != null && processToken.StartsWith("a2-", StringComparison.Ordinal) ? 2 : 1;
+        }
+
+        internal FightMatchResourceActivationStore(string productRoot, IActivationFiles files, string processToken,
+            string systemAnchor, IActivationAndroidPaths androidPaths) : this(productRoot, files, processToken)
+        {
+            androidStorage = true; this.systemAnchor = systemAnchor; this.androidPaths = androidPaths;
+        }
+
+        internal static FightMatchResourceActivationStore CreateAndroid(string productRoot, string systemAnchor)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new FightMatchResourceActivationStore(productRoot, new SystemActivationFiles(), RealToken(),
+                systemAnchor, new NativeAndroidPaths());
+#else
+            throw new PlatformNotSupportedException("Android Player storage is required.");
+#endif
+        }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        private sealed class NativeAndroidPaths : IActivationAndroidPaths
+        {
+            [DllImport("libc", SetLastError = true)] private static extern IntPtr readlink(string path, byte[] buffer, UIntPtr size);
+            [DllImport("libc", SetLastError = true)] private static extern IntPtr realpath(string path, byte[] buffer);
+            public int ReadLinkError(string path)
+            {
+                var length = readlink(path, new byte[1], new UIntPtr(1));
+                return length.ToInt64() >= 0 ? 0 : Marshal.GetLastWin32Error();
+            }
+            public string CanonicalDirectory(string path)
+            {
+                var bytes = new byte[4096];
+                if (realpath(path, bytes) == IntPtr.Zero) throw new IOException("Android anchor inspection failed.");
+                var end = Array.IndexOf(bytes, (byte)0);
+                if (end <= 0) throw new IOException("Android anchor is unbounded.");
+                return Utf8.GetString(bytes, 0, end);
+            }
+        }
+#endif
+
+        internal string EnsureAndroidProductDirectory()
+        {
+            if (unknown) return "RES_COMMIT_UNKNOWN";
+            StorageDiagnostic = null;
+            storageOperation = "activation.product.binding";
+            try
+            {
+                AndroidBinding();
+                if (!Exists(root))
+                {
+                    DirectoryGuard(systemAnchor);
+                    storageOperation = "activation.product.create";
+                    files.CreateDirectory(root);
+                }
+                Layout();
+                return null;
+            }
+            catch (Fault fault) { return fault.Code; }
+            catch (Exception error) { CaptureStorageFailure(error); return "RES_STORAGE"; }
+        }
+
+        private void AndroidBinding()
+        {
+            Require(androidStorage && androidPaths != null && files != null, "RES_ROOT");
+            Canonical(systemAnchor, true); Canonical(root, true);
+            Require(string.Equals(root, Path.Combine(systemAnchor, "FightMatch"), StringComparison.Ordinal), "RES_ROOT");
+        }
+        private void AndroidNonLink(string path)
+        {
+            var error = androidPaths.ReadLinkError(path);
+            Require(error != 0, "RES_ROOT");
+            if (error != 22) throw new IOException("Android path inspection failed.");
         }
 
         private static string RealToken()
@@ -287,7 +369,8 @@ namespace FightMatch.Host
             error is ArgumentException ? "ArgumentException" :
             error is Fault ? "ValidationFault" : "OtherException";
         private string DirectoryScope(string path) => path == root ? "product" :
-            path == Outer ? "outer" : path == StateDirectory ? "state" : "ancestor";
+            path == Outer ? "outer" : path == StateDirectory ? "state" :
+            androidStorage && path == systemAnchor ? "anchor" : "ancestor";
 
         private static void Canonical(string path, bool product)
         {
@@ -305,21 +388,39 @@ namespace FightMatch.Host
         {
             storageOperation = "activation.guard.path";
             Canonical(directory, false);
+            if (androidStorage)
+            {
+                AndroidBinding();
+                Require(directory == systemAnchor || directory == root || directory == Outer || directory == StateDirectory, "RES_ROOT");
+            }
             var chain = new Stack<string>();
             for (var p = directory; p != null; p = Path.GetDirectoryName(p)) chain.Push(p);
             string parent = null;
+            // Android supplies the anchor spelling; attributes and native link checks still cover the entire chain.
+            var enumerateParent = !androidStorage;
             while (chain.Count != 0)
             {
                 var path = chain.Pop();
                 storageOperation = "activation.guard." + DirectoryScope(path) + ".attributes";
                 var attributes = files.Attributes(path);
                 Require((attributes & FileAttributes.Directory) != 0 && (attributes & FileAttributes.ReparsePoint) == 0, "RES_ROOT");
-                if (parent != null)
+                if (androidStorage)
+                {
+                    storageOperation = "activation.guard." + DirectoryScope(path) + ".link";
+                    AndroidNonLink(path);
+                }
+                if (parent != null && enumerateParent)
                 {
                     storageOperation = "activation.guard." + DirectoryScope(parent) + ".entries";
                     Require(files.Entries(parent).Any(p => string.Equals(p, path, StringComparison.Ordinal)), "RES_ROOT");
                 }
+                if (androidStorage && path == systemAnchor) enumerateParent = true;
                 parent = path;
+            }
+            if (androidStorage)
+            {
+                storageOperation = "activation.anchor.canonical";
+                Require(string.Equals(androidPaths.CanonicalDirectory(systemAnchor), systemAnchor, StringComparison.Ordinal), "RES_ROOT");
             }
         }
         private bool Exists(string path)
@@ -327,12 +428,17 @@ namespace FightMatch.Host
             var parent = Path.GetDirectoryName(path);
             DirectoryGuard(parent);
             storageOperation = "activation.exists." + DirectoryScope(parent) + ".entries";
+            var found = false;
             foreach (var entry in files.Entries(parent))
             {
-                if (entry == path) return true;
+                if (entry == path)
+                {
+                    if (!androidStorage) return true;
+                    found = true; continue;
+                }
                 Require(!string.Equals(entry, path, StringComparison.OrdinalIgnoreCase), "RES_ROOT");
             }
-            return false;
+            return found;
         }
         private string[] Layout()
         {
@@ -356,6 +462,11 @@ namespace FightMatch.Host
                 storageOperation = "activation.layout.leaf.attributes";
                 var attributes = files.Attributes(path);
                 Require((attributes & (FileAttributes.Directory | FileAttributes.ReparsePoint)) == 0, "RES_ROOT");
+                if (androidStorage)
+                {
+                    storageOperation = "activation.layout.leaf.link";
+                    AndroidNonLink(path);
+                }
             }
             return entries;
         }

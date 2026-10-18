@@ -1,0 +1,275 @@
+{
+  "task": "DEMO-NEXT-001/startup-storage01 device diagnosis",
+  "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+  "ownerTurn": "01a14d5e-4abc-7593-b740-4e86e8bfacf3",
+  "humanTurn": "01a14d27-e460-70b1-ab5d-a5ed1fa6aefd",
+  "startedUtc": "2026-10-18T05:02:42.919430+00:00",
+  "startedMonotonic": 562240.681962416,
+  "segmentLimitSeconds": 845.804724,
+  "priorStageBSeconds": 354.19527583394665,
+  "stageTotalLimitSeconds": 1200,
+  "adb": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb",
+  "target": "127.0.0.1:5555",
+  "apk": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-03/fightmatch-demo.apk",
+    "bytes": 36583902,
+    "sha256": "72186bd6acf65fba5bd02f6d7da3c67ad2ca532d768fddc68172850e4ebd47ee"
+  },
+  "status": "DIAGNOSIS_COMPLETE_NEEDS_STORAGE_FIX",
+  "actions": [
+    {
+      "command": [
+        "get-state"
+      ],
+      "exitCode": 1,
+      "elapsedSeconds": 0.5371861670864746,
+      "stdout": "",
+      "stderr": "* daemon not running; starting now at tcp:5037\n* daemon started successfully\nerror: device '127.0.0.1:5555' not found\n"
+    },
+    {
+      "command": [
+        "connect",
+        "127.0.0.1:5555"
+      ],
+      "exitCode": 0,
+      "stdout": "connected to 127.0.0.1:5555\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "get-state"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.02117487497162074,
+      "stdout": "device\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "shell",
+        "pidof",
+        "com.yyczz1.fightmatch"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.061263166018761694,
+      "stdout": "11584\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "shell",
+        "dumpsys",
+        "package",
+        "com.yyczz1.fightmatch"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.09565879090223461,
+      "stdout": "    versionCode=1 minSdk=24 targetSdk=32\n    versionName=0.1\n    lastUpdateTime=2026-10-18 12:30:26\n      firstInstallTime=2026-09-29 16:16:25",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "shell",
+        "sha256sum",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.03831483400426805,
+      "stdout": "9f12f512a337600252d791c60779c25014e81d07eedf795af601e6cf3a477bf9  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n0731beca20f942a7c95197def2eff96b5e698c4734930a6a406358343524191d  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n8f845511155211dc0e2403fda064f54657cc7e843addf11d66f3d7c7037df024  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n938628e800f52e2af6c466025aeafaacd38cba0956a54d7d62a8a8c3d32fe8aa  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n6c56c90940bdb364755f64b12df103449c058f61b27692281cb81a1e04765581  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n0166e3abfde1470e14ed5958b6ec455b492c5b38a5f0615c88db882e560c701b  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "install",
+        "-r",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-03/fightmatch-demo.apk"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.05619358306285,
+      "stdout": "Performing Streamed Install\nSuccess\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "shell",
+        "sha256sum",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot",
+        "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.06890754110645503,
+      "stdout": "9f12f512a337600252d791c60779c25014e81d07eedf795af601e6cf3a477bf9  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n0731beca20f942a7c95197def2eff96b5e698c4734930a6a406358343524191d  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n8f845511155211dc0e2403fda064f54657cc7e843addf11d66f3d7c7037df024  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n938628e800f52e2af6c466025aeafaacd38cba0956a54d7d62a8a8c3d32fe8aa  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n6c56c90940bdb364755f64b12df103449c058f61b27692281cb81a1e04765581  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n0166e3abfde1470e14ed5958b6ec455b492c5b38a5f0615c88db882e560c701b  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+      "stderr": ""
+    },
+    {
+      "action": "One CUA default launcher icon click, then bounded read-only wait for package PID",
+      "utc": "2026-10-18T05:04:19.365109+00:00",
+      "pidQueries": 12,
+      "pid": ""
+    },
+    {
+      "action": "One normal CUA double-click after first icon attempt produced no PID; read current package PID",
+      "utc": "2026-10-18T05:05:02.975905+00:00",
+      "pid": "",
+      "exitCode": 1
+    },
+    {
+      "action": "Read-only PID observation after manual-click request",
+      "utc": "2026-10-18T05:07:01.141369+00:00",
+      "pid": "",
+      "exitCode": 1
+    },
+    {
+      "command": [
+        "shell",
+        "cmd",
+        "package",
+        "resolve-activity",
+        "--brief",
+        "-a",
+        "android.intent.action.MAIN",
+        "-c",
+        "android.intent.category.LAUNCHER",
+        "com.yyczz1.fightmatch"
+      ],
+      "exitCode": 0,
+      "stdout": "priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false\ncom.yyczz1.fightmatch/com.unity3d.player.UnityPlayerActivity\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "shell",
+        "am",
+        "start",
+        "-W",
+        "-a",
+        "android.intent.action.MAIN",
+        "-c",
+        "android.intent.category.LAUNCHER",
+        "-n",
+        "com.yyczz1.fightmatch/com.unity3d.player.UnityPlayerActivity"
+      ],
+      "exitCode": 0,
+      "stdout": "Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.yyczz1.fightmatch/com.unity3d.player.UnityPlayerActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.yyczz1.fightmatch/com.unity3d.player.UnityPlayerActivity\nTotalTime: 689\nWaitTime: 700\nComplete\n",
+      "stderr": "",
+      "elapsedSeconds": 0.7769979999866337,
+      "utc": "2026-10-18T05:08:50.061187+00:00"
+    }
+  ],
+  "checkpoints": [],
+  "profileHashBoundary": "Reuse six readable business data files from emulator-02; two writer.lock files remain unread and no permission change attempted.",
+  "elapsedSeconds": 446.2377484999597,
+  "priorObservedPid": "11584",
+  "profileBeforeInstallHashes": "9f12f512a337600252d791c60779c25014e81d07eedf795af601e6cf3a477bf9  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n0731beca20f942a7c95197def2eff96b5e698c4734930a6a406358343524191d  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n8f845511155211dc0e2403fda064f54657cc7e843addf11d66f3d7c7037df024  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n938628e800f52e2af6c466025aeafaacd38cba0956a54d7d62a8a8c3d32fe8aa  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n6c56c90940bdb364755f64b12df103449c058f61b27692281cb81a1e04765581  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n0166e3abfde1470e14ed5958b6ec455b492c5b38a5f0615c88db882e560c701b  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+  "sameSixBusinessFilesAsPrior": true,
+  "installCount": 1,
+  "profileAfterInstallHashes": "9f12f512a337600252d791c60779c25014e81d07eedf795af601e6cf3a477bf9  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n0731beca20f942a7c95197def2eff96b5e698c4734930a6a406358343524191d  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n8f845511155211dc0e2403fda064f54657cc7e843addf11d66f3d7c7037df024  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n938628e800f52e2af6c466025aeafaacd38cba0956a54d7d62a8a8c3d32fe8aa  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n6c56c90940bdb364755f64b12df103449c058f61b27692281cb81a1e04765581  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n0166e3abfde1470e14ed5958b6ec455b492c5b38a5f0615c88db882e560c701b  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+  "sixBusinessFilesPreservedByInstall": true,
+  "manualAction": "Superseded by approved standard Android MAIN/LAUNCHER app start; no manual click required. Icon-click acceptance remains unverified.",
+  "deadlineUtc": "2026-10-18T05:16:48.724154+00:00",
+  "finalObservedPid": "11887",
+  "finalPidQueryExit": 0,
+  "integrationVerdict": "NEEDS_FIX",
+  "integrationBoundary": "Diagnostic delta six tests/build/install/runtime evidence complete; actual Host startup still fails. No gameplay acceptance.",
+  "gameLaunchCount": 1,
+  "launcherInputAttempts": [
+    "CUA one click",
+    "CUA one normal double-click"
+  ],
+  "forceStops": 0,
+  "coldRestarts": 0,
+  "gameplayInputs": 0,
+  "observations": {
+    "install": "One install-r succeeded; existing six readable business files match previous run, before/after install and after failed startup. Two locks not inspected.",
+    "startup": "One standard Android MAIN/LAUNCHER cold start succeeded via exact resolved production UnityPlayerActivity, PID11887. No extras/graphics overrides; CommandLine empty and GLES3.",
+    "icon": "CUA single-click and double-click did not establish an observed target process before intent start. Icon-click acceptance remains unverified.",
+    "diagnosis": "13:08:52.312 PID11887: stage=activation.guard.ancestor.entries; error=UnauthorizedAccessException. UI log13:08:52.320 RES_STORAGE, matching actual CUA/screencap.",
+    "scope": "Actual rejected operation/category is now observed. Exact ancestor path, native errno and broader platform behavior were not exposed or inferred. No directory guard was removed or weakened.",
+    "manual": "Prior manual launch question superseded; no additional human action required for this diagnosis."
+  },
+  "notRun": [
+    "L1",
+    "active cold recovery",
+    "WonPendingSettlement cold recovery",
+    "settled cold recovery",
+    "reward exactly once"
+  ],
+  "setupIssue": "ADB daemon restarted after build; existing localhost connection restored; first get-state failure retained.",
+  "evidence": {
+    "device.txt": {
+      "bytes": 3794,
+      "sha256": "f987a69792fd7915407ea88989612164e87ea876ec7a328e015bbee6ec44795c"
+    },
+    "install.txt": {
+      "bytes": 36,
+      "sha256": "781a31c82430c97897af612ece5e0ca2205e301cb5ff121ce2660541ea5182c7"
+    },
+    "logcat-start.txt": {
+      "bytes": 25949,
+      "sha256": "bdced509e2fe1b314c60b5820d2edc809f55b5efa2b9144d495e471776d52b7d"
+    },
+    "start.png": {
+      "bytes": 67358,
+      "sha256": "9961c2dc2679f35d026f77e6c023db403aa568db594e6cb24a3af2e4eceeb4f7"
+    },
+    "issue.png": {
+      "bytes": 683312,
+      "sha256": "326d88530a16d308c9a4e07917055d8e5015f68389752598844172a565652c93"
+    }
+  },
+  "continuation": "Same original continuous start/deadline retained through input waiting and standard launcher method correction. Stop after first useful diagnostic; engineering owns storage fix. No additional execution allocation.",
+  "provisionalWaitSegmentEnd": {
+    "endedUtc": "2026-10-18T05:08:02.517564+00:00",
+    "endedMonotonic": 562560.280985666,
+    "continuousSegmentSeconds": 319.59902324993163,
+    "cumulativeStageBSeconds": 673.7942990838783,
+    "remainingTotalStageBSeconds": 526.2057009161217
+  },
+  "standardLauncherIntentAttempts": 1,
+  "actualPid": "11887",
+  "firstStageDiagnostics": [
+    "10-18 13:08:52.312 11887 11909 W Unity   : FightMatch resource startup: stage=activation.guard.ancestor.entries; error=UnauthorizedAccessException"
+  ],
+  "uiLog": [
+    "10-18 13:08:52.320 11887 11909 E Unity   : FightMatch UI: RES_STORAGE"
+  ],
+  "screenshots": {
+    "issue.png": "Preserved prior launcher desktop before standard intent start.",
+    "start.png": "Actual new diagnostic APK screen after standard MAIN/LAUNCHER start: RES_STORAGE."
+  },
+  "profileAfterStartupHashes": "9f12f512a337600252d791c60779c25014e81d07eedf795af601e6cf3a477bf9  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n0731beca20f942a7c95197def2eff96b5e698c4734930a6a406358343524191d  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n8f845511155211dc0e2403fda064f54657cc7e843addf11d66f3d7c7037df024  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n938628e800f52e2af6c466025aeafaacd38cba0956a54d7d62a8a8c3d32fe8aa  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n6c56c90940bdb364755f64b12df103449c058f61b27692281cb81a1e04765581  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n0166e3abfde1470e14ed5958b6ec455b492c5b38a5f0615c88db882e560c701b  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+  "sixBusinessFilesPreservedAfterStartup": true,
+  "finalState": {
+    "pid": "11887",
+    "app": "Left open on RES_STORAGE diagnostic screen",
+    "forceStops": 0,
+    "coldRestartsForGameplay": 0,
+    "gameplayInputs": 0
+  },
+  "notPerformed": [
+    "ADB touch input",
+    "monkey",
+    "QA or graphical/business extras",
+    "uninstall",
+    "clear data",
+    "direct technical/business state write",
+    "additional source correction",
+    "additional build",
+    "system reboot/time change",
+    "Git"
+  ],
+  "endedUtc": "2026-10-18T05:10:09.156012+00:00",
+  "endedMonotonic": 562686.919710916,
+  "continuousSegmentSeconds": 446.2377484999597,
+  "cumulativeStageBSeconds": 800.4330243339064,
+  "remainingTotalStageBSeconds": 399.56697566609364
+}

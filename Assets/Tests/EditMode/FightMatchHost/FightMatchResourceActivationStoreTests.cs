@@ -52,12 +52,17 @@ namespace FightMatch.Host.Tests
             internal Exception DeferredError;
             internal int DeferredMoves;
             internal bool Fired;
+            internal readonly HashSet<string> DeniedEntries = new HashSet<string>(StringComparer.Ordinal);
+            internal List<string> Trace;
+            internal Action<string> AfterDirectoryCreated;
             internal int Promotions, ReadCalls, Flushes, FaultPromotionBase;
             internal string State => Path.Combine(Root, "resource-state", "v1");
             internal string Leaf(string name) => Path.Combine(State, name);
             internal string Sentinel => Path.Combine(Root, "old-resources", "complete.bin");
-            internal MemoryFiles()
+            internal MemoryFiles(bool android = false, bool productExists = true)
             {
+                if (android) Root = Path.Combine(Path.GetDirectoryName(Root), "FightMatch");
+                if (!productExists) { AddDirectory(Path.GetDirectoryName(Root)); return; }
                 AddDirectory(Root); AddDirectory(Path.GetDirectoryName(Sentinel)); Data[Sentinel] = new byte[] { 17, 0, 255 };
             }
             internal FightMatchResourceActivationStore Store(string token = T1) => new FightMatchResourceActivationStore(Root, this, token);
@@ -73,6 +78,7 @@ namespace FightMatch.Host.Tests
             }
             public FileAttributes Attributes(string path)
             {
+                Trace?.Add("attributes:" + path);
                 Hit("attributes");
                 if (Nodes.TryGetValue(path, out var attributes)) return attributes;
                 if (Data.ContainsKey(path)) return FileAttributes.Normal;
@@ -80,6 +86,8 @@ namespace FightMatch.Host.Tests
             }
             public IEnumerable<string> Entries(string directory)
             {
+                Trace?.Add("entries:" + directory);
+                if (DeniedEntries.Contains(directory)) throw new UnauthorizedAccessException("private ancestor");
                 Hit("enumerate");
                 if (directory == DeferredDirectory) return DeferredEntries();
                 return Nodes.Keys.Concat(Data.Keys).Distinct(StringComparer.Ordinal)
@@ -92,7 +100,10 @@ namespace FightMatch.Host.Tests
                 yield break;
             }
             public void CreateDirectory(string path)
-            { Hit("directory-before"); AddDirectory(path); Hit("directory-after"); }
+            {
+                Trace?.Add("create:" + path);
+                Hit("directory-before"); AddDirectory(path); Hit("directory-after"); AfterDirectoryCreated?.Invoke(path);
+            }
             public Stream CreateNew(string path)
             {
                 Hit("create-before"); Assert.IsFalse(Data.ContainsKey(path));
@@ -168,6 +179,34 @@ namespace FightMatch.Host.Tests
                     base.Dispose(disposing);
                 }
             }
+        }
+
+        private sealed class MemoryAndroidPaths : IActivationAndroidPaths
+        {
+            internal readonly MemoryFiles Files;
+            internal readonly string Anchor;
+            internal readonly Dictionary<string, int> LinkErrors = new Dictionary<string, int>(StringComparer.Ordinal);
+            internal string Canonical;
+            internal Exception CanonicalError;
+            internal MemoryAndroidPaths(MemoryFiles files)
+            {
+                Files = files; Anchor = Path.GetDirectoryName(files.Root); Canonical = Anchor;
+                files.Trace = new List<string>();
+                for (var p = Path.GetDirectoryName(Anchor); p != null; p = Path.GetDirectoryName(p)) files.DeniedEntries.Add(p);
+            }
+            public int ReadLinkError(string path)
+            {
+                Files.Trace.Add("link:" + path);
+                return LinkErrors.TryGetValue(path, out var error) ? error : 22;
+            }
+            public string CanonicalDirectory(string path)
+            {
+                Files.Trace.Add("canonical:" + path);
+                if (CanonicalError != null) throw CanonicalError;
+                return Canonical;
+            }
+            internal FightMatchResourceActivationStore Store(string token = "a2-b5-p101-e1000") =>
+                new FightMatchResourceActivationStore(Files.Root, Files, token, Anchor, this);
         }
 
         private sealed class RealArea : IDisposable
@@ -559,6 +598,153 @@ namespace FightMatch.Host.Tests
             Assert.AreEqual(ActivationOutcome.UnknownCommit, store.Prepare("set.b", H2).Outcome);
             Assert.AreEqual(diagnostic, store.StorageDiagnostic); Assert.AreEqual(promotions, f.Promotions);
             SameData(uncertain, f);
+        }
+
+        [Test]
+        public void AS16_ExplicitAndroidAnchorSkipsOnlyUpstreamEnumeration()
+        {
+            foreach (var token in new[] { T1, "a2-b5-p101-e1000" })
+            {
+                var f = new MemoryFiles(true); var native = new MemoryAndroidPaths(f); var store = native.Store(token);
+                Assert.IsNull(store.EnsureAndroidProductDirectory()); var ready = Ready(store);
+                Assert.AreEqual("BusinessReady", ready.Active.Phase);
+                for (var p = native.Anchor; p != null; p = Path.GetDirectoryName(p))
+                {
+                    CollectionAssert.Contains(f.Trace, "attributes:" + p);
+                    CollectionAssert.Contains(f.Trace, "link:" + p);
+                }
+                CollectionAssert.Contains(f.Trace, "canonical:" + native.Anchor);
+                foreach (var p in new[] { native.Anchor, f.Root, Path.GetDirectoryName(f.State), f.State })
+                    CollectionAssert.Contains(f.Trace, "entries:" + p);
+                foreach (var p in f.DeniedEntries) CollectionAssert.DoesNotContain(f.Trace, "entries:" + p);
+                var bytes = f.Copy(); var nodes = f.Nodes.ToArray();
+                // Neither an Android-shaped token nor a prior successful Android operation selects the policy.
+                Rejected(f.Store(token).Read(), "RES_STORAGE");
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+                Assert.AreEqual("RES_ROOT", f.Store(token).EnsureAndroidProductDirectory());
+            }
+        }
+
+        [Test]
+        public void AS17_AndroidChecksEveryExistingComponentAgainAndRejectsProbeErrors()
+        {
+            var f = new MemoryFiles(true); var native = new MemoryAndroidPaths(f); var store = native.Store(); Ready(store);
+            var bytes = f.Copy(); var nodes = f.Nodes.ToArray(); var paths = new List<string> { f.Leaf("active.json") };
+            for (var p = f.State; p != null; p = Path.GetDirectoryName(p)) paths.Add(p);
+            foreach (var path in paths)
+            foreach (var error in new[] { 0, 2, 13, 5 })
+            {
+                native.LinkErrors[path] = error;
+                Rejected(store.Read(), error == 0 ? "RES_ROOT" : "RES_STORAGE");
+                Assert.AreEqual(error == 0 ? "RES_ROOT" : "RES_STORAGE", store.EnsureAndroidProductDirectory());
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+                native.LinkErrors.Clear(); Ok(store.Read());
+            }
+            foreach (var path in paths)
+            {
+                var directory = f.Nodes.TryGetValue(path, out var attributes);
+                f.Nodes[path] = directory ? FileAttributes.Normal : FileAttributes.Directory;
+                Rejected(store.Read(), "RES_ROOT"); SameData(bytes, f);
+                if (directory) f.Nodes[path] = attributes; else f.Nodes.Remove(path);
+            }
+            native.Canonical = Path.Combine(native.Anchor, "changed");
+            Rejected(store.Read(), "RES_ROOT"); Assert.AreEqual("RES_ROOT", store.EnsureAndroidProductDirectory());
+            native.Canonical = native.Anchor; native.CanonicalError = new IOException("private root");
+            Rejected(store.Read(), "RES_STORAGE"); native.CanonicalError = null; Ok(store.Read());
+            f.Arm("attributes"); Rejected(store.Read(), "RES_STORAGE");
+            SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+            Assert.IsFalse(f.Trace.Any(x => x == "create:" + f.Root));
+        }
+
+        [Test]
+        public void AS18_AndroidRejectsMissingForgedOrMismatchedAnchorBeforeCreating()
+        {
+            var f = new MemoryFiles(true, false); var native = new MemoryAndroidPaths(f); var bytes = f.Copy(); var nodes = f.Nodes.ToArray();
+            foreach (var anchor in new[] { null, "", "relative", Path.GetPathRoot(native.Anchor),
+                native.Anchor + Path.DirectorySeparatorChar, Path.Combine(native.Anchor, "."), Path.Combine(native.Anchor, "other") })
+            {
+                var store = new FightMatchResourceActivationStore(f.Root, f, T1, anchor, native);
+                Assert.AreEqual("RES_ROOT", store.EnsureAndroidProductDirectory());
+                Rejected(store.EnterAtProcessStart("set.a", H1), "RES_ROOT");
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+            }
+            Assert.AreEqual("RES_ROOT", new FightMatchResourceActivationStore(Path.Combine(native.Anchor, "fightmatch"),
+                f, T1, native.Anchor, native).EnsureAndroidProductDirectory());
+            Assert.AreEqual("RES_ROOT", new FightMatchResourceActivationStore(f.Root, f, T1, native.Anchor, null).EnsureAndroidProductDirectory());
+            var forged = Path.Combine(native.Anchor, "forged"); f.AddDirectory(forged); nodes = f.Nodes.ToArray();
+            Assert.AreEqual("RES_ROOT", new FightMatchResourceActivationStore(Path.Combine(forged, "FightMatch"),
+                f, T1, forged, native).EnsureAndroidProductDirectory());
+            SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+            Assert.IsFalse(f.Trace.Any(x => x.StartsWith("create:", StringComparison.Ordinal)));
+        }
+
+        [Test]
+        public void AS19_AndroidKeepsDownstreamCaseLinkLayoutAndEnumerationGuards()
+        {
+            foreach (var damage in new[] { "product-case", "outer-case", "leaf-case", "dangling-leaf", "unknown-leaf", "unknown-directory",
+                "anchor-enumeration", "product-enumeration", "outer-enumeration", "state-enumeration" })
+            {
+                var f = new MemoryFiles(true); var native = new MemoryAndroidPaths(f); var store = native.Store(); Ready(store);
+                if (damage == "product-case")
+                { f.Nodes.Remove(f.Root); f.Nodes[Path.Combine(native.Anchor, "fightmatch")] = FileAttributes.Directory; }
+                if (damage == "outer-case")
+                { f.Nodes.Remove(Path.GetDirectoryName(f.State)); f.Nodes[Path.Combine(f.Root, "Resource-State")] = FileAttributes.Directory; }
+                if (damage == "leaf-case")
+                { f.Data[f.Leaf("Active.json")] = f.Data[f.Leaf("active.json")]; f.Data.Remove(f.Leaf("active.json")); }
+                if (damage == "dangling-leaf")
+                { f.Data.Remove(f.Leaf("active.json")); f.Nodes[f.Leaf("active.json")] = FileAttributes.ReparsePoint; native.LinkErrors[f.Leaf("active.json")] = 0; }
+                if (damage == "unknown-leaf") f.Data[f.Leaf("foreign.json")] = Bytes("private data");
+                if (damage == "unknown-directory") f.AddDirectory(Path.Combine(Path.GetDirectoryName(f.State), "v2"));
+                if (damage.EndsWith("-enumeration", StringComparison.Ordinal))
+                {
+                    f.DeferredDirectory = damage == "anchor-enumeration" ? native.Anchor : damage == "product-enumeration" ? f.Root :
+                        damage == "outer-enumeration" ? Path.GetDirectoryName(f.State) : f.State;
+                    f.DeferredError = new UnauthorizedAccessException("private directory");
+                }
+                var bytes = f.Copy(); var nodes = f.Nodes.ToArray(); var promotions = f.Promotions; f.ReadCalls = 0;
+                Assert.IsNotNull(store.EnsureAndroidProductDirectory()); Rejected(store.EnterAtProcessStart("set.a", H1));
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray()); Assert.AreEqual(promotions, f.Promotions);
+                Assert.AreEqual(0, f.ReadCalls); Assert.IsFalse(f.Trace.Any(x => x == "create:" + f.Root));
+            }
+        }
+
+        [Test]
+        public void AS20_HostAndroidStorageChecksBeforeCreateAndRechecksAfterIt()
+        {
+            foreach (var failure in new[] { "none", "passed-anchor", "anchor", "probe", "enumeration", "post-create" })
+            {
+                var f = new MemoryFiles(true, false); var native = new MemoryAndroidPaths(f);
+                f.Data[Path.Combine(native.Anchor, "keep.bin")] = new byte[] { 17, 0, 255 }; var bytes = f.Copy(); var calls = 0;
+                if (failure == "anchor") native.Canonical = native.Anchor + "-changed";
+                if (failure == "probe") native.LinkErrors[native.Anchor] = 2;
+                if (failure == "enumeration") { f.DeferredDirectory = native.Anchor; f.DeferredError = new UnauthorizedAccessException("private"); }
+                if (failure == "post-create") f.AfterDirectoryCreated = _ => native.LinkErrors[f.Root] = 13;
+                var suppliedAnchor = failure == "passed-anchor" ? native.Anchor + "-supplied" : native.Anchor;
+                var code = FightMatchPlayerHost.PrepareAndroidResourceStorage(f.Root, suppliedAnchor, (product, anchor) =>
+                {
+                    calls++; Assert.AreEqual(f.Root, product); Assert.AreEqual(suppliedAnchor, anchor);
+                    return new FightMatchResourceActivationStore(product, f, "a2-b5-p101-e1000", anchor, native);
+                }, out var store);
+                Assert.AreEqual(1, calls); Assert.IsNotNull(store); SameData(bytes, f);
+                var created = f.Trace.IndexOf("create:" + f.Root);
+                if (failure == "none" || failure == "post-create")
+                {
+                    Assert.GreaterOrEqual(f.Trace.IndexOf("canonical:" + native.Anchor), 0);
+                    Assert.GreaterOrEqual(f.Trace.IndexOf("entries:" + native.Anchor), 0);
+                    Assert.Greater(created, f.Trace.IndexOf("canonical:" + native.Anchor));
+                    Assert.Greater(created, f.Trace.IndexOf("entries:" + native.Anchor));
+                    Assert.IsTrue(f.Trace.Skip(created + 1).Contains("link:" + f.Root));
+                    Assert.AreEqual(1, f.Trace.Count(x => x == "create:" + f.Root));
+                    Assert.IsFalse(f.Nodes.ContainsKey(f.State));
+                    if (failure == "none")
+                    {
+                        Assert.IsNull(code); Assert.IsTrue(f.Trace.Skip(created + 1).Contains("canonical:" + native.Anchor));
+                        Ok(store.EnterAtProcessStart("set.a", H1)); Assert.AreEqual(2, Ok(store.Read()).Active.SchemaVersion);
+                    }
+                    else Assert.AreEqual("RES_STORAGE", code);
+                }
+                else { Assert.IsNotNull(code); Assert.AreEqual(-1, created); Assert.IsFalse(f.Nodes.ContainsKey(f.Root)); }
+            }
         }
 
         [Test]

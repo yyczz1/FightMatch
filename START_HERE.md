@@ -4,7 +4,7 @@
 
 ## 1. 当前工作与下一步
 
-**同日最小诊断候选已齐：** [startup-storage01](TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage01/result.md)仅在四份源码中补受控操作阶段／异常类别及相关回归，保持存储行为与守卫；不是根因修复，尚未编译、测试或完成新审查。后验沿本轮剩余时限安排，原通过与失败证据不重跑或改写。
+**当前：存储修正三源已冻结，待独立审查与实际后验。** 诊断包android-03已通过6项针对检查及构建；实际应用日志确定`activation.guard.ancestor.entries / UnauthorizedAccessException`。按[主程已签平台合同](docs/team/2026-09-30/engineering.md)，Android显式采用系统canonical应用目录作为信任锚，锚上不再枚举实际拼写，但仍逐次检查全链目录／native无链接／锚身份；锚以下大小写、布局、提交和玩家存档规则保持。此为明确工程契约调整，不冒称与旧证明完全等价。startup-storage-fix01仅Store、StoreTests、PlayerHost三源候选，未接入／编译／测试；最少后验为7项针对检查＋修复APK＋同测试档启动及L1三状态。原累计A692.094034167秒、B800.433024334秒不重置；剩余A207.905966秒短于上次测试＋构建236.56秒，新增运行须在审查后一次集中确认时限。首Demo仍NEEDS_FIX，当前诊断包不能用于L1试玩。
 
 **2026-10-18实际结果及接续：** 用户“许可”后，四份已审启动修复源码接入；8项定向全部通过、无跳过，`android-02`普通APK构建成功，检查与构建总段404.808553秒（≤15分钟）。新包SHA256 `e50b711ecbebc7d380fa62d1abd5d7bbedfda0760b292eba2cf6eb17ea8b2480`，API24／ARM64／仅GLES3／原签名。保留测试档安装及普通图标启动后，越过原进程身份故障，但报`RES_STORAGE`；L1／三状态复开／奖励均未运行。设备段354.195276秒（≤20分钟），六份可读业务文件前后相同，两份锁文件不可读，不外推全部存档字节证明。主程继续同任务最小存储诊断与修正准备，保留现场、复用证据，不清档或放宽守卫；必要相关后验仍受本轮时限约束。源码审查沿用`1d75386b`，本轮未新增源码差量。详情：[主程](docs/team/2026-09-30/engineering.md)、[定向与构建结果](TestArtifacts/FightMatch/DEMO-NEXT-001/startup-run01/result.json)、[设备结果](TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-02/result.json)。首Demo仍NEEDS_FIX。
 

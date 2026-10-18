@@ -4,7 +4,7 @@
 
 ## 当前任务
 
-**同日最小诊断候选已齐：** [startup-storage01](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage01/result.md)仅在四份源码中补受控操作阶段／异常类别及相关回归，保持存储行为与守卫；不是根因修复，尚未编译、测试或完成新审查。后验沿本轮剩余时限安排，原通过与失败证据不重跑或改写。
+**当前：存储修正三源已冻结，待独立审查与实际后验。** 诊断包android-03已通过6项针对检查及构建；实际应用日志确定`activation.guard.ancestor.entries / UnauthorizedAccessException`。按[主程已签平台合同](engineering.md)，Android显式采用系统canonical应用目录作为信任锚，锚上不再枚举实际拼写，但仍逐次检查全链目录／native无链接／锚身份；锚以下大小写、布局、提交和玩家存档规则保持。此为明确工程契约调整，不冒称与旧证明完全等价。startup-storage-fix01仅Store、StoreTests、PlayerHost三源候选，未接入／编译／测试；最少后验为7项针对检查＋修复APK＋同测试档启动及L1三状态。原累计A692.094034167秒、B800.433024334秒不重置；剩余A207.905966秒短于上次测试＋构建236.56秒，新增运行须在审查后一次集中确认时限。首Demo仍NEEDS_FIX，当前诊断包不能用于L1试玩。
 
 **2026-10-18里程碑：** 四源已接入，8项定向全过，修复APK `android-02`成功，A段404.808553秒；保留原测试档安装／普通启动后报新的`RES_STORAGE`，B段354.195276秒，L1及三状态仍未运行。主程继续最小存储诊断与修正准备，唯一接执行结果；主策同步[试玩指南](../../demo/PLAY_FIRST_DEMO.md)，主测试接实际证据。源码仍为已审`1d75386b`，无新增源码差量，不重复审查。原两阶段15／20分钟边界及数据保护保持，首Demo仍NEEDS_FIX。详情见[主程当前记录](engineering.md)及[设备结果](../../../TestArtifacts/FightMatch/DEMO-NEXT-001/emulator-02/result.json)。
 

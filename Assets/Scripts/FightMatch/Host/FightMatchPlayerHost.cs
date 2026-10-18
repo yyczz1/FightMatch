@@ -201,12 +201,21 @@ namespace FightMatch.Host
                 resourceRuntime = created.Runtime;
                 stage = "host.locale-before-create";
                 VerifyLocaleStorage();
+#if UNITY_ANDROID && !UNITY_EDITOR
+                stage = "host.product-prepare";
+                var storageCode = PrepareAndroidResourceStorage(CanonicalProductRoot, preferenceRoot,
+                    FightMatchResourceActivationStore.CreateAndroid, out resourceActivation);
+                if (storageCode != null) return Failed(storageCode, resourceActivation.StorageDiagnostic);
+                stage = "host.locale-after-create";
+                VerifyLocaleStorage();
+#else
                 stage = "host.product-create";
                 Directory.CreateDirectory(CanonicalProductRoot);
                 stage = "host.locale-after-create";
                 VerifyLocaleStorage();
                 stage = "host.activation-create";
                 resourceActivation = new FightMatchResourceActivationStore(CanonicalProductRoot);
+#endif
                 stage = "host.activation-enter";
                 var entered = resourceActivation.EnterAtProcessStart(created.ReleaseSetId, created.DescriptorSha256);
                 if (entered.Outcome != ActivationOutcome.Confirmed || entered.Snapshot?.Active == null)
@@ -239,6 +248,13 @@ namespace FightMatch.Host
                     throw;
                 }
             }
+        }
+
+        internal static string PrepareAndroidResourceStorage(string productRoot, string systemAnchor,
+            Func<string, string, FightMatchResourceActivationStore> create, out FightMatchResourceActivationStore store)
+        {
+            store = create(productRoot, systemAnchor);
+            return store.EnsureAndroidProductDirectory();
         }
 
         private void ObserveResourceBusinessReady()
