@@ -24,6 +24,8 @@ namespace FightMatch.Presentation
         private enum BottomHudMode { Normal, History, Reference }
         private BottomHudMode bottomHudMode;
         private long referenceEpoch;
+        private UnityEngine.UI.Button settlementButton;
+        private bool settlementAvailable, settlementRevealPending;
         [SerializeField] private UnityEngine.UI.Button buttonTemplate;
         [SerializeField] private LocalizedTmpText textTemplate;
         private readonly List<GameObject> rows = new List<GameObject>();
@@ -88,6 +90,7 @@ namespace FightMatch.Presentation
         private void DetachSelfManaged()
         {
             renderEpoch++;
+            settlementButton = null; settlementAvailable = false; settlementRevealPending = false;
             if (localization != null) localization.LocaleChanged -= OnLocaleChanged;
             var owner = Controller; var page = Page;
             if (owner != null) owner.Changed -= Render;
@@ -144,6 +147,7 @@ namespace FightMatch.Presentation
         }
         private void ClearRows()
         {
+            settlementButton = null;
             foreach (var listener in listeners) if (listener.Key != null) listener.Key.onClick.RemoveListener(listener.Value);
             listeners.Clear();
             foreach (var row in rows)
@@ -216,7 +220,7 @@ namespace FightMatch.Presentation
                     (c, p) => c.PreviewEnd(p, CandidateApplicationKind.ExitAttempt, context), view.Read.Lifecycle?.Exit.IsAvailable == true);
                 Button(actions, Row("battle-restart"), "fm.operation.restart_attempt",
                     (c, p) => c.PreviewEnd(p, CandidateApplicationKind.RestartAttempt, context), supported && view.Read.Lifecycle?.Restart.IsAvailable == true);
-                Button(actions, "fm.action.victory.settle", "fm.victory.settle.button", (c, p) => c.Settle(p, context), supported && view.CanSettle);
+                settlementButton = Button(actions, "fm.action.victory.settle", "fm.victory.settle.button", (c, p) => c.Settle(p, context), supported && view.CanSettle);
                 if (pendingVictory && !view.CanSettle)
                 {
                     if (battle.PresentationToken != null) Text(battleNotices, Row("settlement-pending"), "fm.victory.playback_pending");
@@ -364,6 +368,34 @@ namespace FightMatch.Presentation
             }
             dialogRoot.SetActive(DisplayedRange != null || view.Confirmation != null);
             recoveryRoot.SetActive(view.Route == PlayerBattleRoute.Recovery);
+            var canRevealSettlement = pendingVictory && supported && view.CanSettle && view.Route == PlayerBattleRoute.Battle;
+            if (canRevealSettlement && !settlementAvailable)
+            {
+                SetBottomHud(BottomHudMode.Normal);
+                settlementRevealPending = true;
+            }
+            if (!canRevealSettlement) settlementRevealPending = false;
+            settlementAvailable = canRevealSettlement;
+        }
+        private void LateUpdate()
+        {
+            if (!settlementRevealPending || Controller == null) return;
+            var owner = Controller; var page = Page;
+            Canvas.ForceUpdateCanvases();
+            if (!settlementRevealPending || !ReferenceEquals(owner, Controller) || !ReferenceEquals(page, Page) || !owner.Owns(page) ||
+                settlementButton == null || !settlementButton.isActiveAndEnabled || !settlementButton.interactable) return;
+            var scroll = actions.GetComponentInParent<UnityEngine.UI.ScrollRect>(true);
+            if (scroll == null || scroll.content == null || scroll.viewport == null) { settlementRevealPending = false; return; }
+            if (scroll.viewport.rect.width <= 0) return;
+            var range = scroll.content.rect.width - scroll.viewport.rect.width;
+            if (range > 0)
+            {
+                var target = (RectTransform)settlementButton.transform;
+                var center = scroll.content.InverseTransformPoint(target.TransformPoint(target.rect.center)).x - scroll.content.rect.xMin;
+                scroll.StopMovement();
+                scroll.horizontalNormalizedPosition = Mathf.Clamp01((center - scroll.viewport.rect.width / 2) / range);
+            }
+            settlementRevealPending = false;
         }
         private BattleTextLine ResultTitle(PlayerBattleReceipt original, bool receiptTitle)
         {

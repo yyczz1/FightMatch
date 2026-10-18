@@ -160,7 +160,8 @@ namespace FightMatch.Host
             if (result == null || result.Disposition == LocalePreferenceSaveDisposition.Saved)
                 languageFeedbackDeadline = Time.unscaledTime + 2f;
         }
-        private bool CanSelectLocale() => bound && DiagnosticCode == null && !board.HasActivePointer &&
+        private bool CanSelectLocale() => IsLocaleControlAvailable() && !board.HasActivePointer;
+        private bool IsLocaleControlAvailable() => bound && DiagnosticCode == null &&
             !recoveryScreenRoot.activeSelf && !overlayConflict && !confirmationPopupRoot.activeSelf &&
             !navigationRecoveryPanel.activeSelf && !battleRecoveryPanel.activeSelf &&
             !navigationConfirmationPanel.activeSelf && !battleConfirmationPanel.activeSelf &&
@@ -319,8 +320,8 @@ namespace FightMatch.Host
             if (!bound || languageDropdown == null) return;
             if (languageFeedbackDeadline.HasValue && Time.unscaledTime >= languageFeedbackDeadline.Value)
                 SetLanguageFeedbackVisible(false);
-            languageDropdown.interactable = CanSelectLocale();
-            if (!languageDropdown.interactable && languageDropdown.IsExpanded) languageDropdown.Close();
+            languageDropdown.interactable = IsLocaleControlAvailable();
+            if (!CanSelectLocale() && languageDropdown.IsExpanded) languageDropdown.Close();
         }
         public void Unbind() => Unbind(PointerCancellationCause.Cancelled);
         internal void Unbind(PointerCancellationCause cause)
