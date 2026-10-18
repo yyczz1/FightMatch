@@ -144,8 +144,52 @@ namespace FightMatch.Host.Tests
                         var license = Field<UnityEngine.UI.Button>(view, "licenseButton");
                         GlyphsInside(license.GetComponentInChildren<TextMeshProUGUI>(), 2);
                         Assert.IsTrue(FightMatchViewId.Validate(view.transform, out var error), error);
+                        yield return new WaitForSecondsRealtime(dropdown.colors.fadeDuration + .05f);
+                        Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
+                        var closedTint = dropdown.targetGraphic.canvasRenderer.GetColor();
+                        Assert.AreEqual(dropdown.colors.normalColor * dropdown.colors.colorMultiplier, closedTint,
+                            "Pointer selection must close with normal tint, including same-language retries.");
+                        // This is the input module's deselection boundary at the next board press.
+                        // It is a component regression, not a substitute for device pointer acceptance.
+                        EventSystem.current.SetSelectedGameObject(null);
+                        yield return new WaitForSecondsRealtime(dropdown.colors.fadeDuration + .05f);
+                        Assert.AreEqual(closedTint, dropdown.targetGraphic.canvasRenderer.GetColor());
+                        Assert.AreEqual(previous + 1, saves);
                     }
                 }
+                // The outside-click blocker uses TMP Hide even when the root already owns focus.
+                var beforeDismiss = saves;
+                EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
+                Click(dropdown.gameObject);
+                var blocker = view.GetComponentsInChildren<UnityEngine.UI.Button>()
+                    .Single(x => x.name == "Blocker" && x.gameObject.activeInHierarchy);
+                Assert.IsTrue(Click(blocker.gameObject));
+                yield return new WaitForSecondsRealtime(dropdown.alphaFadeSpeed + dropdown.colors.fadeDuration + .05f);
+                Assert.IsFalse(dropdown.IsExpanded);
+                Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
+                Assert.AreEqual(dropdown.colors.normalColor * dropdown.colors.colorMultiplier,
+                    dropdown.targetGraphic.canvasRenderer.GetColor());
+                Assert.AreEqual(beforeDismiss, saves, "Outside-click dismissal does not save.");
+                Submit(dropdown.gameObject); Assert.IsTrue(dropdown.IsExpanded);
+                ExecuteEvents.Execute(dropdown.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler);
+                yield return new WaitForSecondsRealtime(dropdown.alphaFadeSpeed + dropdown.colors.fadeDuration + .05f);
+                Assert.IsFalse(dropdown.IsExpanded);
+                Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
+                Assert.AreEqual(dropdown.colors.selectedColor * dropdown.colors.colorMultiplier,
+                    dropdown.targetGraphic.canvasRenderer.GetColor(), "Keyboard submit/cancel restores the focus indication.");
+                Assert.AreEqual(beforeDismiss, saves, "Keyboard cancellation does not save.");
+
+                // Forced closure must preserve another control's selected ownership.
+                Click(dropdown.gameObject);
+                var focusOwner = Field<UnityEngine.UI.Button>(view, "licenseButton").gameObject;
+                EventSystem.current.SetSelectedGameObject(focusOwner); dropdown.Close();
+                yield return null;
+                Assert.AreSame(focusOwner, EventSystem.current.currentSelectedGameObject);
+                EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
+                yield return new WaitForSecondsRealtime(dropdown.colors.fadeDuration + .05f);
+                Assert.AreEqual(dropdown.colors.selectedColor * dropdown.colors.colorMultiplier,
+                    dropdown.targetGraphic.canvasRenderer.GetColor(), "Later keyboard focus is not a pointer-close return.");
+
                 Submit(dropdown.gameObject); var keyboardItems = Items(dropdown);
                 EventSystem.current.SetSelectedGameObject(keyboardItems[0].gameObject);
                 ExecuteEvents.Execute(keyboardItems[0].gameObject,
@@ -154,6 +198,10 @@ namespace FightMatch.Host.Tests
                 var beforeKeyboard = saves; Submit(EventSystem.current.currentSelectedGameObject);
                 yield return null; yield return null;
                 Assert.AreEqual(beforeKeyboard + 1, saves); Assert.AreEqual(LocaleId.ZhHans, service.CurrentLocale);
+                yield return new WaitForSecondsRealtime(dropdown.colors.fadeDuration + .05f);
+                Assert.AreSame(dropdown.gameObject, EventSystem.current.currentSelectedGameObject);
+                Assert.AreEqual(dropdown.colors.selectedColor * dropdown.colors.colorMultiplier,
+                    dropdown.targetGraphic.canvasRenderer.GetColor(), "Keyboard selection keeps its return-focus tint.");
                 Submit(dropdown.gameObject); Assert.IsTrue(dropdown.IsExpanded);
                 ExecuteEvents.Execute(dropdown.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.cancelHandler);
                 yield return null; yield return null; Assert.IsFalse(dropdown.IsExpanded);
