@@ -140,6 +140,101 @@ namespace FightMatch.Core.Tests
     {
         private bool enteredPlayMode;
 
+        [UnityEngine.TestTools.UnityTest]
+        public System.Collections.IEnumerator BattleCopyFitsThroughLocalizedActivePlaybackAndPendingVictory()
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            yield return new UnityEngine.TestTools.EnterPlayMode(); enteredPlayMode = true;
+            var measured = new HashSet<string>(); var failures = new HashSet<string>();
+            foreach (var safeHeight in new[] { 920f, 812f })
+            foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+            using (var rig = new UguiHostRig(true, bind: false))
+            {
+                // Isolate the real prefab's minimum/reference geometry from the Editor window size.
+                // Device evidence separately covers the overlay Canvas and physical touch alignment.
+                var canvas = rig.Root.GetComponentInChildren<Canvas>(true);
+                canvas.GetComponent<UnityEngine.UI.CanvasScaler>().enabled = false;
+                canvas.renderMode = RenderMode.WorldSpace; canvas.transform.localScale = Vector3.one; canvas.scaleFactor = 1;
+                var fitter = rig.Root.GetComponentInChildren<SafeAreaFitter>(true); fitter.enabled = false;
+                var safe = (RectTransform)fitter.transform; safe.anchorMin = safe.anchorMax = Vector2.zero;
+                safe.sizeDelta = new Vector2(508, safeHeight);
+                rig.Localization.SetLocale(locale); rig.Bind(); rig.Enter();
+                yield return null; yield return null;
+                var input = rig.Session.Battle.Input;
+                for (var action = 0; ; action++)
+                {
+                    MeasureBattleCopy(rig, measured, failures);
+                    Assert.AreEqual(508, rig.Board.rectTransform.rect.width, .01f);
+                    Assert.AreEqual(rig.Board.rectTransform.rect.width, rig.Board.rectTransform.rect.height, .01f);
+                    if (rig.State.Phase == BattlePhase.WonPendingSettlement) break;
+                    Assert.Less(action, 64, "Reach pending victory through normal in-memory battle actions.");
+                    Assert.AreEqual(BattlePhase.AwaitAction, rig.State.Phase);
+                    Assert.IsTrue(input.SelectMember(rig.State.Members.First(x => x.Hp.Numerator.Sign > 0).Member.CharacterId));
+                    var route = rig.Route();
+                    Func<FlowPos, FightMatch.Input.PointerSample> sample = cell =>
+                    {
+                        var point = rig.Board.CellCenter(cell);
+                        Assert.AreEqual(cell, rig.Board.CellAtLocal(point));
+                        return new FightMatch.Input.PointerSample(1, point.x, point.y, cell);
+                    };
+                    input.Down(sample(route[0]), 6);
+                    foreach (var cell in route.Skip(1)) input.Move(sample(cell));
+                    input.Up(sample(route.Last()));
+                    Assert.IsNotNull(input.LastResult); Assert.IsTrue(input.LastResult.Application.IsCommitted, input.Status);
+                    var playback = rig.View.BattleView.PlaybackView;
+                    for (var frame = 0; playback.Controller.IsPlaying; frame++)
+                    {
+                        Assert.Less(frame, 256);
+                        MeasureBattleCopy(rig, measured, failures);
+                        playback.Advance(CandidateBattlePlaybackController.FactMilliseconds);
+                    }
+                }
+                Assert.IsTrue(rig.Session.Battle.View.CanSettle);
+                Assert.AreEqual(0, rig.Head.Business.Rewards.BaseRewards.Count, "Measuring pending copy must not claim rewards.");
+            }
+            Assert.IsEmpty(failures, string.Join("\n", failures));
+            yield return new UnityEngine.TestTools.ExitPlayMode(); enteredPlayMode = false;
+        }
+
+        private static void MeasureBattleCopy(UguiHostRig rig, HashSet<string> measured, HashSet<string> failures)
+        {
+            Canvas.ForceUpdateCanvases();
+            var safe = rig.Root.transform.Find("RuntimeCanvas/SafeAreaRoot");
+            var battle = safe.Find("ScreenLayer/BattlePage/BattleContent");
+            var labels = new List<TMPro.TextMeshProUGUI> { safe.Find("HudLayer/TopBar/Title").GetComponent<TMPro.TextMeshProUGUI>() };
+            labels.AddRange(battle.Find("BattleStatus").GetComponentsInChildren<TMPro.TextMeshProUGUI>(false));
+            foreach (var group in new[] { "AllySlots", "EnemySlots" })
+            foreach (Transform slot in battle.Find("Stage/" + group))
+            {
+                if (!slot.gameObject.activeInHierarchy) continue;
+                Assert.IsFalse(slot.Find("Name").gameObject.activeSelf, "The full name is already included in HP.");
+                labels.AddRange(slot.GetComponentsInChildren<TMPro.TextMeshProUGUI>(false));
+            }
+            foreach (var text in labels.Where(x => x.gameObject.activeInHierarchy))
+            {
+                StringAssert.DoesNotContain("if you see this", text.text, text.name + " must have a runtime localization binding.");
+                text.ForceMeshUpdate(true, true);
+                var rect = text.rectTransform.rect;
+                var visible = text.textInfo.characterInfo.Take(text.textInfo.characterCount).Where(x => x.isVisible).ToArray();
+                Assert.IsNotEmpty(visible, text.name);
+                var minX = visible.Min(x => x.bottomLeft.x); var maxX = visible.Max(x => x.topRight.x);
+                var minY = visible.Min(x => x.bottomLeft.y); var maxY = visible.Max(x => x.topRight.y);
+                var key = text.name + ": " + text.text;
+                if (measured.Add(key)) TestContext.WriteLine(key + " | rect=" + rect.size +
+                    " preferredHeight=" + text.preferredHeight + " glyphBounds=" + new Vector4(minX, minY, maxX, maxY));
+                var lines = visible.GroupBy(x => x.lineNumber).OrderBy(x => x.Key).ToArray();
+                for (var i = 1; i < lines.Length; i++)
+                    if (lines[i - 1].Min(x => x.bottomLeft.y) < lines[i].Max(x => x.topRight.y))
+                        failures.Add(key + " | adjacent line glyphs intersect");
+                if (text.preferredHeight > rect.height + .1f || minX < rect.xMin - .5f || maxX > rect.xMax + .5f || minY < rect.yMin - .5f || maxY > rect.yMax + .5f)
+                    failures.Add(key + " | rect=" + rect.size + " preferredHeight=" + text.preferredHeight +
+                        " glyphBounds=" + new Vector4(minX, minY, maxX, maxY));
+                Assert.AreEqual(TMPro.TextOverflowModes.Overflow, text.overflowMode, "Do not mask or truncate missing text.");
+                Assert.IsFalse(text.enableAutoSizing); Assert.GreaterOrEqual(text.fontSize, 12);
+            }
+        }
+
+
         [UnityEngine.TestTools.UnityTearDown]
         public System.Collections.IEnumerator ExitControlledPlayModeAfterFailure()
         {

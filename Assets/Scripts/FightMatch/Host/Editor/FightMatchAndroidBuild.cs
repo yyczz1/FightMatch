@@ -575,6 +575,50 @@ namespace FightMatch.Host.Editor
                 new FileInfo(identity.path).Length == identity.bytes && Sha(identity.path) == identity.sha256,
                 "UGUI correction frozen file identity " + identity?.path);
         }
+        private static void LayoutBattleActorCopy(RectTransform slot)
+        {
+            // The HP binding already contains the complete name. Reserve three lines
+            // for that fact and two for intent inside the existing 96-unit stage slot.
+            foreach (var row in new[] { new { Name = "Hp", Top = 0f, Height = 56f }, new { Name = "Intent", Top = 58f, Height = 38f } })
+            {
+                var rect = (RectTransform)slot.Find(row.Name);
+                rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0, 1);
+                rect.anchoredPosition = new Vector2(0, -row.Top); rect.sizeDelta = new Vector2(72, row.Height);
+                rect.localScale = Vector3.one;
+                var text = rect.GetComponent<TMPro.TextMeshProUGUI>();
+                text.fontSize = 12; text.enableAutoSizing = false; text.enableWordWrapping = true;
+                text.alignment = TMPro.TextAlignmentOptions.TopLeft;
+                text.overflowMode = TMPro.TextOverflowModes.Overflow;
+            }
+        }
+        private static void LayoutBattleStateCopy(RectTransform rect)
+        {
+            var text = rect.GetComponent<TMPro.TextMeshProUGUI>();
+            text.fontSize = 12; text.enableAutoSizing = false; text.enableWordWrapping = true;
+            // TMP spacing uses percent-em units: at 12 pt this removes 2.16 units
+            // between baselines, fitting three complete lines in the existing 48-unit row.
+            text.lineSpacing = -18;
+            text.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            text.overflowMode = TMPro.TextOverflowModes.Overflow;
+        }
+        public static void ApplyEnglishBattleLayout()
+        {
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                var safe = root.transform.Find("RuntimeCanvas/SafeAreaRoot");
+                var battle = safe.Find("ScreenLayer/BattlePage/BattleContent");
+                foreach (var group in new[] { "AllySlots", "EnemySlots" })
+                    for (var i = 0; i < 3; i++)
+                        LayoutBattleActorCopy((RectTransform)battle.Find("Stage/" + group + "/ActorSlot" + i));
+                LayoutBattleStateCopy((RectTransform)safe.Find("HudLayer/TopBar/Title"));
+                foreach (var name in new[] { "Phase", "PlaybackStage", "Beat" })
+                    LayoutBattleStateCopy((RectTransform)battle.Find("BattleStatus/" + name));
+                Require(PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab) != null, "English-layout01 prefab save");
+                Debug.Log("English-layout01 applied actor and state text properties to " + UguiPrefab);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
         private static System.Collections.Generic.Dictionary<string, string> UguiPrefabObjects(string text) =>
             Regex.Matches(text, @"(?ms)^--- !u!\d+ &(-?\d+)\r?\n.*?(?=^--- !u!|\z)").Cast<Match>()
                 .ToDictionary(x => x.Groups[1].Value, x => x.Value, StringComparer.Ordinal);
