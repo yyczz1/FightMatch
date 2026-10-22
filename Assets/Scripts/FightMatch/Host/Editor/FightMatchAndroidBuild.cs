@@ -575,6 +575,130 @@ namespace FightMatch.Host.Editor
                 new FileInfo(identity.path).Length == identity.bytes && Sha(identity.path) == identity.sha256,
                 "UGUI correction frozen file identity " + identity?.path);
         }
+        private static T LayoutAt<T>(Transform root, string path) where T : Component
+        {
+            var target = root.Find(path); Require(target != null, "LAYOUT missing path " + path);
+            var component = target.GetComponent<T>(); Require(component != null, "LAYOUT missing type " + typeof(T).Name + " at " + path);
+            return component;
+        }
+        private static void LayoutCell(RectTransform rect, float width, float height)
+        {
+            var element = rect.GetComponent<UnityEngine.UI.LayoutElement>() ?? rect.gameObject.AddComponent<UnityEngine.UI.LayoutElement>();
+            element.minWidth = element.preferredWidth = width; element.minHeight = element.preferredHeight = height;
+            element.flexibleWidth = element.flexibleHeight = 0;
+        }
+        private static string[] LayoutViewIds(GameObject root)
+        {
+            var type = AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + "FightMatchViewId.cs").GetClass();
+            return root.GetComponentsInChildren(type, true).Select(x => new SerializedObject(x).FindProperty("id").stringValue).ToArray();
+        }
+        private static void LayoutBattleNavigationEntry(GameObject root)
+        {
+            const string path = "RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/MainRow/CommandStrip";
+            var strip = LayoutAt<UnityEngine.UI.ScrollRect>(root.transform, path);
+            var fixedActions = LayoutAt<RectTransform>(strip.content, "FixedBattleActions");
+            var template = LayoutAt<UnityEngine.UI.Button>(fixedActions, "HistoryOpen");
+            Require(strip.horizontal && !strip.vertical && strip.content.parent == strip.viewport &&
+                fixedActions.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>() != null, "Navigation entry existing command hierarchy");
+            var existing = fixedActions.Find("Adventure");
+            var adventure = existing == null ? UnityEngine.Object.Instantiate(template, fixedActions, false) :
+                existing.GetComponent<UnityEngine.UI.Button>();
+            Require(adventure != null && adventure.onClick.GetPersistentEventCount() == 0, "Navigation entry native button");
+            adventure.name = "Adventure"; adventure.transform.SetSiblingIndex(0);
+            var idType = AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + "FightMatchViewId.cs").GetClass();
+            var id = new SerializedObject(adventure.GetComponent(idType));
+            id.FindProperty("id").stringValue = RowId("battle-adventure"); id.ApplyModifiedPropertiesWithoutUndo();
+            FightMatchUiButtonDropdownCorrection.ConfigureButton(adventure);
+            var cell = adventure.GetComponent<UnityEngine.UI.LayoutElement>();
+            cell.minWidth = cell.preferredWidth = 152; cell.flexibleWidth = 0;
+            LayoutCell(fixedActions, 936, 72);
+            strip.content.sizeDelta = new Vector2(1784, 72);
+            References(root.GetComponent<FightMatchHostView>(), "battleMapButton", adventure);
+            var ids = LayoutViewIds(root);
+            Require(ids.Count(x => x == RowId("battle-adventure")) == 1 && ids.Distinct(StringComparer.Ordinal).Count() == ids.Length,
+                "Navigation entry unique existing row ID");
+        }
+
+        private static void LayoutBattleConfirmationBody(GameObject root)
+        {
+            var panel = LayoutAt<RectTransform>(root.transform,
+                "RuntimeCanvas/SafeAreaRoot/PopupLayer/ConfirmationPopup/RootMask/BattleConfirmationPanel");
+            var scroll = LayoutAt<UnityEngine.UI.ScrollRect>(panel, "BodyViewport");
+            var body = scroll.content.GetComponent<UnityEngine.UI.VerticalLayoutGroup>();
+            Require(body != null && scroll.content.pivot.y == 1 && scroll.content.anchorMin.y == 1 &&
+                scroll.content.anchorMax.y == 1, "Battle confirmation existing top-anchored body");
+            body.childControlHeight = true;
+            foreach (var name in new[] { "StateRows", "ChoiceRows" })
+            {
+                var section = LayoutAt<RectTransform>(scroll.content, name);
+                var fitter = section.GetComponent<UnityEngine.UI.ContentSizeFitter>();
+                Require(fitter != null && section.GetComponent<UnityEngine.UI.VerticalLayoutGroup>() != null,
+                    "Battle confirmation existing section layout");
+                // Content owns section height from its layout input; the section group still owns its rows.
+                fitter.verticalFit = UnityEngine.UI.ContentSizeFitter.FitMode.Unconstrained;
+                section.anchorMin = section.anchorMax = Vector2.up;
+                section.pivot = new Vector2(.5f, 1);
+            }
+        }
+
+        public static void ApplyReferenceBodyLayout()
+        {
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                var existingIds = LayoutViewIds(root).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+                var content = LayoutAt<RectTransform>(root.transform,
+                    "RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BottomHud/ReferenceInfoDrawer/BodyViewport/Viewport/Content");
+                var body = content.GetComponent<UnityEngine.UI.VerticalLayoutGroup>();
+                var contentFitter = content.GetComponent<UnityEngine.UI.ContentSizeFitter>();
+                Require(body != null && contentFitter != null &&
+                    contentFitter.verticalFit == UnityEngine.UI.ContentSizeFitter.FitMode.PreferredSize,
+                    "Reference existing preferred-size content layout");
+                body.childControlHeight = true;
+                foreach (var name in new[] { "Explanation", "Beat" })
+                {
+                    var row = LayoutAt<RectTransform>(content, name);
+                    var element = row.GetComponent<UnityEngine.UI.LayoutElement>();
+                    var text = row.GetComponent<TMPro.TextMeshProUGUI>();
+                    Require(element != null && text != null, "Reference existing text row " + name);
+                    element.preferredHeight = -1;
+                    text.alignment = TMPro.TextAlignmentOptions.TopLeft;
+                }
+                var steps = LayoutAt<RectTransform>(content, "Steps");
+                var stepsFitter = steps.GetComponent<UnityEngine.UI.ContentSizeFitter>();
+                Require(stepsFitter != null && steps.GetComponent<UnityEngine.UI.VerticalLayoutGroup>() != null,
+                    "Reference existing steps layout");
+                stepsFitter.verticalFit = UnityEngine.UI.ContentSizeFitter.FitMode.Unconstrained;
+                steps.anchorMin = steps.anchorMax = Vector2.up;
+                steps.pivot = new Vector2(.5f, 1);
+                Require(existingIds.SequenceEqual(LayoutViewIds(root).OrderBy(x => x, StringComparer.Ordinal)),
+                    "Reference body preserves all existing view IDs before save");
+                var saved = PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab);
+                Require(saved != null, "reference-text-fix01 prefab save");
+                Require(existingIds.SequenceEqual(LayoutViewIds(saved).OrderBy(x => x, StringComparer.Ordinal)),
+                    "Reference body preserves all existing view IDs after save");
+                Debug.Log("reference-text-fix01 applied reference body layout ownership to " + UguiPrefab);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
+        // Dedicated native prefab update; never regenerates resources or changes the scene.
+        public static void ApplyBattleNavigationAndConfirmationLayout()
+        {
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                var existingIds = LayoutViewIds(root).Where(x => x != RowId("battle-adventure")).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+                LayoutBattleNavigationEntry(root);
+                LayoutBattleConfirmationBody(root);
+                Require(existingIds.SequenceEqual(LayoutViewIds(root).Where(x => x != RowId("battle-adventure"))
+                    .OrderBy(x => x, StringComparer.Ordinal)), "Navigation entry preserves all existing object IDs");
+                Require(PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab) != null, "navigation-fix01 prefab save");
+                Debug.Log("navigation-fix01 applied Adventure and battle confirmation layout ownership to " + UguiPrefab);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
         private static void LayoutBattleActorCopy(RectTransform slot)
         {
             // The HP binding already contains the complete name. Reserve three lines

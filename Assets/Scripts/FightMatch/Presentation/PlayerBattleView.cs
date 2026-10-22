@@ -34,6 +34,8 @@ namespace FightMatch.Presentation
         private BattleLocalizedRows hudRows;
         private long renderEpoch;
         private bool disposed;
+        private object displayedDialog;
+        private bool dialogScrollResetPending;
         internal bool IsDisposed => disposed;
         public PlayerBattleController Controller { get; private set; }
         public PlayerBattlePageToken Page { get; private set; }
@@ -90,6 +92,7 @@ namespace FightMatch.Presentation
         private void DetachSelfManaged()
         {
             renderEpoch++;
+            displayedDialog = null; dialogScrollResetPending = false;
             settlementButton = null; settlementAvailable = false; settlementRevealPending = false;
             if (localization != null) localization.LocaleChanged -= OnLocaleChanged;
             var owner = Controller; var page = Page;
@@ -183,11 +186,21 @@ namespace FightMatch.Presentation
         private void Text(RectTransform parent, string id, string key, params KeyValuePair<string, string>[] arguments)
         {
             var text = Instantiate(textTemplate, parent, false); text.gameObject.SetActive(false);
+            if (parent == dialogBody || parent == dialogChoices)
+            {
+                var layout = text.GetComponent<UnityEngine.UI.LayoutElement>();
+                if (layout != null) layout.preferredHeight = -1;
+                if (text.Target != null) text.Target.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            }
             text.GetComponent<FightMatchViewId>().Assign(id); text.Bind(localization, key, arguments);
             rows.Add(text.gameObject); text.gameObject.SetActive(true);
         }
         private void Text(RectTransform parent, string id, BattleTextLine line) { Text(parent, id, line.Key, line.Arguments); }
-        private void OnLocaleChanged(LocaleId locale) { Render(); }
+        private void OnLocaleChanged(LocaleId locale)
+        {
+            if (displayedDialog != null) dialogScrollResetPending = true;
+            Render();
+        }
         private static string Row(string id) => FightMatchViewId.Row(id);
         private void Render()
         {
@@ -366,7 +379,13 @@ namespace FightMatch.Presentation
                     Button(receipt, Row("next:" + next.LevelId), string.Empty, (c, p) => c.Replay(p, next.LevelId, next.LevelVersion, context));
                 }
             }
-            dialogRoot.SetActive(DisplayedRange != null || view.Confirmation != null);
+            var dialog = (object)DisplayedRange ?? view.Confirmation;
+            if (!ReferenceEquals(displayedDialog, dialog))
+            {
+                displayedDialog = dialog;
+                dialogScrollResetPending = dialog != null;
+            }
+            dialogRoot.SetActive(dialog != null);
             recoveryRoot.SetActive(view.Route == PlayerBattleRoute.Recovery);
             var canRevealSettlement = pendingVictory && supported && view.CanSettle && view.Route == PlayerBattleRoute.Battle;
             if (canRevealSettlement && !settlementAvailable)
@@ -377,8 +396,24 @@ namespace FightMatch.Presentation
             if (!canRevealSettlement) settlementRevealPending = false;
             settlementAvailable = canRevealSettlement;
         }
+        private void RestoreDialogScroll()
+        {
+            if (!dialogScrollResetPending || Controller == null || !dialogRoot.activeInHierarchy) return;
+            var owner = Controller; var page = Page; var dialog = displayedDialog;
+            Canvas.ForceUpdateCanvases();
+            if (!dialogScrollResetPending || !ReferenceEquals(owner, Controller) || !ReferenceEquals(page, Page) ||
+                !owner.Owns(page) || !ReferenceEquals(dialog, displayedDialog) || !dialogRoot.activeInHierarchy) return;
+            var scroll = dialogBody.GetComponentInParent<UnityEngine.UI.ScrollRect>(true);
+            if (scroll == null || scroll.content == null || scroll.viewport == null)
+            { dialogScrollResetPending = false; return; }
+            if (scroll.viewport.rect.height <= 0) return;
+            scroll.StopMovement();
+            scroll.verticalNormalizedPosition = 1;
+            dialogScrollResetPending = false;
+        }
         private void LateUpdate()
         {
+            RestoreDialogScroll();
             if (!settlementRevealPending || Controller == null) return;
             var owner = Controller; var page = Page;
             Canvas.ForceUpdateCanvases();

@@ -22,7 +22,7 @@ namespace FightMatch.Host
         [SerializeField] private LocalizedTmpText languageEnglishOption, languageChineseOption;
         [SerializeField] private LocalizedTmpText licenseTitle, quitTitle, quitBody, loadingLabel, diagnosticText;
         [SerializeField] private TextMeshProUGUI licenseBody;
-        [SerializeField] private UnityEngine.UI.Button createButton, continueButton, reloadButton, backButton;
+        [SerializeField] private UnityEngine.UI.Button createButton, continueButton, reloadButton, backButton, battleMapButton;
         [SerializeField] private FightMatchLocaleDropdown languageDropdown;
         [SerializeField] private UnityEngine.UI.Button licenseButton, licenseCloseButton, quitConfirmButton, quitCancelButton;
         private readonly List<KeyValuePair<UnityEngine.UI.Button, UnityAction>> listeners = new List<KeyValuePair<UnityEngine.UI.Button, UnityAction>>();
@@ -59,7 +59,7 @@ namespace FightMatch.Host
                 profileTitle == null || startupStatus == null || languageCaption == null || languageFeedback == null ||
                 languageEnglishOption == null || languageChineseOption == null ||
                 licenseTitle == null || quitTitle == null || quitBody == null || loadingLabel == null || diagnosticText == null ||
-                createButton == null || continueButton == null || reloadButton == null || backButton == null ||
+                createButton == null || continueButton == null || reloadButton == null || backButton == null || battleMapButton == null ||
                 languageDropdown == null || languageDropdown.placeholder != languageCaption.Target ||
                 licenseButton == null || licenseCloseButton == null || quitConfirmButton == null || quitCancelButton == null)
                 throw new InvalidOperationException("Host serialized bindings are incomplete.");
@@ -82,6 +82,7 @@ namespace FightMatch.Host
             AddButton(continueButton, "fm.profile.creation_pending.continue_button", () => session?.ContinueCreation());
             AddButton(reloadButton, "fm.profile.reload.button", () => session?.ObserveStartup());
             AddButton(backButton, "fm.common.action.back", () => { if (!TryCloseProfileCreation()) session?.Back(); });
+            AddButton(battleMapButton, "fm.common.nav.adventure", BrowseBattleMap);
             var epoch = generation;
             languageDropdown.CanOpen = () => bound && epoch == generation && CanSelectLocale();
             localeSelection = index =>
@@ -159,6 +160,18 @@ namespace FightMatch.Host
             SetLanguageFeedbackVisible(true);
             if (result == null || result.Disposition == LocalePreferenceSaveDisposition.Saved)
                 languageFeedbackDeadline = Time.unscaledTime + 2f;
+        }
+        private bool CanBrowseBattleMap() => session?.CanBrowseBattleMap == true && IsLocaleControlAvailable() &&
+            !languageDropdown.IsExpanded && !board.HasActivePointer &&
+            battleView.Controller == session.Battle && battleView.PlaybackView.InputView.DisplayLayoutSupported;
+        private void BrowseBattleMap()
+        {
+            if (!CanBrowseBattleMap()) return;
+            session.BrowseBattleMap();
+        }
+        private void RefreshBattleMapButton()
+        {
+            if (battleMapButton != null) battleMapButton.interactable = bound && CanBrowseBattleMap();
         }
         private bool CanSelectLocale() => IsLocaleControlAvailable() && !board.HasActivePointer;
         private bool IsLocaleControlAvailable() => bound && DiagnosticCode == null &&
@@ -243,7 +256,7 @@ namespace FightMatch.Host
                 reloadButton.interactable = true; backButton.interactable = true;
                 backButton.gameObject.SetActive(!navigation || session.AtNavigationRoot);
             }
-            finally { rendering = false; SynchronizeOverlayRoots(); RefreshDiagnostic(); }
+            finally { rendering = false; SynchronizeOverlayRoots(); RefreshDiagnostic(); RefreshBattleMapButton(); }
         }
         private void OnLayoutValidityChanged(bool valid)
         { if (!valid && board != null) board.CancelPointer(); }
@@ -320,6 +333,7 @@ namespace FightMatch.Host
             if (!bound || languageDropdown == null) return;
             if (languageFeedbackDeadline.HasValue && Time.unscaledTime >= languageFeedbackDeadline.Value)
                 SetLanguageFeedbackVisible(false);
+            RefreshBattleMapButton();
             languageDropdown.interactable = IsLocaleControlAvailable();
             if (!CanSelectLocale() && languageDropdown.IsExpanded) languageDropdown.Close();
         }

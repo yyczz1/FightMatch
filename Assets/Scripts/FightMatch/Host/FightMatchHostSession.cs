@@ -312,6 +312,66 @@ namespace FightMatch.Host
             Changed?.Invoke();
         }
 
+        internal bool CanBrowseBattleMap => !disposed && !routing &&
+            Thread.CurrentThread.ManagedThreadId == thread && BattleMapReason() == null;
+
+        private string BattleMapReason()
+        {
+            if (Page != FightMatchHostPage.Battle || Observation?.State != LocalPlayerProfileState.Active)
+                return "InvalidPhase";
+            var view = Battle.View; var read = view?.Read; var input = Battle.Input;
+            if (read?.IsAvailable != true) return read?.Code ?? "ResolutionRequired";
+            if (read.Head?.Continuation != null) return "SettlementRequired";
+            if (read.Application.Phase != CandidateApplicationPhase.Ready || !read.Application.IsPublishedHeadVerified ||
+                read.Application.PendingOperationId != null || read.Application.ObservedCandidateCommitIds.Count != 0)
+                return view.Status ?? "ResolutionRequired";
+            if (view.Route != PlayerBattleRoute.Battle) return view.Status ?? "InvalidPhase";
+            if (view.Confirmation != null) return "ConfirmationRequired";
+            if (input.RollbackPreview != null) return "RollbackConfirmationRequired";
+            if (input.HasActiveGesture) return "InvalidPhase";
+            // A committed entry keeps OriginalIntent too; only an unfinished owner must hold this page.
+            if (view.OriginalIntent != null && view.Result?.IsCommitted != true)
+                return view.Result?.Code ?? view.Status ?? "OriginalOwnerRequired";
+            if (input.LastRequest != null && input.LastResult?.Application?.IsCommitted != true &&
+                input.LastResult?.Code != "Ended" && input.LastResult?.DomainRejection == null)
+                return input.LastResult?.Code ?? input.Status ?? "OriginalOwnerRequired";
+            var phase = view.Battle?.BattleSnapshot?.Phase;
+            if (phase != BattlePhase.AwaitAction && phase != BattlePhase.AwaitLinks && phase != BattlePhase.AwaitRescue)
+                return "InvalidPhase";
+            var navigation = Navigation.View;
+            if (navigation.Confirmation != null || navigation.Route == PlayerNavigationRoute.Recovery ||
+                navigation.Route == PlayerNavigationRoute.CommittedResult)
+                return navigation.Status ?? "OriginalOwnerRequired";
+            // A presentation token is not a navigation lock. Borrowed views suspend its scheduler, not its owner.
+            return null;
+        }
+
+        internal void BrowseBattleMap()
+        {
+            if (busy || !CanBrowseBattleMap) return;
+            Execute(() =>
+            {
+                routing = true;
+                try
+                {
+                    Battle.Refresh();
+                    Navigation.Refresh();
+                    var reason = BattleMapReason();
+                    if (reason != null) { Status = reason; return; }
+                    // Refresh invalidates callback epochs: capture the fresh navigation context immediately.
+                    Navigation.NavigationHandler(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.MapAdventure })();
+                    var actual = Navigation.View;
+                    if (actual.Route != PlayerNavigationRoute.MapAdventure || actual.Status != null ||
+                        actual.Confirmation != null || !actual.Read.IsAvailable)
+                    { Status = actual.Status ?? "ResolutionRequired"; return; }
+                    bridgedCommittedRoute = false;
+                    Status = actual.Status;
+                    Page = FightMatchHostPage.Navigation;
+                }
+                finally { routing = false; }
+            });
+        }
+
         public void CancelQuit() { Execute(() => Page = beforeQuit); }
         public void ConfirmQuit()
         {
@@ -370,7 +430,12 @@ namespace FightMatch.Host
                 NoLinks(child);
                 if (name == "resource-state")
                 {
-                    if (new FightMatchResourceActivationStore(ProductRoot).Read().Outcome != ActivationOutcome.Confirmed)
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    var state = FightMatchResourceActivationStore.CreateAndroid(ProductRoot, Path.GetDirectoryName(ProductRoot)).Read();
+#else
+                    var state = new FightMatchResourceActivationStore(ProductRoot).Read();
+#endif
+                    if (state.Outcome != ActivationOutcome.Confirmed)
                         return false;
                     continue;
                 }

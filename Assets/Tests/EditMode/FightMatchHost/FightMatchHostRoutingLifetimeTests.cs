@@ -4,6 +4,7 @@ using System.Linq;
 using FightMatch.Application;
 using FightMatch.Core;
 using FightMatch.Platform;
+using FightMatch.Presentation;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 
@@ -276,5 +277,41 @@ namespace FightMatch.Host.Tests
             }
             yield return new ExitPlayMode();
         }
+        private static UnityEngine.UI.Button NavigationButton(HostPanel panel, string id)
+        {
+            var button = FightMatchViewId.Find<UnityEngine.UI.Button>(panel.Root.transform, id);
+            Assert.IsNotNull(button, "Required real-prefab button: " + id);
+            return button;
+        }
+
+        [TestCase("save")]
+        [TestCase("marker-after")]
+        public void H05_AdventureCannotDiscardConfirmationOrTheOriginalRecoveryOwner(string fault)
+        {
+            using (var rig = new HostRig())
+            using (var panel = new HostPanel(rig))
+            {
+                rig.Enter();
+                var adventure = NavigationButton(panel, FightMatchViewId.Row("battle-adventure"));
+                var battle = rig.Session.Battle; var page = panel.View.BattleView.Page;
+                var preview = battle.PreviewEnd(page, CandidateApplicationKind.RestartAttempt, battle.View.Context);
+                Assert.IsNotNull(preview.Confirmation, preview.Status);
+                var confirmation = preview.Confirmation; var files = rig.Files();
+                adventure.onClick.Invoke();
+                Assert.AreEqual(FightMatchHostPage.Battle, rig.Session.Page);
+                Assert.AreSame(confirmation, battle.View.Confirmation); Assert.IsTrue(battle.Owns(page)); rig.SameFiles(files);
+                rig.Storage.Fault = fault;
+                var failed = battle.Confirm(page, confirmation);
+                Assert.AreEqual(fault == "save" ? "SaveFailed" : "CommitUnknown", failed.Result.Code);
+                var request = battle.Session.OriginalRequest; var intent = failed.OriginalIntent;
+                var result = failed.Result; files = rig.Files();
+                adventure.onClick.Invoke();
+                Assert.AreEqual(FightMatchHostPage.Battle, rig.Session.Page);
+                Assert.AreSame(request, battle.Session.OriginalRequest); Assert.AreSame(intent, battle.View.OriginalIntent);
+                Assert.AreSame(result, battle.View.Result); Assert.AreEqual(PlayerBattleRoute.Recovery, battle.View.Route);
+                Assert.IsTrue(battle.Owns(page)); rig.SameFiles(files);
+            }
+        }
+
     }
 }
