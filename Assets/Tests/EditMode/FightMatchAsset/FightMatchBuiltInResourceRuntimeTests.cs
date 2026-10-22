@@ -128,6 +128,55 @@ namespace FightMatch.AssetAccess.Tests
             }
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ExplicitDisposeRetriesFailedDestructionAndWaitsForActualClose(bool cancel)
+        {
+            using (var dispatcher = new Dispatcher())
+            using (var cancellation = new CancellationTokenSource())
+            {
+                var sdk = new FakeSdk { CorruptRaw = !cancel, HoldRaw = cancel, FailDestroy = true };
+                var runtime = Runtime(sdk, dispatcher); Exception bodyFailure = null;
+                try
+                {
+                    var inspection = runtime.InspectAsync(1, CancellationToken.None).Result;
+                    ResourceDownloadPermit.TryCreate(inspection, false, out var permit, out _);
+                    var preparing = runtime.PrepareAsync(permit, null, cancellation.Token);
+                    if (cancel) { cancellation.Cancel(); sdk.HoldRaw = false; }
+                    dispatcher.Drain();
+                    Assert.Greater(sdk.DestroyCalls, 0);
+                    Assert.IsFalse(preparing.IsCompleted); Assert.IsFalse(runtime.Stopped.IsCompleted);
+                    var failedAttempts = sdk.DestroyCalls;
+                    sdk.FailDestroy = false; sdk.HoldDestroy = true;
+                    dispatcher.Drain();
+                    Assert.AreEqual(failedAttempts, sdk.DestroyCalls, "Cleanup must not automatically retry.");
+                    runtime.Dispose(); dispatcher.Drain();
+                    Assert.AreEqual(failedAttempts + 1, sdk.DestroyCalls);
+                    Assert.IsFalse(preparing.IsCompleted); Assert.IsFalse(runtime.Stopped.IsCompleted);
+                    Assert.AreEqual(1, sdk.PackageCount); Assert.IsTrue(sdk.Initialized);
+                    Assert.IsFalse(runtime.InspectAsync(1, CancellationToken.None).Result.IsAccepted);
+                    Assert.IsFalse(runtime.Assets.AcquireAsync<FightMatchRawBytes>(Id(), inspection.ReleaseSetId, Budget(), 1).Result.IsAccepted);
+                    runtime.Dispose(); dispatcher.Drain();
+                    Assert.AreEqual(failedAttempts + 1, sdk.DestroyCalls, "An in-flight destruction must not be replaced.");
+                    sdk.CompleteDestroy(); dispatcher.Complete(preparing); dispatcher.Complete(runtime.Stopped);
+                    Assert.AreEqual(cancel ? ResourceTransportStatus.Cancelled : ResourceTransportStatus.Rejected, preparing.Result.Status);
+                    if (!cancel) Assert.AreEqual("RES_ASSET", preparing.Result.Diagnostic.SafeCode);
+                    Assert.AreEqual(sdk.Reads, sdk.Releases); Assert.AreEqual(0, sdk.PackageCount);
+                    Assert.IsFalse(sdk.Initialized); Assert.AreEqual(1, sdk.GlobalDestroys);
+                    var releases = sdk.Releases;
+                    runtime.Dispose(); runtime.Dispose(); dispatcher.Drain();
+                    Assert.AreEqual(failedAttempts + 1, sdk.DestroyCalls); Assert.AreEqual(1, sdk.GlobalDestroys);
+                    Assert.AreEqual(releases, sdk.Releases);
+                }
+                catch (Exception error) { bodyFailure = error; throw; }
+                finally
+                {
+                    sdk.FailDestroy = false; sdk.HoldDestroy = false; sdk.HoldRaw = false; sdk.CompleteDestroy();
+                    Cleanup(runtime, dispatcher, bodyFailure);
+                }
+            }
+        }
+
         private static void Cleanup(YooAssetResourceRuntime runtime, Dispatcher dispatcher, Exception bodyFailure)
         {
             try { runtime.Dispose(); dispatcher.Complete(runtime.Stopped); }
@@ -199,15 +248,16 @@ namespace FightMatch.AssetAccess.Tests
                 get => holdRaw;
                 set { holdRaw = value; if (!value) wakeRaw?.Invoke(); }
             }
-            internal bool CorruptRaw, PinConfigured;
-            internal int Reads, Releases;
+            internal bool CorruptRaw, PinConfigured, FailDestroy, HoldDestroy;
+            internal int Reads, Releases, DestroyCalls, GlobalDestroys;
+            private Destruction destruction;
             private object package;
             private bool ready, empty = true;
             private string version;
             public bool Initialized { get; private set; }
             public int PackageCount => package == null ? 0 : 1;
             public void Initialize() { Initialized = true; }
-            public void Destroy() { Assert.IsNull(package); Initialized = false; }
+            public void Destroy() { Assert.IsNull(package); Initialized = false; GlobalDestroys++; }
             public object Find(string name) => package;
             public object Create(string name) => package = new object();
             public bool Ready(object value) => ready;
@@ -224,10 +274,34 @@ namespace FightMatch.AssetAccess.Tests
             public IYooOperation Manifest(object value, string selected) { version = selected; return new Operation(); }
             public bool HasLocation(object value, string location, Type type) => Bytes.ContainsKey(location);
             public IYooOperation Load(object value, string location, Type type) => throw new AssertionException("Raw operation required.");
-            public IYooOperation Destroy(object value) { ready = false; empty = true; return new Operation(); }
+            public IYooOperation Destroy(object value)
+            {
+                DestroyCalls++;
+                if (FailDestroy) return new FailedDestruction();
+                destruction = new Destruction(this);
+                if (!HoldDestroy) destruction.Complete();
+                return destruction;
+            }
+            internal void CompleteDestroy() => destruction?.Complete();
             public void Remove(string name) { package = null; }
             public IRawYooOperation BeginRaw(object value, AssetMapping map, long limit, Action wake)
             { Reads++; wakeRaw = wake; return new Raw(this, map, limit); }
+            private sealed class FailedDestruction : Operation { public override bool Success => false; }
+            private sealed class Destruction : IYooOperation
+            {
+                private readonly FakeSdk sdk;
+                internal Destruction(FakeSdk sdk) { this.sdk = sdk; }
+                public bool Done { get; private set; }
+                public bool Success => Done;
+                public UnityEngine.Object Asset => null;
+                public event Action<IYooOperation> Completed;
+                public void Release() { }
+                internal void Complete()
+                {
+                    if (Done) return;
+                    sdk.ready = false; sdk.empty = true; Done = true; Completed?.Invoke(this);
+                }
+            }
             private sealed class Raw : Operation, IRawYooOperation
             {
                 private readonly FakeSdk sdk;

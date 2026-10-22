@@ -1,10 +1,17 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using FightMatch.Host.Editor;
 using NUnit.Framework;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
 namespace FightMatch.Host.Tests
 {
@@ -778,6 +785,195 @@ namespace FightMatch.Host.Tests
                     var actual = Ok(f.Store(T3).Read()); Assert.AreEqual(p.ActivationId, actual.Active.ActivationId);
                     Assert.AreEqual("CodeEntered", actual.Active.Phase); Same(Json(actual.Active), f.Data[f.Leaf("active.json")]);
                 }
+            }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AS21_EditorPlayCallbacksPreserveSameSessionGuardAndAdmitNextPlay(bool reinitialize)
+        {
+            Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode, "This callback regression requires Edit Mode.");
+            var saved = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null);
+            try
+            {
+                using (var area = new RealArea("AS21-" + reinitialize))
+                {
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.ExitingEditMode);
+                    var first = new FightMatchResourceActivationStore(area.Root);
+                    var ready = Ready(first);
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    var oldBytes = File.ReadAllBytes(area.Leaf("active.json"));
+                    Rejected(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                    Same(oldBytes, File.ReadAllBytes(area.Leaf("active.json")));
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.EnteredEditMode);
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.ExitingEditMode);
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    var second = new FightMatchResourceActivationStore(area.Root);
+                    var entered = Ok(second.EnterAtProcessStart("set.a", H1));
+                    Assert.AreEqual(ready.Active.ActivationId, entered.Active.ActivationId);
+                    Assert.AreNotEqual(ready.Active.ProcessToken, entered.Active.ProcessToken);
+                    Assert.AreEqual(1, entered.Active.SchemaVersion); Assert.AreEqual("CodeEntered", entered.Active.Phase);
+                    Ok(second.MarkBusinessReady(entered.Active.ActivationId));
+                    var prepared = Ok(second.Prepare("set.b", H2)).Prepared; Ok(second.RequestRestart(prepared.ActivationId));
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    oldBytes = File.ReadAllBytes(area.Leaf("active.json"));
+                    var restartBytes = File.ReadAllBytes(area.Leaf("restart.json"));
+                    Rejected(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.b", H2), "RES_STATE");
+                    Same(oldBytes, File.ReadAllBytes(area.Leaf("active.json")));
+                    Same(restartBytes, File.ReadAllBytes(area.Leaf("restart.json")));
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.EnteredEditMode);
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.ExitingEditMode);
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    var restarted = Ok(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.b", H2));
+                    Assert.AreEqual(prepared.ActivationId, restarted.Active.ActivationId);
+                    Assert.AreNotEqual(entered.Active.ProcessToken, restarted.Active.ProcessToken);
+                    Assert.AreEqual("CodeEntered", restarted.Active.Phase);
+                }
+                FightMatchEditorPlaySession.Observe(PlayModeStateChange.EnteredEditMode);
+                FightMatchEditorPlaySession.Initialize();
+                using (var area = new RealArea("AS21-default-" + reinitialize))
+                {
+                    var ordinary = Ok(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.a", H1));
+                    using (var process = System.Diagnostics.Process.GetCurrentProcess())
+                        Assert.AreEqual("p" + process.Id.ToString(System.Globalization.CultureInfo.InvariantCulture) + "-" +
+                            process.StartTime.ToUniversalTime().Ticks.ToString(System.Globalization.CultureInfo.InvariantCulture), ordinary.Active.ProcessToken);
+                }
+                TestContext.Progress.WriteLine("Production Editor callbacks and default Store construction exercised; no actual Play or domain reload observed.");
+            }
+            finally
+            {
+                if (saved == null) SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
+                else SessionState.SetString(FightMatchEditorPlaySession.SessionKey, saved);
+                FightMatchEditorPlaySession.Initialize();
+            }
+        }
+
+        // UTF 1.1.33 restores the fixture and iterator position, not iterator locals, on reload.
+        private static readonly string PlayTestDomain = Guid.NewGuid().ToString("N");
+        [SerializeField] private bool realPlayPrepared, realPlayReload, savedPlayOptionsEnabled, savedPlayIdentityPresent;
+        [SerializeField] private EnterPlayModeOptions savedPlayOptions;
+        [SerializeField] private SceneSetup[] savedPlayScenes;
+        [SerializeField] private string savedPlayIdentity, realPlayRoot, realPlayDomain, firstPlayToken, firstPlayActivation;
+
+        [UnityTest]
+        public IEnumerator AS22_ConsecutiveRealPlayWithDomainReload()
+        {
+            PrepareRealPlay(true, "AS22-real-play-reload");
+            yield return new EnterPlayMode(true);
+            CheckFirstRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+            yield return new EnterPlayMode(true);
+            CheckNextRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+        }
+
+        [UnityTest]
+        public IEnumerator AS23_ConsecutiveRealPlayWithoutDomainReload()
+        {
+            PrepareRealPlay(false, "AS23-real-play-no-reload");
+            yield return new EnterPlayMode(false);
+            CheckFirstRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+            yield return new EnterPlayMode(false);
+            CheckNextRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+        }
+
+        private void PrepareRealPlay(bool reload, string caseName)
+        {
+            Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode);
+            for (var i = 0; i < SceneManager.sceneCount; i++)
+                Assert.IsFalse(SceneManager.GetSceneAt(i).isDirty, "BLOCKED: preserve dirty scenes; do not save or discard them.");
+            savedPlayScenes = EditorSceneManager.GetSceneManagerSetup().Where(s => !string.IsNullOrEmpty(s.path)).ToArray();
+            if (savedPlayScenes.Length > 0 && !savedPlayScenes.Any(s => s.isActive))
+            {
+                var active = Array.FindIndex(savedPlayScenes, s => s.isLoaded);
+                Assert.GreaterOrEqual(active, 0, "BLOCKED: no saved loaded scene to restore.");
+                savedPlayScenes[active].isActive = true;
+            }
+            savedPlayOptionsEnabled = EditorSettings.enterPlayModeOptionsEnabled;
+            savedPlayOptions = EditorSettings.enterPlayModeOptions;
+            savedPlayIdentity = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null);
+            savedPlayIdentityPresent = savedPlayIdentity != null;
+            realPlayPrepared = true; realPlayReload = reload; realPlayDomain = PlayTestDomain;
+            // Keep these two new, leased case roots for the executor's evidence; never use player storage.
+            realPlayRoot = new RealArea(caseName).Root;
+            EditorSettings.enterPlayModeOptions = reload ? EnterPlayModeOptions.None : EnterPlayModeOptions.DisableDomainReload;
+            EditorSettings.enterPlayModeOptionsEnabled = true;
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            Assert.AreEqual(0, SceneManager.GetActiveScene().rootCount);
+        }
+
+        private void CheckRealPlayEntry()
+        {
+            Assert.IsTrue(EditorApplication.isPlaying);
+            Assert.AreEqual(realPlayReload, realPlayDomain != PlayTestDomain, "Actual domain reload did not match this case.");
+            Assert.IsFalse(string.IsNullOrEmpty(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null)),
+                "The real Editor event did not install a Play identity.");
+            TestContext.Progress.WriteLine("Actual Play entered; domain reload=" + realPlayReload);
+        }
+
+        private void CheckFirstRealPlay()
+        {
+            CheckRealPlayEntry();
+            var ready = Ready(new FightMatchResourceActivationStore(realPlayRoot));
+            firstPlayToken = ready.Active.ProcessToken; firstPlayActivation = ready.Active.ActivationId;
+            Assert.AreEqual(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null), firstPlayToken);
+            CheckSameRealPlayRejected();
+        }
+
+        private void CheckNextRealPlay()
+        {
+            CheckRealPlayEntry();
+            var store = new FightMatchResourceActivationStore(realPlayRoot);
+            var entered = Ok(store.EnterAtProcessStart("set.a", H1));
+            Assert.AreEqual(firstPlayActivation, entered.Active.ActivationId);
+            Assert.AreNotEqual(firstPlayToken, entered.Active.ProcessToken);
+            Assert.AreEqual(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null), entered.Active.ProcessToken);
+            Assert.AreEqual(1, entered.Active.SchemaVersion); Assert.AreEqual("CodeEntered", entered.Active.Phase);
+            Ok(store.MarkBusinessReady(entered.Active.ActivationId));
+            CheckSameRealPlayRejected();
+        }
+
+        private void CheckSameRealPlayRejected()
+        {
+            var path = Path.Combine(realPlayRoot, "resource-state", "v1", "active.json");
+            var before = File.ReadAllBytes(path);
+            Rejected(new FightMatchResourceActivationStore(realPlayRoot).EnterAtProcessStart("set.a", H1), "RES_STATE");
+            Same(before, File.ReadAllBytes(path));
+        }
+
+        private void CheckRealPlayExit()
+        {
+            Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode);
+            Assert.IsNull(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null));
+            Same(new byte[] { 17, 0, 255 }, File.ReadAllBytes(Path.Combine(realPlayRoot, "external.bin")));
+            realPlayDomain = PlayTestDomain;
+        }
+
+        [UnityTearDown]
+        public IEnumerator RestoreRealPlayEnvironment()
+        {
+            if (!realPlayPrepared) yield break;
+            if (EditorApplication.isPlayingOrWillChangePlaymode) yield return new ExitPlayMode();
+            try
+            {
+                EditorSettings.enterPlayModeOptions = savedPlayOptions;
+                EditorSettings.enterPlayModeOptionsEnabled = savedPlayOptionsEnabled;
+                if (!savedPlayIdentityPresent) SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
+                else SessionState.SetString(FightMatchEditorPlaySession.SessionKey, savedPlayIdentity);
+                FightMatchEditorPlaySession.Initialize();
+            }
+            finally
+            {
+                // UTF owns its transient untitled scene and also restores the original pre-run setup.
+                if (savedPlayScenes.Length > 0) EditorSceneManager.RestoreSceneManagerSetup(savedPlayScenes);
+                else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+                realPlayPrepared = false;
             }
         }
 
