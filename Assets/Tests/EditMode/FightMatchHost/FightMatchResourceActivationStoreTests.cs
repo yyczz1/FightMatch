@@ -788,12 +788,15 @@ namespace FightMatch.Host.Tests
             }
         }
 
+        private const string MissingPlayIdentity = "FightMatch.Tests.MissingPlayIdentity";
+
         [TestCase(false)]
         [TestCase(true)]
         public void AS21_EditorPlayCallbacksPreserveSameSessionGuardAndAdmitNextPlay(bool reinitialize)
         {
             Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode, "This callback regression requires Edit Mode.");
-            var saved = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null);
+            var saved = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, string.Empty);
+            var savedPresent = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity) == saved;
             try
             {
                 using (var area = new RealArea("AS21-" + reinitialize))
@@ -833,6 +836,13 @@ namespace FightMatch.Host.Tests
                 FightMatchEditorPlaySession.Initialize();
                 using (var area = new RealArea("AS21-default-" + reinitialize))
                 {
+                    SessionState.SetString(FightMatchEditorPlaySession.SessionKey, "invalid-session");
+                    FightMatchEditorPlaySession.Initialize();
+                    Rejected(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                    Assert.IsFalse(Directory.Exists(area.State), "Invalid identity must not create activation state.");
+                    SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
+                    Assert.AreEqual(MissingPlayIdentity, SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity));
+                    FightMatchEditorPlaySession.Initialize();
                     var ordinary = Ok(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.a", H1));
                     using (var process = System.Diagnostics.Process.GetCurrentProcess())
                         Assert.AreEqual("p" + process.Id.ToString(System.Globalization.CultureInfo.InvariantCulture) + "-" +
@@ -842,7 +852,7 @@ namespace FightMatch.Host.Tests
             }
             finally
             {
-                if (saved == null) SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
+                if (!savedPresent) SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
                 else SessionState.SetString(FightMatchEditorPlaySession.SessionKey, saved);
                 FightMatchEditorPlaySession.Initialize();
             }
@@ -897,8 +907,8 @@ namespace FightMatch.Host.Tests
             }
             savedPlayOptionsEnabled = EditorSettings.enterPlayModeOptionsEnabled;
             savedPlayOptions = EditorSettings.enterPlayModeOptions;
-            savedPlayIdentity = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null);
-            savedPlayIdentityPresent = savedPlayIdentity != null;
+            savedPlayIdentity = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, string.Empty);
+            savedPlayIdentityPresent = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity) == savedPlayIdentity;
             realPlayPrepared = true; realPlayReload = reload; realPlayDomain = PlayTestDomain;
             // Keep these two new, leased case roots for the executor's evidence; never use player storage.
             realPlayRoot = new RealArea(caseName).Root;
@@ -950,7 +960,8 @@ namespace FightMatch.Host.Tests
         private void CheckRealPlayExit()
         {
             Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode);
-            Assert.IsNull(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null));
+            Assert.AreEqual(MissingPlayIdentity, SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity));
+            Assert.AreEqual(string.Empty, SessionState.GetString(FightMatchEditorPlaySession.SessionKey, string.Empty));
             Same(new byte[] { 17, 0, 255 }, File.ReadAllBytes(Path.Combine(realPlayRoot, "external.bin")));
             realPlayDomain = PlayTestDomain;
         }

@@ -19,7 +19,8 @@ namespace FightMatch.Host.Editor
             EditorApplication.playModeStateChanged -= Observe;
             EditorApplication.playModeStateChanged += Observe;
             // Assembly reload restores this Play identity; it must not manufacture another start.
-            FightMatchResourceActivationStore.SetDesktopSessionToken(SessionState.GetString(SessionKey, null));
+            var token = SessionState.GetString(SessionKey, string.Empty);
+            FightMatchResourceActivationStore.SetDesktopSessionToken(string.IsNullOrEmpty(token) ? null : token);
         }
 
         internal static void Observe(PlayModeStateChange state)
