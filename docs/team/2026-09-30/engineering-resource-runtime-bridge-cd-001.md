@@ -59,6 +59,8 @@ D源码依赖RES-A/B接收和C已固定的共享interface，不依赖C画面／H
 | 新目录meta | `Assets/FightMatch/ResourceBuild.meta`；`Assets/FightMatch/ResourceBuild/Inputs.meta`；`Assets/Scripts/FightMatch/YooAssetAdapter/Editor.meta` |
 
 - D runtime adapter程序集仍只引用AssetAccess与A核定的YooAsset runtime；新增Editor程序集只引用AssetAccess、YooAssetAdapter和A机械识别的SDK runtime／Editor／构建程序集。Host桥接仅依赖项目interface、Content和LOC-B；SDK类型、地址、URL不进入Host／Presentation。没有Host→adapter friend或可变全局factory。
+
+2026-10-23中央为[RES-BOOT-HOST-001异步释放P2](https://github.com/yyczz1/FightMatch/pull/22#discussion_r4351314663)明确批准唯一例外：可声明`InternalsVisibleTo("FightMatch.Host")`，仅供Host读取既有`YooAssetResourceRuntime.Stopped`并绑定内部关闭完成Task；不得据此访问provider／lifecycle构造器、SDK类型或其他内部能力，其余限制不变，范围与验收见[主程同任务](engineering.md)。
 - 唯一新增public构造入口为`YooAssetRuntimeFactory.Create(ResourceBootstrapInput input) -> ResourceRuntimeCreationResult`，成功给`IFightMatchResourceRuntime`，失败仅给受控诊断；provider／lifecycle构造器继续internal。Input／result／外层DTO／`FightMatchRawBytes`归A的D新文件，不依赖Unity；新增序列化只属resource schema v1，绝不复用业务`ContentReleaseSet`。
 - Input只含Player内固定boot bytes／独立pinned SHA、预期platform／app protocol／exact resourceSetId、`BuiltIn`或`RemoteHttps`交付模式、受限budget及已批准HTTPS hosts；不接受latest／用户路径。Factory先核pin、严格schema／能力／平台／有界长度与映射，再创建SDK模块；BuiltIn不进入remote services，RemoteHttps沿B URL检查。
 - boot计划包括RES §13描述符、准确manifest package version／SHA、logical mapping及物理file长度／SHA清单；descriptor与mapping只接受唯一exact字段、ordinal排序、无重复／traversal／trailing，预算在身份槽中冻结。expected SHA必须来自已接收Player构建锚，不是同一下载对象自报；本地锚不冒称生产授权签名。

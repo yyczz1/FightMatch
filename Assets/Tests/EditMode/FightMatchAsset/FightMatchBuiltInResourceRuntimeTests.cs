@@ -177,6 +177,40 @@ namespace FightMatch.AssetAccess.Tests
             }
         }
 
+        [Test]
+        public void VerifiedRuntimeRetainsOwnershipAfterLateDestroyFailureUntilExplicitRetry()
+        {
+            using (var dispatcher = new Dispatcher())
+            {
+                var sdk = new FakeSdk { HoldDestroy = true };
+                var runtime = Runtime(sdk, dispatcher); Exception bodyFailure = null;
+                try
+                {
+                    var inspection = runtime.InspectAsync(1, CancellationToken.None).Result;
+                    ResourceDownloadPermit.TryCreate(inspection, false, out var permit, out _);
+                    var preparing = runtime.PrepareAsync(permit, null, CancellationToken.None);
+                    dispatcher.Complete(preparing);
+                    Assert.AreEqual(ResourceTransportStatus.TransportVerified, preparing.Result.Status);
+                    runtime.Dispose(); dispatcher.Drain();
+                    Assert.IsFalse(runtime.Stopped.IsCompleted); Assert.AreEqual(1, sdk.DestroyCalls);
+                    sdk.CompleteDestroy(false); dispatcher.Drain();
+                    Assert.IsFalse(runtime.Stopped.IsCompleted);
+                    Assert.AreEqual(1, sdk.PackageCount); Assert.IsTrue(sdk.Initialized); Assert.AreEqual(0, sdk.GlobalDestroys);
+                    dispatcher.Drain(); Assert.AreEqual(1, sdk.DestroyCalls, "Late failure must not automatically retry.");
+                    runtime.Dispose(); dispatcher.Drain();
+                    Assert.AreEqual(2, sdk.DestroyCalls); Assert.IsFalse(runtime.Stopped.IsCompleted);
+                    Assert.AreEqual(1, sdk.PackageCount); Assert.IsTrue(sdk.Initialized);
+                    sdk.CompleteDestroy(); dispatcher.Complete(runtime.Stopped);
+                    Assert.AreEqual(0, sdk.PackageCount); Assert.IsFalse(sdk.Initialized); Assert.AreEqual(1, sdk.GlobalDestroys);
+                    Assert.AreEqual(sdk.Reads, sdk.Releases);
+                    runtime.Dispose(); dispatcher.Drain(); Assert.AreEqual(2, sdk.DestroyCalls);
+                    Assert.AreEqual(1, sdk.GlobalDestroys);
+                }
+                catch (Exception error) { bodyFailure = error; throw; }
+                finally { sdk.HoldDestroy = false; sdk.CompleteDestroy(); Cleanup(runtime, dispatcher, bodyFailure); }
+            }
+        }
+
         private static void Cleanup(YooAssetResourceRuntime runtime, Dispatcher dispatcher, Exception bodyFailure)
         {
             try { runtime.Dispose(); dispatcher.Complete(runtime.Stopped); }
@@ -282,7 +316,7 @@ namespace FightMatch.AssetAccess.Tests
                 if (!HoldDestroy) destruction.Complete();
                 return destruction;
             }
-            internal void CompleteDestroy() => destruction?.Complete();
+            internal void CompleteDestroy(bool success = true) => destruction?.Complete(success);
             public void Remove(string name) { package = null; }
             public IRawYooOperation BeginRaw(object value, AssetMapping map, long limit, Action wake)
             { Reads++; wakeRaw = wake; return new Raw(this, map, limit); }
@@ -292,14 +326,16 @@ namespace FightMatch.AssetAccess.Tests
                 private readonly FakeSdk sdk;
                 internal Destruction(FakeSdk sdk) { this.sdk = sdk; }
                 public bool Done { get; private set; }
-                public bool Success => Done;
+                public bool Success { get; private set; }
                 public UnityEngine.Object Asset => null;
                 public event Action<IYooOperation> Completed;
                 public void Release() { }
-                internal void Complete()
+                internal void Complete(bool success = true)
                 {
                     if (Done) return;
-                    sdk.ready = false; sdk.empty = true; Done = true; Completed?.Invoke(this);
+                    Success = success;
+                    if (success) { sdk.ready = false; sdk.empty = true; }
+                    Done = true; Completed?.Invoke(this);
                 }
             }
             private sealed class Raw : Operation, IRawYooOperation

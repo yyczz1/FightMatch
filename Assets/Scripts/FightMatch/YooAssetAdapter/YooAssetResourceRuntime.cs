@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FightMatch.AssetAccess;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FightMatch.Host")]
+
 namespace FightMatch.YooAssetAdapter
 {
     // One admitted BuiltIn startup. A failed/cancelled startup needs a newly created runtime.

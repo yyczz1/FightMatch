@@ -188,6 +188,7 @@ namespace FightMatch.Host
         {
             var stage = "host.factory";
             IFightMatchResourceRuntime ownedRuntime = null;
+            Task stopped = null;
             FightMatchBootstrapController bootstrap = null;
             FightMatchResourceBridgeResult Failed(string code, string detail = null)
             {
@@ -196,59 +197,72 @@ namespace FightMatch.Host
                         "FightMatch resource startup: stage={0}", detail ?? stage + "; error=ReturnedCode");
                 return new FightMatchResourceBridgeResult(null, null, null, code);
             }
+            async Task<FightMatchResourceBridgeResult> Open()
+            {
+                try
+                {
+                    if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                    var created = YooAssetRuntimeFactory.Create(CreateResourceInput(UnityEngine.Application.platform));
+                    if (!created.IsAccepted) return Failed(created.SafeCode);
+                    resourceRuntime = ownedRuntime = created.Runtime;
+                    stopped = ((YooAssetResourceRuntime)ownedRuntime).Stopped;
+                    stage = "host.locale-before-create";
+                    VerifyLocaleStorage();
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    stage = "host.product-prepare";
+                    var storageCode = PrepareAndroidResourceStorage(CanonicalProductRoot, preferenceRoot,
+                        FightMatchResourceActivationStore.CreateAndroid, out resourceActivation);
+                    if (storageCode != null) return Failed(storageCode, resourceActivation.StorageDiagnostic);
+                    stage = "host.locale-after-create";
+                    VerifyLocaleStorage();
+#else
+                    stage = "host.product-create";
+                    Directory.CreateDirectory(CanonicalProductRoot);
+                    stage = "host.locale-after-create";
+                    VerifyLocaleStorage();
+                    stage = "host.activation-create";
+                    resourceActivation = new FightMatchResourceActivationStore(CanonicalProductRoot);
+#endif
+                    stage = "host.activation-enter";
+                    var entered = resourceActivation.EnterAtProcessStart(created.ReleaseSetId, created.DescriptorSha256);
+                    if (entered.Outcome != ActivationOutcome.Confirmed || entered.Snapshot?.Active == null)
+                        return Failed(entered.SafeCode ?? "RES_STATE", resourceActivation.StorageDiagnostic);
+                    resourceActivationId = entered.Snapshot.Active.ActivationId;
+                    resourceBootstrap = bootstrap = new FightMatchBootstrapController();
+                    var bridge = await OpenBootstrapAsync(bootstrap, ownedRuntime, stopped, created.ReleaseSetId,
+                        () => CurrentResourceStartup(epoch), cancellationToken, FightMatchResourceBridge.OpenAsync,
+                        value => stage = value);
+                    return bridge.IsDataReady ? bridge : Failed(bridge.DiagnosticCode);
+                }
+                catch (OperationCanceledException) { return Failed("RES_STOP"); }
+                catch (Exception error) { return Failed("RES_STORAGE", stage + "; error=" + FightMatchResourceActivationStore.StorageExceptionKind(error)); }
+            }
+            var result = await Open();
             try
             {
-                if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
-                var created = YooAssetRuntimeFactory.Create(CreateResourceInput(UnityEngine.Application.platform));
-                if (!created.IsAccepted) return Failed(created.SafeCode);
-                resourceRuntime = ownedRuntime = created.Runtime;
-                stage = "host.locale-before-create";
-                VerifyLocaleStorage();
-#if UNITY_ANDROID && !UNITY_EDITOR
-                stage = "host.product-prepare";
-                var storageCode = PrepareAndroidResourceStorage(CanonicalProductRoot, preferenceRoot,
-                    FightMatchResourceActivationStore.CreateAndroid, out resourceActivation);
-                if (storageCode != null) return Failed(storageCode, resourceActivation.StorageDiagnostic);
-                stage = "host.locale-after-create";
-                VerifyLocaleStorage();
-#else
-                stage = "host.product-create";
-                Directory.CreateDirectory(CanonicalProductRoot);
-                stage = "host.locale-after-create";
-                VerifyLocaleStorage();
-                stage = "host.activation-create";
-                resourceActivation = new FightMatchResourceActivationStore(CanonicalProductRoot);
-#endif
-                stage = "host.activation-enter";
-                var entered = resourceActivation.EnterAtProcessStart(created.ReleaseSetId, created.DescriptorSha256);
-                if (entered.Outcome != ActivationOutcome.Confirmed || entered.Snapshot?.Active == null)
-                    return Failed(entered.SafeCode ?? "RES_STATE", resourceActivation.StorageDiagnostic);
-                resourceActivationId = entered.Snapshot.Active.ActivationId;
-                resourceBootstrap = bootstrap = new FightMatchBootstrapController();
-                var bridge = await OpenBootstrapAsync(bootstrap, ownedRuntime, created.ReleaseSetId,
-                    () => CurrentResourceStartup(epoch), cancellationToken, FightMatchResourceBridge.OpenAsync,
-                    value => stage = value);
-                return bridge.IsDataReady ? bridge : Failed(bridge.DiagnosticCode);
+                return await FinishBootstrapAsync(bootstrap, ownedRuntime, stopped, result,
+                    () => CurrentResourceStartup(epoch), cancellationToken);
             }
-            catch (OperationCanceledException) { return Failed("RES_STOP"); }
-            catch (Exception error) { return Failed("RES_STORAGE", stage + "; error=" + FightMatchResourceActivationStore.StorageExceptionKind(error)); }
+            catch (Exception error)
+            {
+                Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
+                    "FightMatch resource startup: stage=host.dispose; error={0}", FightMatchResourceActivationStore.StorageExceptionKind(error));
+                throw;
+            }
             finally
             {
-                try { DisposeBootstrap(bootstrap, ownedRuntime); }
-                catch (Exception error)
+                if (stopped != null && stopped.Status == TaskStatus.RanToCompletion)
                 {
-                    Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
-                        "FightMatch resource startup: stage=host.dispose; error={0}", FightMatchResourceActivationStore.StorageExceptionKind(error));
-                    throw;
+                    if (ReferenceEquals(resourceBootstrap, bootstrap)) resourceBootstrap = null;
+                    if (ReferenceEquals(resourceRuntime, ownedRuntime)) resourceRuntime = null;
                 }
-                finally { if (ReferenceEquals(resourceBootstrap, bootstrap)) resourceBootstrap = null; }
             }
         }
 
         // The caller owns this controller and the final release boundary. Host request epochs stay
         // in isCurrent; only the controller's verified inspection epoch is passed to the Bridge.
         internal static async Task<FightMatchResourceBridgeResult> OpenBootstrapAsync(
-            FightMatchBootstrapController bootstrap, IFightMatchResourceRuntime runtime, string expectedSet,
+            FightMatchBootstrapController bootstrap, IFightMatchResourceRuntime runtime, Task stopped, string expectedSet,
             Func<bool> isCurrent, CancellationToken cancellationToken,
             Func<IFightMatchResourceRuntime, long, CancellationToken, Task<FightMatchResourceBridgeResult>> openBridge,
             Action<string> enterStage = null)
@@ -256,7 +270,7 @@ namespace FightMatch.Host
             FightMatchResourceBridgeResult Failed(string code) => new FightMatchResourceBridgeResult(null, null, null, code);
             bool Current() => !cancellationToken.IsCancellationRequested && isCurrent();
             if (!Current()) return Failed("RES_STOP");
-            if (!bootstrap.Bind(runtime)) return Failed("RES_STALE");
+            if (!bootstrap.Bind(runtime, stopped)) return Failed("RES_STALE");
             long transportEpoch = 0;
             string runtimeIdentity = null, verifiedSet = null;
             bool Verified()
@@ -300,11 +314,24 @@ namespace FightMatch.Host
             finally { bootstrap.TransportVerified -= ObserveVerified; }
         }
 
+        internal static async Task<FightMatchResourceBridgeResult> FinishBootstrapAsync(
+            FightMatchBootstrapController bootstrap, IFightMatchResourceRuntime runtime, Task stopped,
+            FightMatchResourceBridgeResult result, Func<bool> isCurrent, CancellationToken cancellationToken)
+        {
+            DisposeBootstrap(bootstrap, runtime);
+            if (runtime != null)
+            {
+                if (stopped == null) throw new ArgumentNullException(nameof(stopped));
+                await stopped;
+            }
+            return !cancellationToken.IsCancellationRequested && isCurrent() ? result :
+                new FightMatchResourceBridgeResult(null, null, null, "RES_STOP");
+        }
+
         internal static void DisposeBootstrap(FightMatchBootstrapController bootstrap, IFightMatchResourceRuntime runtime)
         {
-            var wasVerified = bootstrap?.Snapshot?.Stage == ResourceTransportStage.TransportVerified;
             bootstrap?.Dispose();
-            var cleanupFailed = wasVerified && bootstrap.Snapshot.Stage == ResourceTransportStage.StopRequested;
+            var cleanupFailed = bootstrap != null && bootstrap.ReleaseFailed;
             // Controller cleanup records failures rather than throwing. Keep the Host's throwing
             // final-release boundary; an idempotent retry must not turn a failed cleanup into DataReady.
             runtime?.Dispose();
@@ -402,14 +429,20 @@ namespace FightMatch.Host
             try { CancelStartup(); } finally { DisposeSessionAndLease(); }
             Debug.LogException(error); ShowFailure("HostSaveIsolationRejected");
         }
+        private void RequestResourceCleanup()
+        {
+            // A later explicit lifecycle request must reach an unfinished close, even after cancellation.
+            if (resourceBootstrap != null) resourceBootstrap.Dispose();
+            else resourceRuntime?.Dispose();
+        }
+
         private void CancelStartup()
         {
-            if (startupCancelled) return;
+            if (startupCancelled) { RequestResourceCleanup(); return; }
             startupCancelled = true;
             resourceEpoch++;
             resourceCancellation?.Cancel();
-            if (resourceBootstrap != null) resourceBootstrap.Cancel();
-            else resourceRuntime?.Dispose();
+            RequestResourceCleanup();
             localeEpoch++; localePreference = null; localeSelectionEnabled = false;
             startupFailure = startupFailure ?? "HostInitializationFailed";
             try { StopAllCoroutines(); }

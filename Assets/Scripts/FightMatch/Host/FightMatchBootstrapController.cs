@@ -33,6 +33,7 @@ namespace FightMatch.Host
         private sealed class Attempt
         {
             internal readonly IFightMatchResourceRuntime Runtime;
+            internal readonly Task Stopped;
             internal readonly long Epoch;
             internal readonly CancellationTokenSource Cancellation = new CancellationTokenSource();
             internal ResourceInspection Inspection;
@@ -41,7 +42,9 @@ namespace FightMatch.Host
             internal string OperationId;
             internal bool Started, Pending, Preparing, Invalidated, StopProven, Released, CancelRequested;
             internal bool TransportVerified, AdmissionCompleted, CancellationDisposed;
-            internal Attempt(IFightMatchResourceRuntime runtime, long epoch) { Runtime = runtime; Epoch = epoch; }
+            internal bool ReleaseRequested, ReleaseObserved, ReleaseFailed;
+            internal Attempt(IFightMatchResourceRuntime runtime, Task stopped, long epoch)
+            { Runtime = runtime; Stopped = stopped; Epoch = epoch; }
         }
 
         private sealed class ProgressSink : IProgress<ResourceProgress>
@@ -60,15 +63,17 @@ namespace FightMatch.Host
         private bool focused = true, disposed;
         private ResourceNetworkKind? observedNetwork;
         internal FightMatchBootstrapSnapshot Snapshot { get; private set; }
+        internal bool ReleaseFailed => current != null && current.ReleaseFailed;
         internal event Action<string, string, long> TransportVerified;
 
-        internal bool Bind(IFightMatchResourceRuntime runtime)
+        internal bool Bind(IFightMatchResourceRuntime runtime, Task stopped)
         {
             if (runtime == null) throw new ArgumentNullException(nameof(runtime));
+            if (stopped == null) throw new ArgumentNullException(nameof(stopped));
             if (disposed || epoch == long.MaxValue) return false;
             if (current != null && (ReferenceEquals(current.Runtime, runtime) || current.Pending ||
                 !current.Invalidated || !current.StopProven || !Release(current))) return false;
-            current = new Attempt(runtime, ++epoch);
+            current = new Attempt(runtime, stopped, ++epoch);
             Set(current, ResourceTransportStage.Inspecting);
             return true;
         }
@@ -257,7 +262,7 @@ namespace FightMatch.Host
                 try { attempt.Cancellation.Cancel(); }
                 catch (Exception) { Set(attempt, ResourceTransportStage.StopRequested, Diagnostic(ResourceRuntimeDiagnosticCode.Stop)); }
             }
-            if (Release(attempt) && !attempt.Pending && attempt.StopProven)
+            if (Release(attempt, true) && !attempt.Pending && attempt.StopProven)
                 Set(attempt, ResourceTransportStage.Stopped);
         }
 
@@ -289,21 +294,54 @@ namespace FightMatch.Host
                 ResourceTransportStage.FailedTerminal, diagnostic);
         }
 
-        private bool Release(Attempt attempt)
+        private bool Release(Attempt attempt, bool explicitlyRequested = false)
         {
-            if (!attempt.Released)
+            if (!attempt.Released && (!attempt.ReleaseRequested || explicitlyRequested))
             {
-                try { attempt.Runtime.Dispose(); attempt.Released = true; }
+                attempt.ReleaseRequested = true;
+                attempt.ReleaseFailed = false;
+                try { attempt.Runtime.Dispose(); }
                 catch (Exception)
                 {
                     // Keep ownership and allow a later Dispose to retry the failed release.
+                    attempt.ReleaseFailed = true;
                     Set(attempt, ResourceTransportStage.StopRequested, Diagnostic(ResourceRuntimeDiagnosticCode.Stop));
                     return false;
                 }
             }
+            if (attempt.Stopped.Status != TaskStatus.RanToCompletion)
+            {
+                attempt.ReleaseFailed |= attempt.Stopped.IsFaulted || attempt.Stopped.IsCanceled;
+                Set(attempt, ResourceTransportStage.StopRequested, attempt.ReleaseFailed ?
+                    Diagnostic(ResourceRuntimeDiagnosticCode.Stop) : null);
+                if (!attempt.ReleaseObserved)
+                {
+                    attempt.ReleaseObserved = true;
+                    _ = ObserveReleaseAsync(attempt);
+                }
+                return false;
+            }
+            attempt.Released = true;
             if (!attempt.Pending && !attempt.CancellationDisposed)
             { attempt.Cancellation.Dispose(); attempt.CancellationDisposed = true; }
             return true;
+        }
+
+        private async Task ObserveReleaseAsync(Attempt attempt)
+        {
+            try { await attempt.Stopped; }
+            catch (Exception)
+            {
+                attempt.ReleaseFailed = true;
+                Set(attempt, ResourceTransportStage.StopRequested, Diagnostic(ResourceRuntimeDiagnosticCode.Stop));
+                return;
+            }
+            // Completion observes ownership only; it must never request another cleanup attempt.
+            attempt.Released = true;
+            if (!attempt.Pending && !attempt.CancellationDisposed)
+            { attempt.Cancellation.Dispose(); attempt.CancellationDisposed = true; }
+            if (attempt.Invalidated && !attempt.Pending && attempt.StopProven)
+                Set(attempt, ResourceTransportStage.Stopped);
         }
 
         private bool Live(Attempt attempt) => !disposed && attempt != null && ReferenceEquals(current, attempt) && !attempt.Invalidated;
