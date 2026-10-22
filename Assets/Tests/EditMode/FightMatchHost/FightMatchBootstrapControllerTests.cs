@@ -255,17 +255,22 @@ namespace FightMatch.Host.Tests
         }
 
         [UnityTest]
-        public IEnumerator BC12_StopProgressRequestsCancellationButWaitsForResult()
+        public IEnumerator BC12_StopProgressDoesNotCancelOrProveTermination()
         {
-            var runtime = new FixtureRuntime();
+            var runtime = new FixtureRuntime(); var replacement = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
                 Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
-                runtime.Report(ResourceTransportStage.Stopped, 0, 0);
-                Assert.IsTrue(runtime.Token.IsCancellationRequested); Assert.IsFalse(running.IsCompleted);
-                Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
+                foreach (var stage in new[] { ResourceTransportStage.StopRequested, ResourceTransportStage.Stopped })
+                {
+                    runtime.Report(stage, 0, 0);
+                    Assert.IsFalse(runtime.Token.IsCancellationRequested); Assert.IsFalse(running.IsCompleted);
+                    Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
+                    Assert.IsFalse(controller.Bind(replacement));
+                }
                 runtime.Cancelled(); yield return Settle(running);
                 Assert.AreEqual(ResourceTransportStage.Stopped, controller.Snapshot.Stage);
+                Assert.IsTrue(controller.Bind(replacement));
             }
         }
 
@@ -345,6 +350,63 @@ namespace FightMatch.Host.Tests
             }
         }
 
+        [UnityTest]
+        public IEnumerator BC17_RuntimeFailureCleanupPreservesOriginalRejectionUntilControlledTermination()
+        {
+            FightMatchAssetId.TryCreate("fm.content.source", out var assetId);
+            var asset = new FightMatchAssetDiagnostic(FightMatchAssetDiagnosticCode.SdkFailure,
+                FightMatchAssetDiagnosticStage.Acquire, assetId, "fm.bootstrap.test", true, null);
+            var failures = new[]
+            {
+                new ResourceRuntimeDiagnostic(ResourceRuntimeDiagnosticCode.Asset, true, asset),
+                new ResourceRuntimeDiagnostic(ResourceRuntimeDiagnosticCode.Hash, false, null),
+                new ResourceRuntimeDiagnostic(ResourceRuntimeDiagnosticCode.Storage, true, null)
+            };
+            foreach (var failure in failures)
+            {
+                var runtime = new FixtureRuntime { Network = ResourceNetworkKind.Offline, Bytes = 0, Files = 0 };
+                var replacement = new FixtureRuntime();
+                using (var controller = new FightMatchBootstrapController())
+                {
+                    Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                    // YooAssetResourceRuntime closes itself before reporting failure-cleanup intent.
+                    runtime.Dispose(); runtime.Report(ResourceTransportStage.StopRequested, 0, 0);
+                    Assert.IsFalse(runtime.Token.IsCancellationRequested, "Runtime cleanup is not owner cancellation.");
+                    Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
+                    Assert.IsFalse(running.IsCompleted); Assert.IsFalse(controller.Bind(replacement));
+                    runtime.CompleteFailureCleanup(failure); yield return Settle(running);
+                    Assert.IsFalse(runtime.Token.IsCancellationRequested);
+                    Assert.AreSame(failure, controller.Snapshot.Diagnostic);
+                    Assert.AreSame(failure.AssetDiagnostic, controller.Snapshot.Diagnostic.AssetDiagnostic);
+                    Assert.AreEqual(failure.Retryable ? ResourceTransportStage.FailedRetryable :
+                        ResourceTransportStage.FailedTerminal, controller.Snapshot.Stage);
+                    Assert.IsTrue(controller.Bind(replacement));
+                }
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator BC18_OwnerCancellationDuringRuntimeCleanupStillWaitsForCancelledResult()
+        {
+            var runtime = new FixtureRuntime { Network = ResourceNetworkKind.Offline, Bytes = 0, Files = 0 };
+            var replacement = new FixtureRuntime();
+            using (var controller = new FightMatchBootstrapController())
+            {
+                Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                runtime.Dispose(); runtime.Report(ResourceTransportStage.StopRequested, 0, 0);
+                Assert.IsFalse(runtime.Token.IsCancellationRequested);
+                controller.Cancel();
+                Assert.IsTrue(runtime.Token.IsCancellationRequested); Assert.IsFalse(running.IsCompleted);
+                Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
+                Assert.IsFalse(controller.Bind(replacement));
+                runtime.CompleteFailureCleanup(new ResourceRuntimeDiagnostic(ResourceRuntimeDiagnosticCode.Hash, false, null));
+                yield return Settle(running);
+                Assert.AreEqual(ResourceTransportStage.Stopped, controller.Snapshot.Stage);
+                Assert.IsNull(controller.Snapshot.Diagnostic); Assert.IsNull(controller.Snapshot.AdmissionAccepted);
+                Assert.IsTrue(controller.Bind(replacement));
+            }
+        }
+
         private static IEnumerator Settle(Task task)
         {
             for (var frame = 0; frame < 8 && !task.IsCompleted; frame++) yield return null;
@@ -385,6 +447,18 @@ namespace FightMatch.Host.Tests
             internal void Cancelled() => Preparation.SetResult(ResourceTransportResult.Cancelled(Permit, Operation));
             internal void Rejected(ResourceRuntimeDiagnosticCode code) => Preparation.SetResult(ResourceTransportResult.Rejected(
                 Identity, Operation, Inspection.Epoch, new ResourceRuntimeDiagnostic(code, true, null)));
+            internal void CompleteFailureCleanup(ResourceRuntimeDiagnostic failure)
+            {
+                // Match the real runtime's post-cleanup branch: cancellation wins only when requested by the owner.
+                if (Token.IsCancellationRequested)
+                { Report(ResourceTransportStage.Stopped, 0, 0); Cancelled(); }
+                else
+                {
+                    Observer.Report(new ResourceProgress(Inspection, Operation, 0, 0, Network,
+                        failure.Retryable ? ResourceTransportStage.FailedRetryable : ResourceTransportStage.FailedTerminal, failure));
+                    Preparation.SetResult(ResourceTransportResult.Rejected(Identity, Operation, Inspection.Epoch, failure));
+                }
+            }
             internal void Report(ResourceTransportStage stage, long bytes, int files) => Observer.Report(
                 new ResourceProgress(Inspection, Operation, bytes, files, Network, stage, null));
             public void Dispose()

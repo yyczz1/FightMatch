@@ -191,10 +191,11 @@ namespace FightMatch.Host
             { NotifyNetwork(progress.NetworkKind); return; }
             attempt.OperationId = progress.OperationId;
             attempt.Progress = progress;
-            if (progress.Stage == ResourceTransportStage.StopRequested || progress.Stage == ResourceTransportStage.Stopped)
-            { Cancel(); return; }
-            // Only the matching operation result may publish TransportVerified.
+            // Runtime cleanup progress is not owner cancellation or proof of termination. Preserve
+            // its eventual rejection; Pending blocks rebinding until the matching result arrives.
+            // Only the matching operation result may publish TransportVerified or Stopped.
             Set(attempt, progress.Stage == ResourceTransportStage.TransportVerified ? ResourceTransportStage.Verifying :
+                progress.Stage == ResourceTransportStage.Stopped ? ResourceTransportStage.StopRequested :
                 progress.Stage, progress.Diagnostic);
         }
 
