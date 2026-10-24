@@ -16,7 +16,7 @@ namespace FightMatch.Host.Tests
             var runtime = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(runtime));
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped));
                 var notifications = 0;
                 controller.TransportVerified += (instance, set, epoch) =>
                 {
@@ -55,7 +55,7 @@ namespace FightMatch.Host.Tests
                 var runtime = new FixtureRuntime { Network = network, Bytes = 0, Files = 0 };
                 using (var controller = new FightMatchBootstrapController())
                 {
-                    Assert.IsTrue(controller.Bind(runtime));
+                    Assert.IsTrue(controller.Bind(runtime, runtime.Stopped));
                     var running = controller.StartAsync();
                     Assert.AreEqual(1, runtime.PrepareCalls); Assert.IsFalse(runtime.Permit.MobileConfirmed);
                     runtime.Verified(); yield return Settle(running);
@@ -70,7 +70,7 @@ namespace FightMatch.Host.Tests
             var runtime = new FixtureRuntime { Network = ResourceNetworkKind.Mobile };
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(runtime)); yield return Settle(controller.StartAsync());
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); yield return Settle(controller.StartAsync());
                 Assert.AreEqual(ResourceTransportStage.ConsentRequired, controller.Snapshot.Stage);
                 Assert.AreEqual(100, controller.Snapshot.Inspection.RemainingBytes);
                 Assert.AreEqual(0, runtime.PrepareCalls);
@@ -93,7 +93,7 @@ namespace FightMatch.Host.Tests
                 var runtime = new FixtureRuntime { Network = network };
                 using (var controller = new FightMatchBootstrapController())
                 {
-                    Assert.IsTrue(controller.Bind(runtime)); yield return Settle(controller.StartAsync());
+                    Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); yield return Settle(controller.StartAsync());
                     Assert.AreEqual(0, runtime.PrepareCalls); Assert.AreEqual(1, runtime.DisposeCalls);
                     Assert.AreEqual(ResourceTransportStage.FailedRetryable, controller.Snapshot.Stage);
                     Assert.AreEqual("RES_NETWORK", controller.Snapshot.SafeCode);
@@ -107,17 +107,17 @@ namespace FightMatch.Host.Tests
             var runtime = new FixtureRuntime(); var replacement = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                 controller.Cancel(); controller.Cancel();
                 Assert.IsTrue(runtime.Token.IsCancellationRequested); Assert.AreEqual(1, runtime.DisposeCalls);
                 Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
-                Assert.IsFalse(running.IsCompleted); Assert.IsFalse(controller.Bind(replacement));
+                Assert.IsFalse(running.IsCompleted); Assert.IsFalse(controller.Bind(replacement, replacement.Stopped));
                 Assert.AreEqual(0, replacement.InspectCalls); Assert.AreEqual(0, replacement.DisposeCalls);
                 runtime.Report(ResourceTransportStage.Stopped, 0, 0);
                 Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
                 runtime.Cancelled(); yield return Settle(running);
                 Assert.AreEqual(ResourceTransportStage.Stopped, controller.Snapshot.Stage);
-                Assert.IsFalse(controller.Bind(runtime)); Assert.IsTrue(controller.Bind(replacement));
+                Assert.IsFalse(controller.Bind(runtime, runtime.Stopped)); Assert.IsTrue(controller.Bind(replacement, replacement.Stopped));
             }
             Assert.AreEqual(1, replacement.DisposeCalls);
         }
@@ -130,7 +130,7 @@ namespace FightMatch.Host.Tests
                 var runtime = new FixtureRuntime();
                 using (var controller = new FightMatchBootstrapController())
                 {
-                    Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                    Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                     runtime.Report(ResourceTransportStage.Downloading, 20, 0);
                     if (focusLoss) controller.NotifyFocus(false);
                     else controller.NotifyNetwork(ResourceNetworkKind.Mobile);
@@ -157,11 +157,11 @@ namespace FightMatch.Host.Tests
             {
                 var notifications = 0;
                 controller.TransportVerified += (instance, set, epoch) => { notifications++; Assert.AreEqual(next.Identity, instance); };
-                Assert.IsTrue(controller.Bind(first)); yield return Settle(controller.StartAsync());
+                Assert.IsTrue(controller.Bind(first, first.Stopped)); yield return Settle(controller.StartAsync());
                 var oldEpoch = controller.Snapshot.Epoch;
                 var firstRun = controller.ConfirmMobileAsync(oldEpoch);
                 controller.Cancel(); first.Cancelled(); yield return Settle(firstRun);
-                Assert.IsTrue(controller.Bind(next)); yield return Settle(controller.StartAsync());
+                Assert.IsTrue(controller.Bind(next, next.Stopped)); yield return Settle(controller.StartAsync());
                 var newEpoch = controller.Snapshot.Epoch;
                 Assert.Greater(newEpoch, oldEpoch);
                 Assert.AreNotEqual(first.Inspection.InspectionId, next.Inspection.InspectionId);
@@ -185,14 +185,14 @@ namespace FightMatch.Host.Tests
             var first = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(first)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(first, first.Stopped)); var running = controller.StartAsync();
                 controller.Cancel(); first.Cancelled(); yield return Settle(running);
                 var wrongSet = new FixtureRuntime { Set = "fm.bootstrap.other" };
-                Assert.IsTrue(controller.Bind(wrongSet)); yield return Settle(controller.StartAsync());
+                Assert.IsTrue(controller.Bind(wrongSet, wrongSet.Stopped)); yield return Settle(controller.StartAsync());
                 Assert.AreEqual(0, wrongSet.PrepareCalls); Assert.AreEqual("RES_STALE", controller.Snapshot.SafeCode);
                 Assert.AreEqual(1, wrongSet.DisposeCalls);
                 var reusedIdentity = new FixtureRuntime { Identity = first.Identity };
-                Assert.IsTrue(controller.Bind(reusedIdentity)); yield return Settle(controller.StartAsync());
+                Assert.IsTrue(controller.Bind(reusedIdentity, reusedIdentity.Stopped)); yield return Settle(controller.StartAsync());
                 Assert.AreEqual(0, reusedIdentity.PrepareCalls); Assert.AreEqual("RES_STALE", controller.Snapshot.SafeCode);
             }
         }
@@ -203,12 +203,12 @@ namespace FightMatch.Host.Tests
             var runtime = new FixtureRuntime(); var replacement = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                 controller.Cancel(); runtime.Preparation.SetException(new OperationCanceledException());
                 yield return Settle(running);
                 Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
                 Assert.AreEqual("RES_STOP", controller.Snapshot.SafeCode);
-                Assert.IsFalse(controller.Bind(replacement));
+                Assert.IsFalse(controller.Bind(replacement, replacement.Stopped));
                 controller.Dispose(); controller.Dispose();
                 Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
                 Assert.AreEqual("RES_STOP", controller.Snapshot.SafeCode);
@@ -224,9 +224,9 @@ namespace FightMatch.Host.Tests
             using (var controller = new FightMatchBootstrapController())
             {
                 var notifications = 0; controller.TransportVerified += (instance, set, epoch) => notifications++;
-                Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                 controller.Cancel(); runtime.Verified(); yield return Settle(running);
-                Assert.AreEqual(0, notifications); Assert.IsFalse(controller.Bind(replacement));
+                Assert.AreEqual(0, notifications); Assert.IsFalse(controller.Bind(replacement, replacement.Stopped));
                 Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
             }
             replacement.Dispose();
@@ -238,7 +238,7 @@ namespace FightMatch.Host.Tests
             var runtime = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                 runtime.Report(ResourceTransportStage.Downloading, 20, 0);
                 var progress = controller.Snapshot;
                 var otherOperation = Guid.NewGuid().ToString("N");
@@ -260,17 +260,17 @@ namespace FightMatch.Host.Tests
             var runtime = new FixtureRuntime(); var replacement = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                 foreach (var stage in new[] { ResourceTransportStage.StopRequested, ResourceTransportStage.Stopped })
                 {
                     runtime.Report(stage, 0, 0);
                     Assert.IsFalse(runtime.Token.IsCancellationRequested); Assert.IsFalse(running.IsCompleted);
                     Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
-                    Assert.IsFalse(controller.Bind(replacement));
+                    Assert.IsFalse(controller.Bind(replacement, replacement.Stopped));
                 }
                 runtime.Cancelled(); yield return Settle(running);
                 Assert.AreEqual(ResourceTransportStage.Stopped, controller.Snapshot.Stage);
-                Assert.IsTrue(controller.Bind(replacement));
+                Assert.IsTrue(controller.Bind(replacement, replacement.Stopped));
             }
         }
 
@@ -282,7 +282,7 @@ namespace FightMatch.Host.Tests
                 var runtime = new FixtureRuntime { HoldInspection = true };
                 using (var controller = new FightMatchBootstrapController())
                 {
-                    Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                    Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                     if (cancel) controller.Cancel(); else controller.NotifyNetwork(ResourceNetworkKind.Mobile);
                     Assert.IsFalse(running.IsCompleted); Assert.AreEqual(0, runtime.PrepareCalls);
                     runtime.InspectionCompletion.SetResult(runtime.Inspection); yield return Settle(running);
@@ -298,7 +298,7 @@ namespace FightMatch.Host.Tests
         {
             var runtime = new FixtureRuntime { FailFirstDispose = true };
             var controller = new FightMatchBootstrapController();
-            Assert.IsTrue(controller.Bind(runtime));
+            Assert.IsTrue(controller.Bind(runtime, runtime.Stopped));
             controller.Dispose();
             Assert.AreEqual(1, runtime.DisposeCalls);
             Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
@@ -306,7 +306,7 @@ namespace FightMatch.Host.Tests
             controller.Dispose(); controller.Dispose();
             Assert.AreEqual(2, runtime.DisposeCalls);
             Assert.AreEqual(ResourceTransportStage.Stopped, controller.Snapshot.Stage);
-            Assert.IsFalse(controller.Bind(runtime));
+            Assert.IsFalse(controller.Bind(runtime, runtime.Stopped));
         }
 
         [UnityTest]
@@ -315,7 +315,7 @@ namespace FightMatch.Host.Tests
             var first = new FixtureRuntime(); var next = new FixtureRuntime { Network = ResourceNetworkKind.Mobile };
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(first)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(first, first.Stopped)); var running = controller.StartAsync();
                 first.Verified(); yield return Settle(running);
                 var oldEpoch = controller.Snapshot.Epoch;
                 Assert.Throws<ArgumentException>(() => controller.CompleteAdmission(oldEpoch, false, "/private/secret"));
@@ -324,7 +324,7 @@ namespace FightMatch.Host.Tests
                 Assert.AreEqual(false, controller.Snapshot.AdmissionAccepted);
                 Assert.AreEqual("RES_CONTENT", controller.Snapshot.SafeCode);
                 Assert.AreEqual(ResourceTransportStage.TransportVerified, controller.Snapshot.Stage);
-                controller.Cancel(); Assert.IsTrue(controller.Bind(next));
+                controller.Cancel(); Assert.IsTrue(controller.Bind(next, next.Stopped));
                 yield return Settle(controller.StartAsync());
                 var newState = controller.Snapshot;
                 controller.CompleteAdmission(oldEpoch, true, null);
@@ -339,14 +339,14 @@ namespace FightMatch.Host.Tests
             var first = new FixtureRuntime(); var next = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(first)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(first, first.Stopped)); var running = controller.StartAsync();
                 first.Rejected(ResourceRuntimeDiagnosticCode.Network); yield return Settle(running);
                 Assert.AreEqual(ResourceTransportStage.FailedRetryable, controller.Snapshot.Stage);
-                Assert.AreEqual(1, first.DisposeCalls); Assert.IsTrue(controller.Bind(next));
+                Assert.AreEqual(1, first.DisposeCalls); Assert.IsTrue(controller.Bind(next, next.Stopped));
                 var retry = controller.StartAsync();
                 next.Rejected(ResourceRuntimeDiagnosticCode.Stop); yield return Settle(retry);
                 Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
-                Assert.IsTrue(next.Token.IsCancellationRequested); Assert.IsFalse(controller.Bind(first));
+                Assert.IsTrue(next.Token.IsCancellationRequested); Assert.IsFalse(controller.Bind(first, first.Stopped));
             }
         }
 
@@ -368,19 +368,19 @@ namespace FightMatch.Host.Tests
                 var replacement = new FixtureRuntime();
                 using (var controller = new FightMatchBootstrapController())
                 {
-                    Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                    Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                     // YooAssetResourceRuntime closes itself before reporting failure-cleanup intent.
                     runtime.Dispose(); runtime.Report(ResourceTransportStage.StopRequested, 0, 0);
                     Assert.IsFalse(runtime.Token.IsCancellationRequested, "Runtime cleanup is not owner cancellation.");
                     Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
-                    Assert.IsFalse(running.IsCompleted); Assert.IsFalse(controller.Bind(replacement));
+                    Assert.IsFalse(running.IsCompleted); Assert.IsFalse(controller.Bind(replacement, replacement.Stopped));
                     runtime.CompleteFailureCleanup(failure); yield return Settle(running);
                     Assert.IsFalse(runtime.Token.IsCancellationRequested);
                     Assert.AreSame(failure, controller.Snapshot.Diagnostic);
                     Assert.AreSame(failure.AssetDiagnostic, controller.Snapshot.Diagnostic.AssetDiagnostic);
                     Assert.AreEqual(failure.Retryable ? ResourceTransportStage.FailedRetryable :
                         ResourceTransportStage.FailedTerminal, controller.Snapshot.Stage);
-                    Assert.IsTrue(controller.Bind(replacement));
+                    Assert.IsTrue(controller.Bind(replacement, replacement.Stopped));
                 }
             }
         }
@@ -392,18 +392,39 @@ namespace FightMatch.Host.Tests
             var replacement = new FixtureRuntime();
             using (var controller = new FightMatchBootstrapController())
             {
-                Assert.IsTrue(controller.Bind(runtime)); var running = controller.StartAsync();
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
                 runtime.Dispose(); runtime.Report(ResourceTransportStage.StopRequested, 0, 0);
                 Assert.IsFalse(runtime.Token.IsCancellationRequested);
                 controller.Cancel();
                 Assert.IsTrue(runtime.Token.IsCancellationRequested); Assert.IsFalse(running.IsCompleted);
                 Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
-                Assert.IsFalse(controller.Bind(replacement));
+                Assert.IsFalse(controller.Bind(replacement, replacement.Stopped));
                 runtime.CompleteFailureCleanup(new ResourceRuntimeDiagnostic(ResourceRuntimeDiagnosticCode.Hash, false, null));
                 yield return Settle(running);
                 Assert.AreEqual(ResourceTransportStage.Stopped, controller.Snapshot.Stage);
                 Assert.IsNull(controller.Snapshot.Diagnostic); Assert.IsNull(controller.Snapshot.AdmissionAccepted);
-                Assert.IsTrue(controller.Bind(replacement));
+                Assert.IsTrue(controller.Bind(replacement, replacement.Stopped));
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator BC19_ControlledTerminationCannotReleaseOrRebindBeforeActualClose()
+        {
+            var runtime = new FixtureRuntime { HoldClose = true }; var next = new FixtureRuntime();
+            using (var controller = new FightMatchBootstrapController())
+            {
+                Assert.IsTrue(controller.Bind(runtime, runtime.Stopped)); var running = controller.StartAsync();
+                controller.Cancel(); runtime.Cancelled(); yield return Settle(running);
+                Assert.AreEqual(ResourceTransportStage.StopRequested, controller.Snapshot.Stage);
+                Assert.IsFalse(controller.Bind(next, next.Stopped)); Assert.AreEqual(0, next.InspectCalls);
+                var requests = runtime.DisposeCalls;
+                yield return null;
+                Assert.AreEqual(requests, runtime.DisposeCalls, "Completion must not retry cleanup.");
+                controller.Cancel(); Assert.AreEqual(requests + 1, runtime.DisposeCalls);
+                Assert.IsFalse(controller.Bind(next, next.Stopped));
+                runtime.CloseCompletion.SetResult(true); yield return null;
+                Assert.AreEqual(ResourceTransportStage.Stopped, controller.Snapshot.Stage);
+                Assert.IsTrue(controller.Bind(next, next.Stopped));
             }
         }
 
@@ -422,7 +443,9 @@ namespace FightMatch.Host.Tests
             internal ResourceNetworkKind Network = ResourceNetworkKind.Wifi;
             internal long Bytes = 100;
             internal int Files = 2, InspectCalls, PrepareCalls, DisposeCalls;
-            internal bool HoldInspection, FailFirstDispose;
+            internal bool HoldInspection, FailFirstDispose, HoldClose;
+            internal readonly TaskCompletionSource<bool> CloseCompletion = new TaskCompletionSource<bool>();
+            internal Task Stopped => CloseCompletion.Task;
             internal ResourceInspection Inspection;
             internal ResourceDownloadPermit Permit;
             internal IProgress<ResourceProgress> Observer;
@@ -465,6 +488,7 @@ namespace FightMatch.Host.Tests
             {
                 DisposeCalls++;
                 if (FailFirstDispose && DisposeCalls == 1) throw new InvalidOperationException("Fixture release failure.");
+                if (!HoldClose) CloseCompletion.TrySetResult(true);
             }
         }
     }

@@ -611,7 +611,7 @@ namespace FightMatch.Host.Editor
             FightMatchUiButtonDropdownCorrection.ConfigureButton(adventure);
             var cell = adventure.GetComponent<UnityEngine.UI.LayoutElement>();
             cell.minWidth = cell.preferredWidth = 152; cell.flexibleWidth = 0;
-            LayoutCell(fixedActions, 936, 72);
+            LayoutCell(fixedActions, -1, 72);
             strip.content.sizeDelta = new Vector2(1784, 72);
             References(root.GetComponent<FightMatchHostView>(), "battleMapButton", adventure);
             var ids = LayoutViewIds(root);

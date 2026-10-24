@@ -82,6 +82,7 @@ namespace FightMatch.Host
     internal sealed class FightMatchResourceActivationStore
     {
         private const int Limit = 2048;
+        private static string desktopSessionToken;
         private static readonly UTF8Encoding Utf8 = new UTF8Encoding(false, true);
         private static readonly string[] MainNames = { "active.json", "prepared.json", "restart.json" };
         private static readonly HashSet<string> Names = new HashSet<string>(
@@ -185,11 +186,16 @@ namespace FightMatch.Host
             if (error != 22) throw new IOException("Android path inspection failed.");
         }
 
+        // Desktop lifecycle composition only; null restores real-process identity. Execute still
+        // validates the token, so unavailable or malformed identities cannot write activation state.
+        internal static void SetDesktopSessionToken(string value) { desktopSessionToken = value; }
+
         private static string RealToken()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return AndroidProcessToken.Value;
 #else
+            if (desktopSessionToken != null) return desktopSessionToken;
             try
             {
                 using (var process = Process.GetCurrentProcess())

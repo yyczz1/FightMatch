@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FightMatch.AssetAccess;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FightMatch.Host")]
+
 namespace FightMatch.YooAssetAdapter
 {
     // One admitted BuiltIn startup. A failed/cancelled startup needs a newly created runtime.
@@ -160,12 +162,15 @@ namespace FightMatch.YooAssetAdapter
 
         public void Dispose()
         {
-            if (Interlocked.Exchange(ref disposed, 1) != 0) return;
+            Interlocked.Exchange(ref disposed, 1);
+            // Invalidation is one-way, but unfinished cleanup may need another explicit CloseAsync.
+            if (stopped.Task.Status == TaskStatus.RanToCompletion) return;
             if (dispatcher.IsMain) Close();
             else dispatcher.Post(Close);
         }
         private async void Close()
         {
+            if (stopped.Task.Status == TaskStatus.RanToCompletion) return;
             try
             {
                 verified = false;

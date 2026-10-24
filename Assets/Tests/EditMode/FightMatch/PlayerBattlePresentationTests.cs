@@ -13,6 +13,206 @@ namespace FightMatch.Core.Tests
 {
     public sealed class PlayerBattlePresentationTests
     {
+        private static readonly string[] IqooUiRecoveryStates = { "SaveFailed", "CommitUnknown" };
+        private bool iqooEnteredPlayMode;
+
+        [UnityTearDown]
+        public IEnumerator ExitIqooRecoveryPlayModeAfterFailure()
+        {
+            if (iqooEnteredPlayMode && UnityEngine.Application.isPlaying) yield return new ExitPlayMode();
+            iqooEnteredPlayMode = false;
+        }
+
+        [UnityTest]
+        public IEnumerator IQOO_UI02_InputRecoveryPanelKeepsOriginalRequestAndRejectsStaleButtons(
+            [ValueSource(nameof(IqooUiRecoveryStates))] string code)
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,
+                UnityEditor.SceneManagement.NewSceneMode.Single);
+            yield return new EnterPlayMode(); iqooEnteredPlayMode = true;
+            Assert.IsTrue(UnityEngine.Application.isPlaying, "The hidden-page bind requires the real OnEnable lifecycle.");
+            using (var r = new UguiHostRig(true, bind: false))
+            {
+                AssertIqooProfileCreated(r);
+                var originalProfile = r.Session.OriginalProfile; var storage = r.Storage; var creation = r.Session.LastCall;
+                // Reuse the real prefab's controlled reference geometry; physical overlay/touch acceptance is separate.
+                var canvas = r.Root.GetComponentInChildren<UnityEngine.Canvas>(true);
+                canvas.GetComponent<UnityEngine.UI.CanvasScaler>().enabled = false;
+                canvas.renderMode = UnityEngine.RenderMode.WorldSpace; canvas.transform.localScale = UnityEngine.Vector3.one; canvas.scaleFactor = 1;
+                var fitter = r.Root.GetComponentInChildren<SafeAreaFitter>(true); fitter.enabled = false;
+                var safe = (UnityEngine.RectTransform)fitter.transform; safe.anchorMin = safe.anchorMax = UnityEngine.Vector2.zero;
+                safe.sizeDelta = new UnityEngine.Vector2(508, 920);
+                r.Bind(); r.Enter(); yield return r.Ready();
+                AssertIqooProfileCreated(r);
+                Assert.AreSame(originalProfile, r.Session.OriginalProfile); Assert.AreSame(storage, r.Storage);
+                Assert.AreSame(creation, r.Session.LastCall);
+                var input = r.Session.Battle.Input; var page = r.View.BattleView;
+                Assert.AreSame(input, page.PlaybackView.InputView.Controller);
+                Assert.IsTrue(page.PlaybackView.InputView.isActiveAndEnabled);
+                Assert.IsNotNull(r.Find<UnityEngine.UI.Button>(FightMatchViewId.Member("W")), "Native Render created the member control.");
+                Assert.IsFalse(input.CanRetry); Assert.IsFalse(input.CanResolve);
+                foreach (var id in new[] { "fm.action.battle.retry", "fm.action.battle.resolve" })
+                    Assert.IsFalse(r.Find<UnityEngine.UI.Button>(id).gameObject.activeSelf, "Normal battle has no save recovery command.");
+                var fixedActions = (UnityEngine.RectTransform)r.Find<UnityEngine.UI.Button>("fm.action.battle.retry").transform.parent;
+                Assert.AreSame(fixedActions, r.Find<UnityEngine.UI.Button>("fm.action.battle.resolve").transform.parent);
+                var fixedCell = fixedActions.GetComponent<UnityEngine.UI.LayoutElement>();
+                var fixedGroup = fixedActions.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>();
+                Assert.IsNotNull(fixedCell); Assert.IsNotNull(fixedGroup);
+                Assert.AreEqual(-1, fixedCell.minWidth); Assert.AreEqual(-1, fixedCell.preferredWidth);
+                UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate((UnityEngine.RectTransform)fixedActions.parent);
+                Assert.AreEqual(fixedGroup.preferredWidth, fixedActions.rect.width, .1f);
+                Assert.Less(fixedActions.rect.width, 936, "The existing prefab must release hidden recovery-button width at runtime.");
+                Assert.IsFalse(r.Find<LocalizedTmpText>(FightMatchViewId.Row("battle-recovery-title")).gameObject.activeInHierarchy);
+                FailIqooInput(r, input, code);
+                var request = input.LastRequest; var intent = request.Intent; var bytes = intent.CanonicalBytes.ToArray();
+                var commit = input.View.ApplicationView.PendingCommitId;
+                Assert.AreEqual(request.OperationId, r.Session.Battle.View.Read.Application.PendingOperationId);
+                Assert.AreNotEqual(request.OperationId, r.Session.Battle.View.OriginalIntent.OperationId);
+                var head = r.Head; var files = CopyFiles(r.Storage.Files); var creates = r.Storage.SnapshotCreates;
+                foreach (var locale in new[] { LocaleId.ZhHans, LocaleId.En })
+                {
+                    r.Localization.SetLocale(locale); UnityEngine.Canvas.ForceUpdateCanvases();
+                    var title = BattleCopyAssert.Localized(page, "battle-recovery-title", r.Localization, "fm.save_recovery.title");
+                    var panel = (UnityEngine.RectTransform)title.transform.parent.parent;
+                    Assert.AreEqual("BattleRecoveryPanel", panel.name); Assert.IsTrue(panel.gameObject.activeInHierarchy);
+                    AssertIqooRecoveryCopy(title, panel);
+                    foreach (var retry in new[] { true, false })
+                    {
+                        var button = r.Find<UnityEngine.UI.Button>(FightMatchViewId.Row(retry ? "retry-input-original" : "resolve-input-original"));
+                        var caption = button.GetComponentInChildren<LocalizedTmpText>(true);
+                        var key = retry ? "fm.save_recovery.retry_button" : "fm.save_recovery.confirm_result_button";
+                        Assert.IsTrue(button.transform.IsChildOf(panel)); Assert.IsTrue(button.gameObject.activeInHierarchy);
+                        Assert.AreEqual(retry ? input.CanRetry : input.CanResolve, button.interactable);
+                        Assert.AreEqual(retry ? code == "SaveFailed" : code == "CommitUnknown", button.interactable);
+                        Assert.AreEqual(key, caption.Key); Assert.AreEqual(r.Localization.Resolve(key, null).Text, caption.Target.text);
+                        AssertIqooRecoveryCopy(caption, (UnityEngine.RectTransform)button.transform);
+                        AssertIqooRecoveryBounds((UnityEngine.RectTransform)button.transform, panel);
+                        Assert.AreEqual(button.interactable, r.Find<UnityEngine.UI.Button>(retry ? "fm.action.battle.retry" : "fm.action.battle.resolve").gameObject.activeSelf);
+                    }
+                    Assert.AreSame(request, input.LastRequest); Assert.AreSame(head, r.Head);
+                    SameFiles(files, r.Storage.Files); Assert.AreEqual(creates, r.Storage.SnapshotCreates);
+                }
+                var oldPage = page.Page;
+                var oldButtons = new[] {
+                    r.Find<UnityEngine.UI.Button>(FightMatchViewId.Row("retry-input-original")),
+                    r.Find<UnityEngine.UI.Button>(FightMatchViewId.Row("resolve-input-original")) };
+                for (var i = 0; i < oldButtons.Length; i++)
+                {
+                    oldButtons[i].GetComponent<FightMatchViewId>().Assign(FightMatchViewId.Row("iqoo-retained:" + i));
+                    oldButtons[i].transform.SetParent(r.Root.transform, false); oldButtons[i].gameObject.SetActive(false);
+                }
+                r.Bind(); yield return r.Ready();
+                Assert.AreNotSame(oldPage, page.Page); Assert.IsFalse(r.Session.Battle.Owns(oldPage));
+                Assert.AreSame(request, input.LastRequest); Assert.AreSame(intent, input.LastRequest.Intent);
+                CollectionAssert.AreEqual(bytes, input.LastRequest.Intent.CanonicalBytes);
+                Assert.AreSame(head, r.Head); SameFiles(files, r.Storage.Files); Assert.AreEqual(creates, r.Storage.SnapshotCreates);
+                var actionId = FightMatchViewId.Row(code == "SaveFailed" ? "retry-input-original" : "resolve-input-original");
+                // Dispatch the existing uGUI pointer-click handler, not the controller's recovery method.
+                ClickIqooRecovery(r, r.Find<UnityEngine.UI.Button>(actionId));
+                Is(input.LastResult.Application); Assert.AreSame(request, input.LastRequest);
+                Assert.AreEqual(commit, input.LastResult.Application.OriginalCommitId);
+                Assert.AreEqual(head.Records.Count + 1, r.Head.Records.Count);
+                CollectionAssert.AreEqual(bytes, input.LastRequest.Intent.CanonicalBytes);
+                r.Session.Battle.Playback.SkipToFinal();
+                FailIqooInput(r, input, code); var next = input.LastRequest; var nextResult = input.LastResult;
+                Assert.AreNotSame(request, next); Assert.AreNotEqual(request.OperationId, next.OperationId);
+                head = r.Head; files = CopyFiles(r.Storage.Files); creates = r.Storage.SnapshotCreates;
+                // The host synchronizes the outer recovery root during Canvas.willRenderCanvases.
+                yield return r.Ready();
+                Assert.IsNull(r.Storage.Fault, "The injected failure must be consumed before recovery.");
+                Assert.AreSame(next, input.LastRequest); Assert.AreSame(nextResult, input.LastResult);
+                Assert.AreEqual(next.OperationId, input.View.ApplicationView.PendingOperationId);
+                Assert.AreSame(head, r.Head); SameFiles(files, r.Storage.Files); Assert.AreEqual(creates, r.Storage.SnapshotCreates);
+                foreach (var old in oldButtons)
+                {
+                    old.gameObject.SetActive(true); old.interactable = true; ClickIqooRecovery(r, old); old.gameObject.SetActive(false);
+                    Assert.AreSame(next, input.LastRequest); Assert.AreSame(nextResult, input.LastResult);
+                    Assert.AreEqual(next.OperationId, input.View.ApplicationView.PendingOperationId);
+                    Assert.AreSame(head, r.Head); SameFiles(files, r.Storage.Files); Assert.AreEqual(creates, r.Storage.SnapshotCreates);
+                }
+                var currentRecovery = r.Find<UnityEngine.UI.Button>(actionId);
+                Assert.IsTrue(currentRecovery.isActiveAndEnabled); Assert.IsTrue(currentRecovery.interactable);
+                ClickIqooRecovery(r, currentRecovery);
+                Is(input.LastResult.Application); Assert.AreSame(next, input.LastRequest);
+                Assert.AreEqual(head.Records.Count + 1, r.Head.Records.Count);
+            }
+            yield return new ExitPlayMode(); iqooEnteredPlayMode = false;
+        }
+
+        private static void AssertIqooProfileCreated(UguiHostRig rig)
+        {
+            Assert.IsNotNull(rig, "The recovery case must retain its own host fixture.");
+            Assert.IsNotNull(rig.Session.OriginalProfile, "This fixture must prepare its own new profile.");
+            Assert.IsNotNull(rig.Session.LastCall, "This fixture must complete profile creation.");
+            Is(rig.Session.LastCall); Assert.IsTrue(rig.Session.LastCall.IsCommitted);
+            Assert.IsTrue(rig.Session.LastCall.View.IsPublishedHeadVerified);
+            Assert.IsNotNull(rig.Storage, "Profile creation must invoke this fixture's storage factory.");
+            var player = rig.Session.OriginalProfile.PlayerId;
+            Assert.AreEqual(player, rig.Storage.Profile.PlayerId);
+            Assert.AreEqual(player, rig.Session.LastCall.View.PlayerId);
+            Assert.IsNotNull(rig.Head); Assert.AreEqual(player, rig.Head.Business.PlayerId);
+        }
+
+        private static void ClickIqooRecovery(UguiHostRig rig, UnityEngine.UI.Button button)
+        {
+            Assert.IsNotNull(rig); Assert.IsNotNull(button);
+            rig.Driver.EventSystem.SetSelectedGameObject(button.gameObject);
+            UnityEngine.EventSystems.ExecuteEvents.Execute(button.gameObject,
+                new UnityEngine.EventSystems.PointerEventData(rig.Driver.EventSystem) {
+                    button = UnityEngine.EventSystems.PointerEventData.InputButton.Left },
+                UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+        }
+
+        private static void FailIqooInput(UguiHostRig rig, CandidateBoardInputController input, string code)
+        {
+            Assert.IsNotNull(rig); Assert.IsNotNull(rig.Storage); Assert.IsNotNull(input);
+            Assert.AreSame(rig.Session.Battle.Input, input);
+            var state = rig.State; Assert.IsNotNull(state);
+            Assert.That(state.Phase, NUnit.Framework.Is.EqualTo(BattlePhase.AwaitAction).Or.EqualTo(BattlePhase.AwaitLinks));
+            var pair = state.Phase == BattlePhase.AwaitLinks ? state.Board.PendingLinks[0] : state.Enemies.First(x => x.Hp.Numerator.Sign > 0).PairKey;
+            var source = RealSource(); var entry = state.Baseline.Entry;
+            var level = source.Levels.Single(x => x.Level.LevelId == entry.Level.LevelId && x.Level.LevelVersion == entry.Level.LevelVersion);
+            var face = entry.Level.Faces.Single(x => x.FaceId == pair.FaceId);
+            var route = level.SourceRoutes.Single(x => x.FaceId == pair.FaceId && x.PairId == pair.PairId).Cells.Select(cell =>
+                new FlowPuzzle.Core.FlowPos(cell.x - 1, source.Coordinates == FightMatch.Content.DemoCoordinateCandidate.AssumedBottomLeft ? cell.y - 1 : face.Height - cell.y)).ToArray();
+            if (state.Phase == BattlePhase.AwaitAction)
+                Assert.IsTrue(input.SelectMember(state.Members.First(x => x.Hp.Numerator.Sign > 0).Member.CharacterId));
+            rig.Storage.Fault = code == "SaveFailed" ? "snapshot-before" : "marker-after";
+            input.Down(IqooPointerSample(rig, route[0]), 6);
+            foreach (var cell in route.Skip(1)) input.Move(IqooPointerSample(rig, cell));
+            input.Up(IqooPointerSample(rig, route.Last()));
+            Assert.IsNotNull(input.LastResult); Assert.IsNotNull(input.LastResult.Application);
+            Assert.AreEqual(code, input.LastResult.Application.Code);
+        }
+
+        private static FightMatch.Input.PointerSample IqooPointerSample(UguiHostRig rig, FlowPuzzle.Core.FlowPos cell)
+        {
+            var point = rig.Board.CellCenter(cell);
+            Assert.AreEqual(cell, rig.Board.CellAtLocal(point));
+            return new FightMatch.Input.PointerSample(1, point.x, point.y, cell);
+        }
+
+        private static void AssertIqooRecoveryCopy(LocalizedTmpText binding, UnityEngine.RectTransform area)
+        {
+            Assert.IsTrue(binding.gameObject.activeInHierarchy); Assert.IsNull(binding.DiagnosticCode);
+            var text = binding.Target; text.ForceMeshUpdate(true);
+            Assert.Greater(text.rectTransform.rect.width, 0); Assert.Greater(text.rectTransform.rect.height, 0);
+            Assert.LessOrEqual(text.preferredWidth, text.rectTransform.rect.width + .1f, text.text);
+            Assert.LessOrEqual(text.preferredHeight, text.rectTransform.rect.height + .1f, text.text);
+            AssertIqooRecoveryBounds(text.rectTransform, area);
+        }
+
+        private static void AssertIqooRecoveryBounds(UnityEngine.RectTransform target, UnityEngine.RectTransform area)
+        {
+            var corners = new UnityEngine.Vector3[4]; target.GetWorldCorners(corners);
+            foreach (var corner in corners)
+            {
+                var local = area.InverseTransformPoint(corner); var bounds = area.rect;
+                Assert.GreaterOrEqual(local.x, bounds.xMin - .1f, target.name); Assert.LessOrEqual(local.x, bounds.xMax + .1f, target.name);
+                Assert.GreaterOrEqual(local.y, bounds.yMin - .1f, target.name); Assert.LessOrEqual(local.y, bounds.yMax + .1f, target.name);
+            }
+        }
+
         [UnityTest]
         public IEnumerator UGUI_COPY_D02_DurationUsesAcceptedSnapshotAndInvariantCeiling()
         {
