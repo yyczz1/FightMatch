@@ -326,6 +326,10 @@ namespace FightMatch.Presentation
                 {
                     Button(recoveryActions, Row("query-input-original"), "fm.save_recovery.lookup_button", (c, p) =>
                     { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.QueryLastOperation(); });
+                    Button(recoveryActions, Row("retry-input-original"), "fm.save_recovery.retry_button", (c, p) =>
+                    { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.RetryLast(); }, Controller.Input.CanRetry);
+                    Button(recoveryActions, Row("resolve-input-original"), "fm.save_recovery.confirm_result_button", (c, p) =>
+                    { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.ResolveLast(); }, Controller.Input.CanResolve);
                     Button(recoveryDangerActions, Row("end-input-original"), "fm.save_recovery.end_uncommitted_button", (c, p) =>
                     { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.EndLast(); }, view.Read.Head?.Continuation == null);
                 }

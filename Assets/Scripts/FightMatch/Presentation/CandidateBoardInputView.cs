@@ -92,6 +92,12 @@ namespace FightMatch.Presentation
                 throw new InvalidOperationException("CandidateBoardInputView serialized bindings are incomplete.");
             memberTemplate.gameObject.SetActive(false);
             board.Bind(controller); board.raycastTarget = true;
+            var actions = retry.transform.parent;
+            if (actions != null && actions == resolve.transform.parent && actions.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>() != null)
+            {
+                var layout = actions.GetComponent<UnityEngine.UI.LayoutElement>();
+                if (layout != null) layout.minWidth = layout.preferredWidth = -1;
+            }
             var owner = controller; var epoch = bindingEpoch;
             retryAction = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch && DisplayLayoutSupported) owner.RetryLast(); };
             resolveAction = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch && DisplayLayoutSupported) owner.ResolveLast(); };
@@ -201,11 +207,16 @@ namespace FightMatch.Presentation
                     var owner = Controller; var epoch = bindingEpoch;
                     UnityAction action = () => { if (ReferenceEquals(owner, Controller) && epoch == bindingEpoch && DisplayLayoutSupported) owner.SelectMember(id); };
                     button.onClick.AddListener(action); buttons.Add(id, button); memberActions.Add(id, action);
+                    var outline = button.GetComponent<UnityEngine.UI.Outline>();
+                    if (outline == null) outline = button.gameObject.AddComponent<UnityEngine.UI.Outline>();
+                    outline.effectColor = Color.white; outline.effectDistance = new Vector2(3, -3);
+                    outline.enabled = false;
                 }
                 new BattleTextLine("fm.battle.hud.member_hp", BattleText.Arg("characterName", BattleText.Character(localization, id) + "\n"),
                     BattleText.Arg("currentHp", BattleText.Hp(member.Hp)), BattleText.Arg("maxHp", BattleText.Hp(member.Member.Stats.MaxHp)))
                     .Bind(button.GetComponentInChildren<LocalizedTmpText>(true), localization);
                 button.interactable = problem == null && member.Hp.Numerator.Sign > 0;
+                button.GetComponent<UnityEngine.UI.Outline>().enabled = problem == null && Controller.SelectedCharacterId == id;
                 button.gameObject.SetActive(true);
             }
             var feedback = new List<BattleTextLine>();
@@ -235,6 +246,7 @@ namespace FightMatch.Presentation
                 .For("board-visible-feedback:" + Controller.VisibleFeedbackRevision.ToString(CultureInfo.InvariantCulture)));
             availabilityRows.Bind(localization, feedback);
             retry.interactable = Controller.CanRetry; resolve.interactable = Controller.CanResolve;
+            retry.gameObject.SetActive(Controller.CanRetry); resolve.gameObject.SetActive(Controller.CanResolve);
         }
         private void OnLocaleChanged(LocaleId locale) { Render(); }
         private void OnEnable()
