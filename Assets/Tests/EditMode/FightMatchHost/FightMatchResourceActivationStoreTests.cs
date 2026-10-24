@@ -1,10 +1,17 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using FightMatch.Host.Editor;
 using NUnit.Framework;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
 namespace FightMatch.Host.Tests
 {
@@ -48,13 +55,21 @@ namespace FightMatch.Host.Tests
             internal readonly Dictionary<string, byte[]> Data = new Dictionary<string, byte[]>(StringComparer.Ordinal);
             internal readonly Dictionary<string, FileAttributes> Nodes = new Dictionary<string, FileAttributes>(StringComparer.Ordinal);
             internal string FailAt, ReadMode;
+            internal string DeferredDirectory;
+            internal Exception DeferredError;
+            internal int DeferredMoves;
             internal bool Fired;
+            internal readonly HashSet<string> DeniedEntries = new HashSet<string>(StringComparer.Ordinal);
+            internal List<string> Trace;
+            internal Action<string> AfterDirectoryCreated;
             internal int Promotions, ReadCalls, Flushes, FaultPromotionBase;
             internal string State => Path.Combine(Root, "resource-state", "v1");
             internal string Leaf(string name) => Path.Combine(State, name);
             internal string Sentinel => Path.Combine(Root, "old-resources", "complete.bin");
-            internal MemoryFiles()
+            internal MemoryFiles(bool android = false, bool productExists = true)
             {
+                if (android) Root = Path.Combine(Path.GetDirectoryName(Root), "FightMatch");
+                if (!productExists) { AddDirectory(Path.GetDirectoryName(Root)); return; }
                 AddDirectory(Root); AddDirectory(Path.GetDirectoryName(Sentinel)); Data[Sentinel] = new byte[] { 17, 0, 255 };
             }
             internal FightMatchResourceActivationStore Store(string token = T1) => new FightMatchResourceActivationStore(Root, this, token);
@@ -70,6 +85,7 @@ namespace FightMatch.Host.Tests
             }
             public FileAttributes Attributes(string path)
             {
+                Trace?.Add("attributes:" + path);
                 Hit("attributes");
                 if (Nodes.TryGetValue(path, out var attributes)) return attributes;
                 if (Data.ContainsKey(path)) return FileAttributes.Normal;
@@ -77,12 +93,24 @@ namespace FightMatch.Host.Tests
             }
             public IEnumerable<string> Entries(string directory)
             {
+                Trace?.Add("entries:" + directory);
+                if (DeniedEntries.Contains(directory)) throw new UnauthorizedAccessException("private ancestor");
                 Hit("enumerate");
+                if (directory == DeferredDirectory) return DeferredEntries();
                 return Nodes.Keys.Concat(Data.Keys).Distinct(StringComparer.Ordinal)
                     .Where(p => Path.GetDirectoryName(p) == directory).ToArray();
             }
+            private IEnumerable<string> DeferredEntries()
+            {
+                DeferredMoves++;
+                if (DeferredError != null) throw DeferredError;
+                yield break;
+            }
             public void CreateDirectory(string path)
-            { Hit("directory-before"); AddDirectory(path); Hit("directory-after"); }
+            {
+                Trace?.Add("create:" + path);
+                Hit("directory-before"); AddDirectory(path); Hit("directory-after"); AfterDirectoryCreated?.Invoke(path);
+            }
             public Stream CreateNew(string path)
             {
                 Hit("create-before"); Assert.IsFalse(Data.ContainsKey(path));
@@ -160,6 +188,34 @@ namespace FightMatch.Host.Tests
             }
         }
 
+        private sealed class MemoryAndroidPaths : IActivationAndroidPaths
+        {
+            internal readonly MemoryFiles Files;
+            internal readonly string Anchor;
+            internal readonly Dictionary<string, int> LinkErrors = new Dictionary<string, int>(StringComparer.Ordinal);
+            internal string Canonical;
+            internal Exception CanonicalError;
+            internal MemoryAndroidPaths(MemoryFiles files)
+            {
+                Files = files; Anchor = Path.GetDirectoryName(files.Root); Canonical = Anchor;
+                files.Trace = new List<string>();
+                for (var p = Path.GetDirectoryName(Anchor); p != null; p = Path.GetDirectoryName(p)) files.DeniedEntries.Add(p);
+            }
+            public int ReadLinkError(string path)
+            {
+                Files.Trace.Add("link:" + path);
+                return LinkErrors.TryGetValue(path, out var error) ? error : 22;
+            }
+            public string CanonicalDirectory(string path)
+            {
+                Files.Trace.Add("canonical:" + path);
+                if (CanonicalError != null) throw CanonicalError;
+                return Canonical;
+            }
+            internal FightMatchResourceActivationStore Store(string token = "a2-b5-p101-e1000") =>
+                new FightMatchResourceActivationStore(Files.Root, Files, token, Anchor, this);
+        }
+
         private sealed class RealArea : IDisposable
         {
             internal readonly string Case, Root;
@@ -204,6 +260,146 @@ namespace FightMatch.Host.Tests
                     }
                     Directory.Delete(directory);
                 }
+            }
+        }
+
+        private const string A1 = "a2-b5-p101-e1000";
+        private static byte[] AndroidJson(ActivationRecord record) =>
+            Bytes(Encoding.UTF8.GetString(Json(record)).Replace("\"schemaVersion\":1", "\"schemaVersion\":2"));
+
+        [Test]
+        public void AS09_AndroidSamplesAndCanonicalTokenBounds()
+        {
+            Assert.AreEqual("a2-b0-p1-e0", FightMatchResourceActivationStore.AndroidTokenFromSample(0, 1, 0, 0, 0));
+            var maximum = "a2-b2147483647-p2147483647-e9223372036854775807";
+            Assert.AreEqual(maximum, FightMatchResourceActivationStore.AndroidTokenFromSample(int.MaxValue,
+                int.MaxValue, long.MaxValue, long.MaxValue, int.MaxValue));
+            foreach (var sample in new[] {
+                new long[] { -1, 1, 0, 0, -1 }, new long[] { 2147483648L, 1, 0, 0, 2147483648L },
+                new long[] { 5, 0, 1, 2, 5 }, new long[] { 5, -1, 1, 2, 5 },
+                new long[] { 5, 2147483648L, 1, 2, 5 }, new long[] { 5, 1, -1, 2, 5 },
+                new long[] { 5, 1, 0, -1, 5 }, new long[] { 5, 1, 3, 2, 5 },
+                new long[] { 5, 1, 1, 2, 6 }, new long[] { 5, 1, 1, 2, 4 } })
+            {
+                var token = FightMatchResourceActivationStore.AndroidTokenFromSample(sample[0], sample[1], sample[2], sample[3], sample[4]);
+                Assert.IsNull(token); var f = new MemoryFiles(); var old = f.Copy();
+                var nodes = f.Nodes.ToArray(); Rejected(f.Store(token).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                SameData(old, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray()); Assert.AreEqual(0, f.Promotions);
+            }
+            foreach (var token in new[] { null, "", "a2-b05-p1-e0", "a2-b5-p01-e0", "a2-b5-p1-e00",
+                "a2-b-1-p1-e0", "a2-b2147483648-p1-e0", "a2-b5-p0-e0", "a2-b5-p2147483648-e0",
+                "a2-b5-p1-e9223372036854775808", "a2-b5-p1-e-1", A1 + " ", "a2-b5-p1-e+1" })
+            {
+                var f = new MemoryFiles(); var old = f.Copy();
+                Rejected(f.Store(token).Read(), "RES_STATE"); SameData(old, f); Assert.AreEqual(0, f.ReadCalls);
+            }
+            foreach (var token in new[] { "a2-b0-p1-e0", maximum })
+            {
+                var f = new MemoryFiles(); var active = Ok(f.Store(token).EnterAtProcessStart("set.a", H1)).Active;
+                Assert.AreEqual(2, active.SchemaVersion); Assert.AreEqual(token, active.ProcessToken);
+                Same(AndroidJson(active), f.Data[f.Leaf("active.json")]); Ok(f.Store(token).Read());
+            }
+        }
+
+        [Test]
+        public void AS10_AndroidOrdinaryEntryRequiresStrictSuccessor()
+        {
+            foreach (var ready in new[] { false, true })
+            {
+                var f = new MemoryFiles(); var first = Ok(f.Store(A1).EnterAtProcessStart("set.a", H1)).Active;
+                if (ready) Ok(f.Store(A1).MarkBusinessReady(first.ActivationId));
+                var original = f.Copy(); var promotions = f.Promotions;
+                var same = f.Store(A1).EnterAtProcessStart("set.a", H1);
+                if (ready) Rejected(same, "RES_STATE"); else Ok(same);
+                SameData(original, f); Assert.AreEqual(promotions, f.Promotions);
+                foreach (var token in new[] { "a2-b5-p102-e1000", "a2-b5-p101-e999", "a2-b5-p102-e999", "a2-b4-p103-e9999" })
+                {
+                    Rejected(f.Store(token).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                    Rejected(f.Store(token).MarkBusinessReady(first.ActivationId), "RES_STATE");
+                    SameData(original, f); Assert.AreEqual(promotions, f.Promotions);
+                }
+                foreach (var token in new[] { "a2-b5-p101-e1001", "a2-b5-p102-e1001", "a2-b6-p101-e0" })
+                {
+                    f.Restore(original); var successor = f.Store(token);
+                    var active = Ok(successor.EnterAtProcessStart("set.a", H1)).Active;
+                    Assert.AreEqual(first.ActivationId, active.ActivationId); Assert.AreEqual(token, active.ProcessToken);
+                    Assert.AreEqual(2, active.SchemaVersion);
+                    var entered = f.Copy(); Ok(f.Store(token).EnterAtProcessStart("set.a", H1)); SameData(entered, f);
+                    Ok(successor.MarkBusinessReady(active.ActivationId));
+                    var after = f.Copy(); Rejected(f.Store(A1).Prepare("set.b", H2), "RES_STATE"); SameData(after, f);
+                }
+            }
+        }
+
+        [Test]
+        public void AS11_AndroidPendingRestartRequiresStrictSuccessor()
+        {
+            var f = new MemoryFiles(); var owner = f.Store(A1); var ready = Ready(owner);
+            var prepared = Ok(owner.Prepare("set.b", H2)).Prepared; Ok(owner.RequestRestart(prepared.ActivationId));
+            f.Data[f.Leaf("active.json.bak")] = AndroidJson(ready.Active);
+            var pending = f.Copy(); var promotions = f.Promotions;
+            foreach (var token in new[] { A1, "a2-b5-p102-e1000", "a2-b5-p101-e999", "a2-b4-p103-e9999" })
+            {
+                Rejected(f.Store(token).EnterAtProcessStart("set.b", H2), "RES_STATE");
+                if (token != A1)
+                {
+                    Rejected(f.Store(token).Prepare("set.c", H3), "RES_STATE");
+                    Rejected(f.Store(token).RequestRestart(prepared.ActivationId), "RES_STATE");
+                }
+                SameData(pending, f); Assert.AreEqual(promotions, f.Promotions);
+            }
+            foreach (var token in new[] { "a2-b5-p101-e1001", "a2-b5-p102-e1001", "a2-b6-p101-e0" })
+            {
+                f.Restore(pending); var successor = f.Store(token);
+                Rejected(successor.EnterAtProcessStart("set.b", H3), "RES_STATE"); SameData(pending, f);
+                var entered = Ok(successor.EnterAtProcessStart("set.b", H2)).Active;
+                Assert.AreEqual(prepared.ActivationId, entered.ActivationId); Assert.AreEqual(token, entered.ProcessToken);
+                Same(AndroidJson(ready.Active), f.Data[f.Leaf("active.json.bak")]);
+                Same(pending[f.Leaf("prepared.json")], f.Data[f.Leaf("prepared.json")]);
+                Same(pending[f.Leaf("restart.json")], f.Data[f.Leaf("restart.json")]);
+                Ok(successor.MarkBusinessReady(entered.ActivationId)); Rejected(successor.RequestRestart(entered.ActivationId), "RES_STATE");
+                Same(pending[f.Sentinel], f.Data[f.Sentinel]);
+            }
+            f.Restore(pending);
+            f.Data[f.Leaf("active.json")] = Bytes(Encoding.UTF8.GetString(f.Data[f.Leaf("active.json")]).Replace(A1, "a2-b5-p101-e2000"));
+            var contradictory = f.Copy();
+            Rejected(f.Store("a2-b5-p102-e1500").EnterAtProcessStart("set.b", H2), "RES_STATE"); SameData(contradictory, f);
+        }
+
+        [Test]
+        public void AS12_AndroidRejectsLegacyMixedAndMismatchedSchemasWithoutWrites()
+        {
+            var f = new MemoryFiles(); var legacy = f.Store(); Ready(legacy);
+            var oldPrepared = Ok(legacy.Prepare("set.b", H2)).Prepared; Ok(legacy.RequestRestart(oldPrepared.ActivationId));
+            foreach (var leaf in Main) f.Data[f.Leaf(leaf + ".bak")] = (byte[])f.Data[f.Leaf(leaf)].Clone();
+            var old = f.Copy(); var promotions = f.Promotions; var nodes = f.Nodes.ToArray();
+            var android = f.Store(A1);
+            foreach (var result in new[] { android.Read(), android.EnterAtProcessStart("set.a", H1),
+                android.EnterAtProcessStart("set.b", H2), android.MarkBusinessReady(oldPrepared.ActivationId),
+                android.Prepare("set.c", H3), android.RequestRestart(oldPrepared.ActivationId) }) Rejected(result, "RES_STATE");
+            SameData(old, f); Assert.AreEqual(promotions, f.Promotions); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+
+            var v = new MemoryFiles(); var store = v.Store(A1); Ready(store);
+            var prepared = Ok(store.Prepare("set.b", H2)).Prepared; Ok(store.RequestRestart(prepared.ActivationId));
+            foreach (var leaf in Main) v.Data[v.Leaf(leaf + ".bak")] = (byte[])v.Data[v.Leaf(leaf)].Clone();
+            var baseline = v.Copy(); promotions = v.Promotions;
+            Rejected(v.Store(T2).Read(), "RES_STATE"); Rejected(v.Store(T2).EnterAtProcessStart("set.b", H2), "RES_STATE"); SameData(baseline, v);
+            foreach (var name in Main.SelectMany(x => new[] { x, x + ".bak" }))
+            {
+                v.Restore(baseline); v.Data[v.Leaf(name)] = old[f.Leaf(name)]; var mixed = v.Copy();
+                Rejected(v.Store("a2-b6-p102-e0").Read(), "RES_STATE");
+                Rejected(v.Store("a2-b6-p102-e0").EnterAtProcessStart("set.b", H2), "RES_STATE");
+                SameData(mixed, v); Assert.AreEqual(promotions, v.Promotions);
+            }
+            var json = Encoding.UTF8.GetString(baseline[v.Leaf("active.json")]);
+            foreach (var change in new[] { new[] { "\"schemaVersion\":2", "\"schemaVersion\":1" },
+                new[] { A1, T1 }, new[] { "\"schemaVersion\":2", "\"schemaVersion\":3" },
+                new[] { A1, "a2-b05-p101-e1000" }, new[] { A1, "a2-b5-p101-e9223372036854775808" } })
+            {
+                v.Restore(baseline); v.Data[v.Leaf("active.json")] = Bytes(json.Replace(change[0], change[1]));
+                var bad = v.Copy(); Rejected(v.Store(A1).Read());
+                Rejected(v.Store("a2-b6-p102-e0").EnterAtProcessStart("set.b", H2)); SameData(bad, v);
+                Assert.AreEqual(promotions, v.Promotions);
             }
         }
 
@@ -344,6 +540,221 @@ namespace FightMatch.Host.Tests
         }
 
         [Test]
+        public void AS13_StorageFailureReportsTheOriginalOperationBeforeCleanup()
+        {
+            var cases = new[] {
+                new[] { "attributes", "activation.guard.ancestor.attributes" },
+                new[] { "enumerate", "activation.guard.ancestor.entries" },
+                new[] { "directory-before", "activation.create.outer" },
+                new[] { "create-before", "activation.commit.create" },
+                new[] { "write-before", "activation.commit.write" },
+                new[] { "flush-before", "activation.commit.flush" },
+                new[] { "close-before", "activation.commit.close" },
+                new[] { "tmp-open-before", "activation.read.open" },
+                new[] { "tmp-read-before", "activation.read.body" } };
+            foreach (var item in cases)
+            {
+                var f = new MemoryFiles(); var store = f.Store();
+                if (item[0] != "directory-before") Ready(store);
+                var snapshot = Ok(store.Read()); var old = f.Copy(); var promotions = f.Promotions;
+                f.Arm(item[0]);
+                var result = item[0] == "directory-before" ? store.EnterAtProcessStart("set.a", H1) : store.Prepare("set.b", H2);
+                Rejected(result, "RES_STORAGE"); Assert.IsTrue(f.Fired, item[0]);
+                Assert.AreEqual(item[1] + "; error=IOException", store.StorageDiagnostic);
+                Assert.AreSame(snapshot, result.Snapshot); Assert.AreEqual(promotions, f.Promotions);
+                SameData(old, f);
+                f.FailAt = null; Ok(store.Read()); Assert.IsNull(store.StorageDiagnostic);
+            }
+        }
+
+        [Test]
+        public void AS14_DeferredEnumerationFailureReportsScopeWithoutLeakingExceptionData()
+        {
+            const string secret = "/private/profile-secret?token=never-return\nforged-log";
+            var errors = new Exception[] { new UnauthorizedAccessException(secret), new IOException(secret),
+                new DirectoryNotFoundException(secret), new InvalidOperationException(secret) };
+            var kinds = new[] { "UnauthorizedAccessException", "IOException", "DirectoryNotFoundException", "OtherException" };
+            for (var i = 0; i < errors.Length; i++)
+            foreach (var scope in new[] { "ancestor", "product", "outer", "state" })
+            {
+                var f = new MemoryFiles(); var store = f.Store("a2-b5-p101-e1000");
+                if (scope == "outer" || scope == "state") Ready(store);
+                f.DeferredDirectory = scope == "ancestor" ? Path.GetPathRoot(f.Root) : scope == "product" ? f.Root :
+                    scope == "outer" ? Path.GetDirectoryName(f.State) : f.State;
+                f.DeferredError = errors[i]; var old = f.Copy(); var nodes = f.Nodes.ToArray(); var promotions = f.Promotions;
+                Rejected(store.EnterAtProcessStart("set.a", H1), "RES_STORAGE");
+                var stage = scope == "ancestor" ? "guard.ancestor" : scope == "product" ? "exists.product" : "layout." + scope;
+                Assert.AreEqual("activation." + stage + ".entries; error=" + kinds[i], store.StorageDiagnostic);
+                Assert.AreEqual(1, f.DeferredMoves); Assert.AreEqual(promotions, f.Promotions);
+                SameData(old, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+                f.DeferredDirectory = null; Ok(store.Read()); Assert.IsNull(store.StorageDiagnostic);
+            }
+        }
+
+        [Test]
+        public void AS15_UnknownCommitKeepsItsDiagnosticAndDoesNotRetry()
+        {
+            var f = new MemoryFiles(); var store = f.Store(); var snapshot = Ready(store); f.Arm("promotion-before");
+            var result = store.Prepare("set.b", H2);
+            Assert.AreEqual(ActivationOutcome.UnknownCommit, result.Outcome);
+            Assert.AreEqual("RES_COMMIT_UNKNOWN", result.SafeCode); Assert.AreSame(snapshot, result.Snapshot);
+            const string diagnostic = "activation.commit.move; error=IOException";
+            Assert.AreEqual(diagnostic, store.StorageDiagnostic);
+            var uncertain = f.Copy(); var promotions = f.Promotions;
+            Assert.AreEqual(ActivationOutcome.UnknownCommit, store.Read().Outcome);
+            Assert.AreEqual(ActivationOutcome.UnknownCommit, store.Prepare("set.b", H2).Outcome);
+            Assert.AreEqual(diagnostic, store.StorageDiagnostic); Assert.AreEqual(promotions, f.Promotions);
+            SameData(uncertain, f);
+        }
+
+        [Test]
+        public void AS16_ExplicitAndroidAnchorSkipsOnlyUpstreamEnumeration()
+        {
+            foreach (var token in new[] { T1, "a2-b5-p101-e1000" })
+            {
+                var f = new MemoryFiles(true); var native = new MemoryAndroidPaths(f); var store = native.Store(token);
+                Assert.IsNull(store.EnsureAndroidProductDirectory()); var ready = Ready(store);
+                Assert.AreEqual("BusinessReady", ready.Active.Phase);
+                for (var p = native.Anchor; p != null; p = Path.GetDirectoryName(p))
+                {
+                    CollectionAssert.Contains(f.Trace, "attributes:" + p);
+                    CollectionAssert.Contains(f.Trace, "link:" + p);
+                }
+                CollectionAssert.Contains(f.Trace, "canonical:" + native.Anchor);
+                foreach (var p in new[] { native.Anchor, f.Root, Path.GetDirectoryName(f.State), f.State })
+                    CollectionAssert.Contains(f.Trace, "entries:" + p);
+                foreach (var p in f.DeniedEntries) CollectionAssert.DoesNotContain(f.Trace, "entries:" + p);
+                var bytes = f.Copy(); var nodes = f.Nodes.ToArray();
+                // Neither an Android-shaped token nor a prior successful Android operation selects the policy.
+                Rejected(f.Store(token).Read(), "RES_STORAGE");
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+                Assert.AreEqual("RES_ROOT", f.Store(token).EnsureAndroidProductDirectory());
+            }
+        }
+
+        [Test]
+        public void AS17_AndroidChecksEveryExistingComponentAgainAndRejectsProbeErrors()
+        {
+            var f = new MemoryFiles(true); var native = new MemoryAndroidPaths(f); var store = native.Store(); Ready(store);
+            var bytes = f.Copy(); var nodes = f.Nodes.ToArray(); var paths = new List<string> { f.Leaf("active.json") };
+            for (var p = f.State; p != null; p = Path.GetDirectoryName(p)) paths.Add(p);
+            foreach (var path in paths)
+            foreach (var error in new[] { 0, 2, 13, 5 })
+            {
+                native.LinkErrors[path] = error;
+                Rejected(store.Read(), error == 0 ? "RES_ROOT" : "RES_STORAGE");
+                Assert.AreEqual(error == 0 ? "RES_ROOT" : "RES_STORAGE", store.EnsureAndroidProductDirectory());
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+                native.LinkErrors.Clear(); Ok(store.Read());
+            }
+            foreach (var path in paths)
+            {
+                var directory = f.Nodes.TryGetValue(path, out var attributes);
+                f.Nodes[path] = directory ? FileAttributes.Normal : FileAttributes.Directory;
+                Rejected(store.Read(), "RES_ROOT"); SameData(bytes, f);
+                if (directory) f.Nodes[path] = attributes; else f.Nodes.Remove(path);
+            }
+            native.Canonical = Path.Combine(native.Anchor, "changed");
+            Rejected(store.Read(), "RES_ROOT"); Assert.AreEqual("RES_ROOT", store.EnsureAndroidProductDirectory());
+            native.Canonical = native.Anchor; native.CanonicalError = new IOException("private root");
+            Rejected(store.Read(), "RES_STORAGE"); native.CanonicalError = null; Ok(store.Read());
+            f.Arm("attributes"); Rejected(store.Read(), "RES_STORAGE");
+            SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+            Assert.IsFalse(f.Trace.Any(x => x == "create:" + f.Root));
+        }
+
+        [Test]
+        public void AS18_AndroidRejectsMissingForgedOrMismatchedAnchorBeforeCreating()
+        {
+            var f = new MemoryFiles(true, false); var native = new MemoryAndroidPaths(f); var bytes = f.Copy(); var nodes = f.Nodes.ToArray();
+            foreach (var anchor in new[] { null, "", "relative", Path.GetPathRoot(native.Anchor),
+                native.Anchor + Path.DirectorySeparatorChar, Path.Combine(native.Anchor, "."), Path.Combine(native.Anchor, "other") })
+            {
+                var store = new FightMatchResourceActivationStore(f.Root, f, T1, anchor, native);
+                Assert.AreEqual("RES_ROOT", store.EnsureAndroidProductDirectory());
+                Rejected(store.EnterAtProcessStart("set.a", H1), "RES_ROOT");
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+            }
+            Assert.AreEqual("RES_ROOT", new FightMatchResourceActivationStore(Path.Combine(native.Anchor, "fightmatch"),
+                f, T1, native.Anchor, native).EnsureAndroidProductDirectory());
+            Assert.AreEqual("RES_ROOT", new FightMatchResourceActivationStore(f.Root, f, T1, native.Anchor, null).EnsureAndroidProductDirectory());
+            var forged = Path.Combine(native.Anchor, "forged"); f.AddDirectory(forged); nodes = f.Nodes.ToArray();
+            Assert.AreEqual("RES_ROOT", new FightMatchResourceActivationStore(Path.Combine(forged, "FightMatch"),
+                f, T1, forged, native).EnsureAndroidProductDirectory());
+            SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+            Assert.IsFalse(f.Trace.Any(x => x.StartsWith("create:", StringComparison.Ordinal)));
+        }
+
+        [Test]
+        public void AS19_AndroidKeepsDownstreamCaseLinkLayoutAndEnumerationGuards()
+        {
+            foreach (var damage in new[] { "product-case", "outer-case", "leaf-case", "dangling-leaf", "unknown-leaf", "unknown-directory",
+                "anchor-enumeration", "product-enumeration", "outer-enumeration", "state-enumeration" })
+            {
+                var f = new MemoryFiles(true); var native = new MemoryAndroidPaths(f); var store = native.Store(); Ready(store);
+                if (damage == "product-case")
+                { f.Nodes.Remove(f.Root); f.Nodes[Path.Combine(native.Anchor, "fightmatch")] = FileAttributes.Directory; }
+                if (damage == "outer-case")
+                { f.Nodes.Remove(Path.GetDirectoryName(f.State)); f.Nodes[Path.Combine(f.Root, "Resource-State")] = FileAttributes.Directory; }
+                if (damage == "leaf-case")
+                { f.Data[f.Leaf("Active.json")] = f.Data[f.Leaf("active.json")]; f.Data.Remove(f.Leaf("active.json")); }
+                if (damage == "dangling-leaf")
+                { f.Data.Remove(f.Leaf("active.json")); f.Nodes[f.Leaf("active.json")] = FileAttributes.ReparsePoint; native.LinkErrors[f.Leaf("active.json")] = 0; }
+                if (damage == "unknown-leaf") f.Data[f.Leaf("foreign.json")] = Bytes("private data");
+                if (damage == "unknown-directory") f.AddDirectory(Path.Combine(Path.GetDirectoryName(f.State), "v2"));
+                if (damage.EndsWith("-enumeration", StringComparison.Ordinal))
+                {
+                    f.DeferredDirectory = damage == "anchor-enumeration" ? native.Anchor : damage == "product-enumeration" ? f.Root :
+                        damage == "outer-enumeration" ? Path.GetDirectoryName(f.State) : f.State;
+                    f.DeferredError = new UnauthorizedAccessException("private directory");
+                }
+                var bytes = f.Copy(); var nodes = f.Nodes.ToArray(); var promotions = f.Promotions; f.ReadCalls = 0;
+                Assert.IsNotNull(store.EnsureAndroidProductDirectory()); Rejected(store.EnterAtProcessStart("set.a", H1));
+                SameData(bytes, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray()); Assert.AreEqual(promotions, f.Promotions);
+                Assert.AreEqual(0, f.ReadCalls); Assert.IsFalse(f.Trace.Any(x => x == "create:" + f.Root));
+            }
+        }
+
+        [Test]
+        public void AS20_HostAndroidStorageChecksBeforeCreateAndRechecksAfterIt()
+        {
+            foreach (var failure in new[] { "none", "passed-anchor", "anchor", "probe", "enumeration", "post-create" })
+            {
+                var f = new MemoryFiles(true, false); var native = new MemoryAndroidPaths(f);
+                f.Data[Path.Combine(native.Anchor, "keep.bin")] = new byte[] { 17, 0, 255 }; var bytes = f.Copy(); var calls = 0;
+                if (failure == "anchor") native.Canonical = native.Anchor + "-changed";
+                if (failure == "probe") native.LinkErrors[native.Anchor] = 2;
+                if (failure == "enumeration") { f.DeferredDirectory = native.Anchor; f.DeferredError = new UnauthorizedAccessException("private"); }
+                if (failure == "post-create") f.AfterDirectoryCreated = _ => native.LinkErrors[f.Root] = 13;
+                var suppliedAnchor = failure == "passed-anchor" ? native.Anchor + "-supplied" : native.Anchor;
+                var code = FightMatchPlayerHost.PrepareAndroidResourceStorage(f.Root, suppliedAnchor, (product, anchor) =>
+                {
+                    calls++; Assert.AreEqual(f.Root, product); Assert.AreEqual(suppliedAnchor, anchor);
+                    return new FightMatchResourceActivationStore(product, f, "a2-b5-p101-e1000", anchor, native);
+                }, out var store);
+                Assert.AreEqual(1, calls); Assert.IsNotNull(store); SameData(bytes, f);
+                var created = f.Trace.IndexOf("create:" + f.Root);
+                if (failure == "none" || failure == "post-create")
+                {
+                    Assert.GreaterOrEqual(f.Trace.IndexOf("canonical:" + native.Anchor), 0);
+                    Assert.GreaterOrEqual(f.Trace.IndexOf("entries:" + native.Anchor), 0);
+                    Assert.Greater(created, f.Trace.IndexOf("canonical:" + native.Anchor));
+                    Assert.Greater(created, f.Trace.IndexOf("entries:" + native.Anchor));
+                    Assert.IsTrue(f.Trace.Skip(created + 1).Contains("link:" + f.Root));
+                    Assert.AreEqual(1, f.Trace.Count(x => x == "create:" + f.Root));
+                    Assert.IsFalse(f.Nodes.ContainsKey(f.State));
+                    if (failure == "none")
+                    {
+                        Assert.IsNull(code); Assert.IsTrue(f.Trace.Skip(created + 1).Contains("canonical:" + native.Anchor));
+                        Ok(store.EnterAtProcessStart("set.a", H1)); Assert.AreEqual(2, Ok(store.Read()).Active.SchemaVersion);
+                    }
+                    else Assert.AreEqual("RES_STORAGE", code);
+                }
+                else { Assert.IsNotNull(code); Assert.AreEqual(-1, created); Assert.IsFalse(f.Nodes.ContainsKey(f.Root)); }
+            }
+        }
+
+        [Test]
         public void AS05_UnknownCommitNeverAdvances()
         {
             foreach (var fault in new[] { "promotion-before", "promotion-after", "target-open-before", "target-open-after",
@@ -374,6 +785,206 @@ namespace FightMatch.Host.Tests
                     var actual = Ok(f.Store(T3).Read()); Assert.AreEqual(p.ActivationId, actual.Active.ActivationId);
                     Assert.AreEqual("CodeEntered", actual.Active.Phase); Same(Json(actual.Active), f.Data[f.Leaf("active.json")]);
                 }
+            }
+        }
+
+        private const string MissingPlayIdentity = "FightMatch.Tests.MissingPlayIdentity";
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AS21_EditorPlayCallbacksPreserveSameSessionGuardAndAdmitNextPlay(bool reinitialize)
+        {
+            Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode, "This callback regression requires Edit Mode.");
+            var saved = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, string.Empty);
+            var savedPresent = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity) == saved;
+            try
+            {
+                using (var area = new RealArea("AS21-" + reinitialize))
+                {
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.ExitingEditMode);
+                    var first = new FightMatchResourceActivationStore(area.Root);
+                    var ready = Ready(first);
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    var oldBytes = File.ReadAllBytes(area.Leaf("active.json"));
+                    Rejected(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                    Same(oldBytes, File.ReadAllBytes(area.Leaf("active.json")));
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.EnteredEditMode);
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.ExitingEditMode);
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    var second = new FightMatchResourceActivationStore(area.Root);
+                    var entered = Ok(second.EnterAtProcessStart("set.a", H1));
+                    Assert.AreEqual(ready.Active.ActivationId, entered.Active.ActivationId);
+                    Assert.AreNotEqual(ready.Active.ProcessToken, entered.Active.ProcessToken);
+                    Assert.AreEqual(1, entered.Active.SchemaVersion); Assert.AreEqual("CodeEntered", entered.Active.Phase);
+                    Ok(second.MarkBusinessReady(entered.Active.ActivationId));
+                    var prepared = Ok(second.Prepare("set.b", H2)).Prepared; Ok(second.RequestRestart(prepared.ActivationId));
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    oldBytes = File.ReadAllBytes(area.Leaf("active.json"));
+                    var restartBytes = File.ReadAllBytes(area.Leaf("restart.json"));
+                    Rejected(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.b", H2), "RES_STATE");
+                    Same(oldBytes, File.ReadAllBytes(area.Leaf("active.json")));
+                    Same(restartBytes, File.ReadAllBytes(area.Leaf("restart.json")));
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.EnteredEditMode);
+                    FightMatchEditorPlaySession.Observe(PlayModeStateChange.ExitingEditMode);
+                    if (reinitialize) FightMatchEditorPlaySession.Initialize();
+                    var restarted = Ok(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.b", H2));
+                    Assert.AreEqual(prepared.ActivationId, restarted.Active.ActivationId);
+                    Assert.AreNotEqual(entered.Active.ProcessToken, restarted.Active.ProcessToken);
+                    Assert.AreEqual("CodeEntered", restarted.Active.Phase);
+                }
+                FightMatchEditorPlaySession.Observe(PlayModeStateChange.EnteredEditMode);
+                FightMatchEditorPlaySession.Initialize();
+                using (var area = new RealArea("AS21-default-" + reinitialize))
+                {
+                    SessionState.SetString(FightMatchEditorPlaySession.SessionKey, "invalid-session");
+                    FightMatchEditorPlaySession.Initialize();
+                    Rejected(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.a", H1), "RES_STATE");
+                    Assert.IsFalse(Directory.Exists(area.State), "Invalid identity must not create activation state.");
+                    SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
+                    Assert.AreEqual(MissingPlayIdentity, SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity));
+                    FightMatchEditorPlaySession.Initialize();
+                    var ordinary = Ok(new FightMatchResourceActivationStore(area.Root).EnterAtProcessStart("set.a", H1));
+                    using (var process = System.Diagnostics.Process.GetCurrentProcess())
+                        Assert.AreEqual("p" + process.Id.ToString(System.Globalization.CultureInfo.InvariantCulture) + "-" +
+                            process.StartTime.ToUniversalTime().Ticks.ToString(System.Globalization.CultureInfo.InvariantCulture), ordinary.Active.ProcessToken);
+                }
+                TestContext.Progress.WriteLine("Production Editor callbacks and default Store construction exercised; no actual Play or domain reload observed.");
+            }
+            finally
+            {
+                if (!savedPresent) SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
+                else SessionState.SetString(FightMatchEditorPlaySession.SessionKey, saved);
+                FightMatchEditorPlaySession.Initialize();
+            }
+        }
+
+        // UTF 1.1.33 restores the fixture and iterator position, not iterator locals, on reload.
+        private static readonly string PlayTestDomain = Guid.NewGuid().ToString("N");
+        [SerializeField] private bool realPlayPrepared, realPlayReload, savedPlayOptionsEnabled, savedPlayIdentityPresent;
+        [SerializeField] private EnterPlayModeOptions savedPlayOptions;
+        [SerializeField] private SceneSetup[] savedPlayScenes;
+        [SerializeField] private string savedPlayIdentity, realPlayRoot, realPlayDomain, firstPlayToken, firstPlayActivation;
+
+        [UnityTest]
+        public IEnumerator AS22_ConsecutiveRealPlayWithDomainReload()
+        {
+            PrepareRealPlay(true, "AS22-real-play-reload");
+            yield return new EnterPlayMode(true);
+            CheckFirstRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+            yield return new EnterPlayMode(true);
+            CheckNextRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+        }
+
+        [UnityTest]
+        public IEnumerator AS23_ConsecutiveRealPlayWithoutDomainReload()
+        {
+            PrepareRealPlay(false, "AS23-real-play-no-reload");
+            yield return new EnterPlayMode(false);
+            CheckFirstRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+            yield return new EnterPlayMode(false);
+            CheckNextRealPlay();
+            yield return new ExitPlayMode();
+            CheckRealPlayExit();
+        }
+
+        private void PrepareRealPlay(bool reload, string caseName)
+        {
+            Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode);
+            for (var i = 0; i < SceneManager.sceneCount; i++)
+                Assert.IsFalse(SceneManager.GetSceneAt(i).isDirty, "BLOCKED: preserve dirty scenes; do not save or discard them.");
+            savedPlayScenes = EditorSceneManager.GetSceneManagerSetup().Where(s => !string.IsNullOrEmpty(s.path)).ToArray();
+            if (savedPlayScenes.Length > 0 && !savedPlayScenes.Any(s => s.isActive))
+            {
+                var active = Array.FindIndex(savedPlayScenes, s => s.isLoaded);
+                Assert.GreaterOrEqual(active, 0, "BLOCKED: no saved loaded scene to restore.");
+                savedPlayScenes[active].isActive = true;
+            }
+            savedPlayOptionsEnabled = EditorSettings.enterPlayModeOptionsEnabled;
+            savedPlayOptions = EditorSettings.enterPlayModeOptions;
+            savedPlayIdentity = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, string.Empty);
+            savedPlayIdentityPresent = SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity) == savedPlayIdentity;
+            realPlayPrepared = true; realPlayReload = reload; realPlayDomain = PlayTestDomain;
+            // Keep these two new, leased case roots for the executor's evidence; never use player storage.
+            realPlayRoot = new RealArea(caseName).Root;
+            EditorSettings.enterPlayModeOptions = reload ? EnterPlayModeOptions.None : EnterPlayModeOptions.DisableDomainReload;
+            EditorSettings.enterPlayModeOptionsEnabled = true;
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            Assert.AreEqual(0, SceneManager.GetActiveScene().rootCount);
+        }
+
+        private void CheckRealPlayEntry()
+        {
+            Assert.IsTrue(EditorApplication.isPlaying);
+            Assert.AreEqual(realPlayReload, realPlayDomain != PlayTestDomain, "Actual domain reload did not match this case.");
+            Assert.IsFalse(string.IsNullOrEmpty(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null)),
+                "The real Editor event did not install a Play identity.");
+            TestContext.Progress.WriteLine("Actual Play entered; domain reload=" + realPlayReload);
+        }
+
+        private void CheckFirstRealPlay()
+        {
+            CheckRealPlayEntry();
+            var ready = Ready(new FightMatchResourceActivationStore(realPlayRoot));
+            firstPlayToken = ready.Active.ProcessToken; firstPlayActivation = ready.Active.ActivationId;
+            Assert.AreEqual(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null), firstPlayToken);
+            CheckSameRealPlayRejected();
+        }
+
+        private void CheckNextRealPlay()
+        {
+            CheckRealPlayEntry();
+            var store = new FightMatchResourceActivationStore(realPlayRoot);
+            var entered = Ok(store.EnterAtProcessStart("set.a", H1));
+            Assert.AreEqual(firstPlayActivation, entered.Active.ActivationId);
+            Assert.AreNotEqual(firstPlayToken, entered.Active.ProcessToken);
+            Assert.AreEqual(SessionState.GetString(FightMatchEditorPlaySession.SessionKey, null), entered.Active.ProcessToken);
+            Assert.AreEqual(1, entered.Active.SchemaVersion); Assert.AreEqual("CodeEntered", entered.Active.Phase);
+            Ok(store.MarkBusinessReady(entered.Active.ActivationId));
+            CheckSameRealPlayRejected();
+        }
+
+        private void CheckSameRealPlayRejected()
+        {
+            var path = Path.Combine(realPlayRoot, "resource-state", "v1", "active.json");
+            var before = File.ReadAllBytes(path);
+            Rejected(new FightMatchResourceActivationStore(realPlayRoot).EnterAtProcessStart("set.a", H1), "RES_STATE");
+            Same(before, File.ReadAllBytes(path));
+        }
+
+        private void CheckRealPlayExit()
+        {
+            Assert.IsFalse(EditorApplication.isPlayingOrWillChangePlaymode);
+            Assert.AreEqual(MissingPlayIdentity, SessionState.GetString(FightMatchEditorPlaySession.SessionKey, MissingPlayIdentity));
+            Assert.AreEqual(string.Empty, SessionState.GetString(FightMatchEditorPlaySession.SessionKey, string.Empty));
+            Same(new byte[] { 17, 0, 255 }, File.ReadAllBytes(Path.Combine(realPlayRoot, "external.bin")));
+            realPlayDomain = PlayTestDomain;
+        }
+
+        [UnityTearDown]
+        public IEnumerator RestoreRealPlayEnvironment()
+        {
+            if (!realPlayPrepared) yield break;
+            if (EditorApplication.isPlayingOrWillChangePlaymode) yield return new ExitPlayMode();
+            try
+            {
+                EditorSettings.enterPlayModeOptions = savedPlayOptions;
+                EditorSettings.enterPlayModeOptionsEnabled = savedPlayOptionsEnabled;
+                if (!savedPlayIdentityPresent) SessionState.EraseString(FightMatchEditorPlaySession.SessionKey);
+                else SessionState.SetString(FightMatchEditorPlaySession.SessionKey, savedPlayIdentity);
+                FightMatchEditorPlaySession.Initialize();
+            }
+            finally
+            {
+                // UTF owns its transient untitled scene and also restores the original pre-run setup.
+                if (savedPlayScenes.Length > 0) EditorSceneManager.RestoreSceneManagerSetup(savedPlayScenes);
+                else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+                realPlayPrepared = false;
             }
         }
 

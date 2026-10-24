@@ -3,7 +3,9 @@
 Copy this template, fill every required field, and send it together with
 [`DEEPSEEK_WORKER_PROMPT.md`](DEEPSEEK_WORKER_PROMPT.md).
 
-One packet must perform one coherent task.
+One packet must perform one coherent task. This full template is for external
+DeepSeek handoffs. Internal Codex tasks use the [short task record](TEAM_WORKFLOW.md#4-任务包);
+do not copy this template or create a new packet for each routine correction.
 
 ---
 

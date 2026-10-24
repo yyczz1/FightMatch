@@ -24,6 +24,8 @@ namespace FightMatch.Presentation
         private enum BottomHudMode { Normal, History, Reference }
         private BottomHudMode bottomHudMode;
         private long referenceEpoch;
+        private UnityEngine.UI.Button settlementButton;
+        private bool settlementAvailable, settlementRevealPending;
         [SerializeField] private UnityEngine.UI.Button buttonTemplate;
         [SerializeField] private LocalizedTmpText textTemplate;
         private readonly List<GameObject> rows = new List<GameObject>();
@@ -32,6 +34,8 @@ namespace FightMatch.Presentation
         private BattleLocalizedRows hudRows;
         private long renderEpoch;
         private bool disposed;
+        private object displayedDialog;
+        private bool dialogScrollResetPending;
         internal bool IsDisposed => disposed;
         public PlayerBattleController Controller { get; private set; }
         public PlayerBattlePageToken Page { get; private set; }
@@ -88,6 +92,8 @@ namespace FightMatch.Presentation
         private void DetachSelfManaged()
         {
             renderEpoch++;
+            displayedDialog = null; dialogScrollResetPending = false;
+            settlementButton = null; settlementAvailable = false; settlementRevealPending = false;
             if (localization != null) localization.LocaleChanged -= OnLocaleChanged;
             var owner = Controller; var page = Page;
             if (owner != null) owner.Changed -= Render;
@@ -144,6 +150,7 @@ namespace FightMatch.Presentation
         }
         private void ClearRows()
         {
+            settlementButton = null;
             foreach (var listener in listeners) if (listener.Key != null) listener.Key.onClick.RemoveListener(listener.Value);
             listeners.Clear();
             foreach (var row in rows)
@@ -168,7 +175,7 @@ namespace FightMatch.Presentation
                     id == "fm.action.victory.settle" ? 248 : 152;
                 var cell = button.GetComponent<UnityEngine.UI.LayoutElement>();
                 if (cell == null) cell = button.gameObject.AddComponent<UnityEngine.UI.LayoutElement>();
-                cell.minWidth = cell.preferredWidth = width; cell.minHeight = cell.preferredHeight = 48;
+                cell.minWidth = cell.preferredWidth = width;
             }
             button.GetComponentInChildren<LocalizedTmpText>(true).Bind(localization, key, arguments);
             UnityAction callback = () =>
@@ -179,11 +186,21 @@ namespace FightMatch.Presentation
         private void Text(RectTransform parent, string id, string key, params KeyValuePair<string, string>[] arguments)
         {
             var text = Instantiate(textTemplate, parent, false); text.gameObject.SetActive(false);
+            if (parent == dialogBody || parent == dialogChoices)
+            {
+                var layout = text.GetComponent<UnityEngine.UI.LayoutElement>();
+                if (layout != null) layout.preferredHeight = -1;
+                if (text.Target != null) text.Target.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            }
             text.GetComponent<FightMatchViewId>().Assign(id); text.Bind(localization, key, arguments);
             rows.Add(text.gameObject); text.gameObject.SetActive(true);
         }
         private void Text(RectTransform parent, string id, BattleTextLine line) { Text(parent, id, line.Key, line.Arguments); }
-        private void OnLocaleChanged(LocaleId locale) { Render(); }
+        private void OnLocaleChanged(LocaleId locale)
+        {
+            if (displayedDialog != null) dialogScrollResetPending = true;
+            Render();
+        }
         private static string Row(string id) => FightMatchViewId.Row(id);
         private void Render()
         {
@@ -216,7 +233,7 @@ namespace FightMatch.Presentation
                     (c, p) => c.PreviewEnd(p, CandidateApplicationKind.ExitAttempt, context), view.Read.Lifecycle?.Exit.IsAvailable == true);
                 Button(actions, Row("battle-restart"), "fm.operation.restart_attempt",
                     (c, p) => c.PreviewEnd(p, CandidateApplicationKind.RestartAttempt, context), supported && view.Read.Lifecycle?.Restart.IsAvailable == true);
-                Button(actions, "fm.action.victory.settle", "fm.victory.settle.button", (c, p) => c.Settle(p, context), supported && view.CanSettle);
+                settlementButton = Button(actions, "fm.action.victory.settle", "fm.victory.settle.button", (c, p) => c.Settle(p, context), supported && view.CanSettle);
                 if (pendingVictory && !view.CanSettle)
                 {
                     if (battle.PresentationToken != null) Text(battleNotices, Row("settlement-pending"), "fm.victory.playback_pending");
@@ -309,6 +326,10 @@ namespace FightMatch.Presentation
                 {
                     Button(recoveryActions, Row("query-input-original"), "fm.save_recovery.lookup_button", (c, p) =>
                     { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.QueryLastOperation(); });
+                    Button(recoveryActions, Row("retry-input-original"), "fm.save_recovery.retry_button", (c, p) =>
+                    { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.RetryLast(); }, Controller.Input.CanRetry);
+                    Button(recoveryActions, Row("resolve-input-original"), "fm.save_recovery.confirm_result_button", (c, p) =>
+                    { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.ResolveLast(); }, Controller.Input.CanResolve);
                     Button(recoveryDangerActions, Row("end-input-original"), "fm.save_recovery.end_uncommitted_button", (c, p) =>
                     { if (ReferenceEquals(inputRequest, c.Input.LastRequest)) c.Input.EndLast(); }, view.Read.Head?.Continuation == null);
                 }
@@ -362,8 +383,58 @@ namespace FightMatch.Presentation
                     Button(receipt, Row("next:" + next.LevelId), string.Empty, (c, p) => c.Replay(p, next.LevelId, next.LevelVersion, context));
                 }
             }
-            dialogRoot.SetActive(DisplayedRange != null || view.Confirmation != null);
+            var dialog = (object)DisplayedRange ?? view.Confirmation;
+            if (!ReferenceEquals(displayedDialog, dialog))
+            {
+                displayedDialog = dialog;
+                dialogScrollResetPending = dialog != null;
+            }
+            dialogRoot.SetActive(dialog != null);
             recoveryRoot.SetActive(view.Route == PlayerBattleRoute.Recovery);
+            var canRevealSettlement = pendingVictory && supported && view.CanSettle && view.Route == PlayerBattleRoute.Battle;
+            if (canRevealSettlement && !settlementAvailable)
+            {
+                SetBottomHud(BottomHudMode.Normal);
+                settlementRevealPending = true;
+            }
+            if (!canRevealSettlement) settlementRevealPending = false;
+            settlementAvailable = canRevealSettlement;
+        }
+        private void RestoreDialogScroll()
+        {
+            if (!dialogScrollResetPending || Controller == null || !dialogRoot.activeInHierarchy) return;
+            var owner = Controller; var page = Page; var dialog = displayedDialog;
+            Canvas.ForceUpdateCanvases();
+            if (!dialogScrollResetPending || !ReferenceEquals(owner, Controller) || !ReferenceEquals(page, Page) ||
+                !owner.Owns(page) || !ReferenceEquals(dialog, displayedDialog) || !dialogRoot.activeInHierarchy) return;
+            var scroll = dialogBody.GetComponentInParent<UnityEngine.UI.ScrollRect>(true);
+            if (scroll == null || scroll.content == null || scroll.viewport == null)
+            { dialogScrollResetPending = false; return; }
+            if (scroll.viewport.rect.height <= 0) return;
+            scroll.StopMovement();
+            scroll.verticalNormalizedPosition = 1;
+            dialogScrollResetPending = false;
+        }
+        private void LateUpdate()
+        {
+            RestoreDialogScroll();
+            if (!settlementRevealPending || Controller == null) return;
+            var owner = Controller; var page = Page;
+            Canvas.ForceUpdateCanvases();
+            if (!settlementRevealPending || !ReferenceEquals(owner, Controller) || !ReferenceEquals(page, Page) || !owner.Owns(page) ||
+                settlementButton == null || !settlementButton.isActiveAndEnabled || !settlementButton.interactable) return;
+            var scroll = actions.GetComponentInParent<UnityEngine.UI.ScrollRect>(true);
+            if (scroll == null || scroll.content == null || scroll.viewport == null) { settlementRevealPending = false; return; }
+            if (scroll.viewport.rect.width <= 0) return;
+            var range = scroll.content.rect.width - scroll.viewport.rect.width;
+            if (range > 0)
+            {
+                var target = (RectTransform)settlementButton.transform;
+                var center = scroll.content.InverseTransformPoint(target.TransformPoint(target.rect.center)).x - scroll.content.rect.xMin;
+                scroll.StopMovement();
+                scroll.horizontalNormalizedPosition = Mathf.Clamp01((center - scroll.viewport.rect.width / 2) / range);
+            }
+            settlementRevealPending = false;
         }
         private BattleTextLine ResultTitle(PlayerBattleReceipt original, bool receiptTitle)
         {

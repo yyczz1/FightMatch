@@ -1,0 +1,200 @@
+{
+  "task": "DEMO-NEXT-001/android-01",
+  "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+  "ownerTurn": "01a143aa-bddf-7e82-8fa5-72cf0d05560c",
+  "receiverThread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+  "startedUtc": "2026-10-16T07:49:08.905481+00:00",
+  "startedMonotonic": 399427.05525425,
+  "limitsSeconds": {
+    "preflight": 30,
+    "build": 840,
+    "buildWork": 825,
+    "postflight": 30,
+    "continuous": 900,
+    "originalFix01Total": 1200
+  },
+  "stages": [
+    {
+      "name": "preflight",
+      "startedUtc": "2026-10-16T07:49:08.905982+00:00",
+      "startedMonotonic": 399427.055763,
+      "limitSeconds": 30,
+      "editorProcesses": [],
+      "lease": {
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": ""
+      },
+      "unexpectedProductChanges": {},
+      "exitCode": 0,
+      "endedUtc": "2026-10-16T07:49:13.661899+00:00",
+      "endedMonotonic": 399431.811708041,
+      "elapsedSeconds": 4.755945041019004
+    },
+    {
+      "name": "build",
+      "startedUtc": "2026-10-16T07:49:13.662352+00:00",
+      "startedMonotonic": 399431.81211525,
+      "limitSeconds": 840,
+      "effectiveHardDeadlineMonotonic": 400271.81211525,
+      "effectiveWorkDeadlineMonotonic": 400256.81211525,
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-quit",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "-buildTarget",
+        "Android",
+        "-executeMethod",
+        "FightMatch.Host.Editor.FightMatchAndroidBuild.BuildDemo",
+        "-fmDemoNextOutput",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-unity.log"
+      ],
+      "timedOut": false,
+      "pid": 48183,
+      "commandStartedUtc": "2026-10-16T07:49:13.665093+00:00",
+      "exitCode": 0,
+      "endedUtc": "2026-10-16T07:53:19.848028+00:00",
+      "endedMonotonic": 399677.997191791,
+      "elapsedSeconds": 246.1850765410345
+    },
+    {
+      "name": "postflight",
+      "startedUtc": "2026-10-16T07:53:19.849750+00:00",
+      "startedMonotonic": 399677.998729875,
+      "limitSeconds": 30,
+      "editorProcessesAfter": [],
+      "unexpectedProductChanges": {},
+      "productFileCount": 1176,
+      "actualSettings": {
+        "bytes": 23587,
+        "sha256": "fdb4a42b54e19422715633656882da730ef84c28aa05610b7a1423ce64c38a70"
+      },
+      "settingsDiff": "--- before/ProjectSettings.asset\n+++ after/ProjectSettings.asset\n@@ -169,7 +169,7 @@\n     tvOS: 0\n   overrideDefaultApplicationIdentifier: 0\n   AndroidBundleVersionCode: 1\n-  AndroidMinSdkVersion: 22\n+  AndroidMinSdkVersion: 24\n   AndroidTargetSdkVersion: 32\n   AndroidPreferredInstallLocation: 1\n   aotOptions: \n@@ -427,8 +427,8 @@\n     m_GraphicsJobMode: 0\n   m_BuildTargetGraphicsAPIs:\n   - m_BuildTarget: AndroidPlayer\n-    m_APIs: 150000000b000000\n-    m_Automatic: 1\n+    m_APIs: 0b000000\n+    m_Automatic: 0\n   - m_BuildTarget: iOSSupport\n     m_APIs: 10000000\n     m_Automatic: 1\n",
+      "isolationChanges": {},
+      "preservedEvidenceChanges": {},
+      "signingKeyUnchanged": true,
+      "passwordFileMetadataUnchanged": true,
+      "artifacts": {
+        "Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk": {
+          "bytes": 36583902,
+          "sha256": "4d72f265bd437d9d0e5131128ae46f71fb4fd968310f3a2d93344a791c017ab6"
+        },
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-unity.log": {
+          "bytes": 527798,
+          "sha256": "00e20b8550291989499f2ae81cd9a869bb398a6e0af58b471617e5778d9c5734"
+        },
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01/build-report.json": {
+          "bytes": 80169,
+          "sha256": "1ef3ba953899286d9ef681a837c7d5f33550009ca9bafad79d7786da8a0a8e36"
+        },
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01/temporary-settings.json": {
+          "bytes": 29884,
+          "sha256": "cbb533d5d5df087ddb5f86b83458ead022cd9091e4ddb4e1bcea662dc0365ed4"
+        },
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-manifest.txt": {
+          "bytes": 1008,
+          "sha256": "f5efdd7350c63814752f1c1bf04c6458b73c78b60df361d6fea7bba7d65591e2"
+        },
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-signature.txt": {
+          "bytes": 891,
+          "sha256": "853dbaa7101e03487e7b984e08f83f735c4dd59c2c27b6d7be4b0b4615753e68"
+        }
+      },
+      "buildReportSummary": {
+        "stage": "DEMO-NEXT-001",
+        "result": "Succeeded",
+        "output": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk",
+        "target": "Android",
+        "options": "CompressTextures, StripDebugSymbols, ForceOptimizeScriptCompilation, Il2CPP, Development",
+        "startedUtc": "2026-10-15T23:50:10.4370170Z",
+        "endedUtc": "2026-10-15T23:52:47.1995489Z",
+        "sha256": "4d72f265bd437d9d0e5131128ae46f71fb4fd968310f3a2d93344a791c017ab6",
+        "package": "com.yyczz1.fightmatch",
+        "backend": "IL2CPP",
+        "architecture": "ARM64",
+        "stripping": "Minimal",
+        "errors": 0,
+        "warnings": 1,
+        "minSdk": 24,
+        "bytes": 36583902,
+        "graphicsAutomatic": false,
+        "graphicsApis": [
+          "OpenGLES3"
+        ]
+      },
+      "temporarySettingsRestored": true,
+      "capturedGraphics": {
+        "auto": false,
+        "apis": [
+          "OpenGLES3"
+        ]
+      },
+      "temporarySettingsExactAfter": true,
+      "manifestCommand": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/build-tools/32.0.0/aapt",
+        "dump",
+        "badging",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk"
+      ],
+      "manifestExitCode": 0,
+      "manifestSummary": [
+        "package: name='com.yyczz1.fightmatch' versionCode='1' versionName='0.1' compileSdkVersion='32' compileSdkVersionCodename='12'",
+        "sdkVersion:'24'",
+        "targetSdkVersion:'32'",
+        "launchable-activity: name='com.unity3d.player.UnityPlayerActivity'  label='' icon=''",
+        "native-code: 'arm64-v8a'"
+      ],
+      "signatureCommand": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/OpenJDK/bin/java",
+        "-jar",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/build-tools/32.0.0/lib/apksigner.jar",
+        "verify",
+        "--verbose",
+        "--print-certs",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-01/fightmatch-demo.apk"
+      ],
+      "signatureExitCode": 0,
+      "certificateSha256": [
+        "2045e6c0b3dd319ae5682d10701ffcdd2337fdf5a539c7a065d1d7c8024bac51"
+      ],
+      "normalSceneSourceBinding": {
+        "scene": "Assets/Scenes/FightMatchDemo.unity",
+        "identity": {
+          "bytes": 13566,
+          "sha256": "9911cf81ea78909900067c25d50df9feedd19abb5773e98e411c3e1b15bbad35"
+        },
+        "builderIdentity": {
+          "bytes": 209609,
+          "sha256": "071c09573b4e0fcff6c6228673591397fe9bf9087ac8faf2ef29d7b01b0b6db2"
+        },
+        "note": "BuildDemo fixed scenes array; normal Development report without IncludeTestAssemblies. No device or visual validation."
+      },
+      "exitCode": 0,
+      "endedUtc": "2026-10-16T07:53:21.371351+00:00",
+      "endedMonotonic": 399679.520326,
+      "elapsedSeconds": 1.5215961249778047
+    }
+  ],
+  "unityLaunches": 1,
+  "testLaunches": 0,
+  "buildLaunches": 1,
+  "status": "APK_BUILT_CHECKED_PENDING_INDEPENDENT_AND_DEVICE_ACCEPTANCE",
+  "integrationVerdict": "NEEDS_FIX",
+  "priorFix01Seconds": 49.25075075001223,
+  "endedUtc": "2026-10-16T07:53:21.371937+00:00",
+  "endedMonotonic": 399679.52092875,
+  "continuousElapsedSeconds": 252.4656744999811,
+  "cumulativeFix01Seconds": 301.71642524999334,
+  "remainingGates": [
+    "Independent GitHub review of published actual source and settings",
+    "Actual L1, visual and device acceptance",
+    "Local font/WIP differ from clean PR tree; no full clean-tree claim"
+  ],
+  "recordWrittenMonotonic": 399679.521301416,
+  "continuousThroughRecordSeconds": 252.46604716597358
+}

@@ -9,6 +9,7 @@ using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
 using UnityEditor.TestTools;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 [assembly: TestPlayerBuildModifier(typeof(FightMatch.Host.Editor.FightMatchAndroidBuild))]
@@ -19,6 +20,7 @@ namespace FightMatch.Host.Editor
     public sealed class FightMatchAndroidBuild : ITestPlayerBuildModifier, IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
         private const string Stage = "DEMO-029-MAC-R1";
+        private const string DemoNextStage = "DEMO-NEXT-001";
         private const string Project = "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch";
         private const string ScenePath = "Assets/Scenes/FightMatchDemo.unity";
         private const string Ui = "Assets/UI/FightMatch/";
@@ -30,11 +32,21 @@ namespace FightMatch.Host.Editor
         private static SceneSetup[] originalScenes;
         private static string apk, runDirectory, temporaryScene;
         private static bool qa, finishing, finished, buildObserved, loggedError;
+        private static bool demoNext;
         private static BuildReport actualReport;
         public int callbackOrder => int.MaxValue;
 
         static FightMatchAndroidBuild()
         {
+            if (Args.Contains("-fmDemoNextOutput"))
+            {
+                Require(Arg("-executeMethod") == "FightMatch.Host.Editor.FightMatchAndroidBuild.BuildDemo" &&
+                    !Args.Any(x => x.StartsWith("-fm", StringComparison.OrdinalIgnoreCase) && x != "-fmDemoNextOutput" ||
+                        x.StartsWith("-test", StringComparison.OrdinalIgnoreCase) || x.StartsWith("-runTests", StringComparison.OrdinalIgnoreCase) ||
+                        x.Equals("-runEditorTests", StringComparison.OrdinalIgnoreCase) || x.Equals("-runPlayModeTests", StringComparison.OrdinalIgnoreCase) ||
+                        x.Equals("-assemblyNames", StringComparison.OrdinalIgnoreCase) || x.Equals("-buildPlayerPath", StringComparison.OrdinalIgnoreCase)),
+                    "Demo next requires the normal BuildDemo entry without QA/test or other stage arguments");
+            }
             if (!Args.Contains("-fm029QaBuildOnly") || Arg("-fm029Stage") != Stage) return;
             qa = true;
             GuardOutput(Arg("-buildPlayerPath"), "fightmatch-qa.apk");
@@ -200,6 +212,7 @@ namespace FightMatch.Host.Editor
                 detail.gameObject.SetActive(false);
             }
             Id(rect.gameObject, id);
+            FightMatchUiButtonDropdownCorrection.ConfigureButton(button);
             return button;
         }
         private static TMPro.TMP_InputField Input(string name, Transform parent, string id)
@@ -419,10 +432,9 @@ namespace FightMatch.Host.Editor
                 "dialog", Modal("BattleConfirmation", confirmationContainer), "recovery", Modal("BattleRecovery", recoveryContainer),
                 "receipt", resultRows, "buttonTemplate", battleButton, "textTemplate", textTemplate);
 
-            var language = Modal("LanguagePopup", popups, "fm.popup.language");
-            var languageTitle = Label("Title", language); var feedback = Label("Feedback", language);
-            var english = Button("English", language, RowId("language.en")); var chinese = Button("Chinese", language, RowId("language.zhHans"));
-            var languageClose = Button("Close", language, "fm.action.close");
+            var language = FightMatchUiButtonDropdownCorrection.CreateLanguageDropdown(hud, preparingFont);
+            var feedback = Label("Feedback", hud);
+            var feedbackPanel = FightMatchUiButtonDropdownCorrection.CreateFeedbackPanel(hud, feedback.transform);
             var license = Modal("LicensePopup", popups, "fm.popup.license");
             var licenseTitle = Label("Title", license);
             var licenseScrollRect = Rect("LicenseScrollContainer", license);
@@ -437,17 +449,18 @@ namespace FightMatch.Host.Editor
             var loading = Modal("LoadingOverlay", systems, RowId("system.Loading")); var loadingLabel = Label("Loading", loading);
             var diagnostic = Modal("BlockingDiagnostic", systems, "fm.popup.blocking"); var diagnosticText = Label("Diagnostic", diagnostic, height: 192);
             References(hostView, "startupPage", startup.gameObject, "navigationPage", navigation.gameObject,
-                "battlePage", battle.gameObject, "resultPage", result.gameObject, "languagePopup", language.gameObject,
+                "battlePage", battle.gameObject, "resultPage", result.gameObject,
                 "licensePopup", license.gameObject, "quitPopup", quit.gameObject, "loadingOverlay", loading.gameObject,
                 "blockingDiagnostic", diagnostic.gameObject, "navigationView", navView, "battleView", battleView, "board", board,
-                "profileTitle", profileTitle, "startupStatus", startupStatus, "languageTitle", languageTitle, "languageFeedback", feedback,
+                "profileTitle", profileTitle, "startupStatus", startupStatus,
                 "licenseTitle", licenseTitle, "quitTitle", quitTitle, "quitBody", quitBody, "loadingLabel", loadingLabel,
                 "diagnosticText", diagnosticText, "licenseBody", licenseBody, "createButton", create, "continueButton", continuation,
                 "reloadButton", reload, "backButton", Button("Back", hud, "fm.action.back"),
-                "languageButton", Button("Language", hud, "fm.action.language.open"), "languageEnglishButton", english,
-                "languageChineseButton", chinese, "languageCloseButton", languageClose,
                 "licenseButton", Button("License", hud, RowId("license.Open")), "licenseCloseButton", licenseClose,
                 "quitConfirmButton", quitConfirm, "quitCancelButton", quitCancel);
+            var languageFields = new SerializedObject(hostView);
+            FightMatchUiButtonDropdownCorrection.WireLanguage(languageFields, language, feedbackPanel);
+            languageFields.ApplyModifiedPropertiesWithoutUndo();
             navigation.gameObject.SetActive(false); battle.gameObject.SetActive(false); result.gameObject.SetActive(false);
             return root;
         }
@@ -561,6 +574,174 @@ namespace FightMatch.Host.Editor
                 Regex.IsMatch(identity.sha256 ?? "", "^[a-f0-9]{64}$") && File.Exists(identity.path) &&
                 new FileInfo(identity.path).Length == identity.bytes && Sha(identity.path) == identity.sha256,
                 "UGUI correction frozen file identity " + identity?.path);
+        }
+        private static T LayoutAt<T>(Transform root, string path) where T : Component
+        {
+            var target = root.Find(path); Require(target != null, "LAYOUT missing path " + path);
+            var component = target.GetComponent<T>(); Require(component != null, "LAYOUT missing type " + typeof(T).Name + " at " + path);
+            return component;
+        }
+        private static void LayoutCell(RectTransform rect, float width, float height)
+        {
+            var element = rect.GetComponent<UnityEngine.UI.LayoutElement>() ?? rect.gameObject.AddComponent<UnityEngine.UI.LayoutElement>();
+            element.minWidth = element.preferredWidth = width; element.minHeight = element.preferredHeight = height;
+            element.flexibleWidth = element.flexibleHeight = 0;
+        }
+        private static string[] LayoutViewIds(GameObject root)
+        {
+            var type = AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + "FightMatchViewId.cs").GetClass();
+            return root.GetComponentsInChildren(type, true).Select(x => new SerializedObject(x).FindProperty("id").stringValue).ToArray();
+        }
+        private static void LayoutBattleNavigationEntry(GameObject root)
+        {
+            const string path = "RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BottomHud/NormalHud/MainRow/CommandStrip";
+            var strip = LayoutAt<UnityEngine.UI.ScrollRect>(root.transform, path);
+            var fixedActions = LayoutAt<RectTransform>(strip.content, "FixedBattleActions");
+            var template = LayoutAt<UnityEngine.UI.Button>(fixedActions, "HistoryOpen");
+            Require(strip.horizontal && !strip.vertical && strip.content.parent == strip.viewport &&
+                fixedActions.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>() != null, "Navigation entry existing command hierarchy");
+            var existing = fixedActions.Find("Adventure");
+            var adventure = existing == null ? UnityEngine.Object.Instantiate(template, fixedActions, false) :
+                existing.GetComponent<UnityEngine.UI.Button>();
+            Require(adventure != null && adventure.onClick.GetPersistentEventCount() == 0, "Navigation entry native button");
+            adventure.name = "Adventure"; adventure.transform.SetSiblingIndex(0);
+            var idType = AssetDatabase.LoadAssetAtPath<MonoScript>(PresentationPath + "FightMatchViewId.cs").GetClass();
+            var id = new SerializedObject(adventure.GetComponent(idType));
+            id.FindProperty("id").stringValue = RowId("battle-adventure"); id.ApplyModifiedPropertiesWithoutUndo();
+            FightMatchUiButtonDropdownCorrection.ConfigureButton(adventure);
+            var cell = adventure.GetComponent<UnityEngine.UI.LayoutElement>();
+            cell.minWidth = cell.preferredWidth = 152; cell.flexibleWidth = 0;
+            LayoutCell(fixedActions, -1, 72);
+            strip.content.sizeDelta = new Vector2(1784, 72);
+            References(root.GetComponent<FightMatchHostView>(), "battleMapButton", adventure);
+            var ids = LayoutViewIds(root);
+            Require(ids.Count(x => x == RowId("battle-adventure")) == 1 && ids.Distinct(StringComparer.Ordinal).Count() == ids.Length,
+                "Navigation entry unique existing row ID");
+        }
+
+        private static void LayoutBattleConfirmationBody(GameObject root)
+        {
+            var panel = LayoutAt<RectTransform>(root.transform,
+                "RuntimeCanvas/SafeAreaRoot/PopupLayer/ConfirmationPopup/RootMask/BattleConfirmationPanel");
+            var scroll = LayoutAt<UnityEngine.UI.ScrollRect>(panel, "BodyViewport");
+            var body = scroll.content.GetComponent<UnityEngine.UI.VerticalLayoutGroup>();
+            Require(body != null && scroll.content.pivot.y == 1 && scroll.content.anchorMin.y == 1 &&
+                scroll.content.anchorMax.y == 1, "Battle confirmation existing top-anchored body");
+            body.childControlHeight = true;
+            foreach (var name in new[] { "StateRows", "ChoiceRows" })
+            {
+                var section = LayoutAt<RectTransform>(scroll.content, name);
+                var fitter = section.GetComponent<UnityEngine.UI.ContentSizeFitter>();
+                Require(fitter != null && section.GetComponent<UnityEngine.UI.VerticalLayoutGroup>() != null,
+                    "Battle confirmation existing section layout");
+                // Content owns section height from its layout input; the section group still owns its rows.
+                fitter.verticalFit = UnityEngine.UI.ContentSizeFitter.FitMode.Unconstrained;
+                section.anchorMin = section.anchorMax = Vector2.up;
+                section.pivot = new Vector2(.5f, 1);
+            }
+        }
+
+        public static void ApplyReferenceBodyLayout()
+        {
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                var existingIds = LayoutViewIds(root).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+                var content = LayoutAt<RectTransform>(root.transform,
+                    "RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BottomHud/ReferenceInfoDrawer/BodyViewport/Viewport/Content");
+                var body = content.GetComponent<UnityEngine.UI.VerticalLayoutGroup>();
+                var contentFitter = content.GetComponent<UnityEngine.UI.ContentSizeFitter>();
+                Require(body != null && contentFitter != null &&
+                    contentFitter.verticalFit == UnityEngine.UI.ContentSizeFitter.FitMode.PreferredSize,
+                    "Reference existing preferred-size content layout");
+                body.childControlHeight = true;
+                foreach (var name in new[] { "Explanation", "Beat" })
+                {
+                    var row = LayoutAt<RectTransform>(content, name);
+                    var element = row.GetComponent<UnityEngine.UI.LayoutElement>();
+                    var text = row.GetComponent<TMPro.TextMeshProUGUI>();
+                    Require(element != null && text != null, "Reference existing text row " + name);
+                    element.preferredHeight = -1;
+                    text.alignment = TMPro.TextAlignmentOptions.TopLeft;
+                }
+                var steps = LayoutAt<RectTransform>(content, "Steps");
+                var stepsFitter = steps.GetComponent<UnityEngine.UI.ContentSizeFitter>();
+                Require(stepsFitter != null && steps.GetComponent<UnityEngine.UI.VerticalLayoutGroup>() != null,
+                    "Reference existing steps layout");
+                stepsFitter.verticalFit = UnityEngine.UI.ContentSizeFitter.FitMode.Unconstrained;
+                steps.anchorMin = steps.anchorMax = Vector2.up;
+                steps.pivot = new Vector2(.5f, 1);
+                Require(existingIds.SequenceEqual(LayoutViewIds(root).OrderBy(x => x, StringComparer.Ordinal)),
+                    "Reference body preserves all existing view IDs before save");
+                var saved = PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab);
+                Require(saved != null, "reference-text-fix01 prefab save");
+                Require(existingIds.SequenceEqual(LayoutViewIds(saved).OrderBy(x => x, StringComparer.Ordinal)),
+                    "Reference body preserves all existing view IDs after save");
+                Debug.Log("reference-text-fix01 applied reference body layout ownership to " + UguiPrefab);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
+        // Dedicated native prefab update; never regenerates resources or changes the scene.
+        public static void ApplyBattleNavigationAndConfirmationLayout()
+        {
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                var existingIds = LayoutViewIds(root).Where(x => x != RowId("battle-adventure")).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+                LayoutBattleNavigationEntry(root);
+                LayoutBattleConfirmationBody(root);
+                Require(existingIds.SequenceEqual(LayoutViewIds(root).Where(x => x != RowId("battle-adventure"))
+                    .OrderBy(x => x, StringComparer.Ordinal)), "Navigation entry preserves all existing object IDs");
+                Require(PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab) != null, "navigation-fix01 prefab save");
+                Debug.Log("navigation-fix01 applied Adventure and battle confirmation layout ownership to " + UguiPrefab);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
+        private static void LayoutBattleActorCopy(RectTransform slot)
+        {
+            // The HP binding already contains the complete name. Reserve three lines
+            // for that fact and two for intent inside the existing 96-unit stage slot.
+            foreach (var row in new[] { new { Name = "Hp", Top = 0f, Height = 56f }, new { Name = "Intent", Top = 58f, Height = 38f } })
+            {
+                var rect = (RectTransform)slot.Find(row.Name);
+                rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0, 1);
+                rect.anchoredPosition = new Vector2(0, -row.Top); rect.sizeDelta = new Vector2(72, row.Height);
+                rect.localScale = Vector3.one;
+                var text = rect.GetComponent<TMPro.TextMeshProUGUI>();
+                text.fontSize = 12; text.enableAutoSizing = false; text.enableWordWrapping = true;
+                text.alignment = TMPro.TextAlignmentOptions.TopLeft;
+                text.overflowMode = TMPro.TextOverflowModes.Overflow;
+            }
+        }
+        private static void LayoutBattleStateCopy(RectTransform rect)
+        {
+            var text = rect.GetComponent<TMPro.TextMeshProUGUI>();
+            text.fontSize = 12; text.enableAutoSizing = false; text.enableWordWrapping = true;
+            // TMP spacing uses percent-em units: at 12 pt this removes 2.16 units
+            // between baselines, fitting three complete lines in the existing 48-unit row.
+            text.lineSpacing = -18;
+            text.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            text.overflowMode = TMPro.TextOverflowModes.Overflow;
+        }
+        public static void ApplyEnglishBattleLayout()
+        {
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                var safe = root.transform.Find("RuntimeCanvas/SafeAreaRoot");
+                var battle = safe.Find("ScreenLayer/BattlePage/BattleContent");
+                foreach (var group in new[] { "AllySlots", "EnemySlots" })
+                    for (var i = 0; i < 3; i++)
+                        LayoutBattleActorCopy((RectTransform)battle.Find("Stage/" + group + "/ActorSlot" + i));
+                LayoutBattleStateCopy((RectTransform)safe.Find("HudLayer/TopBar/Title"));
+                foreach (var name in new[] { "Phase", "PlaybackStage", "Beat" })
+                    LayoutBattleStateCopy((RectTransform)battle.Find("BattleStatus/" + name));
+                Require(PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab) != null, "English-layout01 prefab save");
+                Debug.Log("English-layout01 applied actor and state text properties to " + UguiPrefab);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
         }
         private static System.Collections.Generic.Dictionary<string, string> UguiPrefabObjects(string text) =>
             Regex.Matches(text, @"(?ms)^--- !u!\d+ &(-?\d+)\r?\n.*?(?=^--- !u!|\z)").Cast<Match>()
@@ -759,8 +940,10 @@ namespace FightMatch.Host.Editor
             Require(PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android) == ScriptingImplementation.IL2CPP &&
                 PlayerSettings.Android.targetArchitectures == AndroidArchitecture.ARM64, "IL2CPP/ARM64");
             Require(PlayerSettings.GetManagedStrippingLevel(BuildTargetGroup.Android) == ManagedStrippingLevel.Minimal, "Minimal stripping");
-            Require((int)PlayerSettings.Android.minSdkVersion == 22 && (int)PlayerSettings.Android.targetSdkVersion == 32 &&
+            Require(PlayerSettings.Android.minSdkVersion == AndroidSdkVersions.AndroidApiLevel24 && (int)PlayerSettings.Android.targetSdkVersion == 32 &&
                 PlayerSettings.Android.bundleVersionCode == 1 && PlayerSettings.bundleVersion == "0.1", "Version/SDK");
+            Require(!PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android) &&
+                PlayerSettings.GetGraphicsAPIs(BuildTarget.Android).SequenceEqual(new[] { GraphicsDeviceType.OpenGLES3 }), "Android graphics API");
             Require(!EditorUserBuildSettings.buildAppBundle && !PlayerSettings.Android.useAPKExpansionFiles, "Single APK required");
             Require(EditorUserBuildSettings.androidCreateSymbols == AndroidCreateSymbols.Disabled, "No separate symbols package");
         }
@@ -823,9 +1006,45 @@ namespace FightMatch.Host.Editor
             PlayerSettings.Android.keystorePass = password;
             PlayerSettings.Android.keyaliasPass = password;
         }
+        private static void GuardDemoNextOutput(string output)
+        {
+            Require(!qa && saved == null && !EditorApplication.isPlayingOrWillChangePlaymode && !BuildPipeline.isBuildingPlayer &&
+                Path.GetDirectoryName(UnityEngine.Application.dataPath) == Project, "Demo next project/build state");
+            var match = Regex.Match(output ?? "", @"\A" + Regex.Escape(Project + "/Builds/" + DemoNextStage + "/") +
+                @"([A-Za-z0-9][A-Za-z0-9_-]{0,63})/fightmatch-demo\.apk\z");
+            Require(match.Success && Path.GetFullPath(output) == output, "Demo next exact output path");
+            var outputDirectory = Path.GetDirectoryName(output);
+            var evidenceDirectory = Project + "/TestArtifacts/FightMatch/" + DemoNextStage + "/" + match.Groups[1].Value;
+            foreach (var directory in new[] { outputDirectory, evidenceDirectory })
+            {
+                Require(!Directory.Exists(directory) && !File.Exists(directory), "Demo next requires new output/evidence directories");
+                for (var current = directory; !string.IsNullOrEmpty(current); current = Path.GetDirectoryName(current))
+                {
+                    try { Require((File.GetAttributes(current) & FileAttributes.ReparsePoint) == 0, "Demo next path contains a link"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                }
+            }
+            Directory.CreateDirectory(evidenceDirectory);
+            Directory.CreateDirectory(outputDirectory);
+            apk = output; runDirectory = evidenceDirectory; demoNext = true;
+        }
         public static void BuildDemo()
         {
-            GuardOutput(Arg("-fm029Output"), "fightmatch-demo.apk");
+            var output = Arg("-fmDemoNextOutput");
+            if (output == null) GuardOutput(Arg("-fm029Output"), "fightmatch-demo.apk");
+            else
+            {
+                GuardDemoNextOutput(output);
+                PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel24;
+                PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
+                PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[] { GraphicsDeviceType.OpenGLES3 });
+                AssetDatabase.SaveAssets();
+                Require(PlayerSettings.Android.minSdkVersion == AndroidSdkVersions.AndroidApiLevel24 &&
+                    !PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android) &&
+                    PlayerSettings.GetGraphicsAPIs(BuildTarget.Android).SequenceEqual(new[] { GraphicsDeviceType.OpenGLES3 }),
+                    "Demo next persistent settings read-back");
+            }
             CheckProduction();
             saved = Settings.Capture();
             WriteSettings();
@@ -942,7 +1161,7 @@ namespace FightMatch.Host.Editor
         {
             var summary = report.summary;
             File.WriteAllText(runDirectory + "/build-report.json", JsonUtility.ToJson(new BuildResultRecord {
-                stage = Stage, result = summary.result.ToString(), output = summary.outputPath, target = summary.platform.ToString(),
+                stage = demoNext ? DemoNextStage : Stage, result = summary.result.ToString(), output = summary.outputPath, target = summary.platform.ToString(),
                 options = summary.options.ToString(), errors = summary.totalErrors, warnings = summary.totalWarnings,
                 startedUtc = summary.buildStartedAt.ToUniversalTime().ToString("O"), endedUtc = summary.buildEndedAt.ToUniversalTime().ToString("O"),
                 bytes = File.Exists(apk) ? new FileInfo(apk).Length : 0, sha256 = File.Exists(apk) ? Sha(apk) : null,
@@ -950,6 +1169,9 @@ namespace FightMatch.Host.Editor
                 backend = PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android).ToString(),
                 architecture = PlayerSettings.Android.targetArchitectures.ToString(),
                 stripping = PlayerSettings.GetManagedStrippingLevel(BuildTargetGroup.Android).ToString(),
+                minSdk = (int)PlayerSettings.Android.minSdkVersion,
+                graphicsAutomatic = PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android),
+                graphicsApis = PlayerSettings.GetGraphicsAPIs(BuildTarget.Android).Select(x => x.ToString()).ToArray(),
                 files = report.GetFiles().Select(x => x.role + "|" + x.path + "|" + x.size).ToArray() }, true));
         }
         [Serializable] private sealed class ResourceResult
@@ -968,9 +1190,10 @@ namespace FightMatch.Host.Editor
         [Serializable] private sealed class BuildResultRecord
         {
             public string stage, result, output, target, options, startedUtc, endedUtc, sha256, package, backend, architecture, stripping;
-            public int errors, warnings;
+            public int errors, warnings, minSdk;
             public long bytes;
-            public string[] files;
+            public bool graphicsAutomatic;
+            public string[] files, graphicsApis;
         }
 #pragma warning disable 618
         [Serializable] private sealed class Settings
@@ -1017,6 +1240,14 @@ namespace FightMatch.Host.Editor
                 customKey == PlayerSettings.Android.useCustomKeystore && keystore == PlayerSettings.Android.keystoreName && alias == PlayerSettings.Android.keyaliasName;
             internal void Apply()
             {
+                Require(graphics != null && graphics.Length != 0, "Captured Android graphics APIs");
+                var capturedGraphics = graphics.Select(name =>
+                {
+                    GraphicsDeviceType value;
+                    Require(Enum.TryParse(name, false, out value) && Enum.IsDefined(typeof(GraphicsDeviceType), value) &&
+                        value.ToString() == name, "Captured Android graphics API name");
+                    return value;
+                }).ToArray();
                 if (identifier != PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android)) PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, identifier);
                 if (strip != PlayerSettings.stripEngineCode) PlayerSettings.stripEngineCode = strip;
                 if (product != PlayerSettings.productName) PlayerSettings.productName = product;
@@ -1033,6 +1264,11 @@ namespace FightMatch.Host.Editor
                 if (architecture != (int)PlayerSettings.Android.targetArchitectures) PlayerSettings.Android.targetArchitectures = (AndroidArchitecture)architecture;
                 if (bundle != EditorUserBuildSettings.buildAppBundle) EditorUserBuildSettings.buildAppBundle = bundle;
                 if (expansion != PlayerSettings.Android.useAPKExpansionFiles) PlayerSettings.Android.useAPKExpansionFiles = expansion;
+                if (!capturedGraphics.SequenceEqual(PlayerSettings.GetGraphicsAPIs(BuildTarget.Android)))
+                {
+                    if (PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android)) PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
+                    PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, capturedGraphics);
+                }
                 if (autoGraphics != PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android)) PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, autoGraphics);
                 if (customKey != PlayerSettings.Android.useCustomKeystore) PlayerSettings.Android.useCustomKeystore = customKey;
                 if (keystore != PlayerSettings.Android.keystoreName) PlayerSettings.Android.keystoreName = keystore;

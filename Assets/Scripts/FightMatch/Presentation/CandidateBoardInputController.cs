@@ -36,6 +36,7 @@ namespace FightMatch.Presentation
         public CandidateDemoView View { get; private set; }
         public GestureContext InputContext { get; private set; }
         public GestureView Gesture => gesture.Read();
+        internal bool HasActiveGesture => Gesture.ActivePointerId.HasValue;
         public string SelectedCharacterId { get; private set; }
         public string Status { get; private set; }
         public PreparedCandidateBattleRequest LastRequest { get; private set; }

@@ -4,6 +4,62 @@ using System.Threading.Tasks;
 
 namespace FightMatch.AssetAccess
 {
+    public enum ResourceDeliveryMode { BuiltIn = 0, RemoteHttps = 1 }
+
+    // The pin and policy come from the independently assembled Player, never the boot directory.
+    public sealed class ResourceBootstrapInput
+    {
+        public byte[] BootBytes { get; }
+        public string ExpectedBootSha256 { get; }
+        public string ExpectedSet { get; }
+        public string ExpectedPlatform { get; }
+        public int ExpectedAppProtocol { get; }
+        public System.Collections.Generic.IReadOnlyList<string> SupportedCapabilities { get; }
+        public ResourceDeliveryMode Mode { get; }
+        public long MaxBootBytes { get; }
+        public long MaxPhysicalFileBytes { get; }
+        public long MaxTotalPhysicalBytes { get; }
+        public long MaxRawFileBytes { get; }
+        public ResourceBootstrapInput(byte[] bootBytes, string expectedBootSha256, string expectedSet,
+            string expectedPlatform, int expectedAppProtocol,
+            System.Collections.Generic.IReadOnlyList<string> supportedCapabilities,
+            ResourceDeliveryMode mode = ResourceDeliveryMode.BuiltIn, long maxBootBytes = 262144,
+            long maxPhysicalFileBytes = 268435456, long maxTotalPhysicalBytes = 1073741824,
+            long maxRawFileBytes = 16777216)
+        {
+            BootBytes = bootBytes; ExpectedBootSha256 = expectedBootSha256; ExpectedSet = expectedSet;
+            ExpectedPlatform = expectedPlatform; ExpectedAppProtocol = expectedAppProtocol;
+            SupportedCapabilities = supportedCapabilities; Mode = mode;
+            MaxBootBytes = maxBootBytes; MaxPhysicalFileBytes = maxPhysicalFileBytes;
+            MaxTotalPhysicalBytes = maxTotalPhysicalBytes; MaxRawFileBytes = maxRawFileBytes;
+        }
+    }
+
+    public sealed class ResourceRuntimeCreationResult
+    {
+        public bool IsAccepted => Runtime != null;
+        public IFightMatchResourceRuntime Runtime { get; }
+        public string ReleaseSetId { get; }
+        public string DescriptorSha256 { get; }
+        public string SafeCode { get; }
+        private ResourceRuntimeCreationResult(IFightMatchResourceRuntime runtime, string set, string descriptor, string code)
+        { Runtime = runtime; ReleaseSetId = set; DescriptorSha256 = descriptor; SafeCode = code; }
+        public static ResourceRuntimeCreationResult Accepted(IFightMatchResourceRuntime runtime,
+            string releaseSetId, string descriptorSha256)
+        {
+            if (runtime == null || !AssetContractValues.IsReleaseSet(releaseSetId) ||
+                !AssetContractValues.IsHex(descriptorSha256, 64)) throw new ArgumentException("Invalid runtime result.");
+            return new ResourceRuntimeCreationResult(runtime, releaseSetId, descriptorSha256, null);
+        }
+        public static ResourceRuntimeCreationResult Rejected(string safeCode)
+        {
+            if (safeCode != "RES_UNSUPPORTED" && safeCode != "RES_MAIN_THREAD" &&
+                safeCode != "RES_TRUST" && safeCode != "RES_SCHEMA" && safeCode != "RES_HASH" && safeCode != "RES_BUDGET")
+                throw new ArgumentException("Invalid creation diagnostic.", nameof(safeCode));
+            return new ResourceRuntimeCreationResult(null, null, null, safeCode);
+        }
+    }
+
     // Real implementations must revalidate/consume permits and observe actual stop before cancellation.
     public interface IFightMatchResourceRuntime : IDisposable
     {

@@ -144,7 +144,7 @@ namespace FightMatch.Presentation
                 var enemy = state?.Enemies.FirstOrDefault(x => x.CombatantKey.Equals(actor.Key));
                 if (member != null)
                     inputView.SetStageSlotPresentation(false, member.Member.OriginalSlot,
-                        new BattleTextLine(member.Member.CharacterId == "W" ? "fm.name.character.w" : string.Empty),
+                        null,
                         BattleText.MemberHp(localization, member.Member.CharacterId, actor.Hp, actor.MaxHp), null);
                 else if (enemy != null)
                 {
@@ -158,7 +158,7 @@ namespace FightMatch.Presentation
                             case EnemyIntentKind.Charge: intentKey = "fm.battle.intent.charge"; break;
                         }
                     }
-                    inputView.SetStageSlotPresentation(true, enemy.Enemy.OriginalSlot, BattleText.EnemyName(localization, enemy.Enemy),
+                    inputView.SetStageSlotPresentation(true, enemy.Enemy.OriginalSlot, null,
                         BattleText.EnemyHp(localization, enemy.Enemy, actor.Hp, actor.MaxHp),
                         new BattleTextLine("fm.battle.hud.enemy_intent", BattleText.Arg("intentName", BattleText.Resolve(localization, intentKey))));
                 }

@@ -23,6 +23,39 @@ namespace FightMatch.Core.Tests
     public sealed class CandidateBoardInputTests
     {
         [UnityTest]
+        public IEnumerator IQOO_UI01_SelectedMemberOutlineSurvivesFocusRefreshAndLocaleWithoutBusinessWrite()
+        {
+            using (var r = new BoardPanelRig())
+            {
+                yield return r.Ready();
+                var member = r.UI.Find<UnityEngine.UI.Button>(FightMatchViewId.Member("W"));
+                var outline = member.GetComponent<UnityEngine.UI.Outline>();
+                Assert.IsNotNull(outline); Assert.IsFalse(outline.enabled); Assert.IsNull(r.Controller.SelectedCharacterId);
+                var head = r.Battle.Head; var files = r.Battle.Runtime.Disk(); var calls = r.Battle.Runtime.Storage.Base.Calls;
+                r.Canvas.Driver.Click(member);
+                Assert.AreEqual("W", r.Controller.SelectedCharacterId); Assert.IsTrue(outline.enabled);
+                r.Canvas.Driver.Move(r.Point(r.Route()[0]));
+                r.Canvas.Driver.EventSystem.SetSelectedGameObject(r.Board.gameObject);
+                foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+                {
+                    r.Controller.Refresh(); r.Canvas.Localization.SetLocale(locale); yield return null;
+                    Assert.AreSame(member, r.UI.Find<UnityEngine.UI.Button>(FightMatchViewId.Member("W")));
+                    Assert.AreNotSame(member.gameObject, r.Canvas.Driver.EventSystem.currentSelectedGameObject);
+                    Assert.AreEqual("W", r.Controller.SelectedCharacterId); Assert.IsTrue(outline.enabled);
+                    var caption = member.GetComponentInChildren<LocalizedTmpText>(true);
+                    Assert.IsNull(caption.DiagnosticCode);
+                    StringAssert.Contains(BattleText.Character(r.Canvas.Localization, "W"), caption.Target.text);
+                    Assert.AreSame(head, r.Battle.Head); Assert.AreEqual(calls, r.Battle.Runtime.Storage.Base.Calls);
+                    PlayerSessionTestData.SameFiles(files, r.Battle.Runtime.Disk()); Assert.IsNull(r.Controller.LastRequest);
+                }
+                Assert.IsTrue(r.Controller.SelectMember(null)); r.Controller.Refresh();
+                Assert.IsNull(r.Controller.SelectedCharacterId); Assert.IsFalse(outline.enabled);
+                Assert.AreSame(head, r.Battle.Head); Assert.AreEqual(calls, r.Battle.Runtime.Storage.Base.Calls);
+                PlayerSessionTestData.SameFiles(files, r.Battle.Runtime.Disk()); Assert.IsNull(r.Controller.LastRequest);
+            }
+        }
+
+        [UnityTest]
         public IEnumerator UGUI_COPY_WIRE01_ExactInputOutcomeBindsOneExistingFeedbackWithoutBusinessWrite()
         {
             UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,

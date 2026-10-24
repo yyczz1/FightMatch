@@ -1,0 +1,821 @@
+{
+  "SchemaVersion": 1,
+  "PackageId": "package:fightmatch-demo-r1",
+  "DraftId": "draft:fightmatch-demo-r1",
+  "Revision": "1",
+  "RuleVersion": "demo-r1",
+  "NumericContractVersion": "RC01",
+  "RandomContractVersion": "PC01+SC01",
+  "RequiredCapabilities": [
+    "NC01.ExactRational",
+    "RC01.PCG32.PRD",
+    "PC01.ExactParameterEvidence",
+    "SC01.sc01-pcg32-le128-v1"
+  ],
+  "Coordinates": "AssumedBottomLeft",
+  "Sources": [
+    {
+      "Path": "docs/game-design/balance/chapter_model.py",
+      "Locator": "LEVELS[0,2] lines13,15; enemy lines49-65; run_battle lines86-122; base reward lines190-223",
+      "Sha256": "2052792ccc3aae007f6a23a2f799d4d724c3ecfde97644d9731e4d706bbec390",
+      "Bytes": null
+    },
+    {
+      "Path": "docs/game-design/balance/config.json",
+      "Locator": "roles[id=W].{hp,attack,pdef,mdef,range,p0,p_per_level,p_cap,effect}; progression.{hp_growth,attack_growth,defense_growth,xp_level_base,xp_level_linear,xp_level_quadratic,base_offset,base_per_stage,overlevel_grace,overlevel_factor,score_floor,score_log_scale,contribution_divisor}",
+      "Sha256": "4e815411914bf86fe9e1a046ee80b86c24d048bd8455a1d4bb55a088255aa7f3",
+      "Bytes": null
+    },
+    {
+      "Path": "docs/game-design/balance/results/boards.json",
+      "Locator": "[stage=1,phase=1].size,paths.A,paths.B",
+      "Sha256": "671467caf72c52eb83a03b396ad82f5557a47b2f9cbd3f9da6d0ec560a7d2aad",
+      "Bytes": null
+    },
+    {
+      "Path": "docs/game-design/balance/results/stages.csv",
+      "Locator": "stage=1: recommended_level,base_xp,tin_per_win,wood_per_win,card_first_clear,proof_first_entry,proof_first_entry_quantity,proof_first_clear,proof_first_clear_quantity,unlock",
+      "Sha256": "814536d3b9de969f0f85673985e9b188857166c83967bf67af74eaa6e3a9db2d",
+      "Bytes": null
+    },
+    {
+      "Path": "docs/system-design/2026-09-16/details/content-validation.md",
+      "Locator": "§2 closure table; §3 origin ambiguity; §4 legal replay; §5 CV02–04",
+      "Sha256": "b430f3384aeb20bf5742bf29c5949af13cf25eb4eaea31bedbbac5da8beeafc9",
+      "Bytes": null
+    },
+    {
+      "Path": "TestArtifacts/FMDemoB17/62aa18a2eb9443d195296216f0184526/stage025p1/review-inputs/prd-candidates.json",
+      "Locator": "Rows[0..30].Evidence.C; epsilon 1/1000000000",
+      "Sha256": "1469ae1833d7d9709264c10b29ca065b6bf53c0425bc42ae0ed64fb6c338d3f4",
+      "Bytes": null
+    }
+  ],
+  "SourceNotes": [
+    "Approved by user decision in system-task-packets.md sections 269/271, applied by sections 292-294.",
+    "AssumedBottomLeft is the approved interpretation; original source coordinate origin remains unknown.",
+    "Only L1 is playable and replayable; no L3 unlock, first-clear extras, cards, certificates, or recipes.",
+    "New-profile PlayerId/OperationId and real battle entropy are generated later by platform entry, never by this recipe."
+  ],
+  "Growth": {
+    "BaseStats": {
+      "Attack": {
+        "numerator": "20",
+        "denominator": "1"
+      },
+      "AttackRange": 1,
+      "Evasion": {
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "MagicDefense": {
+        "numerator": "6",
+        "denominator": "1"
+      },
+      "MaxHp": {
+        "numerator": "100",
+        "denominator": "1"
+      },
+      "PhysicalDefense": {
+        "numerator": "10",
+        "denominator": "1"
+      }
+    },
+    "ClassId": "class:warrior",
+    "ClassKind": "Warrior",
+    "Context": null,
+    "CritBase": {
+      "numerator": "1",
+      "denominator": "5"
+    },
+    "CritCap": {
+      "numerator": "7",
+      "denominator": "20"
+    },
+    "CritMultiplier": {
+      "numerator": "3",
+      "denominator": "2"
+    },
+    "CritStep": {
+      "numerator": "1",
+      "denominator": "200"
+    },
+    "GrowthAttack": {
+      "numerator": "3",
+      "denominator": "50"
+    },
+    "GrowthDefense": {
+      "numerator": "3",
+      "denominator": "2"
+    },
+    "GrowthHp": {
+      "numerator": "2",
+      "denominator": "25"
+    },
+    "PassiveDefinitionId": "passive:warrior-crit",
+    "RecoveryDurationMilliseconds": {
+      "numerator": "180000",
+      "denominator": "1"
+    },
+    "XpBase": "60",
+    "XpLinear": "20",
+    "XpQuadratic": "5"
+  },
+  "Inventory": {
+    "Context": null,
+    "Items": [
+      {
+        "ItemId": "item:tin",
+        "Kind": "OrdinaryMaterial",
+        "EquipClassId": null
+      },
+      {
+        "ItemId": "item:wood",
+        "Kind": "OrdinaryMaterial",
+        "EquipClassId": null
+      }
+    ]
+  },
+  "Progression": {
+    "Context": null,
+    "Levels": [
+      {
+        "LevelId": "level:ch01-01",
+        "LevelVersion": "1",
+        "UnlockRuleId": "initial:ch01-01",
+        "EntryKind": "Ordinary",
+        "UnlockKind": "InitiallyOpen",
+        "UnlockAfterLevelId": null,
+        "RequiredFeatures": []
+      }
+    ]
+  },
+  "Levels": [
+    {
+      "Level": {
+        "Faces": [
+          {
+            "FaceId": "F1",
+            "Height": 4,
+            "Pairs": [
+              {
+                "EndpointA": {
+                  "x": 0,
+                  "y": 0
+                },
+                "EndpointB": {
+                  "x": 1,
+                  "y": 1
+                },
+                "Enemy": {
+                  "Behavior": "NormalStrike",
+                  "EnemyDefinitionId": "enemy:clockwork-infantry",
+                  "EnemyInstanceKey": "A",
+                  "IntentCycle": [
+                    {
+                      "DamageCoefficient": {
+                        "numerator": "3",
+                        "denominator": "5"
+                      },
+                      "DamageKind": "Physical",
+                      "Kind": "Strike",
+                      "Targeting": "FirstLiving"
+                    }
+                  ],
+                  "OriginalSlot": 0,
+                  "StableOrder": 0,
+                  "Stats": {
+                    "Attack": {
+                      "numerator": "10",
+                      "denominator": "1"
+                    },
+                    "AttackRange": 1,
+                    "Evasion": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "MagicDefense": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "MaxHp": {
+                      "numerator": "15",
+                      "denominator": "1"
+                    },
+                    "PhysicalDefense": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  }
+                },
+                "GeometryColorId": 0,
+                "PairId": "A"
+              },
+              {
+                "EndpointA": {
+                  "x": 0,
+                  "y": 3
+                },
+                "EndpointB": {
+                  "x": 2,
+                  "y": 3
+                },
+                "Enemy": {
+                  "Behavior": "NormalStrike",
+                  "EnemyDefinitionId": "enemy:clockwork-infantry",
+                  "EnemyInstanceKey": "B",
+                  "IntentCycle": [
+                    {
+                      "DamageCoefficient": {
+                        "numerator": "3",
+                        "denominator": "5"
+                      },
+                      "DamageKind": "Physical",
+                      "Kind": "Strike",
+                      "Targeting": "FirstLiving"
+                    }
+                  ],
+                  "OriginalSlot": 1,
+                  "StableOrder": 1,
+                  "Stats": {
+                    "Attack": {
+                      "numerator": "10",
+                      "denominator": "1"
+                    },
+                    "AttackRange": 1,
+                    "Evasion": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "MagicDefense": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "MaxHp": {
+                      "numerator": "15",
+                      "denominator": "1"
+                    },
+                    "PhysicalDefense": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  }
+                },
+                "GeometryColorId": 1,
+                "PairId": "B"
+              }
+            ],
+            "Width": 4
+          }
+        ],
+        "LevelId": "level:ch01-01",
+        "LevelVersion": "1",
+        "RecommendedLevel": "1"
+      },
+      "SourceRoutes": [
+        {
+          "FaceId": "F1",
+          "PairId": "A",
+          "Cells": [
+            {
+              "x": 1,
+              "y": 1
+            },
+            {
+              "x": 1,
+              "y": 2
+            },
+            {
+              "x": 2,
+              "y": 2
+            }
+          ]
+        },
+        {
+          "FaceId": "F1",
+          "PairId": "B",
+          "Cells": [
+            {
+              "x": 1,
+              "y": 4
+            },
+            {
+              "x": 2,
+              "y": 4
+            },
+            {
+              "x": 3,
+              "y": 4
+            }
+          ]
+        }
+      ],
+      "Reward": {
+        "BaseExperience": "20",
+        "Context": null,
+        "CurveBase": {
+          "numerator": "1",
+          "denominator": "2"
+        },
+        "CurveLog": {
+          "numerator": "1",
+          "denominator": "2"
+        },
+        "DamageWeight": {
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "DropMode": "FixedOrdinaryMaterials",
+        "LevelId": "level:ch01-01",
+        "LevelPenaltyBase": {
+          "numerator": "3",
+          "denominator": "4"
+        },
+        "LevelVersion": "1",
+        "Materials": [
+          {
+            "Amount": "2",
+            "ItemId": "item:tin"
+          },
+          {
+            "Amount": "0",
+            "ItemId": "item:wood"
+          }
+        ],
+        "OverlevelGrace": "1",
+        "ReferenceHpDivisor": {
+          "numerator": "2",
+          "denominator": "1"
+        },
+        "RequiredFeatures": [],
+        "RewardDefinitionId": "reward:ch01-01",
+        "TakenWeight": {
+          "numerator": "1",
+          "denominator": "4"
+        },
+        "Version": "1",
+        "ZeroContributionPolicy": "CurveIntercept"
+      }
+    }
+  ],
+  "Parameters": [
+    {
+      "Target": {
+        "numerator": "1",
+        "denominator": "5"
+      },
+      "C": {
+        "numerator": "1114080859",
+        "denominator": "20000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "41",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "58364884869",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "21",
+        "denominator": "100"
+      },
+      "C": {
+        "numerator": "30540415857",
+        "denominator": "500000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "43",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "63851473113",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "11",
+        "denominator": "50"
+      },
+      "C": {
+        "numerator": "33338201811",
+        "denominator": "500000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "9",
+        "denominator": "40"
+      },
+      "C": {
+        "numerator": "17388806239",
+        "denominator": "250000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "23",
+        "denominator": "100"
+      },
+      "C": {
+        "numerator": "36243771699",
+        "denominator": "500000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "47",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "75472966607",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "6",
+        "denominator": "25"
+      },
+      "C": {
+        "numerator": "9813890083",
+        "denominator": "125000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "49",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "20400402513",
+        "denominator": "250000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "1",
+        "denominator": "4"
+      },
+      "C": {
+        "numerator": "21186022963",
+        "denominator": "250000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "51",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "43969078281",
+        "denominator": "500000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "13",
+        "denominator": "50"
+      },
+      "C": {
+        "numerator": "91183460913",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "53",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "94479714473",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "27",
+        "denominator": "100"
+      },
+      "C": {
+        "numerator": "19565276097",
+        "denominator": "200000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "11",
+        "denominator": "40"
+      },
+      "C": {
+        "numerator": "253058481",
+        "denominator": "2500000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "7",
+        "denominator": "25"
+      },
+      "C": {
+        "numerator": "837361819",
+        "denominator": "8000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "57",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "21633259923",
+        "denominator": "200000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "29",
+        "denominator": "100"
+      },
+      "C": {
+        "numerator": "55855879121",
+        "denominator": "500000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "59",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "23061331847",
+        "denominator": "200000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "3",
+        "denominator": "10"
+      },
+      "C": {
+        "numerator": "4757967709",
+        "denominator": "40000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "61",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "122639525691",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "31",
+        "denominator": "100"
+      },
+      "C": {
+        "numerator": "126379316121",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "63",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "26033503199",
+        "denominator": "200000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "8",
+        "denominator": "25"
+      },
+      "C": {
+        "numerator": "26800172907",
+        "denominator": "200000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "13",
+        "denominator": "40"
+      },
+      "C": {
+        "numerator": "137879953521",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "33",
+        "denominator": "100"
+      },
+      "C": {
+        "numerator": "141805195687",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "67",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "145785689139",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "17",
+        "denominator": "50"
+      },
+      "C": {
+        "numerator": "149810087949",
+        "denominator": "1000000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "69",
+        "denominator": "200"
+      },
+      "C": {
+        "numerator": "76937749041",
+        "denominator": "500000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    },
+    {
+      "Target": {
+        "numerator": "7",
+        "denominator": "20"
+      },
+      "C": {
+        "numerator": "78991549063",
+        "denominator": "500000000000"
+      },
+      "Epsilon": {
+        "numerator": "1",
+        "denominator": "1000000000"
+      }
+    }
+  ],
+  "NewProfile": {
+    "Id": "new-profile:default",
+    "RecordVersion": "1",
+    "CharacterId": "W",
+    "ClassId": "class:warrior",
+    "Level": "1",
+    "Experience": "0",
+    "Hp": {
+      "numerator": "100",
+      "denominator": "1"
+    },
+    "OriginalSlot": 0,
+    "EmptySlots": [
+      1,
+      2
+    ],
+    "Inventory": [],
+    "Carry": [],
+    "LearnedActiveSkills": [],
+    "Recovery": null,
+    "OpenLevels": [
+      "level:ch01-01"
+    ]
+  }
+}

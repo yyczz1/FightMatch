@@ -104,8 +104,7 @@ namespace FightMatch.Host.Tests
         private void Bind() => Call(host, "BindView");
         private void ChooseInComponent(LocaleId locale)
         {
-            // Component feedback only; null LOC still prevents real button dispatch.
-            ((GameObject)Get(view, "languagePopup")).SetActive(true);
+            // Component feedback only; the real dropdown interaction uses a ready catalog in its own tests.
             Call(view, "SelectLocale", locale);
         }
         private FileStream AttachLease(string root)
@@ -387,8 +386,9 @@ namespace FightMatch.Host.Tests
         {
             var service = Service(); var store = new PreferenceStub();
             host.InitializeLocalePreference(service, store, SystemLanguage.English); Bind();
-            ((GameObject)Get(view, "languagePopup")).SetActive(true);
-            foreach (var name in new[] { "languageEnglishButton", "languageChineseButton", "createButton", "continueButton" })
+            var dropdown = (FightMatchLocaleDropdown)Get(view, "languageDropdown");
+            dropdown.onValueChanged.Invoke(0); dropdown.onValueChanged.Invoke(1);
+            foreach (var name in new[] { "createButton", "continueButton" })
                 ((UnityEngine.UI.Button)Get(view, name)).onClick.Invoke();
             Assert.AreEqual("LocalizationNotReady", view.DiagnosticCode); Assert.IsFalse(service.IsReady);
             Assert.IsNull(host.Session); Assert.AreEqual(0, store.Saves);

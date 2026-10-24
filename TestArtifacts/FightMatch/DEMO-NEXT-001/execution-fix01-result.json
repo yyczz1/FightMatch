@@ -1,0 +1,170 @@
+{
+  "task": "DEMO-NEXT-001/PQA-01/FIX01",
+  "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+  "ownerTurn": "01a14390-7ce1-7ee1-b8b5-baccf0e031c1",
+  "receiverThread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+  "status": "NEEDS_FIX_FOCUSED_PASS_UNEXPECTED_FONT_CHANGE_BUILD_NOT_RUN",
+  "integrationVerdict": "NEEDS_FIX",
+  "limitsSeconds": {
+    "preflight": 60,
+    "focused": 180,
+    "build": 900,
+    "postflight": 60,
+    "total": 1200
+  },
+  "stages": [
+    {
+      "name": "preflight",
+      "startedUtc": "2026-10-16T07:16:28.131861+00:00",
+      "startedMonotonic": 397466.286728541,
+      "limitSeconds": 60,
+      "editorProcesses": [],
+      "lease": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/UGUI-01/native-scene-reopen-001/ce72c87a3849450ea65f67d02fcd4b73/host-save/owner.lock",
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": ""
+      },
+      "unexpectedProductChanges": {},
+      "sourceCandidateEquality": true,
+      "exitCode": 0,
+      "endedUtc": "2026-10-16T07:16:28.786048+00:00",
+      "endedMonotonic": 397466.940927208,
+      "elapsedSeconds": 0.6541986669762991
+    },
+    {
+      "name": "focused-fix01",
+      "startedUtc": "2026-10-16T07:17:08.412596+00:00",
+      "startedMonotonic": 397506.567324708,
+      "limitSeconds": 180,
+      "workLimitSeconds": 165,
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testFilter",
+        "FightMatch.Host.Tests.FightMatchButtonDropdownTests.ProfileCreationRequiresCurrentConfirmationAndPreservesBackAndQuit",
+        "-testResults",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/profile-confirm-focused-fix01.xml",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/profile-confirm-focused-fix01.log"
+      ],
+      "timedOut": false,
+      "environmentOverrides": {
+        "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+        "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/bee-cache",
+        "GRADLE_USER_HOME": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/AndroidBuildCache/FightMatch/gradle-user-home"
+      },
+      "pid": 39112,
+      "commandStartedUtc": "2026-10-16T07:17:08.442580+00:00",
+      "exitCode": 0,
+      "endedUtc": "2026-10-16T07:17:56.625011+00:00",
+      "endedMonotonic": 397554.779648208,
+      "elapsedSeconds": 48.2123235000181,
+      "xmlSummary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-16 07:17:48Z",
+        "end-time": "2026-10-16 07:17:54Z",
+        "duration": "5.5829263"
+      },
+      "cases": [
+        {
+          "fullname": "FightMatch.Host.Tests.FightMatchButtonDropdownTests.ProfileCreationRequiresCurrentConfirmationAndPreservesBackAndQuit",
+          "result": "Passed",
+          "duration": "9.730734",
+          "failure": "",
+          "stack": ""
+        }
+      ],
+      "unexpectedProductChanges": {
+        "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset": {
+          "expected": {
+            "bytes": 8576534,
+            "sha256": "58a6f19bcecb49d624ede62fd95f001d2ed09fe2250b8fb63874a27f91f27c17"
+          },
+          "actual": {
+            "bytes": 10668131,
+            "sha256": "9d477445c3918993e59c1cd0028df510e1c8bc300b8be4787ea018f82f565b1e"
+          }
+        }
+      }
+    },
+    {
+      "name": "postflight",
+      "startedUtc": "2026-10-16T07:18:40.884078+00:00",
+      "startedMonotonic": 397599.038486833,
+      "limitSeconds": 60,
+      "editorProcessesAfter": [],
+      "lease": {
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": ""
+      },
+      "isolationChanges": {},
+      "preservedEvidenceChanges": {},
+      "settingsUnchanged": true,
+      "editorBuildSettingsUnchanged": true,
+      "signingKeyUnchanged": true,
+      "passwordFileMetadataUnchanged": true,
+      "buildOutputsAbsent": {
+        "Builds/DEMO-NEXT-001/android-01": true,
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01": true,
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-unity.log": true,
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-manifest.txt": true,
+        "TestArtifacts/FightMatch/DEMO-NEXT-001/android-01-signature.txt": true
+      },
+      "testEvidence": {
+        "profile-confirm-focused-fix01.log": {
+          "bytes": 110974,
+          "sha256": "4ed3ca90bcf6192bd238e4fc63216a07a003e82fdb8b0118205ec9cd1032b7ce"
+        },
+        "profile-confirm-focused-fix01.xml": {
+          "bytes": 3518,
+          "sha256": "865d641855651df126150c7294943500a7da1049da7ecfa895f9105f0f61ba0d"
+        }
+      },
+      "productFileCount": 1176,
+      "unexpectedProductChanges": {
+        "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset": {
+          "before": {
+            "bytes": 8576534,
+            "sha256": "58a6f19bcecb49d624ede62fd95f001d2ed09fe2250b8fb63874a27f91f27c17"
+          },
+          "after": {
+            "bytes": 10668131,
+            "sha256": "9d477445c3918993e59c1cd0028df510e1c8bc300b8be4787ea018f82f565b1e"
+          }
+        }
+      },
+      "exitCode": 0,
+      "endedUtc": "2026-10-16T07:18:41.268290+00:00",
+      "endedMonotonic": 397599.422715416,
+      "elapsedSeconds": 0.3842285830178298
+    }
+  ],
+  "unityLaunches": 1,
+  "testLaunches": 1,
+  "buildLaunches": 0,
+  "cumulativeStageSeconds": 49.25075075001223,
+  "stopReason": "Focused single test passed, but one protected TMP font asset changed. Contract requires preserving and reporting extra product changes and stopping dependent APK build. No rollback or retry performed.",
+  "remainingGates": [
+    "Engineering disposition of unexpected font asset change",
+    "Original first normal Android APK build remains 0/1 and not run",
+    "GitHub independent review on published actual input",
+    "Actual L1, visual and device acceptance"
+  ]
+}

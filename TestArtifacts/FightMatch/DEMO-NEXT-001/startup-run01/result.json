@@ -1,0 +1,182 @@
+{
+  "task": "DEMO-NEXT-001/startup-fix01 validation",
+  "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+  "ownerTurn": "01a14d36-0e46-7503-880c-9765e209ccd2",
+  "humanTurn": "01a14d27-e460-70b1-ab5d-a5ed1fa6aefd",
+  "humanItem": "01a14d27-eb36-79a0-9a2b-ba591af92a3d",
+  "startedUtc": "2026-10-18T04:22:04.782147+00:00",
+  "startedMonotonic": 559802.537689458,
+  "stageLimitSeconds": 900,
+  "status": "STAGE_A_PASS",
+  "actions": [
+    {
+      "kind": "exact8 graphics EditMode",
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testFilter",
+        "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS01_InitialBuiltInAndOrdinaryReentry;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS02_UpdateRequiresNextProcess;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS03_StrictBoundedRecords;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS09_AndroidSamplesAndCanonicalTokenBounds;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS10_AndroidOrdinaryEntryRequiresStrictSuccessor;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS11_AndroidPendingRestartRequiresStrictSuccessor;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS12_AndroidRejectsLegacyMixedAndMismatchedSchemasWithoutWrites;FightMatch.Host.Tests.FightMatchHostResourceTests.H06_PreBindFailureShowsSafeCodeAndClearsOnBindAndUnbind",
+        "-testResults",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/startup-run01/focused.xml",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/startup-run01/focused.log"
+      ],
+      "pid": 1743,
+      "startedUtc": "2026-10-18T04:22:56.877969+00:00",
+      "exitCode": 0,
+      "timeout": false,
+      "elapsedSeconds": 64.84069841599558,
+      "endedUtc": "2026-10-18T04:24:01.704063+00:00"
+    },
+    {
+      "kind": "ordinary corrected APK android-02",
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-quit",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "-buildTarget",
+        "Android",
+        "-executeMethod",
+        "FightMatch.Host.Editor.FightMatchAndroidBuild.BuildDemo",
+        "-fmDemoNextOutput",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-02/fightmatch-demo.apk",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/startup-run01/build.log"
+      ],
+      "pid": 1966,
+      "startedUtc": "2026-10-18T04:24:26.902643+00:00",
+      "exitCode": 0,
+      "timeout": false,
+      "elapsedSeconds": 209.66171825001948,
+      "endedUtc": "2026-10-18T04:27:56.563572+00:00"
+    }
+  ],
+  "elapsedSeconds": 404.80855541699566,
+  "editorProcessesBefore": [],
+  "preflightCorrection": "Initial filename discovery used RuntimeRoot.prefab instead of actual FightMatchRuntimeRoot.prefab. No source sync or Unity occurred. Corrected exact path; continuous stage timer retained.",
+  "sourceSyncCount": 4,
+  "focused": {
+    "summary": {
+      "id": "2",
+      "testcasecount": "8",
+      "result": "Passed",
+      "total": "8",
+      "passed": "8",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-18 04:23:47Z",
+      "end-time": "2026-10-18 04:23:53Z",
+      "duration": "5.968297"
+    },
+    "cases": [
+      {
+        "name": "FightMatch.Host.Tests.FightMatchHostResourceTests.H06_PreBindFailureShowsSafeCodeAndClearsOnBindAndUnbind",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS01_InitialBuiltInAndOrdinaryReentry",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS02_UpdateRequiresNextProcess",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS03_StrictBoundedRecords",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS09_AndroidSamplesAndCanonicalTokenBounds",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS10_AndroidOrdinaryEntryRequiresStrictSuccessor",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS11_AndroidPendingRestartRequiresStrictSuccessor",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS12_AndroidRejectsLegacyMixedAndMismatchedSchemasWithoutWrites",
+        "result": "Passed"
+      }
+    ]
+  },
+  "protectedAfterTestsDelta": [],
+  "afterTestsProcesses": [],
+  "buildReport": {
+    "stage": "DEMO-NEXT-001",
+    "result": "Succeeded",
+    "output": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-02/fightmatch-demo.apk",
+    "target": "Android",
+    "options": "CompressTextures, StripDebugSymbols, ForceOptimizeScriptCompilation, Il2CPP, Development",
+    "startedUtc": "2026-10-17T20:25:17.8166170Z",
+    "endedUtc": "2026-10-17T20:27:19.8789697Z",
+    "sha256": "e50b711ecbebc7d380fa62d1abd5d7bbedfda0760b292eba2cf6eb17ea8b2480",
+    "package": "com.yyczz1.fightmatch",
+    "backend": "IL2CPP",
+    "architecture": "ARM64",
+    "stripping": "Minimal",
+    "errors": 0,
+    "warnings": 0,
+    "minSdk": 24,
+    "bytes": 36583902,
+    "graphicsAutomatic": false,
+    "graphicsApis": [
+      "OpenGLES3"
+    ]
+  },
+  "settingsRestored": true,
+  "apk": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-02/fightmatch-demo.apk",
+    "bytes": 36583902,
+    "sha256": "e50b711ecbebc7d380fa62d1abd5d7bbedfda0760b292eba2cf6eb17ea8b2480"
+  },
+  "apkChecks": [
+    {
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/build-tools/32.0.0/aapt",
+        "dump",
+        "badging",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-02/fightmatch-demo.apk"
+      ],
+      "exitCode": 0,
+      "evidence": "manifest.txt"
+    },
+    {
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/OpenJDK/bin/java",
+        "-jar",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/build-tools/32.0.0/lib/apksigner.jar",
+        "verify",
+        "--verbose",
+        "--print-certs",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-02/fightmatch-demo.apk"
+      ],
+      "exitCode": 0,
+      "evidence": "signature.txt"
+    }
+  ],
+  "protectedAfterBuildDelta": [],
+  "sourcesStillFrozen": true,
+  "finalEditorProcesses": [],
+  "stageAOutcome": "Exact8 passed, corrected ordinary APK built and verified. Device acceptance pending.",
+  "reportedBuildTimeCaveat": "BuildReport UTC fields differ from actual outer UTC by eight hours; raw report retained, continuous budget uses monotonic time.",
+  "endedUtc": "2026-10-18T04:28:49.588831+00:00",
+  "endedMonotonic": 560207.346242083,
+  "continuousStageSeconds": 404.808552625007,
+  "initialPreflightError": "AssertionError()"
+}

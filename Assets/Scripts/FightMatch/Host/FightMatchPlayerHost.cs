@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using FightMatch.AssetAccess;
+using FightMatch.YooAssetAdapter;
 using FightMatch.Core;
 using FightMatch.Platform;
 using FightMatch.Presentation;
@@ -15,6 +19,15 @@ namespace FightMatch.Host
         [SerializeField] private TMP_FontAsset fontAsset;
         [SerializeField] private UnityEngine.TextAsset fontLicense;
         [SerializeField] private FightMatchHostView runtimeRoot;
+        [Serializable] private sealed class PlatformResourceBoot
+        {
+            public TextAsset boot;
+            public string pinnedSha256;
+            public string resourceSetId;
+        }
+        [SerializeField] private PlatformResourceBoot macResourceBoot = new PlatformResourceBoot();
+        [SerializeField] private PlatformResourceBoot windowsResourceBoot = new PlatformResourceBoot();
+        [SerializeField] private PlatformResourceBoot androidResourceBoot = new PlatformResourceBoot();
         public TMP_FontAsset FontAsset => fontAsset;
         public UnityEngine.TextAsset FontLicense => fontLicense;
         public FightMatchHostView RuntimeRoot => runtimeRoot;
@@ -22,6 +35,13 @@ namespace FightMatch.Host
         public string SystemPersistentDataPath { get; private set; }
         public string CanonicalProductRoot { get; private set; }
         private LocalizationService localization;
+        private IFightMatchResourceRuntime resourceRuntime;
+        private FightMatchBootstrapController resourceBootstrap;
+        private CancellationTokenSource resourceCancellation;
+        private long resourceEpoch;
+        private FightMatchResourceActivationStore resourceActivation;
+        private string resourceActivationId;
+        private bool resourceBusinessReady;
         private bool destroyed;
         private ILocalePreferenceStore localePreference;
         private string preferenceRoot, startupFailure;
@@ -84,8 +104,6 @@ namespace FightMatch.Host
                 ShowFailure("MissingHostResources");
                 yield break;
             }
-            // LOC-TOOL-01 owns the production source. UGUI-01 never turns the draft into a runtime catalog.
-            localization = new LocalizationService(null, UnityEngine.Application.systemLanguage);
             try
             {
                 SystemPersistentDataPath = UnityEngine.Application.persistentDataPath;
@@ -96,50 +114,40 @@ namespace FightMatch.Host
                     CanonicalSystemRoot(SystemPersistentDataPath);
                 CanonicalProductRoot = Path.Combine(preferenceRoot, "FightMatch");
                 VerifyLocaleStorage();
-                InitializeLocalePreference(localization,
-                    new FileLocalePreferenceStore(preferenceRoot, new LocalePreferenceFiles()), UnityEngine.Application.systemLanguage);
-                if (!startupCancelled && !destroyed) BindView();
             }
             catch (Exception error) { RejectLocaleStorage(error); yield break; }
-            if (startupCancelled || destroyed) yield break;
-            if (!localization.IsReady)
-            {
-                startupFailure = "LocalizationNotReady";
-                runtimeRoot.ShowFailure(startupFailure);
-                yield break;
-            }
             runtimeRoot.SetLoading(true);
-            var loader = new FightMatchStreamingAssetsLoader();
-            var loading = loader.Load(UnityEngine.Application.streamingAssetsPath);
-            var epoch = localeEpoch;
+            var epoch = ++resourceEpoch;
+            resourceCancellation = new CancellationTokenSource();
+            var loading = OpenResourcesAsync(epoch, resourceCancellation.Token);
+            while (!loading.IsCompleted && CurrentResourceStartup(epoch)) yield return null;
+            if (!CurrentResourceStartup(epoch)) yield break;
+            if (loading.IsFaulted || loading.IsCanceled)
+            { ShowFailure("RES_STORAGE"); yield break; }
+            var resources = loading.Result;
+            if (!resources.IsDataReady)
+            { ShowFailure(resources.DiagnosticCode); yield break; }
             try
             {
-                while (CheckLocalePreference(epoch))
-                {
-                    bool more;
-                    try { more = loading.MoveNext(); }
-                    catch (Exception error) { Debug.LogException(error); ShowFailure("ContentReadFailed"); yield break; }
-                    if (!more) break;
-                    yield return loading.Current;
-                }
+                InitializeLocalePreference(new LocalizationService(resources.TextSource, UnityEngine.Application.systemLanguage),
+                    new FileLocalePreferenceStore(preferenceRoot, new LocalePreferenceFiles()), UnityEngine.Application.systemLanguage);
             }
-            finally { (loading as IDisposable)?.Dispose(); }
-            if (!CheckLocalePreference(epoch)) yield break;
-            if (loader.Catalog == null)
-            {
-                ShowFailure("ContentValidationFailed");
-                yield break;
-            }
+            catch (Exception error) { RejectLocaleStorage(error); yield break; }
+            if (!CurrentResourceStartup(epoch) || !localization.IsReady) yield break;
             try
             {
                 var locator = Path.Combine(CanonicalProductRoot, "locator");
                 var profiles = Path.Combine(CanonicalProductRoot, "profiles");
 #if UNITY_ANDROID && !UNITY_EDITOR
-                Session = new FightMatchHostSession(loader.Catalog, CanonicalProductRoot,
+                Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
                     new AndroidContentPublicationStorage(locator),
                     id => new AndroidLocalSaveStorage(profiles, id, SavePurpose.PlayerSave));
+#elif UNITY_EDITOR_WIN
+                Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
+                    new WindowsContentPublicationStorage(locator),
+                    id => new WindowsEditorSaveStorage(profiles, id, SavePurpose.PlayerSave));
 #else
-                Session = new FightMatchHostSession(loader.Catalog, CanonicalProductRoot,
+                Session = new FightMatchHostSession(resources.Catalog, CanonicalProductRoot,
                     new MacContentPublicationStorage(locator),
                     id => new MacEditorSaveStorage(profiles, id, SavePurpose.PlayerSave));
 #endif
@@ -153,6 +161,207 @@ namespace FightMatch.Host
             {
                 try { CancelStartup(); } finally { DisposeSessionAndLease(); }
                 Debug.LogException(error); ShowFailure("HostInitializationFailed");
+            }
+        }
+
+        private bool CurrentResourceStartup(long epoch) => !destroyed && !startupCancelled &&
+            resourceEpoch == epoch && resourceCancellation != null && !resourceCancellation.IsCancellationRequested;
+
+        private ResourceBootstrapInput CreateResourceInput(RuntimePlatform platform)
+        {
+            PlatformResourceBoot selected;
+            string expectedPlatform;
+            switch (platform)
+            {
+                case RuntimePlatform.OSXEditor: selected = macResourceBoot; expectedPlatform = "macOS"; break;
+                case RuntimePlatform.WindowsEditor: selected = windowsResourceBoot; expectedPlatform = "windows"; break;
+                case RuntimePlatform.Android: selected = androidResourceBoot; expectedPlatform = "android"; break;
+                default: return null;
+            }
+            if (selected == null || selected.boot == null || string.IsNullOrEmpty(selected.pinnedSha256) ||
+                string.IsNullOrEmpty(selected.resourceSetId)) return null;
+            return new ResourceBootstrapInput(selected.boot.bytes, selected.pinnedSha256, selected.resourceSetId,
+                expectedPlatform, 1, new[] { "resource-schema-v1" });
+        }
+
+        private async Task<FightMatchResourceBridgeResult> OpenResourcesAsync(long epoch, CancellationToken cancellationToken)
+        {
+            var stage = "host.factory";
+            IFightMatchResourceRuntime ownedRuntime = null;
+            Task stopped = null;
+            FightMatchBootstrapController bootstrap = null;
+            FightMatchResourceBridgeResult Failed(string code, string detail = null)
+            {
+                if (code == "RES_STORAGE")
+                    Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
+                        "FightMatch resource startup: stage={0}", detail ?? stage + "; error=ReturnedCode");
+                return new FightMatchResourceBridgeResult(null, null, null, code);
+            }
+            async Task<FightMatchResourceBridgeResult> Open()
+            {
+                try
+                {
+                    if (!CurrentResourceStartup(epoch)) return Failed("RES_STOP");
+                    var created = YooAssetRuntimeFactory.Create(CreateResourceInput(UnityEngine.Application.platform));
+                    if (!created.IsAccepted) return Failed(created.SafeCode);
+                    resourceRuntime = ownedRuntime = created.Runtime;
+                    stopped = ((YooAssetResourceRuntime)ownedRuntime).Stopped;
+                    stage = "host.locale-before-create";
+                    VerifyLocaleStorage();
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    stage = "host.product-prepare";
+                    var storageCode = PrepareAndroidResourceStorage(CanonicalProductRoot, preferenceRoot,
+                        FightMatchResourceActivationStore.CreateAndroid, out resourceActivation);
+                    if (storageCode != null) return Failed(storageCode, resourceActivation.StorageDiagnostic);
+                    stage = "host.locale-after-create";
+                    VerifyLocaleStorage();
+#else
+                    stage = "host.product-create";
+                    Directory.CreateDirectory(CanonicalProductRoot);
+                    stage = "host.locale-after-create";
+                    VerifyLocaleStorage();
+                    stage = "host.activation-create";
+                    resourceActivation = new FightMatchResourceActivationStore(CanonicalProductRoot);
+#endif
+                    stage = "host.activation-enter";
+                    var entered = resourceActivation.EnterAtProcessStart(created.ReleaseSetId, created.DescriptorSha256);
+                    if (entered.Outcome != ActivationOutcome.Confirmed || entered.Snapshot?.Active == null)
+                        return Failed(entered.SafeCode ?? "RES_STATE", resourceActivation.StorageDiagnostic);
+                    resourceActivationId = entered.Snapshot.Active.ActivationId;
+                    resourceBootstrap = bootstrap = new FightMatchBootstrapController();
+                    var bridge = await OpenBootstrapAsync(bootstrap, ownedRuntime, stopped, created.ReleaseSetId,
+                        () => CurrentResourceStartup(epoch), cancellationToken, FightMatchResourceBridge.OpenAsync,
+                        value => stage = value);
+                    return bridge.IsDataReady ? bridge : Failed(bridge.DiagnosticCode);
+                }
+                catch (OperationCanceledException) { return Failed("RES_STOP"); }
+                catch (Exception error) { return Failed("RES_STORAGE", stage + "; error=" + FightMatchResourceActivationStore.StorageExceptionKind(error)); }
+            }
+            var result = await Open();
+            try
+            {
+                return await FinishBootstrapAsync(bootstrap, ownedRuntime, stopped, result,
+                    () => CurrentResourceStartup(epoch), cancellationToken);
+            }
+            catch (Exception error)
+            {
+                Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null,
+                    "FightMatch resource startup: stage=host.dispose; error={0}", FightMatchResourceActivationStore.StorageExceptionKind(error));
+                throw;
+            }
+            finally
+            {
+                if (stopped != null && stopped.Status == TaskStatus.RanToCompletion)
+                {
+                    if (ReferenceEquals(resourceBootstrap, bootstrap)) resourceBootstrap = null;
+                    if (ReferenceEquals(resourceRuntime, ownedRuntime)) resourceRuntime = null;
+                }
+            }
+        }
+
+        // The caller owns this controller and the final release boundary. Host request epochs stay
+        // in isCurrent; only the controller's verified inspection epoch is passed to the Bridge.
+        internal static async Task<FightMatchResourceBridgeResult> OpenBootstrapAsync(
+            FightMatchBootstrapController bootstrap, IFightMatchResourceRuntime runtime, Task stopped, string expectedSet,
+            Func<bool> isCurrent, CancellationToken cancellationToken,
+            Func<IFightMatchResourceRuntime, long, CancellationToken, Task<FightMatchResourceBridgeResult>> openBridge,
+            Action<string> enterStage = null)
+        {
+            FightMatchResourceBridgeResult Failed(string code) => new FightMatchResourceBridgeResult(null, null, null, code);
+            bool Current() => !cancellationToken.IsCancellationRequested && isCurrent();
+            if (!Current()) return Failed("RES_STOP");
+            if (!bootstrap.Bind(runtime, stopped)) return Failed("RES_STALE");
+            long transportEpoch = 0;
+            string runtimeIdentity = null, verifiedSet = null;
+            bool Verified()
+            {
+                var state = bootstrap.Snapshot;
+                return Current() && transportEpoch > 0 && state.Stage == ResourceTransportStage.TransportVerified &&
+                    state.Epoch == transportEpoch && state.Inspection.Epoch == transportEpoch &&
+                    state.Inspection.RuntimeInstanceId == runtimeIdentity && state.Inspection.ReleaseSetId == verifiedSet;
+            }
+            void ObserveVerified(string instance, string set, long verifiedEpoch)
+            {
+                var state = bootstrap.Snapshot;
+                if (!Current() || set != expectedSet || state.Stage != ResourceTransportStage.TransportVerified ||
+                    state.Epoch != verifiedEpoch || state.Inspection.Epoch != verifiedEpoch ||
+                    state.Inspection.RuntimeInstanceId != instance || state.Inspection.ReleaseSetId != set) return;
+                runtimeIdentity = instance; verifiedSet = set; transportEpoch = verifiedEpoch;
+            }
+            bootstrap.TransportVerified += ObserveVerified;
+            using (cancellationToken.Register(bootstrap.Cancel))
+            try
+            {
+                enterStage?.Invoke("host.bootstrap");
+                await bootstrap.StartAsync();
+                if (!Current()) return Failed("RES_STOP");
+                if (!Verified())
+                {
+                    var state = bootstrap.Snapshot;
+                    return Failed(state.Stage == ResourceTransportStage.TransportVerified ? "RES_STALE" :
+                        state.Stage == ResourceTransportStage.ConsentRequired ? "RES_CONSENT" :
+                        string.IsNullOrEmpty(state.SafeCode) ? "RES_STOP" : state.SafeCode);
+                }
+                enterStage?.Invoke("host.bridge");
+                var bridge = await openBridge(runtime, transportEpoch, cancellationToken);
+                if (!Verified()) return Failed("RES_STOP");
+                if (bridge == null) bridge = Failed("RES_CONTENT");
+                if (bridge.IsDataReady && bridge.ReleaseSetId != verifiedSet) bridge = Failed("RES_STALE");
+                bootstrap.CompleteAdmission(transportEpoch, bridge.IsDataReady, bridge.DiagnosticCode);
+                return bridge;
+            }
+            catch (OperationCanceledException) { return Failed("RES_STOP"); }
+            finally { bootstrap.TransportVerified -= ObserveVerified; }
+        }
+
+        internal static async Task<FightMatchResourceBridgeResult> FinishBootstrapAsync(
+            FightMatchBootstrapController bootstrap, IFightMatchResourceRuntime runtime, Task stopped,
+            FightMatchResourceBridgeResult result, Func<bool> isCurrent, CancellationToken cancellationToken)
+        {
+            DisposeBootstrap(bootstrap, runtime);
+            if (runtime != null)
+            {
+                if (stopped == null) throw new ArgumentNullException(nameof(stopped));
+                await stopped;
+            }
+            return !cancellationToken.IsCancellationRequested && isCurrent() ? result :
+                new FightMatchResourceBridgeResult(null, null, null, "RES_STOP");
+        }
+
+        internal static void DisposeBootstrap(FightMatchBootstrapController bootstrap, IFightMatchResourceRuntime runtime)
+        {
+            bootstrap?.Dispose();
+            var cleanupFailed = bootstrap != null && bootstrap.ReleaseFailed;
+            // Controller cleanup records failures rather than throwing. Keep the Host's throwing
+            // final-release boundary; an idempotent retry must not turn a failed cleanup into DataReady.
+            runtime?.Dispose();
+            if (cleanupFailed) throw new IOException("Resource runtime cleanup failed.");
+        }
+
+        internal static string PrepareAndroidResourceStorage(string productRoot, string systemAnchor,
+            Func<string, string, FightMatchResourceActivationStore> create, out FightMatchResourceActivationStore store)
+        {
+            store = create(productRoot, systemAnchor);
+            return store.EnsureAndroidProductDirectory();
+        }
+
+        private void ObserveResourceBusinessReady()
+        {
+            // First-run creation and recovery remain CodeEntered until the existing save gate verifies a real head.
+            if (resourceBusinessReady || resourceActivation == null || resourceActivationId == null ||
+                startupCancelled || destroyed || !isActiveAndEnabled || Session == null || Session.LastCall == null ||
+                runtimeRoot == null || runtimeRoot.DiagnosticCode != null || localization?.BindingDiagnostic != null ||
+                Session.LastCall.Diagnostic != null || Session.LastCall.View?.IsPublishedHeadVerified != true ||
+                Session.LastCall.View.Phase != FightMatch.Application.CandidateApplicationPhase.Ready ||
+                (Session.Page != FightMatchHostPage.Navigation && Session.Page != FightMatchHostPage.Battle)) return;
+            try { VerifyLocaleStorage(); }
+            catch (Exception error) { RejectLocaleStorage(error); return; }
+            var ready = resourceActivation.MarkBusinessReady(resourceActivationId);
+            if (ready.Outcome == ActivationOutcome.Confirmed) resourceBusinessReady = true;
+            else
+            {
+                ShowFailure(ready.SafeCode ?? "RES_STATE");
+                CancelStartup();
             }
         }
 
@@ -189,6 +398,15 @@ namespace FightMatch.Host
             if (preferenceRoot == null || Path.Combine(preferenceRoot, "FightMatch") != CanonicalProductRoot)
                 throw new IOException("Locale storage root changed.");
 #if UNITY_EDITOR
+            if (UnityEngine.Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                if (acceptancePersistentRoot != null)
+                    throw new PlatformNotSupportedException("Acceptance storage requires OSXEditor.");
+                var windowsSettings = Path.Combine(CanonicalProductRoot, "settings");
+                new WindowsContentPublicationStorage(windowsSettings);
+                new WindowsContentPublicationStorage(Path.Combine(windowsSettings, "locale-preference-v1.json"));
+                return;
+            }
             if (acceptancePersistentRoot != null)
             {
                 if (!(acceptanceStorageLease is FileStream lease) || !lease.CanWrite || preferenceRoot != acceptancePersistentRoot)
@@ -211,10 +429,21 @@ namespace FightMatch.Host
             try { CancelStartup(); } finally { DisposeSessionAndLease(); }
             Debug.LogException(error); ShowFailure("HostSaveIsolationRejected");
         }
+        private void RequestResourceCleanup()
+        {
+            // A later explicit lifecycle request must reach an unfinished close, even after cancellation.
+            if (resourceBootstrap != null) resourceBootstrap.Dispose();
+            else resourceRuntime?.Dispose();
+        }
+
         private void CancelStartup()
         {
-            if (startupCancelled) return;
-            startupCancelled = true; localeEpoch++; localePreference = null; localeSelectionEnabled = false;
+            if (startupCancelled) { RequestResourceCleanup(); return; }
+            startupCancelled = true;
+            resourceEpoch++;
+            resourceCancellation?.Cancel();
+            RequestResourceCleanup();
+            localeEpoch++; localePreference = null; localeSelectionEnabled = false;
             startupFailure = startupFailure ?? "HostInitializationFailed";
             try { StopAllCoroutines(); }
             finally
@@ -237,8 +466,13 @@ namespace FightMatch.Host
 #if UNITY_ANDROID && !UNITY_EDITOR
             return AndroidLocalSaveStorage.CanonicalPersistentDataPath(path);
 #else
+            if (UnityEngine.Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                new WindowsContentPublicationStorage(path);
+                return Path.GetFullPath(path);
+            }
             if (UnityEngine.Application.platform != RuntimePlatform.OSXEditor)
-                throw new PlatformNotSupportedException("This host supports Android Player and the Mac Editor.");
+                throw new PlatformNotSupportedException("This host supports Android Player and the Mac or Windows Editor.");
             Directory.CreateDirectory(path);
             var buffer = new byte[4096];
             if (MacRealPath(path, buffer) == IntPtr.Zero) throw new IOException("Cannot resolve the system save directory.");
@@ -257,6 +491,13 @@ namespace FightMatch.Host
             localeSelectionEnabled = true;
             runtimeRoot.Bind(Session, localization, fontLicense.text,
                 locale => epoch == localeEpoch ? SelectLocalePreference(locale) : null);
+            if (Session != null)
+            {
+                // Observe after the view renders, including after a disable/enable rebind.
+                Session.Changed -= ObserveResourceBusinessReady;
+                Session.Changed += ObserveResourceBusinessReady;
+                ObserveResourceBusinessReady();
+            }
         }
         private void OnEnable()
         {
@@ -276,11 +517,23 @@ namespace FightMatch.Host
         }
         private void Update()
         {
-            if (Session != null && UnityEngine.Input.GetKeyDown(KeyCode.Escape)) Session.Back();
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape)) HandleBack();
         }
-        private void OnApplicationPause(bool paused) { if (paused) runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost); }
+        internal void HandleBack()
+        {
+            if (Session == null) return;
+            if (runtimeRoot != null && runtimeRoot.TryCloseLanguageDropdown()) return;
+            if (runtimeRoot != null && runtimeRoot.TryCloseProfileCreation()) return;
+            Session.Back();
+        }
+        private void OnApplicationPause(bool paused) { if (paused) HandleApplicationFocus(false); }
         private void OnApplicationFocus(bool focused) => HandleApplicationFocus(focused);
-        internal void HandleApplicationFocus(bool focused) { if (!focused) runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost); }
+        internal void HandleApplicationFocus(bool focused)
+        {
+            if (focused) return;
+            if (Session == null && resourceCancellation != null) CancelStartup();
+            runtimeRoot?.PausePresentation(PointerCancellationCause.FocusLost);
+        }
         private void LowMemory() { runtimeRoot?.PausePresentation(); }
         private void Quit() { UnityEngine.Application.Quit(); }
         private void ShowFailure(string code)
@@ -297,6 +550,7 @@ namespace FightMatch.Host
                 var session = Session;
                 Session = null;
                 session.QuitRequested -= Quit;
+                session.Changed -= ObserveResourceBusinessReady;
                 session.Dispose();
             }
             finally
@@ -461,7 +715,11 @@ namespace FightMatch.Host
                 CancelStartup();
                 runtimeRoot?.Unbind();
             }
-            finally { DisposeSessionAndLease(); }
+            finally
+            {
+                try { DisposeSessionAndLease(); }
+                finally { resourceCancellation?.Dispose(); resourceCancellation = null; }
+            }
         }
     }
 }

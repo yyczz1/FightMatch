@@ -1,0 +1,177 @@
+{
+  "task": "DEMO-NEXT-001/startup-storage01 diagnostic validation",
+  "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+  "ownerTurn": "01a14d5e-4abc-7593-b740-4e86e8bfacf3",
+  "issuerTurn": "01a14d4d-036b-7c53-824a-8b1752d138bb",
+  "humanTurn": "01a14d27-e460-70b1-ab5d-a5ed1fa6aefd",
+  "startedUtc": "2026-10-18T04:57:18.111846+00:00",
+  "startedMonotonic": 561915.873644333,
+  "segmentLimitSeconds": 495.191447,
+  "priorStageASeconds": 404.808552625007,
+  "stageTotalLimitSeconds": 900,
+  "status": "STAGE_A_DIAGNOSTIC_PASS",
+  "actions": [
+    {
+      "kind": "six affected graphics EditMode",
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testFilter",
+        "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS04_PrePromotionFailuresPreserveActive;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS05_UnknownCommitNeverAdvances;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS13_StorageFailureReportsTheOriginalOperationBeforeCleanup;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS14_DeferredEnumerationFailureReportsScopeWithoutLeakingExceptionData;FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS15_UnknownCommitKeepsItsDiagnosticAndDoesNotRetry;FightMatch.Host.Tests.FightMatchHostResourceTests.H07_ResourceStartupReportsSafeStageAndKeepsStorageFailureClosed",
+        "-testResults",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage-run01/focused.xml",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage-run01/focused.log"
+      ],
+      "pid": 7982,
+      "startedUtc": "2026-10-18T04:57:18.177998+00:00",
+      "exitCode": 0,
+      "timeout": false,
+      "elapsedSeconds": 54.919209584011696,
+      "endedUtc": "2026-10-18T04:58:13.095448+00:00"
+    },
+    {
+      "kind": "ordinary diagnostic APK android-03",
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-quit",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+        "-buildTarget",
+        "Android",
+        "-executeMethod",
+        "FightMatch.Host.Editor.FightMatchAndroidBuild.BuildDemo",
+        "-fmDemoNextOutput",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-03/fightmatch-demo.apk",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/DEMO-NEXT-001/startup-storage-run01/build.log"
+      ],
+      "pid": 8181,
+      "startedUtc": "2026-10-18T04:58:35.113934+00:00",
+      "exitCode": 0,
+      "timeout": false,
+      "elapsedSeconds": 181.64462062495295,
+      "endedUtc": "2026-10-18T05:01:36.756470+00:00"
+    }
+  ],
+  "review": "Engineering reports QA accepted source gate for902006fa002088556caa69002ecc1b021c9146f1, issuecomment6245876056; not re-requested or independently fetched by executor. This is diagnostic code, not root-cause correction.",
+  "elapsedSeconds": 287.2854839579668,
+  "editorProcessesBefore": [],
+  "sourceSyncCount": 4,
+  "focused": {
+    "summary": {
+      "id": "2",
+      "testcasecount": "6",
+      "result": "Passed",
+      "total": "6",
+      "passed": "6",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-18 04:58:04Z",
+      "end-time": "2026-10-18 04:58:06Z",
+      "duration": "2.4251955"
+    },
+    "cases": [
+      {
+        "name": "FightMatch.Host.Tests.FightMatchHostResourceTests.H07_ResourceStartupReportsSafeStageAndKeepsStorageFailureClosed",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS04_PrePromotionFailuresPreserveActive",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS05_UnknownCommitNeverAdvances",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS13_StorageFailureReportsTheOriginalOperationBeforeCleanup",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS14_DeferredEnumerationFailureReportsScopeWithoutLeakingExceptionData",
+        "result": "Passed"
+      },
+      {
+        "name": "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS15_UnknownCommitKeepsItsDiagnosticAndDoesNotRetry",
+        "result": "Passed"
+      }
+    ]
+  },
+  "protectedAfterTestsDelta": [],
+  "afterTestsProcesses": [],
+  "buildReport": {
+    "stage": "DEMO-NEXT-001",
+    "result": "Succeeded",
+    "output": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-03/fightmatch-demo.apk",
+    "target": "Android",
+    "options": "CompressTextures, StripDebugSymbols, ForceOptimizeScriptCompilation, Il2CPP, Development",
+    "startedUtc": "2026-10-17T20:59:32.3033970Z",
+    "endedUtc": "2026-10-17T21:00:56.4148091Z",
+    "sha256": "72186bd6acf65fba5bd02f6d7da3c67ad2ca532d768fddc68172850e4ebd47ee",
+    "package": "com.yyczz1.fightmatch",
+    "backend": "IL2CPP",
+    "architecture": "ARM64",
+    "stripping": "Minimal",
+    "errors": 0,
+    "warnings": 0,
+    "minSdk": 24,
+    "bytes": 36583902,
+    "graphicsAutomatic": false,
+    "graphicsApis": [
+      "OpenGLES3"
+    ]
+  },
+  "settingsRestored": true,
+  "apk": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-03/fightmatch-demo.apk",
+    "bytes": 36583902,
+    "sha256": "72186bd6acf65fba5bd02f6d7da3c67ad2ca532d768fddc68172850e4ebd47ee"
+  },
+  "apkChecks": [
+    {
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/build-tools/32.0.0/aapt",
+        "dump",
+        "badging",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-03/fightmatch-demo.apk"
+      ],
+      "exitCode": 0,
+      "evidence": "manifest.txt"
+    },
+    {
+      "command": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/OpenJDK/bin/java",
+        "-jar",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/build-tools/32.0.0/lib/apksigner.jar",
+        "verify",
+        "--verbose",
+        "--print-certs",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Builds/DEMO-NEXT-001/android-03/fightmatch-demo.apk"
+      ],
+      "exitCode": 0,
+      "evidence": "signature.txt"
+    }
+  ],
+  "protectedAfterBuildDelta": [],
+  "sourcesStillFrozen": true,
+  "finalEditorProcesses": [],
+  "stageAOutcome": "Six affected tests passed; diagnostic ordinary APK built and verified. Not a storage defect fix or overall Demo acceptance.",
+  "reportedBuildTimeCaveat": "Raw BuildReport time labels retained; continuous budget uses outer UTC/monotonic.",
+  "productCommitReportedByEngineering": "902006fa002088556caa69002ecc1b021c9146f1",
+  "endedUtc": "2026-10-18T05:02:05.396311+00:00",
+  "endedMonotonic": 562203.159125875,
+  "continuousSegmentSeconds": 287.2854815419996,
+  "cumulativeStageASeconds": 692.0940341670066
+}

@@ -40,6 +40,11 @@ namespace FightMatch.YooAssetAdapter
         void Remove(string name);
     }
 
+    internal interface IPinnedManifestYooSdk
+    {
+        IYooOperation InitializePinned(object package, string root, long length, string sha256);
+    }
+
     internal interface IRawYooSdk
     {
         IRawYooOperation BeginRaw(object package, AssetMapping map, long limit, Action wake);
@@ -137,7 +142,7 @@ namespace FightMatch.YooAssetAdapter
         }
     }
 
-    internal sealed class RealYooSdk : IYooSdk, IRawYooSdk
+    internal sealed class RealYooSdk : IYooSdk, IRawYooSdk, IPinnedManifestYooSdk
     {
         internal static readonly RealYooSdk Instance = new RealYooSdk();
         private readonly HashSet<object> rawPackages = new HashSet<object>();
@@ -154,8 +159,15 @@ namespace FightMatch.YooAssetAdapter
         public string Version(object package) => ((ResourcePackage)package).GetPackageVersion();
         public IYooOperation Initialize(object package, string root)
         {
+            return InitializePinned(package, root, 0, null);
+        }
+        public IYooOperation InitializePinned(object package, string root, long length, string sha256)
+        {
+            var parameters = FileSystemParameters.CreateDefaultBuiltinFileSystemParameters(root);
+            if (sha256 != null)
+                parameters.AddParameter(EFileSystemParameter.ManifestDecryptor, new PinnedManifest(length, sha256));
             var operation = ((ResourcePackage)package).InitializePackageAsync(new OfflinePlayModeOptions
-            { BuiltinFileSystemParameters = FileSystemParameters.CreateDefaultBuiltinFileSystemParameters(root) });
+            { BuiltinFileSystemParameters = parameters });
             rawPackages.Add(package);
             return new Operation(operation);
         }
@@ -176,6 +188,19 @@ namespace FightMatch.YooAssetAdapter
             if (!rawPackages.Contains(package) || !Ready(package))
                 throw new YooAssetPackageLifecycle.Failure(Code.PackageUnavailable, Stage.ValidateResult);
             return new RawOperation((ResourcePackage)package, map, limit, wake);
+        }
+        private sealed class PinnedManifest : IManifestDecryptor
+        {
+            private readonly long length;
+            private readonly string sha256;
+            internal PinnedManifest(long length, string sha256) { this.length = length; this.sha256 = sha256; }
+            public byte[] Decrypt(byte[] bytes) => MatchesManifest(bytes, length, sha256) ? bytes : Array.Empty<byte>();
+        }
+        internal static bool MatchesManifest(byte[] bytes, long length, string sha256)
+        {
+            if (bytes == null || bytes.LongLength != length) return false;
+            using (var hash = SHA256.Create())
+                return BitConverter.ToString(hash.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant() == sha256;
         }
         internal static bool IsPlainRawBundle(int kind, bool encrypted) =>
             kind == (int)EBundleType.RawBundle && !encrypted;
@@ -320,7 +345,8 @@ namespace FightMatch.YooAssetAdapter
             internal object Object;
             internal bool Owned, Removed, CleanupFailed;
             internal bool ManifestValidationFailed;
-            internal string Name, Root, Version;
+            internal string Name, Root, Version, ManifestSha256;
+            internal long ManifestLength;
             internal int Phase;
             internal IYooOperation Operation, Destruction;
             internal readonly HashSet<YooAssetPackageLifecycle> Clients = new HashSet<YooAssetPackageLifecycle>();
@@ -449,10 +475,12 @@ namespace FightMatch.YooAssetAdapter
                     catch (Exception) { throw new Failure(Code.ManifestUnavailable, Stage.SelectManifest); }
                 }
                 package = new Package { Object = found ?? sdk.Create(map.Package), Owned = found == null,
-                    Name = map.Package, Root = map.Root, Version = map.Version };
+                    Name = map.Package, Root = map.Root, Version = map.Version,
+                    ManifestLength = map.ManifestLength, ManifestSha256 = map.ManifestSha256 };
                 scope.Packages.Add(map.Package, package);
             }
             if (package.Removed || package.Destruction != null || package.Root != map.Root ||
+                package.ManifestLength != map.ManifestLength || package.ManifestSha256 != map.ManifestSha256 ||
                 (package.Version != map.Version && (package.Uses.Count != 0 || !package.Owned)))
                 throw new InvalidOperationException("Package identity is busy.");
             if (package.Owned && package.Operation != null && package.Operation.Done && !package.Operation.Success)
@@ -507,7 +535,7 @@ namespace FightMatch.YooAssetAdapter
                 stage = package.Phase == 0 ? Stage.InitializePackage : Stage.SelectManifest;
                 if (package.Operation == null)
                 {
-                    package.Operation = package.Phase == 0 ? sdk.Initialize(package.Object, package.Root) :
+                    package.Operation = package.Phase == 0 ? InitializePackage(package) :
                         sdk.Manifest(package.Object, package.Version);
                     package.Operation.Completed += package.Notify;
                 }
@@ -532,6 +560,14 @@ namespace FightMatch.YooAssetAdapter
                 package.Wake();
             }
             return true;
+        }
+
+        private IYooOperation InitializePackage(Package package)
+        {
+            if (package.ManifestSha256 == null) return sdk.Initialize(package.Object, package.Root);
+            if (!(sdk is IPinnedManifestYooSdk pinned))
+                throw new Failure(Code.ManifestUnavailable, Stage.SelectManifest);
+            return pinned.InitializePinned(package.Object, package.Root, package.ManifestLength, package.ManifestSha256);
         }
 
         internal bool TryClose(bool retry)

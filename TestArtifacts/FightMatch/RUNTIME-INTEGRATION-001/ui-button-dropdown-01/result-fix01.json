@@ -1,0 +1,243 @@
+{
+  "task": "UI-BUTTON-DROPDOWN-FIX-01",
+  "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+  "ownerTurn": "01a13552-8b44-7fb3-b561-c65b90a0ba46",
+  "authorTurn": "01a1354b-4e5a-7fd3-8d73-d8f468c90853",
+  "completionReceiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "patch": {
+    "path": "/private/tmp/fightmatch-ui-button-dropdown-hvtj_24w/fix-01/ui-button-dropdown-fix-01.patch",
+    "bytes": 4056,
+    "sha256": "e1be11ad4442c21e880b7b68f2a0d448582e4e8921ad4548cd97bc0083fc8567"
+  },
+  "inputDeltaFromStageA": {
+    "modified": {
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchButtonDropdownTests.cs": {
+        "before": {
+          "bytes": 15223,
+          "sha256": "415b8b33e6fab93ef6fb523dd159e7acd3bfe4f8b6494436627079a5050660cb"
+        },
+        "after": {
+          "bytes": 16936,
+          "sha256": "f0052bb55b10f6251f890b36d02f1001b53fbf0a5e8d4598c18bfcceaa34e84f"
+        }
+      }
+    },
+    "added": {},
+    "removed": []
+  },
+  "inputIdentities": {
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+      "bytes": 204518,
+      "sha256": "4dc93bab97dc09b76bacabb7d4983d762d401f4e325c452fb1988a73ba5f759a"
+    },
+    "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs": {
+      "bytes": 21029,
+      "sha256": "d5c523a6d80049c90c9b9d289360c484e11a4ad4bd7d41e8038ed8200523d8ec"
+    },
+    "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs": {
+      "bytes": 38038,
+      "sha256": "1868fb6561f645cdccd8ca17c3e50ef6dd03ef11918f7f192f40b133a80c0ee2"
+    },
+    "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+      "bytes": 9211,
+      "sha256": "604b9f893bd9335c0d2f90b0d0b9fd4c184096b4ffae87ef48acc3f01ebf7981"
+    },
+    "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs": {
+      "bytes": 31310,
+      "sha256": "c873b62ee3dc6dcbad21399f1de6463298cd87f16eff7d7705190ed82adcef98"
+    },
+    "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs": {
+      "bytes": 81676,
+      "sha256": "868393f16d5639e88c8826bcaced8cd07d6ad53d6a206353ee703f77167abc3f"
+    },
+    "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+      "bytes": 51152,
+      "sha256": "db73bcecfdf75e8b7bf88ec2c70504eeb69e85506a036d23285680db8bc29961"
+    },
+    "Assets/Tests/EditMode/FightMatchHost/FightMatchHostLocaleWiringTests.cs": {
+      "bytes": 25127,
+      "sha256": "d3b5f9469253fb7e96af1ce989b467aabd11a6ea278414ed988158cc47cf1d9b"
+    },
+    "Assets/Scripts/FightMatch/Host/FightMatchLocaleDropdown.cs": {
+      "bytes": 1333,
+      "sha256": "7ca1d0f511661440e4a52db14e9fdfd0976efc140cb3a4a5c92de61978c9b3b2"
+    },
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchUiButtonDropdownCorrection.cs": {
+      "bytes": 15494,
+      "sha256": "c1a6b0d883ed5913036a459e1f540410a439e641fe70af6a3c35a3dd78fd8786"
+    },
+    "Assets/Tests/EditMode/FightMatchHost/FightMatchButtonDropdownTests.cs": {
+      "bytes": 16936,
+      "sha256": "f0052bb55b10f6251f890b36d02f1001b53fbf0a5e8d4598c18bfcceaa34e84f"
+    },
+    "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+      "bytes": 1343229,
+      "sha256": "77c170691154df1deabe1ddb7c1293e5dd948d13503de989b5307d20915c355b"
+    },
+    "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab.meta": {
+      "bytes": 154,
+      "sha256": "85c3eee205f94f79652eddf5d29cce3809b76ce03a0ba92311150d129409fce2"
+    },
+    "Assets/Scenes/FightMatchDemo.unity": {
+      "bytes": 13566,
+      "sha256": "9911cf81ea78909900067c25d50df9feedd19abb5773e98e411c3e1b15bbad35"
+    },
+    "Assets/Scenes/FightMatchDemo.unity.meta": {
+      "bytes": 155,
+      "sha256": "2f2cfa8c3f7d833ff3694fbfd20c45643e40c465e7209d6040fba48d76f37e7e"
+    },
+    "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset": {
+      "bytes": 8576534,
+      "sha256": "58a6f19bcecb49d624ede62fd95f001d2ed09fe2250b8fb63874a27f91f27c17"
+    },
+    "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset.meta": {
+      "bytes": 189,
+      "sha256": "dea83a5366a5e1797eddb7620aff704963cc286d105f6dcf477ed69a2a1535cc"
+    },
+    "Packages/manifest.json": {
+      "bytes": 1913,
+      "sha256": "741fbc8dab2f41e8acda1732a92fd5d6ca276e0f706557632d186ac070f8bc86"
+    },
+    "Packages/packages-lock.json": {
+      "bytes": 11812,
+      "sha256": "c65be7a6cb4308eb311c7dde8cdc5cc7d40b15a9fa6aa8553d76937a342777e9"
+    },
+    "Assets/Scripts/FightMatch/Host/FightMatchLocaleDropdown.cs.meta": {
+      "bytes": 243,
+      "sha256": "53fe41d9b4d7ea386c5589857673895a5c37424502342fc842811091e9817f54"
+    },
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchUiButtonDropdownCorrection.cs.meta": {
+      "bytes": 243,
+      "sha256": "bd981b47af6a6c86b0696cb110c5dd135cf39ac37069c24b6379822b5b006417"
+    },
+    "Assets/Tests/EditMode/FightMatchHost/FightMatchButtonDropdownTests.cs.meta": {
+      "bytes": 243,
+      "sha256": "1c6dd00d91d9c2de74ecbd47607f79a9aad4e01321de628d6e9973cd71b8a46c"
+    }
+  },
+  "previousEvidence": {
+    "apply.log": {
+      "bytes": 71026,
+      "sha256": "1fd2e112c1a4c26be105652c8faf4c5bde91be616e2d89784bdceb239ca04f21"
+    },
+    "focused.log": {
+      "bytes": 182150,
+      "sha256": "aa93d2346a736c32847458ec404ff63ddb9008b6ab6e713cc7efc99f987b05e1"
+    },
+    "focused.xml": {
+      "bytes": 19013,
+      "sha256": "6add4a82ffe17ace958f0fe869a167daa70229d8fb10b1941a83ad0d1f9b734d"
+    },
+    "result.json": {
+      "bytes": 19346,
+      "sha256": "587ba8aaadb0dadc036c1e2be585fd01576cacbeb54a86c1083e24dddd8ea302"
+    },
+    "RuntimeRoot.before.prefab": {
+      "bytes": 1322960,
+      "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+    },
+    "RuntimeRoot.before.prefab.meta": {
+      "bytes": 154,
+      "sha256": "85c3eee205f94f79652eddf5d29cce3809b76ce03a0ba92311150d129409fce2"
+    }
+  },
+  "expectedTests": 1,
+  "status": "PASS_SINGLE_TEST",
+  "processesBefore": [],
+  "run": {
+    "argv": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+      "-batchmode",
+      "-nographics",
+      "-projectPath",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "-runTests",
+      "-testPlatform",
+      "EditMode",
+      "-testFilter",
+      "FightMatch.Host.Tests.FightMatchButtonDropdownTests.RealPointerAndKeyboardSelectionPreserveRetryFeedbackAndLifetime",
+      "-testResults",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/focused-fix01.xml",
+      "-logFile",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/ui-button-dropdown-01/focused-fix01.log"
+    ],
+    "environment": {
+      "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+      "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/bee-cache"
+    },
+    "timeoutSeconds": 180,
+    "startedUtc": "2026-10-13T12:54:21.080322+00:00",
+    "pid": 22303,
+    "exitCode": 0,
+    "timedOut": false,
+    "stillRunning": false,
+    "elapsedSeconds": 38.087306,
+    "completedUtc": "2026-10-13T12:54:59.169128+00:00",
+    "consoleOutput": ""
+  },
+  "integrationVerdict": "NEEDS_FIX",
+  "xml": {
+    "root": {
+      "id": "2",
+      "testcasecount": "1",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-13 12:54:52Z",
+      "end-time": "2026-10-13 12:54:57Z",
+      "duration": "4.9093564"
+    },
+    "testCases": [
+      {
+        "name": "FightMatch.Host.Tests.FightMatchButtonDropdownTests.RealPointerAndKeyboardSelectionPreserveRetryFeedbackAndLifetime",
+        "result": "Passed",
+        "duration": "8.899710",
+        "failure": null,
+        "stack": null
+      }
+    ]
+  },
+  "artifacts": {
+    "focused-fix01.xml": {
+      "bytes": 3762,
+      "sha256": "044dddc857b046695704a4e0768ffa69c2176543d8b768aff51112687b5f22d8"
+    },
+    "focused-fix01.log": {
+      "bytes": 109096,
+      "sha256": "4c66ec3bae2f98f9107ccf7052caa3ed72cf38d0e64cc45bdc2cbea0f24b64b8"
+    }
+  },
+  "productDelta": {
+    "added": {},
+    "modified": {},
+    "removed": []
+  },
+  "previousEvidenceChanged": [],
+  "remainingEditorUpmShaderProcesses": [],
+  "verifiedBehavior": "The selected test passed with unchanged save-count expectations and added assertions that the retired list is inactive, name-only lookup still finds it in the same frame, the new option is distinct, the retired option cannot receive pointer events, and the new option emits exactly one selection event.",
+  "scope": {
+    "unityInvocations": 1,
+    "applyInvocations": 0,
+    "additionalGuiLaunches": 0,
+    "resourceBuilds": 0,
+    "retries": 0,
+    "sourceOrAssertionEditsByExecutor": 0,
+    "sceneSaves": 0,
+    "prefabSaves": 0,
+    "previousPassedTestsRerun": 0,
+    "graphicalTestsRerun": 0
+  },
+  "limitations": [
+    "The original stage A result remains 12 passed / 3 failed for its frozen input.",
+    "This test-only correction has 1 passed / 0 failed evidence; the two graphical failures are unchanged.",
+    "Stage B GUI and overall integration acceptance remain pending engineering dispatch and receipt.",
+    "This local result does not by itself validate the clean PR publishing candidate."
+  ],
+  "recordedUtc": "2026-10-13T12:56:07.722609+00:00"
+}

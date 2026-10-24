@@ -1,0 +1,107 @@
+[
+  {
+    "command": [
+      "get-state"
+    ],
+    "exitCode": 1,
+    "elapsedSeconds": 0.36199762497562915,
+    "stdout": "",
+    "stderr": "* daemon not running; starting now at tcp:5037\n* daemon started successfully\nerror: device '127.0.0.1:5555' not found\n"
+  },
+  {
+    "command": [
+      "connect",
+      "127.0.0.1:5555"
+    ],
+    "exitCode": 0,
+    "stdout": "connected to 127.0.0.1:5555\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "get-state"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.028431667014956474,
+    "stdout": "device\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "shell",
+      "getprop",
+      "ro.build.version.sdk"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.04930750001221895,
+    "stdout": "33\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "shell",
+      "getprop",
+      "ro.product.cpu.abi"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.03671112493611872,
+    "stdout": "arm64-v8a\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "shell",
+      "getprop",
+      "ro.product.model"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.03961258300114423,
+    "stdout": "SM-G998B\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "shell",
+      "dumpsys",
+      "package",
+      "com.yyczz1.fightmatch"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.08350337506271899,
+    "stdout": "    versionCode=1 minSdk=24 targetSdk=32\n    versionName=0.1\n    lastUpdateTime=2026-10-17 10:17:01\n      firstInstallTime=2026-09-29 16:16:25",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "shell",
+      "find",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch",
+      "-maxdepth",
+      "7",
+      "-type",
+      "f"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.03477558400481939,
+    "stdout": "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/writer.lock\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/writer.lock\n/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "shell",
+      "sha256sum",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/writer.lock",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/writer.lock",
+      "/sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit"
+    ],
+    "exitCode": 1,
+    "elapsedSeconds": 0.0369027080014348,
+    "stdout": "9f12f512a337600252d791c60779c25014e81d07eedf795af601e6cf3a477bf9  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/e048566447ce145611e30fde39acb6debd0f0b129b062f9033fe9f1c39841677.blob\n0731beca20f942a7c95197def2eff96b5e698c4734930a6a406358343524191d  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/f23ef57d54e59fc2daf2b48a34bdf47e0a1cf54c174f17a8cc561d47cb2e6104.blob\n8f845511155211dc0e2403fda064f54657cc7e843addf11d66f3d7c7037df024  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.snapshot\n938628e800f52e2af6c466025aeafaacd38cba0956a54d7d62a8a8c3d32fe8aa  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-c50b9cb0e7784c4d803b31e3af9a26fc.commit\n6c56c90940bdb364755f64b12df103449c058f61b27692281cb81a1e04765581  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.snapshot\n0166e3abfde1470e14ed5958b6ec455b492c5b38a5f0615c88db882e560c701b  /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/c-0590efecd5c64c368b248e0bd67fa8b4.commit\n",
+    "stderr": "sha256sum: /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/locator/writer.lock: Permission denied\nsha256sum: /sdcard/Android/data/com.yyczz1.fightmatch/files/FightMatch/profiles/p-083a69e868f76fd48d70242409d7db5177bd38a01b37c9bf781acd6fda3df201/player/writer.lock: Permission denied\n"
+  }
+]
