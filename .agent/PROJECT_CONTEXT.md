@@ -1,6 +1,8 @@
 # FightMatch project context
 
-Updated 2026-10-25. Start with [START_HERE](../START_HERE.md) and the [current team snapshot](../docs/team/2026-09-30/README.md). Read only the current section of a role index unless investigating a specific historical record. The approved first Demo is ACCEPTED with no remaining required checks. This delivery is complete; do not automatically start full Android-release work. No active Goal object was observed.
+Updated 2026-10-25. Start with [START_HERE](../START_HERE.md) and the [current team snapshot](../docs/team/2026-09-30/README.md). Read only the current section of a role index unless investigating a specific historical record. The approved first Demo is ACCEPTED with no remaining required checks. The user then authorized version management and planning subsequent feature designs. Current work is design planning, not new implementation or deployment. No active Goal object was observed.
+
+Current planning entry: [next-stage design index](../docs/plans/2026-10-25-next-stage-design-index.md). The recoverable workspace checkpoint `f94240fa` was pushed and remotely verified on `codex/demo-accepted-checkpoint-20261025`; it contains existing local WIP beyond reviewed PR22 and is not a whole-tree acceptance claim. PR22 remains draft/unmerged; ordinary master and index remain untouched. See the [version record](../docs/versioning/2026-10-25-demo-checkpoint/README.md) and [actual architecture/reading guide](../docs/architecture/2026-10-25-code-reading-guide.md). Planning and engineering leads own content and engineering plans respectively; no new Unity, device or test run is part of this planning phase.
 
 ## Observed facts
 
