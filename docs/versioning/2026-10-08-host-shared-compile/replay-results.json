@@ -1,0 +1,5678 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "status": "SOURCE_REPLAY_FAILED",
+      "cases": [
+        {
+          "name": "running legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "running same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "natural-closure legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "natural-closure same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "closure-final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "closure-final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "PID reuse rejected",
+          "passed": true
+        },
+        {
+          "name": "details failure discover rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure snapshot_consumers rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure monitor rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "bad-argv not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-cwd not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-probe not published to owned",
+          "passed": true
+        },
+        {
+          "name": "details retry publishes complete child and permits original cleanup guards",
+          "passed": true
+        },
+        {
+          "name": "child absent in fresh snapshot cannot poison valid root cleanup",
+          "passed": true
+        },
+        {
+          "name": "register cannot replace a valid owned root",
+          "passed": true
+        },
+        {
+          "name": "I single-use real claim",
+          "passed": true
+        },
+        {
+          "name": "input drift rejected",
+          "passed": true
+        },
+        {
+          "name": "all required compilation evidence passes",
+          "passed": true
+        },
+        {
+          "name": "missing assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "unproved assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "complete unchanged cache chain passes",
+          "passed": true
+        },
+        {
+          "name": "missing prior cache chain rejected",
+          "passed": true
+        },
+        {
+          "name": "cache response drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache sourceInputs drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache references drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache defines drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache compilerOutput drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache dll drift rejected",
+          "passed": true
+        },
+        {
+          "name": "32 paths synchronize and restore through actual functions",
+          "passed": true
+        },
+        {
+          "name": "mid-sync failure restores actual ledger",
+          "passed": true
+        },
+        {
+          "name": "third-party target preserved with failed restoration verdict",
+          "passed": true
+        },
+        {
+          "name": "sync-overwrite-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-overwrite-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "new-exclusive-collision preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-same-as-post preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "launched root recover through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-exit through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-during-recovery through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-live through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-exited through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-parent through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-exe through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-argv through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-cwd through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root persistent-details through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "same snapshot FIFO license",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO dotnet",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-uid",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-root",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-ancestry",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-same-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-exe",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO reuse",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO non-fifo",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle absent",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle zombie",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle recover",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle persistent",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle reuse",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle ps-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle ps-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle resources-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle resources-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle projection-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle projection-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "skipped monitor sample cannot establish closure",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park normal",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park source",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer park source-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer park target",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer park target-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer park retire",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Transfer expected conflict verdict park/retire",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 453, in transfer_race\n    need(failed==(mode!='normal'),'Transfer expected conflict verdict '+role+'/'+mode)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Transfer expected conflict verdict park/retire\n"
+        },
+        {
+          "name": "FIX05 transfer park retire-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Transfer expected conflict verdict park/retire-return",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 453, in transfer_race\n    need(failed==(mode!='normal'),'Transfer expected conflict verdict '+role+'/'+mode)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Transfer expected conflict verdict park/retire-return\n"
+        },
+        {
+          "name": "FIX05 transfer archive normal",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive source",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer archive source-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer archive target",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer archive target-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer archive retire",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Transfer expected conflict verdict archive/retire",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 453, in transfer_race\n    need(failed==(mode!='normal'),'Transfer expected conflict verdict '+role+'/'+mode)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Transfer expected conflict verdict archive/retire\n"
+        },
+        {
+          "name": "FIX05 transfer archive retire-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Transfer expected conflict verdict archive/retire-return",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 466, in <lambda>\n    regression('FIX05 transfer '+role+' '+mode,lambda role=role,mode=mode:transfer_race(role,mode))\n                                                                          ~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 453, in transfer_race\n    need(failed==(mode!='normal'),'Transfer expected conflict verdict '+role+'/'+mode)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Transfer expected conflict verdict archive/retire-return\n"
+        },
+        {
+          "name": "FIX05 transfer unpark source-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 468, in <lambda>\n    regression('FIX05 transfer '+role+' source-return',lambda role=role:transfer_race(role,'source-return'))\n                                                                        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 transfer settings source-return",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer remains recorded, not a successful restore",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 468, in <lambda>\n    regression('FIX05 transfer '+role+' source-return',lambda role=role:transfer_race(role,'source-return'))\n                                                                        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 456, in transfer_race\n    need(bool(env['transfer_conflicts']),'Unresolved transfer remains recorded, not a successful restore')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer remains recorded, not a successful restore\n"
+        },
+        {
+          "name": "FIX05 unresolved transfer cannot report restore complete",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Unresolved transfer cannot report restoration complete",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 474, in transfer_restore_gate\n    need(result['complete'] is False and result['errors'],'Unresolved transfer cannot report restoration complete')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unresolved transfer cannot report restoration complete\n"
+        },
+        {
+          "name": "FIX05 absolute TERM deadline many-owned",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Budget exhaustion remains unclosed",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 524, in <lambda>\n    regression('FIX05 absolute TERM deadline '+mode,lambda mode=mode:deadline_case(mode))\n                                                                     ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 512, in deadline_case\n    need(failed and env['closure_closed'] is False,'Budget exhaustion remains unclosed')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Budget exhaustion remains unclosed\n"
+        },
+        {
+          "name": "FIX05 absolute TERM deadline ps-exhausts",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Budget exhaustion remains unclosed",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 524, in <lambda>\n    regression('FIX05 absolute TERM deadline '+mode,lambda mode=mode:deadline_case(mode))\n                                                                     ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 512, in deadline_case\n    need(failed and env['closure_closed'] is False,'Budget exhaustion remains unclosed')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Budget exhaustion remains unclosed\n"
+        },
+        {
+          "name": "FIX05 absolute TERM deadline details-exhausts",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Budget exhaustion remains unclosed",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 524, in <lambda>\n    regression('FIX05 absolute TERM deadline '+mode,lambda mode=mode:deadline_case(mode))\n                                                                     ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 512, in deadline_case\n    need(failed and env['closure_closed'] is False,'Budget exhaustion remains unclosed')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Budget exhaustion remains unclosed\n"
+        },
+        {
+          "name": "FIX05 absolute TERM deadline consumer-exhausts",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Budget exhaustion remains unclosed",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 524, in <lambda>\n    regression('FIX05 absolute TERM deadline '+mode,lambda mode=mode:deadline_case(mode))\n                                                                     ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 512, in deadline_case\n    need(failed and env['closure_closed'] is False,'Budget exhaustion remains unclosed')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Budget exhaustion remains unclosed\n"
+        },
+        {
+          "name": "FIX05 absolute TERM deadline unverified",
+          "passed": false,
+          "newFIX04": true,
+          "error": "Budget exhaustion remains unclosed",
+          "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 312, in regression\n    try:fn();cases.append({'name':name,'passed':True,'newFIX04':True})\n        ~~^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 524, in <lambda>\n    regression('FIX05 absolute TERM deadline '+mode,lambda mode=mode:deadline_case(mode))\n                                                                     ~~~~~~~~~~~~~^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 512, in deadline_case\n    need(failed and env['closure_closed'] is False,'Budget exhaustion remains unclosed')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Budget exhaustion remains unclosed\n"
+        }
+      ],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "phase": "RED_BASELINE",
+      "changedFunctions": [],
+      "newFunctions": [],
+      "allOtherFunctionsAstEqual": true,
+      "static": {
+        "syntax": true,
+        "runnerNonblankLines": 511,
+        "singlePopenSite": true,
+        "sameSnapshot": true,
+        "pureCompile": true
+      },
+      "ownershipRecovery": [
+        {
+          "childVanishedInNextSnapshot": false,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        },
+        {
+          "childVanishedInNextSnapshot": true,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        }
+      ],
+      "faultEvidence": [
+        {
+          "fault": "sync-overwrite-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-new-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-overwrite-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-new-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-partial",
+          "partialFiles": [
+            "/E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "synthetic failure after partial bytes persisted"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "[Errno 5] synthetic errno 5: '/P/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs'"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "new-exclusive-collision",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; []"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; ['New drift during bounded conflict return; preserved in conflict slot']"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-same-as-post",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        }
+      ],
+      "launchedRootRecovery": [
+        {
+          "mode": "recover",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            244
+          ],
+          "suppliedSnapshots": 246,
+          "rootPublished": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "natural-exit",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "natural-during-recovery",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2
+          ],
+          "suppliedSnapshots": 12,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "pid-reuse-live",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 364,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "pid-reuse-exited",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 364,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "foreign-parent",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 364,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "foreign-exe",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 364,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "wrong-argv",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355,
+            363,
+            364
+          ],
+          "suppliedSnapshots": 364,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "wrong-cwd",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355,
+            363,
+            364
+          ],
+          "suppliedSnapshots": 364,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "persistent-details",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355,
+            363,
+            364
+          ],
+          "suppliedSnapshots": 364,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        }
+      ],
+      "prior58Passed": true,
+      "fifoEvidence": [
+        {
+          "mode": "license",
+          "errors": [],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "dotnet",
+          "errors": [],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-uid",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-root",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /wrong-root/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-ancestry",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO root/parent mismatch /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-same-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client\", \"pid\": 36391}]"
+            },
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO owner absent or reused /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "monitor_failure",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-exe",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO executable /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "reuse",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"reused\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client\", \"pid\": 36391}]"
+            },
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO owner absent or reused /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "monitor_failure",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "non-fifo",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Special tree entry /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/foreign-pipe"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        }
+      ],
+      "closureFirstEvidence": [
+        {
+          "mode": "absent",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "zombie",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "recover",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "persistent",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 364,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355,
+            363,
+            364
+          ],
+          "signals": [],
+          "pendingPids": [
+            36391
+          ],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [36391], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 49,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "reuse",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 364,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355,
+            363,
+            364
+          ],
+          "signals": [],
+          "pendingPids": [
+            36391
+          ],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [36391], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 49,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "ps-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "process-snapshot",
+            "error": "synthetic ps unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "ps-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 364,
+          "discoverySampleIndexes": [],
+          "signals": [],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "process-snapshot",
+            "error": "synthetic ps unavailable"
+          },
+          "errorCount": 364,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "resources-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "resources",
+            "error": "synthetic resources unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "resources-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 365,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            252,
+            260,
+            268,
+            276,
+            284,
+            292,
+            300,
+            308,
+            316,
+            324,
+            332,
+            340,
+            348,
+            356,
+            364,
+            365
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "resources",
+            "error": "synthetic resources unavailable"
+          },
+          "errorCount": 48,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "projection-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 245,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            245
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "projection",
+            "error": "synthetic projection unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "projection-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 365,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244,
+            252,
+            260,
+            268,
+            276,
+            284,
+            292,
+            300,
+            308,
+            316,
+            324,
+            332,
+            340,
+            348,
+            356,
+            364,
+            365
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "projection",
+            "error": "synthetic projection unavailable"
+          },
+          "errorCount": 48,
+          "zeroRealSignals": true
+        }
+      ],
+      "prior80Passed": true,
+      "transferRaceEvidence": [
+        {
+          "role": "park",
+          "mode": "normal",
+          "failed": false,
+          "sourcePresent": false,
+          "source": null,
+          "targetPresent": true,
+          "files": {
+            "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ]
+          ],
+          "injections": [],
+          "conflicts": []
+        },
+        {
+          "role": "archive",
+          "mode": "normal",
+          "failed": false,
+          "sourcePresent": false,
+          "source": null,
+          "targetPresent": true,
+          "files": {
+            "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ]
+          ],
+          "injections": [],
+          "conflicts": []
+        }
+      ],
+      "fixed03Fix04AndRun59Unchanged": true,
+      "failure": "FIX04 regression failures: FIX05 transfer park source, FIX05 transfer park source-return, FIX05 transfer park target, FIX05 transfer park target-return, FIX05 transfer park retire, FIX05 transfer park retire-return, FIX05 transfer archive source, FIX05 transfer archive source-return, FIX05 transfer archive target, FIX05 transfer archive target-return, FIX05 transfer archive retire, FIX05 transfer archive retire-return, FIX05 transfer unpark source-return, FIX05 transfer settings source-return, FIX05 unresolved transfer cannot report restore complete, FIX05 absolute TERM deadline many-owned, FIX05 absolute TERM deadline ps-exhausts, FIX05 absolute TERM deadline details-exhausts, FIX05 absolute TERM deadline consumer-exhausts, FIX05 absolute TERM deadline unverified",
+      "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 526, in <module>\n    need(all(c['passed'] for c in cases),'FIX04 regression failures: '+', '.join(c['name'] for c in cases if not c['passed']))\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 11, in need\n    if not ok: raise AssertionError(why)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: FIX04 regression failures: FIX05 transfer park source, FIX05 transfer park source-return, FIX05 transfer park target, FIX05 transfer park target-return, FIX05 transfer park retire, FIX05 transfer park retire-return, FIX05 transfer archive source, FIX05 transfer archive source-return, FIX05 transfer archive target, FIX05 transfer archive target-return, FIX05 transfer archive retire, FIX05 transfer archive retire-return, FIX05 transfer unpark source-return, FIX05 transfer settings source-return, FIX05 unresolved transfer cannot report restore complete, FIX05 absolute TERM deadline many-owned, FIX05 absolute TERM deadline ps-exhausts, FIX05 absolute TERM deadline details-exhausts, FIX05 absolute TERM deadline consumer-exhausts, FIX05 absolute TERM deadline unverified\n",
+      "seconds": 4.035881957999663,
+      "actualFunctionsCalled": [
+        "<genexpr>",
+        "<lambda>",
+        "<module>",
+        "alive",
+        "archive_and_restore",
+        "atomic_write",
+        "basic",
+        "cached_reuse_proven",
+        "check",
+        "claim_stage",
+        "closure",
+        "cmd",
+        "compilation_passed",
+        "consumer_guard",
+        "details",
+        "discover",
+        "monitor",
+        "ps",
+        "recorded_chain",
+        "recover_root",
+        "register",
+        "rename_exclusive",
+        "rename_swap",
+        "run_stage",
+        "same",
+        "sample",
+        "snapshot_consumers",
+        "swap_verified",
+        "synchronize",
+        "tick",
+        "transfer",
+        "tree_entries",
+        "validate_inputs"
+      ],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 50243,
+        "sha256": "90b94e0ea8c8e1ed6465a8ee72e075a52bdad87c310860c4804212f788c8e6ab"
+      },
+      "checker": {
+        "bytes": 67953,
+        "sha256": "f903b847839433546aff1af9e9450e3107a13db63589d41b900a105533000662"
+      }
+    },
+    {
+      "round": 2,
+      "status": "SOURCE_REPLAY_FAILED",
+      "cases": [],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "failure": "unterminated string literal (detected at line 274) (<unknown>, line 274)",
+      "traceback": "Traceback (most recent call last):\n  File \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX05-source/replay-check.py\", line 43, in <module>\n    text=(E/'runner.py').read_text(); tree=ast.parse(text); compile(tree,str(E/'runner.py'),'exec'); compile(ast.parse(pathlib.Path(__file__).read_text()),__file__,'exec'); F={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}; N=json.loads((OLD/'inputs.json').read_text())\n                                           ~~~~~~~~~^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py\", line 50, in parse\n    return compile(source, filename, mode, flags,\n                   _feature_version=feature_version, optimize=optimize)\n  File \"<unknown>\", line 274\n    routes[(str(P/N['allowedNewSettings']['path']),str(E/'archive/SceneTemplateSettings.json))]='settings/'+N['allowedNewSettings']['path']\n                                                                                                                                         ^\nSyntaxError: unterminated string literal (detected at line 274)\n",
+      "seconds": 0.022787500005506445,
+      "actualFunctionsCalled": [],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 54759,
+        "sha256": "32fba5ff8dc7555bb7083ad5b71ef9bddec53ad09f52597bc9f4d7549a96545e"
+      },
+      "checker": {
+        "bytes": 67970,
+        "sha256": "7bc1917529da19beb4e3885b1dda9017764139decc64077248b77350138bfd1e"
+      }
+    },
+    {
+      "round": 3,
+      "status": "SOURCE_REPLAY_PASS",
+      "cases": [
+        {
+          "name": "running legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "running same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "natural-closure legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "natural-closure same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "term-confirmation same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "closure-final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "closure-final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "final legitimate new child",
+          "passed": true
+        },
+        {
+          "name": "final same-name foreign child rejected",
+          "passed": true
+        },
+        {
+          "name": "PID reuse rejected",
+          "passed": true
+        },
+        {
+          "name": "details failure discover rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure snapshot_consumers rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "details failure monitor rejects without second ps",
+          "passed": true
+        },
+        {
+          "name": "bad-argv not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-cwd not published to owned",
+          "passed": true
+        },
+        {
+          "name": "bad-probe not published to owned",
+          "passed": true
+        },
+        {
+          "name": "details retry publishes complete child and permits original cleanup guards",
+          "passed": true
+        },
+        {
+          "name": "child absent in fresh snapshot cannot poison valid root cleanup",
+          "passed": true
+        },
+        {
+          "name": "register cannot replace a valid owned root",
+          "passed": true
+        },
+        {
+          "name": "I single-use real claim",
+          "passed": true
+        },
+        {
+          "name": "input drift rejected",
+          "passed": true
+        },
+        {
+          "name": "all required compilation evidence passes",
+          "passed": true
+        },
+        {
+          "name": "missing assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "unproved assembly cannot pass",
+          "passed": true
+        },
+        {
+          "name": "complete unchanged cache chain passes",
+          "passed": true
+        },
+        {
+          "name": "missing prior cache chain rejected",
+          "passed": true
+        },
+        {
+          "name": "cache response drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache sourceInputs drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache references drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache defines drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache compilerOutput drift rejected",
+          "passed": true
+        },
+        {
+          "name": "cache dll drift rejected",
+          "passed": true
+        },
+        {
+          "name": "32 paths synchronize and restore through actual functions",
+          "passed": true
+        },
+        {
+          "name": "mid-sync failure restores actual ledger",
+          "passed": true
+        },
+        {
+          "name": "third-party target preserved with failed restoration verdict",
+          "passed": true
+        },
+        {
+          "name": "sync-overwrite-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-overwrite-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-new-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-partial preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "restore-commit preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "new-exclusive-collision preserves P and previous commits",
+          "passed": true
+        },
+        {
+          "name": "sync-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "restore-race-again preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "sync-race-same-as-post preserves displaced values and bounds conflict return",
+          "passed": true
+        },
+        {
+          "name": "launched root recover through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-exit through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root natural-during-recovery through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-live through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root pid-reuse-exited through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-parent through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root foreign-exe through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-argv through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root wrong-cwd through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "launched root persistent-details through actual run_stage/closure",
+          "passed": true
+        },
+        {
+          "name": "same snapshot FIFO license",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO dotnet",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-uid",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-root",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-ancestry",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-same-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO foreign-exe",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO reuse",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO non-fifo",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "same snapshot FIFO wrong-name",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle absent",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle zombie",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle recover",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle persistent",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle reuse",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle ps-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle ps-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle resources-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle resources-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle projection-once",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "closure first cycle projection-always",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "skipped monitor sample cannot establish closure",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park normal",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park source",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park source-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park target",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park target-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park retire",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer park retire-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive normal",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive source",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive source-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive target",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive target-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive retire",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer archive retire-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer unpark source-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 transfer settings source-return",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 unresolved transfer cannot report restore complete",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 absolute TERM deadline many-owned",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 absolute TERM deadline ps-exhausts",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 absolute TERM deadline details-exhausts",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 absolute TERM deadline consumer-exhausts",
+          "passed": true,
+          "newFIX04": true
+        },
+        {
+          "name": "FIX05 absolute TERM deadline unverified",
+          "passed": true,
+          "newFIX04": true
+        }
+      ],
+      "nativeRuns": 0,
+      "realPsCalls": 0,
+      "realSignals": 0,
+      "actualProjectionWrites": 0,
+      "fixtureIOOnly": true,
+      "phase": "GREEN_CORRECTION",
+      "changedFunctions": [
+        "adb_exception",
+        "archive_and_restore",
+        "closure",
+        "cmd",
+        "consumer_guard",
+        "details",
+        "main",
+        "monitor",
+        "resources",
+        "sdk_adb_exception",
+        "transfer"
+      ],
+      "newFunctions": [
+        "move_verified",
+        "probe_timeout",
+        "transfer_slots"
+      ],
+      "allOtherFunctionsAstEqual": true,
+      "static": {
+        "syntax": true,
+        "runnerNonblankLines": 574,
+        "singlePopenSite": true,
+        "sameSnapshot": true,
+        "pureCompile": true
+      },
+      "ownershipRecovery": [
+        {
+          "childVanishedInNextSnapshot": false,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        },
+        {
+          "childVanishedInNextSnapshot": true,
+          "firstCyclePopulationQueries": 0,
+          "freshSnapshotUsed": true,
+          "simulatedTerms": [
+            36300
+          ],
+          "realSignals": 0,
+          "originalFailureRetained": true
+        }
+      ],
+      "faultEvidence": [
+        {
+          "fault": "sync-overwrite-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-new-partial",
+          "partialFiles": [
+            "/E/atomic/sync/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-overwrite-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-new-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": true,
+          "restoredEarlierItem": true,
+          "errors": [],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-partial",
+          "partialFiles": [
+            "/E/atomic/restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "synthetic failure after partial bytes persisted"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-commit",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "[Errno 5] synthetic errno 5: '/P/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs'"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "new-exclusive-collision",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Concurrent/partial value preserved Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta"
+          ],
+          "raceAtPrimitive": false,
+          "swapCallsForAffectedSlot": 0,
+          "firstConcurrentRetained": false,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; []"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "restore-race-again",
+          "partialFiles": [],
+          "atomicTemporaryRetained": false,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Atomic conflict preserved; no further restore of restore/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs; ['New drift during bounded conflict return; preserved in conflict slot']"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": true,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        },
+        {
+          "fault": "sync-race-same-as-post",
+          "partialFiles": [],
+          "atomicTemporaryRetained": true,
+          "restoredComplete": false,
+          "restoredEarlierItem": true,
+          "errors": [
+            "Preserve prior atomic conflict Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+          ],
+          "raceAtPrimitive": true,
+          "swapCallsForAffectedSlot": 2,
+          "firstConcurrentRetained": true,
+          "secondConcurrentRetained": false,
+          "nativeFlagsUsed": [
+            2,
+            4
+          ]
+        }
+      ],
+      "launchedRootRecovery": [
+        {
+          "mode": "recover",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            243
+          ],
+          "suppliedSnapshots": 245,
+          "rootPublished": true,
+          "simulatedTerms": [
+            36391,
+            36300
+          ],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "natural-exit",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 4,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "natural-during-recovery",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2
+          ],
+          "suppliedSnapshots": 12,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "pid-reuse-live",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 361,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "pid-reuse-exited",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 361,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": false,
+          "restoreRootGateBlocked": false,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "foreign-parent",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 361,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "foreign-exe",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1
+          ],
+          "suppliedSnapshots": 361,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "wrong-argv",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            250,
+            258,
+            266,
+            274,
+            282,
+            290,
+            298,
+            306,
+            314,
+            322,
+            330,
+            338,
+            346,
+            354
+          ],
+          "suppliedSnapshots": 361,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "wrong-cwd",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            250,
+            258,
+            266,
+            274,
+            282,
+            290,
+            298,
+            306,
+            314,
+            322,
+            330,
+            338,
+            346,
+            354
+          ],
+          "suppliedSnapshots": 361,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        },
+        {
+          "mode": "persistent-details",
+          "simulatedPopenCount": 1,
+          "rootDetailsSnapshotIndexes": [
+            1,
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            242,
+            250,
+            258,
+            266,
+            274,
+            282,
+            290,
+            298,
+            306,
+            314,
+            322,
+            330,
+            338,
+            346,
+            354
+          ],
+          "suppliedSnapshots": 361,
+          "rootPublished": false,
+          "simulatedTerms": [],
+          "popenStillLive": true,
+          "restoreRootGateBlocked": true,
+          "originalFailurePreserved": true,
+          "realPopenPsSignals": 0,
+          "naturalAndTermWindows": "Synthetic advancing clock (60/30); prior outcome assertions unchanged"
+        }
+      ],
+      "prior58Passed": true,
+      "fifoEvidence": [
+        {
+          "mode": "license",
+          "errors": [],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "dotnet",
+          "errors": [],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-uid",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-root",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /wrong-root/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-ancestry",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO root/parent mismatch /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-same-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Other potential compiler/Unity consumers [{\"ppid\": 999999, \"start\": \"Thu Oct 8 02:01:15 2026\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client\", \"pid\": 36391}]"
+            },
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO owner absent or reused /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "monitor_failure",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "foreign-exe",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO executable /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "reuse",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "consumers",
+              "error": "Other potential compiler/Unity consumers [{\"ppid\": 36300, \"start\": \"reused\", \"stat\": \"S\", \"exe\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client\", \"pid\": 36391}]"
+            },
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "FIFO owner absent or reused /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "monitor_failure",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "non-fifo",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Special tree entry /synthetic-tmp/clr-debug-pipe-36391-1791404087-in"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        },
+        {
+          "mode": "wrong-name",
+          "errors": [
+            {
+              "utc": "fixture-fifo",
+              "phase": "running",
+              "scope": "resources",
+              "error": "Unknown FIFO /synthetic-tmp/foreign-pipe"
+            }
+          ],
+          "contentReads": 0,
+          "secondPs": 0,
+          "sequence": [
+            "owned_discovered",
+            "resources",
+            "monitor_failure",
+            "monitor_cycle"
+          ]
+        }
+      ],
+      "closureFirstEvidence": [
+        {
+          "mode": "absent",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 243,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243
+          ],
+          "signals": [
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "zombie",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 243,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243
+          ],
+          "signals": [
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "recover",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "persistent",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 361,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            250,
+            258,
+            266,
+            274,
+            282,
+            290,
+            298,
+            306,
+            314,
+            322,
+            330,
+            338,
+            346,
+            354
+          ],
+          "signals": [],
+          "pendingPids": [
+            36391
+          ],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [36391], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 47,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "reuse",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 361,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            250,
+            258,
+            266,
+            274,
+            282,
+            290,
+            298,
+            306,
+            314,
+            322,
+            330,
+            338,
+            346,
+            354
+          ],
+          "signals": [],
+          "pendingPids": [
+            36391
+          ],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [36391], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Supplied-snapshot child identity failed 36391: synthetic child ps args exit 1"
+          },
+          "errorCount": 47,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "ps-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            2,
+            10,
+            18,
+            26,
+            34,
+            42,
+            50,
+            58,
+            66,
+            74,
+            82,
+            90,
+            98,
+            106,
+            114,
+            122,
+            130,
+            138,
+            146,
+            154,
+            162,
+            170,
+            178,
+            186,
+            194,
+            202,
+            210,
+            218,
+            226,
+            234,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "process-snapshot",
+            "error": "synthetic ps unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "ps-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 361,
+          "discoverySampleIndexes": [],
+          "signals": [],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "process-snapshot",
+            "error": "synthetic ps unavailable"
+          },
+          "errorCount": 362,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "resources-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "resources",
+            "error": "synthetic resources unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "resources-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 362,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300, 36391], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "resources",
+            "error": "synthetic resources unavailable"
+          },
+          "errorCount": 46,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "projection-once",
+          "simulatedSeconds": 60.0,
+          "populationSamples": 244,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            244
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": true,
+          "failure": null,
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "projection",
+            "error": "synthetic projection unavailable"
+          },
+          "errorCount": 1,
+          "zeroRealSignals": true
+        },
+        {
+          "mode": "projection-always",
+          "simulatedSeconds": 90.0,
+          "populationSamples": 362,
+          "discoverySampleIndexes": [
+            1,
+            9,
+            17,
+            25,
+            33,
+            41,
+            49,
+            57,
+            65,
+            73,
+            81,
+            89,
+            97,
+            105,
+            113,
+            121,
+            129,
+            137,
+            145,
+            153,
+            161,
+            169,
+            177,
+            185,
+            193,
+            201,
+            209,
+            217,
+            225,
+            233,
+            241,
+            242,
+            243,
+            251,
+            259,
+            267,
+            275,
+            283,
+            291,
+            299,
+            307,
+            315,
+            323,
+            331,
+            339,
+            347,
+            355
+          ],
+          "signals": [
+            36391,
+            36300
+          ],
+          "pendingPids": [],
+          "closureClosed": false,
+          "failure": "BLOCKED: process closure lacks a successful clear sample {'owned': [36300, 36391], 'pending': [], 'root': 36300}",
+          "firstFailure": {
+            "utc": "fixture-100.0",
+            "phase": "natural-closure",
+            "scope": "projection",
+            "error": "synthetic projection unavailable"
+          },
+          "errorCount": 46,
+          "zeroRealSignals": true
+        }
+      ],
+      "prior80Passed": true,
+      "transferRaceEvidence": [
+        {
+          "role": "park",
+          "mode": "normal",
+          "failed": false,
+          "sourcePresent": false,
+          "source": null,
+          "targetPresent": true,
+          "files": {
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired": {
+              "bytes": 75,
+              "sha256": "892ba9073f67aea3bae957270df80eedf2e82e8beb29f2f481c914c141a999a5"
+            },
+            "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ]
+          ],
+          "injections": [],
+          "conflicts": []
+        },
+        {
+          "role": "park",
+          "mode": "source",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/P/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture": {
+              "bytes": 75,
+              "sha256": "892ba9073f67aea3bae957270df80eedf2e82e8beb29f2f481c914c141a999a5"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ]
+          ],
+          "injections": [
+            "first"
+          ],
+          "conflicts": [
+            "park/Assets/Scripts/FightMatch/AssetAccess.meta"
+          ]
+        },
+        {
+          "role": "park",
+          "mode": "source-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/P/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ]
+          ],
+          "injections": [
+            "first",
+            "second"
+          ],
+          "conflicts": [
+            "park/Assets/Scripts/FightMatch/AssetAccess.meta"
+          ]
+        },
+        {
+          "role": "park",
+          "mode": "target",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 14,
+            "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+          },
+          "targetPresent": true,
+          "files": {
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired": {
+              "bytes": 75,
+              "sha256": "892ba9073f67aea3bae957270df80eedf2e82e8beb29f2f481c914c141a999a5"
+            },
+            "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/P/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ]
+          ],
+          "injections": [
+            "target"
+          ],
+          "conflicts": [
+            "park/Assets/Scripts/FightMatch/AssetAccess.meta"
+          ]
+        },
+        {
+          "role": "park",
+          "mode": "target-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 17,
+            "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+          },
+          "targetPresent": true,
+          "files": {
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            },
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired": {
+              "bytes": 75,
+              "sha256": "892ba9073f67aea3bae957270df80eedf2e82e8beb29f2f481c914c141a999a5"
+            },
+            "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/P/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ]
+          ],
+          "injections": [
+            "target",
+            "second"
+          ],
+          "conflicts": [
+            "park/Assets/Scripts/FightMatch/AssetAccess.meta"
+          ]
+        },
+        {
+          "role": "park",
+          "mode": "retire",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            },
+            "/P/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ]
+          ],
+          "injections": [
+            "retired"
+          ],
+          "conflicts": [
+            "park/Assets/Scripts/FightMatch/AssetAccess.meta"
+          ]
+        },
+        {
+          "role": "park",
+          "mode": "retire-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 17,
+            "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+          },
+          "targetPresent": false,
+          "files": {
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            },
+            "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/P/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/park/Assets/Scripts/FightMatch/AssetAccess.meta/retired",
+              "/P/Assets/Scripts/FightMatch/AssetAccess.meta",
+              4
+            ]
+          ],
+          "injections": [
+            "retired",
+            "second"
+          ],
+          "conflicts": [
+            "park/Assets/Scripts/FightMatch/AssetAccess.meta"
+          ]
+        },
+        {
+          "role": "archive",
+          "mode": "normal",
+          "failed": false,
+          "sourcePresent": false,
+          "source": null,
+          "targetPresent": true,
+          "files": {
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired": {
+              "bytes": 104,
+              "sha256": "28e26581c0b1f5893944e0a29f706503ebad65caf2b8737df7156397940b9969"
+            },
+            "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ]
+          ],
+          "injections": [],
+          "conflicts": []
+        },
+        {
+          "role": "archive",
+          "mode": "source",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture": {
+              "bytes": 104,
+              "sha256": "28e26581c0b1f5893944e0a29f706503ebad65caf2b8737df7156397940b9969"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ]
+          ],
+          "injections": [
+            "first"
+          ],
+          "conflicts": [
+            "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+          ]
+        },
+        {
+          "role": "archive",
+          "mode": "source-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ]
+          ],
+          "injections": [
+            "first",
+            "second"
+          ],
+          "conflicts": [
+            "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+          ]
+        },
+        {
+          "role": "archive",
+          "mode": "target",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 14,
+            "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+          },
+          "targetPresent": true,
+          "files": {
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired": {
+              "bytes": 104,
+              "sha256": "28e26581c0b1f5893944e0a29f706503ebad65caf2b8737df7156397940b9969"
+            },
+            "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ]
+          ],
+          "injections": [
+            "target"
+          ],
+          "conflicts": [
+            "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+          ]
+        },
+        {
+          "role": "archive",
+          "mode": "target-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 17,
+            "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+          },
+          "targetPresent": true,
+          "files": {
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            },
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired": {
+              "bytes": 104,
+              "sha256": "28e26581c0b1f5893944e0a29f706503ebad65caf2b8737df7156397940b9969"
+            },
+            "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/E/archive/source/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ]
+          ],
+          "injections": [
+            "target",
+            "second"
+          ],
+          "conflicts": [
+            "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+          ]
+        },
+        {
+          "role": "archive",
+          "mode": "retire",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            },
+            "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ]
+          ],
+          "injections": [
+            "retired"
+          ],
+          "conflicts": [
+            "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+          ]
+        },
+        {
+          "role": "archive",
+          "mode": "retire-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 17,
+            "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+          },
+          "targetPresent": false,
+          "files": {
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture": {
+              "bytes": 14,
+              "sha256": "a8550a3c5707ca3009fb4f935a957c566a53c12946a97d3e3bb0b3a742c79bed"
+            },
+            "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/capture",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              2
+            ],
+            [
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired",
+              4
+            ],
+            [
+              "/E/atomic/transfer/archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs/retired",
+              "/P/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+              4
+            ]
+          ],
+          "injections": [
+            "retired",
+            "second"
+          ],
+          "conflicts": [
+            "archive/Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs"
+          ]
+        },
+        {
+          "role": "unpark",
+          "mode": "source-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/E/atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess.meta/capture": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ],
+            [
+              "/E/atomic/transfer/unpark/Assets/Scripts/FightMatch/AssetAccess.meta/capture",
+              "/E/park/source/Assets/Scripts/FightMatch/AssetAccess.meta",
+              2
+            ]
+          ],
+          "injections": [
+            "first",
+            "second"
+          ],
+          "conflicts": [
+            "unpark/Assets/Scripts/FightMatch/AssetAccess.meta"
+          ]
+        },
+        {
+          "role": "settings",
+          "mode": "source-return",
+          "failed": true,
+          "sourcePresent": true,
+          "source": {
+            "bytes": 16,
+            "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+          },
+          "targetPresent": false,
+          "files": {
+            "/P/ProjectSettings/SceneTemplateSettings.json": {
+              "bytes": 16,
+              "sha256": "fabba445c474ad457558af0ccfbf751ddd8d9a43d54a59bdd6ac18469dab6d5c"
+            },
+            "/E/atomic/transfer/settings/ProjectSettings/SceneTemplateSettings.json/capture": {
+              "bytes": 17,
+              "sha256": "08954ddeb80479adf776c4f8695e4e995290695db9dd23a10de6c7549c6e0dcd"
+            }
+          },
+          "primitiveCalls": [
+            [
+              "/E/atomic/transfer/settings/ProjectSettings/SceneTemplateSettings.json/capture",
+              "/P/ProjectSettings/SceneTemplateSettings.json",
+              2
+            ],
+            [
+              "/E/atomic/transfer/settings/ProjectSettings/SceneTemplateSettings.json/capture",
+              "/P/ProjectSettings/SceneTemplateSettings.json",
+              2
+            ]
+          ],
+          "injections": [
+            "first",
+            "second"
+          ],
+          "conflicts": [
+            "settings/ProjectSettings/SceneTemplateSettings.json"
+          ]
+        }
+      ],
+      "deadlineEvidence": [
+        {
+          "mode": "many-owned",
+          "simulatedSeconds": 90.0,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160.0,
+            "stage": "P",
+            "deadline": 190.0
+          },
+          "signals": [
+            {
+              "pid": 36393,
+              "at": 175.0
+            }
+          ],
+          "commands": [
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 100.0,
+              "timeout": 5.0,
+              "end": 103.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 103.0,
+              "timeout": 5.0,
+              "end": 107.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 107.0,
+              "timeout": 5.0,
+              "end": 111.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 111.25,
+              "timeout": 5.0,
+              "end": 114.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 114.25,
+              "timeout": 5.0,
+              "end": 118.25
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 118.25,
+              "timeout": 5.0,
+              "end": 122.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 122.5,
+              "timeout": 5.0,
+              "end": 125.5
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 125.5,
+              "timeout": 5.0,
+              "end": 129.5
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 129.5,
+              "timeout": 5.0,
+              "end": 133.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 133.75,
+              "timeout": 5.0,
+              "end": 136.75
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 136.75,
+              "timeout": 5.0,
+              "end": 140.75
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 140.75,
+              "timeout": 5.0,
+              "end": 144.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 145.0,
+              "timeout": 5.0,
+              "end": 148.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 148.0,
+              "timeout": 5.0,
+              "end": 152.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 152.0,
+              "timeout": 5.0,
+              "end": 156.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 156.25,
+              "timeout": 3.75,
+              "end": 159.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 159.25,
+              "timeout": 0.75,
+              "end": 160.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 160.0,
+              "timeout": 5.0,
+              "end": 163.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 163.0,
+              "timeout": 5.0,
+              "end": 165.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 165.0,
+              "timeout": 5.0,
+              "end": 167.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "term",
+              "start": 167.0,
+              "timeout": 5.0,
+              "end": 171.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "term",
+              "start": 171.0,
+              "timeout": 5.0,
+              "end": 175.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 175.0,
+              "timeout": 5.0,
+              "end": 178.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 178.0,
+              "timeout": 5.0,
+              "end": 180.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 180.0,
+              "timeout": 5.0,
+              "end": 182.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "term",
+              "start": 182.0,
+              "timeout": 5.0,
+              "end": 186.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "term",
+              "start": 186.0,
+              "timeout": 4.0,
+              "end": 190.0
+            }
+          ],
+          "firstError": {
+            "utc": "fixture-160.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Command 'adb-consumer' timed out after 0.75 seconds"
+          },
+          "remaining": 3,
+          "closed": false
+        },
+        {
+          "mode": "ps-exhausts",
+          "simulatedSeconds": 90.0,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160.0,
+            "stage": "P",
+            "deadline": 190.0
+          },
+          "signals": [],
+          "commands": [
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 100.0,
+              "timeout": 5.0,
+              "end": 103.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 103.0,
+              "timeout": 5.0,
+              "end": 107.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 107.0,
+              "timeout": 5.0,
+              "end": 111.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 111.25,
+              "timeout": 5.0,
+              "end": 114.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 114.25,
+              "timeout": 5.0,
+              "end": 118.25
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 118.25,
+              "timeout": 5.0,
+              "end": 122.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 122.5,
+              "timeout": 5.0,
+              "end": 125.5
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 125.5,
+              "timeout": 5.0,
+              "end": 129.5
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 129.5,
+              "timeout": 5.0,
+              "end": 133.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 133.75,
+              "timeout": 5.0,
+              "end": 136.75
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 136.75,
+              "timeout": 5.0,
+              "end": 140.75
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 140.75,
+              "timeout": 5.0,
+              "end": 144.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 145.0,
+              "timeout": 5.0,
+              "end": 148.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 148.0,
+              "timeout": 5.0,
+              "end": 152.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 152.0,
+              "timeout": 5.0,
+              "end": 156.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 156.25,
+              "timeout": 3.75,
+              "end": 159.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 159.25,
+              "timeout": 0.75,
+              "end": 160.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 160.0,
+              "timeout": 5.0,
+              "end": 165.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 165.0,
+              "timeout": 5.0,
+              "end": 170.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 170.0,
+              "timeout": 5.0,
+              "end": 175.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 175.0,
+              "timeout": 5.0,
+              "end": 180.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 180.0,
+              "timeout": 5.0,
+              "end": 185.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 185.25,
+              "timeout": 4.75,
+              "end": 190.0
+            }
+          ],
+          "firstError": {
+            "utc": "fixture-160.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Command 'adb-consumer' timed out after 0.75 seconds"
+          },
+          "remaining": 4,
+          "closed": false
+        },
+        {
+          "mode": "details-exhausts",
+          "simulatedSeconds": 90.0,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160.0,
+            "stage": "P",
+            "deadline": 190.0
+          },
+          "signals": [],
+          "commands": [
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 100.0,
+              "timeout": 5.0,
+              "end": 103.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 103.0,
+              "timeout": 5.0,
+              "end": 107.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 107.0,
+              "timeout": 5.0,
+              "end": 111.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 111.25,
+              "timeout": 5.0,
+              "end": 114.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 114.25,
+              "timeout": 5.0,
+              "end": 118.25
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 118.25,
+              "timeout": 5.0,
+              "end": 122.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 122.5,
+              "timeout": 5.0,
+              "end": 125.5
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 125.5,
+              "timeout": 5.0,
+              "end": 129.5
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 129.5,
+              "timeout": 5.0,
+              "end": 133.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 133.75,
+              "timeout": 5.0,
+              "end": 136.75
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 136.75,
+              "timeout": 5.0,
+              "end": 140.75
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 140.75,
+              "timeout": 5.0,
+              "end": 144.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 145.0,
+              "timeout": 5.0,
+              "end": 148.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 148.0,
+              "timeout": 5.0,
+              "end": 152.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 152.0,
+              "timeout": 5.0,
+              "end": 156.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 156.25,
+              "timeout": 3.75,
+              "end": 159.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 159.25,
+              "timeout": 0.75,
+              "end": 160.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 160.0,
+              "timeout": 5.0,
+              "end": 163.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 163.0,
+              "timeout": 5.0,
+              "end": 168.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 168.0,
+              "timeout": 5.0,
+              "end": 171.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 171.0,
+              "timeout": 5.0,
+              "end": 176.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 176.0,
+              "timeout": 5.0,
+              "end": 179.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 179.0,
+              "timeout": 5.0,
+              "end": 184.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 184.0,
+              "timeout": 5.0,
+              "end": 187.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 187.0,
+              "timeout": 3.0,
+              "end": 190.0
+            }
+          ],
+          "firstError": {
+            "utc": "fixture-160.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Command 'adb-consumer' timed out after 0.75 seconds"
+          },
+          "remaining": 4,
+          "closed": false
+        },
+        {
+          "mode": "consumer-exhausts",
+          "simulatedSeconds": 90.0,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160.0,
+            "stage": "P",
+            "deadline": 190.0
+          },
+          "signals": [],
+          "commands": [
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 100.0,
+              "timeout": 5.0,
+              "end": 103.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 103.0,
+              "timeout": 5.0,
+              "end": 107.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 107.0,
+              "timeout": 5.0,
+              "end": 111.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 111.25,
+              "timeout": 5.0,
+              "end": 114.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 114.25,
+              "timeout": 5.0,
+              "end": 118.25
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 118.25,
+              "timeout": 5.0,
+              "end": 122.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 122.5,
+              "timeout": 5.0,
+              "end": 125.5
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 125.5,
+              "timeout": 5.0,
+              "end": 129.5
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 129.5,
+              "timeout": 5.0,
+              "end": 133.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 133.75,
+              "timeout": 5.0,
+              "end": 136.75
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 136.75,
+              "timeout": 5.0,
+              "end": 140.75
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 140.75,
+              "timeout": 5.0,
+              "end": 144.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 145.0,
+              "timeout": 5.0,
+              "end": 148.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 148.0,
+              "timeout": 5.0,
+              "end": 152.0
+            },
+            {
+              "label": "sdk-consumer",
+              "phase": "natural",
+              "start": 152.0,
+              "timeout": 5.0,
+              "end": 156.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 156.25,
+              "timeout": 3.75,
+              "end": 159.25
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "natural",
+              "start": 159.25,
+              "timeout": 0.75,
+              "end": 160.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 160.0,
+              "timeout": 5.0,
+              "end": 163.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 163.0,
+              "timeout": 5.0,
+              "end": 165.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 165.0,
+              "timeout": 5.0,
+              "end": 167.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "term",
+              "start": 167.0,
+              "timeout": 5.0,
+              "end": 172.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 172.0,
+              "timeout": 5.0,
+              "end": 175.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 175.0,
+              "timeout": 5.0,
+              "end": 177.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 177.0,
+              "timeout": 5.0,
+              "end": 179.0
+            },
+            {
+              "label": "adb-consumer",
+              "phase": "term",
+              "start": 179.0,
+              "timeout": 5.0,
+              "end": 184.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 184.0,
+              "timeout": 5.0,
+              "end": 187.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 187.0,
+              "timeout": 3.0,
+              "end": 189.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 189.0,
+              "timeout": 1.0,
+              "end": 190.0
+            }
+          ],
+          "firstError": {
+            "utc": "fixture-160.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "Command 'adb-consumer' timed out after 0.75 seconds"
+          },
+          "remaining": 4,
+          "closed": false
+        },
+        {
+          "mode": "unverified",
+          "simulatedSeconds": 90.0,
+          "termWindow": {
+            "kind": "term_window",
+            "at": 160.0,
+            "stage": "P",
+            "deadline": 190.0
+          },
+          "signals": [],
+          "commands": [
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 100.0,
+              "timeout": 5.0,
+              "end": 103.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 103.25,
+              "timeout": 5.0,
+              "end": 106.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 106.5,
+              "timeout": 5.0,
+              "end": 109.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 109.75,
+              "timeout": 5.0,
+              "end": 112.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 113.0,
+              "timeout": 5.0,
+              "end": 116.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 116.25,
+              "timeout": 5.0,
+              "end": 119.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 119.5,
+              "timeout": 5.0,
+              "end": 122.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 122.75,
+              "timeout": 5.0,
+              "end": 125.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 126.0,
+              "timeout": 5.0,
+              "end": 129.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 129.25,
+              "timeout": 5.0,
+              "end": 132.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 132.5,
+              "timeout": 5.0,
+              "end": 135.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 135.75,
+              "timeout": 5.0,
+              "end": 138.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 139.0,
+              "timeout": 5.0,
+              "end": 142.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 142.25,
+              "timeout": 5.0,
+              "end": 145.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 145.5,
+              "timeout": 5.0,
+              "end": 148.5
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 148.75,
+              "timeout": 5.0,
+              "end": 151.75
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 152.0,
+              "timeout": 5.0,
+              "end": 155.0
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 155.25,
+              "timeout": 4.75,
+              "end": 158.25
+            },
+            {
+              "label": "ps",
+              "phase": "natural",
+              "start": 158.5,
+              "timeout": 1.5,
+              "end": 160.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 160.0,
+              "timeout": 5.0,
+              "end": 163.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 163.0,
+              "timeout": 5.0,
+              "end": 165.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 165.0,
+              "timeout": 5.0,
+              "end": 167.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 167.0,
+              "timeout": 5.0,
+              "end": 170.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 170.0,
+              "timeout": 5.0,
+              "end": 172.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 172.0,
+              "timeout": 5.0,
+              "end": 174.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 174.0,
+              "timeout": 5.0,
+              "end": 177.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 177.0,
+              "timeout": 5.0,
+              "end": 179.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 179.0,
+              "timeout": 5.0,
+              "end": 181.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 181.0,
+              "timeout": 5.0,
+              "end": 184.0
+            },
+            {
+              "label": "args",
+              "phase": "term",
+              "start": 184.0,
+              "timeout": 5.0,
+              "end": 186.0
+            },
+            {
+              "label": "cwd",
+              "phase": "term",
+              "start": 186.0,
+              "timeout": 4.0,
+              "end": 188.0
+            },
+            {
+              "label": "ps",
+              "phase": "term",
+              "start": 188.0,
+              "timeout": 2.0,
+              "end": 190.0
+            }
+          ],
+          "firstError": {
+            "utc": "fixture-103.0",
+            "phase": "natural-closure",
+            "scope": "consumers",
+            "error": "original unknown identity"
+          },
+          "remaining": 5,
+          "closed": false
+        }
+      ],
+      "fixed03Fix04AndRun59Unchanged": true,
+      "baseFix02FiveFilesUnchanged": true,
+      "baseFix01FiveFilesUnchanged": true,
+      "oldFiveFilesUnchanged": true,
+      "seconds": 6.21570445800171,
+      "actualFunctionsCalled": [
+        "<genexpr>",
+        "<lambda>",
+        "<module>",
+        "alive",
+        "archive_and_restore",
+        "atomic_write",
+        "basic",
+        "cached_reuse_proven",
+        "check",
+        "claim_stage",
+        "closure",
+        "cmd",
+        "compilation_passed",
+        "consumer_guard",
+        "details",
+        "discover",
+        "give_back",
+        "monitor",
+        "move_verified",
+        "probe_timeout",
+        "ps",
+        "recorded_chain",
+        "recover_root",
+        "register",
+        "rename_exclusive",
+        "rename_swap",
+        "run_stage",
+        "same",
+        "sample",
+        "snapshot_consumers",
+        "swap_verified",
+        "synchronize",
+        "tick",
+        "transfer",
+        "transfer_slots",
+        "tree_entries",
+        "validate_inputs"
+      ],
+      "forbiddenAttempts": [],
+      "runner": {
+        "bytes": 54760,
+        "sha256": "148cbc0b63a3bb6371343ed20d6205ae9b44a02cdfde8c1cd6ad9766e4e2266d"
+      },
+      "checker": {
+        "bytes": 68363,
+        "sha256": "56c5bc6a604ba12f7a5b150f53dc2619c61726f96f07bb194e104dfa2ec888b0"
+      }
+    }
+  ],
+  "status": "SOURCE_REPLAY_PASS",
+  "cumulativeSeconds": 10.27437391600688,
+  "additionalSeconds": 6.21570445800171
+}

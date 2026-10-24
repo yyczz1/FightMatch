@@ -1,0 +1,864 @@
+{
+  "schemaVersion": 1,
+  "task": "LAYOUT-S1-FIX04-N08-INTERRUPTION-RECOVERY",
+  "status": "NATIVE_FAILED_WRAPPER_INTERRUPTED_RECOVERY_READ_ONLY",
+  "observedUtc": "2026-10-05T16:28:29.829574+00:00",
+  "observedLocalDate": "2026-10-06",
+  "timezone": "Asia/Shanghai",
+  "authority": {
+    "standingRule": "AGENTS.md §6 approved same-project team dispatch and receipts; no new Unity execution",
+    "human": {
+      "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+      "turn": "01a10cdf-69e1-75e3-a326-b5756263f787",
+      "item": "01a10cdf-6d15-7c70-b905-459520f1413b",
+      "text": "卡在哪里了，是否能够继续",
+      "directlyRead": true
+    },
+    "centralRecoveryScope": "Read C actual turn/tool and current processes; only C may safely close verified owned survivors if needed; preserve frozen N08; engineering writes this recovery receipt and engineering.md only; no new Unity/source changes/review",
+    "receiver": {
+      "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+      "host": "local",
+      "turn": "01a10ce1-4611-7771-9715-43fc0c7e7351"
+    },
+    "upstream": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+  },
+  "distinction": "This new engineering recovery receipt does not replace or fabricate the missing PExecution/after.json or receipt.json, does not claim original C completion or wrapper success, and does not reset the consumed N08 run.",
+  "originalExecution": {
+    "owner": {
+      "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+      "host": "local",
+      "turn": "01a10bc1-59fd-7e50-bf2a-0e24a6d647eb"
+    },
+    "actualTurnStatus": "interrupted",
+    "actualTurnCompletedAtUnixSeconds": 1791205433,
+    "commandApproval": "Previously granted; corroborated by saved approved command prefix and actual launch, not still pending",
+    "commandTool": {
+      "id": "exec-8408f108-27a9-48ec-b85f-135a2f3253f8",
+      "status": "failed",
+      "exitCode": -1,
+      "durationMs": 72787,
+      "output": "{\"phase\": \"UNITY_STARTED\", \"pid\": 62785, \"utc\": \"2026-10-05T13:02:48.277619+00:00\", \"runner\": {\"bytes\": 41088, \"sha256\": \"30ea3a36f8cf43687bbedd7226607ed63c94665f3e0e1c9040c17af3c122bb8b\"}}\n{\"phase\": \"MONITOR\", \"elapsedSeconds\": 15.119838207996509, \"cacheBytes\": 731367785, \"generatedBytes\": 534866723, \"evidenceBytes\": 1647494, \"freeBytes\": 439509499904, \"temporaryRoot\": {\"path\": \"/private/tmp/fm-ln08.C3j0dwRD\", \"root\": {\"uid\": 501, \"gid\": 0, \"mode\": \"0o700\", \"device\": 16777232, \"inode\": 34170638, \"birthtime\": 1791199561.0918424}, \"bytes\": 77474, \"leaves\": 12}}\n",
+      "outputTruncated": false,
+      "interpretation": "Tool exit -1 is the interrupted launcher result, not an observed Unity exit code."
+    },
+    "originalSessionId": 46167,
+    "originalLaunchChunk": "a85941",
+    "unityPid": 62785,
+    "runnerPid": 62783,
+    "launchUtc": "2026-10-05T13:02:48.277619+00:00",
+    "observedLaunchCount": 1,
+    "nativeRetryCount": 0,
+    "sourceSyncEvents": [
+      {
+        "line": 1,
+        "utc": "2026-10-05T13:02:48.126276+00:00",
+        "kind": "SOURCE_SYNC_INTENT",
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "before": {
+          "bytes": 183600,
+          "sha256": "4c99967906fe9afdd4f53d58db750acc7e8bbc1827f61e73577fcbc9b3b33116"
+        },
+        "after": {
+          "bytes": 189888,
+          "sha256": "e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd"
+        }
+      },
+      {
+        "line": 2,
+        "utc": "2026-10-05T13:02:48.126843+00:00",
+        "kind": "SOURCE_SYNC_DONE",
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "identity": {
+          "bytes": 189888,
+          "sha256": "e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd"
+        }
+      }
+    ],
+    "sourceSyncScope": "B only, once; no T sync event",
+    "firstFailureObservedUtc": "2026-10-05T13:03:07.349767+00:00",
+    "secondsToFirstFailure": 19.07214820799709,
+    "unityActualExitCode": null,
+    "unityActualExitCodeObservation": "UNOBSERVED; no final handle return or original receipt; source requests Exit(1), which is not proof of OS exit code",
+    "cleanupStartedUtc": "2026-10-05T13:03:07.349879+00:00",
+    "cleanupCallsRecorded": 1,
+    "cleanupFinishedUtc": null,
+    "signalEventsRecorded": [],
+    "originalFinalOwnedClosure": "MISSING",
+    "originalFinishedStdout": "MISSING"
+  },
+  "failure": {
+    "firstFailure": "InvalidOperationException:FM029: LAYOUT N08 log record budget",
+    "terminal": {
+      "line": 373,
+      "raw": "[LAYOUT-N08-STAGE] run=01a10bc1-59fd-7e50-bf2a-0e24a6d647eb stage=Finished token=0 event=0 kind=finished Set=1 Save=0 returned= Force=1 Queue=0 decisive=0 originalScene=0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd savedScene= observedScene=0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd originalPrefab=0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2 failure=InvalidOperationException:FM029: LAYOUT N08 log record budget cleanupFailures=0 diagnosticsIncomplete=True",
+      "rawUtf8Bytes": 519
+    },
+    "sampleCount": 1,
+    "stageCount": 1,
+    "terminalCounts": {
+      "Set": 1,
+      "Save": 0,
+      "Force": 1,
+      "Queue": 0,
+      "decisive": 0,
+      "token": 0,
+      "event": 0,
+      "cleanupFailures": 0,
+      "diagnosticsIncomplete": true
+    },
+    "confirmedCause": "The project-owned N08 diagnostic emitter exceeded the 8192 UTF-8-byte sample limit and threw before Debug.Log; this is not an approval, licensing or compile failure.",
+    "failedSampleKind": "after-force",
+    "failedSampleIdentification": "Code-path inference from the logged post-set sample plus Force=1, Queue=0, token=0; LayoutArmSceneRepair lines 1605-1613 logs after-force after ForceUpdateCanvases and before assigning the token/queue.",
+    "failedSampleUtf8Bytes": null,
+    "failedSampleUtf8BytesConstraint": ">8192, inferred from the exact Require failure; actual count was not emitted",
+    "failedSampleRaw": null,
+    "sourceEvidence": [
+      {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "line": 1594,
+        "meaning": "Marks diagnosticsIncomplete and checks per-record bytes before Debug.Log at1598"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "line": 1609,
+        "meaning": "After-force sample logging occurs before token assignment and queue"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "line": 1660,
+        "meaning": "Save lies after the decisive A-gate continuation, which this run never reached"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "line": 1706,
+        "meaning": "Failure cleanup can close an owned Scene; do not equate Save0 with every CloseScene call0"
+      }
+    ],
+    "notEstablished": [
+      "Which extra fields/keys made the after-force record exceed8192; the rejected record was never logged",
+      "The original N07 after-force content/order divergence and the writer/timing of the five later reappearing overrides",
+      "Successful A/B/C native phases or fixed Canvas coverage",
+      "Exact successful NewScene/CloseScene call counts"
+    ],
+    "newSceneCalls": null,
+    "closeSceneCalls": null,
+    "lifecycleCallObservation": "UNOBSERVED; cleanupFailures=0 is recorded, but lifecycle successful-call counts were not instrumented."
+  },
+  "recoveredOverrideDiff": {
+    "provenance": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/PExecution/editor.log",
+      "line": 362,
+      "rawUtf8Bytes": 5204,
+      "rawSha256WithoutLineEnding": "b432a0791d8f18701634271895bc5490fbc56797ad11f89e9164834bc5b7238f",
+      "suffixUtf8Bytes": 3430
+    },
+    "analysisMode": "Read-only recovery of emitted JSON; no import/execution of frozen runner, no C# or Unity execution. Split first fixed suffix boundary; decode all four length-prefixed fields in UTF-16 code units; independently count indexes/deltas and compare order.",
+    "structuralChecksPass": true,
+    "dictionaryKeys": 27,
+    "originalCount": 27,
+    "expectedCount": 22,
+    "actualCount": 22,
+    "originalIndexes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "expectedIndexes": [
+      0,
+      1,
+      2,
+      3,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "actualIndexes": [
+      0,
+      1,
+      2,
+      3,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "expectedCounts": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "actualCounts": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "delta": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "firstDifference": -1,
+    "orderedEqual": true,
+    "contentEqual": true,
+    "removedKeys": [
+      {
+        "index": 4,
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_AnchorMax.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "index": 5,
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_AnchorMax.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "index": 6,
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_LocalScale.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "index": 7,
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_LocalScale.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "index": 8,
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_LocalScale.z",
+        "value": "0",
+        "objectReference": "null"
+      }
+    ],
+    "fullDecodedOriginalKeys": [
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-686838913121989351-0",
+        "propertyPath": "m_Name",
+        "value": "FightMatchRuntimeRoot",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-686838913121989351-0",
+        "propertyPath": "m_IsActive",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_Pivot.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_Pivot.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_AnchorMax.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_AnchorMax.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_LocalScale.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_LocalScale.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-1013562322995895578-0",
+        "propertyPath": "m_LocalScale.z",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-2223056809955240070-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-2452066831200993119-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-2783145704458770550-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-3538173933649760411-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4530181991579543270-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalPosition.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalPosition.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalPosition.z",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalRotation.w",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalRotation.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalRotation.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalRotation.z",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalEulerAnglesHint.x",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalEulerAnglesHint.y",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-4535975771220848728-0",
+        "propertyPath": "m_LocalEulerAnglesHint.z",
+        "value": "0",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-5265726911075511648-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-7259531018279518139-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      },
+      {
+        "target": "GlobalObjectId_V1-1-c36df3cfc25424c8cb3ec6cae6be1237-7481568776225615129-0",
+        "propertyPath": "m_isOrthographic",
+        "value": "1",
+        "objectReference": "null"
+      }
+    ],
+    "keyEncodingNote": "objectReference is the encoded string \"null\" (length4), not a null value; preserve that distinction.",
+    "snapshotMeaning": "Post-set only: five designated zero-value Canvas keys are absent and all other22 keys match original retained order/content. This does not prove after-force preservation.",
+    "geometry": {
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "worldScale": [
+        1,
+        1,
+        1
+      ],
+      "rectSize": [
+        831.3844,
+        623.538269
+      ],
+      "pixelSize": [
+        640,
+        480
+      ],
+      "scaleFactor": 0.769800365,
+      "coverage": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "finitePositive": true,
+      "staleOverrides": false,
+      "preservedOverrides": true,
+      "dirty": false
+    },
+    "unrecoverable": "No after-force or after-two-update sample exists; neither a missing in-memory record nor its exact byte count can be reconstructed from post-set or by substituting N07."
+  },
+  "currentProcesses": {
+    "observation": "Current process-table checks, not original-time closure proof",
+    "sandboxAttempt": {
+      "chunk": "e38fef",
+      "exitCode": 127,
+      "error": "operation not permitted: ps"
+    },
+    "targetedCheck": {
+      "chunk": "6b3cf4",
+      "command": "ps -ww -p 62783,62785,62790,62822,62828,62829,62833,62834,62835,62839,62840,62844,62863 -o pid=,ppid=,lstart=,stat=,command=",
+      "exitCode": 1,
+      "stdout": "",
+      "meaning": "No rows for original launcher and12 recorded owned PIDs"
+    },
+    "secondaryCheck": {
+      "chunk": "0b9fd7",
+      "scope": "Full process table filtered for Unity Editor, UnityPackageManager and all13 recorded PIDs",
+      "exitCode": 1,
+      "stdout": "",
+      "meaning": "No matching Unity/UPM or original recorded PID rows"
+    },
+    "recordedOwnedPids": [
+      62785,
+      62790,
+      62822,
+      62828,
+      62829,
+      62833,
+      62834,
+      62835,
+      62839,
+      62840,
+      62844,
+      62863
+    ],
+    "recordedOwnedRemainingNow": [],
+    "unknownUnrecordedDescendants": "Not retrospectively provable from interrupted discovery; no claim of original complete closure",
+    "recoverySignals": 0,
+    "recoveryCDispatch": false,
+    "reason": "No recorded survivor requires C closeout; old PIDs were never used as signal authority."
+  },
+  "currentFiles": {
+    "method": "Scoped identity intake at recovery time, not a re-run of original preflight/postcheck",
+    "analysisToolChunk": "b9226f",
+    "groups": {
+      "sources": {
+        "boundPaths": 15,
+        "checks": 30,
+        "mismatches": []
+      },
+      "resources": {
+        "boundPaths": 37,
+        "checks": 74,
+        "mismatches": []
+      },
+      "protectedInputs": {
+        "boundPaths": 7,
+        "checks": 14,
+        "mismatches": []
+      },
+      "importedMetas": {
+        "boundPaths": 2,
+        "checks": 4,
+        "mismatches": []
+      }
+    },
+    "keyFiles": {
+      "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+        "shared": {
+          "bytes": 189888,
+          "sha256": "e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd"
+        },
+        "projection": {
+          "bytes": 189888,
+          "sha256": "e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd"
+        }
+      },
+      "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs": {
+        "shared": {
+          "bytes": 40209,
+          "sha256": "6e52750705ccdc18e26f2bf4591fa9d675bb1e641cb7bb396f9c6a7f804f6f52"
+        },
+        "projection": {
+          "bytes": 40209,
+          "sha256": "6e52750705ccdc18e26f2bf4591fa9d675bb1e641cb7bb396f9c6a7f804f6f52"
+        }
+      },
+      "Assets/Scenes/FightMatchDemo.unity": {
+        "shared": {
+          "bytes": 12900,
+          "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+        },
+        "projection": {
+          "bytes": 12900,
+          "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+        }
+      },
+      "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab": {
+        "shared": {
+          "bytes": 1322960,
+          "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+        },
+        "projection": {
+          "bytes": 1322960,
+          "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+        }
+      }
+    },
+    "originalFullPostcheckStatus": "MISSING; current122 bound-file checks do not establish full historic shared/projection inventory, all202 sealed old-evidence or TMP guards at original completion.",
+    "nativeLeafCount": 13,
+    "nativeLeafBytes": 1717788,
+    "nativeLeaves": {
+      "I/activation.json": {
+        "bytes": 91386,
+        "sha256": "48ddbb700bc2dec8c48edacc3bb636ac9aa09ed323f4711234f4846db198cb0d"
+      },
+      "PExecution/before.json": {
+        "bytes": 625647,
+        "sha256": "365fa497e2d901b1bfa771b07343aa0db296debf79d4a39e3c5b2fd246cc1d0c"
+      },
+      "PExecution/editor.log": {
+        "bytes": 91419,
+        "sha256": "791d4a61b2dc47b9b448ae49209ac2ae68aa24caa8d1b8a1f6774bbc7fbd9f26"
+      },
+      "PExecution/preparation.json": {
+        "bytes": 370669,
+        "sha256": "20e9067ef79ae28ba028d1a4d9f99c730bbecc1115abc3c7b3af0474080fe09f"
+      },
+      "PExecution/process-events.jsonl": {
+        "bytes": 9058,
+        "sha256": "f83aa41f782184726bd37274ed2e611adfe057e40f22e217aed67812ffd4bbe8"
+      },
+      "PExecution/process.json": {
+        "bytes": 10604,
+        "sha256": "dbcdfc78b5a9a746ca9577d4e6ceb2e851af251d1899b4979cf10739983ecae3"
+      },
+      "PExecution/runner.py": {
+        "bytes": 41088,
+        "sha256": "30ea3a36f8cf43687bbedd7226607ed63c94665f3e0e1c9040c17af3c122bb8b"
+      },
+      "S/FightMatchAndroidBuild.before.cs": {
+        "bytes": 183600,
+        "sha256": "4c99967906fe9afdd4f53d58db750acc7e8bbc1827f61e73577fcbc9b3b33116"
+      },
+      "S/FightMatchAndroidBuild.cs": {
+        "bytes": 189888,
+        "sha256": "e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd"
+      },
+      "S/before.json": {
+        "bytes": 12794,
+        "sha256": "be468d174e4d8f745eded58ba9cead89a4628e38dbe238753f7fd3c2c69669a0"
+      },
+      "S/source-receipt.json": {
+        "bytes": 34011,
+        "sha256": "a78e6b4e7b5f79a30e3e65636a087eb30da9d862d17f8a74237b3697e17f160d"
+      },
+      "S/source.patch": {
+        "bytes": 24390,
+        "sha256": "98f39223a4b0c0625158a8b8f48f90b1509e1f3dfa2b98aafd387e820033694c"
+      },
+      "S/static.json": {
+        "bytes": 33234,
+        "sha256": "0f4c95519bc997dce04507f9c959598d9c569cfa84afa96752e80e977b5a204a"
+      }
+    },
+    "nativeOrExport": {
+      "P": {
+        "exists": true,
+        "files": []
+      },
+      "PExport": {
+        "exists": false,
+        "files": []
+      }
+    },
+    "missingEvidence": [
+      "PExecution/after.json",
+      "PExecution/receipt.json",
+      "P/native-migration.json",
+      "P/native-reopen.json",
+      "P/serialized-targets.json",
+      "PExport/before.json",
+      "PExport/receipt.json"
+    ]
+  },
+  "compilation": {
+    "FightMatch.Host.Editor": {
+      "before": {
+        "bytes": 198656,
+        "sha256": "84ca60f9d3cf40e9e810f5f7bf97f9cbefb0c91440cca3169bc94e21a917a4b9"
+      },
+      "current": {
+        "bytes": 203264,
+        "sha256": "047542a56edfce007a1da7347caa8e0adf84fcb4b83f7ea67f3daa1560d48fa7"
+      },
+      "changed": true
+    },
+    "FightMatch.Core.Tests": {
+      "before": {
+        "bytes": 1823744,
+        "sha256": "f807f9f23730ccf48a7b7b7bf34736f117b562669564f2449768bca125b26698"
+      },
+      "current": {
+        "bytes": 1823744,
+        "sha256": "f807f9f23730ccf48a7b7b7bf34736f117b562669564f2449768bca125b26698"
+      },
+      "changed": false
+    },
+    "Csc": [
+      {
+        "line": 244,
+        "raw": "[538/541    3s] Csc Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll (+2 others)"
+      }
+    ],
+    "hostStatus": "ACTUAL_CSC_AND_CHANGED_DLL_OBSERVED",
+    "coreStatus": "NO_CSC_AND_FIXED_N07_DLL_BYTES_PRESERVED; consistent with reuse, not new compilation",
+    "coreFullInputClosure": "Only scoped15-source/37-resource/7-protected/2-meta identities rechecked; original full postcheck missing",
+    "testsExecuted": false,
+    "testDiscovery99": "NOT_RUN"
+  },
+  "persistence": {
+    "saveCallsRecorded": 0,
+    "saveReturned": null,
+    "postSaveCloseAndReadOnlyReopen": "NOT_REACHED",
+    "exportsObserved": [],
+    "sharedSceneUnchanged": true,
+    "projectionSceneUnchanged": true,
+    "prefabUnchangedBoth": true,
+    "noProductAcceptance": true
+  },
+  "missingTemporaryEvidence": {
+    "currentRoot": {
+      "path": "/private/tmp/fm-ln08.C3j0dwRD",
+      "exists": false,
+      "previouslyRequiredPolicy": "preserve",
+      "deletedByThisRecovery": false
+    },
+    "lastRecordedState": {
+      "path": "/private/tmp/fm-ln08.C3j0dwRD",
+      "uid": 501,
+      "mode": "0700",
+      "device": 16777232,
+      "inode": 34170638,
+      "birthtime": 1791199561.0918424,
+      "bytes": 77474,
+      "leaves": 12,
+      "source": "process.json last monitor at elapsed18.12849762499536s"
+    },
+    "additionalExpectedPreservedRootsNowAbsent": [
+      "/private/tmp/fm-ln05.bxLSmcT6",
+      "/private/tmp/fm-ln06.fKXEaN8N",
+      "/private/tmp/fm-ln07.NHjkoP2j"
+    ],
+    "previouslyExpectedAbsentRoots": "N02,D01,D02,N03,D03,N04 remain absent (193f85)",
+    "cause": "UNKNOWN; no deletion/recreation by this recovery; do not infer OS restart or agent deletion",
+    "consequence": "Original preserve guard cannot pass now. Future contract must explicitly retain this historical loss and bind fresh actual temporary state, never restore/fake old root identities or silently reuse N08 activation."
+  },
+  "recoveryLimits": {
+    "writesAllowed": [
+      "docs/team/2026-09-30/engineering-layout-n08-recovery-receipt.json",
+      "docs/team/2026-09-30/engineering.md"
+    ],
+    "nativeEvidenceRewritten": false,
+    "newUnityRuns": 0,
+    "newSourceWrites": 0,
+    "newNativeChecks": 0,
+    "newTests": 0,
+    "newReviewAgents": 0,
+    "gitWrites": 0,
+    "existingPrefixReinvoked": false,
+    "readOnlyAnalysisError": {
+      "chunk": "c33e8b",
+      "error": "FileNotFoundError while reading expected N08 TMP metadata",
+      "disposition": "No writes/native work occurred; the follow-up read-only intake explicitly records absence. This is not a new native attempt."
+    },
+    "otherDiagnosticLimit": "Read-only sysctl boottime query was sandbox-denied; no OS restart cause inferred."
+  },
+  "nextProposal": {
+    "status": "RECOMMENDATION_ONLY_NOT_ACTIVATED",
+    "recommendedDisposition": "NEEDS_FIX",
+    "centralOwnsIntegrationVerdict": true,
+    "smallestSourceScope": "Original B async diagnostic serializer plus corresponding future runner parser/fixtures; keep lifecycle helper, gameplay, T, scene/prefab and all native acceptance gates unchanged.",
+    "proposal": [
+      "Use lossless field-level dictionary encoding for repeated target/path/value/objectReference data, retaining a self-contained record and exact ordered UTF-16 key reconstruction; measure representational savings and capacity with pure fixtures before any new native execution. This protocol change requires a scoped successor, not an edit of frozen N08.",
+      "Before rejecting an oversized record, emit one bounded diagnostic metadata record containing sample kind, actualUTF8Bytes, key/index counts and limit; preserve fail-closed behavior and diagnosticsIncomplete. Do not truncate full evidence and call it complete, or bypass save gates.",
+      "Keep8192/2048/count/aggregate limits and original geometry/SequenceEqual/protection gates unless a separate explicit bounded-contract change is justified; do not promise that compacting alone is sufficient while after-force size/content remains unknown.",
+      "Use a successor-only activation with new owner, current protection/TMP preimages and explicit missing-old-TMP treatment; preserve all N08 files. Any new Unity run remains separately scoped/approved and N08 run count stays1."
+    ],
+    "notRequested": [
+      "No additional SYS research/report or local code review",
+      "No rerun of frozenN08",
+      "No restoration/deletion of missingTMP",
+      "No claim that diagnostic repair fixes the underlying Canvas override bug"
+    ],
+    "skillsInfluence": "diagnosing-bugs used existing red evidence; reproduce/minimize/instrument/fix phases omitted under explicit recovery-only/no-new-run scope. writing-for-agents keeps facts, inference, gaps and future authority separate."
+  }
+}

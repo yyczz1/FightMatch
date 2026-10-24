@@ -1,0 +1,15 @@
+{
+  "packet": "RES-COMBINED-V04",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "scope": "Source review only; native unrun",
+  "head": "47078ee0137cc9c6e0b1e34228b9270dd2acdcc0",
+  "independentReview": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4213725720",
+  "testingActual": "01a11921-43a0-79d3-8f1e-62a4acebb647",
+  "reason": "discover swallows NaturalGraceExpired from register and records a false pending identity/monitor failure before the natural-to-TERM handler can receive it.",
+  "evidence": "testing-resource-combined-pr20-v04-review-receipt.json; central also fetched the original GitHub discussion",
+  "preservedValidation": "V04 63/63 in 5.420995958003914 seconds; unchanged V02 177 reused within documented limits",
+  "nextPacket": "central-resource-combined-v04-fix01.md",
+  "nativeAllowed": false,
+  "demoAccepted": false
+}

@@ -1,0 +1,718 @@
+{
+  "task": "LAYOUT-S1-I002-STATIC-REASSESSMENT-001",
+  "utc": "2026-10-02T12:34:00.090476+00:00",
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fc82-679c-78e1-aab6-d406f8053f2a"
+  },
+  "originalReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/I02/receipt.json",
+    "bytes": 57230,
+    "sha256": "dcfc2686c81b95900e5b51e85c02cdf834f1ebd3a070c287ccbe38223c9baee1"
+  },
+  "originalStatusPreserved": "I_FAILED",
+  "conclusion": "Existing single Mac Editor import/compile satisfies corrected target-applicable assembly gate; no product edit or Unity rerun.",
+  "verdict": "ACCEPT",
+  "scope": "Mac I import/compilation only; not Android, tests, native P, device or overall product acceptance.",
+  "reviewReceipt": {
+    "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json",
+    "sha256": "c67d5479d895e66be6db649afe9ccb00139a1dc27270200028aff202b9c6bc77"
+  },
+  "candidate": {
+    "head": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "tree": "665c86084c090fd8cab1f061f1634cb1596f7e58",
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "baseHead": "3541930877837e14b58020b910976b8b67b56e42",
+    "baseTree": "37326f759fc065f268c23f66a674be1a61f12268",
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source-receipt.json",
+      "sha256": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b"
+    },
+    "reviewReceipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json",
+      "sha256": "c67d5479d895e66be6db649afe9ccb00139a1dc27270200028aff202b9c6bc77"
+    },
+    "reviewGate": "ACCEPT_CODE_REVIEW_ONLY_NOT_FORMAL_APPROVED"
+  },
+  "authority": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a0fc83-b951-7cb0-8af3-31269097058f",
+    "item": "exec-3a7c0d06-c7f2-4bb6-9a99-cc14ea548e41",
+    "decision": "Read-only target-applicability correction, preserve failure and runner, accept existing I when all guards pass, then sign original P."
+  },
+  "diagnosis": {
+    "redReproductionChunk": "b78982",
+    "redExit": 1,
+    "cause": "Original expected assembly inventory checked include/excludePlatforms but omitted defineConstraints.",
+    "semanticReference": "https://docs.unity3d.com/2022.3/Documentation/Manual/class-AssemblyDefinitionImporter.html#define-constraints",
+    "compilerDefineProof": {
+      "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.rsp",
+      "bytes": 41867,
+      "sha256": "805ad714b7648415ad6e42c49bbe0e5c0df2930fe2737104ac77e57b18b340d4",
+      "present": [
+        "UNITY_EDITOR",
+        "UNITY_EDITOR_OSX",
+        "UNITY_INCLUDE_TESTS",
+        "UNITY_STANDALONE_OSX"
+      ],
+      "absent": [
+        "UNITY_ANDROID"
+      ]
+    },
+    "excludedAssemblies": [
+      "FightMatch.Android.Tests.dll"
+    ],
+    "requiredProjectAssemblies20": [
+      "FightMatch.Application.dll",
+      "FightMatch.Content.dll",
+      "FightMatch.Core.dll",
+      "FightMatch.Host.Editor.dll",
+      "FightMatch.Host.dll",
+      "FightMatch.Input.dll",
+      "FightMatch.Platform.dll",
+      "FightMatch.Presentation.dll",
+      "FlowPuzzle.Application.dll",
+      "FlowPuzzle.Core.dll",
+      "FlowPuzzle.Difficulty.dll",
+      "FlowPuzzle.Editor.dll",
+      "FlowPuzzle.Generation.dll",
+      "FlowPuzzle.Persistence.dll",
+      "FlowPuzzle.Solving.dll",
+      "FlowPuzzle.Validation.dll",
+      "FightMatch.Core.Tests.dll",
+      "FightMatch.Host.Tests.dll",
+      "FightMatch.QFramework.Tests.dll",
+      "FlowPuzzle.Tests.dll"
+    ],
+    "additionalVendorAssembly": "QFramework.dll"
+  },
+  "assemblies": [
+    {
+      "name": "FightMatch.Application",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Application/FightMatch.Application.asmdef",
+        "bytes": 518,
+        "sha256": "1e6345c2c7035d0ca8de754f8ab89d32e126e4c56be2c82481c9238959ef7bfd"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Application.dll",
+        "bytes": 208896,
+        "sha256": "f3895667d00cfbe479ab39975a4fbed34e92100f44b472a73d0cbc31a70dd46f",
+        "modifiedUtc": "2026-10-02T12:20:23.251275+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Application.rsp",
+        "bytes": 29611,
+        "sha256": "da6ac9024819700832d9691f9d15b9dfeec57a1e54b096cad6f82610fe81554d"
+      }
+    },
+    {
+      "name": "FightMatch.Content",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Content/FightMatch.Content.asmdef",
+        "bytes": 491,
+        "sha256": "402a4df6429a5fddb9050e5cbd52518a83a6142287fccf593208ee5cabe8171a"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Content.dll",
+        "bytes": 157184,
+        "sha256": "515c901d4a69b61814bb98b88f4c821ed75c44c01f80fa866f8921a40c247b16",
+        "modifiedUtc": "2026-10-02T12:20:22.652375+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Content.rsp",
+        "bytes": 28037,
+        "sha256": "dc0b1c519df3b7d43524b4ddde49bdfa595fbd66b5bced4ccafdc1094ee9dde2"
+      }
+    },
+    {
+      "name": "FightMatch.Core",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Core/FightMatch.Core.asmdef",
+        "bytes": 394,
+        "sha256": "6d6137f686a78f223c6c93810d124dad6e1f4d91b5ccfa40068a9c44ff2d867c"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Core.dll",
+        "bytes": 749568,
+        "sha256": "d0c1877ef4c455d6b8bdfc89605af4b94ca420c33e70f1bab453928d43bcbd52",
+        "modifiedUtc": "2026-10-02T12:20:21.654090+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.rsp",
+        "bytes": 33166,
+        "sha256": "1fbe38c85a89323903b0303a3c5b16cdb863abdf7542d6994ac2217d89a520d9"
+      }
+    },
+    {
+      "name": "FightMatch.Host.Editor",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatch.Host.Editor.asmdef",
+        "bytes": 282,
+        "sha256": "dc794b21c55316e31c55c119638d56029b7e626834b38a72ee294562b579abe2"
+      },
+      "includePlatforms": [
+        "Editor"
+      ],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Host.Editor.dll",
+        "bytes": 177152,
+        "sha256": "787c242eb9df7e5aea89bbbc629f82039550cf425767b9d8e4c018dd06b0c570",
+        "modifiedUtc": "2026-10-02T12:20:25.149336+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.rsp",
+        "bytes": 42504,
+        "sha256": "82034ff4843462b8e913cb95f9df54fa9a7fa1b330eed28b5c925a99fe3cb416"
+      }
+    },
+    {
+      "name": "FightMatch.Host",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Host/FightMatch.Host.asmdef",
+        "bytes": 346,
+        "sha256": "85acabf7d4ec5e2b9970f9299ab2687cef131a4fa8213aa4f0aea9f70b4c0c7e"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Host.dll",
+        "bytes": 44032,
+        "sha256": "c9b2c3a20a16ace9b75e95c393df79af0317ab3946d6f7b34be7ea15a4fc6130",
+        "modifiedUtc": "2026-10-02T12:20:24.136716+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.rsp",
+        "bytes": 41634,
+        "sha256": "e556be024b71f45bdb7c3144296bdae299021a823b1aee252075308ab319d48f"
+      }
+    },
+    {
+      "name": "FightMatch.Input",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Input/FightMatch.Input.asmdef",
+        "bytes": 396,
+        "sha256": "b12108ce004ea6364923ebb383a7d285846e31db2b1f6b6ccd60eb56f8899f2f"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Input.dll",
+        "bytes": 19968,
+        "sha256": "8e639741a008529d8f4b92519ce84fa1ea28b44da60bf3d1a3cf54462a42498f",
+        "modifiedUtc": "2026-10-02T12:20:21.653238+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Input.rsp",
+        "bytes": 27359,
+        "sha256": "48f4241ce600a14d864372a1b4e83a0843776041352fa75bd707545cdf938f14"
+      }
+    },
+    {
+      "name": "FightMatch.Platform",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Platform/FightMatch.Platform.asmdef",
+        "bytes": 402,
+        "sha256": "e4acb9c628c202441ecc087bd9d383c591fe73dd5a4aa43f789500291371bd48"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Platform.dll",
+        "bytes": 110592,
+        "sha256": "08665b23f94a901341a759dd11c0f3c577f64507cdb5fa196e64c67e9f214e61",
+        "modifiedUtc": "2026-10-02T12:20:22.165585+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Platform.rsp",
+        "bytes": 28349,
+        "sha256": "76dfcf51fdefff6e1d2342bf12e583b128513db31c1dc5e790089afc88e6df06"
+      }
+    },
+    {
+      "name": "FightMatch.Presentation",
+      "asmdef": {
+        "path": "Assets/Scripts/FightMatch/Presentation/FightMatch.Presentation.asmdef",
+        "bytes": 592,
+        "sha256": "b7c59f7de8581990dacc19ab111ae4be4805958333861ac4ec15b774db242de8"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Presentation.dll",
+        "bytes": 191488,
+        "sha256": "cbae0adf1d4b69c4ca6b310b9252632630489c358d9b3794e5b71393fde2c218",
+        "modifiedUtc": "2026-10-02T12:20:23.840456+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.rsp",
+        "bytes": 42896,
+        "sha256": "88eba44ee72ea023e290774b6cc4818619e615fa2a69e5078163e9a5ec5f4275"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Application",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Application/FlowPuzzle.Application.asmdef",
+        "bytes": 537,
+        "sha256": "03e1009dc84297588577f337e840c35c55a3bd4fa4e6296b5e525c4d16500b34"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Application.dll",
+        "bytes": 25088,
+        "sha256": "2cc90278ad6b7c6fef86c46bf7151e3603ee93de01c0ab33a889aef44066840c",
+        "modifiedUtc": "2026-10-02T12:20:22.652298+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Application.rsp",
+        "bytes": 27934,
+        "sha256": "a51aa368461799416830e9ac10173c95e68d6b109b9a0d282ce53a1da1623730"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Core",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Core/FlowPuzzle.Core.asmdef",
+        "bytes": 363,
+        "sha256": "9f684e62a102825715d9d6db929fdf9ef0d23a636c6ad38c59bfbc4168c9e3a8"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Core.dll",
+        "bytes": 19456,
+        "sha256": "5c0461dc676322436dfb73a929ab72db60f8f1d04b4ed1692abfd54a2dd51f14",
+        "modifiedUtc": "2026-10-02T12:20:19.932310+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Core.rsp",
+        "bytes": 27994,
+        "sha256": "b546172a04d896131315d7286e4a68b55d952a86ad28e1e08c7454f926fd49fd"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Difficulty",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Difficulty/FlowPuzzle.Difficulty.asmdef",
+        "bytes": 406,
+        "sha256": "b5f1e8af0591525c5af5f74b2e4ffad19713748f1808df379afe4ad8d8c45e31"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Difficulty.dll",
+        "bytes": 8192,
+        "sha256": "364035ea7b04225da92426763bc947b83ee5a7f1cde4f97247021b93406dd7b3",
+        "modifiedUtc": "2026-10-02T12:20:21.171758+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Difficulty.rsp",
+        "bytes": 27289,
+        "sha256": "60a04adf1ffd5f919df039ce24e13cb2b57bf66e80716d2a05be9bcddcf68d2b"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Editor",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Editor/FlowPuzzle.Editor.asmdef",
+        "bytes": 618,
+        "sha256": "4433145755f2e7d8452e3b93dfe6416fd76c21027fe812f632c430d62c0304d7"
+      },
+      "includePlatforms": [
+        "Editor"
+      ],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Editor.dll",
+        "bytes": 99840,
+        "sha256": "5d8c252d617787175e9ec6068795fc358b0870be0aadc2a20ccadff86cef3f0a",
+        "modifiedUtc": "2026-10-02T12:20:23.251827+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Editor.rsp",
+        "bytes": 44294,
+        "sha256": "62ba2207fc6c58a8a42f02d1970bae119110f2dbc920f101d4a31348f9b1bf0a"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Generation",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Generation/FlowPuzzle.Generation.asmdef",
+        "bytes": 472,
+        "sha256": "fcf7f5e1cd1fd4e669801e700e270add1a1c2922749d510a4c9d051a30098ed9"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Generation.dll",
+        "bytes": 17920,
+        "sha256": "b51204c2a363a3030bcc346985e6e5e9645cdae7247b196bd977f58682881bad",
+        "modifiedUtc": "2026-10-02T12:20:22.165469+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Generation.rsp",
+        "bytes": 28009,
+        "sha256": "459ffae5a4a5021c1d2274247e001827afce166c6f2bcb925df983dea4b35622"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Persistence",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Persistence/FlowPuzzle.Persistence.asmdef",
+        "bytes": 442,
+        "sha256": "e0c7c173d7d885c6fe29e523cecdcdb3cb98f54de5460bd3a1f7c2a458df109b"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Persistence.dll",
+        "bytes": 7168,
+        "sha256": "8882d0656533b53ab9e2f1e3093c08aedcce6d903d10837068dfd7f9d2f5e346",
+        "modifiedUtc": "2026-10-02T12:20:21.506031+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Persistence.rsp",
+        "bytes": 41208,
+        "sha256": "2c14330664f30aba46e1081887b76b04c1b63a37af94014466805500357fabe1"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Solving",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Solving/FlowPuzzle.Solving.asmdef",
+        "bytes": 312,
+        "sha256": "5fb3ab4c822f0c635c8d2f1c4586fe656ce617d2c6e18c24316df08963f23695"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Solving.dll",
+        "bytes": 27136,
+        "sha256": "b1dfe9cc6e42d82466ae37c9b75937caacfde51523ebc972ba6da55c1f33e513",
+        "modifiedUtc": "2026-10-02T12:20:21.171784+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Solving.rsp",
+        "bytes": 28019,
+        "sha256": "8b695d6f0d4d6fbacbfa53fd815b5862d388ec26f0574d7e10a2a0b4ac7ff877"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Validation",
+      "asmdef": {
+        "path": "Assets/Scripts/FlowPuzzle/Validation/FlowPuzzle.Validation.asmdef",
+        "bytes": 406,
+        "sha256": "9e7b08fb80099cc6ac4f6820ac83c073959fe999eeac94208ec04557ea1621db"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Validation.dll",
+        "bytes": 10752,
+        "sha256": "6e62779c277d5f3c620a460bcf77d068fa09cc91116ec1548322f40291489cac",
+        "modifiedUtc": "2026-10-02T12:20:21.653150+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Validation.rsp",
+        "bytes": 27350,
+        "sha256": "87ce36c0d3f6e089ef98d252bfce300b7de130bbdcbbce1abc4be926210ad129"
+      }
+    },
+    {
+      "name": "FightMatch.Android.Tests",
+      "asmdef": {
+        "path": "Assets/Tests/Android/FightMatch.Android.Tests.asmdef",
+        "bytes": 381,
+        "sha256": "513dd4001a9f093654d62ee1e6f3ffe29c3872af06a2e3ed9adda923cec39c8b"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [
+        "UNITY_ANDROID"
+      ],
+      "applicableToEditorStandaloneOSX": false,
+      "reason": "UNITY_ANDROID is absent from actual Mac Editor compilation symbols; frozen asmdef requires it."
+    },
+    {
+      "name": "FightMatch.Core.Tests",
+      "asmdef": {
+        "path": "Assets/Tests/EditMode/FightMatch/FightMatch.Core.Tests.asmdef",
+        "bytes": 800,
+        "sha256": "e1d1132e25be4b82cb64f04a26c31f9662c5fd86df2a6ba20f6afe010da8501e"
+      },
+      "includePlatforms": [
+        "Editor"
+      ],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Core.Tests.dll",
+        "bytes": 1809920,
+        "sha256": "21261d8314078c6513ba8b4644105f9677091f8d0e38c4b1174743055b44ca8d",
+        "modifiedUtc": "2026-10-02T12:20:25.779706+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.rsp",
+        "bytes": 48053,
+        "sha256": "bf4ea69213da58f360eaa1c4e2b701a4e58e2724dfb818f7045f043c55775c77"
+      }
+    },
+    {
+      "name": "FightMatch.Host.Tests",
+      "asmdef": {
+        "path": "Assets/Tests/EditMode/FightMatchHost/FightMatch.Host.Tests.asmdef",
+        "bytes": 479,
+        "sha256": "50da0a6cb45f6ba0b7a4b843bdc8d865595df7d15bdc1976d01dcd52f2437e03"
+      },
+      "includePlatforms": [
+        "Editor"
+      ],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.Host.Tests.dll",
+        "bytes": 56320,
+        "sha256": "369b2f73a9ab36d4c67104b04a205956af4abf0e2d57dd3c56b8afccdd5d75d6",
+        "modifiedUtc": "2026-10-02T12:20:25.147687+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.rsp",
+        "bytes": 41867,
+        "sha256": "805ad714b7648415ad6e42c49bbe0e5c0df2930fe2737104ac77e57b18b340d4"
+      }
+    },
+    {
+      "name": "FightMatch.QFramework.Tests",
+      "asmdef": {
+        "path": "Assets/Tests/EditMode/FightMatchQFramework/FightMatch.QFramework.Tests.asmdef",
+        "bytes": 499,
+        "sha256": "2df409ae183d2cee895164249503f78e36fad091e1907003270e62f445db4bc4"
+      },
+      "includePlatforms": [
+        "Editor"
+      ],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FightMatch.QFramework.Tests.dll",
+        "bytes": 13824,
+        "sha256": "68d8bdd4fb37ef66e9c74d635494ecb4ffec24e51445a9ee81eb38c81d95dee1",
+        "modifiedUtc": "2026-10-02T12:20:19.433117+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.QFramework.Tests.rsp",
+        "bytes": 27184,
+        "sha256": "2c52e20470e2bf574f2618484320b7e94e9287fb74addaf268d6865831e8054a"
+      }
+    },
+    {
+      "name": "FlowPuzzle.Tests",
+      "asmdef": {
+        "path": "Assets/Tests/EditMode/FlowPuzzle.Tests.asmdef",
+        "bytes": 710,
+        "sha256": "ca8a4c0f4cfc1e395eef8af9db42ff4240226b39be37aa26163ba33ab4df4a1e"
+      },
+      "includePlatforms": [
+        "Editor"
+      ],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/FlowPuzzle.Tests.dll",
+        "bytes": 196608,
+        "sha256": "21d39448c66536c7ffdc15ab52c90c6afa931f3cc8b559a15c58967bc4bb7d5e",
+        "modifiedUtc": "2026-10-02T12:20:23.788159+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FlowPuzzle.Tests.rsp",
+        "bytes": 43289,
+        "sha256": "833d838968c2c5533b2a473639589e7e280b664e0db6f3943019118fecc256a8"
+      }
+    },
+    {
+      "name": "QFramework",
+      "asmdef": {
+        "path": "Assets/ThirdParty/QFramework/QFramework.asmdef",
+        "bytes": 29,
+        "sha256": "f9c9d43d25712f15175b43570b487781d972256c740401ecc638e7bcac0a6604"
+      },
+      "includePlatforms": [],
+      "excludePlatforms": [],
+      "defineConstraints": [],
+      "applicableToEditorStandaloneOSX": true,
+      "dll": {
+        "path": "Library/ScriptAssemblies/QFramework.dll",
+        "bytes": 29696,
+        "sha256": "82f813fafa1ae09b31144325ef21988963f0a60d6594ab1fb46f039642f82df9",
+        "modifiedUtc": "2026-10-02T12:20:19.131702+00:00"
+      },
+      "compilerResponse": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/QFramework.rsp",
+        "bytes": 40892,
+        "sha256": "0939009d025cc9c565e542226b531f6b05586cb182d826a3186fbe45d1752834"
+      }
+    }
+  ],
+  "guards": {
+    "originalISevenLeaves": "MATCH",
+    "originalI02SevenLeaves": "MATCH",
+    "contracts": "MATCH",
+    "projectedOriginalInputs": 993,
+    "extraPathsOnly": [
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+    ],
+    "sharedProtectedPaths": 58,
+    "sources15": "MATCH",
+    "resources37": "MATCH",
+    "protected7": "MATCH",
+    "uniqueMetaGuids": 513,
+    "sharedNewMetasAbsent": true,
+    "PAndActivationAbsent": true
+  },
+  "naturalMetas": [
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "bytes": 243,
+      "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf",
+      "guid": "a46f2134fd6e640caa7de8c59b39671e"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "bytes": 243,
+      "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d",
+      "guid": "7e44e26b7cf32413085a42f1048e1d73"
+    }
+  ],
+  "process": {
+    "owner": {
+      "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+      "host": "local",
+      "turn": "01a0fc83-abce-7411-b949-9693e039abf5"
+    },
+    "actualLaunches": 1,
+    "exitCode": 0,
+    "launchUtc": "2026-10-02T12:19:21.537833+00:00",
+    "editorExitedUtc": "2026-10-02T12:20:40.640949+00:00",
+    "editorSeconds": 79.10268641702714,
+    "maxMonitorIntervalSeconds": 0.7678286250156816,
+    "resources": {
+      "cacheBytes": 731367785,
+      "generatedBytes": 535179297,
+      "evidenceBytes": 1642378,
+      "freeBytes": 441310339072
+    },
+    "remainingOwnedFreshPs": [],
+    "unityOrUPMFreshPs": [],
+    "terminationHistory": "UNKNOWN: shutdown ran twice and second terminatedOwnedPids overwrote first; empty list is not evidence no SIGTERM was sent. Final PID/starttime closure independently verified.",
+    "networkReceivedBytes": "UNKNOWN"
+  },
+  "log": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/I02/editor.log",
+    "bytes": 1560553,
+    "sha256": "2f13fbaaf821d7ca35cff40c64c82a6345acdd63db3b02587bd1e5eb6c8a97a7",
+    "errorPattern": "error CS\\d+|Compilation failed|Unhandled Exception|Aborting batchmode|Failed to resolve packages|Package resolution failed|Asset import failed|\\[ERROR\\]",
+    "errorMatches": 0,
+    "compilerWarnings": 0,
+    "markers": [
+      {
+        "line": 143,
+        "text": "[Package Manager] Done registering packages in 0.19 seconds"
+      },
+      {
+        "line": 182,
+        "text": "Domain Reload Profiling: 1956ms"
+      },
+      {
+        "line": 821,
+        "text": "*** Tundra build success (15.35 seconds), 508 items updated, 541 evaluated"
+      },
+      {
+        "line": 5544,
+        "text": "Domain Reload Profiling: 3009ms"
+      },
+      {
+        "line": 6371,
+        "text": "Asset Pipeline Refresh (id=69d64413699434c04a2a55a8f79925d2): Total: 32.127 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)"
+      },
+      {
+        "line": 6625,
+        "text": "Exiting batchmode successfully now!"
+      }
+    ]
+  },
+  "notRun": [
+    "Additional Unity",
+    "Android compilation",
+    "Tests or discovery",
+    "Play/Host",
+    "P migration",
+    "Export",
+    "Git mutation",
+    "Device/CUA"
+  ],
+  "verification": {
+    "command": "python3 -B - <<'PY'\nimport pathlib,json,hashlib,re,subprocess,datetime,shutil\nR=pathlib.Path.cwd(); S=R/'TestArtifacts/FightMatch/LAYOUT-S1-001'; P=S/'projection'\ndef ident(p):\n b=p.read_bytes(); return {'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()}\ndef read(p): return json.loads(p.read_text(encoding='utf-8-sig'))\nbefore=read(S/'I02/before.json'); prep=read(S/'I/prepare.json'); rec=read(S/'I02/receipt.json'); pro=read(S/'I02/process.json')\nlease=read(R/'docs/team/2026-09-30/engineering-layout-s1-i-activation-002.json')\nassert ident(S/'I02/receipt.json')=={'bytes':57230,'sha256':'dcfc2686c81b95900e5b51e85c02cdf834f1ebd3a070c287ccbe38223c9baee1'}\nassert rec['status']=='I_FAILED' and rec['failure']=='new assembly missing: FightMatch.Android.Tests.dll'\nassert pro['exitCode']==0 and pro['actualLaunches']==1 and pro['editorSeconds']<360 and pro['upmResolutionCompleted']\nfor name,expected in rec['evidence'].items(): assert ident(S/'I02'/name)==expected,name\nassert set(x.name for x in (S/'I02').iterdir())==set(rec['evidence'])|{'receipt.json'}\nfor name,expected in before['originalIEvidence'].items(): assert ident(S/'I'/name)==expected,name\nassert set(x.name for x in (S/'I').iterdir())==set(before['originalIEvidence'])\nfor k in ['baseLease','release']:\n e=rec[k]; assert ident(R/e['path'])['sha256']==e['sha256']\nfor k in ['sourceReceipt','reviewReceipt']:\n e=lease['candidate'][k]; assert ident(R/e['path'])['sha256']==e['sha256']\nactual={}\nfor base in ['Assets','Packages','ProjectSettings','docs']:\n for p in (P/base).rglob('*'):\n  assert not p.is_symlink(),str(p)\n  if p.is_file():actual[str(p.relative_to(P))]=ident(p)\nassert len(prep['inputs'])==993\nassert set(actual)-set(prep['inputs'])==set(lease['naturalMetas'])\nassert all(actual.get(p)==i for p,i in prep['inputs'].items())\nfor p,i in before['sharedInputs'].items():assert ident(R/p)==i and ident(P/p)==i,p\nassert len(before['sharedInputs'])==58\nassert all(not (R/p).exists() for p in lease['naturalMetas'])\nfor k,n in [('sources',15),('resources',37),('protectedInputs',7)]:\n assert len(lease[k])==n\n for e in lease[k]:\n  assert ident(P/e['path'])=={k:e[k] for k in ['bytes','sha256']}\n  assert ident(R/e['path'])=={k:e[k] for k in ['bytes','sha256']}\nguids=[]; metas=[]\nfor p in sorted(actual):\n if p.endswith('.meta'):\n  g=re.search(r'^guid: ([a-f0-9]{32})$',(P/p).read_text(),re.M); assert g,p\n  guids.append(g[1])\n  if p in lease['naturalMetas']:metas.append({'path':p,**ident(P/p),'guid':g[1]})\nassert len(guids)==len(set(guids))==513\nrspRoot=P/'Library/Bee/artifacts/200b0aEDbg.dag'\ndef defs(p):\n return set(re.findall(r'^-define:(\\w+)$',p.read_text(),re.M))\nproof=rspRoot/'FightMatch.Host.Tests.rsp'; defines=defs(proof)\nassert {'UNITY_STANDALONE_OSX','UNITY_EDITOR_OSX','UNITY_EDITOR','UNITY_INCLUDE_TESTS'}<=defines and 'UNITY_ANDROID' not in defines\nlaunch=datetime.datetime.fromisoformat(pro['launchUtc']).timestamp()\nexitAt=datetime.datetime.fromisoformat(pro['editorExitedUtc']).timestamp()\nassemblyRows=[]; required=[]; excluded=[]\nfor asm in sorted((P/'Assets').rglob('*.asmdef')):\n d=read(asm); name=d['name']; rel=str(asm.relative_to(P))\n assert ident(asm)==prep['inputs'][rel]\n blob=subprocess.check_output(['git','show','3541930877837e14b58020b910976b8b67b56e42:'+rel])\n assert hashlib.sha256(blob).hexdigest()==ident(asm)['sha256']\n include=d.get('includePlatforms') or []; exclude=d.get('excludePlatforms') or []; constraints=d.get('defineConstraints') or []\n assert not d.get('versionDefines'),name\n assert not include or include==['Editor'],(name,include)\n assert not exclude,(name,exclude)\n assert constraints in ([],['UNITY_ANDROID']),(name,constraints)\n applicable=not constraints or 'UNITY_ANDROID' in defines\n row={'name':name,'asmdef':{'path':rel,**ident(asm)},'includePlatforms':include,'excludePlatforms':exclude,'defineConstraints':constraints,'applicableToEditorStandaloneOSX':applicable}\n if applicable:\n  required.append(name+'.dll'); dll=P/'Library/ScriptAssemblies'/(name+'.dll'); rsp=rspRoot/(name+'.rsp')\n  assert dll.is_file() and launch<=dll.stat().st_mtime<=exitAt,(name,'freshness')\n  assert rsp.is_file() and {'UNITY_STANDALONE_OSX','UNITY_EDITOR_OSX','UNITY_EDITOR'}<=defs(rsp) and 'UNITY_ANDROID' not in defs(rsp)\n  row['dll']={'path':str(dll.relative_to(P)),**ident(dll),'modifiedUtc':datetime.datetime.fromtimestamp(dll.stat().st_mtime,datetime.timezone.utc).isoformat()}\n  row['compilerResponse']={'path':str(rsp.relative_to(P)),**ident(rsp)}\n else:\n  excluded.append(name+'.dll'); assert name=='FightMatch.Android.Tests'\n  assert not (rspRoot/(name+'.rsp')).exists() and not (P/'Library/ScriptAssemblies'/(name+'.dll')).exists()\n  row['reason']='UNITY_ANDROID is absent from actual Mac Editor compilation symbols; frozen asmdef requires it.'\n assemblyRows.append(row)\nassert len(assemblyRows)==22 and len(required)==21 and excluded==['FightMatch.Android.Tests.dll']\noriginal=before['requiredProjectAssemblies']\nassert set(original)==set(required+excluded)-{'QFramework.dll'}\nassert [n for n in original if not (P/'Library/ScriptAssemblies'/n).is_file()]==excluded\nlog=(S/'I02/editor.log').read_text(errors='replace')\nerr=r'error CS\\d+|Compilation failed|Unhandled Exception|Aborting batchmode|Failed to resolve packages|Package resolution failed|Asset import failed|\\[ERROR\\]'\nassert not re.search(err,log,re.I)\nassert not re.search(r'warning CS\\d+',log)\npatterns=['Done registering packages','Tundra build success','Domain Reload Profiling:','Asset Pipeline Refresh','Exiting batchmode successfully now!']\nmarkers=[{'line':n,'text':s} for n,s in enumerate(log.splitlines(),1) if any(x in s for x in patterns)]\nassert all(any(x in m['text'] for m in markers) for x in patterns)\nout=subprocess.check_output(['/bin/ps','-axo','pid=,ppid=,lstart=,stat=,comm='],text=True,timeout=5)\nrows={}\nfor line in out.splitlines():\n f=line.split(None,8)\n if len(f)==9:rows[int(f[0])]={'start':' '.join(f[2:7]),'stat':f[7],'command':f[8]}\nremaining=[o for o in pro['owned'] if o['pid'] in rows and rows[o['pid']]['start']==o['start'] and not rows[o['pid']]['stat'].startswith('Z')]\noverlap=[{'pid':p,**v} for p,v in rows.items() if '/Unity.app/Contents/MacOS/Unity' in v['command'] or '/UnityPackageManager' in v['command']]\nassert not remaining and not overlap\nassert not (S/'P').exists() and not (S/'I/activation.json').exists()\nassert pro['resources']['cacheBytes']<lease['budgets']['newGlobalCacheBytes'] and pro['resources']['generatedBytes']<lease['budgets']['projectionGeneratedBytes']\nassert pro['resources']['freeBytes']>=lease['budgets']['minFreeBytes'] and (S/'I02/editor.log').stat().st_size<lease['budgets']['logBytesEach']\nresult={'task':'LAYOUT-S1-I002-STATIC-REASSESSMENT-001','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'issuer':rec['issuer'],'originalReceipt':{'path':str((S/'I02/receipt.json').relative_to(R)),**ident(S/'I02/receipt.json')},'originalStatusPreserved':'I_FAILED','conclusion':'Existing single Mac Editor import/compile satisfies corrected target-applicable assembly gate; no product edit or Unity rerun.','verdict':'ACCEPT','scope':'Mac I import/compilation only; not Android, tests, native P, device or overall product acceptance.','reviewReceipt':lease['candidate']['reviewReceipt'],'candidate':lease['candidate'],'authority':{'thread':'01a0e401-511d-79f2-b47f-3ab0ade1681b','host':'local','turn':'01a0fc83-b951-7cb0-8af3-31269097058f','item':'exec-3a7c0d06-c7f2-4bb6-9a99-cc14ea548e41','decision':'Read-only target-applicability correction, preserve failure and runner, accept existing I when all guards pass, then sign original P.'},'diagnosis':{'redReproductionChunk':'b78982','redExit':1,'cause':'Original expected assembly inventory checked include/excludePlatforms but omitted defineConstraints.','semanticReference':'https://docs.unity3d.com/2022.3/Documentation/Manual/class-AssemblyDefinitionImporter.html#define-constraints','compilerDefineProof':{'path':str(proof.relative_to(P)),**ident(proof),'present':sorted({'UNITY_STANDALONE_OSX','UNITY_EDITOR_OSX','UNITY_EDITOR','UNITY_INCLUDE_TESTS'}),'absent':['UNITY_ANDROID']},'excludedAssemblies':excluded,'requiredProjectAssemblies20':[n for n in required if n!='QFramework.dll'],'additionalVendorAssembly':'QFramework.dll'},'assemblies':assemblyRows,'guards':{'originalISevenLeaves':'MATCH','originalI02SevenLeaves':'MATCH','contracts':'MATCH','projectedOriginalInputs':993,'extraPathsOnly':lease['naturalMetas'],'sharedProtectedPaths':58,'sources15':'MATCH','resources37':'MATCH','protected7':'MATCH','uniqueMetaGuids':513,'sharedNewMetasAbsent':True,'PAndActivationAbsent':True},'naturalMetas':metas,'process':{'owner':pro['owner'],'actualLaunches':pro['actualLaunches'],'exitCode':pro['exitCode'],'launchUtc':pro['launchUtc'],'editorExitedUtc':pro['editorExitedUtc'],'editorSeconds':pro['editorSeconds'],'maxMonitorIntervalSeconds':pro['maxMonitorIntervalSeconds'],'resources':pro['resources'],'remainingOwnedFreshPs':remaining,'unityOrUPMFreshPs':overlap,'terminationHistory':'UNKNOWN: shutdown ran twice and second terminatedOwnedPids overwrote first; empty list is not evidence no SIGTERM was sent. Final PID/starttime closure independently verified.','networkReceivedBytes':'UNKNOWN'},'log':{'path':'TestArtifacts/FightMatch/LAYOUT-S1-001/I02/editor.log',**ident(S/'I02/editor.log'),'errorPattern':err,'errorMatches':0,'compilerWarnings':0,'markers':markers},'notRun':['Additional Unity','Android compilation','Tests or discovery','Play/Host','P migration','Export','Git mutation','Device/CUA']}\nprint(json.dumps(result,ensure_ascii=False,indent=2))\nPY",
+    "exitCode": 0,
+    "toolChunk": "d2b0a2",
+    "earlierAttempts": [
+      {
+        "chunk": "ac65f5",
+        "exitCode": 1,
+        "note": "Read-only inventory initially failed decoding vendor UTF-8 BOM; corrected decoder to utf-8-sig."
+      },
+      {
+        "chunk": "6b5dda",
+        "exitCode": 1,
+        "note": "Read-only check reached process query then sandbox denied ps. Repeated the identical read-only command with approved escalation; no file edits or process actions."
+      }
+    ]
+  }
+}

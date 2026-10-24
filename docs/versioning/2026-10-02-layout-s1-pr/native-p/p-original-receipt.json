@@ -1,0 +1,543 @@
+{
+  "task": "LAYOUT-S1-P-001",
+  "status": "P_FAILED",
+  "lease": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-p-activation-001.json",
+    "sha256": "3960811521ec0bb8371f21b7f466adf7fcb161dd06fcebf98ff70dfe7f353678"
+  },
+  "activation": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/I/activation.json",
+    "bytes": 13669,
+    "sha256": "79cbaf915cc231fe5e1e0019b1087f15d19fbf5a6d3d5bb011c01052a09a5431"
+  },
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fc9d-5ab5-7851-9c2a-e0ecf504a55d"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fc82-679c-78e1-aab6-d406f8053f2a"
+  },
+  "soleReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "candidate": {
+    "head": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "tree": "665c86084c090fd8cab1f061f1634cb1596f7e58",
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "baseHead": "3541930877837e14b58020b910976b8b67b56e42",
+    "baseTree": "37326f759fc065f268c23f66a674be1a61f12268",
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source-receipt.json",
+      "sha256": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b"
+    },
+    "reviewReceipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json",
+      "sha256": "c67d5479d895e66be6db649afe9ccb00139a1dc27270200028aff202b9c6bc77"
+    },
+    "reviewGate": "ACCEPT_CODE_REVIEW_ONLY_NOT_FORMAL_APPROVED"
+  },
+  "legacySourceReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/S/source-receipt.json",
+    "bytes": 28162,
+    "sha256": "b2971a32973d241be9284a7cc969b9462ff07d4b08cc264eefc1eb9eea1da322",
+    "meaning": "Builder's immutable legacy baseline guard only. Actual execution sources are FIX03 all15 bound by activation and candidate.sourceReceipt/head, not historical S."
+  },
+  "runner": {
+    "bytes": 19694,
+    "sha256": "1c9545f498a30b14bfbd4720541acc2edecab3d53ae8d9f235d47ed23a3216a0"
+  },
+  "startedUtc": "2026-10-02T12:47:52.675149+00:00",
+  "finishedUtc": "2026-10-02T12:48:10.100599+00:00",
+  "failure": "projected path set changed",
+  "process": {
+    "launchCount": 1,
+    "actualLaunches": 1,
+    "owned": [
+      {
+        "ppid": 17237,
+        "start": "Fri Oct 2 20:47:53 2026",
+        "stat": "Ss",
+        "command": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "firstObservedUtc": "2026-10-02T12:47:53.029663+00:00",
+        "pid": 17239
+      },
+      {
+        "ppid": 17239,
+        "start": "Fri Oct 2 20:47:53 2026",
+        "stat": "R",
+        "command": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client",
+        "firstObservedUtc": "2026-10-02T12:47:53.813243+00:00",
+        "pid": 17244
+      },
+      {
+        "ppid": 17239,
+        "start": "Fri Oct 2 20:47:56 2026",
+        "stat": "S",
+        "command": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager",
+        "firstObservedUtc": "2026-10-02T12:47:56.845263+00:00",
+        "pid": 17250
+      },
+      {
+        "ppid": 17239,
+        "start": "Fri Oct 2 20:47:58 2026",
+        "stat": "R",
+        "command": "(adb)",
+        "firstObservedUtc": "2026-10-02T12:47:58.364611+00:00",
+        "pid": 17262
+      },
+      {
+        "ppid": 17239,
+        "start": "Fri Oct 2 20:47:59 2026",
+        "stat": "R",
+        "command": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Tools/ilpp/Unity.ILPP.Runner/Unity.ILPP.Runner",
+        "firstObservedUtc": "2026-10-02T12:47:59.880556+00:00",
+        "pid": 17265
+      },
+      {
+        "ppid": 17239,
+        "start": "Fri Oct 2 20:47:59 2026",
+        "stat": "S",
+        "command": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Tools/UnityAutoQuitter",
+        "firstObservedUtc": "2026-10-02T12:47:59.880575+00:00",
+        "pid": 17266
+      },
+      {
+        "ppid": 17239,
+        "start": "Fri Oct 2 20:47:59 2026",
+        "stat": "S",
+        "command": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Tools/ilpp/Unity.ILPP.Trigger/Unity.ILPP.Trigger",
+        "firstObservedUtc": "2026-10-02T12:47:59.880577+00:00",
+        "pid": 17267
+      },
+      {
+        "ppid": 17239,
+        "start": "Fri Oct 2 20:48:04 2026",
+        "stat": "S",
+        "command": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/Tools/UnityShaderCompiler",
+        "firstObservedUtc": "2026-10-02T12:48:05.163991+00:00",
+        "pid": 17280
+      }
+    ],
+    "cleanupCalls": 1,
+    "terminationEvents": [],
+    "networkReceivedBytes": null,
+    "networkMeasurement": "UNKNOWN",
+    "lease": {
+      "path": "docs/team/2026-09-30/engineering-layout-s1-p-activation-001.json",
+      "sha256": "3960811521ec0bb8371f21b7f466adf7fcb161dd06fcebf98ff70dfe7f353678"
+    },
+    "activation": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/I/activation.json",
+      "bytes": 13669,
+      "sha256": "79cbaf915cc231fe5e1e0019b1087f15d19fbf5a6d3d5bb011c01052a09a5431"
+    },
+    "owner": {
+      "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+      "host": "local",
+      "turn": "01a0fc9d-5ab5-7851-9c2a-e0ecf504a55d"
+    },
+    "issuer": {
+      "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+      "host": "local",
+      "turn": "01a0fc82-679c-78e1-aab6-d406f8053f2a"
+    },
+    "runner": {
+      "bytes": 19694,
+      "sha256": "1c9545f498a30b14bfbd4720541acc2edecab3d53ae8d9f235d47ed23a3216a0"
+    },
+    "runnerProcess": {
+      "ppid": 89716,
+      "start": "Fri Oct 2 20:47:52 2026",
+      "stat": "Ss",
+      "command": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "pid": 17237
+    },
+    "startedUtc": "2026-10-02T12:47:52.675149+00:00",
+    "argv": [
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+      "-batchmode",
+      "-force-metal",
+      "-buildTarget",
+      "StandaloneOSX",
+      "-projectPath",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+      "-executeMethod",
+      "FightMatch.Host.Editor.FightMatchAndroidBuild.MigrateLayoutResources",
+      "-fmLayoutContract",
+      "LAYOUT-S1-SYS-001",
+      "-fmLayoutInputManifest",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/I/activation.json",
+      "-fmLayoutEvidenceRoot",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/P",
+      "-quit",
+      "-logFile",
+      "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/PExecution/editor.log"
+    ],
+    "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "environmentOverrides": {
+      "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/package-cache"
+    },
+    "launchIntentUtc": "2026-10-02T12:47:53.003857+00:00",
+    "editorPid": 17239,
+    "launchUtc": "2026-10-02T12:47:53.003990+00:00",
+    "editorStart": "Fri Oct 2 20:47:53 2026",
+    "elapsedSeconds": 15.94749699998647,
+    "resources": {
+      "cacheBytes": 731367785,
+      "generatedBytes": 535021340,
+      "evidenceBytes": 339978,
+      "freeBytes": 441289113600
+    },
+    "maxMonitorIntervalSeconds": 0.7600270000111777,
+    "exitCode": 0,
+    "editorExitedUtc": "2026-10-02T12:48:09.146059+00:00",
+    "editorSeconds": 16.14198870799737,
+    "cleanupStartedUtc": "2026-10-02T12:48:09.146077+00:00",
+    "remainingOwned": [],
+    "cleanupFinishedUtc": "2026-10-02T12:48:09.952156+00:00",
+    "finishedUtc": "2026-10-02T12:48:10.100192+00:00",
+    "failure": "projected path set changed"
+  },
+  "sources15": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "bytes": 154822,
+      "sha256": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "bytes": 17703,
+      "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "bytes": 8707,
+      "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "bytes": 81160,
+      "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "bytes": 24402,
+      "sha256": "83e556cc3348faa0210985af3d910f9e32f450b08e05f8eb72230252bb543f72"
+    }
+  ],
+  "resources37": [
+    {
+      "path": "Assets/Scenes/FightMatchDemo.unity",
+      "bytes": 12900,
+      "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/HostAssemblyInfo.cs.meta",
+      "bytes": 243,
+      "sha256": "6443b9839bbde1fa4971a35306fd1093b89f0a3007dc2d9eaa6cb9ee7cec9487"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchStandaloneInputModule.cs.meta",
+      "bytes": 243,
+      "sha256": "e0551bee8d38d5ac8ddc25505e2a7a2bc0c4b621f814504ad71b79c7e3f01400"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchViewId.cs.meta",
+      "bytes": 243,
+      "sha256": "2db9e07059eb0e9b18ed56b154fd181b19e7b1b9f8b4f1bfe9c8254d999444ec"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization.meta",
+      "bytes": 172,
+      "sha256": "d967fa6e7496727e66586f32a6e90f55dfbf2c1e3ab39696f3006c115389d2b3"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocaleId.cs.meta",
+      "bytes": 243,
+      "sha256": "11c0e8d86b70b939cd9020d89b153c9803018a122280cf40c192ea760e5844ac"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizationService.cs.meta",
+      "bytes": 243,
+      "sha256": "85dababf164104fff11dde1de6c84309c7a66cced498700a3fc510a0ce5f1d4a"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTextSource.cs.meta",
+      "bytes": 243,
+      "sha256": "688a047c19610aed6c3476881e28da1135a55cb49c581e57bcfde2644dc12963"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTmpText.cs.meta",
+      "bytes": 243,
+      "sha256": "9ada3d16b10d705c6b606c935f7842c8a8ef26b1732fcc20a7e156218030d37d"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PresentationAssemblyInfo.cs.meta",
+      "bytes": 243,
+      "sha256": "1a86c1a77ab911c9d868412af437ca64e9befe4aa75343d125ebf27f0776d5b7"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/SafeAreaFitter.cs.meta",
+      "bytes": 243,
+      "sha256": "5c45935a46b8cf3bdfb4eed07a1eebd0bf1a2ee220332e4a18a316b67af4079f"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalePolicyTests.cs.meta",
+      "bytes": 243,
+      "sha256": "ac14463ea7d1c5390eab74076c6fcc32f4dbebb0cefc34d01d1b6a2a62f7a6ee"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs.meta",
+      "bytes": 243,
+      "sha256": "6aae345fa1830ac7b9c67f0fb1123a9e3f8c3931fcc19aaed8d9071fd5b93907"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs.meta",
+      "bytes": 243,
+      "sha256": "bc1890b17907613f9f3b1f59b45a71b2e1599daac8f3c7cb16d9d95916e2e6af"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs.meta",
+      "bytes": 243,
+      "sha256": "19f013b328eb0f58f3f765ed81cbd6dd85be5a7728258b0e739c88259b81a51c"
+    },
+    {
+      "path": "Assets/TextMesh Pro.meta",
+      "bytes": 172,
+      "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources.meta",
+      "bytes": 172,
+      "sha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+      "bytes": 269,
+      "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+      "bytes": 179,
+      "sha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+      "bytes": 95,
+      "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+      "bytes": 179,
+      "sha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "bytes": 1562,
+      "sha256": "74e0ef9b820f4e8f963048b7511d6854199b199bea53e036ba4c2e7b2a76c034"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+      "bytes": 179,
+      "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders.meta",
+      "bytes": 172,
+      "sha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+      "bytes": 7674,
+      "sha256": "970db4b1e73b8289c1dd56cff60877f426b49c9682620b2d14da6cd70b64cb9c"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+      "bytes": 204,
+      "sha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+      "bytes": 10600,
+      "sha256": "bbae422625f31bfa560ac5ce44c402fafd16dba55d496c6279ca985b652b58bf"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+      "bytes": 204,
+      "sha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+      "bytes": 2277,
+      "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+      "bytes": 204,
+      "sha256": "277459ef190430ad8e4ceb2bb38a8895d11fbbe6c2b2672e818ff970cb59efed"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+      "bytes": 2843,
+      "sha256": "26c70831a9bdd6a56a37ec1e2358929453d66a064d10a61da49a1d4b05280e06"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+      "bytes": 204,
+      "sha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset",
+      "bytes": 8573334,
+      "sha256": "290a57ac32c5ce7d965bc771d0e65e5c9f543f98df28b6e2e360f8dd6b2196c0"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset.meta",
+      "bytes": 189,
+      "sha256": "dea83a5366a5e1797eddb7620aff704963cc286d105f6dcf477ed69a2a1535cc"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Runtime.meta",
+      "bytes": 172,
+      "sha256": "b6f765f9f33862b22bfca340b1b0080fee9499df68bc776aab1e49d30b85846d"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "bytes": 1060568,
+      "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab.meta",
+      "bytes": 154,
+      "sha256": "85c3eee205f94f79652eddf5d29cce3809b76ce03a0ba92311150d129409fce2"
+    }
+  ],
+  "naturalMetas": [
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "bytes": 243,
+      "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "bytes": 243,
+      "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d"
+    }
+  ],
+  "nativeEvidence": {
+    "serialized-targets.json": {
+      "bytes": 15238,
+      "sha256": "f433d3422aebed5157ca97cd79d907d0ef5dc8c57ba251079c85ad1fa129a885"
+    },
+    "native-reopen.json": {
+      "bytes": 15238,
+      "sha256": "f433d3422aebed5157ca97cd79d907d0ef5dc8c57ba251079c85ad1fa129a885"
+    },
+    "native-migration.json": {
+      "bytes": 638,
+      "sha256": "763ee1c5bd514a4af575163054c87c1b9f11c83cc4d7e77eb8c41ace58da8c3a"
+    }
+  },
+  "exports": [],
+  "budgets": {
+    "preflightSeconds": 120,
+    "editorLaunches": 1,
+    "editorSeconds": 180,
+    "upmSecondsWithinEditor": 180,
+    "cacheBytesTotal": 1073741824,
+    "projectionGeneratedBytes": 4294967296,
+    "logBytesEach": 8388608,
+    "stageEvidenceBytes": 201326592,
+    "minFreeBytes": 2147483648,
+    "monitorMaxCadenceSeconds": 2,
+    "cleanupNaturalSeconds": 60,
+    "cleanupAfterTerminationSeconds": 30,
+    "retries": 0
+  },
+  "networkReceivedBytes": null,
+  "networkMeasurement": "UNKNOWN; no meter/512MiB gate. Reuse existing resolved fixed51 dependencies and current cache; no separate recovery/download/install/Client.Add/Resolve loop or version/registry change. Ordinary Unity access to already-frozen dependencies stays under time/disk/lock guards.",
+  "notRun": [
+    "Additional I/P",
+    "Tests/discovery/T",
+    "Android",
+    "Device/CUA",
+    "Play/Host",
+    "Git"
+  ],
+  "evidence": {
+    "before.json": {
+      "bytes": 211333,
+      "sha256": "285d7163ab94a3fe359d36afc80eceea05e92843ca04a0e88188c64d4422c14d"
+    },
+    "runner.py": {
+      "bytes": 19694,
+      "sha256": "1c9545f498a30b14bfbd4720541acc2edecab3d53ae8d9f235d47ed23a3216a0"
+    },
+    "after.json": {
+      "bytes": 915,
+      "sha256": "bf7ec61833130406cefe7344dfd996d3b208c0af12cc042396f391803962d2a2"
+    },
+    "editor.log": {
+      "bytes": 72411,
+      "sha256": "6abf0cb4b42b52f82765ff45046577b667fe9190f247ae6867a68126388b4399"
+    },
+    "process.json": {
+      "bytes": 5776,
+      "sha256": "c4eebb967ffbe73c62f13033c48224a1af11091606edfcd5523750d730c58dc8"
+    }
+  }
+}

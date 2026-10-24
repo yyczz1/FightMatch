@@ -1,0 +1,766 @@
+{
+  "archivesUnpacked": 0,
+  "attempts": [
+    {
+      "command": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17_driver.py",
+        "prepare"
+      ],
+      "elapsedSeconds": 4.6194986250011425,
+      "exitCode": 0,
+      "failure": null,
+      "mode": "SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_UNPACK",
+      "ran": true,
+      "rawCases": [
+        {
+          "elapsedSeconds": 1.796507,
+          "expected": "PASS",
+          "name": "actual model repeated byte equality",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.212882,
+          "expected": "PASS",
+          "name": "actual producer to actual consumer",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.10919,
+          "expected": "PASS",
+          "name": "actual producer deterministic seal",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.002793,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17_driver.py",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.002304,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-inputs.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.002842,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-write-set.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.212727,
+          "expected": "REJECT",
+          "name": "rehashed table cannot replace deterministic table",
+          "passed": true,
+          "rawError": "GateError: generated/consumed table byte mismatch"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "REJECT",
+          "name": "missing dependency closure",
+          "passed": true,
+          "rawError": "GateError: missing package closure"
+        },
+        {
+          "elapsedSeconds": 3.3e-05,
+          "expected": "REJECT",
+          "name": "obsolete tmp cannot reenter model",
+          "passed": true,
+          "rawError": "GateError: historical temporary input leaked into build"
+        },
+        {
+          "elapsedSeconds": 0.005993,
+          "expected": "REJECT",
+          "name": "write outside roots",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Assets/forbidden.cs"
+        },
+        {
+          "elapsedSeconds": 0.0002,
+          "expected": "REJECT",
+          "name": "write wrong owner",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17/packages/x.nupkg"
+        },
+        {
+          "elapsedSeconds": 0.000208,
+          "expected": "PASS",
+          "name": "allowed exact evidence write",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.033014,
+          "expected": "REJECT",
+          "name": "fixed source drift",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: .editorconfig"
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "PASS",
+          "name": "fixed archive domains",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "archive bytes changed",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: archive yaml-source"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "archive catalog hash changed",
+          "passed": true,
+          "rawError": "GateError: archive catalog SHA512"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "independent synthetic phase normalize/compare",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "missing graph lock",
+          "passed": true,
+          "rawError": "GateError: complete project lock/assets set required"
+        },
+        {
+          "elapsedSeconds": 1.4e-05,
+          "expected": "REJECT",
+          "name": "signed catalog hash cannot replace NuGet content hash",
+          "passed": true,
+          "rawError": "GateError: lock NuGet contentHash mismatch"
+        },
+        {
+          "elapsedSeconds": 2.8e-05,
+          "expected": "REJECT",
+          "name": "unexpected restore network source",
+          "passed": true,
+          "rawError": "GateError: unexpected NuGet source"
+        },
+        {
+          "elapsedSeconds": 1.1e-05,
+          "expected": "REJECT",
+          "name": "missing installed dependency",
+          "passed": true,
+          "rawError": "GateError: missing installed package"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "raw lock mismatch despite possible semantic equality",
+          "passed": true,
+          "rawError": "GateError: lock/canonical assets changed: src/Luban/Luban.csproj"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "complete fixed package union synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "missing union dependency",
+          "passed": true,
+          "rawError": "GateError: runner/test union must account for all 31 fixed packages"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "PASS",
+          "name": "full deployment includes project/resource/licenses",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 5.5e-05,
+          "expected": "REJECT",
+          "name": "missing selected runtime archive entry",
+          "passed": true,
+          "rawError": "GateError: selected archive entry absent"
+        },
+        {
+          "elapsedSeconds": 0.00025,
+          "expected": "PASS",
+          "name": "complete deployment actual byte gate synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 9.6e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing Luban.Core.dll",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/Luban.Core.dll')"
+        },
+        {
+          "elapsedSeconds": 9e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing nlog.xml",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/nlog.xml')"
+        },
+        {
+          "elapsedSeconds": 0.000113,
+          "expected": "REJECT",
+          "name": "complete deployment missing licenses/fallback/LICENSE",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/licenses/fallback/LICENSE')"
+        },
+        {
+          "elapsedSeconds": 0.007024,
+          "expected": "PASS",
+          "name": "oracle and two candidates actual bytes/semantics synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000823,
+          "expected": "REJECT",
+          "name": "missing control output",
+          "passed": true,
+          "rawError": "GateError: empty/duplicate control output set"
+        },
+        {
+          "elapsedSeconds": 0.002623,
+          "expected": "REJECT",
+          "name": "different control output",
+          "passed": true,
+          "rawError": "GateError: B control unity-asset candidate-2 raw mismatch"
+        },
+        {
+          "elapsedSeconds": 0.004899,
+          "expected": "REJECT",
+          "name": "false canonical digest",
+          "passed": true,
+          "rawError": "GateError: 005 semantic digest does not bind actual canonical bytes"
+        },
+        {
+          "elapsedSeconds": 5e-06,
+          "expected": "PASS",
+          "name": "negative DUT diagnostic checked",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 4e-06,
+          "expected": "REJECT",
+          "name": "exit alone insufficient for negative",
+          "passed": true,
+          "rawError": "GateError: negative diagnostic differs"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "timeout is not pass",
+          "passed": true,
+          "rawError": "GateError: DUT process completion/budget"
+        },
+        {
+          "elapsedSeconds": 0.014159,
+          "expected": "PASS",
+          "name": "pure independent-pin seam synthetic only",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000104,
+          "expected": "REJECT",
+          "name": "forged caller activation rejected",
+          "passed": true,
+          "rawError": "GateError: caller cannot replace central record"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "absent independent pin rejected",
+          "passed": true,
+          "rawError": "GateError: missing independent central pin"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "production execute closed before any caller input or read",
+          "passed": true,
+          "rawError": "GateError: BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION"
+        },
+        {
+          "elapsedSeconds": 0.0,
+          "expected": "PASS",
+          "name": "no production read or pin mutation",
+          "passed": true,
+          "rawError": null
+        }
+      ],
+      "sourceIdentity": {
+        "bytes": 93766,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17_driver.py",
+        "sha256": "6e3b2811f49ebe06e58f92e9282e8552b2af7e21333fda96636cb5fde84f3eb8"
+      }
+    },
+    {
+      "command": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17_driver.py",
+        "prepare"
+      ],
+      "elapsedSeconds": 4.613128083998163,
+      "exitCode": 0,
+      "failure": null,
+      "mode": "SOURCE_ONLY_NO_CHILDREN_NO_NETWORK_NO_UNPACK",
+      "ran": true,
+      "rawCases": [
+        {
+          "elapsedSeconds": 1.7979,
+          "expected": "PASS",
+          "name": "actual model repeated byte equality",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.213917,
+          "expected": "PASS",
+          "name": "actual producer to actual consumer",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.109865,
+          "expected": "PASS",
+          "name": "actual producer deterministic seal",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.002845,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17_driver.py",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.002302,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-inputs.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.00272,
+          "expected": "REJECT",
+          "name": "sealed-byte tamper source/m17-write-set.tsv",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: sealed source leaf"
+        },
+        {
+          "elapsedSeconds": 0.213263,
+          "expected": "REJECT",
+          "name": "rehashed table cannot replace deterministic table",
+          "passed": true,
+          "rawError": "GateError: generated/consumed table byte mismatch"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "REJECT",
+          "name": "missing dependency closure",
+          "passed": true,
+          "rawError": "GateError: missing package closure"
+        },
+        {
+          "elapsedSeconds": 3e-05,
+          "expected": "REJECT",
+          "name": "obsolete tmp cannot reenter model",
+          "passed": true,
+          "rawError": "GateError: historical temporary input leaked into build"
+        },
+        {
+          "elapsedSeconds": 0.00621,
+          "expected": "REJECT",
+          "name": "write outside roots",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Assets/forbidden.cs"
+        },
+        {
+          "elapsedSeconds": 0.000226,
+          "expected": "REJECT",
+          "name": "write wrong owner",
+          "passed": true,
+          "rawError": "GateError: write not authorized for exact stage/writer: /Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17/packages/x.nupkg"
+        },
+        {
+          "elapsedSeconds": 0.000234,
+          "expected": "PASS",
+          "name": "allowed exact evidence write",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.03264,
+          "expected": "REJECT",
+          "name": "fixed source drift",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: .editorconfig"
+        },
+        {
+          "elapsedSeconds": 4e-06,
+          "expected": "PASS",
+          "name": "fixed archive domains",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "REJECT",
+          "name": "archive bytes changed",
+          "passed": true,
+          "rawError": "GateError: identity mismatch: archive yaml-source"
+        },
+        {
+          "elapsedSeconds": 3e-06,
+          "expected": "REJECT",
+          "name": "archive catalog hash changed",
+          "passed": true,
+          "rawError": "GateError: archive catalog SHA512"
+        },
+        {
+          "elapsedSeconds": 8e-06,
+          "expected": "PASS",
+          "name": "independent synthetic phase normalize/compare",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "missing graph lock",
+          "passed": true,
+          "rawError": "GateError: complete project lock/assets set required"
+        },
+        {
+          "elapsedSeconds": 1.6e-05,
+          "expected": "REJECT",
+          "name": "signed catalog hash cannot replace NuGet content hash",
+          "passed": true,
+          "rawError": "GateError: lock NuGet contentHash mismatch"
+        },
+        {
+          "elapsedSeconds": 3e-05,
+          "expected": "REJECT",
+          "name": "unexpected restore network source",
+          "passed": true,
+          "rawError": "GateError: unexpected NuGet source"
+        },
+        {
+          "elapsedSeconds": 1.1e-05,
+          "expected": "REJECT",
+          "name": "missing installed dependency",
+          "passed": true,
+          "rawError": "GateError: missing installed package"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "REJECT",
+          "name": "raw lock mismatch despite possible semantic equality",
+          "passed": true,
+          "rawError": "GateError: lock/canonical assets changed: src/Luban/Luban.csproj"
+        },
+        {
+          "elapsedSeconds": 2e-06,
+          "expected": "PASS",
+          "name": "complete fixed package union synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "missing union dependency",
+          "passed": true,
+          "rawError": "GateError: runner/test union must account for all 31 fixed packages"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "PASS",
+          "name": "full deployment includes project/resource/licenses",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 5.4e-05,
+          "expected": "REJECT",
+          "name": "missing selected runtime archive entry",
+          "passed": true,
+          "rawError": "GateError: selected archive entry absent"
+        },
+        {
+          "elapsedSeconds": 0.000226,
+          "expected": "PASS",
+          "name": "complete deployment actual byte gate synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 8.6e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing Luban.Core.dll",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/Luban.Core.dll')"
+        },
+        {
+          "elapsedSeconds": 7.3e-05,
+          "expected": "REJECT",
+          "name": "complete deployment missing nlog.xml",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/nlog.xml')"
+        },
+        {
+          "elapsedSeconds": 0.000112,
+          "expected": "REJECT",
+          "name": "complete deployment missing licenses/fallback/LICENSE",
+          "passed": true,
+          "rawError": "KeyError: PosixPath('/SYNTHETIC_M17/runner/licenses/fallback/LICENSE')"
+        },
+        {
+          "elapsedSeconds": 0.006676,
+          "expected": "PASS",
+          "name": "oracle and two candidates actual bytes/semantics synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000839,
+          "expected": "REJECT",
+          "name": "missing control output",
+          "passed": true,
+          "rawError": "GateError: empty/duplicate control output set"
+        },
+        {
+          "elapsedSeconds": 0.002547,
+          "expected": "REJECT",
+          "name": "different control output",
+          "passed": true,
+          "rawError": "GateError: B control unity-asset candidate-2 raw mismatch"
+        },
+        {
+          "elapsedSeconds": 0.004681,
+          "expected": "REJECT",
+          "name": "false canonical digest",
+          "passed": true,
+          "rawError": "GateError: 005 semantic digest does not bind actual canonical bytes"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "PASS",
+          "name": "negative DUT diagnostic checked",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 4e-06,
+          "expected": "REJECT",
+          "name": "exit alone insufficient for negative",
+          "passed": true,
+          "rawError": "GateError: negative diagnostic differs"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "timeout is not pass",
+          "passed": true,
+          "rawError": "GateError: DUT process completion/budget"
+        },
+        {
+          "elapsedSeconds": 6e-06,
+          "expected": "PASS",
+          "name": "inherited L control matrix complete",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.000922,
+          "expected": "PASS",
+          "name": "L full 12 tests/negatives/two publications synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1.2e-05,
+          "expected": "REJECT",
+          "name": "L summary cannot hide missing self-test",
+          "passed": true,
+          "rawError": "GateError: self-test names/results differ"
+        },
+        {
+          "elapsedSeconds": 0.000898,
+          "expected": "REJECT",
+          "name": "L published canonical mismatch",
+          "passed": true,
+          "rawError": "GateError: L actual bytes/semantics differ"
+        },
+        {
+          "elapsedSeconds": 0.000607,
+          "expected": "REJECT",
+          "name": "L missing raw publication",
+          "passed": true,
+          "rawError": "GateError: L complete raw/canonical set required"
+        },
+        {
+          "elapsedSeconds": 0.000145,
+          "expected": "REJECT",
+          "name": "L negative output must remain unpublished",
+          "passed": true,
+          "rawError": "GateError: negative canonical publication"
+        },
+        {
+          "elapsedSeconds": 4e-05,
+          "expected": "PASS",
+          "name": "official TRX completion synthetic",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 1.4e-05,
+          "expected": "REJECT",
+          "name": "official skipped/incomplete TRX rejected",
+          "passed": true,
+          "rawError": "GateError: official tests incomplete"
+        },
+        {
+          "elapsedSeconds": 0.065893,
+          "expected": "PASS",
+          "name": "pure independent-pin seam synthetic only",
+          "passed": true,
+          "rawError": null
+        },
+        {
+          "elapsedSeconds": 0.00012,
+          "expected": "REJECT",
+          "name": "forged caller activation rejected",
+          "passed": true,
+          "rawError": "GateError: caller cannot replace central record"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "absent independent pin rejected",
+          "passed": true,
+          "rawError": "GateError: missing independent central pin"
+        },
+        {
+          "elapsedSeconds": 1e-06,
+          "expected": "REJECT",
+          "name": "production execute closed before any caller input or read",
+          "passed": true,
+          "rawError": "GateError: BLOCKED_SOURCE_ONLY_NO_TRUSTED_CENTRAL_ACTIVATION"
+        },
+        {
+          "elapsedSeconds": 0.0,
+          "expected": "PASS",
+          "name": "no production read or pin mutation",
+          "passed": true,
+          "rawError": null
+        }
+      ],
+      "sourceIdentity": {
+        "bytes": 104059,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17_driver.py",
+        "sha256": "203be2d994db81da1722f5334cd1ac49b383b5aafaa64695f7325a6b3addc6f0"
+      }
+    }
+  ],
+  "caseCount": 50,
+  "cumulativeSeconds": 9.232626708999305,
+  "dotnetStarts": 0,
+  "futureRootsCreated": false,
+  "networkRequests": 0,
+  "oldHistoricalResults": "23/46/25 preserved, not mechanically rerun",
+  "passed": 50,
+  "scope": "pure in-process current M17 only; synthetic fixtures are not actual restore/material/build results",
+  "supersededSourceSeals": [
+    {
+      "identity": {
+        "bytes": 2764,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/source-freeze.json",
+        "sha256": "d998fb219bdb5aa28342181e7afeae8c699cd5d8a0951d65192bd7383e601dc3"
+      },
+      "rawSeal": {
+        "executionAuthorized": false,
+        "executorComplete": true,
+        "filesExcludingThisSeal": [
+          {
+            "bytes": 11096,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/offline-checks.json",
+            "sha256": "f3bb9b237bb872efa6a3492eefae6b7db56152a048fa00b3c1eb6b6ffee31cf6"
+          },
+          {
+            "bytes": 5662503,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/prepare.json",
+            "sha256": "73f2a15ecaf9964a34f9ff921050b89235600676fad8d259140b0de622dd8924"
+          },
+          {
+            "bytes": 14135,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/authority/source-receipt.json",
+            "sha256": "4b2f2e21105b51127830873e37f4bc6aeb681cee032457b57f0674ac609180ba"
+          },
+          {
+            "bytes": 1958056,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17-inputs.tsv",
+            "sha256": "359b9610d4ebf729ae4fce3ed75efd12478740aef1d34b8e6e1b1f914d94feed"
+          },
+          {
+            "bytes": 1419240,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17-write-set.tsv",
+            "sha256": "22b8add03107cf04791e7783383b97832f78c988bf901daa7e51044bbc3dabc6"
+          },
+          {
+            "bytes": 93766,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/m17_driver.py",
+            "sha256": "6e3b2811f49ebe06e58f92e9282e8552b2af7e21333fda96636cb5fde84f3eb8"
+          },
+          {
+            "bytes": 300464,
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17/source/source.patch",
+            "sha256": "946a1fe3c5cf45a05dd41bb3c9d1c91cfca6d6f44952cf849a9d7dd029a26e6f"
+          }
+        ],
+        "issuer": {
+          "hostId": "local",
+          "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+          "turnId": "01a10641-a816-71d1-919b-97413f71ea56"
+        },
+        "layering": "fixed inputs + driver -> model/tables -> seven artifacts -> seal; no backward generated dependency",
+        "materialWriteSetComplete": true,
+        "modelSha256": "0003c63895186d21286fb120de67d999053974fabe8a5f65e613b4ef663bd924",
+        "owner": {
+          "hostId": "local",
+          "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+          "turnId": "01a10679-580b-73b2-85bf-ae0a19de8b29"
+        },
+        "productionTrustPin": null,
+        "schemaVersion": 1,
+        "sourceReady": true,
+        "status": "SOURCE_READY"
+      },
+      "reason": "author found omitted inherited L control matrix before handoff; corrected in same approved source window"
+    }
+  ],
+  "unityStarts": 0
+}

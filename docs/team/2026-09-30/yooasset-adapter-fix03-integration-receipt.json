@@ -1,0 +1,54 @@
+{
+  "task": "RES-B-ADAPTER-FIX03-INTEGRATION",
+  "receivedUtc": "2026-10-03T00:55:24.592413+00:00",
+  "verdict": "ACCEPT",
+  "scope": "Limited internal adapter source, exact-head independent GitHub code review and fixed-composite Mac compile/38-case module gate.",
+  "head": "49f177ca5594cf987d12bd892b726145b8e41fc8",
+  "tree": "e002931513c2996469cadf0614be893af6d5f9f5",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/9",
+  "evidence": {
+    "code": {
+      "path": "docs/team/2026-09-30/testing-yooasset-adapter-fix03-pr9-review-receipt.json",
+      "bytes": 6431,
+      "sha256": "e167797e212c620a15a2ac92450c9ea41f8a1f5c11cc98b5f9c224151d67f9fb"
+    },
+    "native": {
+      "path": "docs/team/2026-09-30/testing-yooasset-adapter-fix03-m04-receipt.json",
+      "bytes": 4208,
+      "sha256": "a3edac9b4b4f07990baf7264e84855c6725cef7ec6de4554d58f425f0d4c46ea"
+    },
+    "execution": {
+      "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/M04/receipt.json",
+      "bytes": 15438,
+      "sha256": "7388b4bd7026f9f9b49411ff142358d8e3fb75ae16b8cbfb572341cb26ea527a"
+    }
+  },
+  "independentReview": {
+    "result": "https://github.com/yyczz1/FightMatch/pull/9#issuecomment-5963627129",
+    "conclusion": "No major issues reported",
+    "formalApproved": false
+  },
+  "tests": {
+    "passed": 38,
+    "total": 38,
+    "failed": 0,
+    "skipped": 0,
+    "original37Retained": true,
+    "newRegression": 1,
+    "xmlSeconds": 0.584848
+  },
+  "validationBoundary": "Exact source overlay in a fixed isolated composite; not a complete PR-branch build. Reuse engineering and QA verified source/meta/cache/DLL/protection evidence; central checked sealed receipt hashes and verdicts, without local code review or test rerun.",
+  "closure": {
+    "remainingOwned": [],
+    "consumerClear": true,
+    "exactOwnedTerm": 61264
+  },
+  "history": "All four prior P2 discussions and 31/34/37 native records retain original state and attribution; no original receipt rewritten.",
+  "remaining": [
+    "Real built-in resources and raw bytes",
+    "Resource codec and runtime/bootstrap contracts",
+    "Host integration and shared adoption",
+    "Windows/Android build, actual device gameplay and Demo acceptance"
+  ],
+  "permission": "No merge, master update, deployment or release authorized by this limited receipt."
+}

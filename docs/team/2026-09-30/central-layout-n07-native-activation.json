@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-05",
+  "status": "BOUNDED_NATIVE_CONTINUATION_AUTHORIZED_NOT_EXECUTED",
+  "central": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "basis": "Technical continuation of the user's approved real scene repair, save/close/read-only-reopen, guarded single-Scene export and necessary validation. N06 failed before any save; N07 changes the relevant source. This is not a new human approval, a code acceptance, or permission to bypass tool review.",
+  "authorityRecords": [
+    "docs/team/2026-09-30/central-explicit-execution-approval-2026-10-05.json",
+    "C direct user turn 01a109db-46f9-7950-86a6-9994c2b10d75: 授权一次场景保存、关闭、只读复开，并在全部检查通过后导出唯一 Scene"
+  ],
+  "plan": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-fix04-n07-source-plan.md",
+    "sha256": "12c0e7bb6fca1842b1e3f258de8c7cc8a6f66066af30486154cd01aa119e0984",
+    "activatedSection": 7
+  },
+  "sourceReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/S/source-receipt.json",
+    "bytes": 31528,
+    "sha256": "f6fdd4d237e3f1232ba97731f35bf5695a12779bc4461c932d55d26e1a82793c",
+    "authorTurn": "01a10a30-9eaf-7cc1-862e-5d2f8f5e5a4a",
+    "state": "SOURCE_READY; author completed and stopped writing; final engineering identity receipt is a prerequisite to execution",
+    "evidenceLeaves": 8,
+    "evidenceBytes": 570705
+  },
+  "candidateB": {
+    "bytes": 183600,
+    "sha256": "4c99967906fe9afdd4f53d58db750acc7e8bbc1827f61e73577fcbc9b3b33116"
+  },
+  "candidateT": {
+    "bytes": 40209,
+    "sha256": "6e52750705ccdc18e26f2bf4591fa9d675bb1e641cb7bb396f9c6a7f804f6f52"
+  },
+  "engineering": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "executor": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local; fresh actual turn must be recorded before preparation/execution",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "scope": "Engineering completes source receipt, binds a fresh C turn and exact N07 I/runner to section 7, then C performs the single bounded native attempt under normal tool approval. No extra design/review round is required for the already specified delta.",
+  "limits": {
+    "preflightSeconds": 120,
+    "editorLaunches": 1,
+    "editorSecondsIncludingCompileImport": 180,
+    "retries": 0,
+    "totalN07Leaves": 21,
+    "totalN07Bytes": 201326592
+  },
+  "required": [
+    "Sync B and T once each from the frozen candidates; require actual Host.Editor and Core.Tests Csc plus resulting DLL identities.",
+    "Remove only -quit from the fixed Editor argv; preserve the plan's lifecycle, logs, watchdog, owned-process cleanup and resource limits.",
+    "Use current observed TMP and projection preimages; preserve historical failed runs and fail on unapproved drift.",
+    "Preserve all geometry, source identity, reference, prefab, override and disk-byte checks. No predicate weakening or repeated refresh.",
+    "Record actual save call/return/disk state even on later failure. Export only the shared Scene after all native and protection gates pass.",
+    "Engineering is the sole C receiver and returns the actual receipt upstream. Stop after a denial or failure; no alternate executor or indirect execution."
+  ],
+  "notIncluded": [
+    "Additional diagnostics or Editor launches",
+    "Test discovery or 99-test execution",
+    "Play/device/APK acceptance",
+    "Dependency, package, configuration or engine changes",
+    "Git mutation, PR publication, merge, deployment or release",
+    "LOC material execution or communication-denial retry"
+  ],
+  "acceptanceState": "N07 runtime and code review remain pending; native success alone does not accept the Demo."
+}

@@ -1,0 +1,78 @@
+{
+  "task": "LOC-M06-INTERRUPTION-RECEIPT",
+  "status": "POST_INTERRUPTION_INCOMPLETE_FINAL_EXIT_UNKNOWN",
+  "owner": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a12bfe-0633-7001-9613-18780415e1a1",
+    "receivedItem": "fco_01a12bfe-0658-7480-ad71-c71b6e9a853f"
+  },
+  "originalOwnerTurn": "01a12998-5f4d-7a03-83c3-c5670144e1cc",
+  "originalToolId": "exec-177da352-5c1b-4a9e-a39e-82082f70591f",
+  "receiptPath": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1/receipt.json",
+  "hostStartedAtUtc": "2026-10-11T06:15:23.066145+00:00",
+  "hostPid": 60792,
+  "toolStatus": "failed",
+  "toolExitCode": -1,
+  "toolDurationMs": 102534,
+  "hostFinalOsExitCode": null,
+  "hostFinalRuntimeSeconds": null,
+  "currentProcessState": "UNKNOWN_PERMISSION_UNAVAILABLE",
+  "downloadArchivesVerified": 13,
+  "downloadArchiveBytes": 9014649,
+  "downloadReceiptsExit0Quiescent": 13,
+  "downloadMeasuredBodyBytes": 9014649,
+  "threeRestores": [
+    {
+      "id": "M-runner-generation-restore",
+      "start": "UNKNOWN",
+      "completion": "UNKNOWN",
+      "receiptExists": false,
+      "stdoutExists": false,
+      "stderrExists": false,
+      "configExists": false,
+      "projectExists": false,
+      "generatedPathsPresent": 0
+    },
+    {
+      "id": "M-tests-generation-restore",
+      "start": "UNKNOWN",
+      "completion": "UNKNOWN",
+      "receiptExists": false,
+      "stdoutExists": false,
+      "stderrExists": false,
+      "configExists": false,
+      "projectExists": false,
+      "generatedPathsPresent": 0
+    },
+    {
+      "id": "M-tests-verification-restore",
+      "start": "UNKNOWN",
+      "completion": "UNKNOWN",
+      "receiptExists": false,
+      "stdoutExists": false,
+      "stderrExists": false,
+      "configExists": false,
+      "projectExists": false,
+      "generatedPathsPresent": 0
+    }
+  ],
+  "protectedUnchanged": 123,
+  "protectionDifferences": [],
+  "materialManifestExists": false,
+  "materialValidationExists": false,
+  "conclusion": "Interrupted incomplete material run, not accepted. Tool -1 is not the DUT exit code. Missing restore receipts do not establish zero attempts.",
+  "currentWork": "Read-only intake only; no download, restore, retry, kill, SDK scan, Unity or Git.",
+  "collection": {
+    "limitSeconds": 120,
+    "startedAtUtc": "2026-10-11 17:24:23 UTC",
+    "lastFactClockUtc": "2026-10-11 17:25:45 UTC",
+    "factCollectionWallSeconds": 82,
+    "firstReceiptWriteObservedAtUtc": "2026-10-11T17:26:39Z",
+    "wallSecondsThroughFirstReceiptWrite": 136,
+    "overall120SecondBudgetIncludingReceiptAuthoringExceeded": true,
+    "timingNote": "Read-only fact collection ended at 82 seconds. Including receipt composition/write, the observed wall clock reached 136 seconds. Report this overrun conservatively; no further evidence scans or process queries were performed after the 120-second deadline.",
+    "helperSeconds": 0.19490433400005713,
+    "scopeExpansion": false
+  }
+}

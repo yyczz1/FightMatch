@@ -1,0 +1,10 @@
+# LAYOUT FIX04 / D02 — 准备制作纠正，直接完成已批诊断
+
+2026-10-04 · ACTIVATED_DIAGNOSTIC_ONLY。继承 [D01 合同](engineering-layout-s1-fix04-d01.md)（8188B / `f3e395bbf9a4552cc4602a314a68a5cc7114d57f967865a8b6f9c3e44a01dd05`）全部诊断内容、验收/保护/进程/资源边界，只有下列后继差量。依据同一人类授权 `central-resume-scene-loc-2026-10-04.json` 及中央本轮“普通准备与脚本错误在既定范围内合并处理、无需再等中央”的指示；未扩大保存、产品修复、测试或Git权限。issuer/唯一收件主程 `01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local/01a10641-a816-71d1-919b-97413f71ea56`，唯一作者/执行者既有C `01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local`，Astra/xhigh；记录新的实际turn，同回合封源、签I、直接执行，不再逐门等待批准。
+
+- D01 已 PREPARATION_FAILED / native NOT_RUN，owner `01a10644-6d4d-7fb3-9f09-56c8ca168061` completed。失败回执 `D01/S/source-receipt.json` 146369B / `124342ee2b1b308ccdb3edffb9691706e3a5856789bd36cbc002ad6195300128` 及四S叶351016B全部只读；三次错误保留，不改判通过。主程79a014已核四叶和真实blob，未重跑静态门。D01 TMP `/private/tmp/fm-ld01.voVEfQ7Y` 保持原身份/空根，不复用。
+- 新D=`TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/D02`，主程79a014已核缺席。只沿D01合同同名12叶、空P例外/无PExport、S≤1MiB/D≤192MiB。旧N02/D01证据和两个TMP均冻结；新增保护仅D01四叶/合同/补签/TMP身份。无需重读历史或重建清单框架；实际preflight仍沿原完整保护。
+- 候选从D01/S/FightMatchAndroidBuild.cs **165612B / `f097225191fa1bac7cddc26ae4dbb99fa5ee912146f583be2fde24f335d54a85` / blob `4170fc654728990c95e8d1c6c6bf333713095e6c`** 逐字派生；仅D根、诊断标记/停止标记由D01改D02，原三点/额外上下文及逻辑均保持，总差量相对N02仍≤100行。共享与投影前像仍N02 B160434B/5dda3f055c7f78016d91dc533382b53154d8dd1412abcf03913c64f0aeaaaac0，恢复仍只用N02/S/B。
+- 制作纠正：先定最终候选字节，再用同一个身份计算函数生成bytes/SHA256/gitBlob并用于所有派生metadata；不继承D01错误blob，不手抄候选身份。N02共享15源与D02投影15源继续分开。复用既有静态检查与内存runner，准备窗口合并源码逆向/行预算/三点/无Save/固定身份/runner AST检查，最多3次、累计≤30秒；仅本范围字符串/类型/身份制作错误允许必要修正，逐次保存真实命令/失败/时长，成功即停。异常用finally输出实际计时，不虚构过去缺失计时。真实产品/输入漂移或改变检查意图则停止；禁止无差量重试。
+- 新TMP仅一次 `mktemp -d /private/tmp/fm-ld02.XXXXXXXX`，沿D01全部短路径/权限/限额/保留规则。activation绑定本合同、实际owner/issuer、新S封签及固定源/保护/完整argv。runner直接沿N02最小适配，≤350非空行；不另造验证框架。仅一次Editor≤180秒、retry0，preflight≤120秒，监护/预算/owned收尾与恢复完全沿D01。D01未启动不等于可追加多次D02原生运行。
+- 无条件保存前停止，三快照完整与raw log对应才是DIAGNOSTIC_READY；不称产品通过或根因已证。无保存/导出/复开/测试/设备/Git/共享写。结果一次回主程：实际三点数值与首次变化边界、12叶真实集合、旧保护/进程收尾和限定B恢复；失败按真实停点封存，不再附整段历史命令正文，引用不可变D01回执即可。候选/runner编译产物不得作为正式验证。

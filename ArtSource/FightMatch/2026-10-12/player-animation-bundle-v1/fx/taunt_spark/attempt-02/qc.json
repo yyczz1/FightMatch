@@ -1,0 +1,227 @@
+{
+  "status": "AUTHOR_CHECK_IN_PROGRESS",
+  "owner": "/root/player_fx",
+  "parent_thread": "01a12f4d-81d7-7602-929a-75c94729f23b",
+  "host": "local",
+  "image_gen": {
+    "call_id": "exec-081816b1-3c95-4068-9aae-2734d65146f3",
+    "generation_session": "01a1308c-f84e-77e1-8012-2da4754c0ff7",
+    "source_path": "/Users/elliotyip/.codex/generated_images/01a1308c-f84e-77e1-8012-2da4754c0ff7/exec-081816b1-3c95-4068-9aae-2734d65146f3.png",
+    "raw_sha256": "86582d9fdc71a54896288bfc1160f7d6b3a48d73f051a9e343ef18901f7dfcfd",
+    "actual_raw_size": [
+      1254,
+      1254
+    ]
+  },
+  "frames": [
+    {
+      "frame": 1,
+      "duration_ms": 80,
+      "phase": "Shield contact",
+      "rgba_sha256": "e5477fee41df7c76ccfccc3b4b76b38e415fbed249759d1e443c95a218dbc894",
+      "bbox": [
+        51,
+        55,
+        82,
+        80
+      ],
+      "opaque_pixels": 168,
+      "opaque_color_count": 7,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "edge_touch": false,
+      "root": [
+        64,
+        64
+      ],
+      "raw_cell_origin": [
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "duration_ms": 90,
+      "phase": "Resonance",
+      "rgba_sha256": "bcf3217c0349c687a02385bc6ccde3dd1874c7e1c30eee26b32652ac6ae0aeac",
+      "bbox": [
+        35,
+        40,
+        87,
+        92
+      ],
+      "opaque_pixels": 536,
+      "opaque_color_count": 11,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "edge_touch": false,
+      "root": [
+        64,
+        64
+      ],
+      "raw_cell_origin": [
+        627,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "duration_ms": 120,
+      "phase": "Expanding ripple",
+      "rgba_sha256": "4747523058eb0682b540929a666b8ead8e02f7ae992463060c56e941fcdceda4",
+      "bbox": [
+        30,
+        23,
+        100,
+        92
+      ],
+      "opaque_pixels": 302,
+      "opaque_color_count": 7,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "edge_touch": false,
+      "root": [
+        64,
+        64
+      ],
+      "raw_cell_origin": [
+        0,
+        627
+      ]
+    },
+    {
+      "frame": 4,
+      "duration_ms": 180,
+      "phase": "Dim remnants",
+      "rgba_sha256": "4537e5dc4920201e4db577095a4bc47c1a4fc4c6c25505628ee4c22f58cb3d6f",
+      "bbox": [
+        44,
+        43,
+        78,
+        75
+      ],
+      "opaque_pixels": 64,
+      "opaque_color_count": 5,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "edge_touch": false,
+      "root": [
+        64,
+        64
+      ],
+      "raw_cell_origin": [
+        627,
+        627
+      ]
+    }
+  ],
+  "gif_checks": {
+    "transparent": {
+      "frame_count": 4,
+      "decoded_frames_exact": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "disposal": 2,
+      "preview_loop_only": true
+    },
+    "cream": {
+      "frame_count": 4,
+      "decoded_frames_exact": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "disposal": 2,
+      "preview_loop_only": true
+    },
+    "dark": {
+      "frame_count": 4,
+      "decoded_frames_exact": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "disposal": 2,
+      "preview_loop_only": true
+    }
+  },
+  "skill_qc_summary": {
+    "frame_count": 4,
+    "valid_frame_count": 4,
+    "empty_count": 0,
+    "edge_touch_count": 0,
+    "paste_clamped_count": 0,
+    "body_scale_mean": 0.11514793050052953,
+    "output_subject_height_mean": 44.75,
+    "body_scale_cv": 0.3798857115978263,
+    "anchor_x_std": 0.019860302081997246,
+    "anchor_y_std": 0.03442619383365982,
+    "anchor_y_mean": 0.488237639553429
+  },
+  "skill_empty_frames": [],
+  "skill_source_edge_touch_frames": [],
+  "skill_output_edge_touch_frames": [],
+  "skill_paste_clamped_frames": [],
+  "final_processing": {
+    "source": "processed/raw-sheet-clean.png",
+    "method": "full fixed raw-cell nearest-neighbor resize, chroma fringe reject, nearest fixed shared RGB palette, binary alpha",
+    "source_cell": [
+      627,
+      627
+    ],
+    "output_cell": [
+      128,
+      128
+    ],
+    "scale": [
+      0.20414673046251994,
+      0.20414673046251994
+    ],
+    "root": [
+      64,
+      64
+    ],
+    "per_frame_fit": false,
+    "per_frame_translate": false,
+    "dither": false
+  },
+  "exceptions": [
+    {
+      "gate": "humanoid body_scale_cv/profile drift/feet anchor",
+      "applies": false,
+      "reason": "Independent FX deliberately grows, fragments and fades; raw numerical skill metrics preserved, no body or feet present."
+    },
+    {
+      "gate": "requested raw 1024x1024 geometry",
+      "applies": false,
+      "reason": "Image generator returned 1254x1254; exact 2x2 equal 627x627 cells retained, all five share the same uniform 128/627 sampling."
+    }
+  ],
+  "aseprite_roundtrip": "pending",
+  "visual_review": "pending",
+  "source_attempts": [
+    {
+      "path": "attempt-01",
+      "reason": "CLI rejected semantic target fx; corrected target asset. No rejected raw artwork."
+    }
+  ],
+  "unpassed_gates": [
+    "Aseprite per-frame roundtrip pending",
+    "Author visual sequence/GIF review pending",
+    "Lead acceptance and user visual review pending"
+  ],
+  "not_imported": true
+}

@@ -1,0 +1,44 @@
+{
+  "task": "RES-COMBINED-V04-FIX02",
+  "date": "2026-10-08",
+  "verdict": "ACCEPT",
+  "scope": "Source gate only; not native, game, device or release acceptance",
+  "head": "ca0204b1aa67096d72f81e4e71c3596bfa1da9ff",
+  "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+  "runner": {
+    "bytes": 92571,
+    "sha256": "2327cb60e5fff6406d9d0a56415eef005d9b11452755930f96d0c071314b2caf"
+  },
+  "independentReview": {
+    "provider": "GitHub PR Code Review",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6050592958",
+    "summaryComment": 6048274217,
+    "completedUtc": "2026-10-08T01:57:10.018513Z",
+    "reviewedHead": "ca0204b1aa",
+    "statement": "Didn't find any major issues.",
+    "formalApproval": false,
+    "newFindings": [],
+    "historicalThreads": "4213725720 and4213782936 remain unresolved/not-outdated UI records; their respective fixes and new-head result are recorded, no bot approval invented"
+  },
+  "testingActual": "01a11937-9569-7e32-8cf1-ea3c5e5540c4",
+  "testingReceipt": "testing-resource-combined-pr20-v04-fix02-review-receipt.json",
+  "centralVerification": {
+    "sourceScope": "closure only,92 other ASTs unchanged; inputs/activation/exit contracts identical",
+    "snapshotSeals": true,
+    "remoteFiles": 50,
+    "remoteBytes": 3216164,
+    "allBlobAndSizeMatch": true,
+    "originalGitHubResultAndCurrentHeadFetched": true
+  },
+  "validation": {
+    "currentReplayCases": 69,
+    "currentReplayPassed": 69,
+    "rounds": 1,
+    "seconds": 5.869845291992533,
+    "nativeRuns": 0,
+    "historical": "V04 63/65 and V02 177 retained; not additional current runs"
+  },
+  "nextPacket": "central-resource-combined-v04-execute.md",
+  "nativeAcceptancePending": true,
+  "demoAccepted": false
+}

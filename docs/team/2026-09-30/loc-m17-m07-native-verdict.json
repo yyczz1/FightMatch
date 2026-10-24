@@ -1,0 +1,72 @@
+{
+  "task": "LOC-M17-M07 material integration",
+  "verdict": "NEEDS_FIX",
+  "centralTurn": "01a12dc8-58f5-7150-aa6d-c763dd9d9e02",
+  "humanItem": "01a12dc8-5fb9-7e43-8659-7026352c2050",
+  "sourceHead": "01a5ab7afa5f3d2d55df4b5d6b72c8fa6e353736",
+  "sourceAcceptanceRetained": "loc-m17-fix05-review02-source-verdict.json; source acceptance is not material acceptance",
+  "ownerActual": {
+    "hostId": "local",
+    "receivedItem": "fco_01a12dca-5f22-7360-89af-c9b699a5914a",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12dca-5f12-7d21-8c65-31ac1d70c49e"
+  },
+  "ownerTurnDurationMs": 535054,
+  "qaActualTurn": "01a12dd3-79cc-7321-bae8-0545a149914e",
+  "qaTurnDurationMs": 117171,
+  "independentReceipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/testing-loc-m17-m07-native-receipt.json",
+    "bytes": 5385,
+    "sha256": "f1a7d7bc2cdb73ff843d59b13815b8b99af354c94ab4b1651cec56c507c6e23c"
+  },
+  "originalToolId": "exec-4def70d8-d499-409c-aefa-385c90732e0f",
+  "centralMatchedActualToolCommandAndUntruncatedOutput": true,
+  "hostStartCount": 1,
+  "hostExitCode": 1,
+  "fullInvocationSeconds": 115.92915500000163,
+  "newDownloads": 0,
+  "measuredArchiveBodyBytes": 0,
+  "restoreCountStarted": 1,
+  "restoreCountSucceeded": 0,
+  "remainingRestores": "NOT_STARTED",
+  "firstRestoreSeconds": 8.010706375000154,
+  "failure": "NuGet.targets(174,5): access denied / Operation not permitted writing Luban.Protobuf/obj/fad540fa-601a-42d8-9369-591cbb6955e3.tmp",
+  "classification": "ACTUAL_NATIVE_FAILURE_NOT_TOOL_APPROVAL_REJECTION",
+  "rootCause": "Not yet established; engineering scoped diagnosis pending",
+  "manifest": null,
+  "protectedCount": 216,
+  "protectedChanges": [],
+  "processEvidence": {
+    "atHostCompletionKnownQuiescent": true,
+    "stillOwned": [],
+    "supplementalDefaultSandboxPs": "DENIED; not retried or claimed passed"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m07/before.json",
+      "bytes": 65669,
+      "sha256": "1b6413cd88fef7887438729e72615fa116f237572be19670b3eb04575574ab12"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m07/stdout.log",
+      "bytes": 282,
+      "sha256": "74b531a3600e6823cebbd860ed9fad8a48441b385cf0198a7bf7ce58a194ca31"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m07/stderr.log",
+      "bytes": 1375,
+      "sha256": "7acf2f45c7fbc8f5e4e2327dac9abf6f5e2ab3028c809b2b5418797fc27e495b"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m07/receipt.json",
+      "bytes": 26394,
+      "sha256": "f0c94dc11946997cac0e3faa143cab4b7b8a0f3e17d3d95183a9a6c6619e3edb"
+    }
+  ],
+  "oneAttemptConsumed": true,
+  "automaticRetryAuthorized": false,
+  "B": "NOT_RUN; M not accepted",
+  "L": "NOT_RUN",
+  "Unity": "NOT_RUN",
+  "next": "Preserve partial roots and original logs; engineering designs minimal source correction against the observed obj temporary-file failure, then LOC implements scoped source-only correction and obtains exact-head GitHub review before proposing any new material attempt."
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V05 GitHub review intake",
+  "recordedAt": "2026-10-08",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/20",
+  "input": {
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "parent": "ca0204b1aa67096d72f81e4e71c3596bfa1da9ff",
+    "head": "6cb1f6f10aad344d14876cd26c86650fd99b8401",
+    "publicationReceipt": "docs/team/2026-09-30/resource-combined-v05-publication-receipt.json",
+    "publicationAuthorActual": "01a1194e-5fad-7102-a24c-ff8867edd49c",
+    "files": 58,
+    "payloadBytes": 3335970,
+    "allMatch": true,
+    "reviewTriggerId": "6050977694",
+    "reviewTriggerReposted": false
+  },
+  "intakeActual": {
+    "threadId": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "turnId": "01a1195b-1c80-7000-a1c3-5518b45518ea"
+  },
+  "review": {
+    "completion": "COMPLETED",
+    "completedAt": "2026-10-08T02:36:20.416582Z",
+    "summaryCommentId": "6048274217",
+    "formalSubmission": {
+      "id": "PRR_kwDOTDyjrM8AAAABROOFyw",
+      "state": "COMMENTED",
+      "submittedAt": "2026-10-08T02:36:17Z",
+      "reviewedHead": "6cb1f6f10a",
+      "headMatches": true,
+      "reviewer": "chatgpt-codex-connector",
+      "approval": false
+    },
+    "separateTopLevelResultComment": "none observed",
+    "inlineFindings": [
+      {
+        "commentId": "4214034014",
+        "threadId": "PRRT_kwDOTDyjrM6qLApw",
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214034014",
+        "priority": "P1",
+        "title": "Promote observation-write failures above natural expiry",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 239,
+        "resolved": false,
+        "outdated": false,
+        "body": "When the natural-window check raises NaturalGraceExpired and persisting the Bee observation also fails (for example, due to the evidence-capacity check or an I/O error), attaching the write failure with add_note() leaves the exception type unchanged. monitor() consequently treats it as a normal natural-boundary transition and discards the note, so closure can succeed and the stage can proceed without the mandatory failure observation or any monitor_errors entry. Preserve the grace exception as context, but raise a distinct INCOMPLETE error for the evidence-write failure so this path cannot be accepted as normal."
+      },
+      {
+        "commentId": "4214034022",
+        "threadId": "PRRT_kwDOTDyjrM6qLAp2",
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214034022",
+        "priority": "P2",
+        "title": "Reject oversized partial output from timed-out probes",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 214,
+        "resolved": false,
+        "outdated": false,
+        "body": "When lsof times out after producing more than rawBytesPerStream, bee_capture_output() returns False, but this exception path ignores that result and rethrows only TimeoutExpired. The observation therefore retains a truncated prefix while the required capacity overrun is never classified as INCOMPLETE, unlike the completed-process path; this can discard the raw bytes needed to diagnose the Bee failure. Check the return value here and preserve both the timeout and the capacity failure."
+      }
+    ]
+  },
+  "historicalFindingStates": [
+    {"commentId":"4212752227","priority":"P1","resolved":false,"outdated":true},
+    {"commentId":"4212896382","priority":"P1","resolved":false,"outdated":true},
+    {"commentId":"4212896391","priority":"P1","resolved":false,"outdated":true},
+    {"commentId":"4213725720","priority":"P1","resolved":false,"outdated":false},
+    {"commentId":"4213782936","priority":"P1","resolved":false,"outdated":false}
+  ],
+  "sourceEvidence": {
+    "newReplayPassed": 37,
+    "replayRounds": 2,
+    "replaySeconds": 3.7207605010044063,
+    "firstRoundFixtureFailureRetained": true,
+    "old69And177ReusedWithinScope": true,
+    "nativeRuns": 0,
+    "beeRootCause": "UNKNOWN",
+    "reviewIntakeRanTests": false,
+    "localSourceReview": false,
+    "githubWritesByIntake": []
+  },
+  "receiptPath": "docs/team/2026-09-30/testing-resource-combined-pr20-v05-review-receipt.json"
+}

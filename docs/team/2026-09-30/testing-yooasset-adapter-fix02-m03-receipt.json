@@ -1,0 +1,131 @@
+{
+  "task": "RES-B-ADAPTER-FIX02-M03-NATIVE-RECEIPT",
+  "receivedUtc": "2026-10-02T23:59:16Z",
+  "verdict": "ACCEPT",
+  "scope": "M03 fixed-input Mac compile and exact 37-case native gate only; not adapter integration, code review, real resources, Host or device acceptance.",
+  "testingOwner": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0ff04-b09a-7402-a09d-fc53e74a7348"
+  },
+  "executionOwner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a0feff-d461-7a60-9c0a-8547f2109b64"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Central explicitly added final native intake to this turn. Reuse engineering's complete source/package/cache/protection checks; read necessary originals/XML/mapping only, no rerun or local code review.",
+  "anchors": {
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/M03/receipt.json",
+      "bytes": 14819,
+      "sha256": "de4a95112971831b5c054833bfd07f6eaa8f9d03718fdcb95f75de1b27f21153"
+    },
+    "xml": {
+      "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/M03/T/results.xml",
+      "bytes": 25039,
+      "sha256": "219dec83d7f1a5edf90f6c0e75c40cb279cdecbe20acb528fe994f6f4e06e0ac"
+    },
+    "run": {
+      "bytes": 85264,
+      "sha256": "6fe9a4f9989e5655a15dc0d34b59c75c2b9ff9e8cde21b99f65510d74f2a6461"
+    },
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX02/S/source-receipt.json",
+      "bytes": 21078,
+      "sha256": "d1be360c76307a7ebe98eb4bb7afc552bb95a30efb98554ea848c4248a822057"
+    }
+  },
+  "verification": {
+    "mode": "READ_ONLY_NATIVE_EVIDENCE_INTAKE",
+    "commandChunk": "3d3478",
+    "checksPassed": 68,
+    "evidenceLeaves": 17,
+    "evidenceBytes": 421737,
+    "fresh": "All 17 original evidence identities and exact file set; XML/receipt/frozen-input multiset; 34+3 partition; stage/owner/filter/process closure; two immutable source postimages against publication SHA/Git blobs; seven assembly records, two changed DLL identities and actual Csc log lines; historical receipts.",
+    "reused": "Engineering 9cd1dd -> 2f8c2e at 2026-10-02T23:50:31Z: 1019 source/meta leaves, 527 unique GUIDs, 53 package/cache trees, seven live assemblies, two changed DLLs, shared1089 and historical protection. Engineering e3a206 at 23:48:38Z binds two published postimages to projection. Recorded in docs/team/2026-09-30/engineering.md:13. No repeat full-tree/cache/DLL audit.",
+    "noDifferencesInSealedAfter": true
+  },
+  "candidate": {
+    "kind": "FIXED_COMPOSITE_PLUS_FIX02_TWO_POSTIMAGES_NOT_COMPLETE_PR_HEAD",
+    "originalReceiptPublishedAdapterHead": null,
+    "separatelyAssociatedHead": "d8cc01056bfbc28391d5f9ac34a58e17f38ab111",
+    "publicationReceipt": "docs/team/2026-09-30/yooasset-adapter-fix02-publication-receipt.json",
+    "publicationReceiptSha256": "5cb775000ba0fa3ad5afabd680f414270186adb4321bad801002740cab971f94",
+    "mapping": "Only lifecycle/tests FIX02 postimages over the existing projection; other frozen inputs and all 12 metadata identities preserved. Original head=null remains untouched. This is not an entire PR-head build."
+  },
+  "stages": [
+    {
+      "stage": "I",
+      "runs": 1,
+      "pid": 58073,
+      "exitCode": 0,
+      "recordedElapsedSeconds": 79.883892,
+      "timestampWindowSeconds": 98.194544
+    },
+    {
+      "stage": "T",
+      "runs": 1,
+      "pid": 58335,
+      "exitCode": 0,
+      "recordedElapsedSeconds": 23.646524,
+      "timestampWindowSeconds": 41.790204
+    }
+  ],
+  "tests": {
+    "total": 37,
+    "passed": 37,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "original34Passed": 34,
+    "new3Passed": 3,
+    "exactNamedMultiset": true,
+    "xmlDurationSeconds": 0.5800184,
+    "selector": "FightMatch.AssetAccess.Tests",
+    "separateDiscoveryRun": false
+  },
+  "compilation": {
+    "sevenAssemblyRecords": true,
+    "recompiledAndChangedDlls": [
+      "FightMatch.YooAssetAdapter",
+      "FightMatch.AssetAccess.Tests"
+    ],
+    "otherFiveDllHashesUnchanged": true,
+    "wholeProjectFullRebuildClaim": false,
+    "logs": "No checked compiler/domain-load/abort markers; I records successful batchmode exit. Existing licensing/token and I Curl42 messages remain visible, so no claim of an error-free log.",
+    "timing": "Runner elapsed, start/finish timestamp windows and XML duration have different boundaries; none is silently substituted for another."
+  },
+  "closure": {
+    "remainingOwned": [],
+    "consumerClear": true,
+    "UnityStarts": 2,
+    "ownedSigtermOnce": 58152,
+    "ownedRootPid": 58073,
+    "signalIdentityRematched": true,
+    "sigkill": false,
+    "note": "Historical process closure verified from original evidence; C completion/idle received through engineering and central."
+  },
+  "codeGate": {
+    "status": "NEEDS_FIX",
+    "receipt": "docs/team/2026-09-30/testing-yooasset-adapter-fix02-pr9-review-receipt.json",
+    "sha256": "8dc67678e3af9cda5e54618eeb4a6e4352ba8295d7d9acfa722809bdaaf84606",
+    "openFinding": "https://github.com/yyczz1/FightMatch/pull/9#discussion_r4170761716",
+    "meaning": "37 passing tests do not clear the independent global SDK-initialization failure finding, resolve any GitHub discussion, or approve the adapter delivery."
+  },
+  "preservedHistory": "Original 31/M01 and 34/M02 receipts were hash-checked unchanged; old P2 receipts remain unchanged and attributed to their heads. No original native receipt, null head, failure history or source checkpoint was rewritten.",
+  "remaining": [
+    "Code correction and new-head GitHub review",
+    "Real BuiltIn/manifest/object/raw resources and offline-cache smoke",
+    "CD/Host/UI/localization",
+    "Windows/Android/device and Demo",
+    "Shared adoption, Player and release"
+  ],
+  "actions": {
+    "unityOrTestRuns": 0,
+    "sourceVerifierRuns": 0,
+    "localCodeReviews": 0,
+    "gitWrites": 0,
+    "onlyFileWritten": "docs/team/2026-09-30/testing-yooasset-adapter-fix02-m03-receipt.json"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "task": "LAYOUT-S1-FIX04-N07",
+  "date": "2026-10-05",
+  "owner": {"thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b", "host": "local"},
+  "verdict": "NEEDS_FIX",
+  "scope": "N07限定原生场景修复交付；不是源码独立审查或Demo完整验收",
+  "nativeReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/PExecution/receipt-manual.json",
+    "bytes": 52934,
+    "sha256": "b4b66ec5b10867d48bbaf839dee6d9eb98a6eed86d0d4d2cf3c00da6fa4a2548",
+    "status": "P_FAILED",
+    "cThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "cTurn": "01a10b70-2924-7a62-8e60-d645db4c7078",
+    "engineeringThread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "engineeringReceiptTurn": "01a10b7f-9e2d-7201-9c5a-dcbe3b176295"
+  },
+  "frozenInputs": [
+    {"path": "docs/team/2026-09-30/engineering-layout-s1-fix04-n07-source-plan.md", "sha256": "12c0e7bb6fca1842b1e3f258de8c7cc8a6f66066af30486154cd01aa119e0984"},
+    {"path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs", "sha256": "4c99967906fe9afdd4f53d58db750acc7e8bbc1827f61e73577fcbc9b3b33116"},
+    {"path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs", "sha256": "6e52750705ccdc18e26f2bf4591fa9d675bb1e641cb7bb396f9c6a7f804f6f52"},
+    {"path": "Assets/Scenes/FightMatchDemo.unity", "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"},
+    {"path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab", "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"}
+  ],
+  "observed": {
+    "approval": "实际人工命令审批通过，本轮原生失败不是审批拒绝",
+    "launches": 1,
+    "nativeRetries": 0,
+    "launchUtc": "2026-10-05T09:54:58.986050Z",
+    "launchChinaTime": "2026-10-05 17:54:58 +08:00",
+    "secondsAtFirstFailure": 23.611402124999586,
+    "exitCode": 1,
+    "firstFailure": "InvalidOperationException: FM029: LAYOUT no stale saved Canvas scale/stretch overrides",
+    "log": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/PExecution/editor.log",
+    "stages": [
+      {"line": 366, "kind": "post-set", "fiveOverrides": "empty", "coverage": "8 false", "overridesValid": true, "preservedOverrides": true},
+      {"line": 377, "kind": "after-force", "fiveOverrides": "empty", "coverage": "8 false", "overridesValid": true, "preservedOverrides": false},
+      {"line": 408, "kind": "after-two-editor-updates", "fiveOverrides": "m_AnchorMax.x/y and m_LocalScale.x/y/z reappeared with zero values", "effectiveScale": 0.769800365, "coverage": "8 true", "overridesValid": false, "preservedOverrides": false},
+      {"line": 428, "kind": "Finished", "set": 1, "save": 0, "force": 1, "queue": 1, "decisive": 1, "token": 1, "event": 2}
+    ],
+    "saveReturned": false,
+    "savedStageCloseReopenReached": false,
+    "cleanupCloseScene": "失败清理实际调用CloseScene；log419/421警告不能卸载最后一个已加载场景。不能声称所有CloseScene调用均为0。",
+    "exportCount": 0,
+    "sceneAndPrefabBytesChanged": false,
+    "freshCompilation": "Core.Tests与Host.Editor两程序集实际重新编译，Csc在log244/245；不是测试通过",
+    "testsRun": false,
+    "ownedProcessesRemaining": 0,
+    "cleanup": "12个owned进程均闭合；自然等待后仅向fresh-owned VBCSCompiler43248发送一次SIGTERM",
+    "networkReceivedBytes": null,
+    "networkMeasurement": "UNKNOWN",
+    "evidenceLeaves": 23,
+    "evidenceBytes": 2026749
+  },
+  "independentReview": {
+    "provider": "GitHub PR Code Review",
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "historicalReviewedHead": "e3d581df42f3a25cfdfc319bca5509f8b5382ada",
+    "historicalReceipt": "docs/team/2026-09-30/testing-layout-s1-pr4-native-review-receipt.json",
+    "currentN07Review": "PENDING; N07源码尚未发布到该PR，历史P1不能记为已关闭"
+  },
+  "receiptLimits": [
+    "新日志证明编辑器更新后几何覆盖通过、覆盖检查失败，不能由此宣称唯一根因或正常驱动行为已确定。",
+    "中央核读实际回执与阶段日志，主程记录原件身份核对；未重复源码审查或测试。",
+    "先前准备工具原始20434字符曾截为20000字符；未声称原准备输出已完整核读。",
+    "唯一获准原生运行已消耗。后续运行需要独立明确范围，不能作为自动重试。",
+    "首Demo、真实Host、设备和新APK均未接收。"
+  ],
+  "nextPacket": {
+    "id": "LAYOUT-N07-READONLY-DIAG-01",
+    "deliveryOwner": "主程",
+    "specialistThread": "01a0f2e6-29bb-7092-abf0-705b41b7bf93/local",
+    "model": "gpt-6-astra",
+    "thinking": "xhigh",
+    "goal": "依据现有证据区分驱动/序列化行为与实际错误，提交最小修正设计及尚缺的证据",
+    "questions": [
+      "五条零值覆盖为什么在第二次更新后出现？分别列直接证据、推断及可证伪预测。",
+      "preservedOverrides在after-force已为false；现有记录能否确定其它差异，缺字段则明确未知。",
+      "最后场景CloseScene警告如何在现有所有权边界内修正？",
+      "如何同时验证真实几何、保存内容和复开后结果，避免把驱动字段误判或降低既定验收？"
+    ],
+    "allowedRead": "冻结N07输入、N07现有原始证据、相关Unity/uGUI本地源码和官方文档；按需读关联设计",
+    "allowedWrite": ["docs/team/2026-09-30/engineering-layout-s1-fix04-n07-readonly-diagnosis.md", "docs/team/2026-09-30/engineering.md"],
+    "execution": "只读文件与官方资料分析；复用已发生的失败，因唯一原生运行已消耗而跳过重复复现/最小化/修复执行",
+    "acceptance": "引用具体文件/行和官方来源，事实与推断分开；输出最小修正范围、保留的验收项、未知项及下一轮必要验证条件",
+    "forbidden": "Unity、编译、测试、探针、产品源码/场景/预制体/依赖/旧证据变更、Git变更、LOC重试、本地代码审查",
+    "returnPath": "SYS完成交主程；主程唯一接收后简报中央，记录实际thread/host/turn。若主动回传受限，由指定接收者读实际完成结果。"
+  }
+}

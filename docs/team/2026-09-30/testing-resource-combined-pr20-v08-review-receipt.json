@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 RES-COMBINED-V08 independent GitHub review receipt",
+  "verdict": "NEEDS_FIX",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6053480918",
+  "triggerId": 6053480918,
+  "expectedHead": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+  "observedHead": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+  "qaActualTurn": "01a11a1c-b5d0-7083-8aa0-b86d063bbe62",
+  "publicationContext": {
+    "manifest": "docs/team/2026-09-30/resource-combined-v08-publication.json",
+    "files": 200,
+    "bytes": 13406238,
+    "offlineCases": 56,
+    "nativeRuns": 0
+  },
+  "review": {
+    "id": 5452286080,
+    "rawState": "COMMENTED",
+    "commitId": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+    "submittedAtUtc": "2026-10-08T06:08:20Z",
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5452286080",
+    "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `ce6c0728c8`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "summaryStatus": "Completed",
+    "summaryCompletedAtUtc": "2026-10-08T06:08:23.796024Z",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048274217",
+    "commentsEndpoint": "https://api.github.com/repos/yyczz1/FightMatch/pulls/20/reviews/5452286080/comments?per_page=100",
+    "commentsPagesFetched": 1,
+    "rawResponseCommentCount": 1,
+    "comments": [
+      {
+        "id": 4215462510,
+        "pullRequestReviewId": 5452286080,
+        "commitId": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+        "originalCommitId": "ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 382,
+        "position": 382,
+        "rawState": "COMMENTED",
+        "createdAtUtc": "2026-10-08T06:08:21Z",
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4215462510",
+        "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Require the cwd descriptor before accepting its name**\n\nWhen `lsof` returns an incomplete stream such as `p101\\nn/P\\n` with exit 0 and empty stderr, this branch accepts `/P` even though no `fcwd` record established that the name belongs to the requested cwd descriptor; the computed `cwdDescriptor` flag is never enforced. `register()` consequently treats the identity as complete and grants owned/signal authority, contrary to V08's requirement that malformed or truncated probe formats remain failures. Require `descriptor` before accepting an `n` field, and cover the missing-descriptor case in the negative replay.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/ce6c0728c8da0fb2de1a7a46b374b3eaef2df0d3/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      }
+    ],
+    "formalApproved": false
+  },
+  "boundedWait": {
+    "requestedMaxSeconds": 240,
+    "triggerCreatedAtUtc": "2026-10-08T06:03:13Z",
+    "deadlineUtc": "2026-10-08T06:07:13Z",
+    "reviewCompletedAtUtc": "2026-10-08T06:08:23.796024Z",
+    "detectedAtUtc": "2026-10-08T06:08:53Z",
+    "deadlineExceeded": true
+  },
+  "scopeNote": "Exact-head GitHub review receipt only. No local code review, Unity/native test, probe, or Git mutation was performed."
+}

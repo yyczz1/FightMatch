@@ -1,0 +1,20 @@
+{
+  "packet": "HOST-INTEGRATE-001/I01-FIX02 source",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "head": "191ee590dbb644ce129a6d6b5787555fcade8af0",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/18",
+  "qaReceipt": "docs/team/2026-09-30/testing-host-integrate-pr18-fix02-review-receipt.json",
+  "qaSha256": "bcb9c14d414194e2877e8349f179a930c17218a8fa7b036c15625294d74d7be2",
+  "qaTurn": "01a117e3-96f4-7ba1-a4e6-d350073583e9",
+  "completionCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:67",
+  "finding": {
+    "id": 4211236459,
+    "priority": "P1",
+    "summary": "Initial root details failure leaves no owned root, so closure can miss the still-running launched Editor.",
+    "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211236459"
+  },
+  "nativeRuns": 0,
+  "oldEvidencePreserved": true,
+  "next": "FIX03: bounded fresh-snapshot recovery for the actually launched root; no extra native run or weakened identity checks."
+}

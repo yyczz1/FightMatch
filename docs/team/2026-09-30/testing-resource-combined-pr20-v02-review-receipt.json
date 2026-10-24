@@ -1,0 +1,143 @@
+{
+  "receipt": "RESOURCE-COMBINED-VALIDATION-001-PR20-V02-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "completionReceiver": "Central coordinator; no upstream message sent"
+  },
+  "authority": "Central PR20 V02 GitHub review receipt delegation under standing team workflow",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/20",
+  "candidate": {
+    "head": "281bb731ed08a21a25df67932068279853b3fd09",
+    "parent": "5f43b7a8cdff0795ad91b342deb5d566be38da0f",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-combined-v02-publication-receipt.json",
+    "bytes": 11135,
+    "sha256": "1a47710b3afd8366645874876d53bdfc9100b3efd759c5a906246bf60eab9c25",
+    "publishedFiles": 24,
+    "verifiedRemoteBlobs": 24,
+    "mechanicalChecks": {
+      "fixedReferences": 40,
+      "unchangedFunctionAstMatches": 80,
+      "exactDiff": true,
+      "inputDifferenceCount": 150,
+      "inputPatchReconstructsExactly": true,
+      "previous158CasesPreserved": true,
+      "passed": 177
+    },
+    "nativeV02": 0,
+    "reviewAtPublication": "PENDING",
+    "integrationVerdict": null
+  },
+  "review": {
+    "triggerComment": {
+      "id": 6049468090,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6049468090",
+      "reposted": false,
+      "author": "yyczz1",
+      "body": "@codex review\n\nReview V02 head 281bb731ed08a21a25df67932068279853b3fd09 against previous head 5f43b7a8cdff0795ad91b342deb5d566be38da0f. Narrow correction: force DOTNET_EnableDiagnostics=0 in actual I/T Popen environments; distinguish exact adjacent CacheWrite telemetry from Csc actions; use independent V02 paths. Preserve unknown IPC, ownership, cleanup and timing checks. Original V01 native attempt failed and T89 never ran; its QA/verdict are included.177/177 offline cases pass,158 retained. Please review current delta; no native validation/activation yet."
+    },
+    "completion": {
+      "summaryCommentId": 6048274217,
+      "summaryStatus": "COMPLETED",
+      "completedAtUtc": "2026-10-08T00:18:12.324717Z",
+      "summaryCommit": "281bb73",
+      "resultComment": {
+        "id": 6049501072,
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6049501072",
+        "author": "chatgpt-codex-connector[bot]",
+        "body": "Codex Review: Didn't find any major issues. :+1:\n\n**Reviewed commit:** `281bb731ed`",
+        "reviewedCommitFromBody": "281bb731ed",
+        "reviewedCommitMatchesFullHead": true
+      }
+    },
+    "formalReview": {
+      "submissionsForCurrentHead": [],
+      "priorSubmissions": [
+        {
+          "id": "PRR_kwDOTDyjrM8AAAABRM1e9g",
+          "state": "COMMENTED",
+          "submittedAt": "2026-10-07T22:39:01Z",
+          "reviewedCommitFromBody": "8e47895761"
+        },
+        {
+          "id": "PRR_kwDOTDyjrM8AAAABRM_uaA",
+          "state": "COMMENTED",
+          "submittedAt": "2026-10-07T23:00:53Z",
+          "reviewedCommitFromBody": "0e83cf66e5"
+        }
+      ],
+      "formalApproval": false,
+      "interpretation": "The V02 outcome is a top-level issue comment, not a submitted formal review. The listed COMMENTED submissions belong to earlier heads."
+    },
+    "currentHeadInlineFindings": [],
+    "historicalFindingThreads": [
+      {
+        "commentId": 4212752227,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212752227",
+        "threadId": "PRRT_kwDOTDyjrM6qH91Y",
+        "priority": "P1",
+        "title": "Reserve the global deadline for process cleanup",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "originalLine": 36,
+        "resolved": false,
+        "outdated": false,
+        "status": "UNRESOLVED_AND_CURRENT"
+      },
+      {
+        "commentId": 4212896382,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896382",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1L",
+        "priority": "P1",
+        "title": "Bound scans before they enter the cleanup reserve",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "originalLine": 36,
+        "resolved": false,
+        "outdated": false,
+        "status": "UNRESOLVED_AND_CURRENT"
+      },
+      {
+        "commentId": 4212896391,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896391",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1R",
+        "priority": "P1",
+        "title": "Reserve time for final evidence and receipt emission",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "originalLine": 824,
+        "resolved": false,
+        "outdated": true,
+        "status": "UNRESOLVED_AND_OUTDATED"
+      }
+    ],
+    "classification": "COMMENTED_NO_MAJOR_ISSUES; NO_CURRENT_FORMAL_REVIEW_SUBMISSION; NOT_APPROVED",
+    "integrationVerdict": null
+  },
+  "githubSnapshot": {
+    "snapshotHead": "281bb731ed08a21a25df67932068279853b3fd09",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "prState": "OPEN_DRAFT",
+    "triggerCommentId": 6049468090,
+    "summaryCommentId": 6048274217,
+    "resultCommentId": 6049501072,
+    "currentHeadInlineFindings": 0,
+    "historicalP1Threads": 3,
+    "historicalP1ThreadsResolved": 0,
+    "historicalP1ThreadsOutdated": 1
+  },
+  "method": {
+    "source": "GitHub PR metadata, comments, review submissions and inline review threads; V02 publication receipt read locally",
+    "newTrigger": false,
+    "localCodeReview": false,
+    "testsRun": false,
+    "unityRun": false,
+    "githubWrite": false,
+    "writes": "Only this new receipt"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "task": "COPY-001-AMEND-05-BOOTSTRAP",
+  "status": "READY_FOR_CENTRAL_RECEIPT",
+  "delivery_owner": {
+    "thread_id": "01a0f2e3-2c47-7273-88da-20513bcbfaf4",
+    "host": "local",
+    "role": "planning"
+  },
+  "completion_receiver": {
+    "thread_id": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "role": "central"
+  },
+  "scope": "Only the 16-row amendment CSV, bootstrap allowlist note, and this receipt; no live authority merge.",
+  "inputs": {
+    "protected_csv": {
+      "path": "docs/team/2026-09-30/planning-localization-draft.csv",
+      "sha256": "ea05eae763b6facb54c3db540f52c5d63867c7de48ca08ab6455c009c871eedf",
+      "bytes": 65358,
+      "physical_lines": 265,
+      "records": 264,
+      "unique_keys": 264
+    },
+    "art_inventory": {
+      "path": "docs/team/2026-09-30/art-res-01c-bootstrap-inventory.md",
+      "sha256": "774238de5e25f62068b932fec2ac1f59f2c330410ce1ee36401bcef308adda4f",
+      "bytes": 25270,
+      "physical_lines": 350,
+      "sections": [
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "system_design": {
+      "path": "docs/team/2026-09-30/engineering-resource-runtime-bridge-cd-001.md",
+      "sha256": "ea3fc6efecd6ea118675cfcf96499cb5c3192bb6af2371d7ca9637cb7bdf9378",
+      "bytes": 20364,
+      "physical_lines": 85,
+      "sections": [
+        "2",
+        "4"
+      ]
+    }
+  },
+  "outputs": {
+    "amendment_csv": {
+      "path": "docs/team/2026-09-30/planning-bootstrap-copy-amend-05.csv",
+      "sha256": "613bbfb663253b977f22ffbd3058e7ce7e1819497994bd6eefb5e2204d650213",
+      "bytes": 4912,
+      "physical_lines": 17,
+      "records": 16,
+      "unique_keys": 16
+    },
+    "allowlist_note": {
+      "path": "docs/team/2026-09-30/planning-bootstrap-copy-amend-05.md",
+      "sha256": "381f3fe480c9d9f00b649b813d206df26edaf4764875aea9121d771e16479a1a",
+      "bytes": 3993,
+      "physical_lines": 53
+    }
+  },
+  "bootstrap_allowlist": {
+    "existing_keys": [
+      "fm.common.action.cancel",
+      "fm.update_ready.title",
+      "fm.update_ready.body",
+      "fm.update_ready.restart_button",
+      "fm.update_ready.later_button",
+      "fm.initial_download.title",
+      "fm.initial_download.summary",
+      "fm.initial_download.start_button",
+      "fm.initial_download.cancel_button",
+      "fm.initial_download.failed",
+      "fm.mobile_data.title",
+      "fm.mobile_data.body",
+      "fm.mobile_data.continue_button",
+      "fm.mobile_data.wait_button",
+      "fm.mobile_data.cancel_button",
+      "fm.diagnostic.placeholder",
+      "fm.diagnostic.missing_binding",
+      "fm.diagnostic.missing_key",
+      "fm.diagnostic.parameter_mismatch",
+      "fm.diagnostic.missing_glyph"
+    ],
+    "new_keys": [
+      "fm.bootstrap.checking",
+      "fm.bootstrap.retry_button",
+      "fm.bootstrap.offline.title",
+      "fm.bootstrap.offline.body",
+      "fm.bootstrap.corrupt.title",
+      "fm.bootstrap.corrupt.body",
+      "fm.bootstrap.storage.title",
+      "fm.bootstrap.storage.body",
+      "fm.bootstrap.fatal.title",
+      "fm.bootstrap.fatal.body",
+      "fm.bootstrap.restart_button",
+      "fm.bootstrap.exit_button",
+      "fm.network.kind.wifi",
+      "fm.network.kind.mobile",
+      "fm.network.kind.offline",
+      "fm.network.kind.unknown"
+    ],
+    "existing_count": 20,
+    "new_count": 16,
+    "unique_count": 36,
+    "new_severity_counts": {
+      "blocking": 2,
+      "error": 5,
+      "info": 3,
+      "warning": 6
+    }
+  },
+  "validation": {
+    "runs": 1,
+    "status": "PASS",
+    "csv_header_matches_protected_source": true,
+    "columns": 9,
+    "protected_source_identity_unchanged": true,
+    "new_keys_disjoint_from_264": true,
+    "exact_inventory_keys": true,
+    "allowlist_parameters_and_severities_match_sources": true,
+    "bilingual_nonempty": true,
+    "zh_en_declared_parameter_sets_equal": true,
+    "malformed_parameter_tokens": 0,
+    "illegal_markup_or_controls": 0,
+    "non_nfc_values": 0,
+    "network_values_within_24_scalars": true,
+    "player_text_internal_detail_hits": 0,
+    "note_within_55_lines": true,
+    "trailing_whitespace": 0
+  },
+  "authority": "This is a proposed 16-key amendment, not a second 280-key authority or a formal generated table. Central coordinates any later accepted merge and glyph work.",
+  "not_verified": [
+    "formal_table_generation",
+    "bootstrap_subset_generation",
+    "font_glyph_coverage",
+    "runtime_binding",
+    "Unity",
+    "compile",
+    "tests",
+    "device"
+  ],
+  "receipt_self_hash": false
+}

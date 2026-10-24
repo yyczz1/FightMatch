@@ -1,0 +1,45 @@
+{
+  "task": "LAYOUT-S1-FIX04-N08-SOURCE",
+  "date": "2026-10-05",
+  "authority": "用户已授权继续真实场景修复和普通技术问题自主处理；本包只完成下一次执行前可独立进行的源码准备，不扩展N07唯一原生运行许可。",
+  "owner": "主程 01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "author": "原源码实施 01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c/local",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "acceptedDiagnosis": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-fix04-n07-readonly-diagnosis.md",
+    "bytes": 12275,
+    "sha256": "2d980f8cea1029febd1b57dbcc3124d033568ef2f93e28ee480ed77b41f00d3c",
+    "sysTurn": "01a10b8f-3a35-73e3-8a1f-9746ad6d9137",
+    "engineeringTurn": "01a10b8d-58b7-79c2-b71f-27b2d60692e9",
+    "scope": "只读诊断交付已收；根因仍未确定，N07 NEEDS_FIX不变"
+  },
+  "inputs": "继承layout-n07-integration-receipt.json的五项冻结输入和N07失败原件；先核B/T/Scene/Prefab身份，保留全部旧证据。",
+  "approvedSourceChanges": [
+    "仅B的RepairLayoutSceneOverrides异步流程：记录本run临时空白Additive Scene句柄，私有helper在关闭自有Demo前确保还有已加载Scene；只操作本run所有场景，不保存/导出空白场景，空白场景随batch退出释放。复开改Additive，正常与失败关闭共用helper。核返回值，首错保留，次级cleanup错误单独记录。",
+    "仅B原基线及原三采样点补完整覆盖序列/具体差量：原索引、target稳定身份、propertyPath、value保留null/空/0区别、objectReference、重复数和内容/顺序差异。只消费已有snapshot，不新增采样/Force/Queue/Set/等待，不改任何通过谓词。",
+    "为新包未来执行准备最小N07→N08路径/任务标识字面量变更，仅限本异步入口的activation/evidence绑定与日志标签。统一固定N08/I/activation.json及N08/P；不要引入可选路径回退或覆盖旧N07/I。主程派发前列明具体字面量和guard范围，形成唯一简短源码计划。"
+  ],
+  "writeScope": {
+    "product": ["Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"],
+    "engineering": ["docs/team/2026-09-30/engineering-layout-s1-fix04-n08-source-plan.md", "docs/team/2026-09-30/engineering.md"],
+    "authorEvidence": [
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/before.json",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/FightMatchAndroidBuild.before.cs",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/FightMatchAndroidBuild.cs",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/source.patch",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/static.json",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/source-receipt.json"
+    ]
+  },
+  "protected": "T及全部测试断言、Scene/Prefab/meta、其它产品文件/同步命令、几何0.5门、分类器、其他覆盖及原顺序门、只删五项的磁盘门、失败Save0/导出0、后置GitHub/设备门均保持。N07所有文件冻结。",
+  "bounds": "B总增删不超过320行；需要更多先交主程缩小/说明。最多3次静态范围/格式/身份核对，累计30秒，保留失败；不重复旧全树/长测试。采样日志沿用9条每条8KiB、总96KiB，超限明确失败。",
+  "acceptance": [
+    "实际补丁只在批准方法/helper/字面量范围，旧源码和失败原件可追溯。",
+    "关闭路径有明确场景所有权与最后场景处理，首错及清理错分开；实现不声称已原生验证。",
+    "基线及三个既有时点可确定具体增删/改值/顺序差异，缺失或超限不得伪称完整；所有原验收门保持。",
+    "future N08固定入口路径与代码guard一致，原生执行尚未激活；回执给出实际作者/主程回合、哈希、变更行数、静态结果、剩余未知。"
+  ],
+  "notAuthorized": "本包不运行Unity/编译/测试/探针/保存/复开/导出，不创建执行runner或I，不派C，不改Git/依赖/用户设置，不处理LOC，不派本地代码审查。",
+  "completion": "作者完成交主程唯一接收，主程给中央源码准备结果及下一次原生执行的具体必要性/范围；中央收到实际结果后再处理需要用户的执行边界。"
+}

@@ -1,0 +1,337 @@
+{
+  "packet": "RES-SDK-ADOPT-G02",
+  "date": "2026-10-08",
+  "status": "APPROVED_FOR_FRESH_C_DISPATCH",
+  "authority": "User continued approved resource development; AGENTS standing workflow. Task explicitly permits exact Packages/lock/asmdef/meta byte adoption only; no installation, resolution or native execution.",
+  "plan": {
+    "path": "docs/team/2026-09-30/engineering-resource-sdk-adoption-next.md",
+    "bytes": 8165,
+    "sha256": "7de3aedf0329539d0c1c202ce5f087bddcfc1cca070b8901c8030ab1bce8c68c",
+    "gitBlob": "3a879ade03b280718b2feb287054b110b7e765b5"
+  },
+  "designOwner": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a11838-e662-7180-9549-8849333dd1d5",
+    "completedCursor": "94f69122-09c7-4469-9dca-ed827cc9bdb8:138"
+  },
+  "executionOwner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": null,
+    "model": "gpt-6-luna",
+    "effort": "medium"
+  },
+  "receiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local; final plus central wait only",
+  "inputBefore": {
+    "files": 1021,
+    "bytes": 32464207,
+    "canonicalSha256": "a8a5c77a0190e4a4b9999d0b75de3d7aa75aded8d57c8de77e118facbb525ffc"
+  },
+  "order": [
+    "SDK01",
+    "BRIDGE01",
+    "FACTORY01"
+  ],
+  "entries": [
+    {
+      "packet": "SDK01",
+      "target": "Packages/manifest.json",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P02/manifest.after-install.json"
+      },
+      "before": {
+        "bytes": 1775,
+        "sha256": "8b35703a20ded99f05e847753312b1014a9a0666cc9e2c641ef87979d1596baf",
+        "gitBlob": "47f1c2c01f1e0b4a6457f943d2b88934b840f294"
+      },
+      "after": {
+        "bytes": 1913,
+        "sha256": "741fbc8dab2f41e8acda1732a92fd5d6ca276e0f706557632d186ac070f8bc86",
+        "gitBlob": "4476c3ebb1eef2c98c0aa1296e6e05c8453fe4ae"
+      }
+    },
+    {
+      "packet": "SDK01",
+      "target": "Packages/packages-lock.json",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P02/packages-lock.after-install.json"
+      },
+      "before": {
+        "bytes": 11101,
+        "sha256": "25367af624aad0b94d396484422db4e74d19844da974598da51398a89ab356c0",
+        "gitBlob": "3bd49b66f9816d97bf01c519c02ef46ebb628bbc"
+      },
+      "after": {
+        "bytes": 11812,
+        "sha256": "c65be7a6cb4308eb311c7dde8cdc5cc7d40b15a9fa6aa8553d76937a342777e9",
+        "gitBlob": "5c5cc2c44036884f61f33cedc38c8033377f69f8"
+      }
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef"
+      },
+      "before": null,
+      "after": {
+        "bytes": 444,
+        "sha256": "c02d0a54145719d5e92679a1ffe4bc50a4b66f2ed6870474bda9a4983da7c556",
+        "gitBlob": "12f2d204dfc80ed2428da857e17889c9110c6ca9"
+      }
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs"
+      },
+      "before": null,
+      "after": {
+        "bytes": 3494,
+        "sha256": "0d76191c3cbf6e41e3c0d17ae9effdd5295a69a35c719160075b233048cb8ed0",
+        "gitBlob": "9315c8942685e66a385297fb2a52eac59d6152f2"
+      }
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs"
+      },
+      "before": null,
+      "after": {
+        "bytes": 47591,
+        "sha256": "97ff52ade2839e312ec8a2dc698e17ec18c8bc643bccfccb6f1ab142c2fb6199",
+        "gitBlob": "7c3d57dd1ea7a1fdcd5d3143f80e59d32a15020d"
+      }
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef"
+      },
+      "before": {
+        "bytes": 515,
+        "sha256": "1d605c9ea6e3727c7fe4f595078a12469def24ec7055489f1a467951dde244a0",
+        "gitBlob": "82c7fb2423cfe7377866e757c90143f990db484e"
+      },
+      "after": {
+        "bytes": 553,
+        "sha256": "ba0ba018bbfbc762a8a719e7a2812faf58cf81791a527aede0a529be08300c87",
+        "gitBlob": "facf5ee29c32e8f779763d13bb1bb428d55a343a"
+      }
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs"
+      },
+      "before": null,
+      "after": {
+        "bytes": 19671,
+        "sha256": "c6d180600f68d2a889c1681198be921f15211b38663d59b68e672ba303d34e58",
+        "gitBlob": "e2b5fb1f3f07e5f5832e9a970dd68329993a5257"
+      }
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs"
+      },
+      "before": null,
+      "after": {
+        "bytes": 27260,
+        "sha256": "53bf0a2b71397f4ec6854777dfa8de9eb1c23b1a84da0f548e9550ac82b785bc",
+        "gitBlob": "271f3f30ad135d770b30275777837c09cf622882"
+      }
+    },
+    {
+      "packet": "FACTORY01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-FACTORY-ADMISSION-001/S/source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs"
+      },
+      "before": null,
+      "after": {
+        "bytes": 14380,
+        "sha256": "4e2683c1cfea846589f885c78309c3ce6ae2d89b187a040af5316ee5587daf68",
+        "gitBlob": "d2c95eb4af2992cb941f67d7c2172ebf51f58c8c"
+      }
+    },
+    {
+      "packet": "FACTORY01",
+      "target": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-FACTORY-ADMISSION-001/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs"
+      },
+      "before": null,
+      "after": {
+        "bytes": 78064,
+        "sha256": "9431e5d173f4f914260d380d008e329cce15b226859fdb6aecfa1b551bb9d5ca",
+        "gitBlob": "8d4c911f44fce4c59d4e667c200a1856120b2c52"
+      }
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef.meta"
+      },
+      "before": null,
+      "after": {
+        "bytes": 166,
+        "sha256": "f2a2f78e50cde32bc71fb62718dbac83836ff2ea716dfafa226eda4158fea486",
+        "gitBlob": "fdbd126645b73562eecb93a9e1595bad0701bfef"
+      },
+      "guid": "92f7e6ce47ef54883b6a63d5e0723f77"
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs.meta"
+      },
+      "before": null,
+      "after": {
+        "bytes": 243,
+        "sha256": "b6e21350988c3652a52c5ebe4c00127e43802e641ec051a2870feebfc2d6a210",
+        "gitBlob": "a5a503644f118d8c71a89060cfd75c9a6e967fe3"
+      },
+      "guid": "bbfdcae820bd445949d24d4cda4e5912"
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs.meta"
+      },
+      "before": null,
+      "after": {
+        "bytes": 243,
+        "sha256": "c6ea14013f08e901c1cf64d84242c8eec70ddb4d9bcc29fad83d7221cae2b1e9",
+        "gitBlob": "92ba976be2f98aeab3886c36465a9a913fd427d5"
+      },
+      "guid": "606c7f819644b4266afa602f0317f0ea"
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs.meta"
+      },
+      "before": null,
+      "after": {
+        "bytes": 243,
+        "sha256": "56348dafdc2e562897592b1c7813c73791c989f24e021cb682fa2d7d01ef987b",
+        "gitBlob": "60af5318fe2eeea8bdd50224d50ec551c5e08ed3"
+      },
+      "guid": "71f22b855ecbd434984ed78927ef7320"
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs.meta"
+      },
+      "before": null,
+      "after": {
+        "bytes": 243,
+        "sha256": "fa9c8356dfa04b2f6c99427c7d1da78dd8a574db38420f5d92dddc286ec81e75",
+        "gitBlob": "da50ad316b9df2b7f472cfd72c8ddd377291bf81"
+      },
+      "guid": "db9358f7cc15e4695a9d8146e48523b8"
+    },
+    {
+      "packet": "BRIDGE01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/YooAssetAdapter.meta"
+      },
+      "before": null,
+      "after": {
+        "bytes": 172,
+        "sha256": "d13a79ab54c8135912c373fad294dfdf1778b61f0ad452be1dea5926f30884c6",
+        "gitBlob": "d8090616f6351a840dba5d813db831c45a16521a"
+      },
+      "guid": "6490b8baa8dc9421397c3ca6ddfbc425"
+    },
+    {
+      "packet": "FACTORY01",
+      "target": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-RAW-JOINT-001/M01/receipt.json",
+        "jsonKeys": [
+          "naturalMeta",
+          "text"
+        ]
+      },
+      "before": null,
+      "after": {
+        "bytes": 243,
+        "sha256": "2b29e613ea536a55312fccf12f33351e9d0c055f176ff692da8e5cf13411e5ea",
+        "gitBlob": "70d04c22a09c0e97b99396f1d1d4ffc117d9d2e3"
+      },
+      "guid": "0d90b639a993e44a7b7fbe6c9f730b16"
+    },
+    {
+      "packet": "FACTORY01",
+      "target": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs.meta",
+      "source": {
+        "path": "TestArtifacts/FightMatch/RES-ACTIVATION-FACTORY-JOINT-001/M02/receipt.json",
+        "jsonKeys": [
+          "naturalMetas",
+          "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs.meta",
+          "text"
+        ]
+      },
+      "before": null,
+      "after": {
+        "bytes": 243,
+        "sha256": "8167b06616eab6600c87765900d4f3f7a23cce6822abca007c1faadf6455519c",
+        "gitBlob": "e05598d4b45b44c9786df26a171eaf385e0422c4"
+      },
+      "guid": "82c6193f9e4ce4c9cb7c33153cbe2604"
+    }
+  ],
+  "expectedAfter": {
+    "SDK01": [
+      1021,
+      32465056,
+      "5c4a6e7e1677c2d3a28b44fed968eedc36f96eff8f5a75d52b0ba1e7339cf335"
+    ],
+    "BRIDGE01": [
+      1032,
+      32564864,
+      "09978091ac922aad5f89b025ad4694efe5ad1bb2f424610e7234b4864483c9a1"
+    ],
+    "FACTORY01": [
+      1036,
+      32657794,
+      "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8"
+    ]
+  },
+  "newEvidencePaths": [
+    "TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/SDK01/receipt.json",
+    "TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/BRIDGE01/receipt.json",
+    "TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/FACTORY01/receipt.json",
+    "TestArtifacts/FightMatch/RES-SDK-ADOPT-G02/group-freeze.json"
+  ],
+  "limits": {
+    "nativeUnityRuns": 0,
+    "tests": 0,
+    "downloads": 0,
+    "processSignals": 0,
+    "gitMutations": 0,
+    "playerSaveAccess": 0,
+    "mechanicalSeconds": 30,
+    "readOnlyConsumerPreflight": true
+  },
+  "parallelWork": "LOC may prepare material in separate external M/W roots. Do not classify unrelated dotnet activity as a Unity/project consumer; do not access its material, process handles or signal it.",
+  "integrationVerdict": null,
+  "remaining": "No automatic Editor import/UPM. Cache and combined89 validation require separate scoped contract; G01 standalone validation not launched."
+}

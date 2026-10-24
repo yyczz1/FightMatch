@@ -1,0 +1,816 @@
+{
+  "schemaVersion": 1,
+  "task": "LAYOUT-COVERAGE-DELTA-001",
+  "date": "2026-10-02",
+  "status": "PREPARED_NOT_EXECUTED",
+  "scope": "59个差额leaf的覆盖适用性规划；非代码审查、非执行授权、非产品ACCEPT。",
+  "owner": {
+    "role": "主测试",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fcb2-354b-73c3-a47a-6f9aa5ce51ff"
+  },
+  "authority": {
+    "basis": "用户AGENTS§6 standing team workflow；中央本轮明确委派只读59项差额，允许仅新增本JSON。",
+    "issuerThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "issuerHost": "local",
+    "issuerTurn": null,
+    "issuerTurnNote": "委派中未提供；不以中央当前活动turn代填。",
+    "soleReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+  },
+  "inputs": {
+    "sourceHead": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "sourceTree": "665c86084c090fd8cab1f061f1634cb1596f7e58",
+    "readRoot": "TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "resourcePublicationHead": null,
+    "resourcePublicationNote": "本建议不等待资源发布head。之后执行仍须中央绑定当次候选head及完全相同资源/源码字节；本轮未查询Git/GitHub。",
+    "documents": [
+      {
+        "path": "docs/team/2026-09-30/testing-ugui-layout-validation-prep-001.md",
+        "bytes": 10885,
+        "sha256": "d153666adb2581deef9b074b448e042453b8fbb9d198a931d560f27409d0e477"
+      },
+      {
+        "path": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json",
+        "bytes": 136323,
+        "sha256": "5a2f1394e2b6fe03fdeaf7cb4d4a54a23f5b6f493d33b4dcf430e31f899a690d"
+      },
+      {
+        "path": "docs/versioning/2026-10-01-ugui-pr/fix22-result/grouped-exact222-coverage.json",
+        "bytes": 37210,
+        "sha256": "be4f2799d53baa49639ee53046f8c4b96d9177678566a78d811354021fe1745b"
+      },
+      {
+        "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source-receipt.json",
+        "bytes": 14056,
+        "sha256": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b"
+      },
+      {
+        "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/P/serialized-targets.json",
+        "bytes": 15238,
+        "sha256": "f433d3422aebed5157ca97cd79d907d0ef5dc8c57ba251079c85ad1fa129a885"
+      },
+      {
+        "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/PExecution/receipt.json",
+        "bytes": 20978,
+        "sha256": "249ac5a32799a45fe5b6905c79361d5a776d56eeed04c87103b4775347f50a57"
+      },
+      {
+        "path": "docs/team/2026-09-30/engineering-layout-s1-p001-reassessment-001.json",
+        "bytes": 27606,
+        "sha256": "c6e39a87b7dfb11ad97eff3d1f817cc878a0fb5b0aceb7f898e07e1da09993ec"
+      },
+      {
+        "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/PExport/receipt.json",
+        "bytes": 12909,
+        "sha256": "6947d26f3d25f704275ef470d240da47bbcf9369417000b0fb6f9aba075ad790"
+      }
+    ],
+    "source15": [
+      {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "bytes": 154822,
+        "sha256": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "bytes": 17703,
+        "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "bytes": 13871,
+        "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "bytes": 37846,
+        "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "bytes": 8707,
+        "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "bytes": 31354,
+        "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "bytes": 19127,
+        "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "bytes": 12488,
+        "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "bytes": 15972,
+        "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "bytes": 30932,
+        "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "bytes": 15433,
+        "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "bytes": 28200,
+        "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "bytes": 18709,
+        "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "bytes": 81160,
+        "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "bytes": 24402,
+        "sha256": "83e556cc3348faa0210985af3d910f9e32f450b08e05f8eb72230252bb543f72"
+      }
+    ],
+    "source15ActualBytesAndShaMatchedReceipt": true,
+    "additionalTestAndFixtureSources": [
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTests.cs",
+        "bytes": 44259,
+        "sha256": "5afac42a16887b3c44d66ab954a956a06cb4b1f0452ed5f923129939a66f904c"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerDefaultReferenceTests.cs",
+        "bytes": 19945,
+        "sha256": "4c7a0493bc62a85e3c233d5b0608ce299ccf7d856d4755f93dc8d6c2cb39c58e"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs",
+        "bytes": 28399,
+        "sha256": "10ca757ae66bd906eca9848833e169f44401199d659e4f1244c5d77b7d393ab5"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerBattleTestFixture.cs",
+        "bytes": 11202,
+        "sha256": "e4ec44da88bf170a8c5f30e8b6e22ae2d371027573ec13a08e3e2d41de7bdefc"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackTestData.cs",
+        "bytes": 8232,
+        "sha256": "f7496f885003c4ab19c5d2ac105c22763c1ec1e347ae0d2c9fdcd9db8344ddff"
+      }
+    ],
+    "postPResources": [
+      {
+        "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "bytes": 1322960,
+        "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+      },
+      {
+        "path": "Assets/Scenes/FightMatchDemo.unity",
+        "bytes": 12900,
+        "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "bytes": 243,
+        "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+        "bytes": 243,
+        "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d"
+      }
+    ],
+    "resourceObservation": {
+      "basis": "projection Prefab YAML只读映射 + P serialized-targets证据；非Unity运行测量",
+      "canvasCount": 1,
+      "serializedRenderMode": 0,
+      "canvasScaler": {
+        "enabled": true,
+        "uiScaleMode": 1,
+        "referenceResolution": [
+          540,
+          960
+        ],
+        "matchWidthOrHeight": 0.5
+      },
+      "textTargets": 141,
+      "inputTextTargets": 3,
+      "postPPaths": [
+        "FightMatchRuntimeRoot/RuntimeCanvas/SafeAreaRoot/SystemLayer/RecoveryScreen/RootMask/NavigationRecoveryPanel",
+        "FightMatchRuntimeRoot/RuntimeCanvas/SafeAreaRoot/SystemLayer/RecoveryScreen/RootMask/BattleRecoveryPanel",
+        "FightMatchRuntimeRoot/RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BottomHud/ReferenceInfoDrawer",
+        "FightMatchRuntimeRoot/RuntimeCanvas/SafeAreaRoot/HudLayer/TopBar",
+        "FightMatchRuntimeRoot/RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BottomHud/HistoryDrawer",
+        "FightMatchRuntimeRoot/RuntimeCanvas/SafeAreaRoot/PopupLayer/ConfirmationPopup/RootMask/BattleConfirmationPanel",
+        "FightMatchRuntimeRoot/RuntimeCanvas/SafeAreaRoot"
+      ],
+      "runtimeGeometryNotInferredFromSerializedRect": true
+    },
+    "pEvidenceBoundary": "原 PExecution.status=P_FAILED（projected path set changed）不改写。工程reassessment的ACCEPT仅限现有原生迁移/save/unload/reopen补证；PExport记录EXPORTED，不是测试通过。"
+  },
+  "accounting": {
+    "old222": 222,
+    "planned47": {
+      "new12": 12,
+      "historical32": 32,
+      "resource3": 3,
+      "unique": 47
+    },
+    "delta59": {
+      "localized": 6,
+      "sceneBehavior": 3,
+      "otherExplicitRelated": 50,
+      "recommendAdd": 49,
+      "notRunDeferred": 10,
+      "fullyEquivalentTo47": 0,
+      "historicalPassReusedForCurrentInput": 0
+    },
+    "recommendedUnique": 96,
+    "recommendedOldLeaves": 84,
+    "recommendedNewLeaves": 12,
+    "oldOutsideRecommended": 138,
+    "untouchedOtherOldLeaves": 128,
+    "partition": "222=35原计划旧项+49建议补项+10显式NOT_RUN+128本轮不扩研；原187中只分析59。"
+  },
+  "decision": {
+    "recommendation": "仅建议49项补充，合并原47为一个精确96项套件，待中央单独激活。未改动任何测试/产品/断言。",
+    "minimality": "以是否实际进入改变的UI/fixture路径及原断言是否完整等价为筛选单位，不按类名全跑。49项均有未被47完整证明的原断言；10项没有本轮布局执行路径，暂不要求该门运行，但不接收旧绿为新版证据。",
+    "equivalenceNote": "暂无完整等价或旧证据复用成立。SavedPrefab覆盖placeholder/141/3，不覆盖额外profile.title解析；WIRE02使用touch1，不代替B11 mouse-1路径；LAYOUT_09倒地按钮不代替无actor历史回滚；布局取消不代替双release完整顺序。",
+    "currentResultForAll59": "NOT_RUN_ON_FIXED_SOURCE_PLUS_POST_P_INPUT",
+    "activationRequired": true
+  },
+  "dependencies": {
+    "CandidateBoardInputTests": {
+      "testSource": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTests.cs",
+      "changedPath": "BoardPanelRig→BattleUguiRoot.Input (CandidateBoardInputTestData.cs:193,316)→CandidateBoardInputView.Render (175); WIRE01/取消还走 UguiHostRig→post-P Prefab/HostView",
+      "boundary": "21项进入新UI；3项只做反射或controller查询，单独NOT_RUN。"
+    },
+    "LocalizedTextBindingTests": {
+      "testSource": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "changedPath": "UguiHostRig (UguiSceneCompositionTests.cs:35)→post-P Prefab→HostView.Bind/Unbind (41/224)→responsiveLayout及共享roots",
+      "boundary": "6项真实Prefab绑定/诊断/跨代行为；不是字体肉眼或生产CSV验收。"
+    },
+    "PlayerBattlePresentationTests": {
+      "testSource": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "changedPath": "PlayerBattleRig.BindHost/RebuildView (PlayerBattleTestFixture.cs:39/56)→BattleUguiRoot.Page/Playback/Input (245/228/193)→PlayerBattleView.Bind/Unbind/Render",
+      "boundary": "10项都创建或重建受影响UI；programmatic fixture不代替生产Overlay布局。"
+    },
+    "PlayerDefaultReferenceTests": {
+      "testSource": "Assets/Tests/EditMode/FightMatch/PlayerDefaultReferenceTests.cs",
+      "changedPath": "PlayerBattleRig→BattleUguiRoot.Page/Reference→PlayerDefaultReferenceView.Show/PlayStep/OnInput/Close (49/170/217/233)",
+      "boundary": "6项构造受影响UI；纯ResolvedPublication test 1项NOT_RUN。"
+    },
+    "PlayerNavigationRecoveryTests": {
+      "testSource": "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs",
+      "changedPath": "NavigationPanel (PlayerNavigationTestFixture.cs:29)→post-P Prefab→HostView.SynchronizeOverlayRoots (175)→PlayerNavigationRecoveryView.Render (55)",
+      "boundary": "copy_D01/copy_B06/CC25共3项创建Panel；其余6项只NavigationRig/session，NOT_RUN。"
+    },
+    "UguiSceneCompositionTests": {
+      "testSource": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "changedPath": "UguiHostRig→post-P Prefab→UguiPointerDriver/FightMatchStandaloneInputModule→实际board与HostView",
+      "boundary": "3项检验真实prefab事件顺序与owner；不是设备触摸验收。"
+    }
+  },
+  "delta": [
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B01_ExactFriendAndSeparateRuntimeAssemblies",
+      "line": 186,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "反射 Input/Presentation 程序集引用、friend 精确值及83个手势case身份；不构造布局。新的程序集身份未证明，保留 NOT_RUN，不沿用旧 Passed。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B02_DownedMemberIsUnselectableButActorlessHistoryStillWorks",
+      "line": 566,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "BoardPanelRig 新固定槽按钮禁用后仍须允许无actor历史回滚并恢复HP；LAYOUT_09只覆盖倒地按钮禁用，不覆盖后半段。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B02_RealViewSelectionIsReadOnlyAndNewAttemptClearsIt",
+      "line": 197,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅 BattleApplicationRig + CandidateBoardInputController，断言输入上下文、选择只读和换attempt清除；不创建 CandidateBoardInputView。留非布局后续门禁，非复用通过。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B02_UnconfiguredAndDisposedRemainUnavailableWithoutSyntheticContext",
+      "line": 219,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅 controller 的 Unconfigured/Disposed 与空InputContext；不进入 UI fixture。留 NOT_RUN，未建立旧输入完整等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_BottomLeftHalfOpenBoundariesAndOutsideMapThroughHandlers",
+      "line": 335,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "BoardPanelRig 经真实Down处理半开边界和OriginCell；47内 mapper 的 CellAtLocal 不等于事件处理/LastRequest空断言。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_ExternalSceneChangeCancelsFrozenRouteWithoutRetagging",
+      "line": 402,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "拖拽中外部Attack改变revision，旧Up不得提交且释放捕获、更新context；resize取消不等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_MouseTouchClampsAndUniformScaleUsePanelPointDistances",
+      "line": 351,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "20/40/80尺寸、mouse/touch阈值、2倍等比与非等比拒绝，经新fixture输入链；47无这些阈值矩阵。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_RealPanelDownCapturesOnlyAndLastUpCellSubmitsOnce",
+      "line": 232,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "Down只捕获、最后Up补格、结果恰一次、重复Up不写且保留PresentationPending；不能用单次布局点击代替。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_UnselectedOrNonAdjacentRouteDoesNotPrepare",
+      "line": 378,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "未选actor和非邻接Up不得准备请求/发布head；新InputView和fixture是实际路径。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_UpDisplacementWithoutMoveCannotBecomeHistoryTap",
+      "line": 390,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "已存历史上仅Up位移7px不得变历史tap，preview/request/head原断言不在47。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B04_CancelCaptureOutBlurDetachCloseGeometrySelectionAndOutsideNeverSubmit",
+      "line": 269,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "包含原取消顺序helper及九种取消原因、真实Host焦点和迟到双Up零提交；LAYOUT_05只覆盖布局失效子集。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B04_SecondTouchCannotStealMoveEndOrCancelFirstCapture",
+      "line": 253,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "第二指针Down/Move/Up/Cancel均不能夺取首指针，首指针仍提交；场景三项只覆盖第二指针Cancel组合。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_CancellingConfirmationOnlyClearsLocalPreview",
+      "line": 492,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "多历史preview取消后清空但head/存储调用不变；新BoardPanelRig生命周期触及该路径，47没有完整断言。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_ChangedSceneClosesOriginalConfirmationWithoutChangingItsRange",
+      "line": 478,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "原range后外部Attack，Confirm须StaleContext、旧ids不变且无请求/写入；新fixture路径需要实测。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_EmptyCellDoesNotSearchGlobalHistory",
+      "line": 448,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "锁线后点空格，无preview/request/存储调用；47不检查空格历史搜索负路径。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_LockedLineTapNeedsNoActorAndSingleHistoryCommitsOnlyOnUp",
+      "line": 430,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "无actor锁线Down不提交、Up只回滚一次、成员/敌人/锁线/effectiveActions恢复；47无完整等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_MultipleHistoryHandsOffExactRangeAndConfirmsOnce",
+      "line": 460,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "两条历史精确ids、确认一次、随机/HP/动作恢复与重复确认空；新fixture的该原断言未纳入47。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_EndFailedSaveRestoresOriginalHeadWithoutResubmission",
+      "line": 580,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "真实绘线SaveFailed后End保留原head，再绘线必须新operation；与Battle recovery只结束input-owned请求不同。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_ExternalPendingCancelsRouteAndRecoveryDoesNotQueueIt",
+      "line": 415,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "外部pending使拖拽idle，迟到Up和恢复后Up都不排队/提交；47未覆盖该外部owner序列。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_OldOperationQueryRetainsLatestPublishedHeadAndDoesNotReplay",
+      "line": 551,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "绘线后外部后续Attack，查旧operation保留最新head且播放次数不增；47无该视图输入序列。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_PlayLatchOldTokenAndRebuildNeverQueueOrSettleRewards",
+      "line": 534,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "新fixture绘线、旧token忽略、重建清token不增播放，赢后仍不奖励/结算；47不完整覆盖。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_PreparationBudgetRefusalDoesNotPublishOrFabricateSuccess",
+      "line": 594,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "InputView重新Attach极小budget，绘线Limit且无request/head/存储变化；原拒绝路径不在47。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_SaveFailedAndUnknownKeepOriginalPreparedBytesAndOnePlay",
+      "line": 504,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "两故障的真实存盘候选字节、marker提升恰一次、同request及播放恰一次；47重建内存fixture不等于该磁盘断言。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.UGUI_COPY_WIRE01_ExactInputOutcomeBindsOneExistingFeedbackWithoutBusinessWrite",
+      "line": 26,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "八反馈及EN切换/100ms刷新、失败恢复一次accept、六种teardown×pending清旧arm；新Input/Host路径，47无完整组合。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.LocalizedTextBindingTests.AllBusinessSeveritiesKeepContinueRetryAndResolveUnderControllerAuthority",
+      "line": 178,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "四severity×真实Continue及两保存故障的Retry/Resolve可用性；布局和可见字形不能证明controller权限不被severity覆盖。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.LocalizedTextBindingTests.EverySavedTmpStartsWithTheExactDiagnosticPlaceholderBeforeHostBind",
+      "line": 59,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "与47的SavedPrefab有141/3目标及placeholder重叠，但额外断言Bind后的fm.profile.title精确解析文本；不声称完整等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.LocalizedTextBindingTests.InactiveBindingAndDynamicCloneResolveBeforeTheirFirstActivation",
+      "line": 86,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "inactive原binding及动态clone首次激活前已解析、激活后文本不变且无Host诊断；47没有这一完整生命周期。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.LocalizedTextBindingTests.LocaleChangeAndRebuiltPagePreserveHeadRequestAndPlaybackToken",
+      "line": 106,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "真实Prefab绘线后ZhHans和重Bind保持head/request/token/page、嵌套人名及所有存储字节；47布局换语/重绑不覆盖该组合。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.LocalizedTextBindingTests.MissingKeyParametersTemplateFontAndGlyphOpenTheRealHostGate",
+      "line": 138,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "五种key/参数/template/font/glyph故障均显示placeholder并打开真实Host gate，Unbind后恢复；LAYOUT_11只有overlay owner冲突。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.LocalizedTextBindingTests.ThreeBindUnbindCyclesRemoveOldListenersAndProtectTheNextGeneration",
+      "line": 219,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "三代真实语言按钮保留旧控件，旧Submit不得改变任意代service且每代一次LocaleChanged；47不证明监听清理。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B02_ActualHistoryListButtonShowsExactRangeAndStaleConfirmCannotSelectAnother",
+      "line": 264,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "已适配History drawer；两个range之间保留旧Confirm不得选择/提交另一条，当前Confirm仍可回滚；LAYOUT_10仅开关drawer。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B04_ButtonAvailabilityTracksRealTokenAndActualReceiptAfterHistoryRemoved",
+      "line": 281,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "真实token约束settle，历史移除后收据成员XP/物品/原receipt及EN重绑；47胜利skip/结算不含全部收据绑定。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_RecoveryPageEndsOnlyTheActualInputOwnedPendingRequest",
+      "line": 172,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "新Recovery容器只能结束实际input-owned pending，不误用H02；保留request、head记录数和clockReads；47重建恢复不等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_ActualBorrowedInputStaleRetryButtonCannotCommitAfterRebind",
+      "line": 252,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "保留旧Retry，重建后旧按钮无写，当前Retry恰增一条记录；47只保留request/bytes不调用旧Retry。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_ActualPanelDetachAndOldConfirmationButtonCannotEndReboundBattle",
+      "line": 241,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "重建保留原confirmation，旧Confirm不能结束、当前Cancel可清除且无写；47无该旧控件序列。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_AnotherPageOrHostDisposalDetachesEveryOldBorrowedCallback",
+      "line": 158,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "new-page/host-dispose两路脱离旧Page，再点旧Retry不写且原request不变；不是单一重建等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_BorrowedDetachDoesNotFinishButExplicitCloseAndFinalHostDisposeReportOnce",
+      "line": 225,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "borrowed detach保持token/播放原件，显式close只报告一次，重复dispose不重报/写；47生命周期覆盖不具完整同序列。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_OriginalAttachRebuildsMemberButtonsForItsNewOwnedController",
+      "line": 189,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "Attach新owned controller，旧成员按钮不能改旧/新选择，新固定槽按钮仍可选W；LAYOUT_09不测试旧listener。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_ReadOnlyRefreshKeepsTheOriginalActionButtonAndContextClickable",
+      "line": 147,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "只读刷新三次保持原ActionButton及context身份，原按钮仍打开确认且无写；新动态actions容器直接相关。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_StalePageEpochAndDisposedHostCannotSubmitOrAcknowledgePlayback",
+      "line": 313,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "重建后旧page不能PreviewEnd/Settle/Skip，disposed host不能再次动作且DisposeCount=1；47无全部旧epoch动作。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ReferenceLabelsShowOpeningConditionsExactSeedAndCurrentDifferences",
+      "line": 124,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "PlayerBattleRig会创建新Page/Reference，即使主要断言reference模型仍须跑构造路径；包含种子首尾、条件/差异、不可变列表和无业务写。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ResolvePreservesAlreadyVerifiedImmutableReferencesWithoutSerializedProperties",
+      "line": 112,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅RealCatalog/Resolve，检验不可变默认reference、seed48和指纹/公开属性；不创建UI。留 NOT_RUN，未证明全部传递依赖等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_ActualFirstDragClosesWindowAndOverlayWhileTheSamePointerSubmits",
+      "line": 185,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "原mouse指针-1经PlayerBattlePanel关闭reference并提交Attack；47 WIRE02用touch=1且未显式检验同一mouse路径，不能替代。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_ClosedReferenceOldStepButtonAndTimerCannotReviveOverlay",
+      "line": 229,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "关闭后保留旧step/close、推进旧timer，不能复活或关闭下一代reference/frame；47无旧按钮跨代断言。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_FaceMismatchKeepsExplanationButCannotOverlayAnotherFace",
+      "line": 215,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "TwoFaces切面后仍显示说明但禁止参考覆盖，保持head/files/clocks；47只拒绝level/version/binding不等于face geometry。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_OriginalNonkillClearAndKillingLockFactsPlayOnlyInIndependentOverlay",
+      "line": 158,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "DurableReference逐fact同时覆盖TemporaryRouteRemoved/RouteLocked，真实播放/业务状态无变；47普通reference用例不含这对专用facts完整断言。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_RealPlaybackBlocksReferenceAndClosingReferenceCannotAcknowledgeItsToken",
+      "line": 201,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "真实播放时PlayStep拒绝，Close/大步Advance不得报告或消费其token/original；47首拖与初始文案不是该状态。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_PrepareFailureWithoutTicketStillRetriesTheRetainedRequest",
+      "line": 180,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅NavigationRig/session：无ticket PendingPreparation保留operation并Retry提交；不构造NavigationPanel。NOT_RUN，非旧证据复用。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC18_OriginalResultSelectionSurvivesLaterHeadAndDoesNotResubmit",
+      "line": 291,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅NavigationRig/session：旧operation查询返回原commit+最新lookup且无写；不构造UI。NOT_RUN，非47等价。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC19_EndRequiresSeparateConfirmationAndCancelRetainsOriginalPending",
+      "line": 306,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅session的EndConfirmationRequired/Cancel/End与未提交记录检查；47 WIRE03有UI相邻行为但不宣称完全替代。NOT_RUN。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC19_EndedRequestStaysUnavailableUntilExplicitRestoreSucceeds",
+      "line": 319,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅session准备/读失败/End/Refresh，显式恢复前不可用；不走新RecoveryView。保留NOT_RUN后续恢复门禁。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC19_OrdinaryQueryDoesNotAdoptAnotherOwnersPending",
+      "line": 341,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅Application/session外部owner pending和只读查询，确认空且文件不变；不走新UI。保留NOT_RUN。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC25_NotificationFailureRemainsACommittedResult",
+      "line": 353,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "销毁旧NavigationPanel后发布异常，再建新Panel保持原commit/NotificationFailure，Retry不写；新fixture和RecoveryView直接相关，copy_B06无相同销毁顺序。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.RCV1_ReadonlyIntentQueryRejectsWrongIdentityThreadDisposedBusyAndF2",
+      "line": 262,
+      "disposition": "NOT_RUN_DEFERRED",
+      "reason": "仅NavigationRig/Runtime查询身份、线程、Busy、Disposed、F2拒绝；不构造Panel。NOT_RUN，不能借旧绿或程序集未验证宣称复用。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.UGUI_COPY_B06_KnownDiagnosticIsDeduplicatedAndNotificationStaysDistinct",
+      "line": 96,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "新Recovery状态容器的五诊断去重、真实notification failure仍Committed、EN/ZH不泄漏身份且不写；47故障case未断言该矩阵。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.UGUI_COPY_D01_ColdAdoptUsesExactOriginalKindAndNeverDraftDefault",
+      "line": 16,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "四种cold-adopt原kind及映射/隐藏/未知key矩阵经新RecoveryView，token与存储不变；47 CC17只覆盖有限恢复kind。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.UguiSceneCompositionTests.OwnerCanceledNormalizesBeforeReleaseAndNeverCommits",
+      "line": 255,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "真实post-P Prefab+input module，OwnerCanceled必须早于PointerUp:False/EndDrag:False，迟到Up不写；47布局取消没有完整事件顺序观察。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.UguiSceneCompositionTests.OwnerEndedCommitsOnceDespiteBothPointerUpAndEndDrag",
+      "line": 229,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "真实post-P board释放时两handler均观察无active pointer且SnapshotCreates只增1；47普通绘线不检查双handler顺序/次数。"
+    },
+    {
+      "fullname": "FightMatch.Core.Tests.UguiSceneCompositionTests.SecondFingerCanceledLeavesOwnerAndOwnerEndedStillCommitsOnce",
+      "line": 287,
+      "disposition": "RECOMMEND_ADD",
+      "reason": "真实post-P Prefab第二指针Cancel后owner=1保留并恰一次commit；不能复用程序构造BoardPanelRig的同类旧绿。"
+    }
+  ],
+  "recommendedExactFullnames": [
+    "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_03_ReattachUnsubscribesOldControllerAndDoesNotReplayPriorFacts",
+    "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_03_SkipCloseDetachBlurLowMemoryAndSchedulingFailureReleaseOnlyOwnResources",
+    "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_05_ActualPanelLabelsBoardOverrideAndNextAttackChain",
+    "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_05_RealUIToolkitScheduleAdvancesActualFacts",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B02_DownedMemberIsUnselectableButActorlessHistoryStillWorks",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_BottomLeftHalfOpenBoundariesAndOutsideMapThroughHandlers",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_ExternalSceneChangeCancelsFrozenRouteWithoutRetagging",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_MouseTouchClampsAndUniformScaleUsePanelPointDistances",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_RealPanelDownCapturesOnlyAndLastUpCellSubmitsOnce",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_UnselectedOrNonAdjacentRouteDoesNotPrepare",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B03_UpDisplacementWithoutMoveCannotBecomeHistoryTap",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B04_CancelCaptureOutBlurDetachCloseGeometrySelectionAndOutsideNeverSubmit",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B04_SecondTouchCannotStealMoveEndOrCancelFirstCapture",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_CancellingConfirmationOnlyClearsLocalPreview",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_ChangedSceneClosesOriginalConfirmationWithoutChangingItsRange",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_EmptyCellDoesNotSearchGlobalHistory",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_LockedLineTapNeedsNoActorAndSingleHistoryCommitsOnlyOnUp",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B05_MultipleHistoryHandsOffExactRangeAndConfirmsOnce",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_EndFailedSaveRestoresOriginalHeadWithoutResubmission",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_ExternalPendingCancelsRouteAndRecoveryDoesNotQueueIt",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_OldOperationQueryRetainsLatestPublishedHeadAndDoesNotReplay",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_PlayLatchOldTokenAndRebuildNeverQueueOrSettleRewards",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_PreparationBudgetRefusalDoesNotPublishOrFabricateSuccess",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.B16B06_SaveFailedAndUnknownKeepOriginalPreparedBytesAndOnePlay",
+    "FightMatch.Core.Tests.CandidateBoardInputTests.UGUI_COPY_WIRE01_ExactInputOutcomeBindsOneExistingFeedbackWithoutBusinessWrite",
+    "FightMatch.Core.Tests.LocalizedTextBindingTests.AllBusinessSeveritiesKeepContinueRetryAndResolveUnderControllerAuthority",
+    "FightMatch.Core.Tests.LocalizedTextBindingTests.EverySavedTmpStartsWithTheExactDiagnosticPlaceholderBeforeHostBind",
+    "FightMatch.Core.Tests.LocalizedTextBindingTests.InactiveBindingAndDynamicCloneResolveBeforeTheirFirstActivation",
+    "FightMatch.Core.Tests.LocalizedTextBindingTests.LocaleChangeAndRebuiltPagePreserveHeadRequestAndPlaybackToken",
+    "FightMatch.Core.Tests.LocalizedTextBindingTests.MissingKeyParametersTemplateFontAndGlyphOpenTheRealHostGate",
+    "FightMatch.Core.Tests.LocalizedTextBindingTests.ThreeBindUnbindCyclesRemoveOldListenersAndProtectTheNextGeneration",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B02_ActualHistoryListButtonShowsExactRangeAndStaleConfirmCannotSelectAnother",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B04_ButtonAvailabilityTracksRealTokenAndActualReceiptAfterHistoryRemoved",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_EntireViewTreeRebuildPreservesHostInputPlaybackAndOriginalAttack(\"marker-after\")",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_EntireViewTreeRebuildPreservesHostInputPlaybackAndOriginalAttack(\"marker-before\")",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_EntireViewTreeRebuildPreservesHostInputPlaybackAndOriginalAttack(\"snapshot-promoted\")",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_RecoveryPageEndsOnlyTheActualInputOwnedPendingRequest",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_ActualBorrowedInputStaleRetryButtonCannotCommitAfterRebind",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_ActualPanelDetachAndOldConfirmationButtonCannotEndReboundBattle",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_AnotherPageOrHostDisposalDetachesEveryOldBorrowedCallback",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_BorrowedDetachDoesNotFinishButExplicitCloseAndFinalHostDisposeReportOnce",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_OriginalAttachRebuildsMemberButtonsForItsNewOwnedController",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_ReadOnlyRefreshKeepsTheOriginalActionButtonAndContextClickable",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.B09_StalePageEpochAndDisposedHostCannotSubmitOrAcknowledgePlayback",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.UGUI_COPY_D02_DurationUsesAcceptedSnapshotAndInvariantCeiling",
+    "FightMatch.Core.Tests.PlayerBattlePresentationTests.UGUI_COPY_WIRE03_ExistingHistorySaveSkipAndEndKeysFollowRealStateWithoutChecking",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ExactReferenceRejectsOtherLevelVersionOrBindingWithoutBusinessWork(\"binding\")",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ExactReferenceRejectsOtherLevelVersionOrBindingWithoutBusinessWork(\"level\")",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ExactReferenceRejectsOtherLevelVersionOrBindingWithoutBusinessWork(\"version\")",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ReferenceLabelsShowOpeningConditionsExactSeedAndCurrentDifferences",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_ActualFirstDragClosesWindowAndOverlayWhileTheSamePointerSubmits",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_ClosedReferenceOldStepButtonAndTimerCannotReviveOverlay",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_FaceMismatchKeepsExplanationButCannotOverlayAnotherFace",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_OriginalNonkillClearAndKillingLockFactsPlayOnlyInIndependentOverlay",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B11_RealPlaybackBlocksReferenceAndClosingReferenceCannotAcknowledgeItsToken",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.UGUI_COPY_WIRE02_FirstDragNoticeSurvivesAndReplayAppearsOnlyAfterCompletion",
+    "FightMatch.Core.Tests.PlayerDefaultReferenceTests.UGUI_COPY_WIRE04_ReferenceInitialFrameNeverClaimsActionSubmitted",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"marker-after\",\"CommitUnknown\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"marker-before\",\"CommitUnknown\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"snapshot-before\",\"SaveFailed\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"snapshot-promoted\",\"SaveFailed\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"save-failed\",\"End\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"save-failed\",\"Retry\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"unknown-after\",\"Resolve\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"unknown-before\",\"Resolve\")",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC25_NotificationFailureRemainsACommittedResult",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.UGUI_COPY_B06_KnownDiagnosticIsDeduplicatedAndNotificationStaysDistinct",
+    "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.UGUI_COPY_D01_ColdAdoptUsesExactOriginalKindAndNeverDraftDefault",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_01_ReferenceRecoveryAndModalHierarchyMatchesAdjudication",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_02_540SafeAreaUsesAcceptedFiveRegionGeometry",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_03_LongScreenConvertsPhysicalSafeAreaToAcceptedCanvasTable",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_04_ShortHeightCompressionStopsAtStageAndBottomHudMinima",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_06_LayoutOwnershipHasNoSameAxisControllerConflict",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_07_RuntimeResizeAndSafeAreaVersionApplyOnceWithoutZeroFrame",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_08_ModalAndRecoveryScrollRectsKeepHeaderAndActionsFixed",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_09_FixedSlotsUseOriginalSlotWithoutCompaction",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_10_DrawersAreMutuallyExclusiveAndNeverCoverBoard",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_11_SystemRecoveryPrecedesEveryOrdinaryPopup",
+    "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_12_RaycastTargetsExistOnlyOnInteractiveSurfaces",
+    "FightMatch.Core.Tests.UguiSceneCompositionTests.BothResolutionsWithFourInsetsKeepHitAndRenderedCentersIdentical",
+    "FightMatch.Core.Tests.UguiSceneCompositionTests.FourCornerCentersAndHalfOpenEdgesUseTheActualBoardMapper",
+    "FightMatch.Core.Tests.UguiSceneCompositionTests.OwnerCanceledNormalizesBeforeReleaseAndNeverCommits",
+    "FightMatch.Core.Tests.UguiSceneCompositionTests.OwnerEndedCommitsOnceDespiteBothPointerUpAndEndDrag",
+    "FightMatch.Core.Tests.UguiSceneCompositionTests.SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem",
+    "FightMatch.Core.Tests.UguiSceneCompositionTests.SecondFingerCanceledLeavesOwnerAndOwnerEndedStillCommitsOnce",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H01_ActualPanelDetachKeepsPresentationTokenAndPauseCompletesItOnlyOnce",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H01_DuplicateOwnerCannotTakeOverOrDeinitializeTheActiveArchitecture",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ChangedBeforeHostRequestedStillDeliversOneOriginalH02AndRejectsDuplicates",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ColdObservedMenuSaveUsesOriginalNavigationRecovery",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_OriginalEndReceiptCanReturnAndBeExplicitlyOpenedAgainAfterColdRebuild(False)",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_OriginalEndReceiptCanReturnAndBeExplicitlyOpenedAgainAfterColdRebuild(True)",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_RealBoardVictorySettlesOnceAndTheOriginalReceiptSurvivesWholeHostReconstruction",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ReplacingTheWholeViewKeepsFailedEndRequestAndOriginalResolution(\"marker-after\")",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ReplacingTheWholeViewKeepsFailedEndRequestAndOriginalResolution(\"save\")",
+    "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_RootBackMeansApplicationQuitAndCancelPreservesTheSave"
+  ],
+  "futureExecutionProposal": {
+    "authority": "仅预算/验收建议；本JSON不激活C、dots或任何runner，不允许自行扩到222/234/full/extra28。",
+    "selector": "对recommendedExactFullnames逐个正则字面转义并全字符串锚定；ordinal排序/去重；不得类通配或按方法替代参数leaf。",
+    "discovery": "中央激活后至多一次有界compiled discovery，逐项确认96个fullname真实存在且匹配，无遗漏/多选/重名；计数漂移即停。47映射来自声明和历史，当前尚无post-P compiled discovery。",
+    "execution": "合并一次定向96项；39+8原逻辑分类不拆启动，也不为49补项重复启动。保留每个UnityTest原有Enter/ExitPlayMode、teardown和原断言；8个Overlay必须有真实graphics/CanvasScaler。具体工具及C/dots能力须中央另核，不凭本建议切换环境。",
+    "proposedCaps": {
+      "discoveryCalls": 1,
+      "discoveryWallSeconds": 60,
+      "testRunCalls": 1,
+      "testRunWallSeconds": 600,
+      "automaticRetries": 0,
+      "logBytesPerFile": 8388608,
+      "stageEvidenceBytes": 201326592,
+      "minimumFreeBytes": 2147483648,
+      "ownedCleanupNaturalSeconds": 60,
+      "identityCheckedTerminationSeconds": 30
+    },
+    "budgetBasis": {
+      "oldLeafCount": 84,
+      "sumHistoricalLeafSeconds": 200.928294,
+      "maxHistoricalLeaf": {
+        "fullname": "FightMatch.Core.Tests.CandidateBoardInputTests.UGUI_COPY_WIRE01_ExactInputOutcomeBindsOneExistingFeedbackWithoutBusinessWrite",
+        "seconds": 21.172267,
+        "evidence": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/tests.xml"
+      },
+      "unmeasuredNewCount": 12,
+      "xmlInputs": [
+        {
+          "path": "TestArtifacts/FightMatch/UGUI-01/1dc19bf8048aa36d905e0e72c922f9cc05646cfe4e5ed55ce7bf0205d58c4c1b/q4-correction-15/exact-2-graphics/tests.xml",
+          "bytes": 7203,
+          "sha256": "d0fef5721fafa5dd872e37107425d5f53765f846df33e597cfeaa6aa1b4247e8"
+        },
+        {
+          "path": "TestArtifacts/FightMatch/UGUI-01/872b313d139da2b594f4233e38bf6794955f319d6a0febef5b61f0dd03673aaf/q4-correction-17/host-30-graphics/tests.xml",
+          "bytes": 26559,
+          "sha256": "79b428cf22371302534406ea1e6634d7bd3af999685ab577e7abe8f00310986c"
+        },
+        {
+          "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-19/tests.xml",
+          "bytes": 165890,
+          "sha256": "547d226053955136175305804da8913d921fb6999ee59bec5ee55fe2a94b71c2"
+        },
+        {
+          "path": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/tests.xml",
+          "bytes": 34794,
+          "sha256": "1183296a7db8f4f4d146a7a7f5326f825b1cc793e1963bc6fa74cf4f34988c11"
+        }
+      ],
+      "meaning": "SHA核实的旧输入Passed叶子耗时仅作预算参照，不复用通过、不保证未来耗时。84项合计约201s，12新项/编译/PlayerLoop及切换开销未测，故提出600s硬上限；原47≤360s授权不自动扩展。"
+    },
+    "onLimit": "达到时间/日志/磁盘上限则停止该次并记录TIMED_OUT/BLOCKED和部分结果，不能记Passed或补跑；只清理当次确认身份的owned进程。",
+    "receipt": "冻结当次head/tree、源码/fixture/程序集、post-P资源、字体/CSV/内容输入及selector；XML每个fullname恰一次，Counter=96，逐leaf记录；结果回指定唯一接收人。任何输入漂移先停，不自动更新本集合。"
+  },
+  "unverified": [
+    "96项尚未运行；49建议补项不是49已通过；10显式NOT_RUN不能关掉其后续门禁。",
+    "128个其余旧leaf本轮未扩研；所有旧证据仍绑定旧输入，不获得新layout通行证。",
+    "生产Host启动/真实CSV与字体加载、玩家持久化、Android/API24、设备多指/系统焦点、视觉/双语可读性与发布门禁未由这些fixture证明。",
+    "UguiHostRig禁用真实PlayerHost并注入UguiTestTextSource、RealCatalog、内存storage；programmatic BattleUguiRoot与mapper-only WorldSpace均不冒充真实Overlay/设备。",
+    "GitHub PR审查仅沿既有回执；本轮无代码审查及GitHub查询，未声称新的review或产品集成结论。"
+  ],
+  "verification": {
+    "performed": [
+      "只读源码原断言/调用路径与projection YAML",
+      "15源码及4资源实际SHA、59/47集合机械比对",
+      "四份旧XML SHA和Passed leaf duration只读汇总",
+      "交付JSON语法/精确集合/计数及输入SHA核对"
+    ],
+    "notPerformed": [
+      "Unity/import/test/discovery",
+      "dotnet/PlayerLoop/Host/device/CUA",
+      "Git/GitHub/PR/review/dispatch",
+      "等待资源head或创建自动轮询"
+    ],
+    "skillsInfluence": "uGUI技能用于实际层级和fixture/Overlay边界；writing-for-agents用于逐leaf理由及把建议、证据和未验证门禁分开。"
+  }
+}

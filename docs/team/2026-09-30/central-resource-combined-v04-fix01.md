@@ -1,0 +1,13 @@
+# RES-COMBINED-V04-FIX01 — PR20 进程发现边界
+
+2026-10-08，中央唯一收件；用户继续任务授权不变。原源码作者01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c/local，gpt-6-astra/xhigh，登记新actual。沿V04批准设计和执行边界，原native额度仍未签发。
+
+固定输入：PR20 head47078ee0137cc9c6e0b1e34228b9270dd2acdcc0。主测试actual01a11921-43a0-79d3-8f1e-62a4acebb647收取GitHub P1 4213725720：discover捕获register抛出的NaturalGraceExpired，误记pending身份失败，阻止正常自然窗口转TERM。中央直接核GitHub原文，V04本版结论NEEDS_FIX；不是新增设计或本地代码审查。
+
+唯一可写：TestArtifacts/FightMatch/RES-COMBINED-V04/run下现有五叶runner.py、replay-check.py、replay-results.json、inputs.json、preparation.json；先把这五叶逐字节保存到新source-before-fix01/同名五叶（必须不存在）。原runner92271B/e22ce18f50c929eebb442f86e0a2f551a8e82cb7702a8f8931f69fdf66dd2409；原checker30786B/e449a7f1ba2df94b05e8da27637a3f9b0b39c335634a241256e956616de301df；原results11772B/6abbc4412a9b163938881e1421acaa797b3da0017ed2fa29a86e68a226270e13；原inputs1244365B/9f3379932108880c1898786de3bf978640c566bd647d0a36274632e702e8f524；原prep122128B/446cbaed4eb2148a6faa6c7f8eee2b4992e8efc0bfb5eeae8e59030fef594a7b。
+
+最小修正：discover在普通Exception处理前透传NaturalGraceExpired；不改其他runner函数、期限、信号、IPC准入或产品输入。回放覆盖真实discover→register异常链，证明自然控制异常不新增pending/monitor_errors且可转TERM；普通身份异常仍保留失败；不得只测试直接raise绕过discover。沿原checker加必要案例，跑一次受影响V04套件≤30秒，只有真实失败修正才可追加一轮≤30秒。V02原177继续按原边界复用，不重跑。
+
+更新五叶相关封签、来源新actual/前后AST差异及结果，不改变shared/projection/cache/testCases/transferPlan/limits/editor/compilePlan等语义；activation与真实退出观测合同保持。准备值160/总900不变。无Unity、真实进程/套接字/信号、源码投影写、包安装/下载、产品/元文件/Git修改。只需要几行修正，不再长调查或新增设计文档。
+
+完成报告SOURCE_READY及5seal、新回放数/耗时、discover唯一AST差异。中央接收后推新head并由GitHub重审；不能自批或启动native。工具输出≤2KB，中央通过完成事件接回。

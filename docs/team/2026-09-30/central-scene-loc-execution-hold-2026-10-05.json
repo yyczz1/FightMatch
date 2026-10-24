@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-05",
+  "status": "BLOCKED_NOT_EXECUTED_AUTO_REVIEW_REJECTION",
+  "humanApproval": {
+    "path": "docs/team/2026-09-30/central-explicit-execution-approval-2026-10-05.json",
+    "bytes": 3047,
+    "sha256": "a78063af653820665b388dbc96ff626b64a78b16f8b91585b82cb09f89f1451e"
+  },
+  "meaning": "The human explicitly authorized both actions. Execution and dispatch auto-review still refused to recognize cross-chat/tool-read authority; this record does not retract or mislabel that human approval.",
+  "scene": {
+    "owner": {
+      "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+      "host": "local",
+      "turn": "01a109d2-9512-7c31-906b-5b20dd8e01b7"
+    },
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N05/PExecution/receipt.json",
+      "bytes": 38538,
+      "sha256": "24d60a52d18c8de5139b7e55590e212b5118c55133a2561343cb328462bbec9e"
+    },
+    "sourceChecksPassed": 15,
+    "runnerPreparationChecksPassed": 68,
+    "executionCounts": {
+      "approvalSubmissions": 1,
+      "runnerProcessesCreated": 0,
+      "preflights": 0,
+      "sourceSyncs": 0,
+      "unity": 0,
+      "nativeRetries": 0,
+      "saves": 0,
+      "reopens": 0,
+      "exports": 0,
+      "tests": 0,
+      "gitMutations": 0
+    },
+    "rejection": {
+      "tool": "functions.exec -> exec_command",
+      "stage": "CreateProcess",
+      "wallSeconds": 7.7,
+      "toolChunkId": null,
+      "sessionId": null,
+      "pid": null,
+      "rawReviewerText": "This action was rejected due to unacceptable risk.\nReason: The runner can synchronize source and save/export a shared Unity Scene, but the claimed “都允许” authorization appears only in untrusted historical/tool content; no trusted user message authorizes this exact mutation.\nDo not bypass this rejection through a workaround or indirect execution. Continue with a safer alternative, or carry out checks to prove that the action is authorized or low risk before trying again. Complete unaffected work without asking for confirmation. Report anything that remains blocked, clarify why it was blocked by auto-review, inform the user of the risk and ask for approval.",
+      "approvalSubmissions": 1,
+      "retriedAfterRejection": false
+    },
+    "sharedSceneUnchanged": true,
+    "ownerState": "completed",
+    "integrationVerdict": null
+  },
+  "localization": {
+    "ownerThread": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "ownerHost": "local",
+    "ownerTurn": "01a109d0-aa0e-7d11-9aac-f4055cd14a44",
+    "ownerState": "completed after safe end of wait",
+    "materialExecution": false,
+    "downloads": 0,
+    "restores": 0,
+    "materialWrites": 0,
+    "codeHead": "6dfdc1897533d7734937f9c6964bccfc7c8be4d9",
+    "codeAcceptanceUnchanged": true,
+    "centralPreparation": [
+      {
+        "path": "docs/team/2026-09-30/central-loc-m17-m02-activation.json",
+        "bytes": 33078,
+        "sha256": "72390d8f7b148474b03f8bdd54d2ff9fb8c1b1074cd017262469a5825d838ee4"
+      },
+      {
+        "path": "docs/team/2026-09-30/central-loc-m17-m02-host.py",
+        "bytes": 4413,
+        "sha256": "009c08086f510e3478abfa2521fb7063de0b5222da7da9013a814651c6aea66c"
+      },
+      {
+        "path": "docs/team/2026-09-30/central-loc-m17-m02-host-binding-receipt.json",
+        "bytes": 1830,
+        "sha256": "a2d26d10cd06175517e5728ccbe07db8db2fc654bf651ae13596f5944d81bd28"
+      }
+    ],
+    "activationForwardedToOwner": false,
+    "oldOwnerBindingMayBeReused": false,
+    "communicationRejection": "The message would authorize preparation of activation artifacts for a later network/download/restore and external-disk operation, but no direct trusted user message authorizes sending this dispatch or that exact M02 action."
+  },
+  "next": "Request direct human approval in the two actual execution chats for the existing exact scopes and permitted team coordination; normal tool review remains required. Fresh owner bindings are necessary after approval. No retry or indirect execution under rejected requests.",
+  "unchangedBoundaries": [
+    "No Unity/test execution this attempt",
+    "No material download or restore",
+    "No APK/Demo acceptance",
+    "No local Git mutation, purchase, deployment or release",
+    "All prior evidence preserved"
+  ],
+  "engineeringReceiptSource": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "turn": "01a109c5-51c1-7312-aaeb-7285a2f6564a",
+    "mechanicalIntakeUtc": "2026-10-05T02:15:05.100Z",
+    "method": "Authorized read_thread of actual completed source/executor receipts and final status; not code review."
+  }
+}

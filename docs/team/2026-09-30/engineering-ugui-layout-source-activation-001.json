@@ -1,0 +1,107 @@
+{
+  "contract": "LAYOUT-S1-001",
+  "status": "APPROVED_FOR_SOURCE_ONLY",
+  "issuedUtc": "2026-10-02 02:13:51 UTC",
+  "authority": "User 2026-10-02 continuation of first Demo and obvious temporary art only, conveyed by central; AGENTS section 6 and TEAM_WORKFLOW standing in-team execution authority. No Git, paid-service, download, Unity or release expansion.",
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fa60-ee4a-7f01-9fd6-9e1d622dc7b8"
+  },
+  "executor": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fa62-9fe2-72f1-9431-1e9ea0d4b171",
+    "requestedModel": "gpt-6-astra",
+    "requestedEffort": "xhigh"
+  },
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "inputs": [
+    {
+      "path": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-architecture-001.md",
+      "sha256": "83a359f352cbc0ab953ab25179f6378529ec5334fc338e9e25419d8b0b5c7f84",
+      "turn": "01a0fa4a-6790-7731-8159-e196f3a9b7a1"
+    },
+    {
+      "path": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-system-001.md",
+      "bytes": 13578,
+      "sha256": "3220629d60fdb279e9328353d5a90156f0abc66415cf24bf1e6da42d4beba06d",
+      "turn": "01a0fa51-fb29-7022-8a3e-5bbdd9302d03"
+    },
+    {
+      "path": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json",
+      "bytes": 136323,
+      "sha256": "5a2f1394e2b6fe03fdeaf7cb4d4a54a23f5b6f493d33b4dcf430e31f899a690d"
+    }
+  ],
+  "priorWriterHandoff": {
+    "owner": "Same C executor; prior functionality and LOC S1 deliveries are frozen, not discarded.",
+    "functionalTurn": "01a0f716-4e51-70e1-aa99-94eedbdce874",
+    "functionalReceipt": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/final-receipt.json",
+    "lastCompletedTurn": "01a0f71f-8a14-7bf3-afcb-e92eac92bdf9",
+    "lastCompletedUnixSeconds": 1790853847,
+    "stoppedWritingObservedUtc": "2026-10-02 02:11:53 UTC",
+    "observation": "read_thread returned C idle and last turn completed; this is a stopped-state observation, not a claim about the exact last file-write timestamp.",
+    "transfer": "Only the immutable sourceScope listed in inputs-001.json transfers to the new C turn. Other WIP and historical evidence stay owned and frozen; no reset/stash/overwrite."
+  },
+  "activatedGate": "S",
+  "sourceScope": "Exactly inputs-001.json sourceScope: at most 15 C# paths, including exactly two new source files; 7840 added+deleted lines maximum and per-file maxima apply, measured from exact PR1 blobs.",
+  "authorizedProtectedChanges": "Only the exact source serializedContract, publicSymbols and internalSeams fixed in inputs-001.json. No additional public interface, serialized field or source path is authorized.",
+  "evidenceRoot": "TestArtifacts/FightMatch/LAYOUT-S1-001/S",
+  "evidenceFiles": [
+    "handoff.json",
+    "before.json",
+    "after.json",
+    "static-checks.json",
+    "source-receipt.json",
+    "source.patch"
+  ],
+  "beforeFirstWrite": [
+    "Verify this activation and all three input identities, actual C thread/host/turn, and current repository authority.",
+    "Re-run the immutable read-only preflight; all 133 input identities and absent paths must match. Preserve the full snapshot as before.json via approved file editing tools.",
+    "Create the S evidence root once and record handoff.json with this activation identity, actual owner identities, stopped-state observation and transfer scope. The C source writer starts only after these records exist.",
+    "No unrelated active writer may be overwritten; observed concurrent changes must be attributed by engineering instead of automatically rebasing the snapshot."
+  ],
+  "mechanicalPrecheck": {
+    "utc": "2026-10-02 02:11:53 UTC",
+    "exitCode": 0,
+    "fixedInputs": 133,
+    "inventoryFiles": 1077,
+    "sourceFiles": 15,
+    "newSourceFiles": 2,
+    "maxAddedPlusDeletedLines": 7840,
+    "sourceEvidenceRootAbsent": true,
+    "meaning": "Read-only engineering contract/input check, not implementation, compile, test or independent code review."
+  },
+  "acceptance": [
+    "Implement the complete approved layout source and necessary fixture adaptation within the pinned whitelist, exact field/ownership/layout/lifecycle/Caption contracts and budgets.",
+    "Builder source uses only obvious temporary Image/solid/outline/two-colour decorations, TempArt_ child names and no decorative raycast targets; no formal art choice, asset import or new player copy.",
+    "Player TMP diagnostic placeholders and existing English/Simplified Chinese runtime bindings remain required; new prefab/scene output is not generated in S.",
+    "Postflight and the semantic static checklist both have explicit evidence; 37 resources, existing metas, PR3 sources/meta absence, LOC/art/settings/packages and all off-scope paths remain protected.",
+    "Return the six evidence files and source delta; label SOURCE_READY / UNCOMPILED / UNIMPORTED / OLD_PREFAB_NOT_MIGRATED / NOT_PLAYABLE_CANDIDATE."
+  ],
+  "inactiveGates": {
+    "I": "WAITING_ACTIVATION",
+    "P": "WAITING_ACTIVATION",
+    "T": "WAITING_ACTIVATION",
+    "GitHubReview": "Actual new-head source review follows source receipt and central publication; final native asset head requires its own review."
+  },
+  "executionLimits": {
+    "UnityStarts": 0,
+    "compile": 0,
+    "dotnet": 0,
+    "testDiscovery": 0,
+    "testRuns": 0,
+    "nativeResourceWrites": 0,
+    "metaWrites": 0,
+    "networkDownloads": 0,
+    "GitMutations": 0,
+    "projectionOrCachePreparation": 0,
+    "subagentDispatch": 0
+  },
+  "failureRule": "First input/absence/scope/budget/contract conflict stops the affected work and returns BLOCKED to engineering; preserve all WIP and original evidence, do not silently broaden scope or retry a prohibited gate.",
+  "completion": "Only engineering receives and checks C's receipt, then requests central publication and GitHub PR Code Review. C does not self-ACCEPT. Final product/Host/visual/device acceptance remains open."
+}

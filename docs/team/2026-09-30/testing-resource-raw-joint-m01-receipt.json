@@ -1,0 +1,111 @@
+{
+  "receipt": "RES-RAW-JOINT-MAC-001",
+  "date": "2026-10-03",
+  "verdict": "ACCEPT",
+  "scope": "Fixed composite projection native validation only; not any single PR full tree.",
+  "execution": {
+    "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "ownerHost": "local",
+    "ownerTurn": "01a10017-7642-7081-8921-722bbd76be67",
+    "evidenceRoot": "TestArtifacts/FightMatch/RES-RAW-JOINT-001/M01",
+    "rootReceiptStatus": "VALIDATION_PASSED",
+    "rootReceiptStartedUtc": "2026-10-03T04:55:40.732108+00:00",
+    "rootReceiptFinishedUtc": "2026-10-03T04:57:34.878571+00:00",
+    "run": {"bytes": 312681, "sha256": "f7989f6bf1570a778bf374ccfc4a92b6cfc49741b1706614a03b0e9ac0a48242"},
+    "verifiedEvidenceLeaves": 16,
+    "xml": {
+      "path": "TestArtifacts/FightMatch/RES-RAW-JOINT-001/M01/T/results.xml",
+      "bytes": 46330,
+      "sha256": "141e8ef3f32250a534f52ffdb9939ba8a7b6dda60d9dd0cc66cd537ac6ceb593",
+      "total": 74,
+      "passed": 74,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "durationSeconds": 4.4154187,
+      "exactFrozenFullnameMultiset": true
+    },
+    "stages": [
+      {"id": "I", "status": "PASSED", "runs": 1, "pid": 74573, "exitCode": 0, "elapsedSeconds": 80.163906},
+      {"id": "T", "status": "PASSED", "runs": 1, "pid": 74785, "exitCode": 0, "elapsedSeconds": 31.377607}
+    ],
+    "cleanup": {
+      "remainingOwnedProcesses": [],
+      "ownedClosureComplete": true,
+      "consumerGate": "CLEAR",
+      "originalAdbPid63318": "ABSENT",
+      "signalEvents": [{"signal": "SIGTERM", "pid": 74609, "identityRematched": true, "target": "this run's Roslyn VBCSCompiler child"}],
+      "sigkill": false,
+      "foreignSignals": 0
+    }
+  },
+  "groupGates": {
+    "RAW_FIX01": {
+      "verdict": "ACCEPT",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "sourceReceiptSha256": "6b13e82a1673af5b43abf82d1ffe995d34c493b6af56dd8e96330ef4545a4d2a",
+      "codeHead": null,
+      "association": "Unpublished RAW source; bound by frozen source hashes and this run's natural metadata."
+    },
+    "B_historical_BASELINE": {
+      "verdict": "ACCEPT_FOR_EXERCISED_B38_REGRESSION_SET_ONLY",
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "sourceReceiptSha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4",
+      "codeHead": "49f177ca5594cf987d12bd892b726145b8e41fc8",
+      "association": "Historical baseline/unchanged test evidence only; not a full B PR validation."
+    },
+    "D_FIX02_BASELINE": {
+      "verdict": "ACCEPT_FOR_EXERCISED_D13_REGRESSION_SET_ONLY",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "sourceReceiptSha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db",
+      "codeHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+      "association": "Historical baseline/unchanged test evidence only; not a full D PR validation."
+    },
+    "C_FIX01": {
+      "verdict": "ACCEPT",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "sourceReceiptSha256": "7abff33326b5dc6f0716627ed74b57fde73e8b03f1d90a47b293d7bf7f0c9c9e",
+      "codeHead": "19179f3a68725d4f806bbc99989bf514f626acbf",
+      "priorReviewReceipt": "docs/team/2026-09-30/testing-resource-contracts-fix01-pr11-review-receipt.json",
+      "association": "C11 exercised against the fixed C FIX01 source; no full PR-head build claimed."
+    }
+  },
+  "projectionAndProtection": {
+    "projectionLeaves": 1029,
+    "uniqueGuids": 532,
+    "unchangedOutsideSixSourcesAndOneNewMeta": true,
+    "existingResourceMetadataUnchanged": 16,
+    "PREFMetadataUnchanged": 3,
+    "naturalMeta": {
+      "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs.meta",
+      "bytes": 243,
+      "sha256": "2b29e613ea536a55312fccf12f33351e9d0c055f176ff692da8e5cf13411e5ea",
+      "guid": "0d90b639a993e44a7b7fbe6c9f730b16",
+      "importer": "MonoImporter",
+      "folderAsset": false
+    },
+    "resourceAssembliesRebuilt": ["FightMatch.AssetAccess", "FightMatch.YooAssetAdapter", "FightMatch.AssetAccess.Tests"],
+    "PREFAssembliesUnchanged": ["FightMatch.Host", "FightMatch.Host.Tests", "FightMatch.Presentation", "UnityEditor.TestRunner", "UnityEngine.TestRunner"],
+    "scopeDifferences": []
+  },
+  "notAccepted": [
+    "Any single PR full-tree build or integration verdict",
+    "PREF discovery/tests, LOC materials/M16, Scene/FIX04",
+    "Real SDK initialization, download or Ensure",
+    "Host integration, Android/device acceptance, shared adoption, or other regression gates"
+  ],
+  "authorIntegrationVerdict": null,
+  "source": "Engineering-owned TestArtifacts/FightMatch/RES-RAW-JOINT-001/M01 sealed receipt and evidence"
+}

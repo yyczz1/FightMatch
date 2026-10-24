@@ -1,0 +1,303 @@
+REDO-01 preservation: user-rejected prior delivery moved without byte changes to attempt-01; 35 files verified SHA256. Existing older attempts preserved.
+
+COMMAND ['/Users/elliotyip/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3', '/Users/elliotyip/.codex/skills/generate2dsprite/scripts/generate2dsprite.py', 'process', '--input', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_guarded/raw-sheet.png', '--target', 'player', '--mode', 'move_guarded', '--rows', '2', '--cols', '3', '--output-dir', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_guarded/processed', '--scale-profile', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/references/character-scale-profile.json', '--strict-qc', '--max-profile-scale-drift', '0.08', '--max-body-scale-cv', '0.08', '--max-anchor-y-std', '0.05', '--prompt-file', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_guarded/prompt-used.txt']
+/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_guarded/processed
+
+EXIT 0
+
+FINAL FREEZE RECEIPT: exec-5867c250-f2b8-4021-bbe7-5b17dffa021d; actual Aseprite horizontal sheet sliced into 6 roundtrip frames, each full RGBA equal; 3 GIF variants x6 real decoded frames equal with100ms each and loop. Raw/keyposes/decoded contacts inspected. Visual gait remains NEEDS_FIX at frames3 and6; contact1/4 identity exchange uncertain. No normal-speed playback completion claimed: IAB unavailable; native CUA Aseprite selection aborted by user. No imagegen outstanding or recoverable cell. Pixel repainting user decision pending. No further generation.
+
+AUTHORIZED ASEPRITE PIXEL REPAIR
+{
+  "authorization": "User explicitly allowed frame-by-frame pixel repainting; parent dispatched Aseprite-only repair. No imagegen in this repair.",
+  "actual_editor": "mcp__aseprite__draw_pixels_at",
+  "input_archive": "attempt-05",
+  "source_imagegen_id": "exec-5867c250-f2b8-4021-bbe7-5b17dffa021d",
+  "source_raw_unchanged": true,
+  "source_prompt_unchanged": true,
+  "source_processed_retained": "processed/ remains the immutable pre-pixel-edit skill output; final frames now come from actual Aseprite edits.",
+  "coordinate_preparation": "Temporary Python read existing pixels and calculated pixel instructions. It did not draw/save sprite artwork. Two actual Aseprite batches per frame placed/erased pixels; source boots retained texture, thigh contours repainted, cuffs joined.",
+  "body_transform": "No scaling or whole-frame translation; profile unchanged. Original upper-body and equipment opaque pixels retained exactly.",
+  "layering": "B far leg painted first; A near leg painted last. Hip A=[59,85], B=[70,85] fixed; frame6 existing raised near knee retained.",
+  "timing_unchanged": true,
+  "joint_trace": [
+    {
+      "frame": 1,
+      "phase": "A heel contact; B toe support",
+      "joints": {
+        "A": {
+          "hip": [
+            59,
+            85
+          ],
+          "knee": [
+            68,
+            99
+          ],
+          "ankle": [
+            74,
+            108
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            3,
+            0
+          ],
+          "near_far": "near/front"
+        },
+        "B": {
+          "hip": [
+            70,
+            85
+          ],
+          "knee": [
+            60,
+            99
+          ],
+          "ankle": [
+            54,
+            106
+          ],
+          "boot_template": "toe",
+          "boot_translation": [
+            10,
+            2
+          ],
+          "near_far": "far/behind"
+        }
+      }
+    },
+    {
+      "frame": 2,
+      "phase": "A compression; B toe-off behind",
+      "joints": {
+        "A": {
+          "hip": [
+            59,
+            85
+          ],
+          "knee": [
+            64,
+            99
+          ],
+          "ankle": [
+            68,
+            108
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            -3,
+            0
+          ],
+          "near_far": "near/front"
+        },
+        "B": {
+          "hip": [
+            70,
+            85
+          ],
+          "knee": [
+            61,
+            95
+          ],
+          "ankle": [
+            52,
+            101
+          ],
+          "boot_template": "lift",
+          "boot_translation": [
+            4,
+            0
+          ],
+          "near_far": "far/behind"
+        }
+      }
+    },
+    {
+      "frame": 3,
+      "phase": "A vertical support; B knee and boot pass forward",
+      "joints": {
+        "A": {
+          "hip": [
+            59,
+            85
+          ],
+          "knee": [
+            58,
+            99
+          ],
+          "ankle": [
+            58,
+            108
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            -13,
+            0
+          ],
+          "near_far": "near/front"
+        },
+        "B": {
+          "hip": [
+            70,
+            85
+          ],
+          "knee": [
+            80,
+            94
+          ],
+          "ankle": [
+            80,
+            102
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            9,
+            -6
+          ],
+          "near_far": "far/behind"
+        }
+      }
+    },
+    {
+      "frame": 4,
+      "phase": "B heel contact; A toe support",
+      "joints": {
+        "A": {
+          "hip": [
+            59,
+            85
+          ],
+          "knee": [
+            49,
+            99
+          ],
+          "ankle": [
+            43,
+            106
+          ],
+          "boot_template": "toe",
+          "boot_translation": [
+            -1,
+            2
+          ],
+          "near_far": "near/front"
+        },
+        "B": {
+          "hip": [
+            70,
+            85
+          ],
+          "knee": [
+            76,
+            99
+          ],
+          "ankle": [
+            79,
+            108
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            8,
+            0
+          ],
+          "near_far": "far/behind"
+        }
+      }
+    },
+    {
+      "frame": 5,
+      "phase": "B compression; A toe-off behind",
+      "joints": {
+        "A": {
+          "hip": [
+            59,
+            85
+          ],
+          "knee": [
+            51,
+            94
+          ],
+          "ankle": [
+            42,
+            100
+          ],
+          "boot_template": "lift",
+          "boot_translation": [
+            -6,
+            -1
+          ],
+          "near_far": "near/front"
+        },
+        "B": {
+          "hip": [
+            70,
+            85
+          ],
+          "knee": [
+            69,
+            99
+          ],
+          "ankle": [
+            69,
+            108
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            -2,
+            0
+          ],
+          "near_far": "far/behind"
+        }
+      }
+    },
+    {
+      "frame": 6,
+      "phase": "B vertical support; A raised knee and boot cross in front",
+      "joints": {
+        "A": {
+          "hip": [
+            59,
+            85
+          ],
+          "knee": [
+            77,
+            87
+          ],
+          "ankle": [
+            82,
+            101
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            11,
+            -7
+          ],
+          "near_far": "near/front"
+        },
+        "B": {
+          "hip": [
+            70,
+            85
+          ],
+          "knee": [
+            65,
+            99
+          ],
+          "ankle": [
+            66,
+            108
+          ],
+          "boot_template": "flat",
+          "boot_translation": [
+            -5,
+            0
+          ],
+          "near_far": "far/behind"
+        }
+      }
+    }
+  ]
+}
+Final actual Aseprite export independently compared against native cel decode:6/6 exact fullRGBA; durations100msx6 unchanged. Three GIF formats encoded from actual exports and decoded18/18 exact. Original-speed final judgement belongs to lead.
+Net changed pixel counts: [1257, 802, 1056, 755, 763, 782]

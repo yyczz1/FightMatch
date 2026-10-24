@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "packet": "RES-D-CODEC-FIX02",
+  "verdict": "ACCEPT",
+  "scope": "Resource release codec and raw physical-file ownership; code review plus fixed-composite native gate only.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/10",
+    "head": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+    "tree": "bffe603ff99400d79b4c9791314f227242fcad13",
+    "base": "49f177ca5594cf987d12bd892b726145b8e41fc8"
+  },
+  "publication": {
+    "path": "docs/team/2026-09-30/resource-codec-fix02-publication-receipt.json",
+    "sha256": "79e54fe9d3dce05dba0044cc50d923760b816b1c0f8d078afdf6cd66fc0ef8a2"
+  },
+  "independentCodeReview": {
+    "path": "docs/team/2026-09-30/testing-resource-codec-fix02-pr10-review-receipt.json",
+    "sha256": "97c69e7087b61208a4670996243c5d8424c7347f41dcde8325187820aecbcabc",
+    "resultComment": 5964786228,
+    "conclusion": "Didn't find any major issues",
+    "formalApproved": false,
+    "previousP2DiscussionPreserved": true
+  },
+  "independentNativeReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-cd-joint-m01-receipt.json",
+    "sha256": "0bcdf5a38a7062c1440044f732ad70b8eb91f36660f5ba52bd365885b644319a"
+  },
+  "native": {
+    "path": "TestArtifacts/FightMatch/RES-CD-JOINT-001/M01/receipt.json",
+    "sha256": "cc0745a765cf2a8261036251c308d4d526b3762700e0aec9680130cbe01da60c",
+    "passed": 13,
+    "total": 13,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "compositeTotal": 23,
+    "compileStarts": 1,
+    "testStarts": 1,
+    "compileSupervisionSeconds": 82.716119,
+    "testSupervisionSeconds": 22.124375,
+    "nunitSeconds": 2.4017968,
+    "exactOwnedTermPid": 69057,
+    "remainingOwned": [],
+    "sourceBoundToPublishedHead": true,
+    "wholePrBranchBuild": false
+  },
+  "preserved": "Original D source/FIX01 compile failure, M02 guard failure, cancelled old T and GitHub P2; no historical receipt rewritten.",
+  "limitations": [
+    "No real resource package admission or trusted pin provenance established.",
+    "No raw runtime, downloader, Host, Android or device acceptance.",
+    "No merge, shared project adoption or local Git changes."
+  ],
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+}

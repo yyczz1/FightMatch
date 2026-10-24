@@ -1,0 +1,69 @@
+{
+  "task": "LAYOUT-S1-FIX04-N08-NATIVE",
+  "date": "2026-10-05",
+  "status": "PREPARE_AND_REQUEST_NORMAL_COMMAND_APPROVAL",
+  "basis": "已授权真实场景修复的技术接续；N08为新的固定源码候选。N07唯一运行已消耗，原许可不重置。本单批准把新命令准备到可审阅状态，通过C的正常人工命令审批申请一次N08运行；不是新的人工批准，不绕过工具审批。",
+  "sourceReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/source-receipt.json",
+    "bytes": 34011,
+    "sha256": "a78e6b4e7b5f79a30e3e65636a087eb30da9d862d17f8a74237b3697e17f160d",
+    "authorTurn": "01a10ba6-1512-7583-8e1a-5603f6044c15",
+    "engineeringReceiptTurn": "01a10b9e-1723-7402-bdfc-3e1d104adda5",
+    "state": "实际completed/停写；六叶477917B；SOURCE_READY，未编译/未测试/未独立审查"
+  },
+  "candidateB": {
+    "bytes": 189888,
+    "sha256": "e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd"
+  },
+  "sourcePlan": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-fix04-n08-source-plan.md",
+    "sha256": "556c7b24619d76c0614ce19a9ea545fd2b0737e60d62776a332f0aaa0ce5ad5b"
+  },
+  "sourceAcceptance": "180变更行；首次静态44/44、整命令0.58秒。只接收源码准备，不给产品ACCEPT，N07 NEEDS_FIX保持。",
+  "engineering": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "executor": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local；绑定新的实际回合",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "inherit": "N07 fixed native contract及已实际执行的runner-manual.py的原生入口、保护文件、单次保存/关闭/只读复开、几何/覆盖/顺序/磁盘/唯一Scene导出门及owned清理规则；旧文件只读，不复用旧I或运行次数。",
+  "preparation": {
+    "allowed": "主程细化唯一新执行合同，C准备新canonical I及专用runner，固定当前15源/资源、投影前像、实际C/issuer；语法与封签核对后提交具体命令的正常人工审批。",
+    "paths": [
+      "docs/team/2026-09-30/engineering-layout-s1-fix04-n08-native-plan.md",
+      "docs/team/2026-09-30/engineering.md",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/I/activation.json",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/PExecution/runner.py",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/PExecution/preparation.json"
+    ],
+    "temporaryRoot": "新建一个本次自有的小型TMP目录并封存身份；旧N07 TMP保留，不假装其仍为空。",
+    "checks": "至多3次/累计30秒，仅新runner AST、固定路径/输入/身份、N08 suffix JSON解析及无副作用fixture；保留全部失败，不新增产品测试。",
+    "runnerMaximumNonemptyLines": 450,
+    "budgetReason": "N07 runner374行基线之上仅允许N08身份/路径、B单源同步与新overrideDiff解析/核完整性所需差量。",
+    "beforeApproval": "允许准备文件；投影源码同步、Unity进程、保存和导出均保持0，实际执行须走正常人工命令审批。"
+  },
+  "executionIfCommandApproved": {
+    "editorLaunches": 1,
+    "editorSecondsIncludingCompileImport": 180,
+    "preflightSeconds": 120,
+    "retry": 0,
+    "sync": "只同步变化的B一次；T及其它14源身份保持。",
+    "compile": "必须有变化的Host.Editor实际Csc和新DLL；T未改，Core.Tests若复用则核N07固定输入/DLL，若实际重编则如实记录，不人为删DLL强迫编译。",
+    "observations": "解析同一原有三个时点的overrideDiff完整原始/期望/实际序列、重复计数和内容/顺序差量；keys使用C# UTF-16长度语义。保留原始行，缺字段/超限/不完整即失败。",
+    "save": "原有全部前置门通过才允许Save1；否则Save0。禁止为研究绕门保存。",
+    "reopenAndExport": "保存后正常关闭/只读复开及全部原保护门通过才导出唯一Scene；错误即停止，不补跑、不操作Prefab或meta。",
+    "cleanup": "自然收尾60秒，必要时仅向新鲜核实的owned进程TERM并等30秒；不操作外来进程。记录实际创建/关闭和次级错误，首错保留。",
+    "evidence": "只新增N08/P三个既定结果JSON、N08/PExecution的before.json/after.json/process.json/process-events.jsonl/editor.log/receipt.json；成功导出时PExport只新增before.json和receipt.json两证据叶，不保存Scene副本。全部门通过后沿N07原方式仅更新共享Assets/Scenes/FightMatchDemo.unity一次；其余共享资源/旧S/N07原件冻结。",
+    "maximumN08Leaves": 28,
+    "maximumN08Bytes": 201326592
+  },
+  "stop": "实际命令审批pending时等待人类；若拒绝、准备失败或原生失败，不换执行者/权限/间接途径重试。主程唯一收C，中央只收主程。",
+  "excluded": "99测试/发现、Play/Host/设备/APK、依赖/引擎/配置变更、Git发布/合并、LOC重试、本地代码审查。源码准备及单次运行均不代表Demo验收。",
+  "clarification": {
+    "date": "2026-10-05",
+    "reason": "主程指出PExport文字歧义；中央亲读N07 runner-manual.py原导出分支，明确继承原模式。",
+    "previousAmbiguousEvidenceText": "只新增N08/P三个既定结果JSON、N08/PExecution的before.json/after.json/process.json/process-events.jsonl/editor.log/receipt.json及成功时N08/PExport的唯一Scene；原S、全部N07原件冻结。",
+    "decision": "PExport仅两份JSON，实际导出唯一共享Scene；不改变原导出门、不创建Scene副本。",
+    "engineeringQuestionTurn": "01a10bb8-ed01-79f1-a05d-83299ca3f36a",
+    "phase": "新C尚未派发，本单尚未用于执行。",
+    "callCountEvidence": "沿冻结B既有日志/阶段/实际错误取证；没有直接创建/关闭调用计数字段时记null/UNOBSERVED。固定源码成功路径可支持的推断单列依据，不冒充实测调用计数；不增加探针或修改冻结源码，既有helper返回值/三阶段/保护门不减。"
+  }
+}

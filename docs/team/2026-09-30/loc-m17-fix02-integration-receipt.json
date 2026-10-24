@@ -1,0 +1,53 @@
+{
+  "receipt": "LOC-M17-FIX02-CENTRAL-SOURCE-INTEGRATION",
+  "at": "2026-10-04T13:06:57.428099+00:00",
+  "verdict": "ACCEPT",
+  "scope": "Limited source acceptance: M17-FIX02 executor and default-disabled central host template only",
+  "central": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a1061c-3792-7a31-925f-0f6caac83979"
+  },
+  "candidate": {
+    "base": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+    "head": "6dfdc1897533d7734937f9c6964bccfc7c8be4d9",
+    "reviewedCommit": "6dfdc18975",
+    "tree": "e84c05f6747adb18acdc1262c3edb7e4cae1d167",
+    "parent": "837dd4e39683548ee23dce5f5228074ec87231e5",
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "independentReview": {
+    "receipt": "docs/team/2026-09-30/testing-loc-m17-fix02-pr2-final-review-receipt.json",
+    "sha256": "6cc0fcee04f5a5eec78b0d4b815ead3322c54d642f05b9065762aeb14be47631",
+    "receiverTurnObservedByCentral": "01a10701-b53d-78c3-8b74-d2ada47c8dc0",
+    "resultComment": 5980237159,
+    "result": "NO_MAJOR_ISSUES_REPORTED_ON_FIXED_HEAD",
+    "formalApproval": false
+  },
+  "validation": {
+    "newChecks": "Two targeted runs each 18/18, synthetic only; preserved original production code functions with in-memory side-effect substitutes",
+    "newCheckSeconds": 0.2055271669960348,
+    "oldFaultReproductionsSeconds": 0.06946162500389619,
+    "sourceSealFreshDiskConsumptionSeconds": 4.564795,
+    "scopeCheckFailure": "Preserved; normalization script corrected and passed",
+    "engineeringReceipt": "Ten exact files, seven seal identities, complete patch, model and six raw tool outputs mechanically matched; no duplicate local review",
+    "centralPublication": "16 files added, all 1703 previous files unchanged; no local Git mutation"
+  },
+  "fixedScope": [
+    "Keep MStage during writer-rule iteration",
+    "Preflight all present official archives before first GET/material writer",
+    "Default-disabled fixed host logic, future central literal configuration only"
+  ],
+  "remaining": [
+    "Bind actual central activation and current execution-owner turn",
+    "Check fresh SDK inputs within the 900-second M budget",
+    "Run real downloads/restores and inspect exact material closure",
+    "B/L stages and runtime integration remain separate"
+  ],
+  "materials": "NOT_RUN",
+  "runtimeAcceptance": false,
+  "productAcceptance": false,
+  "localCodeReview": "NOT_PERFORMED"
+}

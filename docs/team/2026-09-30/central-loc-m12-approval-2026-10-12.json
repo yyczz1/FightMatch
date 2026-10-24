@@ -1,0 +1,14 @@
+{
+  "kind": "current direct human authorization",
+  "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+  "centralHost": "local",
+  "centralTurn": "01a1306b-42a8-7992-9118-4ed11d490741",
+  "userItem": "01a1306b-430a-7b61-8e60-3c85a081d47f",
+  "exactText": "允许将校验脚本上限调整至最多280 KiB。完成修正并通过静态检查和GitHub审查后，复用全部下载文件、零新增下载，在外置硬盘再执行一轮三次依赖还原，总计不超过15分钟，由中央接收结果。继续推进，减少重复记录和会话交接。",
+  "driverMaxBytes": 286720,
+  "sourceScope": "Complete the FIX09 NuGet contentHash source correction, its necessary binding and targeted static validation; preserve archive integrity and prior evidence.",
+  "nativePrerequisites": ["Completed correction", "Passed relevant static checks", "Independent GitHub review of the exact source head"],
+  "nativeLimits": {"attempts": 1, "newDownloads": 0, "restores": 3, "externalDisk": true, "wallSeconds": 900, "centralReceives": true},
+  "otherBudgets": "unchanged",
+  "priorNativeAttempts": "M11 and all earlier attempts remain historical and are not reused."
+}

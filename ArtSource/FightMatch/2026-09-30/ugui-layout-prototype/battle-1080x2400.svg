@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="2400" viewBox="0 0 1080 2400">
+  <title>FightMatch neutral uGUI battle layout at 1080 by 2400</title>
+  <desc>Long-screen gray-box acceptance layout that preserves the 540 reference structure and uses extra height as breathing room.</desc>
+  <defs>
+    <style>
+      text { font-family: Arial, "PingFang SC", sans-serif; fill: #20252b; }
+      .small { font-size: 20px; }.label { font-size: 24px; font-weight: 700; letter-spacing: .8px; }.tiny { font-size: 16px; }
+      .outline { fill: none; stroke: #525a63; stroke-width: 2; }.dash { fill: none; stroke: #747c85; stroke-width: 2; stroke-dasharray: 8 6; }
+      .region { fill: #e2e5e8; stroke: #747c85; stroke-width: 2; }.subregion { fill: #f5f6f7; stroke: #8e959c; stroke-width: 2; }
+      .placeholder { fill: #69717a; }.hot { fill: #f8f8f8; stroke: #20252b; stroke-width: 3; }.grid { stroke: #b4bac0; stroke-width: 2; }
+    </style>
+    <g id="actor2"><circle cx="0" cy="-76" r="20" class="placeholder"/><path d="M-28,-54 L28,-54 L36,30 L-36,30 Z" class="placeholder"/><path d="M-30,30 L-10,30 L-16,76 L-40,76 Z M10,30 L30,30 L40,76 L16,76 Z" class="placeholder"/></g>
+  </defs>
+  <rect width="1080" height="2400" fill="#cfd3d7"/>
+  <text x="540" y="38" text-anchor="middle" class="small">GRAYBOX · 1080×2400 LONG SCREEN · NOT FINAL ART</text>
+  <rect x="32" y="120" width="1016" height="2160" rx="4" fill="#f0f2f4" stroke="#20252b" stroke-width="4" stroke-dasharray="14 8"/>
+  <text x="44" y="151" class="tiny">SafeAreaRoot · inset L32 / T120 / R32 / B120</text>
+  <text x="540" y="222" text-anchor="middle" class="label">160px EXTRA HEIGHT → NEUTRAL BREATHING ROOM</text>
+  <line x1="32" y1="252" x2="1048" y2="252" class="dash"/>
+
+  <g id="top-bar-2">
+    <rect x="32" y="280" width="1016" height="112" class="region"/>
+    <rect x="40" y="288" width="96" height="96" class="hot"/><text x="88" y="346" text-anchor="middle" class="label">←</text>
+    <text x="540" y="334" text-anchor="middle" class="label">TopBar · 112</text><text x="540" y="366" text-anchor="middle" class="tiny">TITLE / STATUS PLACEHOLDER</text>
+    <rect x="944" y="288" width="96" height="96" class="hot"/><text x="992" y="346" text-anchor="middle" class="small">96</text>
+  </g>
+  <g id="stage-2">
+    <rect x="32" y="392" width="1016" height="332" class="subregion"/>
+    <text x="540" y="422" text-anchor="middle" class="label">Stage · same fixed six-slot structure</text><line x1="540" y1="436" x2="540" y2="706" class="dash"/>
+    <text x="56" y="454" class="tiny">ALLY ×3</text><text x="1024" y="454" text-anchor="end" class="tiny">ENEMY ×3</text>
+    <g class="dash"><rect x="60" y="464" width="132" height="232"/><rect x="206" y="464" width="132" height="232"/><rect x="352" y="464" width="132" height="232"/><rect x="596" y="464" width="132" height="232"/><rect x="742" y="464" width="132" height="232"/><rect x="888" y="464" width="132" height="232"/></g>
+    <g transform="translate(126 600)"><use href="#actor2"/><text x="0" y="106" text-anchor="middle" class="tiny">PLACEHOLDER</text></g><g transform="translate(272 600)"><use href="#actor2"/><text x="0" y="106" text-anchor="middle" class="tiny">PLACEHOLDER</text></g><g transform="translate(418 600)"><use href="#actor2"/><text x="0" y="106" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+    <g transform="translate(662 600)"><use href="#actor2"/><text x="0" y="106" text-anchor="middle" class="tiny">PLACEHOLDER</text></g><g transform="translate(808 600)"><use href="#actor2"/><text x="0" y="106" text-anchor="middle" class="tiny">PLACEHOLDER</text></g><g transform="translate(954 600)"><use href="#actor2"/><text x="0" y="106" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+  </g>
+  <g id="battle-status-2"><rect x="32" y="724" width="1016" height="96" class="region"/><text x="56" y="763" class="label">BattleStatus · 96</text><text x="56" y="795" class="small">PHASE / INTENT / SAVE / PLAYBACK PLACEHOLDER</text><rect x="904" y="736" width="128" height="72" class="outline"/></g>
+  <g id="board-2">
+    <rect x="32" y="820" width="1016" height="1016" fill="#fafafa" stroke="#20252b" stroke-width="6"/>
+    <text x="540" y="870" text-anchor="middle" class="label">BoardFrame · 1016×1016 SQUARE</text><text x="540" y="904" text-anchor="middle" class="tiny">EXACT 2× REFERENCE WIDTH · NEVER STRETCHED TO FILL LONG SCREEN</text>
+    <g class="grid"><path d="M134 930V1836 M236 930V1836 M338 930V1836 M440 930V1836 M542 930V1836 M644 930V1836 M746 930V1836 M848 930V1836 M950 930V1836"/><path d="M32 1032H1048 M32 1134H1048 M32 1236H1048 M32 1338H1048 M32 1440H1048 M32 1542H1048 M32 1644H1048 M32 1746H1048"/></g>
+    <g fill="#5f6770" stroke="#20252b" stroke-width="4"><circle cx="184" cy="1084" r="26"/><rect x="860" y="1462" width="52" height="52"/></g>
+    <path d="M184 1084 C310 1084 300 1302 460 1302 S630 1514 886 1488" fill="none" stroke="#4f565e" stroke-width="16" stroke-linecap="round" stroke-dasharray="26 14"/>
+    <text x="540" y="1802" text-anchor="middle" class="small">PROGRAM-DRAWN VISUALS · TRUE BOARD GEOMETRY OWNS INPUT</text>
+  </g>
+  <g id="bottom-hud-2">
+    <rect x="32" y="1836" width="1016" height="284" class="region"/><text x="56" y="1870" class="label">BottomHud · 284</text>
+    <g><rect x="56" y="1884" width="224" height="144" class="hot"/><rect x="296" y="1884" width="224" height="144" class="hot"/><rect x="536" y="1884" width="224" height="144" class="hot"/>
+      <circle cx="104" cy="1932" r="28" class="placeholder"/><circle cx="344" cy="1932" r="28" class="placeholder"/><circle cx="584" cy="1932" r="28" class="placeholder"/>
+      <text x="168" y="1932" text-anchor="middle" class="tiny">ROLE 1</text><text x="408" y="1932" text-anchor="middle" class="tiny">ROLE 2</text><text x="648" y="1932" text-anchor="middle" class="tiny">ROLE 3</text>
+    </g>
+    <rect x="792" y="1884" width="96" height="96" class="hot"/><rect x="904" y="1884" width="96" height="96" class="hot"/><text x="840" y="1942" text-anchor="middle" class="small">96</text><text x="952" y="1942" text-anchor="middle" class="small">96</text>
+    <rect x="56" y="2052" width="944" height="44" class="outline"/><text x="528" y="2082" text-anchor="middle" class="tiny">TEXT / STATUS EXPANSION PLACEHOLDER</text>
+  </g>
+  <line x1="32" y1="2148" x2="1048" y2="2148" class="dash"/><text x="540" y="2192" text-anchor="middle" class="label">160px EXTRA HEIGHT → BACKGROUND / SAFE BREATHING ROOM</text>
+</svg>

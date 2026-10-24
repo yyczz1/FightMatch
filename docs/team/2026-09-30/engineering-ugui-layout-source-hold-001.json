@@ -1,0 +1,25 @@
+{
+  "contract": "LAYOUT-S1-001",
+  "status": "WAITING_C_USER_TASK_COMPLETION",
+  "utc": "2026-10-02 02:17:17 UTC",
+  "issuer": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "issuerTurn": "01a0fa60-ee4a-7f01-9fd6-9e1d622dc7b8",
+  "executor": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local",
+  "executorTurn": "01a0fa62-9fe2-72f1-9431-1e9ea0d4b171",
+  "supersedesExecutionPermissionOnly": {
+    "path": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-001.json",
+    "sha256": "8c9dc75f4d9adcc61d9eea3a2f18ea195ebd186d7303581e5ba6d85577ca489f",
+    "preserveOriginalBytes": true
+  },
+  "reason": "C reports receiving a new direct human request: 先装在bluestack上进行试玩. This takes priority over the delegated layout packet. C will handle that separate task without treating its result as new-uGUI acceptance.",
+  "observed": {
+    "sourceEvidenceRootAbsent": true,
+    "sourceTargetsUnchangedOrAbsent": 15,
+    "checkExitCode": 0,
+    "CReportedUnityStarts": 0,
+    "CReportedSourceWrites": 0
+  },
+  "instruction": "Do not begin LAYOUT source or evidence writes until engineering explicitly releases this hold after the separate user task returns and fixed inputs are revalidated. This hold does not interrupt or expand the user's BlueStacks request.",
+  "receiver": "Engineering remains sole LAYOUT completion receiver. C sends a concise completion/blocker receipt for the intervening user task so the layout handoff can be resumed safely.",
+  "unchanged": "All SYS/ARCH contracts, exact source whitelist, line budgets, temporary-art rules and inactive I/P/T gates remain unchanged. No new implementation, Unity, Git, review, network or device permission is granted by this hold."
+}

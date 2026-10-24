@@ -1,0 +1,220 @@
+{
+  "task": "RES-CLOUD-INPUT-SYNC01-CENTRAL-RECEIPT",
+  "date": "2026-10-08",
+  "actual": "01a11915-eb31-7771-9d25-d3f0b0c128d8",
+  "status": "BLOCKED_NETWORK_PROXY",
+  "originalHead": "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a",
+  "currentCorrectedHead": "92fb75c2549f31923bdda07b35032666f8157fdd",
+  "events": [
+    {
+      "id": "exec-8dbcf6f6-e8cb-41f0-8236-008cd72f0a14",
+      "exitCode": 1,
+      "output": {
+        "task": "RES-CLOUD-INPUT-SYNC01",
+        "thread": "01a0f13c-3d87-753a-ad11-16302add9084",
+        "host": "durable",
+        "turn": "01a11915-eb31-7771-9d25-d3f0b0c128d8",
+        "hostname": "c6734bbce2fc",
+        "start_utc": "2026-10-08T01:18:21.712820+00:00",
+        "start_epoch": 1791422301.7128332,
+        "deadline_epoch": 1791422421.712842,
+        "P": "/workspace/TestArtifacts/FightMatch/RES-CLOUD-INPUT-001/P01/projection",
+        "E": "/workspace/TestArtifacts/FightMatch/RES-CLOUD-INPUT-001/S01",
+        "commands": [
+          {
+            "argv": [
+              "git",
+              "--no-optional-locks",
+              "-c",
+              "core.fsmonitor=false",
+              "-c",
+              "core.hooksPath=/dev/null",
+              "-c",
+              "gc.auto=0",
+              "-c",
+              "maintenance.auto=false",
+              "-C",
+              "/workspace/FightMatch",
+              "rev-parse",
+              "HEAD"
+            ],
+            "start_utc": "2026-10-08T01:18:21.713278+00:00",
+            "wall_seconds": 0.003,
+            "exit": 0,
+            "stderr": "",
+            "stdout": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef\n"
+          },
+          {
+            "argv": [
+              "git",
+              "--no-optional-locks",
+              "-c",
+              "core.fsmonitor=false",
+              "-c",
+              "core.hooksPath=/dev/null",
+              "-c",
+              "gc.auto=0",
+              "-c",
+              "maintenance.auto=false",
+              "-C",
+              "/workspace/FightMatch",
+              "status",
+              "--porcelain=v1",
+              "--untracked-files=normal"
+            ],
+            "start_utc": "2026-10-08T01:18:21.715897+00:00",
+            "wall_seconds": 0.011,
+            "exit": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          {
+            "argv": [
+              "git",
+              "--no-optional-locks",
+              "-c",
+              "core.fsmonitor=false",
+              "-c",
+              "core.hooksPath=/dev/null",
+              "-c",
+              "gc.auto=0",
+              "-c",
+              "maintenance.auto=false",
+              "-C",
+              "/workspace/FightMatch",
+              "config",
+              "--get",
+              "remote.origin.url"
+            ],
+            "start_utc": "2026-10-08T01:18:21.727151+00:00",
+            "wall_seconds": 0.002,
+            "exit": 0,
+            "stderr": "",
+            "stdout": "https://github.com/yyczz1/FightMatch.git\n"
+          },
+          {
+            "argv": [
+              "git",
+              "--no-optional-locks",
+              "-c",
+              "core.fsmonitor=false",
+              "-c",
+              "core.hooksPath=/dev/null",
+              "-c",
+              "gc.auto=0",
+              "-c",
+              "maintenance.auto=false",
+              "-C",
+              "/workspace/FightMatch",
+              "show-ref"
+            ],
+            "start_utc": "2026-10-08T01:18:21.728782+00:00",
+            "wall_seconds": 0.002,
+            "exit": 0,
+            "stderr": "",
+            "stdout": "9d416e6c9d3c794be355f903b3636c856783601e refs/heads/work\n125b849be13fe2ebf5b1185f3cdb83d19c6327ef refs/remotes/origin/master\n"
+          },
+          {
+            "argv": [
+              "git",
+              "--no-optional-locks",
+              "-c",
+              "core.fsmonitor=false",
+              "-c",
+              "core.hooksPath=/dev/null",
+              "-c",
+              "gc.auto=0",
+              "-c",
+              "maintenance.auto=false",
+              "-C",
+              "/workspace/FightMatch",
+              "fetch",
+              "--no-tags",
+              "--no-auto-maintenance",
+              "--no-write-commit-graph",
+              "origin",
+              "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a"
+            ],
+            "start_utc": "2026-10-08T01:18:21.731792+00:00",
+            "wall_seconds": 0.047,
+            "exit": 128,
+            "stderr": "fatal: unable to access 'https://github.com/yyczz1/FightMatch.git/': Failed to connect to proxy port 8080 after 0 ms: Could not connect to server\n",
+            "stdout": ""
+          }
+        ],
+        "native": 0,
+        "status": "BLOCKED",
+        "requested_commit": "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a",
+        "canonical_expected": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8",
+        "preflight": {
+          "P_absent": true,
+          "E_absent": true,
+          "parents_no_symlink": true,
+          "free_bytes": 29796950016
+        },
+        "before": {
+          "HEAD": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+          "dirty": "",
+          "origin": "https://github.com/yyczz1/FightMatch.git",
+          "refs": "9d416e6c9d3c794be355f903b3636c856783601e refs/heads/work\n125b849be13fe2ebf5b1185f3cdb83d19c6327ef refs/remotes/origin/master"
+        },
+        "root_create_count": {
+          "E": 1,
+          "P": 0
+        },
+        "error": "command failed: ['fetch', '--no-tags', '--no-auto-maintenance', '--no-write-commit-graph', 'origin', '6359bf36bfe32bb2b86ce9edab29c2de8c39b52a'] exit=128",
+        "elapsed_seconds": 0.06642216700129211
+      }
+    },
+    {
+      "id": "exec-3197cdc9-198e-46bb-a38e-e4d2564a8c8a",
+      "exitCode": 0,
+      "output": {
+        "status": "BLOCKED_NETWORK_PROXY",
+        "actual": {
+          "thread": "01a0f13c-3d87-753a-ad11-16302add9084",
+          "host": "durable",
+          "turn": "01a11915-eb31-7771-9d25-d3f0b0c128d8",
+          "hostname": "c6734bbce2fc"
+        },
+        "old_workspace_equal": {
+          "HEAD": true,
+          "dirty": true,
+          "origin": true,
+          "refs": true
+        },
+        "network": {
+          "fetch_attempts": 1,
+          "fetch_exit": 128,
+          "proxy_port": 8080,
+          "connection_failed": true,
+          "retries": 0,
+          "alternate_route_attempts": 0
+        },
+        "final": {
+          "P_absent": true,
+          "E_files": [
+            "receipt.json"
+          ],
+          "E_file_count": 1,
+          "P_files": 0,
+          "P_bytes": 0,
+          "intermediate_bytes": 0,
+          "free_bytes": 29796937728,
+          "end_utc": "2026-10-08T01:18:46.902559+00:00",
+          "wall_seconds": 25.19,
+          "E_bytes": 7718
+        },
+        "receipt": {
+          "path": "/workspace/TestArtifacts/FightMatch/RES-CLOUD-INPUT-001/S01/receipt.json",
+          "bytes": 7718,
+          "sha256": "ed7bbe7065bbda5d8df470d41248ddab319068a1965f0f108e026c5d34c6d2d5"
+        }
+      }
+    }
+  ],
+  "nativeRuns": 0,
+  "integrationVerdict": "NEEDS_FIX",
+  "scope": "Cloud environment prerequisite only; source snapshot has independent source-only acceptance.",
+  "next": "Resolve the configured cloud proxy connectivity through the normal environment channel before a newly scoped sync; no retry or alternative route attempted."
+}

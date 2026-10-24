@@ -1,0 +1,44 @@
+{
+  "receipt": "ANDROID-API24-PR15-GITHUB-REVIEW-QA",
+  "date": "2026-10-03",
+  "reviewReceiver": {"role": "testing lead", "host": "local", "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb", "turn": "current receipt turn; exact turn identifier unavailable in tool response"},
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/15",
+  "candidate": {
+    "base": "3541930877837e14b58020b910976b8b67b56e42",
+    "head": "53b4863698d0789148d3fbf0af5dff3846df4260",
+    "tree": "062e9b1499645b9bb439aebd0ce50af8c4ee39c5",
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "review": {
+    "triggerCommentId": 5967993843,
+    "summaryCommentId": 5967996412,
+    "summaryStatus": "Completed",
+    "resultCommentId": 5968019358,
+    "reviewedCommit": "53b4863698",
+    "rawResultText": "Codex Review: Didn't find any major issues. Another round soon, please!",
+    "formalReviewSubmissions": [],
+    "formalApproval": false,
+    "findings": []
+  },
+  "scopeReviewed": {
+    "publicationScope": "ANDROID-API24 source-only publication",
+    "productFiles": [
+      {"path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs", "bytes": 84070, "sha256": "150b37b038c365534db3035e185b3d0b23135828f72e2aca216d7ccb19133de3"},
+      {"path": "ProjectSettings/ProjectSettings.asset", "bytes": 23595, "sha256": "dfe02f2b7ffd9c5f5880e39d7bb35e1916515529e3292b1979f9715da51a2a72"}
+    ],
+    "changeSummary": "Two product files, reported +4/-3; exact byte identities follow the publication manifest.",
+    "staticChecks": {"passed": 40, "total": 40, "rerun": false, "receiptSha256": "66dd6bd8a812986d515a1558f5bbcc3ce0674b31e6eb6b185ec15bf5f22ec084"},
+    "manifest": "docs/versioning/2026-10-03-android-api24-pr/manifest.json",
+    "sourceReceipt": "docs/versioning/2026-10-03-android-api24-pr/source-receipt.json",
+    "publicationReceipt": "docs/team/2026-09-30/android-api24-source-publication-receipt.json"
+  },
+  "interpretation": "No major issues were reported on the exact reviewed source head. This closes only that head's code-review gate; it is not formal APPROVED or complete Android API24 acceptance.",
+  "notEstablished": [
+    "Unity settings reopen/compile validation",
+    "APK builds or device acceptance",
+    "Shared source or settings adoption"
+  ],
+  "source": "GitHub PR #15 fixed-head metadata, review summary and result comment"
+}

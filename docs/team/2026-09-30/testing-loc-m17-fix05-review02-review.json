@@ -1,0 +1,119 @@
+{
+  "task": "LOC-M17-FIX05-REVIEW02 GitHub PR review intake",
+  "qaThread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "qaActualTurn": "CURRENT_REVIEW_INTAKE_TURN_NOT_RETURNED_BY_THREAD_READ",
+  "authorization": {
+    "centralTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+    "userItem": "01a12bf9-ee2d-7140-a43f-a33e3bafec6c"
+  },
+  "watch": {
+    "startedAtUtc": "2026-10-11T18:55:30Z",
+    "startedAtBasis": "clock__curr_time",
+    "maxMinutes": 6,
+    "completedAtUtc": "2026-10-11T18:58:20Z",
+    "outcome": "COMPLETED_WITHIN_WINDOW"
+  },
+  "publication": {
+    "source": "docs/team/2026-09-30/loc-m17-fix05-review02-publication.json",
+    "repository": "yyczz1/FightMatch",
+    "pullRequest": 2,
+    "pullRequestUrl": "https://github.com/yyczz1/FightMatch/pull/2",
+    "expectedHead": "01a5ab7afa5f3d2d55df4b5d6b72c8fa6e353736",
+    "expectedParent": "5c12ddabfc784927a936b428d9f1b90638cf108e",
+    "expectedTree": "1d25bccce6474cb84884cb0787a7660512e400af",
+    "triggerCommentId": 6112501532,
+    "publishedFileCount": 13,
+    "publicationSaysAllRemoteBlobsAndSizesVerified": true,
+    "directedChecks": "109/109 passed once in 2.032665917 seconds; not rerun during review intake.",
+    "seal": "4.841734167 seconds; not rerun during review intake.",
+    "prior81And66SuitesRerun": false,
+    "sidecar": {
+      "path": "docs/team/2026-09-30/loc-m17-fix05-review02-command-receipt.json",
+      "bytes": 20990,
+      "sha256": "55cb8c419ab9fe4da8f3a4b0a4fb69e38d925bed45a27bab8d510d177cf25cc5",
+      "publicationSaysRemoteBlobAndSizeVerified": true
+    }
+  },
+  "authorEvidence": {
+    "locActualTurn": "01a12c3f-ebd9-70d0-92f0-74666adab242",
+    "sealTool": "exec-4303040d-9108-43b7-9a7e-4a30a27121ce",
+    "threadRead": {
+      "attemptedWithHostId": "local",
+      "result": "UNAVAILABLE_OR_FAILED_HOST",
+      "note": "read_thread returned unavailable/failed durable host. The centrally published output, freeze/eight-leaf binding and remote blob checks are documented in the handoff/publication, but this QA turn did not independently recover the author transcript."
+    }
+  },
+  "pullRequestAtFinalCheck": {
+    "head": "01a5ab7afa5f3d2d55df4b5d6b72c8fa6e353736",
+    "headMatchesExpected": true,
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "serviceResult": {
+    "summary": {
+      "commentId": 5928035293,
+      "status": "Completed",
+      "reviewedCommitPrefix": "01a5ab7",
+      "completedAtUtc": "2026-10-11T18:58:19.643768Z",
+      "updatedAtUtc": "2026-10-11T18:58:20Z"
+    },
+    "resultComment": {
+      "id": 6112531539,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6112531539",
+      "createdAtUtc": "2026-10-11T18:58:13Z",
+      "reviewedCommit": "01a5ab7afa",
+      "verbatimConclusion": "Codex Review: Didn't find any major issues. Keep them coming!"
+    },
+    "exactHeadReviewSubmission": {
+      "reviewId": null,
+      "formalApproved": false,
+      "note": "No exact-head review submission was returned by the reviews endpoint; the exact-head result is the ordinary Codex bot issue comment and completed summary. This is not a formal APPROVED review."
+    },
+    "newExactHeadFindings": [],
+    "historicalFindingThreadStates": [
+      {
+        "commentId": 4242623018,
+        "threadId": "PRRT_kwDOTDyjrM6rQE5E",
+        "isResolved": false,
+        "isOutdated": false,
+        "serviceClosedOnThisHead": false
+      },
+      {
+        "commentId": 4242623020,
+        "threadId": "PRRT_kwDOTDyjrM6rQE5F",
+        "isResolved": false,
+        "isOutdated": false,
+        "serviceClosedOnThisHead": false
+      },
+      {
+        "commentId": 4242690950,
+        "threadId": "PRRT_kwDOTDyjrM6rQPh1",
+        "isResolved": false,
+        "isOutdated": false,
+        "serviceClosedOnThisHead": false
+      }
+    ],
+    "interpretation": "The current exact-head service result reports no major issues; it does not assert zero findings at every severity and did not formally close the three historical P1 threads."
+  },
+  "reviewGate": {
+    "status": "COMPLETED_NO_MAJOR_ISSUES_REPORTED",
+    "formalApproved": false,
+    "exactHeadMajorIssueFindingsReported": 0,
+    "integrationVerdict": "SOURCE_REVIEW_GATE_ONLY_NO_MAJOR_ISSUES_REPORTED",
+    "boundary": "This is only the source-review observation for the exact REVIEW02 head. It does not accept the historical threads as formally resolved, M06 materials, native execution, Unity/build, Android/device behavior, merge, or release."
+  },
+  "deliveryContext": {
+    "materialsExecution": "NOT_RUN; M06 material/device acceptance remains incomplete.",
+    "testsRerun": false,
+    "localCodeReview": "NOT_RUN",
+    "getOrRestore": "NOT_RUN",
+    "unityOrNative": "NOT_RUN"
+  },
+  "pollingActions": {
+    "reviewRetriggered": false,
+    "commentsPosted": false,
+    "otherThreadsContacted": false,
+    "sourceChecksRerun": false
+  }
+}

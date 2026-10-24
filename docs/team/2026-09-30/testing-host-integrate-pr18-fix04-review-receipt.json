@@ -1,0 +1,177 @@
+{
+  "receipt": "HOST-INTEGRATE-001-I01-FIX04-PR18-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "observedAtUtc": "2026-10-07T20:56:00Z",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a11823-5862-7543-9d6e-c423a15079c1",
+    "actualTurnEvidence": "read_thread returned inProgress",
+    "requestedModel": "gpt-6-luna",
+    "requestedEffort": "medium",
+    "effectiveModelVerification": "Runtime model selection is not exposed by available tools; only the delegated request is recorded",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+  },
+  "authority": "Central PR18 FIX04 receipt delegation under standing user GitHub review authorization",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/18",
+  "candidate": {
+    "head": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+    "base": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+    "parent": "48c51dba8cb6487f405f9291fb1a8ab1b20b6c20",
+    "tree": "5123190a820e92be30615d26725e8e9bcb86c27c",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/host-integrate-001-i01-fix04-publication-receipt.json",
+    "verifiedBlobs": 22,
+    "deltaPaths": 13,
+    "verifiedByCentral": true
+  },
+  "review": {
+    "triggerCommentId": 6046618323,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6046618323",
+    "summaryCommentId": 6044837922,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6044837922",
+    "summaryStatus": "Completed",
+    "completedAtUtc": "2026-10-07T20:55:14.085633Z",
+    "submissionId": 5448246182,
+    "submissionGraphqlId": "PRR_kwDOTDyjrM8AAAABRL2jpg",
+    "submissionUrl": "https://github.com/yyczz1/FightMatch/pull/18#pullrequestreview-5448246182",
+    "submissionState": "COMMENTED",
+    "submittedAtUtc": "2026-10-07T20:55:11Z",
+    "reviewedCommit": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+    "reviewedCommitFromBody": "e30b9f25fa",
+    "resultCommentUrl": null,
+    "resultCommentStatus": "No separate top-level result comment observed; exact-head submission and inline findings are the result record",
+    "findings": [
+      {
+        "id": 4211887116,
+        "priority": "P1",
+        "title": "Preserve concurrent values while parking projection files",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211887116",
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "line": 257,
+        "originalLine": 257,
+        "threadId": "PRRT_kwDOTDyjrM6qF7NP",
+        "isResolved": false,
+        "isOutdated": false,
+        "commit": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+        "originalCommit": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+        "reviewSubmissionId": 5448246182,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T20:55:11Z",
+        "reactions": [],
+        "originalText": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Preserve concurrent values while parking projection files**\n\nThe swap fix does not cover the 12 parked paths: if an external writer replaces a source after `ident(source)` but before this `rename_exclusive`, `RENAME_EXCL` protects only the destination and moves the unknown new value out of the projection. The post-move identity check then fails, but restoration rejects the mismatching parked leaf and leaves the projection path missing; the same primitive can cause this while archiving synchronized files. Use a swap-and-verify operation that can return or retain a displaced concurrent source value safely.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      },
+      {
+        "id": 4211887126,
+        "priority": "P1",
+        "title": "Bound TERM authorization within the shutdown budget",
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211887126",
+        "path": "docs/versioning/2026-10-08-host-shared-compile/runner.py",
+        "line": 185,
+        "originalLine": 185,
+        "threadId": "PRRT_kwDOTDyjrM6qF7NY",
+        "isResolved": false,
+        "isOutdated": false,
+        "commit": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+        "originalCommit": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+        "reviewSubmissionId": 5448246182,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T20:55:11Z",
+        "reactions": [],
+        "originalText": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bound TERM authorization within the shutdown budget**\n\nWhen several owned descendants remain after the natural window, this loop performs `ps()`, `details()` and the complete consumer snapshot serially for every PID before the 30-second confirmation deadline is even created. Slow process probes can therefore add roughly 5–10 seconds per PID outside both the ≤60-second natural and ≤30-second confirmation boundaries required by `execution-plan.md:66`, potentially overrunning the total budget and delaying projection restoration indefinitely relative to the declared contract; the replay fixtures miss this because authorization calls consume no simulated time. Enforce an absolute closure deadline and stop starting new authorization work once it expires.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      }
+    ],
+    "previousFindingThreadStates": [
+      {
+        "id": 4210875526,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875526",
+        "isResolved": false,
+        "isOutdated": true,
+        "reviewedCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3"
+      },
+      {
+        "id": 4210875534,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875534",
+        "isResolved": false,
+        "isOutdated": true,
+        "reviewedCommit": "54534228f88a7e8609669b00e1aae2eb4c7caaf3"
+      },
+      {
+        "id": 4211058182,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058182",
+        "isResolved": false,
+        "isOutdated": true,
+        "reviewedCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772"
+      },
+      {
+        "id": 4211058192,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058192",
+        "isResolved": false,
+        "isOutdated": true,
+        "reviewedCommit": "1c5a34ecd126135abb40a9e610a175c000e8d772"
+      },
+      {
+        "id": 4211236459,
+        "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211236459",
+        "isResolved": false,
+        "isOutdated": true,
+        "reviewedCommit": "191ee590dbb644ce129a6d6b5787555fcade8af0"
+      }
+    ],
+    "formalApproval": false,
+    "codeGate": "NEEDS_FIX",
+    "statusReads": 5,
+    "waitSeconds": [
+      45,
+      50,
+      45,
+      45
+    ],
+    "pagination": {
+      "commentsComplete": true,
+      "reviewsComplete": true,
+      "threadsComplete": true,
+      "threadCommentsComplete": true,
+      "commentsCount": 7,
+      "reviewsCount": 4,
+      "threadsCount": 7
+    }
+  },
+  "scopeAndAcceptanceBoundary": {
+    "authorTurn": "01a11811-6278-7540-abda-e7fa4e186e9d",
+    "offlineValidation": {
+      "red": {
+        "passed": 66,
+        "total": 80,
+        "prior58Passed": true
+      },
+      "green": {
+        "passed": 80,
+        "total": 80
+      },
+      "rounds": 2,
+      "cumulativeSeconds": 5.97325137500593
+    },
+    "recovery": "RESTORE_CONFIRMED via separate recovery; zero Unity and zero signals",
+    "fix04NativeRuns": 0,
+    "originalI01NativeResult": "FAILED and preserved",
+    "laterCompilerAndCacheEvidence": "Late observations do not prove a cache chain",
+    "integrationVerdict": null,
+    "productAcceptance": false
+  },
+  "method": {
+    "source": "Read-only gh api graphql current PR metadata/body, comments, reviews and review threads",
+    "githubExitCode": 0,
+    "localCodeReview": false,
+    "testsRun": false,
+    "unityRun": false,
+    "newTrigger": false,
+    "githubWrite": false,
+    "writes": "Only this new receipt"
+  }
+}

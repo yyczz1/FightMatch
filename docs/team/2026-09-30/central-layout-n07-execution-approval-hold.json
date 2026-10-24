@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-05",
+  "status": "PREPARATION_PASS_NATIVE_APPROVAL_REJECTED_NOT_RUN",
+  "ownerTurn": "01a10af7-4460-7662-8084-7ae1aa3ff125",
+  "engineeringTurn": "01a10adf-4deb-7761-942f-37e69c37344c",
+  "receipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/PExecution/receipt-attempt02.json",
+    "bytes": 14502,
+    "sha256": "7d9bb5adb76f5c3e20dd5571ad7e7fcf176eb9ff824fead0228549d96461fded"
+  },
+  "preparation": {
+    "attemptsUsed": 2,
+    "checksOnSecondAttempt": 252,
+    "secondAttemptSeconds": 0.07770150000214926,
+    "cumulativeRecordedSeconds": 0.07770912500214926,
+    "originalParseFailureRetained": true,
+    "activationBytes": 107999,
+    "activationSHA256": "02ba75e7b85eafa0b4e0b584c27edc64017a6236c9802cea113e99665f3738a3",
+    "runnerBytes": 34222,
+    "runnerSHA256": "79b0ac8bb1262de5c9e4d4367e7252d07b5c51cda93ac7629172a1a98adf2d27"
+  },
+  "actualExecution": "CreateProcess was rejected before the command started. Source sync, Unity, compile, tests, scene save/close/reopen and export all remain zero.",
+  "reviewerReason": "The script can sync sources, launch Unity, modify/save the scene, and conditionally export it; the quoted historical authorization is explicitly untrusted evidence, so this bounded but costly-to-reverse action lacks trusted authorization.",
+  "centralConclusion": "Human permission in the engineering chat solved dispatch but was not accepted as current trusted execution permission in C. Do not retry or change execution route after this denial. All prepared artifacts and failure receipts remain unchanged.",
+  "pendingDirectHumanAction": "Ask the human to authorize the exact already prepared N07 operation directly in FightMatch C-MAC-HISO 定向验证, including necessary fresh-turn binding records while preserving old evidence. This document is not that human permission.",
+  "preparedContinuationOnlyAfterThatHumanAction": {
+    "executor": "Same C chat 01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local, fresh actual turn, Astra/xhigh",
+    "newBindingFiles": [
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/I/activation-direct.json",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/PExecution/runner-direct.py",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/PExecution/receipt-direct.json"
+    ],
+    "allowedBindingDelta": "Clone the frozen I/runner. Change only current owner/direct-human identities, the activation path/bytes/hash and final receipt destination, and fixed-evidence/leaf-budget entries needed to preserve prior I/runner/denial receipts. Preserve all other data, source versions, execution and guard logic. Use literal-safe construction.",
+    "temporaryRoot": "Reuse the still-unused /private/tmp/fm-ln07.NHjkoP2j only if its exact recorded uid/gid/mode/device/inode/birthtime and empty inventory remain unchanged; otherwise stop. No new TMP or existing-file overwrite is granted here.",
+    "preparationAllowance": "Use only original remaining preparation attempt 3; preserve cumulative 2/3 and recorded 0.07770912500214926 seconds, total at most 3 attempts/30 seconds. Verify the narrow binding delta instead of repeating unrelated checks.",
+    "evidenceAllowance": "Only the three listed new binding/receipt leaves supplement the previous exact whitelist: at most 25 N07 leaves, unchanged 192 MiB total. Old files stay byte-identical.",
+    "unchangedExecution": "Runner at most 400 nonempty lines; fixed B/T; source sync once each; preflight120; one Editor180 including compile/import; actual two-assembly Csc evidence; native retry0; original scene/geometry/identity/protection/owned cleanup gates; unique Scene export only after every gate. No tests, APK, dependencies, Git or LOC action.",
+    "gate": "The direct human message and normal tool approval must precede any execution. This technical continuation plan must not be used to bypass the current denial. Engineering remains the sole C completion receiver."
+  }
+}

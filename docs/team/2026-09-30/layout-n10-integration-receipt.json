@@ -1,0 +1,60 @@
+{
+  "task": "LAYOUT-S1-FIX04-N10-NATIVE",
+  "date": "2026-10-06",
+  "verdict": "NEEDS_FIX",
+  "reason": "实际Set后Get精确22、Save1返回True，但磁盘仍为原27记录/原12900字节，未达本包仅删五块的硬门。失败发生在保存之后、PostSave采样之前，不能记为未保存或验收通过。",
+  "execution": {
+    "executor": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local/01a10d61-09ed-7d71-bb28-ea7a6f59414c，已completed/idle停写",
+    "engineeringReceiptTurn": "01a10edd-240c-7dd0-a948-acfe0b436426",
+    "toolExecution": "exec-db01858f-53a0-42a2-8af0-36ce07692148",
+    "startedBeijing": "2026-10-06 09:36:19",
+    "launches": 1,
+    "secondsToFirstFailure": 23.607586042002367,
+    "toolSecondsIncludingCleanup": 86.143,
+    "exitCode": 1,
+    "retry": 0,
+    "Set": 1,
+    "immediateGet": "reportedExact=true/count22/OBSERVED_EXACT_22",
+    "Save": 1,
+    "SaveReturned": true,
+    "PostSaveSamples": 0,
+    "readOnlyReopen": 0,
+    "export": 0,
+    "closure": "13 owned闭合；自然60秒后仅fresh VBCS16704一次SIGTERM；NewScene/CloseScene直接计数仍UNOBSERVED。"
+  },
+  "evidence": {
+    "receipt": {"path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/PExecution/receipt.json", "bytes": 1408163, "sha256": "b120ae7dc46870e9267f47c6c723f8059c14d0fb34147f7bb9da6fae6079dc5d"},
+    "after": {"bytes": 1176710, "sha256": "b40ca4166eb096a9c50bb5abda2adc84a251d06904e2ebf2b57c68538417afb6"},
+    "log": {"path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/PExecution/editor.log", "bytes": 112317, "sha256": "583a157eeb49ddc6fba993f11cf6ddfbf567becfc9a6048b20d777204b1f000e"},
+    "nativeRaw": "log366/377/408均before-only-Set、Set0/Save0、dirty=false；三个样本真实local/world scale均约0.769800365、八几何分量全部通过。actual27/105/125、原22与精确许可包络通过；记录五个0不等于有效scale为0。log424独立terminal为disk only five exact blocks deleted; all other bytes preserved，diagnosticsIncomplete=false/cleanupFailures=0。",
+    "disk": "保存前/保存后/最终观察Scene均12900B/0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd；五块没有删除，双端Scene/Prefab未变。只证明此实际路径不持久化这次删除，不能直接称Unity引擎bug或原P1误报。",
+    "D": "00/01/02各3441/12360/14800B，共30601B，完整绑定/解析；仅三sample，非九sample成功。",
+    "compile": "B/T各sync1；Core log244实际Csc，新DLL1832448B/3468c193fa12ca7873957d47f8a62c6066f5eb12fb9da31d6025c53884232801；Host log247实际Csc，新DLL215040B/a0e697ab6feae3e7ef581339315d86d7e94ee6d830adcdcd872b6bf22887e737。没有执行测试。",
+    "inspection": "中央核实际receipt身份、读取immediateObservation及四条原始日志。其它243冻结、7外层、双端122输入、20叶4784728B、DLL/清理和TMP引用主程实际872eab只读机械收件，不重复运行。",
+    "preservation": "N10新TMP154310B/5叶、N09 TMP77503B/3叶保持；原静态/准备tool尾部未全文外核及旧TMP缺失保留，不改写。"
+  },
+  "independentReview": {
+    "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4166096874",
+    "head": "e3d581df42f3a25cfdfc319bca5509f8b5382ada",
+    "currentRead": "中央本次只读GitHub review_threads确认PRRT_kwDOTDyjrM6oWaY3仍unresolved/current，原P1正文未变。没有发布/评论/resolve/dismiss或新审查。",
+    "originalClaim": "原P1称Scene的五个零值覆盖压过Prefab单位scale，真实Scene可能触发FightMatchResponsiveLayout.Apply对非正lossyScale的拒绝，而仅实例化Prefab的测试无法覆盖；要求normalize/remove并原生保存复开。",
+    "boundary": "N10的Editor几何快照构成需要解释的新证据，但不是Player首次布局/真实Host无故障的证明，也没有独立撤销P1。N10代码未获对应head GitHub审查。"
+  },
+  "notAccepted": "112用例未发现/运行；PostSave/复开、GitHub新head审查、设备/Host/Play/APK及首Demo未接收。旧N10单次许可已消耗。",
+  "nextApprovedStep": {
+    "task": "LAYOUT-N10-PERSISTENCE-READONLY-DIAGNOSIS",
+    "authority": "用户已授权真实场景修复及团队接续；本包只读判断下一步，不改变验收条件或继续猜测性写入。",
+    "owner": "主程01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local唯一收件；复用SYS01a0f2e6-29bb-7092-abf0-705b41b7bf93/local，Astra/xhigh/fresh actual。",
+    "readScope": "N10固定B/T、S receipt、native receipt/log/三D及原Scene/Prefab；必要时沿直接调用读取FightMatchResponsiveLayout.Apply/Bind/OnEnable与Host首次布局时序；N09诊断作既有事实。原GitHub P1正文以本回执及testing-layout-s1-pr4-native-review-receipt.json为准，原代码head与当前候选分清。可读取本机既有uGUI/TMP源码及Unity2022.3官方文档/公开源码/官方样例，不下载或安装新工具。",
+    "questions": [
+      "先审视失败模型：Get精确22而SaveTrue后原字节不变，可能是API未应用实际序列化属性、保存重建driven/default记录或其它机制。用具体可信依据区分；不要把Force/等待/重复Set次数作为默认下一修法。",
+      "核清这五种字段在Overlay Canvas的驱动和Prefab序列化语义，说明哪些有当前版本依据、哪些原生writer不可见。N10未Set时几何全通过意味着什么，不能据此证明什么？N09/N10的不同记录只按需要解释，不重复整个旧解码。",
+      "核对原P1真正的功能风险：FightMatchResponsiveLayout.Apply首次何时采样、失效后是否重采/何时释放交互；Editor更新后的几何证据是否覆盖该首次Player/Host路径。只作缺陷诊断和验证设计，不执行替代本地代码审查。",
+      "提出一个有依据的最小后继。如果证据指向原无五记录硬门不适用于正常序列化，明确提出重新定义门及提交同head GitHub独立核实所需证据，不自行撤销P1。若仍需修资产，给出区别于已失败Set/Save路径的具体依据。若只读仍无法判定，提出一个最小可区分假设的验证及停止条件，不直接实施。"
+    ],
+    "writeScope": ["docs/team/2026-09-30/engineering-layout-n10-persistence-diagnosis.md", "docs/team/2026-09-30/engineering.md"],
+    "output": "唯一诊断稿≤8KiB，分事实/推断/未知、原功能风险与验收指标、官方出处及一个最小方案；引用已有表，避免重复长报告。主程接实际completed/停写后回中央。",
+    "forbidden": "无B/T/Scene/Prefab/meta或原证据改动、无Unity/测试/探针/新执行器/保存/同步/导出、无Git发布/评论/审查触发/resolve、无LOC重试、新会话或本地审查代理。不得为让结果变绿直接去掉失败门。",
+    "workflow": "按完成事件回传，空闲回合结束等待有用结果；不原样重跑N10，也不预先签N11产品实施。"
+  }
+}

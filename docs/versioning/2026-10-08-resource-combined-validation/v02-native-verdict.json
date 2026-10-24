@@ -1,0 +1,92 @@
+{
+  "task": "RES-COMBINED-V02-NATIVE",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "scope": "Input binding refresh required; no native test acceptance",
+  "sourceReview": {
+    "head": "281bb731ed08a21a25df67932068279853b3fd09",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6049501072",
+    "verdict": "resource-combined-v02-source-verdict.json"
+  },
+  "executor": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a118e2-2dca-7210-a2ef-99d25f579553"
+  },
+  "receipt": {
+    "path": "TestArtifacts/FightMatch/RES-COMBINED-V02/run/receipt.json",
+    "bytes": 3107,
+    "sha256": "8dfd0e9e4cb400104466bd97319b3edee2108780cde11dc7c9a30b54ab0abdef"
+  },
+  "status": "NOT_RUN_BLOCKED",
+  "failure": "Compiler state preimage drift Library/Bee/TundraBuildState.state",
+  "launchCounts": {},
+  "remainingOwned": [],
+  "restore": {
+    "archived": [],
+    "restored": [],
+    "returnedParked": [],
+    "errors": [],
+    "complete": true,
+    "projection": {
+      "leaves": 1035,
+      "bytes": 32149498,
+      "defaultSettings": null,
+      "uniqueGUIDs": 535,
+      "hostArtifacts": {
+        "unchanged": true,
+        "newHostRigOrIsolation": 0
+      }
+    },
+    "transferConflicts": [],
+    "seconds": 2.598652583998046,
+    "compiler": {
+      "archived": [],
+      "restored": [],
+      "afterIdentities": {},
+      "errors": [],
+      "complete": true
+    }
+  },
+  "currentTwoStateObservations": {
+    "Library/Bee/TundraBuildState.state": {
+      "bytes": 136080,
+      "sha256": "4008107d99c4ffeb29b12acb7eb49269c43c5014a261d98561ed47e1ca851066",
+      "device": 16777244,
+      "inode": 10931527,
+      "uid": 501,
+      "gid": 20,
+      "mode": 420,
+      "mtimeNs": 1791416530059993762,
+      "mtimeUtc": "2026-10-07T23:42:10.059994+00:00"
+    },
+    "Library/Bee/bee_backend.info": {
+      "bytes": 127,
+      "sha256": "cd510c4af398ab352e5bd1fdb74a06658814c4e8da952cb8c068909ac45e87d1",
+      "device": 16777244,
+      "inode": 10659094,
+      "uid": 501,
+      "gid": 20,
+      "mode": 420,
+      "mtimeNs": 1790970828511838743,
+      "mtimeUtc": "2026-10-02T19:53:48.511839+00:00"
+    }
+  },
+  "interpretation": "Tundra mtime is inside the only V01 I window. Prior contract preserved this generated state in place and did not restore it, while V02 reused its pre-V01 identity. Do not modify the state file or accept unrelated drift; bind the current observed identity in an independent V03 attempt.",
+  "next": "central-resource-combined-v03-binding-refresh.md",
+  "nativeV02Runs": 0,
+  "checksReused": "V02 177 offline cases and exact-head GitHub source result; no new native or 89-case pass",
+  "owner": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local"
+  },
+  "externalObservation": {
+    "externalStartMonotonic": 76486.289920791,
+    "externalEndMonotonic": 76494.670250166,
+    "runnerSeconds": 8.380329375009751,
+    "preparationSeconds": 160,
+    "totalSeconds": 168.38032937500975,
+    "osExitCode": 1
+  },
+  "externalToolEvent": "exec-96031df6-416c-4bff-b47c-194a95201d23"
+}

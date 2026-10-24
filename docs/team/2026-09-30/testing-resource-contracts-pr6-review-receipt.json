@@ -1,0 +1,127 @@
+{
+  "task": "RESOURCE-CONTRACTS-PR6-REVIEW-RECEIPT",
+  "verdict": "ACCEPT",
+  "scope": "Only the independent GitHub code-review gate for the fixed source head. Not compilation, Unity asmdef/import/meta, discovery, eleven-test execution, resource loading or product acceptance.",
+  "receivedUtc": "2026-10-02T17:37:05Z",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fda9-d6e1-72f2-8499-4f08b51326e0"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "User standing AGENTS section 6 workflow and central's explicit PR6 receipt plus read-only cloud-preparation delegation. No local code review or duplicate GitHub trigger.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/6",
+    "head": "d7775a1134556698a6489029b20402a0ce185939",
+    "tree": "28b092859e19ec5fc00f09ab53c054704852554f",
+    "base": "3541930877837e14b58020b910976b8b67b56e42",
+    "parents": [
+      "3541930877837e14b58020b910976b8b67b56e42"
+    ],
+    "draft": true,
+    "merged": false
+  },
+  "inputs": {
+    "manifest": {
+      "path": "docs/versioning/2026-10-03-resource-contracts-pr/publication-manifest.json",
+      "sha256": "32bff7b173a7818bbfee531f83a0a609ce53d2f868f2507cf3fba4f7b549f640"
+    },
+    "sourceReceipt": {
+      "path": "docs/versioning/2026-10-03-resource-contracts-pr/source-receipt.json",
+      "sha256": "b5437364daa542ff47737762f3860e6acfd3fc10cf4b22595aec2a6f645ca98c"
+    },
+    "staticChecks": {
+      "path": "docs/versioning/2026-10-03-resource-contracts-pr/static-checks.json",
+      "sha256": "67472d098662d57026afffa26b73c1da505ce6076a760af7d846c0fd5bb36faa"
+    },
+    "stagedRoot": "TestArtifacts/FightMatch/RES-B-CONTRACTS-001/S/",
+    "canonicalProductPaths": [
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs"
+    ],
+    "fixture": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests",
+    "sourceTestCount": 11,
+    "boundary": "Reuse attributed author/engineering source-only receipt: 251 production lines, 247 test lines, 181 Python static assertions. Static assertions are not executed game tests. Four product paths plus selected evidence/scope total ten PR leaves; no shared-checkout product or metadata changes."
+  },
+  "originalReview": {
+    "bot": "chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5957762109,
+      "url": "https://github.com/yyczz1/FightMatch/pull/6#issuecomment-5957762109",
+      "createdUtc": "2026-10-02T17:29:15Z",
+      "rawBody": "@codex review\n\nPlease review head d7775a1134556698a6489029b20402a0ce185939 against base 3541930877837e14b58020b910976b8b67b56e42. The source-only split freezes the already-approved asset contract invariants and deliberately leaves the YooAsset adapter and runtime verification pending. Review the four new product paths against RES-B section 6 and the included split scope."
+    },
+    "summary": {
+      "id": 5957765301,
+      "url": "https://github.com/yyczz1/FightMatch/pull/6#issuecomment-5957765301",
+      "updatedUtc": "2026-10-02T17:33:45Z",
+      "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T17:33:44.520651Z\">2026-10-02T17:33:44.520651Z</relative-time> | `d7775a1` | Manual request |"
+    },
+    "result": {
+      "id": 5957828430,
+      "url": "https://github.com/yyczz1/FightMatch/pull/6#issuecomment-5957828430",
+      "createdUtc": "2026-10-02T17:33:43Z",
+      "rawBody": "Codex Review: Didn't find any major issues. :+1:\n\n**Reviewed commit:** `d7775a1134`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "reportedReviewedCommit": "d7775a1134"
+    },
+    "binding": "Bot result and Completed summary commit prefixes match the full head in the trigger/current PR. Read-only remote Git commit API independently confirms the full SHA, tree and sole parent.",
+    "formalReviewRecords": [],
+    "inlineReviewThreads": [],
+    "findings": [],
+    "formalApprovalClaimed": false,
+    "interpretation": "Completed with no major issues reported. This is not a formal APPROVED submission or a claim that all possible issues are absent."
+  },
+  "gates": {
+    "codeReview": "CLOSED_NO_MAJOR_ISSUES_REPORTED_FOR_FIXED_HEAD",
+    "compileImport": "NOT_RUN",
+    "naturalMetadata": "NOT_RUN",
+    "elevenTestDiscoveryAndExecution": "NOT_RUN",
+    "sdkAdapterAndResourceLoading": "NOT_IMPLEMENTED",
+    "deviceAndProduct": "NOT_ACCEPTED"
+  },
+  "cloudPreparation": {
+    "task": "QA-CLOUD-RES-CONTRACTS-PREP-001",
+    "statusAtReceipt": "READINESS_BLOCKED",
+    "completedUtc": "2026-10-02T17:51:32Z",
+    "executorReportedCutoffUtc": "2026-10-02T17:50:40Z",
+    "completionEvidence": "wait_threads turnCompleted; executor idle; durationMs 887141",
+    "environmentId": "ccarenv_b64_Y2NhcmVudl9kZjU4YzgyZWYzNTA4MTkxYjdhM2UxOGJlNGM2NGM0ZA",
+    "executor": {
+      "thread": "01a0f13c-3d87-753a-ad11-16302add9084",
+      "host": "durable",
+      "turn": "01a0fdb0-992f-74c2-abbb-6a5d55949a38",
+      "model": "gpt-6-astra",
+      "thinking": "xhigh"
+    },
+    "soleReceiver": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb/local",
+    "boundary": "Read existing tooling/dependencies and recommend exact eleven-test validation only. No Unity/compiler/discovery/test run, Git writes, installations, paid provisioning, license activation or graphics retry. Old Xorg failure does not establish pure contract tests cannot run. Actual execution requires a separately signed scope/environment/budget.",
+    "result": "Cloud instance did not become ready and no shell was available by the bounded closeout. Current Unity/UTF/NUnit, cached dependencies, SDK/runner, candidate Git objects and discovery/filter tooling checks were all NOT_RUN; current license UNVERIFIED. This is an execution-channel readiness blocker, not evidence against headless pure-contract testing. Executor reported no file writes, Git synchronization or configuration changes and stopped waiting.",
+    "candidateRecommendationNotActivated": {
+      "route": "First verify existing tooling and candidate. Prefer exact-fixture Unity batchmode/nographics EditMode with no -quit; a pure .NET runner has not been established and could not replace Unity asmdef/meta acceptance.",
+      "selection": "Discover and execute the same eleven sourceReceipt testFullnames with each occurrence exactly once; no missing, duplicate or unexpected names. Record all failures, skips and inconclusive outcomes. Exact discovery entry remains unverified.",
+      "proposedUnmeasuredLimits": "Single attempt; total 300 seconds; log 8 MiB; XML 1 MiB; evidence root 16 MiB; no automatic retry. Subject to central's separate signed contract, not an existing runner guarantee.",
+      "requiredAuthority": "Candidate synchronization, import/compile/cache writes, six natural metadata outputs, evidence outputs and discovery/test launches require central's separately signed scope. No fallback to C or provisioning is activated.",
+      "futureMetadataPathsOnly": [
+        "Assets/Scripts/FightMatch/AssetAccess.meta",
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs.meta",
+        "Assets/Tests/EditMode/FightMatchAsset.meta",
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs.meta"
+      ],
+      "metadataEvidence": "Read-only GitHub recursive tree for fixed tree 28b092859e19ec5fc00f09ab53c054704852554f, truncated=false: four blobs match publication manifest; two new directories and four files have no corresponding meta. No metadata generated."
+    }
+  },
+  "thisTask": {
+    "reviewTriggers": 0,
+    "reviewThreadMutations": 0,
+    "localCodeReviews": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFile": "docs/team/2026-09-30/testing-resource-contracts-pr6-review-receipt.json"
+  }
+}

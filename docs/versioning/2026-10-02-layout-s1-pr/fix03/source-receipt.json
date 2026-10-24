@@ -1,0 +1,310 @@
+{
+  "task": "LAYOUT-S1-FIX03",
+  "status": "SOURCE_READY",
+  "labels": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNIMPORTED",
+    "OLD_PREFAB_NOT_MIGRATED",
+    "NOT_PLAYABLE_CANDIDATE"
+  ],
+  "frozenUtc": "2026-10-02T05:38:36.821555+00:00",
+  "author": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fb1a-804d-72b2-b117-195e429b86af",
+    "identityEvidence": "read_thread returned this actual turn inProgress before writes",
+    "productWritingStopped": true
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fb19-3973-7b62-a9ea-c335c6dcf65b"
+  },
+  "soleReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "authority": "User AGENTS section6 standing team workflow and central/engineering scoped FIX03 source-only dispatch.",
+  "contract": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-pr4-fix03.md",
+    "bytes": 6062,
+    "sha256": "36c130d3373bf70efece2f157ac541e3634f243ab40c2ff444dda5459dfdb822"
+  },
+  "before": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/before.json",
+    "bytes": 100478,
+    "sha256": "808d28ef4296a8fec598ac6caea3ef61b94ad98e9b3b097c6d0a56931e14a5ca"
+  },
+  "patch": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source.patch",
+    "bytes": 8344,
+    "sha256": "1c7ed334bfe078a129c2b9af908989c13c011a0076d7e1c9c770a1fbab039e3c"
+  },
+  "sourceS15After": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "bytes": 154822,
+      "sha256": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482",
+      "gitBlob": "d94de9c93f6111b20d189d066d34bd7f01f8ed64"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "bytes": 17703,
+      "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9",
+      "gitBlob": "bea02eff1e5d417619d1544c31be9bab069c71a3"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60",
+      "gitBlob": "29e699d867e7625170741207bab3840301f5748b"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670",
+      "gitBlob": "289ee0ff0002dbf9a3598d67cbd50a244d2327b9"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "bytes": 8707,
+      "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16",
+      "gitBlob": "fb6d2630ffd91228142769208dad7f6cfb3b4650"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05",
+      "gitBlob": "e48a69da2aeb6bae1abda7170bcfd850415c640d"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c",
+      "gitBlob": "655743f9084e6de0102b8b8e9e123b13dfc56a55"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9",
+      "gitBlob": "0936d8eacbbd796f6cbe62fde73e611621c012d4"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333",
+      "gitBlob": "d07b523036f060710408a11cc0c8528b8e19b75d"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf",
+      "gitBlob": "c5acc6fa538a0d8a9cb2e8f086f2b94c99467634"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0",
+      "gitBlob": "d22aa1e72bc2a9b698b12b9c7f99ea54cc656172"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd",
+      "gitBlob": "66a6e5dc2af0b4f66ded65d0f954a59c422318b7"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321",
+      "gitBlob": "d07bb9352c1919264c5d2b9d02cc5f949d9b8317"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "bytes": 81160,
+      "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89",
+      "gitBlob": "d543a9e3611e633e33e3be87693a6f3729c1c010"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "bytes": 24402,
+      "sha256": "83e556cc3348faa0210985af3d910f9e32f450b08e05f8eb72230252bb543f72",
+      "gitBlob": "70515b07c728f2911c2dada653296e626477a767"
+    }
+  ],
+  "budget": {
+    "files": 2,
+    "fileLimit": 2,
+    "addedPlusDeletedLines": 77,
+    "totalLimit": 200,
+    "perFile": [
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "added": 1,
+        "deleted": 1,
+        "used": 2,
+        "limit": 40
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "added": 75,
+        "deleted": 0,
+        "used": 75,
+        "limit": 160
+      }
+    ]
+  },
+  "commands": [
+    {
+      "command": "Inline Python: immutable S/FIX01/FIX02 and published records hashes; exact1079 inventory versus S overlaid with FIX02 all15; two UTF8 preimages; create-once FIX03 before only after all comparisons pass.",
+      "startedUtc": "2026-10-02T05:35:42.568926+00:00",
+      "endedUtc": "2026-10-02T05:35:42.687322+00:00",
+      "exitCode": 0,
+      "scopeMatch": true
+    },
+    {
+      "command": "Inline Python FIX03 postflight: S/FIX01/FIX02/protected-record hashes; virtual1079 inventory; two-file budgets and exact unified patch replay; unchanged public/serialized declarations and original test lines/11 other methods/12 names/8 Overlay lifecycles; exact one-guard-only production delta; original staticVerifierPython(postflight) in memory; final15 source identities.",
+      "startedUtc": "2026-10-02T05:38:34.921895+00:00",
+      "endedUtc": "2026-10-02T05:38:36.821555+00:00",
+      "exitCode": 0,
+      "inventoryEntries": 1079,
+      "unchangedEntries": 1077,
+      "totalAddedPlusDeletedLines": 77,
+      "patchReplayByteEqual": true,
+      "immutableEvidenceAndProtectedRecordsUnchanged": true,
+      "original133InputsVerified": 133,
+      "cumulativeSourceCount": 15,
+      "cumulativeAddedPlusDeletedLines": 2539,
+      "unchangedOtherTestBodies": 11,
+      "preservedDeclaredMethods": 12,
+      "preservedOverlayLifecycles": 8,
+      "actualTestDiscovery": 0,
+      "actualTestExecution": 0,
+      "toolChunk": "895ae6",
+      "evidenceScope": "Mechanical text/hash/patch checks only. No Unity, compilation, test discovery/execution or independent code review."
+    }
+  ],
+  "testFirstSourceSequence": {
+    "utc": "2026-10-02T05:37:00.112060+00:00",
+    "testSha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89",
+    "productionSha256": "7b05c43b64467afff705d66eaf4486fe3a12da38d5804eaef450f986e6e48049",
+    "executed": false
+  },
+  "implementation": {
+    "findingId": 4163111945,
+    "source": {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "methodLine": 81,
+      "guardLine": 83
+    },
+    "description": "Apply returns immediately when !isActiveAndEnabled. Bind still performs its existing required-reference validation, stores the provided LocalizationService and updates the diagnostic text binding; its existing Subscribe guard remains. Disabled or inactive Bind cannot sample geometry or publish gate/validity state. The real OnEnable performs the first active sample.",
+    "exactScope": "One additional condition on the existing Apply guard; no other production bytes changed.",
+    "preservation": "FIX02 validityKnown semantics, ReleaseGate, Bind/Unbind, subscription methods, OnEnable, geometry calculations, public API and serialized fields remain unchanged."
+  },
+  "regressionSource": {
+    "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+    "helper": "DisabledLayoutBindDefersSampling",
+    "helperLine": 607,
+    "existingMethod": "LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink",
+    "methodLine": 682,
+    "callLine": 733,
+    "assertions": [
+      "With the real Host still bound and safe area invalid, the real UguiPointerDriver starts a gesture while layout is disabled.",
+      "Direct repeated layout.Bind(new service), locale updates and Canvas refresh keep the captured pointer, zero validity events/subscriptions, released own diagnostic/group, retained geometry, and unchanged independent locks.",
+      "Enabling layout immediately cancels through the real Host subscription, emits false once, ignores late Move/Up and repeated invalid Canvas refresh, then recovers valid with true.",
+      "A separate real rig.Bind Host-rebind path allows its own legitimate Unbind pointer cancellation; repeated Host rebind while layout.enabled=false still leaves the layout gate released with zero layout events/subscriptions. Enable restores the invalid gate normally.",
+      "With the hierarchy inactive but component.enabled=true, repeated direct Bind and Canvas refresh remain unsampled/released. The real rig.Bind activation then supplies the first invalid sample once, followed by valid recovery.",
+      "Head, save count/files, LastRequest, last geometry and independent CanvasGroup/button/diagnostic are checked. Observer detaches in finally; all prior FIX01/FIX02 assertions and later cleanup remain."
+    ],
+    "noPrivateStateInjection": true,
+    "noDirectHostCallback": true,
+    "preservedOriginalTestLines": true,
+    "unchangedOtherTestBodies": 11,
+    "declaredLayoutMethods": 12,
+    "overlayLifecycles": 8,
+    "plannedUnion": 47,
+    "actualDiscovery": 0,
+    "actualExecution": 0,
+    "result": "SOURCE_ONLY_NOT_RUN"
+  },
+  "protection": {
+    "basis": "Immutable S/after inventory virtually overlaid with FIX02/source-receipt sourceS15After. before.json freezes all exact identities and paths.",
+    "inventoryEntries": 1079,
+    "changedPaths": [
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs"
+    ],
+    "unchangedEntries": 1077,
+    "otherSource13Unchanged": true,
+    "S6FIX01ThreeFIX02ThreeAndContractsAndAllFrozenPublicationsAndReviewsUnchanged": true,
+    "originalPublicationReadmePreservedAtFIX02ConfirmedIdentity": true,
+    "resources37PrefabSceneMetaFontsCsvPr3LocPackagesSettingsArtSourceUnchanged": true,
+    "original133InputsVerified": true,
+    "originalStaticVerifierMode": "postflight",
+    "originalStaticVerifier": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json#staticVerifierPython",
+    "cumulativeSourceFiles": 15,
+    "cumulativeAddedPlusDeletedLines": 2539,
+    "publicAndSerializedDeclarationsUnchanged": true,
+    "patchReplayByteEqual": true,
+    "historicalSceneWhitespace": "Original S whole-worktree diff --check exit2 for unchanged FightMatchDemo.unity is retained as historical. No resource cleanup or claim of whole-worktree green."
+  },
+  "review": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "reviewId": 5388584142,
+    "reviewedHead": "24dcb0c18119f7d420efafdb7a02dd04a9389347",
+    "reviewedTree": "e57ad0526034b2edde0df8f4bd007bea2b956f17",
+    "receipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix02-review-receipt.json",
+      "bytes": 6098,
+      "sha256": "4224b661e2be445758576b572ef2e9b0bd0f2cee3a94d614cca19428e3f4ebd3"
+    },
+    "recordedVerdict": "NEEDS_FIX",
+    "finding": {
+      "id": 4163111945,
+      "priority": "P2",
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4163111945",
+      "status": "OPEN_PENDING_NEW_HEAD_REVIEW"
+    },
+    "historicalFindings": [
+      {
+        "id": 4162866083,
+        "status": "OPEN_OUTDATED_NOT_EXPLICITLY_RESOLVED"
+      },
+      {
+        "id": 4162866085,
+        "status": "OPEN_OUTDATED_NOT_EXPLICITLY_RESOLVED"
+      },
+      {
+        "id": 4162989184,
+        "status": "OPEN_OUTDATED_NOT_EXPLICITLY_RESOLVED"
+      }
+    ],
+    "newReviewTriggered": false
+  },
+  "operations": {
+    "Unity": 0,
+    "nativeImport": 0,
+    "compile": 0,
+    "testDiscovery": 0,
+    "testExecution": 0,
+    "dotnet": 0,
+    "device": 0,
+    "downloads": 0,
+    "gitWrites": 0,
+    "reviewRequests": 0,
+    "newProductFiles": 0,
+    "resourceWrites": 0,
+    "metaWrites": 0
+  },
+  "unverified": [
+    "Compilation and imported source availability",
+    "Execution of disabled/inactive direct Bind, Host rebind and original real Overlay input/lifecycle assertions",
+    "Native prefab/scene migration and reopen verification",
+    "New APK, BlueStacks/device gameplay and save recovery",
+    "Independent GitHub review on the future exact FIX03 head"
+  ],
+  "laterGates": "Engineering sole receiver checks exact scope/evidence and returns to central for authorized PR4 update. Testing receives the actual new-head GitHub result. This does not activate I/P/T, APK/device work or new review requests.",
+  "integrationVerdict": null,
+  "integrationVerdictReason": "Source author does not issue ACCEPT. Actual independent NEEDS_FIX and historical review states remain unchanged."
+}

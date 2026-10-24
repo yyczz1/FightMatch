@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-M10",
+  "integrationVerdict": "NEEDS_FIX",
+  "scope": "M_NATIVE",
+  "central": {
+    "schemaVersion": 1,
+    "kind": "current direct human continuation of the pending FIX08 one-run proposal",
+    "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "centralHost": "local",
+    "centralTurn": "01a12f63-745a-70e0-8fd5-d5256a39e1fb",
+    "userItem": "01a12f63-7521-75c0-897e-2bdff545c277",
+    "exactText": "之前卡住的任务继续推进，这次是否能够完成？",
+    "acceptedProposal": "Continue the already presented FIX08 zero-download dependency restore proposal: reuse all downloaded files, external disk, at most three restores, one invocation <=15 minutes, central receives.",
+    "proposal": "docs/team/2026-09-30/central-loc-fix08-next-material-proposal.md",
+    "scope": "one new M10 native attempt using reviewed FIX08",
+    "limits": {
+      "attempts": 1,
+      "newDownloads": 0,
+      "restores": 3,
+      "externalDisk": true,
+      "wallSeconds": 900,
+      "centralReceives": true
+    },
+    "priorAttempt": "M09 failed; allowance consumed and evidence preserved.",
+    "reviewedHead": "a0bfe7007be65eed6d1afda317934195cb6ebbd6"
+  },
+  "owner": {
+    "hostId": "local",
+    "receivedItem": "fco_01a12f65-de55-7813-8b71-807111817cb1",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12f65-de4c-7901-a66a-9c6b58cd7c33"
+  },
+  "sourceHead": "a0bfe7007be65eed6d1afda317934195cb6ebbd6",
+  "actualToolId": "exec-69b3ec4e-284f-41fa-9edb-31ba86c5d175",
+  "centralOriginalToolComparison": "All fields and complete untruncated output match receipt.toolCapture.originalCommandExecution",
+  "status": "ACTUAL_HOST_FAILED_BEFORE_RESTORE",
+  "hostExitCode": 1,
+  "fullInvocationSeconds": 5.0211589579994325,
+  "hostStartCount": 1,
+  "failure": "GateError: receipt mismatch: old OS tool",
+  "restoreStarts": 0,
+  "remainingRestores": "ALL_NOT_STARTED",
+  "newDownloads": 0,
+  "protectedCount": 312,
+  "protectedChanges": [],
+  "knownProcessQuiescent": true,
+  "stillOwned": [],
+  "manifest": null,
+  "receipt": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m10/receipt.json",
+  "oneHostAttemptConsumed": true,
+  "newHostRetryAuthorized": false,
+  "ordinaryCorrectionOwner": {
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "hostId": "local",
+    "turnId": "01a12f6b-6305-7281-9d8a-ebf6dcdaa1e5"
+  },
+  "ordinaryCorrectionScope": "Engineering owns diagnosis, precise corrective dispatch, receipt and <=30s complete static startup-gate check with original evidence; no SDK/native/restore/GET/Unity.",
+  "acceptanceBoundary": "This is a directly observed failed run, not successful independent material acceptance. Historical FIX08 source-only verdict does not prove this sidecar can start the host."
+}

@@ -1,0 +1,86 @@
+{
+  "task": "LOC-M17-FIX04 GitHub PR review intake",
+  "qaActualTurn": "01a12948-fc42-7e33-905f-b6275bc02511",
+  "qaThread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "qaTurnStartedAtUtc": "2026-10-11T04:46:51Z",
+  "reviewWatch": {
+    "startedCheckingAtUtc": "2026-10-11T04:46:38Z",
+    "completedResultObservedAtUtc": "2026-10-11T04:51:27Z",
+    "maxWaitMinutes": 10,
+    "polling": "Read-only checks with increasing bounded waits; each sleep was <=55 seconds.",
+    "outcome": "COMPLETED_WITH_RESULT_WITHIN_WINDOW"
+  },
+  "publication": {
+    "source": "docs/team/2026-09-30/loc-m17-fix04-publication.json",
+    "repository": "yyczz1/FightMatch",
+    "pullRequest": 2,
+    "pullRequestUrl": "https://github.com/yyczz1/FightMatch/pull/2",
+    "expectedHead": "816263eaacf4f3e276c0cef7703c5824af086cc6",
+    "expectedTree": "bdacb009e8e070d05171f0613698f96097408093",
+    "triggerCommentId": 6105553315
+  },
+  "pullRequestAtFinalCheck": {
+    "head": "816263eaacf4f3e276c0cef7703c5824af086cc6",
+    "headMatchesExpected": true,
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "serviceResult": {
+    "trigger": {
+      "id": 6105553315,
+      "createdAtUtc": "2026-10-11T04:46:15Z",
+      "requestedHead": "816263eaacf4f3e276c0cef7703c5824af086cc6",
+      "body": "@codex review\n\nReview exact new head `816263eaacf4f3e276c0cef7703c5824af086cc6`, FIX04 delta from `c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d`. Current source and patch are in `docs/versioning/2026-10-11-loc-m17-fix04-pr/source/`; scope is `docs/team/2026-09-30/engineering-loc-after-m05-next.md` and `central-loc-m17-fix04-source.md`.\n\nCheck identity-verified nupkg internal repeated-separator handling, original ZipInfo reads, preserved traversal/type/collision gates, actionable entry diagnostics, and exact read-only reuse of five completed downloads. New material budget is 13 GETs/9,014,649 bytes plus the same three restores/900 seconds. Existing global safe/tar and execution/cleanup contracts must remain unchanged. 66 targeted checks pass; all 19 present packages/705 entries are recorded; 13 missing archives remain unknown. Source/model/seal bindings must match the actual candidate. M05 failed evidence is retained, and no new materials execution is authorized. Older copies are historical, not current code."
+    },
+    "summary": {
+      "commentId": 5928035293,
+      "latestStatus": "Completed",
+      "reviewedCommitPrefix": "816263e",
+      "triggerType": "Manual request",
+      "serviceReportedCompletionAtUtc": "2026-10-11T04:50:40.971726Z",
+      "rawStatusText": "✅ Completed"
+    },
+    "resultComment": {
+      "id": 6105581700,
+      "createdAtUtc": "2026-10-11T04:50:36Z",
+      "reviewedCommitPrefix": "816263eaac",
+      "author": "chatgpt-codex-connector[bot]",
+      "body": "Codex Review: Didn't find any major issues. Another round soon, please!\n\n**Reviewed commit:** `816263eaac`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n</details>"
+    },
+    "reviewSubmissions": {
+      "exactHeadReviewSubmissionCount": 0,
+      "reviewSubmissionId": null,
+      "note": "The PR review-submissions endpoint returned older reviews for other commits only; none was attributed to the FIX04 head. The exact-head service result is the ordinary bot issue comment plus the completed service summary."
+    },
+    "reviewComments": {
+      "exactHeadInlineThreadCount": 0,
+      "exactHeadInlineThreads": [],
+      "actionableFindingsObservedForExactHead": [],
+      "priorHeadFindingsExcluded": true,
+      "note": "Older P1/P2 review comments on earlier PR heads remain historical and are not attributed to FIX04."
+    }
+  },
+  "reviewGate": {
+    "status": "COMPLETED_NO_MAJOR_ISSUES_REPORTED",
+    "verbatimServiceConclusion": "Didn't find any major issues.",
+    "formalApproved": false,
+    "claimOfZeroFindingsAtAllSeverities": false,
+    "claimOfNoActionableFindingsObservedForThisHead": true,
+    "boundary": "This closes only the GitHub code-review observation for the exact FIX04 source head. It is not a material execution, test, build, Unity, device, merge, or release verdict."
+  },
+  "deliveryContext": {
+    "targetedChecks": "66/66 passed once; full invocation 1.481 seconds, per the published FIX04 evidence.",
+    "M05": "FAILED and remains FAILED; one prior execution ended exit 1 after five successful GETs and zero restores.",
+    "newMaterialsExecution": "NOT_RUN and NOT_AUTHORIZED by this source-review packet.",
+    "build": "NOT_RUN",
+    "officialToolTest": "NOT_RUN",
+    "localCodeReview": "NOT_RUN",
+    "testsRerun": false
+  },
+  "pollingActions": {
+    "reviewRetriggered": false,
+    "commentsPosted": false,
+    "otherThreadsContacted": false
+  }
+}

@@ -1,0 +1,9 @@
+# V06-RECOVERY FIX01 — 补齐两条固定park前像路径
+
+GitHub PR20 head29a8b67c055252f183eb325c8ec0ff98cfc7139f提出P1 4214422163：plan.operations的两条kind=park项backup=null，recover_one会在部分恢复后传None进copy_stage。当前真实恢复0，Q仍不得创建。
+
+原作者会话可用Luna/medium做明确数据修正。先将recovery-source现有三叶逐字节保存于fresh recovery-source-before-fix01同名三叶；仅修改recovery-source/plan.json及source-receipt.json，recovery.py34017B/1b03c4f3891d47b06547080ffc6f01a71f9cc943c99598e3ef3db3bc96535117必须字节不变。
+
+两条path为Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs及其.meta；将backup精确设为plan.E6 + /park/source/ + 该path，核现有前像常规文件及before身份：cs15710B/ed176ec6e87742359cfcd7767236619496180b25ad9783563582235ca1f8014d，meta243B/b6ecf5844647902cd3499b55c8948e0f2925bbdef9b379bfe13b2aa23e888535。其它64项及plan全部其它字段不改。
+
+一次≤10秒只读数据完整性核对：66项kind/path唯一且4add不需要backup，62个需前像项均为非空精确白名单路径且size/SHA与before一致；检查两park项经实际recover_one调用能把正确路径传至copy_stage（内存/替身调用，不运行真实恢复、FD或ps）。不重跑原4项原子算法冒烟，作为未改源码历史证据保留。把实际输入用例检查与本轮耗时、旧/新plan封签和未改script身份写source-receipt。约2分钟交付actual和三叶封签，不写长文或新增脚本。中央推新head/GitHub复审，再决定C执行；旧P1及原FAILED保留。

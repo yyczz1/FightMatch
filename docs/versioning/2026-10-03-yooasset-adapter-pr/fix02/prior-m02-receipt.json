@@ -1,0 +1,390 @@
+{
+  "task": "RES-B-ADAPTER-MAC-002",
+  "status": "VALIDATION_PASSED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a0fee2-cba9-7e00-b97f-e52a508350e5"
+  },
+  "startedUtc": "2026-10-02T23:15:04.922291+00:00",
+  "finishedUtc": "2026-10-02T23:18:18.800931+00:00",
+  "failure": null,
+  "run": {
+    "bytes": 78588,
+    "sha256": "9e1d2a581a6de60790233a87d88e799d3865868c70113b434e398f8b59b413de"
+  },
+  "runner": {
+    "bytes": 25884,
+    "sha256": "db3a031fd6bfdf1097135937df72ada3db6aa8c3c4fa66348109f6fcbaa9b119"
+  },
+  "sourceReceipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX01/S/source-receipt.json",
+    "bytes": 17637,
+    "sha256": "4384b0b472314c0ff62cbe0f6f6b02d258091b6e4e2cd30d0dd903301e5657d2"
+  },
+  "priorM01Receipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-B-ADAPTER-001/M01/receipt.json",
+    "bytes": 15600,
+    "sha256": "de476b0056a07a608ab21953794e8736d55748fadc1e9a6ca4b857f0034c0b22"
+  },
+  "candidate": {
+    "kind": "FIXED_COMPOSITE_PLUS_FIX01_THREE_POSTIMAGES_NOT_COMPLETE_PR_HEAD",
+    "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX01/S/source",
+    "sourceReceiptSha256": "4384b0b472314c0ff62cbe0f6f6b02d258091b6e4e2cd30d0dd903301e5657d2",
+    "priorInputs": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-B-ADAPTER-001/M01/run.json",
+      "bytes": 61552,
+      "sha256": "755937eacc6d795bab9597483c8ebed23cbd493395fea35b49d6c0bc8b5aa7f3"
+    },
+    "publishedAdapterHead": null,
+    "reviewState": "BOTH_P2_OPEN_PENDING_NEW_HEAD_REVIEW_AND_FRESH_VALIDATION"
+  },
+  "priorP03Verdict": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P03/final-verdict.json",
+    "bytes": 2316,
+    "sha256": "36b5028f50f61b6f5e1a670dcc510d0c8512a36b54045b40a62df12a6d9742ff"
+  },
+  "stages": [
+    {
+      "stage": "I",
+      "status": "PASSED",
+      "runCount": 1,
+      "pid": 56350,
+      "exitCode": 0,
+      "elapsedSeconds": 79.899014
+    },
+    {
+      "stage": "T",
+      "status": "PASSED",
+      "runCount": 1,
+      "pid": 56572,
+      "exitCode": 0,
+      "elapsedSeconds": 22.549617
+    }
+  ],
+  "tests": {
+    "xml": {
+      "bytes": 23304,
+      "sha256": "866a3411752e4631e13f5d0b7e8592c467fe63e1ea37b9e47cbf660339d9b0b8"
+    },
+    "rawRootAttributes": {
+      "id": "2",
+      "testcasecount": "34",
+      "result": "Passed",
+      "total": "34",
+      "passed": "34",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-02 23:17:35Z",
+      "end-time": "2026-10-02 23:17:36Z",
+      "duration": "0.56294"
+    },
+    "cases": [
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsContainExactlyOneLiveLeaseAndEchoPositiveEpochAndSet",
+        "result": "Passed",
+        "duration": "0.047289",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AcceptedResultsRejectMissingReleasedMismatchedOrInvalidLeaseData",
+        "result": "Passed",
+        "duration": "0.019821",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsAcceptExactAsciiBoundsAndUseOrdinalIdentity",
+        "result": "Passed",
+        "duration": "0.003836",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.AssetIdsRejectMalformedUnicodeCaseAndPathInputWithoutRetainingIt",
+        "result": "Passed",
+        "duration": "0.003942",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.BudgetsAcceptBothInclusiveBoundsAndRejectEveryAdjacentOutOfRangeValue",
+        "result": "Passed",
+        "duration": "0.005357",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.DiagnosticsEnforceEnumRangesAndAssetNullability",
+        "result": "Passed",
+        "duration": "0.010283",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.InvalidReleaseSetsAreDiscardedAndNeverEchoed",
+        "result": "Passed",
+        "duration": "0.008895",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedEpochsPreserveEarlierFailuresAndRequireMatchingValidationStage",
+        "result": "Passed",
+        "duration": "0.003983",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.RejectedResultsContainOnlyDiagnosticAndEnforceOrdinalSetAgreement",
+        "result": "Passed",
+        "duration": "0.004597",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsAcceptEveryAllowedCategoryAndCanonicalMaximum",
+        "result": "Passed",
+        "duration": "0.009165",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetContractsTests.SafeDetailsRedactEntireInvalidOrSensitiveInput",
+        "result": "Passed",
+        "duration": "0.005357",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.AnyThreadDisposeUsesOneReservedWakeAndNeverReleasesOffThread",
+        "result": "Passed",
+        "duration": "0.059009",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B00_CallersUseOnlyProjectInterfaceAndResults",
+        "result": "Passed",
+        "duration": "0.002768",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B02_B04_ValidationOrderRejectsInvalidUnknownTypesAndSetsWithoutSdk",
+        "result": "Passed",
+        "duration": "0.008359",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B05_FailuresHaveDistinctStagesAndNoSdkText",
+        "result": "Passed",
+        "duration": "0.013451",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B06_B09_SharedPendingAndLiveHandlesHaveIndependentIdempotentLeases",
+        "result": "Passed",
+        "duration": "0.004194",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B10_B11_EpochAndForeignLateDuplicateCallbacksCannotPublishOrReleaseNewHandles",
+        "result": "Passed",
+        "duration": "0.003733",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B12_RequestAndModuleLimitsReserveBeforeStartingSdk",
+        "result": "Passed",
+        "duration": "0.005817",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B13_B14_RemoteUrlsUseExactImmutableIdentityAndRejectInjection",
+        "result": "Passed",
+        "duration": "0.022075",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B15_B16_AssemblyBoundaryHasNoBusinessReferencesAndContractsNeedNoSdk",
+        "result": "Passed",
+        "duration": "0.003838",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.B17_B18_AdapterHonorsIdentifierEpochAndBudgetBoundariesWithoutLeakingInputs",
+        "result": "Passed",
+        "duration": "0.007277",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BackgroundAcquirePerformsPureValidationThenRejectsWithoutSdk",
+        "result": "Passed",
+        "duration": "0.003390",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.BorrowedPackageAndGlobalAreNeverReinitializedSwitchedOrDestroyed",
+        "result": "Passed",
+        "duration": "0.005330",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ClosePreservesLiveLeaseAndRetriesFailedPackageDestruction",
+        "result": "Passed",
+        "duration": "0.001904",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CloseWaitsForRealInitManifestOrLoadTerminalsAndDoesNotPublish",
+        "result": "Passed",
+        "duration": "0.003461",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.CreatorShutdownCannotDestroyPackageUsedByAnotherProvider",
+        "result": "Passed",
+        "duration": "0.001760",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedDestructionDoesNotCreateAnAutomaticRetryLoop",
+        "result": "Passed",
+        "duration": "0.001481",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedInitializationCanBeRetriedByLaterAcquisition",
+        "result": "Passed",
+        "duration": "0.004722",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedManifestCanBeRetriedWithoutReinitializingPackage",
+        "result": "Passed",
+        "duration": "0.003443",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.FailedPostAndFailedReleaseRetainCleanupForNextMainEntry",
+        "result": "Passed",
+        "duration": "0.001694",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.InvalidReleaseSetsEmitExactCanonicalReasonBeforeSdkWork",
+        "result": "Passed",
+        "duration": "0.004488",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.OwnedPackageUnderBorrowedGlobalPreservesGlobalAndOtherPackages",
+        "result": "Passed",
+        "duration": "0.001209",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.ProductionConstructorRejectsThreadPoolContextsBeforeSdkAccess",
+        "result": "Passed",
+        "duration": "0.002835",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchAssetProviderTests.SynchronousDuplicateAndPriorProviderCallbacksRemainExactOnce",
+        "result": "Passed",
+        "duration": "0.002291",
+        "failure": null
+      }
+    ],
+    "exactNamedMultiset": true,
+    "total": 34,
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "original31Passed": 31,
+    "new3Passed": 3
+  },
+  "notRunStages": [],
+  "remainingOwned": [],
+  "consumerClear": true,
+  "scopeDifferences": [],
+  "evidence": {
+    "runner.py": {
+      "bytes": 25884,
+      "sha256": "db3a031fd6bfdf1097135937df72ada3db6aa8c3c4fa66348109f6fcbaa9b119"
+    },
+    "process-after.json": {
+      "bytes": 11135,
+      "sha256": "36eecfda79dd5bad472ed3ab1d689b084d57fc7f395d45f52aa2023a79a9ee45"
+    },
+    "assemblies.json": {
+      "bytes": 7839,
+      "sha256": "44d2f89a6e1dc44ed2da5ad251d28552ed4bb33332068a043dbfdfe14c8d8e7a"
+    },
+    "after.json": {
+      "bytes": 4597,
+      "sha256": "dc4993156fadd3b5622a8bf632cb936b32ab73ad93ed17a319d5162fd5f6b769"
+    },
+    "process-events.jsonl": {
+      "bytes": 38431,
+      "sha256": "57dec7be49d3698548690dc0b3133a159814098a00c3f06d38ed12f399494ea5"
+    },
+    "preflight.json": {
+      "bytes": 19765,
+      "sha256": "7a4d2bef1f3b5dd37c59fa70fb36aacb04650f5d4899f1b0e4001b7acb6072ee"
+    },
+    "run.json": {
+      "bytes": 78588,
+      "sha256": "9e1d2a581a6de60790233a87d88e799d3865868c70113b434e398f8b59b413de"
+    },
+    "I/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "I/result.json": {
+      "bytes": 5362,
+      "sha256": "176a2d451b92d05f0c3ca835ab61b3f73dc577634eac9cc2db1d8e2a5a2a9d51"
+    },
+    "I/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "I/editor.log": {
+      "bytes": 67846,
+      "sha256": "4b50921b5fd78e5b6548f082685edd2d8ce5df62778b07f15412cf2fd5d44e6b"
+    },
+    "T/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T/result.json": {
+      "bytes": 14599,
+      "sha256": "ca0a67229ee03a0730c5352902688bdc62437c8ad0e4079367e7d99b4a5ba4ad"
+    },
+    "T/results.xml": {
+      "bytes": 23304,
+      "sha256": "866a3411752e4631e13f5d0b7e8592c467fe63e1ea37b9e47cbf660339d9b0b8"
+    },
+    "T/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T/editor.log": {
+      "bytes": 92441,
+      "sha256": "d46ac69cede05b6841271fd4681f399a6c1c16c10da7d7fa1ddee685d0d275e2"
+    }
+  },
+  "authorIntegrationVerdict": null,
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "unrun": [
+    "real BuiltIn/manifest/object dependencies",
+    "empty/offline cache",
+    "raw",
+    "CD/Host/UI",
+    "devices",
+    "Windows",
+    "Android",
+    "Player",
+    "shared adoption",
+    "discovery",
+    "old17/4181"
+  ],
+  "previousAutoReviewBlocks": "FIX04 native and LOC M16 unchanged"
+}

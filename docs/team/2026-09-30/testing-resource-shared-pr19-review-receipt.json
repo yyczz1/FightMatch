@@ -1,0 +1,89 @@
+{
+  "receipt": "RESOURCE-SHARED-INTEGRATION-001-PR19-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a11854-bb90-71a2-93b2-948e3f87f23b",
+    "requestedModel": "gpt-6-luna",
+    "requestedEffort": "medium",
+    "effectiveModelVerification": "Runtime model selection is not exposed; only the delegated request is recorded",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+  },
+  "authority": "Central PR19 GitHub review receipt delegation under standing team workflow",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/19",
+  "candidate": {
+    "head": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "tree": "b5970750870214a9b92e6da4e7481f9e927c2b71",
+    "base": "030898e9a317d10b610058d867529be8b0770c7c",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-shared-integration-publication-receipt.json",
+    "bytes": 21441,
+    "sha256": "6fb822b73ac8f3b292352901faa68ced8bd575d268abd1fb5e76bf55683d6da1",
+    "centralVerifiedBlobs": 45,
+    "actualDiffPaths": 36,
+    "productDiffPaths": 30,
+    "reviewContextDiffPaths": 6,
+    "productPathCount": 39,
+    "nativeRuns": 0,
+    "testsRun": 0,
+    "integrationVerdict": null,
+    "merged": false
+  },
+  "inputScope": {
+    "shared": {
+      "files": 1036,
+      "bytes": 32657794,
+      "canonicalSha256": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8"
+    },
+    "fullBranchEqualsSharedInput": false,
+    "interpretation": "The 39 resource paths correspond to the shared input slice. PR19's base retains additional historical Host tests, so the entire PR tree is not the 1036-file input and this review does not establish compilation.",
+    "combined89Native": "NOT_RUN"
+  },
+  "review": {
+    "triggerCommentId": 6047441241,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/19#issuecomment-6047441241",
+    "triggerReposted": false,
+    "summaryCommentId": 6047445033,
+    "summaryStatus": "COMPLETED",
+    "completedAtUtc": "2026-10-07T21:47:11.602204Z",
+    "resultCommentId": 6047508107,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/19#issuecomment-6047508107",
+    "resultAuthor": "chatgpt-codex-connector[bot]",
+    "resultCreatedAtUtc": "2026-10-07T21:47:10Z",
+    "resultText": "Codex Review: Didn't find any major issues. Bravo.",
+    "reviewedCommitFromBody": "dc1bba0537",
+    "reviewedCommitMatchesFullHead": true,
+    "inlineReviewThreads": [],
+    "priorFindingThreadStates": [],
+    "formalReviewSubmissions": [],
+    "formalReviewState": null,
+    "formalApproval": false,
+    "classification": "COMMENTED_NO_MAJOR_ISSUES; NOT_APPROVED",
+    "integrationVerdict": null
+  },
+  "githubSnapshot": {
+    "reviewsListed": 0,
+    "prComments": [
+      {"id": 6047441241, "author": "yyczz1", "createdAtUtc": "2026-10-07T21:43:08Z", "kind": "REVIEW_TRIGGER"},
+      {"id": 6047445033, "author": "chatgpt-codex-connector[bot]", "createdAtUtc": "2026-10-07T21:43:20Z", "kind": "SUMMARY_COMPLETED"},
+      {"id": 6047508107, "author": "chatgpt-codex-connector[bot]", "createdAtUtc": "2026-10-07T21:47:10Z", "kind": "RESULT_COMMENT"}
+    ],
+    "inlineThreads": 0,
+    "snapshotHead": "dc1bba0537779983647f5e261f8e1c33a1210a49"
+  },
+  "method": {
+    "source": "GitHub PR metadata, review submissions, comments and inline review threads; central publication receipt read locally",
+    "newTrigger": false,
+    "localCodeReview": false,
+    "testsRun": false,
+    "unityRun": false,
+    "githubWrite": false,
+    "writes": "Only this new receipt"
+  }
+}

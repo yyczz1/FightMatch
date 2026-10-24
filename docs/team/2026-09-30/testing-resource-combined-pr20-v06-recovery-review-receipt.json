@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V06 recovery-script GitHub review intake",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "triggerComment": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6051826729",
+  "triggerId": 6051826729,
+  "expectedHead": "29a8b67c055252f183eb325c8ec0ff98cfc7139f",
+  "observedHead": "29a8b67c055252f183eb325c8ec0ff98cfc7139f",
+  "review": {
+    "status": "FINDING_REPORTED",
+    "formalApproved": false,
+    "finding": {
+      "id": 4214422163,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214422163",
+      "severity": "P1",
+      "title": "Supply the parked-file preimage paths",
+      "file": "docs/versioning/2026-10-08-resource-combined-validation/recovery-v06/plan.json",
+      "line": 285,
+      "summary": "Both park operations set backup=null, but recover_one passes it to copy_stage; pathlib.Path(None) raises TypeError. This occurs after 17 overwrites and 4 additions, causing partial projection modification and INCOMPLETE. Bind both entries to the sealed E6/park/source preimages.",
+      "threadResolved": false,
+      "threadOutdated": false
+    },
+    "priorHeadFindings": "historical only; not attributed to this head"
+  },
+  "sourcePublicationGate": {
+    "source": "central-provided publication receipt verification",
+    "publishedFiles": 81,
+    "totalBytes": 5520580,
+    "allGitBlobsAndSizesVerified": true
+  },
+  "actualRecovery": {
+    "status": "NOT_VERIFIED",
+    "note": "Review trigger stated recovery had not yet run; no post-review RECOVERED execution receipt was provided to this intake. Do not infer recovery from source review."
+  },
+  "limits": "No local review, tests, or GitHub writes were performed."
+}

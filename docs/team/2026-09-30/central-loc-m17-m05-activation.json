@@ -1,0 +1,952 @@
+{
+  "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+  "centralHost": "local",
+  "centralTurn": "01a12926-663f-78a0-bee9-38392d8c0f5e",
+  "centralItem": "01a12926-6966-77b3-9e90-961521142cee",
+  "ownerThread": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+  "ownerHost": "local",
+  "ownerTurn": "01a12928-3627-7c32-a715-054cb4f263b1",
+  "scope": "EXECUTE_M17",
+  "stage": "M",
+  "argv": [
+    "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+    "-I",
+    "-B",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m05-host.py",
+    "execute"
+  ],
+  "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "sourceFreezeSha256": "b4013360f34e139006d2c4abb463e64482a7520c68debe76f08406c2ed270978",
+  "modelSha256": "9bc598c1c6964285f47a642f9d53f98e5e596ce33d62f7ce1269ca53d22a4753",
+  "driverSha256": "6f3511bcb06ba7f85a640a58f9d6a6aaaa6d9d87247eb82fd9ac7fa2774d6b20",
+  "hostExecutorSha256": "6f3511bcb06ba7f85a640a58f9d6a6aaaa6d9d87247eb82fd9ac7fa2774d6b20",
+  "refinedWriteSetSha256": "ab2266fd0f3ab30943c64d1be15b36b800edd7e5db4370d9fb25064d1602afbf",
+  "budgets": {
+    "B": {
+      "officialBuilds": 1,
+      "publishes": 2,
+      "runnerLockedRestores": 2,
+      "testsLockedRestores": 1,
+      "unfilteredOfficialTests": 1
+    },
+    "L": {
+      "cleanCanonicalPasses": 2,
+      "compilerSelfTests": 12,
+      "requiresIndependentBAcceptance": true
+    },
+    "M": {
+      "cleanupReserveSeconds": 30,
+      "explicitDeltaFromM16": "runner restore 0 -> 1 to regenerate the lost runner locks from fixed source/feed",
+      "maxArchiveResponseBodyBytes": 25172764,
+      "officialGets": [
+        {
+          "bytes": 9139653,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.codecoverage.17.11.1.nupkg",
+          "sha256": "d5d2e52b734687cf0fb85619898a53fa2cc0f7a7adc61537052822c4381db460",
+          "url": "https://api.nuget.org/v3-flatcontainer/microsoft.codecoverage/17.11.1/microsoft.codecoverage.17.11.1.nupkg"
+        },
+        {
+          "bytes": 34301,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.net.test.sdk.17.11.1.nupkg",
+          "sha256": "d09504b9c43697368f824ae39bf3452c14dba94d5d7e1be13774e5de6a04ea62",
+          "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.test.sdk/17.11.1/microsoft.net.test.sdk.17.11.1.nupkg"
+        },
+        {
+          "bytes": 1660096,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.testplatform.objectmodel.17.11.1.nupkg",
+          "sha256": "e6f5febc2cc56374bbc5f31522ff0e94c305b5d79d5bd50827373458473ebe6e",
+          "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.objectmodel/17.11.1/microsoft.testplatform.objectmodel.17.11.1.nupkg"
+        },
+        {
+          "bytes": 2882099,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/microsoft.testplatform.testhost.17.11.1.nupkg",
+          "sha256": "c12918d07d5f400ab41f72dc293e2eed8e51ce10003daeb2b9e54df3883c1f15",
+          "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.testhost/17.11.1/microsoft.testplatform.testhost.17.11.1.nupkg"
+        },
+        {
+          "bytes": 2441966,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/newtonsoft.json.13.0.3.nupkg",
+          "sha256": "872fc189e638ab1056555b03aaa38f68bcb54286e221aa646eb1129babf63c77",
+          "url": "https://api.nuget.org/v3-flatcontainer/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg"
+        },
+        {
+          "bytes": 804405,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/system.collections.immutable.1.5.0.nupkg",
+          "sha256": "0658aa6252fd9ed6cc5e8e5decd52b297c1837e3ea772a83212e5ba78a95afb4",
+          "url": "https://api.nuget.org/v3-flatcontainer/system.collections.immutable/1.5.0/system.collections.immutable.1.5.0.nupkg"
+        },
+        {
+          "bytes": 852113,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/system.reflection.metadata.1.6.0.nupkg",
+          "sha256": "2497e068f6afed47c4878c9101074684b645d5baebd2d5163e5eaa99f356abf1",
+          "url": "https://api.nuget.org/v3-flatcontainer/system.reflection.metadata/1.6.0/system.reflection.metadata.1.6.0.nupkg"
+        },
+        {
+          "bytes": 4260927,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/system.text.encoding.codepages.8.0.0.nupkg",
+          "sha256": "7e308b41cd4f456d08c7921995d8345cabfe2750ea3d27eef698ccc8d069edd1",
+          "url": "https://api.nuget.org/v3-flatcontainer/system.text.encoding.codepages/8.0.0/system.text.encoding.codepages.8.0.0.nupkg"
+        },
+        {
+          "bytes": 31616,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.2.9.2.nupkg",
+          "sha256": "879fb24d37c29a89023f2e25a9d130f111b3425ae5b10016dc09b4261d2aee8a",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit/2.9.2/xunit.2.9.2.nupkg"
+        },
+        {
+          "bytes": 75155,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.abstractions.2.0.3.nupkg",
+          "sha256": "d03d72fc2df8880448f7a81bddb00e1bcb5c18f323c7e7cc69b4cfa727469403",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.abstractions/2.0.3/xunit.abstractions.2.0.3.nupkg"
+        },
+        {
+          "bytes": 263548,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.analyzers.1.16.0.nupkg",
+          "sha256": "3f906f97d86f1ef17c298d5858b838b4a898c657d19e61f22f5e237d20020da5",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.analyzers/1.16.0/xunit.analyzers.1.16.0.nupkg"
+        },
+        {
+          "bytes": 244587,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.assert.2.9.2.nupkg",
+          "sha256": "104eabe76e90e1c1e7d0ebab7f510da57677ecb8ff3f6b8dbe89c782975c9eae",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.assert/2.9.2/xunit.assert.2.9.2.nupkg"
+        },
+        {
+          "bytes": 33509,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.core.2.9.2.nupkg",
+          "sha256": "ce18d5d48e7187444572481310aef6b4890bc5597808f9ad7abd9407efa8c9ef",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.core/2.9.2/xunit.core.2.9.2.nupkg"
+        },
+        {
+          "bytes": 298693,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.extensibility.core.2.9.2.nupkg",
+          "sha256": "310002ff877aecdb2cbb747ea473e1eaf1e2b415d06311046645553065bbdb47",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.extensibility.core/2.9.2/xunit.extensibility.core.2.9.2.nupkg"
+        },
+        {
+          "bytes": 379785,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.extensibility.execution.2.9.2.nupkg",
+          "sha256": "7fef547e83f22b72480e14125b462ef5ce0f1aa52a642f7a0cc20d0988b68bcd",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.extensibility.execution/2.9.2/xunit.extensibility.execution.2.9.2.nupkg"
+        },
+        {
+          "bytes": 595969,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/xunit.runner.visualstudio.2.8.2.nupkg",
+          "sha256": "5257cadf8f2bf2426eadacb07dd0ada492711e4bf4e303cdce951acf850cffad",
+          "url": "https://api.nuget.org/v3-flatcontainer/xunit.runner.visualstudio/2.8.2/xunit.runner.visualstudio.2.8.2.nupkg"
+        },
+        {
+          "bytes": 397462,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/yamldotnet-v16.3.0.tar.gz",
+          "sha256": "4f73f08a0584af4e1cac36ccb0e3cb9d9cd982209b06f7eb10dd5e31badb1bce",
+          "url": "https://codeload.github.com/aaubry/YamlDotNet/tar.gz/refs/tags/v16.3.0"
+        },
+        {
+          "bytes": 776880,
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03/acquire/yamldotnet.16.3.0.nupkg",
+          "sha256": "e068bcc1243c46c8bfdfe2f27a026bfff03cde7c67d9f37c2cdd70bd24a9dfd4",
+          "url": "https://api.nuget.org/v3-flatcontainer/yamldotnet/16.3.0/yamldotnet.16.3.0.nupkg"
+        }
+      ],
+      "runnerGenerationRestores": 1,
+      "testsGenerationRestores": 1,
+      "testsVerificationRestores": 1,
+      "wallSeconds": 900,
+      "workSeconds": 870
+    },
+    "commands": {
+      "B-005-candidate-1-canonicalize-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-canonicalize-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-canonicalizer-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-canonicalizer-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-duplicate-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-parameters-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-parameters-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-severity-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-severity-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-pass-1-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-pass-2-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalize-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalize-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalizer-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalizer-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-duplicate-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-parameters-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-parameters-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-severity-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-severity-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-pass-1-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-pass-2-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalize-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalize-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalizer-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalizer-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-duplicate-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-parameters-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-parameters-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-severity-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-severity-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-pass-1-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-pass-2-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-assert-controls": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "B-fightmatch-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-fightmatch-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-fightmatch-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-malformed-yaml-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-malformed-yaml-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-malformed-yaml-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-official-tests-build": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-official-tests-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "B-official-tests-test": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-pass-1-publish": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-pass-1-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "B-pass-2-publish": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-pass-2-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "B-unity-asset-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-unity-asset-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-unity-asset-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-yaml-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-yaml-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-yaml-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-accepted-b": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-assert-controls": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-changed-fallback-license": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-compile-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-compile-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-compiler-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-compiler-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-luban-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-luban-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-malformed-yaml": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-missing-yaml-license": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-negative-duplicate": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-negative-parameters": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-negative-severity": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-tampered-yaml": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-yaml": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "M-get-microsoft.codecoverage.17.11.1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-microsoft.net.test.sdk.17.11.1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-microsoft.testplatform.objectmodel.17.11.1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-microsoft.testplatform.testhost.17.11.1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-newtonsoft.json.13.0.3": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-system.collections.immutable.1.5.0": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-system.reflection.metadata.1.6.0": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-system.text.encoding.codepages.8.0.0": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.2.9.2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.abstractions.2.0.3": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.analyzers.1.16.0": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.assert.2.9.2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.core.2.9.2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.extensibility.core.2.9.2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.extensibility.execution.2.9.2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-xunit.runner.visualstudio.2.8.2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-yaml-source": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-get-yamldotnet.16.3.0": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 125
+      },
+      "M-runner-generation-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "M-tests-generation-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "M-tests-verification-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      }
+    },
+    "driverMaxBytes": 262144,
+    "freeFloorBytes": 2147483648,
+    "materialMaxBytes": 536870912,
+    "materialMaxFiles": 25000,
+    "maxConcurrentTrees": 1,
+    "maxCumulativeCommandSeconds": 23340,
+    "sourceMaxBytes": 16777216,
+    "workMaxBytes": 4294967296,
+    "workMaxFiles": 200000
+  },
+  "reviewStatus": "COMPLETED_NO_UNRESOLVED_FINDINGS",
+  "reviewedHead": "c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d",
+  "executionHead": "c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d",
+  "issuedAt": "2026-10-11T04:11:50.169003+00:00",
+  "authorityOrigin": {
+    "kind": "current direct human continuation of the concrete one-run proposal",
+    "record": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m05-approval-2026-10-11.json",
+    "recordSha256": "ea2c62bc02dbd93901c921a7770822ead6e9dd6380d4f40de8ce3b036ceee08e",
+    "exactText": "继续任务",
+    "intent": "Direct reply to central final one-time corrected LOC proposal: 18 fixed official archives 25172764B, three restores, external M/W, 900 seconds, central receipt. Not reuse of M04."
+  },
+  "reviewEvidence": {
+    "qaPath": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-fix03-final-review.json",
+    "qaSha256": "d3e1277c545556cbca73da24691bd3661301209dd6f672b2b6c5bd56e06e080e",
+    "resultComment": 6055811693,
+    "serviceResult": "Codex Review: Didn't find any major issues.",
+    "formalApproval": false,
+    "integrationReceipt": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix03-source-verdict.json",
+    "integrationSha256": "719764afef55769e28a894711b08e33fb07646b8f1e905214e71bf38b79d7e24"
+  },
+  "hostTemplate": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py",
+    "bytes": 3109,
+    "sha256": "b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea",
+    "dataOnlyFill": true
+  },
+  "materialRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix03",
+  "workRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix03",
+  "outerEvidence": {
+    "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m05",
+    "leaves": [
+      "before.json",
+      "stdout.log",
+      "stderr.log",
+      "receipt.json"
+    ],
+    "maxBytes": 16777216,
+    "maxLogBytes": 4194304
+  },
+  "executionLimits": {
+    "oneAttempt": true,
+    "onlyStages": [
+      "M"
+    ],
+    "wallSeconds": 900,
+    "workSeconds": 870,
+    "cleanupSeconds": 30,
+    "readinessBeforeFirstExternalAction": "Fresh fixed source/SDK length+hash verification inside the same M timer",
+    "preserveParentEnvironment": [
+      "HOME",
+      "home",
+      "CODEX_HOME"
+    ],
+    "failure": "Preserve partial roots and original output; no automatic retry, deletion, B/L, Unity, packaging, deployment or release",
+    "returnPath": "LOC leaves results in this same chat/evidence; central alone receives with read_thread/wait_threads. No owner cross-chat send. Normal network/filesystem tool approval unchanged."
+  },
+  "dispatchContext": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a12926-663f-78a0-bee9-38392d8c0f5e",
+    "receiptRoute": "LOC keeps same-chat results; central reads completion and original tool output",
+    "authorizationIdsMeaning": "Current direct human continuation of the exact offered M05 scope; fresh owner observed live in wait_threads revision2."
+  }
+}

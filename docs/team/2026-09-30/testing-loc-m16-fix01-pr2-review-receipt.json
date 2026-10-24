@@ -1,0 +1,46 @@
+{
+  "receipt": "LOC-M16-FIX01-PR2-GITHUB-REVIEW-QA",
+  "date": "2026-10-04",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "host": "local",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "turn": "exact active turn identifier unavailable from task tools"
+  },
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/2",
+  "candidate": {
+    "base": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+    "head": "8533cb5270c0ba324a0af5a51fb078e096189cce",
+    "tree": "0c1908fa032af82d480f7861ffec034555eede03",
+    "expectedBaseFromDelegation": "Central's task named the approved correction context; the live GitHub PR metadata is recorded here as the actual PR base.",
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/loc-m16-fix01-publication-receipt.json",
+    "sourceCandidate": "docs/versioning/2026-10-04-loc-m16-fix01-pr/source/m16_driver.py",
+    "manifest": "docs/versioning/2026-10-04-loc-m16-fix01-pr/publication-manifest.json",
+    "authorityAndCorrection": "docs/versioning/2026-10-04-loc-m16-fix01-pr/authority/correction-receipt.json"
+  },
+  "review": {
+    "triggerCommentId": 5978546474,
+    "latestObservedStatus": "PENDING_NO_RESULT",
+    "observedAtUtc": "2026-10-04T09:36:32Z",
+    "checks": 3,
+    "backoffSeconds": 55,
+    "newHeadReviewSubmissions": [],
+    "newHeadResultComments": [],
+    "newHeadFindings": [],
+    "codeGate": "PENDING",
+    "formalApproval": false,
+    "note": "The trigger comment exists, but no new-head summary, result, or review submission appeared in three bounded GitHub checks. No conclusion is inferred."
+  },
+  "historicalFindingsNotReattributed": [4163732952, 4163732956, 4163732959],
+  "scopeAndAcceptanceBoundary": {
+    "candidateStatus": "SOURCE_ONLY; execution remains closed without independently pinned activation",
+    "authorOfflineChecks": "46/46 reported in the publication context; not rerun here",
+    "notAccepted": ["Actual M16 material execution", "Runtime/localization behavior", "Unity validation", "Integration or product acceptance"]
+  },
+  "source": "GitHub PR #2 live metadata/comments/reviews and the exact-head publication receipt"
+}

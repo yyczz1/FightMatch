@@ -1,0 +1,60 @@
+{
+  "task": "LAYOUT-S1-FIX04-N10-NATIVE",
+  "date": "2026-10-06",
+  "status": "PREPARE_AND_REQUEST_NORMAL_COMMAND_APPROVAL",
+  "authority": "接续用户已授权真实场景修复/保存复开和限定验证。本单将N10具体命令准备到可审阅状态，再走唯一C当前正常命令审批；不复用已消耗N09许可，不改权限模式。",
+  "sourceReceipt": {"path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/source-receipt.json", "bytes": 69758, "sha256": "ccfa499f5dfc87acd7949149039c67f0a1e476e6c033548bd79e4f9f3a7a81a7", "authorTurn": "01a10d39-7657-7062-8b20-231f053baaf8", "engineeringReceiptTurn": "01a10d51-5615-7f00-832b-6f1cf078de75"},
+  "fixedSource": {
+    "B": {"path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs", "bytes": 204772, "sha256": "a64fbb31f03c2ec0a5fcd88da12ac4793e4d4c75d190965c6d7f148a4b4ebc27"},
+    "T": {"path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs", "bytes": 50694, "sha256": "c64edeac81aa6b22e1070b7e6919ba572016207777136f0d62b5cbe84ed256c2"},
+    "sourceState": "作者已completed/停写，主程已收实际补丁/固定输入；中央核本receipt及共享B/T身份，读取实际新日志和Set/Get/Save时序。S八叶739100B，B改224/T改194行。仅SOURCE_READY，不是产品接受。",
+    "staticBoundary": "两轮：首轮fixture提取失败，第二轮48/48，产品字节未改，整命令累计1.74秒。主程核第一轮全部raw及第二轮完整检查头/20000字符前缀；第二轮剩余tool尾部未能外核，不冒称全文核对。完整记录及metadata顺序比较失败/修正均保留；不因此重跑静态。"
+  },
+  "engineering": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "executor": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local，必须fresh actual",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "inherit": "继承engineering-layout-s1-fix04-n09-native-plan.md及N09实际runner的原输入/保护/路径/资源/进程监护/错误收尾/D完整JSON/磁盘精确差量和唯一Scene导出规则。只以已批准central-layout-n10-source-packet.json的三项时点/分层变门和本单明确差量取代旧断言；不能笼统删除其它门。",
+  "baseline": {
+    "receipt": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/PExecution/receipt.json：1407697B/8f616262e138722715bd7e7317027beeeab31960125f67ec0f9d0222d5ec746c",
+    "projectedB": "195375B/b7000d9d14c00c4bd0588afd734b7029b637048cee6485901f9581bbc4eddf45",
+    "projectedT": "40209B/6e52750705ccdc18e26f2bf4591fa9d675bb1e641cb7bb396f9c6a7f804f6f52",
+    "HostEditorDll": "207360B/7bc6007b78fc676171f0ebd8102164bbaff403b960d0ed61964c7bd4564b7599",
+    "CoreTestsDll": "1823744B/f807f9f23730ccf48a7b7b7bf34736f117b562669564f2449768bca125b26698",
+    "protection": "N09全部18叶4419164B逐字冻结；当前15源/37资源及原保护集合用N09 after叠加N10 B/T固定身份。N09 TMP /private/tmp/fm-ln09.lanj0jp5按原77503B/3叶实际清单保护；N05至N08历史缺失TMP仍按已确认缺席，不重建不改写历史。其它漂移停止。"
+  },
+  "preparation": {
+    "writeScope": [
+      "docs/team/2026-09-30/engineering-layout-s1-fix04-n10-native-plan.md",
+      "docs/team/2026-09-30/engineering.md",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/I/activation.json",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/PExecution/runner.py",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/PExecution/preparation.json"
+    ],
+    "TMP": "一次mktemp新建/private/tmp/fm-ln10.XXXXXXXX，沿原canonical≤40字节/同UID/0700/无link/初始空及16MiB/512叶/结束保留；只替换本次TMPDIR，原UPM_CACHE_ROOT保持。",
+    "runner": "以N09实跑532非空行为基线，只改N10身份/路径/双源同步与下列日志和阶段门。最多640非空行，不压行/删守卫/新增旁路runner以避限。",
+    "checks": "至多3轮累计30秒，首轮通过即停。只做必要AST/固定输入/封签及新差量内存fixture：新字段和阶段计数、允许的精确新增/损坏拒绝、geometryTiming、即时Get字段、终端自由首错与新trailer分离；不重跑源码fixture或产品测试，不写D。",
+    "beforeApproval": "只准备固定I/runner/preparation和空TMP，不同步源、不创建D/P、不启动Unity。封签后提交C正常require_escalated具体命令；无工具实际批准不得执行。"
+  },
+  "nativeDelta": {
+    "sync": "仅B/T分别同步一次，固定各自投影前像与N10后像；其余13源、Prefab/meta/资源不写。不删DLL、清缓存或touch强制编译。",
+    "compile": "B与T均变化，Host.Editor和Core.Tests都须本轮实际Csc及新DLL身份。不能沿N09把Core复用当作本轮编译。无测试/发现。",
+    "samples": "pre-save三个sample均在唯一Set之前，首kind=pre-update/Set0/Save0，geometryTiming=before-only-Set。PostSave/Reopen沿原采样顺序/几何门，geometryTiming分别after-Save/after-readonly-reopen。成功仍三阶段九sample、Force3/Queue3/update6/decisive3。",
+    "memory": "observedStaleOverrides与preservedSequenceExact是诚实诊断，不再照旧强制false/true。完整D解码仍必须校验：22完整键/次数/相对序保持，新增严格限定N10已冻结的112精确完整键、每项≤1。source receipt中固定许可集合须绑定其身份及批准N09差量，不能从本次actual集合反推/扩充许可；其它目标/属性/值/引用、重复、丢失、变更或换序均失败。原original27/expected22完整绑定、UTF-16解析和JSON自洽/短摘要核对保持。",
+    "transaction": "仅在三项分层后的保存前门全过，执行冻结源码中唯一Set→即时Get精确22→Save；没有中间日志/Force/Queue/yield。save-returned及finished新增immediateOverridesExact/immediateOverrideCount应按实际trailer解析；成功必须true/22、Set1/Save1。默认false/0且Set未发生是未观察，不称实测Get0；失败保留原始报告值和可确定的观察状态，不补探针。",
+    "failureParsing": "从右端固定顺序分离原cleanupFailures/diagnosticsIncomplete/overrideDiff各元数据和新增两个immediate字段；failure自由文本完整保留，次级解析错误不覆盖Unity首错。不得保留仅适用于N09旧trailer的成功判断。",
+    "disk": "Save后立即执行源码精确字节门；只删固定实例/来源/Canvas的五块，其余字节不变。PostSave/Reopen重复字节稳定、真实几何、身份/非dirty门；runner独立原磁盘精确删除检查保持。若Save已发生后失败，记录真实后像/返回/计数，export0，不自动恢复旧Scene或重跑。",
+    "success": "三结果JSON、exit0、原保护及owned闭包、九D完整路径/bytes/hash/预算、geometry与分层门均通过才一次导出共享Assets/Scenes/FightMatchDemo.unity。PExport仍只before.json和receipt.json；Prefab/meta零写。NewScene/CloseScene无直接计数仍null/UNOBSERVED。"
+  },
+  "executionIfApproved": {
+    "preflightSeconds": 120,
+    "editorLaunches": 1,
+    "editorSecondsIncludingCompileImport": 180,
+    "retry": 0,
+    "cleanup": "沿自然60秒、fresh匹配owned最多各一次TERM后30秒，无KILL/外来信号；首次失败即停止正常流程，保留原件/真实退出码，未知保持未知。",
+    "resources": "继承cache1GiB/投影派生4GiB/log8MiB/free≥2GiB/监护≤2秒，D九固定文件各1MiB共9MiB，主log9×8KiB＋8×2KiB/总96KiB。",
+    "evidence": "N10精确最多31叶：既有S八叶冻结、I一叶、D最多九叶、P三个既定JSON、PExecution八叶、成功PExport两JSON；总≤201326592B，白名单不增其它叶。"
+  },
+  "stopAndReturn": "准备或命令被拒保留原始理由并停，不换路径/执行者/权限绕行。pending给准确C聊天/actual/具体命令/可得call ID及封签身份；主程唯一收C实际完成并回中央。空闲回合按完成事件唤醒，避免无变化轮询。",
+  "notAuthorized": "112候选发现/测试、Play/Host/设备/APK、Git发布/合并/审查、LOC、依赖/引擎/配置、任何新产品源码或断言修改。实际原生通过后再给必要测试与同head GitHub接收合同，不称Demo完成。"
+}

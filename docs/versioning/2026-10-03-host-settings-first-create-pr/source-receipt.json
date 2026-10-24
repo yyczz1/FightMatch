@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "packet": "HOST-SETTINGS-FIRST-CREATE-001",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0fe0e-fdc5-7421-b33e-048562e077b8",
+    "identity_evidence": "read_thread of current chat returned active turn; CODEX_THREAD_ID agrees",
+    "requested_model": "gpt-6-astra",
+    "requested_effort": "xhigh"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fde0-d533-7b00-ad78-34111f776dda",
+    "sole_completion_receiver": true
+  },
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "command": "python3 -B TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/S/verify.py",
+  "baseline": {
+    "pr3_head": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "pr5_head": "a8b9758ed2db1a43dac9328f162433a4523624c9",
+    "pr5_evidence": "Frozen staged Host source and publication manifest only; remote head not fetched or verified by this turn"
+  },
+  "source_and_patch": {
+    "source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs": {
+      "type": "regular_file",
+      "bytes": 20308,
+      "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9"
+    },
+    "source/Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs": {
+      "type": "regular_file",
+      "bytes": 25225,
+      "sha256": "3a44b54569966c26745d875e319096f4fe0d98a7513de8a7fbaa66f11daa96dd"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 18849,
+      "sha256": "497612ac7ffc6aa35cbb135826ecb9e4fd63fc4b8f3aeef2a96255de723afba8"
+    }
+  },
+  "criteria": [
+    {
+      "test": "H03_SettingsOnlyAllowsExplicitFirstCreate",
+      "source": "Implemented in staged ProfileTests",
+      "behavior": "UNTESTED"
+    },
+    {
+      "test": "H03_OwnedPreferenceResiduesPreserveBytes",
+      "source": "Implemented in staged ProfileTests",
+      "behavior": "UNTESTED"
+    },
+    {
+      "test": "H03_UnknownSettingsOrPlayerDataStillBlock",
+      "source": "Implemented in staged ProfileTests",
+      "behavior": "UNTESTED"
+    },
+    {
+      "test": "H03_SettingsLinksNeverAuthorizeCreation",
+      "source": "Implemented in staged ProfileTests",
+      "behavior": "UNTESTED"
+    },
+    {
+      "test": "H03_SettingsAreRecheckedBeforeCreation",
+      "source": "Implemented in staged ProfileTests",
+      "behavior": "UNTESTED"
+    },
+    {
+      "test": "H03_SettingsSurviveInterruptedCreation",
+      "source": "Implemented in staged ProfileTests",
+      "behavior": "UNTESTED"
+    },
+    {
+      "test": "H03_ActiveProfileWithSettingsReopensUnchanged",
+      "source": "Implemented in staged ProfileTests",
+      "behavior": "UNTESTED"
+    }
+  ],
+  "static_scope": "Two-path patch replay; unchanged fixed inputs and shared source/meta; line and byte budgets; old test lines retained.",
+  "limitations": [
+    "No Unity, compilation, tests, discovery, device execution, Git writes, network, or local code review.",
+    "PR5 checked as frozen staged Host bytes plus publication manifest, not fetched remote head.",
+    "Shared product source remains unchanged. This source packet does not activate a playable Host.",
+    "resource-state is excluded; H integration requires its separately approved directory ownership solution.",
+    "GitHub PR Code Review and scoped 18-leaf execution remain pending with engineering/testing leads.",
+    "Existing parallel C evidence is neither changed nor claimed as validation for this packet."
+  ],
+  "return_path": "Engineering lead receives final via wait; no duplicate upstream messages."
+}

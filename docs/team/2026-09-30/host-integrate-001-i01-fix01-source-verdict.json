@@ -1,0 +1,28 @@
+{
+  "packet": "HOST-INTEGRATE-001/I01-FIX01 source",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "head": "1c5a34ecd126135abb40a9e610a175c000e8d772",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/18",
+  "qaReceipt": "docs/team/2026-09-30/testing-host-integrate-pr18-fix01-review-receipt.json",
+  "qaSha256": "3a31342482e887ea1ed5855b3e8d2876d4a41c2a61b9befc3964596ad99e2e24",
+  "qaTurn": "01a117d2-04f8-70f2-9724-8e1f1bfbbf78",
+  "completionCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:55",
+  "findings": [
+    {
+      "id": 4211058182,
+      "priority": "P1",
+      "summary": "os.replace after a preimage check can destroy a concurrent value.",
+      "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058182"
+    },
+    {
+      "id": 4211058192,
+      "priority": "P1",
+      "summary": "register publishes incomplete ownership before details validation, preventing later cleanup recovery.",
+      "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4211058192"
+    }
+  ],
+  "nativeRuns": 0,
+  "originalEvidencePreserved": true,
+  "next": "FIX02 source-only displaced-value preservation and transactional ownership registration; new-head GitHub review."
+}

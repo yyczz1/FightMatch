@@ -1,0 +1,58 @@
+{
+  "receipt": "LOC-M17-FIX01-PR2-FINAL-GITHUB-REVIEW-QA",
+  "date": "2026-10-04",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "host": "local",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "turn": "exact active turn identifier unavailable from task tools"
+  },
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/2",
+  "candidate": {
+    "base": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+    "head": "837dd4e39683548ee23dce5f5228074ec87231e5",
+    "reviewedCommit": "837dd4e396",
+    "tree": "3bda3a82142cbefef2e83b6ea5bb1d637239a859",
+    "parent": "9b8423bda3baf9545ca98e15b6ee4c0149fdf89e",
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "pendingReceipt": {
+    "path": "docs/team/2026-09-30/testing-loc-m17-fix01-pr2-review-receipt.json",
+    "preservedUnmodified": true,
+    "transition": "PENDING_NO_RESULT -> COMPLETED_WITH_FINDINGS"
+  },
+  "review": {
+    "triggerCommentId": 5979838858,
+    "summaryCommentId": 5928035293,
+    "completedAt": "2026-10-04T12:23:23.336330Z",
+    "reviewSubmissionId": 5406086277,
+    "reviewState": "COMMENTED",
+    "reviewSubmissionCommit": "837dd4e39683548ee23dce5f5228074ec87231e5",
+    "codeGate": "NEEDS_FIX",
+    "formalApproval": false,
+    "findings": [
+      {
+        "id": 4177549312,
+        "priority": "P2",
+        "title": "Validate all cached archives before downloading",
+        "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4177549312",
+        "path": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+        "line": 1131,
+        "originalText": "When a later cached archive is corrupt while an earlier archive is absent, this single loop downloads the earlier archive before reaching and rejecting the corrupt cached file; for example, a bad cached YamlDotNet tarball is checked only after every missing package GET. That violates the FIX01 contract's input-verification-before-download sequence and causes network and write side effects for an input set that was already invalid. Preflight every present `official-get` archive before starting the first GET.",
+        "reactions": []
+      }
+    ]
+  },
+  "historicalFindingsNotReattributed": [4163732952, 4163732956, 4163732959, 4176965421, 4176965430],
+  "scopeAndAcceptanceBoundary": {
+    "candidate": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+    "newSourceChecks": "73/73 author-reported; not rerun",
+    "productionPin": null,
+    "actualMaterialExecution": "NOT RUN",
+    "runtimeOrProductAcceptance": "NOT ACCEPTED",
+    "integrationVerdict": null
+  },
+  "method": "Mechanical receipt of read-only GitHub PR metadata, completed review submission, summary, exact-head inline finding, and reaction endpoint. No local code review, retrigger, source execution, or validation run."
+}

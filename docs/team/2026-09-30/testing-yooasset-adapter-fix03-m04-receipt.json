@@ -1,0 +1,53 @@
+{
+  "task": "RES-B-ADAPTER-FIX03-M04-NATIVE-RECEIPT",
+  "receivedUtc": "2026-10-03T00:52:23Z",
+  "verdict": "ACCEPT",
+  "scope": "Fixed composite plus FIX03 source overlay: one Mac compile and exact 38-case module native gate only. Not an entire PR-head build or real resource/Host/platform/device/shared-adoption acceptance.",
+  "testingOwner": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb/local/01a0ff3c-f28f-7de0-ad1d-0cb601b0cb4c",
+  "executionOwner": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local/01a0ff29-fb2b-7232-93d5-79a95c9691bc",
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Central's explicit M04 native-intake dispatch under the standing user-authorized team workflow.",
+  "evidence": {
+    "root": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/M04",
+    "receiptBytes": 15438,
+    "receiptSha256": "7388b4bd7026f9f9b49411ff142358d8e3fb75ae16b8cbfb572341cb26ea527a",
+    "xmlBytes": 25596,
+    "xmlSha256": "973c1d792b247e8cb870bc620572c528d98bea0a50d7690cfd5725c1187393ff",
+    "verifiedLeaves": 17,
+    "verifiedBytes": 422798,
+    "checkChunk": "44dbdc",
+    "checksPassed": 54,
+    "fresh": "Original evidence hashes including run/runner; XML exact multiset and result; candidate/source/publication mapping; stage and process records; two changed DLL records and Csc log actions; prior37 identity and separate code receipt.",
+    "reused": "Engineering d2fe0c -> bc74e9 / 2026-10-03T00:46:53.684438Z, engineering.md:13: full source, 1019 source/meta, 527 GUIDs, 12 meta, 53 package/cache trees, seven live DLLs, shared1089 and historical protection. No repeated large-tree/cache/live-DLL scan."
+  },
+  "candidate": {
+    "head": "49f177ca5594cf987d12bd892b726145b8e41fc8",
+    "tree": "e002931513c2996469cadf0614be893af6d5f9f5",
+    "sourceReceiptSha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4",
+    "originalReviewStatePreserved": "FIX03_P2_OPEN_PENDING_NEW_HEAD_REVIEW_AND_FRESH_VALIDATION",
+    "note": "Original receipt already binds head/tree. Its pre-run reviewState is unchanged; later code ACCEPT is associated separately."
+  },
+  "I": {"runs": 1, "pid": 61206, "exitCode": 0, "elapsedSeconds": 79.518561, "timestampWindowSeconds": 97.862229},
+  "T": {"runs": 1, "pid": 61459, "exitCode": 0, "elapsedSeconds": 22.636512, "timestampWindowSeconds": 40.945129},
+  "tests": {"total": 38, "passed": 38, "original": 37, "new": 1, "failed": 0, "skipped": 0, "inconclusive": 0, "exactNamedMultiset": true, "xmlSeconds": 0.584848},
+  "compilation": "Adapter and AssetAccess.Tests have actual Csc actions and changed DLL identities; other five DLL identities unchanged. No full-rebuild claim. Checked compiler/domain-abort markers absent; existing licensing/token and Curl42 messages retained.",
+  "closure": {"UnityStarts": 2, "remainingOwned": [], "consumerClear": true, "exactOwnedSigtermOnce": 61264, "sigkill": false},
+  "timing": {
+    "preparationSeconds": 36.988241,
+    "receiptWindowSeconds": 193.179057,
+    "preparedToSealSeconds": 235.037386,
+    "conservativeIncludingPreparationSeconds": 272.025627,
+    "limitsMet": "Preparation <120; I/T <360/180; conservative total <900.",
+    "reportedFullCTurnSeconds": 852.393,
+    "note": "Full C turn includes reading, compaction, runner adaptation and receipt work; it is not test time. XML, stage elapsed and timestamp windows remain distinct."
+  },
+  "separateCodeGate": {
+    "verdict": "ACCEPT",
+    "receipt": "docs/team/2026-09-30/testing-yooasset-adapter-fix03-pr9-review-receipt.json",
+    "sha256": "e167797e212c620a15a2ac92450c9ea41f8a1f5c11cc98b5f9c224151d67f9fb",
+    "note": "Same-head independent GitHub result; no formal APPROVED or automatic old-thread resolution."
+  },
+  "preserved": "Original 31/34/37 results and all P2 histories retain their prior inputs and verdicts. No original artifact rewritten.",
+  "remaining": ["Real BuiltIn/manifest/object/raw resources and offline-cache smoke", "CD/Host/UI/localization", "Windows/Android/device/Demo", "Shared adoption, Player and release"],
+  "actions": "Read-only evidence checks only; no Unity/test/source-verifier rerun, local code review, Git mutation or large-tree scan. Only this receipt written."
+}

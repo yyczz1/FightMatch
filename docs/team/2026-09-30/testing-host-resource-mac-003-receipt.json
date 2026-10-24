@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "task": "HOST-RESOURCE-MAC-003-QA-RECEIPT",
+  "verdict": "ACCEPT",
+  "scope": "Limited acceptance of the fixed composite candidate's M03 compile/import evidence, centrally accepted natural-meta completion and single targeted 17-test T continuation. Not code review or full product acceptance.",
+  "receivedLocal": "2026-10-03T03:22:17+08:00",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fe0b-6b4c-7a73-8ade-528698d45dc9"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Human-approved AGENTS section 6 team workflow and central's explicit limited evidence-intake dispatch. Central accepted completion of the ten naturally generated meta files without changing their GUIDs, the separate 36-byte Unity/ADB log append, reuse of I evidence, and one T-only continuation. These supplements do not rewrite original failures.",
+  "executor": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "compileTurn": "01a0fdeb-fe2f-7361-b6ca-51711e3b18bb",
+    "testTurn": "01a0fdfe-ec71-72a1-87c1-1644ca47edc6"
+  },
+  "candidate": {
+    "kind": "COMPOSITE_NOT_A_SINGLE_HEAD",
+    "base": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "reviewedOverlays": [
+      {
+        "head": "a8b9758ed2db1a43dac9328f162433a4523624c9",
+        "sourceCount": 2
+      },
+      {
+        "head": "d7775a1134556698a6489029b20402a0ce185939",
+        "sourceCount": 4
+      }
+    ],
+    "projection": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M02/projection",
+    "manifest": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M02/inputs.json",
+    "sourceLeaves": 998,
+    "sourceBytes": 31749332,
+    "canonicalSha256": "136fe1dff5295d9e37b8fec55cb9bbd915b9b06a2e22bb5ccfd3e2f6941b953c",
+    "binding": "Local base Git tree: 993 regular blobs; apply exact 2+4 staged sourceReceipt mappings. All 998 actual projection SHA256/bytes and Git blob identities match; no extra product paths. Not PR4 or M16."
+  },
+  "originals": {
+    "docs/team/2026-09-30/testing-host-save-isolation-pr5-review-receipt.json": {
+      "bytes": 5343,
+      "sha256": "ba187dd9d0b7b761f29cb92fac0b85ab6e5745cfbc4502cbaea3914592b55d4f"
+    },
+    "docs/team/2026-09-30/testing-resource-contracts-pr6-review-receipt.json": {
+      "bytes": 8731,
+      "sha256": "994a92ba770ccda7c4b3a1f1eff662963391166e8b5c59737c2e000b9b52c686"
+    },
+    "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M02/receipt.json": {
+      "bytes": 3491,
+      "sha256": "5be3a27c79d3574dc71bab358a6b69fd8727ad3d2b8125c63fd6b53bb7ebd2c0"
+    },
+    "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/receipt.json": {
+      "bytes": 6441,
+      "sha256": "9d658e4bd44358456004337b064f8e21c7b99be209d7ae71be88e6b27fa98723"
+    },
+    "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T-continuation/receipt.json": {
+      "bytes": 8692,
+      "sha256": "381ad56bad92eedbfc30e4b50123691ac0f40899c386d13180b3dc042b470edb"
+    },
+    "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T/results.xml": {
+      "bytes": 14980,
+      "sha256": "18ef9a1ed7bab92b3066d749b96b097f196db945cd2eeb3f22c1c31c1dfa20d2"
+    }
+  },
+  "compile": {
+    "result": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/I/result.json",
+    "resultSha256": "12a782077103778d573cc32e12893137d2776b53ddc7d7b67923dbf5ce92809f",
+    "log": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/I/editor.log",
+    "logIdentity": {
+      "bytes": 1562464,
+      "sha256": "30d5d14836280d42f872fa8fdf0fe6d121b791590fd7ae45fa97dafb1d91ae07"
+    },
+    "pid": 36929,
+    "exitCode": 0,
+    "compilerDomainErrorMatches": 0,
+    "completionMarkerLines": [
+      180,
+      5561,
+      6387,
+      6633
+    ],
+    "targetDlls": {
+      "count": 4,
+      "identitySource": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T-continuation/activation.json#/preflight/compileProof/dlls",
+      "allActualBytesAndSha256Match": true
+    },
+    "originalResultStatus": "FAILED_PRESERVED",
+    "acceptedBasis": "Observed exit0, completed domain/import markers, no compiler/domain error matches and four exact DLLs; central separately accepted natural metadata completion and permitted T-only continuation.",
+    "supervisedStageSeconds": 93.355909
+  },
+  "naturalMetadata": {
+    "count": 10,
+    "whitelistSource": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M02/inputs.json#/allowedNaturalMeta",
+    "frozenIdentitySource": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T-continuation/activation.json#/preflight/frozenNaturalMeta",
+    "exactBytesMatch": true,
+    "originalTenGuidsUnchanged": true,
+    "allOriginal59BytePrefixesPreserved": true,
+    "completedImporters": {
+      "DefaultImporter": 2,
+      "MonoImporter": 6,
+      "AssemblyDefinitionImporter": 2
+    },
+    "uniqueProjectionGuidCount": 521,
+    "totalSourcePlusMetaLeaves": 1008,
+    "unexpectedMissingOrChanged": 0,
+    "sharedExported": false
+  },
+  "tests": {
+    "result": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T/result.json",
+    "discovered": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T/discovered.json",
+    "xml": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T/results.xml",
+    "runCount": 1,
+    "pid": 39185,
+    "exitCode": 0,
+    "total": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "groups": {
+      "HISO": "6/6",
+      "assetContracts": "11/11"
+    },
+    "expected": "Ordered concatenation of the fixed HOST-SAVE-ISOLATION-001/S and RES-B-CONTRACTS-001/S source-receipt testFullnames; exact equality with inputs, activation and discovered records.",
+    "sourceReceiptHashes": [
+      "0f208101a2884e73ed6106e06087f1ca46cd2348870f280304036e1b646db2f7",
+      "b5437364daa542ff47737762f3860e6acfd3fc10cf4b22595aec2a6f645ca98c"
+    ],
+    "actualFullnameCounter": "Exactly the 17 expected names, each 1; missing 0, duplicate 0, unexpected 0.",
+    "selector": "Exact escaped full-name alternation with start/end anchors; argv equals activation; EditMode/nographics, no -quit.",
+    "discoveryKind": "Inventory extracted from this execution XML; no separate discovery launch claimed.",
+    "xmlRootDurationSeconds": 1.659589,
+    "sumIndividualCaseSeconds": 0.322092,
+    "supervisedTStageSeconds": 40.321617,
+    "newCompileStartsDuringContinuation": 0
+  },
+  "protection": {
+    "sharedLeaves": 1089,
+    "protectedFiles": 114,
+    "fixedInputEvidence": 8,
+    "sealedLeaves": {
+      "hostSource": 8,
+      "layoutFix04": 10,
+      "resourceSource": 10
+    },
+    "oldProjectionLeaves": 995,
+    "oldPayloadPackages": 17,
+    "oldPayloadLeaves": 9928,
+    "oldCacheLeaves": 9984,
+    "M02OriginalEvidenceLeaves": 14,
+    "M03OriginalEvidenceLeaves": 10,
+    "continuationEvidenceLeavesVerified": 10,
+    "verification": "All frozen hashes and required path sets match. Existing cache omission remains only the approved VisualScripting .DS_Store; no generalized exclusion.",
+    "after": {
+      "path": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T-continuation/after.json",
+      "bytes": 4518,
+      "sha256": "735d063782162fe410ae333ca76d9bbdc43e80e06c7d6286171598c1e30591cc"
+    },
+    "historicalExceptions": {
+      "M02": "Original Bee IPC failure, exit1, T not run; original receipt retained exactly.",
+      "M03": "Original meta/owned-process/tmp guard failure retained exactly despite Unity I exit0; not changed into an original-contract pass.",
+      "adbLog": {
+        "path": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M02/tmp/adb.501.log",
+        "beforeM03Bytes": 680,
+        "afterM03Bytes": 716,
+        "acceptedAppendBytes": 36,
+        "afterTBytes": 716,
+        "afterSha256": "8ea9e3930e8b24a64af4d35ab38cb93e828453b308afb2287108328fca0d14c9",
+        "boundary": "Unity-owned ADB side effect recorded separately. Old tmp was not wholly unchanged during I; no further change during T."
+      }
+    }
+  },
+  "processClosure": {
+    "recordedOwnedProcessHistoryCount": 6,
+    "remainingOwned": [],
+    "signals": [],
+    "sigkill": false,
+    "priorCompilerPid": 37192,
+    "priorCompilerState": "Already exited before continuation, then absent; no signal sent.",
+    "proof": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T-continuation/process-after.json",
+    "boundTo": "Historical closure at recorded T completion; not a fresh global process-state claim."
+  },
+  "reviewReused": [
+    {
+      "pr": 5,
+      "head": "a8b9758ed2db1a43dac9328f162433a4523624c9",
+      "result": "https://github.com/yyczz1/FightMatch/pull/5#issuecomment-5957543992"
+    },
+    {
+      "pr": 6,
+      "head": "d7775a1134556698a6489029b20402a0ce185939",
+      "result": "https://github.com/yyczz1/FightMatch/pull/6#issuecomment-5957828430"
+    }
+  ],
+  "reviewBoundary": "Reuse fixed hash-bound GitHub no-major-issues receipts for unchanged overlays. No new review, formal APPROVED claim or assertion that all possible defects are absent.",
+  "verification": {
+    "command": "python3 -B -",
+    "input": "Read-only inline stdlib checkers preserved in this receiver turn's tool transcript; never imported/executed the submitted runner.",
+    "runs": [
+      {
+        "chunk": "15d32c",
+        "exitCode": 0,
+        "scope": "Original hashes, XML Counter/results, base+overlay mapping, source/protection SHA256, I markers/DLLs and historical closure."
+      },
+      {
+        "chunk": "f53d40",
+        "exitCode": 0,
+        "scope": "Exact path sets, 998 actual Git blob hashes, package versions, T closure events and recorded budgets."
+      },
+      {
+        "chunk": "cf0aea",
+        "exitCode": 0,
+        "scope": "Exact original 59-byte meta preimages and completed importer blocks."
+      }
+    ],
+    "completedUtc": "2026-10-02T19:26:01Z",
+    "qaProbeNote": "An initial prefix probe incorrectly assumed a terminal LF in the old 59-byte metas. Direct byte inspection and exact-length hashing corrected that probe; all ten original prefixes match.",
+    "budgetEvidence": "Recorded stages fit I360s/T180s; original log identities and recorded evidence/cache/generated/tmp sizes fit activation limits. Timing values are not interchangeable."
+  },
+  "remainingGates": [
+    "LOC-B-PREF test execution",
+    "Real Host startup and G3",
+    "Scene/layout/native/visual acceptance",
+    "Player and Android build/device acceptance",
+    "YooAsset SDK/adapter/resource acquisition",
+    "Shared-project integration and Demo acceptance"
+  ],
+  "thisTurn": {
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "deviceOrCloudActions": 0,
+    "productEdits": 0,
+    "GitMutations": 0,
+    "localCodeReviews": 0,
+    "additionalWorkerDispatches": 0
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "receipt": "RESOURCE-COMBINED-VALIDATION-001-PR20-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a11882-d243-73f2-982c-ce49fdcec3a5",
+    "requestedModel": "gpt-6-luna",
+    "requestedEffort": "medium",
+    "effectiveModelVerification": "Runtime model selection is not exposed; only the delegated request is recorded",
+    "completionReceiver": "Central coordinator; no upstream message sent"
+  },
+  "authority": "Central PR20 GitHub review receipt delegation under standing team workflow",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "candidate": {
+    "head": "8e47895761e110c5db531d83df7bbf5dfa960852",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "branch": "codex/resource-combined-validation-v01",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-combined-v01-publication-receipt.json",
+    "bytes": 5848,
+    "sha256": "bb3f843664b9cd439eea89491a6433cf486883828b613103aa311d6cc2e7c5b9",
+    "centralVerifiedBlobs": 12,
+    "nativeRuns": 0,
+    "testsRun": 0,
+    "newNativeRunAtPublication": false,
+    "sourceReviewAtPublication": "PENDING",
+    "integrationVerdict": null,
+    "merged": false
+  },
+  "review": {
+    "triggerCommentId": 6048271444,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048271444",
+    "triggerReposted": false,
+    "summaryCommentId": 6048274217,
+    "summaryStatus": "COMPLETED",
+    "completedAtUtc": "2026-10-07T22:39:04.478171Z",
+    "resultCommentId": 4212752227,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-4212752227",
+    "resultAuthor": "chatgpt-codex-connector[bot]",
+    "resultCreatedAtUtc": "2026-10-07T22:39:01Z",
+    "reviewedCommitFromBody": "8e47895761",
+    "reviewedCommitMatchesFullHead": true,
+    "inlineReviewThreads": [
+      {
+        "threadId": "PRRT_kwDOTDyjrM6qH91Y",
+        "resolved": false,
+        "outdated": false,
+        "commentId": "PRRC_kwDOTDyjrM77GX9j",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 36,
+        "priority": "P1",
+        "title": "Reserve the global deadline for process cleanup",
+        "originalText": "When the 900-second budget expires while I or T is still running, this cap makes every `ps`/`details` probe in `closure()` fail immediately; the TERM loop then has no remaining time, `closure_closed` stays false, and restoration is refused, leaving owned Unity processes and the synchronized/parked projection state behind. This is reachable because preparation is subtracted from the deadline and the maximum stage, closure, and restore allowances leave little or no time for preflight, synchronization, and evidence collection. Reserve closure/restoration time before launching each stage, or permit bounded cleanup probes after the execution deadline while still reporting the run as timed out."
+      }
+    ],
+    "formalReviewSubmissions": [
+      {
+        "id": "PRR_kwDOTDyjrM8AAAABRM1e9g",
+        "state": "COMMENTED",
+        "submittedAt": "2026-10-07T22:39:01Z",
+        "reviewedCommit": "8e47895761"
+      }
+    ],
+    "formalReviewState": "COMMENTED",
+    "formalApproval": false,
+    "classification": "P1_FINDING; NOT_APPROVED",
+    "integrationVerdict": null
+  },
+  "githubSnapshot": {
+    "reviewsListed": 1,
+    "prComments": [
+      {"id": 6048271444, "author": "yyczz1", "createdAtUtc": "2026-10-07T22:36:10Z", "kind": "REVIEW_TRIGGER"},
+      {"id": 6048274217, "author": "chatgpt-codex-connector[bot]", "createdAtUtc": "2026-10-07T22:36:22Z", "kind": "SUMMARY_COMPLETED"},
+      {"id": 4212752227, "author": "chatgpt-codex-connector[bot]", "createdAtUtc": "2026-10-07T22:39:01Z", "kind": "RESULT_COMMENT"},
+      {"id": 5449277174, "author": "chatgpt-codex-connector[bot]", "createdAtUtc": "2026-10-07T22:39:01Z", "kind": "FORMAL_REVIEW_COMMENTED"}
+    ],
+    "inlineThreads": 1,
+    "snapshotHead": "8e47895761e110c5db531d83df7bbf5dfa960852"
+  },
+  "method": {
+    "source": "GitHub PR metadata, review submissions, comments and inline review threads; central publication receipt read locally",
+    "newTrigger": false,
+    "localCodeReview": false,
+    "testsRun": false,
+    "unityRun": false,
+    "githubWrite": false,
+    "writes": "Only this new receipt"
+  }
+}

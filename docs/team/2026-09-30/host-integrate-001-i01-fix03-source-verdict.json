@@ -1,0 +1,40 @@
+{
+  "packet": "HOST-INTEGRATE-001/I01-FIX03 source",
+  "date": "2026-10-08",
+  "integrationVerdict": "ACCEPT",
+  "scope": "Limited to the reviewed source preparation and offline replay; native compile is not yet run",
+  "reviewedHead": "48c51dba8cb6487f405f9291fb1a8ab1b20b6c20",
+  "reviewResult": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6045886949",
+  "reviewReceipt": {
+    "path": "docs/team/2026-09-30/testing-host-integrate-pr18-fix03-review-receipt.json",
+    "bytes": 6590,
+    "sha256": "c689880f0f03d76677d5c09559a9c6d5d3428b6108dc45d8c2f83fed255162e3",
+    "actualTurn": "01a117f7-db3e-7352-9ad4-fb32ea100aa7",
+    "completedCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:74",
+    "formalApproved": false,
+    "newFindings": 0
+  },
+  "source": {
+    "path": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-FIX03-source",
+    "runnerBytes": 47602,
+    "runnerSha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317",
+    "preparationBytes": 31200,
+    "preparationSha256": "d68ff9db8668910a9e46c4fc9bd12906a07f390e9dfad2a3627e4cea33bb23e7",
+    "allFiveFilesVerified": true,
+    "publishedBlobsVerified": 16
+  },
+  "offline": {
+    "passed": 58,
+    "total": 58,
+    "rounds": 1,
+    "elapsedSeconds": 13.709244375,
+    "notRerun": true
+  },
+  "preserved": [
+    "All previous native/source failures",
+    "Five historical GitHub P1 threads remain outdated and unresolved in UI",
+    "Historical cache bindings remain incomplete",
+    "Formal LOC, normal interaction, Android and Demo are unaccepted"
+  ],
+  "next": "Fresh C turn and sealed activation may execute the already approved single native compile; normal tool approval remains required"
+}

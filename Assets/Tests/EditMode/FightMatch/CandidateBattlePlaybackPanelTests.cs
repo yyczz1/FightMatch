@@ -25,28 +25,28 @@ namespace FightMatch.Core.Tests
                 yield return r.Ready(); var result = r.Attack(); var controller = r.Playback;
                 Assert.NotNull(r.Board.PlaybackOverride); Assert.AreSame(controller.Frame, r.Board.PlaybackOverride);
                 Hp(controller.Frame.Actors.Single(a => a.Key.Equals(result.Presentation.BeforeSnapshot.Enemies[0].CombatantKey)).Hp, 15);
-                BattleCopyAssert.Diagnostic(r.Host, "playback-hp:" + BattleText.EnemyIdentity(result.Presentation.BeforeSnapshot.Enemies[0].Enemy) + ":hp"); Assert.AreEqual(-1, controller.Frame.OriginalFactIndex);
+                BattleCopyAssert.Diagnostic(r.Host, "enemy-hp-" + result.Presentation.BeforeSnapshot.Enemies[0].Enemy.OriginalSlot); Assert.AreEqual(-1, controller.Frame.OriginalFactIndex);
                 Assert.IsEmpty(controller.Frame.LockedRoutes); CollectionAssert.AreEqual(r.Route(), controller.Frame.TemporaryRoute);
                 r.Host.Advance(180); UnityEngine.Canvas.ForceUpdateCanvases();
                 Hp(controller.Frame.Actors.Single(a => a.Key.Equals(result.Presentation.BeforeSnapshot.Enemies[0].CombatantKey)).Hp, 0);
-                BattleCopyAssert.Diagnostic(r.Host, "playback-hp:" + BattleText.EnemyIdentity(result.Presentation.BeforeSnapshot.Enemies[0].Enemy) + ":hp"); BattleCopyAssert.Diagnostic(r.Host, "playback-beat");
+                BattleCopyAssert.Diagnostic(r.Host, "enemy-hp-" + result.Presentation.BeforeSnapshot.Enemies[0].Enemy.OriginalSlot); BattleCopyAssert.Diagnostic(r.Host, "playback-beat");
                 Assert.AreSame(result.Presentation.OrderedFacts[0], controller.Frame.OriginalFact);
                 while (controller.IsPlaying && controller.Frame.OriginalFact?.Stage?.Kind != CandidateStageFactKind.RouteLocked) r.Host.Advance(180);
                 Assert.IsTrue(controller.IsPlaying); Assert.AreEqual(1, r.Board.PlaybackOverride.LockedRoutes.Count); Assert.IsEmpty(r.Board.PlaybackOverride.TemporaryRoute);
                 Assert.AreEqual(CandidateStageFactKind.RouteLocked, controller.Frame.OriginalFact.Stage.Kind);
                 BattleCopyAssert.Diagnostic(r.Host, "playback-stage"); r.Finish();
-                BattleCopyAssert.Localized(r.Host, "playback-hp", r.Canvas.Localization, "fm.battle.hud.member_hp",
+                BattleCopyAssert.Localized(r.Host, "ally-hp-0", r.Canvas.Localization, "fm.battle.hud.member_hp",
                     BattleText.Arg("characterName", "战士"), BattleText.Arg("currentHp", "95"), BattleText.Arg("maxHp", "100")); Assert.IsNull(r.Board.PlaybackOverride); Assert.IsTrue(r.Input.View.Attack.IsAvailable);
                 var second = r.Attack(1); Assert.AreEqual(2, controller.Starts); Assert.IsTrue(controller.IsPlaying); r.Finish();
                 Assert.AreEqual(BattlePhase.WonPendingSettlement, controller.Frame.Phase); Assert.AreSame(second.Presentation.Token, controller.LastReportedToken);
                 Assert.AreEqual(0, r.Battle.Head.Business.Rewards.BaseRewards.Count); Assert.IsFalse(r.Input.View.Attack.IsAvailable);
-                TestContext.Out.WriteLine("P27 panel complete chain: " + r.Label("playback-hp") + " | " + r.Label("playback-stage"));
+                TestContext.Out.WriteLine("P27 panel complete chain: " + r.Label("ally-hp-0") + " | " + r.Label("playback-stage"));
             }
             using (var r = new PlayerBattleRig()) using (var panel = new PlayerBattlePanel(r))
             {
                 yield return panel.Ready(); var result = r.Step(false); var controller = r.Host.Playback; var page = r.Page.Page;
                 var token = result.Presentation.Token; var generation = controller.Generation;
-                BattleCopyAssert.Localized(r.Page, "playback-hp:" + BattleText.EnemyIdentity(result.Presentation.BeforeSnapshot.Enemies[0].Enemy) + ":hp", r.Canvas.Localization, "fm.battle.hud.enemy_hp",
+                BattleCopyAssert.Localized(r.Page, "enemy-hp-" + result.Presentation.BeforeSnapshot.Enemies[0].Enemy.OriginalSlot, r.Canvas.Localization, "fm.battle.hud.enemy_hp",
                     BattleText.Arg("enemyName", "发条步兵 1"), BattleText.Arg("currentHp", "15"), BattleText.Arg("maxHp", "15"));
                 Assert.IsNull(r.Canvas.Localization.BindingDiagnostic);
                 r.Page.PlaybackView.Advance(180); var fact = controller.Frame.OriginalFact.DirectAttack;
@@ -61,14 +61,14 @@ namespace FightMatch.Core.Tests
                 r.Canvas.Localization.SetLocale(LocaleId.En);
                 Assert.AreSame(page, r.Page.Page); Assert.AreSame(token, controller.Original.Token); Assert.AreEqual(generation, controller.Generation);
                 Assert.AreEqual(0, controller.Frame.OriginalFactIndex); Assert.AreEqual(0, controller.CompletionReports);
-                BattleCopyAssert.Localized(r.Page, "playback-hp:" + BattleText.EnemyIdentity(result.Presentation.BeforeSnapshot.Enemies[0].Enemy) + ":hp", r.Canvas.Localization, "fm.battle.hud.enemy_hp",
+                BattleCopyAssert.Localized(r.Page, "enemy-hp-" + result.Presentation.BeforeSnapshot.Enemies[0].Enemy.OriginalSlot, r.Canvas.Localization, "fm.battle.hud.enemy_hp",
                     BattleText.Arg("enemyName", "Clockwork Infantry 1"), BattleText.Arg("currentHp", "0"), BattleText.Arg("maxHp", "15"));
                 StringAssert.Contains("Warrior", r.Page.Find<TMPro.TextMeshProUGUI>(FightMatchViewId.Row("playback-beat")).text);
                 StringAssert.Contains("Clockwork Infantry 1", r.Page.Find<TMPro.TextMeshProUGUI>(FightMatchViewId.Row("playback-beat")).text);
                 while (controller.IsPlaying && controller.Frame.OriginalFact?.Stage?.Kind != CandidateStageFactKind.RouteLocked) r.Page.PlaybackView.Advance(180);
                 BattleCopyAssert.Localized(r.Page, "playback-stage", r.Canvas.Localization, "fm.battle.stage.route_locked", BattleText.Arg("enemyName", "Clockwork Infantry 1"));
                 r.Host.Playback.SkipToFinal(); Assert.AreSame(token, controller.LastReportedToken);
-                BattleCopyAssert.Localized(r.Page, "playback-hp", r.Canvas.Localization, "fm.battle.hud.member_hp",
+                BattleCopyAssert.Localized(r.Page, "ally-hp-0", r.Canvas.Localization, "fm.battle.hud.member_hp",
                     BattleText.Arg("characterName", "Warrior"), BattleText.Arg("currentHp", "95"), BattleText.Arg("maxHp", "100"));
                 Assert.IsNull(r.Canvas.Localization.BindingDiagnostic);
                 r.Step(); Assert.AreEqual(BattlePhase.WonPendingSettlement, r.State.Phase);

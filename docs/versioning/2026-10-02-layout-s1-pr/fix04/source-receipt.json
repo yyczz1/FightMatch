@@ -1,0 +1,614 @@
+{
+  "schemaVersion": 1,
+  "task": "LAYOUT-S1-FIX04",
+  "status": "SOURCE_READY",
+  "qualifiers": [
+    "UNCOMPILED",
+    "UNTESTED",
+    "SCENE_REPAIR_NOT_RUN",
+    "NOT_PLAYABLE_CANDIDATE"
+  ],
+  "createdUtc": "2026-10-02T13:59:12.048289+00:00",
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fcd8-986b-7f61-92c2-72a233830313"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fccb-bfa4-7fc1-a81b-f8a8a071cdbf"
+  },
+  "authority": "User firstDemo continuation and AGENTS section6; scoped engineering FIX04 packet; central turn01a0fc83-b951-7cb0-8af3-31269097058f confirms Editor-only repair entry.",
+  "returnPath": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "soleCompletionReceiver": true
+  },
+  "reviewInput": {
+    "head": "e3d581df42f3a25cfdfc319bca5509f8b5382ada",
+    "tree": "52c306b98275111955280da919b45e2806e15ebb",
+    "reviewId": 5392275691,
+    "findingId": "r4166096874",
+    "existingVerdict": "NEEDS_FIX",
+    "findingClosed": false
+  },
+  "fixedInputIdentities": {
+    "docs/team/2026-09-30/engineering-layout-s1-pr4-fix04.md": {
+      "bytes": 8840,
+      "sha256": "0635ad72de541c8fc2887e47de54111c8d1ac908c87a39228c3a0e9d0580fd7a"
+    },
+    "docs/team/2026-09-30/testing-layout-s1-pr4-native-review-receipt.json": {
+      "bytes": 11930,
+      "sha256": "bd43d0afa20f541e95d08d85532323e81da14797271bf00e65aa2a17f005450f"
+    },
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source-receipt.json": {
+      "bytes": 14056,
+      "sha256": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b"
+    },
+    "docs/versioning/2026-10-02-layout-s1-pr/native-p/publication-manifest.json": {
+      "bytes": 9954,
+      "sha256": "1be36cbf7b78985aa565dfff88256a3b195447f492c1c68db6fca26ee96a3a23"
+    },
+    "docs/team/2026-09-30/testing-ugui-layout-coverage-delta-001.json": {
+      "bytes": 51650,
+      "sha256": "f9e3138f29b5ef5d0e8ce2271719718ba1bc165e6dd32737b044962cc9d0190b"
+    }
+  },
+  "artifacts": {
+    "before": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/before.json",
+      "bytes": 401422,
+      "sha256": "9905dd515529eab4034b44351d4b9933bab6776248963afa0ef7daa33ade78df"
+    },
+    "patch": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/source.patch",
+      "bytes": 16308,
+      "sha256": "402429bc8bbf1c6c023dcaa253610f818d1d44f9a62aecacfb49117c7f3525a8"
+    }
+  },
+  "changedFiles": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "added": 81,
+      "deleted": 3,
+      "total": 84,
+      "limit": 200,
+      "before": {
+        "bytes": 154822,
+        "sha256": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482"
+      },
+      "after": {
+        "bytes": 160371,
+        "sha256": "ebccb4d9cec5d5d9fffa025fac78c76829fc53a85370dedfee7dd30d93308ca5"
+      },
+      "patchMemoryReplayExact": true
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "added": 60,
+      "deleted": 0,
+      "total": 60,
+      "limit": 120,
+      "before": {
+        "bytes": 24402,
+        "sha256": "83e556cc3348faa0210985af3d910f9e32f450b08e05f8eb72230252bb543f72"
+      },
+      "after": {
+        "bytes": 28866,
+        "sha256": "8a043c1b55bf870f8b8768bf15bdcd3525a3776caeee8bdd5ba5cece1f17548c"
+      },
+      "patchMemoryReplayExact": true
+    }
+  ],
+  "lineBudget": {
+    "builderUsed": 84,
+    "builderLimit": 200,
+    "testUsed": 60,
+    "testLimit": 120,
+    "totalUsed": 144,
+    "totalLimit": 320,
+    "budgetsNotBorrowed": true
+  },
+  "sourceS15After": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "bytes": 160371,
+      "sha256": "ebccb4d9cec5d5d9fffa025fac78c76829fc53a85370dedfee7dd30d93308ca5",
+      "gitBlob": "e439e095382dc043ed71cdfe8ff7943fed676473"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "bytes": 17703,
+      "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9",
+      "gitBlob": "bea02eff1e5d417619d1544c31be9bab069c71a3"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60",
+      "gitBlob": "29e699d867e7625170741207bab3840301f5748b"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670",
+      "gitBlob": "289ee0ff0002dbf9a3598d67cbd50a244d2327b9"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "bytes": 8707,
+      "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16",
+      "gitBlob": "fb6d2630ffd91228142769208dad7f6cfb3b4650"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05",
+      "gitBlob": "e48a69da2aeb6bae1abda7170bcfd850415c640d"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c",
+      "gitBlob": "655743f9084e6de0102b8b8e9e123b13dfc56a55"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9",
+      "gitBlob": "0936d8eacbbd796f6cbe62fde73e611621c012d4"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333",
+      "gitBlob": "d07b523036f060710408a11cc0c8528b8e19b75d"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf",
+      "gitBlob": "c5acc6fa538a0d8a9cb2e8f086f2b94c99467634"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0",
+      "gitBlob": "d22aa1e72bc2a9b698b12b9c7f99ea54cc656172"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd",
+      "gitBlob": "66a6e5dc2af0b4f66ded65d0f954a59c422318b7"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321",
+      "gitBlob": "d07bb9352c1919264c5d2b9d02cc5f949d9b8317"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "bytes": 81160,
+      "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89",
+      "gitBlob": "d543a9e3611e633e33e3be87693a6f3729c1c010"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "bytes": 28866,
+      "sha256": "8a043c1b55bf870f8b8768bf15bdcd3525a3776caeee8bdd5ba5cece1f17548c",
+      "gitBlob": "d6d64d560650202eb6bf58c5be021bb101c7f89b"
+    }
+  ],
+  "protectedInventory": {
+    "roots": [
+      "Assets",
+      "Packages",
+      "ProjectSettings",
+      "Config",
+      "Tools",
+      "Generated",
+      "ArtSource"
+    ],
+    "beforeCount": 1089,
+    "afterCount": 1089,
+    "added": [],
+    "deleted": [],
+    "changed": [
+      "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+    ],
+    "protectedUnchanged": 1087,
+    "beforeCanonicalJsonSha256": "6e60b29bb603c7e1723513830e4b4e6d8f5db9328fffa7d2b609319bcba01539",
+    "afterCanonicalJsonSha256": "e5d2cb7e43b8c7617a66cda3a456451c6298514482327e17ad55e539bf09d108",
+    "canonicalEncoding": "UTF8; json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=False)"
+  },
+  "protection": {
+    "protectedRecords": {
+      "count": 5,
+      "unchanged": true,
+      "canonicalJsonSha256": "e4d58a01d9eeee982eaa84dd264410ed128734e94d10194def075242f91fa1f1"
+    },
+    "sealedEvidence": {
+      "count": 41,
+      "unchanged": true,
+      "canonicalJsonSha256": "8cadb2026e605eaeb4426ebef56555f9571d7892d3894d92a5263cf61605ce24"
+    },
+    "projectionProtected": {
+      "count": 20,
+      "unchanged": true,
+      "canonicalJsonSha256": "8c82cbad1dad1e877924ff650e190957ebe74ca62836703281e1f351269b7717"
+    }
+  },
+  "native4": [
+    {
+      "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "bytes": 1322960,
+      "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+    },
+    {
+      "path": "Assets/Scenes/FightMatchDemo.unity",
+      "bytes": 12900,
+      "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "bytes": 243,
+      "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "bytes": 243,
+      "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d"
+    }
+  ],
+  "sourceSequence": {
+    "testWrittenBeforeProduction": true,
+    "toolChunk": "f566d1",
+    "utc": "2026-10-02T13:47:02.847007Z",
+    "exitCode": 0,
+    "firstTestSha256": "811234f9e3db3acd84bb2a3f7fa21dfd9078711e0b4f862f9a1d1a13bc7cd396",
+    "productionSha256AtTestFirstCheckpoint": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482",
+    "followingTestDelta": "Nested finally ensures active-scene restoration and byte assertions also run if owned-scene close assertion fails.",
+    "unityTestExecuted": false
+  },
+  "acceptanceMapping": [
+    {
+      "criterion": 1,
+      "sourceStatus": "IMPLEMENTED_UNRUN",
+      "evidence": "One new [Test] opens the actual Demo Scene additively. It checks sole Host/Canvas, RuntimeRoot, prefab path/GUID/source fileID, source unit scale/stretch, matching instance geometry, finite positive lossyScale and the five saved modification values. No rig/Instantiate/repair/save/Play/Host activation in the new method."
+    },
+    {
+      "criterion": 2,
+      "sourceStatus": "IMPLEMENTED_STATIC_PRESERVATION_VERIFIED",
+      "evidence": "Already-open target fails before opening. Only the owned Scene is closed in finally; original active Scene restored. Scene and Prefab byte assertions present. Removing only two new usings and the new method restores the entire previous test file exactly, including all six tests, assertions, rig and teardown."
+    },
+    {
+      "criterion": 3,
+      "sourceStatus": "IMPLEMENTED_UNRUN",
+      "evidence": "LayoutSceneCanvas resolves the existing RuntimeCanvas and exact corresponding prefab source. LayoutRepairSceneCanvas filters only inconsistent modifications targeting source fileID1013562322995895578 and the five scale/anchorMax properties, preserving other entries and order; sets only localScale/anchorMax from source. No hierarchy rebuilding, whole-instance revert or YAML editing."
+    },
+    {
+      "criterion": 4,
+      "sourceStatus": "IMPLEMENTED_UNRUN",
+      "evidence": "Original migration repairs its existing Scene branch before save. New Editor-only RepairLayoutSceneOverrides validates the migrated Prefab without invoking old migration, repairs and natively saves only Scene, checks geometry/modifications immediately after save and again after read-only close/reopen; compares prefab bytes and six existing Scene object identities. No retry loop."
+    },
+    {
+      "criterion": 5,
+      "sourceStatus": "IMPLEMENTED_STATIC_SCOPE_VERIFIED",
+      "evidence": "Only RepairLayoutSceneOverrides selects FIX04 activation/evidence/source receipt. Existing modes retain original paths and projection. All existing source15/resource37/meta2/protected-input/owner/issuer/argv/GUID/clean-startup checks remain. LayoutResult schema and native3 filenames unchanged; migration result mode is NativeSceneOverrideRepair. VerifyLayoutResources method is byte-identical and its LayoutReopen now rejects bad scene geometry/stale overrides without repairing."
+    }
+  ],
+  "futureEntry": {
+    "qualifiedMethod": "FightMatch.Host.Editor.FightMatchAndroidBuild.RepairLayoutSceneOverrides",
+    "editorOnly": true,
+    "activationRelativeToLayoutStageRoot": "FIX04/I/activation.json",
+    "evidenceRelativeToLayoutStageRoot": "FIX04/P",
+    "sourceReceiptRelativeToLayoutStageRoot": "FIX04/source-receipt.json",
+    "candidateRelativeToLayoutStageRoot": "projection",
+    "oldModes": {
+      "activation": "I/activation.json",
+      "evidence": "P",
+      "sourceReceipt": "S/source-receipt.json"
+    },
+    "nativeLeaves": [
+      "native-migration.json",
+      "native-reopen.json",
+      "serialized-targets.json"
+    ],
+    "newMigrationResultMode": "NativeSceneOverrideRepair",
+    "executionLeaseCreated": false,
+    "executed": false
+  },
+  "tests": {
+    "original6": [
+      "SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem",
+      "OwnerEndedCommitsOnceDespiteBothPointerUpAndEndDrag",
+      "OwnerCanceledNormalizesBeforeReleaseAndNeverCommits",
+      "SecondFingerCanceledLeavesOwnerAndOwnerEndedStillCommitsOnce",
+      "FourCornerCentersAndHalfOpenEdgesUseTheActualBoardMapper",
+      "BothResolutionsWithFourInsetsKeepHitAndRenderedCentersIdentical"
+    ],
+    "oldTestBytesPreserved": true,
+    "original96CoverageUnchanged": true,
+    "original10NotRunUnchanged": true,
+    "newFullName": "FightMatch.Core.Tests.UguiSceneCompositionTests.SavedDemoScenePreservesUsableCanvasWithoutStaleOverrides",
+    "candidateCount": 97,
+    "discoveredCount": null,
+    "discoveryStatus": "NOT_RUN",
+    "runStatus": "NOT_RUN",
+    "countsAreCandidateOnly": true
+  },
+  "staticRed": {
+    "scenePath": "Assets/Scenes/FightMatchDemo.unity",
+    "sceneSha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd",
+    "targetPrefabFileId": "1013562322995895578",
+    "fiveZeroOverridesStillPresent": {
+      "m_AnchorMax.x": "0",
+      "m_AnchorMax.y": "0",
+      "m_LocalScale.x": "0",
+      "m_LocalScale.y": "0",
+      "m_LocalScale.z": "0"
+    },
+    "originalLeadFailureChunk": "4001f4",
+    "originalLeadExitCode": 1,
+    "authorReproductionChunk": "acb9b9",
+    "authorReproductionExitCode": 0,
+    "meaning": "Serialized read-only defect reproduction only; not Unity test red/green. Frozen shared Scene intentionally remains unrepaired by this source-only packet."
+  },
+  "verification": [
+    {
+      "phase": "before",
+      "toolChunk": "916874",
+      "startedUtc": "2026-10-02T13:45:46.820670+00:00",
+      "finishedUtc": "2026-10-02T13:45:46.994066+00:00",
+      "exitCode": 0,
+      "command": "Inline Python: verify contract/QA/FIX03/publication/coverage identities; record two UTF8 preimages; snapshot current shared7-root leaf inventory without following symlinks; freeze nine prior evidence roots and projection15+4+isolated settings; confirm static five-zero scene red point."
+    },
+    {
+      "phase": "mechanical-postflight-first-attempt",
+      "chunk": "ec8553",
+      "exitCode": 1,
+      "reason": "Mechanical name extractor matched only UnityTest and omitted the existing ordinary [Test]; product preservation assertions had passed up to this extractor. No files were written.",
+      "productWrites": 0
+    },
+    {
+      "phase": "mechanical-postflight",
+      "toolChunk": "d91c74",
+      "startedUtc": "2026-10-02T13:57:12.289008+00:00",
+      "finishedUtc": "2026-10-02T13:57:12.356762+00:00",
+      "exitCode": 0,
+      "command": "python3 -B - <<'PY'\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nimport json,hashlib,difflib,re,os\nroot=Path.cwd();e=root/'TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04'\nstarted=datetime.now(timezone.utc).isoformat()\ndef ident(p):\n d=p.read_bytes();return {'bytes':len(d),'sha256':hashlib.sha256(d).hexdigest()}\nassert ident(e/'before.json')=={'bytes':401422,'sha256':'9905dd515529eab4034b44351d4b9933bab6776248963afa0ef7daa33ade78df'}\nb=json.loads((e/'before.json').read_text())\nassert {x.name for x in e.iterdir()}=={'before.json'}\ninventory={}\nfor name in b['inventoryRoots']:\n for parent,dirs,files in os.walk(root/name,followlinks=False):\n  for leaf in files+[d for d in dirs if (Path(parent)/d).is_symlink()]:\n   p=Path(parent)/leaf;rel=p.relative_to(root).as_posix()\n   inventory[rel]={'symlink':str(p.readlink())} if p.is_symlink() else ident(p)\nassert inventory.keys()==b['inventory'].keys(), 'product leaf added/deleted'\nallowed={x['path'] for x in b['sourceBefore']}\nchanged=sorted(p for p in inventory if inventory[p]!=b['inventory'][p])\nassert set(changed)==allowed,changed\nfor group in ['protectedRecords','sealedEvidence','projectionProtected']:\n for rel,value in b[group].items():assert ident(root/rel)==value,(group,rel)\nfor x in b['native4']:assert ident(root/x['path'])=={k:x[k] for k in ['bytes','sha256']}\nfor x in b['sourceS15Before']:\n if x['path'] not in allowed:assert ident(root/x['path'])=={k:x[k] for k in ['bytes','sha256']}\noldtest=b['sourceBefore'][1]['utf8'];newtest=(root/b['sourceBefore'][1]['path']).read_text()\nstart=newtest.index('\\n        [Test]\\n        public void SavedDemoScenePreservesUsableCanvasWithoutStaleOverrides()')\nend=newtest.index('\\n        [UnityEngine.TestTools.UnityTearDown]',start)\ntestmethod=newtest[start:end]\nrestored=(newtest[:start]+newtest[end:]).replace('using UnityEditor.SceneManagement;\\n','').replace('using UnityEngine.SceneManagement;\\n','')\nassert restored==oldtest,'old tests/rig/teardown modified'\noldnames=re.findall(r'\\[(?:UnityEngine.TestTools.UnityTest|Test)\\]\\s+public (?:System.Collections.IEnumerator|void) (\\w+)\\(',oldtest)\nassert len(oldnames)==6,oldnames\nassert testmethod.count('[Test]')==1\nassert all(token not in testmethod for token in ['UguiHostRig','Instantiate(','.SetActive(','SaveScene(', 'NewScene(', 'RepairLayout', 'EnterPlayMode'])\noldbuilder=b['sourceBefore'][0]['utf8'];newbuilder=(root/b['sourceBefore'][0]['path']).read_text()\noldVerify=oldbuilder[oldbuilder.index('        public static void VerifyLayoutResources()'):oldbuilder.index('        public static void RecoverUguiBoardRenderer()')]\nnewVerify=newbuilder[newbuilder.index('        public static void VerifyLayoutResources()'):newbuilder.index('        public static void RepairLayoutSceneOverrides()')]\nassert oldVerify==newVerify\nassert oldbuilder[:oldbuilder.index('        private static LayoutActivation LayoutGuard')]==newbuilder[:newbuilder.index('        private static LayoutActivation LayoutGuard')]\nassert oldbuilder[oldbuilder.index('        public static void RecoverUguiBoardRenderer()'):]==newbuilder[newbuilder.index('        public static void RecoverUguiBoardRenderer()'):]\nhelperstart=newbuilder.index('        private static void LayoutVerifyCanvasGeometry(')\nhelperend=newbuilder.index('        private static bool LayoutRetiredObject(',helperstart)\nentrystart=newbuilder.index('        public static void RepairLayoutSceneOverrides()')\nentryend=newbuilder.index('        public static void RecoverUguiBoardRenderer()',entrystart)\nrebuilt=newbuilder[:entrystart]+newbuilder[entryend:]\nrebuilt=rebuilt[:helperstart]+rebuilt[helperend:]\nrebuilt=rebuilt.replace('            var sceneRepair = mode == \"RepairLayoutSceneOverrides\";\\n            var executionRoot = LayoutStageRoot + (sceneRepair ? \"/FIX04\" : \"\");\\n','')\nrebuilt=rebuilt.replace('path == executionRoot + \"/I/activation.json\"','path == LayoutStageRoot + \"/I/activation.json\"')\nrebuilt=rebuilt.replace('activation.evidenceRoot == executionRoot + \"/P\"','activation.evidenceRoot == LayoutStageRoot + \"/P\"')\nrebuilt=rebuilt.replace('LayoutCanonical(activation.sourceReceiptPath) == executionRoot + (sceneRepair ? \"/source-receipt.json\" : \"/S/source-receipt.json\")','LayoutCanonical(activation.sourceReceiptPath) == LayoutStageRoot + \"/S/source-receipt.json\"')\nfor line in ['            LayoutVerifyCanvasGeometry((RectTransform)canvas[0].transform);\\n','                LayoutVerifySceneCanvas(hosts[0].RuntimeRoot.gameObject);\\n','                LayoutRepairSceneCanvas(instance.gameObject);\\n','                LayoutVerifySceneCanvas(instance.gameObject);\\n']:\n assert rebuilt.count(line)==1,line\n rebuilt=rebuilt.replace(line,'')\nassert rebuilt==oldbuilder,'unlisted old builder edit'\npatch='';diffs=[]\nfor s in b['sourceBefore']:\n after=(root/s['path']).read_text();oldlines=s['utf8'].splitlines(True);newlines=after.splitlines(True)\n lines=list(difflib.unified_diff(oldlines,newlines,fromfile='a/'+s['path'],tofile='b/'+s['path']))\n added=sum(x.startswith('+') and not x.startswith('+++') for x in lines)\n deleted=sum(x.startswith('-') and not x.startswith('---') for x in lines)\n assert added+deleted<=s['lineBudget']\n # Apply the actual unified hunks in memory, validating every original context/deleted line.\n replay=[];cursor=0;i=2\n while i<len(lines):\n  header=re.match(r'@@ -(\\d+)(?:,(\\d+))? \\+(\\d+)(?:,(\\d+))? @@',lines[i]);assert header,lines[i]\n  target=int(header[1])-1;replay.extend(oldlines[cursor:target]);cursor=target;i+=1\n  while i<len(lines) and not lines[i].startswith('@@'):\n   line=lines[i]\n   if line[0] in ' -':\n    assert oldlines[cursor]==line[1:];cursor+=1\n   if line[0] in ' +':replay.append(line[1:])\n   i+=1\n replay.extend(oldlines[cursor:]);assert ''.join(replay).encode()==(root/s['path']).read_bytes()\n patch+=''.join(lines)\n diffs.append({'path':s['path'],'added':added,'deleted':deleted,'total':added+deleted,'limit':s['lineBudget'],'before':{k:s[k] for k in ['bytes','sha256']},'after':ident(root/s['path']),'patchMemoryReplayExact':True})\nsources=[]\nfor x in b['sourceS15Before']:\n d=(root/x['path']).read_bytes();sources.append({'path':x['path'],**ident(root/x['path']),'gitBlob':hashlib.sha1(b'blob '+str(len(d)).encode()+b'\\0'+d).hexdigest()})\nscene=(root/'Assets/Scenes/FightMatchDemo.unity').read_text()\nzero=dict(re.findall(r'- target: \\{fileID: 1013562322995895578, guid: c36df3cfc25424c8cb3ec6cae6be1237, type: 3\\}\\s+propertyPath: (m_LocalScale\\.[xyz]|m_AnchorMax\\.[xy])\\s+value: ([^\\n]+)',scene))\nassert len(zero)==5 and all(float(v)==0 for v in zero.values())\ncoverage=json.loads((root/'docs/team/2026-09-30/testing-ugui-layout-coverage-delta-001.json').read_text())\nassert len(coverage['recommendedExactFullnames'])==96\ndef digest_json(value):return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()\nprint(json.dumps({'status':'STATIC_POSTFLIGHT_PASSED','startedUtc':started,'finishedUtc':datetime.now(timezone.utc).isoformat(),'exitCode':0,'before':ident(e/'before.json'),'diffs':diffs,'inventory':{'roots':b['inventoryRoots'],'beforeCount':len(b['inventory']),'afterCount':len(inventory),'added':[],'deleted':[],'changed':changed,'protectedUnchanged':len(inventory)-len(changed),'beforeCanonicalJsonSha256':digest_json(b['inventory']),'afterCanonicalJsonSha256':digest_json(inventory),'canonicalEncoding':'UTF8; json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=False)'},'protection':{k:{'count':len(b[k]),'unchanged':True,'canonicalJsonSha256':digest_json(b[k])} for k in ['protectedRecords','sealedEvidence','projectionProtected']},'native4Unchanged':True,'other13SourcesUnchanged':True,'sourceS15After':sources,'original6TestNames':oldnames,'oldTestBytesPreservedAfterRemovingOnlyAdditions':True,'oldBuilderBytesPreservedAfterRemovingOnlyListedChanges':True,'oldVerifyMethodUnchanged':True,'serializedFiveStillZero':zero,'original96CoverageUnchanged':True,'newTestFullName':'FightMatch.Core.Tests.UguiSceneCompositionTests.SavedDemoScenePreservesUsableCanvasWithoutStaleOverrides','candidateCount':97,'discoveredCount':None,'unityCompileImportTestDiscoveryNativeDeviceCount':0,'patchUtf8':patch},ensure_ascii=False))\n\nPY",
+      "result": "Exact two-file delta; no product leaves added/deleted; full old test bytes and unaffected builder bytes preserved; per-file budgets pass; actual unified patch memory replay equals both afterimages; source15/native4/fixed records/41 sealed leaves/20 projection identities verified."
+    }
+  ],
+  "postflight": {
+    "status": "STATIC_POSTFLIGHT_PASSED",
+    "startedUtc": "2026-10-02T13:57:12.289008+00:00",
+    "finishedUtc": "2026-10-02T13:57:12.356762+00:00",
+    "exitCode": 0,
+    "before": {
+      "bytes": 401422,
+      "sha256": "9905dd515529eab4034b44351d4b9933bab6776248963afa0ef7daa33ade78df"
+    },
+    "diffs": [
+      {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "added": 81,
+        "deleted": 3,
+        "total": 84,
+        "limit": 200,
+        "before": {
+          "bytes": 154822,
+          "sha256": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482"
+        },
+        "after": {
+          "bytes": 160371,
+          "sha256": "ebccb4d9cec5d5d9fffa025fac78c76829fc53a85370dedfee7dd30d93308ca5"
+        },
+        "patchMemoryReplayExact": true
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "added": 60,
+        "deleted": 0,
+        "total": 60,
+        "limit": 120,
+        "before": {
+          "bytes": 24402,
+          "sha256": "83e556cc3348faa0210985af3d910f9e32f450b08e05f8eb72230252bb543f72"
+        },
+        "after": {
+          "bytes": 28866,
+          "sha256": "8a043c1b55bf870f8b8768bf15bdcd3525a3776caeee8bdd5ba5cece1f17548c"
+        },
+        "patchMemoryReplayExact": true
+      }
+    ],
+    "inventory": {
+      "roots": [
+        "Assets",
+        "Packages",
+        "ProjectSettings",
+        "Config",
+        "Tools",
+        "Generated",
+        "ArtSource"
+      ],
+      "beforeCount": 1089,
+      "afterCount": 1089,
+      "added": [],
+      "deleted": [],
+      "changed": [
+        "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+      ],
+      "protectedUnchanged": 1087,
+      "beforeCanonicalJsonSha256": "6e60b29bb603c7e1723513830e4b4e6d8f5db9328fffa7d2b609319bcba01539",
+      "afterCanonicalJsonSha256": "e5d2cb7e43b8c7617a66cda3a456451c6298514482327e17ad55e539bf09d108",
+      "canonicalEncoding": "UTF8; json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=False)"
+    },
+    "protection": {
+      "protectedRecords": {
+        "count": 5,
+        "unchanged": true,
+        "canonicalJsonSha256": "e4d58a01d9eeee982eaa84dd264410ed128734e94d10194def075242f91fa1f1"
+      },
+      "sealedEvidence": {
+        "count": 41,
+        "unchanged": true,
+        "canonicalJsonSha256": "8cadb2026e605eaeb4426ebef56555f9571d7892d3894d92a5263cf61605ce24"
+      },
+      "projectionProtected": {
+        "count": 20,
+        "unchanged": true,
+        "canonicalJsonSha256": "8c82cbad1dad1e877924ff650e190957ebe74ca62836703281e1f351269b7717"
+      }
+    },
+    "native4Unchanged": true,
+    "other13SourcesUnchanged": true,
+    "sourceS15After": [
+      {
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+        "bytes": 160371,
+        "sha256": "ebccb4d9cec5d5d9fffa025fac78c76829fc53a85370dedfee7dd30d93308ca5",
+        "gitBlob": "e439e095382dc043ed71cdfe8ff7943fed676473"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "bytes": 17703,
+        "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9",
+        "gitBlob": "bea02eff1e5d417619d1544c31be9bab069c71a3"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "bytes": 13871,
+        "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60",
+        "gitBlob": "29e699d867e7625170741207bab3840301f5748b"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "bytes": 37846,
+        "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670",
+        "gitBlob": "289ee0ff0002dbf9a3598d67cbd50a244d2327b9"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "bytes": 8707,
+        "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16",
+        "gitBlob": "fb6d2630ffd91228142769208dad7f6cfb3b4650"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "bytes": 31354,
+        "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05",
+        "gitBlob": "e48a69da2aeb6bae1abda7170bcfd850415c640d"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "bytes": 19127,
+        "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c",
+        "gitBlob": "655743f9084e6de0102b8b8e9e123b13dfc56a55"
+      },
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+        "bytes": 12488,
+        "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9",
+        "gitBlob": "0936d8eacbbd796f6cbe62fde73e611621c012d4"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "bytes": 15972,
+        "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333",
+        "gitBlob": "d07b523036f060710408a11cc0c8528b8e19b75d"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "bytes": 30932,
+        "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf",
+        "gitBlob": "c5acc6fa538a0d8a9cb2e8f086f2b94c99467634"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "bytes": 15433,
+        "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0",
+        "gitBlob": "d22aa1e72bc2a9b698b12b9c7f99ea54cc656172"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "bytes": 28200,
+        "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd",
+        "gitBlob": "66a6e5dc2af0b4f66ded65d0f954a59c422318b7"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "bytes": 18709,
+        "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321",
+        "gitBlob": "d07bb9352c1919264c5d2b9d02cc5f949d9b8317"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "bytes": 81160,
+        "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89",
+        "gitBlob": "d543a9e3611e633e33e3be87693a6f3729c1c010"
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "bytes": 28866,
+        "sha256": "8a043c1b55bf870f8b8768bf15bdcd3525a3776caeee8bdd5ba5cece1f17548c",
+        "gitBlob": "d6d64d560650202eb6bf58c5be021bb101c7f89b"
+      }
+    ],
+    "original6TestNames": [
+      "SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem",
+      "OwnerEndedCommitsOnceDespiteBothPointerUpAndEndDrag",
+      "OwnerCanceledNormalizesBeforeReleaseAndNeverCommits",
+      "SecondFingerCanceledLeavesOwnerAndOwnerEndedStillCommitsOnce",
+      "FourCornerCentersAndHalfOpenEdgesUseTheActualBoardMapper",
+      "BothResolutionsWithFourInsetsKeepHitAndRenderedCentersIdentical"
+    ],
+    "oldTestBytesPreservedAfterRemovingOnlyAdditions": true,
+    "oldBuilderBytesPreservedAfterRemovingOnlyListedChanges": true,
+    "oldVerifyMethodUnchanged": true,
+    "serializedFiveStillZero": {
+      "m_AnchorMax.x": "0",
+      "m_AnchorMax.y": "0",
+      "m_LocalScale.x": "0",
+      "m_LocalScale.y": "0",
+      "m_LocalScale.z": "0"
+    },
+    "original96CoverageUnchanged": true,
+    "newTestFullName": "FightMatch.Core.Tests.UguiSceneCompositionTests.SavedDemoScenePreservesUsableCanvasWithoutStaleOverrides",
+    "candidateCount": 97,
+    "discoveredCount": null,
+    "unityCompileImportTestDiscoveryNativeDeviceCount": 0
+  },
+  "executionCounts": {
+    "unity": 0,
+    "compile": 0,
+    "import": 0,
+    "discovery": 0,
+    "tests": 0,
+    "dotnet": 0,
+    "nativeSave": 0,
+    "device": 0,
+    "CUA": 0,
+    "downloads": 0,
+    "cloudWrites": 0,
+    "gitWrites": 0,
+    "reviewTriggers": 0
+  },
+  "unverified": [
+    "C# compilation and Unity import",
+    "Execution of new actual-scene regression",
+    "Native Scene override repair, save and read-only reopen",
+    "Actual discovered97 and directed test results",
+    "Independent review of new source head",
+    "APK/BlueStacks/device/visual acceptance"
+  ],
+  "historicalEvidence": "Prior I/P accepted scopes and raw failure records are unchanged; their omitted Canvas geometry checks do not prove the real Scene usable.",
+  "writingStoppedAfterReceipt": true,
+  "integrationVerdictNotIssuedByAuthor": true
+}

@@ -1,7 +1,9 @@
-# L1 首批资源 Unity 导入交接提案
+# L1 首批资源 Unity 导入交接提案（已撤销，不得执行）
 
-状态：`PROPOSAL_ONLY / NOT_EXECUTED`  
+状态：`SUPERSEDED / USER_REJECTED / NOT_EXECUTED`
 执行者：现有 C（保持 Unity 串行）；本美术会话不运行 Unity、不改 `Assets/` 或 `.meta`。
+
+> 2026-09-30 更新：用户已明确否决本批具体视觉，且运行时框架已纠正为 uGUI。本文件以下内容仅保留当时来源与风险记录，不再是可执行导入提案。不得导入三张来源图，也不得沿用其中 VisualElement／UXML／USS／PanelSettings 接入建议。当前 Canvas、布局、占位和资源接口以 `docs/team/2026-09-30/art.md` 为准；任何实际 Unity 导入仍须由主程签发精确白名单并交 C 执行。
 
 ## 1. 建议导入集合
 

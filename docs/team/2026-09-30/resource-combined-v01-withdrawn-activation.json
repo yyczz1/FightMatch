@@ -1,0 +1,174 @@
+{
+  "task": "RES-COMBINED-V01",
+  "status": "EXECUTION_BOUND",
+  "executionOwner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a118b9-3655-7540-9430-400869281d29"
+  },
+  "runner": {
+    "bytes": 81937,
+    "sha256": "1a30b4c6e1a5807664d047635c4fc20b131fe9d15191b128656dc366612aa7ba"
+  },
+  "seals": {
+    "inputs": {
+      "bytes": 1241588,
+      "sha256": "30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb"
+    },
+    "preparation": {
+      "bytes": 353328,
+      "sha256": "5d90f8ca8e91b081490faa8d963826ad828f6980ffe1c0c80d5cbb7cd0a6d336"
+    },
+    "replay-check": {
+      "bytes": 98829,
+      "sha256": "6b917019c5ad7354808dc38bbeaa128d5461e18e1dabe55187af3a633ac88175"
+    },
+    "replay-results": {
+      "bytes": 346894,
+      "sha256": "b038021836165db8ca356e2b74c9b69875268199ba09dbc1402896eb253feddd"
+    }
+  },
+  "sourceReview": {
+    "runner": {
+      "bytes": 81937,
+      "sha256": "1a30b4c6e1a5807664d047635c4fc20b131fe9d15191b128656dc366612aa7ba"
+    },
+    "status": "ACCEPT",
+    "head": "5f43b7a8cdff0795ad91b342deb5d566be38da0f",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048937458"
+  },
+  "projectRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+  "cacheRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+  "editor": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+    "bytes": 86759760,
+    "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f",
+    "version": "2022.3.18f1",
+    "architecture": "x86_64"
+  },
+  "stages": [
+    {
+      "id": "I",
+      "timeoutSeconds": 360,
+      "maxRuns": 1,
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-quit",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V01/run/I/editor.log"
+      ]
+    },
+    {
+      "id": "T",
+      "timeoutSeconds": 180,
+      "maxRuns": 1,
+      "argv": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-nographics",
+        "-buildTarget",
+        "StandaloneOSX",
+        "-projectPath",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testFilter",
+        "^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeContractsTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceReleaseSetTests($|[.]);^FightMatch[.]Host[.]Tests[.]FightMatchResourceActivationStoreTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchAssetProviderTests($|[.]);^FightMatch[.]AssetAccess[.]Tests[.]FightMatchResourceRuntimeTests($|[.])",
+        "-testResults",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V01/run/T/results.xml",
+        "-logFile",
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V01/run/T/editor.log"
+      ]
+    }
+  ],
+  "stopping": {
+    "naturalGraceSeconds": 60,
+    "termGraceSeconds": 30,
+    "sigkill": false,
+    "retries": 0,
+    "perOwnedPidTermMax": 1
+  },
+  "environmentOverrides": {
+    "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/package-cache",
+    "TMPDIR": "/private/tmp/fm-rcv1.kCYmaq4J",
+    "BEE_CACHE_DIRECTORY": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-COMBINED-V01/bee-cache"
+  },
+  "tmpIdentity": {
+    "dev": 16777232,
+    "ino": 34693039,
+    "uid": 501,
+    "gid": 0
+  },
+  "adbException": {
+    "pid": 27858,
+    "start": "Wed Oct 7 23:14:10 2026",
+    "argv": [
+      "adb",
+      "-L",
+      "tcp:5037",
+      "fork-server",
+      "server",
+      "--reply-fd",
+      "4"
+    ],
+    "tmpRoot": "/private/tmp/fm-hc-m01.9qXZKifu",
+    "logPath": "/private/tmp/fm-hc-m01.9qXZKifu/adb.501.log",
+    "logIdentity": {
+      "device": 16777232,
+      "inode": 34660704,
+      "uid": 501,
+      "gid": 0,
+      "mode": "0o640"
+    },
+    "priorCompilerPipe": "CkZH4Vcyv7lfH7i1Cg6qHwHE6JygAhEaLg7pR21Axyo",
+    "externalLogAppendAllowed": true
+  },
+  "sdkAdb": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb",
+    "bytes": 14527792,
+    "sha256": "953e88dc19d1a8737761302d7d13ebabd6d2935b2f239f65533464290c034169",
+    "device": 16777244,
+    "inode": 8166469,
+    "uid": 501,
+    "mode": 493
+  },
+  "bindingObservation": {
+    "observedUtc": "2026-10-07T23:39:07.647916+00:00",
+    "authority": "docs/team/2026-09-30/central-resource-combined-v01-execute.md",
+    "oldAdbPresent": false,
+    "oldAdbRow": null,
+    "oldLogFreshIdentity": {
+      "device": 16777232,
+      "inode": 34660704,
+      "uid": 501,
+      "gid": 0,
+      "mode": "0o640",
+      "bytes": 710,
+      "mtimeNs": 1791388484947349819,
+      "ctimeNs": 1791388484947349819
+    },
+    "sdkFreshIdentity": {
+      "bytes": 14527792,
+      "sha256": "953e88dc19d1a8737761302d7d13ebabd6d2935b2f239f65533464290c034169",
+      "device": 16777244,
+      "inode": 8166469,
+      "uid": 501,
+      "mode": 493
+    },
+    "otherConsumers": [],
+    "newBeeAndActivationRootsAbsent": true,
+    "bindingMechanicalSecondsThroughChecks": 0.04230116699181963,
+    "bindingMaximumSeconds": 20,
+    "carriedPreparationSeconds": 160,
+    "totalMechanicalMaximumSeconds": 900,
+    "noNativeStarted": true
+  }
+}

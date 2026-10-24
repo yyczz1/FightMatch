@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-05",
+  "status": "SOURCE_STAGE_AUTHORIZED_NOT_EXECUTED",
+  "central": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a109e0-5cb3-7ca2-81f0-1543c1015caf"
+  },
+  "basis": "Central technical decision under the user-authorized FightMatch continuation, scene repair, and standing delegated team workflow. This is not a new human approval or permission to bypass tool review.",
+  "plan": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-fix04-n07-source-plan.md",
+    "bytes": 16368,
+    "sha256": "12c0e7bb6fca1842b1e3f258de8c7cc8a6f66066af30486154cd01aa119e0984"
+  },
+  "scope": "Activate sections 3-6 as the bounded source-only implementation; section 7 execution and acceptance gates remain unactivated.",
+  "deliveryOwner": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c/local, fresh actual turn to be bound by engineering",
+  "receiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "allowedSharedFiles": [
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+    "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+  ],
+  "evidenceRoot": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/S",
+  "exactEvidenceLeaves": [
+    "before.json",
+    "FightMatchAndroidBuild.before.cs",
+    "UguiSceneCompositionTests.before.cs",
+    "FightMatchAndroidBuild.cs",
+    "UguiSceneCompositionTests.cs",
+    "source.patch",
+    "static.json",
+    "source-receipt.json"
+  ],
+  "limits": {
+    "sourceEvidenceBytes": 2097152,
+    "combinedChangedLines": 580,
+    "combinedNetLines": 370,
+    "combinedNetBytes": 40960,
+    "staticAttempts": 3,
+    "staticCumulativeSeconds": 30
+  },
+  "required": "Original geometry and asset acceptance remain intact; exactly bounded update events, one captured snapshot for assertion/logging, cleanup on every path, honest save-state reporting, fixed fullname and 99 expected cases. Root cause and runtime success remain unproven.",
+  "notAuthorizedHere": [
+    "Unity/C# execution or compile",
+    "Test discovery or test run",
+    "I/runner preparation or materialization",
+    "Projection/Scene/Prefab/meta/config/dependency edits",
+    "Git mutation, download, deployment or release",
+    "Duplicate local code review"
+  ],
+  "return": "Freeze final source/evidence and stop writing; engineering mechanically receives actual results and reports to central. Only then prepare the next scoped verification decision."
+}

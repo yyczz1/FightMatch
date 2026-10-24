@@ -1,0 +1,511 @@
+{
+  "status": "READY_FOR_USER_VISUAL_REVIEW",
+  "review_status": "PXL-1/2/3 independent static ACCEPT; other7 prior candidate findings reused; user normal-speed visual acceptance pending",
+  "import_status": "NOT_IMPORTED",
+  "updated_at": "2026-10-13T08:14:24.865578+00:00",
+  "counts": {
+    "changed_actions": 11,
+    "delivered_body_frames": 74,
+    "new_imagegen_frames": 72,
+    "inherited_idle_endpoints": 2,
+    "actual_aseprite_rgba_equal_frames": 74,
+    "gif_files": 33,
+    "gif_decoded_equal_frames": 222,
+    "retained_original_idle_frames": 6,
+    "deferred_unchanged_fx_frames": 20,
+    "known_visual_needs_fix_actions": 0
+  },
+  "thresholds": {
+    "profile_drift": 0.08,
+    "body_scale_cv": 0.08,
+    "normalized_anchor_y_std": 0.05
+  },
+  "assets": [
+    {
+      "action": "sheathed_idle",
+      "frame_count": 6,
+      "imagegen_id": "exec-48a38395-8d0c-4f53-b659-03c8622c6553",
+      "raw_sha256": "4b8b9e5d33ecb1621499361f55beb2f3b5150eb5f19b4081ccb6ede9515e708c",
+      "qc_sha256": "370832cb98a852c03ee60d6777bfa41a9315e712ee3f26332f38cd66b878a241",
+      "aseprite_sha256": "dba6c35c0e2f73280a37953c68b3a54483d889b67523abb808db6743f4704f8e",
+      "actual_aseprite_rgba_equal_frames": 6,
+      "gif_decoded_equal_frames": 18,
+      "source_split": {
+        "new_generated": 6,
+        "inherited_idle": 0
+      },
+      "visual_status": "CANDIDATE_LEAD_AND_USER_REVIEW_PENDING",
+      "unresolved": [],
+      "processing_qc": {
+        "frame_count": 6,
+        "valid_frame_count": 6,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.4475598702838206,
+        "output_subject_height_mean": 103.5,
+        "body_scale_cv": 0.0013758711149391971,
+        "anchor_x_std": 1.1102230246251565e-16,
+        "anchor_y_std": 0.001780808467967753,
+        "anchor_y_mean": 0.8078703703703703,
+        "profile_body_scale_drift": 0.0100213387700393
+      },
+      "qc_path": "actions/sheathed_idle/qc.json"
+    },
+    {
+      "action": "move_sheathed",
+      "frame_count": 6,
+      "imagegen_id": "exec-cd3219c0-d9b7-4c9a-ab8c-fa2483becd33",
+      "raw_sha256": "16313d1e382d61790f03e8f753b61071172cfafe643890cfbce599ac6da5f46a",
+      "qc_sha256": "c8a9990107eea16c0b71a05dcc38aed9715fa3a55d16403e18b6af6aad017220",
+      "aseprite_sha256": "93d33cfeb94ea5c936bc32a26df44528dd2d0144395868227e8b3c4602ab89c9",
+      "actual_aseprite_rgba_equal_frames": 6,
+      "gif_decoded_equal_frames": 18,
+      "source_split": {
+        "new_generated": 6,
+        "inherited_idle": 0,
+        "base_frames_retouch_count": 6
+      },
+      "visual_status": "STATIC_CORRECTIONS_ACCEPTED_USER_VISUAL_PENDING",
+      "unresolved": [
+        "User normal-speed visual acceptance"
+      ],
+      "processing_qc": {
+        "frame_count": 6,
+        "valid_frame_count": 6,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.44198982559073957,
+        "output_subject_height_mean": 104.0,
+        "body_scale_cv": 0.012725684661578817,
+        "anchor_x_std": 0.015903987640755346,
+        "anchor_y_std": 0.0022183214062497835,
+        "anchor_y_mean": 0.8144841269841271,
+        "profile_body_scale_drift": 0.022341981782002307
+      },
+      "qc_path": "actions/move_sheathed/qc.json"
+    },
+    {
+      "action": "draw_ready",
+      "frame_count": 8,
+      "imagegen_id": "exec-8b79f191-753f-4eee-9d49-83e009664998",
+      "raw_sha256": "eb5d7a08c7d008da4fd0c11b6e8c8ca50fc8d841f3734b08f86091c7ff9d7ce4",
+      "qc_sha256": "e14381e275b5f2dbf187a792c172a62fb7e01787b31f754157dc4dc68031a73e",
+      "aseprite_sha256": "a313d2b4fb9fba09c21af8d5edb155aa757b29417a97e8806ea50b7c4bed65d0",
+      "actual_aseprite_rgba_equal_frames": 8,
+      "gif_decoded_equal_frames": 24,
+      "source_split": {
+        "new_generated": 7,
+        "inherited_idle": 1,
+        "base_frames_retouch_count": 7
+      },
+      "visual_status": "STATIC_CORRECTIONS_ACCEPTED_USER_VISUAL_PENDING",
+      "unresolved": [
+        "User normal-speed visual acceptance"
+      ],
+      "processing_qc": {
+        "frame_count": 8,
+        "valid_frame_count": 8,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.463735332884803,
+        "output_subject_height_mean": 104.0,
+        "body_scale_cv": 0.007957735947292878,
+        "anchor_x_std": 0.002280820095745359,
+        "anchor_y_std": 0.00950884603895075,
+        "anchor_y_mean": 0.8640804597701149,
+        "profile_body_scale_drift": 0.025757925354648492
+      },
+      "qc_path": "actions/draw_ready/qc.json"
+    },
+    {
+      "action": "move_guarded",
+      "frame_count": 6,
+      "imagegen_id": "exec-5867c250-f2b8-4021-bbe7-5b17dffa021d",
+      "raw_sha256": "3a1d11e103edba7226ce54827ddc6c03dda2afc7bdb120a8c8e60319f841d7dd",
+      "qc_sha256": "4b43de2ce7d6c19c452cf66e04634b1c6dfd1d91df06aa926c4cab9a99ff9022",
+      "aseprite_sha256": "fea53c188730a3e4a66c9acd58b7c38b517f5a1db4a420b79095501e9daa8df2",
+      "actual_aseprite_rgba_equal_frames": 6,
+      "gif_decoded_equal_frames": 18,
+      "source_split": {
+        "new_generated": 6,
+        "inherited_idle": 0,
+        "base_frames_retouch_count": 6
+      },
+      "visual_status": "STATIC_CORRECTIONS_ACCEPTED_USER_VISUAL_PENDING",
+      "unresolved": [
+        "User normal-speed visual acceptance"
+      ],
+      "processing_qc": {
+        "frame_count": 6,
+        "valid_frame_count": 6,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.4414236862102123,
+        "output_subject_height_mean": 104.0,
+        "body_scale_cv": 0.012775526493187077,
+        "anchor_x_std": 0.017585629365487198,
+        "anchor_y_std": 0.0014788809374998554,
+        "anchor_y_mean": 0.8148148148148148,
+        "profile_body_scale_drift": 0.02359425202162091
+      },
+      "qc_path": "actions/move_guarded/qc.json"
+    },
+    {
+      "action": "attack_slash",
+      "frame_count": 6,
+      "imagegen_id": "exec-401cb7f9-bd35-47c3-b69d-0f5cc39d6ce0",
+      "raw_sha256": "8bbf0b23c45edf93d9a9f6d86b7e88e0e6cbab6e04401c0fb9321a3ded830cba",
+      "qc_sha256": "30645a54678897bb47b1acb4c5c11ce527c1b9f6a19afe97b9681e0e4dc434af",
+      "aseprite_sha256": "cf580403ea031977b2a43e81daae9aab95eefb3bb66bf772e38d375e3d3158fb",
+      "actual_aseprite_rgba_equal_frames": 6,
+      "gif_decoded_equal_frames": 18,
+      "source_split": {
+        "new_generated": 6,
+        "inherited_idle": 0
+      },
+      "visual_status": "CANDIDATE_LEAD_AND_USER_REVIEW_PENDING",
+      "unresolved": [],
+      "processing_qc": {
+        "frame_count": 6,
+        "valid_frame_count": 6,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.4526281001098955,
+        "output_subject_height_mean": 104.0,
+        "body_scale_cv": 0.0056885238062635395,
+        "anchor_x_std": 0.023688076689640222,
+        "anchor_y_std": 0.0013634608550322903,
+        "anchor_y_mean": 0.8091931216931217,
+        "profile_body_scale_drift": 0.0011893164096612452
+      },
+      "qc_path": "actions/attack_slash/qc.json"
+    },
+    {
+      "action": "attack_thrust",
+      "frame_count": 6,
+      "imagegen_id": "exec-931fa2e1-7405-4308-a044-6f271014536a",
+      "raw_sha256": "0db67970d4a26da9f5f40ff86a20ddf294b701fc9505fc41ee2869816606b4df",
+      "qc_sha256": "ab9f29b1adbd5c131ec61d8af635226a8c628ae1c3b68ddf9dbeec9973ac45a3",
+      "aseprite_sha256": "d87797b8cfa82a0edc6908beab873907599e0f066906156728f2735453f51df0",
+      "actual_aseprite_rgba_equal_frames": 6,
+      "gif_decoded_equal_frames": 18,
+      "source_split": {
+        "new_generated": 6,
+        "inherited_idle": 0
+      },
+      "visual_status": "CANDIDATE_LEAD_AND_USER_REVIEW_PENDING",
+      "unresolved": [],
+      "processing_qc": {
+        "frame_count": 6,
+        "valid_frame_count": 6,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.4460258701240467,
+        "output_subject_height_mean": 104.0,
+        "body_scale_cv": 0.008272371327541928,
+        "anchor_x_std": 0.011799811120014431,
+        "anchor_y_std": 0.0009920634920634885,
+        "anchor_y_mean": 0.8065476190476191,
+        "profile_body_scale_drift": 0.01341446564608495
+      },
+      "qc_path": "actions/attack_thrust/qc.json"
+    },
+    {
+      "action": "attack_overhead",
+      "frame_count": 8,
+      "imagegen_id": "exec-e1b02478-9928-46c2-8162-d5c14fd84cd0",
+      "raw_sha256": "76e698d96defe6b6d9dfb078764405d97d4c837d5c6c432a5412b54674454cee",
+      "qc_sha256": "27a6405d914325d08bfe888849a25f568b11df4d628fb3790e95e6765b4a4930",
+      "aseprite_sha256": "47f04610b412aa34c825f339c6425f88813c88dad7d4cc7e791fb25eae9cf096",
+      "actual_aseprite_rgba_equal_frames": 8,
+      "gif_decoded_equal_frames": 24,
+      "source_split": {
+        "new_generated": 8,
+        "inherited_idle": 0
+      },
+      "visual_status": "CANDIDATE_LEAD_AND_USER_REVIEW_PENDING",
+      "unresolved": [],
+      "processing_qc": {
+        "frame_count": 8,
+        "valid_frame_count": 8,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.45739088363635694,
+        "output_subject_height_mean": 98.875,
+        "body_scale_cv": 0.010410141065256076,
+        "anchor_x_std": 0.014214701386243256,
+        "anchor_y_std": 0.0089482721709144,
+        "anchor_y_mean": 0.8224770114942532,
+        "profile_body_scale_drift": 0.011724340598188832
+      },
+      "qc_path": "actions/attack_overhead/qc.json"
+    },
+    {
+      "action": "skill_taunt",
+      "frame_count": 8,
+      "imagegen_id": "exec-88bb3209-ff87-47ce-904a-acdc29be21be",
+      "raw_sha256": "a85ccf5aeab576902703aae5c0fb825fab44eff547354a07666300f8e8a96773",
+      "qc_sha256": "d961ed7dab1ec401b8fe01410c382880f2eca401e0b4a25a96c35b0020a77267",
+      "aseprite_sha256": "30b6a80f0f6b404abc0ce5eb60018ec11b01e6a01937404979a2199bc2088ecd",
+      "actual_aseprite_rgba_equal_frames": 8,
+      "gif_decoded_equal_frames": 24,
+      "source_split": {
+        "new_generated": 8,
+        "inherited_idle": 0
+      },
+      "visual_status": "CANDIDATE_LEAD_AND_USER_REVIEW_PENDING",
+      "unresolved": [],
+      "processing_qc": {
+        "frame_count": 8,
+        "valid_frame_count": 8,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.45193077151189126,
+        "output_subject_height_mean": 103.25,
+        "body_scale_cv": 0.01142181030512114,
+        "anchor_x_std": 0.007487824264824946,
+        "anchor_y_std": 0.0015205467304968716,
+        "anchor_y_mean": 0.8120689655172413,
+        "profile_body_scale_drift": 0.00035313741099041174
+      },
+      "qc_path": "actions/skill_taunt/qc.json"
+    },
+    {
+      "action": "hurt",
+      "frame_count": 4,
+      "imagegen_id": "exec-ffae7fa5-07cd-481e-824b-a2c3dcefe78a",
+      "raw_sha256": "c07f80d8caec1c223d9e68b32339a6a3c475be35c46c9b723665ad1c39ac3681",
+      "qc_sha256": "4d05fb06997efe2b66e6601e6affac7e0f63e19cebeadcbdc94189948f7ac78b",
+      "aseprite_sha256": "7a622b13ece9a896ad35e25b082990585e5fe9afe95d5c317f010653f948f892",
+      "actual_aseprite_rgba_equal_frames": 4,
+      "gif_decoded_equal_frames": 12,
+      "source_split": {
+        "new_generated": 4,
+        "inherited_idle": 0
+      },
+      "visual_status": "CANDIDATE_LEAD_AND_USER_REVIEW_PENDING",
+      "unresolved": [],
+      "processing_qc": {
+        "frame_count": 4,
+        "valid_frame_count": 4,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.4576360202945303,
+        "output_subject_height_mean": 100.75,
+        "body_scale_cv": 0.012387234195053295,
+        "anchor_x_std": 0.06583446480366559,
+        "anchor_y_std": 0.01375556249267075,
+        "anchor_y_mean": 0.8287560581583198,
+        "profile_body_scale_drift": 0.012266569865801769
+      },
+      "qc_path": "actions/hurt/qc.json"
+    },
+    {
+      "action": "sheathe_exit",
+      "frame_count": 8,
+      "imagegen_id": "exec-1929c594-3f1e-4fc4-898b-184850c749c1",
+      "raw_sha256": "a6594ed0530d02a2741e647928287c7aa5aa0bba621cffdc811a6b705958cfbe",
+      "qc_sha256": "cb1e83cf58deef269e8c0c08defcfae5b0f1a8e3bc884a02ceadc517c4d2a388",
+      "aseprite_sha256": "61171ec18ea596caaec57143a6d8c14541136c84c46a6c93f7602298cb0d4a29",
+      "actual_aseprite_rgba_equal_frames": 8,
+      "gif_decoded_equal_frames": 24,
+      "source_split": {
+        "new_generated": 7,
+        "inherited_idle": 1,
+        "base_frames_retouch_count": 7
+      },
+      "visual_status": "STATIC_CORRECTIONS_ACCEPTED_USER_VISUAL_PENDING",
+      "unresolved": [
+        "User normal-speed visual acceptance"
+      ],
+      "processing_qc": {
+        "frame_count": 8,
+        "valid_frame_count": 8,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.4716864476519963,
+        "output_subject_height_mean": 104.0,
+        "body_scale_cv": 0.016927441403264198,
+        "anchor_x_std": 0.0035310935998403743,
+        "anchor_y_std": 0.005235881367324316,
+        "anchor_y_mean": 0.8660919540229886,
+        "profile_body_scale_drift": 0.04334536890163165
+      },
+      "qc_path": "actions/sheathe_exit/qc.json"
+    },
+    {
+      "action": "death_fall",
+      "frame_count": 8,
+      "imagegen_id": "exec-8c92c39d-424f-4191-95d6-5314d7926d47",
+      "raw_sha256": "a2cc96ef9f02c13b75cb828cc42f3364255bdff489e762f6b8780f35ebb3c017",
+      "qc_sha256": "d98c883fa5d95af23d8e3ff89fefd85c81bdb167877ff7e501660827383c86c4",
+      "aseprite_sha256": "74b34a580cc6a20ef4bc29d8e39c739c0f299afc898109075f195d7a6613cd8e",
+      "actual_aseprite_rgba_equal_frames": 8,
+      "gif_decoded_equal_frames": 24,
+      "source_split": {
+        "new_generated": 8,
+        "inherited_idle": 0
+      },
+      "visual_status": "CANDIDATE_LEAD_AND_USER_REVIEW_PENDING",
+      "unresolved": [],
+      "processing_qc": {
+        "frame_count": 8,
+        "valid_frame_count": 8,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.39697493378513937,
+        "output_subject_height_mean": 62.875,
+        "body_scale_cv": 0.11440959999222063,
+        "anchor_x_std": 0.02896317952617242,
+        "anchor_y_std": 0.08337048319772415,
+        "anchor_y_mean": 0.8451149425287356,
+        "profile_body_scale_drift": 0.12191253152065384
+      },
+      "qc_path": "actions/death_fall/qc.json"
+    }
+  ],
+  "unpassed_strict_gates": [
+    {
+      "action": "death_fall",
+      "reason": "natural backward-fall pose exception only, not numeric PASS",
+      "metrics": {
+        "frame_count": 8,
+        "valid_frame_count": 8,
+        "empty_count": 0,
+        "edge_touch_count": 0,
+        "paste_clamped_count": 0,
+        "body_scale_mean": 0.39697493378513937,
+        "output_subject_height_mean": 62.875,
+        "body_scale_cv": 0.11440959999222063,
+        "anchor_x_std": 0.02896317952617242,
+        "anchor_y_std": 0.08337048319772415,
+        "anchor_y_mean": 0.8451149425287356,
+        "profile_body_scale_drift": 0.12191253152065384
+      }
+    }
+  ],
+  "pending_gates": [
+    "User normal-speed visual acceptance"
+  ],
+  "protected_inputs_sha256_unchanged": {
+    "count": 318,
+    "mismatches": [],
+    "fingerprint": "9dbaab8e0482c02418b3d63e6c3c9231dacc15c7fd9ab5ba17fa501435bd5955"
+  },
+  "main_reviewed_thread": "01a12f4d-81d7-7602-929a-75c94729f23b",
+  "main_reviewed_turn": "01a13404-7c7f-7a31-a25a-8e725809b1b0",
+  "historical_evidence_notice": "Original 100 ASE/300 GIF results are only in corrections/visual-fix-01/before-* and the explicitly marked original delivery fields; current scope is74/222.",
+  "independent_art_lead_review": {
+    "verdict": "ACCEPT",
+    "scope": "PXL-1/PXL-2/PXL-3 static corrections only; not whole-bundle or final user acceptance",
+    "thread": "01a0f2e3-3a47-78f2-819c-cbe52e8d7e47",
+    "turn": "01a1344e-250b-7b60-86af-68c0acb66529",
+    "host": "local",
+    "reviewed_manifest_sha256": "999fec4e3cb672dc1c6ce7fb4e1afbfa90022ecf97dd6c1623d7b08a4d5b35a2",
+    "record": "../../../../docs/team/2026-09-30/art.md#128-pxl-123修正有界接收2026-10-13",
+    "viewed": "4 action keyposes/28 frames; transition; native move6/move6/sheathe8; 38 scoped identities matched",
+    "closed_static_findings": [
+      "PXL-1",
+      "PXL-2",
+      "PXL-3"
+    ],
+    "new_mandatory_findings": [],
+    "normal_speed_independently_viewed": false,
+    "remaining": "User normal-speed visual acceptance; Unity/device integration out of this task scope"
+  },
+  "candidate_status": "STATIC_CORRECTIONS_ACCEPTED_USER_VISUAL_PENDING",
+  "pixel_correction": {
+    "scope": [
+      "draw_ready",
+      "sheathe_exit",
+      "move_guarded",
+      "move_sheathed"
+    ],
+    "actual_aseprite_rgba_equal_frames": 28,
+    "gif_files": 12,
+    "gif_decoded_equal_frames": 84,
+    "timing_unchanged": true,
+    "other7_evidence": "Unchanged artwork; previous46 ASE/138 GIF evidence reused",
+    "counts_explanation": "74 delivered =72 imagegen-source base frames (26 retouched through actual Aseprite, including local reference pixels) +2 inherited original Idle endpoints; no new imagegen calls in pixel correction",
+    "delta_repair": "14 non-inherited draw/sheathe frames and two movement frame6 images changed; movement1-5 exact archived bytes/rgba reused; this lightweight mechanical verification confirms all28 effective outputs without new art generation.",
+    "protected": {
+      "baseline": "Pixel pass1 reviewed manifest c5b4871a38a3b7fa094c793906f5b3bc6bf4850611e977b5763ea943aef74228; all pre-existing attempts, other7, original Idle and FX",
+      "protected_files": 1657,
+      "mismatches": [],
+      "external_fixed_inputs_unchanged": 4,
+      "task_authorized_sha256": "3faec27819e279b9586b64405e4bd03f46114bf1eeac2a881bcc2cd0716d6bc3"
+    },
+    "new_pre_edit_archives_exact": {
+      "draw_ready/attempt-13": 41,
+      "sheathe_exit/attempt-10": 41,
+      "move_guarded/attempt-06": 35,
+      "move_sheathed/attempt-10": 35
+    },
+    "lead_result": {
+      "verdict": "ACCEPT",
+      "scope": "PXL-1/PXL-2/PXL-3 static corrections only; not whole-bundle or final user acceptance",
+      "thread": "01a0f2e3-3a47-78f2-819c-cbe52e8d7e47",
+      "turn": "01a1344e-250b-7b60-86af-68c0acb66529",
+      "host": "local",
+      "reviewed_manifest_sha256": "999fec4e3cb672dc1c6ce7fb4e1afbfa90022ecf97dd6c1623d7b08a4d5b35a2",
+      "record": "../../../../docs/team/2026-09-30/art.md#128-pxl-123修正有界接收2026-10-13",
+      "viewed": "4 action keyposes/28 frames; transition; native move6/move6/sheathe8; 38 scoped identities matched",
+      "closed_static_findings": [
+        "PXL-1",
+        "PXL-2",
+        "PXL-3"
+      ],
+      "new_mandatory_findings": [],
+      "normal_speed_independently_viewed": false,
+      "remaining": "User normal-speed visual acceptance; Unity/device integration out of this task scope"
+    },
+    "task_receipt_sha256": "94f022009f68869052d1befb144eb4414aafacf5cdc5dc111364e030a084f161"
+  },
+  "user_manual_pixel_edit_choice": "APPROVED_AND_APPLIED: 允许逐帧像素修绘（推荐）",
+  "previous_independent_art_lead_review": {
+    "thread": "01a0f2e3-3a47-78f2-819c-cbe52e8d7e47",
+    "turn": "01a13424-fef5-7321-92c1-c2c8ad35cd83",
+    "verdict": "NEEDS_FIX",
+    "reviewed_manifest_sha256": "c5b4871a38a3b7fa094c793906f5b3bc6bf4850611e977b5763ea943aef74228",
+    "findings": [
+      "PXL-1",
+      "PXL-2",
+      "PXL-3"
+    ],
+    "normal_speed_independently_viewed": false
+  },
+  "owner": {
+    "thread": "01a12f4d-81d7-7602-929a-75c94729f23b",
+    "turn": "01a13404-7c7f-7a31-a25a-8e725809b1b0",
+    "host": "local"
+  },
+  "integration_verdict": {
+    "verdict": "ACCEPT",
+    "scope": "PXL-1/PXL-2/PXL-3 static corrections only; not whole-bundle or final user acceptance",
+    "thread": "01a0f2e3-3a47-78f2-819c-cbe52e8d7e47",
+    "turn": "01a1344e-250b-7b60-86af-68c0acb66529",
+    "host": "local",
+    "reviewed_manifest_sha256": "999fec4e3cb672dc1c6ce7fb4e1afbfa90022ecf97dd6c1623d7b08a4d5b35a2",
+    "record": "../../../../docs/team/2026-09-30/art.md#128-pxl-123修正有界接收2026-10-13",
+    "viewed": "4 action keyposes/28 frames; transition; native move6/move6/sheathe8; 38 scoped identities matched",
+    "closed_static_findings": [
+      "PXL-1",
+      "PXL-2",
+      "PXL-3"
+    ],
+    "new_mandatory_findings": [],
+    "normal_speed_independently_viewed": false,
+    "remaining": "User normal-speed visual acceptance; Unity/device integration out of this task scope"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "task": "LAYOUT-S1-P-EXPORT-001",
+  "status": "EXPORT_ONLY_ACTIVATED",
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fc82-679c-78e1-aab6-d406f8053f2a"
+  },
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fcae-baa6-7843-a24e-0b428ff7624b"
+  },
+  "soleReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "authority": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a0fc83-b951-7cb0-8af3-31269097058f",
+    "item": "exec-f537333c-965b-4a17-ab89-4ae622d1d7c8",
+    "decision": "Keep only this exact isolated default Editor SceneTemplate settings byproduct; preserve original P_FAILED, complete all remaining static guards, accept existing native P and export original four paths without another Unity invocation. Shared ProjectSettings unchanged."
+  },
+  "reassessment": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-p001-reassessment-001.json",
+    "bytes": 27606,
+    "sha256": "c6e39a87b7dfb11ad97eff3d1f817cc878a0fb5b0aceb7f898e07e1da09993ec"
+  },
+  "originalPReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/PExecution/receipt.json",
+    "bytes": 20978,
+    "sha256": "249ac5a32799a45fe5b6905c79361d5a776d56eeed04c87103b4775347f50a57"
+  },
+  "sourceRoot": "TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+  "destinationRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "candidate": {
+    "head": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "tree": "665c86084c090fd8cab1f061f1634cb1596f7e58",
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "baseHead": "3541930877837e14b58020b910976b8b67b56e42",
+    "baseTree": "37326f759fc065f268c23f66a674be1a61f12268",
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source-receipt.json",
+      "sha256": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b"
+    },
+    "reviewReceipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json",
+      "sha256": "c67d5479d895e66be6db649afe9ccb00139a1dc27270200028aff202b9c6bc77"
+    },
+    "reviewGate": "ACCEPT_CODE_REVIEW_ONLY_NOT_FORMAL_APPROVED"
+  },
+  "exports": [
+    {
+      "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "bytes": 1322960,
+      "sha256": "0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2"
+    },
+    {
+      "path": "Assets/Scenes/FightMatchDemo.unity",
+      "bytes": 12900,
+      "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "bytes": 243,
+      "sha256": "de85fc6cc55c8d64a69b5b10da9dc0024b740317e384d45998c4357d8faa4faf"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "bytes": 243,
+      "sha256": "ac6cb0b738e7fb3d1ac50af66c939ff1394987458152b509056b1e93a8aabc2d"
+    }
+  ],
+  "evidenceRoot": "TestArtifacts/FightMatch/LAYOUT-S1-001/PExport",
+  "evidenceFiles": [
+    "before.json",
+    "receipt.json"
+  ],
+  "sealed": "Keep original P/PExecution/I/I02 and activation/leases unchanged, including both failure statuses. This lease does not rebind the old Unity owner or edit its activation. Preserve exact isolated SceneTemplateSettings3534B/SHA5baf593374ad67246277a435d8d0ded7167696eef6e05d2d245670e490625d8c; shared ProjectSettings unchanged. No source or other resource writes.",
+  "steps": [
+    "Fresh read-only preflight in this actual owner turn: no Unity/UPM, PExport absent, reassessment/originalP/three native receipt/activation identities match; originalP receipt preserves P_FAILED/exports[]. Verify frozen original shared58 inputs from PExecution/before.json and both natural metas absent. Verify four projected output bytes/SHA exactly exports; no copying unless all pass.",
+    "Create only PExport/before.json with owner/issuer/contract SHA, timestamp, four source identities, shared58 and meta absence preimages, process closure and sealed evidence identities. Use apply_patch for authored evidence. No new wrapper file or framework; reuse previous verified facts and a short inline mechanical check/copy step.",
+    "Perform exact byte-for-byte artifact transfer from sourceRoot to same relative destination for listed four paths only. Scene is unchanged byte-identical: may leave it in place and record NO_CHANGE rather than overwrite. Native Prefab and natural two metas are engine-generated, not handwritten YAML/meta. All destination preconditions are checked before first copy; if any drift/error appears, stop and record actual partial outcomes without overwriting further or automatic rollback.",
+    "Postcheck exported4 identities equal listed outputs, only Prefab changed among original shared58, all other57 unchanged including Scene; exactly natural2 metas added with fixed GUIDs, all15 sources remain unchanged. Verify projection output4 and exact isolated settings still match; original evidence/contracts/native3 untouched. No settings, cache, package, source, other assets, LOC or user-local file writes.",
+    "Write create-once PExport/receipt.json via apply_patch with actual command/exit/timestamps, exact before-after4 identities and per-path CREATED/REPLACED/NO_CHANGE, guards, originalP/reassessment/lease hashes, actual owner/issuer and source15/head binding. Return concise receipt path/bytes/SHA to engineering and stop; author does not sign product ACCEPT. No Git commit/push/PR operation."
+  ],
+  "limits": {
+    "unityLaunches": 0,
+    "tests": 0,
+    "deviceActions": 0,
+    "retries": 0,
+    "maxExportFiles": 4,
+    "maxEvidenceBytes": 1048576
+  },
+  "notAuthorized": [
+    "Unity/import/migration/verify rerun",
+    "T/discovery/Play/Host",
+    "Removing isolated byproduct or copying shared ProjectSettings",
+    "New source/helper/framework",
+    "Git/PR mutation",
+    "Device/CUA",
+    "Changing original receipts",
+    "Any other write beyond exports4 and evidence2"
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-FIX10-SOURCE",
+  "status": "CAPTURED_SUCCESSFUL_SOURCE_SEAL_NOT_INDEPENDENT_ACCEPTANCE",
+  "sourceAuthor": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a132fd-1ffa-76f2-8619-8ad85cc06eb8"
+  },
+  "sealExecutor": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a132fd-1ffa-76f2-8619-8ad85cc06eb8",
+    "receivedItem": "fco_01a132fd-2007-7332-8c54-be6b1113159a"
+  },
+  "recordedBy": {
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a132fd-1ffa-76f2-8619-8ad85cc06eb8",
+    "receivedItem": "fco_01a132fd-2007-7332-8c54-be6b1113159a"
+  },
+  "capture": {
+    "method": "read_thread",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "hostId": "local",
+    "turnId": "01a132fd-1ffa-76f2-8619-8ad85cc06eb8",
+    "afterToolReturned": true,
+    "toolOutputUntruncated": true,
+    "rawOutputEqualsReturnedExecOutput": true
+  },
+  "deliveryReceiver": {
+    "threadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "hostId": "local",
+    "method": "final reply received with wait_threads"
+  },
+  "groupDispatch": {
+    "sourceThreadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "receivedItem": "fco_01a132fd-2007-7332-8c54-be6b1113159a",
+    "replaySupplementReceivedItem": "fco_01a13302-afae-7553-b29c-fbcaccbf3719",
+    "scope": "Ordinary authorized group SOURCE correction only; M12 native attempt already consumed."
+  },
+  "authority": {
+    "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "centralHost": "local",
+    "centralIssuerTurn": "01a1306b-42a8-7992-9118-4ed11d490741",
+    "packet": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/engineering-loc-m12-fix10-source.md",
+    "packetBytes": 6189,
+    "packetSha256": "8ad4b466258935a61f3f7622190f57a47ccddd7fd117df02433f645f5aa33869"
+  },
+  "tool": {
+    "type": "commandExecution",
+    "id": "exec-9a20ea6d-b3c6-45e4-a902-df639f7856ad",
+    "command": "/bin/zsh -lc '/opt/homebrew/bin/python3 -I -B TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17_driver.py prepare'",
+    "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+    "status": "completed",
+    "exitCode": 0,
+    "durationMs": 13659,
+    "output": {
+      "text": "{\"status\": \"SOURCE_SEALED_EXTERNAL_RECEIPT_REQUIRED\", \"sourceAuthor\": {\"threadId\": \"01a0f40d-b0c5-7bc0-a2b2-be9d1213648a\", \"hostId\": \"local\", \"turnId\": \"01a132fd-1ffa-76f2-8619-8ad85cc06eb8\"}, \"checks\": 51, \"attempts\": 1, \"directedSeconds\": 5.462888834008481, \"mechanicalFunctionSeconds\": 13.63005029199121, \"modelSha256\": \"d8797f5df7fb34e3b331b6f098f5757253a42dbcaabe6d5ac9bec0f9c1b1b2f1\", \"freeze\": {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/source-freeze.json\", \"bytes\": 2808, \"sha256\": \"57bbe75e1088af7376b018ba794c2c4e91ec4fd3f9ce6e4a769875e061794275\"}, \"leaves\": [{\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17_driver.py\", \"bytes\": 285972, \"sha256\": \"575184fadf76e5df39d1ed6610f0524687c0e55a6d1533f27502c606322cb41f\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17-inputs.tsv\", \"bytes\": 2880135, \"sha256\": \"2820915205ab5003d8b07ea2e1ad2feaa8d15fba8fc0eb434ec309b50ea5668a\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17-write-set.tsv\", \"bytes\": 1419850, \"sha256\": \"a3a9cbc3e141ea2ae382d84d895742bde7102a54bfbcfde465abb037418f17d6\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/source.patch\", \"bytes\": 18894, \"sha256\": \"128d2bef60ff6d0abe9c034f90b0935a65fa916ae7fd088b44dc5d6559f5482a\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/prepare.json\", \"bytes\": 8677604, \"sha256\": \"c6825bc07f8909079267127a0e0da88d59551d6d56a817e937a3a5adaec24c06\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/offline-checks.json\", \"bytes\": 143917, \"sha256\": \"fbcec8355b173997b458895bbe584b8dd203e201d4477ff251cce99b8cf7d4dc\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/source-freeze.json\", \"bytes\": 2808, \"sha256\": \"57bbe75e1088af7376b018ba794c2c4e91ec4fd3f9ce6e4a769875e061794275\"}, {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/source-receipt.json\", \"bytes\": 168717, \"sha256\": \"be3b84d0643c8c84cfb3522af98f09c8c68284c1afcbc4c83cdfeb377a8d19d2\"}], \"totalBytes\": 13597897, \"sourceDelta\": {\"baseline\": {\"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix09/source/m17_driver.py\", \"bytes\": 284941, \"sha256\": \"358f7d481f61f6039908f6e5e1c504b1522b282ac8094d99c557a66b1f031688\"}, \"changedExistingFunctions\": [\"_fix05_roots_absent\", \"_fix09_budget_receipt\", \"_fix09_delta\", \"_fix09_prior\", \"_fix09_seal_entry\", \"_review02_fixture\", \"_review02_receipt_content\", \"prepare\", \"restore_fixture\", \"source_artifacts\", \"validate_restore\"], \"newHelpers\": [], \"driverMaxBytes\": 286720, \"netGrowthBytes\": 1031, \"productionDelta\": \"accept exactly one designated package folder, with zero or one trailing slash\", \"validationKind\": \"STATIC/SIMULATED; native0\"}, \"protectedCount\": 378, \"partialFiles\": 13685, \"partialDirectories\": 4903, \"partialNewEnumerations\": 0, \"GETs\": 0, \"restores\": 0, \"SDKScan\": false, \"historicalSuitesRerun\": false, \"osEvidence\": [{\"bytes\": 9148, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-plan.json\", \"sha256\": \"4aa871f2771755a59152a6437b26ab8d039a885ca4c79ff64b0ee21288f6d703\"}, {\"bytes\": 7669, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-result.json\", \"sha256\": \"2b55efb01c89f3508a0d63615d35d93b062470b2c924f0b36764a367d2af661e\"}], \"osChildStarts\": 0, \"reusedOSChildStarts\": 3, \"externalCommandReceiptRequirement\": {\"schemaVersion\": 1, \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix10-command-receipt.json\", \"maxBytes\": 65536, \"activationBinding\": {\"field\": \"sourceCommandReceipt\", \"exactKeys\": [\"path\", \"bytes\", \"sha256\"], \"gate\": \"verify_activation before material state and before every native command\", \"freshBoundedRead\": true}, \"location\": \"outside the sealed eight leaves\", \"capture\": \"read_thread original completed commandExecution after tool return\", \"requiredFor\": [\"independent central SOURCE acceptance\", \"any subsequent material activation\"], \"requiredBindings\": [\"source author thread/host/turn\", \"actual sealing thread/host/turn\", \"tool ID\", \"complete command and untruncated original output\", \"exitCode 0\", \"full invocation clock <=30 seconds\", \"final source-freeze bytes/SHA256\", \"all eight leaf identities\"], \"independentReceiver\": \"01a0e401-511d-79f2-b47f-3ab0ade1681b\", \"includeAsOwnSourceInput\": false, \"receiptAbsenceBlocksAcceptanceAndActivation\": true}}\n{\"event\": \"FINAL_COMMAND_CLOCK\", \"scope\": \"FIX10 mechanical seal once\", \"sealExecutor\": {\"threadId\": \"01a0f40d-b0c5-7bc0-a2b2-be9d1213648a\", \"hostId\": \"local\", \"turnId\": \"01a132fd-1ffa-76f2-8619-8ad85cc06eb8\", \"receivedItem\": \"fco_01a132fd-2007-7332-8c54-be6b1113159a\"}, \"startedAtUtc\": \"2026-10-13T02:10:44.094806+00:00\", \"completedAtUtc\": \"2026-10-13T02:10:57.806376+00:00\", \"fullInvocationSeconds\": 13.710168334000628, \"exitCode\": 0, \"rawError\": null, \"maxSeconds\": 30, \"attempts\": 1, \"materialExecution\": false, \"SDKScan\": false, \"partialNewEnumerations\": 0, \"historicalSuitesRerun\": false}\n",
+      "truncated": false
+    }
+  },
+  "fullInvocationClock": {
+    "event": "FINAL_COMMAND_CLOCK",
+    "scope": "FIX10 mechanical seal once",
+    "sealExecutor": {
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "hostId": "local",
+      "turnId": "01a132fd-1ffa-76f2-8619-8ad85cc06eb8",
+      "receivedItem": "fco_01a132fd-2007-7332-8c54-be6b1113159a"
+    },
+    "startedAtUtc": "2026-10-13T02:10:44.094806+00:00",
+    "completedAtUtc": "2026-10-13T02:10:57.806376+00:00",
+    "fullInvocationSeconds": 13.710168334000628,
+    "exitCode": 0,
+    "rawError": null,
+    "maxSeconds": 30,
+    "attempts": 1,
+    "materialExecution": false,
+    "SDKScan": false,
+    "partialNewEnumerations": 0,
+    "historicalSuitesRerun": false
+  },
+  "sourceFreeze": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/source-freeze.json",
+    "bytes": 2808,
+    "sha256": "57bbe75e1088af7376b018ba794c2c4e91ec4fd3f9ce6e4a769875e061794275"
+  },
+  "sourceFreezeUtf8": "{\n  \"executionAuthorized\": false,\n  \"executorComplete\": true,\n  \"filesExcludingThisSeal\": [\n    {\n      \"bytes\": 143917,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/offline-checks.json\",\n      \"sha256\": \"fbcec8355b173997b458895bbe584b8dd203e201d4477ff251cce99b8cf7d4dc\"\n    },\n    {\n      \"bytes\": 8677604,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/prepare.json\",\n      \"sha256\": \"c6825bc07f8909079267127a0e0da88d59551d6d56a817e937a3a5adaec24c06\"\n    },\n    {\n      \"bytes\": 168717,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/source-receipt.json\",\n      \"sha256\": \"be3b84d0643c8c84cfb3522af98f09c8c68284c1afcbc4c83cdfeb377a8d19d2\"\n    },\n    {\n      \"bytes\": 2880135,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17-inputs.tsv\",\n      \"sha256\": \"2820915205ab5003d8b07ea2e1ad2feaa8d15fba8fc0eb434ec309b50ea5668a\"\n    },\n    {\n      \"bytes\": 1419850,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17-write-set.tsv\",\n      \"sha256\": \"a3a9cbc3e141ea2ae382d84d895742bde7102a54bfbcfde465abb037418f17d6\"\n    },\n    {\n      \"bytes\": 285972,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17_driver.py\",\n      \"sha256\": \"575184fadf76e5df39d1ed6610f0524687c0e55a6d1533f27502c606322cb41f\"\n    },\n    {\n      \"bytes\": 18894,\n      \"path\": \"/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/source.patch\",\n      \"sha256\": \"128d2bef60ff6d0abe9c034f90b0935a65fa916ae7fd088b44dc5d6559f5482a\"\n    }\n  ],\n  \"issuer\": {\n    \"hostId\": \"local\",\n    \"threadId\": \"01a0e401-511d-79f2-b47f-3ab0ade1681b\",\n    \"turnId\": \"01a1306b-42a8-7992-9118-4ed11d490741\"\n  },\n  \"layering\": \"fixed inputs + driver -> model/tables -> seven artifacts -> seal; no backward generated dependency\",\n  \"materialWriteSetComplete\": true,\n  \"modelSha256\": \"d8797f5df7fb34e3b331b6f098f5757253a42dbcaabe6d5ac9bec0f9c1b1b2f1\",\n  \"owner\": {\n    \"hostId\": \"local\",\n    \"threadId\": \"01a0f40d-b0c5-7bc0-a2b2-be9d1213648a\",\n    \"turnId\": \"01a132fd-1ffa-76f2-8619-8ad85cc06eb8\"\n  },\n  \"productionTrustPin\": null,\n  \"schemaVersion\": 1,\n  \"sourceReady\": true,\n  \"status\": \"SOURCE_READY\"\n}\n",
+  "sourceModelSha256": "d8797f5df7fb34e3b331b6f098f5757253a42dbcaabe6d5ac9bec0f9c1b1b2f1",
+  "eightLeaves": [
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17_driver.py",
+      "bytes": 285972,
+      "sha256": "575184fadf76e5df39d1ed6610f0524687c0e55a6d1533f27502c606322cb41f"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17-inputs.tsv",
+      "bytes": 2880135,
+      "sha256": "2820915205ab5003d8b07ea2e1ad2feaa8d15fba8fc0eb434ec309b50ea5668a"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/m17-write-set.tsv",
+      "bytes": 1419850,
+      "sha256": "a3a9cbc3e141ea2ae382d84d895742bde7102a54bfbcfde465abb037418f17d6"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/source/source.patch",
+      "bytes": 18894,
+      "sha256": "128d2bef60ff6d0abe9c034f90b0935a65fa916ae7fd088b44dc5d6559f5482a"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/prepare.json",
+      "bytes": 8677604,
+      "sha256": "c6825bc07f8909079267127a0e0da88d59551d6d56a817e937a3a5adaec24c06"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/offline-checks.json",
+      "bytes": 143917,
+      "sha256": "fbcec8355b173997b458895bbe584b8dd203e201d4477ff251cce99b8cf7d4dc"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/source-freeze.json",
+      "bytes": 2808,
+      "sha256": "57bbe75e1088af7376b018ba794c2c4e91ec4fd3f9ce6e4a769875e061794275"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/source-receipt.json",
+      "bytes": 168717,
+      "sha256": "be3b84d0643c8c84cfb3522af98f09c8c68284c1afcbc4c83cdfeb377a8d19d2"
+    }
+  ],
+  "totalSourceBytes": 13597897,
+  "directedVerification": {
+    "toolId": "exec-7f8dea4d-3d3c-48da-8e5d-d980d7497e33",
+    "fullInvocationSeconds": 5.5019856250000885,
+    "exitCode": 0,
+    "caseCount": 51,
+    "passed": 51,
+    "evidence": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/offline-checks.json",
+      "bytes": 143917,
+      "sha256": "fbcec8355b173997b458895bbe584b8dd203e201d4477ff251cce99b8cf7d4dc"
+    }
+  },
+  "staticTestSource": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix10-static-checks.py",
+    "bytes": 11955,
+    "sha256": "7d24cab1dce31296b0d9dcc1e98511ef442d923e95e090e9d5d74b49596c593f",
+    "sealedInput": true
+  },
+  "firstStageReplay": {
+    "kind": "REPLAY of existing M12 first-stage bytes; not a new restore",
+    "status": "PASSED",
+    "validatedProjects": 23,
+    "validatedPackages": 15,
+    "installedPackageRecordsRead": 15,
+    "sourceRecords": 91,
+    "rawSourceIdentitiesSealedAt": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/offline-checks.json#/firstStageReplay/sourceRecords",
+    "evidence": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/offline-checks.json",
+      "bytes": 143917,
+      "sha256": "fbcec8355b173997b458895bbe584b8dd203e201d4477ff251cce99b8cf7d4dc"
+    },
+    "actualFirstBsonInput": {
+      "bytes": 17921,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix09/phases/M-runner-generation/source/src/Luban.Bson/obj/project.assets.json",
+      "sha256": "fbf1498a9719bffdb0e6ed9fc05288bee25b1a49fa4fd4e5744eb5b14a2ec477"
+    },
+    "entry": "read_restore_inputs -> validate_restore",
+    "namespaceOverride": "Only W in an isolated copy of the unmodified candidate module is rebound to existing m17-fix09; no production pin or material entry is changed.",
+    "nativeRestoresStarted": 0,
+    "historicalM12FailurePreserved": true,
+    "remainingTwoRestores": "NOT_RUN / NOT_ESTABLISHED"
+  },
+  "externalRequirement": {
+    "schemaVersion": 1,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix10-command-receipt.json",
+    "maxBytes": 65536,
+    "activationBinding": {
+      "field": "sourceCommandReceipt",
+      "exactKeys": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "gate": "verify_activation before material state and before every native command",
+      "freshBoundedRead": true
+    },
+    "location": "outside the sealed eight leaves",
+    "capture": "read_thread original completed commandExecution after tool return",
+    "requiredFor": [
+      "independent central SOURCE acceptance",
+      "any subsequent material activation"
+    ],
+    "requiredBindings": [
+      "source author thread/host/turn",
+      "actual sealing thread/host/turn",
+      "tool ID",
+      "complete command and untruncated original output",
+      "exitCode 0",
+      "full invocation clock <=30 seconds",
+      "final source-freeze bytes/SHA256",
+      "all eight leaf identities"
+    ],
+    "independentReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "includeAsOwnSourceInput": false,
+    "receiptAbsenceBlocksAcceptanceAndActivation": true
+  },
+  "integrationVerdict": "NOT_ISSUED_AUTHOR_CANNOT_ACCEPT",
+  "newHeadReviewRequired": true,
+  "materialExecutionAuthorized": false,
+  "scope": {
+    "newSourceLeaves": 8,
+    "sidecars": 1,
+    "maxSidecarBytes": 65536,
+    "partialNewEnumerations": 0,
+    "SDKScans": 0,
+    "GETs": 0,
+    "restores": 0,
+    "materialExecutions": 0,
+    "GitWrites": 0,
+    "UnityRuns": 0,
+    "historical81Rerun": false,
+    "historical66Rerun": false,
+    "historical15Rerun": false,
+    "historical109Rerun": false,
+    "historical55Rerun": false,
+    "historical53Rerun": false,
+    "staticInvocations": 1,
+    "sealInvocations": 1
+  },
+  "osVerification": {
+    "evidence": [
+      {
+        "bytes": 9148,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-plan.json",
+        "sha256": "4aa871f2771755a59152a6437b26ab8d039a885ca4c79ff64b0ee21288f6d703"
+      },
+      {
+        "bytes": 7669,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/probe-result.json",
+        "sha256": "2b55efb01c89f3508a0d63615d35d93b062470b2c924f0b36764a367d2af661e"
+      }
+    ],
+    "records": [
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.13/bin/python3.13",
+          "-I",
+          "-B",
+          "-c",
+          "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+        ],
+        "childReaped": true,
+        "elapsedSeconds": 0.02860908299771836,
+        "exitCode": 0,
+        "id": "valid",
+        "pid": 52710,
+        "profileSha256": "74a333a8f6cc01249516248c27327b5a1b43c436c9d796f562d6a48e0c734775",
+        "stderr": "",
+        "stdout": "{\"case\": \"valid\", \"sandboxReturn\": 0, \"sandboxErrno\": 0, \"sandboxError\": null, \"openErrno\": null, \"writeErrno\": null, \"cleanupErrno\": null, \"writtenBytes\": 1, \"pid\": 52710, \"elapsedSeconds\": 0.005357082998671103}\n",
+        "timedOut": false
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.13/bin/python3.13",
+          "-I",
+          "-B",
+          "-c",
+          "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+        ],
+        "childReaped": true,
+        "elapsedSeconds": 0.02362333299970487,
+        "exitCode": 1,
+        "id": "invalid-length",
+        "pid": 52711,
+        "profileSha256": "921c4f8af61330c272bcbc0a2f2421ac038ec563309fa91c87823f332a0f78c3",
+        "stderr": "",
+        "stdout": "{\"case\": \"invalid-length\", \"sandboxReturn\": 0, \"sandboxErrno\": 0, \"sandboxError\": null, \"openErrno\": 1, \"writeErrno\": null, \"cleanupErrno\": null, \"writtenBytes\": 0, \"pid\": 52711, \"openError\": \"[Errno 1] Operation not permitted: '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba-1be1-4a9f-996e-d51404ed0ba5.tmp'\", \"elapsedSeconds\": 0.004913625001790933}\n",
+        "timedOut": false
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.13/bin/python3.13",
+          "-I",
+          "-B",
+          "-c",
+          "\nimport ctypes, errno, json, os, signal, sys, time\nbegan=time.monotonic()\npayload=json.loads(sys.stdin.read())\nsignal.setitimer(signal.ITIMER_REAL, 1.5)\nlib=ctypes.CDLL('/usr/lib/libsandbox.dylib',use_errno=True)\nlib.sandbox_init.argtypes=[ctypes.c_char_p,ctypes.c_uint64,ctypes.POINTER(ctypes.c_char_p)]\nlib.sandbox_init.restype=ctypes.c_int\nerror=ctypes.c_char_p(); ctypes.set_errno(0)\nresult=lib.sandbox_init(payload['profile'].encode(),0,ctypes.byref(error))\ninitial_errno=ctypes.get_errno()\nrecord={'case':payload['id'],'sandboxReturn':result,'sandboxErrno':initial_errno,\n 'sandboxError':None if not error.value else error.value.decode(errors='replace'),\n 'openErrno':None,'writeErrno':None,'cleanupErrno':None,'writtenBytes':0,'pid':os.getpid()}\ncode=77\nif result==0:\n fd=None\n try:\n  fd=os.open(payload['target'],os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)\n except OSError as exc:\n  record['openErrno']=exc.errno; record['openError']=str(exc); code=1\n else:\n  try:\n   record['writtenBytes']=os.write(fd,b'x'); code=0\n  except OSError as exc:\n   record['writeErrno']=exc.errno; record['writeError']=str(exc); code=2\n  finally:\n   os.close(fd)\n  try:\n   os.unlink(payload['target'])\n  except OSError as exc:\n   record['cleanupErrno']=exc.errno; record['cleanupError']=str(exc); code=3\nrecord['elapsedSeconds']=time.monotonic()-began\nprint(json.dumps(record),flush=True)\nraise SystemExit(code)\n"
+        ],
+        "childReaped": true,
+        "elapsedSeconds": 0.02344545900268713,
+        "exitCode": 1,
+        "id": "extra-suffix",
+        "pid": 52712,
+        "profileSha256": "5e739ecbb78c01e317adef3a51723150b4c83190803f154ddd9f06e88996939b",
+        "stderr": "",
+        "stdout": "{\"case\": \"extra-suffix\", \"sandboxReturn\": 0, \"sandboxErrno\": 0, \"sandboxError\": null, \"openErrno\": 1, \"writeErrno\": null, \"cleanupErrno\": null, \"writtenBytes\": 0, \"pid\": 52712, \"openError\": \"[Errno 1] Operation not permitted: '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-fix07-os-checks-01/.work/phase/source/src/Luban.DataLoader.Builtin/obj/371f9ba5-1be1-4a9f-996e-d51404ed0ba5.tmp.extra'\", \"elapsedSeconds\": 0.004735417001938913}\n",
+        "timedOut": false
+      }
+    ],
+    "toolId": "exec-4edf9488-4e3e-4c64-8627-a36ae7e16de9",
+    "newChildStartsThisDelivery": 0,
+    "reused": true,
+    "newParentsOSValidated": false
+  },
+  "budgets": {
+    "driverMaxBytes": 286720,
+    "driverBytes": 285972,
+    "driverHeadroomBytes": 748,
+    "unchangedFromFIX09": true,
+    "sourceMaxBytes": 16777216,
+    "totalSourceBytes": 13597897,
+    "staticMaxSeconds": 10,
+    "staticFullInvocationSeconds": 5.5019856250000885,
+    "sealMaxSeconds": 30,
+    "sealFullInvocationSeconds": 13.710168334000628,
+    "sidecarMaxBytes": 65536
+  },
+  "protection": {
+    "fixedInputAndHistoricalEvidenceCount": 378,
+    "changed": 0,
+    "evidence": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix10/authority/offline-checks.json",
+      "bytes": 143917,
+      "sha256": "fbcec8355b173997b458895bbe584b8dd203e201d4477ff251cce99b8cf7d4dc"
+    },
+    "verifiedBeforeAndAfterBySeal": true,
+    "allFIX09ProtectedRecordsRetained": true,
+    "existingPartialInventoriesReused": true,
+    "newPartialEnumerations": 0,
+    "m11M12Protection": "Listed fixed records, logs, receipts, A/H and the fixed first Bson assets only; replay binds 91 read-file identities separately. No new full-tree inventory or whole-tree claim."
+  },
+  "sourceDelta": {
+    "baseline": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix09/source/m17_driver.py",
+      "bytes": 284941,
+      "sha256": "358f7d481f61f6039908f6e5e1c504b1522b282ac8094d99c557a66b1f031688"
+    },
+    "changedExistingFunctions": [
+      "_fix05_roots_absent",
+      "_fix09_budget_receipt",
+      "_fix09_delta",
+      "_fix09_prior",
+      "_fix09_seal_entry",
+      "_review02_fixture",
+      "_review02_receipt_content",
+      "prepare",
+      "restore_fixture",
+      "source_artifacts",
+      "validate_restore"
+    ],
+    "newHelpers": [],
+    "driverMaxBytes": 286720,
+    "netGrowthBytes": 1031,
+    "productionDelta": "accept exactly one designated package folder, with zero or one trailing slash",
+    "validationKind": "STATIC/SIMULATED; native0"
+  },
+  "outcome": {
+    "sourceCandidateSealed": true,
+    "focusedChecks": "51/51, including exact F9 RED / F10 GREEN, exact singleton and negative path forms, existing hash-domain/path contracts and full real first-stage replay",
+    "newHelpers": 0,
+    "nativeRestores": "NOT_RUN_THIS_DELIVERY",
+    "newHeadGitHubPRCodeReview": "PENDING_UPSTREAM",
+    "materialAcceptance": "NOT_ESTABLISHED",
+    "B": "NOT_RUN",
+    "L": "NOT_RUN"
+  }
+}

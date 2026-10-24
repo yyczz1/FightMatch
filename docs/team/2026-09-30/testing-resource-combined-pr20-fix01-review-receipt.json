@@ -1,0 +1,132 @@
+{
+  "receipt": "RESOURCE-COMBINED-VALIDATION-001-PR20-FIX01-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a11896-ec8e-7972-b31b-eb62841133f9",
+    "completionReceiver": "Central coordinator; no upstream message sent"
+  },
+  "authority": "Central PR20 FIX01 GitHub review receipt delegation under standing team workflow",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/20",
+  "candidate": {
+    "head": "0e83cf66e5167cbc54207b7efbc9525df5d35e99",
+    "correctedParent": "8e47895761e110c5db531d83df7bbf5dfa960852",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "branch": "codex/resource-combined-validation-v01",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-combined-v01-fix01-publication-receipt.json",
+    "bytes": 7170,
+    "sha256": "aa0dc25baee59be9d9f8fca9511a9f1cd98784df82a586f83ccef26ed10dda3c",
+    "publishedBlobs": 15,
+    "diffPaths": 9,
+    "offlineChecks": "138/138 on final round; 127 earlier expectations retained; red reproduction and fixture failure preserved",
+    "nativeRuns": 0,
+    "integrationVerdict": null
+  },
+  "review": {
+    "trigger": {
+      "commentId": 6048553677,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048553677",
+      "author": "yyczz1",
+      "reposted": false,
+      "body": "@codex review\n\nReview corrected head 0e83cf66e5167cbc54207b7efbc9525df5d35e99; the delta from 8e47895761e110c5db531d83df7bbf5dfa960852 addresses P1 4212752227 by reserving closure/restoration time inside the unchanged 900-second cap. Nine implementation functions changed; 67 others are AST-identical. Targeted red and fixture failure remain, then 138/138 offline checks pass. Native execution is still blocked pending this review. Please inspect the correction and related timeout/cleanup paths; prior findings are preserved, not manually marked resolved."
+    },
+    "summary": {
+      "commentId": 6048274217,
+      "observedStatus": "RUNNING (stale summary; it still names commit 0e83cf6)",
+      "interpretation": "A formal review submission and inline review comments for the exact FIX01 head were subsequently observed; this stale summary is retained as a separate GitHub entity, not used to override them."
+    },
+    "formalReviewSubmissions": [
+      {
+        "id": "PRR_kwDOTDyjrM8AAAABRM_uaA",
+        "state": "COMMENTED",
+        "submittedAt": "2026-10-07T23:00:53Z",
+        "reviewedCommitFromBody": "0e83cf66e5",
+        "reviewedCommitMatchesFullHead": true,
+        "formalApproval": false
+      },
+      {
+        "id": "PRR_kwDOTDyjrM8AAAABRM1e9g",
+        "state": "COMMENTED",
+        "submittedAt": "2026-10-07T22:39:01Z",
+        "reviewedCommitFromBody": "8e47895761",
+        "reviewedCommitMatchesFullHead": false,
+        "formalApproval": false
+      }
+    ],
+    "findings": [
+      {
+        "commentId": 4212896382,
+        "commentNodeId": "PRRC_kwDOTDyjrM77G7J-",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896382",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1L",
+        "priority": "P1",
+        "title": "Bound scans before they enter the cleanup reserve",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 36,
+        "resolved": false,
+        "outdated": false,
+        "createdAtUtc": "2026-10-07T23:00:53Z",
+        "originalText": "Fresh evidence in the corrected head shows that `probe_timeout()` only bounds subprocess probes; it does not bound the synchronous filesystem work that follows a successful check. For example, `monitor()` enters `resources()` and `projection_guard()` after checking this deadline, and those functions recursively scan/hash the projection and external caches without rechecking it. If one of those scans starts just before `work_deadline` on a slow or stalled external volume, it can cross the reserved 150 seconds while Unity is still live, so `closure()` again starts with insufficient TERM/restoration time. Add deadline checks within the long scans or reserve a bounded worst-case allowance before entering them."
+      },
+      {
+        "commentId": 4212896391,
+        "commentNodeId": "PRRC_kwDOTDyjrM77G7KH",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896391",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1R",
+        "priority": "P1",
+        "title": "Reserve time for final evidence and receipt emission",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 824,
+        "resolved": false,
+        "outdated": false,
+        "createdAtUtc": "2026-10-07T23:00:53Z",
+        "originalText": "This formula reserves exactly 90 seconds for closure and 60 seconds for restoration, but no time for the mandatory work after restoration. When T and cleanup consume their full allocations, `restore_all()` can finish at `execution_deadline`; `main()` then still writes `compile.json`, `after.json`, `process-after.json`, hashes every evidence file, and writes `receipt.json` without another deadline check. The run therefore exceeds the unchanged 900-second cap while retaining `TEST_PASS`, and `mechanicalExecutionSeconds` is evaluated before the evidence hashing and receipt write, so the receipt also underreports the overrun. Reserve finalization time inside the cap or make exceeding the deadline fail the run."
+      }
+    ],
+    "priorFindingThreadStates": [
+      {
+        "commentId": 4212752227,
+        "commentNodeId": "PRRC_kwDOTDyjrM77GX9j",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212752227",
+        "threadId": "PRRT_kwDOTDyjrM6qH91Y",
+        "priority": "P1",
+        "title": "Reserve the global deadline for process cleanup",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "originalLine": 36,
+        "resolved": false,
+        "outdated": false,
+        "status": "UNRESOLVED_AND_CURRENT"
+      }
+    ],
+    "formalReviewState": "COMMENTED",
+    "formalApproval": false,
+    "classification": "TWO_NEW_P1_FINDINGS; PRIOR_P1_STILL_UNRESOLVED; NOT_APPROVED",
+    "integrationVerdict": null
+  },
+  "githubSnapshot": {
+    "snapshotHead": "0e83cf66e5167cbc54207b7efbc9525df5d35e99",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "prState": "OPEN_DRAFT",
+    "triggerCommentId": 6048553677,
+    "reviewsListed": 2,
+    "inlineThreads": 3,
+    "currentHeadFindings": 2,
+    "priorFindingThreadsRetained": 1
+  },
+  "method": {
+    "source": "GitHub PR metadata, issue comments, review submissions and inline review threads; FIX01 publication receipt read locally",
+    "newTrigger": false,
+    "localCodeReview": false,
+    "testsRun": false,
+    "unityRun": false,
+    "githubWrite": false,
+    "writes": "Only this new receipt"
+  }
+}

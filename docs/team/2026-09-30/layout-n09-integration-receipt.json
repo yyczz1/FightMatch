@@ -1,0 +1,55 @@
+{
+  "task": "LAYOUT-S1-FIX04-N09-NATIVE",
+  "date": "2026-10-06",
+  "verdict": "NEEDS_FIX",
+  "reason": "实际Unity在保存前因五条Canvas零值覆盖重新出现失败；本次诊断文件和解析已完整，不能以诊断修好或几何通过替代场景接收。",
+  "execution": {
+    "executorThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local",
+    "executorTurn": "01a10d02-87d6-7023-99be-1fdb5b249d7b",
+    "engineeringReceiptTurn": "01a10d1c-0617-74c3-97d4-ffc13a4ccc0e",
+    "actualState": "C已completed/idle并停写；主程核实际原始输出及文件收件。",
+    "toolExecution": "exec-a7f3180c-a679-451d-8535-1d48686cff0a",
+    "launches": 1,
+    "secondsToFirstFailure": 25.880972208,
+    "toolSecondsIncludingCleanup": 88.639,
+    "exitCode": 1,
+    "retry": 0,
+    "sceneSave": 0,
+    "postSaveReopen": 0,
+    "sceneExport": 0,
+    "ownedClosed": 11,
+    "signals": "自然收尾60秒后仅向fresh owned VBCS PID7405发送一次SIGTERM；不是无信号收尾。",
+    "newSceneAndCloseCalls": "null/UNOBSERVED，不以源码路径推断冒充计数。"
+  },
+  "evidence": {
+    "receipt": {"path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/PExecution/receipt.json", "bytes": 1407697, "sha256": "8f616262e138722715bd7e7317027beeeab31960125f67ec0f9d0222d5ec746c"},
+    "editorLog": {"path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/PExecution/editor.log", "bytes": 108632, "sha256": "4641b100aca3c985494e0ccd780f5f4db5bb2dc0f895e1621b2a0a909e1e627b"},
+    "diagnostics": [
+      {"file": "D/override-diff-00.json", "bytes": 3430, "sha256": "d3c13392b708dfaba89ed8af762bd1ae0c9ef169fdae4b598e07efd1c561e05c", "logLine": 361, "stage": "post-set", "expected": 22, "actual": 22, "orderedEqual": true, "contentEqual": true},
+      {"file": "D/override-diff-01.json", "bytes": 12350, "sha256": "e5ebee621e72db057dd7933afeea348d26b2c51364a2da45ebe150bab418bb19", "logLine": 372, "stage": "after-force", "expected": 22, "actual": 100, "orderedEqual": false, "contentEqual": false},
+      {"file": "D/override-diff-02.json", "bytes": 15988, "sha256": "1eea136c509e67bef29236cf91098d7fbd00212904e886705ed86cf9b9d7053c", "logLine": 405, "stage": "after-two-editor-updates", "expected": 22, "actual": 134, "orderedEqual": false, "contentEqual": false}
+    ],
+    "terminal": "log416: InvalidOperationException:FM029: LAYOUT no stale saved Canvas scale/stretch overrides；diagnosticsIncomplete=false、cleanupFailures=0。",
+    "compilation": "log244为Host.Editor实际Csc，新DLL207360B/7bc6007b78fc676171f0ebd8102164bbaff403b960d0ed61964c7bd4564b7599；Core.Tests未Csc，仅复用已固定DLL。",
+    "centralInspection": "中央实读receipt并核其身份，实读三D并核bytes/hash/数组长度与真假值，读取log361/372/405/416原行；共享B195375/b7000d9d…及Scene12900/0ceee6f1…身份吻合。其余219冻结/双端122输入/18叶4419164B/进程闭包引用主程实际机械收件，不重复验证。"
+  },
+  "remaining": "最终几何覆盖8项通过但五条零值覆盖重现；额外78/112条的具体来源及writer尚待分析。场景/Prefab保持。新TMP77503B/3叶保留；旧TMP损失不改写。N09唯一次数已消耗，不能复用runner再运行。",
+  "independentReview": "N09未发布到GitHub PR Code Review；PR4历史head e3d581df42f3a25cfdfc319bca5509f8b5382ada及P1不能覆盖本候选。本次NEEDS_FIX基于实际失败，未执行重复本地代码审查。",
+  "notAccepted": "99测试/发现、保存复开/导出、GitHub新head审查、设备/APK及首Demo仍未完成。",
+  "nextApprovedStep": {
+    "task": "LAYOUT-N09-READONLY-DIAGNOSIS",
+    "authority": "接续用户已授权真实场景修复及团队派发；普通技术失败的只读定位，无需重复开发授权。",
+    "owner": "主程01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local，唯一收件；可复用既有SYS01a0f2e6-29bb-7092-abf0-705b41b7bf93/local，Astra/xhigh并登记fresh actual。",
+    "readScope": "本回执绑定的N09 receipt/log/D、N09 S源码和固定共享B/T/Scene/Prefab及必要直接调用者；前次N07只读诊断仅作背景，必要时读取本机已安装uGUI相关源码和Unity2022.3官方文档。不整篇重读历史。",
+    "questions": [
+      "完整解码三D的键与序列，按目标/属性归组：原22条的值、引用、重复数和顺序怎样变化；新增78/112条分别是什么；五条重现时记录值与实际Transform有何差异。",
+      "将变化绑定到冻结B的Set、Force、Queue、两次Editor更新及相关Editor/uGUI代码时序。明确哪些是直接证据、哪些仅是可能原因；不把发生先后写成具体writer已证实。",
+      "结合当前版本可信资料，区分运行时受驱动属性、PrefabUtility的内存覆盖记录与磁盘序列化；判断现有验收是在检查真实损坏还是混用了不同状态。不能预设答案。",
+      "给一个最小纠正建议、精确源码/测试/资源范围和下一次必要验证要回答的问题。若建议改变任何旧门，逐条说明旧意图如何保留及依据，中央确认前不实施；不把放宽或删除断言作为通过办法。"
+    ],
+    "writeScope": ["docs/team/2026-09-30/engineering-layout-n09-readonly-diagnosis.md", "docs/team/2026-09-30/engineering.md"],
+    "output": "唯一短诊断稿不超过8KiB，含紧凑差量表、事实/未知、源码行和官方出处、建议方案；主程登记实际回合并收实际完成。不要另写重复方案/报告。",
+    "allowedChecks": "只读机械解码/比对新证据；不重跑原静态fixture、测试、编译或Unity，不创建运行探针/新执行器。",
+    "forbidden": "不修改B/T/Scene/Prefab/旧证据、阈值、测试断言、Git/依赖/配置；不派新代码审查，不重试LOC，不创建新会话。任何产品修正或新的原生运行需后继具体包。"
+  }
+}

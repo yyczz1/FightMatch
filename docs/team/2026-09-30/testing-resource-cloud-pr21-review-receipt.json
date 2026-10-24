@@ -1,0 +1,92 @@
+{
+  "receipt": "RES-CLOUD-INPUT-PR21-GITHUB-REVIEW-RECEIPT",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a11913-d6cd-7382-9bca-346fb943c28c",
+    "requestedModel": "gpt-6-luna",
+    "requestedEffort": "medium",
+    "runtimeModel": "Not exposed; no claim about effective model",
+    "completionReceiver": "Central coordinator"
+  },
+  "authority": "Central PR21 mechanical GitHub review receipt delegation",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/21",
+  "candidate": {
+    "head": "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-cloud-input-v01-publication-receipt.json",
+    "bytes": 5134,
+    "sha256": "22ca392e66cbbf51debdb594467a62c82e1563be441a95c83673de02b64520bf",
+    "sharedInput": {
+      "files": 1036,
+      "bytes": 32657794,
+      "canonicalSha256": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8"
+    },
+    "remoteVerification": {
+      "published": true,
+      "allMatch": true,
+      "files": 1036,
+      "bytes": 32657794,
+      "head": "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a"
+    },
+    "nativeRuns": 0,
+    "integrationVerdict": null
+  },
+  "review": {
+    "trigger": {
+      "commentId": 6050135876,
+      "url": "https://github.com/yyczz1/FightMatch/pull/21#issuecomment-6050135876",
+      "reposted": false,
+      "author": "yyczz1"
+    },
+    "completion": {
+      "summaryCommentId": 6050138881,
+      "status": "COMPLETED",
+      "completedAtUtc": "2026-10-08T01:18:05.613795Z",
+      "summaryCommit": "6359bf3"
+    },
+    "topLevelResultComment": null,
+    "formalReview": {
+      "id": "PRR_kwDOTDyjrM8AAAABRNzBsg",
+      "state": "COMMENTED",
+      "submittedAtUtc": "2026-10-08T01:18:03Z",
+      "author": "chatgpt-codex-connector",
+      "reviewedCommitFromBody": "6359bf36bf",
+      "reviewedCommitMatchesFullHead": true,
+      "formalApproval": false
+    },
+    "findings": [
+      {
+        "commentId": 4213654050,
+        "commentNodeId": "PRRC_kwDOTDyjrM77J0Ii",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/21#discussion_r4213654050",
+        "threadId": "PRRT_kwDOTDyjrM6qKGqq",
+        "priority": "P1",
+        "title": "Restore the missing Unity meta before freezing the manifest",
+        "path": "docs/versioning/2026-10-08-cloud-resource-input/source-manifest.json",
+        "line": 5362,
+        "createdAtUtc": "2026-10-08T01:18:03Z",
+        "resolved": false,
+        "outdated": false,
+        "originalText": "At exact head `6359bf36bfe32bb2b86ce9edab29c2de8c39b52a`, `LocalePreferenceStoreTests.cs` remains in the snapshot while only its `.meta` sidecar is listed as removed. When the cloud workspace first imports this Unity project, Unity will generate a new sidecar and GUID, changing the declared 1036-file input and making the required post-run protected-source/GUID comparison operate on a different candidate. Preserve a fixed sidecar in the snapshot, or explicitly bind and clean this generated file in the preflight contract before treating the manifest as an immutable test input."
+      }
+    ],
+    "classification": "FORMAL_REVIEW_COMMENTED_WITH_P1; NOT_APPROVED"
+  },
+  "acceptanceBoundary": {
+    "cloudRun": "NOT_RUN",
+    "cloudInstall": "NOT_RUN",
+    "licensing": "UNVERIFIED",
+    "dependencies": "YooAsset and SBP not verified in recovered cloud shell",
+    "testCases": "89-case list copied unchanged; no cloud test or import result",
+    "scope": "Frozen 1036-file candidate for future cloud preflight; not to be merged over newer Host test work"
+  },
+  "nextStep": "Resolve or explicitly bind the missing .meta sidecar in the candidate/preflight contract, then separately verify cloud dependency and license readiness before any cloud execution."
+}

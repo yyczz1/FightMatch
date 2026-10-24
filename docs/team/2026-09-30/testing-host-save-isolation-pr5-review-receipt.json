@@ -1,0 +1,91 @@
+{
+  "task": "HOST-SAVE-ISOLATION-PR5-REVIEW-RECEIPT",
+  "verdict": "ACCEPT",
+  "scope": "Only the independent GitHub code-review gate for the fixed source head. Not C# compile, tests, meta/import, real Host/G3 or product acceptance.",
+  "receivedUtc": "2026-10-02T17:17:15Z",
+  "receivedLocal": "2026-10-03T01:17:15+08:00",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fd9a-44af-72f1-8963-7ef6b8303849"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "User standing AGENTS section 6 workflow and central's explicit PR5 result-receipt delegation; no local review, duplicate trigger or test execution.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/5",
+    "head": "a8b9758ed2db1a43dac9328f162433a4523624c9",
+    "tree": "ee14d352b9f89e5c76204bba6433c1c1e3ad7378",
+    "base": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "parent": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "draft": true,
+    "merged": false
+  },
+  "inputs": {
+    "manifest": {
+      "path": "docs/versioning/2026-10-03-host-save-isolation-pr/publication-manifest.json",
+      "sha256": "47cf565b5324e8dc4141fd3acdd8c89675564db25c6325dd3b009beff5bd95fb"
+    },
+    "sourceReceipt": {
+      "path": "docs/versioning/2026-10-03-host-save-isolation-pr/source-receipt.json",
+      "sha256": "0f208101a2884e73ed6106e06087f1ca46cd2348870f280304036e1b646db2f7"
+    },
+    "staticChecks": {
+      "path": "docs/versioning/2026-10-03-host-save-isolation-pr/static-checks.json",
+      "sha256": "17231144029cadc16656b9d41fea3aaf8875a43baa54231c249127e8b67ba51e"
+    },
+    "stagedRoot": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/S/",
+    "canonicalProductPaths": [
+      "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostSaveIsolationTests.cs"
+    ],
+    "boundary": "Canonical PR paths map to staged bytes in the frozen manifest, not the unchanged shared checkout. Central/engineering's exact publication mapping, shared1089 and FIX04 preservation checks are reused as attributed evidence; not rerun here. The original checker-path failure remains; later 194 Python assertions are static checks, not executed game tests."
+  },
+  "originalReview": {
+    "bot": "chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5957483092,
+      "url": "https://github.com/yyczz1/FightMatch/pull/5#issuecomment-5957483092",
+      "createdUtc": "2026-10-02T17:12:15Z",
+      "rawBody": "@codex review\n\nPlease review head a8b9758ed2db1a43dac9328f162433a4523624c9 against base 6818405b859d71bf8c0f116299e7e9605a3d769a. The two product files implement the approved Editor-only save-isolation design; the source-only activation and evidence distinguish static checks from unrun Mac tests and real Host acceptance."
+    },
+    "summary": {
+      "id": 5957487058,
+      "url": "https://github.com/yyczz1/FightMatch/pull/5#issuecomment-5957487058",
+      "updatedUtc": "2026-10-02T17:16:31Z",
+      "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T17:16:30.935085Z\">2026-10-02T17:16:30.935085Z</relative-time> | `a8b9758` | Manual request |"
+    },
+    "result": {
+      "id": 5957543992,
+      "url": "https://github.com/yyczz1/FightMatch/pull/5#issuecomment-5957543992",
+      "createdUtc": "2026-10-02T17:16:29Z",
+      "rawBody": "Codex Review: Didn't find any major issues. Nice work!\n\n**Reviewed commit:** `a8b9758ed2`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "reportedReviewedCommit": "a8b9758ed2"
+    },
+    "binding": "Reported ten-character commit and Completed summary prefix both match the full head in the trigger/current PR. Remote Git commit API separately confirms the full SHA, tree and parent.",
+    "formalReviewRecords": [],
+    "inlineReviewThreads": [],
+    "findings": [],
+    "formalApprovalClaimed": false,
+    "interpretation": "Completed, no major issues reported for this head. No formal APPROVED submission and no guarantee that every possible issue is absent."
+  },
+  "gates": {
+    "codeReview": "CLOSED_NO_MAJOR_ISSUES_REPORTED_FOR_FIXED_HEAD",
+    "compileImport": "NOT_RUN",
+    "naturalTestMeta": "NOT_RUN",
+    "sixHisoDiscoveryAndExecution": "NOT_RUN",
+    "realHostG3": "NOT_RUN",
+    "deviceAndProduct": "NOT_ACCEPTED",
+    "next": "Central may coordinate separately scoped compile/import, exact discovery/tests and Host/G3. This receipt does not activate them or authorize merge/release."
+  },
+  "thisTask": {
+    "reviewTriggers": 0,
+    "reviewThreadMutations": 0,
+    "localCodeReviews": 0,
+    "workerDispatches": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFile": "docs/team/2026-09-30/testing-host-save-isolation-pr5-review-receipt.json"
+  }
+}

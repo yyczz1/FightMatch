@@ -1,0 +1,83 @@
+{
+  "packet": "RES-COMBINED-V01-FIX01-SOURCE",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "head": "0e83cf66e5167cbc54207b7efbc9525df5d35e99",
+  "qaActual": "01a11896-ec8e-7972-b31b-eb62841133f9",
+  "qaCompletionCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:121",
+  "qaReceiptSha256": "42f3ccba9fceedc7152febe662f04a69e65d0059653502bf4153dcf5e824e221",
+  "reviewState": "COMMENTED",
+  "formalApproval": false,
+  "findings": [
+    {
+      "id": 4212896382,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896382",
+      "reason": "Synchronous scans/hashing can consume cleanup reserve without internal deadline checks."
+    },
+    {
+      "id": 4212896391,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896391",
+      "reason": "Final evidence and receipt emission is outside the reserved budget; TEST_PASS can be retained while overrun is underreported."
+    }
+  ],
+  "centralDirectlyInspected": true,
+  "oldP1": {
+    "id": 4212752227,
+    "resolved": false,
+    "outdated": false
+  },
+  "sourceEvidence": {
+    "offlineFinalPassed": 138,
+    "seconds": 16.826403543003835,
+    "originalFailuresPreserved": true,
+    "rootReruns": 0
+  },
+  "immutableSource": {
+    "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/V01-source",
+    "files": {
+      "inputs.json": {
+        "bytes": 1241557,
+        "sha256": "ff088efd0e6871d751a1f553a46e77ae06789e9f01c5743411ca93e1fa087f1d"
+      },
+      "preparation.json": {
+        "bytes": 391631,
+        "sha256": "2485b5fa707f20eb6dfd431677e973c88199e6210a6713134d9b3590bc53ec1a"
+      },
+      "replay-check.py": {
+        "bytes": 86222,
+        "sha256": "26baa804462579fa1b34e679bfc0ef53c621a721d00bddcf709e4a3756692975"
+      },
+      "replay-results.json": {
+        "bytes": 422204,
+        "sha256": "1b9939265a6ef780f5b7d75576dfbc31b0885be4b4ee60ebbc1410774e4ff390"
+      },
+      "runner.py": {
+        "bytes": 76790,
+        "sha256": "5e7708764a0b8663cffdbffb120eabc96b4bdf654e26af99b49e41a9d5e72f88"
+      }
+    }
+  },
+  "fix02InputAmendment": {
+    "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/source-plan/inputs.json",
+    "old": {
+      "bytes": 1241557,
+      "sha256": "ff088efd0e6871d751a1f553a46e77ae06789e9f01c5743411ca93e1fa087f1d"
+    },
+    "new": {
+      "bytes": 1241588,
+      "sha256": "30e2254fba0f1ee5f0ac82214d49690b6aab3401d151dee765ac9ddbbb0865fb"
+    },
+    "onlyChanges": [
+      "preparation.budgetSeconds120→160",
+      "limits.mechanicalPreparationSeconds120→160",
+      "limits.finalizationSeconds=30 inside overall900"
+    ],
+    "productInputsAnd89CasesUnchanged": true,
+    "overallSeconds": 900,
+    "reason": "Allow the new corrective source work without resetting consumed preparation; reserve finalization within the same native total cap."
+  },
+  "nativeRuns": 0,
+  "nativeAuthorized": false,
+  "merged": false
+}

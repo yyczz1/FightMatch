@@ -1,0 +1,105 @@
+{
+  "task": "LOC-M17-FIX05 GitHub PR review intake",
+  "qaActualTurn": "01a12c1f-be8b-70e1-9ba6-f932a8f01031",
+  "qaThread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "authority": {
+    "centralAuthorizationTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+    "humanAuthorizationItem": "01a12bf9-ee2d-7140-a43f-a33e3bafec6c"
+  },
+  "reviewWatch": {
+    "startedAtUtc": "2026-10-11T18:00:10Z",
+    "resultObservedAtUtc": "2026-10-11T18:05:18Z",
+    "maxWaitMinutes": 6,
+    "outcome": "COMPLETED_WITH_RESULT_WITHIN_WINDOW"
+  },
+  "publication": {
+    "source": "docs/team/2026-09-30/loc-m17-fix05-publication.json",
+    "repository": "yyczz1/FightMatch",
+    "pullRequest": 2,
+    "pullRequestUrl": "https://github.com/yyczz1/FightMatch/pull/2",
+    "expectedHead": "c4c7a5d313c1193191447b525ade226268b616e1",
+    "expectedParent": "816263eaacf4f3e276c0cef7703c5824af086cc6",
+    "expectedTree": "7e3b547faeb80cf3656b259122a60b75575a51c6",
+    "triggerCommentId": 6111991590,
+    "remoteBlobAndSizeVerified": true,
+    "publishedFileCount": 26
+  },
+  "pullRequestAtFinalCheck": {
+    "head": "c4c7a5d313c1193191447b525ade226268b616e1",
+    "headMatchesExpected": true,
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "serviceResult": {
+    "summary": {
+      "commentId": 5928035293,
+      "latestStatus": "Completed",
+      "reviewedCommitPrefix": "c4c7a5d",
+      "completedAtUtc": "2026-10-11T18:04:57.010435Z",
+      "rawStatusText": "✅ Completed"
+    },
+    "reviewSubmission": {
+      "id": "PRR_kwDOTDyjrM8AAAABRuSEEQ",
+      "state": "COMMENTED",
+      "submittedAtUtc": "2026-10-11T18:04:51Z",
+      "exactHead": true
+    },
+    "botComment": {
+      "id": 5484348433,
+      "createdAtUtc": "2026-10-11T18:04:51Z",
+      "reviewedCommitPrefix": "c4c7a5d",
+      "author": "chatgpt-codex-connector[bot]"
+    },
+    "exactHeadFindings": [
+      {
+        "threadId": "PRRT_kwDOTDyjrM6rQE5E",
+        "reviewCommentId": 4242623018,
+        "severity": "P1",
+        "title": "Bind the correction authorizations into the model",
+        "path": "docs/versioning/2026-10-12-loc-m17-fix05-pr/source/m17_driver.py",
+        "lineStart": 59,
+        "lineEnd": 63,
+        "resolved": false,
+        "outdated": false,
+        "body": "When this sealed source is later consumed, _fix05_protection() reads only the four entries in FIX05_DOCUMENTS, so neither central-loc-m17-fix05-identity01.md—which authorizes the final OWNER/DISPATCH values—nor central-loc-m17-fix05-seal01.md—which authorizes the alternate sealing procedure—is present in m['inputs'] or freshly verified. Those records can therefore be removed or changed without invalidating consume_source() or a later activation, leaving the executable model bound to the pre-correction scope rather than the authority that produced the final candidate. Add both correction records with fixed byte/hash identities to the protected inputs."
+      },
+      {
+        "threadId": "PRRT_kwDOTDyjrM6rQE5F",
+        "reviewCommentId": 4242623020,
+        "severity": "P1",
+        "title": "Preserve the successful seal command receipt",
+        "path": "docs/versioning/2026-10-12-loc-m17-fix05-pr/authority/source-receipt.json",
+        "lineStart": 329,
+        "lineEnd": 332,
+        "resolved": false,
+        "outdated": false,
+        "body": "For the supplemental sealing attempt, this field is still placeholder prose rather than an actual tool ID, and the archived evidence contains no corresponding successful exit code, full invocation duration, or command output; the only concrete mechanical tool record in this package is exec-bc793778-78f9-49a4-935a-dc7404b6f69c, which exited 20. Consequently the final SOURCE_READY claim and fixedListFreshlyVerified assertion cannot be tied to the required successful ≤30-second correction run. Record the actual successful tool result instead of referring to an unarchived completion receipt."
+      }
+    ],
+    "combinedStatusChecks": [],
+    "note": "The bot review submission is COMMENTED, not APPROVED. Both current exact-head P1 threads are unresolved and not outdated. No 'Didn't find any major issues' conclusion was returned for this head."
+  },
+  "reviewGate": {
+    "status": "NEEDS_FIX",
+    "exactHeadFindingCount": 2,
+    "formalApproved": false,
+    "integrationVerdict": "NEEDS_FIX",
+    "boundary": "This verdict concerns the source-review gate only; it does not accept M06 material execution, Unity/build, or device acceptance."
+  },
+  "deliveryContext": {
+    "publishedSourceEvidence": "The publication reports 81/81 directed checks passed and a corrected seal exit code 0. The GitHub reviewer identified that the published model omits two correction authorization records and its receipt does not bind the successful supplemental seal tool receipt.",
+    "M06": "INCOMPLETE; material/device acceptance remains unresolved.",
+    "materialsExecution": "NOT_RUN by this review-intake task; no authorization to resume M06.",
+    "testsRerun": false,
+    "localCodeReview": "NOT_RUN",
+    "buildOrDeviceRun": "NOT_RUN"
+  },
+  "pollingActions": {
+    "reviewRetriggered": false,
+    "commentsPosted": false,
+    "otherThreadsContacted": false,
+    "getOrRestorePerformed": false,
+    "unityOrNativeExecutionPerformed": false
+  }
+}

@@ -1,0 +1,326 @@
+{
+  "task": "LAYOUT-S1-FIX02",
+  "status": "SOURCE_READY",
+  "labels": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNIMPORTED",
+    "OLD_PREFAB_NOT_MIGRATED",
+    "NOT_PLAYABLE_CANDIDATE"
+  ],
+  "frozenUtc": "2026-10-02T05:15:59.934081+00:00",
+  "author": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fb04-044e-7301-92fe-d6793a13a708",
+    "identityEvidence": "read_thread returned actual turn inProgress before product writes",
+    "productWritingStopped": true
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0faf8-c9a4-7f92-80ec-877252f97536"
+  },
+  "soleReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "authority": "User AGENTS section6 standing team workflow and central/engineering FIX02 scoped dispatch; only two source paths authorized.",
+  "contract": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-pr4-fix02.md",
+    "bytes": 5697,
+    "sha256": "846dce5b569e1527147948abff6e6d56d841612e500effaf09cadbec1cccb8ed"
+  },
+  "before": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX02/before.json",
+    "bytes": 94827,
+    "sha256": "f1f0c07707e466bbe262553173a67f43ae5f1d0436ea06a6e90cf6e4c486ed01"
+  },
+  "patch": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX02/source.patch",
+    "bytes": 7607,
+    "sha256": "06520ebc266974a81f55bac084865dd7e77fa83f68264f246eb1ff11fe2bcbe6"
+  },
+  "sourceS15After": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "bytes": 154822,
+      "sha256": "01b73f95a355ee5eaa3839360ab56094b158d16254e49cb0eb3a470834c75482",
+      "gitBlob": "d94de9c93f6111b20d189d066d34bd7f01f8ed64"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "bytes": 17703,
+      "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9",
+      "gitBlob": "bea02eff1e5d417619d1544c31be9bab069c71a3"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60",
+      "gitBlob": "29e699d867e7625170741207bab3840301f5748b"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670",
+      "gitBlob": "289ee0ff0002dbf9a3598d67cbd50a244d2327b9"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "bytes": 8684,
+      "sha256": "7b05c43b64467afff705d66eaf4486fe3a12da38d5804eaef450f986e6e48049",
+      "gitBlob": "8bfc88b5341ac1531044a9003ec4ec3f596683fd"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05",
+      "gitBlob": "e48a69da2aeb6bae1abda7170bcfd850415c640d"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c",
+      "gitBlob": "655743f9084e6de0102b8b8e9e123b13dfc56a55"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9",
+      "gitBlob": "0936d8eacbbd796f6cbe62fde73e611621c012d4"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333",
+      "gitBlob": "d07b523036f060710408a11cc0c8528b8e19b75d"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf",
+      "gitBlob": "c5acc6fa538a0d8a9cb2e8f086f2b94c99467634"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0",
+      "gitBlob": "d22aa1e72bc2a9b698b12b9c7f99ea54cc656172"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd",
+      "gitBlob": "66a6e5dc2af0b4f66ded65d0f954a59c422318b7"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321",
+      "gitBlob": "d07bb9352c1919264c5d2b9d02cc5f949d9b8317"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "bytes": 74763,
+      "sha256": "15375c668050f24f8b29e5d78323661f3713633e104ca40f255507f0e35510d2",
+      "gitBlob": "e7e74faaac1b6b95e60ca24fd63c0aa84b2c5f50"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "bytes": 24402,
+      "sha256": "83e556cc3348faa0210985af3d910f9e32f450b08e05f8eb72230252bb543f72",
+      "gitBlob": "70515b07c728f2911c2dada653296e626477a767"
+    }
+  ],
+  "budget": {
+    "files": 2,
+    "fileLimit": 2,
+    "addedPlusDeletedLines": 67,
+    "totalLimit": 200,
+    "perFile": [
+      {
+        "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "added": 4,
+        "deleted": 4,
+        "used": 8,
+        "limit": 40
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "added": 59,
+        "deleted": 0,
+        "used": 59,
+        "limit": 160
+      }
+    ]
+  },
+  "commands": [
+    {
+      "command": "Inline Python: verify immutable S/FIX01/records with engineering-confirmed published README; virtual S inventory overlaid with FIX01 all15; exact1079 filesystem entries including added/missing paths; two UTF8 preimages.",
+      "startedUtc": "2026-10-02T05:14:18.869429+00:00",
+      "endedUtc": "2026-10-02T05:14:18.975309+00:00",
+      "exitCode": 0,
+      "scopeMatch": true
+    },
+    {
+      "command": "Inline Python FIX02 postflight: S/FIX01/records hashes, virtual1079 inventory, exact two-file diff/budgets and unified patch byte replay, public/serialized declaration preservation, all original test lines/11 other methods/12 names/8 Overlay lifecycles, unchanged geometry/lifecycle method bodies, original staticVerifierPython(postflight) stdout captured in memory, final15 SHA256/gitBlob identities.",
+      "startedUtc": "2026-10-02T05:15:58.010757+00:00",
+      "endedUtc": "2026-10-02T05:15:59.934081+00:00",
+      "exitCode": 0,
+      "inventoryEntries": 1079,
+      "unchangedEntries": 1077,
+      "totalAddedPlusDeletedLines": 67,
+      "patchReplayByteEqual": true,
+      "immutableS6AndFIX01AndProtectedRecordsUnchanged": true,
+      "original133InputsVerified": 133,
+      "cumulativeSourceCount": 15,
+      "cumulativeAddedPlusDeletedLines": 2464,
+      "unchangedOtherTestBodies": 11,
+      "preservedDeclaredMethods": 12,
+      "preservedOverlayLifecycles": 8,
+      "actualTestDiscovery": 0,
+      "actualTestExecution": 0,
+      "toolChunk": "f6210e",
+      "evidenceScope": "Mechanical text/hash/patch checks only; no compilation, discovery, test execution or independent code-review verdict."
+    }
+  ],
+  "publicationBaselineConfirmation": {
+    "sourceThread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "receivedInAuthorTurn": "01a0fb04-044e-7301-92fe-d6793a13a708",
+    "confirmation": "Engineering explicitly confirmed current README is authorized FIX01 publication, no rollback; freeze current3617B/SHA29ff053dd8b14e51fd83afe70292ff887ef479d3f637e5ea281657250f9b4a5f and continue before -> tests -> production with unchanged FIX02 contract.",
+    "publicationManifest": {
+      "path": "docs/versioning/2026-10-02-layout-s1-pr/fix01/publication-manifest.json",
+      "bytes": 3410,
+      "sha256": "adae24e1673dc5036f2ec88b754fba8d0b83ba947a40abe9d6579d2c159e3048"
+    },
+    "readme": {
+      "path": "docs/versioning/2026-10-02-layout-s1-pr/README.md",
+      "bytes": 3617,
+      "sha256": "29ff053dd8b14e51fd83afe70292ff887ef479d3f637e5ea281657250f9b4a5f"
+    },
+    "priorAttempt": {
+      "toolChunk": "309365",
+      "exitCode": 1,
+      "reason": "Compared published README against pre-publication S-era README; no source or FIX02 evidence writes occurred."
+    }
+  },
+  "testFirstSourceSequence": {
+    "utc": "2026-10-02T05:14:30.784876+00:00",
+    "testSha256": "15375c668050f24f8b29e5d78323661f3713633e104ca40f255507f0e35510d2",
+    "productionSha256": "f3b61723e90391f72043d75b6ccf3f3d66d744414c8c93f0e33adcc1235fafdd",
+    "executed": false
+  },
+  "implementation": {
+    "findingId": 4162989184,
+    "description": "A private validityKnown flag distinguishes released/unsampled gate state from a sampled false validity. ReleaseGate marks only the sample unknown while preserving valid; it emits no notification. Gate always publishes the first real post-release sample, then suppresses unchanged valid/invalid notifications. OnEnable already resets geometry sampling and applies the current safe area.",
+    "source": {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "privateStateLine": 21,
+      "gateLine": 140,
+      "releaseLine": 154
+    },
+    "preserved": "OnDisable/Unbind/OnEnable/Subscribe/Unsubscribe/Apply geometry method bodies remain unchanged. Disable still releases only its diagnostic/CanvasGroup, retains localization and geometry, and does not invoke Host/input business behavior."
+  },
+  "regressionSource": {
+    "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+    "helper": "ReenabledInvalidLayoutCancelsDisabledGesture",
+    "helperLine": 549,
+    "existingMethod": "LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink",
+    "methodLine": 608,
+    "callLine": 658,
+    "behavior": [
+      "Both valid-before-disable and invalid-before-disable histories use the original real Overlay rig and production UguiPointerDriver.",
+      "For valid history an active pointer survives disable, event observation remains empty, then explicit driver cancellation removes it.",
+      "A new gesture starts while disabled. SafeAreaFitter geometry changes independently cancel it; the source asserts that distinct path and starts another real gesture under invalid geometry while still disabled, preventing geometry cancellation from masking this finding.",
+      "Reenable immediately cancels the captured board pointer and clears the Application gesture pointer via the real Host subscription, with exactly one false event.",
+      "Repeated unchanged Canvas refresh and a subsequent changed-but-still-invalid safe area do not repeat false; late Move/Up do not submit.",
+      "Valid recovery emits true and restores approved geometry/gate; the second history repeats the real regression. Event observer is removed in finally.",
+      "Head identity, saved-file bytes/count, LastRequest, last valid layout/board geometry, independent CanvasGroup/button/diagnostic, and original later repeated cleanup assertions are retained."
+    ],
+    "stateInjection": false,
+    "directHostCallback": false,
+    "actualDiscovery": 0,
+    "actualExecution": 0,
+    "preservedDeclaredMethods": 12,
+    "unchangedOtherMethodBodies": 11,
+    "preservedOverlayLifecycles": 8,
+    "plannedUnion": 47,
+    "result": "SOURCE_ONLY_NOT_RUN"
+  },
+  "protection": {
+    "basis": "Immutable S/after.json inventory with FIX01 all15 source identities virtually overlaid; details and hashes in before.json.",
+    "inventoryEntries": 1079,
+    "changedPaths": [
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs"
+    ],
+    "unchangedEntries": 1077,
+    "otherSource13Unchanged": true,
+    "original133InputsVerified": true,
+    "originalStaticVerifierMode": "postflight",
+    "originalStaticVerifier": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json#staticVerifierPython",
+    "cumulativeSourceFiles": 15,
+    "cumulativeAddedPlusDeletedLines": 2464,
+    "immutableS6AndFIX01ThreeAndContractsAndPublicationsAndBothReviewsUnchanged": true,
+    "resources37PrefabSceneMetaFontsCsvPackagesSettingsUnchanged": true,
+    "publicAndSerializedDeclarationsUnchanged": true,
+    "allOriginalTestLinesPreserved": true,
+    "patchReplayByteEqual": true,
+    "historicalSceneWhitespace": "Original S whole-worktree diff --check exit2 for unchanged FightMatchDemo.unity remains historical; no resource whitespace cleanup or claim of whole-worktree green."
+  },
+  "review": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "reviewId": 5388449580,
+    "reviewedHead": "ad49aa36ec79505b51dbe5c83ef138f167cdb545",
+    "reviewedTree": "c0f0350abfb9ba63a61b35084ab9cb96f8a5a25d",
+    "receipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix01-review-receipt.json",
+      "bytes": 6028,
+      "sha256": "0db42a5b6e1693cfd93e4eb7698a5166d9ba17236157237e80a1b354fd65b09e"
+    },
+    "recordedVerdict": "NEEDS_FIX",
+    "finding": {
+      "id": 4162989184,
+      "priority": "P2",
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162989184",
+      "status": "OPEN_PENDING_NEW_HEAD_REVIEW"
+    },
+    "historicalFindings": [
+      {
+        "id": 4162866083,
+        "status": "OPEN_OUTDATED_NOT_EXPLICITLY_RESOLVED"
+      },
+      {
+        "id": 4162866085,
+        "status": "OPEN_OUTDATED_NOT_EXPLICITLY_RESOLVED"
+      }
+    ],
+    "newReviewTriggered": false
+  },
+  "operations": {
+    "Unity": 0,
+    "nativeImport": 0,
+    "compile": 0,
+    "testDiscovery": 0,
+    "testExecution": 0,
+    "dotnet": 0,
+    "device": 0,
+    "downloads": 0,
+    "gitWrites": 0,
+    "reviewRequests": 0,
+    "newProductFiles": 0,
+    "resourceWrites": 0,
+    "metaWrites": 0
+  },
+  "unverified": [
+    "Compilation and imported source availability",
+    "Actual real Overlay pointer/callback/subscription regression execution and the planned test set",
+    "Native prefab/scene migration and reopen verification",
+    "New APK and device/BlueStacks gameplay/save recovery",
+    "Independent GitHub review on the future exact FIX02 head"
+  ],
+  "laterGates": "Engineering sole receiver verifies scope/evidence then returns to central for authorized PR4 update. Testing receives actual new-head GitHub review. This source receipt does not activate I/P/T, APK, device or review execution.",
+  "integrationVerdict": null,
+  "integrationVerdictReason": "Source author does not issue ACCEPT. Preserve the actual independent NEEDS_FIX and all historical OPEN findings until independent disposition."
+}

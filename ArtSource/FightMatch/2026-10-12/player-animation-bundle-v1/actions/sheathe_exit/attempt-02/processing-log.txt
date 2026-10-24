@@ -1,0 +1,10 @@
+['/Users/elliotyip/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3', '/Users/elliotyip/.codex/skills/generate2dsprite/scripts/generate2dsprite.py', 'process', '--input', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/sheathe_exit/raw-sheet.png', '--target', 'player', '--mode', 'sheathe_exit', '--rows', '2', '--cols', '4', '--output-dir', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/sheathe_exit/processed', '--scale-profile', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/references/character-scale-profile.json', '--strict-qc', '--max-profile-scale-drift', '0.08', '--max-body-scale-cv', '0.08', '--max-anchor-y-std', '0.05', '--prompt-file', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/sheathe_exit/prompt-used.txt']
+Exit: 0
+/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/sheathe_exit/processed
+
+
+Final postprocess: profile-aligned frames, binary alpha >=128, nearest fixed 16-color RGB, transparent RGB zero; no scaling/translation. All feet baseline115. Fixed-color GIFs have exact decoded pixels and disposal2. Aseprite RGBA encoding with exact requested timing. Roundtrip pending.
+
+ACTUAL ASEPRITE ROUNDTRIP: mcp__aseprite__export_spritesheet horizontal scale1 padding0 -> root sheet-transparent.png; deterministic 128px cuts -> roundtrip/frame-NN.png. Exact RGBA 8/8; encoded frame durations match animation.json.
+
+FINAL AUTHOR QC PASS: shared profile drift<=0.08, CV<=0.08, normalized anchor_y_std<=0.05; no exceptions. All binary-alpha frames<=16 colors, ground_y115, unique poses. All final keyposes plus actual GIF decoded frames visually inspected. Aseprite roundtrip exact. Source grids/failed attempts preserved. Lead/user review pending, not imported.

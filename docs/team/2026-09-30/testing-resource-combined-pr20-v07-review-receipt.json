@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V07 source-review receipt",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6052660787",
+  "triggerId": 6052660787,
+  "expectedHead": "cf0b81cde82e09fabaf137db387a2fff4f83fb6a",
+  "observedHead": "cf0b81cde82e09fabaf137db387a2fff4f83fb6a",
+  "qaActualTurn": "01a116c2-6a9d-7a03-b161-11bd6079a631",
+  "host": "local",
+  "waitOutcome": "REVIEW_GATE_NOT_COMPLETED_WITHIN_4_MINUTES",
+  "completedResultUrl": null,
+  "currentHeadReviewSubmission": null,
+  "currentHeadReviewComment": null,
+  "currentHeadInlineThreads": 0,
+  "newFindings": "NOT_AVAILABLE; no completed review returned, so this is not a no-findings result",
+  "historicalContext": {
+    "latestVisibleReviewCommit": "b7b40d2989",
+    "historicalReviewsAreNotThisHeadResult": true
+  },
+  "formalApproved": false,
+  "sourcePublication": {
+    "files": 169,
+    "bytes": 8426714,
+    "allGitBlobsAndSizesVerified": true,
+    "source": "central-provided resource-combined-v07-source-publication.json"
+  },
+  "nativeAcceptance": "NOT_RUN; trigger explicitly says V07 native run has not occurred",
+  "exception": "After the bounded wait, GitHub still exposed only the trigger; no completion URL or current-head review was available."
+}

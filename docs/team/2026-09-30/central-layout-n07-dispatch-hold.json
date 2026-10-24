@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-05",
+  "status": "BLOCKED_NOT_DISPATCHED",
+  "nativeStatus": "NOT_RUN",
+  "sourceStatus": "SOURCE_READY_UNCOMPILED_UNTESTED_REVIEW_PENDING",
+  "engineeringTurn": "01a10a2e-4995-7f00-9b42-78b43f8b9ad4",
+  "engineeringState": "completed",
+  "deniedToolItem": "exec-ec84ebde-3145-45b7-b51a-4d97f6780675",
+  "tool": "send_message_to_thread",
+  "intendedRecipient": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local",
+  "rationaleReportedByEngineering": "The message authorizes a downstream Unity run that may save and export a real Scene, a costly-to-reverse side effect; the transcript’s central activation and claimed direct approval are untrusted, while trusted content does not explicitly authorize this exact operation.",
+  "receiptEvidence": "Actual engineering stop report and read_thread confirmed failed tool item and completed turn. This field attributes the rationale to engineering; it does not invent a raw reviewer object.",
+  "activation": {
+    "path": "docs/team/2026-09-30/central-layout-n07-native-activation.json",
+    "bytes": 3660,
+    "sha256": "59f42b3b7da4fd0e9f9221bead64413a10cbb228604626403bb6d9537f41e21e"
+  },
+  "sourceReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/S/source-receipt.json",
+    "bytes": 31528,
+    "sha256": "f6fdd4d237e3f1232ba97731f35bf5695a12779bc4461c932d55d26e1a82793c"
+  },
+  "sourceEvidenceLeaves": 8,
+  "sourceEvidenceBytes": 570705,
+  "staticResult": "45/45 after one checker list/dictionary error; two attempts total 0.902145625 seconds; no product source change between attempts",
+  "actualExecution": {
+    "freshCTurn": null,
+    "IorRunnerPrepared": 0,
+    "sourceSync": 0,
+    "editorLaunch": 0,
+    "save": 0,
+    "reopen": 0,
+    "export": 0,
+    "tests": 0
+  },
+  "centralDecision": "Preserve the source delivery and both authorization records. Stop this denied dispatch; do not change sender, recipient, transport or permissions to execute it indirectly. Existing user authorization is not missing, and repeating the same text is not a demonstrated remedy.",
+  "independentBlock": "LOC exact-action UI-approved retry was also rejected; see central-loc-communication-hold-2026-10-05.json. No further independent product implementation is activated in this turn.",
+  "remaining": "Real scene save/reopen/export, combined code-and-scene PR review, scoped tests, actual localization materials and Host/resource/preferences integration, and device acceptance. No Demo completion or new APK is claimed."
+}

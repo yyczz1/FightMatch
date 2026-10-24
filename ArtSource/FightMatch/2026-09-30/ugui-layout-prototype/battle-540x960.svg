@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="960" viewBox="0 0 540 960">
+  <title>FightMatch neutral uGUI battle layout at 540 by 960</title>
+  <desc>Gray-box acceptance layout with safe area, top bar, fixed actor slots, battle status, square board, and bottom HUD.</desc>
+  <defs>
+    <style>
+      text { font-family: Arial, "PingFang SC", sans-serif; fill: #20252b; }
+      .small { font-size: 10px; }
+      .label { font-size: 12px; font-weight: 700; letter-spacing: .4px; }
+      .tiny { font-size: 8px; }
+      .outline { fill: none; stroke: #525a63; stroke-width: 1; }
+      .dash { fill: none; stroke: #747c85; stroke-width: 1; stroke-dasharray: 4 3; }
+      .region { fill: #e2e5e8; stroke: #747c85; stroke-width: 1; }
+      .subregion { fill: #f5f6f7; stroke: #8e959c; stroke-width: 1; }
+      .placeholder { fill: #69717a; }
+      .hot { fill: #f8f8f8; stroke: #20252b; stroke-width: 1.5; }
+      .grid { stroke: #b4bac0; stroke-width: 1; }
+    </style>
+    <g id="actor">
+      <circle cx="0" cy="-38" r="10" class="placeholder"/>
+      <path d="M-14,-27 L14,-27 L18,15 L-18,15 Z" class="placeholder"/>
+      <path d="M-15,15 L-5,15 L-8,38 L-20,38 Z M5,15 L15,15 L20,38 L8,38 Z" class="placeholder"/>
+    </g>
+  </defs>
+
+  <rect width="540" height="960" fill="#cfd3d7"/>
+  <text x="270" y="14" text-anchor="middle" class="small">GRAYBOX · 540×960 · NOT FINAL ART</text>
+  <rect x="16" y="24" width="508" height="920" rx="2" fill="#f0f2f4" stroke="#20252b" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="22" y="22" class="tiny">SafeAreaRoot · inset L16 / T24 / R16 / B16</text>
+
+  <g id="top-bar">
+    <rect x="16" y="24" width="508" height="56" class="region"/>
+    <rect x="20" y="28" width="48" height="48" class="hot"/>
+    <text x="44" y="57" text-anchor="middle" class="label">←</text>
+    <text x="270" y="51" text-anchor="middle" class="label">TopBar · 56</text>
+    <text x="270" y="67" text-anchor="middle" class="tiny">TITLE / STATUS PLACEHOLDER</text>
+    <rect x="472" y="28" width="48" height="48" class="hot"/>
+    <text x="496" y="57" text-anchor="middle" class="small">48</text>
+  </g>
+
+  <g id="stage">
+    <rect x="16" y="80" width="508" height="166" class="subregion"/>
+    <text x="270" y="94" text-anchor="middle" class="label">Stage · fixed slots · bottom-center anchors</text>
+    <line x1="270" y1="100" x2="270" y2="241" class="dash"/>
+    <text x="28" y="111" class="tiny">ALLY ×3 · facing right</text>
+    <text x="512" y="111" text-anchor="end" class="tiny">ENEMY ×3 · facing left</text>
+    <g class="dash">
+      <rect x="30" y="116" width="66" height="116"/>
+      <rect x="103" y="116" width="66" height="116"/>
+      <rect x="176" y="116" width="66" height="116"/>
+      <rect x="298" y="116" width="66" height="116"/>
+      <rect x="371" y="116" width="66" height="116"/>
+      <rect x="444" y="116" width="66" height="116"/>
+    </g>
+    <g transform="translate(63 184)"><use href="#actor"/><text x="0" y="45" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+    <g transform="translate(136 184)"><use href="#actor"/><text x="0" y="45" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+    <g transform="translate(209 184)"><use href="#actor"/><text x="0" y="45" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+    <g transform="translate(331 184)"><use href="#actor"/><text x="0" y="45" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+    <g transform="translate(404 184)"><use href="#actor"/><text x="0" y="45" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+    <g transform="translate(477 184)"><use href="#actor"/><text x="0" y="45" text-anchor="middle" class="tiny">PLACEHOLDER</text></g>
+    <g fill="#3f464d">
+      <rect x="38" y="121" width="50" height="5"/><rect x="111" y="121" width="50" height="5"/><rect x="184" y="121" width="50" height="5"/>
+      <rect x="306" y="121" width="50" height="5"/><rect x="379" y="121" width="50" height="5"/><rect x="452" y="121" width="50" height="5"/>
+    </g>
+  </g>
+
+  <g id="battle-status">
+    <rect x="16" y="246" width="508" height="48" class="region"/>
+    <text x="28" y="265" class="label">BattleStatus · 48</text>
+    <text x="28" y="281" class="small">PHASE / INTENT / SAVE / PLAYBACK PLACEHOLDER</text>
+    <rect x="452" y="252" width="64" height="36" class="outline"/>
+    <text x="484" y="274" text-anchor="middle" class="tiny">2-LINE SAFE</text>
+  </g>
+
+  <g id="board">
+    <rect x="16" y="294" width="508" height="508" fill="#fafafa" stroke="#20252b" stroke-width="3"/>
+    <text x="270" y="320" text-anchor="middle" class="label">BoardFrame · 508×508 SQUARE</text>
+    <text x="270" y="337" text-anchor="middle" class="tiny">PROGRAM-DRAWN GRID / ENDPOINTS / ROUTES · VISUAL ≠ HIT GEOMETRY</text>
+    <g class="grid">
+      <line x1="67" y1="350" x2="67" y2="802"/><line x1="118" y1="350" x2="118" y2="802"/>
+      <line x1="169" y1="350" x2="169" y2="802"/><line x1="220" y1="350" x2="220" y2="802"/>
+      <line x1="271" y1="350" x2="271" y2="802"/><line x1="322" y1="350" x2="322" y2="802"/>
+      <line x1="373" y1="350" x2="373" y2="802"/><line x1="424" y1="350" x2="424" y2="802"/>
+      <line x1="475" y1="350" x2="475" y2="802"/>
+      <line x1="16" y1="401" x2="524" y2="401"/><line x1="16" y1="452" x2="524" y2="452"/>
+      <line x1="16" y1="503" x2="524" y2="503"/><line x1="16" y1="554" x2="524" y2="554"/>
+      <line x1="16" y1="605" x2="524" y2="605"/><line x1="16" y1="656" x2="524" y2="656"/>
+      <line x1="16" y1="707" x2="524" y2="707"/><line x1="16" y1="758" x2="524" y2="758"/>
+    </g>
+    <g fill="#5f6770" stroke="#20252b" stroke-width="2">
+      <circle cx="92" cy="426" r="13"/><rect x="430" y="615" width="26" height="26"/>
+    </g>
+    <path d="M92 426 C155 426 150 535 230 535 S315 641 443 628" fill="none" stroke="#4f565e" stroke-width="8" stroke-linecap="round" stroke-dasharray="13 7"/>
+    <text x="270" y="785" text-anchor="middle" class="small">SHAPE + VALUE REDUNDANCY · NO DECORATIVE FALSE CELLS</text>
+  </g>
+
+  <g id="bottom-hud">
+    <rect x="16" y="802" width="508" height="142" class="region"/>
+    <text x="28" y="818" class="label">BottomHud · 142</text>
+    <g>
+      <rect x="28" y="826" width="112" height="72" class="hot"/><rect x="148" y="826" width="112" height="72" class="hot"/><rect x="268" y="826" width="112" height="72" class="hot"/>
+      <circle cx="52" cy="850" r="14" class="placeholder"/><circle cx="172" cy="850" r="14" class="placeholder"/><circle cx="292" cy="850" r="14" class="placeholder"/>
+      <text x="84" y="850" text-anchor="middle" class="tiny">ROLE 1</text><text x="204" y="850" text-anchor="middle" class="tiny">ROLE 2</text><text x="324" y="850" text-anchor="middle" class="tiny">ROLE 3</text>
+      <text x="84" y="884" text-anchor="middle" class="tiny">72-H CARD</text><text x="204" y="884" text-anchor="middle" class="tiny">72-H CARD</text><text x="324" y="884" text-anchor="middle" class="tiny">72-H CARD</text>
+    </g>
+    <rect x="396" y="826" width="48" height="48" class="hot"/><rect x="452" y="826" width="48" height="48" class="hot"/>
+    <text x="420" y="854" text-anchor="middle" class="small">48</text><text x="476" y="854" text-anchor="middle" class="small">48</text>
+    <text x="448" y="890" text-anchor="middle" class="tiny">8px GAP</text>
+    <rect x="28" y="910" width="472" height="22" class="outline"/>
+    <text x="264" y="925" text-anchor="middle" class="tiny">TEXT / STATUS EXPANSION PLACEHOLDER · SAFE BOTTOM 8+</text>
+  </g>
+</svg>

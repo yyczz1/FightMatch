@@ -1,0 +1,69 @@
+{
+  "contract": "LAYOUT-S1-001",
+  "status": "RELEASED_SOURCE_ONLY",
+  "utc": "2026-10-02 02:21:11 UTC",
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fa69-024a-75d3-9301-b4f493f39a45"
+  },
+  "executor": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fa6a-62bb-7c32-b577-4d268818b774",
+    "requestedModel": "gpt-6-astra",
+    "requestedEffort": "xhigh"
+  },
+  "soleReceiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "authority": "Existing user-authorized first-Demo continuation. Central explicitly instructed resuming S after the narrow BlueStacks task completes or is clearly blocked and unchanged preimages are verified.",
+  "releasesHold": {
+    "path": "docs/team/2026-09-30/engineering-ugui-layout-source-hold-001.json",
+    "sha256": "b418dba81bd365d4787efc3c3ced7a14f63dc281a8862f7064bc59112d356aaf"
+  },
+  "resumesActivation": {
+    "path": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-001.json",
+    "sha256": "8c9dc75f4d9adcc61d9eea3a2f18ea195ebd186d7303581e5ba6d85577ca489f",
+    "delta": "Only actual C/engineering turns and hold state change. All original sourceScope, budgets, six evidence files, pre-write handoff and acceptance/stop conditions remain."
+  },
+  "narrowTask": {
+    "turn": "01a0fa62-9fe2-72f1-9431-1e9ea0d4b171",
+    "completedAtUnixSeconds": 1790907586,
+    "receipt": "TestArtifacts/FightMatch/BlueStacksPlay/20261002T021850Z/receipt.json",
+    "receiptSha256": "32bdb0c84ef772d8470d34b4343f495bfc285bb067a469ae85719b35d7c86a58",
+    "status": "COMPLETED_OLD_019_STARTUP_ONLY",
+    "checked": "Receipt hash, actual recorded adb commands and screenshot inspected. Existing installed APK matched 019; no reinstall/uninstall/pm clear/profile creation/gameplay commands. GLES override cold launch and foreground PID observed; screenshot shows create-local-profile page. Not new-uGUI/gameplay/recovery acceptance."
+  },
+  "preflight": {
+    "status": "PASS",
+    "fixedInputs": 133,
+    "snapshotFiles": 1077,
+    "sourceTargetsUnchangedOrAbsent": 15,
+    "sourceEvidenceRootAbsent": true,
+    "contractAndHoldHashesMatch": true,
+    "exitCode": 0,
+    "UnityStarts": 0,
+    "testRuns": 0
+  },
+  "preWrite": "C verifies this release plus original immutable contracts, reruns preflight, and records actual new turn and release hash in handoff.json before any source edit. Preserve old activation/hold bytes and the separate BlueStacks receipt.",
+  "implementation": "Proceed with complete approved layout source and necessary fixtures within the exact 15 C# whitelist, two new C# paths and 7840 added+deleted-line total plus per-file maxima. All off-scope product/LOC/art/settings/package/resource/meta files remain protected.",
+  "art": "Only code for obvious temporary Image/solid/outline/two-colour art with TempArt_ decorative children and raycastTarget=false. No formal-art choice/import/download or new player copy; diagnostic TMP placeholders and existing EN/zhCN runtime bindings remain required.",
+  "forbiddenNow": [
+    "Unity",
+    "dotnet",
+    "compile/import",
+    "test discovery/runs",
+    "Prefab/Scene/meta writes",
+    "Git mutations",
+    "downloads",
+    "projection/cache preparation",
+    "further BlueStacks/device interaction",
+    "subagent dispatch"
+  ],
+  "laterGates": {
+    "sourceReview": "Central publishes actual source head for GitHub PR Code Review after receipt",
+    "I": "WAITING_ACTIVATION",
+    "P": "WAITING_ACTIVATION",
+    "T": "WAITING_ACTIVATION"
+  },
+  "completion": "Return source-receipt.json and source.patch plus the remaining four exact evidence files to engineering, explicitly uncompiled/unimported/old-prefab-not-migrated/not-playable. Stop on first scope, input or budget conflict; no self-ACCEPT."
+}

@@ -1,0 +1,27 @@
+{
+  "task": "RES-COMBINED-V07-FIX01-SOURCE",
+  "verdict": "NEEDS_FIX",
+  "head": "b20db8119dc30da601a35a0a7d3afd931f3743ff",
+  "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451818067",
+  "reviewedUtc": "2026-10-08T05:16:42Z",
+  "findings": [
+    {
+      "id": 4215063674,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4215063674",
+      "reviewId": 5451818067,
+      "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Promote reappearance above natural-grace expiry**\n\nWhen `blocking_probe_timeout()` raises `NaturalGraceExpired`, the probe’s inner `finally` can observe ENOENT and the outer final `lstat` can then observe the endpoint reappearing. This branch only adds a note to the existing grace exception, so `monitor()` treats it as a normal boundary transition and never adds the unbound reappearance to `monitor_errors`; closure and restoration may therefore continue if the endpoint disappears before the next sample. Raise a distinct `INCOMPLETE` failure while retaining the grace exception as its cause, as is already done for observation-write failures.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/b20db8119dc30da601a35a0a7d3afd931f3743ff/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎.",
+      "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+      "line": 276
+    }
+  ],
+  "qaReceiptCorrection": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-pr20-v07-fix01-review-receipt.json",
+    "claimedNewFindings": 0,
+    "actualNewFindings": 1,
+    "claimedActual": "01a116c2-6a9d-7a03-b161-11bd6079a631",
+    "actualQaTurn": "01a119ef-cb58-7be0-aaa5-efdef9eb6ff1",
+    "basis": "Root fetched raw GitHub REST review comments and linked exact pull_request_review_id after QA completion. QA no-findings claim is not accepted."
+  },
+  "nativeRuns": 0,
+  "next": "FIX02 exception precedence only; new exact-head GitHub review."
+}

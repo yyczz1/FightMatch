@@ -1,0 +1,47 @@
+{
+  "packet": "RES-01A-PACKAGE-S1",
+  "publishedUtc": "2026-10-02T21:27:34.369809+00:00",
+  "publisher": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local"
+  },
+  "pr": "https://github.com/yyczz1/FightMatch/pull/8",
+  "branch": "codex/yooasset-package-s1",
+  "baseBranch": "codex/resource-contracts-s1",
+  "baseAndParent": "d7775a1134556698a6489029b20402a0ce185939",
+  "head": "1f0b7cc594d928ef37b38625add8d6519c275516",
+  "tree": "3ca6c397d7791975b3edbfba60dcf5b03086abf1",
+  "manifest": {
+    "path": "docs/versioning/2026-10-03-yooasset-package-pr/publication-manifest.json",
+    "bytes": 5080,
+    "sha256": "1723656958e8dfbd0fff387d7b97486852f0952672751f823c79f0dd5a45d4f1"
+  },
+  "verified": {
+    "uploadedBlobs": 13,
+    "entireTreeBlobs": 1756,
+    "retainedBaseBlobs": true,
+    "singleParent": true,
+    "twoPackagePreimagesMatchBase": true,
+    "prHeadAndBaseReadBack": true,
+    "draft": true,
+    "merged": false,
+    "attached": true
+  },
+  "reviewTrigger": {
+    "id": 5961732546,
+    "url": "https://github.com/yyczz1/FightMatch/pull/8#issuecomment-5961732546",
+    "initialComments": 0,
+    "initialReviews": 0,
+    "triggerCount": 1
+  },
+  "nativeInput": "Recorded PR3+PR5+PR6 composite with two UPM-generated package changes; not a direct test of the published Git head.",
+  "status": "SOURCE_CANDIDATE_COMPILE_GATE_NEEDS_FIX_REVIEW_PENDING",
+  "auditErratum": "Archived assembly metadata was enumerated; compilation failed before the DLL gate, so no Samples~ DLL check was actually executed. README states the correction; original JSON bytes are preserved.",
+  "archiveOnlyInstaller": true,
+  "localGitSharedPackagesOrProjectionWrites": false,
+  "remaining": [
+    "Independent code review",
+    "P03 stable no-helper compile",
+    "Shared adoption and runtime/Android/Demo acceptance"
+  ]
+}

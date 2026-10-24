@@ -1,0 +1,42 @@
+{
+  "task": "RES-D-CLOSE01-CONSUMER-DECISION",
+  "decision": "ALLOW_EXACT_RETAINED_BACKGROUND_ADB",
+  "basis": {
+    "path": "TestArtifacts/FightMatch/RES-D-CODEC-001/CLOSE01/receipt.json",
+    "bytes": 12971,
+    "sha256": "f01237fe2ac3480d043cc29c6e3afa6163aa5228ed4cdcda84ff74317a56e22b"
+  },
+  "ownedClosure": {
+    "pid": 63356,
+    "observed": "Absent before cleanup",
+    "signals": 0,
+    "closed": true
+  },
+  "retainedAdb": {
+    "pid": 63318,
+    "uid": 501,
+    "start": "Sat Oct 3 09:17:20 2026",
+    "executable": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb",
+    "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK",
+    "argv": "adb -L tcp:5037 fork-server server --reply-fd 4",
+    "observedProjectionFdHits": 0
+  },
+  "scope": [
+    "D FIX01/M02: one compile and exact D 12-case suite",
+    "Subsequent approved C-CONTRACT: one compile and own 10-case suite"
+  ],
+  "conditions": [
+    "Same sole C, serial Unity",
+    "Recheck exact retained-service identity and zero projection FD hits before each I/T start and final closure",
+    "Stop on changed identity, new unknown adb, projection FD hit or unverifiable state",
+    "All other Unity and projection consumer rules remain",
+    "No adb commands or signals; no blanket adb exclusion"
+  ],
+  "preserve": "M01 eleven leaves, original failure and open consumer state, stub metadata and CLOSE01 remain immutable. Two D metadata files may evolve only through Unity with the same GUID; prior twelve metadata remain exact.",
+  "claimsExcluded": [
+    "Exclusive ownership of ADB",
+    "No future ADB clients",
+    "Device acceptance",
+    "Product or new-source validation pass"
+  ]
+}

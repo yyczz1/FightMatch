@@ -1,0 +1,13 @@
+# V06-RECOVERY FIX02 — 恢复成功必须等真实退出
+
+GitHub PR20 head0d28fd3318921f8dfeb7b8faccf0a21a47dc8503，P1 4214487719：receipt写入跨过120秒仍记RECOVERED，随后exit1，造成矛盾。真实恢复尚0。中央确定采用本项目已有V06 native的暂态回执＋实际OS退出收件模式；这是恢复证据技术修正，预算、路径、产品和原子操作不扩。
+
+原作者可用Luna/medium移植这一已定模式；先逐字节保存recovery-source三叶至fresh recovery-source-before-fix02。唯一可写原source三叶；原子恢复、进程/FD、66操作和62前像内容不改，脚本仅main最终收件段及必要小helper，plan只更新scriptIdentity并加入本addendum引用/新完成合同。旧receipt/all失败前像保持。
+
+本addendum明确替代原设计末段“文件直接RECOVERED或INCOMPLETE”的报告约定：脚本不能在自身退出前写终局RECOVERED。恢复检查通过时，持久化与正常stdout仅标AWAITING_PROCESS_EXIT，内部validationStatus=RESTORATION_CHECKS_PASS；包含真实receipt字节/SHA和120秒界限及必须外部核验的含义。失败、写入/哈希/序列化/flush失败、观察到超时则stdout INCOMPLETE、实际exit1，保留最初异常；任何已写暂态文件不被追认成功或伪造覆盖。末次flush之后再核时钟，超过即exit1，即使最后一条stdout仍是暂态也不是成功声明。不要无限改写receipt去追逐已经过期的时间。正常实际exit0仍只为收件候选。
+
+中央/C必须从原工具得到真正OS exit0、外部完整monotonic≤120、receipt字节/SHA、RESTORATION_CHECKS_PASS/无failure、1035/43/62保护及fresh无消费者全部成立，才能在独立后置收据判RECOVERED；否则INCOMPLETE。原V06始终FAILED。不能以磁盘出现回执替代真实退出。
+
+严格保留120秒总量和各阶段，不加写后额外额度/重试、信号或新执行。只有已有Q白名单文件；若一次finalization异常无法写回磁盘，保留暂态证据并在实际工具结果报告，不伪称磁盘已改INCOMPLETE。原stdout最终状态和真实exit仍需外部观测。
+
+源固定后一次≤10秒内存定向用例：正常暂态+exit0；收据写入跨deadline；收据哈希跨deadline；写/flush异常；flush跨deadline后exit1；原失败不因写失败覆盖。调用实际最终收件函数，用假时钟/写函数，不启动真实恢复/ps/lsof/Unity，不重跑原原子4项。记录新源和plan seal、实际函数差异和本轮结果。目标3分钟交付；需要新架构判断则报中央，勿擅自扩展。新head仍需GitHub复审后C才可执行。

@@ -1,0 +1,357 @@
+{
+  "scope": "Visual animation timing only; no Application, combat or save rules changed",
+  "assets": {
+    "sheathed_idle": {
+      "kind": "actions",
+      "frame_count": 6,
+      "durations_ms": [
+        260,
+        180,
+        220,
+        180,
+        260,
+        240
+      ],
+      "total_duration_ms": 1340,
+      "playback": "loop",
+      "hold_last_frame": false,
+      "animation_json": "actions/sheathed_idle/animation.json"
+    },
+    "move_sheathed": {
+      "kind": "actions",
+      "frame_count": 6,
+      "durations_ms": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "total_duration_ms": 600,
+      "playback": "loop",
+      "hold_last_frame": false,
+      "animation_json": "actions/move_sheathed/animation.json"
+    },
+    "draw_ready": {
+      "kind": "actions",
+      "frame_count": 8,
+      "durations_ms": [
+        140,
+        100,
+        100,
+        80,
+        110,
+        110,
+        80,
+        80
+      ],
+      "total_duration_ms": 800,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "actions/draw_ready/animation.json"
+    },
+    "battle_idle": {
+      "kind": "actions",
+      "frame_count": 6,
+      "durations_ms": [
+        260,
+        180,
+        220,
+        180,
+        260,
+        240
+      ],
+      "total_duration_ms": 1340,
+      "playback": "loop",
+      "hold_last_frame": false,
+      "animation_json": "actions/battle_idle/animation.json"
+    },
+    "move_guarded": {
+      "kind": "actions",
+      "frame_count": 6,
+      "durations_ms": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "total_duration_ms": 600,
+      "playback": "loop",
+      "hold_last_frame": false,
+      "animation_json": "actions/move_guarded/animation.json"
+    },
+    "attack_slash": {
+      "kind": "actions",
+      "frame_count": 6,
+      "durations_ms": [
+        130,
+        160,
+        70,
+        70,
+        110,
+        190
+      ],
+      "total_duration_ms": 730,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "actions/attack_slash/animation.json"
+    },
+    "attack_thrust": {
+      "kind": "actions",
+      "frame_count": 6,
+      "durations_ms": [
+        130,
+        150,
+        70,
+        80,
+        100,
+        190
+      ],
+      "total_duration_ms": 720,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "actions/attack_thrust/animation.json"
+    },
+    "attack_overhead": {
+      "kind": "actions",
+      "frame_count": 8,
+      "durations_ms": [
+        120,
+        110,
+        120,
+        180,
+        60,
+        100,
+        140,
+        190
+      ],
+      "total_duration_ms": 1020,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "actions/attack_overhead/animation.json"
+    },
+    "skill_taunt": {
+      "kind": "actions",
+      "frame_count": 8,
+      "durations_ms": [
+        140,
+        130,
+        110,
+        80,
+        110,
+        230,
+        150,
+        200
+      ],
+      "total_duration_ms": 1150,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "actions/skill_taunt/animation.json"
+    },
+    "hurt": {
+      "kind": "actions",
+      "frame_count": 4,
+      "durations_ms": [
+        80,
+        110,
+        140,
+        170
+      ],
+      "total_duration_ms": 500,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "actions/hurt/animation.json"
+    },
+    "sheathe_exit": {
+      "kind": "actions",
+      "frame_count": 8,
+      "durations_ms": [
+        100,
+        100,
+        110,
+        110,
+        110,
+        90,
+        90,
+        90
+      ],
+      "total_duration_ms": 800,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "actions/sheathe_exit/animation.json"
+    },
+    "death_fall": {
+      "kind": "actions",
+      "frame_count": 8,
+      "durations_ms": [
+        100,
+        120,
+        130,
+        150,
+        160,
+        180,
+        240,
+        900
+      ],
+      "total_duration_ms": 1980,
+      "playback": "hold",
+      "hold_last_frame": true,
+      "animation_json": "actions/death_fall/animation.json"
+    },
+    "slash_arc": {
+      "kind": "fx",
+      "frame_count": 4,
+      "durations_ms": [
+        40,
+        70,
+        60,
+        100
+      ],
+      "total_duration_ms": 270,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "fx/slash_arc/animation.json"
+    },
+    "thrust_streak": {
+      "kind": "fx",
+      "frame_count": 4,
+      "durations_ms": [
+        40,
+        50,
+        60,
+        100
+      ],
+      "total_duration_ms": 250,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "fx/thrust_streak/animation.json"
+    },
+    "overhead_arc": {
+      "kind": "fx",
+      "frame_count": 4,
+      "durations_ms": [
+        60,
+        70,
+        70,
+        100
+      ],
+      "total_duration_ms": 300,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "fx/overhead_arc/animation.json"
+    },
+    "hit_impact": {
+      "kind": "fx",
+      "frame_count": 4,
+      "durations_ms": [
+        40,
+        60,
+        80,
+        120
+      ],
+      "total_duration_ms": 300,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "fx/hit_impact/animation.json"
+    },
+    "taunt_spark": {
+      "kind": "fx",
+      "frame_count": 4,
+      "durations_ms": [
+        80,
+        90,
+        120,
+        180
+      ],
+      "total_duration_ms": 470,
+      "playback": "once",
+      "hold_last_frame": false,
+      "animation_json": "fx/taunt_spark/animation.json"
+    }
+  },
+  "montage": {
+    "path": "overview-all-actions-4x.gif",
+    "display_scale": 4,
+    "frame_count": 175,
+    "total_duration_ms": 31730,
+    "separate_review_segments": [
+      {
+        "action": "sheathed_idle",
+        "first_montage_frame": 0,
+        "last_montage_frame": 13,
+        "replays": 2
+      },
+      {
+        "action": "move_sheathed",
+        "first_montage_frame": 14,
+        "last_montage_frame": 27,
+        "replays": 2
+      },
+      {
+        "action": "draw_ready",
+        "first_montage_frame": 28,
+        "last_montage_frame": 45,
+        "replays": 2
+      },
+      {
+        "action": "battle_idle",
+        "first_montage_frame": 46,
+        "last_montage_frame": 59,
+        "replays": 2
+      },
+      {
+        "action": "move_guarded",
+        "first_montage_frame": 60,
+        "last_montage_frame": 73,
+        "replays": 2
+      },
+      {
+        "action": "attack_slash",
+        "first_montage_frame": 74,
+        "last_montage_frame": 87,
+        "replays": 2
+      },
+      {
+        "action": "attack_thrust",
+        "first_montage_frame": 88,
+        "last_montage_frame": 101,
+        "replays": 2
+      },
+      {
+        "action": "attack_overhead",
+        "first_montage_frame": 102,
+        "last_montage_frame": 119,
+        "replays": 2
+      },
+      {
+        "action": "skill_taunt",
+        "first_montage_frame": 120,
+        "last_montage_frame": 137,
+        "replays": 2
+      },
+      {
+        "action": "hurt",
+        "first_montage_frame": 138,
+        "last_montage_frame": 147,
+        "replays": 2
+      },
+      {
+        "action": "sheathe_exit",
+        "first_montage_frame": 148,
+        "last_montage_frame": 165,
+        "replays": 2
+      },
+      {
+        "action": "death_fall",
+        "first_montage_frame": 166,
+        "last_montage_frame": 174,
+        "replays": 1
+      }
+    ],
+    "loop_is_review_montage_only": true,
+    "all_decoded_frames_equal": true
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-CODEC-001",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0ff2b-45da-76b2-8ad0-d6bda9320ae4"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0ff0c-f3dd-7193-9357-e443efed3808"
+  },
+  "authority": "AGENTS section 6 and explicit central minimal D approval; engineering transfers sole D source ownership after completed FIX03 turn 01a0ff19-6394-7552-b6e8-7cec4f68a150. Direct implementation in this turn.",
+  "dispatch_model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh"
+  },
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "scope": [
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+    "before.json",
+    "after.json",
+    "source.patch",
+    "verify.py",
+    "static-checks.json",
+    "source-receipt.json"
+  ],
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "type": "regular_file",
+      "bytes": 31716,
+      "sha256": "2fff363f68195ba7e948e6b998b1ebfe140b12adbc7ab02ba2bebe6d3f69dc46",
+      "physical_lines": 680
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+      "type": "regular_file",
+      "bytes": 53919,
+      "sha256": "ee621dc9d2d853a66b6db6aee795fbb4eff745a7d20d707c2317e27bc653f731",
+      "physical_lines": 684
+    }
+  },
+  "immutable_artifacts": {
+    "before.json": {
+      "type": "regular_file",
+      "bytes": 13474,
+      "sha256": "f929d17ea05611c19ce78b7729f1273bc62c5c2fbeca9ed583e82d93b8f4692a"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 87220,
+      "sha256": "4fd0ed6e83e38b1a92f4ff1410e0ff7068aae552e4cacb1b486bd61c10975016"
+    },
+    "verify.py": {
+      "type": "regular_file",
+      "bytes": 30802,
+      "sha256": "c9e4eb47978f97a16c30e4babe6632dfb4764df884803043e2269c4d1b371ae9"
+    }
+  },
+  "budgets": {
+    "production_lines": 1200,
+    "production_bytes": 81920,
+    "test_lines": 1000,
+    "test_bytes": 102400,
+    "stage_bytes": 2097152,
+    "verify_seconds": 30,
+    "max_verify_runs": 3
+  },
+  "fixed_b": {
+    "root": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S",
+    "receipt": {
+      "type": "regular_file",
+      "bytes": 21906,
+      "sha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4"
+    },
+    "leaves": 15,
+    "source_count": 9,
+    "static_candidates": 38,
+    "unchanged": true
+  },
+  "public_surface": {
+    "class": "FightMatch.AssetAccess.FightMatchResourceReleaseSet",
+    "sealed": true,
+    "methods": [
+      "static bool TryDecodePinned(byte[], string, out FightMatchResourceReleaseSet, out string)",
+      "byte[] EncodeCanonical()"
+    ],
+    "get_only_properties": [
+      "int SchemaVersion",
+      "string ReleaseSetId",
+      "string BusinessReleaseSetId",
+      "string Platform",
+      "string DescriptorSha256"
+    ],
+    "public_constructor": false
+  },
+  "implementation": [
+    "One bounded owned byte snapshot for external-pin SHA, strict byte parser and canonical equality; successful value stores only private immutable strings and owned bytes.",
+    "Descriptor and mapping byte windows applied before recursive value allocation; depth/node/object/array/string/key/number budgets enforced during parsing.",
+    "Exact nested schema, ordinal ordering, safe ASCII identity/path/type grammars, checked bounded lengths, physical reference closure and required raw slots.",
+    "Bottom-up receipt, business, mapping, object-record, scope and descriptor SHA validation; no cyclic boot pin or build-receipt member.",
+    "Canonical encoder returns a fresh clone. Only controlled schema/budget/trust/hash codes; fatal exceptions are not broadly caught."
+  ],
+  "fixture_identities": {
+    "V0": {
+      "boot_bytes": 7254,
+      "pin": "b7886f1f61f075f30a8191dac86943bfeada316c336bea1dfc578f815f98db46",
+      "descriptor_bytes": 3095,
+      "descriptor_sha256": "87b31f3bf93bf7456a44ccfc7d42f747b22166b8731ddd2c446ada067d156f8a",
+      "mapping_bytes": 2766,
+      "mapping_sha256": "ef622bf08c4209e93bd527bb9938312279c39314f42d265e05ef788d25882fcd",
+      "receipt_sha256": "5d2d2a30236f965ba985ceb90ce9e62b2c21d8faaf9038005ec06d92bd9ee812",
+      "scope_hashes": [
+        {
+          "scopeId": "fm.content.first-release",
+          "sha256": "dab086f2f4f73484bfcbfd9d2f1f3564af2bc303795c704680bcd4f968ea22ef"
+        },
+        {
+          "scopeId": "fm.text.full",
+          "sha256": "5a8840058b97e4a8b5ce3356b096232e1465b17d59ef4b260b80305dac592424"
+        }
+      ],
+      "entry_count": 8,
+      "physical_count": 10
+    },
+    "V1": {
+      "boot_bytes": 7813,
+      "pin": "8a9787948fb67de91cdeb7874cee590803ca80549d2d1663e7246dbc47d2ac4f",
+      "descriptor_bytes": 3199,
+      "descriptor_sha256": "f570efbe5ee762e035f957ad9be05f3521f94437e8a938ca8125df9524dc0936",
+      "mapping_bytes": 3096,
+      "mapping_sha256": "8bfba8d3420a26110e057021cfb62c29f159c56300890eae407846aacf9f4c6b",
+      "receipt_sha256": "5d2d2a30236f965ba985ceb90ce9e62b2c21d8faaf9038005ec06d92bd9ee812",
+      "scope_hashes": [
+        {
+          "scopeId": "fm.content.first-release",
+          "sha256": "dab086f2f4f73484bfcbfd9d2f1f3564af2bc303795c704680bcd4f968ea22ef"
+        },
+        {
+          "scopeId": "fm.text.full",
+          "sha256": "5a8840058b97e4a8b5ce3356b096232e1465b17d59ef4b260b80305dac592424"
+        },
+        {
+          "scopeId": "fm.ui.runtime",
+          "sha256": "63dfba3b30cdaf0372e7fe132a79f60916359ae1b6263c0d63cfbe76282b5884"
+        }
+      ],
+      "entry_count": 9,
+      "physical_count": 11
+    }
+  },
+  "fixture_provenance": "V0/V1 and fixed pins are literal test data generated independently using Python standard-library JSON/SHA. verify.py recomputes vectors and all reference/hash closures without the C# encoder.",
+  "test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated"
+  ],
+  "test_inventory": {
+    "planned_ordinary_tests": 12,
+    "static_named_tests": 12,
+    "discovery_or_execution_claim": false
+  },
+  "acceptance": {
+    "bounded_private_codec_source": "IMPLEMENTED_UNCOMPILED",
+    "nested_hash_and_reference_closure_source": "IMPLEMENTED_UNTESTED",
+    "literal_fixture_metadata_closure": "STATIC_VERIFIED",
+    "negative_and_boundary_regression_source": "AUTHORED_UNTESTED",
+    "copy_isolation_regression_source": "AUTHORED_UNTESTED",
+    "two_new_paths_and_shared_protection": "STATIC_VERIFIED",
+    "external_pin_provenance_or_real_admission": "NOT_ESTABLISHED"
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/RES-D-CODEC-001/S/verify.py",
+    "kind": "STATIC_ONLY",
+    "behavior_pass_claim": false,
+    "protected_inputs": 26,
+    "shared_guards": 30,
+    "fixed_b_frozen_leaves": 15,
+    "patch_replay": "two additions from absence equal source postimages",
+    "static_result": {
+      "type": "regular_file",
+      "bytes": 31548,
+      "sha256": "8aacea8c03dffce5b42378e8988792755a9a125c9ed5143a8645601cd1fe65a5"
+    },
+    "runs": 1,
+    "failed_runs_preserved": 0,
+    "passed_checks": 213,
+    "duration_seconds": 0.022109709010692313
+  },
+  "not_run": [
+    "C# compile",
+    "Unity import",
+    "NUnit discovery",
+    "12 codec tests",
+    "B 37/38 tests",
+    "Git/network",
+    "GitHub/local code review",
+    "M04 or active projection reads",
+    "real resource build",
+    "LOC admission",
+    "business admission",
+    "Player pin/signature provenance",
+    "actual type/protocol/capability support",
+    "Host/device/Android"
+  ],
+  "limitations": [
+    "A caller-chosen matching hash proves byte consistency only; it is not release authorization.",
+    "Synthetic x/y/z/m/p/b fixture bodies and metadata are not real resource or content admission.",
+    "Physical body hashes/dependencies, hidden renamed producer outputs and Unity object types require later build/admission evidence.",
+    "Some global JSON limits exceed every valid closed-schema instance; boundary tests require controlled rejection rather than fabricated valid boundary vectors.",
+    "Concurrent input mutation is not promised to produce an atomic caller snapshot; success refers only to the one private snapshot.",
+    "No shared source, asmdef, meta or dependencies changed. FIX04/M16 previous approval-review refusals are unchanged."
+  ],
+  "return_path": "One completion event to the engineering issuer only after sealing; engineering owns subsequent validation/review dispatch. Do not start C-CONTRACT.",
+  "after": {
+    "type": "regular_file",
+    "bytes": 15245,
+    "sha256": "8401fd03b78d5acf10b0976ccf384f002aeaa59facdd9e307b79f27db30e634a"
+  }
+}

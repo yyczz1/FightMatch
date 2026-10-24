@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "packet": "RES-D-RAW-S1",
+  "verdict": "NEEDS_FIX",
+  "head": "4d4b07cc1b432add8d8102290802703ed704eb21",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/12",
+  "independentReview": {
+    "path": "docs/team/2026-09-30/testing-resource-raw-pr12-review-receipt.json",
+    "bytes": 2387,
+    "sha256": "84678b6f4b50351bebd4578035ab1fb7ae8ec87eb567983f1c2b86d56cb29f75"
+  },
+  "finding": {
+    "priority": "P2",
+    "comment": 4171809834,
+    "summary": "Next-chunk dispatcher.Post failure can leave a partial raw load pending and retain the stream/reservation.",
+    "required": "Bounded controlled terminal failure or guaranteed retry, plus targeted regression; preserve original assertions."
+  },
+  "native": {
+    "path": "docs/team/2026-09-30/testing-resource-raw-joint-m01-receipt.json",
+    "bytes": 4793,
+    "sha256": "a3f45c7fbc31c642753966292da9c3bf2870f758f6d406ee8f299d8222a4811f"
+  },
+  "nativeScope": "74/74 passed on original fixed composite; does not close newly identified scheduler failure. No rerun requested until correction source fixed.",
+  "sourceCorrectionOwner": "Engineering → existing source author Astra/xhigh",
+  "preserved": "Original source/static budget failure and amendment, 74 native evidence, published head and review remain historical.",
+  "notAccepted": [
+    "Real package/Host/Android/device",
+    "Shared-project integration",
+    "Full Demo"
+  ],
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+}

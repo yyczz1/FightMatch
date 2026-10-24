@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V06 recovery FIX02 GitHub review intake",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6052066016",
+  "triggerId": 6052066016,
+  "head": "6002d2c10509ecd17e6258f49d2c32edf86094ba",
+  "observedHead": "6002d2c10509ecd17e6258f49d2c32edf86094ba",
+  "completedReview": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451284773",
+  "reviewedAtUtc": "2026-10-08T04:16:24Z",
+  "reviewStatus": "FINDINGS_REPORTED",
+  "formalApproved": false,
+  "newFindings": [
+    {
+      "id": 4214565396,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214565396",
+      "severity": "P1",
+      "title": "Preserve the original failure in the terminal summary",
+      "file": "docs/versioning/2026-10-08-resource-combined-validation/recovery-v06/recovery.py",
+      "line": 462,
+      "summary": "If restoration/finalize_checks fails and receipt serialization, write, flush, or hash also fails, the stdout summary emits receiptFailure but omits the original failure. Include the original failure in stdout for diagnosability.",
+      "resolved": false,
+      "outdated": false
+    },
+    {
+      "id": 4214565407,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214565407",
+      "severity": "P1",
+      "title": "Point completionAddendum at the published addendum",
+      "file": "docs/versioning/2026-10-08-resource-combined-validation/recovery-v06/plan.json",
+      "line": 6265,
+      "summary": "The sealed plan references nonexistent docs/team/2026-09-30/central-resource-combined-v06-recovery-fix02.md instead of the reviewed recovery-v06/fix02-packet.md, binding evidence to a missing input. Update the reference and matching source receipt before resealing.",
+      "resolved": false,
+      "outdated": false
+    }
+  ],
+  "priorFindings": [
+    {"id": 4214422163, "status": "historical_outdated_unresolved"},
+    {"id": 4214487719, "status": "historical_outdated_unresolved"}
+  ],
+  "sourcePublicationGate": {
+    "publishedFiles": 92,
+    "totalBytes": 6215821,
+    "allGitBlobsAndSizesVerified": true,
+    "source": "central-provided FIX02 publication receipt verification"
+  },
+  "actualRecovery": {
+    "status": "NOT_RUN",
+    "source": "central handoff; source review does not establish execution"
+  },
+  "limits": "No local review, tests, or GitHub writes were performed."
+}

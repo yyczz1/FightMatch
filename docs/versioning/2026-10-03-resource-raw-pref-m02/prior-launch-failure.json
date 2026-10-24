@@ -1,0 +1,1438 @@
+{
+  "task": "RES-RAW-PREF-JOINT-MAC-001",
+  "status": "BLOCKED_OR_FAILED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a1005b-84cd-7521-9ef4-f2cab7cc6b10"
+  },
+  "startedUtc": "2026-10-03T06:08:16.092148+00:00",
+  "finishedUtc": "2026-10-03T06:13:40.408614+00:00",
+  "runnerElapsedSeconds": 324.314574,
+  "failure": "Stage deadline; Stage deadline; Unapproved new ADB [{\"utc\": \"2026-10-03T06:13:40.386193+00:00\", \"pid\": 79368, \"start\": \"Sat Oct 3 14:09:44 2026\", \"ppid\": 1, \"approved\": false, \"uid\": 501, \"argv\": \"adb -L tcp:5037 fork-server server --reply-fd 4\", \"exe\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb\"], \"cwd\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK\"], \"projectionFDHits\": 0}]",
+  "run": {
+    "bytes": 35562,
+    "sha256": "e709b223f26e80d9ad4894a7c1b4e953b9b60dccfaa34d3edaa560354a57cbbe"
+  },
+  "runner": {
+    "bytes": 32242,
+    "sha256": "36d4f64f41943b5888371703657aa56acd8d19077001df9a4bc00202b58ef667"
+  },
+  "candidate": {
+    "kind": "DIAG-sealed composite with four fixed source overlays; not whole single PR tree",
+    "RAWHead": "1b4e091526444822e487240cd0d6aff736f0080c",
+    "PREFHead": null,
+    "PREFSourceSha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743",
+    "oldPR3AndRAW74DoNotCoverNewSource": true
+  },
+  "sourceGroups": {
+    "RAW": {
+      "owner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a10037-c5a9-75a2-adb4-85854cafccb3"
+      },
+      "sourceReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/source-receipt.json",
+        "bytes": 13145,
+        "sha256": "fd746e23afed3b7f004d06db4474f41bbcf85ee67202a3ffb0d723863a2e20c4"
+      },
+      "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/source",
+      "sourceInventory": {
+        "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+          "bytes": 19671,
+          "sha256": "c6d180600f68d2a889c1681198be921f15211b38663d59b68e672ba303d34e58",
+          "physical_lines": 375
+        },
+        "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+          "bytes": 27260,
+          "sha256": "53bf0a2b71397f4ec6854777dfa8de9eb1c23b1a84da0f548e9550ac82b785bc",
+          "physical_lines": 590
+        },
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+          "bytes": 54240,
+          "sha256": "9a230b09c207198df414411a26be8c91eff53ef3d89f0f311aab6e692fb5c76b",
+          "physical_lines": 646
+        }
+      },
+      "head": "1b4e091526444822e487240cd0d6aff736f0080c",
+      "reviewStatus": "independent review not established by this native execution"
+    },
+    "PREF": {
+      "owner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a1004e-4923-74d0-bade-a815e933e588"
+      },
+      "sourceReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-IMPL-B-PREF/FIX01/S/source-receipt.json",
+        "bytes": 8065,
+        "sha256": "ef0ee52f4cdf4240b8a1028ae2706698fa2fa485f11f08b62d953eea97836d81"
+      },
+      "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-IMPL-B-PREF/FIX01/S/source",
+      "sourceInventory": {
+        "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs": {
+          "bytes": 30038,
+          "sha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743"
+        }
+      },
+      "head": null,
+      "reviewStatus": "independent review not established by this native execution"
+    }
+  },
+  "stages": [
+    {
+      "stage": "D",
+      "status": "PASSED",
+      "runCount": 1,
+      "pid": 79045,
+      "exitCode": 0,
+      "beforeClosureSeconds": 21.202411,
+      "closureSeconds": 60.335098,
+      "elapsedSeconds": 81.537562
+    },
+    {
+      "stage": "T",
+      "status": "FAILED_OR_BLOCKED",
+      "runCount": 1,
+      "pid": 79332,
+      "exitCode": null,
+      "beforeClosureSeconds": 180.131221,
+      "closureSeconds": 60.476387,
+      "elapsedSeconds": 240.607616
+    }
+  ],
+  "standaloneIRuns": 0,
+  "discovery": {
+    "status": "DISCOVERED_NOT_EXECUTED",
+    "testsExecuted": 0,
+    "leafCount": 77,
+    "leaves": [
+      {
+        "name": "FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(False)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(False)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF18",
+          "PREF19"
+        ]
+      },
+      {
+        "name": "FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(True)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(True)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF18",
+          "PREF19"
+        ]
+      },
+      {
+        "name": "GrammarWhitespaceFieldOrderAndEscapesRemainValid",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.GrammarWhitespaceFieldOrderAndEscapesRemainValid",
+        "runState": "Runnable",
+        "categories": [
+          "PREF03"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"[]\",\"PreferenceInvalidDocument\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"[]\",\"PreferenceInvalidDocument\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\",\"PreferenceInvalidDocument\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\",\"PreferenceInvalidDocument\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"Version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"Version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":01,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidDocument\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":01,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidDocument\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":3}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":3}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"e\\\\q\\\"}\",\"PreferenceInvalidDocument\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"e\\\\q\\\"}\",\"PreferenceInvalidDocument\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"extra\\\":0}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"extra\\\":0}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"} \",\"PreferenceInvalidDocument\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"} \",\"PreferenceInvalidDocument\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\\n\",\"PreferenceInvalidDocument\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\\n\",\"PreferenceInvalidDocument\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}{}\",\"PreferenceInvalidDocument\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}{}\",\"PreferenceInvalidDocument\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":null}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":null}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1.0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1.0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1e0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1e0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":\\\"1\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":\\\"1\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":null,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":null,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidLocaleThrowsBeforeStorageAndCleanupDoesNotChangeSaved",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidLocaleThrowsBeforeStorageAndCleanupDoesNotChangeSaved",
+        "runState": "Runnable",
+        "categories": [
+          "PREF20"
+        ]
+      },
+      {
+        "name": "InvalidUtf8IsPreserved",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidUtf8IsPreserved",
+        "runState": "Runnable",
+        "categories": [
+          "PREF04",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "MissingChineseUsesSystemDefaultWithoutWrites(Chinese)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(Chinese)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF01"
+        ]
+      },
+      {
+        "name": "MissingChineseUsesSystemDefaultWithoutWrites(ChineseSimplified)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(ChineseSimplified)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF01"
+        ]
+      },
+      {
+        "name": "MissingChineseUsesSystemDefaultWithoutWrites(ChineseTraditional)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(ChineseTraditional)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF01"
+        ]
+      },
+      {
+        "name": "MissingOtherLanguageUsesEnglishWithoutWrites(English)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(English)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF02"
+        ]
+      },
+      {
+        "name": "MissingOtherLanguageUsesEnglishWithoutWrites(French)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(French)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF02"
+        ]
+      },
+      {
+        "name": "MissingOtherLanguageUsesEnglishWithoutWrites(Japanese)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(Japanese)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF02"
+        ]
+      },
+      {
+        "name": "MissingOtherLanguageUsesEnglishWithoutWrites(Unknown)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(Unknown)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF02"
+        ]
+      },
+      {
+        "name": "NewModuleHasNoBusinessOrCompositionDependencies",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.NewModuleHasNoBusinessOrCompositionDependencies",
+        "runState": "Runnable",
+        "categories": [
+          "PREF21"
+        ]
+      },
+      {
+        "name": "OriginallyAbsentTargetRequiresAnAbsenceProof",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.OriginallyAbsentTargetRequiresAnAbsenceProof",
+        "runState": "Runnable",
+        "categories": [
+          "PREF16"
+        ]
+      },
+      {
+        "name": "PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-open\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-open\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF12",
+          "PREF13"
+        ]
+      },
+      {
+        "name": "PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-read\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-read\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF12",
+          "PREF13"
+        ]
+      },
+      {
+        "name": "PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF14"
+        ]
+      },
+      {
+        "name": "PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF14"
+        ]
+      },
+      {
+        "name": "PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF14"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF07",
+          "PREF08",
+          "PREF09",
+          "PREF10",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"en\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"en\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF06"
+        ]
+      },
+      {
+        "name": "ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"zh-Hans\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"zh-Hans\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF06"
+        ]
+      },
+      {
+        "name": "ReadFailurePreservesFileAndUsesFallback(\"load-exists\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-exists\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "ReadFailurePreservesFileAndUsesFallback(\"load-open\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-open\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "ReadFailurePreservesFileAndUsesFallback(\"load-read\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-read\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "RememberedLocaleOverridesSystemLanguage(\"en\",Chinese)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.RememberedLocaleOverridesSystemLanguage(\"en\",Chinese)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF03"
+        ]
+      },
+      {
+        "name": "RememberedLocaleOverridesSystemLanguage(\"zh-Hans\",English)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.RememberedLocaleOverridesSystemLanguage(\"zh-Hans\",English)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF03"
+        ]
+      },
+      {
+        "name": "SaveUsesTheCompleteOrderedStorageFlow",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SaveUsesTheCompleteOrderedStorageFlow",
+        "runState": "Runnable",
+        "categories": [
+          "PREF06"
+        ]
+      },
+      {
+        "name": "SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"commit\",\"PreferenceCommitFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"commit\",\"PreferenceCommitFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF11"
+        ]
+      },
+      {
+        "name": "SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"flush\",\"PreferenceFlushFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"flush\",\"PreferenceFlushFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF11"
+        ]
+      },
+      {
+        "name": "SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-create\",\"PreferenceTempCreateFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-create\",\"PreferenceTempCreateFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF11"
+        ]
+      },
+      {
+        "name": "SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-open\",\"PreferenceTempReadFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-open\",\"PreferenceTempReadFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF11"
+        ]
+      },
+      {
+        "name": "SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-write\",\"PreferenceTempWriteFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-write\",\"PreferenceTempWriteFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF11"
+        ]
+      },
+      {
+        "name": "SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-document\",\"PreferenceTargetVerificationFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-document\",\"PreferenceTargetVerificationFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF15",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-open\",\"PreferenceTargetReopenFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-open\",\"PreferenceTargetReopenFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF15",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-read\",\"PreferenceTargetReadFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-read\",\"PreferenceTargetReadFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF15",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "TempVerificationFailureNeverCommits(\"{\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF09",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "TempVerificationFailureNeverCommits(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF09",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "TempVerificationFailureNeverCommits(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF09",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnprovenOldAbsenceKeepsUnknown(False)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(False)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF17",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnprovenOldAbsenceKeepsUnknown(True)",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(True)",
+        "runState": "Runnable",
+        "categories": [
+          "PREF17",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnprovenOldBytesKeepUnknown(\"proof-bytes\",\"PreferenceRollbackMismatch\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-bytes\",\"PreferenceRollbackMismatch\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF17",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnprovenOldBytesKeepUnknown(\"proof-open\",\"PreferenceRollbackProofFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-open\",\"PreferenceRollbackProofFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF17",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnprovenOldBytesKeepUnknown(\"proof-read\",\"PreferenceRollbackProofFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-read\",\"PreferenceRollbackProofFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF17",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnprovenOldBytesKeepUnknown(\"rollback\",\"PreferenceRollbackFailed\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"rollback\",\"PreferenceRollbackFailed\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF17",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":-1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":-1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"EN\\\"}\",\"PreferenceUnsupportedLocale\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"EN\\\"}\",\"PreferenceUnsupportedLocale\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"ZhHans\\\"}\",\"PreferenceUnsupportedLocale\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"ZhHans\\\"}\",\"PreferenceUnsupportedLocale\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"fr\\\"}\",\"PreferenceUnsupportedLocale\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"fr\\\"}\",\"PreferenceUnsupportedLocale\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      },
+      {
+        "name": "UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":2,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")",
+        "fullName": "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":2,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")",
+        "runState": "Runnable",
+        "categories": [
+          "PREF05",
+          "PREF20"
+        ]
+      }
+    ],
+    "fullNames": [
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(False)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(True)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.GrammarWhitespaceFieldOrderAndEscapesRemainValid",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"[]\",\"PreferenceInvalidDocument\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\",\"PreferenceInvalidDocument\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"Version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":01,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidDocument\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":3}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"e\\\\q\\\"}\",\"PreferenceInvalidDocument\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"extra\\\":0}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"} \",\"PreferenceInvalidDocument\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\\n\",\"PreferenceInvalidDocument\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}{}\",\"PreferenceInvalidDocument\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":null}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1.0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1e0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":\\\"1\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":null,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidLocaleThrowsBeforeStorageAndCleanupDoesNotChangeSaved",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidUtf8IsPreserved",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(Chinese)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(ChineseSimplified)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(ChineseTraditional)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(English)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(French)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(Japanese)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(Unknown)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.NewModuleHasNoBusinessOrCompositionDependencies",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.OriginallyAbsentTargetRequiresAnAbsenceProof",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-open\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-read\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"en\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"zh-Hans\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-exists\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-open\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-read\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.RememberedLocaleOverridesSystemLanguage(\"en\",Chinese)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.RememberedLocaleOverridesSystemLanguage(\"zh-Hans\",English)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SaveUsesTheCompleteOrderedStorageFlow",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"commit\",\"PreferenceCommitFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"flush\",\"PreferenceFlushFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-create\",\"PreferenceTempCreateFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-open\",\"PreferenceTempReadFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-write\",\"PreferenceTempWriteFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-document\",\"PreferenceTargetVerificationFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-open\",\"PreferenceTargetReopenFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-read\",\"PreferenceTargetReadFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(False)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(True)",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-bytes\",\"PreferenceRollbackMismatch\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-open\",\"PreferenceRollbackProofFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-read\",\"PreferenceRollbackProofFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"rollback\",\"PreferenceRollbackFailed\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":-1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"EN\\\"}\",\"PreferenceUnsupportedLocale\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"ZhHans\\\"}\",\"PreferenceUnsupportedLocale\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"fr\\\"}\",\"PreferenceUnsupportedLocale\")",
+      "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":2,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")"
+    ],
+    "categoryRequirementMap": {
+      "PREF01": "PREF-01",
+      "PREF02": "PREF-02",
+      "PREF03": "PREF-03",
+      "PREF04": "PREF-04",
+      "PREF05": "PREF-05",
+      "PREF06": "PREF-06",
+      "PREF07": "PREF-07",
+      "PREF08": "PREF-08",
+      "PREF09": "PREF-09",
+      "PREF10": "PREF-10",
+      "PREF11": "PREF-11",
+      "PREF12": "PREF-12",
+      "PREF13": "PREF-13",
+      "PREF14": "PREF-14",
+      "PREF15": "PREF-15",
+      "PREF16": "PREF-16",
+      "PREF17": "PREF-17",
+      "PREF18": "PREF-18",
+      "PREF19": "PREF-19",
+      "PREF20": "PREF-20",
+      "PREF21": "PREF-21"
+    },
+    "coverage": {
+      "PREF01": {
+        "requirement": "PREF-01",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(Chinese)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(ChineseSimplified)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingChineseUsesSystemDefaultWithoutWrites(ChineseTraditional)"
+        ]
+      },
+      "PREF02": {
+        "requirement": "PREF-02",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(English)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(French)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(Japanese)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.MissingOtherLanguageUsesEnglishWithoutWrites(Unknown)"
+        ]
+      },
+      "PREF03": {
+        "requirement": "PREF-03",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.GrammarWhitespaceFieldOrderAndEscapesRemainValid",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.RememberedLocaleOverridesSystemLanguage(\"en\",Chinese)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.RememberedLocaleOverridesSystemLanguage(\"zh-Hans\",English)"
+        ]
+      },
+      "PREF04": {
+        "requirement": "PREF-04",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"[]\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"Version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":01,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":3}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"e\\\\q\\\"}\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"extra\\\":0}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"} \",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\\n\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}{}\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":null}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1.0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1e0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":\\\"1\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":null,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidUtf8IsPreserved"
+        ]
+      },
+      "PREF05": {
+        "requirement": "PREF-05",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-exists\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-open\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-read\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":-1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"EN\\\"}\",\"PreferenceUnsupportedLocale\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"ZhHans\\\"}\",\"PreferenceUnsupportedLocale\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"fr\\\"}\",\"PreferenceUnsupportedLocale\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":2,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")"
+        ]
+      },
+      "PREF06": {
+        "requirement": "PREF-06",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"en\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ProductionAdapterCreatesAndAtomicallyReplacesCanonicalBytes(\"zh-Hans\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SaveUsesTheCompleteOrderedStorageFlow"
+        ]
+      },
+      "PREF07": {
+        "requirement": "PREF-07",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")"
+        ]
+      },
+      "PREF08": {
+        "requirement": "PREF-08",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")"
+        ]
+      },
+      "PREF09": {
+        "requirement": "PREF-09",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")"
+        ]
+      },
+      "PREF10": {
+        "requirement": "PREF-10",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")"
+        ]
+      },
+      "PREF11": {
+        "requirement": "PREF-11",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"commit\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"flush\",\"PreferenceFlushFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-create\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-open\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SecondaryCleanupAndReadBackFaultsCannotUpgradePreCommitFailure(\"temp-write\",\"PreferenceTempWriteFailed\")"
+        ]
+      },
+      "PREF12": {
+        "requirement": "PREF-12",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-open\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-read\")"
+        ]
+      },
+      "PREF13": {
+        "requirement": "PREF-13",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-open\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitIoFailureWithoutRollbackProofIsUnknown(\"target-read\")"
+        ]
+      },
+      "PREF14": {
+        "requirement": "PREF-14",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PostCommitVerificationWithoutRollbackProofIsUnknown(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")"
+        ]
+      },
+      "PREF15": {
+        "requirement": "PREF-15",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-document\",\"PreferenceTargetVerificationFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-open\",\"PreferenceTargetReopenFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-read\",\"PreferenceTargetReadFailed\")"
+        ]
+      },
+      "PREF16": {
+        "requirement": "PREF-16",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.OriginallyAbsentTargetRequiresAnAbsenceProof"
+        ]
+      },
+      "PREF17": {
+        "requirement": "PREF-17",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(False)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(True)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-bytes\",\"PreferenceRollbackMismatch\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-open\",\"PreferenceRollbackProofFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-read\",\"PreferenceRollbackProofFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"rollback\",\"PreferenceRollbackFailed\")"
+        ]
+      },
+      "PREF18": {
+        "requirement": "PREF-18",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(False)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(True)"
+        ]
+      },
+      "PREF19": {
+        "requirement": "PREF-19",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(False)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.FailureAndSameDesiredRetryUseRealLocaleServiceWithoutDuplicateEvents(True)"
+        ]
+      },
+      "PREF20": {
+        "requirement": "PREF-20",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"[]\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"Version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":01,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":3}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"e\\\\q\\\"}\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"extra\\\":0}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"} \",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\\n\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}{}\",\"PreferenceInvalidDocument\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"locale\\\":null}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1,\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1.0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1e0,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":1}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":\\\"1\\\",\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidDocumentPreservesBytesAndDoesNotRepair(\"{\\\"version\\\":null,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceInvalidSchema\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidLocaleThrowsBeforeStorageAndCleanupDoesNotChangeSaved",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.InvalidUtf8IsPreserved",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"commit\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"directory\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"flush\",\"PreferenceFlushFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-open\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"old-read\",\"PreferenceCommitFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-create\",\"PreferenceTempCreateFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-open\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-read\",\"PreferenceTempReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.PreCommitFailureKeepsOldTargetAndDesiredSession(\"temp-write\",\"PreferenceTempWriteFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-exists\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-open\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.ReadFailurePreservesFileAndUsesFallback(\"load-read\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-document\",\"PreferenceTargetVerificationFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-open\",\"PreferenceTargetReopenFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.SuccessfulRollbackRequiresExactOldBytesAndRetainsOriginalDiagnostic(\"target-read\",\"PreferenceTargetReadFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":1,\\\"locale\\\":\\\"en\\\"}\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.TempVerificationFailureNeverCommits(\"{\\\"version\\\":2,\\\"locale\\\":\\\"zh-Hans\\\"}\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(False)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldAbsenceKeepsUnknown(True)",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-bytes\",\"PreferenceRollbackMismatch\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-open\",\"PreferenceRollbackProofFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"proof-read\",\"PreferenceRollbackProofFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnprovenOldBytesKeepUnknown(\"rollback\",\"PreferenceRollbackFailed\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":-1,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"EN\\\"}\",\"PreferenceUnsupportedLocale\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"ZhHans\\\"}\",\"PreferenceUnsupportedLocale\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":1,\\\"locale\\\":\\\"fr\\\"}\",\"PreferenceUnsupportedLocale\")",
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.UnsupportedSelectionUsesFallbackWithoutRepair(\"{\\\"version\\\":2,\\\"locale\\\":\\\"en\\\"}\",\"PreferenceUnsupportedVersion\")"
+        ]
+      },
+      "PREF21": {
+        "requirement": "PREF-21",
+        "fullNames": [
+          "FightMatch.Host.Tests.LocalePreferenceStoreTests.NewModuleHasNoBusinessOrCompositionDependencies"
+        ]
+      }
+    },
+    "discoveryFiles": {
+      "leaves.json": {
+        "bytes": 33137,
+        "sha256": "5c24de3ed3813b197465b299c6179b3d91b40f15b97bab281dfd8c88ae811a96"
+      },
+      "receipt.json": {
+        "bytes": 88,
+        "sha256": "7effd02ba55c002515312b94f03822916ac0e342605dc84ed80f61a05dbb2eca"
+      }
+    }
+  },
+  "selector": {
+    "bytes": 157016,
+    "sha256": "9f010d2519ddc93e35d2a00b64480b7d2bfb044c1a8c9f6e175562e528eb6f62"
+  },
+  "tests": null,
+  "notRunStages": [],
+  "mechanicalChecks": [
+    {
+      "runs": 1,
+      "elapsedSeconds": 0.007461,
+      "cases": [
+        {
+          "case": "original_adb_absent_allowed",
+          "passed": true
+        },
+        {
+          "case": "exact_adb_present_allowed",
+          "passed": true
+        },
+        {
+          "case": "reused_pid_rejected",
+          "passed": true
+        },
+        {
+          "case": "changed_uid_rejected",
+          "passed": true
+        },
+        {
+          "case": "new_adb_not_owned_or_allowed",
+          "passed": true
+        },
+        {
+          "case": "uncertain_query_rejected",
+          "passed": true
+        },
+        {
+          "case": "projection_fd_rejected",
+          "passed": true
+        },
+        {
+          "case": "incomplete_snapshot_rejected",
+          "passed": true
+        },
+        {
+          "case": "owned_finally_ignores_throwing_foreign_gate_with_one_mock_term",
+          "passed": true
+        },
+        {
+          "case": "semicolon_rejected",
+          "passed": true
+        },
+        {
+          "case": "control_rejected",
+          "passed": true
+        },
+        {
+          "case": "over64KiB_rejected",
+          "passed": true
+        },
+        {
+          "case": "duplicate_rejected",
+          "passed": true
+        },
+        {
+          "case": "literal_union_preserves_quotes_backslash_parameters_Unicode",
+          "passed": true
+        }
+      ],
+      "OSCalls": 0,
+      "UnityCalls": 0,
+      "nativeSignalCalls": 0,
+      "mockSignalCalls": 1,
+      "syntax": "PASSED",
+      "index": 1,
+      "passed": true
+    },
+    {
+      "index": 2,
+      "kind": "actual union literal selector mechanical check",
+      "OSCalls": 0,
+      "UnityCalls": 0,
+      "nativeSignalCalls": 0,
+      "passed": true,
+      "elapsedSeconds": 0.009191
+    }
+  ],
+  "remainingOwned": [],
+  "ownedClosureComplete": true,
+  "consumer": null,
+  "foreignObservations": [
+    {
+      "utc": "2026-10-03T06:13:40.386193+00:00",
+      "pid": 79368,
+      "start": "Sat Oct 3 14:09:44 2026",
+      "ppid": 1,
+      "approved": false,
+      "uid": 501,
+      "argv": "adb -L tcp:5037 fork-server server --reply-fd 4",
+      "exe": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb"
+      ],
+      "cwd": [
+        "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK"
+      ],
+      "projectionFDHits": 0
+    },
+    {
+      "utc": "2026-10-03T06:13:40.404453+00:00",
+      "phase": "finalConsumer",
+      "failure": "Unapproved new ADB [{\"utc\": \"2026-10-03T06:13:40.386193+00:00\", \"pid\": 79368, \"start\": \"Sat Oct 3 14:09:44 2026\", \"ppid\": 1, \"approved\": false, \"uid\": 501, \"argv\": \"adb -L tcp:5037 fork-server server --reply-fd 4\", \"exe\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb\"], \"cwd\": [\"/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/PlaybackEngines/AndroidPlayer/SDK\"], \"projectionFDHits\": 0}]"
+    }
+  ],
+  "scopeDifferences": [],
+  "evidence": {
+    "runner.py": {
+      "bytes": 32242,
+      "sha256": "36d4f64f41943b5888371703657aa56acd8d19077001df9a4bc00202b58ef667"
+    },
+    "process-after.json": {
+      "bytes": 33457,
+      "sha256": "55571d457c5b6fa057eb3182441164c7d77e0758c440a7ae1896242f62fa67e2"
+    },
+    "assemblies.json": {
+      "bytes": 45229,
+      "sha256": "33dce4c4640fca7bfa6cba9ca0e9d3abeaa7d4988638bb6463af19ff62b71c4d"
+    },
+    "selector.json": {
+      "bytes": 157016,
+      "sha256": "9f010d2519ddc93e35d2a00b64480b7d2bfb044c1a8c9f6e175562e528eb6f62"
+    },
+    "after.json": {
+      "bytes": 15001,
+      "sha256": "f6fc67780ab99465cea9d7fbe852f83fb2d6068137eb4670a1ddc9176eb3c183"
+    },
+    "process-events.jsonl": {
+      "bytes": 177307,
+      "sha256": "56e9da3123fd775fc8ba61ccc4671c217ef3b834cc2a6dec2aa79a068c60639d"
+    },
+    "preflight.json": {
+      "bytes": 50556,
+      "sha256": "84c2930cf9ef10d16867ecd4e88f57602612340c9417b3d631907038a2b6e3f8"
+    },
+    "run.json": {
+      "bytes": 35562,
+      "sha256": "e709b223f26e80d9ad4894a7c1b4e953b9b60dccfaa34d3edaa560354a57cbbe"
+    },
+    "T/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T/result.json": {
+      "bytes": 30734,
+      "sha256": "006c9d16bf65b1f82c279d1e1ed7db9b14cd270608a42fbf2f33896061237e5c"
+    },
+    "T/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T/editor.log": {
+      "bytes": 48684,
+      "sha256": "83661e6c252057bda7d9a6595db1131eaa38047a1ad07dc09356af9abe3290e2"
+    },
+    "D/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D/result.json": {
+      "bytes": 86627,
+      "sha256": "29d6889bd7d8350e96c524eb33785451cb0e40bf5c9643226aa3f09ff91168b5"
+    },
+    "D/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D/editor.log": {
+      "bytes": 95671,
+      "sha256": "d0ba5392c0a03ea9eab9a722f070010cb64f653e92aef10b65690d362089121c"
+    }
+  },
+  "OFiles": {
+    "leaves.json": {
+      "bytes": 33137,
+      "sha256": "5c24de3ed3813b197465b299c6179b3d91b40f15b97bab281dfd8c88ae811a96"
+    },
+    "receipt.json": {
+      "bytes": 88,
+      "sha256": "7effd02ba55c002515312b94f03822916ac0e342605dc84ed80f61a05dbb2eca"
+    }
+  },
+  "authorIntegrationVerdict": null,
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "sourceWrites": {
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "bytes": 19671,
+      "sha256": "c6d180600f68d2a889c1681198be921f15211b38663d59b68e672ba303d34e58"
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "bytes": 27260,
+      "sha256": "53bf0a2b71397f4ec6854777dfa8de9eb1c23b1a84da0f548e9550ac82b785bc"
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "bytes": 54240,
+      "sha256": "9a230b09c207198df414411a26be8c91eff53ef3d89f0f311aab6e692fb5c76b"
+    },
+    "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs": {
+      "bytes": 30038,
+      "sha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743"
+    }
+  },
+  "metaWrites": 0,
+  "reusedUnchangedD13C11": {
+    "receipt": {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-RAW-JOINT-001/M01/receipt.json",
+      "bytes": 80458,
+      "sha256": "3693fca9a1216bb92f8b141a66da7bfb8206e5333c688d55b95269669325d17a"
+    },
+    "counts": {
+      "D": 13,
+      "C": 11
+    },
+    "sources": {
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+        "bytes": 38720,
+        "sha256": "25129b814768e39fc359a8d374cf52b735b4aac37fb269521669f3a097d9fe7a"
+      },
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+        "bytes": 56352,
+        "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+      },
+      "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+        "bytes": 16774,
+        "sha256": "4ef8e56e70a19f7df81105fa46b3b1d334f39ce956610285845f1c594ec0520b"
+      },
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+        "bytes": 28399,
+        "sha256": "4fe6bb1ed6e2c5bc0d62685b807de42db9a38e2069d07547abbd27502503e13b"
+      }
+    },
+    "newRuns": 0
+  },
+  "unrun": [
+    "standalone I",
+    "D13/C11 rerun",
+    "ActivationStore",
+    "LOC materials/M16",
+    "Scene/FIX04",
+    "real SDK downloads/Ensure",
+    "Host/device/Android",
+    "shared adoption"
+  ]
+}

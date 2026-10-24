@@ -1,0 +1,103 @@
+{
+  "task": "HOST-CONTINUATION-FIX01",
+  "receivedAtUtc": "2026-10-07T16:21:03.516813+00:00",
+  "receiver": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local"
+  },
+  "completedExecution": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "actualTurn": "01a1171a-c943-74d2-a38a-bf0dfa86549d",
+    "waitCursor": "bd153adf-4a11-4788-8ba9-4674fa47eba5:54",
+    "status": "completed"
+  },
+  "integrationVerdict": "ACCEPT",
+  "scope": "Limited Host locale wiring, component lifecycle and isolated save/preference paths covered by ten fixed tests; not full Demo or real Host acceptance",
+  "candidate": {
+    "canonicalSha256": "786fa16c0c7d1c294dd407f2b58d15c2e68011c08f0dac7f4b2c5ebc3e305c4a",
+    "leaves": 1012,
+    "bytes": 32086333,
+    "base": "3541930877837e14b58020b910976b8b67b56e42"
+  },
+  "publication": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/16",
+    "head": "030898e9a317d10b610058d867529be8b0770c7c",
+    "verifiedProductPaths": 32,
+    "merged": false
+  },
+  "independentReview": {
+    "receipt": "docs/team/2026-09-30/testing-host-continuation-pr16-natural-meta-review-receipt.json",
+    "bytes": 3613,
+    "sha256": "f9786c8e461d256ec15d4e55bae941fe38a35322c43cb8b59091e9ee6434ab5e",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/16#issuecomment-6041859816",
+    "formalApproval": false,
+    "findings": []
+  },
+  "validation": {
+    "receipt": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/FIX01/T01/receipt.json",
+    "bytes": 187001,
+    "sha256": "100a081a68e5f68c30a523304884753e5a5fcc04eecfd2750115b1c1b2bedd1d",
+    "tests": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "exactNamedMultiset": true,
+      "rawRootAttributes": {
+        "id": "2",
+        "testcasecount": "10",
+        "result": "Passed",
+        "total": "10",
+        "passed": "10",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-07 16:14:48Z",
+        "end-time": "2026-10-07 16:14:52Z",
+        "duration": "4.3156332"
+      },
+      "new8": {
+        "total": 8,
+        "passed": 8
+      },
+      "regression2": {
+        "total": 2,
+        "passed": 2
+      },
+      "xml": {
+        "bytes": 8520,
+        "sha256": "48956958802ef2bbe0ddd83f8fb7ad7a2e0b8c68cad8afd98b4997fa9abd7c87"
+      }
+    },
+    "executionWallSeconds": 43.24742,
+    "unityStarts": 1,
+    "newCompileRuns": 0,
+    "priorCompilation": "TestArtifacts/FightMatch/HOST-CONTINUATION-SOURCE-001/FIX01/M03/compile.json",
+    "oldWrapperFailurePreserved": true,
+    "evidenceLeavesVerified": 66,
+    "evidenceBytes": 7214514,
+    "restoredInputsVerified": 1008,
+    "signals": [],
+    "remainingOwned": []
+  },
+  "unverified": [
+    "default Host Start",
+    "real PlayerSave",
+    "Play",
+    "scene save/reopen/export",
+    "downloads/restore services",
+    "Git mutation",
+    "full regression",
+    "device/APK",
+    "real yielded cancellation",
+    "EventSystem/first frame"
+  ],
+  "sharedProductAdopted": false,
+  "demoAccepted": false,
+  "next": "Engineering prepares the smallest real scene first-frame/layout verification independent of formal LOC; no repeated compile/full regression or fake production localization source."
+}

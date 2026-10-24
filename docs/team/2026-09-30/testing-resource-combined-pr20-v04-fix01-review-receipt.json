@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "task": "V04-FIX01 GitHub PR review intake",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "reviewTrigger": {
+    "commentId": "6050433539",
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6050433539",
+    "reposted": false
+  },
+  "receiver": {
+    "threadId": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "turnId": "01a1192d-27e9-7202-a2d7-59f674aa883a"
+  },
+  "requestedModel": "gpt-6-luna",
+  "requestedEffort": "medium",
+  "effectiveRuntimeModelVerified": false,
+  "review": {
+    "status": "COMMENTED",
+    "approved": false,
+    "reviewId": "PRR_kwDOTDyjrM8AAAABRN8neQ",
+    "submittedAt": "2026-10-08T01:44:54Z",
+    "reviewedHead": "a2949cfc655e95693c44b5bfd17f1252e239fe2d",
+    "headMatches": true,
+    "reviewer": "chatgpt-codex-connector",
+    "completionSummaryCommentId": "6048274217",
+    "completionStatus": "COMPLETED",
+    "completionAt": "2026-10-08T01:44:57.293541Z",
+    "formalResultUrl": "https://github.com/yyczz1/FightMatch/pull/20",
+    "inlineResults": [
+      {
+        "databaseCommentId": "4213782936",
+        "nodeId": "PRRC_kwDOTDyjrM77KTmY",
+        "threadId": "PRRT_kwDOTDyjrM6qKaQT",
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4213782936",
+        "priority": "P1",
+        "title": "Include boundary-discovered children in the TERM set",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 225,
+        "resolved": false,
+        "outdated": false,
+        "body": "When NaturalGraceExpired occurs while details() is probing a newly observed child, register() has not yet added that PID to owned. This rethrow makes closure() freeze remaining = list(owned) without the child; although the authorization snapshot can subsequently register it, the fixed TERM loop never signals it. If that child survives or reparents after the root exits, closure times out and restoration is refused. The new replay masks this because signaling only PID 100 sets one shared live flag false for both processes. Refresh the TERM candidates after discovery or explicitly signal and test the surviving child."
+      },
+      {
+        "databaseCommentId": "4213725720",
+        "threadId": "PRRT_kwDOTDyjrM6qKRhM",
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4213725720",
+        "priority": "P1",
+        "title": "Let natural-grace expiry escape process discovery",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "line": 319,
+        "resolved": false,
+        "outdated": false
+      },
+      {
+        "databaseCommentId": "4212752227",
+        "threadId": "PRRT_kwDOTDyjrM6qH91Y",
+        "priority": "P1",
+        "resolved": false,
+        "outdated": true
+      },
+      {
+        "databaseCommentId": "4212896382",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1L",
+        "priority": "P1",
+        "resolved": false,
+        "outdated": true
+      },
+      {
+        "databaseCommentId": "4212896391",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1R",
+        "priority": "P1",
+        "resolved": false,
+        "outdated": true
+      }
+    ]
+  },
+  "inputs": {
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "parent": "47078ee0137cc9c6e0b1e34228b9270dd2acdcc0",
+    "head": "a2949cfc655e95693c44b5bfd17f1252e239fe2d",
+    "publicationReceipt": "docs/team/2026-09-30/resource-combined-v04-fix01-publication-receipt.json",
+    "publicationReceiptBytes": 19764,
+    "publicationReceiptSha256": "45108ec78cabc6ad8a43e44a31d83a5efdeec7060023752983250c130d704ee5",
+    "publishedFilesVerified": 46,
+    "publishedBytesVerified": 2672797
+  },
+  "validationEvidence": {
+    "replayPassed": 65,
+    "replayRounds": 1,
+    "replaySeconds": 5.5611387499957345,
+    "priorEvidenceReuse": 177,
+    "nativeRuns": 0,
+    "integrationVerdict": null,
+    "reviewIntakeRanTests": false
+  },
+  "githubWritesByIntake": [],
+  "localCodeReviewOrTestRun": false,
+  "recordedAt": "2026-10-08",
+  "receiptPath": "docs/team/2026-09-30/testing-resource-combined-pr20-v04-fix01-review-receipt.json"
+}

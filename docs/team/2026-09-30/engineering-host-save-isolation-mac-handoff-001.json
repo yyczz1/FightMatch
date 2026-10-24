@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "task": "HOST-SAVE-ISOLATION-MAC-001",
+  "recordedUtc": "2026-10-02T17:50:11Z",
+  "authority": "Human-approved AGENTS.md section 6 standing role workflow; central explicitly requested a clean replacement executor after two context-drift events. This transfers the unstarted M01 task only, not the denied FIX04 or LOC M16 actions.",
+  "issuer": {"thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b", "host": "local", "turn": "01a0fd7b-5ea7-72f0-ad67-3ba4d6441453"},
+  "packet": {"path": "docs/team/2026-09-30/engineering-host-save-isolation-mac-001.md", "bytes": 9578, "sha256": "6adb4ce4a4ad6e82c2752568493ded25651c856008acb5c0dd1d1878b83ce755", "originalBytesPreserved": true},
+  "oldOwner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52", "host": "local", "turn": "01a0fdaa-0b59-7322-8d1f-6d3e76252194",
+    "status": "completed/idle; no further M01 work",
+    "stopUtc": "2026-10-02T17:42:13.836863Z",
+    "stopEvidence": {"item": "exec-47e22ea0-b016-43be-acf5-d011ab7aec15", "chunk": "dd869f", "exitCode": 0, "unityUpmCopyProcesses": []},
+    "completionCursor": "d8e1bf73-183a-4f2f-bfdf-51373405ccc5:219",
+    "failedPreparation": {"chunk": "bd93a8", "exitCode": 1, "startedUtc": "2026-10-02T17:41:20.914707Z", "finishedUtc": "2026-10-02T17:41:23.902868Z", "error": "AssertionError: com.unity.visualscripting@1.9.1", "failureBeforeFirstMkdir": true, "m01Writes": 0, "unityRuns": 0, "deviceActions": 0},
+    "m01StateAtStop": "ABSENT"
+  },
+  "newOwner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c", "host": "local",
+    "firstReadOnlyTurn": "01a0fdbc-c06a-7722-90f5-a6eef4693918",
+    "requestedModel": "gpt-6-astra", "requestedReasoningEffort": "xhigh",
+    "role": "sole local Unity executor for this M01 task after preparation and activation gates",
+    "currentPhase": "READ_ONLY_HANDSHAKE_AND_CACHE_DIAGNOSIS",
+    "currentWritesAllowed": [], "unityExecutionActivated": false,
+    "nextGate": "Identify exact added/missing/changed payload leaves and prove an approved fixed-cache candidate; engineering then authorizes bounded preparation. Execution requires the later actual execution turn in M01/activation.json."
+  },
+  "candidate": {"pr": "https://github.com/yyczz1/FightMatch/pull/5", "head": "a8b9758ed2db1a43dac9328f162433a4523624c9", "qaReceiptSha256": "ba187dd9d0b7b761f29cb92fac0b85ab6e5745cfbc4502cbaea3914592b55d4f", "sourceReceiptSha256": "0f208101a2884e73ed6106e06087f1ca46cd2348870f280304036e1b646db2f7"},
+  "returnPath": {"soleCompletionReceiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local", "upstream": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local", "mechanism": "executor final plus engineering wait_threads receipt"},
+  "preservation": "Old owner evidence, original packet, both frozen source deliveries, shared product, FIX04/M16 denial records and old caches remain unchanged. No new chat or tool rejection may be bypassed.",
+  "subsequentTask": {"task": "HOST-RESOURCE-MAC-002", "packet": "docs/team/2026-09-30/engineering-host-resource-mac-002.md", "packetSha256": "895a260a22f6297571e6582462051fdb7e9d8e129f3cda2b2fb8f97c48a120fd", "ownerUnchanged": true, "diagnosisTurnCompleted": "01a0fdbc-c06a-7722-90f5-a6eef4693918", "stage": "PREPARATION_AUTHORIZED; execution not activated", "reason": "Central explicitly approved one bounded Mac exception after QA cloud readiness failed; combine exact reviewed PR5 and PR6 source, preserve M01 absent and original evidence."}
+}

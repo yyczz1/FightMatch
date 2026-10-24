@@ -1,0 +1,55 @@
+{
+  "task": "RES-CLOUD-INPUT-001-INTEGRATION",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "head": "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a",
+  "review": {
+    "trigger": {
+      "commentId": 6050135876,
+      "url": "https://github.com/yyczz1/FightMatch/pull/21#issuecomment-6050135876",
+      "reposted": false,
+      "author": "yyczz1"
+    },
+    "completion": {
+      "summaryCommentId": 6050138881,
+      "status": "COMPLETED",
+      "completedAtUtc": "2026-10-08T01:18:05.613795Z",
+      "summaryCommit": "6359bf3"
+    },
+    "topLevelResultComment": null,
+    "formalReview": {
+      "id": "PRR_kwDOTDyjrM8AAAABRNzBsg",
+      "state": "COMMENTED",
+      "submittedAtUtc": "2026-10-08T01:18:03Z",
+      "author": "chatgpt-codex-connector",
+      "reviewedCommitFromBody": "6359bf36bf",
+      "reviewedCommitMatchesFullHead": true,
+      "formalApproval": false
+    },
+    "findings": [
+      {
+        "commentId": 4213654050,
+        "commentNodeId": "PRRC_kwDOTDyjrM77J0Ii",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/21#discussion_r4213654050",
+        "threadId": "PRRT_kwDOTDyjrM6qKGqq",
+        "priority": "P1",
+        "title": "Restore the missing Unity meta before freezing the manifest",
+        "path": "docs/versioning/2026-10-08-cloud-resource-input/source-manifest.json",
+        "line": 5362,
+        "createdAtUtc": "2026-10-08T01:18:03Z",
+        "resolved": false,
+        "outdated": false,
+        "originalText": "At exact head `6359bf36bfe32bb2b86ce9edab29c2de8c39b52a`, `LocalePreferenceStoreTests.cs` remains in the snapshot while only its `.meta` sidecar is listed as removed. When the cloud workspace first imports this Unity project, Unity will generate a new sidecar and GUID, changing the declared 1036-file input and making the required post-run protected-source/GUID comparison operate on a different candidate. Preserve a fixed sidecar in the snapshot, or explicitly bind and clean this generated file in the preflight contract before treating the manifest as an immutable test input."
+      }
+    ],
+    "classification": "FORMAL_REVIEW_COMMENTED_WITH_P1; NOT_APPROVED"
+  },
+  "qaReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-cloud-pr21-review-receipt.json",
+    "bytes": 3993,
+    "sha256": "1d97a6f2172fa7e5f12e21d0f7931677b7b06cd5f004fe9683fb293ba2ddde5e"
+  },
+  "next": "Add the exact existing Mac P01 LocalePreferenceStoreTests.cs.meta to the cloud validation projection and re-seal 1037-file input. This does not modify the shared local product checkout.",
+  "nativeRuns": 0,
+  "cloudSync": "BLOCKED_NETWORK_PROXY; fetch exit128; no projection created; old repository remains unchanged"
+}

@@ -1,0 +1,50 @@
+{
+  "packet": "RESOURCE-SHARED-INTEGRATION-001-SOURCE",
+  "date": "2026-10-08",
+  "owner": "central 01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "actualTurn": "01a116c2-6a9d-7a03-b161-11bd6079a631",
+  "verdict": "ACCEPT",
+  "scope": "Source adoption and independent GitHub source-review gate only",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/19",
+  "head": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+  "base": "030898e9a317d10b610058d867529be8b0770c7c",
+  "publication": {
+    "path": "resource-shared-integration-publication-receipt.json",
+    "bytes": 21441,
+    "sha256": "6fb822b73ac8f3b292352901faa68ced8bd575d268abd1fb5e76bf55683d6da1",
+    "verifiedPublishedPaths": 45,
+    "resourceProductPaths": 39,
+    "actualDiffPaths": 36
+  },
+  "review": {
+    "qaActualTurn": "01a11854-bb90-71a2-93b2-948e3f87f23b",
+    "qaCompletionCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:102",
+    "qaReceipt": "testing-resource-shared-pr19-review-receipt.json",
+    "qaReceiptSha256": "ccdcede8cea5a3a3764eb1ee0cd0d05812626602072d50b2502c8920bdabc0d5",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/19#issuecomment-6047508107",
+    "result": "Didn't find any major issues",
+    "reviewedCommitFromBody": "dc1bba0537",
+    "centralDirectlyVerifiedCommentAndCurrentHead": true,
+    "inlineFindings": 0,
+    "formalReviewSubmissions": 0,
+    "formalApproval": false
+  },
+  "sharedInput": {
+    "files": 1036,
+    "bytes": 32657794,
+    "canonicalSha256": "61f1364be566b5266468ea38a19caba1d172428dc7e5fda06b97398c89c83ba8",
+    "adoptionReceipts": ["resource-source-adopt-g01-central-receipt.json", "resource-sdk-adopt-g02-central-receipt.json"],
+    "fullPrTreeEqualsSharedInput": false,
+    "reason": "The PR base retains additional historical Host test fixtures; only the 39 resource paths are the shared resource slice."
+  },
+  "remaining": {
+    "combinedCompile": "NOT_RUN",
+    "combined89Cases": "NOT_RUN",
+    "formalLocalizationMaterial": "BLOCKED",
+    "realResourcePackAndHost": "PENDING",
+    "androidDeviceAndDemo": "PENDING"
+  },
+  "merged": false,
+  "nativeAuthorizedByThisReceipt": false,
+  "note": "Author checks and GitHub source review do not establish runtime, device or Demo acceptance. The new bounded combined validation contract remains a separate gate."
+}

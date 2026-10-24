@@ -1,0 +1,13 @@
+{
+  "task": "RES-D-CODEC-PR10-REVIEW-RECEIPT-ERRATUM",
+  "originalReceipt": "docs/team/2026-09-30/testing-resource-codec-pr10-review-receipt.json",
+  "originalBytes": 3209,
+  "originalSha256": "f399095763d15c77a7d38275b49663a9b8eaa180d91a4559341946d11e1704fd",
+  "correction": "The prior wording 'owned ADB' was inaccurate. The missing retained ADB was the shared installation-SDK ADB (PID 63318), not an owned process. M02 records remainingOwned=[66013]; that VBCS process is separate. CLOSE01 records the SDK ADB but explicitly leaves ownership and client use uncertain.",
+  "evidence": [
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/M02/receipt.json",
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/CLOSE01/receipt.json"
+  ],
+  "pr10Review": "NEEDS_FIX; P2 finding 4171291210 unchanged.",
+  "originalReceiptChanged": false
+}

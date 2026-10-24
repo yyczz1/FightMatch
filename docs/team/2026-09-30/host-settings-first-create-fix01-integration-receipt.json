@@ -1,0 +1,46 @@
+{
+  "task": "HOST-SETTINGS-FIRST-CREATE-FIX01-INTEGRATION",
+  "verdict": "ACCEPT",
+  "scope": "The two fixed HSC source overlays and settings-first-create native behavior, on the recorded composite only.",
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/7",
+  "reviewedHead": "4e10b0aa1e4c691d5d4d72577959d6bf1c4a7754",
+  "codeReview": {
+    "receipt": "docs/team/2026-09-30/testing-host-settings-first-create-fix01-pr7-review-receipt.json",
+    "sha256": "4989f98a338736dcbca5ab2ae7b9f69a03fa7c11eddcf0c3997450440242cc05",
+    "result": "Completed, no major issues reported; not formal APPROVED."
+  },
+  "nativeReview": {
+    "receipt": "docs/team/2026-09-30/testing-hsc-m03-res-p03-receipt.json",
+    "bytes": 7258,
+    "sha256": "c0508b01e5241e49e02324268404ae9c378b0ab5dfcbc500320ab81346811ab1",
+    "qaTurn": "01a0fe90-abc1-71c1-b0e8-80145c2575f8",
+    "result": "hscNative ACCEPT"
+  },
+  "evidence": {
+    "receipt": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/receipt.json",
+    "sha256": "37208e18bc2523481fd57f3bf0eb50d88995f7d35e9153f4742659d547c2d21a",
+    "xml": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/T/results.xml",
+    "xmlSha256": "10b4ba3292b366f41bef72f1d0c03c37e1227cabba1339f29306d8ebd8372fa0",
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "new": 7,
+    "existing": 11,
+    "compileRuns": 1,
+    "testRuns": 1,
+    "remainingOwned": [],
+    "cleanup": "One exact owned I-stage VBCSCompiler PID49848 received SIGTERM, per QA intake; no SIGKILL or test retry."
+  },
+  "preservation": "Original M01 failure and M02 preparation block remain; FIX01 does not change production source or combine 16+2 runs. Test-generated paths were explicitly scoped. Shared checkout not adopted.",
+  "next": "May use the accepted first-create overlay as input to the later Host integration packet.",
+  "unaccepted": [
+    "resource-state first-create compatibility",
+    "real Host/localization startup",
+    "shared project adoption",
+    "whole PR branch execution",
+    "Player/Android/device/Demo acceptance"
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "packet": "HOST-SETTINGS-FIRST-CREATE-FIX01",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0fe54-f099-7c13-b5e2-a316f10ca50b",
+    "identity_evidence": "Current read_thread active turn",
+    "dispatch_model": "gpt-6-astra",
+    "dispatch_effort": "xhigh"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fde0-d533-7b00-ad78-34111f776dda",
+    "sole_completion_receiver": true
+  },
+  "authority": "AGENTS section 6 plus central explicit necessary correction approval relayed by engineering in this turn; engineering-host-settings-first-create-fix01.md",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED"
+  ],
+  "diagnosis": "Both M01 failures snapshot files before the first locator Read. Read takes a writer lease; AcquireWriter creates locator and OpenOrCreate leaves an empty writer.lock. Dispose unlocks and closes without deleting. The observed addition is the existing normal storage lifecycle, not a production defect requiring this packet to change product code.",
+  "diagnostic_trace": [
+    {
+      "path": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/S/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9",
+      "lines": [
+        131
+      ],
+      "snippet": "var read = locator.Read(Budget);"
+    },
+    {
+      "path": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/S/source/Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "sha256": "67d62db541c47e3e1548ec32000605b6dcecf38b98a7332195a0824cc51060a9",
+      "lines": [
+        154,
+        204,
+        228
+      ],
+      "snippet": "if (!ReadLocator()) return;"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/LocalPlayerProfileLocator.cs",
+      "sha256": "3238053d90f886abe2629f0300f41fea0d2f3e29a5e08216caa71c6a229ece10",
+      "lines": [
+        56
+      ],
+      "snippet": "return Execute(budget, \"Read\", () => Result(ReadCore(budget)));"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/LocalPlayerProfileLocator.cs",
+      "sha256": "3238053d90f886abe2629f0300f41fea0d2f3e29a5e08216caa71c6a229ece10",
+      "lines": [
+        141
+      ],
+      "snippet": "using (storage.AcquireWriter())"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/MacContentPublicationStorage.cs",
+      "sha256": "601722e20c06e3922ff28d5b39e7118c8967920c65ce8804feb0b416fbe0fb6d",
+      "lines": [
+        17
+      ],
+      "snippet": "Directory.CreateDirectory(root)"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/MacContentPublicationStorage.cs",
+      "sha256": "601722e20c06e3922ff28d5b39e7118c8967920c65ce8804feb0b416fbe0fb6d",
+      "lines": [
+        18
+      ],
+      "snippet": "MacStoragePaths.Lock(Path.Combine(root, \"writer.lock\"))"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/MacContentPublicationStorage.cs",
+      "sha256": "601722e20c06e3922ff28d5b39e7118c8967920c65ce8804feb0b416fbe0fb6d",
+      "lines": [
+        29
+      ],
+      "snippet": "lease.Dispose();"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/MacEditorSaveStorage.cs",
+      "sha256": "5a0ccc30b00d571b914ae0abfed73982648a01f198f910a45f2b198182240228",
+      "lines": [
+        148
+      ],
+      "snippet": "new FileStream(path, FileMode.OpenOrCreate"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/MacEditorSaveStorage.cs",
+      "sha256": "5a0ccc30b00d571b914ae0abfed73982648a01f198f910a45f2b198182240228",
+      "lines": [
+        152
+      ],
+      "snippet": "stream.Length != 0"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/MacEditorSaveStorage.cs",
+      "sha256": "5a0ccc30b00d571b914ae0abfed73982648a01f198f910a45f2b198182240228",
+      "lines": [
+        174
+      ],
+      "snippet": "flock(owned.SafeFileHandle"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Platform/MacEditorSaveStorage.cs",
+      "sha256": "5a0ccc30b00d571b914ae0abfed73982648a01f198f910a45f2b198182240228",
+      "lines": [
+        177
+      ],
+      "snippet": "finally { owned.Dispose(); }"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostTestFixture.cs",
+      "sha256": "b38559e449bb9f87c0f4b2159196000894b1b0a2893be2a1c66fadb609623733",
+      "lines": [
+        142
+      ],
+      "snippet": "AcquireWriter() => inner.AcquireWriter()"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostTestFixture.cs",
+      "sha256": "b38559e449bb9f87c0f4b2159196000894b1b0a2893be2a1c66fadb609623733",
+      "lines": [
+        115
+      ],
+      "snippet": ".ToDictionary(x => x.Substring(Root.Length), File.ReadAllBytes)"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostTestFixture.cs",
+      "sha256": "b38559e449bb9f87c0f4b2159196000894b1b0a2893be2a1c66fadb609623733",
+      "lines": [
+        119
+      ],
+      "snippet": "CollectionAssert.AreEquivalent(expected.Keys, actual.Keys)"
+    }
+  ],
+  "changes": [
+    "Only two failing tests and two necessary private helper declarations changed.",
+    "Settings-only files and directories are asserted before the first ObserveStartup.",
+    "A cloned original file expectation adds only an absent exact locator/writer.lock key with empty bytes; existing keys/bytes are never overwritten.",
+    "Native readlink/EINVAL plus attributes and length require a non-link locator directory and regular zero-byte lock.",
+    "The complete directory expectation permits only an absent locator directory. Unknown cases retain all 16 setup variants and all behavioral assertions."
+  ],
+  "acceptance": {
+    "single_path_scope": "STATIC_PASS",
+    "unchanged_production": "STATIC_PASS",
+    "existing_files_and_directories": "Assertions implemented; UNTESTED",
+    "settings_only_precondition": "Assertions implemented; UNTESTED",
+    "unknown_16_cases": "Unchanged source setup; UNTESTED",
+    "all_18_selected_fullnames": "STATIC_UNCHANGED"
+  },
+  "historical_M01": {
+    "receipt": {
+      "type": "regular_file",
+      "bytes": 6491,
+      "sha256": "f799fa8ca9a369d82c9030d34db2334c871c623b05fc96287d57a4f5ca2b4d6e"
+    },
+    "results_xml": {
+      "type": "regular_file",
+      "bytes": 18290,
+      "sha256": "30ff84f43bcd2d95e1375323c9402a8040bf3c09f7ee3944a3bcc47f8facf57e"
+    },
+    "passed": 16,
+    "failed": 2,
+    "duration_seconds": "6.9747519",
+    "overall_receipt_status": "BLOCKED_OR_FAILED retained; separate projection-output gate failure is not corrected or relabeled here"
+  },
+  "source": {
+    "type": "regular_file",
+    "bytes": 27431,
+    "sha256": "c4fc7de1e9786d3ae4ecb71038f74c0d978c00bf4498855cccaeefc2e4c5ce0e"
+  },
+  "patch": {
+    "type": "regular_file",
+    "bytes": 4345,
+    "sha256": "9d06aba8b10f01a0bc2f8bd612b39f7943d008d874c77bb24169f3dc0aa5071b"
+  },
+  "diff": {
+    "added": 35,
+    "removed": 3
+  },
+  "static_command": "python3 -B TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/FIX01/S/verify.py",
+  "not_run": [
+    "Unity",
+    "compile",
+    "tests",
+    "test discovery",
+    "network",
+    "Git writes",
+    "local code review",
+    "external review"
+  ],
+  "next_gate": "Central publishes the actual new PR7 head and one GitHub review; current Unity executor then runs one bounded complete 18-case validation, with the exact HostRig host-io output root and limit declared.",
+  "return_path": "Engineering lead receives final via wait; no duplicate upstream messages."
+}

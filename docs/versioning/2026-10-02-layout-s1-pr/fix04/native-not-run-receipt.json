@@ -1,0 +1,244 @@
+{
+  "task": "LAYOUT-S1-FIX04-NATIVE-001",
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fcf1-aa77-77d1-8cf0-bcc47926a538"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fcf0-998b-7080-a0d8-d8580415cba9"
+  },
+  "activation": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/I/activation.json",
+    "bytes": 20317,
+    "sha256": "46721c645eeca8cd7cee0f17ed59354a6d110c642e428c07bc9d33016341eae8"
+  },
+  "status": "NOT_RUN_APPROVAL_REJECTED",
+  "recordedUtc": "2026-10-02T14:21:33.265145+00:00",
+  "firstFailure": "The runner launches Unity, writes a projection, performs native Scene repair, and may export changes into the shared Demo Scene; the trusted user request authorizes BlueStacks playtesting, not this destructive engineering mutation.",
+  "failureCategory": "AUTOMATIC_APPROVAL_REJECTION",
+  "executionAttemptConsumed": false,
+  "automaticRetryAllowed": false,
+  "runnerStarted": false,
+  "UnityStarts": 0,
+  "sourceSyncs": 0,
+  "native3": {},
+  "exports": [],
+  "process": {
+    "task": "LAYOUT-S1-FIX04-NATIVE-001",
+    "owner": {
+      "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+      "host": "local",
+      "turn": "01a0fcf1-aa77-77d1-8cf0-bcc47926a538"
+    },
+    "issuer": {
+      "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+      "host": "local",
+      "turn": "01a0fcf0-998b-7080-a0d8-d8580415cba9"
+    },
+    "activation": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/I/activation.json",
+      "bytes": 20317,
+      "sha256": "46721c645eeca8cd7cee0f17ed59354a6d110c642e428c07bc9d33016341eae8"
+    },
+    "status": "NOT_RUN_APPROVAL_REJECTED",
+    "recordedUtc": "2026-10-02T14:21:33.265145+00:00",
+    "requestedCommand": "python3 -B TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/PExecution/runner.py",
+    "requestedSandboxPermissions": "require_escalated",
+    "toolResult": "exec_command failed: CreateProcess Rejected",
+    "approvalReason": "The runner launches Unity, writes a projection, performs native Scene repair, and may export changes into the shared Demo Scene; the trusted user request authorizes BlueStacks playtesting, not this destructive engineering mutation.",
+    "runner": {
+      "bytes": 22556,
+      "sha256": "3ac8845776fcc396ce9181315c425d04532a2fed22c52a57cdefcff473c2621b"
+    },
+    "runnerStarted": false,
+    "launchCount": 0,
+    "actualLaunches": 0,
+    "editorPid": null,
+    "owned": [],
+    "cleanupCalls": 0,
+    "terminationEvents": [],
+    "remainingOwned": [],
+    "noOwnedProcessBasis": "Runner CreateProcess was rejected before process creation; no owned execution process exists. No post-rejection PID enumeration is claimed.",
+    "exitCode": null,
+    "sourceSyncs": 0,
+    "nativeWrites": 0,
+    "exports": [],
+    "retries": 0
+  },
+  "sourceReceipt": {
+    "bytes": 33609,
+    "sha256": "3f20fb6c83f6d18652f08940d4088bcc47abff89e63dbc4e340020db0566519f"
+  },
+  "source15": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "bytes": 160371,
+      "sha256": "ebccb4d9cec5d5d9fffa025fac78c76829fc53a85370dedfee7dd30d93308ca5",
+      "gitBlob": "e439e095382dc043ed71cdfe8ff7943fed676473"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "bytes": 17703,
+      "sha256": "e72de88638d6c25bfe4d80e2c1b8990dae5ae225c6d4fe976b4b1641b1c975b9",
+      "gitBlob": "bea02eff1e5d417619d1544c31be9bab069c71a3"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "bytes": 13871,
+      "sha256": "b8eb5330921032ac10d11c6011219dccb27a16699f47930a20a29c8959b42d60",
+      "gitBlob": "29e699d867e7625170741207bab3840301f5748b"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "bytes": 37846,
+      "sha256": "64d549613c6b3dc5b36911579acff7d13849a581d8ce6ded4286c72a2ed46670",
+      "gitBlob": "289ee0ff0002dbf9a3598d67cbd50a244d2327b9"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "bytes": 8707,
+      "sha256": "f6f1f869b2eb138511311c2a528034cb41633448f5a423a5ce351a40b298db16",
+      "gitBlob": "fb6d2630ffd91228142769208dad7f6cfb3b4650"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "bytes": 31354,
+      "sha256": "ed9bd0af16c1e412626b6f716adc4f98315939489ee90aca167350b146ed0b05",
+      "gitBlob": "e48a69da2aeb6bae1abda7170bcfd850415c640d"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "bytes": 19127,
+      "sha256": "76be9d8d85733b87ffad520d456166d8fe83f284758491a66acb9410188f0c6c",
+      "gitBlob": "655743f9084e6de0102b8b8e9e123b13dfc56a55"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "bytes": 12488,
+      "sha256": "ac1141702237a03e3b945ab24b320c9e786c3508af7609be9b2589af413dcfa9",
+      "gitBlob": "0936d8eacbbd796f6cbe62fde73e611621c012d4"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "bytes": 15972,
+      "sha256": "8e2c5d7a7844f54ced30502c34fdd6d9322254ec33381152885cdbe6e89b5333",
+      "gitBlob": "d07b523036f060710408a11cc0c8528b8e19b75d"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "bytes": 30932,
+      "sha256": "040bd8c891b061a036791617d110b44f4c1e2f583ebcc04dc7a3d7806b1dc2bf",
+      "gitBlob": "c5acc6fa538a0d8a9cb2e8f086f2b94c99467634"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "bytes": 15433,
+      "sha256": "97f6ad716e2e4ce1635d8a12b4918c5c98785c1e409e8b0cea10355bcddd56a0",
+      "gitBlob": "d22aa1e72bc2a9b698b12b9c7f99ea54cc656172"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "bytes": 28200,
+      "sha256": "573593993ba873bf5fe63b76fb15a6be8cee284b31e130e87734f972c49418bd",
+      "gitBlob": "66a6e5dc2af0b4f66ded65d0f954a59c422318b7"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "bytes": 18709,
+      "sha256": "1e5b13d63216a44ea692aa42990dd41bfe6cf78a9a09fe97836546d47f7ba321",
+      "gitBlob": "d07bb9352c1919264c5d2b9d02cc5f949d9b8317"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "bytes": 81160,
+      "sha256": "bbaa34f34a5c894125ec2dcc63c3d2d507403282a7bf6d4505d62ed050647b89",
+      "gitBlob": "d543a9e3611e633e33e3be87693a6f3729c1c010"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "bytes": 28866,
+      "sha256": "8a043c1b55bf870f8b8768bf15bdcd3525a3776caeee8bdd5ba5cece1f17548c",
+      "gitBlob": "d6d64d560650202eb6bf58c5be021bb101c7f89b"
+    }
+  ],
+  "protection": {
+    "task": "LAYOUT-S1-FIX04-NATIVE-001",
+    "owner": {
+      "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+      "host": "local",
+      "turn": "01a0fcf1-aa77-77d1-8cf0-bcc47926a538"
+    },
+    "issuer": {
+      "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+      "host": "local",
+      "turn": "01a0fcf0-998b-7080-a0d8-d8580415cba9"
+    },
+    "activation": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/I/activation.json",
+      "bytes": 20317,
+      "sha256": "46721c645eeca8cd7cee0f17ed59354a6d110c642e428c07bc9d33016341eae8"
+    },
+    "utc": "2026-10-02T14:21:33.265145+00:00",
+    "status": "NOT_RUN_APPROVAL_REJECTED",
+    "sharedInventoryCount": 1089,
+    "projectionInventoryCount": 996,
+    "sharedChanged": [],
+    "projectionChanged": [],
+    "projectionStillBeforeSourceSync": true,
+    "sceneShared": {
+      "bytes": 12900,
+      "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+    },
+    "sceneProjection": {
+      "bytes": 12900,
+      "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd"
+    },
+    "nativeRootExists": false,
+    "exportRootExists": false,
+    "fixedEvidenceUnchanged": true,
+    "prior41EvidenceUnchanged": true,
+    "source15Unchanged": true,
+    "native4Unchanged": true,
+    "projection20Unchanged": true
+  },
+  "evidence": {
+    "after.json": {
+      "bytes": 1252,
+      "sha256": "c5fb0b356ae99826c8262fc95ab819e487a397ae0481366f4d4b758a1fb60828"
+    },
+    "before.json": {
+      "bytes": 377588,
+      "sha256": "c9fafcb58f5cb9b203cd02a11dc634a6f0c146af0c92513aa289f26e99f53a91"
+    },
+    "process-events.jsonl": {
+      "bytes": 377,
+      "sha256": "fb9f3870b8555f6b13e4cf08079754df11d811c00f8177972fa4eb3e0e5abf15"
+    },
+    "process.json": {
+      "bytes": 1661,
+      "sha256": "2263e159cdca94b4b6ea0fb165e999d3f199ed36f34ee46a504fe4f9ce1077f8"
+    },
+    "runner.py": {
+      "bytes": 22556,
+      "sha256": "3ac8845776fcc396ce9181315c425d04532a2fed22c52a57cdefcff473c2621b"
+    }
+  },
+  "notRun": [
+    "Runner execution",
+    "Source synchronization",
+    "Unity/compile/import",
+    "Scene native repair/save/reopen",
+    "Scene export",
+    "Tests/discovery",
+    "Play/device/CUA",
+    "Git",
+    "Return messaging"
+  ],
+  "returnMode": "Current chat and local immutable receipt only; engineering reads independently.",
+  "requires": "Explicit human authorization recognized by approval review before affected execution can proceed; this failed action is not retried.",
+  "writingStoppedAfterReceipt": true,
+  "authorIntegrationVerdict": null
+}

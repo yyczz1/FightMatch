@@ -20,6 +20,8 @@ namespace FightMatch.Core.Tests
     {
         private readonly GameObject root;
         private readonly GameObject eventRoot;
+        private readonly FightMatch.Host.FightMatchHostView hostView;
+        private readonly FightMatchResponsiveLayout responsiveLayout;
         private readonly EventSystem[] previousEventSystems;
         internal readonly FightMatch.Presentation.PlayerNavigationView View;
         internal readonly LocalizationService Localization;
@@ -30,6 +32,9 @@ namespace FightMatch.Core.Tests
             Assert.IsNotNull(prefab, "The saved uGUI RuntimeRoot prefab is required.");
             Assert.IsFalse(prefab.activeSelf, "The serialized RuntimeRoot must bind before activation.");
             root = UnityEngine.Object.Instantiate(prefab);
+            hostView = root.GetComponent<FightMatch.Host.FightMatchHostView>();
+            responsiveLayout = root.GetComponentInChildren<FightMatchResponsiveLayout>(true);
+            Assert.IsNotNull(hostView); Assert.IsNotNull(responsiveLayout);
             foreach (var behaviour in root.GetComponents<MonoBehaviour>()) behaviour.enabled = false;
             foreach (var id in root.GetComponentsInChildren<FightMatchViewId>(true))
             {
@@ -38,7 +43,7 @@ namespace FightMatch.Core.Tests
                 if (id.Id == "fm.popup.reference" || id.Id == "fm.popup.language" ||
                     id.Id == "fm.popup.license" || id.Id == "fm.popup.quit" || id.Id == "fm.popup.blocking")
                     id.gameObject.SetActive(false);
-                if (id.Id == "fm.popup.confirmation" || id.Id == "fm.popup.recovery") id.gameObject.SetActive(true);
+                if (id.Id == "fm.popup.confirmation" || id.Id == "fm.popup.recovery") id.gameObject.SetActive(false);
             }
             View = root.GetComponentInChildren<FightMatch.Presentation.PlayerNavigationView>(true);
             Assert.IsNotNull(View);
@@ -49,18 +54,25 @@ namespace FightMatch.Core.Tests
             Localization = new LocalizationService(new UguiTestTextSource(), SystemLanguage.English);
             View.gameObject.SetActive(true);
             View.Bind(controller, Localization);
+            responsiveLayout.Bind(Localization);
+            hostView.SynchronizeOverlayRoots();
             root.SetActive(true);
             Canvas.ForceUpdateCanvases();
         }
         internal T Find<T>(string id) where T : Component
         {
+            hostView.SynchronizeOverlayRoots();
             var component = FightMatchViewId.Find<T>(root.transform, id);
             Assert.IsNotNull(component, id);
             return component;
         }
-        internal T Optional<T>(string id) where T : Component => FightMatchViewId.Find<T>(root.transform, id);
-        internal LocalizedTmpText[] VisibleTexts => root.GetComponentsInChildren<LocalizedTmpText>(true)
-            .Where(x => x.gameObject.activeInHierarchy).ToArray();
+        internal T Optional<T>(string id) where T : Component
+        { hostView.SynchronizeOverlayRoots(); return FightMatchViewId.Find<T>(root.transform, id); }
+        internal LocalizedTmpText[] VisibleTexts
+        {
+            get { hostView.SynchronizeOverlayRoots(); return root.GetComponentsInChildren<LocalizedTmpText>(true)
+                .Where(x => x.gameObject.activeInHierarchy).ToArray(); }
+        }
         internal int CountKey(string key) => VisibleTexts.Count(x => x.Key == key);
         internal void AssertVisible(string key, params KeyValuePair<string, string>[] args)
         {
@@ -87,6 +99,7 @@ namespace FightMatch.Core.Tests
             EventSystem.SetSelectedGameObject(button.gameObject);
             ExecuteEvents.Execute(button.gameObject, new PointerEventData(EventSystem) {
                 button = PointerEventData.InputButton.Left }, ExecuteEvents.pointerClickHandler);
+            hostView.SynchronizeOverlayRoots();
         }
         internal void AssertText(string id, string key, params KeyValuePair<string, string>[] args)
         { AssertText(Find<LocalizedTmpText>(id), key, args); }
@@ -122,7 +135,7 @@ namespace FightMatch.Core.Tests
         internal static string Row(string businessId) { return FightMatchViewId.Row(businessId); }
         public void Dispose()
         {
-            View.Unbind();
+            View.Unbind(); responsiveLayout.Unbind(); hostView.SynchronizeOverlayRoots();
             UnityEngine.Object.DestroyImmediate(root);
             UnityEngine.Object.DestroyImmediate(eventRoot);
             foreach (var previous in previousEventSystems) if (previous != null) previous.enabled = true;

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "packet": "ANDROID-API24-PR1-SOURCE-001",
+  "runs": [
+    {
+      "command": "python3 -B TestArtifacts/FightMatch/ANDROID-API24-001/PR1/S/verify.py",
+      "started_utc": "2026-10-03T08:46:35.972631+00:00",
+      "checks": [
+        {
+          "check": "stage_and_before_identity",
+          "passed": false,
+          "detail": null
+        }
+      ],
+      "exception": "AssertionError: stage_and_before_identity",
+      "duration_seconds": 0.09254041605163366,
+      "exit_code": 1,
+      "verifier": {
+        "bytes": 13108,
+        "sha256": "34aa113a861a8269d7fe31913ef101ea06e8043c865f5297af7dd442e11c9d5c"
+      }
+    }
+  ],
+  "status": "BLOCKED_NO_RETRY",
+  "blocked_reason": "The only allowed verifier run failed on its first combined stage/before-identity guard; all downstream source/diff/counterexample checks remain unexecuted. Contract forbids retry."
+}

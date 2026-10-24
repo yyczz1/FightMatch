@@ -1,0 +1,92 @@
+{
+  "task": "HOST-SETTINGS-FIRST-CREATE-PR7-REVIEW-RECEIPT",
+  "verdict": "ACCEPT",
+  "scope": "Only the independent GitHub code-review gate for the fixed PR7 head. Not compilation, behavioral tests, real Host or product acceptance.",
+  "receivedUtc": "2026-10-02T19:43:08Z",
+  "receivedLocal": "2026-10-03T03:43:08+08:00",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fe20-28e8-73a1-b20a-c36932e712e5"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Human standing AGENTS section 6 workflow and central's explicit PR7 result-receipt delegation. No duplicate trigger or local code review.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/7",
+    "head": "1093faffc096bffa1d36c81d29b2f629430f6f54",
+    "tree": "b8b55e67bd3e3450550e35f6f5b878fc02fcafe7",
+    "base": "a8b9758ed2db1a43dac9328f162433a4523624c9",
+    "parents": [
+      "a8b9758ed2db1a43dac9328f162433a4523624c9"
+    ],
+    "draft": true,
+    "merged": false
+  },
+  "inputs": {
+    "scope": {
+      "path": "docs/team/2026-09-30/engineering-host-settings-first-create-001.md",
+      "sha256": "90b7351a13e16aa1d04281c42a27e003815b093e33adfcca9173578aaaba027d"
+    },
+    "publicationReceipt": {
+      "path": "docs/team/2026-09-30/host-settings-first-create-s1-publication-receipt.json",
+      "sha256": "0de2d1921462518cddbbc239ebcd42a83c8813bbb2833bf0015e8bfe46235f53"
+    },
+    "selectedRoot": "docs/versioning/2026-10-03-host-settings-first-create-pr/",
+    "manifestSha256": "e14031cb9cc30dfa4911c472a943b6238711fc17ddbdce6020d6984bb78744fd",
+    "sourceReceiptSha256": "991f403940dfdf536abfa318f36f9a58d99278c094823cf5fb75e7971ce94278",
+    "staticChecksSha256": "5b71fd3536da5fbdeccd64d831ec18786330740c3d134dd535e27ec1a3e12756",
+    "productPaths": [
+      "Assets/Scripts/FightMatch/Host/FightMatchHostSession.cs",
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs"
+    ],
+    "boundary": "Two existing C# files: 32 production and 267 test lines added, seven new tests. Reuse attributed central/engineering seven-blob publication and patch-replay evidence. Author's one exit0 Python run contains 55 mechanical checks, not C# tests; focused 18-case execution remains unrun."
+  },
+  "originalReview": {
+    "bot": "chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5960023584,
+      "url": "https://github.com/yyczz1/FightMatch/pull/7#issuecomment-5960023584",
+      "createdUtc": "2026-10-02T19:37:21Z",
+      "rawBody": "@codex review\n\nPlease review head `1093faffc096bffa1d36c81d29b2f629430f6f54` against base `a8b9758ed2db1a43dac9328f162433a4523624c9`, using the included `engineering-host-settings-first-create-001.md` scope. Focus on preserving exact locale-setting bytes, rejecting unknown files and links, repeated first-create guards, interrupted creation and unchanged existing profile behavior. This source-stage PR has not yet compiled or run its 18 targeted cases; prior PR #5/#6 test results do not establish these changed behaviors."
+    },
+    "summary": {
+      "id": 5960027758,
+      "url": "https://github.com/yyczz1/FightMatch/pull/7#issuecomment-5960027758",
+      "updatedUtc": "2026-10-02T19:41:32Z",
+      "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T19:41:32.006096Z\">2026-10-02T19:41:32.006096Z</relative-time> | `1093faf` | Manual request |"
+    },
+    "result": {
+      "id": 5960086010,
+      "url": "https://github.com/yyczz1/FightMatch/pull/7#issuecomment-5960086010",
+      "createdUtc": "2026-10-02T19:41:30Z",
+      "rawBody": "Codex Review: Didn't find any major issues. More of your lovely PRs please.\n\n**Reviewed commit:** `1093faffc0`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "reportedReviewedCommit": "1093faffc0"
+    },
+    "binding": "Result/Completed prefixes match the full head in the trigger and fresh PR readback. Remote Git commit API separately confirms full SHA, tree and sole parent.",
+    "formalReviewRecords": [],
+    "inlineReviewThreads": [],
+    "findings": [],
+    "formalApprovalClaimed": false,
+    "interpretation": "Completed with no major issues reported for this head; no formal APPROVED submission and no claim that all possible issues are absent."
+  },
+  "gates": {
+    "codeReview": "CLOSED_NO_MAJOR_ISSUES_REPORTED_FOR_FIXED_HEAD",
+    "compile": "NOT_RUN",
+    "focused18Cases": "NOT_RUN",
+    "prior17Cases": "NOT_EVIDENCE_FOR_THIS_CHANGED_HOSTSESSION",
+    "resourceStateDirectoryCompatibility": "PENDING_SEPARATE_SCOPE",
+    "realHostAndDemo": "NOT_ACCEPTED",
+    "next": "Central/engineering may arrange separately scoped compilation and exact 18-case execution; this receipt does not activate tests, merge or release."
+  },
+  "thisTask": {
+    "reviewTriggers": 0,
+    "reviewMutations": 0,
+    "localCodeReviews": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "deviceOrCloudRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFile": "docs/team/2026-09-30/testing-host-settings-first-create-pr7-review-receipt.json"
+  }
+}

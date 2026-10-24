@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-05",
+  "verdict": "NEEDS_FIX",
+  "scope": "N06 attempted native scene repair only; not Demo acceptance or a substitute code review.",
+  "nativeReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N06/PExecution/receipt.json",
+    "bytes": 32991,
+    "sha256": "3ef75f34d330ead7f154a0ab4052bcb1468c30109b996f406b1043daf970bf51"
+  },
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a109db-46f9-7950-86a6-9994c2b10d75"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a109dc-3fc9-7693-be65-e296bf7f6814"
+  },
+  "actual": {
+    "unityRuns": 1,
+    "sourceSyncs": 1,
+    "editorExitCode": 1,
+    "secondsToFailure": 40.388447874999656,
+    "cleanupSeconds": 60.520865,
+    "ownedProcesses": 12,
+    "remainingOwned": 0,
+    "singleTermSignals": [
+      11968,
+      11932
+    ],
+    "save": 0,
+    "reopen": 0,
+    "export": 0,
+    "testsRun": false,
+    "hostEditorCompiled": true,
+    "coreTestDllReused": true
+  },
+  "failure": "LAYOUT finite usable Canvas screen coverage, before scene save; ForceUpdateCanvases did not resolve the composite assertion. The failing numeric component was not logged by N06.",
+  "independentReview": {
+    "receipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-native-review-receipt.json",
+      "bytes": 11930,
+      "sha256": "bd43d0afa20f541e95d08d85532323e81da14797271bf00e65aa2a17f005450f"
+    },
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "reviewedHead": "e3d581df42f3a25cfdfc319bca5509f8b5382ada",
+    "reviewId": 5392275691,
+    "findingId": 4166096874,
+    "state": "Historical P1 remains open; this review does not cover new N06 source. A new combined code/scene head has not been published or reviewed."
+  },
+  "engineeringMechanicalReceipt": {
+    "utc": "2026-10-05T02:57:07.450Z",
+    "leafCount": 13,
+    "totalBytes": 1471109,
+    "fixedIdentitiesAndActualRawChecked": true,
+    "sharedScenePrefabUnchanged": true,
+    "notCodeReview": true
+  },
+  "next": "Engineering system-design owner performs read-only cause analysis from N06, D03 and current source, then supplies the smallest scoped correction or exact missing observable. No repeat Unity run, D04 probe or relaxed geometry assertion is authorized by this receipt.",
+  "preserve": "All failures, source receipts, original native records, and protected assets remain unchanged. The one directly approved native attempt has been used."
+}

@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-RAW-001/FIX02",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a10037-c5a9-75a2-adb4-85854cafccb3"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a1002c-2bd8-7f22-8031-e0cf6401ac97"
+  },
+  "authority": "User AGENTS section6 standing team authorization; central expressly approved the minimal PR12 P2 fix and corresponding regression; engineering activated exact three-source/nine-leaf FIX02 scope. Source-only, ahead of ActivationStore; no native activation.",
+  "finding": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/12",
+    "head": "4d4b07cc1b432add8d8102290802703ed704eb21",
+    "comment": "r4171809834",
+    "priority": "P2",
+    "observation": "Partial raw read loses its continuation when Post throws; operation may remain pending until another provider API drains. Real RAW13 red run has not occurred.",
+    "native": "Original RAW74 does not establish this condition and is not rerun here."
+  },
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "bytes": 19671,
+      "sha256": "c6d180600f68d2a889c1681198be921f15211b38663d59b68e672ba303d34e58",
+      "physical_lines": 375
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "bytes": 27260,
+      "sha256": "53bf0a2b71397f4ec6854777dfa8de9eb1c23b1a84da0f548e9550ac82b785bc",
+      "physical_lines": 590
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "bytes": 54240,
+      "sha256": "9a230b09c207198df414411a26be8c91eff53ef3d89f0f311aab6e692fb5c76b",
+      "physical_lines": 646
+    }
+  },
+  "source_preimages": {
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "bytes": 19585,
+      "sha256": "a060f985709f19d9b139014e8169ca068c96425d6807d1270d13f8dd26674538"
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "bytes": 26942,
+      "sha256": "16c4d4a9273ee9096fb6a5dc0d71b9d19abfe414d5129a559d21906b6fcd592b"
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "bytes": 51958,
+      "sha256": "c0d12d460cf1e517b6617ab63b2bf5c716d65c7ddf2a233fa4b5b368868d19f4"
+    }
+  },
+  "diff": {
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "added": 8,
+      "deleted": 6,
+      "changed_lines": 14
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "added": 13,
+      "deleted": 6,
+      "changed_lines": 19
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "added": 43,
+      "deleted": 7,
+      "changed_lines": 50
+    }
+  },
+  "totals": {
+    "production_lines": 1797,
+    "production_bytes": 85651,
+    "production_changed_lines": 33,
+    "D_test_lines": 1371
+  },
+  "budgets": {
+    "production_changed_lines_each": 70,
+    "production_changed_lines_total": 100,
+    "production_total_lines": 2300,
+    "production_total_bytes": 188416,
+    "test_changed_lines": 65,
+    "test_lines": 675,
+    "test_bytes": 65536,
+    "existing_D_test_lines": 725,
+    "D_test_total_lines": 1400,
+    "stage_bytes": 524288,
+    "verifier_nonempty_lines": 220,
+    "verifier_bytes": 32768,
+    "verification_runs": 2,
+    "verification_seconds": 20
+  },
+  "previous_seal": {
+    "receipt": {
+      "bytes": 15911,
+      "sha256": "6b13e82a1673af5b43abf82d1ffe995d34c493b6af56dd8e96330ef4545a4d2a"
+    },
+    "before": {
+      "type": "regular_file",
+      "bytes": 35699,
+      "sha256": "79ed623e43dd94d85f1ae9c09790142020cc2625a2093c2043cfbd7805a2d2c1"
+    },
+    "static": {
+      "bytes": 50634,
+      "sha256": "5ac11631ebc4f9d9ec9bb0397e2fb355c1c8e207a2e58fc442e8fd3f7cee248e"
+    },
+    "status": "Referenced sealed chain only; old history/leaves not rescanned or copied."
+  },
+  "referenced_unchanged": {
+    "release_set": {
+      "type": "regular_file",
+      "bytes": 38720,
+      "sha256": "25129b814768e39fc359a8d374cf52b735b4aac37fb269521669f3a097d9fe7a",
+      "physical_lines": 832
+    },
+    "sealed_source_identities": {
+      "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs": {
+        "type": "regular_file",
+        "bytes": 16708,
+        "sha256": "6c65da27c7847d50e5a3c0beb1da30d58db025646be21b2eec493c816c3ba5fc"
+      },
+      "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs": {
+        "type": "regular_file",
+        "bytes": 47591,
+        "sha256": "97ff52ade2839e312ec8a2dc698e17ec18c8bc643bccfccb6f1ab142c2fb6199"
+      },
+      "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+        "type": "regular_file",
+        "bytes": 56352,
+        "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+      },
+      "TestArtifacts/FightMatch/RES-C-CONTRACT-001/FIX01/S/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+        "type": "regular_file",
+        "bytes": 16774,
+        "sha256": "4ef8e56e70a19f7df81105fa46b3b1d334f39ce956610285845f1c594ec0520b"
+      },
+      "TestArtifacts/FightMatch/RES-C-CONTRACT-001/FIX01/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+        "type": "regular_file",
+        "bytes": 28399,
+        "sha256": "4fe6bb1ed6e2c5bc0d62685b807de42db9a38e2069d07547abbd27502503e13b"
+      }
+    },
+    "source": "Prior FIX01 before identities retained from same author session, bound by FIX01 receipt before identity; reference only, no new old-source read/hash scan."
+  },
+  "return_path": "One sealed completion to issuer under AGENTS section6, then stop all writes; no ActivationStore or native successor.",
+  "author_self_check": {
+    "feedback": "Wake still ignores the same coalesced Post outcome for generic/background callbacks. Main-thread Ticket.Poll additionally receives TryWake bool; Real and fake raw operations both call the real RawReadState.PumpNext.",
+    "termination": "After one bounded body read, failed scheduling with body remaining calls the existing Fail path. Current main-thread Poll/Drain sees SdkFailure/ValidateResult, rejects both waiters, clears records, releases reader/operation and returns Entry reservation through unchanged cleanup. No extra provider API or global pump is required for this path.",
+    "RAW09": "When body is already fully read, scheduling failure invokes Pump only for the existing EOF/length/hash stage. No second body chunk is read. Original RAW09 method bytes/three-success assertions unchanged. Ensure pending guard and background Wake remain unchanged.",
+    "RAW13": "Regression was authored before production edits; real reader advances from65536 to131072 of131073 bytes under persistent FailPost. Both rejections, no queued action, bounded posts/read, no payload, one close/release and main thread are asserted before other API/cleanup. Exact globalRawBytes is observed without reset; capacity is probed before Rig.Dispose and ledger/release counts checked after it.",
+    "scope": "Only necessary internal callback signatures/wiring and one RAW13; original twelve methods, fixture vectors and remaining helper bytes are preserved. Public contracts/friend, borrowed/owned, epochs and existing cleanup code unchanged."
+  },
+  "acceptance": {
+    "1": {
+      "criterion": "Internal raw continuation reports failed scheduling to current main-thread read chain; remaining body fails safely, no external Drain or retries.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "2": {
+      "criterion": "Fully read body may finish only EOF/hash on scheduling failure; no second body chunk in one pump; RAW09 method/assertions unchanged.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "3": {
+      "criterion": "Production and fake share the RawReadState continuation decision; RAW13 uses >64KiB real reader, sustained Post failure, terminal/no-payload/stream-release/bounded-queue assertions before other provider APIs or cleanup.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "4": {
+      "criterion": "All waiter completion and resource/64MiB reservation release converge once on main thread; new regression asserts exact ledger value and release counts plus capacity recovery.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "5": {
+      "criterion": "Only three candidates/nine leaves; old12 methods and all assertions, original B/D/C evidence identities, public/friend/owned-borrowed/epoch contracts preserved.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    },
+    "6": {
+      "criterion": "Source-only receipt; no compile/test/discovery/SDK/review/native acceptance claim.",
+      "author_status": "SELF_CHECKED_SOURCE_ONLY"
+    }
+  },
+  "test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW01_PinnedRawMappingOnly",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW02_LengthAndBudgetBeforeAllocation",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW03_ExactBodyAndHashBeforePublication",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW04_ReadOnlyBoundedStream",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW05_TwoLeasesShareOneVerifiedPayload",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW06_StreamAndLeaseHaveSeparateOwners",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW07_StalePendingCannotPublish",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW08_CloseWaitsForEnsureAndLease",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW09_CallbackBudgetAndThreadRulesRemain",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW10_UnsafePackageAndBundleKindAreRejected",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW11_FailureDiagnosticsAreSafe",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW12_RawInterfaceAndRegressionSurfaceStayClosed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW13_FailedChunkSchedulingTerminatesWithoutExternalDrain"
+  ],
+  "verification": {
+    "kind": "TEXT_HASH_DIFF_SCOPE_ONLY",
+    "command": "python3 -B TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/verify.py",
+    "fixed_inputs": 10,
+    "tests_discovered": 0,
+    "tests_executed": 0,
+    "product_executed": 0,
+    "behavioral_pass_claim": false,
+    "runs": [
+      {
+        "command": "python3 -B TestArtifacts/FightMatch/RES-D-RAW-001/FIX02/S/verify.py",
+        "duration_seconds": 0.00662554195150733,
+        "exit_code": 0
+      }
+    ],
+    "passed_checks": 51,
+    "failed_runs_preserved": 0
+  },
+  "not_run": [
+    "C#/Unity/SDK",
+    "RAW13 or prior RAW74/tests/discovery",
+    "network/Git",
+    "old verifier",
+    "local or independent GitHub review",
+    "ActivationStore/native successor"
+  ],
+  "limitations": [
+    "GitHub P2 informed this authored repair; RAW13 has not been run red or green and runtime convergence remains unverified.",
+    "Original RAW74, PREF and old source history are unchanged. Unmodified A/B/C/D identities are referenced through sealed FIX01 evidence, not freshly rescanned.",
+    "Updated PR-head review and separately scoped native validation remain required; no integration verdict is claimed."
+  ],
+  "leaves": {
+    "before.json": {
+      "bytes": 10091,
+      "sha256": "d5530debba11fd3a700a8927541b40578eee101c8b7da6ea0ffa9625e0980d40"
+    },
+    "static.json": {
+      "bytes": 8641,
+      "sha256": "ae31b28afd047bba109496c3d41a7cc3f1869002ca0ae191c2fc3515481343c7"
+    },
+    "source.patch": {
+      "bytes": 8943,
+      "sha256": "1ece094b900a832c1b4c760fedc5f9773e84450b7bdaf19d4522562e5f118830"
+    },
+    "after.json": {
+      "bytes": 6171,
+      "sha256": "edb6ed579110907000cde8bf9acdf2b3ae767a26117c0b1e3065f9f8650271e7"
+    },
+    "verify.py": {
+      "bytes": 17172,
+      "sha256": "db24c345051c27e0520c920e46f6a40c4c559dc1bb52c41a8bdcd41d23d540bf"
+    },
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "bytes": 19671,
+      "sha256": "c6d180600f68d2a889c1681198be921f15211b38663d59b68e672ba303d34e58"
+    },
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "bytes": 27260,
+      "sha256": "53bf0a2b71397f4ec6854777dfa8de9eb1c23b1a84da0f548e9550ac82b785bc"
+    },
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "bytes": 54240,
+      "sha256": "9a230b09c207198df414411a26be8c91eff53ef3d89f0f311aab6e692fb5c76b"
+    },
+    "source-receipt.json": {
+      "identity_bound_by": "Final completion event; excluded from self-hashing."
+    }
+  }
+}

@@ -1,0 +1,15 @@
+# RES-01A-P03 — 移除helper后稳定导入状态的一次验证
+
+2026-10-03。中央已明确批准此必要纠正，无新人工/设计批准链；先完成独立HSC/MAC002与owned闭包，之后同一唯一C `01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local`（Astra/xhigh）执行。主程 `01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local`／turn `01a0fde0-d533-7b00-ad78-34111f776dda`签发、唯一收件。沿P02的固定Editor、版本/来源、共享保护、进程归属、资源预算和失败封存；本包不接受SDK/Android，不触发新包请求。
+
+固定失败：[P02 final](../../../TestArtifacts/FightMatch/RES-01A/P02/final-verdict.json)6144B/SHA `017fa321f0a78d8ffe402e1c4bcfbbf5e1984af722f252a45df577fdaea44e2b`；主程38dda4核39证据3882283B、P01封存32/共享1089/保护114保持、1006非Packages源不变。Install1/request1成功，固定Git3.0.6/fullSHA `3b4cfb36cc2e81b9558ab74d65fee2cf2eac2804`及官方SBP1.21.25已落地，51旧节点不变、总53。来源/graph/license证据可引用，不重新研究/下载。compile1/PID48249/exit0/27.431899s仍因原日志725行CS2001失败，旧结果不改写。
+
+因果证据：临时helper按合同删除后，旧编译输入先引用该路径；同日志726行起Tundra请求额外图更新、重建exit0，随后Csc/CopyFiles生成四正式SDK DLL。主程17b509/8f8773只读核当前 `P01/projection/Library/Bee/200b0aEDbg-inputdata.json`2606251B/SHA `0a66449a6d6df65de1dc73ee429247e28233a400667df3b269e2f7289aa092fc` 已无 `FightMatchYooAssetProbeInstaller`；helper及三meta均缺席。故本次输入是Unity已正常刷新的导入状态，而不是原失败输入的盲重试。不人工删除/清理Library、Bee、缓存或锁；不恢复helper，也不忽略新日志错误。
+
+唯一可变活区仍 `TestArtifacts/FightMatch/RES-01A/P01/projection/` 的既定Library/Temp/Logs/UserSettings/obj，以及同P01/package-cache允许Unity必要缓存推进；源1008含两个Packages全部冻结为P02终态，不再允许Packages变更。两文件以P02 `manifest.after-install.json`、`packages-lock.after-install.json` 精确字节固定；其余源及meta沿既有清单。固定已安装包实际内容身份、53节点/来源/revision及四正式asmdef，不复制工程/Library，不导入Samples~。初检绑定P02闭包和HSC/M02正式终态/闭包、当前活图无helper引用、当前包文件与缓存、原共享保护；HSC原S/FIX01/M01/M02、P01封存32、P02封存39全保持，不回写旧证据。任何差异需解释，不采用全局Git文档相等门。
+
+新根仅 `TestArtifacts/FightMatch/RES-01A/P03/`（起始ABSENT），十二证据文件白名单：`run.json`、`runner.py`、`preflight.json`、`compile.editor.log`、`compile.stdout.log`、`compile.stderr.log`、`compile-result.json`、`process-events.jsonl`、`process-after.json`、`after.json`、`import-assemblies.json`、`final-verdict.json`。准确前后身份、包/源/闭包/诊断及保护写入这些JSON，不另建证明文件或重复巨型清单；旧许可证/来源记录按path/hash引用。新短tmp一次 `/private/tmp/fm-res-p03.XXXXXXXX`，≤40字节/UID0700/无链接/16MiB512叶，旧tmp保留。复用cache≤2GiB/generated≤4GiB/总活区＋新证据≤7GiB/证据≤32MiB/单log≤8MiB/free≥4GiB，不能遗漏复用区。作者脚本apply_patch、机器证据可正常生成。
+
+C同实际turn自绑准确owner/argv/hash后直接执行一次≤360s的无helper编译验证，argv为固定Intel Unity2022.3.18f1 `-batchmode -nographics -buildTarget StandaloneOSX -projectPath <P01/projection> -quit -logFile <P03/compile.editor.log>`，cwd同投影，子进程专用UPM_CACHE_ROOT沿P01/package-cache、新TMPDIR。监督器沿P02已证PID/start/exe/argv/父链和闭包结构最小适配，≤300非空行，仅允许compile模式；无executeMethod/Client.AddAndRemove/Resolve/Remove/Install、额外下载或版本候选，无设备/测试/Player/Android/旧17/HSC重复。0自动重试。启动前fresh精确确认无活动Unity/包缓存消费者；若残留锁存在，只沿已准且未被拒的无删除身份/无持有者核对，不重发被拒删除方案。超时依原自然等待→单次精确TERM→确认，无SIGKILL/按名kill。
+
+通过需新日志无C#编译/包/domain错误且exit0，导入结束，源码/包图/缓存保护及owned闭包都通过；精确要求 `YooAsset`、`YooAsset.Editor`、`Unity.ScriptableBuildPipeline`、`Unity.ScriptableBuildPipeline.Editor` 四正式程序集存在并记录hash，结合固定asmdef与新运行日志归因，不要求未变代码DLL凭空换hash。`Samples~`下九个asmdef未导入，不要求其DLL、不为满足错误递归门导入样例；其原始包内容保持。若无代码变化而Unity沿用已证DLL，如实记增量验证，不冒称重新执行所有Csc节点。新错误/范围漂移立即封存并回主程，不复写P02、不自行变换投影重试；如确需新干净投影，另记精确范围后再派。作者只给执行证据，独立GitHub/QA与最终限定验收由主程→中央后续接收。

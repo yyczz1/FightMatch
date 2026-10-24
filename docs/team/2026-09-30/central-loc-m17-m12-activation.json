@@ -1,0 +1,732 @@
+{
+  "argv": [
+    "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+    "-I",
+    "-B",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m12-host.py",
+    "execute"
+  ],
+  "authorityOrigin": {
+    "exactText": "允许将校验脚本上限调整至最多280 KiB。完成修正并通过静态检查和GitHub审查后，复用全部下载文件、零新增下载，在外置硬盘再执行一轮三次依赖还原，总计不超过15分钟，由中央接收结果。继续推进，减少重复记录和会话交接。",
+    "intent": "One M12 execution after completed FIX09 static/source review; zero downloads, three restores, full invocation <=900 seconds.",
+    "kind": "current direct human authorization",
+    "record": {
+      "bytes": 1174,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m12-approval-2026-10-12.json",
+      "sha256": "c2f75a25d84f2f64809cfec414f86ce4f61e2731d9fa9b594b614657beea443b"
+    }
+  },
+  "budgets": {
+    "B": {
+      "officialBuilds": 1,
+      "publishes": 2,
+      "runnerLockedRestores": 2,
+      "testsLockedRestores": 1,
+      "unfilteredOfficialTests": 1
+    },
+    "L": {
+      "cleanCanonicalPasses": 2,
+      "compilerSelfTests": 12,
+      "requiresIndependentBAcceptance": true
+    },
+    "M": {
+      "cleanupReserveSeconds": 30,
+      "explicitDeltaFromM16": "runner restore 0 -> 1 to regenerate the lost runner locks from fixed source/feed",
+      "maxArchiveResponseBodyBytes": 0,
+      "officialGets": [],
+      "runnerGenerationRestores": 1,
+      "testsGenerationRestores": 1,
+      "testsVerificationRestores": 1,
+      "wallSeconds": 900,
+      "workSeconds": 870
+    },
+    "commands": {
+      "B-005-candidate-1-canonicalize-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-canonicalize-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-canonicalizer-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-canonicalizer-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-duplicate-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-parameters-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-parameters-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-severity-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-negative-severity-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-pass-1-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-1-pass-2-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalize-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalize-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalizer-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-canonicalizer-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-duplicate-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-parameters-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-parameters-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-severity-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-negative-severity-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-pass-1-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-candidate-2-pass-2-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalize-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalize-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalizer-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-canonicalizer-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-duplicate-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-parameters-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-parameters-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-severity-canonicalizer": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-negative-severity-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-pass-1-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-005-oracle-pass-2-luban": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-assert-controls": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "B-fightmatch-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-fightmatch-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-fightmatch-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-malformed-yaml-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-malformed-yaml-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-malformed-yaml-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-official-tests-build": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-official-tests-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "B-official-tests-test": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-pass-1-publish": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-pass-1-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "B-pass-2-publish": {
+        "killGraceSeconds": 5,
+        "maxChildren": 128,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 600
+      },
+      "B-pass-2-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "B-unity-asset-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-unity-asset-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-unity-asset-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-yaml-candidate-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-yaml-candidate-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "B-yaml-oracle": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-accepted-b": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-assert-controls": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-changed-fallback-license": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-compile-pass-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-compile-pass-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-compiler-compile": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-compiler-self-tests": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-luban-1": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-luban-2": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-malformed-yaml": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-missing-yaml-license": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-negative-duplicate": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-negative-parameters": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-negative-severity": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "L-tampered-yaml": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 60
+      },
+      "L-yaml": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 300
+      },
+      "M-runner-generation-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "M-tests-generation-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      },
+      "M-tests-verification-restore": {
+        "killGraceSeconds": 5,
+        "maxChildren": 0,
+        "maxStarts": 1,
+        "stderrMaxBytes": 4194304,
+        "stdoutMaxBytes": 4194304,
+        "timeoutSeconds": 180
+      }
+    },
+    "driverMaxBytes": 286720,
+    "freeFloorBytes": 2147483648,
+    "materialMaxBytes": 536870912,
+    "materialMaxFiles": 25000,
+    "maxConcurrentTrees": 1,
+    "maxCumulativeCommandSeconds": 21000,
+    "sourceMaxBytes": 16777216,
+    "workMaxBytes": 4294967296,
+    "workMaxFiles": 200000
+  },
+  "centralHost": "local",
+  "centralItem": "01a1306b-430a-7b61-8e60-3c85a081d47f",
+  "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+  "centralTurn": "01a1306b-42a8-7992-9118-4ed11d490741",
+  "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "dispatchContext": {
+    "authorityTurn": "01a1306b-42a8-7992-9118-4ed11d490741",
+    "authorizationIdsMeaning": "Direct M12 human authorization; latest progress messages did not revoke it. Native owner is the new observed active turn; no old attempt reused.",
+    "host": "local",
+    "packet": {
+      "bytes": 2743,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/central-loc-m17-m12-execute.md",
+      "sha256": "85f3184d2bb5a2ce5318e0ff5fbefb21c5281504bf31e938d237edb29dc327aa"
+    },
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b"
+  },
+  "driverSha256": "358f7d481f61f6039908f6e5e1c504b1522b282ac8094d99c557a66b1f031688",
+  "executionHead": "5e2d3790d371659552c9bb24084252c70972f474",
+  "executionLimits": {
+    "cleanupSeconds": 30,
+    "failure": "Preserve partial roots and original output; no automatic retry/deletion/B/L/Unity/release",
+    "newDownloads": 0,
+    "oneAttempt": true,
+    "onlyStages": [
+      "M"
+    ],
+    "preserveParentEnvironment": [
+      "HOME",
+      "home",
+      "CODEX_HOME"
+    ],
+    "readinessBeforeFirstExternalAction": "Fresh fixed source/SDK verification inside the same M timer",
+    "returnPath": "Central receives from LOC same-chat tool results and evidence; no owner cross-chat message",
+    "wallSeconds": 900,
+    "workSeconds": 870
+  },
+  "hostExecutorSha256": "358f7d481f61f6039908f6e5e1c504b1522b282ac8094d99c557a66b1f031688",
+  "hostTemplate": {
+    "bytes": 3109,
+    "dataOnlyFill": true,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-m17-central-host-template-01/source/central_host.py",
+    "sha256": "b60dcc0521d0f3465c39a012a5502f05ece36aa06614781ee32ef1746055ebea"
+  },
+  "issuedAt": "2026-10-13T01:49:46.636925+00:00",
+  "materialRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix09",
+  "modelSha256": "6588e8289145003489362379939dca4f3fa8283373483118751e7646dfaca74e",
+  "outerEvidence": {
+    "leaves": [
+      "before.json",
+      "stdout.log",
+      "stderr.log",
+      "receipt.json"
+    ],
+    "maxBytes": 16777216,
+    "maxLogBytes": 4194304,
+    "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m12"
+  },
+  "ownerHost": "local",
+  "ownerThread": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+  "ownerTurn": "01a132f2-afd1-7233-874f-dbd4f03f78ad",
+  "refinedWriteSetSha256": "a3a9cbc3e141ea2ae382d84d895742bde7102a54bfbcfde465abb037418f17d6",
+  "reviewEvidence": {
+    "formalApproval": false,
+    "integrationReceipt": {
+      "bytes": 9161,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/testing-loc-m17-fix09-review.json",
+      "sha256": "2e9eab8d2d8bfa669ff1028bbefc6d52375125529da924cc16a95c41b29db5c8"
+    },
+    "qa": {
+      "bytes": 9161,
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/testing-loc-m17-fix09-review.json",
+      "sha256": "2e9eab8d2d8bfa669ff1028bbefc6d52375125529da924cc16a95c41b29db5c8"
+    },
+    "resultComment": 6136280419,
+    "reviewStatusScope": "Current FIX09 source only; historical unresolved threads remain, including FIX01 P2. Zero-download execution does not resolve those historical findings.",
+    "serviceResult": "Service reported no major issues for FIX09. This is not a formal APPROVED submission or a claim that all possible issues are absent.",
+    "sourceSealSeconds": 12.75756499999261,
+    "sourceValidation": {
+      "caseCount": 53,
+      "evidence": {
+        "bytes": 108145,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix09/authority/offline-checks.json",
+        "sha256": "d8ebbfa2d95745b8e0e8071dc56ae3f09378c68fa7f63a8400bd298611be714c"
+      },
+      "exitCode": 0,
+      "fullInvocationSeconds": 6.726518791998387,
+      "passed": 53,
+      "toolId": "exec-1f18ac57-bd7b-4898-a30c-1906154f4f74"
+    }
+  },
+  "reviewStatus": "COMPLETED_NO_UNRESOLVED_FINDINGS",
+  "reviewedHead": "5e2d3790d371659552c9bb24084252c70972f474",
+  "scope": "EXECUTE_M17",
+  "sourceCommandReceipt": {
+    "bytes": 28904,
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/loc-m17-fix09-command-receipt.json",
+    "sha256": "9fbf4b1d82a961ca1036df5209e6977c4756f062112dfa790aaacd51381ad87b"
+  },
+  "sourceFreezeSha256": "69bc7209daa0e25d31d2a4a4426625cf45cd427b6001cef8a3cf12feb55d8605",
+  "stage": "M",
+  "workRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix09"
+}

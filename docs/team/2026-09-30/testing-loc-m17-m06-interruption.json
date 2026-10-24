@@ -1,0 +1,112 @@
+{
+  "task": "LOC-M06-INTERRUPTION mechanical QA intake",
+  "qa": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "actualTurn": "01a12c02-06c4-7c52-bc23-0ea3c637a286",
+    "turnStartedAtUtc": "2026-10-11T17:28:12Z",
+    "completedAtUtc": "2026-10-11T17:31:09Z",
+    "completionReceiver": "central thread 01a0e401-511d-79f2-b47f-3ab0ade1681b; no outbound message sent"
+  },
+  "authorization": {
+    "centralActualTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+    "humanItem": "01a12bf9-ee2d-7140-a43f-a33e3bafec6c",
+    "humanText": "继续任务",
+    "scope": "Read-only interruption intake; no execute, retry, kill, GET, restore, Unity, native test, Git, SDK scan, or new process query."
+  },
+  "sourceReceipt": {
+    "path": "docs/team/2026-09-30/loc-m17-m06-interruption-receipt.json",
+    "bytes": 3060,
+    "sha256": "28a5d17a5a47cc8493b54fad9f7f492427b7b36c1265bae2a5c07e518e43f9dc",
+    "task": "LOC-M06-INTERRUPTION-RECEIPT",
+    "status": "POST_INTERRUPTION_INCOMPLETE_FINAL_EXIT_UNKNOWN",
+    "authorActualTurn": "01a12bfe-0633-7001-9613-18780415e1a1",
+    "authorThread": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a"
+  },
+  "originalExecution": {
+    "authorActualTurn": "01a12998-5f4d-7a03-83c3-c5670144e1cc",
+    "toolExecutionId": "exec-177da352-5c1b-4a9e-a39e-82082f70591f",
+    "toolStatus": "failed/interrupted",
+    "toolExitCode": -1,
+    "toolDurationMs": 102534,
+    "hostStartedAtUtc": "2026-10-11T06:15:23.066145Z",
+    "hostPid": 60792,
+    "hostExitedEventObserved": false,
+    "dutOsExitCode": null,
+    "dutRuntimeSeconds": null,
+    "interpretation": "Tool -1 and 102534 ms describe the interrupted tool call, not the DUT exit or runtime."
+  },
+  "outerEvidence": {
+    "directory": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m06-resume1",
+    "receipt.json": {"bytes": 74084, "sha256": "0d3facf1273c829bd830e8c27e71406bbdfb774dd1223f2997f0cf38c3c1d039"},
+    "before.json": {"bytes": 77440, "sha256": "b3f10fa10bfc5d1a0dffb0f8834404412ba6a7898e6719b4bc7d601c5f591a67"},
+    "stdout.log": {"bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+    "stderr.log": {"bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+    "evidenceNote": "Only the HOST_STARTED event is present in the original tool output; the host logs are empty."
+  },
+  "interruptionReceiptFacts": {
+    "status": "POST_INTERRUPTION_INCOMPLETE_FINAL_EXIT_UNKNOWN",
+    "thirteenArchivesVerified": true,
+    "successfulQuiescentGetReceipts": 13,
+    "archiveResponseBodyBytes": 9014649,
+    "protectedIdentitiesUnchanged": 123,
+    "protectionDifferences": [],
+    "restoreStartCount": "UNKNOWN",
+    "restoreCompletionCount": "UNKNOWN",
+    "manifestExists": false,
+    "materialValidationExists": false,
+    "materialAccepted": false,
+    "authorIntegrationVerdict": "NOT_ISSUED",
+    "materialAcceptanceMissing": [
+      "Actual host/process closure and final DUT OS exit/runtime",
+      "Start and completion evidence for each of three restores",
+      "Validated package lock/assets and material manifest",
+      "Independent material acceptance"
+    ]
+  },
+  "workGetReceipts": {
+    "root": "/Volumes/WD_BLACK_SN7100_2TB_Media/ApplicationData/Tools/Luban/.work/m17-fix04/receipts",
+    "exactCount": 13,
+    "allRecordedGetProcesses": "exitCode=0, startCount=1, childStarts=0, quiescent=true, timedOut=false",
+    "archiveSizeSha256AndArgvMatchedSealedExpectations": true,
+    "aggregateMeasuredBodyBytes": 9014649,
+    "archives": [
+      {"id":"M-get-system.collections.immutable.1.5.0","archiveBytes":804405,"archiveSha256":"0658aa6252fd9ed6cc5e8e5decd52b297c1837e3ea772a83212e5ba78a95afb4","receipt":"M-get-system.collections.immutable.1.5.0.json","receiptBytes":2592,"receiptSha256":"93b3c4e0b34c9eb570d0aaa144050003c14733cd9607c1b970888623f4521116"},
+      {"id":"M-get-system.reflection.metadata.1.6.0","archiveBytes":852113,"archiveSha256":"2497e068f6afed47c4878c9101074684b645d5baebd2d5163e5eaa99f356abf1","receipt":"M-get-system.reflection.metadata.1.6.0.json","receiptBytes":2575,"receiptSha256":"0eb38a77e049e7c40725e76c29c27be76bd5448da2c3c4c6926ef679d6f9e3a2"},
+      {"id":"M-get-system.text.encoding.codepages.8.0.0","archiveBytes":4260927,"archiveSha256":"7e308b41cd4f456d08c7921995d8345cabfe2750ea3d27eef698ccc8d069edd1","receipt":"M-get-system.text.encoding.codepages.8.0.0.json","receiptBytes":2612,"receiptSha256":"b32e549958b9f12a1c34aba05ad86e81cae0f1e0b78479e656f5fceebbf63a11"},
+      {"id":"M-get-xunit.2.9.2","archiveBytes":31616,"archiveSha256":"879fb24d37c29a89023f2e25a9d130f111b3425ae5b10016dc09b4261d2aee8a","receipt":"M-get-xunit.2.9.2.json","receiptBytes":2386,"receiptSha256":"f2c7012f2f1aa856b8757cbb8a7f572a564e3f51d5642832cf0256439b7850ed"},
+      {"id":"M-get-xunit.abstractions.2.0.3","archiveBytes":75155,"archiveSha256":"d03d72fc2df8880448f7a81bddb00e1bcb5c18f323c7e7cc69b4cfa727469403","receipt":"M-get-xunit.abstractions.2.0.3.json","receiptBytes":2501,"receiptSha256":"42fa868621251e9f5fc9812e28589eb9e092cca0a2143a977c295967b31144e6"},
+      {"id":"M-get-xunit.analyzers.1.16.0","archiveBytes":263548,"archiveSha256":"3f906f97d86f1ef17c298d5858b838b4a898c657d19e61f22f5e237d20020da5","receipt":"M-get-xunit.analyzers.1.16.0.json","receiptBytes":2485,"receiptSha256":"c5c246df1296e95d163ac5455a9fcc2d47fa0577b18bd9875b9f474d75c045eb"},
+      {"id":"M-get-xunit.assert.2.9.2","archiveBytes":244587,"archiveSha256":"104eabe76e90e1c1e7d0ebab7f510da57677ecb8ff3f6b8dbe89c782975c9eae","receipt":"M-get-xunit.assert.2.9.2.json","receiptBytes":2449,"receiptSha256":"cc8b008d348e200f18d33a66acbce11d40a9d29da74cc69ec9a21ef8873ecbfd"},
+      {"id":"M-get-xunit.core.2.9.2","archiveBytes":33509,"archiveSha256":"ce18d5d48e7187444572481310aef6b4890bc5597808f9ad7abd9407efa8c9ef","receipt":"M-get-xunit.core.2.9.2.json","receiptBytes":2430,"receiptSha256":"003aa77599c95bd6a369d5e7b82b3bc059f947425909570d9495db49787ef756"},
+      {"id":"M-get-xunit.extensibility.core.2.9.2","archiveBytes":298693,"archiveSha256":"310002ff877aecdb2cbb747ea473e1eaf1e2b415d06311046645553065bbdb47","receipt":"M-get-xunit.extensibility.core.2.9.2.json","receiptBytes":2556,"receiptSha256":"92ee510e02a44fa83d8b5233bbc8f01138e2a80cfbe3e5a85513d32267e62a5c"},
+      {"id":"M-get-xunit.extensibility.execution.2.9.2","archiveBytes":379785,"archiveSha256":"7fef547e83f22b72480e14125b462ef5ce0f1aa52a642f7a0cc20d0988b68bcd","receipt":"M-get-xunit.extensibility.execution.2.9.2.json","receiptBytes":2602,"receiptSha256":"dbf0050e00b2f229aab090cdda8e42aaf257bea6354ad0c4943344d171ba5981"},
+      {"id":"M-get-xunit.runner.visualstudio.2.8.2","archiveBytes":595969,"archiveSha256":"5257cadf8f2bf2426eadacb07dd0ada492711e4bf4e303cdce951acf850cffad","receipt":"M-get-xunit.runner.visualstudio.2.8.2.json","receiptBytes":2566,"receiptSha256":"d8536b515f0cc21f0a81bd92dfcc3c51735b59ae113f6dae54bbe6923fbde7ca"},
+      {"id":"M-get-yamldotnet.16.3.0","archiveBytes":776880,"archiveSha256":"e068bcc1243c46c8bfdfe2f27a026bfff03cde7c67d9f37c2cdd70bd24a9dfd4","receipt":"M-get-yamldotnet.16.3.0.json","receiptBytes":2439,"receiptSha256":"386c498d6dd604bfaf7d205cd51455ef9ad3dfffc99c8320681b0f1e46da79fb"},
+      {"id":"M-get-yaml-source","archiveBytes":397462,"archiveSha256":"4f73f08a0584af4e1cac36ccb0e3cb9d9cd982209b06f7eb10dd5e31badb1bce","receipt":"M-get-yaml-source.json","receiptBytes":2396,"receiptSha256":"14484277ba49819ff3ea2496074c702868d333737be101a08dd4817f0919a318","catalogSha512":"not supplied; size and SHA-256 matched"}
+    ],
+    "reuseConclusion": "All 13 verified archives and success/quiescence receipts are present as candidate inputs and may be reusable. This is limited to those archived bytes; it does not establish restore completion, valid lock/assets, a material manifest, host closure, or M acceptance. No archive hashes were recomputed during this QA turn."
+  },
+  "processAndPreservation": {
+    "locReceiptProcessObservation": "UNKNOWN_PERMISSION_UNAVAILABLE; the earlier scoped ps/pgrep attempts could not obtain process data.",
+    "centralSeparatelyReportedObservation": "Central reported a read-only `ps -p 60792` with header only and exit 1. This was not re-run by QA; it establishes current PID absence only as reported, not historical DUT exit or descendant closure.",
+    "protected123Unchanged": true,
+    "sourceAndAuthorityUnchanged": true,
+    "partialWorkRetained": true,
+    "noCleanupOrRestart": true
+  },
+  "collectionBudget": {
+    "limitSeconds": 120,
+    "factCollectionWallSeconds": 82,
+    "wallSecondsThroughFirstReceiptWrite": 136,
+    "overallBudgetIncludingReceiptAuthoringExceeded": true,
+    "scopeExpansion": false
+  },
+  "verdict": {
+    "status": "INTERRUPTED_INCOMPLETE_NOT_ACCEPTED",
+    "M": "NOT_RECEIVED; execution outcome unknown",
+    "integrationVerdict": "NOT_ISSUED",
+    "noPassClaim": true,
+    "testsOrExecutionRerun": false,
+    "GETsRestoresUnityOrGitPerformedThisTurn": false
+  }
+}

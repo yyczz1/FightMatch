@@ -1,0 +1,96 @@
+{
+  "packet": "RES-CODEC-ADOPT-001/S01",
+  "state": "APPROVED_FOR_FRESH_C_DISPATCH",
+  "central": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "plan": {
+    "path": "docs/team/2026-09-30/engineering-post-host-compile-next.md",
+    "bytes": 5984,
+    "sha256": "40f7f60e183b422a0d4a809438c480a237a38aefd7f2cd7add5efd8c39895add",
+    "authorTurn": "01a117f9-c3b9-7a41-9ef4-72829fd40684",
+    "completedCursor": "94f69122-09c7-4469-9dca-ed827cc9bdb8:99"
+  },
+  "reviewedHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+  "acceptedReceipt": "docs/team/2026-09-30/resource-codec-fix02-integration-receipt.json",
+  "entries": [
+    {
+      "path": "Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+      "source": "TestArtifacts/FightMatch/RES-B-CONTRACTS-001/S/source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+      "bytes": 377,
+      "sha256": "09347e70d10f8cb3e26751c004ba005cadc32d1f3b6ecadf78bb6c9cf1fb2e45"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+      "source": "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+      "bytes": 31863,
+      "sha256": "1dcd1288125b2c1f2ed26d6be9a4cfdd28ae59ae024e584b1b7a42137cc6061a"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+      "source": "TestArtifacts/FightMatch/RES-B-CONTRACTS-001/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+      "bytes": 515,
+      "sha256": "1d605c9ea6e3727c7fe4f595078a12469def24ec7055489f1a467951dde244a0"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+      "source": "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+      "bytes": 56352,
+      "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+      "source": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef.meta",
+      "bytes": 166,
+      "sha256": "71e1d59633f8843474b4b49e08037d59ab5fce7cb98b6c87fbae1a3befbf0b14"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs.meta",
+      "source": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs.meta",
+      "bytes": 243,
+      "sha256": "900e5f8ccba2464369b17e4e73258e5431ef329a24e31658a597c61d0fdbb62c"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+      "source": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef.meta",
+      "bytes": 166,
+      "sha256": "72aca75813de7109895ab4a65f46a5dd60ba1f235850ea566d53df2ad03b5ee3"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs.meta",
+      "source": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs.meta",
+      "bytes": 243,
+      "sha256": "7cc4ffb364174abe938cc709959afed33daddd259554f5d8614b29f8d16dde85"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/AssetAccess.meta",
+      "source": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Scripts/FightMatch/AssetAccess.meta",
+      "bytes": 172,
+      "sha256": "ddfbcd983fe098bfcd8e030ead0151a21546e79ed7870588e1bda12717477a32"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchAsset.meta",
+      "source": "TestArtifacts/FightMatch/RES-01A/P01/projection/Assets/Tests/EditMode/FightMatchAsset.meta",
+      "bytes": 172,
+      "sha256": "449fc8beb147b177d6c8d018a543b446392c8aae9b2c447982f30255e38bde28"
+    }
+  ],
+  "newProductBytes": 90269,
+  "executor": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local",
+  "requestedModel": "gpt-6-luna",
+  "requestedEffort": "medium",
+  "modelReason": "Exact byte copy, GUID checks and one mechanical receipt; no substantive design/code decision",
+  "activationCondition": "Central has received successful Recovery01 and explicitly dispatches this packet to fresh C turn",
+  "receiptOnly": "TestArtifacts/FightMatch/RES-CODEC-ADOPT-001/S01/receipt.json",
+  "acceptance": "Only these ten new leaves, exact hashes, unique GUIDs, all other shared product inputs unchanged; SOURCE_ADOPTED_COMPILE_PENDING",
+  "forbidden": [
+    "Unity",
+    "tests",
+    "product logic change",
+    "new dependencies",
+    "Host/Scene/Prefab/Packages/ProjectSettings/save changes",
+    "old evidence changes",
+    "Git writes",
+    "active cross-thread receipt sending"
+  ],
+  "return": "Final; central wait sole completion receiver",
+  "recoveryReceipt": "docs/team/2026-09-30/host-integrate-i01-recovery01-central-receipt.json"
+}

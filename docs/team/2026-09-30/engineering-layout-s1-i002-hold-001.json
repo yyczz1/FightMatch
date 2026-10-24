@@ -1,0 +1,31 @@
+{
+  "task": "LAYOUT-S1-I-002-HOLD-001",
+  "status": "HOLD_PENDING_SCOPE_CLARIFICATION",
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fb8d-a348-7982-8eab-61664d7e120a"
+  },
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fba7-1c51-77a0-976c-07298a22c5e5"
+  },
+  "preservedLease": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-i-activation-002.json",
+    "bytes": 21674,
+    "sha256": "775a7f02fbff99f1b64ee8615bc3bcd93a426fbc818a44284d13c57975b220b0"
+  },
+  "reason": "C changed from I-002 preparation to old019 BlueStacks work. Engineering requested confirmation of fresh human input versus historical request/context. Latest compact snapshot reports waitingOnApproval; no conclusion about the cause or approval outcome.",
+  "observedState": {
+    "cursor": "d8e1bf73-183a-4f2f-bfdf-51373405ccc5:119",
+    "I02VisibleFiles": [
+      "before.json"
+    ],
+    "I02RunnerOrReceiptObserved": false,
+    "actualUnityLaunchCount": "AWAITING_OWNER_CONFIRMATION",
+    "PActivated": false
+  },
+  "boundary": "Until scope is clarified and engineering releases this hold, do not initiate I-002/P or retry any failed operation. Preserve original I, I02/before, projection/cache and shared inputs. If a fresh human request exists, honor its own scope; this hold grants no BlueStacks/device action or permission-bypass authority.",
+  "resume": "Use actual C scope/process receipt. A new human direction or engineering release within existing proven user scope is required before continuing. This is an execution hold, not a product-goal pause."
+}

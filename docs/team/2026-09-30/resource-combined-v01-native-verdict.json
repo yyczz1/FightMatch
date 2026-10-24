@@ -1,0 +1,77 @@
+{
+  "task": "RES-COMBINED-V01-NATIVE",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "scope": "First combined validation execution; original result FAILED unchanged",
+  "owner": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a116c2-6a9d-7a03-b161-11bd6079a631"
+  },
+  "sourceGate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+    "head": "5f43b7a8cdff0795ad91b342deb5d566be38da0f",
+    "result": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048937458",
+    "sourceVerdict": "resource-combined-v01-fix02-source-verdict.json"
+  },
+  "native": {
+    "evidenceRoot": "TestArtifacts/FightMatch/RES-COMBINED-V01/run",
+    "activation": {
+      "bytes": 6472,
+      "sha256": "33e7122a259708771eb9885ed2e26d6959104c9479044ade6eb74b743b75efa0"
+    },
+    "runReceipt": {
+      "path": "TestArtifacts/FightMatch/RES-COMBINED-V01/run/receipt.json",
+      "bytes": 75924,
+      "sha256": "4acab85e99917971de6b768cae12bd3601a39e3fbce5db19a40b30c4e89748d0",
+      "status": "FAILED",
+      "validationStatus": "FAILED",
+      "failure": "Special tree entry /private/tmp/fm-rcv1.uAvmwtPk/dotnet-diagnostic-54204-1791416511-socket; Final monitor gate",
+      "closureClosed": true,
+      "remainingOwned": [],
+      "launchCounts": {
+        "I": 1
+      },
+      "preparationSeconds": 160,
+      "mechanicalExecutionSecondsThroughEvidence": 87.02642941699014,
+      "mechanicalExecutionSecondsThroughReceiptHash": 87.03348187499796,
+      "finishedUtcThroughEvidence": "2026-10-07T23:43:06.742191+00:00"
+    },
+    "externalObservation": {
+      "source": "Completed author actual read_thread; minimal stdout from the outer runner invocation",
+      "rawTimingExitLine": "{\"externalStartMonotonic\":74045.731140291,\"externalEndMonotonic\":74132.820138541,\"runnerSeconds\":87.08899825000844,\"preparationSeconds\":160,\"totalSeconds\":247.08899825000844,\"osExitCode\":1}",
+      "runnerSeconds": 87.08899825000844,
+      "preparationSeconds": 160,
+      "totalSeconds": 247.08899825000844,
+      "osExitCode": 1,
+      "measurementNote": "The three runner elapsed values use different boundaries: through evidence, through receipt hash, and external process completion after stdout flush. The external total includes preparation and agrees with the author report; it is not substituted for the internal receipt field."
+    }
+  },
+  "qa": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-v01-native-receipt.json",
+    "bytes": 9531,
+    "sha256": "b08d7d2a2923e2fa8230bb332799166b5e48a9daa02ef126e1d149f30d4b3519",
+    "turn": "01a118c1-d1c5-7640-ada6-7fdb9a380b4d"
+  },
+  "acceptance": {
+    "IUnityExit": 0,
+    "runnerExit": 1,
+    "IValidation": "FAILED",
+    "compile": "INCOMPLETE: stages empty/fullImportedInputs null",
+    "T89": "NOT_RUN",
+    "recovery": "complete per named evidence, no conflicts, 1035 projection inputs and43 compiler files restored",
+    "ownedRemaining": 0,
+    "term": {
+      "pid": 54290,
+      "count": 1
+    },
+    "kill": 0
+  },
+  "requiredCorrection": "Diagnose current owned .NET diagnostic socket and FIFO identity/lifecycle handling; minimal change preserving unknown entries, no-follow and process ownership checks. Do not change game source. Determine evidence reuse from actual records before scheduling needed new native validation.",
+  "currentNext": "Clean system design agent preparing engineering-resource-combined-v02-correction.md; no native retries authorized by this verdict",
+  "remaining": [
+    "Corrected validation source and exact GitHub review",
+    "Current compile provenance and exact89 test result",
+    "Formal LOC/Host/Android/device/Demo acceptance"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "task": "LOC-M06-CENTRAL-PROCESS-OBSERVATION",
+  "centralTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+  "observations": [
+    {
+      "type": "commandExecution",
+      "id": "exec-0441265f-a122-4991-8edb-9e973911c813",
+      "command": "/bin/zsh -lc \"python3 -I -B - <<'PY'\nimport subprocess,json,datetime\nr=subprocess.run(['/bin/ps','-axo','pid=,ppid=,pgid=,lstart=,command='],text=True,capture_output=True)\nneedles=['central-loc-m17-m06-resume1-host.py','Luban/.work/m17-fix04/','Luban/5.1.0-fm-yamldotnet-16.3.0-m17-fix04/']\nrows=[s for s in r.stdout.splitlines() if any(n in s for n in needles)]\nprint(json.dumps({'atUtc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'psExit':r.returncode,'matchingCommandLines':rows,'stderr':r.stderr,'scope':'read-only exact M06 host/root command-line matches; no signal or mutation'},ensure_ascii=False))\nPY\"",
+      "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+      "status": "completed",
+      "exitCode": 0,
+      "durationMs": 0,
+      "output": {
+        "text": "{\"atUtc\": \"2026-10-11T17:28:07.638624+00:00\", \"psExit\": 0, \"matchingCommandLines\": [], \"stderr\": \"\", \"scope\": \"read-only exact M06 host/root command-line matches; no signal or mutation\"}\n",
+        "truncated": false
+      }
+    }
+  ],
+  "scope": "Current exact command-line observation only; not a historical host exit or complete lineage proof."
+}

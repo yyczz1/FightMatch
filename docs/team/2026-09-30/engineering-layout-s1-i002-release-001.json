@@ -1,0 +1,63 @@
+{
+  "task": "LAYOUT-S1-I-002-RELEASE-001",
+  "status": "RELEASED_FOR_ONE_I_ATTEMPT",
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fc82-679c-78e1-aab6-d406f8053f2a"
+  },
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fc83-abce-7411-b949-9693e039abf5"
+  },
+  "soleReceiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "authority": "Release of engineering's temporary scope-clarification hold only; continues the existing user-authorized FightMatch task and central I/P delegation. No new product scope, Unity attempt allowance, Git, device, LOC or tool-permission authority.",
+  "preservedLease": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-i-activation-002.json",
+    "bytes": 21674,
+    "sha256": "775a7f02fbff99f1b64ee8615bc3bcd93a426fbc818a44284d13c57975b220b0"
+  },
+  "releasedHold": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-i002-hold-001.json",
+    "sha256": "50d718861ebf9bd31c4eaa7c778aca81be47e51679d3790c32168c49088dbfb1"
+  },
+  "preservedBefore": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/I02/before.json",
+    "bytes": 16860,
+    "sha256": "d32de4a9e804dfc8293563510f3d6220f419c4e5028cac328ed916ae0a6792c4",
+    "ownerTurn": "01a0fba7-1c51-77a0-976c-07298a22c5e5"
+  },
+  "resolution": {
+    "previousOwnerTurnCompleted": true,
+    "actualUnityLaunchesBeforeRelease": 0,
+    "CClarification": "The BlueStacks branch was a context-compaction mistake replaying an already fulfilled historical request, not a new human instruction. Only read-only ADB queries and CUA app selection/read occurred; no installation, launch, stop, data operation or game input.",
+    "CUAToolReportedDurationSeconds": 13648.697,
+    "CProvenance": "Scope clarification in completed turn01a0fba7-1c51-77a0-976c-07298a22c5e5, send_message_to_thread item exec-928761b7-cdd3-4f3a-a856-7bad98c2b7f0.",
+    "freshHandshakeUtc": "2026-10-02T12:08:33.841631Z",
+    "CNoUnityOrUpm": true,
+    "I02OnlyBefore": true,
+    "PAndOriginalIActivationAbsent": true,
+    "engineeringStaticCheck": {
+      "chunk": "7df775",
+      "status": "RESUME_STATIC_MATCH",
+      "IOriginalSevenUnchanged": true,
+      "I02BeforeUnchanged": true,
+      "sharedProtectedFiles": 58,
+      "naturalMetasAbsent": 2
+    }
+  },
+  "effectiveOverrides": {
+    "owner": "Use this release owner for the runner, actual launch and new receipts; retain original owner on preserved before.json and base lease.",
+    "issuer": "Bind this issuer plus both base-lease and release path/SHA in all new execution receipts.",
+    "additionalEvidenceLeaf": "TestArtifacts/FightMatch/LAYOUT-S1-001/I02/resume-preflight.json",
+    "originalBefore": "Keep before.json byte-identical. Put fresh preflight/owner/process/runner identities in create-new resume-preflight.json. The original six evidence names otherwise remain unchanged.",
+    "configuration": "All argv/env, FIX03 identities, scope, budgets, first-error stop and one-launch/no-retry rules are inherited unchanged from the preserved I-002 lease. Preflight timing covers actual new verification, not the held waiting interval."
+  },
+  "steps": [
+    "Read and verify this release, base lease, hold, preserved before and predecessor I receipt hashes. Match actual owner turn. Recheck no overlapping Unity/UPM, original evidence and shared scoped inputs; reuse fixed projection/cache, no re-export or copying.",
+    "Create resume-preflight.json and task-local runner under the existing I02 allowance. Runner verifies both base and release, applies only explicit owner/issuer/evidence-leaf overrides, records its SHA before launch and preserves original before.json. No Unity C# or product changes.",
+    "Execute the original fixed argv at most once:360s Editor/180s UPM, fixed51 dependencies/registry/version, cache1GiB/generated4GiB and all other original guards. Network bytes UNKNOWN; no nettop, new tool installation, CUA, BlueStacks or device operation. Actual tool approval denials remain binding.",
+    "On completion or first failure, close owned processes and seal actual evidence. Return promptly to engineering, distinguishing I_PASS, I_FAILED and NOT_RUN. P, tests/discovery, Play/Host, shared export and Git remain unactivated."
+  ]
+}

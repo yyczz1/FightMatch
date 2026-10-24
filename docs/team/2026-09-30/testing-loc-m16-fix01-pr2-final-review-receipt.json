@@ -1,0 +1,61 @@
+{
+  "receipt": "LOC-M16-FIX01-PR2-FINAL-GITHUB-REVIEW-QA",
+  "date": "2026-10-04",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "host": "local",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "turn": "exact active turn identifier unavailable from task tools"
+  },
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/2",
+  "candidate": {
+    "base": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+    "head": "8533cb5270c0ba324a0af5a51fb078e096189cce",
+    "reviewedCommit": "8533cb5270",
+    "tree": "0c1908fa032af82d480f7861ffec034555eede03"
+  },
+  "priorPendingReceipt": {
+    "path": "docs/team/2026-09-30/testing-loc-m16-fix01-pr2-review-receipt.json",
+    "bytes": 2201,
+    "sha256": "d645356edefc7b141c44af106178b8a60f9ab26f56c7db99d2dd996d0ea99d76",
+    "preservedUnmodified": true,
+    "transition": "PENDING_NO_RESULT -> COMPLETED_WITH_FINDINGS"
+  },
+  "review": {
+    "triggerCommentId": 5978546474,
+    "summaryCommentId": 5928035293,
+    "completedAt": "2026-10-04T09:36:30.237063Z",
+    "reviewSubmissionId": "PRR_kwDOTDyjrM6AAAABQi58JQ",
+    "reviewState": "COMMENTED",
+    "resultCommentId": 5405309989,
+    "codeGate": "NEEDS_FIX",
+    "formalApproval": false,
+    "findings": [
+      {
+        "id": 4176965421,
+        "priority": "P1",
+        "title": "Preserve the executor-complete fields in the new seal",
+        "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4176965421",
+        "originalText": "When a separately pinned activation is eventually supplied, `verify_central_activation()` still requires `freeze.executorComplete` and `freeze.materialWriteSetComplete` to be `True`, but this generated FIX01 seal omits both fields. Consequently every activation against the archived `source-freeze.json` fails with `BLOCKED_SOURCE_NOT_READY`; the positive authority fixture misses this because it passes a hand-built freeze rather than the generated seal.",
+        "status": "UNRESOLVED"
+      },
+      {
+        "id": 4176965430,
+        "priority": "P1",
+        "title": "Freeze contracts that the corrected executor can reproduce",
+        "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4176965430",
+        "originalText": "After a future trusted activation passes, `execute()` recomputes `m16_inputs()` and `build_write_set()` and byte-compares them with these archived tables. Here the input table is the old table plus nine correction-only records, while the write set is the old E16 rules plus eight F01 rules; the recomputed model contains neither those extra inputs nor that ownership layout because `E` now points at F01. Therefore execution always stops at the frozen input/write-set equality checks before any material work, even with a valid activation.",
+        "status": "UNRESOLVED"
+      }
+    ]
+  },
+  "scopeAndAcceptanceBoundary": {
+    "candidate": "docs/versioning/2026-10-04-loc-m16-fix01-pr/source/m16_driver.py",
+    "sourceOnlyExecution": "CLOSED",
+    "offlineChecks": "46/46 author-reported; not rerun",
+    "actualMaterialExecution": "NOT_ACCEPTED",
+    "localizationRuntime": "NOT_ACCEPTED",
+    "integrationVerdict": null
+  },
+  "method": "Mechanical receipt of GitHub PR metadata, completed review submission, summary and exact inline findings only; no local code review, trigger, or validation run."
+}

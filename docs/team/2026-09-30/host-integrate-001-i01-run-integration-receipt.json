@@ -1,0 +1,58 @@
+{
+  "packet": "HOST-INTEGRATE-001/I01-run",
+  "date": "2026-10-08",
+  "integrationVerdict": "NEEDS_FIX",
+  "scope": "Current shared-combination native attempt; source-only FIX03 acceptance remains separate",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a117fc-0c7d-7d53-8f13-35ce87a9d6b9"
+  },
+  "completionCursor": "bd153adf-4a11-4788-8ba9-4674fa47eba5:185",
+  "completed": true,
+  "sourceReviewedHead": "48c51dba8cb6487f405f9291fb1a8ab1b20b6c20",
+  "sourceReviewResult": "https://github.com/yyczz1/FightMatch/pull/18#issuecomment-6045886949",
+  "receipt": {
+    "path": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/receipt.json",
+    "bytes": 18698,
+    "sha256": "58856c36ec5cdc1d638323d99f3563a2ddba162ad8b5cb11b905bea9278cdece"
+  },
+  "nativeRuns": 1,
+  "launchAttempts": 1,
+  "nativeStatus": "FAILED",
+  "mechanicalExecutionSeconds": 10.855482874998415,
+  "originalExitCode": null,
+  "originalFailure": "Unknown FIFO /private/tmp/fm-hi01.n7tUDjLx/clr-debug-pipe-42178-1791404087-in; Supplied-snapshot child identity failed 42200: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"42200\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}; Unknown FIFO /private/tmp/fm-hi01.n7tUDjLx/clr-debug-pipe-42178-1791404087-in; Supplied-snapshot child identity failed 42200: Command failed {\"argv\": [\"/bin/ps\", \"-ww\", \"-p\", \"42200\", \"-o\", \"args=\"], \"exit\": 1, \"stderr\": \"\"}; resources: Unknown FIFO /private/tmp/fm-hi01.n7tUDjLx/clr-debug-pipe-42178-1791404087-in; restore: Launched Popen root still live; restore forbidden; Final process/monitor gate",
+  "evidenceInspection": {
+    "leaves": 59,
+    "declaredLeavesChecked": 58,
+    "totalBytes": 5218011,
+    "postReceiptNaturalAppend": [
+      {
+        "path": "I/editor.log",
+        "declared": {
+          "bytes": 22222,
+          "sha256": "bd9db03b03a7e6d1ed0e4531de6c92b7c62154c82357d1dd7e1b0ccd3cd3632b"
+        },
+        "current": {
+          "bytes": 100793,
+          "sha256": "48d397ee7646bd29f89edf150e5a78fa2ce1a94f3e3ed3fee1fe7da92162b131"
+        },
+        "declaredPrefixPreserved": true
+      }
+    ]
+  },
+  "recovery": {
+    "status": "PENDING",
+    "projectionStillCompileInputs": 1000,
+    "expectedRestoredInputs": 1008,
+    "cReadOnlyChecks": "20:19:37Z source postimages/backups/parked identities match; shared999 and cache/old evidence unchanged. 20:20:08Z ps/lsof: original Unity/registered children exited, PID42225 Roslyn server still holds projection Bee and unique TMP/session42172 files. No signal under old contract."
+  },
+  "next": "One bounded recovery packet after fresh precise process ownership checks; no additional Unity start or overwrite of original FAILED receipt",
+  "unaccepted": [
+    "Current complete native compile",
+    "Formal localization",
+    "Normal scene interaction",
+    "Android/device/Demo"
+  ]
+}

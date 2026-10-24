@@ -1,0 +1,29 @@
+{
+  "packet": "HOST-INTEGRATE-001/I01 source preparation",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "head": "54534228f88a7e8609669b00e1aae2eb4c7caaf3",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/18",
+  "qaReceipt": "docs/team/2026-09-30/testing-host-integrate-pr18-review-receipt.json",
+  "qaSha256": "d0a6f911d3d35c74291a6f1dfbfe1443132e3053f0a983bf5f255a25401cd0bf",
+  "qaTurn": "01a117c1-04a7-7100-b1f2-ef387f832235",
+  "completionCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:42",
+  "findings": [
+    {
+      "id": 4210875526,
+      "priority": "P1",
+      "summary": "Partial writes can leave runner-created damage mistaken for foreign drift.",
+      "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875526"
+    },
+    {
+      "id": 4210875534,
+      "priority": "P1",
+      "summary": "discover exception path queries a second process snapshot.",
+      "url": "https://github.com/yyczz1/FightMatch/pull/18#discussion_r4210875534"
+    }
+  ],
+  "originalOfflineCases": 27,
+  "nativeRuns": 0,
+  "oldEvidencePreserved": true,
+  "next": "I01-FIX01 source-only atomic-write and deterministic snapshot correction; then new-head GitHub review."
+}

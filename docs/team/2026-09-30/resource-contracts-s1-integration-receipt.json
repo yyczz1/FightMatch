@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "packet": "RES-C-CONTRACT-001",
+  "verdict": "NEEDS_FIX",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/11",
+    "head": "f99b5a60b9ecad62aa01ddb1333a7db8a05c662f",
+    "tree": "bc0ecb882f5c2f85a7f7daf60696f8a179c0c48e"
+  },
+  "independentReview": {
+    "path": "docs/team/2026-09-30/testing-resource-contracts-pr11-review-receipt.json",
+    "sha256": "958117871c64f87f5c95379d5a32336a4fe82d04122ca8b61c0531207252b58d",
+    "finding": "https://github.com/yyczz1/FightMatch/pull/11#discussion_r4171468078",
+    "priority": "P2",
+    "requirement": "ResourceProgress must reject ReadyFromCache with remaining work and ConsentRequired with zero remaining work."
+  },
+  "nativeEvidence": {
+    "path": "docs/team/2026-09-30/testing-resource-cd-joint-m01-receipt.json",
+    "sha256": "0bcdf5a38a7062c1440044f732ad70b8eb91f36660f5ba52bd365885b644319a",
+    "cCasesPassed": 10,
+    "note": "Valid for original exact source only; passing cases do not close the review finding."
+  },
+  "next": "Two-file FIX01 with unchanged public API and original ten cases plus one focused regression; fixed source gets new-head review and necessary native validation.",
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "sharedAdoption": false,
+  "deviceAcceptance": false
+}

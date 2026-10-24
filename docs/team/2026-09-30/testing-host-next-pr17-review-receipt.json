@@ -1,0 +1,124 @@
+{
+  "receipt": "HOST-NEXT-001-M02-PR17-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "observedAtUtc": "2026-10-07T17:50:14Z",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "host": "local",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "actualTurn": "01a11779-f5f2-70a2-a22e-9726f9d68fe3",
+    "actualTurnEvidence": "read_thread returned inProgress",
+    "onlyReturnThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b"
+  },
+  "authority": "AGENTS.md section 6 standing team authority and central PR17 receipt delegation",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/17",
+  "candidate": {
+    "head": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+    "base": "030898e9a317d10b610058d867529be8b0770c7c",
+    "treeFromPublicationReceipt": "522b0cc826f573dc74efb340c1752cf8574228ed",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "inputs": {
+    "publicationReceipt": "docs/team/2026-09-30/host-next-001-m02-publication-receipt.json",
+    "validationSummary": "docs/versioning/2026-10-08-host-first-frame-observation/validation-summary.json",
+    "remoteScope": "11 paths/blobs verified by central; not repeated here"
+  },
+  "review": {
+    "status": "COMPLETED_WITH_FINDINGS",
+    "triggerCommentId": 6043531358,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/17#issuecomment-6043531358",
+    "summaryCommentId": 6043535978,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/17#issuecomment-6043535978",
+    "completedAt": "2026-10-07T17:49:55.440580Z",
+    "reviewSubmissionId": 5446187798,
+    "reviewSubmissionGraphqlId": "PRR_kwDOTDyjrM8AAAABRJ47Fg",
+    "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/17#pullrequestreview-5446187798",
+    "reviewState": "COMMENTED",
+    "reviewedCommit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+    "reviewedCommitFromBody": "521f1c78c7",
+    "submittedAt": "2026-10-07T17:49:52Z",
+    "author": "chatgpt-codex-connector",
+    "originalReviewBody": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `521f1c78c7`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "findings": [
+      {
+        "id": 4210135624,
+        "priority": "P2",
+        "title": "Reject non-passing probe verdicts",
+        "url": "https://github.com/yyczz1/FightMatch/pull/17#discussion_r4210135624",
+        "path": "docs/versioning/2026-10-08-host-first-frame-observation/runner.py",
+        "line": 314,
+        "originalLine": 314,
+        "reviewSubmissionId": 5446187798,
+        "commit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "originalCommit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "threadId": "PRRT_kwDOTDyjrM6qBso4",
+        "isResolved": false,
+        "isOutdated": false,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T17:49:52Z",
+        "originalBody": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Reject non-passing probe verdicts**\n\nWhen the probe produces valid JSON but any A–D assertion is `FAIL` or remains `UNOBSERVED`, `Finish()` can still exit 0 because `firstError` is empty, and this block checks only cleanup before marking the stage `PASSED`; the final runner also exits 0 whenever `failure` is unset. This lets a failed or partial observation look successful to callers even though the receipt embeds a non-passing status. Require `observation[\"status\"] == \"OBSERVATION_COMPLETE\"` before marking the stage passed, or otherwise propagate the verdict to the runner exit code.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/521f1c78c70f4e88e9139ff543202c22dcf67133/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      },
+      {
+        "id": 4210135632,
+        "priority": "P2",
+        "title": "Require the comparison sample to be post-cancellation",
+        "url": "https://github.com/yyczz1/FightMatch/pull/17#discussion_r4210135632",
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs",
+        "line": 241,
+        "originalLine": 241,
+        "reviewSubmissionId": 5446187798,
+        "commit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "originalCommit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "threadId": "PRRT_kwDOTDyjrM6qBso-",
+        "isResolved": false,
+        "isOutdated": false,
+        "author": "chatgpt-codex-connector",
+        "createdAt": "2026-10-07T17:49:52Z",
+        "originalBody": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Require the comparison sample to be post-cancellation**\n\nIf startup cancellation is delayed until after the first natural Canvas callback, that still-bound callback can satisfy C because the predicate checks only geometry, supported size, and a newer safe-area version; a later cancellation can then independently satisfy D. C would therefore report `PASS` without proving the advertised first-layout-versus-post-cancellation transition. Restrict the qualifying natural sample to the cancelled, unbound, unsubscribed state (and the expected released gate), rather than relying on the final snapshot.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/521f1c78c70f4e88e9139ff543202c22dcf67133/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎."
+      }
+    ],
+    "codeGate": "NEEDS_FIX",
+    "formalApproval": false,
+    "pagination": {
+      "commentsComplete": true,
+      "reviewsComplete": true,
+      "threadsComplete": true,
+      "eachThreadCommentsComplete": true,
+      "issueCommentCount": 2,
+      "reviewCount": 1,
+      "threadCount": 2
+    },
+    "statusReads": 3,
+    "waitSeconds": [
+      45,
+      55
+    ]
+  },
+  "scopeAndAcceptanceBoundary": {
+    "existingValidation": "Central-verified M02 native exit 0, A/B/C/D PASS, restoration of 1008 leaves and 43 evidence leaves; these remain historical observed results, not proof that the new review findings are resolved",
+    "executionActualTurnFromSummary": "01a11762-1ac1-7040-8240-f6f19ccd6268",
+    "productInputsUnchangedFromPr16": 1012,
+    "newSceneAndProbePaths": 4,
+    "schedulingDisclosure": {
+      "scheduledIntervalSeconds": 2,
+      "actualMaximumStartIntervalSeconds": 2.270427,
+      "naturalClosureElapsedSeconds": 60.253449
+    },
+    "normalLocalizationAndInteraction": "LOC_BLOCKED / not accepted",
+    "deviceAndDemoAcceptance": false,
+    "pr4P1": "OPEN",
+    "sharedProductAdopted": false,
+    "integrationVerdict": null
+  },
+  "method": {
+    "source": "Read-only gh api graphql metadata, comments, review submissions and inline threads; all pagination exhausted",
+    "commandExitCode": 0,
+    "localCodeReviewPerformed": false,
+    "testsRun": false,
+    "reviewTriggered": false,
+    "githubStateChanged": false,
+    "correctionOwner": "Central receives findings and dispatches scoped correction"
+  }
+}

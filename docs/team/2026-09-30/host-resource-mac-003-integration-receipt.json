@@ -1,0 +1,60 @@
+{
+  "task": "HOST-RESOURCE-MAC-003",
+  "integrationVerdict": "ACCEPT",
+  "scope": "Reviewed Host-save-isolation and resource-contract source, plus the fixed composite Mac compile/import and 17 focused tests; not shared-product or Demo acceptance.",
+  "receivedUtc": "2026-10-02T19:28:29.634582+00:00",
+  "receiver": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local"
+  },
+  "candidate": {
+    "base": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "hostOverlay": "a8b9758ed2db1a43dac9328f162433a4523624c9",
+    "resourceOverlay": "d7775a1134556698a6489029b20402a0ce185939",
+    "kind": "COMPOSITE_NOT_SINGLE_HEAD",
+    "sourceLeaves": 998,
+    "sourceManifestSha256": "136fe1dff5295d9e37b8fec55cb9bbd915b9b06a2e22bb5ccfd3e2f6941b953c"
+  },
+  "independentQA": {
+    "path": "docs/team/2026-09-30/testing-host-resource-mac-003-receipt.json",
+    "bytes": 10721,
+    "sha256": "59856f4067e71dbc28f40a78ad580a077613d89da5a97af99e1f454c3b67acfd",
+    "turn": "01a0fe0b-6b4c-7a73-8ade-528698d45dc9"
+  },
+  "githubReviews": [
+    "https://github.com/yyczz1/FightMatch/pull/5#issuecomment-5957543992",
+    "https://github.com/yyczz1/FightMatch/pull/6#issuecomment-5957828430"
+  ],
+  "evidence": {
+    "continuationReceipt": "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/M03/T-continuation/receipt.json",
+    "continuationSha256": "381ad56bad92eedbfc30e4b50123691ac0f40899c386d13180b3dc042b470edb",
+    "xmlSha256": "18ef9a1ed7bab92b3066d749b96b097f196db945cd2eeb3f22c1c31c1dfa20d2",
+    "testCount": 17,
+    "passed": 17,
+    "xmlDurationSeconds": 1.659589,
+    "tStageSeconds": 40.321617,
+    "newCompileRunsInContinuation": 0,
+    "remainingOwned": [],
+    "signals": []
+  },
+  "preservedFailures": [
+    "M02 Bee socket path failure",
+    "M03 original guard failure; accepted natural importer metadata and recorded ADB temporary-log side effect are documented separately"
+  ],
+  "remaining": [
+    "Natural metadata publication and shared source integration",
+    "Locale preference module tests",
+    "Real Host/localization/resource wiring",
+    "Scene visual/device/Player/Android and Demo acceptance"
+  ],
+  "prMetadataUpdate": {
+    "prs": [
+      5,
+      6
+    ],
+    "bodiesUpdatedAndReadBack": true,
+    "headsUnchanged": true,
+    "draft": true,
+    "merged": false
+  }
+}

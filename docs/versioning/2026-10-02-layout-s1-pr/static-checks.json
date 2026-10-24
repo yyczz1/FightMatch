@@ -1,0 +1,304 @@
+{
+  "commands": [
+    {
+      "command": "python3 -B -c 'import json,sys; m=json.load(open(\"docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json\")); exec(m[\"staticVerifierPython\"])' preflight",
+      "startedUtc": "2026-10-02T02:23:28.078695+00:00",
+      "finishedUtc": "2026-10-02T02:23:29.953698+00:00",
+      "exitCode": 0,
+      "stdout": "before.json",
+      "stderr": ""
+    }
+  ],
+  "semanticChecklist": [
+    {
+      "criterion": "Private typed serialized references and retired fields",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+          "line": 20
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 936
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+          "line": 193
+        }
+      ],
+      "detail": "Original additions/removals plus activated correction001 eight slot paths and correction002 dialogTitle/recoveryTitle. Existing object references survive movement; exact paths/types must still be verified natively."
+    },
+    {
+      "criterion": "Responsive geometry and one scale owner",
+      "result": "IMPLEMENTED_STATIC_RUNTIME_UNVERIFIED",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+          "line": 72
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+          "line": 100
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+          "line": 513
+        }
+      ],
+      "detail": "Canvas-unit safe rect; B=min(W,508); single k on approved subtree roots; board unscaled; staged compression to 812k; retain last valid geometry and gate/cancel active pointer. No domain/controller/save dependency or hierarchy lookup in responsive source."
+    },
+    {
+      "criterion": "Host shared overlay ownership and recovery priority",
+      "result": "IMPLEMENTED_STATIC_RUNTIME_UNVERIFIED",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+          "line": 175
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+          "line": 58
+        }
+      ],
+      "detail": "Host alone toggles outer roots/masks; children own inner panels. XOR and overlap diagnostic; ordinary popups close before recovery enables. Navigation fixture observes same production seam."
+    },
+    {
+      "criterion": "Scroll chains and layout ownership",
+      "result": "IMPLEMENTED_STATIC_RUNTIME_UNVERIFIED",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 818
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 856
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+          "line": 484
+        }
+      ],
+      "detail": "Local ScrollRect/Viewport(Image+Mask)/Content, Clamped/no inertia/elasticity; dynamic body rows separate from fixed Header/actions. Dropdown viewport upgraded by the future migration to the same chain. Action safe/danger separation bounded by accepted fixed row allocation."
+    },
+    {
+      "criterion": "Drawer mutual exclusion, stale callback and cleanup",
+      "result": "IMPLEMENTED_STATIC_RUNTIME_UNVERIFIED",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+          "line": 116
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+          "line": 106
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+          "line": 217
+        }
+      ],
+      "detail": "Normal/History/Reference presentation enum; fixed Header/Close; owner/page/renderEpoch and Unity object guards; exact dynamic parents retained. First drag remembers input, closes drawer then publishes existing feedback without canceling that drag."
+    },
+    {
+      "criterion": "OriginalSlot and exclusive playback labels",
+      "result": "IMPLEMENTED_STATIC_RUNTIME_UNVERIFIED",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+          "line": 32
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+          "line": 85
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+          "line": 603
+        }
+      ],
+      "detail": "Three stable slots per family; exact OriginalSlot placement, empty/down do not compact. Legal enemy slot >2 diagnosed in presentation and kept in domain; Exit remains through existing route. Playback owns fixed Stage values. New sparse/down assertions declared but not executed."
+    },
+    {
+      "criterion": "Caption constants, EN/ZH, masks and reachability",
+      "result": "ASSERTIONS_IMPLEMENTED_NOT_RUN",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 838
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+          "line": 167
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+          "line": 316
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+          "line": 350
+        }
+      ],
+      "detail": "Command widths184/224/200/144/152/256/248/152, height48, font18, padding12/12/8/8, no autosize/wrapping; 1624 content/252 viewport. Declared assertions cover both locales, both Skip keys, disabled occupancy, first/last, real scroll and full text bounds. No typography or rendered pass claimed."
+    },
+    {
+      "criterion": "Native migration safety and frozen text topology",
+      "result": "IMPLEMENTED_STATIC_NATIVE_UNVERIFIED",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 708
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 1237
+        },
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 1209
+        },
+        {
+          "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+          "line": 165
+        }
+      ],
+      "detail": "Old builder remains add-only. Future signed isolated entry guards exact sources/resources/metas/CSV/GUID and create-once P output. Existing Prefab/Scene saved in place then unloaded/reopened; persistent object/component/ViewId and scene identities checked; no SaveAssets in new entry/helper code. Frozen141 TMP paths:137 bindings,3 input values,1 license body."
+    },
+    {
+      "criterion": "Obvious temporary art and preserved configuration/resources",
+      "result": "IMPLEMENTED_STATIC_PROTECTION_PASS",
+      "evidence": [
+        {
+          "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+          "line": 894
+        }
+      ],
+      "detail": "TempArt_ Image/solid/outline children, non-raycast, inside actor/member slots; no imported art, textures, copy keys or dependencies. All serialized TMP defaults remain diagnostic placeholders. All37 resources and protected LOC/packages/settings/art unchanged by exact snapshot."
+    },
+    {
+      "criterion": "Test declaration preservation and budget",
+      "result": "MECHANICAL_PASS_NOT_DISCOVERY",
+      "evidence": [
+        {
+          "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/S/after.json"
+        },
+        {
+          "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/S/static-checks.json"
+        }
+      ],
+      "detail": "Exactly12 new named methods; exactly8 top-level EnterPlayMode/ExitPlayMode Overlay declarations. Existing test methods preserved, only approved fixture/count/lookup adaptations. 15 files,2 new C#,2260 added+deleted lines; per-file limits and original builder deleted=0 passed. No actual selector/discovery/run."
+    }
+  ],
+  "Unity": "NOT_RUN",
+  "contractCorrection": {
+    "path": "docs/team/2026-09-30/engineering-ugui-layout-source-contract-correction-001.md",
+    "sha256": "f70d408ad021ccdebda17d4cc99f1808a46a5f854b84dd81d4e0c5d7e86f851c",
+    "authority": "Engineering activation message from 01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local; original inputs immutable; eight typed paths and single-k root scaling approved."
+  },
+  "contractCorrection002": {
+    "path": "docs/team/2026-09-30/engineering-ugui-layout-source-contract-correction-002.md",
+    "sha256": "210cf8159c53130060781cd6abeb4ecdb6fedeb91a7604a14c93dffb1627d3f5",
+    "authority": "Engineering explicitly activated source-only correction002 in this thread."
+  },
+  "postflightRuns": [
+    {
+      "command": "python3 -B -c 'import json,sys; m=json.load(open(\"docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json\")); exec(m[\"staticVerifierPython\"])' postflight",
+      "startedUtc": "2026-10-02T03:09:56.634452+00:00",
+      "endedUtc": "2026-10-02T03:09:58.529950+00:00",
+      "elapsedSeconds": 1.895,
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutEvidence": "after.json"
+    },
+    {
+      "command": "python3 -B -c 'import json,sys; m=json.load(open(\"docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json\")); exec(m[\"staticVerifierPython\"])' postflight",
+      "startedUtc": "2026-10-02T03:13:29.713115+00:00",
+      "endedUtc": "2026-10-02T03:13:31.596236+00:00",
+      "elapsedSeconds": 1.883,
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutEvidence": "after.json",
+      "reason": "Final source freeze after native persistent object/ViewId assertions."
+    }
+  ],
+  "mechanicalSourceChecks": {
+    "utc": "2026-10-02T03:13:01.849555+00:00",
+    "balancedDelimiters": [
+      "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs"
+    ],
+    "note": "Lexical delimiter and declared-name checks only; not C# compilation or test discovery.",
+    "exactTwelveMethodDeclarations": [
+      "LAYOUT_01_ReferenceRecoveryAndModalHierarchyMatchesAdjudication",
+      "LAYOUT_02_540SafeAreaUsesAcceptedFiveRegionGeometry",
+      "LAYOUT_03_LongScreenConvertsPhysicalSafeAreaToAcceptedCanvasTable",
+      "LAYOUT_04_ShortHeightCompressionStopsAtStageAndBottomHudMinima",
+      "LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink",
+      "LAYOUT_06_LayoutOwnershipHasNoSameAxisControllerConflict",
+      "LAYOUT_07_RuntimeResizeAndSafeAreaVersionApplyOnceWithoutZeroFrame",
+      "LAYOUT_08_ModalAndRecoveryScrollRectsKeepHeaderAndActionsFixed",
+      "LAYOUT_09_FixedSlotsUseOriginalSlotWithoutCompaction",
+      "LAYOUT_10_DrawersAreMutuallyExclusiveAndNeverCoverBoard",
+      "LAYOUT_11_SystemRecoveryPrecedesEveryOrdinaryPopup",
+      "LAYOUT_12_RaycastTargetsExistOnlyOnInteractiveSurfaces"
+    ],
+    "topLevelOverlayUnityTestDeclarations": 8,
+    "namedSerializedFieldsPresentRetiredFieldsAbsent": true,
+    "responsiveNoDomainControllerSaveOrHierarchyLookup": true,
+    "existingTestPublicMethodSequences": [
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "publicMethodSequenceUnchanged": true,
+        "count": 5
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "publicMethodSequenceUnchanged": true,
+        "count": 4
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "publicMethodSequenceUnchanged": true,
+        "count": 7
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "publicMethodSequenceUnchanged": true,
+        "count": 13
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "publicMethodSequenceUnchanged": true,
+        "count": 7
+      },
+      {
+        "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+        "publicMethodSequenceUnchanged": true,
+        "count": 10
+      }
+    ]
+  },
+  "gitDiffCheck": {
+    "exitCode": 2,
+    "stdout": "Assets/Scenes/FightMatchDemo.unity:222: trailing whitespace.\n+  m_Name: \nAssets/Scenes/FightMatchDemo.unity:223: trailing whitespace.\n+  m_EditorClassIdentifier: \nAssets/Scenes/FightMatchDemo.unity:372: trailing whitespace.\n+  m_Name: \nAssets/Scenes/FightMatchDemo.unity:373: trailing whitespace.\n+  m_EditorClassIdentifier: \n",
+    "stderr": "",
+    "authority": "Diagnostic only; PR1 blobs remain delta authority.",
+    "interpretation": "Exit2 only reports four pre-existing blank serialized-field trailing spaces in protected Assets/Scenes/FightMatchDemo.unity at222,223,372,373 relative to dirty HEAD. Final fixed-input/postflight SHA proves this Scene is unchanged; no protected-resource cleanup performed. Source whitespace checks passed against PR1."
+  },
+  "sourceFrozenUtc": "2026-10-02T03:16:16.078860+00:00"
+}

@@ -1,0 +1,221 @@
+--- a/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs
++++ b/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs
+@@ -721,8 +721,10 @@
+             Require(Args.Where(x => x.StartsWith("-fm", StringComparison.Ordinal) || x.StartsWith("-ugui", StringComparison.Ordinal))
+                 .All(x => allowed.Contains(x)), "LAYOUT unknown managed flag");
+             Require(Arg("-fmLayoutContract") == "LAYOUT-S1-SYS-001", "LAYOUT contract");
++            var sceneRepair = mode == "RepairLayoutSceneOverrides";
++            var executionRoot = LayoutStageRoot + (sceneRepair ? "/FIX04" : "");
+             var path = LayoutCanonical(Arg("-fmLayoutInputManifest"));
+-            Require(path == LayoutStageRoot + "/I/activation.json", "LAYOUT signed I activation path");
++            Require(path == executionRoot + "/I/activation.json", "LAYOUT signed I activation path");
+             var activation = JsonUtility.FromJson<LayoutActivation>(File.ReadAllText(path));
+             Require(activation != null && activation.contract == "LAYOUT-S1-SYS-001" && activation.status == "P_ACTIVATED" &&
+                 activation.mode == mode && activation.ownerThread == "01a0e404-d89d-7ab2-bece-3cd1df3fbc52" &&
+@@ -731,12 +733,12 @@
+             var candidate = LayoutCanonical(activation.candidateProjectPath);
+             Require(candidate == LayoutStageRoot + "/projection" &&
+                 Path.GetDirectoryName(UnityEngine.Application.dataPath) == candidate && candidate != Project, "LAYOUT isolated candidate");
+-            Require(activation.evidenceRoot == LayoutStageRoot + "/P" && Arg("-fmLayoutEvidenceRoot") == activation.evidenceRoot,
++            Require(activation.evidenceRoot == executionRoot + "/P" && Arg("-fmLayoutEvidenceRoot") == activation.evidenceRoot,
+                 "LAYOUT exact evidence root");
+             LayoutCanonical(activation.evidenceRoot);
+             Require(!Directory.Exists(activation.evidenceRoot) && !File.Exists(activation.evidenceRoot), "LAYOUT create-once evidence root");
+             Require(activation.argv != null && activation.argv.SequenceEqual(Args), "LAYOUT exact process argv lease");
+-            Require(LayoutCanonical(activation.sourceReceiptPath) == LayoutStageRoot + "/S/source-receipt.json" &&
++            Require(LayoutCanonical(activation.sourceReceiptPath) == executionRoot + (sceneRepair ? "/source-receipt.json" : "/S/source-receipt.json") &&
+                 Sha(activation.sourceReceiptPath) == activation.sourceReceiptSha256, "LAYOUT S receipt identity");
+             LayoutCheckSourceSet(activation.sources);
+             Require(activation.resources != null && activation.resources.Length == 37 && activation.importedMetas != null &&
+@@ -1137,6 +1139,7 @@
+             var canvas = root.GetComponentsInChildren<Canvas>(true);
+             Require(canvas.Length == 1 && canvas[0].renderMode == RenderMode.ScreenSpaceOverlay &&
+                 root.GetComponentsInChildren<UnityEngine.UI.GraphicRaycaster>(true).Length == 1, "LAYOUT single Overlay Canvas/raycaster");
++            LayoutVerifyCanvasGeometry((RectTransform)canvas[0].transform);
+             var scaler = canvas[0].GetComponent<UnityEngine.UI.CanvasScaler>();
+             Require(scaler != null && scaler.enabled && scaler.uiScaleMode == UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize &&
+                 scaler.referenceResolution == new Vector2(540, 960) && scaler.matchWidthOrHeight == .5f, "LAYOUT enabled CanvasScaler");
+@@ -1193,6 +1196,48 @@
+             return new UnityEngine.Object[] { host.gameObject, host, host.RuntimeRoot.gameObject, host.RuntimeRoot, events.gameObject, events }
+                 .Select(x => GlobalObjectId.GetGlobalObjectIdSlow(x).ToString()).ToArray();
+         }
++        private static void LayoutVerifyCanvasGeometry(RectTransform rect)
++        {
++            Require(rect.localScale == Vector3.one && rect.anchorMin == Vector2.zero && rect.anchorMax == Vector2.one,
++                "LAYOUT usable Canvas local scale/stretch");
++            var scale = rect.lossyScale;
++            Require(new[] { scale.x, scale.y, scale.z }.All(x => !float.IsNaN(x) && !float.IsInfinity(x) && x > 0),
++                "LAYOUT finite positive Canvas world scale");
++        }
++        private static RectTransform LayoutSceneCanvas(GameObject root, out RectTransform source)
++        {
++            Require(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(root) == UguiPrefab, "LAYOUT existing Canvas prefab link");
++            var rect = LayoutAt<RectTransform>(root.transform, "RuntimeCanvas");
++            source = PrefabUtility.GetCorrespondingObjectFromSource(rect);
++            Require(source != null && AssetDatabase.GetAssetPath(source) == UguiPrefab && LayoutLocalId(source) == 1013562322995895578L,
++                "LAYOUT exact existing Canvas source");
++            LayoutVerifyCanvasGeometry(source);
++            return rect;
++        }
++        private static bool LayoutStaleCanvasOverride(PropertyModification modification, RectTransform source)
++        {
++            if (modification == null || modification.target != source || !new[] {
++                "m_LocalScale.x", "m_LocalScale.y", "m_LocalScale.z", "m_AnchorMax.x", "m_AnchorMax.y" }.Contains(modification.propertyPath)) return false;
++            return !float.TryParse(modification.value, System.Globalization.NumberStyles.Float,
++                System.Globalization.CultureInfo.InvariantCulture, out var value) ||
++                value != new SerializedObject(source).FindProperty(modification.propertyPath).floatValue;
++        }
++        private static void LayoutVerifySceneCanvas(GameObject root)
++        {
++            var rect = LayoutSceneCanvas(root, out var source);
++            LayoutVerifyCanvasGeometry(rect);
++            Require(!(PrefabUtility.GetPropertyModifications(root) ?? Array.Empty<PropertyModification>())
++                .Any(x => LayoutStaleCanvasOverride(x, source)), "LAYOUT no stale saved Canvas scale/stretch overrides");
++        }
++        private static void LayoutRepairSceneCanvas(GameObject root)
++        {
++            var rect = LayoutSceneCanvas(root, out var source);
++            var modifications = PrefabUtility.GetPropertyModifications(root) ?? Array.Empty<PropertyModification>();
++            var preserved = modifications.Where(x => !LayoutStaleCanvasOverride(x, source)).ToArray();
++            rect.localScale = source.localScale; rect.anchorMax = source.anchorMax;
++            PrefabUtility.SetPropertyModifications(root, preserved);
++            LayoutVerifySceneCanvas(root);
++        }
+         private static bool LayoutRetiredObject(string path)
+         {
+             const string rows = "RuntimeCanvas/SafeAreaRoot/ScreenLayer/BattlePage/BattleContent/BattleScroll";
+@@ -1230,6 +1275,7 @@
+                 Require(SceneComponents<Canvas>(scene).Length == 1 && SceneComponents<UnityEngine.UIElements.UIDocument>(scene).Length == 0 &&
+                     PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(hosts[0].RuntimeRoot) == UguiPrefab &&
+                     hosts[0].FontAsset == preparingFont && hosts[0].FontLicense != null, "LAYOUT preserved scene linkage");
++                LayoutVerifySceneCanvas(hosts[0].RuntimeRoot.gameObject);
+                 Require(LayoutVerifyRoot(hosts[0].RuntimeRoot.gameObject).SequenceEqual(targets), "LAYOUT reopened instance targets");
+                 Require(!scene.isDirty && !EditorApplication.isPlayingOrWillChangePlaymode, "LAYOUT read-only scene reopen");
+             }
+@@ -1274,9 +1320,11 @@
+                 var host = hosts[0]; var instance = host.RuntimeRoot;
+                 sceneIds = LayoutSceneIds(host, events[0]);
+                 Require(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(instance) == UguiPrefab, "LAYOUT existing prefab instance only");
++                LayoutRepairSceneCanvas(instance.gameObject);
+                 LayoutVerifyRoot(instance.gameObject);
+                 EditorSceneManager.MarkSceneDirty(scene);
+                 Require(EditorSceneManager.SaveScene(scene, ScenePath), "LAYOUT same-path native scene save");
++                LayoutVerifySceneCanvas(instance.gameObject);
+             }
+             finally { EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); }
+             LayoutProtectAfter(activation);
+@@ -1292,6 +1340,36 @@
+             var activation = LayoutGuard("VerifyLayoutResources");
+             preparingFont = AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>(UguiFont); Require(preparingFont != null, "LAYOUT existing font");
+             var result = LayoutReopen(activation);
++            LayoutWrite(activation, "native-reopen.json", result); LayoutWrite(activation, "serialized-targets.json", result);
++            preparingFont = null;
++        }
++
++        public static void RepairLayoutSceneOverrides()
++        {
++            var activation = LayoutGuard("RepairLayoutSceneOverrides");
++            var beforePrefab = Sha(UguiPrefab);
++            preparingFont = AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>(UguiFont); Require(preparingFont != null, "LAYOUT existing font");
++            var persistent = AssetDatabase.LoadAssetAtPath<GameObject>(UguiPrefab); Require(persistent != null, "LAYOUT existing migrated prefab");
++            LayoutVerifyRoot(persistent);
++            string[] sceneIds;
++            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
++            try
++            {
++                var hosts = SceneComponents<FightMatchPlayerHost>(scene); var events = SceneComponents<UnityEngine.EventSystems.EventSystem>(scene);
++                Require(hosts.Length == 1 && events.Length == 1 && hosts[0].RuntimeRoot != null, "LAYOUT existing scene repair objects");
++                var root = hosts[0].RuntimeRoot.gameObject; sceneIds = LayoutSceneIds(hosts[0], events[0]);
++                LayoutRepairSceneCanvas(root); LayoutVerifyRoot(root);
++                EditorSceneManager.MarkSceneDirty(scene);
++                Require(EditorSceneManager.SaveScene(scene, ScenePath), "LAYOUT native scene override repair save");
++                LayoutVerifySceneCanvas(root);
++            }
++            finally { EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); }
++            Require(Sha(UguiPrefab) == beforePrefab, "LAYOUT scene repair preserved prefab bytes");
++            LayoutProtectAfter(activation);
++            LayoutWrite(activation, "native-migration.json", new LayoutResult { mode = "NativeSceneOverrideRepair", reopened = false,
++                protectedInputsUnchanged = true, prefabSha256 = beforePrefab, sceneSha256 = Sha(ScenePath), textCount = 141, inputCount = 3 });
++            var result = LayoutReopen(activation);
++            Require(result.sceneObjectIds.SequenceEqual(sceneIds) && Sha(UguiPrefab) == beforePrefab, "LAYOUT scene repair reopened identities/prefab");
+             LayoutWrite(activation, "native-reopen.json", result); LayoutWrite(activation, "serialized-targets.json", result);
+             preparingFont = null;
+         }
+--- a/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs
++++ b/Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs
+@@ -10,8 +10,10 @@
+ using FlowPuzzle.Core;
+ using NUnit.Framework;
+ using UnityEditor;
++using UnityEditor.SceneManagement;
+ using UnityEngine;
+ using UnityEngine.EventSystems;
++using UnityEngine.SceneManagement;
+ using static FightMatch.Core.Tests.PlayerSessionTestData;
+ 
+ namespace FightMatch.Core.Tests
+@@ -132,6 +134,64 @@
+     public sealed class UguiSceneCompositionTests
+     {
+         private bool enteredPlayMode;
++
++        [Test]
++        public void SavedDemoScenePreservesUsableCanvasWithoutStaleOverrides()
++        {
++            const string scenePath = "Assets/Scenes/FightMatchDemo.unity";
++            const string prefabPath = "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab";
++            Assert.IsFalse(UnityEngine.Application.isPlaying);
++            Assert.IsFalse(SceneManager.GetSceneByPath(scenePath).IsValid(), "Do not close or reuse an already open Demo Scene.");
++            var originalActive = SceneManager.GetActiveScene();
++            var sceneBytes = File.ReadAllBytes(scenePath); var prefabBytes = File.ReadAllBytes(prefabPath);
++            var opened = default(Scene);
++            try
++            {
++                opened = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
++                var roots = opened.GetRootGameObjects();
++                var hosts = roots.SelectMany(x => x.GetComponentsInChildren<FightMatchPlayerHost>(true)).ToArray();
++                var canvases = roots.SelectMany(x => x.GetComponentsInChildren<Canvas>(true)).ToArray();
++                Assert.AreEqual(1, hosts.Length); Assert.AreEqual(1, canvases.Length);
++                var instance = hosts[0].RuntimeRoot; Assert.IsNotNull(instance);
++                Assert.AreEqual(prefabPath, PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(instance));
++                Assert.AreSame(canvases[0].transform, instance.transform.Find("RuntimeCanvas"));
++                var rect = (RectTransform)canvases[0].transform;
++                var source = PrefabUtility.GetCorrespondingObjectFromSource(rect); Assert.IsNotNull(source);
++                Assert.AreEqual(prefabPath, AssetDatabase.GetAssetPath(source));
++                Assert.IsTrue(AssetDatabase.TryGetGUIDAndLocalFileIdentifier(source, out string guid, out long fileId));
++                Assert.AreEqual("c36df3cfc25424c8cb3ec6cae6be1237", guid); Assert.AreEqual(1013562322995895578L, fileId);
++                Assert.AreEqual(Vector3.one, source.localScale);
++                Assert.AreEqual(Vector2.zero, source.anchorMin); Assert.AreEqual(Vector2.one, source.anchorMax);
++                Assert.AreEqual(source.localScale, rect.localScale, "Scene Canvas scale must inherit the usable prefab geometry.");
++                Assert.AreEqual(source.anchorMin, rect.anchorMin); Assert.AreEqual(source.anchorMax, rect.anchorMax);
++                foreach (var value in new[] { rect.lossyScale.x, rect.lossyScale.y, rect.lossyScale.z })
++                    Assert.IsTrue(!float.IsNaN(value) && !float.IsInfinity(value) && value > 0, "Canvas world scale must be finite and positive.");
++                var properties = new[] { "m_LocalScale.x", "m_LocalScale.y", "m_LocalScale.z", "m_AnchorMax.x", "m_AnchorMax.y" };
++                var sourceProperties = new SerializedObject(source);
++                foreach (var modification in PrefabUtility.GetPropertyModifications(instance.gameObject) ?? Array.Empty<PropertyModification>())
++                {
++                    if (modification.target != source || !properties.Contains(modification.propertyPath)) continue;
++                    Assert.IsTrue(float.TryParse(modification.value, System.Globalization.NumberStyles.Float,
++                        System.Globalization.CultureInfo.InvariantCulture, out var value), modification.propertyPath);
++                    Assert.AreEqual(sourceProperties.FindProperty(modification.propertyPath).floatValue, value,
++                        "Stale saved Canvas override: " + modification.propertyPath);
++                }
++                Assert.IsFalse(opened.isDirty, "The scene check must remain read-only.");
++            }
++            finally
++            {
++                try
++                {
++                    if (opened.IsValid()) Assert.IsTrue(EditorSceneManager.CloseScene(opened, true), "Close only the Scene opened by this test.");
++                }
++                finally
++                {
++                    if (originalActive.IsValid() && originalActive.isLoaded) SceneManager.SetActiveScene(originalActive);
++                    CollectionAssert.AreEqual(sceneBytes, File.ReadAllBytes(scenePath), "Scene bytes changed during read-only inspection.");
++                    CollectionAssert.AreEqual(prefabBytes, File.ReadAllBytes(prefabPath), "Prefab bytes changed during read-only inspection.");
++                }
++            }
++        }
+ 
+         [UnityEngine.TestTools.UnityTearDown]
+         public System.Collections.IEnumerator ExitControlledPlayModeAfterFailure()

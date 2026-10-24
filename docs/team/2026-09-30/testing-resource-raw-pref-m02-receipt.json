@@ -1,0 +1,111 @@
+{
+  "receipt": "RES-RAW-PREF-JOINT-M02-QA-RECEIPT",
+  "date": "2026-10-03",
+  "assessment": "SEPARATE_TEST_RESULT_USABILITY_AND_RUN_PROTECTION_FAILURE",
+  "sourceExecutionReceipt": {
+    "path": "TestArtifacts/FightMatch/RES-RAW-PREF-JOINT-001/M02/receipt.json",
+    "bytes": 79307,
+    "sha256": "c068f7fe7e833382d5f0ed660d9d341bd4f425e9c0c35de38b122c6883cadfe3",
+    "status": "BLOCKED_OR_FAILED",
+    "failure": "Prior TMP drift ['adb.501.log']"
+  },
+  "testResultUsability": {
+    "nunitXml": {
+      "path": "TestArtifacts/FightMatch/RES-RAW-PREF-JOINT-001/M02/T/results.xml",
+      "bytes": 97330,
+      "sha256": "b3286341050e2435e1a8f67fc1a9f6f00e2d664c335a51914554f6d8a8d3eb3a",
+      "total": 128,
+      "passed": 128,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "durationSeconds": 13.6220662,
+      "exactCounter": true,
+      "uniqueFullnames": 128
+    },
+    "groups": {
+      "B_regression": {"passed": 38, "failed": 0, "skipped": 0, "inconclusive": 0},
+      "RAW_FIX02": {"passed": 13, "failed": 0, "skipped": 0, "inconclusive": 0},
+      "PREF_FIX01": {"passed": 77, "failed": 0, "skipped": 0, "inconclusive": 0}
+    },
+    "classification": "The sealed XML and per-case result records are internally consistent for these exact frozen source inputs. This is not a passing overall execution receipt or an integration verdict."
+  },
+  "runProtectionAndEnvironment": {
+    "status": "FAILED_PROTECTION_DELTA",
+    "path": "/private/tmp/fm-rpref.t2u6RRi1/adb.501.log",
+    "before": {
+      "bytes": 1396,
+      "sha256": "15bb559a29e7371de098ab30643a0e48e94e1f7a214c364c290261a8cae77eb7"
+    },
+    "after": {
+      "bytes": 1432,
+      "sha256": "0929a691ddf8c8a1f77991839cc974790bc7ea9e7a60d7d41f216dd25bf42c8b"
+    },
+    "verifiedPrefixBytes": 1396,
+    "prefixSha256": "15bb559a29e7371de098ab30643a0e48e94e1f7a214c364c290261a8cae77eb7",
+    "observedAppendedBytes": 36,
+    "appendedText": "adb server killed by remote request\n",
+    "writerOrInitiator": "UNKNOWN",
+    "causationAttributedToTestOwner": false,
+    "originalEvidenceModified": false
+  },
+  "execution": {
+    "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "ownerHost": "local",
+    "ownerTurn": "01a10074-1a24-7660-92d0-4d4676b92257",
+    "runnerElapsedSeconds": 178.401252,
+    "I_runs": 0,
+    "D_runs": 0,
+    "T_runs": 1,
+    "T_pid": 80852,
+    "T_exitCode": 0,
+    "T_supervisionSeconds": 177.248871,
+    "remainingOwned": [],
+    "ownedClosureComplete": true,
+    "consumerGate": "CLEAR",
+    "retainedAdbPid79368": "ABSENT",
+    "nativeSignals": 0,
+    "sourceWrites": 0,
+    "metaWrites": 0,
+    "scopeDifferences": ["Prior TMP drift ['adb.501.log']"]
+  },
+  "selectorAndDiscovery": {
+    "selector": {"bytes": 85006, "sha256": "f2a510cb7bf3b625187f4ba6031e7bd2da79830da0dafdbae39cd2e2cd7204f2"},
+    "conversion": {"oldFilterBytes": 16811, "oldLeftBraceCount": 30, "oldRightBraceCount": 27, "newFilterBytes": 16925, "newFilterSha256": "93d1316dec67452954fb089ceb16f45276dd5a754c4575cbcc868c94c842e8f6", "onlySubstitutions": {"\\{": "\\x7B", "\\}": "\\x7D"}, "mechanicalCase": "sole_hex_brace_conversion_reversible_128_matches_and_256_boundary_negatives", "passed": true},
+    "M01Discovery": {
+      "path": "TestArtifacts/FightMatch/RES-RAW-PREF-JOINT-001/M01/receipt.json",
+      "status": "DISCOVERED_NOT_EXECUTED",
+      "leafCount": 77,
+      "allRunnable": true,
+      "requirementsCovered": 21,
+      "testsExecutedDuringDiscovery": 0
+    },
+    "M02SelectorUsesFrozenM01Discovery": true,
+    "requirements": ["PREF-01", "PREF-02", "PREF-03", "PREF-04", "PREF-05", "PREF-06", "PREF-07", "PREF-08", "PREF-09", "PREF-10", "PREF-11", "PREF-12", "PREF-13", "PREF-14", "PREF-15", "PREF-16", "PREF-17", "PREF-18", "PREF-19", "PREF-20", "PREF-21"]
+  },
+  "fixedInputs": {
+    "RAW": {"sourceReceiptSha256": "fd746e23afed3b7f004d06db4474f41bbcf85ee67202a3ffb0d723863a2e20c4", "codeHead": "1b4e091526444822e487240cd0d6aff736f0080c"},
+    "PREF": {"sourceReceiptSha256": "ef0ee52f4cdf4240b8a1028ae2706698fa2fa485f11f08b62d953eea97836d81", "sourceSha256": "82b9c2ea3bfdc824ecec5a658370ab6bb83291ec2bd60c160392432963a91743", "codeHead": "229fdc604841e5efbbf490cbcc47b7dfc39b8db9"},
+    "B_regressionReceiptSha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4",
+    "D_C_reusedFromM01": {"D": 13, "C": 11, "newRuns": 0},
+    "rawAndPrefHeadsAreHistoricalSourceBindingsNotThisCompositePRHead": true
+  },
+  "preservation": {
+    "twelveResourceAssembliesAndDLLRecords": "M02 receipt/evidence records all 12 fixed assembly identities; no source/meta writes occurred. The five PREF-related DLLs match M01's after-image; all recorded DLLs are unchanged across M02.",
+    "priorPREFReceiptAndM01Preserved": true,
+    "reviewReceipts": [
+      "docs/team/2026-09-30/testing-resource-raw-fix02-pr12-review-receipt.json",
+      "docs/team/2026-09-30/testing-loc-b-pref-fix01-pr3-review-receipt.json"
+    ],
+    "nativeHistoricalHeads": {"RAW": null, "PREF": null}
+  },
+  "overallRunVerdict": "NOT_ACCEPTED_PROTECTION_FAILURE",
+  "authorIntegrationVerdict": null,
+  "notEstablished": [
+    "Overall M02 validation pass",
+    "Cause or actor responsible for adb.501.log append",
+    "Integration acceptance",
+    "Real YooAsset SDK package lifecycle/download, Host or device acceptance"
+  ],
+  "method": "One bounded mechanical receipt/XML/manifest check plus read-only verification of the specific previously recorded TMP log prefix and append; no broad rescan, Unity run, test rerun, ADB operation, or source review."
+}

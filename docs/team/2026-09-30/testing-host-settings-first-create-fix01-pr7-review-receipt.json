@@ -1,0 +1,102 @@
+{
+  "task": "HOST-SETTINGS-FIRST-CREATE-FIX01-PR7-REVIEW-RECEIPT",
+  "verdict": "ACCEPT",
+  "scope": "Only the independent GitHub code-review gate for FIX01's fixed new head. Not corrected-source compilation, 18-case execution or product acceptance.",
+  "receivedUtc": "2026-10-02T20:58:23Z",
+  "receivedLocal": "2026-10-03T04:58:23+08:00",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fe66-c80e-7b32-9b7a-892c30016d6c"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Human standing AGENTS section 6 workflow and central's explicit FIX01 review-result receipt delegation. No local review or duplicate trigger.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/7",
+    "head": "4e10b0aa1e4c691d5d4d72577959d6bf1c4a7754",
+    "tree": "aaf90ec54e871d2e1043d1de95a67544322aea2e",
+    "parent": "1093faffc096bffa1d36c81d29b2f629430f6f54",
+    "base": "a8b9758ed2db1a43dac9328f162433a4523624c9",
+    "draft": true,
+    "merged": false
+  },
+  "inputs": {
+    "scope": {
+      "path": "docs/team/2026-09-30/engineering-host-settings-first-create-fix01.md",
+      "sha256": "d166d24d402a52458e437a2cabc58dea56b1bcd961175ac81c5c6d7c27909fb1"
+    },
+    "publicationReceipt": {
+      "path": "docs/team/2026-09-30/host-settings-first-create-fix01-publication-receipt.json",
+      "bytes": 1718,
+      "sha256": "c3c857fd0ac583a45d7faa58559e505f3221c415b632e4d8b91ca90ac96eb2ad"
+    },
+    "selectedRoot": "docs/versioning/2026-10-03-host-settings-first-create-pr/fix01/",
+    "manifestSha256": "e1d2351514f6cbe5eaca2a1bd9280e39386d2d0bf0ca929e72e23ad617280876",
+    "sourceReceiptSha256": "1afdbd6228a5b94503cf2ba83c63793c9e4b2649b1d71403df70599c75607341",
+    "staticChecksSha256": "42fa3843f6860665c0651d9c3c7fe109f717306a9b41829e7898ccd26d27c32b",
+    "changedProductPath": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs",
+    "publishedSourceSha256": "c4fc7de1e9786d3ae4ecb71038f74c0d978c00bf4498855cccaeefc2e4c5ce0e",
+    "boundary": "Reuse central/engineering's six-blob publication and patch receipt: 35 added/3 removed lines in two failing tests and necessary private helper; production unchanged. This receiver does not re-review code.",
+    "staticEvidence": "Original checker exit1/single_path_patch after 34 recorded checks retained; subsequent checker exit0 with 77 checks. Both are static mechanics, not C# execution."
+  },
+  "historyPreserved": {
+    "oldReview": {
+      "path": "docs/team/2026-09-30/testing-host-settings-first-create-pr7-review-receipt.json",
+      "sha256": "a79f62efcaa2f8c09bbd54d935f714ca9843f3e518a9ff999a161cbabb1e6808"
+    },
+    "failedRun": {
+      "path": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M01/receipt.json",
+      "bytes": 6491,
+      "sha256": "f799fa8ca9a369d82c9030d34db2334c871c623b05fc96287d57a4f5ca2b4d6e",
+      "reportedResult": "Original head: 18 cases, 16 passed/2 failed. Not rerun or reinterpreted in this receipt."
+    },
+    "boundary": "Both hashes rechecked unchanged. Original no-major review remains historical for 1093faffc0, not approval of FIX01 or a behavioral pass. Mutable GitHub summary is snapshotted separately below."
+  },
+  "originalReview": {
+    "bot": "chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5961303358,
+      "url": "https://github.com/yyczz1/FightMatch/pull/7#issuecomment-5961303358",
+      "createdUtc": "2026-10-02T20:53:12Z",
+      "rawBody": "@codex review\n\nPlease review current head `4e10b0aa1e4c691d5d4d72577959d6bf1c4a7754`. FIX01 corrects the two test failures from the original 16/18 run; it adds only the exact normal non-link zero-byte locator writer lock to the expected filesystem state. Check that original bytes, unknown-data rejection, directory/link checks and test strength remain intact. Production source is unchanged. The included `engineering-host-settings-first-create-fix01.md` and `docs/versioning/2026-10-03-host-settings-first-create-pr/fix01/` explain the causal evidence and exact scope. The corrected 18-case run is pending; the prior-head review is not current-head approval."
+    },
+    "summary": {
+      "id": 5960027758,
+      "url": "https://github.com/yyczz1/FightMatch/pull/7#issuecomment-5960027758",
+      "updatedUtc": "2026-10-02T20:56:28Z",
+      "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T20:56:27.971748Z\">2026-10-02T20:56:27.971748Z</relative-time> | `4e10b0a` | Manual request |"
+    },
+    "result": {
+      "id": 5961346804,
+      "url": "https://github.com/yyczz1/FightMatch/pull/7#issuecomment-5961346804",
+      "createdUtc": "2026-10-02T20:56:26Z",
+      "rawBody": "Codex Review: Didn't find any major issues. Keep them coming!\n\n**Reviewed commit:** `4e10b0aa1e`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "reportedReviewedCommit": "4e10b0aa1e"
+    },
+    "binding": "New result and Completed summary prefixes match the full requested head and completion-time PR readback. Remote Git commit API confirms full SHA/tree and sole parent; PR base remains distinct from parent.",
+    "formalReviewRecords": [],
+    "inlineReviewThreads": [],
+    "findings": [],
+    "formalApprovalClaimed": false,
+    "interpretation": "Completed, no major issues reported for this head. No formal APPROVED submission and no guarantee all possible issues are absent."
+  },
+  "gates": {
+    "codeReview": "CLOSED_NO_MAJOR_ISSUES_REPORTED_FOR_FIXED_NEW_HEAD",
+    "correctedCompilation": "NOT_RUN",
+    "corrected18Cases": "NOT_RUN",
+    "old16Pass2Fail": "HISTORICAL_FAILURE_PRESERVED",
+    "realHostResourceStateAndDemo": "NOT_ACCEPTED",
+    "next": "Central/engineering own separately scoped corrected compilation and one full targeted 18-case run. This receipt does not activate execution, merge or release."
+  },
+  "thisTask": {
+    "reviewTriggers": 0,
+    "reviewMutations": 0,
+    "localCodeReviews": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "deviceOrCloudRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFile": "docs/team/2026-09-30/testing-host-settings-first-create-fix01-pr7-review-receipt.json"
+  }
+}

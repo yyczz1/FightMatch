@@ -1,0 +1,57 @@
+{
+  "task": "LAYOUT-N11-COLD-SCENE-PERSISTENCE-PROBE",
+  "date": "2026-10-06",
+  "status": "PREPARE_AND_REQUEST_NORMAL_COMMAND_APPROVAL",
+  "authority": "用户已授权真实场景修复、保存复开、限定验证及团队接续。中央批准新的隔离反事实诊断准备，不批准生产资产修复或改变验收门。实际一次运行仍由唯一C提交新具体命令的正常工具审批；N10许可已消耗。",
+  "basis": {
+    "diagnosis": "docs/team/2026-09-30/engineering-layout-n10-persistence-diagnosis.md：8180B/fd574aae84ebf4b969718c96c1755ebd0e58e85582e604e423f1b6922f343999",
+    "SYSActual": "01a10ee4-4b9c-7c40-af7b-2d5244267c57，completed/停写",
+    "engineeringReceiptActual": "01a10eec-4b0a-7831-884b-2b5fe5eed023",
+    "nativeReceipt": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/PExecution/receipt.json：1408163B/b120ae7dc46870e9267f47c6c723f8059c14d0fb34147f7bb9da6fae6079dc5d",
+    "known": "未Set时三个Editor几何样本均通过；Set/Get22后SaveTrue但磁盘仍原27。现有证据不确定是否重建，亦不覆盖首次Player/Host功能。RuntimeCanvas为Prefab子节点，不能简单援引最外层根default override；原P1与N10 NEEDS_FIX均保持。"
+  },
+  "roles": {"engineering": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local唯一收C", "executor": "复用01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local并绑定fresh actual", "model": "gpt-6-astra", "thinking": "xhigh", "workflow": "主程写短差量合同即可；C准备限定诊断工具并串行执行。不是产品实现，不再派SYS/新聊天或重复审查。按准备/审批/完成事件回传，闲置回合不轮询。"},
+  "inheritSafety": "复用N10已实际执行的固定Intel Unity2022.3.18f1、projection、原共享/投影源及资源保护、进程身份/监护/资源预算/失败收尾/原证据冻结。明确替换产品Repair入口/旧P三JSON与Scene导出为本探针；不调用现有RepairLayoutSceneOverrides，不改B/T或现有任何Assets。",
+  "fixedBaseline": {
+    "scene": "Assets/Scenes/FightMatchDemo.unity：12900B/0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd",
+    "prefab": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab：1322960B/0064bbee5e0d84dfdfd627310a9abada5093252bb26cf363d0646b38586f19d2",
+    "source": "共享/投影B/T都为N10 SOURCE固定后像，其余13源/37资源不变；当前两DLL采用N10实际after新身份，不再沿用N09 DLL前像。N10全部20叶4784728B冻结，N10和N09 TMP按实际清单保护；更早缺失TMP事实保留。"
+  },
+  "preparationScope": {
+    "engineeringWrites": ["docs/team/2026-09-30/engineering-layout-n11-probe-plan.md", "docs/team/2026-09-30/engineering.md"],
+    "artifactRoot": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N11",
+    "CMayCreateBeforeApproval": ["S/scene-original.unity", "S/scene-cold22.unity", "S/FightMatchCanvasPersistenceProbe.cs", "I/activation.json", "PExecution/runner.py", "PExecution/preparation.json"],
+    "coldFixture": "scene-original逐字复制固定原Scene；scene-cold22只移除同PrefabInstance1017091371、源GUID c36df3cfc25424c8cb3ec6cae6be1237、源Canvas1013562322995895578的m_AnchorMax.xy和m_LocalScale.xyz五个原始0记录块，每块恰1次，其余字节完全不变。冻原27/冷22的完整键和字节/hash。只在S中制作反事实，不写真实Scene。",
+    "probeSource": "唯一独立Editor静态入口FightMatch.Host.Editor.FightMatchCanvasPersistenceProbe.Execute；仅为本包观测和一次marker保存。源码≤300非空行，不压行规避；固定输入/输出路径、nonce和阶段边界，完整错误收尾。不得调用产品Repair或增改产品源码。",
+    "runner": "由N10 runner继承安全骨架，去掉仅属旧产品流程的调用/结果解析，改为本包冷副本、阳性marker和诊断结果；≤700非空行，无旁路runner。所有原保护/进程/资源守卫保持或明确映射，不能以删守卫降行数。",
+    "checks": "最多3轮累计30秒，仅新源/runner必要语法/范围/固定输入/副本精确差量/结果分类与marker归属的无副作用fixture；首轮通过即停。完整记录写preparation，原始stdout只输出可完整接收的摘要/检查名/计数/身份/预算，总≤8KiB，不回显巨型manifest/fixture，失败细节完整留JSON。C#未编译须如实标记。",
+    "TMP": "新/private/tmp/fm-ln11.XXXXXXXX，沿原≤40字节/0700/同UID/无link/初始空/16MiB和512叶，封存身份并保留；仅当前TMPDIR变，原UPM_CACHE_ROOT保持。",
+    "beforeApproval": "只写上述N11准备叶和空TMP；projection无新文件，不同步或改原源/资产，不启动Unity。封签后由C提交新的具体runner命令正常require_escalated审批。"
+  },
+  "approvedExecutionIfToolPermits": {
+    "temporaryProjectionWrites": [
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/projection/Assets/Scenes/FightMatchCanvasPersistenceProbe.unity",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/projection/Assets/Scenes/FightMatchCanvasPersistenceProbe.unity.meta",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/projection/Assets/Scripts/FightMatch/Host/Editor/FightMatchCanvasPersistenceProbe.cs",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/projection/Assets/Scripts/FightMatch/Host/Editor/FightMatchCanvasPersistenceProbe.cs.meta"
+    ],
+    "copyAndImport": "四路径事先必须缺席且无link；批准后仅把S冷22及探针源各复制一次到上述新路径。两meta只允许Unity自然生成，记录真实GUID/字节，不手编meta。不改原FightMatchDemo、Prefab、B/T、其它Assets/meta/settings。新Scene GUID与原Scene不同，按本副本实际身份取证，不冒充原Scene实例ID。",
+    "compile": "新probe所属Host.Editor须实际Csc、新DLL及源码绑定；其它程序集实际编译/复用如实记录，不删DLL/清缓存强迫重编。不运行测试。",
+    "flow": "唯一新Unity进程导入后运行专用入口，先核冷副本仍恰为S冷22磁盘字节，再冷Open该副本；记录load返回及恰两次自然Editor update后的观测。加一个唯一命名的独立根GameObject FightMatchPersistenceProbe_N11，只有Unity自带Transform，无其它组件/脚本，无Canvas父子关系。记录其归属/实际ID作为保存阳性对照，Save该副本最多1次，保存后立即保留实际磁盘快照与观察。关闭后同路径只读Reopen1，再记录load返回及恰两次自然update；禁止再次保存。",
+    "sampling": "最多五个边界快照：初载、初载两update后、Save返回后、复开返回、复开两update后。每段自然update恰2次/截止5秒，不以等到几何通过作为结束条件。记录完整Get修改数组、五字段有效值/driver/实际几何、原22内容/次数/相对序、磁盘五块和marker状态。此处几何和内存条数是观测，不把未达旧产品门当作提前停止收证理由。异常/身份/隔离/保护失配仍立即停止。",
+    "forbiddenProbeCalls": "不得SetPropertyModifications、Revert、RecordPrefabInstancePropertyModifications、ForceUpdateCanvases、QueuePlayerLoopUpdate、Play/Player/Host.Bind、反射读取私有驱动缓存、修改Canvas属性/组件启用状态或修补数据。读取API不被描述为原生writer的证明。",
+    "ownedScenes": "只关闭本次probe打开的Scene；必要时可创建一个自有未保存Empty Additive Scene避免关闭最后Scene错误，最终由进程退出释放，不能保存/导出空Scene。清理错误不覆盖首错；没有直接计数的调用不能编造次数。",
+    "artifactWritesDuringRun": ["PExecution/before.json", "PExecution/after.json", "PExecution/process.json", "PExecution/process-events.jsonl", "PExecution/editor.log", "PExecution/receipt.json", "P/native-probe.json", "P/scene-after-save.unity", "P/scene-final.unity", "P/scene.meta", "P/probe-source.meta"],
+    "evidence": "完整结构化观测放P/native-probe.json（≤1MiB，CreateNew），日志只给有界阶段/计数/结果或错误摘要，不内联完整数组。两Scene快照各≤1MiB，只是新诊断副本的实际后像；P/meta保存自然生成证据。即使UNKNOWN/失败也保留已有观测与原始后像，不伪造未达到阶段。",
+    "comparison": "先定位唯一marker的GameObject/Transform两对象及其SceneRoots单条新增引用，核无其它组件/子节点/既有层级变更；仅为机械比较在内存剥离这些已识别新增片段，再与冷22和原27完整字节比对，不实际重写Scene以得出匹配。若marker身份/结构或任何其它变化无法精确解释，分类UNKNOWN并保留差量。",
+    "outcomes": {
+      "RECREATED_WITH_MARKER": "marker确实落盘且复开保留；剥离marker后磁盘精确回到原27，五项重现且其它字节不变。支持不依赖旧Set的重建路径；不是引擎bug、正常占位或产品通过的结论。",
+      "COLD22_ROUNDTRIPPED_WITH_MARKER": "marker落盘且复开保留；剥离marker后磁盘精确等冷22，复开未改字节。排除‘此冷路径保存必重建五项’，不能自动将手改YAML变成生产修复。",
+      "UNKNOWN": "marker未落盘/混合状态/未解释变化/未完成/异常；即停，不另开一轮。记录观察到的部分事实，不强行归入前两类。"
+    },
+    "cleanupNewAssets": "进程及owned完全闭合后，先封存本次新Scene最终后像和两meta，再以本次创建记录＋fresh hash/无link核对仅四个新增projection文件，可逐个删除恢复其原缺席状态。遇身份漂移则保留并报告，不强删；不删除任何原文件/目录，不还原或改写原B/T/Scene/Prefab。Library诊断编译产物如实记录，禁止清缓存；后续产品验证不得冒称本次诊断DLL已验证产品。",
+    "budgets": "preflight≤120秒；Unity启动1次、含新probe编译/import≤120秒（为新诊断源留编译余量，观测等待仍每段5秒）；Save≤1/复开≤1/retry0。原cache1GiB/派生4GiB/log8MiB/free≥2GiB/监护≤2秒保持。自然收尾60秒，fresh owned各至多TERM1后30秒，无KILL/外来信号。N11固定最多17叶/总≤201326592B；不把预算余量视为新增文件许可。"
+  },
+  "acceptanceAndReturn": "只交DIAGNOSTIC_READY及明确outcome，或BLOCKED/UNKNOWN与事实；不是ACCEPT或场景修复。主程核实际命令、源码/副本身份、保存阳性与完整结果、保护/临时新增叶清理及C completed/停写，向中央回传。无变化不轮询；具体审批pending给准确卡位置/可见ID/命令，若拒绝原样记录并停，不改路径/权限/执行者绕行。",
+  "excluded": "共享产品源码/Scene/Prefab/meta写入或导出、旧证据改写、112发现/测试、Play/Android/Host功能验证、真实存档、LOC、Git发布/审查/resolve、依赖/引擎/配置变更。任何验收门修订和产品后继另签；原P1及N10 NEEDS_FIX保持。"
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17 FIX03 exact-head GitHub review receipt",
+  "verdict": "PENDING",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6055661696",
+  "triggerId": 6055661696,
+  "expectedHead": "c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d",
+  "parentHead": "6dfdc1897533d7734937f9c6964bccfc7c8be4d9",
+  "observedHeadAtDeadline": "c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d",
+  "actualQaTurn": "01a11a93-917d-7b32-8617-cbb587fc7201",
+  "boundedWait": {
+    "startedAtUtc": "2026-10-08 08:14:07 UTC",
+    "deadlineUtc": "2026-10-08 08:22:07 UTC",
+    "lastCheckUtc": "2026-10-08 08:22:00 UTC",
+    "maximumSeconds": 480
+  },
+  "publication": {
+    "manifest": "docs/team/2026-09-30/loc-m17-fix03-publication.json",
+    "head": "c3e017f2fe071f71aa0ed4ad73a927fab7a8e09d"
+  },
+  "latestSummary": {
+    "id": 5928035293,
+    "status": "Running",
+    "updatedAtUtc": "2026-10-08T08:12:50Z",
+    "runningSinceUtc": "2026-10-08T08:12:48.702106Z",
+    "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-5928035293"
+  },
+  "exactHeadReview": null,
+  "reviewId": null,
+  "reviewState": null,
+  "reviewSubmittedAtUtc": null,
+  "reviewUrl": null,
+  "resultComment": null,
+  "matchingReviewCount": 0,
+  "newFindings": null,
+  "formalApproved": false,
+  "deliveryContext": {
+    "targetedCases": 26,
+    "targetedSeconds": 0.112,
+    "prepareSeconds": 5.103700458,
+    "prepareBudgetSeconds": 5,
+    "prepareOverrunSeconds": 0.103700458,
+    "overrunRecorded": true
+  },
+  "priorState": {
+    "M04": "FAILED; GET count 0; restore count 0",
+    "newMaterialExecutionAuthorized": false
+  },
+  "note": "At the eight-minute deadline, the PR head still matched expectedHead, but the exact-head reviews list had no review entity, no completion result comment was present, and the service summary remained Running. This is PENDING, not a zero-findings result or approval. No review was triggered; no local review, test, native run, or material execution was performed."
+}

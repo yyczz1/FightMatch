@@ -1,0 +1,1002 @@
+{
+  "task": "RES-CD-JOINT-MAC-001",
+  "status": "VALIDATION_PASSED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a0ffa1-e461-7d31-a202-783a04d43b46"
+  },
+  "startedUtc": "2026-10-03T02:53:19.235006+00:00",
+  "finishedUtc": "2026-10-03T02:55:25.126393+00:00",
+  "failure": null,
+  "run": {
+    "bytes": 130394,
+    "sha256": "d440b8329e0c14828c949a5652b4b3ad0fab617fad58b16fc5bff2c78f93d957"
+  },
+  "runner": {
+    "bytes": 34490,
+    "sha256": "a8bde20854353b481d2caee698315f88cf18c5c744e17d73f4aa439a94ec0117"
+  },
+  "sourceReceipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source-receipt.json",
+    "bytes": 10990,
+    "sha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db"
+  },
+  "priorM02Receipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/M02/receipt.json",
+    "bytes": 4673,
+    "sha256": "72b3bc89497facbd48ebdd587016ae41fc24fefe038ef6cab6faeb736996fffb"
+  },
+  "close02Receipt": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/CLOSE02/receipt.json",
+    "bytes": 8582,
+    "sha256": "f8c3f168ccfc45658450625cb62ddfe9764cb5f7ceef53245c2263fee7c31e2d"
+  },
+  "sourceGroups": {
+    "D": {
+      "sourceOwner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a0ff91-478a-7673-9997-43cd6e001e7c"
+      },
+      "sourceReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source-receipt.json",
+        "bytes": 10990,
+        "sha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db"
+      },
+      "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source",
+      "sourceInventory": {
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+          "bytes": 31863,
+          "sha256": "1dcd1288125b2c1f2ed26d6be9a4cfdd28ae59ae024e584b1b7a42137cc6061a"
+        },
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+          "bytes": 56352,
+          "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+        }
+      },
+      "testFullnames": [
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners"
+      ],
+      "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests",
+      "reviewHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+      "reviewTree": "bffe603ff99400d79b4c9791314f227242fcad13",
+      "publicationReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/resource-codec-fix02-publication-receipt.json",
+        "bytes": 942,
+        "sha256": "79e54fe9d3dce05dba0044cc50d923760b816b1c0f8d078afdf6cd66fc0ef8a2"
+      },
+      "previousHeadNotForFIX02": "bf3098717d3c2b0bd02eeac9c6c0562711c87b00"
+    },
+    "C": {
+      "sourceOwner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a0ff4d-c65b-7941-9245-8e6aed391278"
+      },
+      "sourceReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source-receipt.json",
+        "bytes": 14107,
+        "sha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2"
+      },
+      "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source",
+      "sourceInventory": {
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+          "bytes": 16451,
+          "sha256": "18d5695eef979e549581fc737b0fc25753de2cd47c8ebca06be0a4e428b6663c"
+        },
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+          "bytes": 26749,
+          "sha256": "ffd0e2df85720ca23a812a2fde3808225eb17973fb4b252f5a632ef4947b2b78"
+        }
+      },
+      "testFullnames": [
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly"
+      ],
+      "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests",
+      "reviewHead": null
+    }
+  },
+  "candidate": {
+    "kind": "FIXED_COMPOSITE_B_PLUS_D_FIX02_AND_C_CONTRACT_NOT_SINGLE_PR_HEAD",
+    "D": {
+      "sourceOwner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a0ff91-478a-7673-9997-43cd6e001e7c"
+      },
+      "sourceReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source-receipt.json",
+        "bytes": 10990,
+        "sha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db"
+      },
+      "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source",
+      "sourceInventory": {
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+          "bytes": 31863,
+          "sha256": "1dcd1288125b2c1f2ed26d6be9a4cfdd28ae59ae024e584b1b7a42137cc6061a"
+        },
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+          "bytes": 56352,
+          "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+        }
+      },
+      "testFullnames": [
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners"
+      ],
+      "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests",
+      "reviewHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+      "reviewTree": "bffe603ff99400d79b4c9791314f227242fcad13",
+      "publicationReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/resource-codec-fix02-publication-receipt.json",
+        "bytes": 942,
+        "sha256": "79e54fe9d3dce05dba0044cc50d923760b816b1c0f8d078afdf6cd66fc0ef8a2"
+      },
+      "previousHeadNotForFIX02": "bf3098717d3c2b0bd02eeac9c6c0562711c87b00"
+    },
+    "C": {
+      "sourceOwner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a0ff4d-c65b-7941-9245-8e6aed391278"
+      },
+      "sourceReceipt": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source-receipt.json",
+        "bytes": 14107,
+        "sha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2"
+      },
+      "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source",
+      "sourceInventory": {
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+          "bytes": 16451,
+          "sha256": "18d5695eef979e549581fc737b0fc25753de2cd47c8ebca06be0a4e428b6663c"
+        },
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+          "bytes": 26749,
+          "sha256": "ffd0e2df85720ca23a812a2fde3808225eb17973fb4b252f5a632ef4947b2b78"
+        }
+      },
+      "testFullnames": [
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+        "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly"
+      ],
+      "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests",
+      "reviewHead": null
+    },
+    "DReviewHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+    "CReviewHead": null
+  },
+  "priorP03Verdict": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P03/final-verdict.json",
+    "bytes": 2316,
+    "sha256": "36b5028f50f61b6f5e1a670dcc510d0c8512a36b54045b40a62df12a6d9742ff"
+  },
+  "stages": [
+    {
+      "stage": "I",
+      "status": "PASSED",
+      "runCount": 1,
+      "pid": 68990,
+      "exitCode": 0,
+      "elapsedSeconds": 82.716119
+    },
+    {
+      "stage": "T",
+      "status": "PASSED",
+      "runCount": 1,
+      "pid": 69391,
+      "exitCode": 0,
+      "elapsedSeconds": 22.124375
+    }
+  ],
+  "tests": {
+    "groups": {
+      "D": {
+        "source": {
+          "sourceOwner": {
+            "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+            "host": "local",
+            "turn": "01a0ff91-478a-7673-9997-43cd6e001e7c"
+          },
+          "sourceReceipt": {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source-receipt.json",
+            "bytes": 10990,
+            "sha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db"
+          },
+          "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source",
+          "sourceInventory": {
+            "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+              "bytes": 31863,
+              "sha256": "1dcd1288125b2c1f2ed26d6be9a4cfdd28ae59ae024e584b1b7a42137cc6061a"
+            },
+            "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+              "bytes": 56352,
+              "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+            }
+          },
+          "testFullnames": [
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners"
+          ],
+          "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests",
+          "reviewHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+          "reviewTree": "bffe603ff99400d79b4c9791314f227242fcad13",
+          "publicationReceipt": {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/resource-codec-fix02-publication-receipt.json",
+            "bytes": 942,
+            "sha256": "79e54fe9d3dce05dba0044cc50d923760b816b1c0f8d078afdf6cd66fc0ef8a2"
+          },
+          "previousHeadNotForFIX02": "bf3098717d3c2b0bd02eeac9c6c0562711c87b00"
+        },
+        "total": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "inconclusive": 0,
+        "cases": [
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+            "result": "Passed",
+            "duration": "0.179600",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+            "result": "Passed",
+            "duration": "0.010421",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+            "result": "Passed",
+            "duration": "0.015721",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+            "result": "Passed",
+            "duration": "0.171422",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+            "result": "Passed",
+            "duration": "0.059676",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+            "result": "Passed",
+            "duration": "0.525134",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+            "result": "Passed",
+            "duration": "0.286527",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+            "result": "Passed",
+            "duration": "0.085885",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+            "result": "Passed",
+            "duration": "0.148165",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+            "result": "Passed",
+            "duration": "0.060529",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+            "result": "Passed",
+            "duration": "0.239807",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+            "result": "Passed",
+            "duration": "0.019089",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners",
+            "result": "Passed",
+            "duration": "0.033469",
+            "failure": null
+          }
+        ],
+        "exactNamedMultiset": true,
+        "testVerdict": "PASSED",
+        "nativeGateVerdict": "VALIDATION_PASSED",
+        "integrationVerdict": null
+      },
+      "C": {
+        "source": {
+          "sourceOwner": {
+            "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+            "host": "local",
+            "turn": "01a0ff4d-c65b-7941-9245-8e6aed391278"
+          },
+          "sourceReceipt": {
+            "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source-receipt.json",
+            "bytes": 14107,
+            "sha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2"
+          },
+          "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source",
+          "sourceInventory": {
+            "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+              "bytes": 16451,
+              "sha256": "18d5695eef979e549581fc737b0fc25753de2cd47c8ebca06be0a4e428b6663c"
+            },
+            "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+              "bytes": 26749,
+              "sha256": "ffd0e2df85720ca23a812a2fde3808225eb17973fb4b252f5a632ef4947b2b78"
+            }
+          },
+          "testFullnames": [
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+            "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly"
+          ],
+          "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests",
+          "reviewHead": null
+        },
+        "total": 10,
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "inconclusive": 0,
+        "cases": [
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+            "result": "Passed",
+            "duration": "0.022325",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+            "result": "Passed",
+            "duration": "0.016550",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+            "result": "Passed",
+            "duration": "0.006723",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+            "result": "Passed",
+            "duration": "0.003763",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+            "result": "Passed",
+            "duration": "0.005096",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+            "result": "Passed",
+            "duration": "0.002811",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+            "result": "Passed",
+            "duration": "0.003736",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+            "result": "Passed",
+            "duration": "0.021104",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+            "result": "Passed",
+            "duration": "0.007741",
+            "failure": null
+          },
+          {
+            "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly",
+            "result": "Passed",
+            "duration": "0.010365",
+            "failure": null
+          }
+        ],
+        "exactNamedMultiset": true,
+        "testVerdict": "PASSED",
+        "nativeGateVerdict": "VALIDATION_PASSED",
+        "integrationVerdict": null
+      }
+    },
+    "xml": {
+      "bytes": 15849,
+      "sha256": "0ae94cd80ab454a291af1f8acc2ad8a4ef394cf7a5c3370d8c2c6f488290e63d"
+    },
+    "rawRootAttributes": {
+      "id": "2",
+      "testcasecount": "23",
+      "result": "Passed",
+      "total": "23",
+      "passed": "23",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-03 02:54:59Z",
+      "end-time": "2026-10-03 02:55:01Z",
+      "duration": "2.4017968"
+    },
+    "cases": [
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+        "result": "Passed",
+        "duration": "0.179600",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+        "result": "Passed",
+        "duration": "0.010421",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+        "result": "Passed",
+        "duration": "0.015721",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+        "result": "Passed",
+        "duration": "0.171422",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+        "result": "Passed",
+        "duration": "0.059676",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+        "result": "Passed",
+        "duration": "0.525134",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+        "result": "Passed",
+        "duration": "0.286527",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+        "result": "Passed",
+        "duration": "0.085885",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+        "result": "Passed",
+        "duration": "0.148165",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+        "result": "Passed",
+        "duration": "0.060529",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+        "result": "Passed",
+        "duration": "0.239807",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+        "result": "Passed",
+        "duration": "0.019089",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners",
+        "result": "Passed",
+        "duration": "0.033469",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+        "result": "Passed",
+        "duration": "0.022325",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+        "result": "Passed",
+        "duration": "0.016550",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+        "result": "Passed",
+        "duration": "0.006723",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+        "result": "Passed",
+        "duration": "0.003763",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+        "result": "Passed",
+        "duration": "0.005096",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+        "result": "Passed",
+        "duration": "0.002811",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+        "result": "Passed",
+        "duration": "0.003736",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+        "result": "Passed",
+        "duration": "0.021104",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+        "result": "Passed",
+        "duration": "0.007741",
+        "failure": null
+      },
+      {
+        "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly",
+        "result": "Passed",
+        "duration": "0.010365",
+        "failure": null
+      }
+    ],
+    "exactNamedMultiset": true,
+    "total": 23,
+    "passed": 23,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "groupResults": {
+    "D": {
+      "source": {
+        "sourceOwner": {
+          "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+          "host": "local",
+          "turn": "01a0ff91-478a-7673-9997-43cd6e001e7c"
+        },
+        "sourceReceipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source-receipt.json",
+          "bytes": 10990,
+          "sha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db"
+        },
+        "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source",
+        "sourceInventory": {
+          "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+            "bytes": 31863,
+            "sha256": "1dcd1288125b2c1f2ed26d6be9a4cfdd28ae59ae024e584b1b7a42137cc6061a"
+          },
+          "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": {
+            "bytes": 56352,
+            "sha256": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+          }
+        },
+        "testFullnames": [
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners"
+        ],
+        "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests",
+        "reviewHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+        "reviewTree": "bffe603ff99400d79b4c9791314f227242fcad13",
+        "publicationReceipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/docs/team/2026-09-30/resource-codec-fix02-publication-receipt.json",
+          "bytes": 942,
+          "sha256": "79e54fe9d3dce05dba0044cc50d923760b816b1c0f8d078afdf6cd66fc0ef8a2"
+        },
+        "previousHeadNotForFIX02": "bf3098717d3c2b0bd02eeac9c6c0562711c87b00"
+      },
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "cases": [
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D01_CanonicalVectorRoundTrips",
+          "result": "Passed",
+          "duration": "0.179600",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D02_ExternalPinIsRequired",
+          "result": "Passed",
+          "duration": "0.010421",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D03_MatchingPinDoesNotEstablishAuthority",
+          "result": "Passed",
+          "duration": "0.015721",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D04_ExactKeysAndTrailingAreRejected",
+          "result": "Passed",
+          "duration": "0.171422",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D05_EncodingAndIntegerGrammarAreStrict",
+          "result": "Passed",
+          "duration": "0.059676",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D06_ByteDepthNodeEntryStringBudgetsHold",
+          "result": "Passed",
+          "duration": "0.525134",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D07_PhysicalLengthsAndTotalsAreBounded",
+          "result": "Passed",
+          "duration": "0.286527",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D08_AllNestedHashesAreBound",
+          "result": "Passed",
+          "duration": "0.085885",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D09_PhysicalAndScopeReferencesAreClosed",
+          "result": "Passed",
+          "duration": "0.148165",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D10_BusinessAndTextSlotsStayDistinct",
+          "result": "Passed",
+          "duration": "0.060529",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D11_SetPlatformKindAndOrderingAreExact",
+          "result": "Passed",
+          "duration": "0.239807",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D12_InputAndOutputCopiesAreIsolated",
+          "result": "Passed",
+          "duration": "0.019089",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceReleaseSetTests.D13_RawPhysicalLeavesHaveExclusiveOwners",
+          "result": "Passed",
+          "duration": "0.033469",
+          "failure": null
+        }
+      ],
+      "exactNamedMultiset": true,
+      "testVerdict": "PASSED",
+      "nativeGateVerdict": "VALIDATION_PASSED",
+      "integrationVerdict": null
+    },
+    "C": {
+      "source": {
+        "sourceOwner": {
+          "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+          "host": "local",
+          "turn": "01a0ff4d-c65b-7941-9245-8e6aed391278"
+        },
+        "sourceReceipt": {
+          "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source-receipt.json",
+          "bytes": 14107,
+          "sha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2"
+        },
+        "sourceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source",
+        "sourceInventory": {
+          "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+            "bytes": 16451,
+            "sha256": "18d5695eef979e549581fc737b0fc25753de2cd47c8ebca06be0a4e428b6663c"
+          },
+          "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+            "bytes": 26749,
+            "sha256": "ffd0e2df85720ca23a812a2fde3808225eb17973fb4b252f5a632ef4947b2b78"
+          }
+        },
+        "testFullnames": [
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+          "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly"
+        ],
+        "classFullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests",
+        "reviewHead": null
+      },
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "cases": [
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+          "result": "Passed",
+          "duration": "0.022325",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+          "result": "Passed",
+          "duration": "0.016550",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+          "result": "Passed",
+          "duration": "0.006723",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+          "result": "Passed",
+          "duration": "0.003763",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+          "result": "Passed",
+          "duration": "0.005096",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+          "result": "Passed",
+          "duration": "0.002811",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+          "result": "Passed",
+          "duration": "0.003736",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+          "result": "Passed",
+          "duration": "0.021104",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+          "result": "Passed",
+          "duration": "0.007741",
+          "failure": null
+        },
+        {
+          "fullname": "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly",
+          "result": "Passed",
+          "duration": "0.010365",
+          "failure": null
+        }
+      ],
+      "exactNamedMultiset": true,
+      "testVerdict": "PASSED",
+      "nativeGateVerdict": "VALIDATION_PASSED",
+      "integrationVerdict": null
+    }
+  },
+  "notRunStages": [],
+  "remainingOwned": [],
+  "consumerGatePassed": true,
+  "consumer": {
+    "consumerGate": "CLEAR",
+    "retainedAdb": {
+      "utc": "2026-10-03T02:55:25.123576+00:00",
+      "originalAdb": "ABSENT",
+      "pid": 63318
+    },
+    "globalConsumerClear": true
+  },
+  "globalConsumerClear": true,
+  "ownedClosureComplete": true,
+  "foreignObservations": [],
+  "scopeDifferences": [],
+  "evidence": {
+    "runner.py": {
+      "bytes": 34490,
+      "sha256": "a8bde20854353b481d2caee698315f88cf18c5c744e17d73f4aa439a94ec0117"
+    },
+    "process-after.json": {
+      "bytes": 14722,
+      "sha256": "0ddbb37d61c61cc9ae43d0cca54cc15f85b5e22a895108572bed1799cc5e2bcb"
+    },
+    "assemblies.json": {
+      "bytes": 7932,
+      "sha256": "d8161e6566095a42e52261a6178b3f81e6bacb6092f0b9b96cd5943673d0975e"
+    },
+    "after.json": {
+      "bytes": 6476,
+      "sha256": "ebe5cbba569d92ff39696df4f45ffc129e6285ca255502f261b09bf4626f8a37"
+    },
+    "process-events.jsonl": {
+      "bytes": 47747,
+      "sha256": "0fb23eb1268392877cfe790a99cd134c037302efae68f4264564ca8e8c776e29"
+    },
+    "preflight.json": {
+      "bytes": 41602,
+      "sha256": "bf9a03c4706e4444b241e6db50b4182223a706cd5ebd149e60d39fd62dc93e9e"
+    },
+    "run.json": {
+      "bytes": 130394,
+      "sha256": "d440b8329e0c14828c949a5652b4b3ad0fab617fad58b16fc5bff2c78f93d957"
+    },
+    "I/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "I/result.json": {
+      "bytes": 6121,
+      "sha256": "16de43e9a6ded49c5d7c0fcb8ccab44733e6c3da76f77d1aa3ad8b4e2c13b6dd"
+    },
+    "I/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "I/editor.log": {
+      "bytes": 70393,
+      "sha256": "4c64dc7e26afa453635bb946124cb0457b5bb5ac2a1d4412ce09953bc0a2a408"
+    },
+    "T/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T/result.json": {
+      "bytes": 24688,
+      "sha256": "28907ff0c8c0df31fd3d7839e45a0a4dcc05a221c82dd037136140aefa8bc6bb"
+    },
+    "T/results.xml": {
+      "bytes": 15849,
+      "sha256": "0ae94cd80ab454a291af1f8acc2ad8a4ef394cf7a5c3370d8c2c6f488290e63d"
+    },
+    "T/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T/editor.log": {
+      "bytes": 92672,
+      "sha256": "219ea474be788f131c82e27956fae69d47da208e91b90ba274d31ac487cfa21d"
+    }
+  },
+  "authorIntegrationVerdict": null,
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "unrun": [
+    "real BuiltIn/manifest/object dependencies",
+    "empty/offline cache",
+    "raw",
+    "CD/Host/UI",
+    "devices",
+    "Windows",
+    "Android",
+    "Player",
+    "shared adoption",
+    "discovery",
+    "B38/old37/17/4181"
+  ],
+  "previousAutoReviewBlocks": "FIX04 native and LOC M16 unchanged"
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "verdict": "ACCEPT",
+  "scope": "Only the published activation-store and resource-admission source modules and their fixed-composite Mac behavior; no whole-PR tree, Host, real resource package, Android/Windows/device, shared adoption or full Demo acceptance.",
+  "candidates": [
+    {
+      "pr": "https://github.com/yyczz1/FightMatch/pull/13",
+      "head": "d9c15b361c76ea95d2d0d87b44cbe20ea005c38a",
+      "tree": "57b7b01554a9d7d854898d507d9e240d82bf5d59",
+      "codeReviewComment": 5967547456,
+      "codeGate": "NO_MAJOR_ISSUES_REPORTED_ON_FIXED_HEAD",
+      "formalApproval": false
+    },
+    {
+      "pr": "https://github.com/yyczz1/FightMatch/pull/14",
+      "head": "5cfa73524abe2b4aea5de213c678f60b2c59fa1f",
+      "tree": "612164b8805a7cf971406bdd8700243b1ffa9d0b",
+      "codeReviewComment": 5967529708,
+      "codeGate": "NO_MAJOR_ISSUES_REPORTED_ON_FIXED_HEAD",
+      "formalApproval": false
+    }
+  ],
+  "native": {
+    "receipt": "TestArtifacts/FightMatch/RES-ACTIVATION-FACTORY-JOINT-001/M02/receipt.json",
+    "sha256": "91a6b41505875a0a86e8c1ee2fe4aa37b18166d036c0a076896e567fd923f23b",
+    "xmlSha256": "d76564a535c0c3bcdb6bb0d806e4ca8af12dd1e3fa59a104377ed9bd66e6e75f",
+    "passed": 40,
+    "total": 40,
+    "groups": {
+      "AS": 8,
+      "RAW": 13,
+      "FAD": 6,
+      "D": 13
+    },
+    "compilerExit": 0,
+    "testExit": 0,
+    "runnerSeconds": 147.189027,
+    "preparationSeconds": 28.338188832974993,
+    "xmlSeconds": 8.4507685,
+    "termOwnedPid": 86624,
+    "remainingOwned": [],
+    "consumer": "CLEAR",
+    "scopeDifferences": [],
+    "lease": "EMPTY",
+    "oldAdbLogAppendedBytes": 0
+  },
+  "independentQa": [
+    {
+      "path": "docs/team/2026-09-30/testing-resource-as-factory-m02-receipt.json",
+      "sha256": "6520d491cb515f04055ad1e69ffcd8e37e3d9ad0ba3df686c8f3c12b0c251aef"
+    },
+    {
+      "path": "docs/team/2026-09-30/testing-resource-activation-pr13-review-receipt.json",
+      "sha256": "48182b7de176399d31c32d62b2d9cdc757c7b2c6a4a921b45978123bc514af9e"
+    },
+    {
+      "path": "docs/team/2026-09-30/testing-resource-admission-pr14-review-receipt.json",
+      "sha256": "d6cc25a43f01b063aaa19814245f9ea1807c272668e50677646204f90db59ced"
+    }
+  ],
+  "evidenceClarification": {
+    "reason": "The sealed QA receipt's CscGenerated array is incomplete. Raw I/editor.log lines 240,254,257,260,263,264,265 establish the following actual Csc actions; the original QA receipt remains unchanged.",
+    "requiredFive": [
+      "FightMatch.AssetAccess",
+      "FightMatch.YooAssetAdapter",
+      "FightMatch.Host",
+      "FightMatch.AssetAccess.Tests",
+      "FightMatch.Host.Tests"
+    ],
+    "additionalObserved": [
+      "FightMatch.Host.Editor",
+      "FightMatch.Core.Tests"
+    ],
+    "trackedDlls": 12,
+    "trackedChanged": 5,
+    "trackedUnchanged": 7,
+    "meaning": "Additional Csc actions are not claims that all generated outputs were unchanged or that additional tests ran."
+  },
+  "preservation": {
+    "oldM01": "PREPARATION_BLOCKED, I0/T0; original receipt 26a960220d6c8f84ccaf1480d5944730b12dc60b2db8d87ba1b2944b9e6345a2 remains unchanged.",
+    "historicalNativeHeads": "Null head fields remain in the original native receipt; publication manifests associate unchanged source/meta bytes with the two later heads.",
+    "priorRawPrefM02": "The older 128-case/log-variance limited receipt remains separate; it is not evidence for this new source."
+  },
+  "remaining": [
+    "Actual resource package/build inputs and Host integration.",
+    "Shared-checkout adoption and real process restart.",
+    "Windows and Android/device/full Demo acceptance."
+  ],
+  "git": {
+    "drafts": true,
+    "merged": false,
+    "localIndexChanged": false
+  }
+}

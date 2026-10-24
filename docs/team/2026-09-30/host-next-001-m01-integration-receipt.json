@@ -1,0 +1,68 @@
+{
+  "task": "HOST-NEXT-001/M01",
+  "receivedAtUtc": "2026-10-07T17:19:46.136934+00:00",
+  "receiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "completedExecution": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "actualTurn": "01a1173e-2a8b-7a72-b25d-b8fb01756014",
+    "waitCursor": "bd153adf-4a11-4788-8ba9-4674fa47eba5:89",
+    "status": "completed"
+  },
+  "integrationVerdict": "NEEDS_FIX",
+  "receipt": {
+    "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M01/receipt.json",
+    "bytes": 148324,
+    "sha256": "f160b1402a22c0dc48b7b766e8ef8ff14449b5fbd817a42d37fc906c78b63da8"
+  },
+  "observations": {
+    "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M01/P/observations.json",
+    "bytes": 81061,
+    "sha256": "6d008cff198f40c94a0dc7983b8c9d4cad7d59fda7b986de679559f6a4ae2530",
+    "values": {
+      "A": "PASS",
+      "B": "PASS",
+      "C": "PASS",
+      "D": "PASS",
+      "status": "FAILED",
+      "firstError": "System.ArgumentException: Invalid SceneManagerSetup:\n No loaded scene found.\n One active scene is required. Number of active scenes: 0\n  at (wrapper managed-to-native) UnityEditor.SceneManagement.EditorSceneManager.RestoreSceneManagerSetup(UnityEditor.SceneManagement.SceneSetup[])\n  at FightMatch.Host.Editor.FightMatchHostFirstFrameProbe.Finish () [0x0011b] in /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection/Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs:268 ",
+      "secondaryErrors": [],
+      "normalInteraction": "LOC_BLOCKED",
+      "earlyObserver": true,
+      "leaseReleased": true,
+      "persistentEmpty": true,
+      "gameReady": false,
+      "playEntries": 1,
+      "playExits": 1,
+      "firstFrame": 0,
+      "lastFrame": 2,
+      "naturalCallbacks": 4,
+      "validityEvents": 1,
+      "opens": 1,
+      "closes": 1,
+      "newScenes": 1,
+      "restores": 0,
+      "gameAdds": 1,
+      "gameRemoves": 1,
+      "gameRestores": 1,
+      "windowCloses": 1
+    }
+  },
+  "validation": "42 evidence leaves verified; native once; four observations preserved within probe conditions, while native/runner failed. No author result promoted to product acceptance.",
+  "fixes": [
+    "Recognize a narrowly verified Unity-created Android SDK adb process without signalling foreign processes.",
+    "Do not call RestoreSceneManagerSetup with an empty original setup; verify disk state even if cleanup fails.",
+    "Use verified custom-relative GameView removal index and validate actual removal.",
+    "Retain bounded resource/source monitoring throughout process closure."
+  ],
+  "restore": {
+    "path": "TestArtifacts/FightMatch/HOST-NEXT-001/M01/restore.json",
+    "bytes": 5114,
+    "sha256": "de74c1c2252cc521b3136ffd9bc7ac3b1713b442761ef770ef32c25720966dfe",
+    "complete": true,
+    "finalProjectionLeaves": 1008
+  },
+  "independentReview": "PR16 review remains valid only for unchanged product; no new approval claimed for this probe/scene combination; PR4 P1 open.",
+  "productSourceChanged": false,
+  "sceneExported": false,
+  "demoAccepted": false
+}

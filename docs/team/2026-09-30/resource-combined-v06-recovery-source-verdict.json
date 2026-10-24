@@ -1,0 +1,33 @@
+{
+  "task": "V06-RECOVERY-SOURCE",
+  "verdict": "ACCEPT",
+  "scope": "Source only; independent recovery not yet executed; V06 remains FAILED/T0.",
+  "head": "ea467bc0467d5c1d9426109757e5eaa650ca6621",
+  "tree": "da8e349858aabc05aa9d52715e8c7b73855905b7",
+  "reviewResult": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6052277540",
+  "formalApproved": false,
+  "qaActual": "01a119c4-9555-7ca0-8cf7-6c27704bed18",
+  "qaReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-pr20-v06-recovery-canonical-review-receipt.json",
+    "bytes": 1280,
+    "sha256": "073e7c3257d3b1ef5eb801f4c8161227ba5111d50df028a8d5304ac5dd9c4afb"
+  },
+  "sourceSeals": {
+    "recovery.py": {
+      "bytes": 35487,
+      "sha256": "33c4b65fc6f184a3ff26780817bc4ea11309e86b579012135aac467c772b2eb5"
+    },
+    "plan.json": {
+      "bytes": 318676,
+      "sha256": "1ec7e9334379e4d81d03f6165cc9c5cf564836fa81927772705156e7b0880b67"
+    },
+    "source-receipt.json": {
+      "bytes": 10310,
+      "sha256": "3e8c9ab339a339135d15d777c4f7785a124e8e22535a79301826d85e4d054bd1"
+    }
+  },
+  "validation": "Previously recorded 4 atomic, 2 park-route, 7 completion and 3 failure-output cases; no repeats. FIX03 exact field addition and canonical document publication mechanically checked.",
+  "historicalFindings": "Preserved in QA receipts; fixes at this reviewed head. GitHub unresolved thread flags retained.",
+  "recoveryRuns": 0,
+  "next": "C executes central-resource-combined-v06-recovery-execute.md once; 120 seconds, fresh actual identity, no Unity/tests/signals."
+}

@@ -1,0 +1,94 @@
+{
+  "plan": "docs/team/2026-09-30/engineering-localization-b-pref-source-activation.md",
+  "planSha256": "0a5fbbef98318825263d9d04d15cec991d510e9180aed040510835d695f740f9",
+  "planBytes": 8825,
+  "head": "3541930877837e14b58020b910976b8b67b56e42",
+  "inputs": [
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocaleId.cs",
+      "bytes": 559,
+      "sha256": "f5338ff0fdde20a362281380a7d84183f552ad23a7964edb51d042fca48174a5"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizationService.cs",
+      "bytes": 2786,
+      "sha256": "ca8b2c5f9b8afd864410b35f7ab9998c04a7b5ea9efdf3a51e8082b6dd54a408"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTextSource.cs",
+      "bytes": 1527,
+      "sha256": "0c830db5aa297a08e236e7a8edb7e42d62f3c779b1293b362733b450283901a6"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PresentationAssemblyInfo.cs",
+      "bytes": 258,
+      "sha256": "047029b17c9e84e9ec8666938680901897f4dd4457516d646b5d2c64be8145ad"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatch.Presentation.asmdef",
+      "bytes": 592,
+      "sha256": "b7c59f7de8581990dacc19ab111ae4be4805958333861ac4ec15b774db242de8"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/HostAssemblyInfo.cs",
+      "bytes": 176,
+      "sha256": "1dc94417f744f9a09f01c16af0f5ed720347d96d883f4304e5f3eb613e968fd5"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatch.Host.asmdef",
+      "bytes": 346,
+      "sha256": "85acabf7d4ec5e2b9970f9299ab2687cef131a4fa8213aa4f0aea9f70b4c0c7e"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatch.Host.Tests.asmdef",
+      "bytes": 479,
+      "sha256": "50da0a6cb45f6ba0b7a4b843bdc8d865595df7d15bdc1976d01dcd52f2437e03"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalePolicyTests.cs",
+      "bytes": 3575,
+      "sha256": "eb0af193bb66b0b7dc59be45066a7b56dcb4c1524ad31139b4b44bded387d9af"
+    }
+  ],
+  "newSourcePaths": [
+    "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs",
+    "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs",
+    "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+  ],
+  "evidenceRoot": "TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001",
+  "status": "AUTHORIZED_SOURCE_ONLY_S1",
+  "authority": "User-approved continuous first Demo and five-role workflow; central scoped S1 activation",
+  "ownerThread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52/local",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "I0Acceptance": {
+    "path": "docs/team/2026-09-30/ugui-fix22-integration-receipt.json",
+    "sha256": "89255ba4c154a37168895d2daa7a249ac09b4249888cdb932ade2de06fc14b04",
+    "scope": "Nine current inputs and corresponding-head review accepted for module implementation; not full Host acceptance"
+  },
+  "sourceScope": "Three listed C# only; no existing-file edits; natural meta deferred to separately activated discovery",
+  "evidenceAllowedNow": [
+    "evidence-files.tsv",
+    "binding.json",
+    "accepted-ugui.json",
+    "current-source-inputs.tsv",
+    "new-path-absence.tsv",
+    "preference-diagnostics.json",
+    "static-before/status-short.txt",
+    "static-before/name-status.txt",
+    "static-before/input-hashes.tsv",
+    "static-before/scope-verdict.json",
+    "static-after/status-short.txt",
+    "static-after/name-status.txt",
+    "static-after/diff-check.txt",
+    "static-after/new-file-hashes.tsv",
+    "static-after/protected-paths.txt",
+    "validation-tools/runner.py",
+    "source-receipt.json"
+  ],
+  "toolScope": "One <=250-line evidence runner; only discover/focused modes, no general framework; source only. Discovery shim stays inside original test C#; exact UTF1.1.33 API must be read locally. No actual Unity/dotnet/compiler/test/SDK/network/Git execution.",
+  "testDeclarationRule": "Map PREF01-21 to deterministic test declarations without claiming runtime leaf count; actual leaf/discovery and natural meta are later S2",
+  "failureRule": "Return precise scope/interface blocker; do not add files or relax assertions",
+  "nextGates": "Separate S2 natural import/discovery <=300s, actual head GitHub review, separate once-only S4 focused <=600s; not activated here"
+}

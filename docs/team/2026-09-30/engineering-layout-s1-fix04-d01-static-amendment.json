@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "task": "LAYOUT-FIX04-D01-FINAL-STATIC-AMENDMENT",
+  "status": "ACTIVATED_STATIC_ONLY",
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a10641-a816-71d1-919b-97413f71ea56"
+  },
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a10644-6d4d-7fb3-9f09-56c8ca168061"
+  },
+  "authority": "Central expressly authorized ordinary technical adaptations within the scoped D01 diagnostic; original native launch/source/asset limits are unchanged.",
+  "originalContract": {
+    "path": "docs/team/2026-09-30/engineering-layout-s1-fix04-d01.md",
+    "bytes": 8188,
+    "sha256": "f3e395bbf9a4552cc4602a314a68a5cc7114d57f967865a8b6f9c3e44a01dd05"
+  },
+  "reason": "Attempt1 51aa8a: checker quoting SyntaxError, body not executed. Attempt2 c2d89b: exact reverse-byte gate caught missing 12 leading spaces in one candidate executionRoot line. Read-only d513d7 located the sole drift; candidate indentation now corrected by apply_patch. Preserve both outcomes.",
+  "extraStaticAttempts": 1,
+  "newMaximumStaticAttempts": 3,
+  "totalStaticSecondsStill": 30,
+  "expectedCandidate": {
+    "bytes": 165612,
+    "sha256": "f097225191fa1bac7cddc26ae4dbb99fa5ee912146f583be2fde24f335d54a85"
+  },
+  "addedRemovedLines": 68,
+  "scope": "One final static run of the corrected prepared payload, including syntax, exact delta, no-save stop and protection checks. This is a newly authorized third attempt, not a reclassification or deletion of earlier failure.",
+  "recording": "Keep original D01 contract and failed attempts unchanged; bind this amendment in S/source-receipt and I/activation, retain actual commands, results and total elapsed time.",
+  "unchanged": [
+    "D01 twelve-file whitelist",
+    "Only isolated B diagnostic delta <=100 added+removed lines",
+    "Shared files zero writes",
+    "One Editor <=180 seconds, no retry or extra probe",
+    "Exact short owned TMP and original cleanup guards",
+    "Source seal then mechanically signed actual activation can directly proceed if this final static check passes"
+  ],
+  "onFailure": "Seal exact failure and stop; no fourth static attempt or native launch."
+}
+

@@ -1,0 +1,42 @@
+{
+  "task": "LAYOUT-S1-FIX04-N09-SOURCE",
+  "date": "2026-10-06",
+  "authority": "接续用户已授权的真实场景修复及本轮‘卡在哪里了，是否能够继续’；普通诊断缺陷在原产品范围内修正。只批准源码准备，不重跑N08。",
+  "owner": "主程01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "author": "原作者01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c/local",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "prerequisite": "主程先完成engineering-layout-n08-recovery-receipt.json，确认没有活动写入及当前B/受保护输入身份，再派本包；不补造N08最终执行回执。",
+  "inputB": {"path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs", "bytes": 189888, "sha256": "e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd"},
+  "read": [
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/S/source-receipt.json",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/PExecution/editor.log",
+    "docs/team/2026-09-30/engineering-layout-n08-recovery-receipt.json"
+  ],
+  "problem": "N08第二个sample的完整JSON在Debug.Log之前超过8192字节门，所需after-force差量未落盘。不能把未知数据截断、丢字段或弱化验收来通过。",
+  "design": [
+    "仅调整B异步修复流程的诊断输出和N09固定标识。完整现有LayoutOverrideLog JSON编码保留，写到本次N09/D/override-diff-00.json至override-diff-08.json；序号对应原有sample索引。",
+    "每sample至多创建一个独立文件，UTF-8无BOM、CreateNew、不覆盖；每份不超过1MiB、最多9份。只在未来获准原生运行时创建本次D目录与文件。文件完成后主日志输出相对路径、实际字节数、SHA256，继续保留原有阶段/几何/计数等字段。",
+    "用固定N09根和固定相对文件名，不能由自由日志文本指定写入位置。编码/文件写入/容量/校验失败仍失败即停，记录准确原因及可得的实际字节数；不递归输出巨型payload，不把部分文件记为完整。",
+    "主日志保留原9条sample每条8KiB、8条stage每条2KiB及总96KiB边界，独立JSON另计最多9MiB；不新增采样、刷新、等待、保存或Unity启动。",
+    "N08→N09只改本入口已有任务目录/消息/日志标签的必要字面量，固定future N09/I/activation.json、N09/P、N09/D和N09/S/source-receipt.json；不修改旧N08。"
+  ],
+  "writeScope": [
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/S/before.json",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/S/FightMatchAndroidBuild.before.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/S/FightMatchAndroidBuild.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/S/source.patch",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/S/static.json",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/S/source-receipt.json"
+  ],
+  "protected": "T及断言、Scene/Prefab/meta、其余14源/资源/配置、现有几何/覆盖分类/顺序/磁盘/保存复开/导出门，以及N08空白场景helper均保持。现存N08字节冻结，缺失TMP与最终回执如实保留缺口。",
+  "verification": "只做新差量的必要静态/范围/字节核对，最多3次累计30秒；首次通过即停止检查迭代，保留任何失败。B增删上限200行。原有检查结果仍按原范围保留，不重跑旧测试。",
+  "acceptance": [
+    "只修改批准的日志传输位置、私有诊断文件帮助函数及必要N09字面量；完整键、null/空/0、重复数和顺序可无损重建。",
+    "未来日志与独立文件有可核对的路径/字节/哈希绑定，预算独立且失败明确；不能因记录问题放行产品检查。",
+    "报告固定输入、实际补丁、静态结果、实际作者/主程回合；状态只为SOURCE_READY/UNCOMPILED/UNTESTED/REVIEW_PENDING。"
+  ],
+  "notAuthorized": "不创建I/runner/D或探针，不运行Unity/编译/测试/保存/复开/导出，不改Git/依赖/权限/LOC，不派本地代码审查。",
+  "workflow": "本文件就是已批准的精简源码计划；主程可直接细化实现并派原作者，无需另派SYS或新增重复设计稿。真正影响范围/验收的变更才回中央。主程唯一接实际完成结果后更新engineering.md、向中央报告下一执行的必要条件。"
+}

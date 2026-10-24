@@ -1,0 +1,34 @@
+{
+  "type": "assembled_source_grid",
+  "base_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+  "base_raw_path": "attempt-03/raw-sheet.png",
+  "base_raw_sha256": "0ac85ce48c6f5a799667af315db8466eee8e3f500465ffa36ca6a90b51062b94",
+  "replacement_call_id": "exec-5bcace69-02b6-4f52-86b0-98bb83dab873",
+  "replacement_raw_path": "attempt-01/raw-sheet.png",
+  "replacement_raw_sha256": "22029a66b11aab411f536160813b0f0ab0b869e813220d2db2d81542a2d9e31d",
+  "source_box": [
+    512,
+    0,
+    1024,
+    512
+  ],
+  "destination_box": [
+    512,
+    0,
+    1024,
+    512
+  ],
+  "replacement_rgba_sha256": "33cbb6d19345f8993b36fd076e8659f681a0424ead94b93d0cde2bf872fd21c8",
+  "method": "Copy entire source frame2 cell at original 512x512 pixels into frame2 of same-action 2x3 grid; no crop within cell, no per-frame resizing, no local erasure/redrawing. Other five cells remain from base generation.",
+  "assembled_raw_sha256": "1b18eaa6b8e8cab66732c701256f802bc151cc166fbeb2606f323e38c66248fb"
+}
+['/Users/elliotyip/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3', '/Users/elliotyip/.codex/skills/generate2dsprite/scripts/generate2dsprite.py', 'process', '--input', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_sheathed/raw-sheet.png', '--target', 'player', '--mode', 'move_sheathed', '--rows', '2', '--cols', '3', '--output-dir', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_sheathed/processed', '--scale-profile', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/references/character-scale-profile.json', '--strict-qc', '--max-profile-scale-drift', '0.08', '--max-body-scale-cv', '0.08', '--max-anchor-y-std', '0.05', '--prompt-file', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_sheathed/prompt-used.txt']
+Exit: 0
+/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/actions/move_sheathed/processed
+
+
+Final postprocess: profile-aligned frames, binary alpha >=128, nearest fixed 16-color RGB, transparent RGB zero; no scaling/translation. All feet baseline115. Fixed-color GIFs have exact decoded pixels and disposal2. Aseprite RGBA encoding with exact requested timing. Roundtrip pending.
+
+ACTUAL ASEPRITE ROUNDTRIP: mcp__aseprite__export_spritesheet horizontal scale1 padding0 -> root sheet-transparent.png; deterministic 128px cuts -> roundtrip/frame-NN.png. Exact RGBA 6/6; encoded frame durations match animation.json.
+
+FINAL AUTHOR QC PASS: shared profile drift<=0.08, CV<=0.08, normalized anchor_y_std<=0.05; no exceptions. All binary-alpha frames<=16 colors, ground_y115, unique poses. All final keyposes plus actual GIF decoded frames visually inspected. Aseprite roundtrip exact. Source grids/failed attempts preserved. Lead/user review pending, not imported.

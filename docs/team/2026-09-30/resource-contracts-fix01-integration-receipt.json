@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "packet": "RES-C-CONTRACT-FIX01",
+  "verdict": "ACCEPT",
+  "scope": "Resource progress contract correction; independent GitHub code gate and fixed-composite C11 native gate only.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/11",
+    "head": "19179f3a68725d4f806bbc99989bf514f626acbf",
+    "tree": "371db7c5d6d5990babb6e79b1d223ec2ace7cbf8"
+  },
+  "publication": {
+    "path": "docs/team/2026-09-30/resource-contracts-fix01-publication-receipt.json",
+    "bytes": 957,
+    "sha256": "f059e8c2d2cdac3219380aeca88121a58fcad7b6297ae84e90228e467238db56"
+  },
+  "independentCodeReview": {
+    "path": "docs/team/2026-09-30/testing-resource-contracts-fix01-pr11-review-receipt.json",
+    "bytes": 1806,
+    "sha256": "2cf6ae66ebd5a14f20e63569a812ac1ed6c6ec0d4fd98c26a34806f9e14febbf"
+  },
+  "codeResult": {
+    "comment": 5965164618,
+    "conclusion": "NO_MAJOR_ISSUES_REPORTED_ON_FIXED_HEAD",
+    "formalApproved": false,
+    "priorP2DiscussionPreserved": true
+  },
+  "independentNativeReceipt": {
+    "path": "docs/team/2026-09-30/testing-resource-raw-joint-m01-receipt.json",
+    "bytes": 4793,
+    "sha256": "a3f45c7fbc31c642753966292da9c3bf2870f758f6d406ee8f299d8222a4811f"
+  },
+  "native": {
+    "receipt": {
+      "path": "TestArtifacts/FightMatch/RES-RAW-JOINT-001/M01/receipt.json",
+      "bytes": 80458,
+      "sha256": "3693fca9a1216bb92f8b141a66da7bfb8206e5333c688d55b95269669325d17a"
+    },
+    "C11passed": 11,
+    "C11total": 11,
+    "compositePassed": 74,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "sourceMatchesFix01": true,
+    "wholePrBranchBuild": false,
+    "compileStarts": 1,
+    "testStarts": 1,
+    "compileSupervisionSeconds": 80.163906,
+    "testSupervisionSeconds": 31.377607,
+    "xmlSeconds": 4.4154187,
+    "ownedTermPid": 74609,
+    "remainingOwned": []
+  },
+  "preserved": "Old S1 NEEDS_FIX and P2, original C10 evidence, source receipt and prior code-review receipt UNRUN_ON_FIX01 remain historical; this receipt records later C11 evidence.",
+  "limitations": [
+    "No downloader enforcement, permit consumption or actual network stopping.",
+    "No real resource initialization/admission, Host, Android, device or full Demo acceptance.",
+    "No merge, shared-project adoption or local Git changes."
+  ],
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local"
+}

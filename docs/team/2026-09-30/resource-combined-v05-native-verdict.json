@@ -1,0 +1,63 @@
+{
+  "task": "RES-COMBINED-V05",
+  "date": "2026-10-08",
+  "verdict": "NEEDS_FIX",
+  "scope": "Native validation; source gate remains separate",
+  "actualC": "01a11969-fe8b-7820-968d-2862da831a28",
+  "reviewedSourceHead": "10d76890e8eca82365f9a5c9d25c4dfb918c6a7c",
+  "native": {
+    "I": 1,
+    "unityExitCode": 0,
+    "T": 0,
+    "completeAssemblyProvenance": false,
+    "runnerExitCode": 1,
+    "external": {
+      "toolId": "exec-a617f64c-9444-4272-bb7a-6a58d29902a4",
+      "exitCode": 1,
+      "externalStartMonotonic": 85384.072837583,
+      "externalEndMonotonic": 85499.363407666,
+      "runnerSeconds": 115.29057008300151,
+      "preparationSeconds": 160,
+      "totalSeconds": 275.2905700830015,
+      "osExitCode": 1
+    },
+    "activation": {
+      "bytes": 6458,
+      "sha256": "159a73eb264e27a5147773632a47417e83eda9d3e540cb5a9dbdd3cd9e38591a"
+    },
+    "receipt": {
+      "bytes": 75895,
+      "sha256": "0e5f6ea7c43d8c3d54aa65556e6e9033787c70a119953e3027eee9483c8b5c1c"
+    }
+  },
+  "observedCauses": {
+    "bee": "Five raw FD observations show exact expected endpoint with an extra slash only between TMP and its direct Bee child directory; bytewise parser rejects it.",
+    "events": [
+      192,
+      203,
+      207,
+      211,
+      218
+    ],
+    "other": "PID69374 args ps exited1/empty stderr and produced a monitor failure at event230, then fresh event232 resolved pending as absent; this is a separate known race to address prospectively."
+  },
+  "independentNativeIntake": {
+    "path": "docs/team/2026-09-30/testing-resource-combined-v05-native-receipt.json",
+    "bytes": 2014,
+    "sha256": "d10cf1f5269b19ae32edd08c94326bf4b29d0a2c30867fd3a313c01739d5034f",
+    "actual": "01a11970-8f7e-7cc2-be65-8e7474a8e13f",
+    "scope": "Evidence seals and restoration; external timer separately read by central from original C tool output"
+  },
+  "next": "V06 source correction packet; native requires fresh source review and separate C packet",
+  "demoAccepted": false,
+  "verifiedRestoration": {
+    "projectionLeaves": 1035,
+    "compilerLeaves": 43,
+    "remainingOwned": 0,
+    "TERM": [
+      69067
+    ],
+    "KILL": false,
+    "conflicts": false
+  }
+}

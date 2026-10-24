@@ -1,0 +1,13 @@
+{
+  "task": "RES-COMBINED-V04-FIX01",
+  "verdict": "NEEDS_FIX",
+  "scope": "Source review only; no native allowance issued",
+  "head": "a2949cfc655e95693c44b5bfd17f1252e239fe2d",
+  "independentReview": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4213782936",
+  "testingActual": "01a1192d-27e9-7202-a2d7-59f674aa883a",
+  "finding": "A child discovered during natural expiry can be missing from the frozen TERM candidates; the replay shared-live flag masks an independently surviving child.",
+  "preservedEvidence": "65/65 offline replay, one round5.5611387499957345s; native0",
+  "receiptCorrection": "QA publishedBytesVerified2672797 is the previous V04 total. FIX01 publication manifest sums to2955960 across46 entries, all remote blob/size matches verified centrally. This bookkeeping correction does not change the P1 or authorize native.",
+  "nextPacket": "central-resource-combined-v04-fix02.md",
+  "demoAccepted": false
+}

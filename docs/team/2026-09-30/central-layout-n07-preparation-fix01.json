@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-05",
+  "status": "TECHNICAL_PREPARATION_CORRECTION_WITHIN_EXISTING_ATTEMPT_ALLOWANCE",
+  "basis": "The current user authorization permits N07 execution preparation and one Unity attempt. The inherited preparation contract allows three checks within 30 seconds. Preparation attempt 1 failed to parse before any command body or native execution; the remaining original allowance is not an extra Unity retry.",
+  "preservedFailure": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/PExecution/receipt.json",
+    "bytes": 12868,
+    "sha256": "82bd9e5ef9e447d1312b0713ec20e6c339b9a87b26e21ead881a4dc1ae799428",
+    "attempt": 1,
+    "reportedToolWallTimeSeconds": 0.000007625,
+    "pythonBodyElapsedSeconds": null,
+    "commandBodyStarted": false
+  },
+  "correction": "Only fix the JavaScript construction of the embedded Python runner literal. Use literal insertion through a replacement callback or explicit slicing/concatenation so dollar/apostrophe sequences are not interpreted as replacement tokens. Do not alter frozen product B/T, runner predicates or execution effects to fit the checker.",
+  "remainingPreparation": {
+    "attemptNumbers": [2, 3],
+    "maximumTotalAttemptsIncludingOriginalFailure": 3,
+    "maximumTotalSeconds": 30,
+    "timing": "Retain the original reported tool time and null Python-body duration honestly. Measure each remaining complete preparation attempt, including parsing, from outside the generated body. Do not reset the consumed attempt or silently extend the window."
+  },
+  "receiptCollisionResolution": {
+    "keepOriginalFailureByteIdentical": true,
+    "newFinalExecutionReceipt": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N07/PExecution/receipt-attempt02.json",
+    "onlyAdditionalLeaf": "PExecution/receipt-attempt02.json",
+    "previousMaximumN07Leaves": 21,
+    "newMaximumN07Leaves": 22,
+    "maximumTotalBytesUnchanged": 201326592,
+    "instruction": "Include the preserved failure in the frozen input identities. Change only this run's final receipt output and exact manifest references to the new leaf. Do not overwrite, rename or delete the original failure, and do not change historical N06 receipt references."
+  },
+  "owner": "Reuse the sole C chat 01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local, bind a fresh actual turn because 01a10ae1-ba96-7832-959c-4884526e8420 completed. Astra/xhigh; engineering remains sole C receiver.",
+  "unchanged": "Current direct human permission in engineering turn 01a10adf-4deb-7761-942f-37e69c37344c; frozen S/B/T; runner at most 400 nonempty lines; original exact remaining file whitelist; preflight120; one Editor180; native retries0; two source syncs/two actual assemblies; original scene/geometry/identity/protection/cleanup/export gates; no tests or LOC work.",
+  "stop": "After a successful preparation, submit the sole native attempt through normal tool approval. Stop on native failure or review denial. Ordinary preparation defects may use only the original remaining attempts; outside-scope changes or exhausted preparation budgets stop with an accurate receipt."
+}

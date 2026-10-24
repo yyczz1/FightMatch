@@ -1,0 +1,112 @@
+{
+  "receipt": "RES-COMBINED-PR20-V03-GITHUB-REVIEW-RECEIPT",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a118f6-c0dc-7532-8da3-213b46a48ad9",
+    "model": {
+      "policyDefault": "gpt-6-astra/xhigh",
+      "effectiveModel": "Not exposed by runtime; not independently verified"
+    },
+    "completionReceiver": "Central coordinator; no cross-session message sent"
+  },
+  "authority": "Central mechanical PR20 V03 review receipt intake",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/20",
+  "candidate": {
+    "head": "dbd5a203fd7b4997a1e67d7269fb1d9b87d5cbea",
+    "parent": "281bb731ed08a21a25df67932068279853b3fd09",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-combined-v03-publication-receipt.json",
+    "bytes": 12459,
+    "sha256": "d7c8fcaa2a407460e49a34bed0a370d4615ca8c47e3d2c7eca46524441a1c3da",
+    "head": "dbd5a203fd7b4997a1e67d7269fb1d9b87d5cbea",
+    "parent": "281bb731ed08a21a25df67932068279853b3fd09",
+    "remotePublication": "PUSHED_AND_ALL_29_BLOBS_VERIFIED",
+    "entryCount": 29,
+    "delegationReportedRemoteBlobs": 24,
+    "blobCountReconciliation": "The delegated packet says 24 remote blobs; the read publication receipt says all 29 blobs verified across 29 entries. Both are preserved verbatim here; their counting basis remains unreconciled.",
+    "staticSeconds": 0.073324,
+    "replayReuse": "V02 177/177 byte-identical historical evidence; no V03 replay run",
+    "nativeRuns": 0,
+    "v02NativeState": "NOT_RUN_BLOCKED at preflight",
+    "v01NativeState": "FAILED; preserved",
+    "integrationVerdict": null
+  },
+  "review": {
+    "trigger": {
+      "commentId": 6049781982,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6049781982",
+      "reposted": false,
+      "author": "yyczz1"
+    },
+    "completion": {
+      "summaryCommentId": 6048274217,
+      "status": "COMPLETED",
+      "completedAtUtc": "2026-10-08T00:45:05.698137Z",
+      "summaryCommit": "dbd5a20",
+      "resultComment": {
+        "id": 6049807634,
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6049807634",
+        "author": "chatgpt-codex-connector[bot]",
+        "createdAtUtc": null,
+        "body": "Codex Review: Didn't find any major issues. Chef's kiss.\n\n**Reviewed commit:** `dbd5a203fd`",
+        "reviewedCommitFromBody": "dbd5a203fd",
+        "reviewedCommitMatchesFullHead": true
+      }
+    },
+    "formalReview": {
+      "submissionsForCurrentHead": [],
+      "priorSubmissions": [
+        {"id": "PRR_kwDOTDyjrM8AAAABRM1e9g", "state": "COMMENTED", "reviewedCommit": "8e47895761"},
+        {"id": "PRR_kwDOTDyjrM8AAAABRM_uaA", "state": "COMMENTED", "reviewedCommit": "0e83cf66e5"}
+      ],
+      "formalApproval": false,
+      "interpretation": "The current-head result is a top-level issue comment, not a formal review submission."
+    },
+    "currentHeadInlineFindings": [],
+    "historicalP1Threads": [
+      {
+        "commentId": 4212752227,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212752227",
+        "threadId": "PRRT_kwDOTDyjrM6qH91Y",
+        "title": "Reserve the global deadline for process cleanup",
+        "resolved": false,
+        "outdated": false
+      },
+      {
+        "commentId": 4212896382,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896382",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1L",
+        "title": "Bound scans before they enter the cleanup reserve",
+        "resolved": false,
+        "outdated": false
+      },
+      {
+        "commentId": 4212896391,
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896391",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1R",
+        "title": "Reserve time for final evidence and receipt emission",
+        "resolved": false,
+        "outdated": true
+      }
+    ],
+    "classification": "COMMENTED_NO_MAJOR_ISSUES; NO_CURRENT_FORMAL_SUBMISSION; NOT_APPROVED"
+  },
+  "nextStep": "V03 native validation remains unrun; central coordination chooses the next authorized step. Reconcile the delegated 24-blob count with the publication receipt's 29-blob statement before relying on that count.",
+  "method": {
+    "source": "GitHub PR metadata, trigger/result comments, formal review submissions and inline review threads; local V03 publication receipt",
+    "newTrigger": false,
+    "localCodeReview": false,
+    "testsRun": false,
+    "unityRun": false,
+    "githubWrite": false,
+    "writes": "Only this new receipt"
+  }
+}

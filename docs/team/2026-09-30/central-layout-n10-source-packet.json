@@ -1,0 +1,61 @@
+{
+  "task": "LAYOUT-S1-FIX04-N10-SOURCE",
+  "date": "2026-10-06",
+  "status": "APPROVED_SOURCE_ONLY",
+  "authority": "接续用户已授权的真实场景修复/保存复开及团队开发。中央按N09新实证批准普通技术纠正，不改变玩法、UI框架或最终资产验收目标；本单不授权新的Unity运行。",
+  "owner": "主程01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local，唯一接作者；复用原作者01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c/local并登记fresh actual。",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "diagnosis": {"path": "docs/team/2026-09-30/engineering-layout-n09-readonly-diagnosis.md", "bytes": 8189, "sha256": "dd8009992a5e556413ccdb0d4132556be725b85ff10a2f1967b6095f19187a14", "actual": "SYS01a10d23-d6e1-7e32-81cb-7fd447a0a4d7 completed，主程01a10d22-13e4-7a13-8978-72efceb35234已收件"},
+  "inputs": {
+    "B": {"path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs", "bytes": 195375, "sha256": "b7000d9d14c00c4bd0588afd734b7029b637048cee6485901f9581bbc4eddf45"},
+    "T": {"path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs", "bytes": 40209, "sha256": "6e52750705ccdc18e26f2bf4591fa9d675bb1e641cb7bb396f9c6a7f804f6f52"},
+    "nativeReceipt": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/PExecution/receipt.json：1407697B/8f616262e138722715bd7e7317027beeeab31960125f67ec0f9d0222d5ec746c",
+    "references": "N09/S固定源码及D三完整差量、log361/372/405/416；当前Scene/Prefab/meta和其余13源/37资源身份沿N09正式收件保持。中央实读诊断、对应B/T时序及Unity2022.3 Auto Layout/SetPropertyModifications官方资料；writer仍未知。"
+  },
+  "centralDecision": {
+    "scope": "批准诊断§4的后置单Set＋分阶段验证候选；不宣称旧门必错或新方案必过。N09的NEEDS_FIX保持。",
+    "gate1": "更新后不再要求全部内存记录恰等22；改为原22完整键/值/引用/次数/相对序保持，额外记录只允许诊断表中精确target GUID/fileID、属性、字符串值和null引用组合，每项最多1次。未知目标、未知属性、不同值/引用、重复及原项丢失/变更/换序均失败。事务中Set后即时Get仍必须逐项逐序恰等22。",
+    "gate2": "五条零值在更新后的内存记录中只作为精确受限的已观测项；实际几何仍须合格。磁盘保存后及复开必须没有这五条记录且只发生该删除，不能把内存许可推广为磁盘豁免。严格Prefab/五项分类器及真实0.5像素几何门保持。",
+    "gate3": "保存前几何的采样移至唯一Set之前。Set后只验证覆盖清单，不将之前样本标成Set后几何。保存后和只读复开仍分别经过原Force/Queue/两次update并验证真实几何、身份、非dirty及磁盘稳定。",
+    "risk": "Set可能暂时改变有效几何，Save也可能重新生成记录；这两点尚无实测。即使已在隔离场景保存，后续任一门失败也必须export0并保留真实后像，不回滚/补跑。"
+  },
+  "implementation": [
+    "入口冻结原27和过滤后22的独立PropertyModification副本及完整键；只删原严格分类器识别的恰五条。入口不再Set，首条标签须诚实称pre-update，不能继续称post-set。",
+    "沿原一次Force/Queue/两次update；WaitingPreSave先查真实几何、Host/EventSystem/链接/资源保护及精确受限的新增记录。允许列表固定于本Prefab的已观察112种精确组合，不做按属性前缀或所有驱动对象的泛化许可；不用历史日志或外部JSON动态决定通过集合。",
+    "同一个continuation内，完成保存前保护检查及必要MarkSceneDirty后，只调用一次Set(冻结22)，即时Get精确等22，然后直接Save一次；中间不Force/Queue/yield/额外事件等待或写日志。保存后日志可记录本次即时Get的确切通过状态/计数，不新增几何采样冒充Set后结果。",
+    "Save后立即检查磁盘精确差量：只允许固定PrefabInstance/来源GUID/fileID的五个原始记录块各删一次，所有其余原字节和顺序保持。不得广泛替换YAML、忽略格式差异或只查最终hash/总条数。失败立即停止，不进入成功结果/导出。",
+    "PostSave和Reopen保留既有两阶段实际布局采样；内存按同一精确集合检查、原22保持，磁盘则继续精确删除/稳定性检查。三阶段、九sample、Force3/Queue3/六update、Set1/Save1成功路径计数不增加；保留空白Scene所有权/清理、首错、三JSON及退出条件。",
+    "T的SavedDemoScenePreservesUsableCanvasWithoutStaleOverrides及CaptureSavedCanvasSample将内存/磁盘分层：实际几何与只读finally/文件字节门保留，磁盘独立检查必须能拒绝五条残留；不能只删原断言而没有等效落盘断言。",
+    "最小私有helper承担精确新增集合和磁盘差量；需要的少量私有测试帮助代码可位于同一B/T。LayoutVerifyRoot只允许现有snapshot转接所需的最小适配；无snapshot的同步校验、严格Prefab路径/分类器/几何谓词逐字保持。",
+    "必要N09→N10任务路径/消息/标签改动；未来I/P/D/S固定于N10。既有完整JSON传输与CreateNew/大小/hash/九文件边界保持，不创建未来执行器或D文件。"
+  ],
+  "testsToAdd": {
+    "reason": "本包改变检查阶段，必须证明新增许可不会吞掉损坏、磁盘检查不会接受其它写入。测试为后续必要Unity验证预备，本源码包不执行。",
+    "plannedNewCases": 13,
+    "cases": [
+      "1个内存正例方法覆盖允许的已观测记录组合/插入及原22不变；直接固定输入与场景含义，不在运行时依赖TestArtifacts。",
+      "7个内存负例：未知target/property、许可项错误值、错误objectReference、重复记录、丢失原项、变更原项、原项相对换序。",
+      "1个磁盘正例：仅固定五块删除、其余字节保持。",
+      "4个磁盘负例：残留五项之一、无关字节变化、额外删除、错误target/实例被删。"
+    ],
+    "preserve": "旧六场景相关测试及两几何/分类器负例保留；除指定Saved场景采样的等效分层外旧断言不删不弱化。源码回执列新增fullnames/参数和旧项保留。旧99加新13只为112候选，不是发现/运行结果。"
+  },
+  "writeScope": [
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+    "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/before.json",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/FightMatchAndroidBuild.before.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/UguiSceneCompositionTests.before.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/FightMatchAndroidBuild.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/UguiSceneCompositionTests.cs",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/source.patch",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/static.json",
+    "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N10/S/source-receipt.json",
+    "docs/team/2026-09-30/engineering.md（仅主程）"
+  ],
+  "budget": "B增删合计≤400行，T≤350行；不压行规避。只做新差量必要静态/身份/范围核对，最多3轮累计30秒、首轮通过即停，保留失败。不得将文本检查说成C#编译或测试通过。",
+  "acceptance": "B/T仅上述纠正、13个有意义新用例、原保护保持；主程接实际完成与固定源/原始检查输出，报告各门的新采样时点及下一原生的必要变化。状态仅SOURCE_READY/UNCOMPILED/UNTESTED/REVIEW_PENDING。",
+  "excluded": "无Unity/编译/测试执行/保存/导出/投影同步；不改Scene/Prefab/meta/包/配置/依赖/Git/原证据，不重试LOC，不派本地代码审查。新原生及GitHub复审另签；旧N09运行许可已消耗。",
+  "workflow": "本单就是已批准的源计划，可直接交原作者。常规实现细节由主程处理，不再派SYS重写方案；只有确实不能在此范围保留安全意图才回中央。沿实际完成事件接回，不保留无事忙转的回合。"
+}

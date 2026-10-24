@@ -1,0 +1,80 @@
+{
+  "task": "LOC-M17-FIX05-REVIEW02 source integration",
+  "verdict": "ACCEPT",
+  "scope": "SOURCE-only",
+  "centralTurn": "01a12bf9-e665-7d20-ab65-31ca1dfc8613",
+  "head": "01a5ab7afa5f3d2d55df4b5d6b72c8fa6e353736",
+  "tree": "1d25bccce6474cb84884cb0787a7660512e400af",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+  "qaActualTurnObservedByCentral": "01a12c51-ea21-7f22-ad4c-ba6deab027a0",
+  "qaActualTurnDurationMs": 210013,
+  "qaThreadReadLimitation": "QA local transcript read failed; central independently recovered and matched original LOC tool command/output, identities and timings. QA placeholder is preserved in original receipt.",
+  "independentIntake": {
+    "path": "docs/team/2026-09-30/testing-loc-m17-fix05-review02-review.json",
+    "bytes": 4870,
+    "sha256": "be8b42de4776c30933d97fafdedea7e6f8f9a18d8187b869becd597ca8f08f01"
+  },
+  "independentReview": {
+    "triggerCommentId": 6112501532,
+    "resultCommentId": 6112531539,
+    "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6112531539",
+    "summaryCommentId": 5928035293,
+    "completedAtUtc": "2026-10-11T18:58:19.643768Z",
+    "status": "Completed",
+    "exactHeadMatched": true,
+    "conclusion": "No major issues reported",
+    "formalApproved": false,
+    "allSeverityAbsenceClaimed": false
+  },
+  "acceptedVerification": {
+    "authorTurn": "01a12c3f-ebd9-70d0-92f0-74666adab242",
+    "directedChecks": {
+      "caseCount": 109,
+      "evidence": {
+        "bytes": 89708,
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-fix05-review02/authority/offline-checks.json",
+        "sha256": "baaf6f008c3316cd8c1ab8b1ef66c7d828bc12c90c9d552a773584ed87576bfa"
+      },
+      "exitCode": 0,
+      "fullInvocationSeconds": 2.0326659169995764,
+      "passed": 109,
+      "toolId": "exec-c7c44372-29f7-420f-8755-7ccb02ee2e08"
+    },
+    "sealFullSeconds": 4.841734166999231,
+    "sealTool": "exec-4303040d-9108-43b7-9a7e-4a30a27121ce",
+    "sealExitCode": 0,
+    "actualToolCommandAndOutputMatched": true,
+    "eightLeafHashesAndActualFreezeMatched": true,
+    "sourceBytes": 13287833,
+    "remotePublishedFilesMatched": 13,
+    "historicalRemoteBlobsPreserved": 1796,
+    "historicalSuitesRerun": false
+  },
+  "historicalReviewThreads": [
+    {
+      "commentId": 4242623018,
+      "threadId": "PRRT_kwDOTDyjrM6rQE5E",
+      "replyId": 4242799014,
+      "isResolved": true,
+      "resolvedBy": "central coordinator through authorized GitHub workflow after exact-head review; not automatic service closure"
+    },
+    {
+      "commentId": 4242623020,
+      "threadId": "PRRT_kwDOTDyjrM6rQE5F",
+      "replyId": 4242799347,
+      "isResolved": true,
+      "resolvedBy": "central coordinator through authorized GitHub workflow after exact-head review; not automatic service closure"
+    },
+    {
+      "commentId": 4242690950,
+      "threadId": "PRRT_kwDOTDyjrM6rQPh1",
+      "replyId": 4242799652,
+      "isResolved": true,
+      "resolvedBy": "central coordinator through authorized GitHub workflow after exact-head review; not automatic service closure"
+    }
+  ],
+  "materialExecutionAuthorized": false,
+  "materialVerdict": "NOT_ACCEPTED; previous M06 interrupted, restore completion unproven",
+  "next": "Obtain fresh one-attempt zero-download/three-restore authorization for M5/W5; then bind accepted source and command receipt in new central activation using unchanged host template.",
+  "excluded": "No tool build, product integration, Unity, Android/device, merge or release acceptance."
+}

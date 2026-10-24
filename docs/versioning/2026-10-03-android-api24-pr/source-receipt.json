@@ -1,0 +1,341 @@
+{
+  "schema_version": 1,
+  "packet": "ANDROID-API24-PR1-SOURCE-FIX03",
+  "stage": "TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX03/S",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a10118-41f7-78f0-acec-44a78ccdcf01"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a10115-5347-7142-a94f-a6664a491530"
+  },
+  "authority": {
+    "basis": "User Q29 and AGENTS §6; central explicitly approved isolated SOURCE-first narrow two-file scope.",
+    "central_thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "central_turn": "01a0fd75-6e53-7b81-a7ce-9010190ae130",
+    "issuer_turn": "01a10115-5347-7142-a94f-a6664a491530",
+    "fix01_amendment": {
+      "path": "docs/team/2026-09-30/engineering-android-api24-pr1-source-fix01.md",
+      "bytes": 3854,
+      "sha256": "79b0fddb247c067756928f5c06e9140fbb25b500c4f912b5bdab81eb40d61e17"
+    },
+    "fix02_amendment": {
+      "path": "docs/team/2026-09-30/engineering-android-api24-pr1-source-fix02.md",
+      "bytes": 3786,
+      "sha256": "0fc08e37736eeef193bf0aee4f4d788c16ec90cb4d706321b9b64bc4bea94b8d"
+    },
+    "fix03_amendment": {
+      "path": "docs/team/2026-09-30/engineering-android-api24-pr1-source-fix03.md",
+      "bytes": 4701,
+      "sha256": "c3cb32cb0aa1ea75b77b759e4d702fe538e9be3a29c333c694403b7e83bf2a92"
+    }
+  },
+  "model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh",
+    "note": "Explicit FIX03 assignment; not a measured runtime model."
+  },
+  "statuses": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "integration_verdict": "NOT_ISSUED_BY_SOURCE_AUTHOR",
+  "before_identity": {
+    "bytes": 23449,
+    "sha256": "687e89bf4215a6a1d499d9f388e02116dff462f274fbd595eb7376ba83bba45a"
+  },
+  "after_identity": {
+    "bytes": 6937,
+    "sha256": "9dc77f2efeac1aa4c5e7d47b5865f17bfd4988c47518f220e3dd8aec0a3e7d9c"
+  },
+  "reviewed_head": "3541930877837e14b58020b910976b8b67b56e42",
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+      "bytes": 84070,
+      "sha256": "150b37b038c365534db3035e185b3d0b23135828f72e2aca216d7ccb19133de3",
+      "physical_lines": 1050,
+      "base_bytes": 83965,
+      "base_sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac",
+      "git_blob_sha1": "a588f8e8a6a57d90e744e768c2c95ba6ffac6f99"
+    },
+    "ProjectSettings/ProjectSettings.asset": {
+      "bytes": 23595,
+      "sha256": "dfe02f2b7ffd9c5f5880e39d7bb35e1916515529e3292b1979f9715da51a2a72",
+      "physical_lines": 860,
+      "base_bytes": 23595,
+      "base_sha256": "2ea02ff3b5acc6127f29d58049317eee4a52a84d9afde809eaf1efb30ed4ce1b",
+      "git_blob_sha1": "2a28a234abb07d448e5964dc299cf550a8416199"
+    }
+  },
+  "patch": {
+    "bytes": 2740,
+    "sha256": "3a21f1c73d9d186535d5dbfcb1d21afc6409efb2669b716f642afedac6db9422",
+    "added_lines": 4,
+    "removed_lines": 3,
+    "changed_lines": 7
+  },
+  "preparation": {
+    "copies": {
+      "source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+        "bytes": 84070,
+        "sha256": "150b37b038c365534db3035e185b3d0b23135828f72e2aca216d7ccb19133de3",
+        "physical_lines": 1050,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      },
+      "source/ProjectSettings/ProjectSettings.asset": {
+        "bytes": 23595,
+        "sha256": "dfe02f2b7ffd9c5f5880e39d7bb35e1916515529e3292b1979f9715da51a2a72",
+        "physical_lines": 860,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      },
+      "source.patch": {
+        "bytes": 2740,
+        "sha256": "3a21f1c73d9d186535d5dbfcb1d21afc6409efb2669b716f642afedac6db9422",
+        "physical_lines": 41,
+        "byte_equal": true,
+        "terminal_LF_count": 1,
+        "CR_bytes": 0
+      }
+    },
+    "registry_generation": "All eighteen original/FIX01/FIX02 leaf byte counts and SHA256 values and complete failed records were read programmatically from actual files.",
+    "before_binding": "Final before.json was saved first; its actual SHA256 was then bound into verify.py."
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX03/S/verify.py",
+    "used_runs": 1,
+    "maximum_runs": 3,
+    "stopped_on_first_success": true,
+    "checks_passed": 40,
+    "checks_failed": 0,
+    "exception": null,
+    "exit_code": 0,
+    "started_utc": "2026-10-03T09:33:30.852616+00:00",
+    "ended_utc": "2026-10-03T09:33:30.888111+00:00",
+    "duration_seconds": 0.011674374982248992,
+    "process_duration_seconds": 0.035297041991725564,
+    "raw_outputs": {
+      "runs/01.stdout.log": {
+        "bytes": 7622,
+        "sha256": "310167b325d58c67813dbdd0bdd15348f149c97983ca8917c1549dfc2b9116ba"
+      },
+      "runs/01.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "three_memory_counterexamples": {
+      "missing_P": "REJECTED",
+      "missing_B_predicate": "REJECTED",
+      "wrong_target": "REJECTED",
+      "written_to_disk": false
+    },
+    "static_record": "static-checks.json"
+  },
+  "verifier_delta": {
+    "baseline_stage": "TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX02/S",
+    "baseline_identity": {
+      "bytes": 14444,
+      "sha256": "732e034b3a457bbf8292309f622a2671229e591c2a768dc94834c347d6f7f196"
+    },
+    "final_identity": {
+      "bytes": 15316,
+      "sha256": "0c776d8e293954efdd08b8d167825e58a130f4232fbd9a99daf13beb5b8b86c7"
+    },
+    "semantic_change": {
+      "from": "source=old.splitlines(True)",
+      "to": "source=old.decode(\"utf-8\").splitlines(True)"
+    },
+    "other_edit_sites": [
+      "final saved before identity",
+      "packet identity",
+      "three-run stop-on-success and no unchanged retry guards",
+      "command path",
+      "actual owner",
+      "actual issuer",
+      "third amendment identity",
+      "third prior failed stage",
+      "exact six-output scope and preserved prior output identities"
+    ],
+    "unchanged": "Strict UTF-8 errors, full patch context/offset/hunk counts, exact four source transformations and non-target bytes, canonical patch identity/replay, three counterexamples, shared guards and original source/diff budgets.",
+    "exact_unified_diff": "static-checks.json -> runs[0].verifier_unified_diff"
+  },
+  "preserved_old_stages": [
+    {
+      "stage": "TestArtifacts/FightMatch/ANDROID-API24-001/PR1/S",
+      "owner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a100ea-1492-7742-8f01-c99a32b7555e"
+      },
+      "total_bytes": 130592,
+      "leaf_count": 6,
+      "identity_check": "PASS",
+      "failure_record": "PRESERVED_BLOCKED"
+    },
+    {
+      "stage": "TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX01/S",
+      "owner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a100fe-e80a-75c0-b65e-c0cd50677c86"
+      },
+      "total_bytes": 134302,
+      "leaf_count": 6,
+      "identity_check": "PASS",
+      "failure_record": "PRESERVED_BLOCKED"
+    },
+    {
+      "stage": "TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX02/S",
+      "owner": {
+        "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+        "host": "local",
+        "turn": "01a1010c-0c86-7ef0-958b-4e92241afef2"
+      },
+      "total_bytes": 144772,
+      "leaf_count": 6,
+      "identity_check": "PASS",
+      "failure_record": "PRESERVED_BLOCKED"
+    }
+  ],
+  "shared_guards": {
+    "build": {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "bytes": 160371,
+      "sha256": "ebccb4d9cec5d5d9fffa025fac78c76829fc53a85370dedfee7dd30d93308ca5",
+      "git_blob_sha1": "e439e095382dc043ed71cdfe8ff7943fed676473",
+      "must_remain_unchanged": true
+    },
+    "settings": {
+      "bytes": 23595,
+      "physical_lines": 860,
+      "sha256": "2ea02ff3b5acc6127f29d58049317eee4a52a84d9afde809eaf1efb30ed4ce1b",
+      "git_blob_sha1": "2a28a234abb07d448e5964dc299cf550a8416199"
+    },
+    "six_fixed_inputs": "PASS",
+    "old_stage_leaves": 18,
+    "old_failures_preserved": 3,
+    "shared_project_writes": 0
+  },
+  "scope": {
+    "core_leaves": [
+      "source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "source/ProjectSettings/ProjectSettings.asset",
+      "before.json",
+      "after.json",
+      "source.patch",
+      "verify.py",
+      "static-checks.json",
+      "source-receipt.json"
+    ],
+    "actual_raw_output_leaves": [
+      "runs/01.stdout.log",
+      "runs/01.stderr.log"
+    ],
+    "unexecuted_output_paths_absent": [
+      "runs/02.stdout.log",
+      "runs/02.stderr.log",
+      "runs/03.stdout.log",
+      "runs/03.stderr.log"
+    ],
+    "all_writes": "apply_patch"
+  },
+  "budgets": {
+    "limits": {
+      "build_lines": 1060,
+      "build_bytes": 88064,
+      "settings_lines": 860,
+      "settings_bytes": 23595,
+      "patch_added_plus_removed_lines": 12,
+      "build_net_bytes": 512,
+      "stage_bytes": 524288,
+      "verification_runs": 3,
+      "verification_seconds": 30
+    },
+    "source_actual": {
+      "build_lines": 1050,
+      "build_net_bytes": 105,
+      "settings_lines": 860,
+      "production_changed_files": 1,
+      "total_logical_files": 2,
+      "approved_limit_production_changed_files": 2
+    },
+    "patch_added_lines": 4,
+    "patch_removed_lines": 3,
+    "patch_changed_lines": 7,
+    "final_stage_bytes": 189918
+  },
+  "leaf_inventory": {
+    "before.json": {
+      "bytes": 23449,
+      "sha256": "687e89bf4215a6a1d499d9f388e02116dff462f274fbd595eb7376ba83bba45a"
+    },
+    "runs/01.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runs/01.stdout.log": {
+      "bytes": 7622,
+      "sha256": "310167b325d58c67813dbdd0bdd15348f149c97983ca8917c1549dfc2b9116ba"
+    },
+    "source/Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs": {
+      "bytes": 84070,
+      "sha256": "150b37b038c365534db3035e185b3d0b23135828f72e2aca216d7ccb19133de3"
+    },
+    "source/ProjectSettings/ProjectSettings.asset": {
+      "bytes": 23595,
+      "sha256": "dfe02f2b7ffd9c5f5880e39d7bb35e1916515529e3292b1979f9715da51a2a72"
+    },
+    "source.patch": {
+      "bytes": 2740,
+      "sha256": "3a21f1c73d9d186535d5dbfcb1d21afc6409efb2669b716f642afedac6db9422"
+    },
+    "static-checks.json": {
+      "bytes": 14099,
+      "sha256": "390fa0badecd8d228444dbb5d74e16325ede9e5e182c93042020a38131c4a3ec"
+    },
+    "verify.py": {
+      "bytes": 15316,
+      "sha256": "0c776d8e293954efdd08b8d167825e58a130f4232fbd9a99daf13beb5b8b86c7"
+    },
+    "after.json": {
+      "bytes": 6937,
+      "sha256": "9dc77f2efeac1aa4c5e7d47b5865f17bfd4988c47518f220e3dd8aec0a3e7d9c"
+    },
+    "source-receipt.json": {
+      "bytes": 12090,
+      "sha256": "Recorded externally in the final engineering dispatch to avoid a recursive self-digest."
+    }
+  },
+  "metadata_seal": {
+    "pre_signature_gate": "Actual eight existing leaves matched the exact scope; original copies, raw output identities, before and verifier identities matched; stage budget passed.",
+    "final_gate": "Exact ten actual leaves, output/record identities and final stage bytes are checked after this receipt is saved. No additional source verifier or checker execution."
+  },
+  "operations": {
+    "unity": 0,
+    "csharp_compiles": 0,
+    "sdk": 0,
+    "builds": 0,
+    "tests": 0,
+    "network": 0,
+    "git": 0,
+    "pr_operations": 0,
+    "old_verifiers": 0,
+    "source_verifier_runs": 1
+  },
+  "outstanding_gates": [
+    "Independent GitHub PR review of the eventual actual delivery head.",
+    "Separately authorized shared integration and Unity compile/import.",
+    "Unity save/reopen retains API24 value 24.",
+    "Two separately authorized APK builds with reports and manifest minSdk 24.",
+    "Any applicable device acceptance; source-only status does not establish complete API24 delivery."
+  ]
+}

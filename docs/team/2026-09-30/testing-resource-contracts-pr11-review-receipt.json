@@ -1,0 +1,40 @@
+{
+  "receipt": "RES-C-CONTRACT-PR11-REVIEW-001",
+  "date": "2026-10-03",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/11",
+  "base": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+  "reviewedHead": "f99b5a60b9ecad62aa01ddb1333a7db8a05c662f",
+  "tree": "bc0ecb882f5c2f85a7f7daf60696f8a179c0c48e",
+  "soleParent": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+  "reviewTriggerCommentId": 5964912153,
+  "reviewSummaryCommentId": 5964914320,
+  "reviewSubmissionId": "PRR_kwDOTDyjrM8AAAABQcoF1Q",
+  "reviewSubmittedAt": "2026-10-03T03:08:14Z",
+  "reviewer": "chatgpt-codex-connector",
+  "reviewState": "COMMENTED",
+  "reviewedCommitPrefix": "f99b5a60b9",
+  "codeGate": "FINDING_REPORTED",
+  "formalApproval": false,
+  "findings": [
+    {
+      "commentId": 4171468078,
+      "priority": "P2",
+      "title": "Reject impossible stage and quantity combinations",
+      "originalText": "When a positive-size inspection reports `ReadyFromCache`, this constructor accepts it even though the inspection still requires network transfer; conversely, after all bytes/files are complete it accepts `ConsentRequired` because that check uses the inspection's initial `RequiresNetwork` rather than the derived remaining quantities. These combinations contradict the download state machine and can make the bootstrap skip required downloading or ask for mobile consent when no transfer remains. Constrain `ReadyFromCache` to zero-work inspections and `ConsentRequired` to snapshots with positive remaining work.",
+      "status": "UNRESOLVED_AT_REVIEW"
+    }
+  ],
+  "nativeAssociation": {
+    "receipt": "docs/team/2026-09-30/testing-resource-cd-joint-m01-receipt.json",
+    "nativeRootReceiptSha256": "cc0745a765cf2a8261036251c308d4d526b3762700e0aec9680130cbe01da60c",
+    "sourceReceiptSha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2",
+    "relation": "PR #11 publishes the exact C source and metadata associated after the original fixed-composite native run. Original native C reviewHead remains null; C10/10 is not a full PR-head build."
+  },
+  "reviewConclusion": "GitHub PR Code Review completed on the pinned head and reported one P2 finding. This receipt records the finding only; it does not resolve it, approve the PR, or replace the distinct native validation receipt.",
+  "notCovered": [
+    "Implementation or correction of the finding",
+    "Full PR-head build or Unity rerun",
+    "Runtime/downloader integration, shared project adoption, Android/device acceptance"
+  ],
+  "source": "GitHub PR #11 review submission and inline review comment"
+}

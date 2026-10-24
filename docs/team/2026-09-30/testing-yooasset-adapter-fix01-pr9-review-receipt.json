@@ -1,0 +1,142 @@
+{
+  "task": "RES-B-ADAPTER-FIX01-PR9-GITHUB-REVIEW-RECEIPT",
+  "receivedUtc": "2026-10-02T23:22:20Z",
+  "verdict": "NEEDS_FIX",
+  "scope": "Exact FIX01 head code gate only. Independent GitHub result; no local review or native acceptance.",
+  "testingOwner": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fee8-da24-7521-985a-6961d0e18d17"
+  },
+  "soleCompletionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Central's scoped intake under the user's standing team authorization. Engineering retains original-author corrections and sole-C native receipt.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/9",
+    "head": "69d8738976095bbcf0d014b737c73abd5b153f7a",
+    "tree": "af4350bade0f7e06b35f7dd814e9019d61df83b9",
+    "base": "4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8",
+    "soleParent": "5e70957df7db1caab56e3908621a295bcb58a1ce",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": {
+      "path": "docs/team/2026-09-30/yooasset-adapter-fix01-publication-receipt.json",
+      "bytes": 1794,
+      "sha256": "422a3aec64fc52fff8aac303d419403ee23afc69e49446306f933bf10f726300"
+    },
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX01/S/source-receipt.json",
+      "bytes": 17637,
+      "sha256": "4384b0b472314c0ff62cbe0f6f6b02d258091b6e4e2cd30d0dd903301e5657d2"
+    },
+    "manifest": {
+      "path": "docs/versioning/2026-10-03-yooasset-adapter-pr/fix01/publication-manifest.json",
+      "bytes": 11264,
+      "sha256": "2cf2abb3a5743725e3950c84261ce5b630fd00dda97255023771eace841a3b3d"
+    },
+    "freshIdentityChecks": "Live PR head/base; commit tree and sole parent; 23 published blob mappings; only provider/lifecycle/tests modify old files; 12 added meta; source and archived-copy SHA-256 agree.",
+    "reusedChecks": "Central's full 1791-blob tree preservation and metadata provenance/parent-target verification. Six new-adapter and six prior contract meta; no Host/LOC meta. QA did not re-audit these trees or review implementation.",
+    "metadataReceipt": {
+      "path": "docs/versioning/2026-10-03-yooasset-adapter-pr/fix01/metadata-receipt.json",
+      "bytes": 7521,
+      "sha256": "d55d4f54f57868d2d7264395e2776cd412b71023b46336ec73602d748697cdad"
+    }
+  },
+  "independentReview": {
+    "provider": "GitHub PR Code Review / chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5962972950,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#issuecomment-5962972950",
+      "createdUtc": "2026-10-02T23:17:43Z"
+    },
+    "completion": {
+      "id": 5962585590,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#issuecomment-5962585590",
+      "status": "Completed",
+      "completedUtc": "2026-10-02T23:21:03.078652Z",
+      "updatedUtc": "2026-10-02T23:21:04Z",
+      "commitShown": "69d8738"
+    },
+    "review": {
+      "id": 5397790966,
+      "url": "https://github.com/yyczz1/FightMatch/pull/9#pullrequestreview-5397790966",
+      "state": "COMMENTED",
+      "submittedUtc": "2026-10-02T23:21:00Z",
+      "fullCommit": "69d8738976095bbcf0d014b737c73abd5b153f7a"
+    },
+    "newFindings": 1,
+    "formalApproved": false
+  },
+  "finding": {
+    "priority": "P2",
+    "id": 4170623081,
+    "url": "https://github.com/yyczz1/FightMatch/pull/9#discussion_r4170623081",
+    "thread": "PRRT_kwDOTDyjrM6ohXdE",
+    "title": "Retry post-load manifest validation failures",
+    "file": "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+    "line": 255,
+    "side": "RIGHT",
+    "serviceFinding": "After a successful manifest operation, sdk.Version mismatch or exception returns retryable ManifestUnavailable with Operation cleared and Phase advanced to 2. A later explicit acquisition skips the reset branch and never calls sdk.Manifest again; an older observer can also become successful if the version check recovers instead of preserving its original failure.",
+    "requestedCorrection": "Reset the manifest phase for this post-load validation failure path, so all ManifestUnavailable outcomes support explicit retry and old observers retain failure.",
+    "resolved": false,
+    "outdated": false,
+    "attribution": "Independent service finding; not locally reproduced or supplemented."
+  },
+  "disposition": {
+    "codeGate": "OPEN_NEEDS_FIX",
+    "nextOwner": "Central forwards to engineering for a smaller original-author correction packet.",
+    "verificationRequired": "Relevant post-load version mismatch/exception and observer-stability coverage, affected native validation under engineering's contract, then independent GitHub review of the corrected head.",
+    "restriction": "QA does not implement, dispatch the author, alter GitHub discussions, or take over/wait for C."
+  },
+  "preservedHistory": {
+    "priorReview": {
+      "path": "docs/team/2026-09-30/testing-yooasset-adapter-pr9-review-receipt.json",
+      "bytes": 6362,
+      "sha256": "70d45111d831cc300269c3a7149ef902b79d8627ff0951831789120655ac488b",
+      "verdict": "NEEDS_FIX"
+    },
+    "priorM01Archive": {
+      "path": "docs/versioning/2026-10-03-yooasset-adapter-pr/fix01/prior-m01-receipt.json",
+      "bytes": 15600,
+      "sha256": "de476b0056a07a608ab21953794e8736d55748fadc1e9a6ca4b857f0034c0b22",
+      "meaning": "Old candidate compile/31 result retained; not FIX01 validation or new QA native acceptance."
+    },
+    "oldThreads": [
+      {
+        "finding": 4170434483,
+        "resolved": false,
+        "outdated": false,
+        "currentLine": 305
+      },
+      {
+        "finding": 4170434491,
+        "resolved": false,
+        "outdated": true,
+        "currentLine": null
+      }
+    ],
+    "note": "No automatic resolution or replacement of old P2 records. Outdated does not mean resolved."
+  },
+  "validationBoundary": {
+    "FIX01": "111 mechanical checks and 34 static candidate names only at the source checkpoint; QA makes no compile, discovery or behavior-pass claim.",
+    "nativeReceiver": "Engineering receives sole C's actual new-source validation separately.",
+    "remaining": [
+      "Corrected code gate",
+      "Fresh corrected-source compile/focused suite and independent native receipt",
+      "Built-in/resource/Host runtime",
+      "Windows/Android/device and Demo",
+      "Shared adoption and release"
+    ]
+  },
+  "actions": {
+    "reviewTriggers": 0,
+    "localReviews": 0,
+    "unityOrTestRuns": 0,
+    "sourceVerifierRuns": 0,
+    "gitWrites": 0,
+    "githubDiscussionWrites": 0,
+    "workerDispatches": 0,
+    "onlyFileWritten": "docs/team/2026-09-30/testing-yooasset-adapter-fix01-pr9-review-receipt.json"
+  }
+}

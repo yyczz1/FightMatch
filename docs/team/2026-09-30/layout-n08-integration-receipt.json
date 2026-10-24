@@ -1,0 +1,30 @@
+{
+  "task": "LAYOUT-S1-FIX04-N08",
+  "date": "2026-10-06",
+  "owner": "中央01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "verdict": "NEEDS_FIX",
+  "scope": "N08原生修复交付失败并且原收尾证据不完整；不作源码独立审查或Demo接受。",
+  "recoveryReceipt": {
+    "path": "docs/team/2026-09-30/engineering-layout-n08-recovery-receipt.json",
+    "bytes": 29670,
+    "sha256": "71f8bf16628319483d3fc11537f26cc8b87569526da38cc1c78b54a26a91d056",
+    "engineeringActualTurn": "01a10ce1-4611-7771-9715-43fc0c7e7351"
+  },
+  "observed": [
+    "N08已获批启动1次，约19.072148秒因单sample日志超过8192字节门失败；不是仍待审批。",
+    "原始editor.log 362只有post-set完整5204字节sample：27原覆盖过滤为22，实际与期望按完整顺序相同。after-force被写日志前的预算检查拒绝，实际数据和超限字节数未知。",
+    "log373终态Set1/Save0/Force1/Queue0/decisive0，cleanupFailures0，diagnosticsIncomplete=true；未保存、复开或导出。",
+    "Host.Editor实际重新编译，Core.Tests复用，未运行测试；共享/投影源码、Scene/Prefab和规定资源当前身份保持。",
+    "原C及主程收件回合interrupted；launcher工具的-1不是Unity退出码，after/最终receipt缺失。原launcher与12个owned进程当前均缺席，无需清理信号。",
+    "N05至N08临时目录当前缺失，原因未知；不补造原临时目录保护通过或原wrapper完整收尾。"
+  ],
+  "evidence": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N08/PExecution；现存N08共13叶1717788B冻结，恢复回执独立保存，不填补原receipt。",
+  "independentReview": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "historicalReviewedHead": "e3d581df42f3a25cfdfc319bca5509f8b5382ada",
+    "historicalReceipt": "docs/team/2026-09-30/testing-layout-s1-pr4-native-review-receipt.json",
+    "N08": "PENDING；历史审查不覆盖N08，原P1不关闭。"
+  },
+  "next": "执行central-layout-n09-source-packet.json，仅修诊断数据承载；新Unity执行尚未激活，不重新执行N08获批prefix。历史TMP缺口如实保留，后继以新的实际基线与新自有TMP另签合同。",
+  "remaining": "覆盖重现根因仍未确定；新源码编译、必要测试、GitHub独立审查、实际Host/设备/新APK及Demo验收均待后继。"
+}

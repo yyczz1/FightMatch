@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-ACTIVATION-001",
+  "status": "BLOCKED",
+  "blocker": "CONSUMED_RESTART_VS_NEXT_PREPARED_RELATION",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a10057-9fbf-7693-b543-201df3ab1b9b"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a10055-74e2-79e2-865c-8100ce9c3442"
+  },
+  "authority": "User AGENTS section6 and central approval of final contract95c55b... plus engineering activation. PREPARED/old issuer/old cumulative budgets in fixed contract remain historical; this activation permits only the new two-source/eight-leaf S. Design conflicts must be returned BLOCKED before guessing.",
+  "before": {
+    "bytes": 5045,
+    "sha256": "59c59cc9cf3218b02d42a39a54e7fb75745ba9d7b3e02a02958528ba83fd6074"
+  },
+  "scope_state": "Blocked input checkpoint only; not the eight-leaf source-ready seal. Only before.json and this receipt are authored. Both candidate sources, patch, verifier, after and static-checks remain absent.",
+  "conflicting_contract_clauses": {
+    "path": "docs/team/2026-09-30/engineering-res-d-activation-store-source-001.md",
+    "sha256": "95c55bfff61e3b49f49ea86411ed8bd06f4311ac3305f9d6e83fb63ac284aa4e",
+    "line13": [
+      "prepared/restart target/id/base must match exactly",
+      "consumed prepared/restart are retained and cannot trigger again",
+      "mismatched residue is rejected",
+      "each step promotes at most one target file"
+    ],
+    "line15": "Prepare a new id/base=active.id from active.BusinessReady; changing prepared is forbidden while an unconsumed restart exists."
+  },
+  "symbolic_counterexample": [
+    "Initial active A becomes BusinessReady.",
+    "Prepare B and RequestRestart B create prepared/restart idB/baseA, then next process enters B and marks B BusinessReady.",
+    "Now active idB/baseA and the retained consumed prepared/restart idB/baseA are a valid completed update.",
+    "Prepare C must replace only prepared with idC/baseB. Retained restart remains consumed idB/baseA.",
+    "The resulting prepared/restart pair differs in id/base/target and is rejected under the unconditional line13 matching rule. Keeping prepared unchanged blocks subsequent updates; deleting/replacing restart together is not authorized."
+  ],
+  "decision_needed": "Clarify whether a retained restart that exactly matches the current active id/base/set/SHA is exempt from matching a newly prepared next target. If yes, require exact prepared/restart pairing only for an unconsumed restart; keep malformed/unknown residue rejected. If not, explicitly limit the module to one update or authorize a different state transition.",
+  "proposed_minimal_resolution": "Permit consumed restart tied exactly to current active to coexist with new prepared(base=current active.id); RequestRestart then atomically replaces that old consumed restart with the new matching request. One-file promotion, residue preservation and existing safety rules remain. Add second-update and mismatched consumed-record cases within AS02. This proposal is not implemented or treated as approved.",
+  "verification": {
+    "kind": "READ_ONLY_INPUT_IDENTITY_AND_ABSENCE_CAPTURE",
+    "fixed_inputs": 5,
+    "shared_guards": 5,
+    "target_absence_guards": 4,
+    "mechanical_verifier_runs": 0,
+    "source_candidates": 0,
+    "source_lines": 0,
+    "patch_created": false
+  },
+  "execution_counts": {
+    "CSharp": 0,
+    "Unity": 0,
+    "SDK": 0,
+    "NUnit": 0,
+    "network": 0,
+    "Git": 0,
+    "local_review": 0
+  },
+  "limitations": [
+    "Symbolic contract trace only; no implementation, runtime reproduction or acceptance claim.",
+    "No SOURCE_READY claim. Planned AS01-AS08 remain unwritten/uncompiled/unexecuted; process-token and real filesystem evidence do not exist.",
+    "RAW FIX02/PREF stages remain read-only; no active C/publication/P01 state was inspected or frozen."
+  ],
+  "return_path": "One BLOCKED completion to engineering under AGENTS section6, then stop writes. Needs a scoped clarification before source implementation; do not silently reinterpret persistence rules."
+}

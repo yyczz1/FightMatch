@@ -1,0 +1,42 @@
+{
+  "task": "V08-ADB-FOLLOWUP-SOURCE",
+  "verdict": "ACCEPT",
+  "scope": "source correction only; original V08 native runner remains FAILED",
+  "head": "23bcfd10e7478a7a0ab275d3532e883e5805e908",
+  "parent": "a360ad864171a3b49f7785ab7c797028d583d5c0",
+  "tree": "84efc2c2e6c21ac99ad87cc6c069b070a4739e40",
+  "githubResultComment": {
+    "kind": "ordinary issue_comment; no review entity",
+    "id": 6055530291,
+    "createdAtUtc": "2026-10-08T08:03:57Z",
+    "updatedAtUtc": "2026-10-08T08:03:57Z",
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6055530291",
+    "reviewedCommit": "23bcfd10e7",
+    "body": "Codex Review: Didn't find any major issues. :tada:\n\n**Reviewed commit:** `23bcfd10e7`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+  },
+  "serviceSummaryStatus": "Completed",
+  "reviewEntityId": null,
+  "formalApproved": false,
+  "qaActual": "01a11a86-80ad-73a3-8d98-272abf0a65d3",
+  "qaReceipt": "testing-resource-v08-adb-followup-review.json",
+  "publication": "resource-v08-adb-followup-publication.json",
+  "local18PublicationFilesStillMatch": true,
+  "validation": {
+    "targetedOfflineCases": 42,
+    "seconds": 0.15508545898774173,
+    "rounds": 1,
+    "unchangedFunctions": 103,
+    "nativeRuns": 0
+  },
+  "preservedEvidence": {
+    "assemblies": 12,
+    "passedTests": 89,
+    "asContractEvidence": "testing-resource-combined-v08-as-clarification.json",
+    "originalNativeVerdict": "resource-combined-v08-native-verdict.json"
+  },
+  "limitations": [
+    "Original T candidate identity was not captured; cannot reconstruct it from synthetic replay.",
+    "No new native-monitor, player, APK or device acceptance claimed."
+  ],
+  "next": "Reuse valid product compile and test evidence; require separately scoped proof only if a future native operation needs corrected monitoring."
+}

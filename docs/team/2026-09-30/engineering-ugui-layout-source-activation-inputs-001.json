@@ -1,0 +1,3047 @@
+{
+  "schemaVersion": 1,
+  "contract": "LAYOUT-S1-SYS-001",
+  "status": "SOURCE_CONTRACT_READY_NOT_EXECUTED",
+  "repository": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+  "author": {
+    "role": "SYS-ENG-001",
+    "thread": "01a0f2e6-29bb-7092-abf0-705b41b7bf93",
+    "host": "local",
+    "turn": "01a0fa51-fb29-7022-8a3e-5bbdd9302d03"
+  },
+  "receiver": {
+    "role": "engineering",
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "authority": "Engineering delegation under user 2026-10-02 continue first Demo + obvious temporary-art authorization and standing team workflow. SYS authors only this JSON and system-001.md. No dispatch/Unity/network/Git mutation.",
+  "capturedUtc": "2026-10-02T02:01:31.581063+00:00",
+  "pr1": {
+    "head": "3541930877837e14b58020b910976b8b67b56e42",
+    "tree": "37326f759fc065f268c23f66a674be1a61f12268",
+    "objectsVerifiedLocally": true,
+    "role": "limited FIX22 accepted functional preimage, not layout/real Host/Demo acceptance"
+  },
+  "pr3": {
+    "head": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "role": "protected independent LOC-B-PREF only; not S dependency",
+    "sourcePaths": [
+      "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs",
+      "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs",
+      "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs"
+    ],
+    "absentMetaPaths": [
+      "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs.meta",
+      "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs.meta",
+      "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta"
+    ]
+  },
+  "historicalManifestChecks": [
+    {
+      "group": "product29",
+      "count": 29,
+      "mismatches": []
+    },
+    {
+      "group": "resources37",
+      "count": 37,
+      "mismatches": []
+    }
+  ],
+  "sourceScope": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 1800
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 300
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 700
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 160
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 450
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 650
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 320
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "action": "create",
+      "required": true,
+      "maxAddedPlusDeletedLines": 650
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "action": "create",
+      "required": true,
+      "maxAddedPlusDeletedLines": 1400
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 550
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 180
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 200
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 180
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 180
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 120
+    }
+  ],
+  "conditionalDecisions": [
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "selected": true,
+      "reason": "BattleUguiRoot.Input/Playback/Page (lines 186-233) directly constructs retired enemies/members/hp/intent/dialog/recovery fields. Adapt typed fixed slots, separate panels, Header/Close and exact row containers; keep synthetic mapper rig distinct from actual Overlay acceptance."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattleTestFixture.cs",
+      "selected": false,
+      "reason": "Delegates view construction to BattleUguiRoot.Page; controller/session/rebuild helpers and mapper-only board sizing remain valid and do not require serialization edits."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "selected": true,
+      "reason": "NavigationPanel lines 33-42 disables Host and forces both shared outer roots on. Route observation must call the real Host outer-root synchronization seam; no mirrored XOR or fake recovery blocker."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackTestData.cs",
+      "selected": false,
+      "reason": "Delegates to BattleUguiRoot.Playback; no retired serialized-field construction. Keep gameplay, sparse domain inputs, resize and save fixtures unchanged."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTests.cs",
+      "selected": false,
+      "reason": "Uses shared BoardPanelRig and public board/controller behavior. No retired serialized fields or aggregate-label assertion found; new unsupported-slot assertions belong in LAYOUT_09."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "selected": true,
+      "reason": "Lines 107,266-271 access history rows as always-visible. Enter/close the real History drawer before existing actions and retain original token/save/stale-callback assertions."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerDefaultReferenceTests.cs",
+      "selected": false,
+      "reason": "Uses shared BattleUguiRoot and current public Reference lifecycle. Existing first-drag/replay/identity assertions stay byte-identical."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs",
+      "selected": false,
+      "reason": "Stable row identities and controller/save invariants do not change. Fixture adapts shared-root ownership; OriginalResult keeps the same dynamic ViewId."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "selected": true,
+      "reason": "P27_05 lines 28-71 asserts aggregate playback-hp labels. Bind assertions to fixed OriginalSlot labels while retaining every value, localization, token and diagnostic assertion."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "selected": true,
+      "reason": "Line 219 hardcodes 119/116 TMP counts; line 354 mapper-only WorldSpace fixture must not become responsive/Overlay evidence. Replace count with exact independently enumerated layout target set; keep mapper test scope."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "selected": true,
+      "reason": "Line 76 hardcodes 119/116. Assert exact post-layout TMP target set, three linked inputs, placeholder and ownership coverage; never >=."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostTestFixture.cs",
+      "selected": false,
+      "reason": "HostPanel instantiates the real prefab and binds the actual HostView; no retired private-field writes. Updated prefab supplies references."
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostRoutingLifetimeTests.cs",
+      "selected": false,
+      "reason": "Actual HostPanel loads prefab; route/save/lifetime assertions need no rewrite. Retain all historical parameter cases."
+    }
+  ],
+  "sourceBudget": {
+    "files": 15,
+    "newFiles": 2,
+    "addedPlusDeletedLines": 7840,
+    "measurement": "sum added+deleted lines from exact PR1 blobs; new-file lines all added; no HEAD/master comparison"
+  },
+  "futureOnly": {
+    "naturalMetaPaths": [
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+    ],
+    "nativeResources": [
+      {
+        "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "guid": "c36df3cfc25424c8cb3ec6cae6be1237"
+      },
+      {
+        "path": "Assets/Scenes/FightMatchDemo.unity",
+        "guid": "1d5124e5b55fe409d8216e78a117dec0"
+      }
+    ],
+    "state": "WAITING_ACTIVATION"
+  },
+  "inputs": [
+    {
+      "path": "Assets/Scenes/FightMatchDemo.unity",
+      "state": "present",
+      "bytes": 12900,
+      "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd",
+      "lines": 384,
+      "pr1": {
+        "blob": "6824b947ed7a14be3c20465fc9988d20233fe8ef",
+        "bytes": 12900,
+        "sha256": "0ceee6f17e95359150c43b2a754703b5770096f183cc713120287083eb400bcd",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs",
+      "state": "present",
+      "bytes": 11673,
+      "sha256": "fc22a4f39ce59eb665ebfc65e1c5101ebfb454816199a4cd64ec4ed4f173e70d",
+      "lines": 207,
+      "pr1": {
+        "blob": "31a326e1b09d4e5e82e014fae1b1bad379a618fc",
+        "bytes": 11673,
+        "sha256": "fc22a4f39ce59eb665ebfc65e1c5101ebfb454816199a4cd64ec4ed4f173e70d",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs",
+      "state": "present",
+      "bytes": 20103,
+      "sha256": "28d1d8dd312ad2c0a4c127ec2f126aa3465abcb114ea3ab9ac7e4ed92bae9cec",
+      "lines": 276,
+      "pr1": {
+        "blob": "350ae57300702315ebeed9097809613343b95f9a",
+        "bytes": 20103,
+        "sha256": "28d1d8dd312ad2c0a4c127ec2f126aa3465abcb114ea3ab9ac7e4ed92bae9cec",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatch.Host.Editor.asmdef",
+      "state": "present",
+      "bytes": 282,
+      "sha256": "dc794b21c55316e31c55c119638d56029b7e626834b38a72ee294562b579abe2",
+      "lines": 7,
+      "pr1": {
+        "blob": "c5995c51c0dbb083b832713ddf05bb519f0c812c",
+        "bytes": 282,
+        "sha256": "dc794b21c55316e31c55c119638d56029b7e626834b38a72ee294562b579abe2",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "state": "present",
+      "bytes": 83965,
+      "sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac",
+      "lines": 1049,
+      "pr1": {
+        "blob": "a588f8e8a6a57d90e744e768c2c95ba6ffac6f99",
+        "bytes": 83965,
+        "sha256": "2c7a1612954ccc341f72a58918ffc1356074bf1802c866f01b7c9fdb72ad7dac",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "1dc4a0f7fb73894190029d4357152b65aaa588369e3efb7dcf1449affcf5a367",
+      "lines": 11,
+      "pr1": {
+        "blob": "2212e038d60fe0f36c257f8a5ca1087197bcc7f3",
+        "bytes": 243,
+        "sha256": "1dc4a0f7fb73894190029d4357152b65aaa588369e3efb7dcf1449affcf5a367",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatch.Host.asmdef",
+      "state": "present",
+      "bytes": 346,
+      "sha256": "85acabf7d4ec5e2b9970f9299ab2687cef131a4fa8213aa4f0aea9f70b4c0c7e",
+      "lines": 13,
+      "pr1": {
+        "blob": "c7c7fa46e3c775d5a25286690fbaed5115c25196",
+        "bytes": 346,
+        "sha256": "85acabf7d4ec5e2b9970f9299ab2687cef131a4fa8213aa4f0aea9f70b4c0c7e",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "state": "present",
+      "bytes": 14379,
+      "sha256": "d7a29970b0fb8b594e7114a883b82ffef92c47181218df1bec1f420dfda72136",
+      "lines": 221,
+      "pr1": {
+        "blob": "b349c7c580df47ac8637c4caf871009daefb59a3",
+        "bytes": 14379,
+        "sha256": "d7a29970b0fb8b594e7114a883b82ffef92c47181218df1bec1f420dfda72136",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "c096f6bad48e0e4d397f9b2016ff2293feb5f5233de22ea5ce6af7287760fd2a",
+      "lines": 11,
+      "pr1": {
+        "blob": "2b7717863c94d00e21aa63937a08d2cfbbfe1c80",
+        "bytes": 243,
+        "sha256": "c096f6bad48e0e4d397f9b2016ff2293feb5f5233de22ea5ce6af7287760fd2a",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+      "state": "present",
+      "bytes": 6595,
+      "sha256": "12dba7d11323da883f108ea416699a6cf638a9360587c984d7d070ebeb6cc287",
+      "lines": 146,
+      "pr1": {
+        "blob": "8a4223fb76ddb729f3243e26e5c730bbc7198991",
+        "bytes": 6595,
+        "sha256": "12dba7d11323da883f108ea416699a6cf638a9360587c984d7d070ebeb6cc287",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs",
+      "state": "present",
+      "bytes": 13773,
+      "sha256": "d392d6808ad1fc8156482020951404eb46390d462ce0164404180dea067cce13",
+      "lines": 289,
+      "origin": "PR3_LOC_B_PREF",
+      "pr3": {
+        "blob": "068aa471f79ffb89da770ed52cd23def48944dac",
+        "bytes": 13773,
+        "sha256": "d392d6808ad1fc8156482020951404eb46390d462ce0164404180dea067cce13",
+        "equalsLocal": true
+      },
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FileLocalePreferenceStore.cs.meta",
+      "state": "absent",
+      "origin": "ABSENCE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/HostAssemblyInfo.cs",
+      "state": "present",
+      "bytes": 176,
+      "sha256": "1dc94417f744f9a09f01c16af0f5ed720347d96d883f4304e5f3eb613e968fd5",
+      "lines": 2,
+      "pr1": {
+        "blob": "c9485f2649d49680a176a06939b92a23f39c567b",
+        "bytes": 176,
+        "sha256": "1dc94417f744f9a09f01c16af0f5ed720347d96d883f4304e5f3eb613e968fd5",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/HostAssemblyInfo.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "6443b9839bbde1fa4971a35306fd1093b89f0a3007dc2d9eaa6cb9ee7cec9487",
+      "lines": 11,
+      "pr1": {
+        "blob": "ebc3c3918f6a56cf9ab73557c9725797625ba468",
+        "bytes": 243,
+        "sha256": "6443b9839bbde1fa4971a35306fd1093b89f0a3007dc2d9eaa6cb9ee7cec9487",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs",
+      "state": "present",
+      "bytes": 3495,
+      "sha256": "e768e6e39fe0f28ec292032ff9986f79606136ad6473b43fb6d5c550487e55a0",
+      "lines": 68,
+      "origin": "PR3_LOC_B_PREF",
+      "pr3": {
+        "blob": "a2897dc25417e5535ed01f4d978c067cb8012eb5",
+        "bytes": 3495,
+        "sha256": "e768e6e39fe0f28ec292032ff9986f79606136ad6473b43fb6d5c550487e55a0",
+        "equalsLocal": true
+      },
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/ILocalePreferenceStore.cs.meta",
+      "state": "absent",
+      "origin": "ABSENCE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Input/GestureModels.cs",
+      "state": "present",
+      "bytes": 12737,
+      "sha256": "96c42f067860d110f158060bad3f637520cd72f51a0d95b8fac2192b2d771eae",
+      "lines": 308,
+      "pr1": {
+        "blob": "bdb30ed09da78549df839bf2e410ae7659398962",
+        "bytes": 12737,
+        "sha256": "96c42f067860d110f158060bad3f637520cd72f51a0d95b8fac2192b2d771eae",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Input/RouteGesture.cs",
+      "state": "present",
+      "bytes": 15093,
+      "sha256": "122c48a96c77b6326c560ffc979d9b716d7e2af19debe0e825934de196edcb29",
+      "lines": 414,
+      "pr1": {
+        "blob": "dabcc0c62b7d7971b08998ec4e19b8963defd5c9",
+        "bytes": 15093,
+        "sha256": "122c48a96c77b6326c560ffc979d9b716d7e2af19debe0e825934de196edcb29",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "state": "present",
+      "bytes": 13944,
+      "sha256": "38c7cfbb999897db56e90c37b6c7cacdef95d0aaabae87b8c671e1f262ea6216",
+      "lines": 242,
+      "pr1": {
+        "blob": "cccf96e9a08587357be9687ba01e8a866d396ab8",
+        "bytes": 13944,
+        "sha256": "38c7cfbb999897db56e90c37b6c7cacdef95d0aaabae87b8c671e1f262ea6216",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "663c27f469bd04da41ec99ba3569d52c9a07d627b445b687a8da2229e66bf895",
+      "lines": 11,
+      "pr1": {
+        "blob": "ba554525f2dcf83f967962d64c34763410deced0",
+        "bytes": 243,
+        "sha256": "663c27f469bd04da41ec99ba3569d52c9a07d627b445b687a8da2229e66bf895",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardElement.cs",
+      "state": "present",
+      "bytes": 12750,
+      "sha256": "956744b6f5f1fb571e5c069589d422e0dd8f668b604f50c35f00b22c8cdc357d",
+      "lines": 213,
+      "pr1": {
+        "blob": "8342d107e45e4fd83869bd064e47a598e4269f4e",
+        "bytes": 12750,
+        "sha256": "956744b6f5f1fb571e5c069589d422e0dd8f668b604f50c35f00b22c8cdc357d",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputController.cs",
+      "state": "present",
+      "bytes": 21703,
+      "sha256": "1cbe81a82c519e14a5f3b609b782dc872cd3a39fa833aa9b208548b5de6b27fc",
+      "lines": 358,
+      "pr1": {
+        "blob": "86ede36e3bbd08b44f488d7e5f9f10864f738acd",
+        "bytes": 21703,
+        "sha256": "1cbe81a82c519e14a5f3b609b782dc872cd3a39fa833aa9b208548b5de6b27fc",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "state": "present",
+      "bytes": 34540,
+      "sha256": "659d879b2154e3e7b9347638cfeaf5f3f33b4daea8908b14711712170b5ed3ed",
+      "lines": 499,
+      "pr1": {
+        "blob": "2b4e627c5cfbf04e773d942dd48ec7aa1b13daa6",
+        "bytes": 34540,
+        "sha256": "659d879b2154e3e7b9347638cfeaf5f3f33b4daea8908b14711712170b5ed3ed",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "8add23c7c34a3d7e9997ec8eea209f6237ce4bd946762002892bc1b94704c132",
+      "lines": 11,
+      "pr1": {
+        "blob": "81dc4a6397ae758ce9926a0689b3469163f1d5fb",
+        "bytes": 243,
+        "sha256": "8add23c7c34a3d7e9997ec8eea209f6237ce4bd946762002892bc1b94704c132",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatch.Presentation.asmdef",
+      "state": "present",
+      "bytes": 592,
+      "sha256": "b7c59f7de8581990dacc19ab111ae4be4805958333861ac4ec15b774db242de8",
+      "lines": 21,
+      "pr1": {
+        "blob": "0061796f1050a10b10bf1645aac2d87633ed1b5b",
+        "bytes": 592,
+        "sha256": "b7c59f7de8581990dacc19ab111ae4be4805958333861ac4ec15b774db242de8",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "state": "absent",
+      "origin": "ABSENCE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+      "state": "absent",
+      "origin": "ABSENCE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchStandaloneInputModule.cs",
+      "state": "present",
+      "bytes": 936,
+      "sha256": "4b0b0396658ea8fb7d6356901a69dfe29e7b20efaa4121192904f18743c1abd7",
+      "lines": 26,
+      "pr1": {
+        "blob": "7cc4ca722ac20d9137f40ed98914eb19c7a3f6cd",
+        "bytes": 936,
+        "sha256": "4b0b0396658ea8fb7d6356901a69dfe29e7b20efaa4121192904f18743c1abd7",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchStandaloneInputModule.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "e0551bee8d38d5ac8ddc25505e2a7a2bc0c4b621f814504ad71b79c7e3f01400",
+      "lines": 11,
+      "pr1": {
+        "blob": "bbccaad7f42f9ef7819f8b568cdfd8f653f6ef39",
+        "bytes": 243,
+        "sha256": "e0551bee8d38d5ac8ddc25505e2a7a2bc0c4b621f814504ad71b79c7e3f01400",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchViewId.cs",
+      "state": "present",
+      "bytes": 3119,
+      "sha256": "369977e9b72e8b8131de841badd135797ab15e4ddd699c32b0774792d4b604b3",
+      "lines": 61,
+      "pr1": {
+        "blob": "03437b9791d3f218f183f8e597c9a3a936eda058",
+        "bytes": 3119,
+        "sha256": "369977e9b72e8b8131de841badd135797ab15e4ddd699c32b0774792d4b604b3",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchViewId.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "2db9e07059eb0e9b18ed56b154fd181b19e7b1b9f8b4f1bfe9c8254d999444ec",
+      "lines": 11,
+      "pr1": {
+        "blob": "2b394c7c7eef5088ecf54ba4e5109d0655649b22",
+        "bytes": 243,
+        "sha256": "2db9e07059eb0e9b18ed56b154fd181b19e7b1b9f8b4f1bfe9c8254d999444ec",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization.meta",
+      "state": "present",
+      "bytes": 172,
+      "sha256": "d967fa6e7496727e66586f32a6e90f55dfbf2c1e3ab39696f3006c115389d2b3",
+      "lines": 8,
+      "pr1": {
+        "blob": "61d0e72204ce042daa3082f50efd713156bee0b8",
+        "bytes": 172,
+        "sha256": "d967fa6e7496727e66586f32a6e90f55dfbf2c1e3ab39696f3006c115389d2b3",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocaleId.cs",
+      "state": "present",
+      "bytes": 559,
+      "sha256": "f5338ff0fdde20a362281380a7d84183f552ad23a7964edb51d042fca48174a5",
+      "lines": 17,
+      "pr1": {
+        "blob": "99db8b7a6ab0375503839db34cf10e7620ce703b",
+        "bytes": 559,
+        "sha256": "f5338ff0fdde20a362281380a7d84183f552ad23a7964edb51d042fca48174a5",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocaleId.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "11c0e8d86b70b939cd9020d89b153c9803018a122280cf40c192ea760e5844ac",
+      "lines": 11,
+      "pr1": {
+        "blob": "a2642203de4a291c94b4971af6c5053b88ea8abb",
+        "bytes": 243,
+        "sha256": "11c0e8d86b70b939cd9020d89b153c9803018a122280cf40c192ea760e5844ac",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizationService.cs",
+      "state": "present",
+      "bytes": 2786,
+      "sha256": "ca8b2c5f9b8afd864410b35f7ab9998c04a7b5ea9efdf3a51e8082b6dd54a408",
+      "lines": 61,
+      "pr1": {
+        "blob": "3652a069ff2e00f5523f73e5eeae8ca94f463f7d",
+        "bytes": 2786,
+        "sha256": "ca8b2c5f9b8afd864410b35f7ab9998c04a7b5ea9efdf3a51e8082b6dd54a408",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizationService.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "85dababf164104fff11dde1de6c84309c7a66cced498700a3fc510a0ce5f1d4a",
+      "lines": 11,
+      "pr1": {
+        "blob": "1342f315b65e8d917f882a47c8b385773c723781",
+        "bytes": 243,
+        "sha256": "85dababf164104fff11dde1de6c84309c7a66cced498700a3fc510a0ce5f1d4a",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTextSource.cs",
+      "state": "present",
+      "bytes": 1527,
+      "sha256": "0c830db5aa297a08e236e7a8edb7e42d62f3c779b1293b362733b450283901a6",
+      "lines": 37,
+      "pr1": {
+        "blob": "ae8abe930af763001c1685e98addeeda7b1b506b",
+        "bytes": 1527,
+        "sha256": "0c830db5aa297a08e236e7a8edb7e42d62f3c779b1293b362733b450283901a6",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTextSource.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "688a047c19610aed6c3476881e28da1135a55cb49c581e57bcfde2644dc12963",
+      "lines": 11,
+      "pr1": {
+        "blob": "9c9d249683ced6282f48b8e2009d2659d91156f7",
+        "bytes": 243,
+        "sha256": "688a047c19610aed6c3476881e28da1135a55cb49c581e57bcfde2644dc12963",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTmpText.cs",
+      "state": "present",
+      "bytes": 3061,
+      "sha256": "c0579d136752f155b06d8adf99c9a8e38fd7af0cb651c7f81813aac737382626",
+      "lines": 67,
+      "pr1": {
+        "blob": "98c575ad33116104f21bc843f6c126e1c2de741e",
+        "bytes": 3061,
+        "sha256": "c0579d136752f155b06d8adf99c9a8e38fd7af0cb651c7f81813aac737382626",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTmpText.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "9ada3d16b10d705c6b606c935f7842c8a8ef26b1732fcc20a7e156218030d37d",
+      "lines": 11,
+      "pr1": {
+        "blob": "2b2d4b5b5ba40e981f1cff6a3a8483f18766b22a",
+        "bytes": 243,
+        "sha256": "9ada3d16b10d705c6b606c935f7842c8a8ef26b1732fcc20a7e156218030d37d",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "state": "present",
+      "bytes": 25884,
+      "sha256": "3baa9fc9f2f4a565a4933130e7f5c46e6c16edf4e7a3a0d13c8dac9761201e7c",
+      "lines": 341,
+      "pr1": {
+        "blob": "923f6358d064b87740a8e048bdb2fc7c0d37e18e",
+        "bytes": 25884,
+        "sha256": "3baa9fc9f2f4a565a4933130e7f5c46e6c16edf4e7a3a0d13c8dac9761201e7c",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "0217c5d90b00472d2d4a87fe32955aa3ecb6d7356fe6492961b5cf9439cb276f",
+      "lines": 11,
+      "pr1": {
+        "blob": "33f8bc7cad6bdd207920ca8c767e9492390d6fe3",
+        "bytes": 243,
+        "sha256": "0217c5d90b00472d2d4a87fe32955aa3ecb6d7356fe6492961b5cf9439cb276f",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "state": "present",
+      "bytes": 18882,
+      "sha256": "b3f28fd28df9687e8a92b95a81b2bd8d65fe974e43b962436b2a75370bfb8cac",
+      "lines": 276,
+      "pr1": {
+        "blob": "f93efe783041545d533520d3f4f9ff317def418f",
+        "bytes": 18882,
+        "sha256": "b3f28fd28df9687e8a92b95a81b2bd8d65fe974e43b962436b2a75370bfb8cac",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "29db46a4d0df4151c2f589425a25a048861585803b42e1e97f7471f00d9f99d7",
+      "lines": 11,
+      "pr1": {
+        "blob": "806d0850302db42d31a7d7808c5bfdb6903faf91",
+        "bytes": 243,
+        "sha256": "29db46a4d0df4151c2f589425a25a048861585803b42e1e97f7471f00d9f99d7",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationController.cs",
+      "state": "present",
+      "bytes": 3436,
+      "sha256": "5c9d16aef6c419ffebb7fae1a48ea90657dbc79dc996d26784e00e04982589f1",
+      "lines": 74,
+      "pr1": {
+        "blob": "363b1fc2cede6c73247ce2679ab92eb0f003795e",
+        "bytes": 3436,
+        "sha256": "5c9d16aef6c419ffebb7fae1a48ea90657dbc79dc996d26784e00e04982589f1",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "state": "present",
+      "bytes": 11337,
+      "sha256": "dbfdfe0e333777d19d76e8a84860d6912fbd916e44425a99cbb7b1a9ffd128e9",
+      "lines": 169,
+      "pr1": {
+        "blob": "8a5d02e79b7438efa7069d7e201484a671d86c46",
+        "bytes": 11337,
+        "sha256": "dbfdfe0e333777d19d76e8a84860d6912fbd916e44425a99cbb7b1a9ffd128e9",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "7f419564169dfb2515cdee7f2ce4ffe6b1504675af2b7bd5f14b1531173eb728",
+      "lines": 11,
+      "pr1": {
+        "blob": "0238130e0fe38e0a9d5cbdf9c92717a41a3e3931",
+        "bytes": 243,
+        "sha256": "7f419564169dfb2515cdee7f2ce4ffe6b1504675af2b7bd5f14b1531173eb728",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationView.cs",
+      "state": "present",
+      "bytes": 45615,
+      "sha256": "13d9c28a477036ea22d4195606b6c5843ae4cbde98560cbb6c4f1e1501e54671",
+      "lines": 636,
+      "pr1": {
+        "blob": "6cf9420755b44947ee5f9391d5b5e36d19d872e6",
+        "bytes": 45615,
+        "sha256": "13d9c28a477036ea22d4195606b6c5843ae4cbde98560cbb6c4f1e1501e54671",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerPermanentDetailView.cs",
+      "state": "present",
+      "bytes": 8003,
+      "sha256": "3b44308a52f12fe30630fc35a5e7d340a54386520fb32a125e3a10c5e8b02065",
+      "lines": 133,
+      "pr1": {
+        "blob": "33c62a7dfff0bde588b3a2891c5cb0096370dee8",
+        "bytes": 8003,
+        "sha256": "3b44308a52f12fe30630fc35a5e7d340a54386520fb32a125e3a10c5e8b02065",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PresentationAssemblyInfo.cs",
+      "state": "present",
+      "bytes": 258,
+      "sha256": "047029b17c9e84e9ec8666938680901897f4dd4457516d646b5d2c64be8145ad",
+      "lines": 3,
+      "pr1": {
+        "blob": "62fea54ab88837c5de9dc84b66ab0efe6ceb3526",
+        "bytes": 258,
+        "sha256": "047029b17c9e84e9ec8666938680901897f4dd4457516d646b5d2c64be8145ad",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PresentationAssemblyInfo.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "1a86c1a77ab911c9d868412af437ca64e9befe4aa75343d125ebf27f0776d5b7",
+      "lines": 11,
+      "pr1": {
+        "blob": "72c8272d1fc5c08f1fa656bf5e755d7be72c6d91",
+        "bytes": 243,
+        "sha256": "1a86c1a77ab911c9d868412af437ca64e9befe4aa75343d125ebf27f0776d5b7",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/SafeAreaFitter.cs",
+      "state": "present",
+      "bytes": 1577,
+      "sha256": "34234229face2665d02c5806a890cec15a297f364b96cce80b457eabc731c8a7",
+      "lines": 34,
+      "pr1": {
+        "blob": "05a32a5dbc3b4055538077e292bae2921f89d68f",
+        "bytes": 1577,
+        "sha256": "34234229face2665d02c5806a890cec15a297f364b96cce80b457eabc731c8a7",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/SafeAreaFitter.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "5c45935a46b8cf3bdfb4eed07a1eebd0bf1a2ee220332e4a18a316b67af4079f",
+      "lines": 11,
+      "pr1": {
+        "blob": "2b0838cad8fd8bf2a518268d0edca06a46c76930",
+        "bytes": 243,
+        "sha256": "5c45935a46b8cf3bdfb4eed07a1eebd0bf1a2ee220332e4a18a316b67af4079f",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "state": "present",
+      "bytes": 16074,
+      "sha256": "d798f81816a6e9d1583b0ab7f54895731bb69676dbc2aae97355d4d8767f909a",
+      "lines": 193,
+      "pr1": {
+        "blob": "8c4f81aadb1df1a94497ef1ea7fde4c7132b0ca7",
+        "bytes": 16074,
+        "sha256": "d798f81816a6e9d1583b0ab7f54895731bb69676dbc2aae97355d4d8767f909a",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "e06c52e0b1006eee5770ae217edb113fd9276ec121caf3f26d5618d2a19a779f",
+      "lines": 11,
+      "pr1": {
+        "blob": "667da23c0ed928f4be1a097fbb3f9e3cf98a7a93",
+        "bytes": 243,
+        "sha256": "e06c52e0b1006eee5770ae217edb113fd9276ec121caf3f26d5618d2a19a779f",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackTestData.cs",
+      "state": "present",
+      "bytes": 8232,
+      "sha256": "f7496f885003c4ab19c5d2ac105c22763c1ec1e347ae0d2c9fdcd9db8344ddff",
+      "lines": 114,
+      "pr1": {
+        "blob": "70b74764bf9e824113606a1b9f9ceef84d851a3f",
+        "bytes": 8232,
+        "sha256": "f7496f885003c4ab19c5d2ac105c22763c1ec1e347ae0d2c9fdcd9db8344ddff",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackTestData.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "e102dc3a4630c0286615957d8a2f6323dcda19961f910485ba3475ed03d26fe8",
+      "lines": 11,
+      "pr1": {
+        "blob": "841eb9ab9bcfb952e74422193adc98d758176ab5",
+        "bytes": 243,
+        "sha256": "e102dc3a4630c0286615957d8a2f6323dcda19961f910485ba3475ed03d26fe8",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "state": "present",
+      "bytes": 28115,
+      "sha256": "16b3311b564777eb81fba4467a88afc100aaa8abaf80fe03ae0ac39989bb7337",
+      "lines": 445,
+      "pr1": {
+        "blob": "bc813c559f1f369a37a433e4abd57de55fd651d5",
+        "bytes": 28115,
+        "sha256": "16b3311b564777eb81fba4467a88afc100aaa8abaf80fe03ae0ac39989bb7337",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "502055d008751f9155691a278067a5a1103f3d7c65f4776a21307a83c9ffd820",
+      "lines": 11,
+      "pr1": {
+        "blob": "b8fbdb3f18f3de97b5d679fc49a8fca69c034359",
+        "bytes": 243,
+        "sha256": "502055d008751f9155691a278067a5a1103f3d7c65f4776a21307a83c9ffd820",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTests.cs",
+      "state": "present",
+      "bytes": 44259,
+      "sha256": "5afac42a16887b3c44d66ab954a956a06cb4b1f0452ed5f923129939a66f904c",
+      "lines": 605,
+      "pr1": {
+        "blob": "43b6fc7b37b8f7b746919c72622d2842b0b22e1a",
+        "bytes": 44259,
+        "sha256": "5afac42a16887b3c44d66ab954a956a06cb4b1f0452ed5f923129939a66f904c",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "b528d84002cfcb51509f810685025f8dfbb086e840733bdb5b6478ecfa2bd270",
+      "lines": 11,
+      "pr1": {
+        "blob": "690e47b05ae3976231bc96db1be5151c3ce67ecf",
+        "bytes": 243,
+        "sha256": "b528d84002cfcb51509f810685025f8dfbb086e840733bdb5b6478ecfa2bd270",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/FightMatch.Core.Tests.asmdef",
+      "state": "present",
+      "bytes": 800,
+      "sha256": "e1d1132e25be4b82cb64f04a26c31f9662c5fd86df2a6ba20f6afe010da8501e",
+      "lines": 30,
+      "pr1": {
+        "blob": "46af608ab5b2d125159bdb3abd18d72eb1348195",
+        "bytes": 800,
+        "sha256": "e1d1132e25be4b82cb64f04a26c31f9662c5fd86df2a6ba20f6afe010da8501e",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalePolicyTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "ac14463ea7d1c5390eab74076c6fcc32f4dbebb0cefc34d01d1b6a2a62f7a6ee",
+      "lines": 11,
+      "pr1": {
+        "blob": "bcee7083bceccd410dbc3e9bd9639bede206d32a",
+        "bytes": 243,
+        "sha256": "ac14463ea7d1c5390eab74076c6fcc32f4dbebb0cefc34d01d1b6a2a62f7a6ee",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs",
+      "state": "present",
+      "bytes": 15236,
+      "sha256": "49ef2fc9380430da482d9f0cb62fdc6a949418cd02b157cb2328d5eb73ea363f",
+      "lines": 240,
+      "pr1": {
+        "blob": "0d8743b95b36bcd4af84a01d9dedc8f2f6783058",
+        "bytes": 15236,
+        "sha256": "49ef2fc9380430da482d9f0cb62fdc6a949418cd02b157cb2328d5eb73ea363f",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "6aae345fa1830ac7b9c67f0fb1123a9e3f8c3931fcc19aaed8d9071fd5b93907",
+      "lines": 11,
+      "pr1": {
+        "blob": "fe5b2d5166b741c1312d71ad368ef04f87fdfbe3",
+        "bytes": 243,
+        "sha256": "6aae345fa1830ac7b9c67f0fb1123a9e3f8c3931fcc19aaed8d9071fd5b93907",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "state": "present",
+      "bytes": 15357,
+      "sha256": "684f9b81ff42f27e5a871a77e6f7f9278dbccf743289a54d7380b387a44fee64",
+      "lines": 251,
+      "pr1": {
+        "blob": "d1a9e3773808faa7897e679abf43ca3a513640c8",
+        "bytes": 15357,
+        "sha256": "684f9b81ff42f27e5a871a77e6f7f9278dbccf743289a54d7380b387a44fee64",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "bc1890b17907613f9f3b1f59b45a71b2e1599daac8f3c7cb16d9d95916e2e6af",
+      "lines": 11,
+      "pr1": {
+        "blob": "673afdb264b73a4e5bb15b665884674e435ac31d",
+        "bytes": 243,
+        "sha256": "bc1890b17907613f9f3b1f59b45a71b2e1599daac8f3c7cb16d9d95916e2e6af",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "state": "present",
+      "bytes": 27609,
+      "sha256": "3f4e56ead7feb7e3c85b9f28cf315240010cbbbb20b71fa5baf7ca270a56fcca",
+      "lines": 323,
+      "pr1": {
+        "blob": "3df530b7294168d90ba6dd0b6105c81e1fc858af",
+        "bytes": 27609,
+        "sha256": "3f4e56ead7feb7e3c85b9f28cf315240010cbbbb20b71fa5baf7ca270a56fcca",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "c48de8aee03ca3135f420460e3ebe08adb74875736788193aae6f708cf8aa69e",
+      "lines": 11,
+      "pr1": {
+        "blob": "1cd2edd17ad1e4ef776146a2822ad8a5a5830f30",
+        "bytes": 243,
+        "sha256": "c48de8aee03ca3135f420460e3ebe08adb74875736788193aae6f708cf8aa69e",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattleTestFixture.cs",
+      "state": "present",
+      "bytes": 11202,
+      "sha256": "e4ec44da88bf170a8c5f30e8b6e22ae2d371027573ec13a08e3e2d41de7bdefc",
+      "lines": 179,
+      "pr1": {
+        "blob": "b59f7b5b2d0ee671231b9ce722e12c665682f9c2",
+        "bytes": 11202,
+        "sha256": "e4ec44da88bf170a8c5f30e8b6e22ae2d371027573ec13a08e3e2d41de7bdefc",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattleTestFixture.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "00e930e4b40bb83d516f2858430202b950bbf206dfc971c4405f46ae978d61a6",
+      "lines": 11,
+      "pr1": {
+        "blob": "367fcfb919450c01777d28a1d8a9c8a8c8bd206e",
+        "bytes": 243,
+        "sha256": "00e930e4b40bb83d516f2858430202b950bbf206dfc971c4405f46ae978d61a6",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerDefaultReferenceTests.cs",
+      "state": "present",
+      "bytes": 19945,
+      "sha256": "4c7a0493bc62a85e3c233d5b0608ce299ccf7d856d4755f93dc8d6c2cb39c58e",
+      "lines": 247,
+      "pr1": {
+        "blob": "314628a288c2e96c6f5ae84b3d2faec820a92c6e",
+        "bytes": 19945,
+        "sha256": "4c7a0493bc62a85e3c233d5b0608ce299ccf7d856d4755f93dc8d6c2cb39c58e",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerDefaultReferenceTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "854a6e73c20055abada66d8d92c9db9531095be32d82d6d9997c2946e0b88694",
+      "lines": 11,
+      "pr1": {
+        "blob": "56600172d4b2c4c210cc0fb4426883b893151d30",
+        "bytes": 243,
+        "sha256": "854a6e73c20055abada66d8d92c9db9531095be32d82d6d9997c2946e0b88694",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs",
+      "state": "present",
+      "bytes": 28399,
+      "sha256": "10ca757ae66bd906eca9848833e169f44401199d659e4f1244c5d77b7d393ab5",
+      "lines": 374,
+      "pr1": {
+        "blob": "6163c5632d1e771f3dda333928b4da7214cc63c8",
+        "bytes": 28399,
+        "sha256": "10ca757ae66bd906eca9848833e169f44401199d659e4f1244c5d77b7d393ab5",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationRecoveryTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "7f59cdcc272295ccc304794ca6a114437beabdacdbefa4be776bc4826f65a53e",
+      "lines": 11,
+      "pr1": {
+        "blob": "0b3d0a5b5e25ab91576cf71ad948dbac65659a83",
+        "bytes": 243,
+        "sha256": "7f59cdcc272295ccc304794ca6a114437beabdacdbefa4be776bc4826f65a53e",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "state": "present",
+      "bytes": 17926,
+      "sha256": "00a3244998a419e140d23d25e0e2d8f7e2a4c72415caffc75fec9a53289902b8",
+      "lines": 290,
+      "pr1": {
+        "blob": "d2c499357401c925f631a2b8aaf102bc874324f7",
+        "bytes": 17926,
+        "sha256": "00a3244998a419e140d23d25e0e2d8f7e2a4c72415caffc75fec9a53289902b8",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "34556d8dca364607a7de2e7a876f911350690bfef555aee716ff4b96f9cec1f3",
+      "lines": 11,
+      "pr1": {
+        "blob": "7edab6a58e1f9a7a3a5e64829df4f183ae70599d",
+        "bytes": 243,
+        "sha256": "34556d8dca364607a7de2e7a876f911350690bfef555aee716ff4b96f9cec1f3",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerSessionTestData.cs",
+      "state": "present",
+      "bytes": 23625,
+      "sha256": "1ee623417a1a488c6e8b0f0789868baae8115540c33c9a754615fc61f8a1d05f",
+      "lines": 287,
+      "pr1": {
+        "blob": "f848275388d01465ffafec98327d57c4183d5353",
+        "bytes": 23625,
+        "sha256": "1ee623417a1a488c6e8b0f0789868baae8115540c33c9a754615fc61f8a1d05f",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PublishedContentTestData.cs",
+      "state": "present",
+      "bytes": 6699,
+      "sha256": "db619a287c2ddd826b546719084b61067f64ff37f83e9d4ace2f62c483aa1345",
+      "lines": 86,
+      "pr1": {
+        "blob": "84ad54bf763e7a81b5ab87a9ef573cf3862d2bfa",
+        "bytes": 6699,
+        "sha256": "db619a287c2ddd826b546719084b61067f64ff37f83e9d4ace2f62c483aa1345",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "state": "absent",
+      "origin": "ABSENCE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta",
+      "state": "absent",
+      "origin": "ABSENCE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "state": "present",
+      "bytes": 24326,
+      "sha256": "0cfa14f00f541ad6d1be26745fffaf14703e7ac3af27d038b4a410b6a6d04fbb",
+      "lines": 381,
+      "pr1": {
+        "blob": "de8a46a96fba640ae597693e11d65074814f4c94",
+        "bytes": 24326,
+        "sha256": "0cfa14f00f541ad6d1be26745fffaf14703e7ac3af27d038b4a410b6a6d04fbb",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "ALLOW_SOURCE_DELTA"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "19f013b328eb0f58f3f765ed81cbd6dd85be5a7728258b0e739c88259b81a51c",
+      "lines": 11,
+      "pr1": {
+        "blob": "d416d31855b4ec1e28a0c939d46228ab01c743cc",
+        "bytes": 243,
+        "sha256": "19f013b328eb0f58f3f765ed81cbd6dd85be5a7728258b0e739c88259b81a51c",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostRoutingLifetimeTests.cs",
+      "state": "present",
+      "bytes": 14233,
+      "sha256": "b0a02b4c375df22f610e373e4deddfe9917369143bacafa486e982073f5fc5b8",
+      "lines": 280,
+      "pr1": {
+        "blob": "e437cc66e699266a1143143a8b5414c9de6857ec",
+        "bytes": 14233,
+        "sha256": "b0a02b4c375df22f610e373e4deddfe9917369143bacafa486e982073f5fc5b8",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostRoutingLifetimeTests.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "5d50c89e59d2d5069912492a0071bcf54d1990e7e2b3ff778c517ff723057497",
+      "lines": 11,
+      "pr1": {
+        "blob": "70f30acd19a7e8c77a634431859fafff3308f430",
+        "bytes": 243,
+        "sha256": "5d50c89e59d2d5069912492a0071bcf54d1990e7e2b3ff778c517ff723057497",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostTestFixture.cs",
+      "state": "present",
+      "bytes": 21662,
+      "sha256": "b38559e449bb9f87c0f4b2159196000894b1b0a2893be2a1c66fadb609623733",
+      "lines": 401,
+      "pr1": {
+        "blob": "c877aa129abe5491939b85a05c4cf77fea88f16d",
+        "bytes": 21662,
+        "sha256": "b38559e449bb9f87c0f4b2159196000894b1b0a2893be2a1c66fadb609623733",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/FightMatchHostTestFixture.cs.meta",
+      "state": "present",
+      "bytes": 243,
+      "sha256": "bf871bf245db13186d88a2d9b2923ba60a929d4aff940f8124234b1622b7965c",
+      "lines": 11,
+      "pr1": {
+        "blob": "c099ea97c1c8a9a7230bff69b3661b9b15d8fae5",
+        "bytes": 243,
+        "sha256": "bf871bf245db13186d88a2d9b2923ba60a929d4aff940f8124234b1622b7965c",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs",
+      "state": "present",
+      "bytes": 30074,
+      "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d",
+      "lines": 476,
+      "origin": "PR3_LOC_B_PREF",
+      "pr3": {
+        "blob": "3806576418a90b631ffe25424d030897f952809c",
+        "bytes": 30074,
+        "sha256": "ef47caf6bbf7b7715f625bc8bd384e82f1dda064b7a9f048c282fb86ac46ea8d",
+        "equalsLocal": true
+      },
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta",
+      "state": "absent",
+      "origin": "ABSENCE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro.meta",
+      "state": "present",
+      "bytes": 172,
+      "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3",
+      "lines": 8,
+      "pr1": {
+        "blob": "f9da8b5e3a1204a3ff0f6062a2684ab860b46b9b",
+        "bytes": 172,
+        "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources.meta",
+      "state": "present",
+      "bytes": 172,
+      "sha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805",
+      "lines": 8,
+      "pr1": {
+        "blob": "cfc142f381009bb7bedb4f471eb629feed200563",
+        "bytes": 172,
+        "sha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+      "state": "present",
+      "bytes": 269,
+      "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6",
+      "lines": 0,
+      "pr1": {
+        "blob": "a52cc38f79794ded1146882c01a5a5162596667d",
+        "bytes": 269,
+        "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+      "state": "present",
+      "bytes": 179,
+      "sha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490",
+      "lines": 8,
+      "pr1": {
+        "blob": "73ed66049fe56de6c8d2d27a7076bed1dfda4596",
+        "bytes": 179,
+        "sha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+      "state": "present",
+      "bytes": 95,
+      "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c",
+      "lines": 0,
+      "pr1": {
+        "blob": "ccbb4aedcd2a1588b8c2c3706604aeb24cf81137",
+        "bytes": 95,
+        "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+      "state": "present",
+      "bytes": 179,
+      "sha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4",
+      "lines": 8,
+      "pr1": {
+        "blob": "cc684b30885b19112c6fa0496b44404037906721",
+        "bytes": 179,
+        "sha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "state": "present",
+      "bytes": 1562,
+      "sha256": "74e0ef9b820f4e8f963048b7511d6854199b199bea53e036ba4c2e7b2a76c034",
+      "lines": 44,
+      "pr1": {
+        "blob": "c975fb392432d8ce677d4ebe0218b4a596cb2bbe",
+        "bytes": 1562,
+        "sha256": "74e0ef9b820f4e8f963048b7511d6854199b199bea53e036ba4c2e7b2a76c034",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+      "state": "present",
+      "bytes": 179,
+      "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45",
+      "lines": 8,
+      "pr1": {
+        "blob": "32db3845d82999d8fe313b2d95e70795a11b1f19",
+        "bytes": 179,
+        "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders.meta",
+      "state": "present",
+      "bytes": 172,
+      "sha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30",
+      "lines": 8,
+      "pr1": {
+        "blob": "29a90a6a63777322ca8070d3cd4949cfa3cfd455",
+        "bytes": 172,
+        "sha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+      "state": "present",
+      "bytes": 7674,
+      "sha256": "970db4b1e73b8289c1dd56cff60877f426b49c9682620b2d14da6cd70b64cb9c",
+      "lines": 240,
+      "pr1": {
+        "blob": "d3f5866c8734b597e0a2a6b393e12050e7fdfd85",
+        "bytes": 7674,
+        "sha256": "970db4b1e73b8289c1dd56cff60877f426b49c9682620b2d14da6cd70b64cb9c",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+      "state": "present",
+      "bytes": 204,
+      "sha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d",
+      "lines": 9,
+      "pr1": {
+        "blob": "2ac6e76cd0c04a8ebf440262c2d6117809f09aba",
+        "bytes": 204,
+        "sha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+      "state": "present",
+      "bytes": 10600,
+      "sha256": "bbae422625f31bfa560ac5ce44c402fafd16dba55d496c6279ca985b652b58bf",
+      "lines": 317,
+      "pr1": {
+        "blob": "011ee199aa7343446509129b098e256fe970918b",
+        "bytes": 10600,
+        "sha256": "bbae422625f31bfa560ac5ce44c402fafd16dba55d496c6279ca985b652b58bf",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+      "state": "present",
+      "bytes": 204,
+      "sha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6",
+      "lines": 9,
+      "pr1": {
+        "blob": "e1cf3f38fe5ceadfabade9751f854366ea32ad07",
+        "bytes": 204,
+        "sha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+      "state": "present",
+      "bytes": 2277,
+      "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e",
+      "lines": 84,
+      "pr1": {
+        "blob": "5898130446f81600b02515c5183aaef577ec5fac",
+        "bytes": 2277,
+        "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+      "state": "present",
+      "bytes": 204,
+      "sha256": "277459ef190430ad8e4ceb2bb38a8895d11fbbe6c2b2672e818ff970cb59efed",
+      "lines": 9,
+      "pr1": {
+        "blob": "0d6eb56ce13ae736ec037a284400e04f70c8b553",
+        "bytes": 204,
+        "sha256": "277459ef190430ad8e4ceb2bb38a8895d11fbbe6c2b2672e818ff970cb59efed",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+      "state": "present",
+      "bytes": 2843,
+      "sha256": "26c70831a9bdd6a56a37ec1e2358929453d66a064d10a61da49a1d4b05280e06",
+      "lines": 85,
+      "pr1": {
+        "blob": "2e962588cf965bdfa3cf1e0fe578d2797b9342cd",
+        "bytes": 2843,
+        "sha256": "26c70831a9bdd6a56a37ec1e2358929453d66a064d10a61da49a1d4b05280e06",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+      "state": "present",
+      "bytes": 204,
+      "sha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5",
+      "lines": 9,
+      "pr1": {
+        "blob": "7b37f2f1d08e95d3414310fe4799001453c48521",
+        "bytes": 204,
+        "sha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset",
+      "state": "present",
+      "bytes": 8573334,
+      "sha256": "290a57ac32c5ce7d965bc771d0e65e5c9f543f98df28b6e2e360f8dd6b2196c0",
+      "lines": 8609,
+      "pr1": {
+        "blob": "37cf5a563e96a183b62272d54c570124dfe8fd8e",
+        "bytes": 8573334,
+        "sha256": "290a57ac32c5ce7d965bc771d0e65e5c9f543f98df28b6e2e360f8dd6b2196c0",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset.meta",
+      "state": "present",
+      "bytes": 189,
+      "sha256": "dea83a5366a5e1797eddb7620aff704963cc286d105f6dcf477ed69a2a1535cc",
+      "lines": 8,
+      "pr1": {
+        "blob": "87764d1d19c57431683f4b52230861a2bcc78303",
+        "bytes": 189,
+        "sha256": "dea83a5366a5e1797eddb7620aff704963cc286d105f6dcf477ed69a2a1535cc",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Runtime.meta",
+      "state": "present",
+      "bytes": 172,
+      "sha256": "b6f765f9f33862b22bfca340b1b0080fee9499df68bc776aab1e49d30b85846d",
+      "lines": 8,
+      "pr1": {
+        "blob": "8d2056db1edbe6c78ae66b7f7b0ca2bcaf305741",
+        "bytes": 172,
+        "sha256": "b6f765f9f33862b22bfca340b1b0080fee9499df68bc776aab1e49d30b85846d",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "state": "present",
+      "bytes": 1060568,
+      "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b",
+      "lines": 36039,
+      "pr1": {
+        "blob": "dc96aaeec4acbcefe6c0f739b060b787332d39b5",
+        "bytes": 1060568,
+        "sha256": "55ded35adf6fd7d4e207303801e3ada172190bea6a516443e1bcd21d3193004b",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab.meta",
+      "state": "present",
+      "bytes": 154,
+      "sha256": "85c3eee205f94f79652eddf5d29cce3809b76ce03a0ba92311150d129409fce2",
+      "lines": 7,
+      "pr1": {
+        "blob": "c8ad2506ff3b92cfc86439cffe105aeeae5d66e0",
+        "bytes": 154,
+        "sha256": "85c3eee205f94f79652eddf5d29cce3809b76ce03a0ba92311150d129409fce2",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Config/FightMatch/Localization/FightMatchText.csv",
+      "state": "present",
+      "bytes": 65798,
+      "sha256": "1a96886aa29ed3e78211b78ffcba9cd79667f57ed0bf88daa7c8c7d18076a030",
+      "lines": 267,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Config/FightMatch/Localization/__tables__.csv",
+      "state": "present",
+      "bytes": 399,
+      "sha256": "5312d8f5367feda5a41370b5441b2e46d861e902faef5b1bb6b1b4c3795e6c35",
+      "lines": 4,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Config/FightMatch/Luban/luban.conf",
+      "state": "present",
+      "bytes": 315,
+      "sha256": "03ed736de1debd33a1d6c1ebbf30149c2876eb0458f0da34c4a819bee794dc41",
+      "lines": 13,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Generated/FightMatch/Localization/fm-text-v1.json",
+      "state": "present",
+      "bytes": 121098,
+      "sha256": "f48264f9ce94cd3bb2ef8d1b6a0be7b241916144b6d5764d11633bb6d6e456bc",
+      "lines": 3641,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Generated/FightMatch/Localization/fm-text-v1.manifest.json",
+      "state": "present",
+      "bytes": 791,
+      "sha256": "18437127bc2e2d7371f97da0990de933f0193fe202539593ef19338d47123667",
+      "lines": 26,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Packages/manifest.json",
+      "state": "present",
+      "bytes": 1775,
+      "sha256": "8b35703a20ded99f05e847753312b1014a9a0666cc9e2c641ef87979d1596baf",
+      "lines": 43,
+      "pr1": {
+        "blob": "47f1c2c01f1e0b4a6457f943d2b88934b840f294",
+        "bytes": 1775,
+        "sha256": "8b35703a20ded99f05e847753312b1014a9a0666cc9e2c641ef87979d1596baf",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "state": "present",
+      "bytes": 11101,
+      "sha256": "25367af624aad0b94d396484422db4e74d19844da974598da51398a89ab356c0",
+      "lines": 418,
+      "pr1": {
+        "blob": "3bd49b66f9816d97bf01c519c02ef46ebb628bbc",
+        "bytes": 11101,
+        "sha256": "25367af624aad0b94d396484422db4e74d19844da974598da51398a89ab356c0",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "ProjectSettings/ProjectVersion.txt",
+      "state": "present",
+      "bytes": 85,
+      "sha256": "9b7f178dd8c050e64943db5709939f39fd3191c18c6c557143963975891b50e2",
+      "lines": 2,
+      "pr1": {
+        "blob": "21588a1a20797490590844f3d383707ad4a68d63",
+        "bytes": 85,
+        "sha256": "9b7f178dd8c050e64943db5709939f39fd3191c18c6c557143963975891b50e2",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Tools/FightMatch.Localization.Compiler/FightMatch.Localization.Compiler.csproj",
+      "state": "present",
+      "bytes": 294,
+      "sha256": "37ab5325dc95ee3f9538cdcf70c56caceb250556448293e720c292ea9fafec70",
+      "lines": 9,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Tools/FightMatch.Localization.Compiler/Program.cs",
+      "state": "present",
+      "bytes": 80452,
+      "sha256": "f16e559b90dee2a423cdff1d453a21d55e241633a153a9f812e54cb9cbf05284",
+      "lines": 1583,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "Tools/FightMatch.Localization.Compiler/global.json",
+      "state": "present",
+      "bytes": 104,
+      "sha256": "0a15550b7b496f0eb8ea6e405da955cf264bf519fb0fb60dd8a7e25967bbca5d",
+      "lines": 7,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/art-ugui-layout-design-receipt-fix-002.md",
+      "state": "present",
+      "bytes": 2241,
+      "sha256": "0c7fa6f520e7c8db4bc4f6f61a60df32dc81f2dd983701d1885ced2188fa0c27",
+      "lines": 20,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/central-layout-hierarchy-adjudication-001.md",
+      "state": "present",
+      "bytes": 7011,
+      "sha256": "d1a13b1aedee4b5b64d709b07f2c7d9ed980c3c8c39fdb76e1b338324ab6aa03",
+      "lines": 69,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/engineering-ugui-layout-source-activation-architecture-001.md",
+      "state": "present",
+      "bytes": 11993,
+      "sha256": "83a359f352cbc0ab953ab25179f6378529ec5334fc338e9e25419d8b0b5c7f84",
+      "lines": 58,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/engineering-ugui-layout-system-design-001.md",
+      "state": "present",
+      "bytes": 68763,
+      "sha256": "a2b7f9677993b0194a008dce8d443aa743d5b0152ea61e145ec0bb75f2a47fce",
+      "lines": 961,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/engineering-ugui-layout-system-design-correction-001.md",
+      "state": "present",
+      "bytes": 50752,
+      "sha256": "9c3d6d60b1a9ed1743f0920cd80204fbe82f6558da35e5607e88bf88d988e540",
+      "lines": 701,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/snapshots/ugui-copy-amend-03-fix-01/planning-localization-draft.csv",
+      "state": "present",
+      "bytes": 64708,
+      "sha256": "d2cff0784221357394fc23e3354fb7de6e48d2455630a694de665105e4bdf36c",
+      "lines": 264,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/testing-ugui-layout-design-review-fix-002.md",
+      "state": "present",
+      "bytes": 8751,
+      "sha256": "8c20bfd3a8dff10f678cdea4b821a716cfc7115d5864b866d45c087f3e499e32",
+      "lines": 89,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/team/2026-09-30/ugui-fix22-integration-receipt.json",
+      "state": "present",
+      "bytes": 1726,
+      "sha256": "89255ba4c154a37168895d2daa7a249ac09b4249888cdb932ade2de06fc14b04",
+      "lines": 43,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/versioning/2026-10-01-ugui-pr/fix22-result/grouped-exact222-coverage.json",
+      "state": "present",
+      "bytes": 37210,
+      "sha256": "be4f2799d53baa49639ee53046f8c4b96d9177678566a78d811354021fe1745b",
+      "lines": 309,
+      "origin": "EXTERNAL_FROZEN_INPUT",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/versioning/2026-10-01-ugui-pr/product-only-manifest.json",
+      "state": "present",
+      "bytes": 5461,
+      "sha256": "07f3fa5e6c2fe155a17e69427e77dd6177fb897f33a04ec96120a9b3931317ac",
+      "lines": 147,
+      "pr1": {
+        "blob": "68f26a7f0cdeb5a90296bf71e4e26d7af8a69a62",
+        "bytes": 5461,
+        "sha256": "07f3fa5e6c2fe155a17e69427e77dd6177fb897f33a04ec96120a9b3931317ac",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    },
+    {
+      "path": "docs/versioning/2026-10-01-ugui-pr/resources-manifest.json",
+      "state": "present",
+      "bytes": 6700,
+      "sha256": "7886a648bda97657a58eb0ed15cfdaa9a661fe451c089979776f4c76a36263c9",
+      "lines": 187,
+      "pr1": {
+        "blob": "8ca3c95fa3da1846c69493904883c5dbb6d90a0d",
+        "bytes": 6700,
+        "sha256": "7886a648bda97657a58eb0ed15cfdaa9a661fe451c089979776f4c76a36263c9",
+        "equalsLocal": true
+      },
+      "origin": "PR1_REAL_TREE",
+      "sRule": "MUST_EQUAL_PREIMAGE"
+    }
+  ],
+  "protectedProduct29": [
+    "Assets/Scripts/FightMatch/Application/PlayerNavigationModels.cs",
+    "Assets/Scripts/FightMatch/Application/PlayerNavigationSession.cs",
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatch.Host.Editor.asmdef",
+    "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+    "Assets/Scripts/FightMatch/Host/FightMatch.Host.asmdef",
+    "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+    "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs",
+    "Assets/Scripts/FightMatch/Host/HostAssemblyInfo.cs",
+    "Assets/Scripts/FightMatch/Input/GestureModels.cs",
+    "Assets/Scripts/FightMatch/Input/RouteGesture.cs",
+    "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+    "Assets/Scripts/FightMatch/Presentation/CandidateBoardElement.cs",
+    "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputController.cs",
+    "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+    "Assets/Scripts/FightMatch/Presentation/FightMatch.Presentation.asmdef",
+    "Assets/Scripts/FightMatch/Presentation/FightMatchStandaloneInputModule.cs",
+    "Assets/Scripts/FightMatch/Presentation/FightMatchViewId.cs",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocaleId.cs",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocalizationService.cs",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTextSource.cs",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTmpText.cs",
+    "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+    "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+    "Assets/Scripts/FightMatch/Presentation/PlayerNavigationController.cs",
+    "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+    "Assets/Scripts/FightMatch/Presentation/PlayerNavigationView.cs",
+    "Assets/Scripts/FightMatch/Presentation/PlayerPermanentDetailView.cs",
+    "Assets/Scripts/FightMatch/Presentation/PresentationAssemblyInfo.cs",
+    "Assets/Scripts/FightMatch/Presentation/SafeAreaFitter.cs"
+  ],
+  "protectedResources37": [
+    "Assets/Scenes/FightMatchDemo.unity",
+    "Assets/Scripts/FightMatch/Host/HostAssemblyInfo.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/FightMatchStandaloneInputModule.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/FightMatchViewId.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/Localization.meta",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocaleId.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocalizationService.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTextSource.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/Localization/LocalizedTmpText.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/PresentationAssemblyInfo.cs.meta",
+    "Assets/Scripts/FightMatch/Presentation/SafeAreaFitter.cs.meta",
+    "Assets/Tests/EditMode/FightMatch/LocalePolicyTests.cs.meta",
+    "Assets/Tests/EditMode/FightMatch/LocalizationContractTests.cs.meta",
+    "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs.meta",
+    "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs.meta",
+    "Assets/TextMesh Pro.meta",
+    "Assets/TextMesh Pro/Resources.meta",
+    "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+    "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+    "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+    "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+    "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+    "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+    "Assets/TextMesh Pro/Shaders.meta",
+    "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+    "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+    "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+    "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+    "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+    "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+    "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+    "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+    "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset",
+    "Assets/UI/FightMatch/Fonts/NotoSansCJKsc-Regular-TMP.asset.meta",
+    "Assets/UI/FightMatch/Runtime.meta",
+    "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+    "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab.meta"
+  ],
+  "snapshotRoots": [
+    "Assets",
+    "Packages",
+    "ProjectSettings",
+    "Config",
+    "Generated",
+    "Tools/FightMatch.Localization.Compiler",
+    "ArtSource"
+  ],
+  "protectionRule": "All paths except exact S sourceScope read-only. S all 37 resources and all existing metas unchanged; two future new metas absent. Snapshot also protects unlisted code/asmdefs/settings/art/LOC. Existing WIP is never reset/stashed. Concurrent owner changes require attribution by engineering, no automatic overwrite/rebaseline.",
+  "serializedContract": {
+    "FightMatchHostView": {
+      "add": {
+        "responsiveLayout": "FightMatchResponsiveLayout@SafeAreaRoot",
+        "confirmationPopupRoot": "GameObject@PopupLayer/ConfirmationPopup",
+        "confirmationRootMask": "GameObject@ConfirmationPopup/RootMask",
+        "navigationConfirmationPanel": "GameObject@RootMask/NavigationConfirmationPanel",
+        "battleConfirmationPanel": "GameObject@RootMask/BattleConfirmationPanel",
+        "recoveryScreenRoot": "GameObject@SystemLayer/RecoveryScreen",
+        "recoveryRootMask": "GameObject@RecoveryScreen/RootMask",
+        "navigationRecoveryPanel": "GameObject@RootMask/NavigationRecoveryPanel",
+        "battleRecoveryPanel": "GameObject@RootMask/BattleRecoveryPanel"
+      },
+      "rebind": {
+        "startupPage/navigationPage/battlePage/resultPage": "unchanged page roots under full-rect ScreenLayer",
+        "languagePopup/licensePopup/quitPopup": "existing outer roots; fixed Header/Body/Actions descendants",
+        "backButton/languageButton/licenseButton": "shared HudLayer/TopBar",
+        "navigationView/battleView/board": "preserved component identities",
+        "language/license/quit text and action refs": "fixed typed Header/Body/Actions targets, no retired field or ownership change"
+      },
+      "remove": [],
+      "ownership": "Host alone writes both outer roots and masks; child panels render first, then Host synchronizes; both panels active = diagnostic. Recovery closes ordinary popups before enabling; Unbind hides roots."
+    },
+    "PlayerBattleView": {
+      "add": {
+        "normalHudRoot": "GameObject@BottomHud/NormalHud",
+        "historyDrawerRoot": "GameObject@BottomHud/HistoryDrawer",
+        "historyHeader": "LocalizedTmpText@HistoryDrawer/Header/Title",
+        "historyCloseButton": "Button@HistoryDrawer/Header/Close",
+        "historyOpenButton": "Button@NormalHud/MainRow/CommandStrip/Viewport/Content/FixedBattleActions/HistoryOpen",
+        "battleNotices": "RectTransform@NormalHud/StatusViewport/Viewport/Content",
+        "dialogRoot": "GameObject@BattleConfirmationPanel",
+        "recoveryRoot": "GameObject@BattleRecoveryPanel",
+        "dialogBody": "RectTransform@BattleConfirmationPanel/BodyViewport/Viewport/Content/StateRows",
+        "dialogChoices": "RectTransform@BattleConfirmationPanel/BodyViewport/Viewport/Content/ChoiceRows",
+        "dialogActions": "RectTransform@BattleConfirmationPanel/Actions/SafeActions",
+        "dialogDangerActions": "RectTransform@BattleConfirmationPanel/Actions/DangerActions",
+        "recoveryBody": "RectTransform@BattleRecoveryPanel/BodyViewport/Viewport/Content/StateRows",
+        "recoveryChoices": "RectTransform@BattleRecoveryPanel/BodyViewport/Viewport/Content/ChoiceRows",
+        "recoveryActions": "RectTransform@BattleRecoveryPanel/Actions/SafeActions",
+        "recoveryDangerActions": "RectTransform@BattleRecoveryPanel/Actions/DangerActions"
+      },
+      "remove": [
+        "dialog",
+        "recovery"
+      ],
+      "rebind": {
+        "battleContent": "fixed BattleContent root",
+        "resultRoot/receipt": "existing Result root/receipt content, semantics unchanged",
+        "playbackView": "existing BattleStatus component",
+        "referenceView": "existing component moved to BottomHud/ReferenceInfoDrawer",
+        "headline": "LocalizedTmpText@HudLayer/TopBar/Title",
+        "hud": "LocalizedTmpText@NormalHud/StatusViewport/Viewport/Content/BattleHudFirstLine",
+        "actions": "RectTransform@CommandStrip/Viewport/Content/DynamicBattleActions",
+        "history": "RectTransform@HistoryDrawer/BodyViewport/Viewport/Content"
+      },
+      "ownership": "Private BottomHudMode Normal|History|Reference; OwnContainer exact dynamic parents only. Preserve Controller/Page/renderEpoch, first-drag ordering, callback and destroy cleanup. No business work on presentation switch."
+    },
+    "PlayerNavigationRecoveryView": {
+      "add": {
+        "confirmationTitle": "LocalizedTmpText@NavigationConfirmationPanel/Header/Title",
+        "recoveryTitle": "LocalizedTmpText@NavigationRecoveryPanel/Header/Title",
+        "confirmationStatus": "LocalizedTmpText@NavigationConfirmationPanel/BodyViewport/Viewport/Content/StateRows/Status",
+        "recoveryStatus": "LocalizedTmpText@NavigationRecoveryPanel/BodyViewport/Viewport/Content/StateRows/Status",
+        "confirmationBody": "RectTransform@NavigationConfirmationPanel/BodyViewport/Viewport/Content/StateRows",
+        "confirmationChoices": "RectTransform@NavigationConfirmationPanel/BodyViewport/Viewport/Content/ChoiceRows",
+        "confirmationActions": "RectTransform@NavigationConfirmationPanel/Actions/SafeActions",
+        "confirmationDangerActions": "RectTransform@NavigationConfirmationPanel/Actions/DangerActions",
+        "recoveryBody": "RectTransform@NavigationRecoveryPanel/BodyViewport/Viewport/Content/StateRows",
+        "recoveryChoices": "RectTransform@NavigationRecoveryPanel/BodyViewport/Viewport/Content/ChoiceRows",
+        "recoverySafeActions": "RectTransform@NavigationRecoveryPanel/Actions/SafeActions",
+        "recoveryDangerActions": "RectTransform@NavigationRecoveryPanel/Actions/DangerActions"
+      },
+      "remove": [
+        "confirmationRows",
+        "recoveryRows",
+        "title",
+        "status",
+        "originalResultButton"
+      ],
+      "rebind": {
+        "confirmationRoot/recoveryRoot": "own Navigation inner panels, NOT outer roots",
+        "confirmButton/endButton": "Confirmation SafeActions/Confirm and DangerActions/End",
+        "returnButton/resumeObservedButton/retryButton/resolveButton/refreshButton": "Recovery SafeActions, existing identities/callbacks",
+        "endReviewButton": "Recovery DangerActions/EndReview",
+        "buttonTemplate/textTemplate": "inactive TemplatePool templates, only clones owned by active StateRows/ChoiceRows/actions"
+      },
+      "ownership": "OriginalResult is at most one ChoiceRows clone fm.row.save.OriginalResult, original SelectOriginalOperation callback. No runtime reparent; dispose old bindings before repopulate; generation guard unchanged."
+    },
+    "CandidateBoardInputView": {
+      "add": {
+        "allyStageSlots": "RectTransform[3]@Stage/AllySlot0..2",
+        "enemyStageSlots": "RectTransform[3]@Stage/EnemySlot0..2",
+        "memberSlots": "RectTransform[3]@NormalHud/MainRow/MemberStrip/MemberSlot0..2",
+        "allyNames": "LocalizedTmpText[3]@AllySlot0..2/Name",
+        "allyHp": "LocalizedTmpText[3]@AllySlot0..2/HP",
+        "allyIntent": "LocalizedTmpText[3]@AllySlot0..2/Intent",
+        "enemyNames": "LocalizedTmpText[3]@EnemySlot0..2/Name",
+        "enemyHp": "LocalizedTmpText[3]@EnemySlot0..2/HP",
+        "enemyIntent": "LocalizedTmpText[3]@EnemySlot0..2/Intent"
+      },
+      "remove": [
+        "enemies",
+        "members"
+      ],
+      "rebind": {
+        "board": "CandidateBoardElement@BoardRegion/BoardFrame; sole Graphic, unchanged type",
+        "phase": "LocalizedTmpText@BattleStatus/Phase",
+        "save": "LocalizedTmpText@NormalHud/StatusViewport/Viewport/Content/Save",
+        "availability": "LocalizedTmpText@same Content/AvailabilityFirstLine",
+        "memberTemplate": "inactive template, clone only under matching memberSlots[OriginalSlot]",
+        "retry/resolve": "fixed Buttons@FixedBattleActions/Retry,Resolve"
+      },
+      "ownership": "Exactly 3 stable roots per slot family; empty/down never compact. Preserve legal enemy OriginalSlot>2 in domain and diagnose UnsupportedEnemySlotLayout in presentation only; existing Exit reachable, other battle interactions disabled, zero save/business writes. No new domain restriction."
+    },
+    "CandidateBattlePlaybackView": {
+      "add": {},
+      "remove": [
+        "hp",
+        "intent"
+      ],
+      "rebind": {
+        "inputView": "existing CandidateBoardInputView",
+        "beat/stage": "LocalizedTmpText@BattleStatus/Beat,PlaybackStage",
+        "diagnostic": "LocalizedTmpText@NormalHud/StatusViewport/Viewport/Content/PlaybackDiagnostic",
+        "skip": "Button@FixedBattleActions/Skip"
+      },
+      "ownership": "Exclusive HP/intent frame/current-state writer through input internal slot-presentation seam; input does not race-write. Preserve token/schedule/locale/Unbind and destroyed-Unity-object protections."
+    },
+    "PlayerDefaultReferenceView": {
+      "add": {
+        "title": "LocalizedTmpText@ReferenceInfoDrawer/Header/Title"
+      },
+      "remove": [],
+      "rebind": {
+        "explanation/beat": "LocalizedTmpText@ReferenceInfoDrawer/BodyViewport/Viewport/Content/Explanation,Beat",
+        "steps": "RectTransform@same Content/Steps",
+        "buttonTemplate": "inactive template for owned Body steps",
+        "closeButton": "ONE fixed Button@Header/Close; never cloned/deleted"
+      },
+      "ownership": "Reference root in BottomHud; Header48k, Body94k/56k, Actions0 inactive. Bind existing title key, no new copy; guarded internal closed callback restores Normal. Record pointer -> Close -> feedback, no cancellation of first real drag."
+    },
+    "FightMatchResponsiveLayout": {
+      "add": {
+        "safeArea": "SafeAreaFitter@SafeAreaRoot",
+        "canvas": "Canvas@RuntimeCanvas",
+        "screenLayer": "RectTransform@ScreenLayer",
+        "topBar": "RectTransform@HudLayer/TopBar",
+        "battleContent": "RectTransform@BattlePage/BattleContent",
+        "stage": "RectTransform@BattleContent/Stage",
+        "battleStatus": "RectTransform@BattleContent/BattleStatus",
+        "boardRegion": "RectTransform@BattleContent/BoardRegion",
+        "bottomHud": "RectTransform@BattleContent/BottomHud",
+        "normalHudRoot": "RectTransform@BottomHud/NormalHud",
+        "historyDrawerRoot": "RectTransform@BottomHud/HistoryDrawer",
+        "referenceDrawerRoot": "RectTransform@BottomHud/ReferenceInfoDrawer",
+        "normalStatusViewport": "RectTransform@NormalHud/StatusViewport",
+        "normalMainRow": "RectTransform@NormalHud/MainRow",
+        "startupViewport": "RectTransform@StartupPage/StartupScroll",
+        "navigationViewport": "RectTransform@NavigationPage/NavigationScroll",
+        "resultViewport": "RectTransform@ResultPage/ResultScroll",
+        "dialogPanels": "RectTransform[7], ordered Language/License/Quit/NavigationConfirmation/BattleConfirmation/NavigationRecovery/BattleRecovery panels",
+        "layoutDiagnostic": "GameObject@SystemLayer/LayoutDiagnostic",
+        "layoutDiagnosticText": "LocalizedTmpText@LayoutDiagnostic/Message",
+        "battleInteraction": "CanvasGroup@BattleContent"
+      },
+      "remove": [],
+      "rebind": {},
+      "ownership": "Only layout primitives/localization, never domain/Application/controller/save types. Parent responsive-owned axes have no competing LayoutGroup/CSF/AspectRatioFitter. Child layout groups own only child dimensions. Private cached data/helpers may implement accepted per-child k sizing, never hierarchy searches; need any additional serialized field -> lead first."
+    }
+  },
+  "publicSymbols": {
+    "add": [
+      "FightMatch.Presentation.FightMatchResponsiveLayout : sealed MonoBehaviour",
+      "FightMatch.Host.Editor.FightMatchAndroidBuild.MigrateLayoutResources() : public static void",
+      "FightMatch.Host.Editor.FightMatchAndroidBuild.VerifyLayoutResources() : public static void",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests (test fixture; only 12 declared test methods plus test lifecycle helpers)"
+    ],
+    "changeOrRemove": [],
+    "newInterfaces": 0
+  },
+  "internalSeams": [
+    "FightMatchHostView.SynchronizeOverlayRoots(): internal void; same production implementation called at end of Host render and by NavigationPanel observation; no test-only mirrored policy.",
+    "CandidateBoardInputView.DisplayLayoutSupported: internal bool getter only; compute presentation support without domain mutation.",
+    "CandidateBoardInputView.SetStageSlotPresentation(bool enemy, int originalSlot, BattleTextLine name, BattleTextLine hp, BattleTextLine intent): internal void; values already derived by playback. Null rows hide unused label; no transform search.",
+    "CandidateBoardInputView.ClearStageSlotPresentation(): internal void; clear through exact fixed refs.",
+    "PlayerDefaultReferenceView.Bind(LocalizationService service, Action closed = null): internal; owner/page/renderEpoch guarded callback, no business event.",
+    "FightMatchResponsiveLayout.Bind(LocalizationService service), Unbind(): internal; existing fm.diagnostic.missing_binding/errorCode=LayoutInvalid, no added copy key.",
+    "FightMatchResponsiveLayout.ValidityChanged: internal event Action<bool>, only presentation gate state; Host owns board.CancelPointer on invalid transition. No controller in responsive component."
+  ],
+  "builder": {
+    "migration": "FightMatch.Host.Editor.FightMatchAndroidBuild.MigrateLayoutResources",
+    "verifier": "FightMatch.Host.Editor.FightMatchAndroidBuild.VerifyLayoutResources",
+    "managedParameters": [],
+    "cliParameters": {
+      "-fmLayoutContract": "LAYOUT-S1-SYS-001",
+      "-fmLayoutInputManifest": "absolute I/activation.json signed after S+review and isolation activation",
+      "-fmLayoutEvidenceRoot": "absolute TestArtifacts/FightMatch/LAYOUT-S1-001/P"
+    },
+    "outputs": [
+      "native-migration.json",
+      "native-reopen.json",
+      "serialized-targets.json"
+    ],
+    "rootRule": "P root C-owned create-once lease, canonical and no symlink; output files must be absent; only these outputs plus runner log/process records. Reject path escape/reuse/unknown flags. JSON preimages include candidate project path, S hash, resources37/font/CSV/GUIDs and exact two imported new metas.",
+    "algorithm": "Check fixed preimages and inactive clean scene, no play-mode/Host Start; LoadPrefabContents EXISTING prefab; move surviving objects and preserve local IDs; only retire accepted old layout containers, add accepted groups/slots/diagnostic; rewire SerializedObject refs; save same prefab path, unload. Open EXISTING scene, update existing instance only, preserve host/EventSystem/link/GUID, native save/close/read-only reopen. Migration invokes same verification core once before returning; no second process or mutation on verify.",
+    "assertions": "Exactly one Canvas/Raycaster/project EventSystem, no second Graphic on BoardFrame, exact hierarchy/reference and independent complete TMP target-path/type set; exact count derived from that frozen source set, never 119 or >=. Preserve root/fileIDs for surviving objects, all existing stable ViewIds, font/TMP identities and explained Scene overrides.",
+    "forbidden": [
+      "PrepareResources",
+      "RecoverUguiBoardRenderer",
+      "VerifyUguiResources as layout acceptance",
+      "BuildDemo",
+      "AssetDatabase.CreateAsset for font/TMP",
+      "TMP glyph/atlas rebuild",
+      "whole-prefab replacement",
+      "handwritten YAML",
+      "Android/settings/package changes",
+      "source/LOC/meta writes",
+      "AssetDatabase.SaveAssets unrelated dirty objects"
+    ],
+    "sourceRule": "Add new entrypoints/private layout helpers only; every existing builder line remains in order byte-content unchanged. Old builder/resource/Android code not modified."
+  },
+  "tempArt": {
+    "rule": "Existing uGUI Image with plain colors, outline or two-color blocks only. Internal decorative names TempArt_; raycastTarget=false. Inside accepted ally/enemy/member slots; no art import/new texture/new prefab/ArtSource adoption/no second BoardFrame Graphic. Preserve slots, hit rects and full Caption. Formal art unselected.",
+    "text": "Every TMP serialized default remains diagnostic placeholder; runtime existing EN/ZhHans bindings. No TempArt player copy/key; missing bindings remain visible."
+  },
+  "frozenGeometry": {
+    "authority": "central > correction > base; S only changes activation sequencing, not design",
+    "safeRects": [
+      [
+        540,
+        960,
+        16,
+        16,
+        508,
+        920
+      ],
+      [
+        1080,
+        2400,
+        32,
+        120,
+        1016,
+        2160
+      ]
+    ],
+    "captionWidths": [
+      184,
+      224,
+      200,
+      144,
+      152,
+      256,
+      248,
+      152
+    ],
+    "captionHeight": 48,
+    "captionFontSize": 18,
+    "captionPadding": [
+      12,
+      12,
+      8,
+      8
+    ],
+    "autoSize": false,
+    "commandContentWidth": 1624,
+    "commandViewportWidth": 252,
+    "scrollRange": 1372,
+    "memberStripWidth": 232,
+    "mainRowHeight": 72,
+    "referenceHeader": 48,
+    "referenceBody": [
+      94,
+      56
+    ],
+    "referenceActions": 0,
+    "scrollMovement": "Clamped",
+    "scrollInertia": false,
+    "scrollElasticity": 0
+  },
+  "tests": {
+    "state": "DECLARED_AND_HISTORICAL_ONLY_NOT_POST_CODE_DISCOVERY",
+    "newDeclared": [
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_01_ReferenceRecoveryAndModalHierarchyMatchesAdjudication",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_02_540SafeAreaUsesAcceptedFiveRegionGeometry",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_03_LongScreenConvertsPhysicalSafeAreaToAcceptedCanvasTable",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_04_ShortHeightCompressionStopsAtStageAndBottomHudMinima",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_05_TooShortHeightFailsClosedWithoutBoardOrHotZoneShrink",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_06_LayoutOwnershipHasNoSameAxisControllerConflict",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_07_RuntimeResizeAndSafeAreaVersionApplyOnceWithoutZeroFrame",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_08_ModalAndRecoveryScrollRectsKeepHeaderAndActionsFixed",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_09_FixedSlotsUseOriginalSlotWithoutCompaction",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_10_DrawersAreMutuallyExclusiveAndNeverCoverBoard",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_11_SystemRecoveryPrecedesEveryOrdinaryPopup",
+      "FightMatch.Core.Tests.UguiResponsiveLayoutTests.LAYOUT_12_RaycastTargetsExistOnlyOnInteractiveSurfaces"
+    ],
+    "resourceExisting": [
+      "FightMatch.Core.Tests.UguiSceneCompositionTests.SavedPrefabAssemblesOneRealHostCanvasAndProjectEventSystem",
+      "FightMatch.Core.Tests.UguiSceneCompositionTests.FourCornerCentersAndHalfOpenEdgesUseTheActualBoardMapper",
+      "FightMatch.Core.Tests.UguiSceneCompositionTests.BothResolutionsWithFourInsetsKeepHitAndRenderedCentersIdentical"
+    ],
+    "impactedMethods": [
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.UGUI_COPY_WIRE02_FirstDragNoticeSurvivesAndReplayAppearsOnlyAfterCompletion",
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.UGUI_COPY_WIRE04_ReferenceInitialFrameNeverClaimsActionSubmitted",
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ExactReferenceRejectsOtherLevelVersionOrBindingWithoutBusinessWork",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.UGUI_COPY_D02_DurationUsesAcceptedSnapshotAndInvariantCeiling",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.UGUI_COPY_WIRE03_ExistingHistorySaveSkipAndEndKeysFollowRealStateWithoutChecking",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_EntireViewTreeRebuildPreservesHostInputPlaybackAndOriginalAttack",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery",
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_05_ActualPanelLabelsBoardOverrideAndNextAttackChain",
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_05_RealUIToolkitScheduleAdvancesActualFacts",
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_03_SkipCloseDetachBlurLowMemoryAndSchedulingFailureReleaseOnlyOwnResources",
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_03_ReattachUnsubscribesOldControllerAndDoesNotReplayPriorFacts",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H01_DuplicateOwnerCannotTakeOverOrDeinitializeTheActiveArchitecture",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ChangedBeforeHostRequestedStillDeliversOneOriginalH02AndRejectsDuplicates",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_RootBackMeansApplicationQuitAndCancelPreservesTheSave",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_OriginalEndReceiptCanReturnAndBeExplicitlyOpenedAgainAfterColdRebuild",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ReplacingTheWholeViewKeepsFailedEndRequestAndOriginalResolution",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ColdObservedMenuSaveUsesOriginalNavigationRecovery",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H01_ActualPanelDetachKeepsPresentationTokenAndPauseCompletesItOnlyOnce",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_RealBoardVictorySettlesOnceAndTheOriginalReceiptSurvivesWholeHostReconstruction"
+    ],
+    "historicalImpactedLeaves": [
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_03_ReattachUnsubscribesOldControllerAndDoesNotReplayPriorFacts",
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_03_SkipCloseDetachBlurLowMemoryAndSchedulingFailureReleaseOnlyOwnResources",
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_05_ActualPanelLabelsBoardOverrideAndNextAttackChain",
+      "FightMatch.Core.Tests.CandidateBattlePlaybackPanelTests.P27_05_RealUIToolkitScheduleAdvancesActualFacts",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_EntireViewTreeRebuildPreservesHostInputPlaybackAndOriginalAttack(\"marker-after\")",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_EntireViewTreeRebuildPreservesHostInputPlaybackAndOriginalAttack(\"marker-before\")",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.B06_B09_EntireViewTreeRebuildPreservesHostInputPlaybackAndOriginalAttack(\"snapshot-promoted\")",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.UGUI_COPY_D02_DurationUsesAcceptedSnapshotAndInvariantCeiling",
+      "FightMatch.Core.Tests.PlayerBattlePresentationTests.UGUI_COPY_WIRE03_ExistingHistorySaveSkipAndEndKeysFollowRealStateWithoutChecking",
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ExactReferenceRejectsOtherLevelVersionOrBindingWithoutBusinessWork(\"binding\")",
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ExactReferenceRejectsOtherLevelVersionOrBindingWithoutBusinessWork(\"level\")",
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.B10_ExactReferenceRejectsOtherLevelVersionOrBindingWithoutBusinessWork(\"version\")",
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.UGUI_COPY_WIRE02_FirstDragNoticeSurvivesAndReplayAppearsOnlyAfterCompletion",
+      "FightMatch.Core.Tests.PlayerDefaultReferenceTests.UGUI_COPY_WIRE04_ReferenceInitialFrameNeverClaimsActionSubmitted",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"marker-after\",\"CommitUnknown\")",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"marker-before\",\"CommitUnknown\")",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"snapshot-before\",\"SaveFailed\")",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC14_CC15_WriteFaultKeepsTheOriginalCandidateAndConfirmation(\"snapshot-promoted\",\"SaveFailed\")",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"save-failed\",\"End\")",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"save-failed\",\"Retry\")",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"unknown-after\",\"Resolve\")",
+      "FightMatch.Core.Tests.PlayerNavigationRecoveryTests.CC17_RCV1_RebuildDiscardsAllRequestsThenRecoversOriginalIntentThroughProductionQuery(\"unknown-before\",\"Resolve\")",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H01_ActualPanelDetachKeepsPresentationTokenAndPauseCompletesItOnlyOnce",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H01_DuplicateOwnerCannotTakeOverOrDeinitializeTheActiveArchitecture",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ChangedBeforeHostRequestedStillDeliversOneOriginalH02AndRejectsDuplicates",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ColdObservedMenuSaveUsesOriginalNavigationRecovery",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_OriginalEndReceiptCanReturnAndBeExplicitlyOpenedAgainAfterColdRebuild(False)",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_OriginalEndReceiptCanReturnAndBeExplicitlyOpenedAgainAfterColdRebuild(True)",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_RealBoardVictorySettlesOnceAndTheOriginalReceiptSurvivesWholeHostReconstruction",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ReplacingTheWholeViewKeepsFailedEndRequestAndOriginalResolution(\"marker-after\")",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_ReplacingTheWholeViewKeepsFailedEndRequestAndOriginalResolution(\"save\")",
+      "FightMatch.Host.Tests.FightMatchHostRoutingLifetimeTests.H04_RootBackMeansApplicationQuitAndCancelPreservesTheSave"
+    ],
+    "expectedCounts": {
+      "new": 12,
+      "impactedMethods": 20,
+      "impactedInstances": 32,
+      "resource": 3,
+      "unionMax": 47
+    },
+    "actualPostCodeLeaves": null,
+    "rule": "P success then one bounded discovery in T preparation, freeze unique ordinal-sorted actual exact fullnames, compare with declared12 + historical32 + resource3. Any drift stops; literal escaped full-string anchored selector, each instance once. No 222/234/full/extra28. Eight Overlay tests keep CanvasScaler enabled; mapper-only WorldSpace case proves only mapper.",
+    "uncovered": "Other changed-fixture/test dependents remain NOT_RUN; testing lead owns gap disposition, no historical green carried to changed input."
+  },
+  "sourceEvidenceRoot": "TestArtifacts/FightMatch/LAYOUT-S1-001/S",
+  "sourceEvidenceWhitelist": [
+    "handoff.json",
+    "before.json",
+    "after.json",
+    "static-checks.json",
+    "source-receipt.json",
+    "source.patch"
+  ],
+  "handoff": {
+    "beforeFirstWrite": [
+      "engineering dispatch thread/host/turn and timestamp",
+      "actual C thread/host/current turn",
+      "old functional writer stopped-at and engineering ownership transfer",
+      "this JSON SHA256 and system document SHA256",
+      "create-once sourceEvidenceRoot; absence of both new C# and both metas",
+      "preflight stdout saved as before.json"
+    ],
+    "notPreconditionsForS": [
+      "future PR head",
+      "I/P/T runtime leases",
+      "dots graphics readiness",
+      "PR3 review/LOC-A completion"
+    ],
+    "laterFill": [
+      "C final turn and source after hashes",
+      "actual new PR reviewed head/tree and findings",
+      "isolated runtime lease/candidate path/tools/run argv"
+    ]
+  },
+  "staticVerifierPython": "import pathlib,hashlib,subprocess,difflib,datetime\nroot=pathlib.Path(m[\"repository\"]); mode=sys.argv[1]\nassert mode in (\"preflight\",\"postflight\")\ndef sha(b): return hashlib.sha256(b).hexdigest()\ndef git(*a):\n r=subprocess.run([\"git\",\"-C\",str(root),*a],capture_output=True)\n assert r.returncode==0,(a,r.stderr.decode())\n return r.stdout\nassert git(\"rev-parse\",m[\"pr1\"][\"head\"]+\"^{tree}\").decode().strip()==m[\"pr1\"][\"tree\"]\nscope={x[\"path\"]:x for x in m[\"sourceScope\"]}; facts={x[\"path\"]:x for x in m[\"inputs\"]}\nchanged=[]; total=0\nfor p,x in facts.items():\n f=root/p\n if x[\"state\"]==\"absent\":\n  if mode==\"postflight\" and p in scope:\n   assert f.is_file(),p\n  else:\n   assert not f.exists(),(\"unexpected path\",p)\n   continue\n if \"pr1\" in x:\n  b=git(\"cat-file\",\"blob\",x[\"pr1\"][\"blob\"])\n  actual=git(\"rev-parse\",m[\"pr1\"][\"head\"]+\":\"+p).decode().strip()\n  assert actual==x[\"pr1\"][\"blob\"] and len(b)==x[\"bytes\"] and sha(b)==x[\"sha256\"],p\n if \"pr3\" in x:\n  b=git(\"cat-file\",\"blob\",x[\"pr3\"][\"blob\"])\n  assert git(\"rev-parse\",m[\"pr3\"][\"head\"]+\":\"+p).decode().strip()==x[\"pr3\"][\"blob\"],p\n  assert len(b)==x[\"bytes\"] and sha(b)==x[\"sha256\"],p\n assert f.is_file() and not f.is_symlink(),p\n b=f.read_bytes()\n if mode==\"postflight\" and p in scope:\n  old=git(\"cat-file\",\"blob\",x[\"pr1\"][\"blob\"]) if x[\"state\"]==\"present\" else b\"\"\n  if old!=b:\n   edits=list(difflib.ndiff(old.decode().splitlines(),b.decode().splitlines()))\n   added=sum(s.startswith(\"+ \") for s in edits); deleted=sum(s.startswith(\"- \") for s in edits)\n   assert added+deleted<=scope[p][\"maxAddedPlusDeletedLines\"],(p,added,deleted)\n   if p.endswith(\"FightMatchAndroidBuild.cs\"): assert deleted==0,\"old builder code is protected\"\n   total+=added+deleted; changed.append({\"path\":p,\"added\":added,\"deleted\":deleted,\"bytes\":len(b),\"sha256\":sha(b)})\n else: assert len(b)==x[\"bytes\"] and sha(b)==x[\"sha256\"],p\ninventory={}\nfor base in m[\"snapshotRoots\"]:\n for f in sorted((root/base).rglob(\"*\")):\n  if f.is_symlink(): inventory[str(f.relative_to(root))]={\"symlink\":str(f.readlink())}\n  elif f.is_file():\n   b=f.read_bytes(); inventory[str(f.relative_to(root))]={\"bytes\":len(b),\"sha256\":sha(b)}\nif mode==\"postflight\":\n before=json.loads((root/m[\"sourceEvidenceRoot\"]/\"before.json\").read_text())[\"inventory\"]\n delta=sorted(p for p in set(before)|set(inventory) if before.get(p)!=inventory.get(p))\n assert set(delta)<=set(scope),(\"outside source scope\",set(delta)-set(scope))\n assert len(changed)<=m[\"sourceBudget\"][\"files\"] and total<=m[\"sourceBudget\"][\"addedPlusDeletedLines\"]\n for x in m[\"sourceScope\"]:\n  if x[\"action\"]==\"create\": assert x[\"path\"] in delta,x[\"path\"]\n test=(root/\"Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs\").read_text()\n for name in m[\"tests\"][\"newDeclared\"]: assert name.rsplit(\".\",1)[1] in test,name\n for x in changed:\n  b=(root/x[\"path\"]).read_text()\n  assert all(not line.rstrip(\"\\r\\n\").endswith((\" \",\"\\t\")) for line in b.splitlines(True)),x[\"path\"]\nprint(json.dumps({\"mode\":mode,\"utc\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\"fixedInputsVerified\":len(facts),\"inventory\":inventory,\"changed\":changed,\"addedPlusDeletedLines\":total,\"scopePassed\":True,\"Unity\":\"NOT_RUN\",\"semanticStaticChecklist\":\"separate source-receipt; this is NOT compilation/test/review evidence\"},ensure_ascii=False,indent=2))\n",
+  "staticCommands": [
+    "python3 -B -c 'import json,sys; m=json.load(open(\"docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json\")); exec(m[\"staticVerifierPython\"])' preflight",
+    "python3 -B -c 'import json,sys; m=json.load(open(\"docs/team/2026-09-30/engineering-ugui-layout-source-activation-inputs-001.json\")); exec(m[\"staticVerifierPython\"])' postflight",
+    "git status --short (read-only context only; not source delta authority)",
+    "git diff --check (diagnostic only; existing dirty HEAD is not source baseline)"
+  ],
+  "staticChecklist": [
+    "Exact fields/types/array lengths; builder and fixtures wire every retained/new field and remove retired refs",
+    "Host unique outer writer, own panels only; recovery priority and overlap fail-closed",
+    "ScrollRect/Viewport/Content and single-axis ownership; ContentSizeFitter only local content",
+    "Normal/History/Reference exclusion; zero business mutations; lifecycle epoch/generation/Unity object validity and cleanup",
+    "OriginalSlot fixed/unsupported distinction; legal sparse enemy domain preserved",
+    "Exact Caption constants, clipping/scroll first+last, fixed disabled occupancy and full EN/ZH strings",
+    "TempArt rule and no new copy/dependencies/asmdefs/meta/resources",
+    "New test declarations exactly12 and no existing test rename/drop/assertion weakening",
+    "Source diff/line budget from PR1; immutable inputs/snapshot equality; no Unity results claimed"
+  ],
+  "deliveryLabel": "SOURCE_READY; UNCOMPILED, UNIMPORTED, OLD_PREFAB_NOT_MIGRATED, NOT_PLAYABLE_CANDIDATE",
+  "laterGates": {
+    "R": {
+      "state": "WAITING_SOURCE_RECEIPT",
+      "rule": "Only GitHub PR Code Review on actual new head, unresolved P0/P1 block native execution; old PR1 review does not cover new delta; final native/meta delta requires head-bound review again"
+    },
+    "I": {
+      "state": "WAITING_ACTIVATION",
+      "maxLaunches": 1,
+      "hardSeconds": 360,
+      "rule": "Shared project prohibited while PR3 metas absent. Only signed verified dots or isolated candidate projection; no automatic setup/download."
+    },
+    "P": {
+      "state": "WAITING_ACTIVATION",
+      "maxLaunches": 1,
+      "hardSeconds": 180,
+      "rule": "I pass, one native migration+unload+read-only reopen; natural two metas plus two resources only; no real Host startup"
+    },
+    "T": {
+      "state": "WAITING_ACTIVATION",
+      "maxTestRuns": 1,
+      "hardSeconds": 360,
+      "uniqueInstanceCap": 47,
+      "rule": "No test run until actual leaves/selector hash/candidate source+resource hashes frozen. Discovery/preparation process and limit require explicit activation; not extra test execution."
+    },
+    "budget": {
+      "ownedCleanupNaturalSeconds": 60,
+      "ownedCleanupAfterTerminationSeconds": 30,
+      "maxLogBytes": 8388608,
+      "maxEvidenceBytesPerStage": 201326592,
+      "minFreeBytes": 2147483648,
+      "stopOnFirstFailure": true,
+      "retry": 0
+    },
+    "executionEnvironment": {
+      "candidate": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+      "candidateExists": false,
+      "editor": {
+        "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+        "present": true,
+        "file": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity: Mach-O 64-bit executable x86_64",
+        "bytes": 86759760,
+        "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f"
+      },
+      "diskFreeBytes": 442368000000,
+      "packageCacheDiskKiB": 425208,
+      "packages": [
+        {
+          "name": "com.unity.collab-proxy",
+          "version": "2.12.4",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.collab-proxy@2.12.4/package.json",
+          "present": true,
+          "sha256": "43d5998ab92c854e67224b6ac94eb1ea5ae41b3efdd7a55aa18d8ddf6801d057"
+        },
+        {
+          "name": "com.unity.editorcoroutines",
+          "version": "1.0.0",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.editorcoroutines@1.0.0/package.json",
+          "present": true,
+          "sha256": "806eb46bcb68ed7029fb3edb0929209d4881953e9feffd95201928e3246b05d9"
+        },
+        {
+          "name": "com.unity.ext.nunit",
+          "version": "1.0.6",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.ext.nunit@1.0.6/package.json",
+          "present": true,
+          "sha256": "5b0e31333fed9b3c8db170b15a61c9f67b37ab1037676d8764f574bb41370622"
+        },
+        {
+          "name": "com.unity.feature.development",
+          "version": "1.0.1",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.feature.development@1.0.1/package.json",
+          "present": true,
+          "sha256": "75ea55abc015204c0b5a435925b611d10df1f78aa012150bf98264832e54bfb1"
+        },
+        {
+          "name": "com.unity.ide.rider",
+          "version": "3.0.27",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.ide.rider@3.0.27/package.json",
+          "present": true,
+          "sha256": "a776e2432980314c6a59c82b4e1846c3d8ee3bbc632b3860869471993220ef38"
+        },
+        {
+          "name": "com.unity.ide.visualstudio",
+          "version": "2.0.22",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.ide.visualstudio@2.0.22/package.json",
+          "present": true,
+          "sha256": "0d94683ea96cb68d66fcb81661211c48b04ad8db495743b9d7bfbb4b35139067"
+        },
+        {
+          "name": "com.unity.ide.vscode",
+          "version": "1.2.5",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.ide.vscode@1.2.5/package.json",
+          "present": true,
+          "sha256": "31c198cca479408ee47af8703f851ed2647e3fa0f48c39e11ba32ca02b5719e0"
+        },
+        {
+          "name": "com.unity.modules.ai",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.ai@1.0.0/package.json",
+          "present": true,
+          "sha256": "d59d58dd3396459016495abfcbf70d0d5128940844d172927cf29f13afbe6419"
+        },
+        {
+          "name": "com.unity.modules.androidjni",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.androidjni@1.0.0/package.json",
+          "present": true,
+          "sha256": "3d70b03675d30d20768b588579d04237e621f5b371b5c426c118c2bcfba69f7a"
+        },
+        {
+          "name": "com.unity.modules.animation",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.animation@1.0.0/package.json",
+          "present": true,
+          "sha256": "9f33e30941fa60097b78db1ac3abc011292a7a0fc5efe3e31823601cc1e6f0ee"
+        },
+        {
+          "name": "com.unity.modules.assetbundle",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.assetbundle@1.0.0/package.json",
+          "present": true,
+          "sha256": "0818cc6acbeb311892c0f08b4bf0d778a131ce723ca7626d1a2e86f232ed8bed"
+        },
+        {
+          "name": "com.unity.modules.audio",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.audio@1.0.0/package.json",
+          "present": true,
+          "sha256": "6520984db2e046ec2287a2b5c4e7c5dd7b075dd13fb65cf38a939dd2ea520085"
+        },
+        {
+          "name": "com.unity.modules.cloth",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.cloth@1.0.0/package.json",
+          "present": true,
+          "sha256": "92fe22baeb60680b437dd1e4e1f0f210081754ee05227dd021df361e6b4b4b1d"
+        },
+        {
+          "name": "com.unity.modules.director",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.director@1.0.0/package.json",
+          "present": true,
+          "sha256": "70c492d8ef56a6a08e4d43f90f4d22321e9d10313799a3b67e5d048743cabe17"
+        },
+        {
+          "name": "com.unity.modules.imageconversion",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.imageconversion@1.0.0/package.json",
+          "present": true,
+          "sha256": "196155e05def4c7bf34d72372523e52f1d9665538f58d739a94fcc8f32b23bee"
+        },
+        {
+          "name": "com.unity.modules.imgui",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.imgui@1.0.0/package.json",
+          "present": true,
+          "sha256": "32216a5863c0fae3196b93985d782a60adeda202379ba0f6a586881825db6ce4"
+        },
+        {
+          "name": "com.unity.modules.jsonserialize",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.jsonserialize@1.0.0/package.json",
+          "present": true,
+          "sha256": "07c68427be064b897956df3c4abddf0d29e15eb239dffa51902beb3658f151cf"
+        },
+        {
+          "name": "com.unity.modules.particlesystem",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.particlesystem@1.0.0/package.json",
+          "present": true,
+          "sha256": "fed991166604707db5760d6dd76324fcbd098e3eb70bc63bdc28511013ad5bd2"
+        },
+        {
+          "name": "com.unity.modules.physics",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.physics@1.0.0/package.json",
+          "present": true,
+          "sha256": "501c26d4db004e70142c76224927de44d9e7ea91de4b2ba47cd969a78ea9c692"
+        },
+        {
+          "name": "com.unity.modules.physics2d",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.physics2d@1.0.0/package.json",
+          "present": true,
+          "sha256": "924759e57087f1fa637ddd967291c472f9d2a749c7102b69501073a1ed0b43e7"
+        },
+        {
+          "name": "com.unity.modules.screencapture",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.screencapture@1.0.0/package.json",
+          "present": true,
+          "sha256": "4cbafc0b7322f9c6554f7766e2208c5232e1760259418e5fd14562563eb87f56"
+        },
+        {
+          "name": "com.unity.modules.subsystems",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.subsystems@1.0.0/package.json",
+          "present": true,
+          "sha256": "a27b9455949457cdc358480d9695b94c5d7c9ddbca87fa9db7a36d7b436d2e31"
+        },
+        {
+          "name": "com.unity.modules.terrain",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.terrain@1.0.0/package.json",
+          "present": true,
+          "sha256": "e638f1f4b4a6b615b8c66fea754960783eec866a34ac8d1f8769c62431bf446b"
+        },
+        {
+          "name": "com.unity.modules.terrainphysics",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.terrainphysics@1.0.0/package.json",
+          "present": true,
+          "sha256": "06af596a6feb02f46ba9b8e12dd62d7c7f855d2939983f930987c5d2edc2f943"
+        },
+        {
+          "name": "com.unity.modules.tilemap",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.tilemap@1.0.0/package.json",
+          "present": true,
+          "sha256": "936ff4f56f30fdb21eebb262366afee64020aec7c16a5a6d4bf97095608afb10"
+        },
+        {
+          "name": "com.unity.modules.ui",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.ui@1.0.0/package.json",
+          "present": true,
+          "sha256": "c0cf2720fba0590142e92fe3d7ef2dbc0a57728b02075092039dfeb885bd7d50"
+        },
+        {
+          "name": "com.unity.modules.uielements",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.uielements@1.0.0/package.json",
+          "present": true,
+          "sha256": "cc328b4fcb2bb2db4fefec6a51142e5c8d4fa05a64a780c19727aab14928bd46"
+        },
+        {
+          "name": "com.unity.modules.umbra",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.umbra@1.0.0/package.json",
+          "present": true,
+          "sha256": "b4ca427768ac2fec8b2a9454f06c58e15f3552c2ac6e3ba8efb088c4e5baeaa2"
+        },
+        {
+          "name": "com.unity.modules.unityanalytics",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.unityanalytics@1.0.0/package.json",
+          "present": true,
+          "sha256": "a25d940fec5d6aa4e7d1769400812adbb92b3904e5aa88edee25fe3a3db20c86"
+        },
+        {
+          "name": "com.unity.modules.unitywebrequest",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.unitywebrequest@1.0.0/package.json",
+          "present": true,
+          "sha256": "1d0aa91a6792899edbde4c9c8dbf0dc2f499806ab99905fe19055e703fd2e5cc"
+        },
+        {
+          "name": "com.unity.modules.unitywebrequestassetbundle",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle@1.0.0/package.json",
+          "present": true,
+          "sha256": "92cf886c9909352c10ad8f80b71a3ce8c1db29b2fce991b3355f4750a750020c"
+        },
+        {
+          "name": "com.unity.modules.unitywebrequestaudio",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.unitywebrequestaudio@1.0.0/package.json",
+          "present": true,
+          "sha256": "e7fed06b40add8f49423ef2c2c082f0c0d560f05c6f2839ecea1a2c1d034846d"
+        },
+        {
+          "name": "com.unity.modules.unitywebrequesttexture",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.unitywebrequesttexture@1.0.0/package.json",
+          "present": true,
+          "sha256": "d00ab9487161381c1a3a701968eaea2ff32b328b6ab83f9d4fa95a97c24eb9a6"
+        },
+        {
+          "name": "com.unity.modules.unitywebrequestwww",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.unitywebrequestwww@1.0.0/package.json",
+          "present": true,
+          "sha256": "20ee728608b2290bd71c2ea03975432ac2b0197cb33ace3e5a58d6cae302a16b"
+        },
+        {
+          "name": "com.unity.modules.vehicles",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.vehicles@1.0.0/package.json",
+          "present": true,
+          "sha256": "ef8de2f51e8ec1a9d0e138e7b93127c06cfad595c7eda0c0e8650436aa34e463"
+        },
+        {
+          "name": "com.unity.modules.video",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.video@1.0.0/package.json",
+          "present": true,
+          "sha256": "a6cb7a456f79f0b4b4983fea0cb097f63e4ab1ee620c85ca945ffd4510685c96"
+        },
+        {
+          "name": "com.unity.modules.vr",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.vr@1.0.0/package.json",
+          "present": true,
+          "sha256": "07b04a6e60f49ac745dfc8799517e0ac77ca760f241e4c24790f74f8a324cdfd"
+        },
+        {
+          "name": "com.unity.modules.wind",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.wind@1.0.0/package.json",
+          "present": true,
+          "sha256": "1cafd22d81f82ab89d9815ab81bce1f5beafe5e18f5a26d44b14388110a12e7f"
+        },
+        {
+          "name": "com.unity.modules.xr",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.modules.xr@1.0.0/package.json",
+          "present": true,
+          "sha256": "5be2de3cef27516f573d080c58ac8f5956821f7acdae4519c8622c376094ed73"
+        },
+        {
+          "name": "com.unity.performance.profile-analyzer",
+          "version": "1.2.2",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.performance.profile-analyzer@1.2.2/package.json",
+          "present": true,
+          "sha256": "3b17a1aee82f200057a4b022af093184ba00a440896f231d4553cafac845b63a"
+        },
+        {
+          "name": "com.unity.settings-manager",
+          "version": "2.0.1",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.settings-manager@2.0.1/package.json",
+          "present": true,
+          "sha256": "fe81c9d99f5a63831c1d6ea783bb617f4d6cf2c1c0c6ae7c3198e8adcbf60baf"
+        },
+        {
+          "name": "com.unity.sysroot",
+          "version": "2.0.10",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.sysroot@2.0.10/package.json",
+          "present": true,
+          "sha256": "b084e44b23b56237a1a4028d629e4057a1e6ced4f494d80671e71f4eccd17441"
+        },
+        {
+          "name": "com.unity.sysroot.linux-x86_64",
+          "version": "2.0.9",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.sysroot.linux-x86_64@2.0.9/package.json",
+          "present": true,
+          "sha256": "776607dff3b1d84653f2dbddc9fa8384c091c858d0fb0f6c148a41812ed6df43"
+        },
+        {
+          "name": "com.unity.test-framework",
+          "version": "1.1.33",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.test-framework@1.1.33/package.json",
+          "present": true,
+          "sha256": "63cb29f4cc8dfc03ce8b3e9a68196f134310e8412cd80110307035e82100cfc4"
+        },
+        {
+          "name": "com.unity.testtools.codecoverage",
+          "version": "1.2.5",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.testtools.codecoverage@1.2.5/package.json",
+          "present": true,
+          "sha256": "7990fbc1431e1a8ed41c709d26db793f8067e674ae8a8917cf7ba5c6d6c5e09d"
+        },
+        {
+          "name": "com.unity.textmeshpro",
+          "version": "3.0.6",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.textmeshpro@3.0.6/package.json",
+          "present": true,
+          "sha256": "640c3c9ea8d7e5431bfefaccc70d85ea7aed204686d16a596d412286d2b9ba0b"
+        },
+        {
+          "name": "com.unity.timeline",
+          "version": "1.7.6",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.timeline@1.7.6/package.json",
+          "present": true,
+          "sha256": "b2bb5bfbcf7fdaeba5b2165362e5e1bb414154564449a8c4642b6444ea73fe9f"
+        },
+        {
+          "name": "com.unity.toolchain.macos-x86_64-linux-x86_64",
+          "version": "2.0.11",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.toolchain.macos-x86_64-linux-x86_64@2.0.11/package.json",
+          "present": true,
+          "sha256": "15dd6dc6ed50fdcc3847815708d6797fcc7734af1ead1cb2538f1e868a4a6b63"
+        },
+        {
+          "name": "com.unity.toolchain.win-x86_64-linux-x86_64",
+          "version": "2.0.11",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.toolchain.win-x86_64-linux-x86_64@2.0.11/package.json",
+          "present": true,
+          "sha256": "f1f662e63b0b4aed4da9ed6edbbb0eadfd2c3e9ebfe8e8a5d09cc0a18a2576f2"
+        },
+        {
+          "name": "com.unity.ugui",
+          "version": "1.0.0",
+          "source": "builtin",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.ugui@1.0.0/package.json",
+          "present": true,
+          "sha256": "6830b8501f301344de9feab76c65d1d9339b496c55cb16f9827658e78234ee78"
+        },
+        {
+          "name": "com.unity.visualscripting",
+          "version": "1.9.1",
+          "source": "registry",
+          "packageJson": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/Library/PackageCache/com.unity.visualscripting@1.9.1/package.json",
+          "present": true,
+          "sha256": "e16d81fe9179d398c535bda20a608d61905ed9be1ecd82e1b105087128cc88d5"
+        }
+      ],
+      "status": "READ_ONLY_ASSESSMENT_NOT_ACTIVATION",
+      "cacheCompleteness": "package.json identity only; complete offline import dependency/registry cache readiness not proven"
+    },
+    "dots": {
+      "status": "NOT_VERIFIED_FOR_THIS_CANDIDATE",
+      "evidence": "README graphics001/002: Xorg listener socket failed; 002 directory ownership warning/sudo unavailable, not proof of sole cause. No Unity/GL/license proof. No new cloud call this task."
+    },
+    "projection": {
+      "status": "READ_ONLY_CANDIDATE_ONLY",
+      "source": "locally verified PR1 tree + SOURCE_READY delta + fixed external CSV; all Assets/Packages/ProjectSettings from PR1, not dirty checkout; exclude three PR3 sources/metas and Config/Generated/Tools LOC WIP",
+      "cache": "51 locked package.json present; full cache file inventory, offline registry/import closure, copy permission/time/size and clean Library policy must be signed separately. No shared Library/Temp copying or new directory now.",
+      "git": "No worktree, branch, checkout, commit, reset, push, fetch or object writes."
+    },
+    "export": {
+      "allowed": "only native prefab/scene + two naturally generated metas; C verifies destination still equals original preimage and all LOC protections before controlled handback",
+      "blocked": "any drift/extra meta/font/TMP/settings/source write, source/destination mismatch, missing reviewer, nonzero/error/timeout/skip/inconclusive, no owned-process identity"
+    }
+  },
+  "notRun": [
+    "implementation",
+    "Unity",
+    "compile/import",
+    "native migration",
+    "test execution/discovery",
+    "new code review",
+    "network",
+    "downloads",
+    "projection/cache setup",
+    "Git mutation"
+  ]
+}

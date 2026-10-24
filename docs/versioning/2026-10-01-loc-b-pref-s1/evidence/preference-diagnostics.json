@@ -1,0 +1,99 @@
+{
+  "source": "engineering-localization-luban-impl-b-pref.md section 8.4",
+  "status": "STATIC_TABLE_MATCH_RUNTIME_NOT_RUN",
+  "rows": [
+    {
+      "stage": "load open/read I/O",
+      "code": "PreferenceReadFailed",
+      "result": "ReadFailedSystemDefault"
+    },
+    {
+      "stage": "load invalid UTF-8/JSON/root/trailing",
+      "code": "PreferenceInvalidDocument",
+      "result": "InvalidSystemDefault"
+    },
+    {
+      "stage": "load field missing/null/type/unknown/duplicate/case",
+      "code": "PreferenceInvalidSchema",
+      "result": "InvalidSystemDefault"
+    },
+    {
+      "stage": "load version != 1",
+      "code": "PreferenceUnsupportedVersion",
+      "result": "InvalidSystemDefault"
+    },
+    {
+      "stage": "load unsupported locale",
+      "code": "PreferenceUnsupportedLocale",
+      "result": "InvalidSystemDefault"
+    },
+    {
+      "stage": "directory/temp create",
+      "code": "PreferenceTempCreateFailed",
+      "result": "SaveFailed"
+    },
+    {
+      "stage": "temp write",
+      "code": "PreferenceTempWriteFailed",
+      "result": "SaveFailed"
+    },
+    {
+      "stage": "Flush",
+      "code": "PreferenceFlushFailed",
+      "result": "SaveFailed"
+    },
+    {
+      "stage": "temp reopen/read",
+      "code": "PreferenceTempReadFailed",
+      "result": "SaveFailed"
+    },
+    {
+      "stage": "temp strict parse/compare",
+      "code": "PreferenceTempVerificationFailed",
+      "result": "SaveFailed"
+    },
+    {
+      "stage": "commit-before-mutation",
+      "code": "PreferenceCommitFailed",
+      "result": "SaveFailed"
+    },
+    {
+      "stage": "post-commit target reopen",
+      "code": "PreferenceTargetReopenFailed",
+      "result": "Unknown unless rollback proves old bytes/absence"
+    },
+    {
+      "stage": "post-commit target read",
+      "code": "PreferenceTargetReadFailed",
+      "result": "Unknown unless rollback proves old bytes/absence"
+    },
+    {
+      "stage": "post-commit parse/version/locale mismatch",
+      "code": "PreferenceTargetVerificationFailed",
+      "result": "Unknown unless rollback proves old bytes/absence"
+    },
+    {
+      "stage": "rollback operation",
+      "code": "PreferenceRollbackFailed",
+      "result": "Unknown"
+    },
+    {
+      "stage": "rollback proof reopen/read",
+      "code": "PreferenceRollbackProofFailed",
+      "result": "Unknown"
+    },
+    {
+      "stage": "rollback proof bytes/absence mismatch",
+      "code": "PreferenceRollbackMismatch",
+      "result": "Unknown"
+    }
+  ],
+  "rollbackPolicy": "After confirmed commit, attempt rollback; a failed rollback/proof uses its controlled rollback code. Proven restoration returns SaveFailed with the original post-commit diagnostic.",
+  "playerKeys": {
+    "Saved": "fm.language.saved",
+    "SaveFailed": "fm.language.save_failed",
+    "Unknown": "fm.language.save_unknown"
+  },
+  "uncontrolledExceptionMessagesExposed": false,
+  "actualTestsRun": 0
+}

@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-ACTIVATION-001/FIX01",
+  "stage": "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FIX01/S",
+  "statuses": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a10068-4b35-7750-b306-2043eecfa2fa"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a10066-a3af-74d2-8bc9-89d6431b025f"
+  },
+  "sole_completion_receiver": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+  "authority": "User AGENTS section6; central approved exact Consumed/Next clarification379839... and engineering activated new FIX01/S. Original95c55... and BLOCKED S remain immutable. Only K(id,base,set,SHA) relation clarified; all other source contract gates remain. No native authorization.",
+  "model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh",
+    "note": "Dispatch policy, not measured."
+  },
+  "scope": "Only eight authorized FIX01/S leaves authored with apply_patch. Two-source new-file patch; no shared Assets/meta/assembly/package/settings/HostSession/EmptyRoot or other packet edits.",
+  "fixed_inputs": {
+    "docs/team/2026-09-30/engineering-res-d-activation-store-source-001.md": {
+      "bytes": 11363,
+      "sha256": "95c55bfff61e3b49f49ea86411ed8bd06f4311ac3305f9d6e83fb63ac284aa4e"
+    },
+    "docs/team/2026-09-30/engineering-resource-runtime-bridge-cd-001.md": {
+      "bytes": 20364,
+      "sha256": "ea3fc6efecd6ea118675cfcf96499cb5c3192bb6af2371d7ca9637cb7bdf9378"
+    },
+    "docs/team/2026-09-30/engineering-runtime-localization-integration-001.md": {
+      "bytes": 7843,
+      "sha256": "8c0e793f52d8fce9aa39f2e281507e3408613484f8d09d6938cc48a1502ce56a"
+    },
+    "docs/team/2026-09-30/engineering-host-settings-first-create-001.md": {
+      "bytes": 11136,
+      "sha256": "90b7351a13e16aa1d04281c42a27e003815b093e33adfcca9173578aaaba027d"
+    },
+    "TestArtifacts/FightMatch/HOST-SAVE-ISOLATION-001/S/source/Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs": {
+      "bytes": 19136,
+      "sha256": "f527b4ceecffff0718ed1214f9d26eaca5d65f6e2c82ba973d6b8774c2e66b7f"
+    },
+    "docs/team/2026-09-30/engineering-res-d-activation-store-consumed-restart-clarification.md": {
+      "bytes": 5494,
+      "sha256": "37983965c6cd936f1fded3d1bb1141c61b856fa225c889c117b2c43e14a96229"
+    },
+    "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/S/before.json": {
+      "bytes": 5045,
+      "sha256": "59c59cc9cf3218b02d42a39a54e7fb75745ba9d7b3e02a02958528ba83fd6074"
+    },
+    "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/S/source-receipt.json": {
+      "bytes": 4172,
+      "sha256": "14406a99b39f74bf7d25e583482f8988a9c3a98f7bc4f886d46f370cb691a3dd"
+    }
+  },
+  "leaf_inventory": {
+    "before.json": {
+      "bytes": 6413,
+      "sha256": "c2ce24c20e525d7164557d2e0aaf61e12508e24ff8c6aa6ffbd4db69be688524"
+    },
+    "after.json": {
+      "bytes": 4751,
+      "sha256": "6f31827cced9f631079a976e454a89efeffd2ee7a24717486272afd91bdfe817"
+    },
+    "source/Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs": {
+      "bytes": 21172,
+      "sha256": "94a86aaf5413f91913492486e86f03113435ada247558044535c9787cc5c8155",
+      "physical_lines": 404
+    },
+    "source/Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs": {
+      "bytes": 34327,
+      "sha256": "80f83e6ad04609ca9eea778c868f0a00f3ac7b317ec4881799e2feaae3e0cfd4",
+      "physical_lines": 484
+    },
+    "source.patch": {
+      "bytes": 56610,
+      "sha256": "e724d56c5cd88d364703ec460186c6696dbd1f758374cd9f85cab3d166827d4c"
+    },
+    "verify.py": {
+      "bytes": 7961,
+      "sha256": "9fbb7cef1b9766e2d2b35937c36f20e9cf0cac42188e77d7e8dff9d14933d82d"
+    },
+    "static-checks.json": {
+      "bytes": 7218,
+      "sha256": "bafcf0cea626c470168c022aa6ff23ca1801b45a9b4802eae06053c5edc648ea"
+    },
+    "source-receipt.json": {
+      "bytes": 14495,
+      "sha256_binding": "Final read-only seal inventory and single engineering completion event bind this file; no self-referential digest."
+    }
+  },
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs": {
+      "bytes": 21172,
+      "sha256": "94a86aaf5413f91913492486e86f03113435ada247558044535c9787cc5c8155",
+      "physical_lines": 404
+    },
+    "Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs": {
+      "bytes": 34327,
+      "sha256": "80f83e6ad04609ca9eea778c868f0a00f3ac7b317ec4881799e2feaae3e0cfd4",
+      "physical_lines": 484
+    }
+  },
+  "patch": {
+    "bytes": 56610,
+    "sha256": "e724d56c5cd88d364703ec460186c6696dbd1f758374cd9f85cab3d166827d4c"
+  },
+  "budgets": {
+    "limits": {
+      "production_lines": 650,
+      "production_bytes": 49152,
+      "test_lines": 550,
+      "test_bytes": 49152,
+      "stage_bytes": 1048576,
+      "verification_runs": 2,
+      "verification_seconds": 30,
+      "accepted_baseline_production_lines": 1797,
+      "accepted_baseline_test_lines": 1371,
+      "approved_cumulative_production_limit": 2447,
+      "approved_cumulative_test_limit": 1921
+    },
+    "actual": {
+      "production_lines": 404,
+      "production_bytes": 21172,
+      "test_lines": 484,
+      "test_bytes": 34327,
+      "production_cumulative_lines": 2201,
+      "test_cumulative_lines": 1855,
+      "pre_receipt_stage_bytes": 138452,
+      "final_stage_bytes": 152947
+    }
+  },
+  "historical_blocked_stage": {
+    "root": "TestArtifacts/FightMatch/RES-D-ACTIVATION-001/S",
+    "leaves": [
+      "before.json",
+      "source-receipt.json"
+    ],
+    "bytes": 9217,
+    "verifier_runs": 0,
+    "status": "BLOCKED_IMMUTABLE",
+    "unchanged": true
+  },
+  "relation_clarification": "Consumed compares id/base/set/SHA with active including active.base; V first validates phase/token/schema. Next differs id/set, base=active.id. Unconsumed restart requires BusinessReady+Next prepared+same K. Consumed restart may coexist with Next prepared; replaying consumed RequestRestart rejected.",
+  "author_self_check": {
+    "kind": "Source-author self-check only; not independent review, compilation, discovery or test execution.",
+    "transitions": "Initial CodeEntered; idempotent same-process entry; later-process same-target reentry retains id/base; current BusinessReady cannot regress. Prepare requires current BusinessReady and a distinct exact set; repeated Next is idempotent. Repeated pending restart is idempotent; consumed replay rejects.",
+    "consumed_next": "Validate each phase/token/schema first. Consumed K matches id/base/set/SHA including active.base. Consumed restart may coexist with Next prepared; RequestRestart replaces restart singly. A->B->C plus a later update is represented.",
+    "root": "Caller-provided existing absolute canonical product root; ancestor/name/alias/reparse and owned shape checks; nine leaves only under resource-state/v1. Each leaf bounded to 2048 bytes before allocation; no default root.",
+    "record": "Strict UTF-8 fixed-order seven-field JSON, schema integer 1, constrained lowercase id/SHA/set and valid process token. Unknown/duplicate/missing fields, escapes, trailing bytes, malformed backup/main and invalid relationships reject.",
+    "commit": "CreateNew fixed tmp, exact write, Flush(true), close, bounded tmp readback, Move/Replace, exact target readback and identity. Uncertainty begins immediately before promotion; subsequent failure yields UnknownCommit with the old confirmed snapshot and blocks later operations. Before promotion: reject and best-effort cleanup only of known-created tmp.",
+    "backup": "No backup recovery or automatic tmp promotion. Prior BusinessReady backup survives CodeEntered-to-BusinessReady. Residue and malformed state reject without rollback.",
+    "isolation": "No player/settings/HostSession/EmptyRoot/resource-loader integration. Closed literal safe codes hide paths. All helper/seam types remain internal in the two source files."
+  },
+  "static_test_full_names": [
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS01_InitialBuiltInAndOrdinaryReentry",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS02_UpdateRequiresNextProcess",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS03_StrictBoundedRecords",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS04_PrePromotionFailuresPreserveActive",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS05_UnknownCommitNeverAdvances",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS06_RealFilesMoveReplaceAndReopen",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS07_RootAndResidueGuards",
+    "FightMatch.Host.Tests.FightMatchResourceActivationStoreTests.AS08_PlayerAndOldSetRemainUntouched"
+  ],
+  "test_author_self_checks": [
+    {
+      "id": "AS01",
+      "coverage": "Initial built-in and ordinary entry; stable id/base; BusinessReady idempotence; wrong id/set/SHA; forbidden early Prepare; no same-process phase rollback; preserved older BusinessReady backup.",
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "AS02",
+      "coverage": "A->B->C and next update; reopened reads; idempotent prepared/restart bytes; same-process refusal; Consumed/Next relationships; malformed id/base/set/SHA/phase/token/schema; absent active/prepared and stale pending restart preserve bytes.",
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "AS03",
+      "coverage": "2048/2049-byte limits; strict UTF-8/JSON; BOM/duplicate/missing/unknown/version/id/SHA/escape/token/trailing rejection; short/growing reads; orphan tmp/backup residue.",
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "AS04",
+      "coverage": "Sixteen injected pre-promotion fault locations; no promotion; main bytes and old-set sentinel unchanged; retained last-confirmed snapshot.",
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "AS05",
+      "coverage": "Seven uncertain-promotion/readback faults; no snapshot advance; subsequent operations blocked; no rollback; preserved backup/sentinel. Reopened store confirms resulting actual record or rejects residual tmp.",
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "AS06",
+      "coverage": "Real System.IO Move/Replace/Flush; actual default Process identity; same-process reopened store refusal; exact reopened bytes and backup preservation. Injected later tokens do not establish actual process restart.",
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "AS07",
+      "coverage": "Canonical roots, aliases, links, attributes, unknown leaves, directory-as-file and read faults; real foreign leaf, case alias, non-dangling and dangling links. Missing link API/capability fails with BLOCKED rather than skip/pass/fallback.",
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "AS08",
+      "coverage": "Real profile/settings/old-resource sentinels preserved; failed enter does not switch; ordinary reentry id retained; corrupt active/backup never roll back; safe codes hide root and types remain internal.",
+      "execution": "NOT_RUN"
+    }
+  ],
+  "real_fs_harness": {
+    "status": "AUTHORED_NOT_EXECUTED",
+    "lease_environment_variable": "FIGHTMATCH_ACTIVATION_TEST_ROOT",
+    "required_existing_root": ".../TestArtifacts/FightMatch/RES-D-ACTIVATION-001/<activation>/state-tests",
+    "executor_requirement": "Future authorized executor provides an absolute existing canonical non-link lease. AS06/AS07/AS08 each create a fresh named case/product. Source author did not create or probe such a lease.",
+    "case_relative_sentinels": [
+      "product/profiles/keep.bin",
+      "product/settings/keep.bin",
+      "product/old-resources/complete.bin",
+      "product/external.bin",
+      "product/resource-state/v1/foreign.json (AS07 intentional unknown-leaf fault)"
+    ],
+    "dangling_target": "product/absent-target remains absent; no external product path is created.",
+    "cleanup": "Known exact owned leaves and declared sentinels, then empty directories only. Unexpected evidence fails and remains; no recursive wildcard cleanup.",
+    "links": "Reflection locates File.CreateSymbolicLink. Unavailable API or creation fails with BLOCKED, never Ignore/Inconclusive/Pass or fake fallback. No P/Invoke or child process.",
+    "real_process_restart": "NOT_VERIFIED; injected tokens are not real restart evidence.",
+    "cross_platform_atomicity": "NOT_VERIFIED; actual Mac/Windows Move/Replace/Flush behavior remains a native gate."
+  },
+  "verification": {
+    "source_verifier_runs": 1,
+    "permitted_maximum_runs": 2,
+    "permitted_seconds_per_run": 30,
+    "historical_stage_verifier_runs": 0,
+    "actual_runs": [
+      {
+        "command": "python3 -B TestArtifacts/FightMatch/RES-D-ACTIVATION-001/FIX01/S/verify.py",
+        "started_utc": "2026-10-03T06:55:28.179557+00:00",
+        "duration_seconds": 0.0038235830143094063,
+        "exit_code": 0,
+        "checks": 41,
+        "passed": 41,
+        "failed": 0,
+        "verifier": {
+          "bytes": 7961,
+          "sha256": "9fbb7cef1b9766e2d2b35937c36f20e9cf0cac42188e77d7e8dff9d14933d82d"
+        }
+      }
+    ],
+    "result": "PASS_41_OF_41",
+    "scope": "Read-only Python stdlib identities, fixed/shared/absence guards, exact patch memory replay, line/byte budgets, static names and internal/harness constraints. No C# type-check or execution.",
+    "final_seal": "Separate read-only inventory after this receipt binds eight hashes and checks fixed/shared/absence guards for the completion event; not a second source-verifier or test run.",
+    "compilations": 0,
+    "test_discovery_runs": 0,
+    "tests_discovered": 0,
+    "test_runs": 0,
+    "tests_executed": 0,
+    "unity_invocations": 0,
+    "csharp_or_sdk_invocations": 0,
+    "git_commands": 0,
+    "independent_code_reviews": 0
+  },
+  "pending_gates": [
+    "Authorized native compilation/import",
+    "Discovery and execution of eight exact tests",
+    "Real FS/symlink capability evidence",
+    "Actual process restart and cross-platform behavior where required",
+    "Independent GitHub PR Code Review at reviewed head",
+    "Engineering/testing integration verdict"
+  ],
+  "integration_verdict": "NOT_ISSUED_BY_SOURCE_AUTHOR",
+  "completion": "Final seal inventory, then one completion event to engineering only and no further writes. No native work, publication, other packet, C dispatch/wait or additional review."
+}

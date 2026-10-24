@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 1,
+  "task": "I01_EXISTING_COMPILE_EVIDENCE",
+  "owner": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a11817-93ed-79f1-a7c1-54f12dd93c78"
+  },
+  "soleReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "observedUtc": "2026-10-07T20:44:26.575Z",
+  "status": "LATE_READONLY_EVIDENCE_ONLY",
+  "paths": {
+    "repository": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch",
+    "projection": "TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection/",
+    "originalRun": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/",
+    "recovery": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-Recovery01/"
+  },
+  "fixedInputIdentities": {
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/inputs.json": {
+      "bytes": 806564,
+      "sha256": "d1e4d34147305cfc073800d7c6c911d18593a5f91c91735409a28b7d677726e3"
+    },
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/runner.py": {
+      "bytes": 47602,
+      "sha256": "b11eb06bc058362aaf833e5070876dc12db0e49491612f7570b87d8e26071317"
+    },
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/receipt.json": {
+      "bytes": 18698,
+      "sha256": "58856c36ec5cdc1d638323d99f3563a2ddba162ad8b5cb11b905bea9278cdece"
+    },
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/compile.json": {
+      "bytes": 8433,
+      "sha256": "ae808d63fe2213c883c0fe57209dec50910bef50c0ccd52b7cb788315d1a89be"
+    },
+    "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/before.json": {
+      "bytes": 916349,
+      "sha256": "a1e4d5ea7f753c0fb8648c42ed417289a9481dc68881009947a77a8f8b8b01a2"
+    }
+  },
+  "recoveryIdentity": {
+    "path": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-Recovery01/receipt.json",
+    "bytes": 11884,
+    "sha256": "0a0a8cc93992a2318ae419e895940c2f7c2e0a08868f8f2020e0571bcf302391"
+  },
+  "originalResult": {
+    "status": "FAILED",
+    "overallAcceptance": "NEEDS_FIX",
+    "osExitCode": null,
+    "earlyCompileStages": [],
+    "earlyFullImportedInputs": null,
+    "notAmended": true
+  },
+  "log": {
+    "path": "TestArtifacts/FightMatch/HOST-INTEGRATE-001/I01-run/I/editor.log",
+    "bytes": 100793,
+    "sha256": "48d397ee7646bd29f89edf150e5a78fa2ce1a94f3e3ed3fee1fe7da92162b131",
+    "originalSealedPrefix": {
+      "bytes": 22222,
+      "sha256": "bd9db03b03a7e6d1ed0e4531de6c92b7c62154c82357d1dd7e1b0ccd3cd3632b"
+    },
+    "prefixMatches": true,
+    "diagnostics": [
+      {
+        "line": 527,
+        "text": "error CS2001: Source file '/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/HOST-SETTINGS-FIRST-CREATE-001/M03/projection/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs' could not be found."
+      },
+      {
+        "line": 550,
+        "text": "*** Tundra build success (2.42 seconds), 13 items updated, 541 evaluated"
+      },
+      {
+        "line": 855,
+        "text": "Exiting batchmode successfully now!"
+      }
+    ]
+  },
+  "candidateReconstruction": {
+    "kind": "Read-only late reconstruction, NOT compilation-time fullImportedInputs",
+    "sources": "Recovery01/archive/source for the 20 overwritten/new paths, restored P for the other 980 N.files",
+    "leaves": 1000,
+    "bytes": 32229217,
+    "canonicalAlgorithm": "SHA256 of UTF-8 sorted path NUL Git-blob-SHA1 NUL decimalBytes LF",
+    "canonicalSha256": "fefb2117f7e3991ab5f1a482216f3cff902368ad330295383e9705a534a18715",
+    "expected": "fefb2117f7e3991ab5f1a482216f3cff902368ad330295383e9705a534a18715",
+    "canonicalMatches": true,
+    "gaps": []
+  },
+  "assemblies": [
+    {
+      "name": "FightMatch.Host",
+      "cscEvents": [
+        {
+          "line": 540,
+          "text": "[529/541    0s] Csc Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll (+2 others)"
+        }
+      ],
+      "response": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.rsp",
+        "bytes": 41755,
+        "sha256": "623629b38c942438bab3853f5ebeec3d79e8dfc9ef81fb9a1ab2fd6c299415ff"
+      },
+      "rsp2": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.rsp2",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sourceCount": 7,
+      "expectedSourceCount": 7,
+      "exactSourceList": true,
+      "fixedSourceIdentityMatch": true,
+      "restoredSourceDifferences": [
+        "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+        "Assets/Scripts/FightMatch/Host/FightMatchPlayerHost.cs"
+      ],
+      "currentSourceMapSha256": "dc9593b256c18b890fa4a8e228f1780252f637e822f85d7adb9220178d652d4c",
+      "fixedSourceMapSha256": "e1b416f36a9814af033dc812acb9ee9d642a377649d76dd569735684ddde89ed",
+      "referenceCount": 234,
+      "uniqueReferenceCount": 234,
+      "referenceMapSha256": "2478cd9eddd123f525b90ef19f544d86b83e7f6d059b65172a08a11dff400217",
+      "missingReferenceCount": 0,
+      "missingReferencesFirstFive": [],
+      "definesCount": 117,
+      "definesSha256": "1bdae02c471d914305331c5a8c84a3ce67aed486ad9cc27355c08e516e959914",
+      "compilerOutput": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.dll",
+        "bytes": 65024,
+        "sha256": "bd59ef33fe7ceba0aea703a6d7d9b02d0a280a1be8878321cfff745effb764d7"
+      },
+      "scriptAssembly": {
+        "path": "Library/ScriptAssemblies/FightMatch.Host.dll",
+        "bytes": 65024,
+        "sha256": "bd59ef33fe7ceba0aea703a6d7d9b02d0a280a1be8878321cfff745effb764d7"
+      },
+      "outputEqualsScriptAssembly": true,
+      "earlyDllEqualsLate": true,
+      "structuralComplete": true,
+      "proven": false,
+      "origin": "lateObservationAfterRestore",
+      "eligibleAsVerifiedPriorCacheChain": false
+    },
+    {
+      "name": "FightMatch.Presentation",
+      "cscEvents": [
+        {
+          "line": 238,
+          "text": "[536/557    4s] Csc Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll (+2 others)"
+        }
+      ],
+      "response": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.rsp",
+        "bytes": 42896,
+        "sha256": "88eba44ee72ea023e290774b6cc4818619e615fa2a69e5078163e9a5ec5f4275"
+      },
+      "rsp2": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.rsp2",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sourceCount": 22,
+      "expectedSourceCount": 22,
+      "exactSourceList": true,
+      "fixedSourceIdentityMatch": true,
+      "restoredSourceDifferences": [
+        "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+        "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+        "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+        "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+        "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+        "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs"
+      ],
+      "currentSourceMapSha256": "6f34a0f36f2d09529abcab32fe1bb668a856ba050a898684f57049299e6db88c",
+      "fixedSourceMapSha256": "370b7afa6b90c6cb7b0792290f4167f5d44b25e94a4b9e59b3f964e51836efb4",
+      "referenceCount": 234,
+      "uniqueReferenceCount": 234,
+      "referenceMapSha256": "1fd2909c12ad4968ed66377fdc9fa5c04e6ba520c0b56ce718482e70559104ea",
+      "missingReferenceCount": 0,
+      "missingReferencesFirstFive": [],
+      "definesCount": 117,
+      "definesSha256": "1bdae02c471d914305331c5a8c84a3ce67aed486ad9cc27355c08e516e959914",
+      "compilerOutput": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Presentation.dll",
+        "bytes": 191488,
+        "sha256": "efe698332c1a8678d80879a35094391753e7a8606d5649545af50d653f4509ea"
+      },
+      "scriptAssembly": {
+        "path": "Library/ScriptAssemblies/FightMatch.Presentation.dll",
+        "bytes": 191488,
+        "sha256": "efe698332c1a8678d80879a35094391753e7a8606d5649545af50d653f4509ea"
+      },
+      "outputEqualsScriptAssembly": true,
+      "earlyDllEqualsLate": true,
+      "structuralComplete": false,
+      "proven": false,
+      "origin": "lateObservationAfterRestore",
+      "eligibleAsVerifiedPriorCacheChain": false
+    },
+    {
+      "name": "FightMatch.Host.Editor",
+      "cscEvents": [
+        {
+          "line": 544,
+          "text": "[535/541    1s] Csc Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll (+2 others)"
+        }
+      ],
+      "response": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.rsp",
+        "bytes": 42504,
+        "sha256": "82034ff4843462b8e913cb95f9df54fa9a7fa1b330eed28b5c925a99fe3cb416"
+      },
+      "rsp2": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.rsp2",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sourceCount": 1,
+      "expectedSourceCount": 1,
+      "exactSourceList": true,
+      "fixedSourceIdentityMatch": true,
+      "restoredSourceDifferences": [
+        "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs"
+      ],
+      "currentSourceMapSha256": "5b2533f36c11c6528ee520be59baba12508fa12f6882fe1165f2d7f08a2336c5",
+      "fixedSourceMapSha256": "5d467f4874b9f7b411219f8a8d0816eb20eb2cfabb07defb4bf5d0545d05cfec",
+      "referenceCount": 236,
+      "uniqueReferenceCount": 236,
+      "referenceMapSha256": "cfee4e32c4953f10c08a8587d9714899b86b256813851fd842fb9d36347146e3",
+      "missingReferenceCount": 0,
+      "missingReferencesFirstFive": [],
+      "definesCount": 115,
+      "definesSha256": "5a9eebacf49d86b3209e5b829bf0e3c754cd81e2fc9d473abfcc958fa6d0e58b",
+      "compilerOutput": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Editor.dll",
+        "bytes": 215040,
+        "sha256": "2cf9002708ffd138db844617accf46a13a27ce4643b1dfa7778d14469ebfaae2"
+      },
+      "scriptAssembly": {
+        "path": "Library/ScriptAssemblies/FightMatch.Host.Editor.dll",
+        "bytes": 215040,
+        "sha256": "2cf9002708ffd138db844617accf46a13a27ce4643b1dfa7778d14469ebfaae2"
+      },
+      "outputEqualsScriptAssembly": true,
+      "earlyDllEqualsLate": false,
+      "structuralComplete": true,
+      "proven": false,
+      "origin": "lateObservationAfterRestore",
+      "eligibleAsVerifiedPriorCacheChain": false
+    },
+    {
+      "name": "FightMatch.Host.Tests",
+      "cscEvents": [
+        {
+          "line": 541,
+          "text": "[532/541    1s] Csc Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll (+2 others)"
+        }
+      ],
+      "response": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.rsp",
+        "bytes": 41936,
+        "sha256": "e7cdf1617552510209b8290d2a419fff71fc70d5c75bc1cb5ff1dfb5fc3e4161"
+      },
+      "rsp2": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.rsp2",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sourceCount": 5,
+      "expectedSourceCount": 5,
+      "exactSourceList": true,
+      "fixedSourceIdentityMatch": true,
+      "restoredSourceDifferences": [
+        "Assets/Tests/EditMode/FightMatchHost/FightMatchHostProfileTests.cs"
+      ],
+      "currentSourceMapSha256": "8ddfd31b216f9977881aa5d2ca080f716dae332dd8c7b815bc158ec9c57d4e45",
+      "fixedSourceMapSha256": "6f9dd91a8b3bcf2b7c9daf792bf3fc3e05751832a3c203b88ea10c17d8fb9f7b",
+      "referenceCount": 232,
+      "uniqueReferenceCount": 232,
+      "referenceMapSha256": "61f92dc5f77d0d726f6e2edf17d85b0e305044898fb04f303702b8394d43eb37",
+      "missingReferenceCount": 0,
+      "missingReferencesFirstFive": [],
+      "definesCount": 115,
+      "definesSha256": "5a9eebacf49d86b3209e5b829bf0e3c754cd81e2fc9d473abfcc958fa6d0e58b",
+      "compilerOutput": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Host.Tests.dll",
+        "bytes": 80896,
+        "sha256": "27311cc8bfbfa24ccde6f552022da44edc1ce091dabd5b03cc90b3c30e4eb0c1"
+      },
+      "scriptAssembly": {
+        "path": "Library/ScriptAssemblies/FightMatch.Host.Tests.dll",
+        "bytes": 80896,
+        "sha256": "27311cc8bfbfa24ccde6f552022da44edc1ce091dabd5b03cc90b3c30e4eb0c1"
+      },
+      "outputEqualsScriptAssembly": true,
+      "earlyDllEqualsLate": false,
+      "structuralComplete": true,
+      "proven": false,
+      "origin": "lateObservationAfterRestore",
+      "eligibleAsVerifiedPriorCacheChain": false
+    },
+    {
+      "name": "FightMatch.Core.Tests",
+      "cscEvents": [
+        {
+          "line": 545,
+          "text": "[536/541    1s] Csc Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll (+2 others)"
+        }
+      ],
+      "response": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.rsp",
+        "bytes": 48053,
+        "sha256": "bf4ea69213da58f360eaa1c4e2b701a4e58e2724dfb818f7045f043c55775c77"
+      },
+      "rsp2": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.rsp2",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sourceCount": 98,
+      "expectedSourceCount": 98,
+      "exactSourceList": true,
+      "fixedSourceIdentityMatch": true,
+      "restoredSourceDifferences": [
+        "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+        "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+        "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+        "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+        "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+        "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+        "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs"
+      ],
+      "currentSourceMapSha256": "fc798fcfd9c5260ae179273ccc1789b0ba2a9dae053b13a9bd79fab9392105be",
+      "fixedSourceMapSha256": "cb7b9e2c8380a87248f553fd53a7e14c139dd83bc056c76f5fed4d9ea55b4865",
+      "referenceCount": 233,
+      "uniqueReferenceCount": 233,
+      "referenceMapSha256": "6defc7816b54fa8b07af2b030c857f48afdccbde14b0015da2c7d0a4d45cc90a",
+      "missingReferenceCount": 0,
+      "missingReferencesFirstFive": [],
+      "definesCount": 115,
+      "definesSha256": "5a9eebacf49d86b3209e5b829bf0e3c754cd81e2fc9d473abfcc958fa6d0e58b",
+      "compilerOutput": {
+        "path": "Library/Bee/artifacts/200b0aEDbg.dag/FightMatch.Core.Tests.dll",
+        "bytes": 1832448,
+        "sha256": "4305f379191204d9a96d505239ec4d3478f772149aba13134f2e47a212e71ba8"
+      },
+      "scriptAssembly": {
+        "path": "Library/ScriptAssemblies/FightMatch.Core.Tests.dll",
+        "bytes": 1832448,
+        "sha256": "4305f379191204d9a96d505239ec4d3478f772149aba13134f2e47a212e71ba8"
+      },
+      "outputEqualsScriptAssembly": true,
+      "earlyDllEqualsLate": false,
+      "structuralComplete": false,
+      "proven": false,
+      "origin": "lateObservationAfterRestore",
+      "eligibleAsVerifiedPriorCacheChain": false
+    }
+  ],
+  "bindingBundle": {
+    "encoding": "base64(gzip(UTF-8 JSON))",
+    "uncompressedBytes": 354131,
+    "uncompressedSha256": "3e2609066df1a2d7042c80e9a6ebf71bd38a8e8a44756eee7e455781be9d8888",
+    "compressedBytes": 81206,
+    "omitted": "Full bundle exceeds artifact budget. Digests are late identities, NOT a replacement for priorCompileBindings."
+  },
+  "readIntegrity": {
+    "files": 1411,
+    "unstable": []
+  },
+  "noActions": {
+    "unity": 0,
+    "tests": 0,
+    "ps": 0,
+    "signals": 0,
+    "cacheWrites": 0,
+    "productWrites": 0,
+    "git": 0
+  },
+  "date": "2026-10-08",
+  "timezone": "Asia/Shanghai",
+  "method": {
+    "kind": "Read-only Node filesystem/crypto inspection; runner, compiler, checker and Unity were not executed",
+    "fixedCandidate": "inputs.json files and assemblySources; no scan of concurrently adopting shared codec files",
+    "responseParsing": "One argument per line in the observed rsp files; strip only complete outer double quotes. Sources are sorted Assets/*.cs entries; references preserve rsp -r:/reference: order; defines preserve rsp order.",
+    "digestDefinition": "SHA256(UTF-8 JSON.stringify(object)). Source maps use sorted source paths; reference maps use rsp reference order; identity objects have bytes then sha256 (or error). Defines use the ordered token array.",
+    "integrity": "Each hashed regular single-link file had matching inode/size/mtime before and after its read. This is not a historical or transaction-wide capture.",
+    "compressedMap": "The full in-memory late-binding map exceeded the artifact limit and was not saved. Its hash is a commitment only; no hidden file was created."
+  },
+  "afterRestoreSourceState": {
+    "differentFromFixedInput": 17,
+    "absent": [
+      "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs"
+    ],
+    "explanation": "Expected restoration differences, not a product corruption finding. The two absent sources are available in the fixed recovery archive and were included in the 1000-leaf reconstruction.",
+    "bindingCompleteMeaning": "Structural availability of the CURRENT restored-P binding only. It does not mean compilation accepted or compiled bytes belong to that restored source version."
+  },
+  "assessment": {
+    "retainedFacts": [
+      "All five required assemblies have exactly one recorded Csc event in the original final log.",
+      "All five late rsp source-name lists exactly match inputs.json assemblySources; reconstructed source bytes match fixed N.files.",
+      "All 1169 rsp reference occurrences were available for hashing (234/234/236/232/233). No missing reference was observed.",
+      "For each assembly the currently observed Bee output DLL and ScriptAssemblies DLL have identical size/SHA256.",
+      "Host and Presentation late DLL identities equal the early capture; Host.Editor, Host.Tests and Core.Tests differ. An unchanged DLL alone is not cache proof.",
+      "The 1000-leaf candidate can be reconstructed read-only as 32229217 bytes with the original canonical hash. Nothing was written to P to perform this reconstruction."
+    ],
+    "gaps": [
+      "The original OS exitCode remains null; a later successful-exit log line cannot recreate that exit code.",
+      "The log contains CS2001 in the initial graph; later graph success does not erase that failure or satisfy the unchanged whole-run log_guard.",
+      "Original compile.json has no stage proof or compilation-time fullImportedInputs; late reconstruction is explicitly not that capture.",
+      "RSP, reference and output identities here were sampled after recovery. No contemporaneous RSP/reference/output identity set was sealed by the failed runner.",
+      "The restored P source maps differ from the fixed compiled candidate; Presentation and Core.Tests also have one candidate source each absent from restored P.",
+      "The full priorCompileBindings payload is not present in this <=32KiB artifact. Hash commitments are not a substitute for the existing six-field exact comparison or an approved proven/origin value."
+    ],
+    "futureUse": [
+      "Reuse the log Csc facts, fixed source lists, archive reconstruction and these late identities; do not rerun Unity merely to rediscover their existence.",
+      "For a proposed next combination, first compare its source/reference/defines/output tuple with the recorded commitments. Changed or missing entries require explicit treatment; the added codec assembly is not validated here.",
+      "Current runner cached_reuse_proven requires a proven actualCsc/verifiedCacheChain origin plus identical response, sourceInputs, references, defines, compilerOutput and dll. This artifact does not set those flags or change that predicate.",
+      "Do not copy the current restored-P source map into a purported compile-time proof. Any future evidence receipt must retain the late-observation timestamp and source provenance.",
+      "No automatic recompile, forced rebuild, tests or new cache policy is requested by this evidence task."
+    ],
+    "originalOverallVerdict": "NEEDS_FIX",
+    "moduleEvidenceVerdict": "LATE_IDENTITIES_AND_FIXED_SOURCE_ASSOCIATION_RECORDED; VERIFIED_CACHE_CHAIN_NOT_ESTABLISHED",
+    "nativeAcceptanceChanged": false
+  },
+  "timeAccounting": {
+    "limitSeconds": 30,
+    "mainDetailedReadSeconds": 0.1216335,
+    "conservativeCumulativeChargedCeilingSeconds": 6,
+    "meaning": "Conservative ceiling for preliminary inspections, the first oversized output, compact rerun, presence check and final document checks; not an exact cumulative runtime or turn wall time.",
+    "turnWallTimeExcluded": true,
+    "stoppedAfterBoundedEvidenceCollection": true
+  },
+  "skillUse": "writing-for-agents: separate current observations, fixed-source reconstruction, historical failure and future cache prerequisites."
+}

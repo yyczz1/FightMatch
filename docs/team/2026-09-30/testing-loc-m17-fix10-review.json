@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-FIX10 independent GitHub review intake",
+  "scope": "SOURCE_REVIEW_ONLY",
+  "integrationVerdict": "ACCEPT",
+  "recordedBy": {
+    "threadId": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "hostId": "local",
+    "turnId": "01a1330e-dfd2-7651-9d77-e81bfd6acaa0"
+  },
+  "authority": {
+    "sourceThreadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "engineeringThreadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "scopeRecord": "docs/team/2026-09-30/engineering-loc-m12-fix10-source.md",
+    "receiptOwner": "Testing lead is the sole independent GitHub review receiver for this dispatch",
+    "nativePermission": "M12 one-shot native permission has been consumed; no new native permission"
+  },
+  "input": {
+    "prUrl": "https://github.com/yyczz1/FightMatch/pull/2",
+    "expectedHead": "7be2852330b7a0138be7b4fe3a8bed06924f0da6",
+    "observedHead": "7be2852330b7a0138be7b4fe3a8bed06924f0da6",
+    "parentHeadPrefixFromDispatch": "7eeb23bb",
+    "sourceDeltaBaseline": "5e2d3790d371659552c9bb24084252c70972f474",
+    "candidate": "docs/versioning/2026-10-13-loc-m17-fix10-pr/",
+    "currentSource": "docs/versioning/2026-10-13-loc-m17-fix10-pr/source/m17_driver.py",
+    "scopedDelta": "docs/versioning/2026-10-13-loc-m17-fix10-pr/source/source.patch",
+    "publicationReport": {
+      "newFiles": 11,
+      "priorBlobsUnchanged": 1962,
+      "provenance": "Central dispatch; not reverified by this intake"
+    },
+    "prState": {
+      "state": "open",
+      "draft": true,
+      "merged": false
+    }
+  },
+  "review": {
+    "provider": "GitHub PR Code Review",
+    "status": "COMPLETED",
+    "watchStartedAtUtc": "2026-10-13T02:19:57Z",
+    "completionFirstObservedAtUtc": "2026-10-13T02:24:25Z",
+    "finalHeadAndFindingsObservedAtUtc": "2026-10-13T02:24:42Z",
+    "trigger": {
+      "id": 6136772763,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6136772763",
+      "createdAtUtc": "2026-10-13T02:18:53Z",
+      "rawBody": "@codex review\n\nReview exact head7be2852330b7a0138be7b4fe3a8bed06924f0da6. Current FIX10 source and delta against FIX09 are docs/versioning/2026-10-13-loc-m17-fix10-pr/source/m17_driver.py and source.patch. Scope: docs/team/2026-09-30/engineering-loc-m12-fix10-source.md. Focus on accepting exactly one permitted package cache directory with or without one trailing slash while preserving rejection of other paths and all existing restore-integrity/startup gates.51 targeted checks include read-only replay of real M12 input through the entire production reader and validator. No new native restore has run; historical snapshots remain evidence."
+    },
+    "summary": {
+      "id": 5928035293,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-5928035293",
+      "updatedAtUtc": "2026-10-13T02:23:39Z",
+      "completedAtUtc": "2026-10-13T02:23:38.281799Z",
+      "rawBody": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-13T02:23:38.281799Z\">2026-10-13T02:23:38.281799Z</relative-time> | `7be2852` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
+    },
+    "result": {
+      "id": 6136822761,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6136822761",
+      "author": "chatgpt-codex-connector[bot]",
+      "createdAtUtc": "2026-10-13T02:23:25Z",
+      "rawBody": "Codex Review: Didn't find any major issues. Chef's kiss.\n\n**Reviewed commit:** `7be2852330`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "reportedReviewedCommit": "7be2852330"
+    },
+    "headBinding": "Requested full SHA equals current PR head; both Completed summary and result reviewed-commit prefix match it.",
+    "formalApprovedReview": false,
+    "conclusion": "Service reported no major issues for the exact FIX10 source head. This is not a formal APPROVED review or a claim that all possible issues are absent.",
+    "newReviewSubmissions": [],
+    "newFindingThreads": [],
+    "observedNewFindingCount": 0,
+    "totalReviewSubmissions": 8,
+    "totalReviewThreads": 9,
+    "actualReadTools": [
+      {
+        "id": "exec-dc6bb7c1-a3eb-4b98-9ce9-27fdb685fb1b",
+        "server": "codex_apps",
+        "tool": "github.fetch_pr_comments",
+        "status": "completed",
+        "durationMs": 1727,
+        "arguments": {
+          "repo_full_name": "yyczz1/FightMatch",
+          "pr_number": 2
+        }
+      },
+      {
+        "id": "exec-e6adda34-ac24-44bf-b39c-72fe4d40f1ba",
+        "server": "codex_apps",
+        "tool": "github.list_pull_request_review_threads",
+        "status": "completed",
+        "durationMs": 1259,
+        "arguments": {
+          "repo_full_name": "yyczz1/FightMatch",
+          "pr_number": 2
+        }
+      },
+      {
+        "id": "exec-c314f212-e36f-410f-ba40-d55a3abfc32e",
+        "server": "codex_apps",
+        "tool": "github.list_pull_request_reviews",
+        "status": "completed",
+        "durationMs": 1366,
+        "arguments": {
+          "repo_full_name": "yyczz1/FightMatch",
+          "pr_number": 2
+        }
+      },
+      {
+        "id": "exec-d2417953-1d60-4285-9e92-77ece9468d30",
+        "server": "codex_apps",
+        "tool": "github.get_pr_info",
+        "status": "completed",
+        "durationMs": 1456,
+        "arguments": {
+          "repository_full_name": "yyczz1/FightMatch",
+          "pr_number": 2
+        }
+      }
+    ]
+  },
+  "reusedValidation": {
+    "rerun": false,
+    "provenance": "Engineering already accepted original tools and eight leaves. This intake read narrow sidecar fields and checked the sidecar byte/hash identity; it did not rerun or locally review code.",
+    "commandReceipt": {
+      "path": "docs/team/2026-09-30/loc-m17-fix10-command-receipt.json",
+      "bytes": 29677,
+      "sha256": "b2721c1a3c7c4d1806af41e78412fb0709d339358e89e815af51bb1cd9ba9a1b",
+      "byteAndHashMatched": true
+    },
+    "sourceAuthor": {
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "hostId": "local",
+      "turnId": "01a132fd-1ffa-76f2-8619-8ad85cc06eb8"
+    },
+    "static": {
+      "kind": "STATIC/SIMULATED with read-only real M12 input replay",
+      "passed": 51,
+      "total": 51,
+      "toolId": "exec-7f8dea4d-3d3c-48da-8e5d-d980d7497e33",
+      "fullInvocationSeconds": 5.5019856250000885,
+      "exitCode": 0
+    },
+    "engineeringReportedReplay": {
+      "path": "Complete production reader through validate_restore on real M12 first-stage inputs",
+      "projects": 23,
+      "packages": 15,
+      "files": 91,
+      "newRestore": false
+    },
+    "seal": {
+      "toolId": "exec-9a20ea6d-b3c6-45e4-a902-df639f7856ad",
+      "fullInvocationSeconds": 13.710168334000628,
+      "attempts": 1,
+      "exitCode": 0
+    },
+    "sourceFreezeFromReceipt": {
+      "bytes": 2808,
+      "sha256": "57bbe75e1088af7376b018ba794c2c4e91ec4fd3f9ce6e4a769875e061794275"
+    },
+    "engineeringReportedProtectedInputsUnchanged": 378,
+    "engineeringReportedDriverBytes": 285972,
+    "approvedDriverMaxBytes": 286720
+  },
+  "historicalFindings": {
+    "unresolvedThreadIds": [
+      "PRRT_kwDOTDyjrM6oQpnb",
+      "PRRT_kwDOTDyjrM6oQpne",
+      "PRRT_kwDOTDyjrM6oQpnh",
+      "PRRT_kwDOTDyjrM6ow4zT",
+      "PRRT_kwDOTDyjrM6ow4zX",
+      "PRRT_kwDOTDyjrM6oyRcu"
+    ],
+    "priorFix01P2": {
+      "threadId": "PRRT_kwDOTDyjrM6oyRcu",
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4177549312",
+      "title": "Validate all cached archives before downloading",
+      "path": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+      "line": 1131,
+      "isResolved": false,
+      "disposition": "Preserved. Current zero-download scope does not establish that this historical finding is fixed."
+    },
+    "note": "Existing old threads and historical verdicts are retained; this receipt does not close or re-review them."
+  },
+  "boundaries": {
+    "localCodeReviewPerformed": false,
+    "testsRerun": false,
+    "nativeExecutionStarted": false,
+    "githubReviewTriggeredByThisIntake": false,
+    "githubCommentsOrThreadResolutionsWritten": false,
+    "gitMutationsPerformed": false,
+    "onlyRepositoryFileWritten": "docs/team/2026-09-30/testing-loc-m17-fix10-review.json",
+    "sourceGateOnly": true,
+    "materialAcceptanceEstablished": false,
+    "additionalNativeAuthority": false,
+    "acceptanceExcluded": [
+      "successful three-restore execution",
+      "native build",
+      "localization integration",
+      "Demo/device/visual acceptance",
+      "historical FIX01 P2 resolution"
+    ]
+  },
+  "upstreamDelivery": {
+    "status": "NOT_SENT_PENDING_EXPLICIT_HUMAN_AUTHORIZATION",
+    "destinationThreadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "attemptsThisTurn": 0,
+    "delivered": false,
+    "reason": "The prior FIX09 send to this destination was rejected by auto-review for lack of explicit current human authorization. No human approval has since arrived; a delegated request alone does not authorize a retry.",
+    "nextAction": "Ask the human for explicit permission to send the completed summary to central; do not bypass the rejection."
+  }
+}

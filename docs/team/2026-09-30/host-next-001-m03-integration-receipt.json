@@ -1,0 +1,20 @@
+{
+  "packet": "HOST-NEXT-001/M03",
+  "receivedAtUtc": "2026-10-07T18:12:57.141861+00:00",
+  "receiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "executionActualTurn": "01a11781-abc7-7203-a1de-187852f84168",
+  "completionCursor": "bd153adf-4a11-4788-8ba9-4674fa47eba5:114",
+  "integrationVerdict": "NEEDS_FIX",
+  "originalStatus": "FAILED",
+  "evidenceLeavesVerified": 43,
+  "nativeExitCode": 0,
+  "runnerExitCode": 1,
+  "runnerBehaviorCases": 16,
+  "csharpPredicateCases": 8,
+  "actualObservations": "A/B/C/D PASS with true post-cancellation state read; cleanup and restoration complete",
+  "failure": "monitor classified a second ps snapshot before discovering its new owned bee child; original failure remains",
+  "correctivePacket": "docs/team/2026-09-30/central-host-next-001-m04-source.md",
+  "nextValidation": "Offline actual-function replay only; no additional Unity run",
+  "codeReview": "Both original P2 source changes and snapshot correction require new PR17 head review; no acceptance yet",
+  "demoAccepted": false
+}

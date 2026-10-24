@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-FIX09 exact-head GitHub PR Code Review intake",
+  "scope": "SOURCE_REVIEW_ONLY",
+  "upstreamDelivery": {
+    "status": "BLOCKED_BY_AUTO_REVIEW",
+    "destinationThreadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "attempts": 1,
+    "delivered": false,
+    "reason": "send_message_to_thread rejected because the current user message did not explicitly authorize messaging this destination; no retry or workaround attempted.",
+    "nextAction": "Request explicit human approval before sending the completed summary to central."
+  },
+  "integrationVerdict": "ACCEPT",
+  "recordedBy": {
+    "threadId": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "turnId": "01a132ec-677e-7d71-a63e-37d04484c60b",
+    "hostId": "local",
+    "observedAtUtc": "2026-10-13T01:44:29Z"
+  },
+  "authority": {
+    "delegationReceivedItem": "fco_01a132ec-6789-7272-949c-cabaeed90303",
+    "centralThreadId": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "engineeringThreadId": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "humanAuthorityRecord": "docs/team/2026-09-30/central-loc-m12-approval-2026-10-12.json",
+    "scopeRecord": "docs/team/2026-09-30/engineering-loc-m12-fix09-source.md",
+    "receiptOwner": "Testing lead; sole independent GitHub review receiver for this dispatch",
+    "returnPath": "One completed summary to central only; engineering notification only if new source findings"
+  },
+  "input": {
+    "prUrl": "https://github.com/yyczz1/FightMatch/pull/2",
+    "expectedHead": "5e2d3790d371659552c9bb24084252c70972f474",
+    "observedHead": "5e2d3790d371659552c9bb24084252c70972f474",
+    "priorPublishedHead": "489b28dc62adaa24242c72e4e9e6bf2117fd11a8",
+    "currentSource": "docs/versioning/2026-10-12-loc-m17-fix09-pr/source/m17_driver.py",
+    "scopedDelta": "docs/versioning/2026-10-12-loc-m17-fix09-pr/source/source.patch",
+    "deltaBaseline": "FIX08",
+    "publicationReport": {
+      "newFiles": 30,
+      "priorBlobsUnchanged": 1917,
+      "provenance": "Central dispatch and PR body; not reverified by this intake"
+    },
+    "prState": {
+      "state": "open",
+      "draft": true,
+      "merged": false
+    }
+  },
+  "review": {
+    "provider": "GitHub PR Code Review",
+    "trigger": {
+      "id": 6136223949,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6136223949",
+      "createdAtUtc": "2026-10-13T01:41:19Z",
+      "body": "@codex review\n\nPlease review exact head 5e2d3790d371659552c9bb24084252c70972f474, especially the FIX09 delta against FIX08 in docs/versioning/2026-10-12-loc-m17-fix09-pr/source/source.patch and the production m17_driver.py. Validate the archive/sidecar/metadata distinction and preservation of existing integrity/startup gates under docs/team/2026-09-30/engineering-loc-m12-fix09-source.md. 53 focused static checks and original tool records are included; native M12 remains unexecuted. Prior snapshots are historical, not additional active executables."
+    },
+    "status": "COMPLETED",
+    "watchStartedAtUtc": "2026-10-13T01:42:11Z",
+    "completionFirstObservedAtUtc": "2026-10-13T01:47:13Z",
+    "finalHeadAndFindingsObservedAtUtc": "2026-10-13T01:47:27Z",
+    "summary": {
+      "id": 5928035293,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-5928035293",
+      "updatedAtUtc": "2026-10-13T01:46:54Z",
+      "completedAtUtc": "2026-10-13T01:46:53.645471Z",
+      "rawBody": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-13T01:46:53.645471Z\">2026-10-13T01:46:53.645471Z</relative-time> | `5e2d379` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
+    },
+    "result": {
+      "id": 6136280419,
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#issuecomment-6136280419",
+      "author": "chatgpt-codex-connector[bot]",
+      "createdAtUtc": "2026-10-13T01:46:44Z",
+      "rawBody": "Codex Review: Didn't find any major issues. More of your lovely PRs please.\n\n**Reviewed commit:** `5e2d3790d3`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "reportedReviewedCommit": "5e2d3790d3"
+    },
+    "headBinding": "Full current PR head equals the requested exact head; result's reviewed-commit prefix and Completed summary match that head.",
+    "formalApprovedReview": false,
+    "conclusion": "Service reported no major issues for FIX09. This is not a formal APPROVED submission or a claim that all possible issues are absent.",
+    "newReviewSubmissions": [],
+    "newFindingThreads": [],
+    "observedNewFindingCount": 0,
+    "totalHistoricalReviewSubmissions": 8,
+    "totalReviewThreads": 9
+  },
+  "reusedValidation": {
+    "rerun": false,
+    "provenance": "Already accepted by engineering; narrow receipt fields inspected, no static suite or sealing rerun",
+    "commandReceipt": "docs/team/2026-09-30/loc-m17-fix09-command-receipt.json",
+    "sourceAuthor": {
+      "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+      "hostId": "local",
+      "turnId": "01a13070-56b2-7690-a270-27a02043e8e1"
+    },
+    "static": {
+      "kind": "STATIC/SIMULATED",
+      "passed": 53,
+      "total": 53,
+      "toolId": "exec-1f18ac57-bd7b-4898-a30c-1906154f4f74",
+      "fullInvocationSeconds": 6.726518791998387
+    },
+    "seal": {
+      "toolId": "exec-93d542e5-0d6c-4bc3-951e-af71d5b0659a",
+      "exitCode": 0,
+      "fullInvocationSeconds": 12.75756499999261,
+      "attempts": 1
+    },
+    "driverIdentityFromReceipt": {
+      "bytes": 284941,
+      "sha256": "358f7d481f61f6039908f6e5e1c504b1522b282ac8094d99c557a66b1f031688"
+    },
+    "freezeIdentityFromReceipt": {
+      "bytes": 2808,
+      "sha256": "69bc7209daa0e25d31d2a4a4426625cf45cd427b6001cef8a3cf12feb55d8605"
+    }
+  },
+  "historicalFindings": {
+    "unresolvedThreadIds": [
+      "PRRT_kwDOTDyjrM6oQpnb",
+      "PRRT_kwDOTDyjrM6oQpne",
+      "PRRT_kwDOTDyjrM6oQpnh",
+      "PRRT_kwDOTDyjrM6ow4zT",
+      "PRRT_kwDOTDyjrM6ow4zX",
+      "PRRT_kwDOTDyjrM6oyRcu"
+    ],
+    "priorFix01P2": {
+      "threadId": "PRRT_kwDOTDyjrM6oyRcu",
+      "url": "https://github.com/yyczz1/FightMatch/pull/2#discussion_r4177549312",
+      "path": "docs/versioning/2026-10-04-loc-m17-pr/fix01/source/m17_driver.py",
+      "line": 1131,
+      "isResolved": false,
+      "title": "Validate all cached archives before downloading",
+      "rawBody": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Validate all cached archives before downloading**\n\nWhen a later cached archive is corrupt while an earlier archive is absent, this single loop downloads the earlier archive before reaching and rejecting the corrupt cached file; for example, a bad cached YamlDotNet tarball is checked only after every missing package GET. That violates the FIX01 contract's input-verification-before-download sequence and causes network and write side effects for an input set that was already invalid. Preflight every present `official-get` archive before starting the first GET.\n\nUseful? React with 👍 / 👎.",
+      "disposition": "Retained as historical unresolved finding. Current zero-download scope does not establish a fix."
+    },
+    "note": "Other historical snapshots and prior verdicts remain unchanged; this receipt does not declare the whole PR free of unresolved threads."
+  },
+  "boundaries": {
+    "localCodeReviewPerformed": false,
+    "testsRerun": false,
+    "nativeExecutionStarted": false,
+    "githubReviewTriggeredByThisIntake": false,
+    "githubCommentsOrThreadResolutionsWritten": false,
+    "gitMutationsPerformed": false,
+    "onlyRepositoryFileWritten": "docs/team/2026-09-30/testing-loc-m17-fix09-review.json",
+    "nativeM12": "Not established by this receipt; central remains sole native receiver under separate human authority for one zero-download, three-restore, 900-second run.",
+    "acceptanceExcluded": [
+      "successful native restoration",
+      "native build",
+      "localization integration",
+      "Demo/device/visual acceptance",
+      "historical FIX01 P2 resolution"
+    ]
+  }
+}

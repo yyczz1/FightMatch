@@ -1,0 +1,55 @@
+{
+  "packet": "HOST-NEXT-001/M03 + M04-source",
+  "date": "2026-10-08",
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "verdict": "ACCEPT",
+  "scope": "Strict diagnostic-path observation source and same-snapshot supervisor correction only; not an overall native M04 pass or Demo acceptance",
+  "head": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/17",
+  "qa": {
+    "file": "docs/team/2026-09-30/testing-host-next-pr17-m04-review-receipt.json",
+    "bytes": 5547,
+    "sha256": "0ad7a09ddbf03f652e207c574f29e743754bc1a4ed444b45c182b8f80f031754",
+    "actualTurn": "01a1179c-ddee-73f1-917b-7cf6f4cdcba6",
+    "completionCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:29",
+    "completedAtUtc": "2026-10-07T18:28:12.089078Z",
+    "result": "NO_MAJOR_ISSUES_REPORTED_ON_FIXED_HEAD",
+    "url": "https://github.com/yyczz1/FightMatch/pull/17#issuecomment-6044233382",
+    "formalApproval": false,
+    "historicalThreadsMarkedResolved": false
+  },
+  "evidence": {
+    "publicationReceipt": "docs/team/2026-09-30/host-next-001-m04-publication-receipt.json",
+    "allRemoteBlobsVerified": 16,
+    "productInputsUnchanged": 1012,
+    "m03": {
+      "nativeExit": 0,
+      "overall": "FAILED",
+      "reason": "Process discovery/classification used separate snapshots",
+      "predicateCases": 16,
+      "actualCsharpCases": 8,
+      "strictObservations": "A/B/C/D PASS",
+      "cleanupAndRestoration": "PASS",
+      "allEvidenceLeavesVerified": 43,
+      "evidenceBytes": 8803344
+    },
+    "m04": {
+      "result": "SOURCE_REPLAY_PASS",
+      "actualFunctionCases": 21,
+      "externalAttempts": 0,
+      "nativeRuns": 0,
+      "files": 5,
+      "bytes": 108745,
+      "elapsedSeconds": 0.2678705419966718
+    },
+    "projectionOriginalLeavesRestored": 1008
+  },
+  "limitations": [
+    "Original M01/M03 failures are preserved; this verdict does not turn those runs into passes.",
+    "M04 runner was verified with offline replay only; a future native execution needs its own contract.",
+    "GitHub old finding threads remain unresolved as UI state; current-head result is not formal APPROVED.",
+    "PR4 P1, formal LOC, successful gameplay interactions, pixels, Android/device and Demo acceptance remain open.",
+    "No merge, release or adoption of scene/probe into shared product."
+  ],
+  "next": "Use accepted supervision correction in the next necessary scoped execution; continue separate HOST-INTEGRATE-001 adoption."
+}

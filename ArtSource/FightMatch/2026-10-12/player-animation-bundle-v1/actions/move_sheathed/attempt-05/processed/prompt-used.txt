@@ -1,0 +1,45 @@
+FINAL RAW IS AN ASSEMBLED SOURCE GRID, not one generated image.
+{
+  "type": "assembled_source_grid",
+  "base_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+  "base_raw_path": "attempt-03/raw-sheet.png",
+  "base_raw_sha256": "0ac85ce48c6f5a799667af315db8466eee8e3f500465ffa36ca6a90b51062b94",
+  "replacement_call_id": "exec-5bcace69-02b6-4f52-86b0-98bb83dab873",
+  "replacement_raw_path": "attempt-01/raw-sheet.png",
+  "replacement_raw_sha256": "22029a66b11aab411f536160813b0f0ab0b869e813220d2db2d81542a2d9e31d",
+  "source_box": [
+    512,
+    0,
+    1024,
+    512
+  ],
+  "destination_box": [
+    512,
+    0,
+    1024,
+    512
+  ],
+  "replacement_rgba_sha256": "33cbb6d19345f8993b36fd076e8659f681a0424ead94b93d0cde2bf872fd21c8",
+  "method": "Copy entire source frame2 cell at original 512x512 pixels into frame2 of same-action 2x3 grid; no crop within cell, no per-frame resizing, no local erasure/redrawing. Other five cells remain from base generation.",
+  "assembled_raw_sha256": "1b18eaa6b8e8cab66732c701256f802bc151cc166fbeb2606f323e38c66248fb"
+}
+
+BASE GENERATION PROMPT (frames1,3,4,5,6):
+Create the MOVE_SHEATHED animation by editing Image1, the already authored six-frame guarded walk. This is a NEW six-frame generated action sheet. Preserve Image1's actual six distinct leg poses, alternating support, timing order, silhouette scale and the location of every planted boot. Image2 locks character identity; Image3 shows the correct fully-sheathed sword/scabbard state; Image4 locks the 2-row 3-column root/camera grid. Do not copy Image3's stationary legs.
+Keep EXACTLY Image1's SIX different lower-body poses in their original row-major slots: contact, rear boot lifted/back pass, stretched transition, opposite contact, front knee/boot lifted forward, return transition. In particular, the raised boot is on the LEFT side of the image in top-middle, and on the RIGHT side in bottom-middle. Do not repeat the top row in the bottom row. Keep the bent hips, thighs, knees and boots connected, one planted supporting foot every frame, same baseline. No whole-figure movement, scale or rotation.
+CHANGE THE WEAPON STATE ONLY: erase the exposed silver short sword from all six frames. Give the same warrior exactly one brown scabbard at the rear/screen-left hip, angled down-left with mouth at upper-right end, matching Image3. The sword is fully inside it with only gold/brown hilt peeking above belt. Free hand is empty and loosely counter-swings a little near the hip, not gripping an invisible sword. The round brown-gold shield stays strapped to the front arm and hangs slightly lower in a relaxed walking posture. No exposed blade, double hilt, duplicate scabbard or weapon on the ground.
+Preserve the warrior's brown spiky hair, face, teal tunic, cream trousers, red scarf, brown boots, round shield design and muted palette. Same anatomy/head/weapon dimensions and camera in all six cells, 358px standing-equivalent height in 512px cell, rooted pelvis and y=420 support line. Exact 2 rows x3 columns with equal invisible square cells, 1536x1024 sheet. Whole figure and scabbard contained with generous magenta margins. Crisp pixel-art clusters, restrained 16-color family, no blur, gradients, antialiasing, disconnected black gaps, FX, dust, shadows or floor. Entire background flat solid #FF00FF. No grid lines, boxes, borders, text, labels or UI.
+
+
+FRAME2 SOURCE GENERATION PROMPT:
+Generate ONE coherent six-frame MOVE_SHEATHED loop of this accepted pixel warrior walking IN PLACE. Use the images just shown as the visual references. Image 1 locks exact character identity/style. Image 2 locks only the equal 2-row 3-column layout, camera, anatomy scale, pelvis/root and feet baseline. Image 3 is the accepted sheathed idle: preserve its scabbard/hilt and low shield state exactly. The sword shown in the geometry template must NOT remain exposed in this action.
+Exactly TWO ROWS and THREE COLUMNS, six equal invisible square cells each 512 by 512, overall 1536 by 1024, row-major time order. Same right-facing three-quarter warrior, brown spiky hair, teal tunic, cream trousers, red scarf, brown boots, brown-and-gold small round shield. One brown leather scabbard hangs diagonally down-left from visible rear/left hip, its opening and hilt near the belt. Sword remains FULLY SHEATHED all six frames, no silver blade. Free hand relaxed near hip; shield stays low on the other forearm and moves gently with shoulder.
+Walk cycle with unmistakable alternate support, a compact comfortable stride:
+1. Near boot forward and planted, far boot back touching at toe; arms in a small opposite swing.
+2. Weight on near leg, far heel lifts and far knee bends for swing, low shield lags a little.
+3. Far leg passes beneath pelvis with bent knee and its boot clearly raised; near boot is the sole planted support, free forearm swings forward a little.
+4. Far boot now forward and planted, near boot back touching at toe; opposite stride from frame 1, free forearm and shield gently reverse.
+5. Weight on far leg, near heel lifts and near knee bends; scarf tip follows the change.
+6. Near knee/boot passes under pelvis, near boot clearly lifted and far boot planted, returning naturally toward frame 1.
+Hold pelvis/root and camera stationary in every slot. The support boot always touches the SAME y=420 line in each source cell; raised swing boot may leave it. Keep torso/head height almost unchanged; walk energy comes from hip/knee/ankle articulation and counter-swing of shoulder/elbow/scarf, never whole-figure translation, scaling or rotation. Maintain about 358 pixels standing-equivalent body height, consistent head size, torso width, limbs, shield and scabbard dimensions. A subtle upper-body lean is allowed, not a lunge or run. Keep limbs connected, two arms and two legs only. Each frame must have an actual distinct joint pose, not six static copies.
+Body-only, no footsteps, floor, shadows, dust, light trails, particles or FX. Use crisp pixel clusters, limited reference 16-color family, no blur, gradients, antialiasing or black disconnected joints. Whole character and gear entirely within central safe area with magenta margins on every side, no cropping or cell crossover. Background completely solid flat #FF00FF. No letters, labels, grid lines, boxes, borders, UI or text.

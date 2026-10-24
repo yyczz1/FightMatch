@@ -1,0 +1,37 @@
+Command: ['/Users/elliotyip/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3', '/Users/elliotyip/.codex/skills/generate2dsprite/scripts/generate2dsprite.py', 'process', '--input', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/fx/thrust_streak/raw-sheet.png', '--target', 'fx', '--mode', 'attack', '--rows', '2', '--cols', '2', '--output-dir', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/fx/thrust_streak/processed', '--cell-size', '128', '--fit-scale', '1.0', '--align', 'center', '--scale-strategy', 'preserve', '--shared-scale', '--component-mode', 'all', '--trim-border', '0', '--edge-clean-depth', '0', '--strict-qc', '--prompt-file', 'ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/fx/thrust_streak/prompt-used.txt', '--duration', '80']
+EXIT=2
+
+usage: generate2dsprite.py process [-h] --input INPUT --target
+                                   {asset,creature,npc,player} --mode MODE
+                                   --output-dir OUTPUT_DIR [--role ROLE]
+                                   [--prompt PROMPT]
+                                   [--prompt-file PROMPT_FILE]
+                                   [--threshold THRESHOLD]
+                                   [--edge-threshold EDGE_THRESHOLD]
+                                   [--cell-size CELL_SIZE] [--rows ROWS]
+                                   [--cols COLS] [--label-prefix LABEL_PREFIX]
+                                   [--fit-scale FIT_SCALE]
+                                   [--trim-border TRIM_BORDER]
+                                   [--edge-clean-depth EDGE_CLEAN_DEPTH]
+                                   [--align {center,bottom,feet}]
+                                   [--shared-scale]
+                                   [--scale-strategy {fit,preserve}]
+                                   [--component-mode {all,largest}]
+                                   [--component-padding COMPONENT_PADDING]
+                                   [--min-component-area MIN_COMPONENT_AREA]
+                                   [--edge-touch-margin EDGE_TOUCH_MARGIN]
+                                   [--reject-edge-touch]
+                                   [--allow-source-edge-touch] [--strict-qc]
+                                   [--scale-profile SCALE_PROFILE]
+                                   [--write-scale-profile WRITE_SCALE_PROFILE]
+                                   [--profile-name PROFILE_NAME]
+                                   [--max-body-scale-cv MAX_BODY_SCALE_CV]
+                                   [--max-anchor-y-std MAX_ANCHOR_Y_STD]
+                                   [--max-profile-scale-drift MAX_PROFILE_SCALE_DRIFT]
+                                   [--single-size SINGLE_SIZE]
+                                   [--duration DURATION]
+                                   [--godot-world-height GODOT_WORLD_HEIGHT]
+                                   [--write-godot-sprite3d-meta WRITE_GODOT_SPRITE3D_META]
+generate2dsprite.py process: error: argument --target: invalid choice: 'fx' (choose from asset, creature, npc, player)
+
+Final fixed-cell nearest-neighbor pass pending.

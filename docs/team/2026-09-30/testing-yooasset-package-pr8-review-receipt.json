@@ -1,0 +1,121 @@
+{
+  "task": "YOOASSET-PACKAGE-PR8-REVIEW-RECEIPT",
+  "verdict": "NEEDS_FIX",
+  "scope": "Only the fixed PR8 head's independent GitHub code-review gate. One service-reported P2 documentation/source-authority finding; no local re-review or package/runtime acceptance.",
+  "receivedUtc": "2026-10-02T21:31:42Z",
+  "receivedLocal": "2026-10-03T05:31:42+08:00",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fe83-ff14-7f40-affb-5dbe21750b27"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "Human standing AGENTS section 6 workflow and central's explicit PR8 review-result receipt delegation. Central returns findings to engineering; this receiver does not implement or dispatch a fix.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/8",
+    "head": "1f0b7cc594d928ef37b38625add8d6519c275516",
+    "tree": "3ca6c397d7791975b3edbfba60dcf5b03086abf1",
+    "base": "d7775a1134556698a6489029b20402a0ce185939",
+    "parents": [
+      "d7775a1134556698a6489029b20402a0ce185939"
+    ],
+    "draft": true,
+    "merged": false
+  },
+  "inputs": {
+    "publicationReceipt": {
+      "path": "docs/team/2026-09-30/yooasset-package-s1-publication-receipt.json",
+      "sha256": "c29a31327797615ded446818a6cbec6f80847726272bf0227ed5c3d1f31dbd09"
+    },
+    "selectedRoot": "docs/versioning/2026-10-03-yooasset-package-pr/",
+    "manifestSha256": "1723656958e8dfbd0fff387d7b97486852f0952672751f823c79f0dd5a45d4f1",
+    "readmeSha256": "b66b9ec8c69753320d212643d9932c38bcc73f1b2043ffd8a51f1a168cd7c379",
+    "compileResultSha256": "a592c37219016939f49ffb5e89832e37c2f1d193aa3fad7626f6e291af58468d",
+    "importAssembliesSha256": "aacda3c76e251f8a3b3fd56ad940c9304a1e75df62142182c12a4239c488d887",
+    "finalVerdictSha256": "017fa321f0a78d8ffe402e1c4bcfbbf5e1984af722f252a45df577fdaea44e2b",
+    "productPaths": [
+      "Packages/manifest.json",
+      "Packages/packages-lock.json"
+    ],
+    "packageCandidate": "UPM-generated YooAsset 3.0.6 at 3b4cfb36cc2e81b9558ab74d65fee2cf2eac2804 and official SBP 1.21.25; reuse attributed publication checks of 51 preserved node objects and two additions. Generated ordering not normalized.",
+    "nativeInputBoundary": "Native probe uses the recorded PR3+PR5+PR6 composite plus the two package files, not the isolated published PR8 head.",
+    "archiveBoundary": "Transient installer is audit material under docs, outside Assets; not executed by this receiver."
+  },
+  "originalReview": {
+    "bot": "chatgpt-codex-connector[bot]",
+    "trigger": {
+      "id": 5961732546,
+      "url": "https://github.com/yyczz1/FightMatch/pull/8#issuecomment-5961732546",
+      "createdUtc": "2026-10-02T21:26:16Z",
+      "rawBody": "@codex review\n\nPlease review package candidate head `1f0b7cc594d928ef37b38625add8d6519c275516` against base `d7775a1134556698a6489029b20402a0ce185939`. The product diff is only UPM-generated manifest/lock files: fixed YooAsset Git revision and SBP 1.21.25, preserving the prior 51 node objects. Review the scoped isolated-projection supplements and source/provenance boundaries. The archived installer is audit material outside Assets. Compilation remains NEEDS_FIX and P03 is pending; do not infer native/device/runtime acceptance from package presence or request success. The README corrects one archived assembly-observation phrase: Samples~ metadata was enumerated, but its DLL gate never executed."
+    },
+    "summary": {
+      "id": 5961734989,
+      "url": "https://github.com/yyczz1/FightMatch/pull/8#issuecomment-5961734989",
+      "updatedUtc": "2026-10-02T21:30:13Z",
+      "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T21:30:12.924442Z\">2026-10-02T21:30:12.924442Z</relative-time> | `1f0b7cc` | Manual request |"
+    },
+    "submission": {
+      "id": 5397037703,
+      "url": "https://github.com/yyczz1/FightMatch/pull/8#pullrequestreview-5397037703",
+      "state": "COMMENTED",
+      "submittedUtc": "2026-10-02T21:30:10Z",
+      "commitId": "1f0b7cc594d928ef37b38625add8d6519c275516",
+      "rawBody": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `1f0b7cc594`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+    },
+    "binding": "Formal review and inline finding both carry the exact full candidate SHA. Completed summary and fresh PR readback match; remote Git commit API separately confirms full head/tree/sole parent.",
+    "findings": [
+      {
+        "priority": "P2",
+        "title": "Include the declared package-design authority",
+        "id": 4169995281,
+        "url": "https://github.com/yyczz1/FightMatch/pull/8#discussion_r4169995281",
+        "reviewId": 5397037703,
+        "threadId": "PRRT_kwDOTDyjrM6of25I",
+        "path": "docs/team/2026-09-30/engineering-yooasset-res-01a-implementation.md",
+        "startLine": 29,
+        "line": 31,
+        "side": "RIGHT",
+        "commitId": "1f0b7cc594d928ef37b38625add8d6519c275516",
+        "createdUtc": "2026-10-02T21:30:10Z",
+        "resolved": false,
+        "outdated": false,
+        "rawBody": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Include the declared package-design authority**\n\nThe packet identifies `docs/team/2026-09-30/engineering-yooasset-001.md` as its only product-design authority, but that path exists in neither the reviewed base nor the candidate head; a repository-wide tree lookup found no tracked copy. Consequently, reviewers and later adopters cannot inspect the approved design or verify that this dependency and lockfile change matches the cited 859-line artifact rather than merely trusting an unavailable hash. Include the exact authority document or point this packet to an immutable, tracked approved source.\n\nAGENTS.md reference: [AGENTS.md:L288-L291](https://github.com/yyczz1/FightMatch/blob/1f0b7cc594d928ef37b38625add8d6519c275516/AGENTS.md#L288-L291)\n\nUseful? React with 👍 / 👎."
+      }
+    ],
+    "formalApprovalClaimed": false,
+    "interpretation": "Service review completed with one unresolved P2 finding, so the code-review gate remains open. COMMENTED is not APPROVED."
+  },
+  "requiredCorrection": {
+    "owner": "Central to engineering",
+    "reportedIssue": "The execution packet cites engineering-yooasset-001.md as its sole product-design authority, but the service reports no tracked copy at the reviewed base/head; the referenced design cannot be inspected.",
+    "boundedRequest": "Include the exact approved authority document, or reference an immutable tracked approved source, then obtain the applicable new-head GitHub result.",
+    "doNotExpand": "This finding does not request package/version/lockfile changes, production code changes, installation or validation reruns.",
+    "verificationBoundary": "Finding preserved as the GitHub service's observation; no duplicate local investigation or review performed."
+  },
+  "gates": {
+    "codeReview": "OPEN_ONE_UNRESOLVED_P2",
+    "P02StrictCompile": "FAILED_OR_BLOCKED_CS2001_PRESERVED",
+    "P03StableNoHelperCompile": "SEPARATE_GATE_NOT_VERIFIED_BY_THIS_RECEIPT",
+    "samplesDllGate": "NOT_RUN_IN_P02",
+    "sharedAdoptionWindowsAndroidRuntimeAndDemo": "NOT_ACCEPTED",
+    "releaseLicenseCompliance": "NOT_ESTABLISHED"
+  },
+  "evidenceCaveats": [
+    "P02 request success and process exit0 do not override the recorded CS2001 missing-transient-installer error. Later compiler-graph refresh or DLL presence is not stable-compile acceptance.",
+    "README corrects the unchanged archived claim about attempting every asmdef: metadata was enumerated, but the strict log gate stopped before the DLL gate; no Samples~ DLL check executed.",
+    "Publication preserves a failed Git LFS invocation and reports no pointers among 2070 resolved files; it does not claim that the LFS command succeeded."
+  ],
+  "thisTask": {
+    "reviewTriggers": 0,
+    "reviewMutations": 0,
+    "localCodeReviews": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "packageInstalls": 0,
+    "deviceOrCloudRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFile": "docs/team/2026-09-30/testing-yooasset-package-pr8-review-receipt.json"
+  }
+}

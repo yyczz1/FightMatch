@@ -1,0 +1,131 @@
+{
+  "receipt": "HOST-NEXT-001-M04-PR17-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "observedAtUtc": "2026-10-07T18:28:44Z",
+  "reviewReceiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a1179c-ddee-73f1-917b-7cf6f4cdcba6",
+    "actualTurnEvidence": "read_thread returned this turn as inProgress",
+    "completionReceiver": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+    "returnMode": "Final answer; central receives completion via wait"
+  },
+  "authority": "Central M04 receipt delegation under standing user GitHub review/team authorization",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/17",
+  "candidate": {
+    "base": "030898e9a317d10b610058d867529be8b0770c7c",
+    "head": "ad0f88a177ded15a05a7c661c80b3797a19ab251",
+    "parentFromPublicationReceipt": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+    "treeFromPublicationReceipt": "373ec60aaaedf81b10f7d6fd3ab8755f20352b93",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/host-next-001-m04-publication-receipt.json",
+    "remoteScope": "16 published blobs verified by central; not repeated here",
+    "currentPrBodyRead": true,
+    "prTitle": "Observe Host startup with strict verdicts and consistent process snapshots"
+  },
+  "review": {
+    "triggerCommentId": 6044179529,
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/17#issuecomment-6044179529",
+    "summaryCommentId": 6043535978,
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/17#issuecomment-6043535978",
+    "summaryStatus": "Completed",
+    "completedAtUtc": "2026-10-07T18:28:12.089078Z",
+    "resultCommentId": 6044233382,
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/17#issuecomment-6044233382",
+    "resultCreatedAtUtc": "2026-10-07T18:28:10Z",
+    "author": "chatgpt-codex-connector",
+    "resultText": "Codex Review: Didn't find any major issues. Chef's kiss.",
+    "reviewedCommitFromResult": "ad0f88a177",
+    "currentHeadReviewSubmissions": [],
+    "currentHeadFindings": [],
+    "formalApproval": false,
+    "codeGate": "NO_MAJOR_ISSUES_REPORTED_ON_FIXED_HEAD",
+    "codeReviewGateDisposition": "CLOSED_FOR_REVIEWED_HEAD",
+    "statusReads": 3,
+    "waitSeconds": [
+      50,
+      50
+    ],
+    "pagination": {
+      "commentsComplete": true,
+      "reviewsComplete": true,
+      "threadsComplete": true,
+      "eachThreadCommentsComplete": true
+    },
+    "historicalFindings": [
+      {
+        "findingId": 4210135624,
+        "priority": "P2",
+        "title": "Reject non-passing probe verdicts",
+        "url": "https://github.com/yyczz1/FightMatch/pull/17#discussion_r4210135624",
+        "threadId": "PRRT_kwDOTDyjrM6qBso4",
+        "isResolved": false,
+        "isOutdated": false,
+        "path": "docs/versioning/2026-10-08-host-first-frame-observation/runner.py",
+        "currentLine": 324,
+        "originalLine": 314,
+        "originalCommit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "reviewSubmissionId": 5446187798,
+        "reviewCommit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "note": "Historical finding on the previous review; resolution not inferred from current no-major-issues result"
+      },
+      {
+        "findingId": 4210135632,
+        "priority": "P2",
+        "title": "Require the comparison sample to be post-cancellation",
+        "url": "https://github.com/yyczz1/FightMatch/pull/17#discussion_r4210135632",
+        "threadId": "PRRT_kwDOTDyjrM6qBso-",
+        "isResolved": false,
+        "isOutdated": true,
+        "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchHostFirstFrameProbe.cs",
+        "currentLine": null,
+        "originalLine": 241,
+        "originalCommit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "reviewSubmissionId": 5446187798,
+        "reviewCommit": "521f1c78c70f4e88e9139ff543202c22dcf67133",
+        "note": "Historical finding on the previous review; resolution not inferred from current no-major-issues result"
+      }
+    ]
+  },
+  "scopeAndAcceptanceBoundary": {
+    "priorQaReceiptPreserved": "docs/team/2026-09-30/testing-host-next-pr17-review-receipt.json",
+    "m03": {
+      "executionTurn": "01a11781-abc7-7203-a1de-187852f84168",
+      "nativeExit": 0,
+      "observations": "Strict A/B/C/D PASS",
+      "predicateChecks": "16 passed as reported",
+      "csharpChecks": "8 passed as reported",
+      "overall": "FAILED",
+      "supervisionFailurePreserved": true,
+      "source": "runner-executed-m03.py"
+    },
+    "m04": {
+      "correctionTurn": "01a1178c-c850-7df1-a100-c1517709d229",
+      "offlineActualFunctionReplay": "21/21 passed as reported",
+      "currentSource": "runner.py",
+      "nativeRerun": false,
+      "offlineReplayEstablishesNativeSuccess": false
+    },
+    "evidenceMethod": "Publication receipt and PR body read; no independent rerun or local code review",
+    "normalLocalizationAndGameplayAcceptance": false,
+    "deviceVisualAndDemoAcceptance": false,
+    "pr4P1": "OPEN",
+    "sharedProductAdopted": false,
+    "integrationVerdict": null
+  },
+  "method": {
+    "source": "Read-only gh api graphql for updated PR body, current metadata, all issue comments, review submissions and inline threads",
+    "commandExitCode": 0,
+    "localCodeReviewPerformed": false,
+    "testsRun": false,
+    "unityRun": false,
+    "newReviewTriggered": false,
+    "githubReviewStateChanged": false,
+    "writes": "Only this new QA receipt; prior receipts unchanged"
+  }
+}

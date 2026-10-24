@@ -1,0 +1,51 @@
+{
+  "task": "RES-COMBINED-V06",
+  "date": "2026-10-08",
+  "verdict": "ACCEPT",
+  "scope": "Source gate only; native and Demo acceptance remain pending",
+  "head": "d8578a3bd4616ea81b26766600a47ebba4151b6e",
+  "tree": "d59a4e07671713dab630ba38c73f9a1198f309f6",
+  "runner": {
+    "bytes": 101320,
+    "sha256": "415a8a5bd312875e972363d4ad9cb504ac4b8579390eb2ad2081a0323fb36119"
+  },
+  "independentReview": {
+    "reviewer": "GitHub PR Code Review",
+    "resultUrl": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6051513575",
+    "summaryComment": 6048274217,
+    "completedAt": "2026-10-08T03:23:16.059001Z",
+    "findings": [],
+    "formalApproval": false
+  },
+  "qa": {
+    "actual": "01a11986-94ee-7551-8157-b9d95cbabad0",
+    "receipt": "docs/team/2026-09-30/testing-resource-combined-pr20-v06-review-receipt.json",
+    "publicationFieldCorrection": "QA read non-existent legacy keys entries/payloadBytes/verification. Actual publication receipt uses publishedFiles=73,totalBytes=5148598,allGitBlobsAndSizesVerified=true. Root directly verified all published tree nodes; QA snapshot nulls are schema mismatch, not failed verification."
+  },
+  "mechanical": {
+    "fixedReferences": 30,
+    "protectedSections": 10,
+    "unchangedFunctions": 93,
+    "changedFunctions": [
+      "bee_fd_bound",
+      "bee_fd_binding",
+      "details",
+      "discover"
+    ],
+    "added": [
+      "ChildArgsProbeError",
+      "child_args"
+    ],
+    "inputChangesReconstructed": 160,
+    "publishedFiles": 73,
+    "publishedBytes": 5148598
+  },
+  "offline": {
+    "cases": 34,
+    "rounds": 1,
+    "seconds": 4.346945291996235
+  },
+  "nativeRuns": 0,
+  "oldV05FailurePreserved": true,
+  "next": "C executes central-resource-combined-v06-execute.md once with fresh activation; all native gates still apply"
+}

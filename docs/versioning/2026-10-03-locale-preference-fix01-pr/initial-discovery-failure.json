@@ -1,0 +1,196 @@
+{
+  "task": "LOC-B-PREF-MAC-001",
+  "status": "BLOCKED_OR_FAILED",
+  "owner": {
+    "thread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "host": "local",
+    "turn": "01a0fff5-1317-73e3-86e6-493eacbf8464"
+  },
+  "startedUtc": "2026-10-03T04:34:45.464442+00:00",
+  "finishedUtc": "2026-10-03T04:35:04.816173+00:00",
+  "failure": "Editor exit 3",
+  "run": {
+    "bytes": 242970,
+    "sha256": "2515e490a1e28ffa362baaaf72473ab8d68378978a4461938bd1cc3076747f4f"
+  },
+  "runner": {
+    "bytes": 29701,
+    "sha256": "8985755fda4ad52c1fb904b250a6245d31288fc43ba85d9c832e1a971a0b39c2"
+  },
+  "candidate": {
+    "kind": "fixed composite projection, not whole PR3 tree",
+    "PR3Head": "6818405b859d71bf8c0f116299e7e9605a3d769a",
+    "PR3Tree": "445e13c26fd6cd028c49840a549c27113ffeb892",
+    "closure": "joint M01 sealed1027/531; old C10 + D FIX02 + B FIX03; PREF exact three canonical sources; no newer C FIX01 or RAW"
+  },
+  "stages": [
+    {
+      "stage": "D",
+      "status": "FAILED_OR_BLOCKED",
+      "runCount": 1,
+      "pid": 73739,
+      "exitCode": 3,
+      "elapsedSeconds": 18.345498
+    }
+  ],
+  "standaloneIRuns": 0,
+  "discovery": null,
+  "selector": null,
+  "tests": null,
+  "notRunStages": [
+    "T"
+  ],
+  "mechanicalChecks": [
+    {
+      "runs": 1,
+      "elapsedSeconds": 0.004781,
+      "cases": [
+        {
+          "case": "original_adb_absent_allowed",
+          "passed": true
+        },
+        {
+          "case": "exact_adb_present_allowed",
+          "passed": true
+        },
+        {
+          "case": "reused_pid_rejected",
+          "passed": true
+        },
+        {
+          "case": "changed_uid_rejected",
+          "passed": true
+        },
+        {
+          "case": "new_adb_not_owned_or_allowed",
+          "passed": true
+        },
+        {
+          "case": "uncertain_query_rejected",
+          "passed": true
+        },
+        {
+          "case": "projection_fd_rejected",
+          "passed": true
+        },
+        {
+          "case": "incomplete_snapshot_rejected",
+          "passed": true
+        },
+        {
+          "case": "owned_finally_ignores_throwing_foreign_gate_with_one_mock_term",
+          "passed": true
+        },
+        {
+          "case": "semicolon_name_rejected",
+          "passed": true
+        },
+        {
+          "case": "NUL_name_rejected",
+          "passed": true
+        },
+        {
+          "case": "over64KiB_rejected",
+          "passed": true
+        },
+        {
+          "case": "empty_names_rejected",
+          "passed": true
+        },
+        {
+          "case": "duplicate_names_rejected",
+          "passed": true
+        },
+        {
+          "case": "literal_regex_preserves_spaces_quotes_backslashes_Unicode",
+          "passed": true
+        }
+      ],
+      "OSCalls": 0,
+      "UnityCalls": 0,
+      "nativeSignalCalls": 0,
+      "mockSignalCalls": 1,
+      "syntax": "PASSED",
+      "index": 1,
+      "kind": "syntax literal-selector and process-guard mocks",
+      "passed": true
+    }
+  ],
+  "remainingOwned": [],
+  "ownedClosureComplete": true,
+  "consumer": {
+    "consumerGate": "CLEAR",
+    "retainedAdb": {
+      "utc": "2026-10-03T04:35:04.813127+00:00",
+      "originalAdb": "ABSENT",
+      "pid": 63318
+    },
+    "globalConsumerClear": true
+  },
+  "foreignObservations": [],
+  "scopeDifferences": [],
+  "evidence": {
+    "runner.py": {
+      "bytes": 29701,
+      "sha256": "8985755fda4ad52c1fb904b250a6245d31288fc43ba85d9c832e1a971a0b39c2"
+    },
+    "process-after.json": {
+      "bytes": 6015,
+      "sha256": "d0d26a38a0a60cae07fe91b6595d9428f2377b2d3b7cfb18e744dea421880172"
+    },
+    "assemblies.json": {
+      "bytes": 8617,
+      "sha256": "0c24f60ca89359a62a0882e991cc602a0ca88c0cfa1f32c19299eb2ca72c4668"
+    },
+    "after.json": {
+      "bytes": 6870,
+      "sha256": "0156c8631b1e426e6c156120231c7d9c041ea3dd3f62c5f715f2c13d3e79b9d9"
+    },
+    "process-events.jsonl": {
+      "bytes": 17354,
+      "sha256": "027b48dc5399eb092b3244fb26f3c14237be713aae04de195d683d7f5741d0d3"
+    },
+    "preflight.json": {
+      "bytes": 34428,
+      "sha256": "0776546cb2e3ea5b3bc381c946ad4ccc3977bb8a226849de6716552f6ec97093"
+    },
+    "run.json": {
+      "bytes": 242970,
+      "sha256": "2515e490a1e28ffa362baaaf72473ab8d68378978a4461938bd1cc3076747f4f"
+    },
+    "D/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D/result.json": {
+      "bytes": 1274,
+      "sha256": "daeb9cb42e4eb88b7a845913150a9b28215ebc9520b603d9244bebb99d2b6678"
+    },
+    "D/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D/editor.log": {
+      "bytes": 91450,
+      "sha256": "0f39df1913ced206e4ffeeea7edf8ca7faec00f362c98ed0e6ce699137e58318"
+    }
+  },
+  "discoveryRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/RES-01A/P01/projection/TestArtifacts/FightMatch/LOC-IMPL-B-PREF/source-activation-001/discovery",
+  "discoveryFiles": {},
+  "authorIntegrationVerdict": null,
+  "soleCompletionReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "sourceWrites": 0,
+  "metaWrites": 0,
+  "unrun": [
+    "RAW74",
+    "LOC materials/M16",
+    "Scene/FIX04",
+    "other regression",
+    "Host integration",
+    "device/Android",
+    "shared adoption"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "task": "LAYOUT-S1-PR4-FIX02-REVIEW-RECEIPT",
+  "verdict": "NEEDS_FIX",
+  "scope": "GitHub review-result intake for FIX02 only; not local review or native/test/device acceptance.",
+  "receivedUtc": "2026-10-02T05:30:29Z",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fb13-2e60-7f20-a75a-f55008b07afd"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "User standing workflow and central FIX02 review-intake delegation.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "base": "3541930877837e14b58020b910976b8b67b56e42",
+    "parent": "ad49aa36ec79505b51dbe5c83ef138f167cdb545",
+    "head": "24dcb0c18119f7d420efafdb7a02dd04a9389347",
+    "tree": "e57ad0526034b2edde0df8f4bd007bea2b956f17",
+    "draft": true,
+    "merged": false,
+    "identity": "Current PR head equals the review full commit_id; remote commit parent/tree match publication."
+  },
+  "evidence": {
+    "publicationReceipt": "docs/team/2026-09-30/layout-s1-fix02-publication-receipt.json",
+    "publicationReceiptSha256": "f01dceaf9832fb0772d54d6cc3c2324d22308734dffa16414c874e7dc07ded66",
+    "fix02Root": "docs/versioning/2026-10-02-layout-s1-pr/fix02/",
+    "readmeSha256": "8dc95141df70efc136f3b4e324906d5ab5dcf5b4058d5917db5f08ebf36359b7",
+    "sourceReceiptSha256": "5b546c3d85245d21ade2e9e74313a7240edcc7a3994f2069d275087ac7eccec3",
+    "manifestSha256": "0cf7d3d94daf46da6f52f810472725a5a1adccebe1b72b00d47d7330e275cf6c",
+    "publicationChecks": "Central's 8-path/2-C#-file/67-line and all15-source-blob checks reused as reported; no duplicate code/blob audit.",
+    "originalReceiptsPreserved": [
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-review-receipt.json",
+        "sha256": "5f21173480fd7290aa1e9a0c7a9228c73e0378fba41642a650b52ccf94b3b549"
+      },
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix01-review-receipt.json",
+        "sha256": "0db42a5b6e1693cfd93e4eb7698a5166d9ba17236157237e80a1b354fd65b09e"
+      }
+    ]
+  },
+  "review": {
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5946107288",
+    "triggerCreatedUtc": "2026-10-02T05:24:41Z",
+    "id": 5388584142,
+    "url": "https://github.com/yyczz1/FightMatch/pull/4#pullrequestreview-5388584142",
+    "bot": "chatgpt-codex-connector[bot]",
+    "state": "COMMENTED",
+    "commitId": "24dcb0c18119f7d420efafdb7a02dd04a9389347",
+    "submittedUtc": "2026-10-02T05:29:05Z",
+    "completion": "Completed",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5945559740",
+    "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T05:29:08.065442Z\">2026-10-02T05:29:08.065442Z</relative-time> | `24dcb0c` | Manual request |",
+    "newFindingCounts": {
+      "P1": 0,
+      "P2": 1
+    },
+    "formalApprovalClaimed": false
+  },
+  "historicalThreadStates": [
+    {
+      "findingId": 4162866083,
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162866083",
+      "threadId": "PRRT_kwDOTDyjrM6oOj1c",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "findingId": 4162866085,
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162866085",
+      "threadId": "PRRT_kwDOTDyjrM6oOj1d",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "findingId": 4162989184,
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162989184",
+      "threadId": "PRRT_kwDOTDyjrM6oO24g",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    }
+  ],
+  "historicalStateMeaning": "These are actual GitHub discussion-box states, not a substitute for the bot's final-head result. No thread was manually resolved or old receipt rewritten. NEEDS_FIX here is supported by the new head's P2 finding, not merely by unresolved historical discussion boxes.",
+  "newFinding": {
+    "id": 4163111945,
+    "priority": "P2",
+    "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4163111945",
+    "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+    "line": 37,
+    "reviewId": 5388584142,
+    "createdUtc": "2026-10-02T05:29:05Z",
+    "rawBody": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Defer layout application while disabled**\n\nWhen the host is rebound while `FightMatchResponsiveLayout.enabled` is false, `Bind` correctly skips `Subscribe()` but still calls `Apply()`. An invalid safe-area sample then invokes `Gate(false)`, reactivating the diagnostic, locking the battle `CanvasGroup`, emitting `ValidityChanged(false)`, and cancelling the Host pointer even though the component remains disabled; because it is unsubscribed, the gate can also remain stuck until re-enable. Defer sampling until `OnEnable` when `isActiveAndEnabled` is false so the disable cleanup remains silent and released.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/24dcb0c18119f7d420efafdb7a02dd04a9389347/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎.",
+    "disposition": "OPEN"
+  },
+  "next": {
+    "codeReviewGate": "OPEN_NEW_FINDING",
+    "action": "Central sends the disabled-Bind sampling finding to engineering for a minimal corrective packet and subsequent actual-head GitHub review. No fix, trigger or execution is authorized by this receipt.",
+    "nativeActivation": "PENDING_CENTRAL_ENGINEERING_DECISION; no clean new-head review result yet.",
+    "acceptance": "Source remains UNCOMPILED / UNIMPORTED / OLD_PREFAB_NOT_MIGRATED / TESTS_NOT_RUN / NOT_PLAYABLE_CANDIDATE."
+  },
+  "thisTurn": {
+    "reviewTriggers": 0,
+    "reviewThreadMutations": 0,
+    "localCodeReviews": 0,
+    "RorWorkerDispatches": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFiles": [
+      "docs/team/2026-09-30/testing-layout-s1-pr4-fix02-review-receipt.json"
+    ]
+  }
+}

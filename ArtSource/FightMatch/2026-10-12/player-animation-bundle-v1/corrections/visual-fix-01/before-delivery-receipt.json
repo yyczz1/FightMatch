@@ -1,0 +1,384 @@
+{
+  "status": "FIRST_PASS_BUNDLE",
+  "user_visual_review": "PENDING",
+  "art_lead_acceptance": "PENDING",
+  "import_status": "NOT_IMPORTED",
+  "delivered_at": "2026-10-12T15:39:22.951131+00:00",
+  "owner": {
+    "thread": "01a12f4d-81d7-7602-929a-75c94729f23b",
+    "host": "local",
+    "turn": "01a1308a-9a0f-7a43-bd0a-759415d0a4df"
+  },
+  "receiver": {
+    "thread": "01a0f2e3-3a47-78f2-819c-cbe52e8d7e47",
+    "host": "local",
+    "route": "completion wait/read; no redundant central report"
+  },
+  "user_authority": {
+    "quote": "你把玩家的动作都做完给我看看",
+    "source_thread": "01a0ec79-5b64-7b62-8365-bee9229512b5",
+    "source_turn": "01a13086-ab46-7663-a9e4-a7971e728b4c",
+    "source_item": "01a13086-ac08-7363-b187-d6eddbdf376c",
+    "contract": "TASK.md"
+  },
+  "contributors": [
+    {
+      "task": "/root",
+      "thread": "01a12f4d-81d7-7602-929a-75c94729f23b",
+      "host": "local"
+    },
+    {
+      "task": "/root/player_attacks",
+      "generation_session": "01a1309b-fae5-7691-b4c4-0459d8fb0c2d",
+      "host": "local"
+    },
+    {
+      "task": "/root/player_reactions",
+      "thread": "01a1309d-5731-77a3-b547-ca9b812bcc02",
+      "host": "local"
+    },
+    {
+      "task": "/root/player_fx",
+      "generation_session": "01a1308c-f84e-77e1-8012-2da4754c0ff7",
+      "host": "local"
+    }
+  ],
+  "fixed_inputs_unchanged": [
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/pixel-battle-idle/warrior-idle-v2/warrior-idle-v2.aseprite",
+      "sha256": "dfb321a0fbcf53e066bd6bdd298183c8e1d76ba2596149b61a7806e1d4e4619d"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/pixel-battle-idle/warrior-idle-v2/warrior-idle-v2-frame1-8x.png",
+      "sha256": "ed7eb735139aed5f3e663406da64314ec324990ef1f6842c6e8d2b314d161125"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/pixel-battle-idle/warrior-idle-v2/character-scale-profile.json",
+      "sha256": "50358e3a70f0dd3fe9d3c69f8fa57aec5a9f70b0e2339c26fdf0223045a7e271"
+    },
+    {
+      "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/pixel-battle-expansion/player-animation-roster-v1.md",
+      "sha256": "40edaac241b47f3946b1b23e695fe5be7b9b45202b396ae918c1eea5484416d8"
+    }
+  ],
+  "overview_paths": [
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/overview-all-actions-4x.gif",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/overview-keyposes-4x.png",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/overview-fx-4x.png",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/ArtSource/FightMatch/2026-10-12/player-animation-bundle-v1/README.md"
+  ],
+  "counts": {
+    "actions": 12,
+    "body_frames": 80,
+    "fx": 5,
+    "fx_frames": 20,
+    "aseprite_roundtrip_equal": 100,
+    "gif_decoded_frames_equal": 300
+  },
+  "acceptance": {
+    "all_requested_assets_delivered": true,
+    "binary_alpha_and_palette": true,
+    "ground_and_padding": true,
+    "actual_aseprite_roundtrip": true,
+    "gif_disposal_and_timing": true,
+    "main_author_all_sequences_visually_inspected": true,
+    "body_and_fx_separate": true,
+    "strict_body_gates": "10 new ordinary body actions PASS; inherited battle_idle; death_fall numerical FAIL under allowed pose exception",
+    "death_holds_last_frame": true,
+    "fixed_inputs_unchanged": true
+  },
+  "unpassed_and_risks": [
+    "death_fall strict metrics fail; TASK pose exception applied for review, not strict PASS",
+    "art lead acceptance pending",
+    "user visual review pending",
+    "Cross-action pixel details and final transition/FX timing require later scoped integration review",
+    "No Unity/device validation or import performed"
+  ],
+  "evidence": "qc-summary.json and per-asset qc.json",
+  "imagegen": {
+    "sheathed_idle": {
+      "call_id": "exec-d361de94-c41a-4878-b8e4-12e91bd3185e",
+      "source_path": null
+    },
+    "move_sheathed": {
+      "kind": "assembled_source_grid",
+      "type": "assembled_source_grid",
+      "base_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+      "base_raw_path": "attempt-03/raw-sheet.png",
+      "base_raw_sha256": "0ac85ce48c6f5a799667af315db8466eee8e3f500465ffa36ca6a90b51062b94",
+      "replacement_call_id": "exec-5bcace69-02b6-4f52-86b0-98bb83dab873",
+      "replacement_raw_path": "attempt-01/raw-sheet.png",
+      "replacement_raw_sha256": "22029a66b11aab411f536160813b0f0ab0b869e813220d2db2d81542a2d9e31d",
+      "source_box": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "destination_box": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "replacement_rgba_sha256": "33cbb6d19345f8993b36fd076e8659f681a0424ead94b93d0cde2bf872fd21c8",
+      "method": "Copy entire source frame2 cell at original 512x512 pixels into frame2 of same-action 2x3 grid; no crop within cell, no per-frame resizing, no local erasure/redrawing. Other five cells remain from base generation.",
+      "assembled_raw_sha256": "1b18eaa6b8e8cab66732c701256f802bc151cc166fbeb2606f323e38c66248fb",
+      "frame_sources": [
+        {
+          "frame": 1,
+          "imagegen_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+          "source_path": "attempt-03/raw-sheet.png",
+          "source_box": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "destination_box": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "source_cell_rgba_sha256": "290fe9f9d888a9615af0e39089b7fa75fd5bd875ea9a7160e3861b2b9a31832d",
+          "assembled_cell_exact_source": true
+        },
+        {
+          "frame": 2,
+          "imagegen_call_id": "exec-5bcace69-02b6-4f52-86b0-98bb83dab873",
+          "source_path": "attempt-01/raw-sheet.png",
+          "source_box": [
+            512,
+            0,
+            1024,
+            512
+          ],
+          "destination_box": [
+            512,
+            0,
+            1024,
+            512
+          ],
+          "source_cell_rgba_sha256": "33cbb6d19345f8993b36fd076e8659f681a0424ead94b93d0cde2bf872fd21c8",
+          "assembled_cell_exact_source": true
+        },
+        {
+          "frame": 3,
+          "imagegen_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+          "source_path": "attempt-03/raw-sheet.png",
+          "source_box": [
+            1024,
+            0,
+            1536,
+            512
+          ],
+          "destination_box": [
+            1024,
+            0,
+            1536,
+            512
+          ],
+          "source_cell_rgba_sha256": "12b3e24a8a7224fa97790780690f55cb0ea033fc56363ab04adcff8a428a059c",
+          "assembled_cell_exact_source": true
+        },
+        {
+          "frame": 4,
+          "imagegen_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+          "source_path": "attempt-03/raw-sheet.png",
+          "source_box": [
+            0,
+            512,
+            512,
+            1024
+          ],
+          "destination_box": [
+            0,
+            512,
+            512,
+            1024
+          ],
+          "source_cell_rgba_sha256": "b3b51fbfe672b4f656f299168ebd72381c506265123c368f7d6888ca8af48cd7",
+          "assembled_cell_exact_source": true
+        },
+        {
+          "frame": 5,
+          "imagegen_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+          "source_path": "attempt-03/raw-sheet.png",
+          "source_box": [
+            512,
+            512,
+            1024,
+            1024
+          ],
+          "destination_box": [
+            512,
+            512,
+            1024,
+            1024
+          ],
+          "source_cell_rgba_sha256": "70dd9a6d1f7d74087973b4f2f7f282aab287a7463f22634276be305ff08ae30c",
+          "assembled_cell_exact_source": true
+        },
+        {
+          "frame": 6,
+          "imagegen_call_id": "exec-316cf4ad-1961-4d37-a7cd-f2c420829809",
+          "source_path": "attempt-03/raw-sheet.png",
+          "source_box": [
+            1024,
+            512,
+            1536,
+            1024
+          ],
+          "destination_box": [
+            1024,
+            512,
+            1536,
+            1024
+          ],
+          "source_cell_rgba_sha256": "bd65269c82962a5c5566753f8eed83d6015371a00eb1debd9673d8ecdcdbcd84",
+          "assembled_cell_exact_source": true
+        }
+      ]
+    },
+    "draw_ready": {
+      "call_id": "exec-2fb27044-27dc-4988-8f68-6bb3cd708942",
+      "source_path": null
+    },
+    "battle_idle": {
+      "call_id": "INHERITED_INITIAL_01",
+      "source_path": null
+    },
+    "move_guarded": {
+      "call_id": "exec-60e931e7-0981-4e3b-be23-ccea2bf22f73",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1309d-5731-77a3-b547-ca9b812bcc02/exec-60e931e7-0981-4e3b-be23-ccea2bf22f73.png"
+    },
+    "attack_slash": {
+      "call_id": "exec-cc8121e3-a6e5-4165-b942-bf1bba163477",
+      "source_path": null
+    },
+    "attack_thrust": {
+      "call_id": "exec-6b05287f-fcca-450f-a543-380f6ee04fc6",
+      "source_path": null
+    },
+    "attack_overhead": {
+      "call_id": "exec-418f6bb0-9053-4e66-867d-9e13cc7ceb30",
+      "source_path": null
+    },
+    "skill_taunt": {
+      "call_id": "exec-c836f00f-98b4-48e1-8e42-f2739cd92ddd",
+      "source_path": null
+    },
+    "hurt": {
+      "call_id": "exec-11d7f6e8-19e6-48fd-9bdb-ce9afe043325",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1309d-5731-77a3-b547-ca9b812bcc02/exec-11d7f6e8-19e6-48fd-9bdb-ce9afe043325.png"
+    },
+    "sheathe_exit": {
+      "call_id": "exec-275e7583-2d65-4c50-a2e4-9c997171be8e",
+      "source_path": null
+    },
+    "death_fall": {
+      "call_id": "exec-131ebe65-1e59-4c3f-9cb9-b88a775cb32d",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1309d-5731-77a3-b547-ca9b812bcc02/exec-131ebe65-1e59-4c3f-9cb9-b88a775cb32d.png"
+    },
+    "slash_arc": {
+      "call_id": "exec-b2dff70b-8d43-4410-904c-10f61b60978e",
+      "generation_session": "01a1308c-f84e-77e1-8012-2da4754c0ff7",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1308c-f84e-77e1-8012-2da4754c0ff7/exec-b2dff70b-8d43-4410-904c-10f61b60978e.png",
+      "raw_sha256": "8b5159096a25215722eb700d44a555cadbdd0ad210e94d0b6a12461de7e4179d",
+      "actual_raw_size": [
+        1254,
+        1254
+      ]
+    },
+    "thrust_streak": {
+      "call_id": "exec-8ba6620d-5dc8-4456-a5fe-8ab18e581347",
+      "generation_session": "01a1308c-f84e-77e1-8012-2da4754c0ff7",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1308c-f84e-77e1-8012-2da4754c0ff7/exec-8ba6620d-5dc8-4456-a5fe-8ab18e581347.png",
+      "raw_sha256": "90aebb24ed3c963971fee5e74108c3063ff03d82eb9a2ff023793fe17024ba18",
+      "actual_raw_size": [
+        1254,
+        1254
+      ]
+    },
+    "overhead_arc": {
+      "call_id": "exec-cb31fccf-c3ed-4d68-8654-afe859deb6b2",
+      "generation_session": "01a1308c-f84e-77e1-8012-2da4754c0ff7",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1308c-f84e-77e1-8012-2da4754c0ff7/exec-cb31fccf-c3ed-4d68-8654-afe859deb6b2.png",
+      "raw_sha256": "9dc9a38d451ae3f39d10dd0af632d2d0f15eb6095d9c577e54265d14e0057066",
+      "actual_raw_size": [
+        1254,
+        1254
+      ]
+    },
+    "hit_impact": {
+      "call_id": "exec-af67d878-6352-4581-a3fb-7500168f3cf0",
+      "generation_session": "01a1308c-f84e-77e1-8012-2da4754c0ff7",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1308c-f84e-77e1-8012-2da4754c0ff7/exec-af67d878-6352-4581-a3fb-7500168f3cf0.png",
+      "raw_sha256": "0c2ebea87b9e3ac304e56c05a53edf5f7c1099109b6ea5ff9601ba1fc01257f2",
+      "actual_raw_size": [
+        1254,
+        1254
+      ]
+    },
+    "taunt_spark": {
+      "call_id": "exec-081816b1-3c95-4068-9aae-2734d65146f3",
+      "generation_session": "01a1308c-f84e-77e1-8012-2da4754c0ff7",
+      "source_path": "/Users/elliotyip/.codex/generated_images/01a1308c-f84e-77e1-8012-2da4754c0ff7/exec-081816b1-3c95-4068-9aae-2734d65146f3.png",
+      "raw_sha256": "86582d9fdc71a54896288bfc1160f7d6b3a48d73f051a9e343ef18901f7dfcfd",
+      "actual_raw_size": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "scope_statement": "Only authorized bundle paths written; original accepted assets and project files unchanged; no Unity or Git writes.",
+  "corrections": [
+    {
+      "id": "light-overview-01",
+      "status": "DISPLAY_CORRECTION_COMPLETE_PENDING_LEAD_RECEIPT",
+      "thread": "01a12f4d-81d7-7602-929a-75c94729f23b",
+      "host": "local",
+      "turn": "01a130c9-5ab7-7383-a6eb-c189c432a4fe",
+      "corrected_at": "2026-10-12T23:49:15.864686+08:00",
+      "requested_by_thread": "01a0f2e3-3a47-78f2-819c-cbe52e8d7e47",
+      "reason": "Art lead NEEDS_FIX: user requested a light-background overview; middle row was dark.",
+      "changed_files": [
+        "overview-keyposes-4x.png",
+        "file-manifest.json",
+        "delivery-receipt.json"
+      ],
+      "change": "Middle row background changed to existing light cream and labels to existing dark ink; all 12 action cells now share light background. Existing title, pose pixels, dimensions, order, wording and label geometry retained.",
+      "verification": {
+        "before_sha256": "30967a6484fc9fa53dd58ebe98671788cc349c6bea46ee1d3b8b1fde337d92ae",
+        "after_sha256": "b93470a576ba2a5ac2ddcb49a699e328412715d95b78c35606ac9475f22e9746",
+        "size": [
+          2048,
+          1896
+        ],
+        "title_and_rows_1_3_pixel_identical": true,
+        "middle_row_character_pixels_identical": true,
+        "all_12_cells_light_cream": true,
+        "labels_same_text_size_positions": true,
+        "cell_background_rgb": [
+          246,
+          237,
+          218
+        ],
+        "label_rgb": [
+          35,
+          59,
+          66
+        ],
+        "baseline_manifest_entries_verified": 733,
+        "fixed_inputs_verified": 4,
+        "corrected_png_visually_viewed": true,
+        "protected_bundle_entries_hash_match": 731,
+        "fixed_input_hash_match": 4,
+        "original_owner_and_turn_preserved": true,
+        "original_100_roundtrip_and_300_gif_evidence_preserved": true,
+        "no_image_generation_or_full_frame_qc_rerun": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "task": "LAYOUT-S1-FIX04-N09-NATIVE",
+  "date": "2026-10-06",
+  "status": "PREPARE_AND_REQUEST_NORMAL_COMMAND_APPROVAL",
+  "authority": "接续用户已授权的真实场景修复、保存复开及限定验证。本单允许把新的N09具体命令准备到可审阅状态，再走C现有正常命令审批；不重置N08次数，不复用旧审批。",
+  "sourceReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/S/source-receipt.json",
+    "bytes": 34298,
+    "sha256": "92818223d1dd0546135ff254a31157d9586f5b9a7b317eae1b8243e595967a00",
+    "authorTurn": "01a10ced-ba1f-7611-b15f-3842623fa8f6",
+    "engineeringIntakeTurn": "01a10cec-0d7b-7852-baab-b0e62bad6105",
+    "state": "作者已实际completed，主程已核原始静态输出、补丁和身份；派发前完成正式收件。SOURCE_READY，未编译/未测试/待GitHub审查。"
+  },
+  "candidateB": {"bytes": 195375, "sha256": "b7000d9d14c00c4bd0588afd734b7029b637048cee6485901f9581bbc4eddf45"},
+  "sourceEvidence": "增111/删31合计142行；首轮静态28/28，命令0.17秒；S六叶485568B。只接收源码准备，不给产品ACCEPT。",
+  "engineering": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+  "executor": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local，绑定新的实际回合",
+  "model": "gpt-6-astra",
+  "thinking": "xhigh",
+  "inherit": "继承engineering-layout-s1-fix04-n08-native-plan.md及N08实际runner的既定原生入口、原保护集合、资源预算、几何/覆盖内容与顺序/磁盘/保存复开/唯一Scene导出门和owned收尾；仅以下N09差量替换旧身份、路径、前像、诊断传输及已证明缺失的历史TMP前提。旧文件只读。",
+  "recoveryBaseline": {
+    "receipt": "docs/team/2026-09-30/engineering-layout-n08-recovery-receipt.json",
+    "bytes": 29670,
+    "sha256": "71f8bf16628319483d3fc11537f26cc8b87569526da38cc1c78b54a26a91d056",
+    "facts": "N08首次诊断尺寸失败后包装被中断；原after/receipt缺失。恢复时原launcher及12个owned均不在，无信号；122项源/资源/保护身份一致。N05至N08旧TMP缺失、原因未知。",
+    "rules": "新运行按当前实际身份封存前像，现存N08全部13叶逐字冻结；原旧证据集合仍检查。已证明缺失的旧TMP按当前缺席核验，不重建、不当作旧收尾通过，保留N08 NEEDS_FIX及缺口。其它漂移仍停止。"
+  },
+  "preparation": {
+    "allowed": [
+      "docs/team/2026-09-30/engineering-layout-s1-fix04-n09-native-plan.md",
+      "docs/team/2026-09-30/engineering.md",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/I/activation.json",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/PExecution/runner.py",
+      "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX04/N09/PExecution/preparation.json"
+    ],
+    "temporaryRoot": "一次新建/private/tmp/fm-ln09.XXXXXXXX自有TMP，canonical不超过40 UTF-8字节、0700、同UID、无link、初始空；封存身份，仍限16MiB/512叶且保留。只替换本次TMPDIR，UPM_CACHE_ROOT仍指向现有package-cache。",
+    "runnerMaximumNonemptyLines": 540,
+    "runnerDelta": "由N08现有442非空行改造，仅新身份/路径/真实前像/单源同步及D文件元数据与完整JSON核验；最多新增98行空间，不删守卫、不压行避限、不加第二runner。",
+    "checks": "至多3轮累计30秒，首轮通过即停；只做新runner语法/封签/身份与诊断差量无副作用fixture。不重跑旧产品测试。fixture至少覆盖超过8KiB的完整JSON、Unicode/null/空/0/重复与顺序、越界路径和错误长度/hash拒绝，以及缺失/部分文件不能冒充完整。",
+    "beforeApproval": "仅准备上述文件与空TMP；不创建D，不同步投影源，不启动Unity，不保存或导出。封签后由C以正常require_escalated工具申请一次具体命令，不改权限设置。"
+  },
+  "executionIfCommandApproved": {
+    "editorLaunches": 1,
+    "editorSecondsIncludingCompileImport": 180,
+    "preflightSeconds": 120,
+    "retry": 0,
+    "sync": "只把共享N09 B同步到投影一次；投影前像必须N08 B189888B/e471f4553341e9306633a054c35e58743e103b419e3314e64e1dd6b495a6b2bd，后像为本单candidateB。T及其余14源不写，不删DLL/清缓存强制编译。",
+    "compile": "变化Host.Editor必须实际Csc并取得新DLL；T未改，Core.Tests可复用N08恢复回执中已核身份，若实际重编则记录事实，不以复用冒充重编。",
+    "diagnostics": "主日志沿N09 source receipt的futureDiagnosticContract解析固定元数据；D只允许override-diff-00.json至08.json，每份不超过1MiB、合计不超过9MiB。路径只接受固定根及九个名字，拒绝link/越界；先核实际bytes/SHA256/Complete，再严格解析完整原JSON，保留UTF-16长度语义、全部序列/重复计数/内容与顺序差量。保留原始行/行号和独立文件原字节。短摘要不能替代完整JSON或产品门；失败/部分文件如实收件。",
+    "mainLogLimits": "原最多9条sample各8KiB、8条stage各2KiB和总96KiB不变；D另计9MiB，不新增采样或探针。",
+    "saveReopenExport": "原全部保存前门通过才Save1；失败Save0。保存后关闭、Additive只读复开及全部原门/三JSON/exit0/保护/owned闭包通过，再核Scene磁盘只删五条，其余字节保持，才仅向共享Assets/Scenes/FightMatchDemo.unity导出一次。PExport仅before.json和receipt.json，不保存Scene副本。Prefab/meta零写。",
+    "cleanup": "自然最多60秒，再仅对新鲜核实身份的仍活owned至多一次TERM并观察30秒；无KILL、无外来进程信号或自动回滚。原错误与次级错误分开，真实退出码未知就记录未知。中断后只允许只读恢复收件，不自动补跑。",
+    "callCounts": "沿现有真实日志取证；没有直接计数字段的创建/关闭次数记null/UNOBSERVED，代码路径推断单列，不改源码或加探针。",
+    "evidence": "N09仅S六叶冻结、I一叶、D最多九叶、P三个既定JSON、PExecution的runner/preparation/before/after/process/process-events/editor.log/receipt八叶；成功时PExport两JSON。最多29叶，总不超过201326592B。资源与派生目录仍沿原预算。"
+  },
+  "stop": "C遇具体命令pending则交准确卡位置与封签身份，等待人类；被拒则保留原始理由且停，不换路径/执行者/权限重试。主程唯一接C实际完成，中央只接主程。",
+  "excluded": "99测试/发现、Play/Host/设备/APK、依赖/引擎/配置、Git、LOC重试和本地代码审查。此运行仍不能代表首Demo验收。"
+}

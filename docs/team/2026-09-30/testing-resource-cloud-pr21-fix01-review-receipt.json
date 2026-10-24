@@ -1,0 +1,111 @@
+{
+  "receipt": "RES-CLOUD-INPUT-PR21-FIX01-GITHUB-REVIEW-RECEIPT",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a1191c-c565-7ab3-9992-a877ef844bcf",
+    "requestedModel": "gpt-6-luna",
+    "requestedEffort": "medium",
+    "runtimeModel": "Not exposed; effective model unverified",
+    "completionReceiver": "Central coordinator"
+  },
+  "authority": "Central PR21 FIX01 mechanical GitHub review intake",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/21",
+  "candidate": {
+    "head": "92fb75c2549f31923bdda07b35032666f8157fdd",
+    "parent": "6359bf36bfe32bb2b86ce9edab29c2de8c39b52a",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-cloud-input-fix01-publication-receipt.json",
+    "bytes": 1991,
+    "sha256": "b773ca94d78dd71d2e5d6b1c15ea888d9686c9c67890a0ce5385e921c02b083c",
+    "originalSharedInput": {
+      "files": 1036,
+      "bytes": 32657794
+    },
+    "proposedMacProjection": {
+      "files": 1037,
+      "bytes": 32658037,
+      "canonicalSha256": "a27ee9a2192ea7a4fecf1ca85e3dbbe6cb011dc08a0c9cb6983da70192a6578a"
+    },
+    "remoteVerification": {
+      "files": 1037,
+      "bytes": 32658037,
+      "allBlobSizesMatch": true,
+      "head": "92fb75c2549f31923bdda07b35032666f8157fdd"
+    },
+    "metaSupplement": {
+      "path": "Assets/Tests/EditMode/FightMatchHost/LocalePreferenceStoreTests.cs.meta",
+      "bytes": 243,
+      "sha256": "97eb4963b6d27d4669a021853e7363a3bbe386269f9293ff6d4608c772be39c3",
+      "gitBlob": "ffa8d9eb97892999801231ade53f1471f9f982e6"
+    },
+    "nativeRuns": 0,
+    "localProductFilesWritten": 0,
+    "integrationVerdict": null
+  },
+  "review": {
+    "trigger": {
+      "commentId": 6050241353,
+      "url": "https://github.com/yyczz1/FightMatch/pull/21#issuecomment-6050241353",
+      "reposted": false,
+      "author": "yyczz1"
+    },
+    "completion": {
+      "summaryCommentId": 6050138881,
+      "status": "COMPLETED",
+      "completedAtUtc": "2026-10-08T01:26:52.057631Z",
+      "summaryCommit": "92fb75c"
+    },
+    "resultComment": {
+      "id": 6050271680,
+      "url": "https://github.com/yyczz1/FightMatch/pull/21#issuecomment-6050271680",
+      "author": "chatgpt-codex-connector[bot]",
+      "body": "Codex Review: Didn't find any major issues. Swish!\n\n**Reviewed commit:** `92fb75c254`",
+      "reviewedCommitFromBody": "92fb75c254",
+      "reviewedCommitMatchesFullHead": true
+    },
+    "formalReview": {
+      "submissionsForCurrentHead": [],
+      "priorSubmission": {
+        "id": "PRR_kwDOTDyjrM8AAAABRNzBsg",
+        "state": "COMMENTED",
+        "submittedAtUtc": "2026-10-08T01:18:03Z",
+        "reviewedCommit": "6359bf36bf"
+      },
+      "formalApproval": false,
+      "interpretation": "The FIX01 outcome is a top-level issue comment. The only listed formal submission belongs to the prior head."
+    },
+    "currentHeadInlineFindings": [],
+    "historicalP1": {
+      "commentId": 4213654050,
+      "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/21#discussion_r4213654050",
+      "threadId": "PRRT_kwDOTDyjrM6qKGqq",
+      "title": "Restore the missing Unity meta before freezing the manifest",
+      "path": "docs/versioning/2026-10-08-cloud-resource-input/source-manifest.json",
+      "originalLine": 5362,
+      "resolved": false,
+      "outdated": true,
+      "status": "UNRESOLVED_AND_OUTDATED"
+    },
+    "classification": "COMMENTED_NO_MAJOR_ISSUES; NO_CURRENT_FORMAL_SUBMISSION; PRIOR_P1_UNRESOLVED_OUTDATED; NOT_APPROVED"
+  },
+  "acceptanceBoundary": {
+    "cloudFetch": "Failed before projection/import; reported configured proxy port 8080 unreachable, with no retry or proxy change",
+    "cloudProjectionCreated": false,
+    "cloudTests": "NOT_RUN",
+    "cloudInstall": "NOT_RUN",
+    "licensing": "UNVERIFIED",
+    "dependencies": "YooAsset/SBP not verified in recovered cloud shell",
+    "v02Preflight": "NOT_RUN_BLOCKED",
+    "v01Native": "FAILED; preserved",
+    "scope": "Exact 1037-file Mac P01 projection candidate; not a merge over newer Host test work"
+  },
+  "nextStep": "Keep the old finding thread state as observed. A separate scoped cloud preflight is still required before cloud execution; no runtime, dependency or license acceptance is established here."
+}

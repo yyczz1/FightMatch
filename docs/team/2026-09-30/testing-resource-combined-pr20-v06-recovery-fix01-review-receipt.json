@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "task": "PR20 V06 recovery FIX01 GitHub review intake",
+  "trigger": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6051951247",
+  "triggerId": 6051951247,
+  "head": "0d28fd3318921f8dfeb7b8faccf0a21a47dc8503",
+  "observedHead": "0d28fd3318921f8dfeb7b8faccf0a21a47dc8503",
+  "completedReview": "https://github.com/yyczz1/FightMatch/pull/20#pullrequestreview-5451210034",
+  "reviewedAtUtc": "2026-10-08T04:06:25Z",
+  "reviewStatus": "FINDING_REPORTED",
+  "formalApproved": false,
+  "finding": {
+    "id": 4214487719,
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214487719",
+    "severity": "P1",
+    "title": "Mark receipts incomplete when finalization exceeds the deadline",
+    "file": "docs/versioning/2026-10-08-resource-combined-validation/recovery-v06/recovery.py",
+    "line": 453,
+    "summary": "write_new('receipt.json', result) may persist RECOVERED after the 120-second deadline; the later return detects overrun and exits 1, leaving contradictory status. Include receipt serialization/write in the deadline decision so persisted and printed status report INCOMPLETE on overrun.",
+    "resolved": false,
+    "outdated": false
+  },
+  "priorFinding": {
+    "id": 4214422163,
+    "severity": "P1",
+    "status": "historical_outdated_not_resolved",
+    "url": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4214422163"
+  },
+  "sourcePublicationGate": {
+    "publishedFiles": 86,
+    "totalBytes": 5848329,
+    "allGitBlobsAndSizesVerified": true,
+    "source": "central-provided FIX01 publication receipt verification"
+  },
+  "actualRecovery": {
+    "status": "NOT_RUN",
+    "source": "central handoff; source review does not establish execution"
+  },
+  "limits": "No local review, tests, or GitHub writes were performed."
+}

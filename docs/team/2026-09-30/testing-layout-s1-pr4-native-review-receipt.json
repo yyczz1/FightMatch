@@ -1,0 +1,208 @@
+{
+  "task": "LAYOUT-S1-PR4-NATIVE-REVIEW-RECEIPT",
+  "verdict": "NEEDS_FIX",
+  "scope": "GitHub review gate for native-resource head only; not a duplicate local code review and not test/device/product acceptance.",
+  "receivedUtc": "2026-10-02T13:23:52Z",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0fcb2-354b-73c3-a47a-6f9aa5ce51ff"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": {
+    "basis": "User standing AGENTS§6 workflow and central's explicit native-head review receipt delegation.",
+    "centralThread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "centralTurn": "01a0fc83-b951-7cb0-8af3-31269097058f",
+    "centralTurnSource": "layout-s1-native-publication-receipt.json"
+  },
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "base": "3541930877837e14b58020b910976b8b67b56e42",
+    "head": "e3d581df42f3a25cfdfc319bca5509f8b5382ada",
+    "tree": "52c306b98275111955280da919b45e2806e15ebb",
+    "parent": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "draft": true,
+    "merged": false,
+    "remoteIdentityEndpoint": "https://api.github.com/repos/yyczz1/FightMatch/git/commits/e3d581df42f3a25cfdfc319bca5509f8b5382ada"
+  },
+  "evidence": {
+    "publicationReceipt": {
+      "path": "docs/team/2026-09-30/layout-s1-native-publication-receipt.json",
+      "sha256": "5f58c3e5a1918070774743348af84dba77713f7c5cefd244178bd15fab51675d"
+    },
+    "manifest": {
+      "path": "docs/versioning/2026-10-02-layout-s1-pr/native-p/publication-manifest.json",
+      "sha256": "1be36cbf7b78985aa565dfff88256a3b195447f492c1c68db6fca26ee96a3a23"
+    },
+    "publicationChecks": "Central's 18-published-blob / 17-difference-path / 3-product-delta checks reused as attributed evidence; not repeated code review. This receiver independently matched remote head/tree/parent and matched the manifest's 15 source and 4 resource identities to the completed coverage report.",
+    "coveragePlanning": {
+      "path": "docs/team/2026-09-30/testing-ugui-layout-coverage-delta-001.json",
+      "bytes": 51650,
+      "sha256": "f9e3138f29b5ef5d0e8ce2271719718ba1bc165e6dd32737b044962cc9d0190b",
+      "source15Match": true,
+      "resources4Match": true,
+      "recommendedExactCount": 96,
+      "recommendAdd": 49,
+      "notRunDeferred": 10,
+      "status": "PREPARED_NOT_EXECUTED",
+      "note": "Planning file frozen before publication and kept unchanged. This receipt binds its fixed byte identities to native head. The new scene-override finding is not closed by prefab-instantiation tests; no test/selector expansion is activated here."
+    },
+    "originalFailuresPreserved": [
+      {
+        "path": "docs/versioning/2026-10-02-layout-s1-pr/native-p/i02-original-receipt.json",
+        "sha256": "dcfc2686c81b95900e5b51e85c02cdf834f1ebd3a070c287ccbe38223c9baee1",
+        "status": "I_FAILED"
+      },
+      {
+        "path": "docs/versioning/2026-10-02-layout-s1-pr/native-p/p-original-receipt.json",
+        "sha256": "249ac5a32799a45fe5b6905c79361d5a776d56eeed04c87103b4775347f50a57",
+        "status": "P_FAILED"
+      }
+    ],
+    "priorReviewReceiptsPreserved": [
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-review-receipt.json",
+        "sha256": "5f21173480fd7290aa1e9a0c7a9228c73e0378fba41642a650b52ccf94b3b549"
+      },
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix01-review-receipt.json",
+        "sha256": "0db42a5b6e1693cfd93e4eb7698a5166d9ba17236157237e80a1b354fd65b09e"
+      },
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix02-review-receipt.json",
+        "sha256": "4224b661e2be445758576b572ef2e9b0bd0f2cee3a94d614cca19428e3f4ebd3"
+      },
+      {
+        "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json",
+        "sha256": "c67d5479d895e66be6db649afe9ccb00139a1dc27270200028aff202b9c6bc77",
+        "scope": "Historical FIX03 code-only ACCEPT; not acceptance of newly published assets."
+      }
+    ]
+  },
+  "originalReview": {
+    "trigger": {
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5953186087",
+      "id": 5953186087,
+      "createdUtc": "2026-10-02T13:13:44Z",
+      "body": "@codex review\n\nPlease review the actual native-resource head `e3d581df42f3a25cfdfc319bca5509f8b5382ada` (tree `52c306b98275111955280da919b45e2806e15ebb`, parent `ee556f2653582534016e371f3d7dce9037de40ca`). The latest delta updates the runtime prefab and adds its two natural script meta files; all 15 C# sources retain the previously reviewed FIX03 bytes. Review serialized references, layout/localization/placeholder contracts and any integration issues exposed by these real assets. Original I/P failure receipts and the scoped reassessments are deliberately retained as historical evidence; do not mistake them for new executable drivers or test passes. See native-p/README.md and publication-manifest.json. No Unity/test execution or duplicate local review is requested. Identify the reviewed head; this is the single trigger for this candidate."
+    },
+    "summary": {
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5945559740",
+      "id": 5945559740,
+      "updatedUtc": "2026-10-02T13:21:30Z",
+      "rawBody": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T13:21:29.444963Z\">2026-10-02T13:21:29.444963Z</relative-time> | `e3d581d` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
+    },
+    "review": {
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#pullrequestreview-5392275691",
+      "id": 5392275691,
+      "graphqlId": "PRR_kwDOTDyjrM8AAAABQWeY6w",
+      "bot": "chatgpt-codex-connector[bot]",
+      "state": "COMMENTED",
+      "submittedUtc": "2026-10-02T13:21:26Z",
+      "commitId": "e3d581df42f3a25cfdfc319bca5509f8b5382ada",
+      "rawBody": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `e3d581df42`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+    },
+    "binding": "REST review.commit_id equals full fixed SHA; reported reviewed commit e3d581df42 and Completed summary e3d581d both prefix-match that SHA. Current PR head and remote Git commit tree/parent also match.",
+    "formalApprovalClaimed": false,
+    "majorFindings": 1,
+    "findings": [
+      {
+        "priority": "P1",
+        "title": "Clear the stale zero-scale Canvas overrides",
+        "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4166096874",
+        "commentId": 4166096874,
+        "threadId": "PRRT_kwDOTDyjrM6oWaY3",
+        "reviewAnchor": {
+          "path": "docs/versioning/2026-10-02-layout-s1-pr/native-p/publication-manifest.json",
+          "startLine": 20,
+          "endLine": 21,
+          "side": "RIGHT"
+        },
+        "reportedAffectedAsset": {
+          "path": "Assets/Scenes/FightMatchDemo.unity",
+          "startLine": 258,
+          "endLine": 285,
+          "runtimeCanvasFileId": "1013562322995895578",
+          "properties": [
+            "m_LocalScale.x",
+            "m_LocalScale.y",
+            "m_LocalScale.z",
+            "m_AnchorMax.x",
+            "m_AnchorMax.y"
+          ]
+        },
+        "createdUtc": "2026-10-02T13:21:26Z",
+        "rawBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Clear the stale zero-scale Canvas overrides**\n\nAt reviewed head `e3d581df42f3a25cfdfc319bca5509f8b5382ada`, retaining `FightMatchDemo.unity` unchanged also retains its prefab-instance overrides for RuntimeCanvas fileID `1013562322995895578`: `m_LocalScale.x/y/z` and `m_AnchorMax.x/y` remain zero (`Assets/Scenes/FightMatchDemo.unity:258-285`). Those overrides take precedence over the migrated prefab's unit scale, and `FightMatchResponsiveLayout.Apply()` explicitly rejects a non-positive Canvas `lossyScale`, so the real scene can enter the fail-closed layout gate while prefab-instantiation checks pass. The scoped design also required native save/reopen to leave no unexplained scene overrides; normalize or remove these overrides and publish the resulting scene asset rather than recording `NO_CHANGE`.\n\nAGENTS.md reference: [AGENTS.md:L290-L291](https://github.com/yyczz1/FightMatch/blob/e3d581df42f3a25cfdfc319bca5509f8b5382ada/AGENTS.md#L290-L291)\n\nUseful? React with 👍 / 👎.",
+        "attribution": "GitHub Code Review service finding; no local correctness re-review performed."
+      }
+    ]
+  },
+  "discussionStates": [
+    {
+      "threadId": "PRRT_kwDOTDyjrM6oOj1c",
+      "findingIds": [
+        4162866083
+      ],
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "threadId": "PRRT_kwDOTDyjrM6oOj1d",
+      "findingIds": [
+        4162866085
+      ],
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "threadId": "PRRT_kwDOTDyjrM6oO24g",
+      "findingIds": [
+        4162989184
+      ],
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null
+    },
+    {
+      "threadId": "PRRT_kwDOTDyjrM6oPJ1Q",
+      "findingIds": [
+        4163111945
+      ],
+      "isResolved": false,
+      "isOutdated": false,
+      "resolvedBy": null
+    },
+    {
+      "threadId": "PRRT_kwDOTDyjrM6oWaY3",
+      "findingIds": [
+        4166096874
+      ],
+      "isResolved": false,
+      "isOutdated": false,
+      "resolvedBy": null
+    }
+  ],
+  "discussionMeaning": "All historical discussion states are preserved separately. New P1 remains unresolved/current. No manual resolution, dismiss, comment reply or bot per-thread closure was requested or performed.",
+  "gates": {
+    "codeReview": "OPEN_NEEDS_FIX_NATIVE_ASSET_P1",
+    "integrationAccepted": false,
+    "tests": "NOT_RUN",
+    "deviceAndProduct": "NOT_ACCEPTED",
+    "nextRequired": "Central/engineering must scope the reported scene-instance override correction and relevant scene-based verification, preserve original evidence, publish a new fixed head and obtain that head's independent GitHub review. This receipt neither dispatches a worker nor authorizes Unity/tests/scene changes. The 96-test plan does not by itself prove real-scene acceptance."
+  },
+  "thisSubtask": {
+    "reviewTriggers": 0,
+    "reviewThreadMutations": 0,
+    "localCodeReviews": 0,
+    "workerDispatches": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "deviceRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "readOnlyChecks": "GitHub service review/summary/threads/PR metadata and exact remote Git commit identity; local evidence SHA and manifest identity mapping.",
+    "newFile": "docs/team/2026-09-30/testing-layout-s1-pr4-native-review-receipt.json"
+  }
+}

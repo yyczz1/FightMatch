@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "date": "2026-10-04",
+  "scope": "LOC M16 FIX01 source correction",
+  "verdict": "NEEDS_FIX",
+  "head": "8533cb5270c0ba324a0af5a51fb078e096189cce",
+  "tree": "0c1908fa032af82d480f7861ffec034555eede03",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/2",
+  "independentReview": {
+    "summary": 5928035293,
+    "review": 5405309989,
+    "findings": [
+      {
+        "id": 4176965421,
+        "priority": "P1",
+        "issue": "Generated seal omits fields required by the actual activation verifier"
+      },
+      {
+        "id": 4176965430,
+        "priority": "P1",
+        "issue": "Frozen tables cannot be reproduced by the current input/write-set generators"
+      }
+    ],
+    "qaReceipt": "testing-loc-m16-fix01-pr2-final-review-receipt.json",
+    "qaSha256": "9fc86a670c987396ca81ee0408e3f8d2acfc586d2edf72891c0302214f041163",
+    "actualQaTurnObservedByCentral": "01a1064e-ae3f-7b53-96ce-95b8ba00ed3f",
+    "qaTurnNote": "Central wait_threads observed this actual turn; original QA receipt remains unchanged."
+  },
+  "existingValidation": {
+    "offlinePassed": 46,
+    "scope": "FIX01 fixtures only; these do not override the independent findings",
+    "rerunByCentral": false
+  },
+  "next": "Existing LOC owner performs scoped FIX02, using actual generated seal/tables in new verification. Preserve prior files and results; no restore, production execute or local duplicate review.",
+  "materialAcceptance": false,
+  "runtimeAcceptance": false
+}

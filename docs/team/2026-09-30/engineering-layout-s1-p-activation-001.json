@@ -1,0 +1,176 @@
+{
+  "task": "LAYOUT-S1-P-001",
+  "status": "P_ACTIVATED",
+  "owner": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fc9d-5ab5-7851-9c2a-e0ecf504a55d"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fc82-679c-78e1-aab6-d406f8053f2a"
+  },
+  "soleReceiver": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local"
+  },
+  "authority": "User AGENTS §6 standing five-role workflow and first-Demo continuation; central authorized original single P after actual I acceptance, and explicitly accepted static target-applicability reassessment in turn/item below. Author does not self-approve delivery.",
+  "centralAuthorization": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a0fc83-b951-7cb0-8af3-31269097058f",
+    "item": "exec-3a7c0d06-c7f2-4bb6-9a99-cc14ea548e41",
+    "decision": "Read-only target-applicability correction, preserve failure and runner, accept existing I when all guards pass, then sign original P."
+  },
+  "prerequisites": {
+    "reassessment": {
+      "path": "docs/team/2026-09-30/engineering-layout-s1-i002-reassessment-001.json",
+      "bytes": 36648,
+      "sha256": "1226734e33659b6c2ec96c7f095cf65793a9ed52d7a0bb1de32a4718e4e68a94",
+      "verdict": "ACCEPT",
+      "scope": "Mac I only"
+    },
+    "originalI02Receipt": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/I02/receipt.json",
+      "bytes": 57230,
+      "sha256": "dcfc2686c81b95900e5b51e85c02cdf834f1ebd3a070c287ccbe38223c9baee1"
+    },
+    "originalStatus": "I_FAILED preserved; correction lives only in reassessment",
+    "ownerHandshakeUtc": "2026-10-02T12:36:45.842769Z",
+    "handshake": "C actual current turn confirmed no Unity/UPM, P/I-activation/PExecution absent before issuer created activation; no C writes."
+  },
+  "activation": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/I/activation.json",
+    "bytes": 13669,
+    "sha256": "79cbaf915cc231fe5e1e0019b1087f15d19fbf5a6d3d5bb011c01052a09a5431"
+  },
+  "candidate": {
+    "head": "ee556f2653582534016e371f3d7dce9037de40ca",
+    "tree": "665c86084c090fd8cab1f061f1634cb1596f7e58",
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "baseHead": "3541930877837e14b58020b910976b8b67b56e42",
+    "baseTree": "37326f759fc065f268c23f66a674be1a61f12268",
+    "sourceReceipt": {
+      "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/FIX03/source-receipt.json",
+      "sha256": "44b8fd8572548ccee8a4c4591275b242f4459e06a04837f58eff70bcbafa042b"
+    },
+    "reviewReceipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-fix03-review-receipt.json",
+      "sha256": "c67d5479d895e66be6db649afe9ccb00139a1dc27270200028aff202b9c6bc77"
+    },
+    "reviewGate": "ACCEPT_CODE_REVIEW_ONLY_NOT_FORMAL_APPROVED"
+  },
+  "editor": {
+    "path": "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+    "version": "2022.3.18f1",
+    "architecture": "x86_64",
+    "bytes": 86759760,
+    "sha256": "71a55038cb730aa3d01f0524e2002a599a531e5deda65a028d06a6f96207c88f"
+  },
+  "argv": [
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity",
+    "-batchmode",
+    "-force-metal",
+    "-buildTarget",
+    "StandaloneOSX",
+    "-projectPath",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+    "-executeMethod",
+    "FightMatch.Host.Editor.FightMatchAndroidBuild.MigrateLayoutResources",
+    "-fmLayoutContract",
+    "LAYOUT-S1-SYS-001",
+    "-fmLayoutInputManifest",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/I/activation.json",
+    "-fmLayoutEvidenceRoot",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/P",
+    "-quit",
+    "-logFile",
+    "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/PExecution/editor.log"
+  ],
+  "cwd": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/projection",
+  "environmentOverrides": {
+    "UPM_CACHE_ROOT": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/package-cache"
+  },
+  "legacySourceReceipt": {
+    "path": "TestArtifacts/FightMatch/LAYOUT-S1-001/S/source-receipt.json",
+    "bytes": 28162,
+    "sha256": "b2971a32973d241be9284a7cc969b9462ff07d4b08cc264eefc1eb9eea1da322",
+    "meaning": "Builder's immutable legacy baseline guard only. Actual execution sources are FIX03 all15 bound by activation and candidate.sourceReceipt/head, not historical S."
+  },
+  "budgets": {
+    "preflightSeconds": 120,
+    "editorLaunches": 1,
+    "editorSeconds": 180,
+    "upmSecondsWithinEditor": 180,
+    "cacheBytesTotal": 1073741824,
+    "projectionGeneratedBytes": 4294967296,
+    "logBytesEach": 8388608,
+    "stageEvidenceBytes": 201326592,
+    "minFreeBytes": 2147483648,
+    "monitorMaxCadenceSeconds": 2,
+    "cleanupNaturalSeconds": 60,
+    "cleanupAfterTerminationSeconds": 30,
+    "retries": 0
+  },
+  "networkMeasurement": "UNKNOWN; no meter/512MiB gate. Reuse existing resolved fixed51 dependencies and current cache; no separate recovery/download/install/Client.Add/Resolve loop or version/registry change. Ordinary Unity access to already-frozen dependencies stays under time/disk/lock guards.",
+  "writeScope": {
+    "nativeEvidenceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/P",
+    "nativeEvidenceFiles": [
+      "native-migration.json",
+      "native-reopen.json",
+      "serialized-targets.json"
+    ],
+    "outerEvidenceRoot": "/Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch/TestArtifacts/FightMatch/LAYOUT-S1-001/PExecution",
+    "outerEvidenceFiles": [
+      "before.json",
+      "runner.py",
+      "process.json",
+      "editor.log",
+      "after.json",
+      "receipt.json"
+    ],
+    "runner": "C may adapt I02/runner.py into one task-local external Python wrapper <=350 nonblank lines using apply_patch; retain narrow time/disk/identity/owned guards, switch to this exact P argv and P output predicates, remove I-only missing-assembly gate. No general framework, helper C#, package, new feature or tool install. Record exact wrapper hash/launch intent before spawning. Do not modify original I02 runner.",
+    "projectionProductWrites": [
+      "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+      "Assets/Scenes/FightMatchDemo.unity"
+    ],
+    "projectionGenerated": "Normal Unity output only in existing projection Library/Temp/Logs/UserSettings; existing cache kept. All 993 original projected inputs except the exact prefab/scene must stay identical, both natural metas now immutable, exact original input set plus these two metas. No new metas.",
+    "sharedExport": {
+      "when": "Only after actual Unity exit0, all three native receipts and all postguards plus owned closure pass. First recheck every shared58 input and absence of the two natural metas; any drift stops export without overwrite.",
+      "paths": [
+        "Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab",
+        "Assets/Scenes/FightMatchDemo.unity",
+        "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs.meta",
+        "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs.meta"
+      ],
+      "method": "Exact byte-for-byte transfer of native-produced artifacts from projection to the identical shared relative paths; this is mechanical artifact export, not authored YAML. Record source/destination before and after identities and assert equality. No export on P failure; preserve failed projection/evidence, do not auto-rollback user files.",
+      "postcondition": "Shared58 differ only at allowed prefab/scene paths; exact2 added metas equal frozen I identities. No source, other resource, settings, package or LOC write."
+    },
+    "sealed": "Original I seven leaves and I02 seven leaves unchanged; root-owned I/activation is the only new leaf in I. Preserve S/FIX01/FIX02/FIX03 and all bound contracts/reviews. P evidence is builder-created once; wrapper never precreates P. PExecution created once; editor.log lives there, outside P."
+  },
+  "checks": [
+    "Before launch verify actual owner/issuer, outer lease/activation and their exact argv/env/root/hash. Verify fixed Editor, FIX03 all15/head/source/QA, original I seven and I02 seven using I02/before and receipt manifests, reassessment and legacy S receipt. Current P/PExecution absent before preparation; I has only original seven plus this activation.",
+    "Recheck 993 original projected inputs against I/prepare.json, natural2 bytes/GUIDs against reassessment, all513 GUIDs unique, source15/resources37/protected7 including frozen51 manifest/lock/settings/CSV, shared58 and natural-meta absence. Reuse established payload/assembly proof rather than repeat unrelated history. No shared Unity process; fresh process preflight rules out overlapping Editor/UPM.",
+    "Create only PExecution wrapper/before, never P. Before captures inputs, exact argv/env, owner/issuer, runner hash, frozen evidence, process absence, budget and export preimages. One direct fixed Editor launch using existing compiled candidate; no warmup I or second VerifyLayoutResources call. Use native builder save/unload/reopen, no Play/Host.",
+    "Monitor <=2s cadence, first compiler/import/package/unhandled/AssertionException or LAYOUT failure and budget breach aborts attempt. Expected prefab/scene changes are allowed only during P; sources/other35 resources/protected7/metas remain checked. P generated outputs cannot relax expected141 TMP path/type set,3 inputs, stable ViewIds/fileIDs/scene linkage or existingfont/TMP identity. No source edits to get past failure.",
+    "Owned-only cleanup exactly once per attempt: <=60s natural wait then one identity-checked termination of known descendants and <=30s closure. Append termination events instead of overwriting history on later errors; do not reset prior signal records. Persist PID/starttime/lineage and fresh closure even if postchecks fail. No signals to preexisting processes.",
+    "Success requires actual exit0 and completed native evidence (three exact leaves), migration/reopen/serialized-targets activation hash and current ownerTurn, all protectedInputsUnchanged, exact141 targets derived independently from frozen builder expectation and3 inputs, reopened flags on both reopen outputs, actual prefab/scene hashes equal all receipts; final read-only reopen did not alter bytes. Preserve prefab/scene GUIDs, frozen font bytes398glyph/4atlas unchanged, all513 meta GUIDs unique and no extra input paths.",
+    "Check full projected after-inventory against preimages allowing only exact2 native assets; all15 sources/other35 resources/protected7/metas unchanged. Preserve originalI/I02/activation/legacyS/FIX03/QA. Log no relevant error; measured budgets satisfied; all owned closed. Only then perform allowed four-file shared export after matching preimages; validate exact before/after byte equality and unchanged shared protection outside native2.",
+    "Return one immutable PExecution receipt with native3 hashes, actual fullFIX03 identities/head, legacy guard distinction, exactargv/start/end/exit/runner/process/events/resources, 141 target set, source/resource/meta guards, shared export four-path identities. Report factual P_PASS or P_FAILED; primary integration verdict remains engineering/independent review. T discovery/tests, Android, device/CUA, Play/Host and Git remain NOT_RUN. Stop after receipt and message engineering; no subsequent Unity until separately signed."
+  ],
+  "notAuthorized": [
+    "Additional I or P/verify launch",
+    "Legacy PrepareResources",
+    "Hand-authored Unity YAML/meta",
+    "New C# or source fix",
+    "Tests/discovery/T",
+    "Play/real Host",
+    "LOC projection/integration",
+    "Android build/API24/GLES3 change",
+    "Device/CUA/old APK",
+    "Git mutation/PR publish",
+    "New tool/package/dependency/registry/version",
+    "New official art/font/atlas"
+  ]
+}

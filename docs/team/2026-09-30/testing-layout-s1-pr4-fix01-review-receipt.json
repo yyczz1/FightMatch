@@ -1,0 +1,113 @@
+{
+  "task": "LAYOUT-S1-PR4-FIX01-REVIEW-RECEIPT",
+  "verdict": "NEEDS_FIX",
+  "scope": "Independent GitHub review-result intake only, without duplicate local code review.",
+  "receivedUtc": "2026-10-02T05:00:34Z",
+  "receiver": {
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "turn": "01a0faf8-bb9f-7d02-a1af-aaaab9626c4e"
+  },
+  "soleReturnTo": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "authority": "User standing team workflow and central FIX01 review-intake delegation.",
+  "candidate": {
+    "pr": "https://github.com/yyczz1/FightMatch/pull/4",
+    "base": "3541930877837e14b58020b910976b8b67b56e42",
+    "parent": "0c5e0580d685e0f4d777446a641b8220333903c6",
+    "head": "ad49aa36ec79505b51dbe5c83ef138f167cdb545",
+    "tree": "c0f0350abfb9ba63a61b35084ab9cb96f8a5a25d",
+    "draft": true,
+    "merged": false,
+    "identity": "PR current head and review full commit_id match; remote Git parent/tree match publication."
+  },
+  "evidence": {
+    "publicationReceipt": {
+      "path": "docs/team/2026-09-30/layout-s1-fix01-publication-receipt.json",
+      "sha256": "0a0b8a6d1a38af3260ff347483bceb121004d854b075a9c5f835e20a3b40305a"
+    },
+    "fix01Root": "docs/versioning/2026-10-02-layout-s1-pr/fix01/",
+    "sourceReceiptSha256": "e5b428d7cfd950a376fece87bf8a52e11d2b4703006ef168b87f041c23ccbb82",
+    "patchSha256": "d7ba5ddeca54b9fd1de4617f61be1b056b3a53ac311ab93396eb701c210c0a4b",
+    "manifestSha256": "adae24e1673dc5036f2ec88b754fba8d0b83ba947a40abe9d6579d2c159e3048",
+    "originalReviewReceipt": {
+      "path": "docs/team/2026-09-30/testing-layout-s1-pr4-review-receipt.json",
+      "sha256": "5f21173480fd7290aa1e9a0c7a9228c73e0378fba41642a650b52ccf94b3b549",
+      "preserved": true
+    },
+    "publicationVerification": "Central's 9-path/3-source/157-line and all15-source-blob checks are reused as reported; this intake only rehashed the named evidence, not the code."
+  },
+  "review": {
+    "triggerUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5945849064",
+    "triggerCreatedUtc": "2026-10-02T04:55:45Z",
+    "id": 5388449580,
+    "url": "https://github.com/yyczz1/FightMatch/pull/4#pullrequestreview-5388449580",
+    "bot": "chatgpt-codex-connector[bot]",
+    "commitId": "ad49aa36ec79505b51dbe5c83ef138f167cdb545",
+    "state": "COMMENTED",
+    "submittedUtc": "2026-10-02T04:58:45Z",
+    "completion": "Completed",
+    "summaryUrl": "https://github.com/yyczz1/FightMatch/pull/4#issuecomment-5945559740",
+    "summaryUpdatedUtc": "2026-10-02T04:58:48Z",
+    "rawCompletionRow": "| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-02T04:58:47.483163Z\">2026-10-02T04:58:47.483163Z</relative-time> | `ad49aa3` | Manual request |",
+    "newFindingCounts": {
+      "P1": 0,
+      "P2": 1
+    },
+    "meaning": "Review finished, not approved. Original findings were not repeated, but no explicit resolution was posted."
+  },
+  "historicalFindings": [
+    {
+      "findingId": 4162866083,
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162866083",
+      "threadId": "PRRT_kwDOTDyjrM6oOj1c",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null,
+      "replies": 0,
+      "disposition": "OPEN; outdated is not resolution. No explicit closure was posted; this intake does not infer closure from changed source or non-repetition."
+    },
+    {
+      "findingId": 4162866085,
+      "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162866085",
+      "threadId": "PRRT_kwDOTDyjrM6oOj1d",
+      "isResolved": false,
+      "isOutdated": true,
+      "resolvedBy": null,
+      "replies": 0,
+      "disposition": "OPEN; outdated is not resolution. No explicit closure was posted; this intake does not infer closure from changed source or non-repetition."
+    }
+  ],
+  "newFinding": {
+    "id": 4162989184,
+    "priority": "P2",
+    "url": "https://github.com/yyczz1/FightMatch/pull/4#discussion_r4162989184",
+    "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+    "line": 158,
+    "reviewId": 5388449580,
+    "threadId": "PRRT_kwDOTDyjrM6oO24g",
+    "isResolved": false,
+    "isOutdated": false,
+    "createdUtc": "2026-10-02T04:58:45Z",
+    "rawBody": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Preserve the invalid transition across disable**\n\nWhen the layout is disabled while valid, `ReleaseGate()` sets `valid` to false without notifying the host. Because disabling also releases the `CanvasGroup`, a board pointer can begin while the component is disabled; if it is then re-enabled under an invalid safe area, `Gate(false)` sees `valid` already false and suppresses `ValidityChanged`, so `FightMatchHostView.OnLayoutValidityChanged` never cancels that pointer. Preserve enough state so the first invalid sample after re-enable emits the false transition, without treating disable itself as an input-invalidating event.\n\nAGENTS.md reference: [AGENTS.md:L299-L301](https://github.com/yyczz1/FightMatch/blob/ad49aa36ec79505b51dbe5c83ef138f167cdb545/AGENTS.md#L299-L301)\n\nUseful? React with 👍 / 👎.",
+    "disposition": "OPEN"
+  },
+  "next": {
+    "reviewGate": "OPEN_FINDINGS",
+    "nativeExecution": "NOT_AUTHORIZED_BY_THIS_RECEIPT",
+    "action": "Central returns the new disable/re-enable invalid-transition finding to engineering for a minimal correction. Preserve historical statuses and bind subsequent review to the actual new head; this intake does not dispatch or retrigger.",
+    "acceptance": "UNCOMPILED / UNIMPORTED / OLD_PREFAB_NOT_MIGRATED / TESTS_NOT_RUN / NOT_PLAYABLE_CANDIDATE; native, visual and device gates remain separate."
+  },
+  "thisTurn": {
+    "reviewTriggers": 0,
+    "reviewThreadMutations": 0,
+    "localCodeReviews": 0,
+    "RorWorkerDispatches": 0,
+    "UnityStarts": 0,
+    "testRuns": 0,
+    "productChanges": 0,
+    "GitMutations": 0,
+    "newFiles": [
+      "docs/team/2026-09-30/testing-layout-s1-pr4-fix01-review-receipt.json"
+    ]
+  }
+}

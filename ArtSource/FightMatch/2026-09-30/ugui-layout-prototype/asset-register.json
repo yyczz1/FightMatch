@@ -1,0 +1,134 @@
+{
+  "schema": "fightmatch.art-source-register.v1",
+  "deliveryDate": "2026-09-30",
+  "task": "ART-PROD-001 neutral uGUI layout acceptance figures",
+  "status": "GRAYBOX_LAYOUT_ACCEPTANCE_READY_NOT_FINAL_ART_UNITY_NOT_IMPORTED",
+  "fixedInputs": {
+    "gitCommit": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+    "layoutContract": "docs/team/2026-09-30/art.md sections 3-7",
+    "localizationDraftSha256": "fc2429d2cd1495a0a29c805a2ce202316a61f692a64debd7c46130b1f8c68ee5",
+    "localizationKeyCount": 170
+  },
+  "generator": {
+    "sourceMode": "project-authored neutral SVG graybox",
+    "rasterizer": "/opt/homebrew/bin/rsvg-convert 2.60.0",
+    "newDependenciesInstalled": false,
+    "externalReferenceImages": [],
+    "rejectedArtReused": false,
+    "pixelBattleCandidatesUsed": false,
+    "license": "project-authored layout documentation; no third-party visual assets"
+  },
+  "assets": [
+    {
+      "file": "README.md",
+      "bytes": 5065,
+      "sha256": "33dea5d90064ec62ff6e015d00b157cd16c592b907e4e29f1099cd366d3346ff",
+      "mimeType": "text/markdown",
+      "purpose": "scope, measurable layout contracts, inspection results, and incomplete boundaries",
+      "adoption": "graybox_documentation_only",
+      "unityImported": false
+    },
+    {
+      "file": "battle-540x960.svg",
+      "bytes": 7537,
+      "sha256": "bc1e3e91e2e3a4a89f047da4aad7e890a6231ebebb7fd049985869f3801d3dce",
+      "width": 540,
+      "height": 960,
+      "mimeType": "image/svg+xml",
+      "alpha": false,
+      "purpose": "editable neutral 540x960 battle layout source",
+      "source": "authored directly from art.md uGUI slot contract",
+      "visualInspection": "safe area, five ordered regions, six fixed actor slots, square 508 board, 48 hot zones, and BottomHud are visible without clipping",
+      "adoption": "graybox_layout_candidate",
+      "unityImported": false
+    },
+    {
+      "file": "battle-540x960.png",
+      "bytes": 63630,
+      "sha256": "5783c0fefdd65a9db0f1111d09bc5e3fccace259ff754edf62a46179459b45ef",
+      "width": 540,
+      "height": 960,
+      "colorMode": "RGB",
+      "mimeType": "image/png",
+      "alpha": false,
+      "purpose": "raster acceptance preview corresponding to battle-540x960.svg",
+      "source": "rsvg-convert 2.60.0 from same-name final SVG",
+      "visualInspection": "opened at original size; no edge crop; labels, safe area, actor slots, square board, and touch-space annotations remain readable",
+      "adoption": "graybox_layout_candidate",
+      "unityImported": false
+    },
+    {
+      "file": "battle-1080x2400.svg",
+      "bytes": 6511,
+      "sha256": "12d5d8ae3a4f06751198304a9f8bcb4236aee3a96d92dc6e676813649463f803",
+      "width": 1080,
+      "height": 2400,
+      "mimeType": "image/svg+xml",
+      "alpha": false,
+      "purpose": "editable neutral long-screen battle layout source",
+      "source": "authored directly from the 540 reference structure and art.md long-screen constraints",
+      "visualInspection": "safe area and five-region structure match the 540 source; 1016 square board is not stretched; extra height is isolated as breathing room",
+      "adoption": "graybox_layout_candidate",
+      "unityImported": false
+    },
+    {
+      "file": "battle-1080x2400.png",
+      "bytes": 167383,
+      "sha256": "053de9626fc922f3af1a5a1d6006955861ee265054f34b5bcdc956d90efebb6f",
+      "width": 1080,
+      "height": 2400,
+      "colorMode": "RGB",
+      "mimeType": "image/png",
+      "alpha": false,
+      "purpose": "raster acceptance preview corresponding to battle-1080x2400.svg",
+      "source": "rsvg-convert 2.60.0 from same-name final SVG",
+      "visualInspection": "opened at original size; no edge crop; 2x core geometry and the two 160-pixel breathing zones are visibly distinct",
+      "adoption": "graybox_layout_candidate",
+      "unityImported": false
+    },
+    {
+      "file": "screens-and-popups.svg",
+      "bytes": 20124,
+      "sha256": "3c837b9d88a9e293e806103bbe5673bf2645da5ba5fe4ae411ecf063053f7edf",
+      "width": 2400,
+      "height": 1900,
+      "mimeType": "image/svg+xml",
+      "alpha": false,
+      "purpose": "editable current-L1 screen, popup, recovery, reference drawer, and future-capacity overview",
+      "source": "authored directly from art.md sections 5.1-5.2 and the frozen localization-capacity notes",
+      "visualInspection": "current and future sections are separated; startup, three main navigation screens, entry, result, battle reference drawer, confirmation, recovery, and exit are visible; long copy and stacked full-width actions are labeled",
+      "adoption": "graybox_layout_candidate",
+      "unityImported": false
+    },
+    {
+      "file": "screens-and-popups.png",
+      "bytes": 391564,
+      "sha256": "3b9c203123a7db69d40ecbc6d2345bc629a60c31648af64cb59002b51d822e0c",
+      "width": 2400,
+      "height": 1900,
+      "colorMode": "RGB",
+      "mimeType": "image/png",
+      "alpha": false,
+      "purpose": "raster acceptance preview corresponding to screens-and-popups.svg",
+      "source": "rsvg-convert 2.60.0 from same-name final SVG",
+      "visualInspection": "opened at original size; no edge crop or overlap; ReferenceInfoDrawer does not cover the board; recovery and mobile-data actions are full-width stacked; future capacity is not presented as current implementation",
+      "adoption": "graybox_layout_candidate",
+      "unityImported": false
+    }
+  ],
+  "selfHash": {
+    "file": "asset-register.json",
+    "included": false,
+    "reason": "a manifest cannot contain its own final cryptographic hash without changing that hash"
+  },
+  "deliveryFiles": [
+    "README.md",
+    "battle-540x960.svg",
+    "battle-540x960.png",
+    "battle-1080x2400.svg",
+    "battle-1080x2400.png",
+    "screens-and-popups.svg",
+    "screens-and-popups.png",
+    "asset-register.json"
+  ]
+}

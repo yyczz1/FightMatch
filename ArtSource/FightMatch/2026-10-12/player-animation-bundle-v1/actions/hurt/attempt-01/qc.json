@@ -1,0 +1,266 @@
+{
+  "action": "hurt",
+  "status": "AUTHOR_SELF_CHECK_COMPLETE",
+  "imagegen_call_id": "exec-11d7f6e8-19e6-48fd-9bdb-ce9afe043325",
+  "imagegen_original": "/Users/elliotyip/.codex/generated_images/01a1309d-5731-77a3-b547-ca9b812bcc02/exec-11d7f6e8-19e6-48fd-9bdb-ce9afe043325.png",
+  "author_task": "/root/player_reactions",
+  "author_thread": "01a1309d-5731-77a3-b547-ca9b812bcc02",
+  "bundle_owner_thread": "01a12f4d-81d7-7602-929a-75c94729f23b",
+  "host": "local",
+  "strict_thresholds": {
+    "profile_drift": 0.08,
+    "body_scale_cv": 0.08,
+    "anchor_y_std": 0.05
+  },
+  "processor_strict_pass": true,
+  "processor_qc_unmodified": {
+    "frame_count": 4,
+    "valid_frame_count": 4,
+    "empty_count": 0,
+    "edge_touch_count": 0,
+    "paste_clamped_count": 0,
+    "body_scale_mean": 0.4533153620124437,
+    "output_subject_height_mean": 101.25,
+    "body_scale_cv": 0.004217088061285203,
+    "anchor_x_std": 0.016210526850072293,
+    "anchor_y_std": 0.0006995358673541304,
+    "anchor_y_mean": 0.8097738287560582,
+    "profile_body_scale_drift": 0.0027095032346495795
+  },
+  "processor_profile_unmodified_sha256": "50358e3a70f0dd3fe9d3c69f8fa57aec5a9f70b0e2339c26fdf0223045a7e271",
+  "alpha_threshold": 128,
+  "palette": "../../references/palette.json",
+  "quantization": "nearest RGB squared distance, no dither",
+  "frames": [
+    {
+      "frame": 1,
+      "duration_ms": 80,
+      "bbox": [
+        28,
+        13,
+        107,
+        116
+      ],
+      "opaque_color_count": 16,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "opaque_pixel_count": 4576,
+      "postprocessor_translation": [
+        4,
+        -1
+      ],
+      "shared_raw_to_output_scale": 0.23586516853932585,
+      "ground_contact_y": 115,
+      "edge_touch": false
+    },
+    {
+      "frame": 2,
+      "duration_ms": 110,
+      "bbox": [
+        16,
+        18,
+        99,
+        116
+      ],
+      "opaque_color_count": 16,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "opaque_pixel_count": 4401,
+      "postprocessor_translation": [
+        -6,
+        -1
+      ],
+      "shared_raw_to_output_scale": 0.23586516853932585,
+      "ground_contact_y": 115,
+      "edge_touch": false
+    },
+    {
+      "frame": 3,
+      "duration_ms": 140,
+      "bbox": [
+        29,
+        16,
+        102,
+        116
+      ],
+      "opaque_color_count": 16,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "opaque_pixel_count": 4354,
+      "postprocessor_translation": [
+        2,
+        -1
+      ],
+      "shared_raw_to_output_scale": 0.23586516853932585,
+      "ground_contact_y": 115,
+      "edge_touch": false
+    },
+    {
+      "frame": 4,
+      "duration_ms": 170,
+      "bbox": [
+        29,
+        12,
+        100,
+        116
+      ],
+      "opaque_color_count": 16,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "opaque_pixel_count": 4292,
+      "postprocessor_translation": [
+        0,
+        -1
+      ],
+      "shared_raw_to_output_scale": 0.23586516853932585,
+      "ground_contact_y": 115,
+      "edge_touch": false
+    }
+  ],
+  "same_scale_every_frame": true,
+  "fixed_canvas_and_root": true,
+  "postprocessor_note": "No per-frame rescaling. Shared profile fit used unchanged. Horizontal integer translation preserves raw cell center as common x=64 root instead of bbox center. Hurt alone uses one uniform y=-1 calibration; movement/death quantized contact already y=115. No final frame crop.",
+  "exception": null,
+  "roundtrip_pending": false,
+  "visual_review_pending": false,
+  "roundtrip": {
+    "method": "mcp__aseprite__export_spritesheet horizontal; deterministic 128x128 split; full RGBA array comparison including hidden transparent RGB",
+    "frame_rgba_exact": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "duration_ms_exact": [
+      80,
+      110,
+      140,
+      170
+    ],
+    "all_exact": true,
+    "exported_png_sha256": "1abdc57c39cdb2d403a2ef1dbe66ae2ad92a2f1177c51b460efcdbfb58334b1c"
+  },
+  "gif_checks": {
+    "transparent": {
+      "frames": 4,
+      "decoded_rgba_matches_expected": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "duration_ms": [
+        80,
+        110,
+        140,
+        170
+      ],
+      "disposal_methods": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "loop_extension": null,
+      "no_trails": true
+    },
+    "cream": {
+      "frames": 4,
+      "decoded_rgba_matches_expected": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "duration_ms": [
+        80,
+        110,
+        140,
+        170
+      ],
+      "disposal_methods": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "loop_extension": null,
+      "no_trails": true
+    },
+    "dark": {
+      "frames": 4,
+      "decoded_rgba_matches_expected": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "duration_ms": [
+        80,
+        110,
+        140,
+        170
+      ],
+      "disposal_methods": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "loop_extension": null,
+      "no_trails": true
+    }
+  },
+  "visual_review": {
+    "reviewer": "/root/player_reactions",
+    "method": "Actually viewed full generated raw, processed complete keyposes, and decoded GIF contact sheets for all frames on transparent, cream and dark backgrounds.",
+    "all_frame_indices": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "observations": [
+      "Frames 1-2 show a chest/shoulder hit followed by backward spinal recoil; frame 3 transfers weight into bent knees; frame 4 visibly recovers battle stance.",
+      "Sword, shield, face, hair, clothing and boots remain coherent through all four poses."
+    ],
+    "no_visible_detached_body_equipment": true,
+    "no_visible_crop_or_clamp": true,
+    "not_in_game_or_device_acceptance": true
+  },
+  "user_visual_review": "PENDING",
+  "import_status": "NOT_IMPORTED",
+  "lead_acceptance": "PENDING",
+  "delivery_checks": {
+    "frame_count": 4,
+    "binary_alpha": true,
+    "max_opaque_colors": 16,
+    "ground_y_all": [
+      115
+    ],
+    "edge_touch_count": 0,
+    "paste_clamp_count": 0,
+    "empty_frame_count": 0,
+    "all_rgba_roundtrip_exact": true,
+    "gif_set_count": 3
+  },
+  "reference_master_bbox": [
+    29,
+    14,
+    99,
+    116
+  ],
+  "preview_sha256": {
+    "preview-cream-6x.gif": "aacf64f3fe7a5352a32e6c9d4ca6efca2fec978de75a0c3cddcbb5bf15945543",
+    "preview-transparent-6x.gif": "0581e1c9aae5130488625f222b803c797ee36d962b0c024bbc2d534696b6ff3d",
+    "preview-dark-6x.gif": "36e2368c294b2149f861dadfff0ff2d07aee9ce128de5be39e9a5c5c05e53a62"
+  }
+}

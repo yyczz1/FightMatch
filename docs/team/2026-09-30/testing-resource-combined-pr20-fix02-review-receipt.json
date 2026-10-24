@@ -1,0 +1,149 @@
+{
+  "receipt": "RESOURCE-COMBINED-VALIDATION-001-PR20-FIX02-GITHUB-REVIEW-QA",
+  "date": "2026-10-08",
+  "receiver": {
+    "role": "testing lead",
+    "thread": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+    "host": "local",
+    "actualTurn": "01a118b1-f669-7282-8446-c713269c3c9d",
+    "completionReceiver": "Central coordinator; no upstream message sent"
+  },
+  "authority": "Central PR20 FIX02 GitHub review receipt delegation under standing team workflow",
+  "pullRequest": "https://github.com/yyczz1/FightMatch/pull/20",
+  "candidate": {
+    "head": "5f43b7a8cdff0795ad91b342deb5d566be38da0f",
+    "parent": "0e83cf66e5167cbc54207b7efbc9525df5d35e99",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "branch": "codex/resource-combined-validation-v01",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "publication": {
+    "receipt": "docs/team/2026-09-30/resource-combined-v01-fix02-publication-receipt.json",
+    "bytes": 8036,
+    "sha256": "e39d64b9b4075d8831eac67fd1b22cbf566f43a06272dbfb9fe44ba519d437bb",
+    "verifiedBlobs": 17,
+    "changedPaths": 9,
+    "mechanicalChecks": {
+      "fixedReferences": 30,
+      "original138NamesPresent": true,
+      "unchangedFunctionAstMatches": 45,
+      "exactDiff": true,
+      "onlyApprovedThreeInputFieldsChanged": true
+    },
+    "nativeRuns": 0,
+    "integrationVerdict": null
+  },
+  "review": {
+    "triggerComment": {
+      "id": 6048901530,
+      "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048901530",
+      "author": "yyczz1",
+      "reposted": false,
+      "body": "@codex review\n\nReview corrected head 5f43b7a8cdff0795ad91b342deb5d566be38da0f against previous head 0e83cf66e5167cbc54207b7efbc9525df5d35e99. FIX02 addresses P1 4212896382/4212896391 with in-loop/chunk deadline checks and reserved finalization. Overall cap stays 900 seconds. Receipt/stdout are provisional until externally observed exit0, exact receipt hash and full elapsed verification. Targeted red plus 158/158 offline checks are preserved; no native run or activation occurred. Please review the current source and correction delta. Existing finding threads remain historical/unresolved until assessed; no automatic resolution or local duplicate review was performed."
+    },
+    "completion": {
+      "summaryCommentId": 6048274217,
+      "summaryStatus": "COMPLETED",
+      "completedAtUtc": "2026-10-07T23:29:31.304225Z",
+      "summaryCommit": "5f43b7a",
+      "resultComment": {
+        "id": 6048937458,
+        "url": "https://github.com/yyczz1/FightMatch/pull/20#issuecomment-6048937458",
+        "author": "chatgpt-codex-connector[bot]",
+        "body": "Codex Review: Didn't find any major issues. Delightful!\n\n**Reviewed commit:** `5f43b7a8cd`",
+        "reviewedCommitFromBody": "5f43b7a8cd",
+        "reviewedCommitMatchesFullHead": true
+      }
+    },
+    "formalReviewSubmissions": {
+      "forCurrentHead": [],
+      "priorSubmissions": [
+        {
+          "id": "PRR_kwDOTDyjrM8AAAABRM1e9g",
+          "state": "COMMENTED",
+          "submittedAt": "2026-10-07T22:39:01Z",
+          "reviewedCommitFromBody": "8e47895761"
+        },
+        {
+          "id": "PRR_kwDOTDyjrM8AAAABRM_uaA",
+          "state": "COMMENTED",
+          "submittedAt": "2026-10-07T23:00:53Z",
+          "reviewedCommitFromBody": "0e83cf66e5"
+        }
+      ],
+      "formalApproval": false,
+      "interpretation": "The FIX02 outcome is a top-level issue comment; no formal review submission exists for the FIX02 head. The review submission identifiers above are separate older COMMENTED submissions."
+    },
+    "currentHeadFindings": [],
+    "priorFindingThreadStates": [
+      {
+        "commentId": 4212752227,
+        "commentNodeId": "PRRC_kwDOTDyjrM77GX9j",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212752227",
+        "threadId": "PRRT_kwDOTDyjrM6qH91Y",
+        "priority": "P1",
+        "title": "Reserve the global deadline for process cleanup",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "originalLine": 36,
+        "resolved": false,
+        "outdated": false,
+        "status": "UNRESOLVED_AND_CURRENT",
+        "originalText": "When the 900-second budget expires while I or T is still running, this cap makes every `ps`/`details` probe in `closure()` fail immediately; the TERM loop then has no remaining time, `closure_closed` stays false, and restoration is refused, leaving owned Unity processes and the synchronized/parked projection state behind. This is reachable because preparation is subtracted from the deadline and the maximum stage, closure, and restore allowances leave little or no time for preflight, synchronization, and evidence collection. Reserve closure/restoration time before launching each stage, or permit bounded cleanup probes after the execution deadline while still reporting the run as timed out."
+      },
+      {
+        "commentId": 4212896382,
+        "commentNodeId": "PRRC_kwDOTDyjrM77G7J-",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896382",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1L",
+        "priority": "P1",
+        "title": "Bound scans before they enter the cleanup reserve",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "originalLine": 36,
+        "resolved": false,
+        "outdated": false,
+        "status": "UNRESOLVED_AND_CURRENT",
+        "originalText": "Fresh evidence in the corrected head shows that `probe_timeout()` only bounds subprocess probes; it does not bound the synchronous filesystem work that follows a successful check. For example, `monitor()` enters `resources()` and `projection_guard()` after checking this deadline, and those functions recursively scan/hash the projection and external caches without rechecking it. If one of those scans starts just before `work_deadline` on a slow or stalled external volume, it can cross the reserved 150 seconds while Unity is still live, so `closure()` again starts with insufficient TERM/restoration time. Add deadline checks within the long scans or reserve a bounded worst-case allowance before entering them."
+      },
+      {
+        "commentId": 4212896391,
+        "commentNodeId": "PRRC_kwDOTDyjrM77G7KH",
+        "discussionUrl": "https://github.com/yyczz1/FightMatch/pull/20#discussion_r4212896391",
+        "threadId": "PRRT_kwDOTDyjrM6qIT1R",
+        "priority": "P1",
+        "title": "Reserve time for final evidence and receipt emission",
+        "path": "docs/versioning/2026-10-08-resource-combined-validation/runner.py",
+        "originalLine": 824,
+        "resolved": false,
+        "outdated": true,
+        "status": "UNRESOLVED_AND_OUTDATED",
+        "originalText": "This formula reserves exactly 90 seconds for closure and 60 seconds for restoration, but no time for the mandatory work after restoration. When T and cleanup consume their full allocations, `restore_all()` can finish at `execution_deadline`; `main()` then still writes `compile.json`, `after.json`, `process-after.json`, hashes every evidence file, and writes `receipt.json` without another deadline check. The run therefore exceeds the unchanged 900-second cap while retaining `TEST_PASS`, and `mechanicalExecutionSeconds` is evaluated before the evidence hashing and receipt write, so the receipt also underreports the overrun. Reserve finalization time inside the cap or make exceeding the deadline fail the run."
+      }
+    ],
+    "classification": "COMMENTED_NO_MAJOR_ISSUES; NO_CURRENT_FORMAL_REVIEW_SUBMISSION; NOT_APPROVED",
+    "integrationVerdict": null
+  },
+  "githubSnapshot": {
+    "snapshotHead": "5f43b7a8cdff0795ad91b342deb5d566be38da0f",
+    "base": "dc1bba0537779983647f5e261f8e1c33a1210a49",
+    "prState": "OPEN_DRAFT",
+    "triggerCommentId": 6048901530,
+    "summaryCommentId": 6048274217,
+    "resultCommentId": 6048937458,
+    "reviewsListed": 2,
+    "currentHeadInlineFindings": 0,
+    "historicalP1Threads": 3,
+    "historicalP1ThreadsResolved": 0,
+    "historicalP1ThreadsOutdated": 1
+  },
+  "method": {
+    "source": "GitHub PR metadata, issue comments, review submissions and inline review threads; FIX02 publication receipt read locally",
+    "newTrigger": false,
+    "localCodeReview": false,
+    "testsRun": false,
+    "unityRun": false,
+    "githubWrite": false,
+    "writes": "Only this new receipt"
+  }
+}

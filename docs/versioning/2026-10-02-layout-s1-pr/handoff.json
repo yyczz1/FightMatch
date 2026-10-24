@@ -1,0 +1,140 @@
+{
+  "contract": "LAYOUT-S1-SYS-001",
+  "gate": "S",
+  "sourceWritingStarted": true,
+  "atUtc": "2026-10-02T02:23:29.953305+00:00",
+  "executor": {
+    "thread": "01a0e404-d89d-7ab2-bece-3cd1df3fbc52",
+    "host": "local",
+    "turn": "01a0fa6a-62bb-7c32-b577-4d268818b774",
+    "requestedModel": "gpt-6-astra",
+    "requestedEffort": "xhigh"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0fa69-024a-75d3-9301-b4f493f39a45"
+  },
+  "priorWriterHandoff": {
+    "owner": "Same C executor; prior functionality and LOC S1 deliveries are frozen, not discarded.",
+    "functionalTurn": "01a0f716-4e51-70e1-aa99-94eedbdce874",
+    "functionalReceipt": "TestArtifacts/FightMatch/UGUI-01/q4-correction-22/final-receipt.json",
+    "lastCompletedTurn": "01a0f71f-8a14-7bf3-afcb-e92eac92bdf9",
+    "lastCompletedUnixSeconds": 1790853847,
+    "stoppedWritingObservedUtc": "2026-10-02 02:11:53 UTC",
+    "observation": "read_thread returned C idle and last turn completed; this is a stopped-state observation, not a claim about the exact last file-write timestamp.",
+    "transfer": "Only the immutable sourceScope listed in inputs-001.json transfers to the new C turn. Other WIP and historical evidence stay owned and frozen; no reset/stash/overwrite."
+  },
+  "release": "docs/team/2026-09-30/engineering-ugui-layout-source-release-001.json",
+  "verifiedContractHashes": {
+    "engineering-ugui-layout-source-release-001.json": "c03d92acf0aca43860c30d90f8b1dea1d16f3300798b561bbf8aaa8f5a74743b",
+    "engineering-ugui-layout-source-activation-001.json": "8c9dc75f4d9adcc61d9eea3a2f18ea195ebd186d7303581e5ba6d85577ca489f",
+    "engineering-ugui-layout-source-hold-001.json": "b418dba81bd365d4787efc3c3ced7a14f63dc281a8862f7064bc59112d356aaf",
+    "engineering-ugui-layout-source-activation-system-001.md": "3220629d60fdb279e9328353d5a90156f0abc66415cf24bf1e6da42d4beba06d",
+    "engineering-ugui-layout-source-activation-inputs-001.json": "5a2f1394e2b6fe03fdeaf7cb4d4a54a23f5b6f493d33b4dcf430e31f899a690d",
+    "engineering-ugui-layout-source-activation-architecture-001.md": "83a359f352cbc0ab953ab25179f6378529ec5334fc338e9e25419d8b0b5c7f84"
+  },
+  "scope": [
+    {
+      "path": "Assets/Scripts/FightMatch/Host/Editor/FightMatchAndroidBuild.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 1800
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Host/FightMatchHostView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 300
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerBattleView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 700
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerDefaultReferenceView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 160
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/PlayerNavigationRecoveryView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 450
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBoardInputView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 650
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/CandidateBattlePlaybackView.cs",
+      "action": "modify",
+      "required": true,
+      "maxAddedPlusDeletedLines": 320
+    },
+    {
+      "path": "Assets/Scripts/FightMatch/Presentation/FightMatchResponsiveLayout.cs",
+      "action": "create",
+      "required": true,
+      "maxAddedPlusDeletedLines": 650
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiResponsiveLayoutTests.cs",
+      "action": "create",
+      "required": true,
+      "maxAddedPlusDeletedLines": 1400
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBoardInputTestData.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 550
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerNavigationTestFixture.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 180
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/PlayerBattlePresentationTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 200
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/CandidateBattlePlaybackPanelTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 180
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/UguiSceneCompositionTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 180
+    },
+    {
+      "path": "Assets/Tests/EditMode/FightMatch/LocalizedTextBindingTests.cs",
+      "action": "modify",
+      "required": false,
+      "maxAddedPlusDeletedLines": 120
+    }
+  ],
+  "evidenceFiles": [
+    "handoff.json",
+    "before.json",
+    "after.json",
+    "static-checks.json",
+    "source-receipt.json",
+    "source.patch"
+  ],
+  "preflight": "before.json",
+  "newSourceAndMetaAbsenceVerified": true,
+  "receiptLabel": "SOURCE_READY; UNCOMPILED, UNIMPORTED, OLD_PREFAB_NOT_MIGRATED, NOT_PLAYABLE_CANDIDATE"
+}

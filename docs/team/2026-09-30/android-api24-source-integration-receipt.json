@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "owner": {
+    "role": "central coordinator",
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local"
+  },
+  "scope": "ANDROID-API24 PR1-based source stage only",
+  "integrationVerdict": "ACCEPT",
+  "head": "53b4863698d0789148d3fbf0af5dff3846df4260",
+  "base": "3541930877837e14b58020b910976b8b67b56e42",
+  "tree": "062e9b1499645b9bb439aebd0ce50af8c4ee39c5",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/15",
+  "independentReview": {
+    "summaryComment": 5967996412,
+    "resultComment": 5968019358,
+    "result": "No major issues reported",
+    "formalApproval": false,
+    "qaReceipt": "testing-android-api24-pr15-review-receipt.json",
+    "qaSha256": "fb1a75e2c9f5fa85ec77197bcdc17c65a1de410f6680edb8f789cef207a30b9e",
+    "actualQaTurnObservedByCentral": "01a10132-a382-72d1-8206-1d4deeb143d3",
+    "qaTurnNote": "Original QA receipt says exact turn unavailable; preserved unchanged. Central observed this turn through wait_threads."
+  },
+  "validation": {
+    "kind": "existing source static checks; no rerun",
+    "passed": 40,
+    "total": 40,
+    "sourceReceiptSha256": "66dd6bd8a812986d515a1558f5bbcc3ce0674b31e6eb6b185ec15bf5f22ec084",
+    "finalRun": 1,
+    "additionalRuns": 0,
+    "productDelta": "+4/-3 across two files",
+    "sharedProductFilesUnchanged": true,
+    "localHead": "125b849be13fe2ebf5b1185f3cdb83d19c6327ef",
+    "publicationTreeVerification": {
+      "baseFiles": 1735,
+      "files": 1756,
+      "changed": 2,
+      "added": 21,
+      "untouched": 1733
+    }
+  },
+  "preservedFailures": [
+    "Initial wrong prior-receipt identity",
+    "FIX01 manually transcribed digest and extra-LF copies",
+    "FIX02 patch replay bytes/str mismatch"
+  ],
+  "notAccepted": [
+    "Shared source or ProjectSettings adoption",
+    "Unity import/compile and settings save/reopen",
+    "QA and normal APK builds and manifest checks",
+    "Android device compatibility or Google Play release readiness",
+    "Complete Demo acceptance"
+  ]
+}

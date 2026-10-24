@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "task": "LOC-M17-M11",
+  "integrationVerdict": "NEEDS_FIX",
+  "scope": "M_NATIVE",
+  "authority": "central-loc-m11-approval-2026-10-12.json",
+  "owner": {
+    "hostId": "local",
+    "receivedItem": "fco_01a12fee-8ca1-7c01-bbef-6950d7c1a8eb",
+    "threadId": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a",
+    "turnId": "01a12fee-8c94-7a01-944a-13a3c4de81e3"
+  },
+  "actualToolId": "exec-98056bdf-a6e4-4c95-9c06-7c79ad25e4de",
+  "originalToolComparison": "Exact match including complete command and output",
+  "fullInvocationSeconds": 127.41023558299639,
+  "hostExitCode": 1,
+  "hostStartCount": 1,
+  "restoreResults": [
+    {
+      "id": "M-runner-generation-restore",
+      "started": true,
+      "exitCode": 0,
+      "seconds": 6.523466415994335
+    },
+    {
+      "id": "M-tests-generation-restore",
+      "started": false
+    },
+    {
+      "id": "M-tests-verification-restore",
+      "started": false
+    }
+  ],
+  "failure": "GateError: lock NuGet contentHash mismatch",
+  "newDownloads": 0,
+  "protectedCount": 312,
+  "protectedChanges": [],
+  "knownProcessQuiescent": true,
+  "stillOwned": [],
+  "manifest": null,
+  "receipt": "TestArtifacts/FightMatch/LOC-LIC-ALT-M/loc-lic-alt-yamldotnet-16.3.0-m17-m11/receipt.json",
+  "next": "Await user decision on bounded source size adjustment; no new native execution is authorized.",
+  "independentReview": "FIX08 source-only GitHub review retained; cannot establish material acceptance",
+  "diagnosis": "engineering-loc-m11-diagnosis.md",
+  "confirmedCause": "Archive full-file SHA512 was incorrectly used as NuGet contentHash; the first failed package is Newtonsoft.Json.Bson 1.0.3. Fixed original/feed/cache archive bytes match.",
+  "sourceCorrection": {
+    "status": "BLOCKED_BY_DRIVER_SIZE_LIMIT",
+    "engineeringTurn": "01a12ff8-8a7a-7d03-b812-034f9caa09ab",
+    "locTurn": "01a13000-142a-7681-9540-9f6227d41b50",
+    "currentLimitBytes": 278528,
+    "measuredNecessarySubsetBytes": 278847,
+    "minimumOverageBytes": 319,
+    "measurementIsCompleteCandidate": false,
+    "patchReceipt": "loc-m17-fix09-command-receipt.json",
+    "staticChecksRun": 0,
+    "sealRuns": 0,
+    "driverWritten": false,
+    "smallerImplementation": "Engineering checked once; no obvious direct simplification retained all protection within the limit."
+  },
+  "approvalBoundary": {
+    "actionRejected": "Dispatch raising FIX09 driver limit from 272 KiB to 276 KiB",
+    "reason": "Automatic approval review required separate user authorization for expanding the approved contract.",
+    "retryAttempted": false,
+    "proposedDriverMaxBytes": 286720,
+    "proposalOnly": true,
+    "otherBudgetsUnchanged": true,
+    "futureNativeExecution": "Fresh one-run authorization required; the proposed scope remains zero downloads, external disk, at most three restores, full invocation <=900 seconds, after source checks and exact-head GitHub review."
+  }
+}

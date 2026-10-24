@@ -1,0 +1,35 @@
+{
+  "packet": "HOST-INTEGRATE-001/I01-FIX04 source",
+  "date": "2026-10-08",
+  "integrationVerdict": "NEEDS_FIX",
+  "reviewedHead": "e30b9f25facdc35d9ec3ef1d08b2a5fae26bc198",
+  "reviewUrl": "https://github.com/yyczz1/FightMatch/pull/18#pullrequestreview-5448246182",
+  "receipt": {
+    "path": "docs/team/2026-09-30/testing-host-integrate-pr18-fix04-review-receipt.json",
+    "bytes": 8414,
+    "sha256": "474258d132ffec857c5fbe943040a6797ab38a9fb2c3c775b0f06f5aeba5d3c9",
+    "actualTurn": "01a11823-5862-7543-9d6e-c423a15079c1",
+    "completedCursor": "d428637c-be57-4a2f-a91b-487d584ce4c7:83"
+  },
+  "findings": [
+    {
+      "id": 4211887116,
+      "priority": "P1",
+      "issue": "Preserve concurrent values while parking/archiving projection files"
+    },
+    {
+      "id": 4211887126,
+      "priority": "P1",
+      "issue": "Bound TERM authorization and confirmation by an absolute shutdown deadline"
+    }
+  ],
+  "validationPreserved": {
+    "redPassed": 66,
+    "greenPassed": 80,
+    "total": 80,
+    "offlineSeconds": 5.97325137500593,
+    "fix04NativeRuns": 0
+  },
+  "originalNative": "FAILED; recovery independently confirmed",
+  "next": "FIX05 source-only corrections; no new Unity"
+}

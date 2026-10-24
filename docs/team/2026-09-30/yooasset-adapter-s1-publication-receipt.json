@@ -1,0 +1,48 @@
+{
+  "task": "RES-B-ADAPTER-S1-PUBLICATION",
+  "status": "PUBLISHED_REVIEW_AND_NATIVE_PENDING",
+  "owner": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+  "pr": "https://github.com/yyczz1/FightMatch/pull/9",
+  "branch": "codex/yooasset-adapter-s1",
+  "head": "5e70957df7db1caab56e3908621a295bcb58a1ce",
+  "tree": "ddaec00c4735c6530b7f741e45b7fd33a0068771",
+  "base": "4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8",
+  "parent": "4d81378556d27dfe2f8e445d3c2ce59d7a4e61c8",
+  "sourceReceipt": {
+    "path": "TestArtifacts/FightMatch/RES-B-ADAPTER-001/S/source-receipt.json",
+    "bytes": 15735,
+    "sha256": "41d012724da25235d93712445b991274e522d7d230b9e2d89dab84c4030d9fea"
+  },
+  "publicationManifest": "docs/versioning/2026-10-03-yooasset-adapter-pr/publication-manifest.json",
+  "checks": {
+    "uploadedBlobs": 15,
+    "wholeTreeBlobs": 1771,
+    "productDeltaPaths": 6,
+    "existingProductUpdates": [
+      "Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef"
+    ],
+    "existingPreimageBlob": "82c7fb2423cfe7377866e757c90143f990db484e",
+    "allOtherBaseBlobsPreserved": true,
+    "singleParentVerified": true,
+    "prHeadBaseBodyReadback": true,
+    "draft": true,
+    "merged": false,
+    "localGitMutations": 0,
+    "sharedProductMutations": 0
+  },
+  "review": {
+    "initialComments": 0,
+    "trigger": {
+      "id": 5962583480
+    }
+  },
+  "verification": "Source only: 132 mechanical checks; 20 new plus 11 existing static names, not yet discovered/run. Unique C verification is owned/received by engineering.",
+  "preparationErratum": "An initial local preimage-check literal contained an extra character and rejected the check before any upload. It was corrected to the actual fixed PR6/PR8 blob 82c7fb2423cfe7377866e757c90143f990db484e; candidate source bytes were unchanged.",
+  "remaining": [
+    "GitHub new-head review",
+    "actual SDK compile and focused suite",
+    "natural metadata receipt",
+    "real built-in resource smoke/Host/Android/device",
+    "shared adoption"
+  ]
+}

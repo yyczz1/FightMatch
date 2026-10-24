@@ -1,0 +1,91 @@
+{
+  "receipt": "RES-CD-JOINT-MAC-001",
+  "date": "2026-10-03",
+  "verdict": "ACCEPT",
+  "scope": "Fixed composite native validation only; separate module gates, not a single PR head or full delivery acceptance.",
+  "execution": {
+    "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "ownerHost": "local",
+    "ownerTurn": "01a0ffa1-e461-7d31-a202-783a04d43b46",
+    "evidenceRoot": "TestArtifacts/FightMatch/RES-CD-JOINT-001/M01",
+    "rootReceiptBytes": 46585,
+    "rootReceiptSha256": "cc0745a765cf2a8261036251c308d4d526b3762700e0aec9680130cbe01da60c",
+    "xml": {
+      "path": "TestArtifacts/FightMatch/RES-CD-JOINT-001/M01/T/results.xml",
+      "bytes": 15849,
+      "sha256": "0ae94cd80ab454a291af1f8acc2ad8a4ef394cf7a5c3370d8c2c6f488290e63d",
+      "total": 23,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "durationSeconds": 2.4017968
+    },
+    "stages": [
+      {"id": "I", "status": "PASSED", "pid": 68990, "exitCode": 0, "elapsedSeconds": 82.716119, "runs": 1},
+      {"id": "T", "status": "PASSED", "pid": 69391, "exitCode": 0, "elapsedSeconds": 22.124375, "runs": 1}
+    ],
+    "cleanup": {
+      "remainingOwnedProcesses": [],
+      "consumerGate": "CLEAR",
+      "originalAdbPid63318": "ABSENT",
+      "termIdentityRematched": true,
+      "termSignals": 1
+    }
+  },
+  "modules": {
+    "D_FIX02": {
+      "verdict": "ACCEPT",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "sourceReceipt": "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S/source-receipt.json",
+      "sourceReceiptSha256": "145c30289c4a8dedb6bdb8381eb4645853dec3307bad8dc4e09b2a372c8339db",
+      "sourceIdentities": {
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": "1dcd1288125b2c1f2ed26d6be9a4cfdd28ae59ae024e584b1b7a42137cc6061a",
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs": "e2fc16d89145bf7f502426545f1a6d0bf0b822adcc45db89842d0dc89ded5842"
+      },
+      "publishedReviewHead": "0377c31fef0a0bc08478175c6a22667bb21c8b73",
+      "reviewTree": "bffe603ff99400d79b4c9791314f227242fcad13"
+    },
+    "C_CONTRACT": {
+      "verdict": "ACCEPT",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "sourceReceipt": "TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/source-receipt.json",
+      "sourceReceiptSha256": "bfca5fe3550f4f25198595de9bdc3368acbdac3122b704820ff365b8b6e5e2f2",
+      "sourceIdentities": {
+        "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": "18d5695eef979e549581fc737b0fc25753de2cd47c8ebca06be0a4e428b6663c",
+        "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": "ffd0e2df85720ca23a812a2fde3808225eb17973fb4b252f5a632ef4947b2b78"
+      },
+      "originalReviewHead": null,
+      "note": "Preserved as recorded in the source receipt; this validation does not assign a C PR head."
+    }
+  },
+  "protectionAndScope": {
+    "projectionFrozenInputsUnchanged": true,
+    "naturalMetadataFiles": 2,
+    "uniqueGuids": 531,
+    "packageNodes": 53,
+    "formalAsmdefs": 7,
+    "priorM02Unchanged": true,
+    "sharedLeavesUnchanged": 1089,
+    "HSCAndSourceSUnchanged": true,
+    "scopeDifferences": [],
+    "evidenceSource": "TestArtifacts/FightMatch/RES-CD-JOINT-001/M01/after.json"
+  },
+  "notAcceptedByThisReceipt": [
+    "A single combined PR/head or author integration verdict",
+    "Real BuiltIn manifests/object dependencies, offline cache or raw-resource acceptance",
+    "CD/Host/UI integration, Player build, Windows, Android, or device acceptance",
+    "B38, old37/17, 4181, whole-PR or shared adoption gates"
+  ],
+  "reviewAndValidationBoundary": "This is native evidence intake, not a code review or a rerun. Prior independent D FIX02 review status and unresolved review findings remain tracked separately.",
+  "writes": [
+    "docs/team/2026-09-30/testing-resource-cd-joint-m01-receipt.json",
+    "docs/team/2026-09-30/testing.md"
+  ]
+}

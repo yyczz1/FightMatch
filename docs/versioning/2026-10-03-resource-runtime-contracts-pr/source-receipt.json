@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "packet": "RES-C-CONTRACT-001",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0ff4d-c65b-7941-9245-8e6aed391278"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0ff48-b368-70c2-8516-efaa5747a1f5"
+  },
+  "authority": "User AGENTS section 6 and explicit central C-CONTRACT approval; engineering transfers sole source ownership after completed D turn 01a0ff2b-45da-76b2-8ad0-d6bda9320ae4. Activation message replaces contract old issuer turn without editing frozen contract.",
+  "dispatch_model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh"
+  },
+  "model_evidence_note": "Issuer dispatch policy only; this verifier does not measure execution model.",
+  "status": [
+    "SOURCE_READY",
+    "UNCOMPILED",
+    "UNTESTED",
+    "REVIEW_PENDING"
+  ],
+  "scope": [
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+    "before.json",
+    "after.json",
+    "source.patch",
+    "verify.py",
+    "static-checks.json",
+    "source-receipt.json"
+  ],
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs": {
+      "type": "regular_file",
+      "bytes": 16451,
+      "sha256": "18d5695eef979e549581fc737b0fc25753de2cd47c8ebca06be0a4e428b6663c",
+      "physical_lines": 324
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs": {
+      "type": "regular_file",
+      "bytes": 26749,
+      "sha256": "ffd0e2df85720ca23a812a2fde3808225eb17973fb4b252f5a632ef4947b2b78",
+      "physical_lines": 394
+    }
+  },
+  "immutable_artifacts": {
+    "before.json": {
+      "type": "regular_file",
+      "bytes": 14885,
+      "sha256": "1de5c2ff03a85b66b3766e5c20d928e894aa610242a22a0aa6db2b89f2754dbc"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 44151,
+      "sha256": "0236425d2799787651c4838e665d3ba63e650344c9c066ce8f0e9fb52fb33747"
+    },
+    "verify.py": {
+      "type": "regular_file",
+      "bytes": 22854,
+      "sha256": "38baa30b7505ef207327aa08f2e6de55fc34b115318b63d3383f0c6e045d2d2e"
+    }
+  },
+  "frozen_stages": {
+    "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+        "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 21906,
+        "sha256": "b422bc2f2777e103ec9015ef67ac2daace91a3f70a6b007a51d58abbbaab97f4"
+      },
+      "unchanged": true
+    },
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/S": {
+      "leaves": [
+        "after.json",
+        "before.json",
+        "source-receipt.json",
+        "source.patch",
+        "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+        "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+        "static-checks.json",
+        "verify.py"
+      ],
+      "receipt": {
+        "type": "regular_file",
+        "bytes": 10065,
+        "sha256": "6bc665c989731ec7c464e0d968015a57262d7eba76470a9d74761ebb89f03c12"
+      },
+      "unchanged": true
+    }
+  },
+  "budgets": {
+    "production_lines": 450,
+    "production_bytes": 65536,
+    "test_lines": 500,
+    "test_bytes": 65536,
+    "stage_bytes": 2097152,
+    "verify_seconds": 30,
+    "max_verify_runs": 3
+  },
+  "remaining_C_budget_reserved": {
+    "production_lines": 250,
+    "test_lines": 400
+  },
+  "public_surface": {
+    "namespace": "FightMatch.AssetAccess",
+    "types": [
+      [
+        "interface",
+        "IFightMatchResourceRuntime",
+        "IDisposable"
+      ],
+      [
+        "enum",
+        "ResourceNetworkKind",
+        ""
+      ],
+      [
+        "enum",
+        "ResourceTransportStage",
+        ""
+      ],
+      [
+        "enum",
+        "ResourceTransportStatus",
+        ""
+      ],
+      [
+        "enum",
+        "ResourceRuntimeDiagnosticCode",
+        ""
+      ],
+      [
+        "sealed class",
+        "ResourceRuntimeDiagnostic",
+        ""
+      ],
+      [
+        "sealed class",
+        "ResourceInspection",
+        ""
+      ],
+      [
+        "sealed class",
+        "ResourceDownloadPermit",
+        ""
+      ],
+      [
+        "sealed class",
+        "ResourceProgress",
+        ""
+      ],
+      [
+        "sealed class",
+        "ResourceTransportResult",
+        ""
+      ]
+    ],
+    "interface": [
+      "Task<ResourceInspection> InspectAsync(long epoch,CancellationToken cancellationToken);",
+      "Task<ResourceTransportResult> PrepareAsync(ResourceDownloadPermit permit,IProgress<ResourceProgress> progress,CancellationToken cancellationToken);",
+      "IFightMatchAssetProvider Assets { get; }"
+    ],
+    "enums": {
+      "ResourceNetworkKind": [
+        "Unknown",
+        "Offline",
+        "Wifi",
+        "Mobile"
+      ],
+      "ResourceTransportStage": [
+        "Inspecting",
+        "ReadyFromCache",
+        "ConsentRequired",
+        "Queued",
+        "Downloading",
+        "Verifying",
+        "StopRequested",
+        "Stopped",
+        "FailedRetryable",
+        "FailedTerminal",
+        "TransportVerified"
+      ],
+      "ResourceTransportStatus": [
+        "TransportVerified",
+        "Cancelled",
+        "Rejected"
+      ],
+      "ResourceRuntimeDiagnosticCode": [
+        "Trust",
+        "Schema",
+        "Hash",
+        "Receipt",
+        "Content",
+        "Text",
+        "Budget",
+        "Storage",
+        "Stop",
+        "Network",
+        "Consent",
+        "Stale",
+        "Asset"
+      ]
+    },
+    "properties": {
+      "ResourceRuntimeDiagnostic": "ResourceRuntimeDiagnosticCode Code;bool Retryable;FightMatchAssetDiagnostic AssetDiagnostic;string SafeCode",
+      "ResourceInspection": "bool IsAccepted;string RuntimeInstanceId;string InspectionId;string ReleaseSetId;long Epoch;long RemainingBytes;int RemainingFiles;bool RequiresNetwork;ResourceNetworkKind NetworkKind;ResourceRuntimeDiagnostic Diagnostic",
+      "ResourceDownloadPermit": "ResourceInspection Inspection;bool MobileConfirmed",
+      "ResourceProgress": "ResourceInspection Inspection;string OperationId;long CompletedBytes;int CompletedFiles;ResourceNetworkKind NetworkKind;ResourceTransportStage Stage;ResourceRuntimeDiagnostic Diagnostic;long TotalBytes;long RemainingBytes;int TotalFiles;int RemainingFiles;bool ConsentRequired;bool Retryable;string SafeCode",
+      "ResourceTransportResult": "ResourceTransportStatus Status;string RuntimeInstanceId;string OperationId;long RequestEpoch;ResourceDownloadPermit Permit;ResourceRuntimeDiagnostic Diagnostic"
+    },
+    "calls": {
+      "ResourceRuntimeDiagnostic": [
+        "ResourceRuntimeDiagnostic(ResourceRuntimeDiagnosticCode code,bool retryable,FightMatchAssetDiagnostic assetDiagnostic)"
+      ],
+      "ResourceInspection": [
+        "static ResourceInspection Accepted(string runtimeInstanceId,string inspectionId,string releaseSetId,long epoch,long remainingBytes,int remainingFiles,bool requiresNetwork,ResourceNetworkKind networkKind)",
+        "static ResourceInspection Rejected(string runtimeInstanceId,string inspectionId,long epoch,ResourceRuntimeDiagnostic diagnostic)"
+      ],
+      "ResourceDownloadPermit": [
+        "static bool TryCreate(ResourceInspection inspection,bool mobileConfirmed,out ResourceDownloadPermit permit,out ResourceRuntimeDiagnostic diagnostic)",
+        "bool Matches(ResourceInspection current)"
+      ],
+      "ResourceProgress": [
+        "ResourceProgress(ResourceInspection inspection,string operationId,long completedBytes,int completedFiles,ResourceNetworkKind networkKind,ResourceTransportStage stage,ResourceRuntimeDiagnostic diagnostic)"
+      ],
+      "ResourceTransportResult": [
+        "static ResourceTransportResult Verified(ResourceDownloadPermit permit,string operationId)",
+        "static ResourceTransportResult Cancelled(ResourceDownloadPermit permit,string operationId)",
+        "static ResourceTransportResult Rejected(string runtimeInstanceId,string operationId,long requestEpoch,ResourceRuntimeDiagnostic diagnostic)"
+      ]
+    },
+    "verification_kind": "TEXTUAL_ONLY; reflection tests authored but not executed"
+  },
+  "implementation_summary": [
+    "Pure runtime interface and immutable inspection, permit, progress, diagnostic and transport-result contracts.",
+    "Inspection identity/count/network validation, safe rejected values and per-inspection mobile permit binding.",
+    "Matches compares the full value binding; it is not a consumption ledger or proof of displayed consent.",
+    "Progress derives bounded remaining counts and diagnostic flags; result success remains transport-only.",
+    "Closed diagnostics preserve the B asset cause and retry flag without arbitrary detail strings."
+  ],
+  "implementation_choice": "Unknown/offline network-required permit rejection uses Network with Retryable=true, within the allowed closed diagnostic policy. Retry eligibility does not authorize automatic retry.",
+  "test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C01_PublicSurfaceIsPureAndFixed",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C02_InspectionIdentitiesAndEpochsAreValidated",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C03_InspectionCountsAndNetworksAreConsistent",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C04_RejectedInspectionCannotBecomePermit",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C05_MobileConsentIsBoundToEachInspection",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C06_UnknownOfflineAndLocalZeroNetworkPermits",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C07_PermitMatchesEveryBoundField",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C08_ProgressCountsStagesAndDiagnosticsAreConsistent",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C09_DiagnosticsAreClosedAndPreserveAssetCause",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeContractsTests.C10_TransportResultsRemainImmutableAndTransportOnly"
+  ],
+  "test_inventory": {
+    "planned_ordinary_tests": 10,
+    "static_named_tests": 10,
+    "discovery_or_execution_claim": false
+  },
+  "acceptance": {
+    "exact_public_surface": "TEXTUALLY_VERIFIED; reflection tests UNTESTED",
+    "identities_counts_network_and_permit_rules": "IMPLEMENTED_UNCOMPILED_UNTESTED",
+    "progress_diagnostic_and_transport_result_rules": "IMPLEMENTED_UNCOMPILED_UNTESTED",
+    "ten_boundary_and_surface_tests": "AUTHORED_UNTESTED",
+    "two_new_paths_patch_replay_and_budgets": "STATIC_VERIFIED",
+    "fixed_B_D_inputs_and_shared_guards": "STATIC_VERIFIED",
+    "real_runtime_network_stop_and_consumption": "NOT_IMPLEMENTED_NOT_RUN"
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/RES-C-CONTRACT-001/S/verify.py",
+    "kind": "STATIC_ONLY",
+    "behavior_pass_claim": false,
+    "protected_inputs": 27,
+    "shared_guards": 34,
+    "fixed_B_frozen_leaves": 15,
+    "fixed_D_frozen_leaves": 8,
+    "patch_replay": "two additions from absence equal source postimages",
+    "static_result": {
+      "type": "regular_file",
+      "bytes": 25773,
+      "sha256": "56b3cb01f00211b5cb7c5c27a3298980a21d519117304f201096de4c3839a44d"
+    },
+    "runs": 1,
+    "failed_runs_preserved": 0,
+    "passed_checks": 139,
+    "duration_seconds": 0.021792208979604766
+  },
+  "authoring_history": [
+    "An initial tool JavaScript template containing the C# backtick character failed to parse before any tool execution or write. The invocation was corrected and the intended C# character literal preserved. This was not a C# or mechanical-verifier run."
+  ],
+  "not_run": [
+    "C# compile",
+    "Unity import",
+    "NUnit discovery",
+    "10 contract tests",
+    "B 38 tests",
+    "D 12 tests",
+    "Git/network",
+    "GitHub/local code review",
+    "M04/D native evidence or active projection reads",
+    "real runtime/permit consumption/abort/network",
+    "LOC/bootstrap resources/Host/device/Android"
+  ],
+  "limitations": [
+    "Source readiness is not integration acceptance. No ACCEPT verdict or reviewer approval is claimed.",
+    "Value construction cannot prove runtime ownership, stale-epoch rejection, one-time consumption or actual user consent.",
+    "A Cancelled value cannot prove that network requests stopped; TransportVerified is not business preparation.",
+    "Inspect local-only behavior, Assets acquisition gate, idempotent Dispose, callback identity and main-thread use require later real implementation evidence.",
+    "No shared source, asmdef, meta, SDK or dependencies changed; old FIX04/M16 refusals remain unchanged."
+  ],
+  "return_path": "One completion event to engineering issuer only after seal. Engineering owns subsequent review/native dispatch. Author stops and does not start the next packet.",
+  "after": {
+    "type": "regular_file",
+    "bytes": 15117,
+    "sha256": "47ce786c5e4c5806b35d5089fa971d718e13ff1841dbff74979acb78e1012e9e"
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "packet": "RES-D-RAW-001",
+  "status": "BLOCKED",
+  "owner": {
+    "thread": "01a0fe0e-fc5e-7a53-b05c-ad014ab72f1c",
+    "host": "local",
+    "turn": "01a0ffdc-1f8d-7d61-9157-290f89c7c8ba"
+  },
+  "issuer": {
+    "thread": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b",
+    "host": "local",
+    "turn": "01a0ffd0-f0f9-7813-bfbd-db4b7fb4df42"
+  },
+  "authority": "User AGENTS section 6 and explicit central approval relayed by engineering activation. Sole source ownership transfers after completed sealed C FIX01 turn 01a0ffc8-2cab-7593-a63f-33fcb5f3dec0. The activation supersedes historical PREPARED flags, binds C FIX01 instead of old C as active input, approves SYS section 6 friend/public surface/budget and DELTA ledger. No Unity/Git/review or successor authorization.",
+  "dispatch_model_policy": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh"
+  },
+  "model_evidence_note": "Issuer policy only; this script does not measure the execution model.",
+  "scope": [
+    "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+    "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+    "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs",
+    "before.json",
+    "after.json",
+    "source.patch",
+    "verify.py",
+    "static-checks.json",
+    "source-receipt.json"
+  ],
+  "source_inventory": {
+    "Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs": {
+      "type": "regular_file",
+      "bytes": 38720,
+      "sha256": "25129b814768e39fc359a8d374cf52b735b4aac37fb269521669f3a097d9fe7a",
+      "physical_lines": 832
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs": {
+      "type": "regular_file",
+      "bytes": 19585,
+      "sha256": "a060f985709f19d9b139014e8169ca068c96425d6807d1270d13f8dd26674538",
+      "physical_lines": 373
+    },
+    "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs": {
+      "type": "regular_file",
+      "bytes": 26942,
+      "sha256": "16c4d4a9273ee9096fb6a5dc0d71b9d19abfe414d5129a559d21906b6fcd592b",
+      "physical_lines": 583
+    },
+    "Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs": {
+      "type": "regular_file",
+      "bytes": 51958,
+      "sha256": "c0d12d460cf1e517b6617ab63b2bf5c716d65c7ddf2a233fa4b5b368868d19f4",
+      "physical_lines": 610
+    }
+  },
+  "immutable_artifacts": {
+    "before.json": {
+      "type": "regular_file",
+      "bytes": 27445,
+      "sha256": "22c827d95235c29af51c34360003b609f652e6d93003a442b2a78b60a45e15c6"
+    },
+    "source.patch": {
+      "type": "regular_file",
+      "bytes": 87097,
+      "sha256": "58bc34bd73ea14c0b6a03d672ea93ab12e29490807bb1781733b6bc68800e163"
+    },
+    "verify.py": {
+      "type": "regular_file",
+      "bytes": 13965,
+      "sha256": "d8ead935df2af0b53325a0f3c2ffa13a180561e30bfa1d7fd8185e41465c005e"
+    }
+  },
+  "budgets": {
+    "source_lines": [
+      1000,
+      600,
+      700,
+      600
+    ],
+    "source_bytes": [
+      81920,
+      49152,
+      57344,
+      65536
+    ],
+    "production_lines": 2300,
+    "production_bytes": 188416,
+    "net_production_lines": 902,
+    "stage_bytes": 2097152,
+    "verify_seconds": 30,
+    "max_verify_runs": 3
+  },
+  "frozen_stages": {
+    "TestArtifacts/FightMatch/RES-B-ADAPTER-001/FIX03/S": [
+      "after.json",
+      "before.json",
+      "source-receipt.json",
+      "source.patch",
+      "source/Assets/Scripts/FightMatch/AssetAccess/FightMatch.AssetAccess.asmdef",
+      "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchAssetContracts.cs",
+      "source/Assets/Scripts/FightMatch/YooAssetAdapter/FightMatch.YooAssetAdapter.asmdef",
+      "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetAssetProvider.cs",
+      "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetPackageLifecycle.cs",
+      "source/Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRemoteServices.cs",
+      "source/Assets/Tests/EditMode/FightMatchAsset/FightMatch.AssetAccess.Tests.asmdef",
+      "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetContractsTests.cs",
+      "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchAssetProviderTests.cs",
+      "static-checks.json",
+      "verify.py"
+    ],
+    "TestArtifacts/FightMatch/RES-D-CODEC-001/FIX02/S": [
+      "after.json",
+      "before.json",
+      "source-receipt.json",
+      "source.patch",
+      "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs",
+      "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs",
+      "static-checks.json",
+      "verify.py"
+    ],
+    "TestArtifacts/FightMatch/RES-C-CONTRACT-001/FIX01/S": [
+      "after.json",
+      "before.json",
+      "source-receipt.json",
+      "source.patch",
+      "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+      "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+      "static-checks.json",
+      "verify.py"
+    ],
+    "TestArtifacts/FightMatch/RES-C-CONTRACT-001/S": [
+      "after.json",
+      "before.json",
+      "source-receipt.json",
+      "source.patch",
+      "source/Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceRuntimeContracts.cs",
+      "source/Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeContractsTests.cs",
+      "static-checks.json",
+      "verify.py"
+    ]
+  },
+  "blocker": {
+    "code": "TEST_SOURCE_LINE_BUDGET",
+    "actual_test_lines": 610,
+    "allowed_test_lines": 600,
+    "current_delta_lines": 10,
+    "minimum_requested_decision": "Lead must authorize at least ten additional test lines for this current draft or issue a revised implementation/acceptance scope. This is not a claim that ten extra lines suffice after later compile/review.",
+    "instruction": "Stop on budget overrun; do not compress lines, weaken assertions, move helpers to evade the cap, or borrow another packet's scope."
+  },
+  "draft_summary": {
+    "production_lines": 1788,
+    "production_bytes": 85247,
+    "production_net_lines": 390,
+    "state": "Four-file initial implementation draft only. Source readiness and behavioral correctness are not established.",
+    "areas": [
+      "same validated codec-root raw projection and lease-bound read-only views",
+      "provider Entry raw reservation and release on main-thread cleanup",
+      "Ensure terminal wait, actual stream-length gate and incremental raw read state",
+      "twelve authored raw test methods including quota, failure and lifetime scenarios"
+    ]
+  },
+  "test_fullnames": [
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW01_PinnedRawMappingOnly",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW02_LengthAndBudgetBeforeAllocation",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW03_ExactBodyAndHashBeforePublication",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW04_ReadOnlyBoundedStream",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW05_TwoLeasesShareOneVerifiedPayload",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW06_StreamAndLeaseHaveSeparateOwners",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW07_StalePendingCannotPublish",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW08_CloseWaitsForEnsureAndLease",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW09_CallbackBudgetAndThreadRulesRemain",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW10_UnsafePackageAndBundleKindAreRejected",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW11_FailureDiagnosticsAreSafe",
+    "FightMatch.AssetAccess.Tests.FightMatchResourceRuntimeTests.RAW12_RawInterfaceAndRegressionSurfaceStayClosed"
+  ],
+  "test_inventory": {
+    "static_named_tests": 12,
+    "discovered": false,
+    "executed": false
+  },
+  "RAW_criteria": {
+    "RAW01_PinnedRawMappingOnly": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW02_LengthAndBudgetBeforeAllocation": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW03_ExactBodyAndHashBeforePublication": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW04_ReadOnlyBoundedStream": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW05_TwoLeasesShareOneVerifiedPayload": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW06_StreamAndLeaseHaveSeparateOwners": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW07_StalePendingCannotPublish": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW08_CloseWaitsForEnsureAndLease": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW09_CallbackBudgetAndThreadRulesRemain": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW10_UnsafePackageAndBundleKindAreRejected": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW11_FailureDiagnosticsAreSafe": "DRAFT_PRESENT_NOT_VERIFIED",
+    "RAW12_RawInterfaceAndRegressionSurfaceStayClosed": "DRAFT_PRESENT_NOT_VERIFIED"
+  },
+  "verification": {
+    "command": "python3 -B TestArtifacts/FightMatch/RES-D-RAW-001/S/verify.py",
+    "kind": "BLOCKED_CHECKPOINT_MECHANICAL_ONLY",
+    "protected_inputs": 55,
+    "shared_guards": 34,
+    "target_guards": 8,
+    "source_ready_claim": false,
+    "compile_or_behavior_pass_claim": false,
+    "patch_replay": "Four-path patch replays against three fixed preimages plus absent new test",
+    "static_result": {
+      "type": "regular_file",
+      "bytes": 24296,
+      "sha256": "b8340041bc81aade085e429cacd92072218a14910d1d8fa707b4a7d0dc5ece60"
+    },
+    "runs": 1,
+    "failed_runs_preserved": 1,
+    "passed_checks": 128,
+    "failed_checks": [
+      {
+        "check": "file_line_budget:Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceRuntimeTests.cs",
+        "passed": false,
+        "detail": {
+          "actual": 610,
+          "limit": 600
+        }
+      }
+    ],
+    "duration_seconds": 0.018470207985956222
+  },
+  "not_run": [
+    "C#/Unity/SDK",
+    "tests/discovery",
+    "old verifiers",
+    "network/Git",
+    "local or GitHub code review",
+    "full semantic/source acceptance checks",
+    "real package/Android/cache/Player/LOC/Host/device validation"
+  ],
+  "limitations": [
+    "The draft exceeds the test line cap; do not adopt it as an approved source candidate.",
+    "Contract PREPARED markers are historical; active C input is sealed C FIX01, original C remains frozen.",
+    "Only selected fixed SDK source files were read; no live projection or whole cache was inspected.",
+    "Existing B/D/C sources, assertions, assemblies, metadata and all frozen evidence remain unchanged.",
+    "No publication or mutable team/startup records were frozen or edited.",
+    "Future RAW12+B38+D13+C11=74 native execution remains separately authorized and NOT RUN."
+  ],
+  "return_path": "One BLOCKED completion event to engineering only, then stop all writes and wait for a scoped decision.",
+  "after": {
+    "type": "regular_file",
+    "bytes": 24596,
+    "sha256": "59e3aa4ca4a619b82b15c90300f5cff9a2b08f2a4a88cd49603030dbc3f35986"
+  }
+}

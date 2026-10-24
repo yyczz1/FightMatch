@@ -1,0 +1,44 @@
+{
+  "receipt": "RES-ACTIVATION-FACTORY-JOINT-MAC-002-QA",
+  "date": "2026-10-03",
+  "verdict": "ACCEPT_FIXED_COMPOSITE_NATIVE_GATES_ONLY",
+  "scope": "Exact five-source local Mac projection; not a whole-tree validation of either published PR.",
+  "evidence": {
+    "ownerThread": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c",
+    "ownerTurn": "01a100f0-3e6f-7dd0-90a2-24a24e9ada44",
+    "rootReceipt": {"path": "TestArtifacts/FightMatch/RES-ACTIVATION-FACTORY-JOINT-001/M02/receipt.json", "bytes": 36832, "sha256": "91a6b41505875a0a86e8c1ee2fe4aa37b18166d036c0a076896e567fd923f23b", "status": "VALIDATION_PASSED"},
+    "verifiedEvidenceLeaves": 17,
+    "xml": {"path": "TestArtifacts/FightMatch/RES-ACTIVATION-FACTORY-JOINT-001/M02/T/results.xml", "bytes": 26547, "sha256": "d76564a535c0c3bcdb6bb0d806e4ca8af12dd1e3fa59a104377ed9bd66e6e75f", "total": 40, "passed": 40, "failed": 0, "skipped": 0, "inconclusive": 0, "uniqueNames": 40, "exactFrozenCounter": true, "durationSeconds": 8.4507685},
+    "stages": [{"stage": "I", "runs": 1, "status": "PASSED", "pid": 86574, "exitCode": 0, "elapsedSeconds": 84.820039}, {"stage": "T", "runs": 1, "status": "PASSED", "pid": 86807, "exitCode": 0, "elapsedSeconds": 59.660480}],
+    "runnerElapsedSeconds": 147.189027,
+    "groups": {"AS_activation_store": {"passed": 8, "failed": 0}, "RAW_runtime": {"passed": 13, "failed": 0}, "FAD_factory_admission": {"passed": 6, "failed": 0}, "D_release_set": {"passed": 13, "failed": 0}}
+  },
+  "publicationAssociations": {
+    "PR13_activation": {"url": "https://github.com/yyczz1/FightMatch/pull/13", "base": "4e10b0aa1e4c691d5d4d72577959d6bf1c4a7754", "head": "d9c15b361c76ea95d2d0d87b44cbe20ea005c38a", "tree": "57b7b01554a9d7d854898d507d9e240d82bf5d59"},
+    "PR14_factoryAdmission": {"url": "https://github.com/yyczz1/FightMatch/pull/14", "base": "1b4e091526444822e487240cd0d6aff736f0080c", "head": "5cfa73524abe2b4aea5de213c678f60b2c59fa1f", "tree": "612164b8805a7cf971406bdd8700243b1ffa9d0b"},
+    "associationNote": "Both heads are published after this validation. The immutable native receipt correctly leaves activationPR/activationHead/factoryPR/factoryHead null. Their file/source mappings are in each published manifest; this receipt does not rewrite the native evidence."
+  },
+  "metadata": {
+    "naturalUnityMetas": {
+      "Assets/Scripts/FightMatch/YooAssetAdapter/YooAssetRuntimeFactory.cs.meta": {"bytes": 243, "sha256": "8167b06616eab6600c87765900d4f3f7a23cce6822abca007c1faadf6455519c", "guid": "82c6193f9e4ce4c9cb7c33153cbe2604"},
+      "Assets/Scripts/FightMatch/Host/FightMatchResourceActivationStore.cs.meta": {"bytes": 243, "sha256": "54139aad330584a064b5bbd96f96910a1f8cc2eddf8472885db97ed87bccdf38", "guid": "586d3d3787fdb4e7e97cca2a7d4f1061"},
+      "Assets/Tests/EditMode/FightMatchHost/FightMatchResourceActivationStoreTests.cs.meta": {"bytes": 243, "sha256": "a681ad80e8dc9b163bf3e9cf9945b981822334bb59743a5f51d0fd61fa35dec7", "guid": "ae2e036e825944332b32cbb3593b23c0"},
+      "publishedMappingVerified": true
+    },
+    "sourceMappingVerified": true,
+    "noWholeProjectTreeRescan": true
+  },
+  "buildAndCleanup": {
+    "CscGenerated": ["FightMatch.AssetAccess", "FightMatch.YooAssetAdapter", "FightMatch.AssetAccess.Tests", "FightMatch.Host.Editor", "FightMatch.Host.Tests"],
+    "fixedAssemblies": 7,
+    "assemblyInterpretation": "The Host.Editor assembly was naturally Csc-generated; this is not a claim that all generated outputs were unchanged.",
+    "lease": "EMPTY",
+    "remainingOwned": [],
+    "consumerGate": "CLEAR",
+    "ownedTerm": {"pid": 86624, "process": "this run's VBCSCompiler child", "identityRematched": true, "sigkill": false},
+    "sourceWrites": 5,
+    "naturalMetaWrites": 3
+  },
+  "notEstablished": ["Either PR whole-tree build", "Discovery beyond the exact frozen 40 tests", "Real SDK package initialization/download", "Host/product activation, Android/Windows/device, shared adoption"],
+  "authorIntegrationVerdict": null
+}

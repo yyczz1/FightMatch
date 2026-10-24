@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "date": "2026-10-05",
+  "status": "EXPLICIT_HUMAN_APPROVAL_RECEIVED_NOT_EXECUTION_RESULT",
+  "authority": {
+    "thread": "01a0e401-511d-79f2-b47f-3ab0ade1681b",
+    "host": "local",
+    "turn": "01a109c3-90e2-7902-87ba-278c302cfe0a",
+    "item": "01a109c3-9188-7c81-ac9e-8d47c11944ea",
+    "exactText": "都允许",
+    "verifiedVia": "read_thread of the actual root thread in this turn"
+  },
+  "approvedQuestion": {
+    "turn": "01a109ba-2514-7430-a78f-360e0aee4408",
+    "item": "msg_0f2486852bbc6af3016ac300c9889c87d091e07150d20031cd",
+    "text": "**还没有做完，目前也没有后台任务继续运行。** 刚核对，仍停在上次的权限拦截处。\n\n- **已完成**：Canvas 修复代码；多语言工具修正，18 项定向检查通过，已推送 [PR #2](https://github.com/yyczz1/FightMatch/pull/2)，GitHub 审查未发现重大问题。\n- **未完成**：真实场景保存复开、多语言材料准备、资源／存档／语言偏好的实际接入，以及新 APK 和试玩验收。\n\n需要确认的具体操作仍是：①场景保存复开并导出；②约 25 MB 官方下载、3 次依赖恢复及外置盘写入，最多 15 分钟。你可以直接回复“这两项具体执行都允许”。\n\n你之前确实授权了继续；自动审批仍拒绝上述执行，认为授权范围不够具体，因此停在了执行前，成果和证据均已保留。"
+  },
+  "approvedActions": [
+    {
+      "scope": "Scene repair/save/close/read-only reopen/export",
+      "contract": "docs/team/2026-09-30/engineering-layout-s1-fix04-n04-native.md",
+      "limits": "One <=180-second Unity run after bounded preflight; exact sole scene export only if every existing gate passes; preserve all source/test/geometry/owned-cleanup constraints. New execution binding required."
+    },
+    {
+      "scope": "Localization M material preparation",
+      "head": "6dfdc1897533d7734937f9c6964bccfc7c8be4d9",
+      "limits": "One M stage <=900 seconds (870 work +30 cleanup); 18 fixed official archives totaling 25172764 bytes; three offline dotnet restores; the two existing fixed external Luban roots; new actual owner and new A/H/Erun binding required."
+    }
+  ],
+  "coordination": {
+    "engineering": "01a0f2e3-1a80-7671-a459-38d5c8de0e6b/local",
+    "unityExecutor": "01a0fdbc-bf1e-7780-8f7f-dec13d6d590c/local",
+    "localizationOwner": "01a0f40d-b0c5-7bc0-a2b2-be9d1213648a/local",
+    "central": "01a0e401-511d-79f2-b47f-3ab0ade1681b/local",
+    "model": "gpt-6-astra",
+    "thinking": "xhigh",
+    "soleExecutionReceiver": "engineering"
+  },
+  "preserve": [
+    "All prior rejection receipts, original source and reviewed versions, original activation/host files and evidence roots",
+    "No purchases, deployment, release, Git merge, destructive cleanup or scope expansion"
+  ],
+  "ordinaryAdaptations": "Leads may prepare the minimum fresh run-root/owner identity bindings within these same contracts; this does not authorize changed game rules, weaker validation or repeated old long tests."
+}

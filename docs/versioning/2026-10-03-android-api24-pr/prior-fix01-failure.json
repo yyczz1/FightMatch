@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "packet": "ANDROID-API24-PR1-SOURCE-FIX01",
+  "runs": [
+    {
+      "command": "python3 -B TestArtifacts/FightMatch/ANDROID-API24-001/PR1/FIX01/S/verify.py",
+      "started_utc": "2026-10-03T09:07:55.169135+00:00",
+      "checks": [
+        {
+          "check": "stage_and_before_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "owner_issuer_and_reviewed_head",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "fix01_amendment_identity",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "check": "prior_stage_exact_six_leaf_identity",
+          "passed": false,
+          "detail": null
+        }
+      ],
+      "exception": "AssertionError: prior_stage_exact_six_leaf_identity",
+      "duration_seconds": 0.1118654579622671,
+      "exit_code": 1,
+      "verifier": {
+        "bytes": 14453,
+        "sha256": "4f86bea972d705e307186ccb66ba964dd59c694e4a4452b766fc25fff92e0ab9"
+      }
+    }
+  ],
+  "status": "BLOCKED_NO_RETRY",
+  "blocked_reason": "The single FIX01 verifier run failed at prior_stage_exact_six_leaf_identity; all later source, diff, counterexample and budget checks remain unexecuted. Contract forbids retry."
+}
+
