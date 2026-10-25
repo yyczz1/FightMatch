@@ -80,6 +80,8 @@ namespace FightMatch.YooAssetAdapter.Editor
                 BuildPipeline = nameof(RawFileBuildPipeline), BuildBundleType = (int)EBundleType.RawBundle,
                 BuildTarget = target, PackageName = plan.packageName, PackageVersion = plan.packageVersion,
                 PackageNote = plan.appBuildIdentity, FileNameStyle = EFileNameStyle.HashName,
+                // CH1 source and payload can be byte-identical while retaining separate raw resource identities.
+                IncludePathInHash = chapter,
                 BundledCopyOption = EBundledCopyOption.ClearAndCopyAll, VerifyBuildingResult = true
             };
             // Only collection is project-owned; all build, manifest, copy and catalog tasks are SDK tasks.
