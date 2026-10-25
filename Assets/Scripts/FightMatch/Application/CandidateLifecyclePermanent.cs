@@ -35,7 +35,8 @@ namespace FightMatch.Application
             {
                 var definitions = CandidateLifecyclePreparation.PermanentDefinitions(request.Content, budget);
                 if (!definitions.IsAccepted) return Reject(definitions);
-                next = CandidatePermanentProtocol.Build(basis, definitions.Value, request.Intent.GetPermanent(), request.OperationId, budget);
+                next = CandidatePermanentProtocol.Build(basis, definitions.Value, request.Intent.GetPermanent(), request.OperationId,
+                    budget, request.Content.SourceDefinitions);
             }
             return next.IsAccepted ? CandidateApplicationBuildResult.Success(next.Value, new CandidateApplicationResultInput()) : Reject(next);
         }

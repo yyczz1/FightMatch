@@ -92,7 +92,8 @@ namespace FightMatch.Core
 
         internal static IReadOnlyList<CandidatePermanentPortion> Select(CandidateApplicationSnapshot basis,
             IReadOnlyList<CandidateInventoryQuantity> costs, CandidatePermanentDraft draft,
-            Func<CandidatePermanentPortion, bool> allowed, SaveCodecBudget budget)
+            Func<CandidatePermanentPortion, bool> allowed, SaveCodecBudget budget,
+            CandidatePermanentDefinitions definitions = null, PublishedSaveContext sources = null)
         {
             var held = Held(basis.Business, basis.Records, budget);
             var selected = new List<CandidatePermanentPortion>();
@@ -113,7 +114,7 @@ namespace FightMatch.Core
                                 Need(remaining.CharacterId != row.Actor.CharacterId || remaining.ItemId != row.ItemId || remaining.U == row.C,
                                     "Permanent.LegacyConsumption", "ReconciliationRequired");
                 var available = CandidatePermanentProgression.PreferTeachingCertificate(
-                    held.FindAll(x => x.ItemId == cost.ItemId && allowed(x)), basis.Business, draft);
+                    held.FindAll(x => x.ItemId == cost.ItemId && allowed(x)), basis.Business, draft, definitions, sources);
                 var preferred = available;
                 if (explicitInputs != null) available = new List<CandidatePermanentPortion>(explicitInputs).FindAll(x => x != null && x.ItemId == cost.ItemId);
                 else if (draft.Kind != CandidatePermanentKind.UseExperienceCards)
@@ -152,7 +153,7 @@ namespace FightMatch.Core
             if (explicitInputs != null && draft.Kind == CandidatePermanentKind.UseExperienceCards)
             {
                 var canonical = Select(basis, costs, new CandidatePermanentDraft { Kind = draft.Kind,
-                    CharacterId = draft.CharacterId, DefinitionId = draft.DefinitionId, Quantity = draft.Quantity }, allowed, budget);
+                    CharacterId = draft.CharacterId, DefinitionId = draft.DefinitionId, Quantity = draft.Quantity }, allowed, budget, definitions, sources);
                 Need(canonical.Count == selected.Count, "Permanent.SelectedInputs.Priority");
                 for (var i = 0; i < selected.Count; i++)
                     Need(CandidatePermanentCodec.SameRoot(canonical[i], selected[i], budget) &&

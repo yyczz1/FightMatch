@@ -34,12 +34,13 @@ namespace FightMatch.Core
         public bool DefeatedTarget => HpBefore.Numerator.Sign > 0 && HpAfter.Numerator.IsZero;
         public CandidateCritFact Crit { get; }
         public CandidatePenetrationFact Penetration { get; }
+        public ChapterVulnerabilityWindow Vulnerability { get; }
 
         internal BattleDamageFact(BattleSnapshot before, CandidateAttackSource action, BattleEnemyState target,
             ExactRational attack, ExactRational multiplier, ExactRational raw, ExactRational mitigated,
             BigInteger rounded, ExactRational hpAfter, ExactRational hpLoss, ExactRational overflow,
             ExactRational zero, CandidateCritFact crit, CandidatePenetrationFact penetration = null,
-            ExactRational effectiveMagicDefense = null)
+            ExactRational effectiveMagicDefense = null, ChapterVulnerabilityWindow vulnerability = null)
         {
             Baseline = before.Baseline;
             PlayerId = action.PlayerId;
@@ -67,6 +68,7 @@ namespace FightMatch.Core
             Overflow = overflow;
             Crit = crit;
             Penetration = penetration;
+            Vulnerability = vulnerability;
         }
     }
 }

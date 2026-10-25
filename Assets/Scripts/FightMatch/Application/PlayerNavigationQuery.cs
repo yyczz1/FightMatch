@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using FightMatch.Core;
 
 namespace FightMatch.Application
@@ -28,6 +29,11 @@ namespace FightMatch.Application
                     head.Business.Roster.Characters.Count <= budget.MaxCollectionEntries &&
                     head.Business.Inventory.Holdings.Count <= budget.MaxCollectionEntries,
                     "Limit", "Navigation.Collections");
+                var teachings = new List<CandidateTeachingProgress>();
+                if (publication.Definitions.Chapter?.HasTauntBossState == true)
+                    foreach (var teaching in publication.Definitions.Chapter.Teachings)
+                        teachings.Add(Take(CandidatePermanentProgression.ReadTeaching(head.Business, teaching.Level,
+                            publication.Definitions, budget, Resolved)));
                 var roster = QueryRoster();
                 var inventory = CandidateInventory.Read(head.Business.Inventory, budget.Math);
                 var progression = CandidateProgression.Read(head.Business.Progression, budget.Math);
@@ -37,7 +43,8 @@ namespace FightMatch.Application
                     ReferenceEquals(head, life.Application.PublishedSnapshot), "StaleContext", "Navigation.Head");
                 return new PlayerNavigationReadResult(after.View, publication.Binding, publication.Definitions.Levels,
                     roster, inventory, progression, life, null, publication.Definitions.Chapter,
-                    publication.Definitions.Chapter == null ? null : publication.Definitions.Growths);
+                    publication.Definitions.Chapter == null ? null : publication.Definitions.Growths, teachings,
+                    publication.Definitions.GetPermanentDefinitions());
             }
             catch (Refusal error)
             { return new PlayerNavigationReadResult(q.View, null, null, null, null, null, null,

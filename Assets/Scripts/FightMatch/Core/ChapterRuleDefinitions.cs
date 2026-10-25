@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace FightMatch.Core
@@ -89,19 +90,171 @@ namespace FightMatch.Core
         { LevelId = input.LevelId; ItemId = input.ItemId; Amount = input.Amount; }
     }
 
+    public sealed class ChapterSkillDefinitionInput
+    {
+        public string SkillId { get; set; }
+        public BigInteger RecordVersion { get; set; }
+        public string ClassId { get; set; }
+        public string CostItemId { get; set; }
+        public string BattleCapabilityId { get; set; }
+        public BigInteger MinimumLevel { get; set; }
+        public BigInteger CostCount { get; set; }
+        public int CooldownTurns { get; set; }
+    }
+
+    public sealed class ChapterSkillDefinition
+    {
+        public string SkillId { get; }
+        public BigInteger RecordVersion { get; }
+        public string ClassId { get; }
+        public string CostItemId { get; }
+        public string BattleCapabilityId { get; }
+        public BigInteger MinimumLevel { get; }
+        public BigInteger CostCount { get; }
+        public int CooldownTurns { get; }
+
+        internal ChapterSkillDefinition(ChapterSkillDefinitionInput input)
+        {
+            SkillId = input.SkillId;
+            RecordVersion = input.RecordVersion;
+            ClassId = input.ClassId;
+            CostItemId = input.CostItemId;
+            BattleCapabilityId = input.BattleCapabilityId;
+            MinimumLevel = input.MinimumLevel;
+            CostCount = input.CostCount;
+            CooldownTurns = input.CooldownTurns;
+        }
+    }
+
+    public sealed class ChapterTeachingDefinitionInput
+    {
+        public string TutorialId { get; set; }
+        public BigInteger RecordVersion { get; set; }
+        public DefinitionBinding Level { get; set; }
+        public string ClassId { get; set; }
+        public string SkillId { get; set; }
+        public string GiftItemId { get; set; }
+        public string LearningStepId { get; set; }
+        public string ExplanationStepId { get; set; }
+        public string GiftOnceKey { get; set; }
+        public BigInteger GiftCount { get; set; }
+        public string ExplanationTextKey { get; set; }
+    }
+
+    public sealed class ChapterTeachingDefinition
+    {
+        public string TutorialId { get; }
+        public BigInteger RecordVersion { get; }
+        public DefinitionBinding Level { get; }
+        public string ClassId { get; }
+        public string SkillId { get; }
+        public string GiftItemId { get; }
+        public string LearningStepId { get; }
+        public string ExplanationStepId { get; }
+        public string GiftOnceKey { get; }
+        public BigInteger GiftCount { get; }
+        public string ExplanationTextKey { get; }
+
+        internal ChapterTeachingDefinition(ChapterTeachingDefinitionInput input)
+        {
+            TutorialId = input.TutorialId;
+            RecordVersion = input.RecordVersion;
+            Level = input.Level;
+            ClassId = input.ClassId;
+            SkillId = input.SkillId;
+            GiftItemId = input.GiftItemId;
+            LearningStepId = input.LearningStepId;
+            ExplanationStepId = input.ExplanationStepId;
+            GiftOnceKey = input.GiftOnceKey;
+            GiftCount = input.GiftCount;
+            ExplanationTextKey = input.ExplanationTextKey;
+        }
+    }
+
     // Immutable chapter rules share the exact publication binding with every definition in the closure.
     public sealed class ChapterRuleDefinitions
     {
         public const string RuleVersion = "ch1-slice-r1";
+        public const string StateFeatureId = "CH1.TauntBossStateV1";
+        public static IReadOnlyList<string> LegacyCapabilities { get; } = Array.AsReadOnly(new[] {
+            "NC01.ExactRational", "RC01.PCG32.PRD", "PC01.ExactParameterEvidence", "SC01.sc01-pcg32-le128-v1",
+            "CH1.MageTauntBoss", "CH1.Milestones", "CH1.BusinessV5" });
+        public static IReadOnlyList<string> StateCapabilities { get; } = Array.AsReadOnly(LegacyCapabilities.Concat(new[] { StateFeatureId }).ToArray());
         public ContentBinding Binding { get; }
+        public IReadOnlyList<string> RequiredCapabilities { get; }
+        public bool HasTauntBossState => RequiredCapabilities.Contains(StateFeatureId);
         public IReadOnlyList<ChapterPassiveDefinition> Passives { get; }
         public IReadOnlyList<ChapterCharacterUnlock> CharacterUnlocks { get; }
         public IReadOnlyList<ChapterFirstClearItem> FirstClearItems { get; }
+        public IReadOnlyList<ChapterSkillDefinition> Skills { get; }
+        public IReadOnlyList<ChapterTeachingDefinition> Teachings { get; }
         private ChapterRuleDefinitions(ContentBinding binding, List<ChapterPassiveDefinition> passives,
-            List<ChapterCharacterUnlock> unlocks, List<ChapterFirstClearItem> items)
-        { Binding = binding; Passives = passives.AsReadOnly(); CharacterUnlocks = unlocks.AsReadOnly(); FirstClearItems = items.AsReadOnly(); }
+            List<ChapterCharacterUnlock> unlocks, List<ChapterFirstClearItem> items,
+            List<ChapterSkillDefinition> skills = null, List<ChapterTeachingDefinition> teachings = null)
+        {
+            Binding = binding;
+            Passives = passives.AsReadOnly();
+            CharacterUnlocks = unlocks.AsReadOnly();
+            FirstClearItems = items.AsReadOnly();
+            RequiredCapabilities = skills == null ? LegacyCapabilities : StateCapabilities;
+            Skills = (skills ?? new List<ChapterSkillDefinition>()).AsReadOnly();
+            Teachings = (teachings ?? new List<ChapterTeachingDefinition>()).AsReadOnly();
+        }
         public ChapterPassiveDefinition FindPassive(string classId)
         { foreach (var item in Passives) if (item.ClassId == classId) return item; return null; }
+        public ChapterSkillDefinition FindSkill(string skillId)
+        { foreach (var item in Skills) if (item.SkillId == skillId) return item; return null; }
+        public ChapterTeachingDefinition FindTeaching(string tutorialId)
+        { foreach (var item in Teachings) if (item.TutorialId == tutorialId) return item; return null; }
+        public ChapterTeachingDefinition FindTeaching(DefinitionBinding level)
+        { foreach (var item in Teachings) if (item.Level.Same(level)) return item; return null; }
+
+        public static SaveCodecResult<ChapterRuleDefinitions> Prepare(ContentBinding binding,
+            IReadOnlyList<ChapterPassiveInput> passives, IReadOnlyList<ChapterCharacterUnlockInput> unlocks,
+            IReadOnlyList<ChapterFirstClearItemInput> items, IReadOnlyList<ChapterSkillDefinitionInput> skills,
+            IReadOnlyList<ChapterTeachingDefinitionInput> teachings, IReadOnlyList<string> requiredCapabilities,
+            SaveCodecBudget budget)
+        {
+            if (budget == null) throw new ArgumentNullException(nameof(budget));
+            return SaveCodecResult<ChapterRuleDefinitions>.Run(() => {
+                var basis = Prepare(binding, passives, unlocks, items, budget);
+                SaveCodecFailure.Require(basis.IsAccepted, basis.RejectionCode, basis.FieldPath);
+                SaveEnvelopeCodec.CheckList(requiredCapabilities, budget, "Chapter.RequiredCapabilities");
+                SaveEnvelopeCodec.CheckList(skills, budget, "Chapter.Skills");
+                SaveEnvelopeCodec.CheckList(teachings, budget, "Chapter.Teachings");
+                var stateful = requiredCapabilities.Contains(StateFeatureId);
+                var expected = stateful ? StateCapabilities : LegacyCapabilities;
+                SaveCodecFailure.Require(requiredCapabilities.Count == expected.Count && expected.All(requiredCapabilities.Contains),
+                    "UnsupportedCapability", "Chapter.RequiredCapabilities");
+                if (!stateful)
+                {
+                    SaveCodecFailure.Require(skills.Count == 0 && teachings.Count == 0, "UnsupportedCapability", "Chapter.TeachingAndSkill");
+                    return basis.Value;
+                }
+                SaveCodecFailure.Require(skills.Count == 1 && teachings.Count == 1, "UnsupportedBinding", "Chapter.TeachingAndSkill");
+                var skill = skills[0];
+                SaveCodecFailure.Require(skill != null, "MissingField", "Chapter.Skill");
+                Text(skill.SkillId, budget); Text(skill.ClassId, budget); Text(skill.CostItemId, budget);
+                budget.Math.CheckInteger(skill.RecordVersion);
+                SaveCodecFailure.Require(skill.SkillId == "skill:warrior-taunt" && skill.RecordVersion.Sign > 0 &&
+                    skill.MinimumLevel == 5 && skill.CostCount.IsOne && skill.CooldownTurns == 2 &&
+                    skill.BattleCapabilityId == "CH1.MageTauntBoss", "UnsupportedBinding", "Chapter.Skill");
+                var teaching = teachings[0];
+                SaveCodecFailure.Require(teaching != null, "MissingField", "Chapter.Teaching");
+                Text(teaching.TutorialId, budget); Text(teaching.LearningStepId, budget); Text(teaching.ExplanationStepId, budget);
+                Text(teaching.ExplanationTextKey, budget);
+                budget.Math.CheckInteger(teaching.RecordVersion);
+                SaveCodecFailure.Require(teaching.RecordVersion.Sign > 0 && teaching.Level != null &&
+                    binding.Same(teaching.Level.Content) && teaching.Level.LevelId == "level:ch01-16" &&
+                    teaching.ClassId == skill.ClassId && teaching.SkillId == skill.SkillId && teaching.GiftItemId == skill.CostItemId &&
+                    teaching.LearningStepId != teaching.ExplanationStepId && teaching.GiftOnceKey == "Level16EntryGift" &&
+                    teaching.GiftCount.IsOne && teaching.ExplanationTextKey.StartsWith("fm.", StringComparison.Ordinal),
+                    "InconsistentBinding", "Chapter.Teaching");
+                return new ChapterRuleDefinitions(binding, basis.Value.Passives.ToList(), basis.Value.CharacterUnlocks.ToList(),
+                    basis.Value.FirstClearItems.ToList(), new List<ChapterSkillDefinition> { new ChapterSkillDefinition(skill) },
+                    new List<ChapterTeachingDefinition> { new ChapterTeachingDefinition(teaching) });
+            });
+        }
 
         public static SaveCodecResult<ChapterRuleDefinitions> Prepare(ContentBinding binding,
             IReadOnlyList<ChapterPassiveInput> passives, IReadOnlyList<ChapterCharacterUnlockInput> unlocks,
@@ -184,6 +337,13 @@ namespace FightMatch.Core
                 SaveCodecFailure.Require(ProgressionChecks.FindLevel(definitions.Progression.Levels, item.LevelId) != null &&
                     InventoryChecks.FindItem(definitions.Inventory, item.ItemId)?.Kind == CandidateInventoryItemKind.OrdinaryMaterial,
                     "UnsupportedBinding", "Chapter.FirstClearItem.Reference");
+            foreach (var skill in Skills)
+                SaveCodecFailure.Require(definitions.FindGrowth(skill.ClassId)?.ClassKind == CharacterClassKind.Warrior &&
+                    InventoryChecks.FindItem(definitions.Inventory, skill.CostItemId)?.Kind == CandidateInventoryItemKind.OrdinaryMaterial,
+                    "UnsupportedBinding", "Chapter.Skill.Reference");
+            foreach (var teaching in Teachings)
+                SaveCodecFailure.Require(definitions.Levels.Any(level => level.LevelId == teaching.Level.LevelId &&
+                    level.LevelVersion == teaching.Level.CanonicalLevelVersion), "InconsistentBinding", "Chapter.Teaching.Level");
         }
     }
 }

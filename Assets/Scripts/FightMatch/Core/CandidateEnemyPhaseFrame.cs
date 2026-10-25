@@ -13,10 +13,15 @@ namespace FightMatch.Core
         public BattleRandomSnapshot Random => DirectAttack.Random;
         public BigInteger EnemyPhaseOrdinal { get; }
         public IReadOnlyList<CandidateEnemyIntentFact> OrderedIntents { get; }
+        public ChapterBattleState ChapterState { get; }
+        public IReadOnlyList<ChapterCooldownFact> CooldownFacts { get; }
+        public IReadOnlyList<ChapterVulnerabilityFact> VulnerabilityFacts { get; }
 
         internal CandidateEnemyPhaseFrame(CandidateCombatFrame directAttack, BigInteger ordinal,
             IEnumerable<BattleMemberState> members, IEnumerable<BattleEnemyState> enemies,
-            IEnumerable<BattleContributionTotals> contributions, IEnumerable<CandidateEnemyIntentFact> intents)
+            IEnumerable<BattleContributionTotals> contributions, IEnumerable<CandidateEnemyIntentFact> intents,
+            ChapterBattleState chapterState = null, IEnumerable<ChapterCooldownFact> cooldownFacts = null,
+            IEnumerable<ChapterVulnerabilityFact> vulnerabilityFacts = null)
         {
             DirectAttack = directAttack;
             EnemyPhaseOrdinal = ordinal;
@@ -24,6 +29,9 @@ namespace FightMatch.Core
             Enemies = new List<BattleEnemyState>(enemies).AsReadOnly();
             Contributions = new List<BattleContributionTotals>(contributions).AsReadOnly();
             OrderedIntents = new List<CandidateEnemyIntentFact>(intents).AsReadOnly();
+            ChapterState = chapterState;
+            CooldownFacts = new List<ChapterCooldownFact>(cooldownFacts ?? System.Array.Empty<ChapterCooldownFact>()).AsReadOnly();
+            VulnerabilityFacts = new List<ChapterVulnerabilityFact>(vulnerabilityFacts ?? System.Array.Empty<ChapterVulnerabilityFact>()).AsReadOnly();
         }
     }
 

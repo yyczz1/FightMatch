@@ -156,8 +156,9 @@ namespace FightMatch.Core
             if (before.EffectiveActionsCompleted.Sign < 0) return Reject(InvalidValue, "Before.EffectiveActionsCompleted");
             if (before.EnemyPhasesCompleted.Sign < 0) return Reject(InvalidValue, "Before.EnemyPhasesCompleted");
             var entry = before.Baseline.Entry;
-            if (before.CarryMode != EntryCarryMode.Empty || entry.CarryMode != EntryCarryMode.Empty || entry.RequiredFeatures.Count != 0)
+            if (before.CarryMode != EntryCarryMode.Empty || entry.CarryMode != EntryCarryMode.Empty || !CandidateChapterBattleRules.ValidFeatures(entry))
                 return Reject(InconsistentBinding, "Before.CarryMode");
+            if (!CandidateChapterBattleRules.ValidState(before, math)) return Reject(InconsistentBinding, "Before.ChapterState");
             if (before.CurrentFaceIndex < 0 || before.CurrentFaceIndex >= entry.Level.Faces.Count)
                 return Reject(InvalidValue, "Before.CurrentFaceIndex");
             var face = entry.Level.Faces[before.CurrentFaceIndex];
@@ -225,7 +226,9 @@ namespace FightMatch.Core
             var members = new Dictionary<BattleCombatantKey, ExactRational>();
             foreach (var row in before.Members) members.Add(row.CombatantKey, row.Hp);
             var enemies = new Dictionary<BattleCombatantKey, ExactRational>();
-            foreach (var row in before.Enemies) enemies.Add(row.CombatantKey, row.Hp);
+            foreach (var row in before.Enemies)
+                enemies.Add(row.CombatantKey, CandidateChapterBattleRules.HasStateContract(before.Baseline.Entry) && row.Hp.Numerator.Sign > 0
+                    ? row.Enemy.Stats.MaxHp : row.Hp);
             return CheckHpRows(hp.MemberHp, members, "FinalHp.MemberHp", math)
                 ?? CheckHpRows(hp.EnemyHp, enemies, "FinalHp.EnemyHp", math);
         }
@@ -240,7 +243,7 @@ namespace FightMatch.Core
                 var row = rows[i];
                 if (!originals.TryGetValue(row.CombatantKey, out var current) || !seen.Add(row.CombatantKey))
                     return Reject(InconsistentBinding, path + $"[{i}].CombatantKey");
-                // Current HP was checked against original MaxHp. This supported domain cannot heal or revive.
+                // The projection bound permits chapter healing of living enemies, never revival.
                 if (!InRange(row.Hp, current, math)) return Reject(InvalidValue, path + $"[{i}].Hp");
             }
             return null;

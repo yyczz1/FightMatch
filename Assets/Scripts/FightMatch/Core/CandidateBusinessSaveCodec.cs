@@ -80,6 +80,7 @@ namespace FightMatch.Core
                 Need(envelope.Purpose == (resolved == null ? SavePurpose.CandidateValidation : SavePurpose.PlayerSave), "Envelope.Purpose", "UnsupportedBinding");
                 Need(envelope.SliceDirectory.Count == 5 && envelope.RequiredSliceContracts.Count == 5 && envelope.Bodies.Length == 5, "Envelope.Slices", "UnsupportedSchema");
                 var chapterFormat = resolved != null && envelope.SliceDirectory[0].Contract.SchemaVersion == 5;
+                if (chapterFormat) foreach (var slice in envelope.SliceDirectory) BusinessRequirements.CheckKnownFeatures(slice.Requirements, resolved);
                 var rosterFormat = resolved != null && (envelope.SliceDirectory[0].Contract.SchemaVersion == 3 || envelope.SliceDirectory[0].Contract.SchemaVersion == 4 || chapterFormat);
                 var permanentFormat = resolved != null && envelope.SliceDirectory[0].Contract.SchemaVersion == 4;
                 var total = 0UL;
@@ -140,7 +141,7 @@ namespace FightMatch.Core
             {
                 var f = new BusinessFields(Stream.Null, false, budget) { Resolved = resolved, ValidatePublished = validatePublished, StrictUnicode = resolved != null };
                 Body(f, i, snapshot, battle, ref endings);
-                BusinessRequirements.For(snapshot, battle, i, budget);
+                BusinessRequirements.For(snapshot, battle, i, budget, resolved);
                 total += f.Used; SaveCodecFailure.Limit(total, budget.MaxEnvelopeBytes, "Slices", "EnvelopeBytes"); lengths[i] = (int)f.Used;
             }
             return lengths;
@@ -152,7 +153,7 @@ namespace FightMatch.Core
             {
                 var body = new byte[lengths[i]];
                 using (var stream = new MemoryStream(body, true)) Body(new BusinessFields(stream, false, budget) { Resolved = resolved, StrictUnicode = resolved != null }, i, snapshot, battle, ref endings);
-                slices.Add(new SaveSliceInput { Contract = NewContract(i, resolved, (int)snapshot.Format >= 3, snapshot.Format == CandidateBusinessFormat.PublishedPermanentV4, snapshot.Format == CandidateBusinessFormat.PublishedChapterV5), Bytes = body, Requirements = BusinessRequirements.For(snapshot, battle, i, budget) });
+                slices.Add(new SaveSliceInput { Contract = NewContract(i, resolved, (int)snapshot.Format >= 3, snapshot.Format == CandidateBusinessFormat.PublishedPermanentV4, snapshot.Format == CandidateBusinessFormat.PublishedChapterV5), Bytes = body, Requirements = BusinessRequirements.For(snapshot, battle, i, budget, resolved) });
             }
             return slices;
         }
@@ -190,10 +191,12 @@ namespace FightMatch.Core
         private readonly List<SaveBinding> bindings = new List<SaveBinding>();
         private readonly List<string> rules = new List<string>(), numeric = new List<string>(), random = new List<string>(), features = new List<string>();
         private readonly SaveCodecBudget budget;
-        private BusinessRequirements(SaveCodecBudget budget) { this.budget = budget; }
-        internal static SaveRequirements For(CandidateBusinessSnapshot s, CandidateBattleSaveCodec battle, int owner, SaveCodecBudget budget)
+        private readonly PublishedSaveContext resolved;
+        private BusinessRequirements(SaveCodecBudget budget, PublishedSaveContext resolved)
+        { this.budget = budget; this.resolved = resolved; }
+        internal static SaveRequirements For(CandidateBusinessSnapshot s, CandidateBattleSaveCodec battle, int owner, SaveCodecBudget budget, PublishedSaveContext resolved = null)
         {
-            var r = new BusinessRequirements(budget);
+            var r = new BusinessRequirements(budget, resolved);
             if (s.Format == CandidateBusinessFormat.PublishedChapterV5) r.Unique(r.features, "CH1.BusinessV5");
             if ((int)s.Format >= 3 && owner < 3) r.Unique(r.features, "fm.player.roster.v1");
             if ((int)s.Format >= 4 && owner < 3)
@@ -244,6 +247,8 @@ namespace FightMatch.Core
         private void Add(PreparedRuleContext context, string level = null, string version = null)
         {
             var b = RuleContextChecks.SaveBinding(context, budget, level, version);
+            if (context is PreparedPublishedRuleContext published && resolved?.FindExact(published.Binding)?.Chapter?.HasTauntBossState == true)
+                Unique(features, ChapterRuleDefinitions.StateFeatureId);
             foreach (var existing in bindings) if (BindingSame(existing, b)) return;
             SaveCodecFailure.Limit((ulong)bindings.Count + 1, (ulong)budget.MaxCollectionEntries, "Requirements.Bindings", "CollectionEntries"); bindings.Add(b);
             Unique(rules, b.RuleVersion); Unique(numeric, b.NumericContractVersion); Unique(random, b.RandomContractVersion);
@@ -254,6 +259,19 @@ namespace FightMatch.Core
         {
             foreach (var feature in actual.FeatureIds)
                 Need(expected.FeatureIds.Contains(feature), path + ".FeatureIds", "UnsupportedBinding");
+        }
+        internal static void CheckKnownFeatures(SaveRequirements requirements, PublishedSaveContext definitions)
+        {
+            var known = new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1",
+                "CH1.BusinessV5", ChapterRuleDefinitions.StateFeatureId };
+            foreach (var feature in requirements.FeatureIds)
+                Need(known.Contains(feature), "Requirements.FeatureIds", "UnsupportedBinding");
+            var stateRequired = definitions.Definitions.Any(d => d.Chapter?.HasTauntBossState == true &&
+                requirements.Bindings.Any(b => b.PackageId == d.Binding.PackageId && b.ContentFingerprint == d.Binding.ContentFingerprint &&
+                    b.RuleVersion == d.Binding.RuleVersion && b.NumericContractVersion == d.Binding.NumericContractVersion &&
+                    b.RandomContractVersion == d.Binding.RandomContractVersion));
+            Need(stateRequired == requirements.FeatureIds.Contains(ChapterRuleDefinitions.StateFeatureId),
+                "Requirements.ChapterState", "UnsupportedBinding");
         }
         internal static bool Same(SaveRequirements a, SaveRequirements b)
         {

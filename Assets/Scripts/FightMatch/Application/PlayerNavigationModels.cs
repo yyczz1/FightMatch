@@ -92,6 +92,8 @@ namespace FightMatch.Application
         public IReadOnlyList<PreparedLevel> Levels { get; }
         public ChapterRuleDefinitions Chapter { get; }
         public IReadOnlyList<CandidateGrowthDefinition> ChapterGrowths { get; }
+        public IReadOnlyList<CandidateTeachingProgress> Teachings { get; }
+        public CandidatePermanentDefinitions PermanentDefinitions { get; }
         public PlayerRosterView Roster { get; }
         public CandidateInventoryView Inventory { get; }
         public CandidateProgressionView Progression { get; }
@@ -102,11 +104,14 @@ namespace FightMatch.Application
         internal PlayerNavigationReadResult(CandidateApplicationView application, ContentBinding binding,
             IEnumerable<PreparedLevel> levels, PlayerRosterView roster, CandidateInventoryView inventory,
             CandidateProgressionView progression, CandidateLifecycleView lifecycle, CandidateApplicationDiagnostic diagnostic,
-            ChapterRuleDefinitions chapter = null, IEnumerable<CandidateGrowthDefinition> chapterGrowths = null)
+            ChapterRuleDefinitions chapter = null, IEnumerable<CandidateGrowthDefinition> chapterGrowths = null,
+            IEnumerable<CandidateTeachingProgress> teachings = null, CandidatePermanentDefinitions permanentDefinitions = null)
         {
             Application = application; Binding = binding;
             Levels = new List<PreparedLevel>(levels ?? Array.Empty<PreparedLevel>()).AsReadOnly();
             Chapter = chapter;
+            PermanentDefinitions = permanentDefinitions;
+            Teachings = new List<CandidateTeachingProgress>(teachings ?? Array.Empty<CandidateTeachingProgress>()).AsReadOnly();
             ChapterGrowths = new List<CandidateGrowthDefinition>(chapterGrowths ?? Array.Empty<CandidateGrowthDefinition>()).AsReadOnly();
             Roster = roster; Inventory = inventory; Progression = progression; Lifecycle = lifecycle; Diagnostic = diagnostic;
         }
@@ -186,6 +191,10 @@ namespace FightMatch.Application
         public PlayerNavigationToken Token { get; }
         public PlayerNavigationRoute Route => Context.Route;
         public PlayerPermanentView Permanent { get; }
+        public CandidateTeachingProgress Teaching => Read?.Teachings.FirstOrDefault(x =>
+            x.Definition.Level.LevelId == Context.LevelId && x.Definition.Level.CanonicalLevelVersion == Context.LevelVersion);
+        public string TeachingAdmissionReason => Teaching == null ? null : Teaching.Gift == null ? "TeachingGiftRequired" :
+            Teaching.Learning == null ? "TeachingLearningRequired" : Teaching.Explanation == null ? "TeachingExplanationRequired" : null;
         public CandidatePermanentKind DetailKind { get; }
         public string DefinitionId { get; }
         public PlayerNavigationConfirmation Confirmation { get; }

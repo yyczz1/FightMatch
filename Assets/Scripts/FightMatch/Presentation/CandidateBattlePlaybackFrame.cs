@@ -16,13 +16,26 @@ namespace FightMatch.Presentation
         public ExactRational MaxHp { get; }
         public string NextIntent { get; }
         public BigInteger? IntentCursor { get; }
+        public int? RemainingWindUses { get; }
+        public string SkillId { get; }
+        public int? CooldownRemaining { get; }
+        public bool IsVulnerable { get; }
         internal CandidatePlaybackActor(BattleCombatantKey key, string label, ExactRational hp, ExactRational maxHp,
-            string nextIntent = null, BigInteger? cursor = null)
-        { Key = key; Label = label; Hp = hp; MaxHp = maxHp; NextIntent = nextIntent; IntentCursor = cursor; }
+            string nextIntent = null, BigInteger? cursor = null, int? windUses = null,
+            string skillId = null, int? cooldown = null, bool vulnerable = false)
+        {
+            Key = key; Label = label; Hp = hp; MaxHp = maxHp; NextIntent = nextIntent; IntentCursor = cursor;
+            RemainingWindUses = windUses; SkillId = skillId; CooldownRemaining = cooldown; IsVulnerable = vulnerable;
+        }
         internal CandidatePlaybackActor Damage(ExactRational hp)
-        { return new CandidatePlaybackActor(Key, Label, hp, MaxHp, hp.Numerator.IsZero ? "已击倒" : NextIntent, IntentCursor); }
-        internal CandidatePlaybackActor Intent(string intent, BigInteger cursor)
-        { return new CandidatePlaybackActor(Key, Label, Hp, MaxHp, intent, cursor); }
+        { return new CandidatePlaybackActor(Key, Label, hp, MaxHp, hp.Numerator.IsZero ? "已击倒" : NextIntent, IntentCursor,
+            RemainingWindUses, SkillId, CooldownRemaining, IsVulnerable); }
+        internal CandidatePlaybackActor Intent(string intent, BigInteger cursor, int? windUses)
+        { return new CandidatePlaybackActor(Key, Label, Hp, MaxHp, intent, cursor, windUses, SkillId, CooldownRemaining, IsVulnerable); }
+        internal CandidatePlaybackActor Cooldown(string skillId, int remaining)
+        { return new CandidatePlaybackActor(Key, Label, Hp, MaxHp, NextIntent, IntentCursor, RemainingWindUses, skillId, remaining, IsVulnerable); }
+        internal CandidatePlaybackActor Vulnerability(bool active)
+        { return new CandidatePlaybackActor(Key, Label, Hp, MaxHp, NextIntent, IntentCursor, RemainingWindUses, SkillId, CooldownRemaining, active); }
     }
 
     // Disposable display values only. This never constructs or replaces a BattleSnapshot.
@@ -53,9 +66,15 @@ namespace FightMatch.Presentation
             var actors = new List<CandidatePlaybackActor>();
             if (snapshot != null)
             {
-                foreach (var m in snapshot.Members) actors.Add(new CandidatePlaybackActor(m.CombatantKey, m.Member.CharacterId, m.Hp, m.Member.Stats.MaxHp));
+                foreach (var m in snapshot.Members)
+                {
+                    var skill = snapshot.ChapterState?.MemberSkills.SingleOrDefault(s => s.CombatantKey.Equals(m.CombatantKey));
+                    actors.Add(new CandidatePlaybackActor(m.CombatantKey, m.Member.CharacterId, m.Hp, m.Member.Stats.MaxHp,
+                        skillId: skill?.SkillId, cooldown: skill?.CooldownRemaining));
+                }
                 foreach (var e in snapshot.Enemies) actors.Add(new CandidatePlaybackActor(e.CombatantKey, e.PairKey.PairId, e.Hp, e.Enemy.Stats.MaxHp,
-                    e.Hp.Numerator.IsZero ? "已击倒" : Intent(e.Enemy, e.IntentCursor), e.IntentCursor));
+                    e.Hp.Numerator.IsZero ? "已击倒" : Intent(e.Enemy, e.IntentCursor, e.RemainingWindUses), e.IntentCursor, e.RemainingWindUses,
+                    vulnerable: snapshot.ChapterState?.Vulnerabilities.Any(v => v.TargetEnemyKey.Equals(e.CombatantKey)) == true));
             }
             return new CandidateBattlePlaybackFrame(snapshot?.Board.Face, actors, snapshot?.Board.LockedRoutes ?? Array.Empty<BattleLockedRoute>(),
                 snapshot?.Board.PendingLinks ?? Array.Empty<BattlePairKey>(), temporary ?? Array.Empty<FlowPos>(), snapshot?.Phase,
@@ -85,11 +104,35 @@ namespace FightMatch.Presentation
                 if (!crossFaceFinal)
                 {
                     if (e.Damage != null) ReplaceHp(actors, e.Damage.TargetMember, e.Damage.HpAfter);
+                    if (e.Wind != null) ReplaceHp(actors, e.Wind.TargetEnemyKey, e.Wind.HpAfter);
                     var definition = original.BeforeSnapshot.Enemies.Single(x => x.CombatantKey.Equals(e.EnemyKey)).Enemy;
-                    for (var i = 0; i < actors.Count; i++) if (actors[i].Key.Equals(e.EnemyKey)) actors[i] = actors[i].Intent(Intent(definition, e.CursorAfter), e.CursorAfter);
+                    for (var i = 0; i < actors.Count; i++) if (actors[i].Key.Equals(e.EnemyKey))
+                    {
+                        var uses = e.Wind?.UsesAfter ?? actors[i].RemainingWindUses;
+                        actors[i] = actors[i].Intent(Intent(definition, e.CursorAfter, uses), e.CursorAfter, uses);
+                    }
                 }
             }
-            else
+            else if (fact.Kind == CandidateBattleFactKind.SkillCast)
+            {
+                var cast = fact.SkillCast; beat = cast.Skill.SkillId;
+                if (!crossFaceFinal) for (var i = 0; i < actors.Count; i++)
+                    if (actors[i].Key.Equals(cast.CasterKey)) actors[i] = actors[i].Cooldown(cast.Skill.SkillId, cast.CooldownAfter);
+            }
+            else if (fact.Kind == CandidateBattleFactKind.Cooldown)
+            {
+                var cooldown = fact.Cooldown; beat = cooldown.SkillId + ": " + cooldown.After;
+                if (!crossFaceFinal) for (var i = 0; i < actors.Count; i++)
+                    if (actors[i].Key.Equals(cooldown.CombatantKey)) actors[i] = actors[i].Cooldown(cooldown.SkillId, cooldown.After);
+            }
+            else if (fact.Kind == CandidateBattleFactKind.Vulnerability)
+            {
+                var vulnerability = fact.Vulnerability; beat = vulnerability.Change.ToString();
+                if (!crossFaceFinal) for (var i = 0; i < actors.Count; i++)
+                    if (actors[i].Key.Equals(vulnerability.Window.TargetEnemyKey))
+                        actors[i] = actors[i].Vulnerability(vulnerability.Change == ChapterVulnerabilityChange.Created);
+            }
+            else if (fact.Kind == CandidateBattleFactKind.Stage)
             {
                 var s = fact.Stage; stage = s.Kind.ToString(); beat = stage + (s.Pair == null ? "" : " " + s.Pair.PairId);
                 if (s.Kind == CandidateStageFactKind.TemporaryRouteRemoved) temporary = Array.Empty<FlowPos>();
@@ -116,8 +159,14 @@ namespace FightMatch.Presentation
         }
         private static void ReplaceHp(List<CandidatePlaybackActor> actors, BattleCombatantKey key, ExactRational hp)
         { for (var i = 0; i < actors.Count; i++) if (actors[i].Key.Equals(key)) { actors[i] = actors[i].Damage(hp); return; } }
-        private static string Intent(PreparedEnemy enemy, BigInteger cursor)
-        { return enemy.IntentCycle[(int)(cursor % enemy.IntentCycle.Count)].Kind == EnemyIntentKind.Charge ? "蓄力" : "攻击"; }
+        private static string Intent(PreparedEnemy enemy, BigInteger cursor, int? windUses)
+        {
+            var intent = enemy.IntentCycle[(int)(cursor % enemy.IntentCycle.Count)];
+            if (intent.Kind == EnemyIntentKind.Wind && windUses == 0)
+                intent = enemy.IntentCycle[intent.ExhaustedFallbackIndex.Value];
+            return intent.Kind == EnemyIntentKind.Charge ? "蓄力" : intent.Kind == EnemyIntentKind.Rest ? "休整" :
+                intent.Kind == EnemyIntentKind.Wind ? "上弦" : "攻击";
+        }
         public static string Hp(ExactRational value)
         { return value.Denominator.IsOne ? value.Numerator.ToString() : value.Numerator + "/" + value.Denominator; }
     }

@@ -145,22 +145,13 @@ namespace FightMatch.Presentation
                 if (member != null)
                     inputView.SetStageSlotPresentation(false, member.Member.OriginalSlot,
                         null,
-                        BattleText.MemberHp(localization, member.Member, actor.Hp, actor.MaxHp), null);
+                        BattleText.MemberHp(localization, member.Member, actor.Hp, actor.MaxHp),
+                        BattleText.SkillCooldown(localization, actor.SkillId, actor.CooldownRemaining));
                 else if (enemy != null)
                 {
-                    string intentKey = string.Empty;
-                    if (actor.Hp.Numerator.IsZero) intentKey = "fm.battle.intent.defeated";
-                    else if (enemy != null && actor.IntentCursor.HasValue)
-                    {
-                        switch (enemy.Enemy.IntentCycle[(int)(actor.IntentCursor.Value % enemy.Enemy.IntentCycle.Count)].Kind)
-                        {
-                            case EnemyIntentKind.Strike: intentKey = "fm.battle.intent.strike"; break;
-                            case EnemyIntentKind.Charge: intentKey = "fm.battle.intent.charge"; break;
-                        }
-                    }
                     inputView.SetStageSlotPresentation(true, enemy.Enemy.OriginalSlot, null,
                         BattleText.EnemyHp(localization, enemy.Enemy, actor.Hp, actor.MaxHp),
-                        new BattleTextLine("fm.battle.hud.enemy_intent", BattleText.Arg("intentName", BattleText.Resolve(localization, intentKey))));
+                        BattleText.EnemyIntent(localization, enemy.Enemy, actor));
                 }
             }
             if (state == null || frame == null || frame.Face == null)

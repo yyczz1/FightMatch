@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Linq;
+using FlowPuzzle.Core;
 using static FightMatch.Core.CandidateBattleReportFingerprint;
 
 namespace FightMatch.Core
@@ -14,6 +16,151 @@ namespace FightMatch.Core
         internal static bool Supports(PreparedMember member, PreparedRuleContext context) =>
             member.ClassKind == CharacterClassKind.Warrior && member.Crit != null && member.Penetration == null ||
             IsChapter(context) && member.ClassKind == CharacterClassKind.Mage && member.Crit == null && member.Penetration != null;
+        internal static bool HasStateContract(PreparedBattleEntry entry) =>
+            IsChapter(entry.Context) && entry.RequiredFeatures.Count == 1 &&
+            entry.RequiredFeatures[0] == ChapterRuleDefinitions.StateFeatureId;
+
+        internal static bool ValidFeatures(PreparedBattleEntry entry) =>
+            entry.RequiredFeatures.Count == 0 || HasStateContract(entry);
+
+        internal static bool SkillsSupported(PreparedMember member, PreparedBattleEntry entry) =>
+            HasStateContract(entry) ? member.BattleSkills.Count == member.LearnedSkills.Count :
+            member.LearnedSkills.Count == 0 && member.BattleSkills.Count == 0;
+
+        internal static ChapterBattleState InitialState(PreparedBattleEntry entry)
+        {
+            if (!HasStateContract(entry)) return null;
+            var skills = new List<ChapterMemberSkillState>();
+            foreach (var member in entry.ReadyParticipants)
+                foreach (var skill in member.BattleSkills)
+                    skills.Add(new ChapterMemberSkillState(BattleCombatantKey.ForParticipant(entry.AttemptId, member.CharacterId), skill.SkillId, 0));
+            return new ChapterBattleState(BigInteger.Zero, skills, Array.Empty<ChapterTauntState>(),
+                Array.Empty<ChapterVulnerabilityWindow>());
+        }
+
+        internal static bool ValidState(BattleSnapshot snapshot, ExactMathBudget math)
+        {
+            var state = snapshot.ChapterState;
+            if (!HasStateContract(snapshot.Baseline.Entry))
+                return state == null && snapshot.Enemies.All(x => x.RemainingWindUses == null);
+            if (state == null || state.FaceEnemyPhasesCompleted.Sign < 0 ||
+                state.FaceEnemyPhasesCompleted > snapshot.EnemyPhasesCompleted || state.Taunts.Count != 0) return false;
+            Check(state, math);
+            var index = 0;
+            foreach (var member in snapshot.Members)
+                foreach (var skill in member.Member.BattleSkills)
+                {
+                    if (index >= state.MemberSkills.Count) return false;
+                    var row = state.MemberSkills[index++];
+                    if (row == null || !row.CombatantKey.Equals(member.CombatantKey) || row.SkillId != skill.SkillId ||
+                        row.CooldownRemaining < 0 || row.CooldownRemaining > skill.CooldownTurns) return false;
+                }
+            if (index != state.MemberSkills.Count) return false;
+            foreach (var enemy in snapshot.Enemies)
+                if (enemy.Enemy.WindUses.HasValue ? !enemy.RemainingWindUses.HasValue || enemy.RemainingWindUses < 0 ||
+                    enemy.RemainingWindUses > enemy.Enemy.WindUses : enemy.RemainingWindUses.HasValue) return false;
+            var targets = new HashSet<BattleCombatantKey>();
+            foreach (var window in state.Vulnerabilities)
+            {
+                if (window == null || !targets.Add(window.TargetEnemyKey) ||
+                    window.EffectiveActionOrdinal != math.Add(snapshot.EffectiveActionsCompleted, BigInteger.One)) return false;
+                var enemy = snapshot.Enemies.FirstOrDefault(x => x.CombatantKey.Equals(window.TargetEnemyKey));
+                if (enemy == null || !enemy.Enemy.IntentCycle.Any(x => x.NextActionVulnerability != null &&
+                    Equal(x.NextActionVulnerability, window.Multiplier, math))) return false;
+            }
+            return true;
+        }
+
+        internal static PreparedChapterBattleSkill ReadyTaunt(BattleSnapshot before, BattleMemberState actor)
+        {
+            if (!HasStateContract(before.Baseline.Entry) || before.ChapterState == null || actor.Member.ClassKind != CharacterClassKind.Warrior)
+                return null;
+            var skill = actor.Member.BattleSkills.SingleOrDefault();
+            if (skill == null) return null;
+            var state = before.ChapterState.MemberSkills.FirstOrDefault(x => x.CombatantKey.Equals(actor.CombatantKey) && x.SkillId == skill.SkillId);
+            return state?.CooldownRemaining == 0 ? skill : null;
+        }
+
+        internal static ChapterVulnerabilityWindow Vulnerability(BattleSnapshot before, BattleCombatantKey enemy, BigInteger action) =>
+            before.ChapterState?.Vulnerabilities.FirstOrDefault(x => x.TargetEnemyKey.Equals(enemy) && x.EffectiveActionOrdinal == action);
+
+        internal static CandidateCombatFrame FinishDirect(CandidateRandomBinding binding, BattleSnapshot before,
+            CandidateAttackSource action, IEnumerable<BattleEnemyState> enemies, BattleRandomSnapshot random,
+            IEnumerable<BattleContributionTotals> totals, IEnumerable<BattleDamageFact> damage, ExactMathBudget math)
+        {
+            var rows = enemies.ToList();
+            var casts = new List<ChapterSkillCastFact>();
+            var state = before.ChapterState;
+            if (state != null)
+            {
+                var actor = before.Members.Single(x => x.CombatantKey.Equals(action.Actor));
+                var target = rows.Single(x => x.PairKey.Equals(action.Pair));
+                var skill = ReadyTaunt(before, actor);
+                if (skill != null && target.Hp.Numerator.Sign > 0)
+                {
+                    var phase = math.Add(before.EnemyPhasesCompleted, BigInteger.One);
+                    casts.Add(new ChapterSkillCastFact(actor.CombatantKey, target.CombatantKey, skill, 0, skill.CooldownTurns, phase));
+                    var skills = state.MemberSkills.Select(x => x.CombatantKey.Equals(actor.CombatantKey) && x.SkillId == skill.SkillId
+                        ? new ChapterMemberSkillState(x.CombatantKey, x.SkillId, skill.CooldownTurns) : x);
+                    state = new ChapterBattleState(state.FaceEnemyPhasesCompleted, skills,
+                        new[] { new ChapterTauntState(target.CombatantKey, actor.CombatantKey, phase) }, state.Vulnerabilities);
+                }
+            }
+            return new CandidateCombatFrame(binding, before, action, rows, random, totals, damage, state, casts);
+        }
+
+        internal static bool ValidateDirectFrame(CandidateCombatFrame frame, ExactMathBudget math)
+        {
+            if (frame?.BeforeSnapshot == null) return false;
+            if (!HasStateContract(frame.BeforeSnapshot.Baseline.Entry))
+                return frame.ChapterState == null && frame.SkillCasts.Count == 0 && ValidateNormalFrame(frame, math);
+            var before = frame.BeforeSnapshot;
+            var action = frame.Action;
+            if (action == null || frame.Binding?.Start == null || !ReferenceEquals(frame.Binding.Start.Baseline, before.Baseline) ||
+                action.PlayerId != before.Baseline.Entry.PlayerId || action.AttemptId != before.Baseline.Entry.AttemptId ||
+                string.IsNullOrWhiteSpace(action.OperationId) || action.ExpectedSceneRevision != before.SceneRevision ||
+                action.ActionOrdinal != math.Add(before.EffectiveActionsCompleted, BigInteger.One) || !ValidState(before, math)) return false;
+            var request = new CandidateAttackRequest { PlayerId = action.PlayerId, AttemptId = action.AttemptId,
+                OperationId = action.OperationId, ExpectedSceneRevision = action.ExpectedSceneRevision,
+                Actor = action.Actor, Pair = action.Pair, Route = action.Route.ToList() };
+            if (CandidateDirectAttack.CheckState(before, request, math, out var actor, out var target) != null) return false;
+            var face = before.Board.Face;
+            var geometry = new FlowLevelData { width = face.Width, height = face.Height };
+            foreach (var pair in face.Pairs)
+                geometry.pairs.Add(new FlowPairData { colorId = pair.GeometryColorId, endpointA = pair.EndpointA, endpointB = pair.EndpointB });
+            var pairDefinition = face.Pairs.Single(x => x.PairId == action.Pair.PairId);
+            var locked = before.Board.LockedRoutes.Select(x => new FlowPathData {
+                colorId = face.Pairs.Single(p => p.PairId == x.PairKey.PairId).GeometryColorId, cells = x.Route.ToList() }).ToList();
+            if (!new BattleRouteValidator().Validate(geometry, locked, Array.Empty<FlowPos>(), pairDefinition.GeometryColorId, request.Route).IsValid) return false;
+            var ordinal = 1 + before.Enemies.Count(x => x.Hp.Numerator.Sign > 0 && x.OriginalSlot < target.OriginalSlot);
+            var canNormal = ordinal <= actor.Member.Stats.AttackRange;
+            if (frame.DamageFacts.Count != (canNormal ? 1 : 0)) return false;
+            var enemies = before.Enemies.ToList();
+            var totals = before.Contributions.ToList();
+            if (canNormal)
+            {
+                if (!ValidateNormalFrame(frame, math)) return false;
+                var hit = frame.DamageFacts[0];
+                if (!ReferenceEquals(hit.Baseline, before.Baseline) || hit.PlayerId != action.PlayerId || hit.AttemptId != action.AttemptId ||
+                    hit.OperationId != action.OperationId || hit.SceneRevision != before.SceneRevision || hit.ActionOrdinal != action.ActionOrdinal ||
+                    !hit.Actor.Equals(action.Actor) || !hit.Pair.Equals(action.Pair) || !hit.Target.Equals(target.CombatantKey)) return false;
+                var i = enemies.FindIndex(x => x.CombatantKey.Equals(target.CombatantKey));
+                enemies[i] = new BattleEnemyState(target.CombatantKey, target.PairKey, target.Enemy, hit.HpAfter,
+                    target.IntentCursor, target.RemainingWindUses);
+                i = totals.FindIndex(x => x.CombatantKey.Equals(actor.CombatantKey));
+                totals[i] = new BattleContributionTotals(actor.CombatantKey,
+                    totals[i].EffectiveDamageDealtHp.Add(hit.HpLoss, math), totals[i].EffectiveDamageTakenHp);
+            }
+            else if (ReadyTaunt(before, actor) == null || !ValidPrd(before.Baseline.Entry, before.Random, math) ||
+                !Equal(before.Random.Stream.Initial.State, frame.Binding.Battle.Initial.Initial.State, math) ||
+                !Equal(before.Random.Stream.Initial.Increment, frame.Binding.Battle.Initial.Initial.Increment, math) ||
+                !Equal(before.Random, frame.Random, math)) return false;
+            var expected = FinishDirect(frame.Binding, before, action, enemies, frame.Random, totals, frame.DamageFacts, math);
+            return Equal(before.Members, frame.Members, math) && Equal(expected.Enemies, frame.Enemies, math) &&
+                Equal(expected.Contributions, frame.Contributions, math) && Equal(expected.ChapterState, frame.ChapterState, math) &&
+                Equal(expected.SkillCasts, frame.SkillCasts, math);
+        }
+
         internal static string PassiveId(PreparedMember member) => member.Crit != null ? member.Crit.PassiveDefinitionId : member.Penetration.PassiveDefinitionId;
         internal static ExactRational Coefficient(PreparedMember member) => member.Crit != null ? member.Crit.C : member.Penetration.C;
         internal static BattlePrdState PrdState(BattleCombatantKey key, PreparedMember member, BigInteger failures) =>
@@ -71,7 +218,7 @@ namespace FightMatch.Core
         }
 
         // Checks retained evidence using its recorded words. It never generates a new opportunity or advances live random state.
-        internal static bool ValidateDirectFrame(CandidateCombatFrame frame, ExactMathBudget math)
+        private static bool ValidateNormalFrame(CandidateCombatFrame frame, ExactMathBudget math)
         {
             if (frame?.BeforeSnapshot == null || frame.DamageFacts.Count != 1) return false;
             var before = frame.BeforeSnapshot; var entry = before.Baseline.Entry; var hit = frame.DamageFacts[0];
@@ -94,7 +241,10 @@ namespace FightMatch.Core
             var multiplier = !mage && evidence.Triggered ? actor.Member.Crit.Multiplier : one;
             var defense = mage ? target.Enemy.Stats.MagicDefense : target.Enemy.Stats.PhysicalDefense;
             if (mage && evidence.Triggered) defense = defense.Multiply(one.Subtract(actor.Member.Penetration.IgnoreMagicDefenseFraction, math), math);
+            var vulnerability = Vulnerability(before, target.CombatantKey, frame.Action.ActionOrdinal);
+            if (!Equal(vulnerability, hit.Vulnerability, math)) return false;
             var raw = actor.Member.Stats.Attack.Multiply(multiplier, math);
+            if (vulnerability != null) raw = raw.Multiply(vulnerability.Multiplier, math);
             var mitigated = raw.Multiply(hundred, math).Divide(hundred.Add(defense, math), math);
             var rounded = mitigated.Floor(math); var incoming = ExactRational.Create(rounded, 1, math);
             var loss = incoming.Compare(target.Hp, math) < 0 ? incoming : target.Hp;

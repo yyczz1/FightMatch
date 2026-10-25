@@ -27,6 +27,7 @@ namespace FightMatch.Core
         public IReadOnlyList<BattleEnemyState> Enemies { get; }
         public BattleRandomSnapshot Random { get; }
         public IReadOnlyList<BattleContributionTotals> Contributions { get; }
+        public ChapterBattleState ChapterState { get; }
 
         internal BattleSnapshot(BattleEntryBaseline baseline, ExactRational zero)
         {
@@ -39,6 +40,7 @@ namespace FightMatch.Core
             // This supported domain has empty C/U/D; it says nothing about inventory T or a commit.
             CarryMode = EntryCarryMode.Empty;
             var entry = baseline.Entry;
+            ChapterState = CandidateChapterBattleRules.InitialState(entry);
             var face = entry.Level.Faces[0];
             Board = new BattleBoardState(face);
             var members = new List<BattleMemberState>();
@@ -65,7 +67,7 @@ namespace FightMatch.Core
             BigInteger effectiveActionsCompleted, BigInteger enemyPhasesCompleted, int currentFaceIndex,
             BattlePhase phase, BattleBoardState board, IEnumerable<BattleMemberState> members,
             IEnumerable<BattleEnemyState> enemies, BattleRandomSnapshot random,
-            IEnumerable<BattleContributionTotals> contributions)
+            IEnumerable<BattleContributionTotals> contributions, ChapterBattleState chapterState = null)
         {
             Baseline = baseline;
             SceneRevision = sceneRevision;
@@ -79,6 +81,7 @@ namespace FightMatch.Core
             Enemies = new List<BattleEnemyState>(enemies).AsReadOnly();
             Random = random;
             Contributions = new List<BattleContributionTotals>(contributions).AsReadOnly();
+            ChapterState = chapterState;
         }
     }
 
@@ -150,6 +153,7 @@ namespace FightMatch.Core
         public ExactRational Hp { get; }
         // Number of processed intents; next is Enemy.IntentCycle[IntentCursor % count].
         public BigInteger IntentCursor { get; }
+        public int? RemainingWindUses { get; }
 
         internal BattleEnemyState(BattleCombatantKey combatantKey, BattlePairKey pairKey, PreparedEnemy enemy)
         {
@@ -159,11 +163,12 @@ namespace FightMatch.Core
             OriginalSlot = enemy.OriginalSlot;
             StableOrder = enemy.StableOrder;
             Hp = enemy.Stats.MaxHp;
-            IntentCursor = BigInteger.Zero;
+            IntentCursor = enemy.InitialIntentCursor ?? BigInteger.Zero;
+            RemainingWindUses = enemy.WindUses;
         }
 
         internal BattleEnemyState(BattleCombatantKey combatantKey, BattlePairKey pairKey, PreparedEnemy enemy,
-            ExactRational hp, BigInteger intentCursor)
+            ExactRational hp, BigInteger intentCursor, int? remainingWindUses = null)
         {
             CombatantKey = combatantKey;
             PairKey = pairKey;
@@ -172,6 +177,7 @@ namespace FightMatch.Core
             StableOrder = enemy.StableOrder;
             Hp = hp;
             IntentCursor = intentCursor;
+            RemainingWindUses = remainingWindUses;
         }
     }
 

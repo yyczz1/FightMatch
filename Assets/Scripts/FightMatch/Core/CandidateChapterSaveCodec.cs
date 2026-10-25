@@ -11,6 +11,117 @@ namespace FightMatch.Core
         private readonly BusinessFields f;
         internal CandidateChapterSaveCodec(BusinessFields fields) { f = fields; }
 
+        internal List<ChapterBattleSkillInput> Skills(IReadOnlyList<PreparedChapterBattleSkill> skills, string path)
+        {
+            var frozen = f.List(skills, (skill, p) =>
+            {
+                f.Required(skill, p);
+                return new PreparedChapterBattleSkill(new ChapterBattleSkillInput {
+                    SkillId = f.Text(skill?.SkillId, p + ".SkillId"),
+                    RecordVersion = f.Integer(skill?.RecordVersion ?? 0, p + ".RecordVersion", 1),
+                    BattleCapabilityId = f.Text(skill?.BattleCapabilityId, p + ".Capability"),
+                    CooldownTurns = f.I(skill?.CooldownTurns ?? 0, p + ".CooldownTurns") });
+            }, path);
+            return frozen.Select(x => new ChapterBattleSkillInput { SkillId = x.SkillId, RecordVersion = x.RecordVersion,
+                BattleCapabilityId = x.BattleCapabilityId, CooldownTurns = x.CooldownTurns }).ToList();
+        }
+
+        private PreparedChapterBattleSkill Skill(PreparedBattleEntry entry, BattleCombatantKey key, string id, string path)
+        {
+            var member = entry.Members.SingleOrDefault(x => BattleCombatantKey.ForParticipant(entry.AttemptId, x.CharacterId).Equals(key));
+            var skill = member?.BattleSkills.SingleOrDefault(x => x.SkillId == id);
+            Need(skill != null, path, "InconsistentBinding");
+            return skill;
+        }
+
+        internal ChapterVulnerabilityWindow Window(ChapterVulnerabilityWindow value, string path)
+        {
+            f.Required(value, path);
+            var target = f.Combatant(value?.TargetEnemyKey, path + ".Target");
+            var multiplier = f.Rational(value?.Multiplier, path + ".Multiplier");
+            var ordinal = f.Integer(value?.EffectiveActionOrdinal ?? 0, path + ".ActionOrdinal", 1);
+            Need(multiplier.Numerator.Sign > 0, path + ".Multiplier");
+            return f.Reading ? new ChapterVulnerabilityWindow(target, multiplier, ordinal) : value;
+        }
+
+        internal ChapterBattleState State(ChapterBattleState value, PreparedBattleEntry entry, string path)
+        {
+            f.Required(value, path);
+            var phases = f.Integer(value?.FaceEnemyPhasesCompleted ?? 0, path + ".FaceEnemyPhasesCompleted");
+            var seen = new HashSet<(BattleCombatantKey, string)>();
+            var skills = f.List(value?.MemberSkills, (row, p) =>
+            {
+                f.Required(row, p);
+                var key = f.Combatant(row?.CombatantKey, p + ".Member");
+                var id = f.Text(row?.SkillId, p + ".SkillId");
+                var definition = Skill(entry, key, id, p);
+                var remaining = f.I(row?.CooldownRemaining ?? 0, p + ".CooldownRemaining");
+                Need(remaining >= 0 && remaining <= definition.CooldownTurns && seen.Add((key, id)), p);
+                return f.Reading ? new ChapterMemberSkillState(key, id, remaining) : row;
+            }, path + ".MemberSkills");
+            Need(skills.Count == entry.Members.Sum(x => x.BattleSkills.Count), path + ".MemberSkills", "IncompleteHistory");
+            var taunts = f.List(value?.Taunts, (row, p) =>
+            {
+                f.Required(row, p);
+                var target = f.Combatant(row?.TargetEnemyKey, p + ".Target");
+                var caster = f.Combatant(row?.CasterKey, p + ".Caster");
+                var ordinal = f.Integer(row?.AppliesToEnemyPhaseOrdinal ?? 0, p + ".EnemyPhaseOrdinal", 1);
+                return f.Reading ? new ChapterTauntState(target, caster, ordinal) : row;
+            }, path + ".Taunts");
+            var windows = f.List(value?.Vulnerabilities, Window, path + ".Vulnerabilities");
+            return f.Reading ? new ChapterBattleState(phases, skills, taunts, windows) : value;
+        }
+
+        internal ChapterSkillCastFact Cast(ChapterSkillCastFact value, PreparedBattleEntry entry, string path)
+        {
+            f.Required(value, path);
+            var caster = f.Combatant(value?.CasterKey, path + ".Caster");
+            var target = f.Combatant(value?.TargetEnemyKey, path + ".Target");
+            var id = f.Text(value?.Skill.SkillId, path + ".SkillId");
+            var skill = Skill(entry, caster, id, path + ".Skill");
+            if (!f.Reading) Need(ReferenceEquals(skill, value.Skill), path + ".Skill", "InconsistentBinding");
+            var before = f.I(value?.CooldownBefore ?? 0, path + ".Before");
+            var after = f.I(value?.CooldownAfter ?? 0, path + ".After");
+            var ordinal = f.Integer(value?.EnemyPhaseOrdinal ?? 0, path + ".EnemyPhaseOrdinal", 1);
+            Need(before == 0 && after == skill.CooldownTurns, path + ".Cooldown");
+            return f.Reading ? new ChapterSkillCastFact(caster, target, skill, before, after, ordinal) : value;
+        }
+
+        internal ChapterCooldownFact Cooldown(ChapterCooldownFact value, PreparedBattleEntry entry, string path)
+        {
+            f.Required(value, path);
+            var key = f.Combatant(value?.CombatantKey, path + ".Member");
+            var id = f.Text(value?.SkillId, path + ".SkillId");
+            var skill = Skill(entry, key, id, path);
+            var before = f.I(value?.Before ?? 0, path + ".Before");
+            var after = f.I(value?.After ?? 0, path + ".After");
+            Need(before > 0 && before <= skill.CooldownTurns && after == before - 1, path + ".Cooldown");
+            return f.Reading ? new ChapterCooldownFact(key, id, before, after) : value;
+        }
+
+        internal ChapterVulnerabilityFact Vulnerability(ChapterVulnerabilityFact value, string path)
+        {
+            f.Required(value, path);
+            var change = (ChapterVulnerabilityChange)f.Enum((int)(value?.Change ?? 0), 0, 1, path + ".Change");
+            var window = Window(value?.Window, path + ".Window");
+            return f.Reading ? new ChapterVulnerabilityFact(change, window) : value;
+        }
+
+        internal ChapterWindFact Wind(ChapterWindFact value, string path)
+        {
+            f.Required(value, path);
+            var target = f.Combatant(value?.TargetEnemyKey, path + ".Target");
+            var fraction = f.Rational(value?.Fraction, path + ".Fraction");
+            var maximum = f.Rational(value?.MaximumHp, path + ".MaximumHp");
+            var before = f.Rational(value?.HpBefore, path + ".HpBefore");
+            var after = f.Rational(value?.HpAfter, path + ".HpAfter");
+            var healing = f.Rational(value?.ActualHealing, path + ".ActualHealing");
+            var usesBefore = f.I(value?.UsesBefore ?? 0, path + ".UsesBefore");
+            var usesAfter = f.I(value?.UsesAfter ?? 0, path + ".UsesAfter");
+            Need(usesBefore >= 0 && usesAfter >= 0 && healing.Numerator.Sign >= 0, path);
+            return f.Reading ? new ChapterWindFact(target, fraction, maximum, before, after, healing, usesBefore, usesAfter) : value;
+        }
+
         internal IReadOnlyList<CandidateChapterMilestoneEffect> Effects(IReadOnlyList<CandidateChapterMilestoneEffect> effects,
             IReadOnlyList<CandidateProgressionFirstClear> clears, string path)
         {

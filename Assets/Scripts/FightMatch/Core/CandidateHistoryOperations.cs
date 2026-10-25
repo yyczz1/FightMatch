@@ -115,7 +115,7 @@ namespace FightMatch.Core
             var range = read.Range; var before = range.BeforeSnapshot;
             var revision = budget.Add(history.CurrentRun.CurrentSnapshot.SceneRevision, BigInteger.One);
             var restored = new BattleSnapshot(before.Baseline, revision, before.EffectiveActionsCompleted, before.EnemyPhasesCompleted,
-                before.CurrentFaceIndex, before.Phase, before.Board, before.Members, before.Enemies, before.Random, before.Contributions);
+                before.CurrentFaceIndex, before.Phase, before.Board, before.Members, before.Enemies, before.Random, before.Contributions, before.ChapterState);
             Check(restored, budget);
             var prefixCount = history.EffectiveAnchors.Count - range.Entries.Count;
             var prefix = new List<CandidateBattleOperationRecord>(); var anchors = new List<string>();
@@ -349,7 +349,10 @@ namespace FightMatch.Core
             else if (record.Conditions != null || record.DirectAttack != null || record.EnemyPhase != null ||
                 source.Actor != null || source.Kind != CandidateStageOperation.CompleteLink) return Reject(IncompleteHistory, "Record.Link");
             Check(record, math); Check(stage, math);
-            // Reassemble immutable fragment outputs only; this helper never evaluates an enemy or samples randomness.
+            if (CandidateChapterBattleRules.HasStateContract(before.Baseline.Entry) &&
+                CandidateBattleOperations.CheckRecord(binding, record, "Record", math) != null)
+                return Reject(IncompleteHistory, "Record.Chapter");
+            // Reassemble immutable fragment outputs; recorded PRD validation never draws a new opportunity.
             var assembled = CandidateBattleOperations.AssembleRecord(record.Kind, record.OccurredAtUnixMilliseconds, before,
                 record.Conditions, record.DirectAttack, record.EnemyPhase, stage, math);
             if (!Equal(record.AfterSnapshot, assembled.AfterSnapshot, math) || !Equal(record.ContributionSegments, assembled.ContributionSegments, math))
@@ -359,7 +362,9 @@ namespace FightMatch.Core
             {
                 var actual = record.OrderedFacts[i]; var expected = assembled.OrderedFacts[i];
                 if (actual == null || actual.Index != i || actual.Kind != expected.Kind || !ReferenceEquals(actual.DirectAttack, expected.DirectAttack) ||
-                    !ReferenceEquals(actual.EnemyIntent, expected.EnemyIntent) || !ReferenceEquals(actual.Stage, expected.Stage))
+                    !ReferenceEquals(actual.EnemyIntent, expected.EnemyIntent) || !ReferenceEquals(actual.Stage, expected.Stage) ||
+                    !ReferenceEquals(actual.SkillCast, expected.SkillCast) || !ReferenceEquals(actual.Cooldown, expected.Cooldown) ||
+                    !ReferenceEquals(actual.Vulnerability, expected.Vulnerability))
                     return Reject(IncompleteHistory, "Record.OrderedFacts");
                 math.CheckInteger(actual.Index);
             }
@@ -396,7 +401,8 @@ namespace FightMatch.Core
                         return Reject(IncompleteHistory, "Record.DirectFacts");
             if (record.EnemyPhase != null)
                 foreach (var fact in record.EnemyPhase.OrderedIntents)
-                    if (fact == null || (fact.IntentKind != EnemyIntentKind.Charge && fact.IntentKind != EnemyIntentKind.Strike) ||
+                    if (fact == null || (!CandidateChapterBattleRules.HasStateContract(record.BeforeSnapshot.Baseline.Entry) &&
+                        fact.IntentKind != EnemyIntentKind.Charge && fact.IntentKind != EnemyIntentKind.Strike) ||
                         (fact.Damage != null && fact.Damage.DamageKind != EntryDamageKind.Physical)) return Reject(UnsupportedBinding, "Record.EnemyFacts");
             return null;
         }

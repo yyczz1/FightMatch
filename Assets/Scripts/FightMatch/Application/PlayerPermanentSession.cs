@@ -51,7 +51,7 @@ namespace FightMatch.Application
                 Need(draft.ExpectedCommitId != null, "MissingField", "ExpectedCommitId");
                 var definitions = For(head.Business.Progression.Definition.Context).Definitions;
                 CheckDefinition(definitions, draft.Copy());
-                var quote = Take(CandidatePermanentProtocol.Preview(head, definitions, draft.Copy(), budget));
+                var quote = Take(CandidatePermanentProtocol.Preview(head, definitions, draft.Copy(), budget, Resolved));
                 return new PlayerPermanentPreviewResult(new PreparedPlayerPermanentPreview(this, head.Header.CommitId, quote));
             }
             catch (Refusal error) { return new PlayerPermanentPreviewResult(null, error.Diagnostic); }
@@ -75,7 +75,7 @@ namespace FightMatch.Application
                 Need(preview != null && ReferenceEquals(preview.Owner, this), "InconsistentBinding", "Permanent.PreviewOwner");
                 var head = PermanentHead(preview.HeadCommitId);
                 var publication = For(head.Business.Progression.Definition.Context);
-                Take(CandidatePermanentProtocol.ValidatePreview(head, publication.Definitions, preview.Quote, budget));
+                Take(CandidatePermanentProtocol.ValidatePreview(head, publication.Definitions, preview.Quote, budget, Resolved));
                 var input = new CandidateApplicationIntentInput
                 {
                     PlayerId = head.Business.PlayerId,
@@ -86,7 +86,9 @@ namespace FightMatch.Application
                     Context = CandidateLifecyclePreparation.Context(head.Business.Progression.Definition.Context)
                 };
                 input.SetPermanent(preview.Quote);
-                return CandidateLifecyclePreparation.Roster(input, Content(publication, budget), budget);
+                var content = Content(publication, budget);
+                content.SourceDefinitions = Resolved;
+                return CandidateLifecyclePreparation.Roster(input, content, budget);
             });
         }
 
@@ -129,7 +131,7 @@ namespace FightMatch.Application
                     x.Kind == CandidatePermanentDefinitionKind.Teaching && x.Level.Same(exactLevelBinding));
                 Need(teaching != null, "NoPublishedDefinition", "Permanent.Teaching");
                 var draft = new CandidatePermanentDraft { Kind = CandidatePermanentKind.BeginTeachingGift, DefinitionId = teaching.Id };
-                var quote = Take(CandidatePermanentProtocol.Preview(head, definitions, draft, budget));
+                var quote = Take(CandidatePermanentProtocol.Preview(head, definitions, draft, budget, Resolved));
                 return ConfirmPermanent(new PreparedPlayerPermanentPreview(this, head.Header.CommitId, quote), budget);
             });
         }

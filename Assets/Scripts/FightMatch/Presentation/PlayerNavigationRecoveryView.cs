@@ -99,6 +99,8 @@ namespace FightMatch.Presentation
                 else if (value != null)
                 {
                     PlayerPermanentDetailView.Quote(bindings, textTemplate, parent, localization, value.Quote, view.Read.Head.Business.Roster);
+                    if (value.Quote?.Kind == CandidatePermanentKind.ConfirmTeachingExplanation)
+                        Row(parent, "save.TeachingExplanation", view.Read.Chapter?.FindTeaching(value.Quote.DefinitionId)?.ExplanationTextKey ?? "");
                     if (value.Kind == PlayerNavigationDraftKind.Formation)
                         bindings.DynamicRow(textTemplate, parent, FightMatchViewId.Row("save.FormationChange"), localization,
                             "fm.party.change_preview.body", () => new[] {
@@ -118,6 +120,17 @@ namespace FightMatch.Presentation
                         bindings.DynamicRow(textTemplate, parent, FightMatchViewId.Row("save.ConfirmedResult"), localization,
                             "fm.save_result.confirmed", () => new[] {
                                 NavigationBindings.Arg("operationName", NavigationBindings.Resolve(localization, savedKey)) });
+                    var savedQuote = view.Result.OriginalLookup.Record.Intent.GetPermanent();
+                    if (savedQuote?.Kind == CandidatePermanentKind.BeginTeachingGift && savedQuote.Outputs.Count == 1)
+                        bindings.DynamicRow(textTemplate, parent, FightMatchViewId.Row("save.TeachingGift"), localization,
+                            "fm.teaching.taunt.gift_received", () => new[] {
+                                NavigationBindings.Arg("itemName", NavigationBindings.Resolve(localization, NavigationBindings.ItemKey(savedQuote.Outputs[0].ItemId))),
+                                NavigationBindings.Arg("amount", savedQuote.Outputs[0].Quantity) });
+                    if (savedQuote?.Kind == CandidatePermanentKind.LearnSkill)
+                        bindings.DynamicRow(textTemplate, parent, FightMatchViewId.Row("save.TeachingLearned"), localization,
+                            "fm.teaching.taunt.learned", () => new[] {
+                                NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization,
+                                    BattleText.CharacterKey(savedQuote.ClassId, view.Result.View.PublishedSnapshot.Business.Roster.Find(savedQuote.CharacterId)?.Definition.ClassKind ?? (CharacterClassKind)0))) });
                     if (NavigationBindings.PreferenceSaved(view.Result)) Row(parent, "save.Preference", "fm.inventory.preference.saved");
                 }
                 Action(view, returnButton, PlayerNavigationAction.Return, "fm.common.action.back");

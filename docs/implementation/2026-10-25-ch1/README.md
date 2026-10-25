@@ -181,3 +181,87 @@ r2 GUI最终收尾已收：C actual closeout `01a1714b-cb2c-78e1-ae61-bda20ef3a1
 B03／B04上述53项既有源码／夹具前像已保存在`baseline/b03-b04/`，manifest SHA `233807e8a1bc1b0ff74734c0c90e0cd7f7e714db309191bdb7bd0cfa17203c62`；逐项与PR25原字节相同，没有旧WIP夹带。C已确认无Editor，现解除这53项及明列新增路径的源码冻结，由原content／save／combat按分工实施并回主程；Unity／生成仍待固定候选后派唯一C。主策可将已定31个新key接入原`Config/FightMatch/Localization/FightMatchText.csv`，保持279旧行逐字段不变；只做通常CSV静态检查，不手改Generated或资源。
 
 save最小增补`Application/CandidateLifecycleModels.cs`：现有Content输入与冻结Content携带可选`PublishedSaveContext`原定义闭包，仅引用传递不序列化；Permanent提交必须能按旧gift quote.Binding解析原Teaching的GiftOnceKey，不能拿当前同ID定义代替旧来源。该文件唯一归save，combat不并写；前像与PR25相同，保存在`baseline/b03-b04-added-save-context/`。不改变Quote／Effect正文或迁移边界，旧调用保持原行为，缺精确原定义明确拒绝。
+
+主策actual `01a17153-0207-7963-a01a-ff34631033ae/local`已完成31新文本并停写：`Config/FightMatch/Localization/FightMatchText.csv`现310条数据、80240字节、SHA `48597be0d4fd39259a12aa4eb7af662d77ce5b26d311f9c8c84b53d9491610dc`；279原行全部字段和原字节前缀保持。31条与r3 README中英／参数一致，11条有参数、20条无参数，常规CSV检查通过。主程核准确SHA及原字节前缀，保存新输入副本`b03-b04/inputs/FightMatchText.r3.csv`；前像／参数差量／静态结果在`baseline/planning-text-r3/`，result SHA `35798fb6c417f28e0011028940d992c4994cb20b6e0b639684332fc00e867fae`。未运行生成器或Unity，旧279产物与r2资产继续保持，不把作者文本完成等同页面验收。
+
+中央已发布[PR26](https://github.com/yyczz1/FightMatch/pull/26)：head `7a226936751ab265609b0fdc751207648bdffffb`，base `1e87c7960fc429b7229862c720520ed9ea42e207`，draft未合并；113路径为准确112候选加实施记录。主程已挂接，QA已由中央唤醒并唯一触发／接回GitHub独审，未据发布认定审查通过。后续源码候选以此head为base，不混入Scene完成或实际试玩声明。
+
+content接续最小增补`Tools/FightMatch.Localization.Compiler/Program.cs`、`ChapterOneCompile.cs`，前像在`baseline/b03-b04-text-compiler/`且与PR25相同。复用同一解析／规范化／往返实现，增加明确r3模式及固定310行／源SHA48597be0…1610dc／r3输出映射，原r2模式与固定输入守卫保持；不复制另一套编译器，不开放任意路径或跳过字段校验。r3原始文本路径固定`b03-b04/text/luban-r3/fm-text-v1.json`，标准输出为`Generated/FightMatch/Localization/ChapterOneTrial-r3/fm-text-v1.json`及`fm-text-v1.manifest.json`。仅C在两Tools文件固定后构建／生成；不运行历史自制验收链。
+
+r3内容标准生成准许新建`Generated/FightMatch/ChapterOneTrial/r3/`下与已定17CSV同名的17JSON，由原薄适配加现有Luban5.1.0正常生成；准确临时标记CSV目录为`b03-b04/luban/staging-r3`，适配显式使用新schema。上述文本2输出及内容17输出都归C，不手改生成值、不覆盖r2。当前只登记输出，尚未运行；源码作者继续自己的互斥范围。
+
+save增补`Core/CandidateBusinessRestoreChecks.cs`，前像在`baseline/b03-b04-added-restore/`且与PR25相同。原恢复核的单DamageFacts／ChargeStrike假设只在新cap分支接combat现有记录验证入口，核录制随机词、完整敌阶段与Stage；旧七cap恢复核保持。两作者共享同一战斗规则验证，不在save复制Boss算法、不重新抽随机。该文件唯一归save，必要的内部CheckRecord签名由combat提供。
+
+save增补`Core/CandidatePermanentSaveCodec.cs`：原Level canonical检查的空RequiredFeatures约束仅增加V5精确新token分支，以支持progression引用及无Battle的新cap声明；永久Quote／Effect／Challenge正文结构保持。前像在`baseline/b03-b04-added-permanent-codec/`，与PR25相同，唯一归save。
+
+B04真实反馈接线由content接管既有`Presentation/CandidateBattlePlaybackFrame.cs`、`CandidateBoardInputView.cs`、`CandidateBattlePlaybackView.cs`，前像在`baseline/b03-b04-playback/`且均等PR25；save／combat不并写。新增`Assets/Tests/EditMode/FightMatch/ChapterTauntBossPlaybackTests.cs`及.meta。原因是旧frame仅区分普通攻击／敌意图／Stage，新增SkillCast／Cooldown／Vulnerability不能落入Stage空引用分支，原HUD也只显示Strike／Charge。仅从已提交事实和快照投影新类型、Wind准确HP前后／余次、嘲讽、CD、易伤、休整／远程／重砸和翻面；复用现有allyIntent／enemyIntent等uGUI槽位和31已定文本，不改Scene／Prefab或播放计时规则。未知事实保留诊断，不能当Stage或伪造伤害；播放／Skip不改业务或重抽随机。新测试覆盖合法仅技能、Wind小数／零恢复、CD／易伤／两面事实投影与新旧反馈兼容，不重复完整生命周期测试。
+
+content已完成其内容8路径和Tools2路径并临时结束回合释放执行槽；表现3源尚未写。Tools最终Program SHA `b4d34c891e9463076d34e281b44609e08186a48744913ae1efe432d94d11da8c`、ChapterOneCompile SHA `e81f59d96032875aac9912bfa1c5e37b3474959bbf3276b1d15b3a34b2aa7cdd`，主程核与回执一致。`b03-b04/generation-01-inputs.json` SHA `4288f570775e7f8fbe821b936d1dba8fc50015829749ef666c5e0d06e3f383fb`固定28输入、39旧输出／作者保护、19新输出及5条标准命令。唯一C顺序执行薄适配→Luban内容→本地dotnet工具构建→Luban文本→固定r3投影；每调用timeout120秒、r3生成累计600秒，预计约1分钟。新中间输出只在`b03-b04/luban`及`b03-b04/text`，NuGet源为空且复用现有SDK，不下载／重建上游。其他两作者只写各自Assets源码，与本非Assets生成无冲突；本段Unity授权次数0。任一步失败先报原诊断，不盲重跑。
+
+`b03-b04/generation-01`实际前4命令exit0；第5文本投影exit20，`FMLOC007: declared parameters are not ordinal sorted: fm.growth.cards.change_preview`，无正式文本pair。17内容JSON已成功，389行／3221单元格与作者CSV全部精确相同；Luban原始文本310条，未到投影一一对应／往返完成。28输入／39保护保持，Unity0；r3生成累计83.386796／600秒，余516.613204秒。原失败和产物保留，不重跑已成功内容生成。
+
+主程据真实诊断收口参数声明技术纠正：成长预览7个命名参数须按既有Ordinal规则声明为`afterLevel;afterXp;beforeLevel;beforeXp;characterName;fixedXp;targetLevel`，不改变中英正文、占位符名或Quote语义。主策唯一修改该新CSV行的声明及r3 README对应单元格，保留前像；其他309行和17内容表保持，不修改冻结设计或放宽编译器。待准确新源SHA回传，content仅更新固定r3输入pin，C只补受影响工具构建／文本Luban／投影，继续原r3累计预算。
+
+纠正收齐：主策actual `01a17160-d464-7720-945d-cd0a3692725b`回新CSV SHA `42823e4e841aba88e0ca2740a561c326252fc80c3c23e08d3572426a37ffcab8`、r3 README SHA `dcc1e2130cf9894e5e5e4985b30c18f39729ffc99c3eb1e9e4108adae745355c`；README明确按参数名关联Quote，Ordinal不改变字段映射。前像与单单元格核对在`baseline/planning-text-r3-fix01/`。content仅更新r3源pin，ChapterOneCompile新SHA `0582362755349ee6dc30176cf73516b13831721b06427b6a2190a51788b40075`，Program与旧r2常量保持。
+
+`b03-b04/generation-02-inputs.json` SHA `54febef9778b47bfd93e9d81eef306f999f75ec5c51dd7d93b81734802fdf638`预定固定28输入、56保护和3条受影响标准命令；相对01只变上述CSV、README、Tools pin三文件。已完成17JSON加入保护，绝不重生成；旧失败raw副本在`b03-b04/inputs/text-r3-before-fix01.json`、原失败编译器保留，修正工具输出使用独立compiler-fix01目录。文本Luban可正常更新其工作raw，正式r3 pair仍CreateNew。下一唯一C执行继续83.386796／600秒，不启动Unity；当前尚未执行此修正。
+
+`generation-02`实际3命令均exit0，310键标准一一对应／往返成功，原279全部字段保持；28输入／56保护／旧失败raw及编译器保持。新文本145357字节、SHA `84ba6486967374b3ae81cbc98d236b18ca415e9730142299fa156d4b1c3bbcdc`，manifest906字节、SHA `3eca44d82c5f6e23492a5125578ad94f19c5bc5fadf61dc527944d260bd8cad2`。本段50.461129秒，r3生成累计133.847925／600秒，Unity仍0；C停写。
+
+三个源码作者均已静态收敛停写：content内容／Tools／表现15路径，save29改动路径（永久正文CandidatePermanentCodec未改），combat38路径。save详细候选在`b03-b04/save-candidate-01.json`，30项含一个未改源的集合SHA908804ab…6d967经主程核一致；combat清单已从实际临时回执固定到`b03-b04/combat-candidate-01.json`，SHA `ecc217306e3752012593d4a2838b44f1f4e40fcaa8d9185c3a3241ba5fd9313f`。所有回执只声称静态实现，不是编译／测试或页面通过。
+
+第一批B03/B04统一候选`b03-b04/source-candidate-01/manifest.json` SHA `6ac196922bac86137b44539866d03fd33e3b08a57cf57d07b035201be6929914`：82源码／测试／Tools＋40作者／配置／标准生成物，共122路径，以PR26 head7a226936为base；原字节副本已保存，596编译／数据输入、44设置／Scene／Prefab／字体保护固定。唯一C现执行`b03-b04/editmode-01`一次标准有图形EditMode（batchmode，无nographics／quit），选择9个新增类共69实例及旧Schema1、旧V2/V3、r2 V5保存和混合职业伤害6实例，共预计75。其余有效70／45旧证据复用，不重复全量。单调用timeout900秒，B03/B04主动累计从0／3600秒开始，r3生成133.847925／600及旧B01/B02耗时原样保留。真实r3正常1→16 Application链使用作者参数及公开业务入口，测试发布身份与真实内容发布分开；未运行前不声称平衡通过。失败先保存原始诊断回主程，不自动重跑／弱化断言。当前不发布新内容、构建资源或写Scene。
+
+`editmode-01`编译失败退出1，Unity23.904146秒，75项均未执行／无XML；122候选／596输入／44保护保持，C确认Unity退出。B03/B04累计99.161803／3600秒，余3500.838197秒。日志第一轮旧编译图出现47条新Chapter类型CS0246；主程核同次随后自动更新图并成功编译／复制Core、Content、Application、Presentation及Host（Editor.log 695—715行），故不改动已正常纳入的新模型。最终阻挡仅为`PublishedRuleContextTests.cs:250`调用旧`BusinessRequirements.For`缺新增resolved参数。save按既有源码白名单恢复旧调用兼容，新r3的精确原定义要求保持；不修改无关旧测试、不重建缓存或放宽守卫。原诊断全部保留，当前尚未补跑。
+
+编译修正收齐并停写：仅`Core/CandidateBusinessSaveCodec.cs`为metadata helper末参数恢复`resolved=null`默认值，正文及实际published Encode的非空／精确定义守卫保持；新SHA `b671fc8b6752eacac464bef0272c9cd80904467ccb53d60f9fafce02dae5b673`。`b03-b04/source-freeze-02.json` SHA `9380a118bf8ddce67820c3b9379deb1a4f54afc8a0ee2dcb1d8623c97b57dc2a`仍122候选／596输入／44保护，主程核仅这一源改变，delta字节保存于`b03-b04/corrections/compile-01/`。C下一次editmode-02沿原75项（此前全未执行）、同900秒单次和3600秒累计，起点99.161803秒；不清缓存、不改测试、无额外范围。
+
+### 后续r3真实Host／资源接线范围
+
+当前仅登记下一步，不解除editmode-02期间的输入冻结；C退出后由主程明确交content开始。原r2和Demo完整产物保留。为避免覆盖r2内置catalog，r3资源包单独命名`FightMatchChapterOneR3`，version=`chapter-one-trial-r3`、setPrefix=`fm.ch1.trial.r3`；业务PackageId／ReleaseSetId保持原身份。现有YooAssetRuntimeFactory本来按package name拼根，无需修改或升级SDK。
+
+content允许修改8个既有路径：`Assets/Scripts/FightMatch/Content/ChapterContentAuthoring.cs`、`Assets/Tests/EditMode/FightMatch/ChapterContentAuthoringTests.cs`、`Assets/Scripts/FightMatch/YooAssetAdapter/Editor/FightMatchResourceBuild.cs`、`Assets/Scripts/FightMatch/AssetAccess/FightMatchResourceReleaseSet.cs`、`Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceBuildTests.cs`、`Assets/Tests/EditMode/FightMatchAsset/FightMatchResourceReleaseSetTests.cs`、`Assets/Scripts/FightMatch/Host/FightMatchResourceBridge.cs`、`Assets/Tests/EditMode/FightMatchHost/FightMatchChapterEntryTests.cs`。前像全部等PR26，在`baseline/b03-b04-r3-host/`。新增明确4路径为`Assets/FightMatch/ResourceBuild/FightMatchChapterOneR3ResourcePlan.json`及.meta、`Assets/Scripts/FightMatch/Host/Editor/FightMatchChapterResourceSceneSetup.cs`及.meta；不改asmdef、Prefab或Host双入口／资料根。
+
+准备／发布复用原四模式和严格门，保留旧`Prepare()/Run()` r2行为，新`PrepareR3()/RunR3()`仅固定新输入／revision3 job／独立r3根；17CSV集合SHA867a9ab…7462、17JSON集合SHA `c7c034446902183a407d3a7c0a763d671d1af84476e9c63890ad8e6644201bb4`。8件prepare叶名沿原包，改放`host-content/r3/prepare`；真实批准仍QA独占`host-content/r3/approved-review.json`，publication根亦独立，不写审批结论。资源plan固定真实310 pair；ReleaseSet与Bridge按准确r2/r3身份组合选择原279或新310的已知pins／长度，未知及跨版本混搭拒绝，旧Demo行为保持。补测只选新profile、组合拒绝、lease释放及相应原调用兼容，旧夹具的虚构inspection身份改成明确r2/r3测试身份，不冒充生产review。
+
+正常Scene配置菜单仅用`SerializedObject`、`ApplyModifiedProperties`及`EditorSceneManager.SaveScene`处理固定Scene中唯一Host的三个chapter boot／pin／resourceSetId；拒绝Play中及可能覆盖其他未保存场景，先核三件真实boot后才修改，保存后读回三项并确认旧Demo三项保持。不构建、不启动游戏、不承担验收框架，不调用全局SaveAssets。此阶段只写Editor源码，实际运行／Scene写入仍由后续C合同限定；尚无Scene已接线或实际页面通过声明。
+
+后续实际产物预定新目录：六件`Assets/StreamingAssets/FightMatchChapterOne-r3/`沿原六叶名；文本`Assets/FightMatch/ResourceBuild/Inputs/ChapterOneTrial-r3/`两件；boot为原ResourceBuild目录内`fm-resource-boot-chapter-{macos,windows,android}-r3.json`三件；runtime为三平台`FightMatchChapterOneR3`目录。对应新meta和唯一Scene在真实SDK inventory到齐后再准确登记C的复制／写入合同，当前不得先生成或手造物理哈希叶名。
+
+为在editmode-02等待期间继续无冲突工作，content现可仅在`TestArtifacts/FightMatch/CH1-IMPL-001/b03-b04/r3-host-staging/files/`下按上述12个完整相对路径制作接线候选。八个既有前像固定为`baseline/b03-b04-r3-host/manifest.json` SHA `d730debb1db65f6615259eeee6faa966bcc4e0031dff0f8f61486cb9bc6e7697`，均等PR26。本次只改staging副本／四个明确新文件，不触碰真实Assets／Tools／Generated，不运行编译／生成／Unity。待当前C退出后，原作者核真实八前像仍相同，再按主程派工落入上述真实白名单；不是Git worktree或另套发布／验收框架，真实输入冻结继续有效。
+
+`editmode-02`已由原进程监督在900.073646秒超时结束，exitCode=null；编译错误0，已进入Test Runner，但无XML及逐用例输出，75项实际完成／通过／失败数均未知。122候选／596输入／44保护保持，Unity已退出，C已停写。含前后检本段938.826945秒，B03/B04累计1037.988748／3600秒，余2562.011252秒；旧B01/B02及r3生成预算保持。原结果在`b03-b04/editmode-02/result.json`，不把超时改写为通过或自行重跑。只读确认真实链1—15再16、每次Win最多64行动；NUnit进度可能缓冲，有限循环与CPU活动不足以判定实际执行位置。下一步先缩小标准测试反馈、区分共同准备与完整链耗时，不改作者参数或降低断言。
+
+content已完成12件staging候选并停写；主程核8真实前像保持，固定`b03-b04/r3-host-staging/manifest.json` SHA `200e9e4666aa0ade421a734f2a65cc7fb320639c2f53c37c5ed170b363d2e4e7`。C退出后，主程现交原content再核前像并仅将12件原字节落入已定真实白名单；不执行Scene菜单、不生成或运行Unity。新增18测试实例及最小受影响旧检查随回执收齐后另定输入。QA在本次验证里程碑仅接回PR26原独审请求，无新review请求或重复测试。
+
+12件已按候选原字节落盘、作者停写，主程核SHA一致；下一冻结`b03-b04/source-freeze-03.json`包含134候选／600输入／44保护。下一次只选真实r3单次Prepare及最小Underlevel教学Application夹具两个既有测试，标准EditMode命令增加本机UTF1.1.33内置`-automated`进度记录，单调用180秒，累计从1037.988748秒继续。该参数的现有实现注册TestStarted／TestFinished的`##utp`日志并标记analytics，不更改测试选择／断言；无需测试源码或自制runner。当前尚无这两例的新结果，待实测耗时再定其余检查。12件新增18实例与6例受影响旧兼容单独保留待验证，未据落盘声称接线或Scene已完成。
+
+`editmode-03`实际XML为2通过／0失败／0跳过，两个UTP Begin／End完整：真实r3 Prepare 1.323759秒，最小教学Application 2.961233秒。Unity exit0、39.027640秒，含前后检65.134568秒；134／600／44保持，进程已退出。累计1103.123316／3600秒，余2496.876684秒。这说明共同准备成本不足以解释900秒超时，原75实际完成数仍未知；不据两个探针认定整链通过。
+
+下一次`source-freeze-04.json` SHA `7b9f9b1ce55ed0a9be4e9719f1887c0570f08ee00947a2d410162fc95c1289d8`保持同一134候选／600输入／44保护，选32个精确filters、预计94实例（原批剩余规则／codec／表现70＋r3Host新18和受影响旧6）。复用已过2例，暂分离真实1→16、synthetic完整教学链、Boss冷恢复结算链三个长例；先区分长流程与单例规则耗时。C唯一执行`editmode-04`，仍内置UTP、单调用420秒、累计起点1103.123316秒，失败先收具体诊断，不扩范围或盲重试。该批尚未有结果。
+
+`editmode-04`实际XML为94通过／0失败／0跳过，测试总时长48.065292秒、最慢单例5.089720秒，主程已核XML；Unity exit0、119.160293秒并退出。但唯一字体保护漂移，故整体保留`TESTS_PASS_PROTECTION_DRIFT_STOPPED`：`NotoSansCJKsc-Regular-TMP.asset`从10674866字节／SHA `195d9862d467417a656ea2630cb5ae1428e5d40be66ad311b35e38548e908428`变为10698360字节／SHA `2625c9b31d5ea7c29673a8ee0e14228c7a8af3cd8859ccabf9c91a5d6443838a`。134候选／600输入及其他43保护保持；含收尾累计1289.326707／3600秒，余2310.673293秒。后像已保存于本次证据目录，未还原或收入发布候选。
+
+content限定只读检查未找到精确字体前像（TestArtifacts同长度0项，HEAD／索引无该对象，最近历史字节亦不同），不能全量证明差异仅为缓存。当前Dynamic／多图集字体被播放测试及RuntimeRoot共享，LocalizedTmpText的HasCharacters允许加字，TMP包存在添加glyph／atlas并SetDirty的标准路径；这是可能机制，不能替代完整差异证据。保留现状作为后续非UI检查的已知本地输入，继续排除产品发布；原保护失败不改绿，不用更旧字体覆盖现有WIP。后续运行必须保持这一实际后像。
+
+剩余三个长例临时定位仅修改原combat两测试文件，前像及严格日志only差量在`b03-b04/diagnostics/lifecycle-progress/`；新增唯一前缀`[DEBUG-CH1-LIFECYCLE]`的标准Unity阶段日志，不改断言／数值／步骤顺序，结束后精确清理。下一`source-freeze-05.json`固定134／600／44的实际输入：只选两个synthetic长例，单次240秒；若两例通过，再由同一C执行一次标准`ChapterContentAuthoring.RunR3 -fmChapterMode prepare`、单次120秒，仅创建已定r3 prepare八件且模板保持UNREVIEWED，不发布／激活／构建资源／写Scene。真实r3整链仍单独待测，累计预算从1289.326707继续，不复测96项有效结果。
+
+`editmode-05`实际240.074383秒timeout、exitCode=null，无XML；首个Boss冷恢复用例Begin1／End0，已完成首次胜利、结算Unknown及Resolve、重复结算与第二次入场，最后阶段为second win before。教学长例未开始，prepare未运行、八输出均不存在。134／600／44保持（含当前字体后像），Unity已退出、C停写；累计1579.590614／3600秒，余2020.409386秒。局部阶段推进不等于完整测试通过，也不足以认定产品性能根因；后续仍在单次900／总3600内为长例分配时间，不修改断言来缩短测试。
+
+字体测试隔离的精确新增范围：原content接管本轮`ChapterTauntBossPlaybackTests.cs`及原save已停写的`ChapterTeachingNavigationTests.cs`，只准备瞬态字体／atlas／material及清理，当前仍staging。共享`PlayerNavigationTestFixture.cs`须增加仅测试用的可选prepareRoot回调，在Instantiate后、Bind／激活前替换字体；该源当前local SHA1e5b13d6…7ba321含既存Host／ResponsiveLayout测试WIP，必须保存前像并保留，另生成PR26基准上的callback-only发布差量，不能默默纳入旧WIP或改生产Prefab／字体。当前C运行时禁止真实落盘。
+
+r3实际prepare可独立于长战斗测试：真实Prepare及Authoring对应测试已有通过证据，不需等待未验证战斗来生成UNREVIEWED材料。主程现将它从上次未触发的条件步骤单独派C，输入`host-content/r3/prepare-inputs.json`保持同134／600／44，起点1579.590614秒、单次120秒、只建既定八件；批准／发布／激活／导出／资源／Scene仍禁止。字体与长例状态均不改写为通过。
+
+真实r3 prepare实际exit0、Unity15.277029秒，八件齐全且回读一致：revision3／16关17面／八cap／31参数证据；source与payload均87698字节、SHA `9b751d12b9cea307774020f524e779d5763b93a95067e125e0eb00c5d5a469c7`，validation1375字节、SHA `d305e1c25dcf5577cfd8e696cda999c3fdc29190666a29fcd92ed581343303fd`。模板UNREVIEWED且批准字段null，BattleReplayPerformed=false，未发布。134／600／44及旧r2八件保持，Unity已退出；含前后检累计1693.108313／3600秒，余1906.891687秒。准确八件清单见`host-content/r3/prepare-run-01/result.json`。
+
+字体隔离三测试源已按`b03-b04/font-isolation-staging/manifest.json` SHA `a77c10b649fc3464ea6f14f82b61840346a94c16b8544de7a1a77ee2138af294`落盘并停写。所有TMP字形表／atlas／material使用瞬态实例并清理，导航在首次绑定前替换引用；生产字体仍2625后像。真实共享fixture保留旧WIP，发布只用`review-files/`中的PR26＋两行回调版本，SHA `2e7ede9e1c4be5298d460313fce41b0aecb3877c891714bf4a5d6a0eeb7cf549`；本地实测与该发布fixture的旧WIP差异须单列，不声称整个PR树等同本机输入。
+
+`source-freeze-06.json` SHA `4b0373787f65b2f75b71aedddb7380d61ba63ba1ff192f699514897dcb494403`固定135候选／600输入／44保护；唯一C依次运行字体隔离受影响10例（editmode-06／180秒）、两个synthetic长例（editmode-07／600秒）、独立实际r3新档1→16（editmode-08／900秒）。上一段XML全通过、数目准确、进程退出且输入／保护保持后才继续，任何失败即停；同一起点1693.108313、总3600不重置并预留收尾。现有临时阶段日志只用于这三长例，完成后移除；不重复其他86有效检查，不发布／构建／写Scene。当前这三段均尚未收件。
+
+第四批源码候选已冻结到`review-candidate-04/`，manifest SHA `58c3e54ae871c4ed22981218ccfd84b4a9909e82ba363b1dba58a1231931ed16`，准确136路径／2099508字节，以PR26为base；135源码／作者／生成物及一份实施记录。临时长例日志与本地旧fixture WIP在发布副本精确排除，字体／Scene／玩家档不包含。已交中央准备draft，QA唯一审查接收；尚未据候选生成宣称新PR或审查完成。
+
+`editmode-06`实际XML为0通过／10失败，Unity exit2、36.351783秒并退出。8个播放用例SetUp与2个导航用例均在临时字体构造时报同一`UnassignedReferenceException: TMP_FontAsset.m_AtlasTextures`，尚未执行业务断言；135／600／44及字体前像保持。累计1843.962247／3600秒，余1756.037753秒；07／08按条件NOT_RUN，未用其额度。只交content纠正共享helper对多图集合法空槽的克隆处理，准确单文件`ChapterTauntBossPlaybackTests.cs`，保留索引／实际主图集校验和所有业务断言。candidate04历史不改写；已通知中央若未发布暂缓、若已发保留draft，QA不触发该旧候选独审，待修正delta与10项补证后审准确head。
+
+字体helper修正已收：本机TMP标准SetupNewAtlasTexture倍增数组，当前8槽中后3槽合法预留；只克隆已赋值槽并保持索引，严格检查主图集、活动图集及glyph引用。单文件新SHA `4f3bf15e7c07d601c497340666d041968da95b89d04a0cc63504406b0430ed7e`，原失败前像与diff在`b03-b04/corrections/font-isolation-01/`。`source-freeze-07.json` SHA `9f0a54822ccf3aed1fb979557622b77ca3a757f7cbce9debf4a2253fb6f3128f`只变该源，仍原3600秒预算。中央已确认candidate04未产生提交／推送／PR，保持冻结历史，等待最终候选。
+
+`editmode-06-fix01`实际10通过／0失败／0跳过，Unity exit0、61.308045秒并退出；135／600／44保持，字体与06前像逐字节一致。原10失败及04字体漂移不覆盖；当前有效唯一检查为03的2例＋04中未受影响84例＋本次10例，即96个不同用例通过，三个长例仍待完整结果。累计1950.338806／3600秒，余1649.661194秒；C已按合同继续07两个synthetic长例。若某Win阶段超过60秒，允许仅对同一C-owned Unity PID作一次系统sample的3秒只读CPU采样，纳入原预算、不延长调用；失败无采样重试，不采其他应用。08实际r3链仍以上一段完整通过为前提。

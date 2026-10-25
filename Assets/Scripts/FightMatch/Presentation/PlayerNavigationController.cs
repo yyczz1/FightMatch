@@ -45,7 +45,8 @@ namespace FightMatch.Presentation
                 DefinitionId = target.DefinitionId, PermanentKind = target.PermanentKind,
                 CommitId = target.CommitId, OperationId = target.OperationId };
             var context = View.Context; var binding = epoch;
-            return () => { if (!closed && binding == epoch) Apply(session.Navigate(frozen, context, budget.Codec), true); };
+            return () => { if (!closed && binding == epoch) Apply(frozen.Kind == PlayerNavigationTargetKind.Preparation ?
+                session.EnterPreparation(frozen, context, budget) : session.Navigate(frozen, context, budget.Codec), true); };
         }
         public Action PreviewHandler(Func<PlayerNavigationDraft> draft)
         {

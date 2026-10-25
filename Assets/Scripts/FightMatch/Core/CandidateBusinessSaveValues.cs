@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using FlowPuzzle.Core;
 
@@ -15,6 +16,7 @@ namespace FightMatch.Core
         internal PublishedSaveContext Resolved { get; set; }
         internal bool ValidatePublished { get; set; }
         internal uint SchemaVersion { get; set; }
+        private bool stateContract;
         internal CandidateRosterState Roster { get; set; }
         private readonly Stream stream;
         private readonly ulong length;
@@ -212,12 +214,19 @@ namespace FightMatch.Core
                 AttemptId = Text(value?.AttemptId, path + ".AttemptId"), EntryBaselineId = Text(value?.EntryBaselineId, path + ".EntryBaselineId"),
                 Context = Context(value?.Context, path + ".Context") };
             var binding = value?.GetDefinitionBinding(); var resolvedLevel = value?.Level;
+            stateContract = value?.RequiredFeatures.Contains(ChapterRuleDefinitions.StateFeatureId) == true;
             if (Resolved != null)
             {
+                var definitions = Resolved.FindExact(((PublishedRuleContext)input.Context).Binding);
+                Need(definitions != null, path + ".Context", "UnsupportedBinding");
+                var required = definitions.Chapter?.HasTauntBossState == true;
+                Need(Reading || stateContract == required, path + ".RequiredFeatures", "InconsistentBinding");
+                stateContract = required;
                 binding = LevelBinding(((PublishedRuleContext)input.Context).Binding, value?.Level.LevelId, value?.Level.LevelVersion, path + ".Level");
                 resolvedLevel = Resolved.FindExact(binding); Need(resolvedLevel != null, path + ".Level", "UnsupportedBinding");
                 if (!Reading) Need(CandidateBattleReportFingerprint.Equal(value.Level, resolvedLevel, Budget.Math), path + ".Level", "InconsistentBinding");
-                input.Level = new BusinessFields(Stream.Null, false, Budget) { SchemaVersion = input.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion ? 5U : 0U }.Level(resolvedLevel, path + ".Level");
+                input.Level = new BusinessFields(Stream.Null, false, Budget) { SchemaVersion = input.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion ? 5U : 0U,
+                    stateContract = stateContract }.Level(resolvedLevel, path + ".Level");
             }
             else input.Level = Level(value?.Level, path + ".Level");
             var chapter = input.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion;
@@ -226,6 +235,14 @@ namespace FightMatch.Core
             input.Members = new List<MemberInput>(); foreach (var member in members) input.Members.Add(MemberInputOf(member));
             input.CarryMode = (EntryCarryMode)Enum((int)(value?.CarryMode ?? 0), 1, 1, path + ".CarryMode");
             input.RequiredFeatures = Strings(value?.RequiredFeatures, path + ".RequiredFeatures");
+            Need(stateContract == input.RequiredFeatures.Contains(ChapterRuleDefinitions.StateFeatureId), path + ".StateContract", "UnsupportedBinding");
+            if (stateContract)
+            {
+                Need(SchemaVersion == 5, path + ".Schema", "UnsupportedSchema");
+                var codec = new CandidateChapterSaveCodec(this);
+                for (var i = 0; i < input.Members.Count; i++)
+                    input.Members[i].BattleSkills = codec.Skills(value?.Members[i].BattleSkills, path + ".BattleSkills[" + i + "]");
+            }
             var preparer = new BattleEntryPreparer();
             var prepared = input.Context is PublishedRuleContext ? preparer.PreparePublished(input, binding, resolvedLevel, Budget.Math)
                 : preparer.PrepareCandidate(input, Budget.Math);
@@ -271,19 +288,41 @@ namespace FightMatch.Core
             Required(value, path);
             var input = new EnemyInput { EnemyInstanceKey = Text(value?.EnemyInstanceKey, path + ".EnemyInstanceKey"),
                 EnemyDefinitionId = Text(value?.EnemyDefinitionId, path + ".EnemyDefinitionId"), OriginalSlot = I(value?.OriginalSlot ?? 0, path + ".OriginalSlot"),
-                StableOrder = I(value?.StableOrder ?? 0, path + ".StableOrder"), Behavior = (EnemyBehavior)Enum((int)(value?.Behavior ?? 0), 1, 2, path + ".Behavior"),
+                StableOrder = I(value?.StableOrder ?? 0, path + ".StableOrder"), Behavior = (EnemyBehavior)Enum((int)(value?.Behavior ?? 0), 1, stateContract ? 3 : 2, path + ".Behavior"),
                 Stats = Stats(value?.Stats, path + ".Stats") };
             var intents = List(value?.IntentCycle, (x, p) => new PreparedEnemyIntent(Intent(x, p)), path + ".IntentCycle");
-            input.IntentCycle = new List<EnemyIntentInput>(); foreach (var intent in intents) input.IntentCycle.Add(IntentInputOf(intent)); return input;
+            input.IntentCycle = new List<EnemyIntentInput>(); foreach (var intent in intents) input.IntentCycle.Add(IntentInputOf(intent));
+            if (stateContract)
+            {
+                input.InitialIntentCursor = Flag(value?.InitialIntentCursor != null, path + ".HasInitialCursor")
+                    ? (BigInteger?)Integer(value?.InitialIntentCursor ?? 0, path + ".InitialCursor") : null;
+                input.WindTargetEnemyInstanceKey = Text(value?.WindTargetEnemyInstanceKey, path + ".WindTarget", true);
+                input.WindUses = Flag(value?.WindUses != null, path + ".HasWindUses") ? (int?)I(value?.WindUses ?? 0, path + ".WindUses") : null;
+                input.WindFraction = Rational(value?.WindFraction, path + ".WindFraction", true);
+            }
+            else Need(Reading || value.InitialIntentCursor == null && value.WindTargetEnemyInstanceKey == null &&
+                value.WindUses == null && value.WindFraction == null, path + ".StateContract", "UnsupportedBinding");
+            return input;
         }
         private EnemyIntentInput Intent(PreparedEnemyIntent value, string path)
         {
-            Required(value, path); var kind = (EnemyIntentKind)Enum((int)(value?.Kind ?? 0), 1, 2, path + ".Kind");
-            var targeting = (EnemyTargeting)Enum((int)(value?.Targeting ?? 0), 1, SchemaVersion == 5 ? 2 : 1, path + ".Targeting");
+            Required(value, path); var kind = (EnemyIntentKind)Enum((int)(value?.Kind ?? 0), 1, stateContract ? 4 : 2, path + ".Kind");
+            var targeting = (EnemyTargeting)Enum((int)(value?.Targeting ?? 0), stateContract ? 0 : 1, stateContract ? 3 : SchemaVersion == 5 ? 2 : 1, path + ".Targeting");
             EntryDamageKind? damage = Flag(value?.DamageKind != null, path + ".DamageKind")
                 ? (EntryDamageKind?)Enum((int)(value?.DamageKind ?? 0), 1, 1, path + ".DamageKind.Value") : null;
-            return new EnemyIntentInput { Kind = kind, Targeting = targeting, DamageKind = damage,
+            var input = new EnemyIntentInput { Kind = kind, Targeting = targeting, DamageKind = damage,
                 DamageCoefficient = Rational(value?.DamageCoefficient, path + ".DamageCoefficient", true) };
+            if (stateContract)
+            {
+                input.AttackOverride = Rational(value?.AttackOverride, path + ".AttackOverride", true);
+                input.AttackRange = Flag(value?.AttackRange != null, path + ".HasAttackRange") ? (int?)I(value?.AttackRange ?? 0, path + ".AttackRange") : null;
+                input.ExhaustedFallbackIndex = Flag(value?.ExhaustedFallbackIndex != null, path + ".HasFallback")
+                    ? (int?)I(value?.ExhaustedFallbackIndex ?? 0, path + ".Fallback") : null;
+                input.NextActionVulnerability = Rational(value?.NextActionVulnerability, path + ".NextActionVulnerability", true);
+            }
+            else Need(Reading || value.AttackOverride == null && value.AttackRange == null && value.ExhaustedFallbackIndex == null &&
+                value.NextActionVulnerability == null, path + ".StateContract", "UnsupportedBinding");
+            return input;
         }
         internal DefinitionBinding LevelBinding(ContentBinding content, string levelId, string levelVersion, string path)
         {
@@ -320,17 +359,23 @@ namespace FightMatch.Core
         private static MemberInput MemberInputOf(PreparedMember x)
         { return new MemberInput { CharacterId = x.CharacterId, ClassId = x.ClassId, ClassKind = x.ClassKind, OriginalSlot = x.OriginalSlot, Level = x.Level,
             IsReady = x.IsReady, StatsOrigin = x.StatsOrigin, StatsContext = ContextInput(x.StatsContext), Stats = StatsInputOf(x.Stats),
-            EntryHp = x.EntryHp, LearnedSkills = new List<string>(x.LearnedSkills), Crit = x.Crit == null ? null : CritInputOf(x.Crit), Penetration = x.Penetration == null ? null : new ArcanePenetrationInput {
+            EntryHp = x.EntryHp, LearnedSkills = new List<string>(x.LearnedSkills), BattleSkills = x.BattleSkills.Select(s => new ChapterBattleSkillInput {
+                SkillId = s.SkillId, RecordVersion = s.RecordVersion, BattleCapabilityId = s.BattleCapabilityId, CooldownTurns = s.CooldownTurns }).ToList(),
+            Crit = x.Crit == null ? null : CritInputOf(x.Crit), Penetration = x.Penetration == null ? null : new ArcanePenetrationInput {
                 PassiveDefinitionId = x.Penetration.PassiveDefinitionId, TargetProbability = x.Penetration.TargetProbability,
                 C = x.Penetration.C, IgnoreMagicDefenseFraction = x.Penetration.IgnoreMagicDefenseFraction } }; }
         private static EnemyIntentInput IntentInputOf(PreparedEnemyIntent x)
-        { return new EnemyIntentInput { Kind = x.Kind, Targeting = x.Targeting, DamageKind = x.DamageKind, DamageCoefficient = x.DamageCoefficient }; }
+        { return new EnemyIntentInput { Kind = x.Kind, Targeting = x.Targeting, DamageKind = x.DamageKind, DamageCoefficient = x.DamageCoefficient,
+            AttackOverride = x.AttackOverride, AttackRange = x.AttackRange, ExhaustedFallbackIndex = x.ExhaustedFallbackIndex,
+            NextActionVulnerability = x.NextActionVulnerability }; }
         private static PairInput PairInputOf(PreparedPair x)
         {
             var e = x.Enemy; var intents = new List<EnemyIntentInput>(); foreach (var intent in e.IntentCycle) intents.Add(IntentInputOf(intent));
             return new PairInput { PairId = x.PairId, GeometryColorId = x.GeometryColorId, EndpointA = x.EndpointA, EndpointB = x.EndpointB,
                 Enemy = new EnemyInput { EnemyInstanceKey = e.EnemyInstanceKey, EnemyDefinitionId = e.EnemyDefinitionId, OriginalSlot = e.OriginalSlot,
-                    StableOrder = e.StableOrder, Behavior = e.Behavior, Stats = StatsInputOf(e.Stats), IntentCycle = intents } };
+                    StableOrder = e.StableOrder, Behavior = e.Behavior, Stats = StatsInputOf(e.Stats), IntentCycle = intents,
+                    InitialIntentCursor = e.InitialIntentCursor, WindTargetEnemyInstanceKey = e.WindTargetEnemyInstanceKey,
+                    WindUses = e.WindUses, WindFraction = e.WindFraction } };
         }
         private static FaceInput FaceInputOf(PreparedFace x)
         { var pairs = new List<PairInput>(); foreach (var pair in x.Pairs) pairs.Add(PairInputOf(pair)); return new FaceInput { FaceId = x.FaceId, Width = x.Width, Height = x.Height, Pairs = pairs }; }

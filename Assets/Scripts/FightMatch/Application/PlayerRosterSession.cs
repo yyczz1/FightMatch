@@ -18,7 +18,7 @@ namespace FightMatch.Application
                 .Concat(new[] { "application", "character", "inventory", "progression", "battle", "rewards" }
                     .Select((name, i) => new RequiredSliceContract("fm.m0" + (i + 2) + "." + name, "M0" + (i + 2), 5))).ToArray());
         public static IReadOnlyList<string> RequiredRecoveryFeatures { get; } =
-            Array.AsReadOnly(new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1", "CH1.BusinessV5" });
+            Array.AsReadOnly(new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1", "CH1.BusinessV5", ChapterRuleDefinitions.StateFeatureId });
 
         public PreparedPlayerProfileResult PrepareNewRosterProfile(PublishedContentCatalog catalog, string releaseSetId, SaveCodecBudget budget)
         { return PrepareProfile(catalog, releaseSetId, budget, true); }
@@ -52,7 +52,9 @@ namespace FightMatch.Application
         }
         private CandidateLifecyclePrepareResult PrepareRoster(CandidateApplicationSnapshot snapshot, CandidateApplicationIntentInput input, SaveCodecBudget budget)
         {
-            return CandidateLifecyclePreparation.Roster(input, Content(For(snapshot.Business.Progression.Definition.Context), budget), budget);
+            var content = Content(For(snapshot.Business.Progression.Definition.Context), budget);
+            content.SourceDefinitions = Resolved;
+            return CandidateLifecyclePreparation.Roster(input, content, budget);
         }
         public CandidateLifecyclePrepareResult PrepareFormation(PlayerFormationDraft draft, SaveCodecBudget budget)
         {
@@ -71,8 +73,16 @@ namespace FightMatch.Application
             {
                 Need(draft != null, "MissingField", "Draft");
                 var head = RosterHead(draft.ExpectedCommitId, false);
+                var definitions = For(head.Business.Progression.Definition.Context).Definitions;
                 if ((int)head.Business.Format >= 4)
-                    Take(CandidatePermanentGrowth.CheckBattleCapability(Take(head.Business.Roster.PrepareEntry(time, budget)).Roster, budget));
+                    Take(CandidatePermanentGrowth.CheckBattleCapability(Take(head.Business.Roster.PrepareEntry(time, budget)).Roster, definitions, budget));
+                if (definitions.Chapter?.HasTauntBossState == true)
+                {
+                    Need(System.Numerics.BigInteger.TryParse(draft.LevelVersion, System.Globalization.NumberStyles.None,
+                        System.Globalization.CultureInfo.InvariantCulture, out var levelVersion), "InvalidValue", "LevelVersion");
+                    var level = Take(DefinitionBinding.Prepare(definitions.Binding, draft.LevelId, levelVersion, budget));
+                    Take(CandidatePermanentProgression.CheckTeachingAdmission(head.Business, level, definitions, budget, Resolved));
+                }
                 var input = RosterIntent(head, CandidateApplicationKind.EnterFormation);
                 input.EnterFormation = new CandidateFormationEntryInput { LevelId = draft.LevelId, LevelVersion = draft.LevelVersion,
                     ExpectedFormationRevision = draft.ExpectedFormationRevision, Slots = head.Business.Roster.Formation,

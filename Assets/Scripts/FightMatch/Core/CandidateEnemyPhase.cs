@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Linq;
 using FlowPuzzle.Core;
 using static FightMatch.Core.CandidateEnemyPhaseRejectionCode;
 
@@ -12,6 +13,8 @@ namespace FightMatch.Core
         {
             if (directAttack == null) throw new ArgumentNullException(nameof(directAttack));
             if (budget == null) throw new ArgumentNullException(nameof(budget));
+            if (directAttack.BeforeSnapshot != null && CandidateChapterBattleRules.HasStateContract(directAttack.BeforeSnapshot.Baseline.Entry))
+                return EvaluateChapter(directAttack, budget);
             var validation = new Validation(directAttack, budget);
             if (!validation.Check()) return validation.Rejection;
             var phase = budget.Add(directAttack.BeforeSnapshot.EnemyPhasesCompleted, BigInteger.One);
@@ -65,6 +68,135 @@ namespace FightMatch.Core
             return new CandidateEnemyPhaseResult(new CandidateEnemyPhaseFrame(directAttack, phase, members, enemies, totals, facts));
         }
 
+        private static CandidateEnemyPhaseResult EvaluateChapter(CandidateCombatFrame direct, ExactMathBudget math)
+        {
+            if (!CandidateChapterBattleRules.ValidateDirectFrame(direct, math))
+                return new CandidateEnemyPhaseResult(InconsistentBinding, "DirectAttack.ChapterState");
+            var phase = math.Add(direct.BeforeSnapshot.EnemyPhasesCompleted, BigInteger.One);
+            var members = direct.Members.ToList();
+            var enemies = direct.Enemies.ToList();
+            var totals = direct.Contributions.ToList();
+            var facts = new List<CandidateEnemyIntentFact>();
+            var windows = new List<ChapterVulnerabilityWindow>();
+            var changes = new List<ChapterVulnerabilityFact>();
+            var order = Enumerable.Range(0, enemies.Count).OrderBy(x => enemies[x].StableOrder).ToArray();
+            foreach (var index in order)
+            {
+                var enemy = enemies[index];
+                if (enemy.Hp.Numerator.IsZero) continue;
+                var cycle = enemy.Enemy.IntentCycle;
+                var originalIndex = (int)math.Remainder(enemy.IntentCursor, cycle.Count);
+                var original = cycle[originalIndex];
+                var executedIndex = originalIndex;
+                var intent = original;
+                var uses = enemy.RemainingWindUses;
+                ChapterWindFact wind = null;
+                CandidateEnemyDamageFact damage = null;
+                BattleCombatantKey tauntCaster = null;
+                if (original.Kind == EnemyIntentKind.Wind)
+                {
+                    if (uses.Value == 0)
+                    {
+                        executedIndex = original.ExhaustedFallbackIndex.Value;
+                        intent = cycle[executedIndex];
+                    }
+                    else
+                    {
+                        var targetIndex = enemies.FindIndex(x => x.Enemy.EnemyInstanceKey == enemy.Enemy.WindTargetEnemyInstanceKey);
+                        var target = enemies[targetIndex];
+                        var zero = ExactRational.Create(0, 1, math);
+                        var missing = target.Enemy.Stats.MaxHp.Subtract(target.Hp, math);
+                        var wanted = target.Enemy.Stats.MaxHp.Multiply(enemy.Enemy.WindFraction, math);
+                        var healing = target.Hp.Numerator.IsZero ? zero : missing.Compare(wanted, math) < 0 ? missing : wanted;
+                        var after = target.Hp.Add(healing, math);
+                        var remaining = uses.Value - (healing.Numerator.Sign > 0 ? 1 : 0);
+                        wind = new ChapterWindFact(target.CombatantKey, enemy.Enemy.WindFraction, target.Enemy.Stats.MaxHp,
+                            target.Hp, after, healing, uses.Value, remaining);
+                        uses = remaining;
+                        enemies[targetIndex] = new BattleEnemyState(target.CombatantKey, target.PairKey, target.Enemy,
+                            after, target.IntentCursor, target.RemainingWindUses);
+                    }
+                }
+                if (intent.Kind == EnemyIntentKind.Strike)
+                {
+                    var targetIndex = ChapterTarget(direct, enemy, intent, members, phase, out tauntCaster);
+                    if (targetIndex >= 0)
+                    {
+                        var target = members[targetIndex];
+                        var attack = intent.AttackOverride ?? enemy.Enemy.Stats.Attack;
+                        var hundred = ExactRational.Create(100, 1, math);
+                        var zero = ExactRational.Create(0, 1, math);
+                        var raw = attack.Multiply(intent.DamageCoefficient, math);
+                        var mitigated = raw.Multiply(hundred, math).Divide(hundred.Add(target.Member.Stats.PhysicalDefense, math), math);
+                        var rounded = mitigated.Floor(math);
+                        var incoming = ExactRational.Create(rounded, 1, math);
+                        var loss = target.Hp.Compare(incoming, math) < 0 ? target.Hp : incoming;
+                        var after = target.Hp.Subtract(loss, math);
+                        damage = new CandidateEnemyDamageFact(enemy, target, intent.DamageCoefficient,
+                            raw, mitigated, rounded, after, loss, incoming.Subtract(loss, math), zero, attack);
+                        members[targetIndex] = new BattleMemberState(target.CombatantKey, target.Member, after);
+                        var totalIndex = totals.FindIndex(x => x.CombatantKey.Equals(target.CombatantKey));
+                        var total = totals[totalIndex];
+                        totals[totalIndex] = new BattleContributionTotals(total.CombatantKey,
+                            total.EffectiveDamageDealtHp, total.EffectiveDamageTakenHp.Add(loss, math));
+                        if (intent.NextActionVulnerability != null)
+                        {
+                            var window = new ChapterVulnerabilityWindow(enemy.CombatantKey, intent.NextActionVulnerability,
+                                math.Add(direct.Action.ActionOrdinal, BigInteger.One));
+                            windows.Add(window);
+                            changes.Add(new ChapterVulnerabilityFact(ChapterVulnerabilityChange.Created, window));
+                        }
+                    }
+                }
+                var cursor = math.Add(enemy.IntentCursor, BigInteger.One);
+                enemies[index] = new BattleEnemyState(enemy.CombatantKey, enemy.PairKey, enemy.Enemy,
+                    enemies[index].Hp, cursor, uses);
+                facts.Add(new CandidateEnemyIntentFact(direct, phase, facts.Count, enemy, original.Kind, cursor,
+                    damage, executedIndex, tauntCaster, wind));
+            }
+            var cooldowns = new List<ChapterCooldownFact>();
+            var skills = new List<ChapterMemberSkillState>();
+            foreach (var skill in direct.ChapterState.MemberSkills)
+            {
+                var cast = direct.SkillCasts.Any(x => x.CasterKey.Equals(skill.CombatantKey) && x.Skill.SkillId == skill.SkillId);
+                var remaining = skill.CooldownRemaining;
+                if (!cast && remaining > 0)
+                {
+                    cooldowns.Add(new ChapterCooldownFact(skill.CombatantKey, skill.SkillId, remaining, remaining - 1));
+                    remaining--;
+                }
+                skills.Add(new ChapterMemberSkillState(skill.CombatantKey, skill.SkillId, remaining));
+            }
+            foreach (var window in direct.ChapterState.Vulnerabilities)
+                changes.Add(new ChapterVulnerabilityFact(ChapterVulnerabilityChange.Expired, window));
+            var state = new ChapterBattleState(math.Add(direct.ChapterState.FaceEnemyPhasesCompleted, BigInteger.One),
+                skills, Array.Empty<ChapterTauntState>(), windows);
+            return new CandidateEnemyPhaseResult(new CandidateEnemyPhaseFrame(direct, phase, members, enemies,
+                totals, facts, state, cooldowns, changes));
+        }
+
+        private static int ChapterTarget(CandidateCombatFrame direct, BattleEnemyState enemy, PreparedEnemyIntent intent,
+            IReadOnlyList<BattleMemberState> members, BigInteger phase, out BattleCombatantKey tauntCaster)
+        {
+            tauntCaster = null;
+            var legal = Enumerable.Range(0, members.Count).Where(x => members[x].Hp.Numerator.Sign > 0)
+                .OrderBy(x => members[x].OriginalSlot).Take(intent.AttackRange.Value).ToList();
+            if (legal.Count == 0) return -1;
+            var taunt = direct.ChapterState.Taunts.FirstOrDefault(x => x.TargetEnemyKey.Equals(enemy.CombatantKey) &&
+                x.AppliesToEnemyPhaseOrdinal == phase);
+            if (taunt != null)
+                foreach (var index in legal)
+                    if (members[index].CombatantKey.Equals(taunt.CasterKey) && members[index].Member.ClassKind == CharacterClassKind.Warrior)
+                    {
+                        tauntCaster = taunt.CasterKey;
+                        return index;
+                    }
+            if (intent.Targeting == EnemyTargeting.PreferMage)
+                foreach (var index in legal)
+                    if (members[index].Member.ClassKind == CharacterClassKind.Mage) return index;
+            return intent.Targeting == EnemyTargeting.LastLegalLiving ? legal[legal.Count - 1] : legal[0];
+        }
+
         private sealed class Validation
         {
             private readonly CandidateCombatFrame direct;
@@ -74,6 +206,7 @@ namespace FightMatch.Core
 
             internal bool Check()
             {
+                if (direct.ChapterState != null || direct.SkillCasts.Count != 0) return Fail(UnsupportedBinding, "ChapterState");
                 var binding = direct.Binding; var before = direct.BeforeSnapshot; var action = direct.Action;
                 if (binding == null) return Fail(MissingField, "Binding");
                 if (binding.Start == null) return Fail(MissingField, "Binding.Start");

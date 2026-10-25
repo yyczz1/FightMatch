@@ -49,7 +49,9 @@ namespace FightMatch.Content
             {
                 using (var stream = new MemoryStream())
                 {
-                    Write(stream, Project(value, limits, math, 0, new ProjectionBudget(maxBytes, sourceSchema != 0 ? sourceSchema : (value as PublishedSource)?.SchemaVersion ?? 0)), maxBytes, limits, 0);
+                    var graph = sourceSchema != 0 ? sourceSchema : value is PublishedSource source ?
+                        SourceGraph(source.SchemaVersion, source.RequiredCapabilities) : 0;
+                    Write(stream, Project(value, limits, math, 0, new ProjectionBudget(maxBytes, graph)), maxBytes, limits, 0);
                     return stream.ToArray();
                 }
             }
@@ -83,11 +85,29 @@ namespace FightMatch.Content
         }
         private static PropertyInfo[] Properties(Type type) => type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.GetIndexParameters().Length == 0).OrderBy(p => p.Name, StringComparer.Ordinal).ToArray();
+        // Graph 3 is schema 2 with its exact additional capability, not a new source schema version.
+        private static int SourceGraph(int schema, IReadOnlyList<string> capabilities)
+        {
+            if (schema != 2) return schema;
+            Root(capabilities, "RequiredCapabilities");
+            var stateful = capabilities.Contains(ChapterRuleDefinitions.StateFeatureId);
+            var expected = stateful ? ChapterRuleDefinitions.StateCapabilities : ChapterRuleDefinitions.LegacyCapabilities;
+            Need(capabilities.Count == expected.Count && expected.All(capabilities.Contains), "UnsupportedCapability", "RequiredCapabilities");
+            return stateful ? 3 : 2;
+        }
         // A source schema owns its nested field graph. New optional battle/growth fields never rewrite a Schema1 payload.
         private static PropertyInfo[] SourceProperties(Type type, PropertyInfo[] properties, int schema)
         {
             if (type == typeof(PublishedSource))
                 return properties.Where(p => schema == 1 ? p.Name != "Growths" && p.Name != "Chapter" : p.Name != "Growth").ToArray();
+            if (schema == 1 || schema == 2)
+            {
+                properties = properties.Where(p => !ChapterStateProperty(type, p.Name)).ToArray();
+                if (type == typeof(EnemyInput))
+                    return properties.Where(p => new[] { "EnemyInstanceKey", "EnemyDefinitionId", "OriginalSlot", "StableOrder", "Behavior", "Stats", "IntentCycle" }.Contains(p.Name)).ToArray();
+                if (type == typeof(EnemyIntentInput))
+                    return properties.Where(p => new[] { "Kind", "Targeting", "DamageKind", "DamageCoefficient" }.Contains(p.Name)).ToArray();
+            }
             if (schema != 1) return properties;
             if (type == typeof(GrowthDefinitionInput) || type == typeof(CandidateGrowthDefinition))
                 return properties.Where(p => p.Name != "PenetrationBase" && p.Name != "PenetrationStep" &&
@@ -96,11 +116,23 @@ namespace FightMatch.Content
                 return properties.Where(p => p.Name != "Penetration").ToArray();
             if (type == typeof(BattleDamageFact))
                 return properties.Where(p => p.Name != "MagicDefense" && p.Name != "EffectiveMagicDefense" && p.Name != "Penetration").ToArray();
-            if (type == typeof(EnemyInput))
-                return properties.Where(p => new[] { "EnemyInstanceKey", "EnemyDefinitionId", "OriginalSlot", "StableOrder", "Behavior", "Stats", "IntentCycle" }.Contains(p.Name)).ToArray();
-            if (type == typeof(EnemyIntentInput))
-                return properties.Where(p => new[] { "Kind", "Targeting", "DamageKind", "DamageCoefficient" }.Contains(p.Name)).ToArray();
             return properties;
+        }
+        private static bool ChapterStateProperty(Type type, string name)
+        {
+            if (type == typeof(EnemyInput) || type == typeof(PreparedEnemy))
+                return name == "InitialIntentCursor" || name == "WindTargetEnemyInstanceKey" || name == "WindUses" || name == "WindFraction";
+            if (type == typeof(EnemyIntentInput) || type == typeof(PreparedEnemyIntent))
+                return name == "AttackOverride" || name == "AttackRange" || name == "ExhaustedFallbackIndex" || name == "NextActionVulnerability";
+            if (type == typeof(MemberInput) || type == typeof(PreparedMember)) return name == "BattleSkills";
+            if (type == typeof(BattleSnapshot)) return name == "ChapterState";
+            if (type == typeof(BattleEnemyState)) return name == "RemainingWindUses";
+            if (type == typeof(CandidateCombatFrame)) return name == "ChapterState" || name == "SkillCasts";
+            if (type == typeof(CandidateEnemyPhaseFrame)) return name == "ChapterState" || name == "CooldownFacts" || name == "VulnerabilityFacts";
+            if (type == typeof(CandidateEnemyIntentFact)) return name == "ExecutedIntentIndex" || name == "TauntCaster" || name == "Wind";
+            if (type == typeof(BattleDamageFact)) return name == "Vulnerability";
+            if (type == typeof(CandidateBattleOrderedFact)) return name == "SkillCast" || name == "Cooldown" || name == "Vulnerability";
+            return false;
         }
         private sealed class ProjectionBudget
         {
@@ -145,7 +177,12 @@ namespace FightMatch.Content
                 { Need(list.Count < limits.MaxCollectionEntries, "BudgetExceeded", "Collection"); list.Add(Project(item, limits, math, depth + 1, work)); }
                 return list;
             }
-            foreach (var p in SourceProperties(value.GetType(), work.PropertiesFor(value.GetType()), work.SourceSchema)) { work.Take(Utf8.GetByteCount(p.Name)); result.Add(p.Name, Project(p.GetValue(value), limits, math, depth + 1, work)); }
+            var allProperties = work.PropertiesFor(value.GetType());
+            var sourceProperties = SourceProperties(value.GetType(), allProperties, work.SourceSchema);
+            if (work.SourceSchema == 2 && (value is EnemyInput || value is EnemyIntentInput))
+                foreach (var omitted in allProperties.Except(sourceProperties))
+                    Need(omitted.GetValue(value) == null, "UnsupportedCapability", value.GetType().Name + "." + omitted.Name);
+            foreach (var p in sourceProperties) { work.Take(Utf8.GetByteCount(p.Name)); result.Add(p.Name, Project(p.GetValue(value), limits, math, depth + 1, work)); }
             Need(result.Count > 0, "UnsupportedSchema", "Type"); return result;
         }
         private static object ConvertValue(object node, Type type, ContentConsumerCapabilities limits, ExactMathBudget math, int depth, int sourceSchema = 0)
@@ -191,7 +228,15 @@ namespace FightMatch.Content
             {
                 Need(fields.TryGetValue("SchemaVersion", out var schema) && schema is JsonNumber, "InvalidSchema", "SchemaVersion");
                 var token = ((JsonNumber)schema).Text;
-                Need(token == "1" || token == "2", "UnsupportedSchema", "SchemaVersion"); sourceSchema = token == "1" ? 1 : 2;
+                Need(token == "1" || token == "2", "UnsupportedSchema", "SchemaVersion");
+                sourceSchema = token == "1" ? 1 : 2;
+                if (sourceSchema == 2)
+                {
+                    Need(fields.TryGetValue("RequiredCapabilities", out var required) && required is List<object>, "InvalidSchema", "RequiredCapabilities");
+                    var capabilities = (List<object>)required;
+                    Need(capabilities.All(c => c is string), "InvalidValue", "RequiredCapabilities");
+                    sourceSchema = SourceGraph(2, capabilities.Cast<string>().ToList());
+                }
             }
             var properties = SourceProperties(type, Properties(type), sourceSchema); Need(properties.All(p => p.SetMethod?.IsPublic == true), "UnsupportedSchema", type.Name);
             Need(fields.Count == properties.Length && properties.All(p => fields.ContainsKey(p.Name)), "InvalidSchema", type.Name);

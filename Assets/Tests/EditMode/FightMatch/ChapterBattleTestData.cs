@@ -45,6 +45,51 @@ namespace FightMatch.Core.Tests
             }
             return input;
         }
+        internal static BattleEntryInput StateInput(int pairs = 3, bool learned = true)
+        {
+            var input = Input(pairs, true);
+            input.RequiredFeatures.Add(ChapterRuleDefinitions.StateFeatureId);
+            foreach (var member in input.Members)
+            {
+                member.ClassId = member.ClassKind == CharacterClassKind.Warrior ? "class:warrior" : "class:mage";
+                member.Level = 5;
+                member.Stats = Stats(1000, R(10), member.ClassKind == CharacterClassKind.Warrior ? 1 : 3);
+                member.EntryHp = R(1000);
+                member.BattleSkills = new List<ChapterBattleSkillInput>();
+            }
+            var warrior = input.Members[0];
+            warrior.Crit.C = R(1);
+            warrior.Crit.Multiplier = R(1);
+            input.Members[1].Penetration.C = R(1);
+            if (learned)
+            {
+                warrior.LearnedSkills.Add("skill:warrior-taunt");
+                warrior.BattleSkills.Add(new ChapterBattleSkillInput { SkillId = "skill:warrior-taunt", RecordVersion = 1,
+                    BattleCapabilityId = "CH1.MageTauntBoss", CooldownTurns = 2 });
+            }
+            foreach (var pair in input.Level.Faces[0].Pairs)
+            {
+                var enemy = pair.Enemy;
+                enemy.Behavior = EnemyBehavior.ChapterCycle;
+                enemy.InitialIntentCursor = 0;
+                enemy.Stats = Stats(100, R(5), 2);
+                enemy.IntentCycle = new List<EnemyIntentInput> { Strike() };
+            }
+            return input;
+        }
+
+        internal static EnemyIntentInput Strike(EnemyTargeting targeting = EnemyTargeting.FirstLiving,
+            int range = 2, int? attack = null) => new EnemyIntentInput { Kind = EnemyIntentKind.Strike,
+                Targeting = targeting, DamageKind = EntryDamageKind.Physical, DamageCoefficient = R(1),
+                AttackRange = range, AttackOverride = attack.HasValue ? R(attack.Value) : null };
+
+        internal static void AddStateFace(BattleEntryInput input, int pairs = 1)
+        {
+            var face = StateInput(pairs).Level.Faces[0];
+            face.FaceId = "face:second";
+            input.Level.Faces.Add(face);
+        }
+
         internal static StatsInput Stats(int hp, ExactRational attack, int range) => new StatsInput
         { MaxHp = R(hp), Attack = attack, PhysicalDefense = R(0), MagicDefense = R(0), Evasion = R(0), AttackRange = range };
         internal static BattleEntryPreparationResult Prepare(BattleEntryInput input)

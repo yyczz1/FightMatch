@@ -41,6 +41,8 @@ namespace FightMatch.Content
                 source.PackageId = r.Id("package_id"); source.DraftId = r.Id("draft_id"); source.Revision = r.Integer("revision", true);
                 source.RuleVersion = r.Id("rule_version"); source.NumericContractVersion = r.Id("numeric_version"); source.RandomContractVersion = r.Id("random_version");
                 source.RequiredCapabilities = r.Set("required_capabilities"); source.Coordinates = DemoCoordinateCandidate.AssumedTopLeft;
+                var stateful = source.RequiredCapabilities.Contains(ChapterRuleDefinitions.StateFeatureId);
+                if (stateful) tables.UseStatefulSourcePaths();
                 source.Chapter = new ChapterContentInput { ReleaseSetId = r.Id("release_set_id"), ParameterStatus = r.Enum<ChapterParameterStatus>("parameter_status"),
                     SourceLocator = r.Id("source_locator"), Passives = new List<ChapterPassiveInput>(), CharacterUnlocks = new List<ChapterCharacterUnlockInput>(),
                     FirstClearItems = new List<ChapterFirstClearItemInput>(), Cards = new List<ChapterCardInput>(), Skills = new List<ChapterSkillInput>(), Teachings = new List<ChapterTeachingInput>() };
@@ -91,6 +93,10 @@ namespace FightMatch.Content
                 tables.Unique(faces, "level_id", "face_id"); tables.Unique(pairs, "level_id", "face_id", "pair_id");
                 tables.Unique(pairs, "level_id", "enemy_instance_key"); tables.Unique(actions, "action_set_id", "action_index");
                 tables.Unique(materials, "reward_id", "item_id"); tables.Unique(routes, "level_id", "face_id", "pair_id", "cell_order");
+                foreach (var teaching in source.Chapter.Teachings)
+                    Need(levelRows.Count(row => row.Id("level_id") == teaching.LevelId &&
+                        row.Integer("level_version", true) == teaching.LevelVersion && row.OptionalId("tutorial_id") == teaching.TutorialId) == 1,
+                        "InconsistentBinding", "Teaching.Level");
                 var used = new HashSet<Row>();
                 foreach (var row in levelRows)
                 {
@@ -110,20 +116,29 @@ namespace FightMatch.Content
                         {
                             var actionSet = e.Id("action_set_id"); var cycle = Select(actions, used, a => a.Id("action_set_id") == actionSet);
                             Continuous(cycle, "action_index", e.Path("action_set_id"));
-                            Need(e.Int("initial_cursor") == 0, "UnsupportedCapability", e.Path("initial_cursor"));
-                            Need(e.OptionalId("wind_target_instance_key") == null && e.OptionalInteger("wind_uses") == null && e.OptionalQ("wind_fraction") == null,
-                                "UnsupportedCapability", e.Path("wind_target_instance_key"));
+                            var initialCursor = e.Integer("initial_cursor");
+                            if (!stateful)
+                            {
+                                Need(initialCursor.IsZero, "UnsupportedCapability", e.Path("initial_cursor"));
+                                Need(e.OptionalId("wind_target_instance_key") == null && e.OptionalInteger("wind_uses") == null && e.OptionalQ("wind_fraction") == null,
+                                    "UnsupportedCapability", e.Path("wind_target_instance_key"));
+                            }
+                            Need(initialCursor < cycle.Count, "InvalidValue", e.Path("initial_cursor"));
                             var stats = new StatsInput { MaxHp = e.Q("max_hp"), Attack = e.Q("attack"), PhysicalDefense = e.Q("physical_defense"),
                                 MagicDefense = e.Q("magic_defense"), Evasion = e.Q("evasion"), AttackRange = e.Int("attack_range", 1) };
-                            var intents = cycle.OrderBy(x => x.Int("action_index")).Select(a => Action(a, stats)).ToList();
-                            Need(intents.Count == 1 && intents[0].Kind == EnemyIntentKind.Strike || intents.Count == 2 && intents[0].Kind == EnemyIntentKind.Charge && intents[1].Kind == EnemyIntentKind.Strike,
+                            var intents = cycle.OrderBy(x => x.Int("action_index")).Select(a => Action(a, stats, stateful)).ToList();
+                            Need(stateful || intents.Count == 1 && intents[0].Kind == EnemyIntentKind.Strike || intents.Count == 2 && intents[0].Kind == EnemyIntentKind.Charge && intents[1].Kind == EnemyIntentKind.Strike,
                                 "UnsupportedCapability", e.Path("action_set_id"));
                             var pair = new PairInput { PairId = e.Id("pair_id"), GeometryColorId = e.Int("color_id"),
                                 EndpointA = Endpoint(e.Int("a_row", 1), e.Int("a_col", 1), face.Width, face.Height, e.Path("a_row")),
                                 EndpointB = Endpoint(e.Int("b_row", 1), e.Int("b_col", 1), face.Width, face.Height, e.Path("b_row")),
                                 Enemy = new EnemyInput { EnemyInstanceKey = e.Id("enemy_instance_key"), EnemyDefinitionId = e.Id("enemy_definition_id"),
                                     OriginalSlot = e.Int("original_slot"), StableOrder = e.Int("stable_order"), Stats = stats, IntentCycle = intents,
-                                    Behavior = intents.Count == 1 ? EnemyBehavior.NormalStrike : EnemyBehavior.ChargeHeavy } };
+                                    Behavior = stateful ? EnemyBehavior.ChapterCycle : intents.Count == 1 ? EnemyBehavior.NormalStrike : EnemyBehavior.ChargeHeavy,
+                                    InitialIntentCursor = stateful ? initialCursor : (BigInteger?)null,
+                                    WindTargetEnemyInstanceKey = stateful ? e.OptionalId("wind_target_instance_key") : null,
+                                    WindUses = stateful ? e.OptionalInt("wind_uses") : null,
+                                    WindFraction = stateful ? e.OptionalQ("wind_fraction") : null } };
                             face.Pairs.Add(pair);
                             var cells = Select(routes, used, c => c.Id("level_id") == id && c.Id("face_id") == face.FaceId && c.Id("pair_id") == pair.PairId);
                             Continuous(cells, "cell_order", e.Path("pair_id"));
@@ -184,9 +199,10 @@ namespace FightMatch.Content
                 LearningStepId = row.Id("learning_step_id"), ExplanationStepId = row.Id("explanation_step_id"), GiftOnceKey = row.Id("gift_once_key"),
                 GiftCount = row.Integer("gift_count", true), ExplanationTextKey = row.Id("explanation_text_key") });
         }
-        private static EnemyIntentInput Action(Row row, StatsInput enemy)
+        private static EnemyIntentInput Action(Row row, StatsInput enemy, bool stateful)
         {
             var kind = row.Enum<EnemyIntentKind>("kind");
+            if (stateful) return StatefulAction(row, kind);
             Need(kind == EnemyIntentKind.Strike || kind == EnemyIntentKind.Charge, "UnsupportedCapability", row.Path("kind"));
             Need(row.OptionalQ("attack_override") == null && row.OptionalInteger("exhausted_fallback_index") == null && row.OptionalQ("next_action_vulnerability") == null,
                 "UnsupportedCapability", row.Path("attack_override"));
@@ -201,6 +217,37 @@ namespace FightMatch.Content
             Need(row.Int("range", 1) == enemy.AttackRange, "UnsupportedCapability", row.Path("range"));
             return new EnemyIntentInput { Kind = kind, Targeting = targeting == "FirstLegalLiving" ? EnemyTargeting.FirstLiving : EnemyTargeting.LastLegalLiving,
                 DamageKind = row.Enum<EntryDamageKind>("damage_kind"), DamageCoefficient = row.Q("coefficient") };
+        }
+        private static EnemyIntentInput StatefulAction(Row row, EnemyIntentKind kind)
+        {
+            Need(kind == EnemyIntentKind.Strike || kind == EnemyIntentKind.Charge || kind == EnemyIntentKind.Rest ||
+                kind == EnemyIntentKind.Wind, "UnsupportedCapability", row.Path("kind"));
+            if (kind != EnemyIntentKind.Strike)
+            {
+                Need(row.OptionalId("targeting") == null && row.OptionalId("damage_kind") == null &&
+                    row.OptionalQ("attack_override") == null && row.OptionalQ("coefficient") == null &&
+                    row.OptionalInteger("range") == null && row.OptionalQ("next_action_vulnerability") == null,
+                    "InvalidValue", row.Path("kind"));
+                var fallback = row.OptionalInt("exhausted_fallback_index");
+                Need(kind == EnemyIntentKind.Wind ? fallback.HasValue : !fallback.HasValue, "InvalidValue", row.Path("exhausted_fallback_index"));
+                return new EnemyIntentInput { Kind = kind, Targeting = EnemyTargeting.Unspecified, ExhaustedFallbackIndex = fallback };
+            }
+            var targeting = row.Id("targeting");
+            Need(targeting == "FirstLegalLiving" || targeting == "LastLegalLiving" || targeting == "PreferLivingMage",
+                "UnsupportedCapability", row.Path("targeting"));
+            Need(row.OptionalInteger("exhausted_fallback_index") == null, "InvalidValue", row.Path("exhausted_fallback_index"));
+            var damageKind = row.Enum<EntryDamageKind>("damage_kind");
+            Need(damageKind == EntryDamageKind.Physical, "UnsupportedCapability", row.Path("damage_kind"));
+            return new EnemyIntentInput {
+                Kind = kind,
+                Targeting = targeting == "FirstLegalLiving" ? EnemyTargeting.FirstLiving :
+                    targeting == "LastLegalLiving" ? EnemyTargeting.LastLegalLiving : EnemyTargeting.PreferMage,
+                DamageKind = damageKind,
+                DamageCoefficient = row.Q("coefficient"),
+                AttackOverride = row.OptionalQ("attack_override"),
+                AttackRange = row.Int("range", 1),
+                NextActionVulnerability = row.OptionalQ("next_action_vulnerability")
+            };
         }
         private static List<Row> Select(List<Row> rows, HashSet<Row> used, Func<Row, bool> predicate)
         { var selected = rows.Where(predicate).ToList(); foreach (var row in selected) used.Add(row); return selected; }
@@ -252,6 +299,7 @@ namespace FightMatch.Content
             internal BigInteger Integer(string field, bool positive = false)
             { var value = SignedInteger(fields[field], math, Path(field)); Need(value >= (positive ? BigInteger.One : BigInteger.Zero), "InvalidValue", Path(field)); return value; }
             internal BigInteger? OptionalInteger(string field) => fields[field].Length == 0 ? (BigInteger?)null : Integer(field);
+            internal int? OptionalInt(string field) => fields[field].Length == 0 ? (int?)null : Int(field);
             internal int Int(string field, int min = 0)
             { var value = Integer(field); Need(value >= min && value <= int.MaxValue, "InvalidValue", Path(field)); return (int)value; }
             internal ExactRational Q(string field) => Rational(fields[field], math, Path(field));
@@ -269,9 +317,17 @@ namespace FightMatch.Content
         {
             private readonly string directory, authoringDirectory; private readonly ContentConsumerCapabilities limits; private readonly ExactMathBudget math; private readonly bool csv;
             internal readonly List<DemoContentSourceInput> Sources = new List<DemoContentSourceInput>();
+            private bool statefulSources;
             internal Tables(string directory, string authoringDirectory, ContentConsumerCapabilities limits, ExactMathBudget math, bool csv)
             { Text(directory, "Directory"); Text(authoringDirectory, "AuthoringDirectory"); this.directory = directory;
                 this.authoringDirectory = authoringDirectory; this.limits = limits; this.math = math; this.csv = csv; }
+            internal void UseStatefulSourcePaths()
+            {
+                statefulSources = true;
+                foreach (var source in Sources)
+                    source.Path = source.Path.Replace("ChapterOneTrial/Luban/", "Generated/FightMatch/ChapterOneTrial/r3/")
+                        .Replace("Config/FightMatch/ChapterOneTrial/", "Config/FightMatch/ChapterOneTrial-r3/");
+            }
             internal List<Row> Load(string name, string header)
             {
                 var authorPath = System.IO.Path.Combine(authoringDirectory, name + ".csv"); Need(File.Exists(authorPath), "MissingField", name + ".Source");
@@ -301,9 +357,9 @@ namespace FightMatch.Content
                         Need(fields.Values.All(v => v is string), "InvalidValue", name + "[" + (i + 2) + "].ExactStringColumns");
                         result.Add(new Row(name, i + 2, columns, columns.Select(c => (string)fields[c]).ToList(), math));
                     }
-                    Sources.Add(new DemoContentSourceInput { Path = "ChapterOneTrial/Luban/" + name + ".json", Locator = "standard-generator-output", Sha256 = PublishedContentCodec.Sha256(bytes) });
+                    Sources.Add(new DemoContentSourceInput { Path = (statefulSources ? "Generated/FightMatch/ChapterOneTrial/r3/" : "ChapterOneTrial/Luban/") + name + ".json", Locator = "standard-generator-output", Sha256 = PublishedContentCodec.Sha256(bytes) });
                 }
-                Sources.Add(new DemoContentSourceInput { Path = "Config/FightMatch/ChapterOneTrial/" + name + ".csv", Locator = "authoring-source", Sha256 = PublishedContentCodec.Sha256(authorBytes) });
+                Sources.Add(new DemoContentSourceInput { Path = (statefulSources ? "Config/FightMatch/ChapterOneTrial-r3/" : "Config/FightMatch/ChapterOneTrial/") + name + ".csv", Locator = "authoring-source", Sha256 = PublishedContentCodec.Sha256(authorBytes) });
                 return result;
             }
             internal void Unique(List<Row> rows, params string[] keys)

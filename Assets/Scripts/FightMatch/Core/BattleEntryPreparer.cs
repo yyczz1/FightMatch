@@ -47,6 +47,7 @@ namespace FightMatch.Core
         {
             private readonly ExactMathBudget budget;
             private bool chapter;
+            private bool stateContract;
             internal BattleEntryPreparationResult Rejection { get; private set; }
 
             internal Validation(ExactMathBudget budget) { this.budget = budget; }
@@ -58,9 +59,11 @@ namespace FightMatch.Core
                     return false;
                 if (input.CarryMode == EntryCarryMode.Unspecified) return Fail(MissingField, "CarryMode");
                 if (input.CarryMode != EntryCarryMode.Empty) return Fail(UnsupportedBinding, "CarryMode");
-                if (!Empty(input.RequiredFeatures, "RequiredFeatures") || !Context(input.Context, "Context"))
-                    return false;
+                if (!Context(input.Context, "Context")) return false;
                 chapter = CandidateChapterBattleRules.IsChapter(input.Context);
+                stateContract = chapter && input.RequiredFeatures != null && input.RequiredFeatures.Count == 1 &&
+                    input.RequiredFeatures[0] == ChapterRuleDefinitions.StateFeatureId;
+                if (!stateContract && !Empty(input.RequiredFeatures, "RequiredFeatures")) return false;
                 if (!Level(input.Level)) return false;
                 if (input.Members == null) return Fail(MissingField, "Members");
                 var characters = new HashSet<string>(StringComparer.Ordinal);
@@ -92,7 +95,7 @@ namespace FightMatch.Core
                         !Stats(member.Stats, path + ".Stats") || !Number(member.EntryHp, path + ".EntryHp", true))
                         return false;
                     if (member.EntryHp.Compare(member.Stats.MaxHp, budget) > 0) return Fail(InvalidValue, path + ".EntryHp");
-                    if (!Empty(member.LearnedSkills, path + ".LearnedSkills") || !Passive(member, path))
+                    if (!Skills(member, path) || !Passive(member, path))
                         return false;
                     ready |= member.IsReady;
                 }
@@ -173,16 +176,26 @@ namespace FightMatch.Core
                     if (enemy.StableOrder < 0) return Fail(InvalidValue, p + ".StableOrder");
                     if (!Unique(orders, enemy.StableOrder, p + ".StableOrder")) return false;
                     if (enemy.Behavior == EnemyBehavior.Unspecified) return Fail(MissingField, p + ".Behavior");
-                    if (enemy.Behavior != EnemyBehavior.NormalStrike && enemy.Behavior != EnemyBehavior.ChargeHeavy)
+                    if (stateContract ? enemy.Behavior != EnemyBehavior.ChapterCycle :
+                        enemy.Behavior != EnemyBehavior.NormalStrike && enemy.Behavior != EnemyBehavior.ChargeHeavy)
                         return Fail(UnsupportedBinding, p + ".Behavior");
                     if (!Stats(enemy.Stats, p + ".Stats") || !Intents(enemy, p + ".IntentCycle")) return false;
                 }
+                if (stateContract)
+                    foreach (var pair in face.Pairs)
+                        if (pair.Enemy.WindTargetEnemyInstanceKey != null &&
+                            (!enemies.Contains(pair.Enemy.WindTargetEnemyInstanceKey) ||
+                             pair.Enemy.WindTargetEnemyInstanceKey == pair.Enemy.EnemyInstanceKey))
+                            return Fail(InconsistentBinding, path + ".WindTargetEnemyInstanceKey");
                 return true;
             }
 
             private bool Intents(EnemyInput enemy, string path)
             {
                 if (enemy.IntentCycle == null) return Fail(MissingField, path);
+                if (stateContract) return ChapterIntents(enemy, path);
+                if (enemy.InitialIntentCursor != null || enemy.WindTargetEnemyInstanceKey != null ||
+                    enemy.WindUses != null || enemy.WindFraction != null) return Fail(UnsupportedBinding, path);
                 var expectedCount = enemy.Behavior == EnemyBehavior.NormalStrike ? 1 : 2;
                 if (enemy.IntentCycle.Count != expectedCount) return Fail(InvalidValue, path);
                 for (var i = 0; i < enemy.IntentCycle.Count; i++)
@@ -190,6 +203,8 @@ namespace FightMatch.Core
                     var intent = enemy.IntentCycle[i];
                     var p = path + $"[{i}]";
                     if (intent == null) return Fail(MissingField, p);
+                    if (intent.AttackOverride != null || intent.AttackRange != null || intent.ExhaustedFallbackIndex != null ||
+                        intent.NextActionVulnerability != null) return Fail(UnsupportedBinding, p);
                     if (intent.Kind == EnemyIntentKind.Unspecified) return Fail(MissingField, p + ".Kind");
                     if (intent.Kind != EnemyIntentKind.Charge && intent.Kind != EnemyIntentKind.Strike)
                         return Fail(UnsupportedBinding, p + ".Kind");
@@ -220,6 +235,78 @@ namespace FightMatch.Core
                     }
                 }
                 return true;
+            }
+
+            private bool Skills(MemberInput member, string path)
+            {
+                if (!stateContract)
+                    return Empty(member.LearnedSkills, path + ".LearnedSkills") &&
+                        (member.BattleSkills == null || member.BattleSkills.Count == 0 || Fail(UnsupportedBinding, path + ".BattleSkills"));
+                if (member.LearnedSkills == null) return Fail(MissingField, path + ".LearnedSkills");
+                var skills = member.BattleSkills ?? new List<ChapterBattleSkillInput>();
+                if (skills.Count != member.LearnedSkills.Count || skills.Count > 1) return Fail(InconsistentBinding, path + ".BattleSkills");
+                foreach (var skill in skills)
+                {
+                    if (skill == null) return Fail(MissingField, path + ".BattleSkills");
+                    if (skill.SkillId != "skill:warrior-taunt" || skill.BattleCapabilityId != "CH1.MageTauntBoss" ||
+                        member.ClassKind != CharacterClassKind.Warrior || member.Level < 5 ||
+                        member.LearnedSkills[0] != skill.SkillId || skill.CooldownTurns != 2)
+                        return Fail(UnsupportedBinding, path + ".BattleSkills");
+                    if (!PositiveInteger(skill.RecordVersion, path + ".BattleSkills.RecordVersion")) return false;
+                }
+                return true;
+            }
+
+            private bool ChapterIntents(EnemyInput enemy, string path)
+            {
+                if (enemy.IntentCycle.Count == 0 || !enemy.InitialIntentCursor.HasValue)
+                    return Fail(MissingField, path + ".InitialIntentCursor");
+                budget.CheckInteger(enemy.InitialIntentCursor.Value);
+                if (enemy.InitialIntentCursor.Value.Sign < 0 || enemy.InitialIntentCursor.Value >= enemy.IntentCycle.Count)
+                    return Fail(InvalidValue, path + ".InitialIntentCursor");
+                var hasWind = false;
+                for (var i = 0; i < enemy.IntentCycle.Count; i++)
+                {
+                    var intent = enemy.IntentCycle[i];
+                    var p = path + $"[{i}]";
+                    if (intent == null) return Fail(MissingField, p);
+                    if (intent.Kind == EnemyIntentKind.Strike)
+                    {
+                        if (intent.DamageKind != EntryDamageKind.Physical ||
+                            (intent.Targeting != EnemyTargeting.FirstLiving && intent.Targeting != EnemyTargeting.LastLegalLiving &&
+                             intent.Targeting != EnemyTargeting.PreferMage) || intent.AttackRange <= 0 || !intent.AttackRange.HasValue ||
+                            intent.ExhaustedFallbackIndex != null) return Fail(UnsupportedBinding, p);
+                        if (!Number(intent.DamageCoefficient, p + ".DamageCoefficient", true)) return false;
+                        if (intent.AttackOverride != null && !Number(intent.AttackOverride, p + ".AttackOverride")) return false;
+                        if (intent.NextActionVulnerability != null &&
+                            (!Number(intent.NextActionVulnerability, p + ".NextActionVulnerability", true) ||
+                             intent.NextActionVulnerability.Numerator <= intent.NextActionVulnerability.Denominator))
+                            return Fail(InvalidValue, p + ".NextActionVulnerability");
+                    }
+                    else
+                    {
+                        if (intent.Kind != EnemyIntentKind.Charge && intent.Kind != EnemyIntentKind.Rest && intent.Kind != EnemyIntentKind.Wind)
+                            return Fail(UnsupportedBinding, p + ".Kind");
+                        if (intent.Targeting != EnemyTargeting.Unspecified || intent.DamageKind != null ||
+                            intent.DamageCoefficient != null || intent.AttackOverride != null || intent.AttackRange != null ||
+                            intent.NextActionVulnerability != null) return Fail(InvalidValue, p);
+                        if (intent.Kind == EnemyIntentKind.Wind)
+                        {
+                            hasWind = true;
+                            var fallback = intent.ExhaustedFallbackIndex;
+                            if (!fallback.HasValue || fallback < 0 || fallback >= enemy.IntentCycle.Count ||
+                                enemy.IntentCycle[fallback.Value]?.Kind != EnemyIntentKind.Strike)
+                                return Fail(InvalidValue, p + ".ExhaustedFallbackIndex");
+                        }
+                        else if (intent.ExhaustedFallbackIndex != null) return Fail(InvalidValue, p + ".ExhaustedFallbackIndex");
+                    }
+                }
+                if (!hasWind)
+                    return enemy.WindTargetEnemyInstanceKey == null && enemy.WindUses == null && enemy.WindFraction == null ||
+                        Fail(InvalidValue, path + ".Wind");
+                return Text(enemy.WindTargetEnemyInstanceKey, path + ".WindTargetEnemyInstanceKey") &&
+                    (enemy.WindUses.HasValue && enemy.WindUses.Value > 0 || Fail(InvalidValue, path + ".WindUses")) &&
+                    Number(enemy.WindFraction, path + ".WindFraction", true, true);
             }
 
             private bool Stats(StatsInput stats, string path)
