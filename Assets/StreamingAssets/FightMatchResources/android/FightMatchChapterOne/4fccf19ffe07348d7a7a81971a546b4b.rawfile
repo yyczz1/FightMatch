@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "Verdict": "ACCEPT",
+  "AuthorTaskId": "01a170eb-eb44-73c0-b1e4-8b9f9dc7c53e",
+  "AuthorTurnId": "01a17117-6960-7d73-bc0d-83288d6c1cc5",
+  "ReviewerTaskId": "01a0f2e3-4bd2-7130-b43a-19afa702e7bb",
+  "ReviewerTurnId": "01a1711b-6465-7f33-b9ee-8d302cdcf729",
+  "SourcePacketRangeSha256": "44d8098080a3d00090f5d11af150dcc8310139068544cbfb7c7c3f8e3ee7b51f",
+  "ApprovalBasis": "CH1-IMPL-001 independent QA acceptance of the exact r2 Trial preparation for the separately scoped local content-publication step, under the user's 2026-10-25 implementation authority and docs/implementation/2026-10-25-ch1/validation.md. SourcePacketRangeSha256 binds host/source-freeze-03.json (91 direct inputs, 36 candidate paths); candidate manifest review-candidate-02/manifest.json SHA256 a30d21de9185fca43bac0d5a19398de777b9f2dfc554f53cc09dc8200055d49e matches those 36 paths. GitHub PR25 head 1e87c7960fc429b7229862c720520ed9ea42e207, base e642d337ca2d8f8d5cf0307ff263eed4771f7134, independent review https://github.com/yyczz1/FightMatch/pull/25#issuecomment-6393017173 completed with no major issues; summary 6393002000 binds the full head and reports no findings. Prior PR24 foundational evidence remains scoped to its reviewed head. The AuthorTaskId/AuthorTurnId identify the actual sole C prepare executor on local; content implementation provenance is thread 01a170ca-bc4c-7640-b2a8-2aaa4d3f40d9, turn 01a17115-65f5-7492-99cb-28b91ea586cd, and engineering delivery turn 01a170f1-4d26-73f2-b96c-6e5e39d1a253. host/editmode-02 retained 36 passes plus host/editmode-03's exact 9 formerly failing cases now passed cover 45 distinct cases; original failures remain, not a new full run. prepare-01 executed once, exit 0, 16.171017 seconds; all eight output identities match its receipt. Independently checked the 42 source references, frozen author CSV set 5faccf6b422ac9348a46a19d7783edb369949dc86b304e71bccad9b83ad29f19 and generated JSON set b5174456caecddb1c7bb5ede0a2dd998c564b8e94716cfe6c5199e23db125d94; the exact seed new-profile recipe and 31 parameter records are unchanged. ApprovedMappingSha256 binds prepare/field-map.json (76463 bytes): decoded source equals the actual source; resolved growths, levels, rewards, inventory and progression match, excluding binding Context. Frozen-table checks cover two growths/passives, nine levels/faces, 24 enemies, 96 route cells, coordinate conversion, rewards, cards, class acquisition and unlock progression. Validation binds chapter-evidence.json SHA256 06c4fca176081d9ba2086c03668c152b9ce78f5fa771ffd529c0658c50cca1aa with nine geometry records and 31 parameter rows within tolerance. Package/draft/revision, all five binding fields, nine ordered level bindings, source/payload/validation lengths and hashes were independently matched. BattleReplayPerformed remains false; PublicationInvoked remains false in the immutable preparation evidence. This approval does not establish actual authored-content gameplay balance/replay, Scene wiring, six-file publication or cold load, native resource outputs, UI/device acceptance, V4-to-V5 migration, or B03/B04. It does not execute publication or merge either draft PR.",
+  "ApprovedMappingSha256": "3d6a30fc517c291a50a2ba109c041b60c4b2348e35f06b8dd869567d61547f1a",
+  "DraftId": "draft:chapter-one-trial",
+  "Revision": "2",
+  "Binding": {
+    "PackageId": "fightmatch:chapter-one-trial",
+    "ContentFingerprint": "3127954bccf58fee33f983c6a5c37a307f282da5d6d66ab48fc687596cf25544",
+    "RuleVersion": "ch1-slice-r1",
+    "NumericContractVersion": "RC01",
+    "RandomContractVersion": "PC01+SC01"
+  },
+  "DefinitionBindings": [
+    {
+      "LevelId": "level:ch01-01",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-02",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-03",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-04",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-05",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-06",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-07",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-08",
+      "LevelVersion": "1"
+    },
+    {
+      "LevelId": "level:ch01-09",
+      "LevelVersion": "1"
+    }
+  ],
+  "SourceBytes": 44332,
+  "SourceSha256": "3127954bccf58fee33f983c6a5c37a307f282da5d6d66ab48fc687596cf25544",
+  "PayloadBytes": 44332,
+  "PayloadSha256": "3127954bccf58fee33f983c6a5c37a307f282da5d6d66ab48fc687596cf25544",
+  "ValidationBytes": 1046,
+  "ValidationSha256": "c68acb21e0e42022bc7ebda1ee3045d2e9e66ac7746ab5121ec33ce2adec7d12"
+}

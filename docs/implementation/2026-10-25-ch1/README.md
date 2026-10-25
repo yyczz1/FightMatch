@@ -105,3 +105,79 @@
 - 三处修正收齐并停写：content仅将新field-map导出改为显式多职业DTO，并加真实两Growth／旧单Growth仍拒绝歧义断言；combat核实Prefab根默认不激活、真实Scene有激活覆写，测试实例补激活并加强`activeInHierarchy`断言，产品按钮／epoch代码未改。`host/source-freeze-03.json` SHA `44d8098080a3d00090f5d11af150dcc8310139068544cbfb7c7c3f8e3ee7b51f`仍为36候选／91输入，仅四个申报文件改变。C下一次`host/editmode-03`只选Authoring四项、Presentation四项及`StartupReusesBothButtonsAndRejectsRepeatedOrStaleSelectionCallbacks`一项，预计1—3分钟、单调用900秒，累计沿1356.268451／3600秒。九项通过后，同一C才按既有合同执行一次prepare（180秒）；其他输出／操作范围保持。
 - Host补验及实际准备完成：`host/editmode-03`为9/9通过、0跳过、exit0、50.870888秒；同02原36通过组合覆盖45项，非新一次全跑。`host/prepare-01`仅一次prepare，exit0、16.171017秒，准确8件输出且91输入保持；9关几何／31参数行，模板UNREVIEWED、`BattleReplayPerformed=false`，未发布或激活。实际source／payload均44332字节、SHA `3127954bccf58fee33f983c6a5c37a307f282da5d6d66ab48fc687596cf25544`，validation1046字节、SHA `c68acb21e0e42022bc7ebda1ee3045d2e9e66ac7746ab5121ec33ce2adec7d12`。验证累计1503.723548／3600秒，生成394.432760／600秒；两个Unity进程已退出。
 - 第二个准确审查快照：`review-candidate-02/`，36文件、base `e642d337ca2d8f8d5cf0307ff263eed4771f7134`，manifest SHA `a30d21de9185fca43bac0d5a19398de777b9f2dfc554f53cc09dc8200055d49e`。涵盖Host／显示／279文本工具及生成物／发布准备与资源接线源码，排除Scene、六件实际发布、原始资源产物、设备与B03/B04。主程核当前91输入与快照、8件prepare哈希一致；原首批128路径中仅两项本轮明列显示差量变化。交中央发布差量draft PR、不合并；QA接准确head及实际内容待审记录。
+- 中央已发布并核远端[PR25](https://github.com/yyczz1/FightMatch/pull/25)，head `1e87c7960fc429b7229862c720520ed9ea42e207`、base `e642d337ca2d8f8d5cf0307ff263eed4771f7134`，draft未合并；37路径为准确36文件快照加当时更新的本实施记录。主程已挂接，QA独占首次GitHub审查请求／收件；当前未据此认定源码门或完整B02通过。
+
+### B02实际发布、资源及页面接续
+
+主程继续沿本轮已授权实现／相关验证范围组织；唯一C仍为`/root/ch1_executor`。下述执行须先收到QA对准确prepare产物的真实`approved-review.json`及对应源码独审收件；文件未具备时不执行发布，不由作者替填审查身份。C每步成功后继续下一依赖步骤，失败保留原证据后回主程，不自动重试。沿现有1503.723548／3600秒主动验证预算，不另发或重置额度。
+
+执行前提已具备：PR25 head `1e87c7960fc429b7229862c720520ed9ea42e207`的[原始GitHub独审](https://github.com/yyczz1/FightMatch/pull/25#issuecomment-6393017173)未发现重大问题，服务摘要6393002000完整head匹配且completed／finding和unresolved均false，主程已只读核原返回。QA actual `01a1711b-6465-7f33-b9ee-8d302cdcf729/local`签发真实`host-content/r2/approved-review.json`：4636字节、SHA `ec3398e4c0732c6f1a52ca6a60ad71e1090d4f837ea77d30c0a19df6611cb175`，独立身份、source-freeze-03、field-map、source/payload/validation均精确绑定。原prepare模板不变，未追认战斗回放或实际试玩。C现可执行下面第1—2步；第3—4步仍待真实inventory固定。
+
+**本批集成判定：ACCEPT，仅PR25上述head的入口／显示／内容准备实现与准确r2 Trial内容准备门。** QA已正式回传相同限定结论，依据为准确GitHub独审、36＋9覆盖45项及8件实际prepare核对；无待修finding。完整B02实际资源／Scene／作者表试玩及B03/B04仍执行中，不据本判定跳过后续缺口。
+
+首次本地发布调用被自动审批在执行前阻止：只识别历史N07授权，认为publish／activate-export超出范围；Unity及所有后段命令均0，没有新增发布目录。`host/publication-01/result.json`保留原拒绝，91输入与267保护哈希已核；准备及回执101.734912秒，累计1605.458460／3600秒，余1994.541540秒。主程随后直接读取中央真实人类turn `01a170c6-cdaf-74d0-b9b6-709641639061`／userMessage `01a170c6-d0cc-74a1-b745-1e462eae70ca`，确认当前“按这个设计继续实现……普通步骤不要再等我确认”原文；已交同一C亲读并把该新证据及工程§7的准确本地副作用提交原审批入口核验一次，不换工具／改含义规避。若仍拒绝即停在该门并向用户提出准确确认，不追加盲试；独立r3作者准备继续。
+
+该阻挡现已解除：C亲自通过`read_thread`核真实userMessage与工程§7，向同一`exec_command`审批入口补交上述直接证据一次后获准，原命令链已实际启动（session38503）。未换入口或扩大副作用，原拒绝与耗时保留，后续记`host/publication-02/`；仍逐步成功才继续，不因批准冒称运行完成。
+
+1. 以已冻结r2、source-freeze-03和真实QA文件，串行各一次标准`ChapterContentAuthoring.Run -fmChapterMode publish`、`activate-export`、`verify-release`，`-batchmode -nographics -quit`，每次timeout180秒；预计合计1—3分钟。写入只限`host-content/r2/publication/`既有工具固定存储／回执，以及`Assets/StreamingAssets/FightMatchChapterOne/`六个准确叶名：`first-release.fmsource.json`、`first-release.fmpackage.bytes`、`first-release.fmvalidation.bytes`、`first-release.fmreview.json`、`first-release.fmpublish.json`、`first-release.fmrelease.json`；允许Unity导入产生各自.meta及该目录.meta。实际冷读必须仅凭六件成功，旧Demo六件及旧发布根保持。
+2. 六件冷读通过后，串行各一次既有`FightMatchResourceBuild.BuildChapterMac`、`BuildChapterWindows`、`BuildChapterAndroid`，标准executeMethod，每次timeout180秒，预计合计1—3分钟，同计上述3600秒。允许固定`host-resources/r2/{macOS,windows,android}/`中的packages／builtin／boot／inventory输出；工具将真实新文本复制至`Assets/FightMatch/ResourceBuild/Inputs/ChapterOneTrial-r2/fm-text-v1.json`及`fm-text-v1.manifest.json`，允许两文件.meta和新目录.meta。原Generated／旧文本pair／旧plan／旧包保持，不改Player设置、不执行Player build、不操作设备。输出日志及命令回执只放本任务`host/publication-01/`、`host/resource-01/`。
+3. 上述产物形成真实inventory后才登记准确runtime复制清单与三平台boot的SHA／长度／GUID。预定boot导入路径为`Assets/FightMatch/ResourceBuild/fm-resource-boot-chapter-macos-r2.json`、`fm-resource-boot-chapter-windows-r2.json`、`fm-resource-boot-chapter-android-r2.json`及各自.meta；runtime目标只能为`Assets/StreamingAssets/FightMatchResources/{macOS,windows,android}/FightMatchChapterOne/`下inventory明确列出的文件及必要.meta。此段先规定接续边界，当前尚无真实inventory，不提前复制、填pin或保存Scene。
+4. 最后由C按准确产物接`Assets/Scenes/FightMatchDemo.unity`三项chapter boot／pin／resourceSetId，不动旧三平台字段和Prefab。实际页面验证复用既有Host隔离根与正常Scene／Play：从新档正常结算1—8，观察8原结算与唯一法师／首通卡、阵容未自动改；手动编法师进入9并观察普通魔攻及新增双语文本。使用实际作者CSV路线；r2没有已发布战斗参考，不调用不存在的默认回放替代实际观察。隔离ID、身份、最终候选SHA、准确操作和剩余时间在产物到齐后再固定；保留r2测试资料，不先在真实玩家根创建r2资料，不手改存档跳关，不新增runner。此页面步骤当前未启动。
+
+实际执行回执：`host/publication-02`的publish／activate-export／verify-release分别exit0、21.599850／21.629873／19.807615秒。六件实际导出及仅凭六件的冷读成功，未读作者目录或publication store。随后`host/resource-01`首个Mac资源构建exit1、16.965618秒，SDK `TaskCreateManifest_RFBP`报ErrorCode602／`fm.content.source.rawfile` bundle hash冲突；Windows／Android均0，无boot／inventory。source与payload合法地同为44332字节／SHA3127954b…cf25544，不改业务字节规避。91输入及267旧保护保持，Unity退出；新六件、导入文本、10个meta与9个部分资源输出见两份原始回执。累计1830.980031／3600秒，余1769.019969秒，生成仍394.432760／600。
+
+content已定位本机YooAsset3.0.6标准配置：默认RawFileBuildParameters.IncludePathInHash=false导致相同字节的PackageFileHash冲突；SDK公开IncludePathInHash=true可将准确asset路径纳入MD5。仅同一白名单的`FightMatchResourceBuild.cs`对chapter启用该选项，旧Demo保持false，八逻辑ID／位置及业务SHA／长度均保持，不改vendor／命名风格／守卫、不手造manifest。收齐准确SHA后仅补真实Mac资源构建，并在成功后继续尚未执行的Windows／Android；不重跑45项或本地发布／冷读。
+
+修正已停写：Builder新SHA `0d8432d75682dedf78cab69f4f150061be701d67b6a5165f6df99437240b23c0`，21413字节，仅注释和`IncludePathInHash=chapter`两行。`host/source-freeze-04.json` SHA `9d9e03c81ce8c997e55d71e98f674f6a48d529a46e09f2d11a503ed911016b9b`，36候选、98输入（原91仅Builder差量，加QA批准和真实六件）；实际内容与批准原字节不变。C下一段`host/resource-02`各一次Mac→Windows→Android、每次180秒、预计1—3分钟，仍从1830.980031／3600秒累计；先保留第一次9件部分输出的证据副本，再走SDK自身正常构建／缓存行为，不手改manifest或哈希。须确认八逻辑映射、source/package不同物理名但原SHA／长度一致。修复随后与实际资产候选交GitHub独审；既有内容门不重新发证，未变45项和六件冷读不重跑。
+
+`host/resource-02`实际三平台均exit0：Mac22.743秒、Windows15.549秒、Android15.968秒（四舍五入；精确值以回执为准）。各8逻辑映射／14件inventory、source与package不同物理名且原SHA保持，SDK构建及CreateBoot严格读回成功；98输入／267旧保护／10个已有meta保持，Unity退出。验证累计1981.995418／3600秒，余1618.004582秒。主程另外逐件核3个inventory共42件和3boot字节、各8个逻辑资源与真实六件／279文本源一致，形成`host/runtime-copy-01.json` SHA `c107e3fc93f01df9312d4ce81221e7e44921fd75fd10edcbb028bb17ced376cf`，准确列出45个source→destination、哈希／长度及3个Scene目标字段；未复制或写Scene。
+
+**第3—4步职责与执行固定：** combat此前未写Scene，现将`Assets/Scenes/FightMatchDemo.unity`三项chapter boot接线的限定写职责移交唯一C。允许依上述45条清单原字节复制到新目标，并由Unity生成45个文件.meta及3个新包目录.meta；原目录／旧包保持。C以现有Intel Unity GUI＋CUA原生控制在Inspector接三项boot、pin、resourceSetId，仅保存该Scene；不安装Unity6 Pipeline、不新增runner、不全局SaveAssets。保护旧三平台引用、Prefab、字体.asset及其.meta、其他98输入和原267中除明许Scene外的文件。
+
+本段含复制／GUI／收尾上限1500秒，仍沿1981.995418／3600秒累计；预留正常退出和回执时间，只有本任务Unity一个实例。新隔离ID `d556377f23e549a096f007ce3a258d8c`，candidate参数为runtime-copy-01的上述SHA；隔离根准确在该manifest，按原Host record格式填C的本次真实thread／turn，不复用旧activation授权。一次正常Scene／Play，按第4步正式1→8结算→手动编队→9法师攻击，必要新增文本中英观察及原操作历史只读查看；允许正常测试进度保存到此隔离根，保留所有提交记录，禁止手改档／跳关／花卡培养／额外战斗或重跑旧验收。若已无法在剩余时间内完成则正常退出，记录实际覆盖缺口，不自加重试。结束保留r2资料及截图／原始日志，资产与修正候选尚需后续准确GitHub独审和QA接收。
+
+### B03／B04无冲突作者准备
+
+教学先实施、双面Boss随后贯通；只有完整新状态／执行合同到齐才发布后续实际集合，避免中间半套能力进入资料。当前允许主策独占准备新作者目录`Config/FightMatch/ChapterOneTrial-r3/`，准确18叶名沿r2相同：`Release.csv`、`CharacterGrowth.csv`、`Passive.csv`、`Level.csv`、`Face.csv`、`PairEnemy.csv`、`EnemyAction.csv`、`DefaultRouteCell.csv`、`Item.csv`、`Card.csv`、`Skill.csv`、`Teaching.csv`、`Reward.csv`、`RewardMaterial.csv`、`CharacterUnlock.csv`、`FirstClearItem.csv`、`SourceMetadata.csv`、`README.md`。revision为3，保持既定职业、关卡及业务身份和Trial状态，补10—16、正式教学／嘲讽、双面Boss以及冻结设计要求的新能力。旧`Config/FightMatch/ChapterOneTrial/`及Generated/r2作为已发布r2输入冻结保留，不作为第二个可独立编辑的最新版；新目录README明确该版本关系。
+
+此准备只写新18文件并做常规CSV静态核对，不生成／运行／发布／改真实资料。1—9已定数据不顺带调平衡；如10—16衔接确需产品决策，集中报具体冲突。原279文本CSV和生成物仍固定供B02使用，主策只回新增文本需求清单，暂不写其原路径。后续代码白名单、精确能力token和验证预算在实际启动前登记；此段不提前授权源码写入或宣告B03/B04完成。
+
+三作者只读接口核对已收口：r3新增精确`CH1.TauntBossStateV1`为第八cap，完整冻结技能／敌意图参数、CD／嘲讽／Wind／易伤状态及全部事实一次定稿，含合法仅技能的零普通伤害事实；B03先实现、B04随后，实际r3只在全能力齐备后发布。旧r2七cap及空Entry features永远选原布局，原r2 canonical payload/hash保持；`PublishedContentCodec`的嵌套反射也须按精确能力分支，不能只改存档codec。永久Quote／Effect／教学Challenge正文保持原字节布局，`GiftOnceKey`通过原精确Teaching定义解析；即使没有活动Battle，Application／Business存档头也须从精确引用定义收集新cap。Skill的`battle_capability_id`仍按冻结设计为`CH1.MageTauntBoss`，不得以新状态token替换。此为后续准确实施依据，尚无相关源码写入。
+
+主策r3作者18文件已交付，actual turn `01a17122-c32f-7853-9295-ae67fb9e36f3/local`：16关／17面／47敌／20意图／208路线格，30条来源；其静态列型／引用／几何／周期／同面Wind／来源检查通过，未生成或运行。17CSV集合SHA `180efb9d4addb8b7ddeb51a4260ed995087078f9efbcf3852accdf7f9e23e9dd`，README SHA `285b931fd8748709881fdcea407e5a2521af5221c8741e95b68ffa3a2c9aa4aa`；r2与279源保持。新增26条英简中key／参数需求在r3 README，尚未接原文字表；唯一教学新引用`ch1.tutorial.taunt.explanation`待后段接入。主策不另向中央重复回传。
+
+主程已核18文件集合及README准确哈希、279源保持，并保存`b03-b04/inputs/ChapterOneTrial-r3/`不可变副本；同级`chapter-one-r3-manifest.json` SHA `6f88c2fd13a8c88b3fa6c2183098a2941de9bf3c9729aa670a2378f4e90c99db`。复用主策静态核对，不额外启动生成或验证。
+
+C进行r2 GUI期间，content仅可新增非Assets的`Config/FightMatch/Luban/ChapterOneTrial-r3/luban.conf`及`schema.xml`，复用现有17张全string表与标准薄适配，staging固定为本任务`b03-b04/luban/staging-r3`，后续生成输出为`Generated/FightMatch/ChapterOneTrial/r3`。不得修改原r2配置、薄适配源码、279源／Tools、Assets或任何冻结输入；不运行生成器／Unity。此为既定r3作者输入的准备接线，不改变执行状态或提前发布能力。
+
+r3未发布输入的技术纠正：教学说明key统一为`fm.ch1.tutorial.taunt.explanation`，匹配现有LocalizationService／CatalogParser／文本编译器的`fm.`命名空间守卫；不放宽守卫，原文案／参数／业务语义不变，不改冻结设计。主策仅改Teaching.csv和作者README，17CSV集合SHA现为`867a9ab630e8d6d6201fe3d5d8b71c8db4cdec016c5b348967242523eebf7462`，Teaching SHA `19faf3749e6d954e0b691cb6b72d518d84c5238d3de4bac93315a2529678545b`。实际用卡／领取教学赠物页面还需5个明确key，合计31个新增需求；参数直接取现有Quote，目标等级不误作卡数，前后XP明确为各自等级内经验。README SHA `da28f7f1346f1543941b39b3b21777db1b8d503de7af14bb2f635d38d9a8fdeb`。原279文字表未改；新18文件副本在`b03-b04/inputs/ChapterOneTrial-r3-ui-keys/`，manifest `chapter-one-r3-ui-keys-manifest.json` SHA `c7b700b7d6277bdf1fb96db7dba6a2175db1b81cbb4d59d8b9fd17d158c5de33`，旧副本保留。
+
+content已交上述两项Luban配置并停写：`luban.conf`445字节、SHA `d3a772c2a46dadf4b644bd8f0e600aaf444de7f7e5af2768bc46ed8117be4d6b`；`schema.xml`9166字节、SHA `27cebe7ff5a83bd40bbe9b3bfa330d5407998f3896762e8649a80adf2d7254d0`。17张表全部兼容现有string schema，薄适配无需改动；无生成器／Unity运行。
+
+r2 GUI现场接续：原C actual turn `01a17139-8987-7e73-8c24-92d16abb41c5`已复制45文件并启动唯一Editor PID92339／监督PID92338，phase起点1792900983.9546208、绝对截止1792902483.9546208。首次CUA getApp(path)等待508.3秒后随C回合中断而中止；原Editor／监督进程继续存活，未重启。C恢复turn `01a17143-1e4b-7502-926c-076b2ff36093`只接管同一现场，原activation身份／隔离根／累计预算保持；恢复时Scene仍为原SHA9911cf81…bad35。桌面控制失败与Unity功能结果分开记录，未观察页面不得标通过；最新收尾结果待同一C回传。
+
+C回传准确工具诊断：bundle标识`com.unity3d.UnityEditor5.x`匹配两份安装，2.432秒返回Ambiguous app identifier；随后按工具建议选择已知准确运行路径并设置20000ms，实际等待505.8秒后才随第二次回合中断结束，仍无app对象／AX／截图。此为桌面连接失败，不是审批拒绝。C已停止所有连接重试，无可用原生控制，不能声称正常GUI退出；仅收回文件核对并等待原有1368秒进程级监督结果，不手动kill、不另启控制渠道／Editor。Scene接线、保存及Play均NOT_RUN，实际进程收尾和累计时间另以原回执确定。
+
+### B03／B04实施范围登记
+
+现有冻结设计及本记录已对齐的精确能力合同作为实施计划，按教学永久流程→嘲讽和双面Boss贯通；不重新做设计或提前发布半套r3。r2实际页面缺口独立保留，不将工具失败写成产品通过。以下源码写入须等唯一C确认原Editor结束、r2实际资产候选快照完成后，由主程明确启动。三个作者分别持有互斥文件，不操作Git／Unity；主程只协调、保存候选和收件。所有路径下列根为`Assets/Scripts/FightMatch/`，新增测试根为`Assets/Tests/EditMode/FightMatch/`。
+
+| 作者 | 允许修改的既有源码 | 允许测试／新增路径 |
+| --- | --- | --- |
+| content | `Content/PublishedContentModels.cs`、`PublishedContentCodec.cs`、`ChapterContentCompiler.cs`、`ChapterContentTables.cs`；`Core/ChapterRuleDefinitions.cs` | 修改`ChapterContentTestData.cs`，显式保留旧七cap夹具；新增`ChapterTauntBossContentTests.cs`及同名.meta |
+| save | `Core/CandidateBusinessSaveCodec.cs`、`CandidateBusinessSaveValues.cs`、`CandidateBattleSaveCodec.cs`、`CandidateChapterSaveCodec.cs`、`CandidateApplicationSaveCodec.cs`、`CandidatePermanentCodec.cs`、`CandidatePermanentDefinitions.cs`、`CandidatePermanentProtocol.cs`、`CandidatePermanentProgression.cs`、`CandidatePermanentInventory.cs`、`CandidatePermanentGrowth.cs`、`CandidateProgression.cs`；`Application/PlayerPermanentSession.cs`、`CandidateLifecyclePermanent.cs`、`PlayerNavigationSession.cs`、`PlayerNavigationModels.cs`、`PlayerNavigationQuery.cs`；`Presentation/PlayerNavigationController.cs`、`PlayerNavigationView.cs`、`PlayerPermanentDetailView.cs`、`PlayerNavigationRecoveryView.cs` | 新增`ChapterTeachingProtocolTests.cs`、`ChapterStateSaveCompatibilityTests.cs`、`ChapterTeachingNavigationTests.cs`及各自.meta。复用既有Draft／Quote模型，无需改PlayerPermanentModels |
+| combat | `Core/BattleEntryInput.cs`、`PreparedBattleEntry.cs`、`BattleEntryPreparer.cs`、`BattleStartAssembler.cs`、`BattleSnapshot.cs`、`CandidateCombatFrame.cs`、`CandidateEnemyPhaseFrame.cs`、`CandidateEnemyIntentFact.cs`、`CandidateBattleOperationRecord.cs`、`CandidateDirectAttack.cs`、`CandidateChapterBattleRules.cs`、`CandidateEnemyPhase.cs`、`CandidateBattleOperations.cs`、`CandidateBattleStage.cs`、`CandidateBattleReportFingerprint.cs`、`CandidateHistoryOperations.cs`、`CandidateReplayOperations.cs`、`CandidateReplayComparison.cs`、`CandidateBaseRewards.cs`、`BattleDamageFact.cs`；`Application/PlayerRosterSession.cs`、`CandidateLifecycleRoster.cs`、`CandidateLifecycleEnd.cs`、`CandidateLifecycleEntry.cs`、`CandidateLifecyclePreparation.cs` | 新增`Core/ChapterBattleSkillModels.cs`、`Core/ChapterEnemyActionModels.cs`及各自.meta；新增测试`ChapterTauntBattleTests.cs`、`ChapterTeachingLifecycleTests.cs`、`ChapterBossBattleTests.cs`、`ChapterBossLifecycleTests.cs`及各自.meta；既有`ChapterBattleTestData.cs`仅作必要共享fixture扩展 |
+
+content验收：真实r2 canonical SHA3127954…cf25544严格保持；真实r3正常生成数据Read／Prepare得到16关17面、八cap和完整技能／教学／敌参数；未知／缺失能力、非法引用和新字段注入旧七cap拒绝；Skill能力仍为CH1.MageTauntBoss。save验收：T1—T4的稳定赠证与准确来源限制、免费引用已有学习、独立说明、目标等级用卡预览和原Unknown恢复；永久正文布局保持；无活动Battle仍声明新cap，旧／新战斗正文按精确能力分支且完整恢复新状态／事实，不支持时保档拒绝。端到端教学入场及最终首通证由combat负责，不重复实现或覆盖同一测试源。
+
+combat验收：教学任一缺口均在Attempt分配前拒绝，永久教学已完成事实不因战内回退而撤销；合法仅嘲讽／普通击杀不施放／CD两行动递减；准确目标、周期、独立Wind用量与分数恢复、易伤下一有效行动消费；补线与翻面零额外推进、全倒的阶段优先、同Attempt跨面状态延续、完整事实指纹／保存／回退与复播；16唯一终局及第二证来源。具体值复用冻结验收T1—T5、B1—B6及C3/C4例，内容／codec分别由其拥有者接入。新public模型／字段应先互发准确形状，避免三方猜接口；正常分行、清晰领域命名和小函数，不顺带格式化旧代码。
+
+B03／B04针对验证另列为新工作预算：仅新增／受影响用例及相关发布接线，标准Unity单调用上限900秒，累计主动验证上限3600秒（包含必要普通修正），不重置或挪用B01/B02既有耗时。r3标准Luban／文本生成预计数十秒，含必要修正累计上限600秒；原r2生成394.432760／600秒证据保留且不重复。实际用例选择及命令、真实r3发布／资产白名单在固定候选后再给唯一C，不提前运行。桌面控制不可用时不把这些额度当作GUI重试许可；真实页面剩余验证须有可操作入口后单独界定。既有70及45项有效证据按输入变化复用，只补有影响的缺口；准确候选交中央发布draft、不合并，QA独占GitHub审查和接收。
+
+r2 GUI最终收尾已收：C actual closeout `01a1714b-cb2c-78e1-ae61-bda20ef3a173`，原监督1368.0664秒timeout，exitCode=null，Unity与监督均已退出；不是正常GUI退出。全段1476.494703／1500秒，累计3458.490121／3600秒，余141.509879秒，原生成预算不变。45复制／48meta／98输入／270保护最终一致，Scene未变、隔离业务文件0，接线／保存／Play全部NOT_RUN。原始工具失败和process-result保留，C停写，无额外启动。
+
+主程已固定实际112路径候选`review-candidate-03/`，manifest SHA `ce9f5cfee7993337bc4d6e7e0888d2ec2b5dbfd5940200311d28b3156f58f5ef`，base为PR25 `1e87c7960fc429b7229862c720520ed9ea42e207`。只含SDK两行修正、六件发布、文本导入、三平台runtime／boot及其实际meta；不含未接线Scene、B03/B04、旧WIP或玩家档。该包可单独审查资源产物，不宣告实际页面可玩。
+
+B03／B04上述53项既有源码／夹具前像已保存在`baseline/b03-b04/`，manifest SHA `233807e8a1bc1b0ff74734c0c90e0cd7f7e714db309191bdb7bd0cfa17203c62`；逐项与PR25原字节相同，没有旧WIP夹带。C已确认无Editor，现解除这53项及明列新增路径的源码冻结，由原content／save／combat按分工实施并回主程；Unity／生成仍待固定候选后派唯一C。主策可将已定31个新key接入原`Config/FightMatch/Localization/FightMatchText.csv`，保持279旧行逐字段不变；只做通常CSV静态检查，不手改Generated或资源。
+
+save最小增补`Application/CandidateLifecycleModels.cs`：现有Content输入与冻结Content携带可选`PublishedSaveContext`原定义闭包，仅引用传递不序列化；Permanent提交必须能按旧gift quote.Binding解析原Teaching的GiftOnceKey，不能拿当前同ID定义代替旧来源。该文件唯一归save，combat不并写；前像与PR25相同，保存在`baseline/b03-b04-added-save-context/`。不改变Quote／Effect正文或迁移边界，旧调用保持原行为，缺精确原定义明确拒绝。
