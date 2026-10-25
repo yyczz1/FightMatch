@@ -42,7 +42,7 @@ namespace FightMatch.Core.Tests
         [Test]
         public void WarriorCriticalFactStillUsesTheExistingBilingualCriticalFeedback()
         {
-            var input = ChapterBattleTestData.Input(warrior: true); input.Members[0].CharacterId = "W"; input.Members[0].Crit.C = R(1);
+            var input = ChapterBattleTestData.Input(warrior: true); input.Members[0].CharacterId = "W"; input.Members[0].ClassId = "class:warrior"; input.Members[0].Crit.C = R(1);
             input.Level.Faces[0].Pairs[0].Enemy.EnemyDefinitionId = "enemy:clockwork-infantry";
             input.Level.Faces[0].Pairs[0].Enemy.Stats.PhysicalDefense = R(0);
             var record = Record(input, "W"); var hit = record.DirectAttack.DamageFacts.Single();

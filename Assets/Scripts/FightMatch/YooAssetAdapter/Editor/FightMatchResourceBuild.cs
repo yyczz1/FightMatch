@@ -19,8 +19,11 @@ namespace FightMatch.YooAssetAdapter.Editor
     public static class FightMatchResourceBuild
     {
         internal const string PlanPath = "Assets/FightMatch/ResourceBuild/FightMatchResourcePlan.json";
+        internal const string ChapterPlanPath = "Assets/FightMatch/ResourceBuild/FightMatchChapterOneResourcePlan.json";
         private const string OutputRoot = "TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/build";
+        private const string ChapterOutputRoot = "TestArtifacts/FightMatch/CH1-IMPL-001/host-resources/r2";
         private const string Package = "FightMatchMain";
+        private const string ChapterPackage = "FightMatchChapterOne";
         private static readonly string[] Names = { "first-release.fmsource.json", "first-release.fmpackage.bytes",
             "first-release.fmvalidation.bytes", "first-release.fmreview.json", "first-release.fmpublish.json",
             "first-release.fmrelease.json", "fm-text-v1.json", "fm-text-v1.manifest.json" };
@@ -46,13 +49,20 @@ namespace FightMatch.YooAssetAdapter.Editor
         public static void BuildWindows() => Build(BuildTarget.StandaloneWindows64);
         [MenuItem("FightMatch/Resources/Build BuiltIn Android")]
         public static void BuildAndroid() => Build(BuildTarget.Android);
+        [MenuItem("FightMatch/Resources/Build ChapterOne Mac")]
+        public static void BuildChapterMac() => Build(BuildTarget.StandaloneOSX, true);
+        [MenuItem("FightMatch/Resources/Build ChapterOne Windows")]
+        public static void BuildChapterWindows() => Build(BuildTarget.StandaloneWindows64, true);
+        [MenuItem("FightMatch/Resources/Build ChapterOne Android")]
+        public static void BuildChapterAndroid() => Build(BuildTarget.Android, true);
 
         // This is a normal Editor build: it never changes a scene, Player setting, collector setting or Player staging.
-        public static void Build(BuildTarget target)
+        public static void Build(BuildTarget target) => Build(target, false);
+        private static void Build(BuildTarget target, bool chapter)
         {
             var platform = Platform(target);
-            var planBytes = ReadBounded(PlanPath, 32768);
-            var plan = ReadPlan(planBytes);
+            var planBytes = ReadBounded(chapter ? ChapterPlanPath : PlanPath, 32768);
+            var plan = ReadPlan(planBytes, chapter);
             var input = plan.entries.Select(e => ReadBounded(e.source, 16777216)).ToArray();
             if (input.Sum(x => (long)x.Length) > 33554432 || Hash(input[6]) != plan.textArtifactSha256 ||
                 Hash(input[7]) != plan.textManifestSha256) throw new InvalidDataException("Formal input identity differs.");
@@ -62,13 +72,13 @@ namespace FightMatch.YooAssetAdapter.Editor
                 File.WriteAllBytes(plan.entries[i].importPath, input[i]);
                 AssetDatabase.ImportAsset(plan.entries[i].importPath, ImportAssetOptions.ForceSynchronousImport);
             }
-            var output = Path.GetFullPath(OutputRoot + "/" + platform);
-            var map = new FixedRawMap(plan.entries);
+            var output = Path.GetFullPath((chapter ? ChapterOutputRoot : OutputRoot) + "/" + platform);
+            var map = new FixedRawMap(plan.entries, plan.packageName);
             var parameters = new RawFileBuildParameters
             {
                 BuildOutputRoot = output + "/packages", BundledFileRoot = output + "/builtin",
                 BuildPipeline = nameof(RawFileBuildPipeline), BuildBundleType = (int)EBundleType.RawBundle,
-                BuildTarget = target, PackageName = Package, PackageVersion = plan.packageVersion,
+                BuildTarget = target, PackageName = plan.packageName, PackageVersion = plan.packageVersion,
                 PackageNote = plan.appBuildIdentity, FileNameStyle = EFileNameStyle.HashName,
                 BundledCopyOption = EBundledCopyOption.ClearAndCopyAll, VerifyBuildingResult = true
             };
@@ -89,14 +99,14 @@ namespace FightMatch.YooAssetAdapter.Editor
                     throw new InvalidDataException("Input changed during build.");
                 physicalNames[i] = Path.GetFileName(file);
             }
-            var manifestName = YooAssetConfiguration.GetManifestBinaryFileName(Package, plan.packageVersion);
+            var manifestName = YooAssetConfiguration.GetManifestBinaryFileName(plan.packageName, plan.packageVersion);
             var manifest = ReadBounded(Path.Combine(result.OutputPackageDirectory, manifestName), 268435456);
             var boot = CreateBoot(plan, planBytes, platform, input, physicalNames, manifestName, manifest);
             File.WriteAllBytes(output + "/fm-resource-boot-v1.json", boot);
-            var builtin = output + "/builtin/" + Package;
+            var builtin = output + "/builtin/" + plan.packageName;
             File.WriteAllBytes(builtin + "/fm-text-source.receipt.json", input[7]);
             var inventory = Directory.GetFiles(builtin, "*", SearchOption.AllDirectories).OrderBy(x => x, StringComparer.Ordinal)
-                .Select(path => Obj("source", path, "playerPath", PlayerRoot(target) + "/" +
+                .Select(path => Obj("source", path, "playerPath", PlayerRoot(target, chapter) + "/" +
                     path.Substring(builtin.Length + 1).Replace('\\', '/'), "length", new FileInfo(path).Length,
                     "sha256", Hash(ReadBounded(path, 268435456)))).ToArray();
             File.WriteAllBytes(output + "/inventory.json", Encode(Obj("schemaVersion", 1, "platform", platform,
@@ -107,19 +117,26 @@ namespace FightMatch.YooAssetAdapter.Editor
             Debug.Log("FightMatch BuiltIn output: " + output + "; independent boot pin candidate=" + Hash(boot));
         }
 
-        internal static Plan ReadPlan(byte[] bytes)
+        internal static Plan ReadPlan(byte[] bytes, bool chapter = false)
         {
             var plan = JsonUtility.FromJson<Plan>(new UTF8Encoding(false, true).GetString(bytes));
-            if (plan == null || plan.schemaVersion != 1 || plan.packageName != Package || plan.appProtocol != 1 ||
+            if (plan == null || plan.schemaVersion != 1 || plan.packageName != (chapter ? ChapterPackage : Package) || plan.appProtocol != 1 ||
                 plan.entries == null || plan.entries.Length != 8 || plan.requiredCapabilities == null ||
                 !plan.requiredCapabilities.SequenceEqual(new[] { "resource-schema-v1" }) ||
-                plan.textArtifactSha256 != "f48264f9ce94cd3bb2ef8d1b6a0be7b241916144b6d5764d11633bb6d6e456bc" ||
-                plan.textManifestSha256 != "18437127bc2e2d7371f97da0990de933f0193fe202539593ef19338d47123667")
+                plan.textArtifactSha256 != (chapter ? "038a9fed918495f04bb259ab48bf157d55df0e1a81a37e649dd7469c1953177c" :
+                    "f48264f9ce94cd3bb2ef8d1b6a0be7b241916144b6d5764d11633bb6d6e456bc") ||
+                plan.textManifestSha256 != (chapter ? "4072b5f149e609b8fdb810ebc9c1fb46d5bda6374bf77a12d872188ce091a8b5" :
+                    "18437127bc2e2d7371f97da0990de933f0193fe202539593ef19338d47123667"))
                 throw new InvalidDataException("Unsupported resource build plan.");
+            if (chapter && (plan.packageVersion != "chapter-one-trial-r2" || plan.resourceSetPrefix != "fm.ch1.trial.r2" ||
+                plan.appBuildIdentity != "fightmatch-ch1-trial-r2" || plan.authorizationEvidenceId != "CH1-IMPL-001" ||
+                plan.operationId != "build:fightmatch:chapter-one-trial-r2"))
+                throw new InvalidDataException("Unexpected chapter build identity.");
             for (var i = 0; i < 8; i++)
             {
-                var expected = i < 6 ? "Assets/StreamingAssets/FightMatch/" : "Generated/FightMatch/Localization/";
-                var imported = i < 6 ? expected : "Assets/FightMatch/ResourceBuild/Inputs/";
+                var expected = i < 6 ? (chapter ? "Assets/StreamingAssets/FightMatchChapterOne/" : "Assets/StreamingAssets/FightMatch/") :
+                    (chapter ? "Generated/FightMatch/Localization/ChapterOneTrial-r2/" : "Generated/FightMatch/Localization/");
+                var imported = i < 6 ? expected : (chapter ? "Assets/FightMatch/ResourceBuild/Inputs/ChapterOneTrial-r2/" : "Assets/FightMatch/ResourceBuild/Inputs/");
                 var entry = plan.entries[i];
                 if (entry == null || entry.assetId != Ids[i] || entry.source != expected + Names[i] || entry.importPath != imported + Names[i])
                     throw new InvalidDataException("Unexpected raw input mapping.");
@@ -132,18 +149,20 @@ namespace FightMatch.YooAssetAdapter.Editor
         internal static string Platform(BuildTarget target) => target == BuildTarget.Android ? "android" :
             target == BuildTarget.StandaloneOSX ? "macOS" : target == BuildTarget.StandaloneWindows64 ? "windows" :
             throw new ArgumentException("Unsupported BuiltIn platform.", nameof(target));
-        internal static string PlayerRoot(BuildTarget target) => "Assets/StreamingAssets/FightMatchResources/" + Platform(target) + "/" + Package;
+        internal static string PlayerRoot(BuildTarget target, bool chapter = false) =>
+            "Assets/StreamingAssets/FightMatchResources/" + Platform(target) + "/" + (chapter ? ChapterPackage : Package);
         private static string SetId(Plan plan, string platform) => plan.resourceSetPrefix + "." + platform.ToLowerInvariant();
 
         private sealed class FixedRawMap : IBuildTask, IAssetIgnoreRule
         {
             private readonly Entry[] entries;
+            private readonly string packageName;
             internal BuildMapContext Map { get; private set; }
-            internal FixedRawMap(Entry[] entries) { this.entries = entries; }
+            internal FixedRawMap(Entry[] entries, string packageName) { this.entries = entries; this.packageName = packageName; }
             public bool IsIgnoreAsset(EditorAssetInfo assetInfo) => false;
             public void Run(BuildContext context)
             {
-                var command = new CollectCommand(Package, this) { EnableAddressable = true };
+                var command = new CollectCommand(packageName, this) { EnableAddressable = true };
                 command.SetFlag(ECollectFlags.IgnoreGetDependencies, true);
                 Map = new BuildMapContext { Command = command, AssetFileCount = entries.Length };
                 foreach (var entry in entries.OrderBy(e => e.assetId, StringComparer.Ordinal))
@@ -170,7 +189,7 @@ namespace FightMatch.YooAssetAdapter.Editor
                 if (i < 6) business.Add(FileRecord(Names[i], input[i]));
                 mappings.Add(Obj("assetId", Ids[i], "contentLength", input[i].LongLength,
                     "contentSha256", Hash(input[i]), "files", new[] { physicalNames[i] }, "kind", "raw",
-                    "location", Ids[i], "packageName", Package, "platform", platform, "releaseSetId", set,
+                    "location", Ids[i], "packageName", plan.packageName, "platform", platform, "releaseSetId", set,
                     "scopeId", i < 6 ? "fm.content.first-release" : "fm.text.full", "unityType", ""));
             }
             mappings = mappings.OrderBy(m => (string)m["assetId"], StringComparer.Ordinal).ToList();
@@ -192,7 +211,12 @@ namespace FightMatch.YooAssetAdapter.Editor
                 "sourcePlanSha256", Hash(planBytes), "textSourceReceiptSha256", Hash(input[7]));
             var binding = JsonUtility.FromJson<Receipt>(Encoding.UTF8.GetString(input[4])).Binding;
             var businessSet = JsonUtility.FromJson<Release>(Encoding.UTF8.GetString(input[5])).ReleaseSetId;
-            if (businessSet != "release-set:fightmatch-demo-r1") throw new InvalidDataException("Unexpected business release.");
+            var chapter = plan.packageName == ChapterPackage;
+            if (plan.packageName != Package && !chapter || businessSet != (chapter ? "release-set:chapter-one-trial" : "release-set:fightmatch-demo-r1"))
+                throw new InvalidDataException("Unexpected business release.");
+            if (chapter && (binding == null || binding.PackageId != "fightmatch:chapter-one-trial" || binding.RuleVersion != "ch1-slice-r1" ||
+                binding.NumericContractVersion != "RC01" || binding.RandomContractVersion != "PC01+SC01"))
+                throw new InvalidDataException("Unexpected chapter content binding.");
             var descriptor = Obj("businessContent", Obj("binding", Obj("ContentFingerprint", binding.ContentFingerprint,
                 "NumericContractVersion", binding.NumericContractVersion, "PackageId", binding.PackageId,
                 "RandomContractVersion", binding.RandomContractVersion, "RuleVersion", binding.RuleVersion),
@@ -203,7 +227,7 @@ namespace FightMatch.YooAssetAdapter.Editor
                 "publication", Obj("authorizationEvidenceId", plan.authorizationEvidenceId, "operationId", plan.operationId,
                     "receipt", receipt, "receiptSha256", Hash(Encode(receipt))), "releaseSetId", set,
                 "resources", Obj("manifestLength", manifest.LongLength, "manifestName", manifestName,
-                    "manifestSha256", Hash(manifest), "mappingDescriptorSha256", Hash(Encode(mapping)), "packageName", Package,
+                    "manifestSha256", Hash(manifest), "mappingDescriptorSha256", Hash(Encode(mapping)), "packageName", plan.packageName,
                     "platform", platform, "requiredScopeHashes", scopes, "yooAssetPackageVersion", "3.0.6",
                     "yooManifestPackageVersion", plan.packageVersion), "schemaVersion", 1,
                 "text", Obj("artifactLength", input[6].LongLength, "artifactName", Names[6], "artifactSha256", Hash(input[6]),

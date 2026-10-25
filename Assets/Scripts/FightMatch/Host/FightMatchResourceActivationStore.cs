@@ -177,7 +177,8 @@ namespace FightMatch.Host
         {
             Require(androidStorage && androidPaths != null && files != null, "RES_ROOT");
             Canonical(systemAnchor, true); Canonical(root, true);
-            Require(string.Equals(root, Path.Combine(systemAnchor, "FightMatch"), StringComparison.Ordinal), "RES_ROOT");
+            Require(string.Equals(root, Path.Combine(systemAnchor, "FightMatch"), StringComparison.Ordinal) ||
+                string.Equals(root, Path.Combine(systemAnchor, "FightMatchChapterOneTrial"), StringComparison.Ordinal), "RES_ROOT");
         }
         private void AndroidNonLink(string path)
         {

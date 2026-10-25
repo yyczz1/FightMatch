@@ -90,6 +90,8 @@ namespace FightMatch.Application
         public CandidateApplicationSnapshot Head => Application.PublishedSnapshot;
         public ContentBinding Binding { get; }
         public IReadOnlyList<PreparedLevel> Levels { get; }
+        public ChapterRuleDefinitions Chapter { get; }
+        public IReadOnlyList<CandidateGrowthDefinition> ChapterGrowths { get; }
         public PlayerRosterView Roster { get; }
         public CandidateInventoryView Inventory { get; }
         public CandidateProgressionView Progression { get; }
@@ -99,10 +101,13 @@ namespace FightMatch.Application
         public bool IsAvailable => Diagnostic == null;
         internal PlayerNavigationReadResult(CandidateApplicationView application, ContentBinding binding,
             IEnumerable<PreparedLevel> levels, PlayerRosterView roster, CandidateInventoryView inventory,
-            CandidateProgressionView progression, CandidateLifecycleView lifecycle, CandidateApplicationDiagnostic diagnostic)
+            CandidateProgressionView progression, CandidateLifecycleView lifecycle, CandidateApplicationDiagnostic diagnostic,
+            ChapterRuleDefinitions chapter = null, IEnumerable<CandidateGrowthDefinition> chapterGrowths = null)
         {
             Application = application; Binding = binding;
             Levels = new List<PreparedLevel>(levels ?? Array.Empty<PreparedLevel>()).AsReadOnly();
+            Chapter = chapter;
+            ChapterGrowths = new List<CandidateGrowthDefinition>(chapterGrowths ?? Array.Empty<CandidateGrowthDefinition>()).AsReadOnly();
             Roster = roster; Inventory = inventory; Progression = progression; Lifecycle = lifecycle; Diagnostic = diagnostic;
         }
     }

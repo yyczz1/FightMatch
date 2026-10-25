@@ -274,7 +274,7 @@ namespace FightMatch.Presentation
                 Text(dialogBody, Row("rollback-before"), "fm.history.snapshot.title");
                 var before = range.BeforeSnapshot;
                 foreach (var member in before.Members) Text(dialogBody, Row("rollback-member:" + member.Member.CharacterId),
-                    BattleText.MemberHp(localization, member.Member.CharacterId, member.Hp, member.Member.Stats.MaxHp));
+                    BattleText.MemberHp(localization, member.Member, member.Hp, member.Member.Stats.MaxHp));
                 foreach (var enemy in before.Enemies) Text(dialogBody, Row("rollback-enemy:" + enemy.PairKey.PairId),
                     BattleText.EnemyHp(localization, enemy.Enemy, enemy.Hp, enemy.Enemy.Stats.MaxHp));
                 Text(dialogBody, Row("rollback-phase"), BattleText.Phase(localization, before.Phase));
@@ -340,16 +340,16 @@ namespace FightMatch.Presentation
             {
                 var original = view.Receipt;
                 Text(receipt, Row("receipt-title"), ResultTitle(original, true));
-                Text(receipt, Row("receipt-level"), "fm.result.level", BattleText.Arg("levelName", BattleText.Level(localization, original.LevelId)));
+                Text(receipt, Row("receipt-level"), "fm.result.level", BattleText.Arg("levelName", BattleText.Level(localization, original.LevelId, original.LevelVersion)));
                 if (original.Reward == null) Text(receipt, Row("receipt-no-reward"), "fm.result.no_reward.body",
-                    BattleText.Arg("levelName", BattleText.Level(localization, original.LevelId)));
+                    BattleText.Arg("levelName", BattleText.Level(localization, original.LevelId, original.LevelVersion)));
                 foreach (var member in original.Members)
                 {
                     if (member.Experience != null) Text(receipt, Row("receipt-member:" + member.CharacterId), "fm.result.member_xp",
-                        BattleText.Arg("characterName", BattleText.Character(localization, member.CharacterId)), BattleText.Arg("amount", BattleText.Number(member.Experience.Amount)));
-                    else Text(receipt, Row("receipt-member:" + member.CharacterId), member.CharacterId == "W" ? "fm.name.character.w" : string.Empty);
+                        BattleText.Arg("characterName", BattleText.Character(localization, original, member.CharacterId)), BattleText.Arg("amount", BattleText.Number(member.Experience.Amount)));
+                    else Text(receipt, Row("receipt-member:" + member.CharacterId), BattleText.CharacterKey(original, member.CharacterId));
                     Text(receipt, Row("receipt-slot:" + member.CharacterId), "fm.result.member.original_slot",
-                        BattleText.Arg("characterName", BattleText.Character(localization, member.CharacterId)),
+                        BattleText.Arg("characterName", BattleText.Character(localization, original, member.CharacterId)),
                         BattleText.Arg("slotNumber", BattleText.Number(member.OriginalSlot + 1)));
                     if (member.End?.WasDown == true)
                     {
@@ -358,14 +358,13 @@ namespace FightMatch.Presentation
                         var status = period == null ? null : new BattleTextLine("fm.result.recovery_started",
                             BattleText.Arg("duration", BattleText.Duration(period.Duration))).Resolve(localization);
                         Text(receipt, Row("receipt-fallen:" + member.CharacterId), "fm.result.member_fallen",
-                            BattleText.Arg("characterName", BattleText.Character(localization, member.CharacterId)), BattleText.Arg("recoveryStatus", status));
+                            BattleText.Arg("characterName", BattleText.Character(localization, original, member.CharacterId)), BattleText.Arg("recoveryStatus", status));
                     }
                 }
                 if (original.Reward != null)
                 {
-                    Text(receipt, Row("receipt-inventory"), "fm.result.base_reward_section");
-                    foreach (var item in original.InventoryGrant.Items) Text(receipt, Row("receipt-item:" + item.ItemId), "fm.result.item_reward",
-                        BattleText.Arg("itemName", BattleText.Item(localization, item.ItemId)), BattleText.Arg("amount", BattleText.Number(item.Quantity)));
+                    foreach (var line in BattleText.ReceiptRewards(localization, original, context.Head))
+                        Text(receipt, Row(line.Identity), line);
                     // Only the fixed L1 publication supplies this accepted product fact. New publications need their reward configuration contract.
                     if (original.LevelId == "level:ch01-01" && context.Binding?.ContentFingerprint ==
                         "b2247d3f951626edfdf25753520f3421dc20e8d8cab7731c9ab3ba6ece1a5129")
@@ -379,8 +378,9 @@ namespace FightMatch.Presentation
                 foreach (var level in view.NextLevels)
                 {
                     var next = level;
-                    // WAITING_FOR_COPY_KEYS: next-level action label/name.
-                    Button(receipt, Row("next:" + next.LevelId), string.Empty, (c, p) => c.Replay(p, next.LevelId, next.LevelVersion, context));
+                    Button(receipt, Row("next:" + next.LevelId), NavigationBindings.LevelKey(next.LevelId, next.LevelVersion),
+                        (c, p) => c.Replay(p, next.LevelId, next.LevelVersion, context), true,
+                        NavigationBindings.LevelArguments(next.LevelId, next.LevelVersion));
                 }
             }
             var dialog = (object)DisplayedRange ?? view.Confirmation;
@@ -454,7 +454,7 @@ namespace FightMatch.Presentation
             {
                 foreach (var member in head.Business.Roster.Characters)
                 {
-                    lines.Add(new BattleTextLine("fm.party.member.level", BattleText.Arg("characterName", BattleText.Character(localization, member.CharacterId)),
+                    lines.Add(new BattleTextLine("fm.party.member.level", BattleText.Arg("characterName", BattleText.Character(localization, member)),
                         BattleText.Arg("level", BattleText.Number(member.Level))).For("member:" + member.CharacterId + ":level"));
                     var offset = member.Level - System.Numerics.BigInteger.One; var definition = member.Definition;
                     var required = definition.XpBase + offset * (definition.XpLinear + definition.XpQuadratic * offset);

@@ -686,6 +686,28 @@ namespace FightMatch.Host.Tests
         }
 
         [Test]
+        public void ChapterAndroidAllowsOnlyTheFixedSiblingRootAndPreservesDemoActivation()
+        {
+            var f = new MemoryFiles(true); var native = new MemoryAndroidPaths(f);
+            Ready(native.Store()); var old = f.Copy();
+            var chapter = Path.Combine(native.Anchor, "FightMatchChapterOneTrial");
+            var store = new FightMatchResourceActivationStore(chapter, f, "a2-b5-p101-e1000", native.Anchor, native);
+            Assert.IsNull(store.EnsureAndroidProductDirectory());
+            var entered = Ok(store.EnterAtProcessStart("chapter.set", H2));
+            Assert.AreEqual("chapter.set", entered.Active.ResourceSetId);
+            foreach (var row in old) Same(row.Value, f.Data[row.Key]);
+            var before = f.Copy(); var nodes = f.Nodes.ToArray();
+            foreach (var leaf in new[] { "Other", "fightmatchchapteronetrial", "FightMatchChapterOneTrial2", "FightMatch/ChapterOneTrial" })
+            {
+                var rejected = new FightMatchResourceActivationStore(Path.Combine(native.Anchor, leaf), f,
+                    "a2-b5-p101-e1000", native.Anchor, native);
+                Assert.AreEqual("RES_ROOT", rejected.EnsureAndroidProductDirectory());
+                Rejected(rejected.EnterAtProcessStart("chapter.set", H2), "RES_ROOT");
+            }
+            SameData(before, f); CollectionAssert.AreEquivalent(nodes, f.Nodes.ToArray());
+        }
+
+        [Test]
         public void AS19_AndroidKeepsDownstreamCaseLinkLayoutAndEnumerationGuards()
         {
             foreach (var damage in new[] { "product-case", "outer-case", "leaf-case", "dangling-leaf", "unknown-leaf", "unknown-directory",

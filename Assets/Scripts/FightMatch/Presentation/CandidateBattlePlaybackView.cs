@@ -145,7 +145,7 @@ namespace FightMatch.Presentation
                 if (member != null)
                     inputView.SetStageSlotPresentation(false, member.Member.OriginalSlot,
                         null,
-                        BattleText.MemberHp(localization, member.Member.CharacterId, actor.Hp, actor.MaxHp), null);
+                        BattleText.MemberHp(localization, member.Member, actor.Hp, actor.MaxHp), null);
                 else if (enemy != null)
                 {
                     string intentKey = string.Empty;

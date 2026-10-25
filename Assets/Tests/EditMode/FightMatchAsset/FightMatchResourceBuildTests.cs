@@ -23,6 +23,62 @@ namespace FightMatch.AssetAccess.Tests
             return FightMatchResourceBuild.CreateBoot(plan, bytes, platform, Inputs(),
                 Enumerable.Range(0, 8).Select(i => "raw-" + i + ".bytes").ToArray(), "test-manifest.bytes", TestManifest);
         }
+        // Opaque metadata fixtures only: these six bytestrings are not an admitted publication or a real review.
+        private static byte[][] ChapterEncoderInputs(FightMatchResourceBuild.Plan plan)
+        {
+            var input = Enumerable.Range(0, 8).Select(i => Encoding.UTF8.GetBytes("chapter-encoder-fixture-" + i)).ToArray();
+            input[3] = Encoding.UTF8.GetBytes("UNREVIEWED encoder fixture");
+            input[4] = Encoding.UTF8.GetBytes("{\"Binding\":{\"ContentFingerprint\":\"" + FightMatchResourceBuild.Hash(input[1]) +
+                "\",\"PackageId\":\"fightmatch:chapter-one-trial\",\"RuleVersion\":\"ch1-slice-r1\",\"NumericContractVersion\":\"RC01\",\"RandomContractVersion\":\"PC01+SC01\"}}");
+            input[5] = Encoding.UTF8.GetBytes("{\"ReleaseSetId\":\"release-set:chapter-one-trial\"}");
+            input[6] = File.ReadAllBytes(plan.entries[6].source); input[7] = File.ReadAllBytes(plan.entries[7].source);
+            return input;
+        }
+        [Test]
+        public void ChapterPlanKeepsTwoIsolatedFixedMappingsAndActualTextPins()
+        {
+            var bytes = File.ReadAllBytes(FightMatchResourceBuild.ChapterPlanPath);
+            var plan = FightMatchResourceBuild.ReadPlan(bytes, true);
+            Assert.AreEqual("FightMatchChapterOne", plan.packageName); Assert.AreEqual(8, plan.entries.Length);
+            Assert.AreEqual(plan.textArtifactSha256, FightMatchResourceBuild.Hash(File.ReadAllBytes(plan.entries[6].source)));
+            Assert.AreEqual(plan.textManifestSha256, FightMatchResourceBuild.Hash(File.ReadAllBytes(plan.entries[7].source)));
+            Assert.IsFalse(plan.entries.Select(e => e.importPath).Intersect(Plan().entries.Select(e => e.importPath)).Any());
+            Assert.Throws<InvalidDataException>(() => FightMatchResourceBuild.ReadPlan(bytes));
+            Assert.Throws<InvalidDataException>(() => FightMatchResourceBuild.ReadPlan(File.ReadAllBytes(FightMatchResourceBuild.PlanPath), true));
+            foreach (var changed in new[] { Encoding.UTF8.GetString(bytes).Replace("FightMatchChapterOne", "ArbitraryPackage"),
+                Encoding.UTF8.GetString(bytes).Replace("Assets/StreamingAssets/FightMatchChapterOne/", "Assets/StreamingAssets/FightMatch/"),
+                Encoding.UTF8.GetString(bytes).Replace("Generated/FightMatch/Localization/ChapterOneTrial-r2/", "Generated/FightMatch/Localization/") })
+                Assert.Throws<InvalidDataException>(() => FightMatchResourceBuild.ReadPlan(Encoding.UTF8.GetBytes(changed), true));
+        }
+        [TestCase(BuildTarget.StandaloneOSX, "macOS")]
+        [TestCase(BuildTarget.StandaloneWindows64, "windows")]
+        [TestCase(BuildTarget.Android, "android")]
+        public void ChapterEncoderAndRuntimeUseTheSameSeparatePackageRoot(BuildTarget target, string platform)
+        {
+            var bytes = File.ReadAllBytes(FightMatchResourceBuild.ChapterPlanPath);
+            var plan = FightMatchResourceBuild.ReadPlan(bytes, true);
+            var boot = FightMatchResourceBuild.CreateBoot(plan, bytes, platform, ChapterEncoderInputs(plan),
+                Enumerable.Range(0, 8).Select(i => "chapter-fixture-" + i + ".bytes").ToArray(), "test-manifest.bytes", TestManifest);
+            Assert.IsTrue(FightMatchResourceReleaseSet.TryDecodePinned(boot, FightMatchResourceBuild.Hash(boot), out var decoded, out var code), code);
+            Assert.AreEqual("fm.ch1.trial.r2." + platform.ToLowerInvariant(), decoded.ReleaseSetId);
+            Assert.AreEqual("release-set:chapter-one-trial", decoded.BusinessReleaseSetId);
+            var root = "Assets/StreamingAssets/FightMatchResources/" + platform + "/FightMatchChapterOne";
+            Assert.AreEqual(root, FightMatchResourceBuild.PlayerRoot(target, true));
+            Assert.AreEqual(root, YooAssetRuntimeFactory.BuiltInRoot("Assets/StreamingAssets", platform, "FightMatchChapterOne"));
+            Assert.AreNotEqual(root, FightMatchResourceBuild.PlayerRoot(target));
+        }
+        [TestCase(4)]
+        [TestCase(5)]
+        public void ChapterEncoderRejectsLegacyBusinessBinding(int index)
+        {
+            var bytes = File.ReadAllBytes(FightMatchResourceBuild.ChapterPlanPath);
+            var plan = FightMatchResourceBuild.ReadPlan(bytes, true); var input = ChapterEncoderInputs(plan);
+            input[index] = index == 4 ? Encoding.UTF8.GetBytes(Encoding.UTF8.GetString(input[4]).Replace("ch1-slice-r1", "demo-r1")) :
+                Encoding.UTF8.GetBytes("{\"ReleaseSetId\":\"release-set:fightmatch-demo-r1\"}");
+            Assert.Throws<InvalidDataException>(() => FightMatchResourceBuild.CreateBoot(plan, bytes, "macOS", input,
+                Enumerable.Range(0, 8).Select(i => "chapter-fixture-" + i + ".bytes").ToArray(), "test-manifest.bytes", TestManifest));
+        }
+
         [Test]
         public void BuildMapIsDeterministicAndKeepsEightExactSources()
         {

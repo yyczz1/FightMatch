@@ -37,6 +37,8 @@ namespace FightMatch.Host.Tests
             }
         }
         internal readonly string Root;
+        private readonly PublishedContentCatalog selectedCatalog;
+        private readonly FightMatchStartupEntry entry;
         internal readonly ProfileFault Profile;
         internal SaveFault Storage;
         internal FightMatchHostSession Session;
@@ -44,12 +46,15 @@ namespace FightMatch.Host.Tests
         internal Action BeforeStorage;
         internal CandidateApplicationSnapshot Head => Session.Application.QueryView().View.PublishedSnapshot;
         internal BattleSnapshot State => Head?.Business.ActiveHistory?.CurrentRun.CurrentSnapshot;
-        internal HostRig(bool create = true)
+        internal HostRig(bool create = true, PublishedContentCatalog content = null,
+            FightMatchStartupEntry entry = FightMatchStartupEntry.Demo, string root = null)
         {
+            selectedCatalog = content ?? Catalog;
+            this.entry = entry;
             var parent = Path.Combine(Project, "TestArtifacts/FightMatch/UGUI-01/host-io");
             Directory.CreateDirectory(parent);
             Assert.Less(Directory.GetDirectories(parent).Length, 256);
-            Root = Path.Combine(parent, Guid.NewGuid().ToString("N"), "FightMatch");
+            Root = root ?? Path.Combine(parent, Guid.NewGuid().ToString("N"), FightMatchHostSession.ProductDirectory(entry));
             Directory.CreateDirectory(Root);
             Profile = new ProfileFault(new MacContentPublicationStorage(Path.Combine(Root, "locator")));
             Bind();
@@ -57,14 +62,14 @@ namespace FightMatch.Host.Tests
         }
         internal void Bind()
         {
-            Session = new FightMatchHostSession(Catalog, Root, Profile, id =>
+            Session = new FightMatchHostSession(selectedCatalog, Root, Profile, id =>
             {
                 FactoryCalls++;
                 BeforeStorage?.Invoke();
                 if (Storage == null) Storage = new SaveFault(new MacEditorSaveStorage(Path.Combine(Root, "profiles"), id, SavePurpose.PlayerSave));
                 Assert.AreEqual(id, Storage.Profile.PlayerId);
                 return Storage;
-            });
+            }, entry);
         }
         internal void Create()
         {

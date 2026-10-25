@@ -78,10 +78,10 @@ namespace FightMatch.Presentation
             title.Bind(localization, "fm.reference.title");
             var lines = new List<BattleTextLine>();
             var conditions = new List<BattleTextLine> { new BattleTextLine("fm.reference.condition.level",
-                BattleText.Arg("levelName", BattleText.Level(localization, Source.LevelId))) };
+                BattleText.Arg("levelName", BattleText.Level(localization, Source.LevelId, Source.LevelVersion))) };
             foreach (var member in Source.Entry.Members.OrderBy(x => x.OriginalSlot))
                 conditions.Add(new BattleTextLine("fm.reference.condition.member",
-                    BattleText.Arg("characterName", BattleText.Character(localization, member.CharacterId)), BattleText.Arg("level", BattleText.Number(member.Level)),
+                    BattleText.Arg("characterName", BattleText.Character(localization, member)), BattleText.Arg("level", BattleText.Number(member.Level)),
                     BattleText.Arg("slotNumber", BattleText.Number(member.OriginalSlot + 1)),
                     BattleText.Arg("skillSummary", member.LearnedSkills.Count == 0 ? BattleText.Resolve(localization, "fm.reference.value.none") : null)));
             if (Source.Entry.CarryMode == EntryCarryMode.Empty && Source.Steps.All(x => !x.Conditions.ItemUseEnabled))
@@ -101,8 +101,8 @@ namespace FightMatch.Presentation
             if (!sameParty)
             {
                 var currentParty = formation.Select((id, slot) => new { id, slot }).Where(x => x.id != null)
-                    .Select(x => PartyMember(x.id, x.slot)).ToArray();
-                var referenceParty = referenceMembers.Select(x => PartyMember(x.CharacterId, x.OriginalSlot)).ToArray();
+                    .Select(x => PartyMember(BattleText.Character(localization, head.Business.Roster.Find(x.id)), x.slot)).ToArray();
+                var referenceParty = referenceMembers.Select(x => PartyMember(BattleText.Character(localization, x), x.OriginalSlot)).ToArray();
                 if (currentParty.Length == 0) lines.Add(new BattleTextLine("fm.reference.difference.party_empty"));
                 else lines.Add(new BattleTextLine("fm.reference.difference.party",
                     BattleText.Arg("currentParty", currentParty.Any(x => x == null) ? null : string.Join(", ", currentParty)),
@@ -113,10 +113,10 @@ namespace FightMatch.Presentation
                 var actual = current?.Baseline.Entry.Members.SingleOrDefault(x => x.CharacterId == member.CharacterId);
                 var actualLevel = actual?.Level ?? head.Business.Roster.Find(member.CharacterId)?.Level;
                 if (!actualLevel.HasValue) lines.Add(new BattleTextLine("fm.reference.difference.member_absent",
-                    BattleText.Arg("characterName", BattleText.Character(localization, member.CharacterId)),
+                    BattleText.Arg("characterName", BattleText.Character(localization, member)),
                     BattleText.Arg("referenceLevel", BattleText.Number(member.Level))).For("reference-member-absent:" + member.CharacterId));
                 else if (actualLevel != member.Level) lines.Add(new BattleTextLine("fm.reference.difference.level",
-                    BattleText.Arg("characterName", BattleText.Character(localization, member.CharacterId)),
+                    BattleText.Arg("characterName", BattleText.Character(localization, member)),
                     BattleText.Arg("currentLevel", actualLevel.HasValue ? BattleText.Number(actualLevel.Value) : null),
                     BattleText.Arg("referenceLevel", BattleText.Number(member.Level))).For("reference-level:" + member.CharacterId));
                 if (actual != null && !actual.LearnedSkills.SequenceEqual(member.LearnedSkills)) lines.Add(BattleText.Unknown());
@@ -143,9 +143,8 @@ namespace FightMatch.Presentation
             }
             BindBeat();
         }
-        private string PartyMember(string character, int slot)
+        private string PartyMember(string name, int slot)
         {
-            var name = BattleText.Character(localization, character);
             return name == null ? null : BattleText.Number(slot + 1) + ": " + name;
         }
         private string ContextReason()

@@ -72,7 +72,7 @@ namespace FightMatch.Presentation
             if (operationKey != null) bindings.Text(title, localization, operationKey);
             bindings.DynamicText(character, localization, "fm.entry.member.selected", () => new[] {
                 NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization,
-                    NavigationBindings.CharacterKey(view.Context.SelectedCharacterId))) });
+                    NavigationBindings.CharacterKey(view.Read.Head.Business.Roster.Find(view.Context.SelectedCharacterId)))) });
             var preference = view.DetailKind == CandidatePermanentKind.SetPreference;
             quantity.gameObject.SetActive(!preference); quantityLabel.gameObject.SetActive(!preference);
             enabledToggle.gameObject.SetActive(preference); preferenceLabel.gameObject.SetActive(preference);
@@ -111,13 +111,13 @@ namespace FightMatch.Presentation
             gameObject.SetActive(true);
         }
         internal static void Quote(NavigationBindings bindings, LocalizedTmpText template, Transform parent,
-            LocalizationService localization, CandidatePermanentQuote quote)
+            LocalizationService localization, CandidatePermanentQuote quote, CandidateRosterState roster)
         {
             if (quote == null) return;
             if (quote.Kind == CandidatePermanentKind.Equip && quote.DefinitionId == null)
                 bindings.DynamicRow(template, parent, FightMatchViewId.Row("quote.Summary"), localization,
                     "fm.inventory.equipment.clear_preview", () => new[] {
-                        NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, NavigationBindings.CharacterKey(quote.CharacterId))) });
+                        NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, BattleText.CharacterKey(quote.ClassId, roster.Find(quote.CharacterId)?.Definition.ClassKind ?? (CharacterClassKind)0))) });
             // N-P05: Craft costs, portions and output previews are deferred, not diagnostic rows.
         }
         public void Unbind()
