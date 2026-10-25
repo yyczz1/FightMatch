@@ -269,6 +269,49 @@ namespace FightMatch.AssetAccess.Tests
             Assert.LessOrEqual(padding.Count, 512);
         }
 
+        // Codec metadata fixture only. Changing these fields does not create reviewed CH1 business files.
+        private static Map ChapterDescriptorFixture()
+        {
+            var root = Build();
+            O(root, "descriptor")["releaseSetId"] = "fm.ch1.trial.r2.android";
+            O(root, "descriptor", "resources")["packageName"] = "FightMatchChapterOne";
+            O(root, "descriptor", "resources")["yooManifestPackageVersion"] = "chapter-one-trial-r2";
+            O(root, "descriptor", "businessContent")["businessReleaseSetId"] = "release-set:chapter-one-trial";
+            O(root, "descriptor", "businessContent", "binding")["PackageId"] = "fightmatch:chapter-one-trial";
+            O(root, "descriptor", "businessContent", "binding")["RuleVersion"] = "ch1-slice-r1";
+            foreach (var entry in A(root, "mapping", "entries").Cast<Map>())
+            { entry["packageName"] = "FightMatchChapterOne"; entry["releaseSetId"] = "fm.ch1.trial.r2.android"; }
+            Rebind(root); return root;
+        }
+        [Test]
+        public void ChapterPackageAdmitsOnlyItsExactBusinessAndMappingIdentity()
+        {
+            var root = ChapterDescriptorFixture();
+            var accepted = Accept(Bytes(root));
+            Assert.AreEqual("fm.ch1.trial.r2.android", accepted.ReleaseSetId);
+            Assert.AreEqual("release-set:chapter-one-trial", accepted.BusinessReleaseSetId);
+        }
+        [TestCase("mapping-package")]
+        [TestCase("descriptor-package")]
+        [TestCase("business-release")]
+        [TestCase("business-rule")]
+        [TestCase("business-package")]
+        [TestCase("resource-version")]
+        public void ChapterPackageRejectsMixedLegacyAndUnknownIdentities(string change)
+        {
+            var root = ChapterDescriptorFixture();
+            switch (change)
+            {
+                case "mapping-package": Entry(root, "fm.content.source")["packageName"] = "FightMatchMain"; break;
+                case "descriptor-package": O(root, "descriptor", "resources")["packageName"] = "AnotherPackage"; break;
+                case "business-release": O(root, "descriptor", "businessContent")["businessReleaseSetId"] = "release-set:fightmatch-demo-r1"; break;
+                case "business-rule": O(root, "descriptor", "businessContent", "binding")["RuleVersion"] = "demo-r1"; break;
+                case "business-package": O(root, "descriptor", "businessContent", "binding")["PackageId"] = "package:fightmatch-demo-r1"; break;
+                case "resource-version": O(root, "descriptor", "resources")["yooManifestPackageVersion"] = "builtin-r1"; break;
+            }
+            Rebind(root); Reject(root, "RES_SCHEMA", false);
+        }
+
         [Test]
         public void D01_CanonicalVectorRoundTrips()
         {

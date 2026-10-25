@@ -14,6 +14,7 @@ namespace FightMatch.Host
     internal sealed class FightMatchResourceBridgeResult
     {
         internal bool IsDataReady => Catalog != null && TextSource != null;
+        internal bool IsTextReady => TextSource != null && DiagnosticCode == null;
         internal PublishedContentCatalog Catalog { get; }
         internal ILocalizedTextSource TextSource { get; }
         internal string ReleaseSetId { get; }
@@ -29,6 +30,10 @@ namespace FightMatch.Host
         // formalSourceSha256 1a96886aa29ed3e78211b78ffcba9cd79667f57ed0bf88daa7c8c7d18076a030.
         internal const string TextSha256 = "f48264f9ce94cd3bb2ef8d1b6a0be7b241916144b6d5764d11633bb6d6e456bc";
         internal const string TextManifestSha256 = "18437127bc2e2d7371f97da0990de933f0193fe202539593ef19338d47123667";
+        // CH1 standard Luban output; this manifest records the real 279-row source authority.
+        internal const string ChapterTextSha256 = "038a9fed918495f04bb259ab48bf157d55df0e1a81a37e649dd7469c1953177c";
+        internal const string ChapterTextManifestSha256 = "4072b5f149e609b8fdb810ebc9c1fb46d5bda6374bf77a12d872188ce091a8b5";
+        internal const int ChapterTextBytes = 128809, ChapterTextManifestBytes = 906;
         private static readonly string[] AssetIds =
         {
             "fm.content.source", "fm.content.package", "fm.content.validation", "fm.content.review",
@@ -42,8 +47,17 @@ namespace FightMatch.Host
         private static void Need(bool value, string code)
         { if (!value) throw new Rejection(code); }
 
-        internal static async Task<FightMatchResourceBridgeResult> OpenAsync(IFightMatchResourceRuntime runtime,
-            long epoch, CancellationToken cancellationToken)
+        internal static Task<FightMatchResourceBridgeResult> OpenAsync(IFightMatchResourceRuntime runtime,
+            long epoch, CancellationToken cancellationToken) => Open(runtime, epoch, cancellationToken, false, false);
+
+        internal static Task<FightMatchResourceBridgeResult> OpenChapterAsync(IFightMatchResourceRuntime runtime,
+            long epoch, CancellationToken cancellationToken) => Open(runtime, epoch, cancellationToken, true, false);
+
+        internal static Task<FightMatchResourceBridgeResult> OpenSharedTextAsync(IFightMatchResourceRuntime runtime,
+            long epoch, CancellationToken cancellationToken) => Open(runtime, epoch, cancellationToken, true, true);
+
+        private static async Task<FightMatchResourceBridgeResult> Open(IFightMatchResourceRuntime runtime,
+            long epoch, CancellationToken cancellationToken, bool chapter, bool textOnly)
         {
             var leases = new List<IFightMatchAssetLease<FightMatchRawBytes>>();
             using (cancellationToken.Register(() => runtime?.Dispose()))
@@ -57,7 +71,7 @@ namespace FightMatch.Host
                 var contentBudget = new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 64000000));
                 var files = new byte[AssetIds.Length][];
                 long total = 0;
-                for (var i = 0; i < files.Length; i++)
+                for (var i = textOnly ? 6 : 0; i < files.Length; i++)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     FightMatchAssetId.TryCreate(AssetIds[i], out var id);
@@ -70,10 +84,13 @@ namespace FightMatch.Host
                     files[i] = Read(result.Lease.Asset, Math.Min(limit, 33554432 - total), cancellationToken);
                     total += files[i].Length;
                 }
-                Need(files[7].Length == 791 && Hash(files[7]) == TextManifestSha256, "RES_TEXT");
-                Need(FightMatchLocalizationCatalogParser.TryParse(files[6], TextSha256, 264,
-                    out var text, out _), "RES_TEXT");
+                Need(files[7].Length == (chapter ? ChapterTextManifestBytes : 791) &&
+                    Hash(files[7]) == (chapter ? ChapterTextManifestSha256 : TextManifestSha256), "RES_TEXT");
+                Need(!chapter || files[6].Length == ChapterTextBytes, "RES_TEXT");
+                Need(FightMatchLocalizationCatalogParser.TryParse(files[6], chapter ? ChapterTextSha256 : TextSha256,
+                    chapter ? 279 : 264, out var text, out _), "RES_TEXT");
                 cancellationToken.ThrowIfCancellationRequested();
+                if (textOnly) return new FightMatchResourceBridgeResult(null, text, inspection.ReleaseSetId, null);
                 var storage = FirstReleaseContentStorage.Create(files[0], files[1], files[2], files[3], files[4], files[5],
                     ContentConsumerCapabilities.Current, contentBudget);
                 Need(storage.IsAccepted, "RES_CONTENT");

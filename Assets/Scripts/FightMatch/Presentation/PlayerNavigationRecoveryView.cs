@@ -98,12 +98,12 @@ namespace FightMatch.Presentation
                 }
                 else if (value != null)
                 {
-                    PlayerPermanentDetailView.Quote(bindings, textTemplate, parent, localization, value.Quote);
+                    PlayerPermanentDetailView.Quote(bindings, textTemplate, parent, localization, value.Quote, view.Read.Head.Business.Roster);
                     if (value.Kind == PlayerNavigationDraftKind.Formation)
                         bindings.DynamicRow(textTemplate, parent, FightMatchViewId.Row("save.FormationChange"), localization,
                             "fm.party.change_preview.body", () => new[] {
-                                NavigationBindings.Arg("beforeParty", NavigationBindings.Party(localization, view.Read.Roster.Slots)),
-                                NavigationBindings.Arg("afterParty", NavigationBindings.Party(localization, value.Slots)) });
+                                NavigationBindings.Arg("beforeParty", NavigationBindings.Party(localization, view.Read.Head.Business.Roster, view.Read.Roster.Slots)),
+                                NavigationBindings.Arg("afterParty", NavigationBindings.Party(localization, view.Read.Head.Business.Roster, value.Slots)) });
                     if (value.Kind == PlayerNavigationDraftKind.Migration) Row(parent, "save.Migration", "fm.profile.data_upgrade.body");
                     Action(view, confirmButton, PlayerNavigationAction.Confirm, value.Kind == PlayerNavigationDraftKind.Formation ?
                         "fm.party.change.confirm_button" : "fm.common.action.confirm");

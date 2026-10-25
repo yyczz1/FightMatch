@@ -14,10 +14,24 @@ using QFramework;
 namespace FightMatch.Host
 {
     public enum FightMatchHostPage { Startup, Navigation, Battle, QuitConfirmation }
+    public enum FightMatchStartupEntry { Demo, ChapterOneTrial }
 
     public sealed class FightMatchHostSession : IDisposable
     {
         public const string ReleaseSetId = "release-set:fightmatch-demo-r1";
+        public const string ChapterReleaseSetId = "release-set:chapter-one-trial";
+        public FightMatchStartupEntry Entry { get; }
+        public string SelectedReleaseSetId => Entry == FightMatchStartupEntry.ChapterOneTrial ? ChapterReleaseSetId : ReleaseSetId;
+        public bool IsChapterTrial => Entry == FightMatchStartupEntry.ChapterOneTrial;
+        internal static string ProductDirectory(FightMatchStartupEntry entry)
+        {
+            switch (entry)
+            {
+                case FightMatchStartupEntry.Demo: return "FightMatch";
+                case FightMatchStartupEntry.ChapterOneTrial: return "FightMatchChapterOneTrial";
+                default: throw new ArgumentOutOfRangeException(nameof(entry));
+            }
+        }
         private static FightMatchHostSession owner;
         private readonly int thread = Thread.CurrentThread.ManagedThreadId;
         private readonly IArchitecture architecture;
@@ -49,8 +63,11 @@ namespace FightMatch.Host
         public event Action QuitRequested;
 
         public FightMatchHostSession(PublishedContentCatalog catalog, string absoluteProductRoot,
-            IContentPublicationStorage profileStorage, Func<string, ILocalSaveStorage> storageFactory)
+            IContentPublicationStorage profileStorage, Func<string, ILocalSaveStorage> storageFactory,
+            FightMatchStartupEntry entry = FightMatchStartupEntry.Demo)
         {
+            ProductDirectory(entry);
+            Entry = entry;
             this.catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
             this.storageFactory = storageFactory ?? throw new ArgumentNullException(nameof(storageFactory));
             if (absoluteProductRoot == null || !Path.IsPathRooted(absoluteProductRoot) ||
@@ -59,7 +76,7 @@ namespace FightMatch.Host
             ProductRoot = absoluteProductRoot;
             locator = new LocalPlayerProfileLocator(profileStorage);
             Budget = new SaveStoreBudget(new SaveCodecBudget(new ExactMathBudget(maxPrimitiveSteps: 64000000)));
-            var binding = catalog.GetCurrentBinding("player", ReleaseSetId, ContentConsumerCapabilities.Current);
+            var binding = catalog.GetCurrentBinding("player", SelectedReleaseSetId, ContentConsumerCapabilities.Current);
             if (!binding.IsAccepted) throw new InvalidDataException(binding.RejectionCode);
             var publication = catalog.ResolveExact(binding.Value, ContentConsumerCapabilities.Current);
             if (!publication.IsAccepted) throw new InvalidDataException(publication.RejectionCode);
@@ -187,7 +204,7 @@ namespace FightMatch.Host
                     return;
                 }
                 preparationAttempted = true;
-                var prepared = Player.PrepareNewRosterProfile(catalog, ReleaseSetId, Budget.Codec);
+                var prepared = Player.PrepareNewRosterProfile(catalog, SelectedReleaseSetId, Budget.Codec);
                 Status = prepared.Code;
                 if (!prepared.IsAccepted) return;
                 OriginalProfile = prepared.Request;

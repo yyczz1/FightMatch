@@ -322,8 +322,16 @@ namespace FightMatch.AssetAccess
             var resources = Keys(descriptor["resources"], "manifestLength", "manifestName", "manifestSha256",
                 "mappingDescriptorSha256", "packageName", "platform", "requiredScopeHashes",
                 "yooAssetPackageVersion", "yooManifestPackageVersion");
-            Need(Text(resources["packageName"]) == "FightMatchMain" && Text(resources["yooAssetPackageVersion"]) == "3.0.6", Schema);
+            var packageName = Text(resources["packageName"]);
+            var chapter = packageName == "FightMatchChapterOne";
+            Need((packageName == "FightMatchMain" || chapter) && Text(resources["yooAssetPackageVersion"]) == "3.0.6", Schema);
             var platform = PlatformName(resources["platform"]);
+            if (chapter)
+                Need(businessId == "release-set:chapter-one-trial" && Text(binding["PackageId"]) == "fightmatch:chapter-one-trial" &&
+                    Text(binding["RuleVersion"]) == "ch1-slice-r1" && Text(binding["NumericContractVersion"]) == "RC01" &&
+                    Text(binding["RandomContractVersion"]) == "PC01+SC01" && set == "fm.ch1.trial.r2." + platform.ToLowerInvariant() &&
+                    Text(resources["yooManifestPackageVersion"]) == "chapter-one-trial-r2", Schema);
+            else Need(businessId != "release-set:chapter-one-trial" && Text(binding["RuleVersion"]) != "ch1-slice-r1", Schema);
             Id(resources["yooManifestPackageVersion"]);
             Path(resources["manifestName"]);
             Number(resources["manifestLength"], FileLimit);
@@ -362,7 +370,7 @@ namespace FightMatch.AssetAccess
                 var id = Id(entry["assetId"]);
                 Increasing(ref previous, id);
                 Need(Id(entry["releaseSetId"]) == set && PlatformName(entry["platform"]) == platform &&
-                    Text(entry["packageName"]) == "FightMatchMain", Schema);
+                    Text(entry["packageName"]) == packageName, Schema);
                 Need(locations.Add(Path(entry["location"])), Schema);
                 var scope = Scope(entry["scopeId"]);
                 var kind = Text(entry["kind"]);

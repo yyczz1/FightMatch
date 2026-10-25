@@ -139,27 +139,30 @@ namespace FightMatch.Presentation
                 var id = level.LevelId == "level:ch01-01" ? "fm.action.map.level01" : FightMatchViewId.Row("level." + identity);
                 bindings.CloneButton(buttonTemplate, mapSection, id, localization,
                     NavigationBindings.LevelKey(level.LevelId, level.LevelVersion), controller.NavigationHandler(new PlayerNavigationTarget {
-                    Kind = PlayerNavigationTargetKind.Preparation, LevelId = level.LevelId, LevelVersion = level.LevelVersion, Binding = view.Read.Binding }));
-                // WAITING_FOR_COPY_KEYS: non-L1 locked/prerequisite state; no prerequisite exists for initially-open L1.
-                Row(mapSection, "level.state." + identity, state?.OpenFact == null ? "" : "fm.map.level.available");
-                if (state?.Level.UnlockAfterLevelId != null) Row(mapSection, "level.requirements." + identity, "");
-                // WAITING_FOR_COPY_KEYS: cleared state outside the current completed L1-only segment.
+                    Kind = PlayerNavigationTargetKind.Preparation, LevelId = level.LevelId, LevelVersion = level.LevelVersion, Binding = view.Read.Binding }),
+                    captionArgs: () => NavigationBindings.LevelArguments(level.LevelId, level.LevelVersion));
+                Row(mapSection, "level.state." + identity, state == null ? "" : state.OpenFact == null ? "fm.map.level.locked" : "fm.map.level.available");
+                if (state?.Level.UnlockAfterLevelId != null && state.OpenFact == null) DynamicRow(mapSection, "level.requirements." + identity, "fm.map.level.requires_clear", () => new[] {
+                    NavigationBindings.Arg("levelName", NavigationBindings.Level(localization, state.Level.UnlockAfterLevelId,
+                        view.Read.Levels.SingleOrDefault(x => x.LevelId == state.Level.UnlockAfterLevelId)?.LevelVersion)) });
                 if (state?.FirstClear != null) Row(mapSection, "level.cleared." + identity,
-                    level.LevelId == "level:ch01-01" && level.LevelVersion == "1" && view.Read.Levels.Count == 1 ? "fm.map.no_next_level" : "");
+                    level.LevelId == "level:ch01-01" && level.LevelVersion == "1" && view.Read.Levels.Count == 1 ? "fm.map.no_next_level" : "fm.map.level.cleared");
             }
             if (view.Read.Levels.Count == 0) Row(mapSection, "map.NoPublishedDefinition", "fm.map.no_published_levels");
         }
         private void Preparation(NavigationView view)
         {
             DynamicRow(preparationSection, "preparation.Level", "fm.entry.level.label", () => new[] {
-                NavigationBindings.Arg("levelName", NavigationBindings.Resolve(localization,
-                    NavigationBindings.LevelKey(view.Context.LevelId, view.Context.LevelVersion))) });
+                NavigationBindings.Arg("levelName", NavigationBindings.Level(localization, view.Context.LevelId, view.Context.LevelVersion)) });
             DynamicRow(preparationSection, "preparation.Party", "fm.entry.party.label", () => new[] {
-                NavigationBindings.Arg("partySummary", NavigationBindings.Party(localization, view.Read.Roster.Slots)) });
+                NavigationBindings.Arg("partySummary", NavigationBindings.Party(localization, view.Read.Head.Business.Roster, view.Read.Roster.Slots)) });
             // Lifecycle.Enter is only a readiness hint; the host still performs the full entry check.
             if (view.Read.Lifecycle.Enter.Reason != null && view.Read.Lifecycle.Enter.Reason != "ActiveAttemptConflict")
                     Row(preparationSection, "preparation.EntryReason", NavigationBindings.ReasonKey(NavigationReasonDomain.Entry, view.Read.Lifecycle.Enter.Reason));
             Characters(view, preparationSection);
+            foreach (var line in NavigationBindings.FirstClearPreview(localization, view.Read, view.Context.LevelId, view.Context.LevelVersion))
+                DynamicRow(preparationSection, line.Identity, line.Key, () => NavigationBindings.FirstClearPreview(localization,
+                    view.Read, view.Context.LevelId, view.Context.LevelVersion).Single(x => x.Identity == line.Identity).Arguments);
             Target(entryButton, "fm.entry.enter.button", new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.BattleSelectionRequested },
                 view.Read.Head.Business.ActiveHistory == null ? null : "ActiveAttemptConflict", "fm.entry.active_battle.blocked");
             if (view.Read.Head.Business.ActiveHistory != null)
@@ -172,7 +175,7 @@ namespace FightMatch.Presentation
                 bindings.CloneButton(buttonTemplate, parent, FightMatchViewId.Member(character.CharacterId), localization, "fm.party.member.level",
                     controller.NavigationHandler(new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.SelectCharacter, CharacterId = character.CharacterId }),
                     captionArgs: () => new[] { NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization,
-                        NavigationBindings.CharacterKey(character.CharacterId))), NavigationBindings.Arg("level", character.Level) });
+                        NavigationBindings.CharacterKey(character))), NavigationBindings.Arg("level", character.Level) });
                 var definition = character.Definition; var offset = character.Level - 1;
                 var required = definition.XpBase + offset * (definition.XpLinear + definition.XpQuadratic * offset);
                 Row(parent, "character.experience." + character.CharacterId, "fm.party.member.experience",
@@ -187,7 +190,7 @@ namespace FightMatch.Presentation
                     "fm.entry.member.select_prompt" : "fm.inventory.character_required");
             else DynamicRow(parent, "character.Selected", "fm.entry.member.selected", () => new[] {
                 NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization,
-                    NavigationBindings.CharacterKey(view.Context.SelectedCharacterId))) });
+                    NavigationBindings.CharacterKey(view.Read.Head.Business.Roster.Find(view.Context.SelectedCharacterId)))) });
         }
         private void Team(NavigationView view)
         {
@@ -208,12 +211,12 @@ namespace FightMatch.Presentation
                 {
                     for (var i = 0; i < slot.options.Count; i++)
                     {
-                        var option = localization.Resolve(choices[i] == null ? "fm.party.slot.empty" : NavigationBindings.CharacterKey(choices[i]), null);
+                        var option = localization.Resolve(choices[i] == null ? "fm.party.slot.empty" : NavigationBindings.CharacterKey(view.Read.Head.Business.Roster.Find(choices[i])), null);
                         slot.options[i].text = option.IsSuccess ? option.Text : LocalizedTmpText.Placeholder;
                     }
                     slot.RefreshShownValue();
                     var caption = slot.captionText.GetComponent<LocalizedTmpText>();
-                    bindings.Text(caption, localization, choices[slot.value] == null ? "fm.party.slot.empty" : NavigationBindings.CharacterKey(choices[slot.value]));
+                    bindings.Text(caption, localization, choices[slot.value] == null ? "fm.party.slot.empty" : NavigationBindings.CharacterKey(view.Read.Head.Business.Roster.Find(choices[slot.value])));
                 }
             };
             foreach (var slot in partySlots)
@@ -248,7 +251,7 @@ namespace FightMatch.Presentation
             foreach (var load in view.Read.Inventory.State.Loadouts)
             {
                 if (load.ItemId == null) DynamicRow(inventorySection, "loadout." + load.Actor.CharacterId, "fm.inventory.no_equipment", () => new[] {
-                    NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, NavigationBindings.CharacterKey(load.Actor.CharacterId))) });
+                    NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, BattleText.CharacterKey(load.Actor.ClassId, load.Actor.ClassKind))) });
                 // WAITING_FOR_COPY_KEYS: non-L1 equipped-item loadout and active battle carry summaries.
                 else Row(inventorySection, "loadout." + load.Actor.CharacterId, "");
             }
@@ -284,7 +287,7 @@ namespace FightMatch.Presentation
                 reason == null && equipped?.ItemId == null ? "fm.inventory.no_equipment" : null,
                 reason == null && equipped?.ItemId == null ? (Func<KeyValuePair<string, string>[]>)(() => new[] {
                     NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization,
-                        NavigationBindings.CharacterKey(view.Context.SelectedCharacterId))) }) : null);
+                        NavigationBindings.CharacterKey(view.Read.Head.Business.Roster.Find(view.Context.SelectedCharacterId)))) }) : null);
         }
         private void Recipes(NavigationView view)
         {
@@ -362,10 +365,40 @@ namespace FightMatch.Presentation
             button.interactable = reason == null;
             button.gameObject.SetActive(true);
         }
-        internal static string CharacterKey(string id) => id == "W" ? "fm.name.character.w" : "";
-        internal static string LevelKey(string id, string version) => id == "level:ch01-01" && version == "1" ? "fm.name.level.ch01_01" : "";
+        internal static string CharacterKey(CandidateCharacterState character) => character == null ? "" :
+            BattleText.CharacterKey(character.ClassId, character.Definition.ClassKind);
+        internal static string LevelKey(string id, string version) => LevelNumber(id, version) == null ? "" : "fm.map.level.card_title";
+        private static string LevelNumber(string id, string version)
+        {
+            if (version != "1") return null;
+            for (var i = 1; i <= 9; i++) if (id == "level:ch01-0" + i.ToString(CultureInfo.InvariantCulture)) return i.ToString(CultureInfo.InvariantCulture);
+            return null;
+        }
+        internal static KeyValuePair<string, string>[] LevelArguments(string id, string version) =>
+            new[] { Arg("levelNumber", LevelNumber(id, version)) };
+        internal static string Level(LocalizationService service, string id, string version) =>
+            new BattleTextLine(LevelKey(id, version), LevelArguments(id, version)).Resolve(service);
         internal static string ItemKey(string id)
-        { return id == "item:tin" ? "fm.name.item.tin" : id == "item:wood" ? "fm.name.item.wood" : ""; }
+        { return id == "item:tin" ? "fm.name.item.tin" : id == "item:wood" ? "fm.name.item.wood" :
+            id == "item:xp-card-50" ? "fm.name.item.xp_card_50" : ""; }
+        internal static IReadOnlyList<BattleTextLine> FirstClearPreview(LocalizationService service, PlayerNavigationReadResult read, string level, string version)
+        {
+            var rows = new List<BattleTextLine>();
+            if (read?.IsAvailable != true || read.Chapter == null || !read.Chapter.Binding.Same(read.Binding) ||
+                !read.Levels.Any(x => x.LevelId == level && x.LevelVersion == version) ||
+                read.Head.Business.Progression.FirstClears.Any(x => x.LevelId == level)) return rows;
+            foreach (var unlock in read.Chapter.CharacterUnlocks.Where(x => x.AfterLevelId == level))
+            {
+                var growth = read.ChapterGrowths.SingleOrDefault(x => x.ClassId == unlock.ClassId);
+                rows.Add(new BattleTextLine("fm.first_clear_reward.character", Arg("characterName", Resolve(service,
+                    growth == null ? "" : BattleText.CharacterKey(growth.ClassId, growth.ClassKind)))).For("first-clear.class:" + unlock.ClassId));
+            }
+            foreach (var item in read.Chapter.FirstClearItems.Where(x => x.LevelId == level))
+                rows.Add(new BattleTextLine("fm.first_clear_reward.item", Arg("itemName", Resolve(service, ItemKey(item.ItemId))),
+                    Arg("amount", item.Amount)).For("first-clear.item:" + item.ItemId));
+            if (rows.Count > 0) rows.Insert(0, new BattleTextLine("fm.first_clear_reward.title"));
+            return rows;
+        }
         internal static string OperationKey(PreparedCandidateApplicationIntent intent)
         {
             var quote = intent?.GetPermanent();
@@ -410,9 +443,9 @@ namespace FightMatch.Presentation
             var result = localization.Resolve(key, null);
             return result.IsSuccess ? result.Text : null;
         }
-        internal static string Party(LocalizationService localization, IReadOnlyList<string> slots)
+        internal static string Party(LocalizationService localization, CandidateRosterState roster, IReadOnlyList<string> slots)
         {
-            var names = slots.Select(x => Resolve(localization, x == null ? "fm.party.slot.empty" : CharacterKey(x))).ToArray();
+            var names = slots.Select(x => Resolve(localization, x == null ? "fm.party.slot.empty" : CharacterKey(roster.Find(x)))).ToArray();
             return names.Any(x => x == null) ? null : string.Join(" / ", names);
         }
         internal static string RemainingTime(CandidateRecoveryPeriod period)

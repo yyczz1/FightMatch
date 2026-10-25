@@ -212,7 +212,7 @@ namespace FightMatch.Presentation
                     outline.effectColor = Color.white; outline.effectDistance = new Vector2(3, -3);
                     outline.enabled = false;
                 }
-                new BattleTextLine("fm.battle.hud.member_hp", BattleText.Arg("characterName", BattleText.Character(localization, id) + "\n"),
+                new BattleTextLine("fm.battle.hud.member_hp", BattleText.Arg("characterName", BattleText.Character(localization, member.Member)),
                     BattleText.Arg("currentHp", BattleText.Hp(member.Hp)), BattleText.Arg("maxHp", BattleText.Hp(member.Member.Stats.MaxHp)))
                     .Bind(button.GetComponentInChildren<LocalizedTmpText>(true), localization);
                 button.interactable = problem == null && member.Hp.Numerator.Sign > 0;
@@ -229,7 +229,8 @@ namespace FightMatch.Presentation
                 return;
             }
             if (Controller.SelectedCharacterId != null) feedback.Add(new BattleTextLine("fm.battle.member.selected",
-                BattleText.Arg("characterName", BattleText.Character(localization, Controller.SelectedCharacterId))));
+                BattleText.Arg("characterName", BattleText.Character(localization, state?.Members.FirstOrDefault(x =>
+                    x.Member.CharacterId == Controller.SelectedCharacterId)?.Member))));
             if (view.PresentationToken != null) feedback.Add(new BattleTextLine("fm.battle.gesture.playback_locked"));
             else if (view.Phase == CandidateApplicationPhase.PendingPreparation || view.Phase == CandidateApplicationPhase.SaveFailed ||
                 view.Phase == CandidateApplicationPhase.CommitUnknown) feedback.Add(new BattleTextLine("fm.save_recovery.blocking_notice"));
@@ -342,19 +343,35 @@ namespace FightMatch.Presentation
         internal static BattleTextLine Unknown() => new BattleTextLine(string.Empty);
         internal static void Hide(LocalizedTmpText text) { text.Unbind(); text.gameObject.SetActive(false); }
         internal static string Resolve(LocalizationService service, string key) => new BattleTextLine(key).Resolve(service);
-        // COPY FIX-01 maps published IDs explicitly. Unpublished/synthetic IDs remain binding diagnostics.
+        // Kept for legacy callers with the original fixed W identity. Runtime views pass their own class evidence below.
         internal static string Character(LocalizationService service, string id) => Resolve(service, id == "W" ? "fm.name.character.w" : string.Empty);
+        internal static string CharacterKey(string classId, CharacterClassKind kind) =>
+            classId == "class:warrior" && kind == CharacterClassKind.Warrior ? "fm.name.character.w" :
+            classId == "class:mage" && kind == CharacterClassKind.Mage ? "fm.name.character.mage" : string.Empty;
+        internal static string Character(LocalizationService service, PreparedMember member) =>
+            Resolve(service, member == null ? string.Empty : CharacterKey(member.ClassId, member.ClassKind));
+        internal static string Character(LocalizationService service, CandidateCharacterState character) =>
+            Resolve(service, character == null ? string.Empty : CharacterKey(character.ClassId, character.Definition.ClassKind));
+        internal static string Character(LocalizationService service, PlayerBattleReceipt receipt, string id)
+            => Resolve(service, CharacterKey(receipt, id));
+        internal static string CharacterKey(PlayerBattleReceipt receipt, string id)
+        {
+            var participant = receipt?.End.Begin.GetParticipants().SingleOrDefault(x => x.CharacterId == id);
+            return participant == null ? string.Empty : CharacterKey(participant.ClassId, participant.ClassKind);
+        }
         internal static string Item(LocalizationService service, string id) => Resolve(service,
-            id == "item:tin" ? "fm.name.item.tin" : id == "item:wood" ? "fm.name.item.wood" : string.Empty);
-        internal static string Level(LocalizationService service, string id) => Resolve(service,
-            id == "level:ch01-01" ? "fm.name.level.ch01_01" : string.Empty);
+            NavigationBindings.ItemKey(id));
+        internal static string Level(LocalizationService service, string id, string version = "1") =>
+            NavigationBindings.Level(service, id, version);
         internal static BattleTextLine EnemyName(LocalizationService service, PreparedEnemy enemy) => new BattleTextLine(
             "fm.battle.enemy.numbered_name", Arg("enemyName", Resolve(service, enemy?.EnemyDefinitionId == "enemy:clockwork-infantry" ?
-                "fm.name.enemy.clockwork_infantry" : string.Empty)), Arg("enemyNumber", enemy == null ? null : Number(enemy.OriginalSlot + 1))).For(enemy == null ? null : EnemyIdentity(enemy) + ":name");
+                "fm.name.enemy.clockwork_infantry" : enemy?.EnemyDefinitionId == "enemy:heavy-tin-soldier" ? "fm.name.enemy.heavy_tin_soldier" :
+                enemy?.EnemyDefinitionId == "enemy:tin-armor-guard" ? "fm.name.enemy.tin_armor_guard" : string.Empty)),
+            Arg("enemyNumber", enemy == null ? null : Number(enemy.OriginalSlot + 1))).For(enemy == null ? null : EnemyIdentity(enemy) + ":name");
         internal static string EnemyIdentity(PreparedEnemy enemy) => enemy == null ? null : "enemy:" + enemy.EnemyDefinitionId + ":" + Number(enemy.OriginalSlot);
         internal static string Enemy(LocalizationService service, PreparedEnemy enemy) => EnemyName(service, enemy).Resolve(service);
         internal static string Character(LocalizationService service, BattleSnapshot snapshot, BattleCombatantKey key) =>
-            Character(service, snapshot?.Members.FirstOrDefault(x => x.CombatantKey.Equals(key))?.Member.CharacterId);
+            Character(service, snapshot?.Members.FirstOrDefault(x => x.CombatantKey.Equals(key))?.Member);
         internal static string Enemy(LocalizationService service, BattleSnapshot snapshot, BattlePairKey pair) =>
             Enemy(service, snapshot?.Enemies.FirstOrDefault(x => x.PairKey.Equals(pair))?.Enemy);
         internal static string PhaseName(LocalizationService service, BattlePhase? phase)
@@ -395,8 +412,8 @@ namespace FightMatch.Presentation
             }
             return Resolve(service, key);
         }
-        internal static BattleTextLine MemberHp(LocalizationService service, string id, ExactRational hp, ExactRational max) =>
-            new BattleTextLine("fm.battle.hud.member_hp", Arg("characterName", Character(service, id)), Arg("currentHp", Hp(hp)), Arg("maxHp", Hp(max))).For("member:" + id + ":hp");
+        internal static BattleTextLine MemberHp(LocalizationService service, PreparedMember member, ExactRational hp, ExactRational max) =>
+            new BattleTextLine("fm.battle.hud.member_hp", Arg("characterName", Character(service, member)), Arg("currentHp", Hp(hp)), Arg("maxHp", Hp(max))).For("member:" + member?.CharacterId + ":hp");
         internal static BattleTextLine EnemyHp(LocalizationService service, PreparedEnemy enemy, ExactRational hp, ExactRational max) =>
             new BattleTextLine("fm.battle.hud.enemy_hp", Arg("enemyName", Enemy(service, enemy)), Arg("currentHp", Hp(hp)), Arg("maxHp", Hp(max))).For(enemy == null ? null : EnemyIdentity(enemy) + ":hp");
         internal static BattleTextLine Save(CandidateApplicationPhase phase, string code)
@@ -498,6 +515,35 @@ namespace FightMatch.Presentation
                 result.OriginalCommitId == result.OriginalLookup.OriginalCommitId && result.NotificationFailure != null ?
                 Reason(BattleTextDomain.Notification, result.NotificationFailure.Code) : null;
         }
+        internal static IReadOnlyList<BattleTextLine> ReceiptRewards(LocalizationService service, PlayerBattleReceipt receipt, CandidateApplicationSnapshot head)
+        {
+            var rows = new List<BattleTextLine>();
+            if (receipt?.Reward == null) return rows;
+            rows.Add(new BattleTextLine("fm.result.base_reward_section").For("receipt-inventory"));
+            // Base materials and chapter additions share one grant, but each quantity is displayed exactly once.
+            foreach (var item in receipt.Reward.Materials)
+                rows.Add(new BattleTextLine("fm.result.item_reward", Arg("itemName", Item(service, item.ItemId)),
+                    Arg("amount", Number(item.Amount))).For("receipt-item:" + item.ItemId));
+            var effects = head?.Business.Progression.GetChapterEffects().Where(x => x.OperationId == receipt.OperationId &&
+                x.SettlementId == receipt.SettlementId && ReferenceEquals(x.SourceClear.End, receipt.End)).ToList();
+            if (effects == null || effects.Count == 0) return rows;
+            rows.Add(new BattleTextLine("fm.first_clear_reward.title").For("receipt-first-clear"));
+            foreach (var effect in effects)
+            {
+                if (effect.Kind == CandidateChapterMilestoneKind.FirstClearItem)
+                    rows.Add(new BattleTextLine("fm.result.item_reward", Arg("itemName", Item(service, effect.ItemId)),
+                        Arg("amount", Number(effect.Amount.Value))).For("receipt-first-clear-item:" + effect.ItemId));
+                else
+                {
+                    var character = head.Business.Roster.Find(effect.CharacterId);
+                    var sameDefinition = character?.ClassId == effect.ClassId && character.Definition.Context is PreparedPublishedRuleContext context &&
+                        context.Binding.Same(effect.Binding);
+                    rows.Add(new BattleTextLine("fm.result.character_acquired", Arg("characterName", sameDefinition ?
+                        Character(service, character) : null)).For("receipt-character-acquired:" + effect.CharacterId));
+                }
+            }
+            return rows;
+        }
         internal static BattleTextLine Stage(LocalizationService service, CandidateStageFact fact, BattleSnapshot snapshot)
         {
             if (fact?.Kind == CandidateStageFactKind.RouteLocked)
@@ -527,7 +573,8 @@ namespace FightMatch.Presentation
             if (fact.Kind == CandidateBattleFactKind.DirectAttack)
             {
                 var hit = fact.DirectAttack;
-                line = new BattleTextLine(hit.Crit?.Triggered == true ? "fm.battle.playback.critical_hit" : "fm.battle.playback.direct_hit",
+                line = new BattleTextLine(hit.Penetration?.Triggered == true ? "fm.battle.playback.penetrating_hit" :
+                    hit.Crit?.Triggered == true ? "fm.battle.playback.critical_hit" : "fm.battle.playback.direct_hit",
                     Arg("characterName", Character(service, original.BeforeSnapshot, hit.Actor)),
                     Arg("enemyName", Enemy(service, original.BeforeSnapshot, hit.Pair)), Arg("hpBefore", Hp(hit.HpBefore)), Arg("hpAfter", Hp(hit.HpAfter)));
             }

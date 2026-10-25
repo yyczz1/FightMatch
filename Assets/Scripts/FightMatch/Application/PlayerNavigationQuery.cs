@@ -36,7 +36,8 @@ namespace FightMatch.Application
                 Need(Guard(after) == null && ReferenceEquals(head, after.View.PublishedSnapshot) &&
                     ReferenceEquals(head, life.Application.PublishedSnapshot), "StaleContext", "Navigation.Head");
                 return new PlayerNavigationReadResult(after.View, publication.Binding, publication.Definitions.Levels,
-                    roster, inventory, progression, life, null);
+                    roster, inventory, progression, life, null, publication.Definitions.Chapter,
+                    publication.Definitions.Chapter == null ? null : publication.Definitions.Growths);
             }
             catch (Refusal error)
             { return new PlayerNavigationReadResult(q.View, null, null, null, null, null, null,
