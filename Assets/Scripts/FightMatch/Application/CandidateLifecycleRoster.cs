@@ -71,7 +71,7 @@ namespace FightMatch.Application
                     return Reject("StaleContext", "EnterFormation.CharacterRevision");
             var entry = business.Roster.PrepareEntry(input.TimeSample, codec);
             if (!entry.IsAccepted) return Reject(entry);
-            if (business.Format == CandidateBusinessFormat.PublishedPermanentV4)
+            if ((int)business.Format >= 4)
             {
                 var supported = CandidatePermanentGrowth.CheckBattleCapability(entry.Value.Roster, codec);
                 if (!supported.IsAccepted) return Reject(supported);
@@ -92,16 +92,25 @@ namespace FightMatch.Application
                 if (loadout == null) return Reject("InconsistentBinding", "Inventory.Loadout");
                 // Any selected tactical item produces a carry row, even when its count is zero.
                 if (loadout.ItemId != null) return Reject("UnsupportedBinding", "CarryMode");
-                var coefficient = request.Content.CritCoefficients.FirstOrDefault(x => x.TargetProbability.Compare(stats.TargetProbability, math) == 0);
+                var character = entry.Value.Roster.Find(stats.CharacterId);
+                var mage = stats.ClassKind == CharacterClassKind.Mage;
+                if (mage && (business.Format != CandidateBusinessFormat.PublishedChapterV5 || request.Content.Chapter == null))
+                    return Reject("UnsupportedBinding", "Entry.Mage");
+                var probability = mage ? CandidateCharacterGrowth.ComputePenetrationProbability(character, math) : stats.TargetProbability;
+                var coefficient = request.Content.CritCoefficients.FirstOrDefault(x => x.TargetProbability.Compare(probability, math) == 0);
                 if (coefficient == null) return Reject("UnsupportedBinding", "CritCoefficients.TargetProbability");
                 actors.Add(new CandidateInventoryActorInput { CharacterId = stats.CharacterId, ClassId = stats.ClassId,
                     ClassKind = stats.ClassKind, OriginalSlot = participant.OriginalSlot });
+                var learned = entry.Value.Roster.GetPermanentEffects().Where(x => x.Quote.Kind == CandidatePermanentKind.LearnSkill &&
+                    x.Quote.CharacterId == stats.CharacterId).Select(x => x.Quote.DefinitionId).Distinct().OrderBy(x => x, StringComparer.Ordinal).ToList();
                 members.Add(new MemberInput { CharacterId = stats.CharacterId, ClassId = stats.ClassId, ClassKind = stats.ClassKind,
                     OriginalSlot = participant.OriginalSlot, Level = stats.Level, IsReady = stats.IsReady, StatsOrigin = stats.StatsOrigin,
                     StatsContext = CandidateLifecyclePreparation.Context(stats.Context), Stats = CopyStats(stats.Stats),
-                    EntryHp = stats.EntryHp, LearnedSkills = new List<string>(), Crit = new WarriorCritInput {
-                        PassiveDefinitionId = stats.PassiveDefinitionId, TargetProbability = stats.TargetProbability,
-                        C = coefficient.C, Multiplier = stats.CritMultiplier } });
+                    EntryHp = stats.EntryHp, LearnedSkills = learned,
+                    Crit = mage ? null : new WarriorCritInput { PassiveDefinitionId = stats.PassiveDefinitionId,
+                        TargetProbability = probability, C = coefficient.C, Multiplier = stats.CritMultiplier },
+                    Penetration = !mage ? null : new ArcanePenetrationInput { PassiveDefinitionId = stats.PassiveDefinitionId,
+                        TargetProbability = probability, C = coefficient.C, IgnoreMagicDefenseFraction = character.Definition.IgnoreFraction } });
             }
             var seedBudget = ExactSaveValueCodec.EncodeInteger(ulong.MaxValue, codec);
             if (!seedBudget.IsAccepted) return Reject(seedBudget);

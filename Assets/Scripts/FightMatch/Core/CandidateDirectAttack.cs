@@ -58,21 +58,37 @@ namespace FightMatch.Core
             if (livingOrdinal > actor.Member.Stats.AttackRange) return Reject(OutOfRange, "Pair");
 
             // Evasion is explicitly zero in this supported domain, so even floor-zero damage is a real hit.
-            var crit = CandidateWarriorCritEvaluator.EvaluateOpportunity(binding, before.Random, actor.CombatantKey,
-                target.CombatantKey, before.EffectiveActionsCompleted, budget);
-            if (!crit.IsAccepted)
+            CandidateCritFact critFact = null;
+            CandidatePenetrationFact penetrationFact = null;
+            BattleRandomSnapshot random;
+            if (CandidateChapterBattleRules.IsChapter(entry.Context))
             {
-                var code = crit.RejectionCode == BattleEntryRejectionCode.InvalidValue ? InvalidValue : InconsistentBinding;
-                var path = crit.FieldPath.StartsWith("Before.", StringComparison.Ordinal)
-                    ? "Before.Random." + crit.FieldPath.Substring(7) : crit.FieldPath;
-                return Reject(code, path);
+                var passive = CandidateChapterBattleRules.ResolvePassive(binding, before, actor, target, budget);
+                if (passive == null) return Reject(InconsistentBinding, "Before.Random");
+                random = passive.Next; critFact = passive.Crit; penetrationFact = passive.Penetration;
+            }
+            else
+            {
+                var crit = CandidateWarriorCritEvaluator.EvaluateOpportunity(binding, before.Random, actor.CombatantKey,
+                    target.CombatantKey, before.EffectiveActionsCompleted, budget);
+                if (!crit.IsAccepted)
+                {
+                    var code = crit.RejectionCode == BattleEntryRejectionCode.InvalidValue ? InvalidValue : InconsistentBinding;
+                    var path = crit.FieldPath.StartsWith("Before.", StringComparison.Ordinal)
+                        ? "Before.Random." + crit.FieldPath.Substring(7) : crit.FieldPath;
+                    return Reject(code, path);
+                }
+                random = crit.Next; critFact = crit.Fact;
             }
             var one = ExactRational.Create(1, 1, math);
             var hundred = ExactRational.Create(100, 1, math);
             var zero = ExactRational.Create(0, 1, math);
-            var multiplier = crit.Fact.Triggered ? actor.Member.Crit.Multiplier : one;
+            var multiplier = critFact != null && critFact.Triggered ? actor.Member.Crit.Multiplier : one;
+            var defense = penetrationFact == null ? target.Enemy.Stats.PhysicalDefense : target.Enemy.Stats.MagicDefense;
+            if (penetrationFact != null && penetrationFact.Triggered)
+                defense = defense.Multiply(one.Subtract(actor.Member.Penetration.IgnoreMagicDefenseFraction, math), math);
             var raw = actor.Member.Stats.Attack.Multiply(multiplier, math);
-            var mitigated = raw.Multiply(hundred, math).Divide(hundred.Add(target.Enemy.Stats.PhysicalDefense, math), math);
+            var mitigated = raw.Multiply(hundred, math).Divide(hundred.Add(defense, math), math);
             var rounded = mitigated.Floor(math);
             var incoming = ExactRational.Create(rounded, 1, math);
             var hpLoss = target.Hp.Compare(incoming, math) < 0 ? target.Hp : incoming;
@@ -80,7 +96,8 @@ namespace FightMatch.Core
             var hpAfter = target.Hp.Subtract(hpLoss, math);
             var action = new CandidateAttackSource(request, math.Add(before.EffectiveActionsCompleted, BigInteger.One));
             var fact = new BattleDamageFact(before, action, target, actor.Member.Stats.Attack, multiplier,
-                raw, mitigated, rounded, hpAfter, hpLoss, overflow, zero, crit.Fact);
+                raw, mitigated, rounded, hpAfter, hpLoss, overflow, zero, critFact, penetrationFact,
+                penetrationFact == null ? null : defense);
             var enemies = new List<BattleEnemyState>();
             foreach (var enemy in before.Enemies)
                 enemies.Add(enemy.CombatantKey.Equals(target.CombatantKey)
@@ -91,7 +108,7 @@ namespace FightMatch.Core
                     ? new BattleContributionTotals(total.CombatantKey, total.EffectiveDamageDealtHp.Add(hpLoss, math),
                         total.EffectiveDamageTakenHp) : total);
             return new CandidateDirectAttackResult(new CandidateCombatFrame(binding, before, action, enemies,
-                crit.Next, contributions, fact), fact);
+                random, contributions, fact), fact);
         }
 
         private static CandidateDirectAttackResult CheckState(BattleSnapshot before, CandidateAttackRequest request,
@@ -120,7 +137,7 @@ namespace FightMatch.Core
                     if (row.CombatantKey.Equals(BattleCombatantKey.ForParticipant(entry.AttemptId, member.CharacterId))) original = member;
                 if (original == null || !memberKeys.Add(row.CombatantKey) || !ReferenceEquals(original, row.Member))
                     return Reject(InconsistentBinding, path);
-                if (original.ClassKind != CharacterClassKind.Warrior || original.LearnedSkills.Count != 0 ||
+                if (!CandidateChapterBattleRules.Supports(original, entry.Context) || original.LearnedSkills.Count != 0 ||
                     !original.Stats.Evasion.Numerator.IsZero) return Reject(InconsistentBinding, path + ".Member");
                 if (!HpInRange(row.Hp, original.Stats.MaxHp, math)) return Reject(InvalidValue, path + ".Hp");
                 if (row.CombatantKey.Equals(request.Actor)) actor = row;
@@ -209,7 +226,8 @@ namespace FightMatch.Core
         private static void CheckMember(PreparedMember member, ExactMathBudget math)
         {
             math.CheckInteger(member.Level); RuleContextChecks.CheckBudget(member.StatsContext, math);
-            CheckStats(member.Stats, math); CheckNumber(member.EntryHp, math); CheckCrit(member.Crit, math);
+            CheckStats(member.Stats, math); CheckNumber(member.EntryHp, math);
+            CandidateChapterBattleRules.CheckPassiveNumbers(member.Crit, member.Penetration, math);
         }
 
         private static void CheckFace(PreparedFace face, ExactMathBudget math)
@@ -228,7 +246,7 @@ namespace FightMatch.Core
         }
 
         private static void CheckPrdNumbers(IReadOnlyList<BattlePrdState> states, ExactMathBudget math)
-        { foreach (var row in states) { CheckCrit(row.Crit, math); math.CheckInteger(row.FailureCount); } }
+        { foreach (var row in states) { CandidateChapterBattleRules.CheckPassiveNumbers(row.Crit, row.Penetration, math); math.CheckInteger(row.FailureCount); } }
 
         private static void CheckCrit(PreparedWarriorCrit crit, ExactMathBudget math)
         { CheckNumber(crit.TargetProbability, math); CheckNumber(crit.C, math); CheckNumber(crit.Multiplier, math); }

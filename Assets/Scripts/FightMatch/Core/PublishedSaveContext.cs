@@ -9,6 +9,7 @@ namespace FightMatch.Core
         private readonly CandidatePermanentDefinitions permanent;
         public CandidatePermanentDefinitions GetPermanentDefinitions() { return permanent; }
         public ContentBinding Binding { get; }
+        public ChapterRuleDefinitions Chapter { get; }
         public CandidateGrowthDefinition Growth => CandidateRosterState.Single(Growths);
         public IReadOnlyList<CandidateGrowthDefinition> Growths { get; }
         public CandidateGrowthDefinition FindGrowth(string classId)
@@ -22,9 +23,9 @@ namespace FightMatch.Core
 
         private PublishedRuleDefinitions(ContentBinding binding, IReadOnlyList<CandidateGrowthDefinition> growths, CandidateInventoryDefinition inventory,
             CandidateProgressionDefinition progression, IReadOnlyList<PreparedLevel> levels, IReadOnlyList<CandidateRewardDefinition> rewards,
-            CandidatePermanentDefinitions permanentDefinitions = null)
+            CandidatePermanentDefinitions permanentDefinitions = null, ChapterRuleDefinitions chapter = null)
         {
-            permanent = permanentDefinitions;
+            permanent = permanentDefinitions; Chapter = chapter;
             Binding = binding; Growths = new List<CandidateGrowthDefinition>(growths).AsReadOnly(); Inventory = inventory; Progression = progression;
             Levels = new List<PreparedLevel>(levels).AsReadOnly(); Rewards = new List<CandidateRewardDefinition>(rewards).AsReadOnly();
         }
@@ -92,7 +93,19 @@ namespace FightMatch.Core
                 SaveCodecFailure.Require(basis != null && permanent != null, "MissingField", "Permanent.Definitions");
                 permanent.CheckClosure(basis, budget);
                 return new PublishedRuleDefinitions(basis.Binding, basis.Growths, basis.Inventory,
-                    basis.Progression, basis.Levels, basis.Rewards, permanent);
+                    basis.Progression, basis.Levels, basis.Rewards, permanent, basis.Chapter);
+            });
+        }
+
+        public static SaveCodecResult<PublishedRuleDefinitions> PrepareChapter(PublishedRuleDefinitions basis,
+            ChapterRuleDefinitions chapter, SaveCodecBudget budget)
+        {
+            if (budget == null) throw new ArgumentNullException(nameof(budget));
+            return SaveCodecResult<PublishedRuleDefinitions>.Run(() => {
+                SaveCodecFailure.Require(basis != null && chapter != null, "MissingField", "Chapter.Definitions");
+                chapter.CheckClosure(basis, budget);
+                return new PublishedRuleDefinitions(basis.Binding, basis.Growths, basis.Inventory, basis.Progression,
+                    basis.Levels, basis.Rewards, basis.permanent, chapter);
             });
         }
 

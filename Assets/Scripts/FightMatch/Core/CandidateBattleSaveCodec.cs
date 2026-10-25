@@ -85,6 +85,15 @@ namespace FightMatch.Core
         private BattlePrdState Prd(BattlePrdState x, PreparedBattleEntry entry, string p)
         {
             f.Required(x, p); var key = f.Combatant(x?.CombatantKey, p + ".CombatantKey"); var member = MemberDefinition(entry, key, p);
+            if (entry.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion && member.ClassKind == CharacterClassKind.Mage)
+            {
+                Need(f.SchemaVersion == 5, p + ".Schema", "UnsupportedSchema");
+                var penetration = new PreparedArcanePenetration(f.Penetration(x?.Penetration, p + ".Penetration"));
+                Equal(penetration, member.Penetration, p + ".Penetration");
+                if (!f.Reading) Need(x.Crit == null && ReferenceEquals(x.Penetration, member.Penetration), p + ".Penetration", "InconsistentBinding");
+                var count = f.Integer(x?.FailureCount ?? 0, p + ".FailureCount");
+                return f.Reading ? new BattlePrdState(key, member.Penetration, count) : x;
+            }
             var crit = new PreparedWarriorCrit(f.Crit(x?.Crit, p + ".Crit")); Equal(crit, member.Crit, p + ".Crit");
             if (!f.Reading) Need(ReferenceEquals(x.Crit, member.Crit), p + ".Crit", "InconsistentBinding");
             var failures = f.Integer(x?.FailureCount ?? 0, p + ".FailureCount"); return f.Reading ? new BattlePrdState(key, member.Crit, failures) : x;
@@ -211,6 +220,24 @@ namespace FightMatch.Core
             return f.Reading ? new CandidateCritFact(actor, target, ordinal, member.Crit, new BattlePrdState(actor, member.Crit, old), streamBefore,
                 new RandomSample<PrdOutcome>(new PrdOutcome(triggered, next, q), streamAfter, words)) : x;
         }
+        private CandidatePenetrationFact PenetrationFact(CandidatePenetrationFact x, BattleSnapshot before, BattleRandomSnapshot after, string p)
+        {
+            f.Required(x, p); var actor = f.Combatant(x?.Actor, p + ".Actor"); var target = f.Combatant(x?.Target, p + ".Target");
+            var ordinal = f.Integer(x?.OpportunityOrdinal ?? 0, p + ".OpportunityOrdinal");
+            var parameters = new PreparedArcanePenetration(f.Penetration(x?.Parameters, p + ".Parameters"));
+            var member = MemberDefinition(before.Baseline.Entry, actor, p);
+            Equal(parameters, member.Penetration, p + ".Parameters");
+            var q = f.Rational(x?.Probability, p + ".Probability"); var old = f.Integer(x?.FailureCountBefore ?? 0, p + ".FailureCountBefore");
+            var next = f.Integer(x?.FailureCountAfter ?? 0, p + ".FailureCountAfter"); var triggered = f.Flag(x?.Triggered ?? false, p + ".Triggered");
+            var streamBefore = f.RandomStream(x?.StreamBefore, p + ".StreamBefore"); var streamAfter = f.RandomStream(x?.StreamAfter, p + ".StreamAfter");
+            Equal(streamBefore, before.Random.Stream, p + ".StreamBefore"); Equal(streamAfter, after.Stream, p + ".StreamAfter");
+            if (!f.Reading) Need(ReferenceEquals(streamBefore, before.Random.Stream) && ReferenceEquals(streamAfter, after.Stream), p + ".Streams", "InconsistentBinding");
+            else { streamBefore = before.Random.Stream; streamAfter = after.Stream; }
+            var words = f.List(x?.Words, (v, vp) => (uint)f.U(v, 4, vp), p + ".Words", 4);
+            return f.Reading ? new CandidatePenetrationFact(actor, target, ordinal, member.Penetration,
+                new BattlePrdState(actor, member.Penetration, old), streamBefore,
+                new RandomSample<PrdOutcome>(new PrdOutcome(triggered, next, q), streamAfter, words)) : x;
+        }
         private BattleDamageFact Damage(BattleDamageFact x, BattleSnapshot before, CandidateAttackSource action, BattleRandomSnapshot random, string p)
         {
             f.Required(x, p); var baseline = Baselines.Ref(f, x?.Baseline, p + ".Baseline"); Need(ReferenceEquals(baseline, before.Baseline), p + ".Baseline", "InconsistentBinding");
@@ -225,7 +252,18 @@ namespace FightMatch.Core
             var mitigated = f.Rational(x?.MitigatedDamage, p + ".MitigatedDamage"); var rounded = f.Integer(x?.RoundedDamage ?? 0, p + ".RoundedDamage");
             var zero = Zero(); Value(x?.BlockPrevented, zero, p + ".BlockPrevented"); Value(x?.ShieldAbsorbed, zero, p + ".ShieldAbsorbed");
             Value(x?.HpBefore, target.Hp, p + ".HpBefore"); var hp = f.Rational(x?.HpAfter, p + ".HpAfter");
-            var loss = f.Rational(x?.HpLoss, p + ".HpLoss"); var overflow = f.Rational(x?.Overflow, p + ".Overflow"); var crit = CritFact(x?.Crit, before, random, p + ".Crit");
+            var loss = f.Rational(x?.HpLoss, p + ".HpLoss"); var overflow = f.Rational(x?.Overflow, p + ".Overflow");
+            var member = MemberDefinition(before.Baseline.Entry, actor, p + ".Actor");
+            if (before.Baseline.Entry.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion && member.ClassKind == CharacterClassKind.Mage)
+            {
+                Need(f.SchemaVersion == 5, p + ".Schema", "UnsupportedSchema");
+                var penetration = PenetrationFact(x?.Penetration, before, random, p + ".Penetration");
+                Value(x?.MagicDefense, target.Enemy.Stats.MagicDefense, p + ".MagicDefense");
+                var effective = f.Rational(x?.EffectiveMagicDefense, p + ".EffectiveMagicDefense");
+                if (!f.Reading) Need(x.Crit == null, p + ".Crit", "InconsistentBinding");
+                return f.Reading ? new BattleDamageFact(before, action, target, attack, multiplier, raw, mitigated, rounded, hp, loss, overflow, zero, null, penetration, effective) : x;
+            }
+            var crit = CritFact(x?.Crit, before, random, p + ".Crit");
             return f.Reading ? new BattleDamageFact(before, action, target, attack, multiplier, raw, mitigated, rounded, hp, loss, overflow, zero, crit) : x;
         }
         private CandidateEnemyPhaseFrame EnemyPhase(CandidateEnemyPhaseFrame x, CandidateCombatFrame direct, string p)

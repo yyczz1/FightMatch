@@ -268,6 +268,8 @@ namespace FightMatch.Core
 
         private static CandidateBattleResult DirectArithmetic(CandidateCombatFrame frame, ExactMathBudget math)
         {
+            if (CandidateChapterBattleRules.IsChapter(frame.BeforeSnapshot.Baseline.Entry.Context))
+                return CandidateChapterBattleRules.ValidateDirectFrame(frame, math) ? null : Reject("IncompleteHistory", "DirectAttack.Chapter");
             var hit = frame.DamageFacts[0]; var crit = hit.Crit; BattleMemberState actor = null;
             foreach (var member in frame.Members) if (member.CombatantKey.Equals(hit.Actor)) actor = member;
             if (actor == null) return Reject("IncompleteHistory", "DirectAttack.Actor");
@@ -328,7 +330,7 @@ namespace FightMatch.Core
             for (var i = 0; i < entry.Members.Count; i++)
             {
                 var key = BattleCombatantKey.ForParticipant(entry.AttemptId, entry.Members[i].CharacterId); var prd = baseline.PrdInitialStates[i];
-                if (prd == null || !key.Equals(prd.CombatantKey) || !ReferenceEquals(entry.Members[i].Crit, prd.Crit) ||
+                if (prd == null || !key.Equals(prd.CombatantKey) || !CandidateChapterBattleRules.SamePassive(prd, entry.Members[i]) ||
                     !prd.FailureCount.IsZero) return Reject("InconsistentBinding", "Binding.Start.Baseline.PrdInitialStates");
             }
             Check(baseline, math);
@@ -375,7 +377,7 @@ namespace FightMatch.Core
                 var total = state.Contributions[i]; var prd = state.Random.PrdStates[i]; var member = state.Members[i];
                 if (total == null || !member.CombatantKey.Equals(total.CombatantKey) || total.EffectiveDamageDealtHp == null || total.EffectiveDamageTakenHp == null)
                     return Reject("InconsistentBinding", path + ".Contributions");
-                if (prd == null || !member.CombatantKey.Equals(prd.CombatantKey) || !ReferenceEquals(member.Member.Crit, prd.Crit))
+                if (prd == null || !member.CombatantKey.Equals(prd.CombatantKey) || !CandidateChapterBattleRules.SamePassive(prd, member.Member))
                     return Reject("InconsistentBinding", path + ".Random");
             }
             foreach (var route in state.Board.LockedRoutes)
@@ -464,8 +466,10 @@ namespace FightMatch.Core
             foreach (var m in entry.Members) members.Add(new MemberInput { CharacterId = m.CharacterId, ClassId = m.ClassId,
                 ClassKind = m.ClassKind, OriginalSlot = m.OriginalSlot, Level = m.Level, IsReady = m.IsReady, StatsOrigin = m.StatsOrigin,
                 StatsContext = Context(m.StatsContext), Stats = Stats(m.Stats), EntryHp = m.EntryHp, LearnedSkills = new List<string>(m.LearnedSkills),
-                Crit = new WarriorCritInput { PassiveDefinitionId = m.Crit.PassiveDefinitionId, TargetProbability = m.Crit.TargetProbability,
-                    C = m.Crit.C, Multiplier = m.Crit.Multiplier } });
+                Crit = m.Crit == null ? null : new WarriorCritInput { PassiveDefinitionId = m.Crit.PassiveDefinitionId, TargetProbability = m.Crit.TargetProbability,
+                    C = m.Crit.C, Multiplier = m.Crit.Multiplier },
+                Penetration = m.Penetration == null ? null : new ArcanePenetrationInput { PassiveDefinitionId = m.Penetration.PassiveDefinitionId,
+                    TargetProbability = m.Penetration.TargetProbability, C = m.Penetration.C, IgnoreMagicDefenseFraction = m.Penetration.IgnoreMagicDefenseFraction } });
             return new BattleEntryInput { PlayerId = entry.PlayerId, ChallengeId = entry.ChallengeId, AttemptId = entry.AttemptId,
                 EntryBaselineId = entry.EntryBaselineId, Context = Context(entry.Context), Level = level, Members = members,
                 CarryMode = entry.CarryMode, RequiredFeatures = new List<string>(entry.RequiredFeatures) };

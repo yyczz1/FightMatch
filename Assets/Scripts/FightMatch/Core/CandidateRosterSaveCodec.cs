@@ -25,7 +25,7 @@ namespace FightMatch.Core
                 var next = Slots(f, row?.After, path + ".After");
                 return f.Reading ? new CandidateFormationReceipt(operation, before, after, original, next) : row;
             }, p + ".FormationReceipts");
-            var effects = f.SchemaVersion == 4 ? new CandidatePermanentCodec(f).Effects(value?.GetPermanentEffects(), p + ".Permanent", 3) : null;
+            var effects = f.SchemaVersion >= 4 ? new CandidatePermanentCodec(f).Effects(value?.GetPermanentEffects(), p + ".Permanent", 3) : null;
             var result = f.Reading ? new CandidateRosterState(player, characters, slots, revision, receipts, effects) : value;
             result.Check(f.Budget); return result;
         }

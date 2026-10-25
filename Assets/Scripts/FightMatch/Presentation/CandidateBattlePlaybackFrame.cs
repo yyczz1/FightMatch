@@ -75,7 +75,7 @@ namespace FightMatch.Presentation
             var crossFaceFinal = knownFinal && face?.FaceId != original.BeforeSnapshot.Board.Face.FaceId;
             if (fact.Kind == CandidateBattleFactKind.DirectAttack)
             {
-                var d = fact.DirectAttack; beat = "命中 " + d.Pair.PairId + (d.Crit.Triggered ? " · 暴击" : "") + "：" + Hp(d.HpBefore) + " → " + Hp(d.HpAfter);
+                var d = fact.DirectAttack; beat = "命中 " + d.Pair.PairId + (d.Crit?.Triggered == true ? " · 暴击" : "") + "：" + Hp(d.HpBefore) + " → " + Hp(d.HpAfter);
                 if (!crossFaceFinal) ReplaceHp(actors, d.Target, d.HpAfter);
             }
             else if (fact.Kind == CandidateBattleFactKind.EnemyIntent)

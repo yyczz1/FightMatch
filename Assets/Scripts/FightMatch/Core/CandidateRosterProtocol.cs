@@ -168,7 +168,12 @@ namespace FightMatch.Core
                     Need(version == 3 && record.Intent.GetPermanentMigration().SourceGeneration == i, "Permanent.Migration.History");
                     version = 4;
                 }
-                else if (kind == CandidateApplicationKind.PermanentRequest) Need(version == 4, "Permanent.Format");
+                else if (kind == CandidateApplicationKind.MigrateChapter)
+                {
+                    Need(version == 4 && record.Intent.GetChapterMigration().SourceGeneration == i, "Chapter.Migration.History");
+                    version = 5;
+                }
+                else if (kind == CandidateApplicationKind.PermanentRequest) Need(version >= 4, "Permanent.Format");
                 else if (kind == CandidateApplicationKind.SetFormation)
                 {
                     Need(version >= 3, "Formation.Format", "RosterMigrationRequired");

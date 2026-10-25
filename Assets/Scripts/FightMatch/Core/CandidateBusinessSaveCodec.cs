@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static FightMatch.Core.BusinessFields;
 
 namespace FightMatch.Core
@@ -20,7 +21,7 @@ namespace FightMatch.Core
             using (var stream = new MemoryStream())
             {
                 var fields = new BusinessFields(stream, false, budget) {
-                    SchemaVersion = 4, Roster = roster, ValidatePublished = true, StrictUnicode = true };
+                    SchemaVersion = roster.Characters.Any(x => x.Definition.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion) ? 5U : 4U, Roster = roster, ValidatePublished = true, StrictUnicode = true };
                 new CandidateRosterSaveCodec(fields).Roster(roster, "M03");
                 new CandidatePermanentSaveCodec(fields).Inventory(inventory, "M04");
                 return stream.ToArray();
@@ -40,7 +41,7 @@ namespace FightMatch.Core
                 SaveEnvelopeCodec.CheckList(input.RetainedRuns, budget, "RetainedRuns"); SaveEnvelopeCodec.CheckList(input.RetainedRollbacks, budget, "RetainedRollbacks");
                 Need(purpose == SavePurpose.CandidateValidation || purpose == SavePurpose.PlayerSave, "Purpose", "UnsupportedBinding");
                 Need(purpose == SavePurpose.PlayerSave ? input.Format == CandidateBusinessFormat.PublishedV2 ||
-                    (input.Format == CandidateBusinessFormat.PublishedRosterV3 || input.Format == CandidateBusinessFormat.PublishedPermanentV4) : input.Format == CandidateBusinessFormat.CandidateV1, "Format", "UnsupportedBinding");
+                    (input.Format == CandidateBusinessFormat.PublishedRosterV3 || input.Format == CandidateBusinessFormat.PublishedPermanentV4 || input.Format == CandidateBusinessFormat.PublishedChapterV5) : input.Format == CandidateBusinessFormat.CandidateV1, "Format", "UnsupportedBinding");
                 var snapshot = new CandidateBusinessSnapshot(input); Verify(snapshot, budget, out _, null, purpose == SavePurpose.PlayerSave); return snapshot;
             });
         }
@@ -78,12 +79,13 @@ namespace FightMatch.Core
             {
                 Need(envelope.Purpose == (resolved == null ? SavePurpose.CandidateValidation : SavePurpose.PlayerSave), "Envelope.Purpose", "UnsupportedBinding");
                 Need(envelope.SliceDirectory.Count == 5 && envelope.RequiredSliceContracts.Count == 5 && envelope.Bodies.Length == 5, "Envelope.Slices", "UnsupportedSchema");
-                var rosterFormat = resolved != null && (envelope.SliceDirectory[0].Contract.SchemaVersion == 3 || envelope.SliceDirectory[0].Contract.SchemaVersion == 4);
+                var chapterFormat = resolved != null && envelope.SliceDirectory[0].Contract.SchemaVersion == 5;
+                var rosterFormat = resolved != null && (envelope.SliceDirectory[0].Contract.SchemaVersion == 3 || envelope.SliceDirectory[0].Contract.SchemaVersion == 4 || chapterFormat);
                 var permanentFormat = resolved != null && envelope.SliceDirectory[0].Contract.SchemaVersion == 4;
                 var total = 0UL;
                 for (var i = 0; i < 5; i++)
                 {
-                    Contract(envelope.SliceDirectory[i].Contract, i, resolved, rosterFormat, permanentFormat); Contract(envelope.RequiredSliceContracts[i], i, resolved, rosterFormat, permanentFormat);
+                    Contract(envelope.SliceDirectory[i].Contract, i, resolved, rosterFormat, permanentFormat, chapterFormat); Contract(envelope.RequiredSliceContracts[i], i, resolved, rosterFormat, permanentFormat, chapterFormat);
                     total += (ulong)envelope.Bodies[i].Length; SaveCodecFailure.Limit(total, budget.MaxEnvelopeBytes, "Slices", "EnvelopeBytes");
                 }
                 var battle = new CandidateBattleSaveCodec(budget); CandidateCharacterState character = null; CandidateRosterState roster = null; CandidateInventoryState inventory = null;
@@ -93,7 +95,7 @@ namespace FightMatch.Core
                 for (var i = 0; i < 5; i++) using (var stream = new MemoryStream(envelope.Bodies[i], false))
                 {
                     var fields = new BusinessFields(stream, true, budget, (ulong)stream.Length) { Resolved = resolved, StrictUnicode = resolved != null,
-                        SchemaVersion = NewContract(i, resolved, rosterFormat, permanentFormat).SchemaVersion, Roster = roster }; var p = "M0" + (i + 3);
+                        SchemaVersion = NewContract(i, resolved, rosterFormat, permanentFormat, chapterFormat).SchemaVersion, Roster = roster }; var p = "M0" + (i + 3);
                     fields.Header(i + 3, envelope.PlayerId, p); var permanent = new CandidatePermanentSaveCodec(fields);
                     switch (i)
                     {
@@ -109,7 +111,7 @@ namespace FightMatch.Core
                     fields.End(p);
                 }
                 var input = rosterFormat
-                    ? new CandidateBusinessInput(envelope.PlayerId, roster, inventory, progression, rewards, history, retainedRuns, retainedRollbacks, permanentFormat ? CandidateBusinessFormat.PublishedPermanentV4 : CandidateBusinessFormat.PublishedRosterV3)
+                    ? new CandidateBusinessInput(envelope.PlayerId, roster, inventory, progression, rewards, history, retainedRuns, retainedRollbacks, chapterFormat ? CandidateBusinessFormat.PublishedChapterV5 : permanentFormat ? CandidateBusinessFormat.PublishedPermanentV4 : CandidateBusinessFormat.PublishedRosterV3)
                     : new CandidateBusinessInput(envelope.PlayerId, character, inventory, progression, rewards, history, retainedRuns, retainedRollbacks);
                 var snapshot = new CandidateBusinessSnapshot(input);
                 var lengths = Verify(snapshot, budget, out var collected, resolved); var canonical = Write(snapshot, collected, budget, lengths, resolved);
@@ -117,6 +119,7 @@ namespace FightMatch.Core
                 {
                     // This also rejects unreachable table rows, duplicate definitions and noncanonical reference numbering.
                     Need(Bytes(canonical[i].Bytes, envelope.Bodies[i]), "M0" + (i + 3) + ".CanonicalLayout", "Malformed");
+                    if (chapterFormat) BusinessRequirements.CheckFeatures(envelope.SliceDirectory[i].Requirements, canonical[i].Requirements, "M0" + (i + 3));
                     Need(BusinessRequirements.Same(canonical[i].Requirements, envelope.SliceDirectory[i].Requirements), "M0" + (i + 3) + ".Requirements", "InconsistentBinding");
                 }
                 return snapshot;
@@ -126,7 +129,8 @@ namespace FightMatch.Core
             PublishedSaveContext resolved = null, bool validatePublished = false)
         {
             battle = new CandidateBattleSaveCodec(budget); CandidateBusinessRestoreChecks.Shape(snapshot, budget); battle.Collect(snapshot);
-            var lengths = Measure(snapshot, battle, budget, resolved, validatePublished); CandidateBusinessRestoreChecks.Check(snapshot, battle, budget); return lengths;
+            var lengths = Measure(snapshot, battle, budget, resolved, validatePublished); CandidateBusinessRestoreChecks.Check(snapshot, battle, budget);
+            CandidateChapterSaveCodec.Check(snapshot, resolved, budget); return lengths;
         }
         private static int[] Measure(CandidateBusinessSnapshot snapshot, CandidateBattleSaveCodec battle, SaveCodecBudget budget,
             PublishedSaveContext resolved, bool validatePublished)
@@ -148,7 +152,7 @@ namespace FightMatch.Core
             {
                 var body = new byte[lengths[i]];
                 using (var stream = new MemoryStream(body, true)) Body(new BusinessFields(stream, false, budget) { Resolved = resolved, StrictUnicode = resolved != null }, i, snapshot, battle, ref endings);
-                slices.Add(new SaveSliceInput { Contract = NewContract(i, resolved, (int)snapshot.Format >= 3, snapshot.Format == CandidateBusinessFormat.PublishedPermanentV4), Bytes = body, Requirements = BusinessRequirements.For(snapshot, battle, i, budget) });
+                slices.Add(new SaveSliceInput { Contract = NewContract(i, resolved, (int)snapshot.Format >= 3, snapshot.Format == CandidateBusinessFormat.PublishedPermanentV4, snapshot.Format == CandidateBusinessFormat.PublishedChapterV5), Bytes = body, Requirements = BusinessRequirements.For(snapshot, battle, i, budget) });
             }
             return slices;
         }
@@ -156,7 +160,8 @@ namespace FightMatch.Core
             ref Dictionary<string, CandidateProgressionEndReceipt> endings)
         {
             var p = "M0" + (index + 3);
-            if ((int)snapshot.Format >= 3) f.SchemaVersion = index < 3 ? (uint)snapshot.Format : 2U;
+            if (snapshot.Format == CandidateBusinessFormat.PublishedChapterV5) f.SchemaVersion = 5;
+            else if ((int)snapshot.Format >= 3) f.SchemaVersion = index < 3 ? (uint)snapshot.Format : 2U;
             f.Roster = snapshot.Roster;
             f.Header(index + 3, snapshot.PlayerId, p); var permanent = new CandidatePermanentSaveCodec(f);
             switch (index)
@@ -171,10 +176,10 @@ namespace FightMatch.Core
                 case 4: new CandidateRewardSaveCodec(f, battle, endings).State(snapshot.Rewards, p); break;
             }
         }
-        private static RequiredSliceContract NewContract(int index, PublishedSaveContext resolved, bool roster = false, bool permanent = false)
-        { return new RequiredSliceContract("fm.m0" + (index + 3) + "." + Names[index], "M0" + (index + 3), permanent && index < 3 ? 4U : roster && index < 3 ? 3U : resolved == null ? 1U : 2U); }
-        private static void Contract(RequiredSliceContract actual, int index, PublishedSaveContext resolved, bool roster = false, bool permanent = false)
-        { var expected = NewContract(index, resolved, roster, permanent); Need(actual.SchemaVersion == expected.SchemaVersion, "Slices[" + index + "].SchemaVersion", "UnsupportedSchema");
+        private static RequiredSliceContract NewContract(int index, PublishedSaveContext resolved, bool roster = false, bool permanent = false, bool chapter = false)
+        { return new RequiredSliceContract("fm.m0" + (index + 3) + "." + Names[index], "M0" + (index + 3), chapter ? 5U : permanent && index < 3 ? 4U : roster && index < 3 ? 3U : resolved == null ? 1U : 2U); }
+        private static void Contract(RequiredSliceContract actual, int index, PublishedSaveContext resolved, bool roster = false, bool permanent = false, bool chapter = false)
+        { var expected = NewContract(index, resolved, roster, permanent, chapter); Need(actual.SchemaVersion == expected.SchemaVersion, "Slices[" + index + "].SchemaVersion", "UnsupportedSchema");
             Need(actual.SliceId == expected.SliceId && actual.OwnerId == expected.OwnerId, "Slices[" + index + "].Contract", "UnsupportedSchema"); }
         private static bool Bytes(byte[] a, byte[] b)
         { if (a.Length != b.Length) return false; for (var i = 0; i < a.Length; i++) if (a[i] != b[i]) return false; return true; }
@@ -189,8 +194,9 @@ namespace FightMatch.Core
         internal static SaveRequirements For(CandidateBusinessSnapshot s, CandidateBattleSaveCodec battle, int owner, SaveCodecBudget budget)
         {
             var r = new BusinessRequirements(budget);
+            if (s.Format == CandidateBusinessFormat.PublishedChapterV5) r.Unique(r.features, "CH1.BusinessV5");
             if ((int)s.Format >= 3 && owner < 3) r.Unique(r.features, "fm.player.roster.v1");
-            if (s.Format == CandidateBusinessFormat.PublishedPermanentV4 && owner < 3)
+            if ((int)s.Format >= 4 && owner < 3)
             {
                 r.Unique(r.features, "fm.player.permanent.v1");
                 var effects = owner == 0 ? s.Roster.GetPermanentEffects() : owner == 1 ? s.Inventory.GetPermanentLedger().Effects : s.Progression.GetPermanentEffects();
@@ -219,6 +225,8 @@ namespace FightMatch.Core
             }
             if (owner == 2)
             {
+                foreach (var effect in s.Progression.GetChapterEffects())
+                    r.Add(effect.SourceClear.Context, effect.SourceClear.LevelId, effect.SourceClear.LevelVersion);
                 foreach (var x in s.Progression.Definition.Levels) r.Level(s.Progression.Definition.Context, x);
                 foreach (var c in s.Progression.Challenges) foreach (var a in c.Attempts) r.Level(a.Begin.Context, a.Begin.Level);
                 foreach (var x in s.Progression.FirstClears) r.Level(x.Context, x.End.Begin.Level);
@@ -242,6 +250,11 @@ namespace FightMatch.Core
         }
         private void Unique(List<string> list, string value)
         { if (list.Contains(value)) return; SaveCodecFailure.Limit((ulong)list.Count + 1, (ulong)budget.MaxCollectionEntries, "Requirements", "CollectionEntries"); list.Add(value); }
+        internal static void CheckFeatures(SaveRequirements actual, SaveRequirements expected, string path)
+        {
+            foreach (var feature in actual.FeatureIds)
+                Need(expected.FeatureIds.Contains(feature), path + ".FeatureIds", "UnsupportedBinding");
+        }
         internal static bool Same(SaveRequirements a, SaveRequirements b)
         {
             if (a.Bindings.Count != b.Bindings.Count || !StringsSame(a.RuleVersions, b.RuleVersions) || !StringsSame(a.NumericContractVersions, b.NumericContractVersions) ||

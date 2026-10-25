@@ -53,6 +53,26 @@ namespace FightMatch.Core
         }
     }
 
+    public sealed class CandidateChapterMigrationReceipt
+    {
+        public string SourceCommitId { get; }
+        public BigInteger SourceGeneration { get; }
+        public ulong SourceDescriptorLength { get; }
+        public IReadOnlyList<byte> SourceDescriptorSha256 { get; }
+        public ContentBinding TargetBinding { get; }
+        public uint FromVersion => 4;
+        public uint ToVersion => 5;
+        internal CandidateChapterMigrationReceipt(PreparedCandidateApplicationIntent intent)
+        {
+            var value = intent.GetChapterMigration();
+            SourceCommitId = intent.ExpectedCommitId;
+            SourceGeneration = value.SourceGeneration.Value;
+            SourceDescriptorLength = value.SourceDescriptorLength.Value;
+            SourceDescriptorSha256 = new List<byte>(value.SourceDescriptorSha256).AsReadOnly();
+            TargetBinding = ((PreparedPublishedRuleContext)intent.Context).Binding;
+        }
+    }
+
     public sealed class CandidateApplicationResult
     {
         private readonly CandidatePermanentResult permanent;
@@ -68,11 +88,12 @@ namespace FightMatch.Core
         public CandidateApplicationRecoveryReceipt Recovery => CandidateRosterState.Single(RecoveryResults);
         public CandidateFormationReceipt Formation { get; }
         public CandidateRosterMigrationReceipt Migration { get; }
+        public CandidateChapterMigrationReceipt ChapterMigration { get; }
 
         internal CandidateApplicationResult(CandidateApplicationResultInput input,
             CandidateApplicationRecoveryReceipt recovery = null, CandidateFormationReceipt formation = null,
             CandidateRosterMigrationReceipt migration = null, IReadOnlyList<CandidateApplicationRecoveryReceipt> recoveries = null,
-            CandidatePermanentResult permanentResult = null)
+            CandidatePermanentResult permanentResult = null, CandidateChapterMigrationReceipt chapterMigration = null)
         {
             ChallengeId = input.ChallengeId;
             AttemptId = input.AttemptId;
@@ -83,7 +104,7 @@ namespace FightMatch.Core
             NewAttemptId = input.NewAttemptId;
             RecoveryResults = recoveries == null && recovery == null ? null :
                 new List<CandidateApplicationRecoveryReceipt>(recoveries ?? new[] { recovery }).AsReadOnly();
-            Formation = formation; Migration = migration;
+            Formation = formation; Migration = migration; ChapterMigration = chapterMigration;
             permanent = permanentResult;
         }
     }

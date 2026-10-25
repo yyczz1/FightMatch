@@ -149,7 +149,7 @@ namespace FightMatch.Core
             }
             var effects = new List<CandidatePermanentEffect>(state.GetPermanentEffects()) { effect };
             return new CandidateProgressionState(state.PlayerId, state.Definition,
-                budget.Math.Add(state.StateRevision, BigInteger.One), state.OpenFacts, state.FirstClears, challenges, effects);
+                budget.Math.Add(state.StateRevision, BigInteger.One), state.OpenFacts, state.FirstClears, challenges, effects, state.GetChapterEffects());
         }
     }
 }

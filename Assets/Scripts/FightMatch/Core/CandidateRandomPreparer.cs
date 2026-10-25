@@ -34,7 +34,7 @@ namespace FightMatch.Core
             };
             foreach (var member in entry.ReadyParticipants)
                 initials.PrdStates.Add(new CandidatePrdInitial
-                { CharacterId = member.CharacterId, PassiveDefinitionId = member.Crit.PassiveDefinitionId, FailureCount = BigInteger.Zero });
+                { CharacterId = member.CharacterId, PassiveDefinitionId = CandidateChapterBattleRules.PassiveId(member), FailureCount = BigInteger.Zero });
             var start = BattleStartAssembler.CreateCandidate(entry, initials, budget);
             if (!start.IsAccepted) return new CandidateRandomPreparationResult(start.RejectionCode.Value, start.FieldPath);
             return new CandidateRandomPreparationResult(new CandidateRandomBinding(start.Start,

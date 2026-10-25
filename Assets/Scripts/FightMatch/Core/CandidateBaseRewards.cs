@@ -253,7 +253,7 @@ namespace FightMatch.Core
                 if (!Need(member != null && ReferenceEquals(entry.Members[i], member) && member.Level.Sign > 0 &&
                     characters.Add(member.CharacterId) && classes.Add(member.ClassId) && member.OriginalSlot > lastSlot &&
                     member.OriginalSlot <= 2, "Report.Baseline.Entry")) return false;
-                if (!c.Need(member.ClassKind == CharacterClassKind.Warrior && member.LearnedSkills.Count == 0 && member.IsReady &&
+                if (!c.Need(CandidateChapterBattleRules.Supports(member, entry.Context) && member.LearnedSkills.Count == 0 && member.IsReady &&
                     member.StatsOrigin == BaseStatsOrigin.ComputedBaseStats && member.Stats.Evasion.Numerator.IsZero,
                     UnsupportedBinding, "Report.Baseline.Participant") ||
                     !Eq(member.StatsContext, entry.Context, "Report.Baseline.Participant.Context")) return false;
@@ -279,7 +279,7 @@ namespace FightMatch.Core
                     if (!c.Need(enemy.Stats.Evasion.Numerator.IsZero, UnsupportedBinding, "Report.Level.Enemy.Evasion")) return false;
                     if (!c.Rational(enemy.Stats.MaxHp, "Report.Level.Enemy.MaxHp", true) || !Need(enemy.IntentCycle.Count > 0, "Report.Level.Enemy.IntentCycle")) return false;
                     foreach (var intent in enemy.IntentCycle)
-                        if (!c.Need(intent.Targeting == EnemyTargeting.FirstLiving &&
+                        if (!c.Need((intent.Targeting == EnemyTargeting.FirstLiving || CandidateChapterBattleRules.IsChapter(entry.Context) && intent.Targeting == EnemyTargeting.LastLegalLiving) &&
                             (intent.Kind == EnemyIntentKind.Charge ? intent.DamageKind == null && intent.DamageCoefficient == null :
                             intent.Kind == EnemyIntentKind.Strike && intent.DamageKind == EntryDamageKind.Physical && intent.DamageCoefficient != null),
                             UnsupportedBinding, "Report.Level.Enemy.IntentCycle")) return false;
@@ -341,7 +341,7 @@ namespace FightMatch.Core
                     !Snapshot(new BattleSnapshot(before.Baseline, before.SceneRevision, before.EffectiveActionsCompleted,
                     before.EnemyPhasesCompleted, before.CurrentFaceIndex, before.Phase, before.Board, phase.Members,
                     phase.Enemies, phase.Random, phase.Contributions), before.Baseline, path + ".EnemyPhase")) return false;
-                if (!Need(hit?.Crit != null, path + ".DirectAttack.DamageFacts") ||
+                if (!Need(hit != null && (hit.Crit != null || CandidateChapterBattleRules.IsChapter(entry.Context) && hit.Penetration != null), path + ".DirectAttack.DamageFacts") ||
                     !Eq(source, new CandidateStageSource(CandidateStageOperation.AfterAttack, action.PlayerId, action.AttemptId,
                         action.OperationId, action.ExpectedSceneRevision, action.Actor, action.Pair, action.Route), path + ".Request") ||
                     !Need(action.ActionOrdinal == math.Add(before.EffectiveActionsCompleted, 1), path + ".ActionOrdinal")) return false;
@@ -367,19 +367,26 @@ namespace FightMatch.Core
                     row.EffectiveDamageTakenHp));
                 if (!Eq(directEnemies, direct.Enemies, path + ".DirectAttack.Enemies") || !Eq(before.Members, direct.Members, path + ".DirectAttack.Members") ||
                     !Eq(directTotals, direct.Contributions, path + ".DirectAttack.Contributions") ||
-                    !Need(direct.Random?.Stream != null && direct.Random.PrdStates.Count == before.Random.PrdStates.Count, path + ".DirectAttack.Random") ||
-                    !Need(hit.Crit.Actor.Equals(hit.Actor) && hit.Crit.Target.Equals(hit.Target) &&
+                    !Need(direct.Random?.Stream != null && direct.Random.PrdStates.Count == before.Random.PrdStates.Count, path + ".DirectAttack.Random")) return false;
+                if (CandidateChapterBattleRules.IsChapter(entry.Context))
+                {
+                    if (!Need(CandidateChapterBattleRules.ValidateDirectFrame(direct, math), path + ".DirectAttack.Chapter")) return false;
+                }
+                else
+                {
+                    if (!Need(hit.Crit.Actor.Equals(hit.Actor) && hit.Crit.Target.Equals(hit.Target) &&
                         ReferenceEquals(hit.Crit.Parameters, actor.Member.Crit) && hit.Crit.OpportunityOrdinal == before.EffectiveActionsCompleted,
                         path + ".DirectAttack.Crit.Source") ||
-                    !Eq(hit.Crit.StreamBefore, before.Random.Stream, path + ".DirectAttack.Crit.Before") ||
-                    !Eq(hit.Crit.StreamAfter, direct.Random.Stream, path + ".DirectAttack.Crit.After")) return false;
-                for (var i = 0; i < before.Random.PrdStates.Count; i++)
-                {
-                    var old = before.Random.PrdStates[i]; var next = direct.Random.PrdStates[i];
-                    if (!Need(old.CombatantKey.Equals(next.CombatantKey) && ReferenceEquals(old.Crit, next.Crit) &&
-                        (old.CombatantKey.Equals(hit.Actor) ? hit.Crit.FailureCountBefore == old.FailureCount &&
-                        hit.Crit.FailureCountAfter == next.FailureCount : old.FailureCount == next.FailureCount),
-                        path + ".DirectAttack.Crit.Prd")) return false;
+                        !Eq(hit.Crit.StreamBefore, before.Random.Stream, path + ".DirectAttack.Crit.Before") ||
+                        !Eq(hit.Crit.StreamAfter, direct.Random.Stream, path + ".DirectAttack.Crit.After")) return false;
+                    for (var i = 0; i < before.Random.PrdStates.Count; i++)
+                    {
+                        var old = before.Random.PrdStates[i]; var next = direct.Random.PrdStates[i];
+                        if (!Need(old.CombatantKey.Equals(next.CombatantKey) && ReferenceEquals(old.Crit, next.Crit) &&
+                            (old.CombatantKey.Equals(hit.Actor) ? hit.Crit.FailureCountBefore == old.FailureCount &&
+                            hit.Crit.FailureCountAfter == next.FailureCount : old.FailureCount == next.FailureCount),
+                            path + ".DirectAttack.Crit.Prd")) return false;
+                    }
                 }
                 var hp = new Dictionary<BattleCombatantKey, ExactRational>();
                 var taken = new Dictionary<BattleCombatantKey, ExactRational>();
@@ -395,6 +402,13 @@ namespace FightMatch.Core
                     var intent = phase.OrderedIntents[i]; var front = Front(direct.Members, hp);
                     if (!Need(intent != null && i < active.Count && front != null, path + ".EnemyPhase.OrderedIntents")) return false;
                     var enemy = active[i]; var definition = enemy.Enemy.IntentCycle[(int)math.Remainder(enemy.IntentCursor, enemy.Enemy.IntentCycle.Count)];
+                    if (CandidateChapterBattleRules.IsChapter(entry.Context) && definition.Targeting == EnemyTargeting.LastLegalLiving)
+                    {
+                        var living = new List<BattleMemberState>();
+                        foreach (var member in direct.Members) if (hp[member.CombatantKey].Numerator.Sign > 0) living.Add(member);
+                        living.Sort((a, b) => a.OriginalSlot.CompareTo(b.OriginalSlot));
+                        front = living[Math.Min(living.Count, enemy.Enemy.Stats.AttackRange) - 1];
+                    }
                     if (!Need(ReferenceEquals(intent.Baseline, before.Baseline) && Same(intent.PlayerId, entry.PlayerId) &&
                         Same(intent.AttemptId, entry.AttemptId) && Same(intent.OperationId, r.OperationId) && Same(intent.FaceId, before.Board.Face.FaceId) &&
                         intent.SceneRevision == before.SceneRevision && intent.ActionOrdinal == action.ActionOrdinal && intent.EnemyPhaseOrdinal == phase.EnemyPhaseOrdinal &&
@@ -560,7 +574,7 @@ namespace FightMatch.Core
                     !c.Rational(row.Hp, path + ".Members.Hp") || !Need(row.Hp.Compare(member.Stats.MaxHp, math) <= 0, path + ".Members.Hp") ||
                     !c.Rational(total.EffectiveDamageDealtHp, path + ".Contributions.Dealt") ||
                     !c.Rational(total.EffectiveDamageTakenHp, path + ".Contributions.Taken") ||
-                    !Need(prd != null && key.Equals(prd.CombatantKey) && ReferenceEquals(prd.Crit, member.Crit), path + ".Random")) return false;
+                    !Need(prd != null && key.Equals(prd.CombatantKey) && CandidateChapterBattleRules.SamePassive(prd, member), path + ".Random")) return false;
             }
             if (!Need(s.Enemies.Count == s.Board.Face.Pairs.Count, path + ".Enemies")) return false;
             var seen = new HashSet<BattlePairKey>();

@@ -22,16 +22,18 @@ namespace FightMatch.Application
                 Need(recipe != null, "MissingField", "Recipe");
                 Text(recipe.CharacterId, "Recipe.CharacterId", budget); Text(recipe.ClassId, "Recipe.ClassId", budget);
                 Number(recipe.InitialLevel, budget); Number(recipe.InitialExperience, budget); Number(recipe.OriginalSlot, budget);
-                Need(recipe.ClassId == frozen.Growth.ClassId, "InconsistentBinding", "Recipe.ClassId");
+                Need(frozen.FindGrowth(recipe.ClassId) != null, "InconsistentBinding", "Recipe.ClassId");
+                var chapter = frozen.Chapter != null;
+                roster |= chapter;
                 var copy = new CandidateApplicationInitializeInput { CharacterId = recipe.CharacterId, ClassId = recipe.ClassId,
                     InitialLevel = recipe.InitialLevel, InitialExperience = recipe.InitialExperience, OriginalSlot = recipe.OriginalSlot };
                 return Freeze(new CandidateApplicationIntentInput { PlayerId = Guid.NewGuid().ToString("N"),
                     OperationId = Guid.NewGuid().ToString("N"), Kind = CandidateApplicationKind.InitializeProfile,
-                    Context = Context(frozen.Context), FormatVersion = roster ? 3U : (uint?)null,
+                    Context = Context(frozen.Context), FormatVersion = chapter ? 5U : roster ? 3U : (uint?)null,
                     InitializeProfile = roster ? null : copy, RosterInitialize = roster ? RosterRecipe(copy) : null }, frozen, null, budget);
             });
         }
-        internal static CandidateLifecyclePrepareResult Prepare(CandidateLifecycleDraft draft, SaveCodecBudget budget, bool published = false)
+        internal static CandidateLifecyclePrepareResult Prepare(CandidateLifecycleDraft draft, SaveCodecBudget budget, bool published = false, uint? formatVersion = null)
         {
             return Run(budget, () =>
             {
@@ -45,7 +47,7 @@ namespace FightMatch.Application
                 Need(count == 1, "InvalidValue", "Payload");
                 Text(draft.PlayerId, "PlayerId", budget); Text(draft.ExpectedCommitId, "ExpectedCommitId", budget);
                 var input = new CandidateApplicationIntentInput { PlayerId = draft.PlayerId, ExpectedCommitId = draft.ExpectedCommitId,
-                    Kind = draft.Kind, Context = Context(content.Context) };
+                    Kind = draft.Kind, Context = Context(content.Context), FormatVersion = formatVersion };
                 if (draft.EnterAttempt != null)
                 {
                     Need(draft.Kind == CandidateApplicationKind.EnterAttempt, "InvalidValue", "Kind");
@@ -90,6 +92,7 @@ namespace FightMatch.Application
                 return Freeze(new CandidateApplicationIntentInput { PlayerId = snapshot.Business.PlayerId,
                     ExpectedCommitId = snapshot.Header.CommitId, Kind = CandidateApplicationKind.SettleVictory,
                     OperationId = snapshot.Continuation.ReservedOperationId, Context = Context(content.Context),
+                    FormatVersion = snapshot.Business.Format == CandidateBusinessFormat.PublishedChapterV5 ? 5U : (uint?)null,
                     SettleVictory = new CandidateApplicationVictoryInput { AttemptId = report.AttemptId, ChallengeId = report.ChallengeId,
                         EntryBaselineId = report.EntryBaselineId, FinalReportFingerprint = report.Fingerprint,
                         TerminalOperationId = snapshot.Continuation.ClosingOperationId,
@@ -112,8 +115,8 @@ namespace FightMatch.Application
                 var frozen = Content(content, budget, true);
                 var result = Freeze(new CandidateApplicationIntentInput { PlayerId = original.PlayerId, OperationId = original.OperationId,
                     Kind = CandidateApplicationKind.InitializeProfile, FormatVersion = original.FormatVersion, Context = Context(frozen.Context),
-                    InitializeProfile = original.FormatVersion == 3 ? null : recipe,
-                    RosterInitialize = original.FormatVersion == 3 ? RosterRecipe(recipe) : null }, frozen, null, budget);
+                    InitializeProfile = original.FormatVersion >= 3 ? null : recipe,
+                    RosterInitialize = original.FormatVersion >= 3 ? RosterRecipe(recipe) : null }, frozen, null, budget);
                 if (result.IsAccepted) Need(result.Request.Intent.CanonicalBytes.SequenceEqual(original.CanonicalBytes), "InconsistentCreateIntent", "CreateRecord.Intent");
                 return result;
             });
@@ -132,7 +135,7 @@ namespace FightMatch.Application
                 var frozen = Content(content, budget, true);
                 var prepared = CandidateApplicationProtocol.PrepareIntent(input, budget);
                 if (!prepared.IsAccepted) return new CandidateLifecyclePrepareResult(null, CandidateApplicationDiagnostic.From(prepared, "Prepare"));
-                Need((prepared.Value.FormatVersion == 3 || prepared.Value.FormatVersion == 4) && SameContext(prepared.Value.Context, frozen.Context, budget.Math),
+                Need((prepared.Value.FormatVersion >= 3 && prepared.Value.FormatVersion <= 5) && SameContext(prepared.Value.Context, frozen.Context, budget.Math),
                     "InconsistentBinding", "Roster.Context");
                 var copy = new CandidateApplicationIntentInput { PlayerId = input.PlayerId, OperationId = input.OperationId,
                     ExpectedCommitId = input.ExpectedCommitId, Kind = input.Kind, FormatVersion = prepared.Value.FormatVersion, Context = Context(frozen.Context) };
@@ -228,6 +231,8 @@ namespace FightMatch.Application
                     foreach (var n in new[] { growth.CritBase, growth.CritStep, growth.CritCap, growth.CritMultiplier }) Rational(n, b);
                 else Need(published && growth.ClassKind == CharacterClassKind.Mage && growth.CritBase == null &&
                     growth.CritStep == null && growth.CritCap == null && growth.CritMultiplier == null, "UnsupportedBinding", "Growth.ClassKind");
+                if (c.Chapter != null && growth.ClassKind == CharacterClassKind.Mage)
+                    foreach (var n in new[] { growth.PenetrationBase, growth.PenetrationStep, growth.PenetrationCap, growth.IgnoreFraction }) Rational(n, b);
                 Number(growth.XpBase, b); Number(growth.XpLinear, b); Number(growth.XpQuadratic, b);
             }
             foreach (var item in c.Inventory.Items) { Text(item.ItemId, "Inventory.ItemId", b); Text(item.EquipClassId, "Inventory.EquipClassId", b); }
@@ -271,8 +276,9 @@ namespace FightMatch.Application
                     row.C.Numerator.Sign > 0 && row.C.Numerator <= row.C.Denominator, "InvalidValue", "CritCoefficients");
                 Need(probabilities.Add(row.TargetProbability.Numerator + "/" + row.TargetProbability.Denominator), "InconsistentBinding", "CritCoefficients.TargetProbability");
             }
+            Need((c.Inventory.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion) == (c.Chapter != null), "UnsupportedBinding", "Content.Chapter");
             var frozen = new CandidateLifecycleContent(c);
-            if (c.GetPermanentDefinitions() != null)
+            if (c.GetPermanentDefinitions() != null || c.Chapter != null)
             {
                 var permanent = PermanentDefinitions(frozen, b);
                 if (!permanent.IsAccepted) throw new Refusal(CandidateApplicationDiagnostic.From(permanent, "Content"));

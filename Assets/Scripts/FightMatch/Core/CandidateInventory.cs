@@ -181,7 +181,7 @@ namespace FightMatch.Core
             var actors = new List<CandidateInventoryActor>(); var ids = new HashSet<string>(); var slots = new HashSet<int>();
             foreach (var participant in intent.ReadyParticipants)
             {
-                if (!c.Actor(participant, "ReadyParticipants")) return new CandidateInventoryResult(c);
+                if (!c.Actor(participant, "ReadyParticipants", state.Definition.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion)) return new CandidateInventoryResult(c);
                 var owned = state.FindLoadout(participant.CharacterId);
                 if (owned == null || !ids.Add(participant.CharacterId) || !slots.Add(participant.OriginalSlot.Value))
                     return Reject(c, InconsistentBinding, "ReadyParticipants");

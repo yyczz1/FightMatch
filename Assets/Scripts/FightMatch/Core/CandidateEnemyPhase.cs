@@ -26,15 +26,17 @@ namespace FightMatch.Core
             {
                 var enemy = enemies[index];
                 if (enemy.Hp.Numerator.IsZero) continue;
-                var targetIndex = -1;
-                for (var i = 0; i < members.Count; i++)
-                    if (members[i].Hp.Numerator.Sign > 0 &&
-                        (targetIndex < 0 || members[i].OriginalSlot < members[targetIndex].OriginalSlot)) targetIndex = i;
-                // N010: even Charge remains unprocessed after the last participant goes down.
-                if (targetIndex < 0) break;
                 var cycle = enemy.Enemy.IntentCycle;
                 // Only the bounded remainder is converted; the original cursor stays a BigInteger.
                 var intent = cycle[(int)budget.Remainder(enemy.IntentCursor, cycle.Count)];
+                var living = new List<int>();
+                for (var i = 0; i < members.Count; i++) if (members[i].Hp.Numerator.Sign > 0) living.Add(i);
+                living.Sort((a, b) => members[a].OriginalSlot.CompareTo(members[b].OriginalSlot));
+                // N010: even Charge remains unprocessed after the last participant goes down.
+                if (living.Count == 0) break;
+                var targetIndex = living[0];
+                if (CandidateChapterBattleRules.IsChapter(directAttack.BeforeSnapshot.Baseline.Entry.Context) && intent.Targeting == EnemyTargeting.LastLegalLiving)
+                    targetIndex = living[Math.Min(living.Count, enemy.Enemy.Stats.AttackRange) - 1];
                 var nextCursor = budget.Add(enemy.IntentCursor, BigInteger.One);
                 CandidateEnemyDamageFact damage = null;
                 if (intent.Kind == EnemyIntentKind.Strike)
@@ -84,7 +86,7 @@ namespace FightMatch.Core
                 if (direct.DamageFacts.Count != 1) return Fail(InconsistentBinding, "DamageFacts");
                 var hit = direct.DamageFacts[0];
                 if (hit == null) return Fail(MissingField, "DamageFacts[0]");
-                if (hit.Crit == null) return Fail(MissingField, "DamageFacts[0].Crit");
+                if (hit.Crit == null && hit.Penetration == null) return Fail(MissingField, "DamageFacts[0].Passive");
                 if (!BaselineNumbers(binding.Start.Baseline, "Binding.Start.Baseline") ||
                     !SnapshotNumbers(binding.Start.Snapshot, "Binding.Start.Snapshot")) return false;
                 if (!ReferenceEquals(before.Baseline, binding.Start.Baseline) && !BaselineNumbers(before.Baseline, "Before.Baseline")) return false;
@@ -173,6 +175,8 @@ namespace FightMatch.Core
                     if (!Equal(direct.Contributions[i].EffectiveDamageDealtHp, dealt) ||
                         !Equal(direct.Contributions[i].EffectiveDamageTakenHp, original.EffectiveDamageTakenHp)) return Fail(InconsistentBinding, "Contributions");
                 }
+                if (CandidateChapterBattleRules.IsChapter(entry.Context))
+                    return CandidateChapterBattleRules.ValidateDirectFrame(direct, math) || Fail(InconsistentBinding, "DamageFacts[0].Chapter");
                 var crit = hit.Crit;
                 if (!actor.CombatantKey.Equals(crit.Actor) || !target.CombatantKey.Equals(crit.Target) ||
                     !ReferenceEquals(crit.Parameters, actor.Member.Crit) || !SameInteger(crit.OpportunityOrdinal, before.EffectiveActionsCompleted) ||
@@ -197,7 +201,7 @@ namespace FightMatch.Core
                 for (var i = 0; i < entry.Members.Count; i++)
                 {
                     var member = entry.Members[i]; var p = "Baseline.Members[" + i + "]";
-                    if (!ReferenceEquals(member, entry.ReadyParticipants[i]) || member.ClassKind != CharacterClassKind.Warrior ||
+                    if (!ReferenceEquals(member, entry.ReadyParticipants[i]) || !CandidateChapterBattleRules.Supports(member, entry.Context) ||
                         member.LearnedSkills.Count != 0 || member.StatsOrigin != BaseStatsOrigin.ComputedBaseStats || !member.IsReady)
                         return Fail(UnsupportedBinding, p);
                     if (!ids.Add(member.CharacterId) || !classes.Add(member.ClassId) || !memberSlots.Add(member.OriginalSlot) ||
@@ -219,7 +223,8 @@ namespace FightMatch.Core
                         {
                             var intent = enemy.IntentCycle[i];
                             var kind = enemy.Behavior == EnemyBehavior.ChargeHeavy && i == 0 ? EnemyIntentKind.Charge : EnemyIntentKind.Strike;
-                            if (intent.Kind != kind || intent.Targeting != EnemyTargeting.FirstLiving) return Fail(UnsupportedBinding, path);
+                            if (intent.Kind != kind || (intent.Targeting != EnemyTargeting.FirstLiving &&
+                                !(CandidateChapterBattleRules.IsChapter(entry.Context) && intent.Targeting == EnemyTargeting.LastLegalLiving))) return Fail(UnsupportedBinding, path);
                             if (kind == EnemyIntentKind.Charge)
                             { if (intent.DamageKind != null || intent.DamageCoefficient != null) return Fail(UnsupportedBinding, path); }
                             else if (intent.DamageKind != EntryDamageKind.Physical || intent.DamageCoefficient == null || intent.DamageCoefficient.Numerator.Sign <= 0)
@@ -279,9 +284,9 @@ namespace FightMatch.Core
                 for (var i = 0; i < members.Count; i++)
                 {
                     var member = members[i]; var prd = random.PrdStates[i];
-                    if (!member.CombatantKey.Equals(prd.CombatantKey) || !ReferenceEquals(member.Member.Crit, prd.Crit))
+                    if (!member.CombatantKey.Equals(prd.CombatantKey) || !CandidateChapterBattleRules.SamePassive(prd, member.Member))
                         return Fail(InconsistentBinding, path + ".PrdStates");
-                    var c = member.Member.Crit.C;
+                    var c = CandidateChapterBattleRules.Coefficient(member.Member);
                     var limit = math.DivRem(c.Denominator, c.Numerator, out var remainder);
                     if (!remainder.IsZero) limit = math.Add(limit, BigInteger.One);
                     if (prd.FailureCount.Sign < 0 || math.Compare(prd.FailureCount, limit) >= 0)
@@ -340,7 +345,9 @@ namespace FightMatch.Core
             private bool MemberNumbers(PreparedMember member, string path)
             {
                 math.CheckInteger(member.Level); math.CheckInteger(member.OriginalSlot); RuleContextChecks.CheckBudget(member.StatsContext, math);
-                return Stats(member.Stats, path + ".Stats") && Number(member.EntryHp, path + ".EntryHp") && CritNumbers(member.Crit, path + ".Crit");
+                CandidateChapterBattleRules.CheckPassiveNumbers(member.Crit, member.Penetration, math);
+                return Stats(member.Stats, path + ".Stats") && Number(member.EntryHp, path + ".EntryHp") &&
+                    (member.Crit != null ? CritNumbers(member.Crit, path + ".Crit") : member.Penetration != null);
             }
             private bool FaceNumbers(PreparedFace face, string path)
             {
@@ -376,8 +383,10 @@ namespace FightMatch.Core
             {
                 foreach (var row in rows)
                 {
-                    if (row == null || row.Crit == null) return Fail(MissingField, path);
-                    math.CheckInteger(row.FailureCount); if (!CritNumbers(row.Crit, path + ".Crit")) return false;
+                    if (row == null || row.Crit == null && row.Penetration == null) return Fail(MissingField, path);
+                    math.CheckInteger(row.FailureCount);
+                    CandidateChapterBattleRules.CheckPassiveNumbers(row.Crit, row.Penetration, math);
+                    if (row.Crit != null && !CritNumbers(row.Crit, path + ".Crit")) return false;
                 }
                 return true;
             }
@@ -390,6 +399,8 @@ namespace FightMatch.Core
             }
             private bool HitNumbers(BattleDamageFact hit)
             {
+                if (CandidateChapterBattleRules.IsChapter(direct.BeforeSnapshot.Baseline.Entry.Context))
+                { CandidateBattleReportFingerprint.Check(hit, math); return true; }
                 math.CheckInteger(hit.SceneRevision); math.CheckInteger(hit.ActionOrdinal); math.CheckInteger(hit.EffectIndex); math.CheckInteger(hit.RoundedDamage);
                 foreach (var value in new[] { hit.Attack, hit.PhysicalDefense, hit.Multiplier, hit.RawDamage, hit.MitigatedDamage,
                     hit.BlockPrevented, hit.ShieldAbsorbed, hit.HpBefore, hit.HpAfter, hit.HpLoss, hit.Overflow })

@@ -157,6 +157,13 @@ namespace FightMatch.Core
                     Record("MaxHp", v.MaxHp, "Attack", v.Attack, "PhysicalDefense", v.PhysicalDefense,
                         "MagicDefense", v.MagicDefense, "Evasion", v.Evasion, "AttackRange", v.AttackRange); return;
                 case PreparedMember v:
+                    if (CandidateChapterBattleRules.IsChapter(v.StatsContext))
+                    {
+                        Record("CharacterId", v.CharacterId, "ClassId", v.ClassId, "ClassKind", v.ClassKind,
+                            "OriginalSlot", v.OriginalSlot, "Level", v.Level, "IsReady", v.IsReady, "StatsOrigin", v.StatsOrigin,
+                            "StatsContext", v.StatsContext, "Stats", v.Stats, "EntryHp", v.EntryHp,
+                            "LearnedSkills", v.LearnedSkills, "Crit", v.Crit, "Penetration", v.Penetration); return;
+                    }
                     Record("CharacterId", v.CharacterId, "ClassId", v.ClassId, "ClassKind", v.ClassKind,
                         "OriginalSlot", v.OriginalSlot, "Level", v.Level, "IsReady", v.IsReady, "StatsOrigin", v.StatsOrigin,
                         "StatsContext", v.StatsContext, "Stats", v.Stats, "EntryHp", v.EntryHp,
@@ -179,7 +186,10 @@ namespace FightMatch.Core
                     Record("CombatantKey", v.CombatantKey, "EffectiveDamageDealtHp", v.EffectiveDamageDealtHp,
                         "EffectiveDamageTakenHp", v.EffectiveDamageTakenHp); return;
                 case BattleRandomSnapshot v: Record("Stream", v.Stream, "PrdStates", v.PrdStates); return;
-                case BattlePrdState v: Record("CombatantKey", v.CombatantKey, "Crit", v.Crit, "FailureCount", v.FailureCount); return;
+                case BattlePrdState v:
+                    if (v.Penetration != null)
+                    { Record("CombatantKey", v.CombatantKey, "Penetration", v.Penetration, "FailureCount", v.FailureCount); return; }
+                    Record("CombatantKey", v.CombatantKey, "Crit", v.Crit, "FailureCount", v.FailureCount); return;
                 case Pcg32StreamState v:
                     Record("InitialCore", Core(v.Initial), "CurrentCore", Core(v.Current), "WordsConsumed", v.WordsConsumed); return;
                 case BattleCombatantKey v:
@@ -200,6 +210,18 @@ namespace FightMatch.Core
                 case CandidateBattleConditionValues v:
                     Record("PreferenceRevision", v.PreferenceRevision, "ItemUseEnabled", v.ItemUseEnabled); return;
                 case BattleDamageFact v:
+                    if (CandidateChapterBattleRules.IsChapter(v.Baseline.Entry.Context))
+                    {
+                        Record("Baseline", v.Baseline.Entry.EntryBaselineId, "PlayerId", v.PlayerId, "AttemptId", v.AttemptId,
+                            "FaceId", v.FaceId, "OperationId", v.OperationId, "SceneRevision", v.SceneRevision,
+                            "ActionOrdinal", v.ActionOrdinal, "Actor", v.Actor, "Target", v.Target, "Pair", v.Pair,
+                            "EffectIndex", v.EffectIndex, "DamageKind", v.DamageKind, "Attack", v.Attack,
+                            "PhysicalDefense", v.PhysicalDefense, "MagicDefense", v.MagicDefense, "EffectiveMagicDefense", v.EffectiveMagicDefense,
+                            "Multiplier", v.Multiplier, "RawDamage", v.RawDamage, "MitigatedDamage", v.MitigatedDamage, "RoundedDamage", v.RoundedDamage,
+                            "BlockPrevented", v.BlockPrevented, "ShieldAbsorbed", v.ShieldAbsorbed, "HpBefore", v.HpBefore,
+                            "HpAfter", v.HpAfter, "HpLoss", v.HpLoss, "Overflow", v.Overflow, "DefeatedTarget", v.DefeatedTarget,
+                            "Crit", v.Crit, "Penetration", v.Penetration); return;
+                    }
                     Record("Baseline", v.Baseline.Entry.EntryBaselineId, "PlayerId", v.PlayerId, "AttemptId", v.AttemptId,
                         "FaceId", v.FaceId, "OperationId", v.OperationId, "SceneRevision", v.SceneRevision,
                         "ActionOrdinal", v.ActionOrdinal, "Actor", v.Actor, "Target", v.Target, "Pair", v.Pair,
@@ -209,6 +231,14 @@ namespace FightMatch.Core
                         "BlockPrevented", v.BlockPrevented, "ShieldAbsorbed", v.ShieldAbsorbed, "HpBefore", v.HpBefore,
                         "HpAfter", v.HpAfter, "HpLoss", v.HpLoss, "Overflow", v.Overflow,
                         "DefeatedTarget", v.DefeatedTarget, "Crit", v.Crit); return;
+                case PreparedArcanePenetration v:
+                    Record("PassiveDefinitionId", v.PassiveDefinitionId, "TargetProbability", v.TargetProbability,
+                        "C", v.C, "IgnoreMagicDefenseFraction", v.IgnoreMagicDefenseFraction); return;
+                case CandidatePenetrationFact v:
+                    Record("Actor", v.Actor, "Target", v.Target, "OpportunityOrdinal", v.OpportunityOrdinal,
+                        "Parameters", v.Parameters, "Probability", v.Probability, "FailureCountBefore", v.FailureCountBefore,
+                        "FailureCountAfter", v.FailureCountAfter, "Triggered", v.Triggered, "StreamBefore", v.StreamBefore,
+                        "StreamAfter", v.StreamAfter, "Words", Words(v.Words)); return;
                 case CandidateCritFact v:
                     Record("Actor", v.Actor, "Target", v.Target, "OpportunityOrdinal", v.OpportunityOrdinal,
                         "Parameters", v.Parameters, "Probability", v.Probability, "FailureCountBefore", v.FailureCountBefore,
@@ -258,6 +288,7 @@ namespace FightMatch.Core
                 case EntryCarryMode.NonEmpty: return "NonEmpty";
                 case CharacterClassKind.Unspecified: return "Unspecified";
                 case CharacterClassKind.Warrior: return "Warrior";
+                case CharacterClassKind.Mage: return "Mage";
                 case BaseStatsOrigin.Unspecified: return "Unspecified";
                 case BaseStatsOrigin.ComputedBaseStats: return "ComputedBaseStats";
                 case EnemyBehavior.Unspecified: return "Unspecified";
@@ -268,8 +299,10 @@ namespace FightMatch.Core
                 case EnemyIntentKind.Strike: return "Strike";
                 case EnemyTargeting.Unspecified: return "Unspecified";
                 case EnemyTargeting.FirstLiving: return "FirstLiving";
+                case EnemyTargeting.LastLegalLiving: return "LastLegalLiving";
                 case EntryDamageKind.Unspecified: return "Unspecified";
                 case EntryDamageKind.Physical: return "Physical";
+                case EntryDamageKind.Magic: return "Magic";
                 case BattlePhase.AwaitAction: return "AwaitAction";
                 case BattlePhase.AwaitLinks: return "AwaitLinks";
                 case BattlePhase.AwaitRescue: return "AwaitRescue";

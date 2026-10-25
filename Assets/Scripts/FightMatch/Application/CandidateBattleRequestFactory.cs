@@ -14,7 +14,7 @@ namespace FightMatch.Application
             internal Refusal(CandidateApplicationDiagnostic diagnostic) { Diagnostic = diagnostic; }
         }
 
-        internal static CandidateBattlePrepareResult Prepare(CandidateBattleDraft draft, SaveCodecBudget budget)
+        internal static CandidateBattlePrepareResult Prepare(CandidateBattleDraft draft, SaveCodecBudget budget, uint? formatVersion = null)
         {
             if (budget == null) throw new ArgumentNullException(nameof(budget));
             try
@@ -74,7 +74,7 @@ namespace FightMatch.Application
                 var input = new CandidateApplicationIntentInput
                 {
                     PlayerId = draft.PlayerId, ExpectedCommitId = draft.ExpectedCommitId, Kind = draft.Kind,
-                    Context = RuleContextChecks.Copy(context.Value),
+                    Context = RuleContextChecks.Copy(context.Value), FormatVersion = formatVersion,
                     Attack = a == null ? null : new CandidateApplicationAttackInput
                     {
                         AttemptId = a.AttemptId, ExpectedSceneRevision = a.ExpectedSceneRevision, Actor = a.Actor,

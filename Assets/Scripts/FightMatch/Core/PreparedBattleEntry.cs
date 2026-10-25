@@ -190,6 +190,7 @@ namespace FightMatch.Core
         public ExactRational EntryHp { get; }
         public IReadOnlyList<string> LearnedSkills { get; }
         public PreparedWarriorCrit Crit { get; }
+        public PreparedArcanePenetration Penetration { get; }
 
         internal PreparedMember(MemberInput input)
         {
@@ -204,7 +205,8 @@ namespace FightMatch.Core
             Stats = new PreparedStats(input.Stats);
             EntryHp = input.EntryHp;
             LearnedSkills = new List<string>(input.LearnedSkills).AsReadOnly();
-            Crit = new PreparedWarriorCrit(input.Crit);
+            Crit = input.Crit == null ? null : new PreparedWarriorCrit(input.Crit);
+            Penetration = input.Penetration == null ? null : new PreparedArcanePenetration(input.Penetration);
         }
     }
 

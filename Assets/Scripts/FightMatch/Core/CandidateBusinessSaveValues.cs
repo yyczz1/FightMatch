@@ -161,6 +161,13 @@ namespace FightMatch.Core
                 TargetProbability = Rational(value?.TargetProbability, path + ".TargetProbability"), C = Rational(value?.C, path + ".C"),
                 Multiplier = Rational(value?.Multiplier, path + ".Multiplier") };
         }
+        internal ArcanePenetrationInput Penetration(PreparedArcanePenetration value, string path)
+        {
+            Required(value, path);
+            return new ArcanePenetrationInput { PassiveDefinitionId = Text(value?.PassiveDefinitionId, path + ".PassiveDefinitionId"),
+                TargetProbability = Rational(value?.TargetProbability, path + ".TargetProbability"), C = Rational(value?.C, path + ".C"),
+                IgnoreMagicDefenseFraction = Rational(value?.IgnoreMagicDefenseFraction, path + ".IgnoreMagicDefenseFraction") };
+        }
         internal FlowPos Position(FlowPos value, string path)
         { var x = I(value.x, path + ".x"); var y = I(value.y, path + ".y"); Need(x >= 0 && y >= 0, path); return new FlowPos(x, y); }
         internal List<FlowPos> Route(IReadOnlyList<FlowPos> value, string path) { return List(value, Position, path, 8); }
@@ -210,10 +217,12 @@ namespace FightMatch.Core
                 binding = LevelBinding(((PublishedRuleContext)input.Context).Binding, value?.Level.LevelId, value?.Level.LevelVersion, path + ".Level");
                 resolvedLevel = Resolved.FindExact(binding); Need(resolvedLevel != null, path + ".Level", "UnsupportedBinding");
                 if (!Reading) Need(CandidateBattleReportFingerprint.Equal(value.Level, resolvedLevel, Budget.Math), path + ".Level", "InconsistentBinding");
-                input.Level = new BusinessFields(Stream.Null, false, Budget).Level(resolvedLevel, path + ".Level");
+                input.Level = new BusinessFields(Stream.Null, false, Budget) { SchemaVersion = input.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion ? 5U : 0U }.Level(resolvedLevel, path + ".Level");
             }
             else input.Level = Level(value?.Level, path + ".Level");
-            var members = List(value?.Members, (x, p) => Reading ? new PreparedMember(Member(x, p)) : CheckedMember(x, p), path + ".Members");
+            var chapter = input.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion;
+            Need(!chapter || SchemaVersion == 5, path + ".Schema", "UnsupportedSchema");
+            var members = List(value?.Members, (x, p) => Reading ? new PreparedMember(Member(x, p, chapter)) : CheckedMember(x, p, chapter), path + ".Members");
             input.Members = new List<MemberInput>(); foreach (var member in members) input.Members.Add(MemberInputOf(member));
             input.CarryMode = (EntryCarryMode)Enum((int)(value?.CarryMode ?? 0), 1, 1, path + ".CarryMode");
             input.RequiredFeatures = Strings(value?.RequiredFeatures, path + ".RequiredFeatures");
@@ -223,16 +232,17 @@ namespace FightMatch.Core
             Need(prepared.IsAccepted, path + "." + prepared.FieldPath, prepared.RejectionCode?.ToString() ?? "InvalidValue");
             return Reading ? prepared.Entry : value;
         }
-        private PreparedMember CheckedMember(PreparedMember value, string path) { Member(value, path); return value; }
-        private MemberInput Member(PreparedMember value, string path)
+        private PreparedMember CheckedMember(PreparedMember value, string path, bool chapter) { Member(value, path, chapter); return value; }
+        private MemberInput Member(PreparedMember value, string path, bool chapter)
         {
             Required(value, path);
             return new MemberInput { CharacterId = Text(value?.CharacterId, path + ".CharacterId"), ClassId = Text(value?.ClassId, path + ".ClassId"),
-                ClassKind = (CharacterClassKind)Enum((int)(value?.ClassKind ?? 0), 1, 1, path + ".ClassKind"),
+                ClassKind = (CharacterClassKind)Enum((int)(value?.ClassKind ?? 0), 1, chapter ? 2 : 1, path + ".ClassKind"),
                 OriginalSlot = I(value?.OriginalSlot ?? 0, path + ".OriginalSlot"), Level = Integer(value?.Level ?? 0, path + ".Level", 1),
                 IsReady = Flag(value?.IsReady ?? false, path + ".IsReady"), StatsOrigin = (BaseStatsOrigin)Enum((int)(value?.StatsOrigin ?? 0), 1, 1, path + ".StatsOrigin"),
                 StatsContext = Context(value?.StatsContext, path + ".StatsContext"), Stats = Stats(value?.Stats, path + ".Stats"),
-                EntryHp = Rational(value?.EntryHp, path + ".EntryHp"), LearnedSkills = Strings(value?.LearnedSkills, path + ".LearnedSkills"), Crit = Crit(value?.Crit, path + ".Crit") };
+                EntryHp = Rational(value?.EntryHp, path + ".EntryHp"), LearnedSkills = Strings(value?.LearnedSkills, path + ".LearnedSkills"), Crit = chapter ? (Flag(value?.Crit != null, path + ".Crit") ? Crit(value?.Crit, path + ".Crit.Value") : null) : Crit(value?.Crit, path + ".Crit"),
+                Penetration = chapter && Flag(value?.Penetration != null, path + ".Penetration") ? Penetration(value?.Penetration, path + ".Penetration.Value") : null };
         }
         private LevelInput Level(PreparedLevel value, string path)
         {
@@ -269,7 +279,7 @@ namespace FightMatch.Core
         private EnemyIntentInput Intent(PreparedEnemyIntent value, string path)
         {
             Required(value, path); var kind = (EnemyIntentKind)Enum((int)(value?.Kind ?? 0), 1, 2, path + ".Kind");
-            var targeting = (EnemyTargeting)Enum((int)(value?.Targeting ?? 0), 1, 1, path + ".Targeting");
+            var targeting = (EnemyTargeting)Enum((int)(value?.Targeting ?? 0), 1, SchemaVersion == 5 ? 2 : 1, path + ".Targeting");
             EntryDamageKind? damage = Flag(value?.DamageKind != null, path + ".DamageKind")
                 ? (EntryDamageKind?)Enum((int)(value?.DamageKind ?? 0), 1, 1, path + ".DamageKind.Value") : null;
             return new EnemyIntentInput { Kind = kind, Targeting = targeting, DamageKind = damage,
@@ -310,7 +320,9 @@ namespace FightMatch.Core
         private static MemberInput MemberInputOf(PreparedMember x)
         { return new MemberInput { CharacterId = x.CharacterId, ClassId = x.ClassId, ClassKind = x.ClassKind, OriginalSlot = x.OriginalSlot, Level = x.Level,
             IsReady = x.IsReady, StatsOrigin = x.StatsOrigin, StatsContext = ContextInput(x.StatsContext), Stats = StatsInputOf(x.Stats),
-            EntryHp = x.EntryHp, LearnedSkills = new List<string>(x.LearnedSkills), Crit = CritInputOf(x.Crit) }; }
+            EntryHp = x.EntryHp, LearnedSkills = new List<string>(x.LearnedSkills), Crit = x.Crit == null ? null : CritInputOf(x.Crit), Penetration = x.Penetration == null ? null : new ArcanePenetrationInput {
+                PassiveDefinitionId = x.Penetration.PassiveDefinitionId, TargetProbability = x.Penetration.TargetProbability,
+                C = x.Penetration.C, IgnoreMagicDefenseFraction = x.Penetration.IgnoreMagicDefenseFraction } }; }
         private static EnemyIntentInput IntentInputOf(PreparedEnemyIntent x)
         { return new EnemyIntentInput { Kind = x.Kind, Targeting = x.Targeting, DamageKind = x.DamageKind, DamageCoefficient = x.DamageCoefficient }; }
         private static PairInput PairInputOf(PreparedPair x)

@@ -48,8 +48,10 @@ namespace FightMatch.Core
             Need(input != null, "Intent", "MissingField");
             Need(input.Kind.HasValue, "Kind", "MissingField");
             var version = input.FormatVersion ?? (input.Context is PublishedRuleContext ? 2U : 1U);
-            Need(version >= 1 && version <= 4 && (version >= 2) == (input.Context is PublishedRuleContext), "FormatVersion", "UnsupportedSchema");
-            Need(version == 4 ? input.Kind == CandidateApplicationKind.InitializeProfile || input.Kind == CandidateApplicationKind.PermanentRequest || input.Kind == CandidateApplicationKind.MigratePermanent :
+            Need(version >= 1 && version <= 5 && (version >= 2) == (input.Context is PublishedRuleContext), "FormatVersion", "UnsupportedSchema");
+            Need(version == 5 ? ((int)input.Kind.Value >= 1 && (int)input.Kind.Value <= 9 && input.Kind != CandidateApplicationKind.EnterAttempt ||
+                input.Kind == CandidateApplicationKind.SetFormation || input.Kind == CandidateApplicationKind.EnterFormation ||
+                input.Kind == CandidateApplicationKind.PermanentRequest || input.Kind == CandidateApplicationKind.MigrateChapter) : version == 4 ? input.Kind == CandidateApplicationKind.InitializeProfile || input.Kind == CandidateApplicationKind.PermanentRequest || input.Kind == CandidateApplicationKind.MigratePermanent :
                 version == 3 ? input.Kind == CandidateApplicationKind.InitializeProfile || (int)input.Kind.Value >= 10 &&
                 (int)input.Kind.Value <= 12 : (int)input.Kind.Value >= 1 && (int)input.Kind.Value <= 9, "Kind", "UnsupportedBinding");
             Need(version >= 3 ? input.InitializeProfile == null : input.RosterInitialize == null &&
@@ -60,8 +62,9 @@ namespace FightMatch.Core
                 (input.RestartAttempt == null ? 0 : 1) + (input.AdvanceRecovery == null ? 0 : 1) +
                 (input.RosterInitialize == null ? 0 : 1) + (input.MigrateRoster == null ? 0 : 1) +
                 (input.SetFormation == null ? 0 : 1) + (input.EnterFormation == null ? 0 : 1) +
-                (input.Permanent == null ? 0 : 1) + (input.PermanentMigration == null ? 0 : 1);
-            Need(version == 4 || input.Permanent == null && input.PermanentMigration == null, "Permanent.Payload", "UnsupportedSchema");
+                (input.Permanent == null ? 0 : 1) + (input.PermanentMigration == null ? 0 : 1) + (input.ChapterMigration == null ? 0 : 1);
+            Need(version >= 4 || input.Permanent == null && input.PermanentMigration == null, "Permanent.Payload", "UnsupportedSchema");
+            Need(version == 5 || input.ChapterMigration == null, "ChapterMigration", "UnsupportedSchema");
             Need(count == 1, "Payload", count == 0 ? "MissingField" : "InvalidValue");
             Need(input.Context != null, "Context", "MissingField");
             if (input.Context is CandidateContext candidate) SaveEnvelopeCodec.CheckList(candidate.SourceNotes, budget, "Context.SourceNotes");
@@ -75,7 +78,7 @@ namespace FightMatch.Core
                 Need(f.U(b, 1, "Intent.Magic") == b, "Intent.Magic", "Malformed");
             var version = input?.FormatVersion ?? (input?.Context is PublishedRuleContext ? 2U : 1U);
             var tag = f.U(48UL + version, 1, "Intent.Magic");
-            Need(tag >= 49 && tag <= 52, "Intent.Magic", "Malformed");
+            Need(tag >= 49 && tag <= 53, "Intent.Magic", "Malformed");
             var published = tag >= 50;
             f.StrictUnicode = published;
             var schema = tag - 48;
@@ -84,7 +87,7 @@ namespace FightMatch.Core
             {
                 PlayerId = f.Text(input?.PlayerId, "PlayerId"),
                 OperationId = f.Text(input?.OperationId, "OperationId"),
-                Kind = (CandidateApplicationKind)f.Enum((int)(input?.Kind ?? 0), 1, schema == 4 ? 14 : schema == 3 ? 12 : 9, "Kind"),
+                Kind = (CandidateApplicationKind)f.Enum((int)(input?.Kind ?? 0), 1, schema == 5 ? 15 : schema == 4 ? 14 : schema == 3 ? 12 : 9, "Kind"),
                 FormatVersion = (uint)schema,
                 ExpectedCommitId = f.Text(input?.ExpectedCommitId, "ExpectedCommitId", true),
                 Context = published ? f.PublishedContext(f.Reading ? null : ((PublishedRuleContext)input.Context).Binding, "Context")
@@ -117,6 +120,19 @@ namespace FightMatch.Core
                     result.Permanent = new CandidatePermanentCodec(f).Quote(input?.Permanent, "Permanent");
                     Need(result.Permanent.PlayerId == result.PlayerId &&
                         result.Permanent.Binding.Same(((PublishedRuleContext)result.Context).Binding), "Permanent.Binding", "InconsistentBinding");
+                    break;
+                case CandidateApplicationKind.MigrateChapter:
+                    var chapterSource = input?.ChapterMigration;
+                    f.Required(chapterSource, "ChapterMigration");
+                    result.ChapterMigration = new CandidateRosterMigrationInput
+                    {
+                        SourceGeneration = Integer(f, chapterSource?.SourceGeneration, "ChapterMigration.Generation"),
+                        SourceDescriptorLength = f.U(chapterSource?.SourceDescriptorLength ?? 0, 8, "ChapterMigration.Length"),
+                        SourceDescriptorSha256 = new CandidatePermanentCodec(f).Digest(chapterSource?.SourceDescriptorSha256, "ChapterMigration.Sha256")
+                    };
+                    Need(result.ExpectedCommitId != null && result.ChapterMigration.SourceDescriptorLength > 0, "ChapterMigration.Source");
+                    Need(f.U(4, 4, "ChapterMigration.From") == 4 && f.U(5, 4, "ChapterMigration.To") == 5,
+                        "ChapterMigration.Version", "UnsupportedSchema");
                     break;
                 case CandidateApplicationKind.MigratePermanent:
                     var permanentSource = input?.PermanentMigration;

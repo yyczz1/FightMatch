@@ -24,8 +24,7 @@ namespace FightMatch.Core
             var zero = ExactRational.Create(BigInteger.Zero, BigInteger.One, budget);
             var prdStates = new List<BattlePrdState>();
             foreach (var member in entry.ReadyParticipants)
-                prdStates.Add(new BattlePrdState(
-                    BattleCombatantKey.ForParticipant(entry.AttemptId, member.CharacterId), member.Crit, BigInteger.Zero));
+                prdStates.Add(CandidateChapterBattleRules.PrdState(BattleCombatantKey.ForParticipant(entry.AttemptId, member.CharacterId), member, BigInteger.Zero));
             var baseline = new BattleEntryBaseline(entry, randomInitials, prdStates);
             var snapshot = new BattleSnapshot(baseline, zero);
             return new BattleStartResult(new CandidateBattleStart(baseline, snapshot));
@@ -48,9 +47,7 @@ namespace FightMatch.Core
                 RuleContextChecks.CheckBudget(member.StatsContext, budget);
                 CheckStats(member.Stats, budget);
                 CheckNumber(member.EntryHp, budget);
-                CheckNumber(member.Crit.TargetProbability, budget);
-                CheckNumber(member.Crit.C, budget);
-                CheckNumber(member.Crit.Multiplier, budget);
+                CandidateChapterBattleRules.CheckPassiveNumbers(member.Crit, member.Penetration, budget);
             }
         }
 
@@ -103,14 +100,14 @@ namespace FightMatch.Core
                         break;
                     }
                 if (matched == null) return new BattleStartResult(InconsistentBinding, p + ".CharacterId");
-                if (!string.Equals(matched.Crit.PassiveDefinitionId, row.PassiveDefinitionId, StringComparison.Ordinal))
+                if (!string.Equals(CandidateChapterBattleRules.PassiveId(matched), row.PassiveDefinitionId, StringComparison.Ordinal))
                     return new BattleStartResult(InconsistentBinding, p + ".PassiveDefinitionId");
                 budget.CheckInteger(row.FailureCount.Value);
                 if (budget.Compare(row.FailureCount.Value, BigInteger.Zero) != 0)
                     return new BattleStartResult(InvalidValue, p + ".FailureCount");
             }
             foreach (var member in entry.ReadyParticipants)
-                if (!seen.Contains((member.CharacterId, member.Crit.PassiveDefinitionId)))
+                if (!seen.Contains((member.CharacterId, CandidateChapterBattleRules.PassiveId(member))))
                     return new BattleStartResult(MissingField, path);
             return null;
         }
