@@ -118,6 +118,39 @@ namespace FightMatch.Core
             });
         }
 
+        public static SaveCodecResult<bool> CheckBattleCapability(CandidateRosterState roster,
+            PublishedRuleDefinitions definitions, SaveCodecBudget budget)
+        {
+            if (budget == null) throw new ArgumentNullException(nameof(budget));
+            return SaveCodecResult<bool>.Run(() =>
+            {
+                if (definitions?.Chapter?.HasTauntBossState != true)
+                {
+                    EnsureBattleCapability(roster, budget);
+                    return true;
+                }
+                roster.Check(budget);
+                foreach (var id in roster.Formation)
+                {
+                    var character = id == null ? null : roster.Find(id);
+                    if (character == null || !character.IsReady) continue;
+                    Need(character.Definition.Context is PreparedPublishedRuleContext context &&
+                        context.Binding.Same(definitions.Binding) &&
+                        (character.Definition.ClassKind == CharacterClassKind.Warrior || character.Definition.ClassKind == CharacterClassKind.Mage),
+                        "Permanent.Battle.Class", "UnsupportedBattleCapability");
+                    foreach (var effect in roster.GetPermanentEffects())
+                    {
+                        if (effect.Quote.Kind != CandidatePermanentKind.LearnSkill || effect.Quote.CharacterId != id) continue;
+                        var skill = definitions.Chapter.FindSkill(effect.Quote.DefinitionId);
+                        Need(skill != null && skill.ClassId == character.ClassId && skill.RecordVersion == effect.Quote.DefinitionVersion &&
+                            skill.BattleCapabilityId == "CH1.MageTauntBoss" && skill.CooldownTurns == 2 &&
+                            definitions.Binding.Same(effect.Quote.Binding), "Permanent.Battle.Skill", "UnsupportedBattleCapability");
+                    }
+                }
+                return true;
+            });
+        }
+
         private static void EnsureBattleCapability(CandidateRosterState roster, SaveCodecBudget budget)
         {
             roster.Check(budget);

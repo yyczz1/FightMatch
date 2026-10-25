@@ -74,9 +74,13 @@ namespace FightMatch.Presentation
                 NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization,
                     NavigationBindings.CharacterKey(view.Read.Head.Business.Roster.Find(view.Context.SelectedCharacterId)))) });
             var preference = view.DetailKind == CandidatePermanentKind.SetPreference;
-            quantity.gameObject.SetActive(!preference); quantityLabel.gameObject.SetActive(!preference);
+            var cards = view.DetailKind == CandidatePermanentKind.UseExperienceCards;
+            var hasQuantity = cards || view.DetailKind == CandidatePermanentKind.Craft || view.DetailKind == CandidatePermanentKind.Equip;
+            quantity.gameObject.SetActive(hasQuantity); quantityLabel.gameObject.SetActive(hasQuantity);
             enabledToggle.gameObject.SetActive(preference); preferenceLabel.gameObject.SetActive(preference);
-            quantity.SetTextWithoutNotify(view.DetailKind == CandidatePermanentKind.Craft ? "1" : "0");
+            var learner = view.Read.Head.Business.Roster.Find(view.Context.SelectedCharacterId);
+            quantity.SetTextWithoutNotify(cards ? (learner.Level + 1).ToString(CultureInfo.InvariantCulture) :
+                view.DetailKind == CandidatePermanentKind.Craft ? "1" : "0");
             quantity.interactable = view.DetailKind != CandidatePermanentKind.Equip || view.DefinitionId != null;
             enabledToggle.SetIsOnWithoutNotify(false);
             explicitSources.SetIsOnWithoutNotify(false);
@@ -88,19 +92,22 @@ namespace FightMatch.Presentation
             inputError.gameObject.SetActive(false);
             // Non-L1 preference on/off wording is not in the accepted snapshot; keep an explicit binding diagnostic.
             if (preference) bindings.Text(preferenceLabel, localization, "");
-            else bindings.Text(quantityLabel, localization, "fm.common.field.quantity");
+            else if (hasQuantity) bindings.Text(quantityLabel, localization, cards ? "fm.growth.target_level.label" : "fm.common.field.quantity");
             var currentGeneration = generation;
             var preview = controller.PreviewHandler(() => {
                 if (controller == null || generation != currentGeneration) return null;
                 inputError.Unbind(); inputError.gameObject.SetActive(false);
                 BigInteger? amount = null;
-                if (view.DetailKind != CandidatePermanentKind.SetPreference)
+                if (hasQuantity)
                 {
                     if (!Integer(quantity.text, out var number)) return null;
                     amount = number;
                 }
                 return new PlayerNavigationDraft { Kind = PlayerNavigationDraftKind.Permanent, Permanent = new PlayerPermanentDraft {
-                    Kind = view.DetailKind, CharacterId = view.Context.SelectedCharacterId, DefinitionId = view.DefinitionId,
+                    Kind = view.DetailKind, CharacterId = view.DetailKind == CandidatePermanentKind.ConfirmTeachingExplanation ? null : view.Context.SelectedCharacterId,
+                    DefinitionId = view.DefinitionId,
+                    StepId = view.DetailKind == CandidatePermanentKind.LearnSkill ? view.Teaching?.Definition.LearningStepId :
+                        view.DetailKind == CandidatePermanentKind.ConfirmTeachingExplanation ? view.Teaching?.Definition.ExplanationStepId : null,
                     Quantity = amount, Enabled = view.DetailKind == CandidatePermanentKind.SetPreference ? (bool?)enabledToggle.isOn : null,
                     PreferenceRevision = view.DetailKind == CandidatePermanentKind.SetPreference ? view.Read.Inventory.State.PreferenceRevision : (BigInteger?)null } };
             });
@@ -118,7 +125,35 @@ namespace FightMatch.Presentation
                 bindings.DynamicRow(template, parent, FightMatchViewId.Row("quote.Summary"), localization,
                     "fm.inventory.equipment.clear_preview", () => new[] {
                         NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, BattleText.CharacterKey(quote.ClassId, roster.Find(quote.CharacterId)?.Definition.ClassKind ?? (CharacterClassKind)0))) });
-            // N-P05: Craft costs, portions and output previews are deferred, not diagnostic rows.
+            if (quote.Kind == CandidatePermanentKind.UseExperienceCards)
+            {
+                bindings.Row(template, parent, FightMatchViewId.Row("quote.Costs"), localization, "fm.growth.cards.cost_preview");
+                foreach (var cost in quote.Costs)
+                    bindings.DynamicRow(template, parent, FightMatchViewId.Row("quote.Cost." + cost.ItemId), localization,
+                        "fm.inventory.item.row", () => new[] {
+                            NavigationBindings.Arg("itemName", NavigationBindings.Resolve(localization, NavigationBindings.ItemKey(cost.ItemId))),
+                            NavigationBindings.Arg("amount", cost.Quantity) });
+                bindings.DynamicRow(template, parent, FightMatchViewId.Row("quote.Growth"), localization,
+                    "fm.growth.cards.change_preview", () => new[] {
+                        NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, NavigationBindings.CharacterKey(roster.Find(quote.CharacterId)))),
+                        NavigationBindings.Arg("targetLevel", quote.Quantity), NavigationBindings.Arg("fixedXp", quote.FixedExperience),
+                        NavigationBindings.Arg("beforeLevel", quote.BeforeLevel), NavigationBindings.Arg("beforeXp", quote.BeforeExperience),
+                        NavigationBindings.Arg("afterLevel", quote.FinalLevel), NavigationBindings.Arg("afterXp", quote.FinalExperience) });
+            }
+            if (quote.Kind == CandidatePermanentKind.LearnSkill)
+            {
+                if (quote.OriginalLearningOperation != null)
+                    bindings.DynamicRow(template, parent, FightMatchViewId.Row("quote.AlreadyLearned"), localization,
+                        "fm.teaching.taunt.learned", () => new[] {
+                            NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, NavigationBindings.CharacterKey(roster.Find(quote.CharacterId)))) });
+                else
+                    bindings.DynamicRow(template, parent, FightMatchViewId.Row("quote.Learn"), localization,
+                        "fm.teaching.taunt.learn_confirm", () => new[] {
+                            NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, NavigationBindings.CharacterKey(roster.Find(quote.CharacterId)))),
+                            NavigationBindings.Arg("itemName", NavigationBindings.Resolve(localization, NavigationBindings.ItemKey(quote.Costs.Single().ItemId))),
+                            NavigationBindings.Arg("amount", quote.Costs.Single().Quantity) });
+            }
+            // Other permanent operations retain their existing presentation scope.
         }
         public void Unbind()
         {

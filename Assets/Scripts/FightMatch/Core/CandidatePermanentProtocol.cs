@@ -9,7 +9,7 @@ namespace FightMatch.Core
     public static class CandidatePermanentProtocol
     {
         public static SaveCodecResult<CandidatePermanentQuote> Preview(CandidateApplicationSnapshot basis,
-            PublishedRuleDefinitions definitions, CandidatePermanentDraft draft, SaveCodecBudget budget)
+            PublishedRuleDefinitions definitions, CandidatePermanentDraft draft, SaveCodecBudget budget, PublishedSaveContext sources = null)
         {
             if (budget == null) throw new ArgumentNullException(nameof(budget));
             return SaveCodecResult<CandidatePermanentQuote>.Run(() =>
@@ -62,7 +62,7 @@ namespace FightMatch.Core
                         learning = prior?.OperationId;
                         if (prior == null) costs.Add(new CandidateInventoryQuantity(definition.ItemId, BigInteger.One));
                         var tutorial = CandidatePermanentProgression.TeachingForSkill(permanent, definition.Id);
-                        if (tutorial != null && CandidatePermanentProgression.Find(business.Progression, CandidatePermanentKind.BeginTeachingGift, tutorial.Id) != null)
+                        if (tutorial != null && CandidatePermanentProgression.FindTeaching(business.Progression, CandidatePermanentKind.BeginTeachingGift, tutorial, permanent, sources) != null)
                             teaching = tutorial.Level;
                         break;
                     case CandidatePermanentKind.Craft:
@@ -80,18 +80,18 @@ namespace FightMatch.Core
                     case CandidatePermanentKind.BeginTeachingGift:
                         CandidatePermanentProgression.CheckEntry(business, definition, budget);
                         teaching = definition.Level;
-                        if (CandidatePermanentProgression.Find(business.Progression, draft.Kind, definition.Id) == null)
+                        if (CandidatePermanentProgression.FindTeaching(business.Progression, draft.Kind, definition, permanent, sources) == null)
                             outputs.Add(new CandidateInventoryQuantity(definition.ItemId, BigInteger.One));
                         break;
                     case CandidatePermanentKind.ConfirmTeachingExplanation:
                         teaching = definition.Level;
-                        var learned = CandidatePermanentProgression.Find(business.Progression, CandidatePermanentKind.LearnSkill, definition.SkillId);
+                        var learned = CandidatePermanentProgression.FindTeaching(business.Progression, CandidatePermanentKind.LearnSkill, definition, permanent, sources);
                         Need(learned != null && draft.StepId == definition.ExplanationStepId, "Permanent.Teaching", "LearningUnavailable");
                         learning = learned.RelatedOperationId ?? learned.OperationId;
                         break;
                 }
                 var selected = CandidatePermanentInventory.Select(basis, costs, draft,
-                    portion => CandidatePermanentProgression.AllowsCertificate(business, permanent, draft, portion), budget);
+                    portion => CandidatePermanentProgression.AllowsCertificate(business, permanent, draft, portion, sources), budget, permanent, sources);
                 foreach (var portion in selected)
                     Need(portion.Source == null || definitions.Binding.Same(portion.Source.Grant.Binding), "Permanent.Source.Binding", "UnsupportedSourceProof");
                 var quote = new CandidatePermanentQuote(draft, business.PlayerId, character?.ClassId, definitions.Binding,
@@ -106,39 +106,41 @@ namespace FightMatch.Core
         }
 
         public static SaveCodecResult<bool> ValidatePreview(CandidateApplicationSnapshot basis,
-            PublishedRuleDefinitions definitions, CandidatePermanentQuote quote, SaveCodecBudget budget)
+            PublishedRuleDefinitions definitions, CandidatePermanentQuote quote, SaveCodecBudget budget, PublishedSaveContext sources = null)
         {
             if (budget == null) throw new ArgumentNullException(nameof(budget));
             return SaveCodecResult<bool>.Run(() =>
             {
                 Need(quote != null, "Permanent.Quote", "MissingField");
-                var current = Take(Preview(basis, definitions, quote.Draft, budget), "Permanent.Preview");
+                var current = Take(Preview(basis, definitions, quote.Draft, budget, sources), "Permanent.Preview");
                 Need(CandidatePermanentCodec.SameQuote(current, quote, budget), "Permanent.Quote", "StaleContext");
                 return true;
             });
         }
 
         public static SaveCodecResult<CandidateBusinessSnapshot> Build(CandidateApplicationSnapshot basis,
-            PublishedRuleDefinitions definitions, CandidatePermanentQuote quote, string operationId, SaveCodecBudget budget)
+            PublishedRuleDefinitions definitions, CandidatePermanentQuote quote, string operationId, SaveCodecBudget budget, PublishedSaveContext sources = null)
         {
             if (budget == null) throw new ArgumentNullException(nameof(budget));
             return SaveCodecResult<CandidateBusinessSnapshot>.Run(() =>
             {
                 CandidatePermanentDefinitions.Text(operationId, budget);
                 Need(quote != null, "Permanent.Quote", "MissingField");
-                var current = Take(Preview(basis, definitions, quote.Draft, budget), "Permanent.Preview");
+                var current = Take(Preview(basis, definitions, quote.Draft, budget, sources), "Permanent.Preview");
                 Need(CandidatePermanentCodec.SameQuote(current, quote, budget), "Permanent.Quote", "StaleContext");
                 var outcome = quote.Kind == CandidatePermanentKind.LearnSkill && quote.OriginalLearningOperation != null
                     ? "AlreadyLearned" : "Applied";
                 if (quote.Kind == CandidatePermanentKind.Equip || quote.Kind == CandidatePermanentKind.SetPreference)
                     outcome = CandidatePermanentInventory.CheckLoadout(basis.Business, quote.Draft, budget) ? "Applied" : "Unchanged";
                 if ((quote.Kind == CandidatePermanentKind.BeginTeachingGift || quote.Kind == CandidatePermanentKind.ConfirmTeachingExplanation) &&
-                    CandidatePermanentProgression.Find(basis.Business.Progression, quote.Kind, quote.DefinitionId) != null) outcome = "Unchanged";
+                    CandidatePermanentProgression.FindTeaching(basis.Business.Progression, quote.Kind,
+                        definitions.GetPermanentDefinitions().Find(CandidatePermanentDefinitionKind.Teaching, quote.DefinitionId),
+                        definitions.GetPermanentDefinitions(), sources) != null) outcome = "Unchanged";
                 var effect = new CandidatePermanentEffect(operationId, quote, outcome, quote.OriginalLearningOperation);
                 var permanent = definitions.GetPermanentDefinitions();
                 var roster = CandidatePermanentGrowth.Apply(basis.Business.Roster, effect, permanent, budget);
                 var inventory = CandidatePermanentInventory.Apply(basis, effect, budget);
-                var progression = CandidatePermanentProgression.Apply(basis.Business, effect, permanent, budget);
+                var progression = CandidatePermanentProgression.Apply(basis.Business, effect, permanent, budget, sources);
                 return Copy(basis.Business, roster, inventory, progression, basis.Business.Format, budget);
             });
         }

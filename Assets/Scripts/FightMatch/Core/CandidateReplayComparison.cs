@@ -57,6 +57,13 @@ namespace FightMatch.Core
         }
         private void R(string p, ExactRational a, ExactRational b)
         { if (!Open(p, a, b)) return; V(p + ".Numerator", a.Numerator, b.Numerator); V(p + ".Denominator", a.Denominator, b.Denominator); }
+        private void ExactValue(string path, object expected, object actual)
+        {
+            if (!Open(path, expected, actual)) return;
+            if (!CandidateBattleReportFingerprint.Equal(expected, actual, math))
+                difference = new CandidateReplayDivergence(step, operation, path, expected, actual);
+        }
+
         private void Position(string p, FlowPos a, FlowPos b)
         { V(p + ".x", a.x, b.x); V(p + ".y", a.y, b.y); }
         private void Stream(string p, Pcg32StreamState a, Pcg32StreamState b)
@@ -94,6 +101,8 @@ namespace FightMatch.Core
                 S(p + ".DirectAttack.Members", da.Members, db.Members, MemberState);
                 S(p + ".DirectAttack.Enemies", da.Enemies, db.Enemies, EnemyState);
                 S(p + ".DirectAttack.Contributions", da.Contributions, db.Contributions, Totals);
+                ExactValue(p + ".DirectAttack.ChapterState", da.ChapterState, db.ChapterState);
+                ExactValue(p + ".DirectAttack.SkillCasts", da.SkillCasts, db.SkillCasts);
             }
             var ea = a.EnemyPhase; var eb = b.EnemyPhase;
             if (Open(p + ".EnemyPhase", ea, eb))
@@ -104,6 +113,9 @@ namespace FightMatch.Core
                 Random(p + ".EnemyPhase.Random", ea.Random, eb.Random);
                 V(p + ".EnemyPhase.EnemyPhaseOrdinal", ea.EnemyPhaseOrdinal, eb.EnemyPhaseOrdinal);
                 S(p + ".EnemyPhase.OrderedIntents", ea.OrderedIntents, eb.OrderedIntents, EnemyFact);
+                ExactValue(p + ".EnemyPhase.ChapterState", ea.ChapterState, eb.ChapterState);
+                ExactValue(p + ".EnemyPhase.CooldownFacts", ea.CooldownFacts, eb.CooldownFacts);
+                ExactValue(p + ".EnemyPhase.VulnerabilityFacts", ea.VulnerabilityFacts, eb.VulnerabilityFacts);
             }
             Stage(p + ".StageDecision", a.StageDecision, b.StageDecision);
             S(p + ".OrderedFacts", a.OrderedFacts, b.OrderedFacts, Ordered);
@@ -162,6 +174,7 @@ namespace FightMatch.Core
             Stats(p + ".Stats", a.Stats, b.Stats);
             R(p + ".EntryHp", a.EntryHp, b.EntryHp);
             S(p + ".LearnedSkills", a.LearnedSkills, b.LearnedSkills, (q, x, y) => V(q, x, y));
+            ExactValue(p + ".BattleSkills", a.BattleSkills, b.BattleSkills);
             CritParameters(p + ".Crit", a.Crit, b.Crit);
             PenetrationParameters(p + ".Penetration", a.Penetration, b.Penetration);
         }
@@ -173,6 +186,10 @@ namespace FightMatch.Core
             V(p + ".Targeting", a.Targeting, b.Targeting);
             V(p + ".DamageKind", a.DamageKind, b.DamageKind);
             R(p + ".DamageCoefficient", a.DamageCoefficient, b.DamageCoefficient);
+            R(p + ".AttackOverride", a.AttackOverride, b.AttackOverride);
+            V(p + ".AttackRange", a.AttackRange, b.AttackRange);
+            V(p + ".ExhaustedFallbackIndex", a.ExhaustedFallbackIndex, b.ExhaustedFallbackIndex);
+            R(p + ".NextActionVulnerability", a.NextActionVulnerability, b.NextActionVulnerability);
         }
 
         private void Enemy(string p, PreparedEnemy a, PreparedEnemy b)
@@ -183,6 +200,10 @@ namespace FightMatch.Core
             V(p + ".OriginalSlot", a.OriginalSlot, b.OriginalSlot);
             V(p + ".StableOrder", a.StableOrder, b.StableOrder);
             V(p + ".Behavior", a.Behavior, b.Behavior);
+            V(p + ".InitialIntentCursor", a.InitialIntentCursor, b.InitialIntentCursor);
+            V(p + ".WindTargetEnemyInstanceKey", a.WindTargetEnemyInstanceKey, b.WindTargetEnemyInstanceKey);
+            V(p + ".WindUses", a.WindUses, b.WindUses);
+            R(p + ".WindFraction", a.WindFraction, b.WindFraction);
             Stats(p + ".Stats", a.Stats, b.Stats);
             S(p + ".IntentCycle", a.IntentCycle, b.IntentCycle, Intent);
         }
@@ -340,6 +361,7 @@ namespace FightMatch.Core
             V(p + ".StableOrder", a.StableOrder, b.StableOrder);
             R(p + ".Hp", a.Hp, b.Hp);
             V(p + ".IntentCursor", a.IntentCursor, b.IntentCursor);
+            V(p + ".RemainingWindUses", a.RemainingWindUses, b.RemainingWindUses);
         }
 
         private void Totals(string p, BattleContributionTotals a, BattleContributionTotals b)
@@ -357,6 +379,7 @@ namespace FightMatch.Core
             V(p + ".SceneRevision", a.SceneRevision, b.SceneRevision);
             V(p + ".EffectiveActionsCompleted", a.EffectiveActionsCompleted, b.EffectiveActionsCompleted);
             V(p + ".EnemyPhasesCompleted", a.EnemyPhasesCompleted, b.EnemyPhasesCompleted);
+            ExactValue(p + ".ChapterState", a.ChapterState, b.ChapterState);
             V(p + ".CurrentFaceIndex", a.CurrentFaceIndex, b.CurrentFaceIndex);
             V(p + ".Phase", a.Phase, b.Phase);
             V(p + ".CarryMode", a.CarryMode, b.CarryMode);
@@ -457,6 +480,7 @@ namespace FightMatch.Core
             R(p + ".Attack", a.Attack, b.Attack);
             R(p + ".PhysicalDefense", a.PhysicalDefense, b.PhysicalDefense);
             R(p + ".Multiplier", a.Multiplier, b.Multiplier);
+            ExactValue(p + ".Vulnerability", a.Vulnerability, b.Vulnerability);
             R(p + ".RawDamage", a.RawDamage, b.RawDamage);
             R(p + ".MitigatedDamage", a.MitigatedDamage, b.MitigatedDamage);
             V(p + ".RoundedDamage", a.RoundedDamage, b.RoundedDamage);
@@ -516,6 +540,9 @@ namespace FightMatch.Core
             V(p + ".CursorBefore", a.CursorBefore, b.CursorBefore);
             V(p + ".CursorAfter", a.CursorAfter, b.CursorAfter);
             EnemyDamage(p + ".Damage", a.Damage, b.Damage);
+            V(p + ".ExecutedIntentIndex", a.ExecutedIntentIndex, b.ExecutedIntentIndex);
+            Combatant(p + ".TauntCaster", a.TauntCaster, b.TauntCaster);
+            ExactValue(p + ".Wind", a.Wind, b.Wind);
         }
 
         private void Hp(string p, CandidateHpValue a, CandidateHpValue b)
@@ -584,6 +611,9 @@ namespace FightMatch.Core
             Damage(p + ".DirectAttack", a.DirectAttack, b.DirectAttack);
             EnemyFact(p + ".EnemyIntent", a.EnemyIntent, b.EnemyIntent);
             StageFact(p + ".Stage", a.Stage, b.Stage);
+            ExactValue(p + ".SkillCast", a.SkillCast, b.SkillCast);
+            ExactValue(p + ".Cooldown", a.Cooldown, b.Cooldown);
+            ExactValue(p + ".Vulnerability", a.Vulnerability, b.Vulnerability);
         }
 
         private void Report(string p, CandidateFinalAttemptReport a, CandidateFinalAttemptReport b)

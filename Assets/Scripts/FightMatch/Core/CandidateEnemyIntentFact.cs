@@ -20,9 +20,13 @@ namespace FightMatch.Core
         public BigInteger CursorBefore { get; }
         public BigInteger CursorAfter { get; }
         public CandidateEnemyDamageFact Damage { get; }
+        public int? ExecutedIntentIndex { get; }
+        public BattleCombatantKey TauntCaster { get; }
+        public ChapterWindFact Wind { get; }
 
         internal CandidateEnemyIntentFact(CandidateCombatFrame direct, BigInteger phase, int index,
-            BattleEnemyState enemy, EnemyIntentKind kind, BigInteger cursorAfter, CandidateEnemyDamageFact damage)
+            BattleEnemyState enemy, EnemyIntentKind kind, BigInteger cursorAfter, CandidateEnemyDamageFact damage,
+            int? executedIntentIndex = null, BattleCombatantKey tauntCaster = null, ChapterWindFact wind = null)
         {
             Baseline = direct.BeforeSnapshot.Baseline;
             PlayerId = direct.Action.PlayerId; AttemptId = direct.Action.AttemptId;
@@ -31,6 +35,9 @@ namespace FightMatch.Core
             EnemyPhaseOrdinal = phase; SegmentIndex = index;
             EnemyKey = enemy.CombatantKey; Pair = enemy.PairKey; StableOrder = enemy.StableOrder;
             IntentKind = kind; CursorBefore = enemy.IntentCursor; CursorAfter = cursorAfter; Damage = damage;
+            ExecutedIntentIndex = executedIntentIndex;
+            TauntCaster = tauntCaster;
+            Wind = wind;
         }
     }
 
@@ -55,10 +62,10 @@ namespace FightMatch.Core
 
         internal CandidateEnemyDamageFact(BattleEnemyState enemy, BattleMemberState target,
             ExactRational coefficient, ExactRational raw, ExactRational mitigated, BigInteger rounded,
-            ExactRational hpAfter, ExactRational loss, ExactRational overflow, ExactRational zero)
+            ExactRational hpAfter, ExactRational loss, ExactRational overflow, ExactRational zero, ExactRational attack = null)
         {
             ActorEnemy = enemy.CombatantKey; TargetMember = target.CombatantKey;
-            Attack = enemy.Enemy.Stats.Attack; DamageCoefficient = coefficient;
+            Attack = attack ?? enemy.Enemy.Stats.Attack; DamageCoefficient = coefficient;
             PhysicalDefense = target.Member.Stats.PhysicalDefense;
             RawDamage = raw; MitigatedDamage = mitigated; RoundedDamage = rounded;
             BlockPrevented = zero; ShieldAbsorbed = zero;

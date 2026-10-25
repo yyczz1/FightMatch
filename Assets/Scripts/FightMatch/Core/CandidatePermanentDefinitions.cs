@@ -20,6 +20,7 @@ namespace FightMatch.Core
         public DefinitionBinding Level { get; set; }
         public string LearningStepId { get; set; }
         public string ExplanationStepId { get; set; }
+        public string GiftOnceKey { get; set; }
         public IReadOnlyList<CandidateInventoryQuantityInput> Inputs { get; set; }
         public IReadOnlyList<CandidateInventoryQuantityInput> Outputs { get; set; }
     }
@@ -37,6 +38,7 @@ namespace FightMatch.Core
         public DefinitionBinding Level { get; }
         public string LearningStepId { get; }
         public string ExplanationStepId { get; }
+        public string GiftOnceKey { get; }
         public IReadOnlyList<CandidateInventoryQuantity> Inputs { get; }
         public IReadOnlyList<CandidateInventoryQuantity> Outputs { get; }
 
@@ -54,6 +56,7 @@ namespace FightMatch.Core
             Level = input.Level;
             LearningStepId = input.LearningStepId;
             ExplanationStepId = input.ExplanationStepId;
+            GiftOnceKey = input.GiftOnceKey;
             Inputs = costs;
             Outputs = output;
         }
@@ -88,6 +91,7 @@ namespace FightMatch.Core
                 SaveEnvelopeCodec.CheckList(inputs, budget, "Permanent.Definitions");
                 var records = new List<CandidatePermanentDefinition>();
                 var seen = new HashSet<string>(StringComparer.Ordinal);
+                var giftKeys = new HashSet<string>(StringComparer.Ordinal);
                 foreach (var input in inputs)
                 {
                     Need(input != null, "Permanent.Definition", "MissingField");
@@ -118,9 +122,15 @@ namespace FightMatch.Core
                         Text(input.ExplanationStepId, budget);
                         Need(input.LearningStepId != input.ExplanationStepId, "Permanent.TeachingSteps");
                         Need(input.Level != null && binding.Same(input.Level.Content), "Permanent.TeachingBinding", "InconsistentBinding");
+                        if (input.GiftOnceKey != null)
+                        {
+                            Need(binding.RuleVersion == ChapterRuleDefinitions.RuleVersion && input.GiftOnceKey == "Level16EntryGift",
+                                "Permanent.GiftOnceKey", "UnsupportedBinding");
+                            Need(giftKeys.Add(input.GiftOnceKey), "Permanent.GiftOnceKey", "ReceiptConflict");
+                        }
                     }
                     else Need(input.Level == null && input.SkillId == null &&
-                        input.LearningStepId == null && input.ExplanationStepId == null, "Permanent.TeachingFields");
+                        input.LearningStepId == null && input.ExplanationStepId == null && input.GiftOnceKey == null, "Permanent.TeachingFields");
                     records.Add(new CandidatePermanentDefinition(input, costs, output));
                 }
                 records.Sort((a, b) => a.Kind != b.Kind ? a.Kind.CompareTo(b.Kind) : StringComparer.Ordinal.Compare(a.Id, b.Id));
@@ -218,6 +228,16 @@ namespace FightMatch.Core
                 foreach (var row in record.Outputs)
                     Need(InventoryChecks.FindItem(definitions.Inventory, row.ItemId) != null, "Permanent.Output", "UnsupportedBinding");
                 if (record.Kind != CandidatePermanentDefinitionKind.Teaching) continue;
+                if (definitions.Chapter?.HasTauntBossState == true)
+                {
+                    var chapterTeaching = definitions.Chapter.FindTeaching(record.Id);
+                    Need(chapterTeaching != null && record.GiftOnceKey == chapterTeaching.GiftOnceKey &&
+                        record.Level.Same(chapterTeaching.Level) && record.ClassId == chapterTeaching.ClassId &&
+                        record.SkillId == chapterTeaching.SkillId && record.ItemId == chapterTeaching.GiftItemId &&
+                        record.LearningStepId == chapterTeaching.LearningStepId && record.ExplanationStepId == chapterTeaching.ExplanationStepId,
+                        "Permanent.Teaching.Chapter", "InconsistentBinding");
+                }
+                else Need(record.GiftOnceKey == null, "Permanent.GiftOnceKey", "UnsupportedBinding");
                 var level = ProgressionChecks.FindLevel(definitions.Progression.Levels, record.Level.LevelId);
                 var skill = Find(CandidatePermanentDefinitionKind.Skill, record.SkillId);
                 Need(level != null && level.LevelVersion == record.Level.CanonicalLevelVersion &&

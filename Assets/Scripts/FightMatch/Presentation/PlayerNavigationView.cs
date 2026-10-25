@@ -163,10 +163,61 @@ namespace FightMatch.Presentation
             foreach (var line in NavigationBindings.FirstClearPreview(localization, view.Read, view.Context.LevelId, view.Context.LevelVersion))
                 DynamicRow(preparationSection, line.Identity, line.Key, () => NavigationBindings.FirstClearPreview(localization,
                     view.Read, view.Context.LevelId, view.Context.LevelVersion).Single(x => x.Identity == line.Identity).Arguments);
+            Teaching(view);
             Target(entryButton, "fm.entry.enter.button", new PlayerNavigationTarget { Kind = PlayerNavigationTargetKind.BattleSelectionRequested },
-                view.Read.Head.Business.ActiveHistory == null ? null : "ActiveAttemptConflict", "fm.entry.active_battle.blocked");
+                view.Read.Head.Business.ActiveHistory == null ? view.TeachingAdmissionReason : "ActiveAttemptConflict",
+                view.Read.Head.Business.ActiveHistory != null ? "fm.entry.active_battle.blocked" :
+                view.TeachingAdmissionReason == null ? null : "fm.teaching.taunt.title");
             if (view.Read.Head.Business.ActiveHistory != null)
                 Page(resumeButton, PlayerNavigationTargetKind.ResumeBattleRequested, "fm.map.active_battle.continue_button");
+        }
+        private void Teaching(NavigationView view)
+        {
+            var progress = view.Teaching;
+            if (progress == null) return;
+            var teaching = view.Read.Chapter.FindTeaching(progress.Definition.Id);
+            var skill = view.Read.Chapter.FindSkill(teaching.SkillId);
+            var learner = view.Read.Head.Business.Roster.Characters.FirstOrDefault(x => x.ClassId == teaching.ClassId);
+            Row(preparationSection, "teaching.Title", "fm.teaching.taunt.title");
+            if (progress.Gift != null)
+                DynamicRow(preparationSection, "teaching.Gift", "fm.teaching.taunt.gift_received", () => new[] {
+                    NavigationBindings.Arg("itemName", NavigationBindings.Resolve(localization, NavigationBindings.ItemKey(progress.Gift.Quote.Outputs[0].ItemId))),
+                    NavigationBindings.Arg("amount", progress.Gift.Quote.Outputs[0].Quantity) });
+            if (learner == null)
+            {
+                Row(preparationSection, "teaching.MissingCharacter", "");
+                return;
+            }
+            Func<KeyValuePair<string, string>[]> learnerName = () => new[] {
+                NavigationBindings.Arg("characterName", NavigationBindings.Resolve(localization, NavigationBindings.CharacterKey(learner))) };
+            if (learner.Level < skill.MinimumLevel)
+                DynamicRow(preparationSection, "teaching.RequiredLevel", "fm.teaching.taunt.requires_level", () => new[] {
+                    learnerName()[0], NavigationBindings.Arg("requiredLevel", skill.MinimumLevel) });
+            if (progress.Learning != null)
+                DynamicRow(preparationSection, "teaching.Learned", "fm.teaching.taunt.learned", learnerName);
+            else
+                bindings.CloneButton(buttonTemplate, preparationSection, FightMatchViewId.Row("teaching.Learn"), localization,
+                    "fm.teaching.taunt.learn_button", controller.NavigationHandler(new PlayerNavigationTarget {
+                        Kind = PlayerNavigationTargetKind.Detail, PermanentKind = CandidatePermanentKind.LearnSkill,
+                        CharacterId = learner.CharacterId, DefinitionId = teaching.SkillId }),
+                    learner.Level < skill.MinimumLevel ? "LevelRequirement" : progress.Gift == null ? "TeachingGiftRequired" : null,
+                    learner.Level < skill.MinimumLevel ? "fm.teaching.taunt.requires_level" : "fm.teaching.taunt.title",
+                    reasonArgs: () => learner.Level < skill.MinimumLevel ? new[] {
+                        learnerName()[0], NavigationBindings.Arg("requiredLevel", skill.MinimumLevel) } : Array.Empty<KeyValuePair<string, string>>());
+            foreach (var card in view.Read.PermanentDefinitions.Records.Where(x => x.Kind == CandidatePermanentDefinitionKind.Card))
+                bindings.CloneButton(buttonTemplate, preparationSection, FightMatchViewId.Row("teaching.Card." + card.Id), localization,
+                    "fm.operation.use_experience_cards", controller.NavigationHandler(new PlayerNavigationTarget {
+                        Kind = PlayerNavigationTargetKind.Detail, PermanentKind = CandidatePermanentKind.UseExperienceCards,
+                        CharacterId = view.Context.SelectedCharacterId ?? learner.CharacterId, DefinitionId = card.Id }));
+            if (progress.Learning != null)
+            {
+                Row(preparationSection, "teaching.Explanation", teaching.ExplanationTextKey);
+                if (progress.Explanation == null)
+                    bindings.CloneButton(buttonTemplate, preparationSection, FightMatchViewId.Row("teaching.Explain"), localization,
+                        "fm.teaching.taunt.explanation_confirm", controller.NavigationHandler(new PlayerNavigationTarget {
+                            Kind = PlayerNavigationTargetKind.Detail, PermanentKind = CandidatePermanentKind.ConfirmTeachingExplanation,
+                            CharacterId = learner.CharacterId, DefinitionId = teaching.TutorialId }));
+            }
         }
         private void Characters(NavigationView view, Transform parent)
         {
@@ -371,7 +422,7 @@ namespace FightMatch.Presentation
         private static string LevelNumber(string id, string version)
         {
             if (version != "1") return null;
-            for (var i = 1; i <= 9; i++) if (id == "level:ch01-0" + i.ToString(CultureInfo.InvariantCulture)) return i.ToString(CultureInfo.InvariantCulture);
+            for (var i = 1; i <= 16; i++) if (id == "level:ch01-" + i.ToString("00", CultureInfo.InvariantCulture)) return i.ToString(CultureInfo.InvariantCulture);
             return null;
         }
         internal static KeyValuePair<string, string>[] LevelArguments(string id, string version) =>
@@ -380,7 +431,8 @@ namespace FightMatch.Presentation
             new BattleTextLine(LevelKey(id, version), LevelArguments(id, version)).Resolve(service);
         internal static string ItemKey(string id)
         { return id == "item:tin" ? "fm.name.item.tin" : id == "item:wood" ? "fm.name.item.wood" :
-            id == "item:xp-card-50" ? "fm.name.item.xp_card_50" : ""; }
+            id == "item:xp-card-50" ? "fm.name.item.xp_card_50" :
+            id == "item:profession-certificate" ? "fm.name.item.profession_certificate" : ""; }
         internal static IReadOnlyList<BattleTextLine> FirstClearPreview(LocalizationService service, PlayerNavigationReadResult read, string level, string version)
         {
             var rows = new List<BattleTextLine>();
@@ -428,11 +480,11 @@ namespace FightMatch.Presentation
                     {
                         case CandidatePermanentKind.Equip: return clearsEquipment ? "fm.operation.clear_equipment" : null;
                         case CandidatePermanentKind.SetPreference: return "fm.operation.set_item_preference";
-                        case CandidatePermanentKind.Craft:
-                        case CandidatePermanentKind.UseExperienceCards:
-                        case CandidatePermanentKind.LearnSkill:
-                        case CandidatePermanentKind.ConfirmTeachingExplanation:
-                        case CandidatePermanentKind.BeginTeachingGift: return null;
+                        case CandidatePermanentKind.Craft: return null;
+                        case CandidatePermanentKind.UseExperienceCards: return "fm.operation.use_experience_cards";
+                        case CandidatePermanentKind.LearnSkill: return "fm.teaching.taunt.learn_button";
+                        case CandidatePermanentKind.ConfirmTeachingExplanation: return "fm.teaching.taunt.explanation_confirm";
+                        case CandidatePermanentKind.BeginTeachingGift: return "fm.operation.begin_teaching_gift";
                         default: return "";
                     }
                 default: return "";
@@ -471,6 +523,9 @@ namespace FightMatch.Presentation
             switch (code)
             {
                 case "ActorSelectionRequired": return "fm.inventory.character_required";
+                case "TeachingGiftRequired":
+                case "TeachingLearningRequired": return "fm.teaching.taunt.title";
+                case "TeachingExplanationRequired": return "fm.ch1.tutorial.taunt.explanation";
                 case "NoReadyMember": return domain == NavigationReasonDomain.Entry || domain == NavigationReasonDomain.Party ? "fm.party.no_deployable" : "";
                 case "SaveFailed": return phase == CandidateApplicationPhase.CommitUnknown ? "fm.save_recovery.unknown" :
                     phase == CandidateApplicationPhase.PendingPreparation ? "fm.save_recovery.blocking_notice" : "fm.save_recovery.failed";
@@ -531,6 +586,11 @@ namespace FightMatch.Presentation
                 case "NoActiveBattle": return "NO_ACTIVE_BATTLE";
                 case "ConfirmationConsumed": return "REVIEW_REQUIRED";
                 case "CostSelectionRequired": return "COST_SELECTION_REQUIRED";
+                case "InsufficientResources": return "INSUFFICIENT_RESOURCES";
+                case "FirstCertificateReserved": return "TEACHING_CERTIFICATE_RESERVED";
+                case "UnsupportedSourceProof": return "SOURCE_UNAVAILABLE";
+                case "LevelRequirement": return "LEVEL_REQUIREMENT";
+                case "LearningUnavailable": return "LEARNING_UNAVAILABLE";
                 case "StorageFailure": return "STORAGE_UNAVAILABLE";
                 case "NoSave": return "SAVE_NOT_FOUND";
                 case "IncompleteOperationHistory": return "SAVE_HISTORY_INCOMPLETE";
@@ -634,8 +694,8 @@ namespace FightMatch.Presentation
         }
         internal void CloneButton(UnityEngine.UI.Button template, Transform parent, string id, LocalizationService localization,
             string key, Action action, string reason = null, string reasonKey = null,
-            Func<KeyValuePair<string, string>[]> captionArgs = null)
-        { Button(Clone(template.gameObject, parent, id).GetComponent<UnityEngine.UI.Button>(), localization, key, action, reason, reasonKey, captionArgs); }
+            Func<KeyValuePair<string, string>[]> captionArgs = null, Func<KeyValuePair<string, string>[]> reasonArgs = null)
+        { Button(Clone(template.gameObject, parent, id).GetComponent<UnityEngine.UI.Button>(), localization, key, action, reason, reasonKey, captionArgs, reasonArgs); }
         internal void Row(LocalizedTmpText template, Transform parent, string id, LocalizationService localization, string key,
             params KeyValuePair<string, string>[] args)
         {

@@ -221,7 +221,7 @@ namespace FightMatch.Core
         }
     }
 
-    // Inspect retained coverage and arithmetic. No battle stage is evaluated and no random word is drawn here.
+    // Inspect retained coverage and arithmetic. The new state contract reuses deterministic stage checks; no random word is drawn.
     internal sealed class RewardReportChecks
     {
         private readonly RewardChecks c;
@@ -240,7 +240,7 @@ namespace FightMatch.Core
             if (!c.Need(ReferenceEquals(baseline, binding.Start.Baseline) && ReferenceEquals(report.InitialSnapshot, binding.Start.Snapshot),
                 InconsistentBinding, "Report.InitialSnapshot")) return false;
             if (!c.Need(report.Outcome == CandidateBattleOutcome.NormalVictory && entry.CarryMode == EntryCarryMode.Empty &&
-                entry.RequiredFeatures.Count == 0 && entry.Members.Count >= 1 &&
+                CandidateChapterBattleRules.ValidFeatures(entry) && entry.Members.Count >= 1 &&
                 entry.Members.Count <= (entry.Context is PreparedPublishedRuleContext ? 3 : 1) &&
                 entry.ReadyParticipants.Count == entry.Members.Count &&
                 report.ConsumptionCoverage == CandidateConsumptionCoverage.EmptyCarryNoUse, UnsupportedBinding, "Report.Coverage")) return false;
@@ -253,7 +253,7 @@ namespace FightMatch.Core
                 if (!Need(member != null && ReferenceEquals(entry.Members[i], member) && member.Level.Sign > 0 &&
                     characters.Add(member.CharacterId) && classes.Add(member.ClassId) && member.OriginalSlot > lastSlot &&
                     member.OriginalSlot <= 2, "Report.Baseline.Entry")) return false;
-                if (!c.Need(CandidateChapterBattleRules.Supports(member, entry.Context) && member.LearnedSkills.Count == 0 && member.IsReady &&
+                if (!c.Need(CandidateChapterBattleRules.Supports(member, entry.Context) && CandidateChapterBattleRules.SkillsSupported(member, entry) && member.IsReady &&
                     member.StatsOrigin == BaseStatsOrigin.ComputedBaseStats && member.Stats.Evasion.Numerator.IsZero,
                     UnsupportedBinding, "Report.Baseline.Participant") ||
                     !Eq(member.StatsContext, entry.Context, "Report.Baseline.Participant.Context")) return false;
@@ -274,10 +274,12 @@ namespace FightMatch.Core
                 foreach (var pair in face.Pairs)
                 {
                     var enemy = pair.Enemy;
-                    if (!c.Need(enemy.Behavior == EnemyBehavior.NormalStrike || enemy.Behavior == EnemyBehavior.ChargeHeavy,
+                    if (!c.Need(CandidateChapterBattleRules.HasStateContract(entry) ? enemy.Behavior == EnemyBehavior.ChapterCycle :
+                        enemy.Behavior == EnemyBehavior.NormalStrike || enemy.Behavior == EnemyBehavior.ChargeHeavy,
                         UnsupportedBinding, "Report.Level.Enemy.Behavior")) return false;
                     if (!c.Need(enemy.Stats.Evasion.Numerator.IsZero, UnsupportedBinding, "Report.Level.Enemy.Evasion")) return false;
                     if (!c.Rational(enemy.Stats.MaxHp, "Report.Level.Enemy.MaxHp", true) || !Need(enemy.IntentCycle.Count > 0, "Report.Level.Enemy.IntentCycle")) return false;
+                    if (!CandidateChapterBattleRules.HasStateContract(entry))
                     foreach (var intent in enemy.IntentCycle)
                         if (!c.Need((intent.Targeting == EnemyTargeting.FirstLiving || CandidateChapterBattleRules.IsChapter(entry.Context) && intent.Targeting == EnemyTargeting.LastLegalLiving) &&
                             (intent.Kind == EnemyIntentKind.Charge ? intent.DamageKind == null && intent.DamageCoefficient == null :
@@ -286,6 +288,8 @@ namespace FightMatch.Core
                     wholeHp = wholeHp.Add(enemy.Stats.MaxHp, math);
                 }
             }
+            if (CandidateChapterBattleRules.HasStateContract(entry) &&
+                !Need(CandidateBattleOperations.CheckBinding(binding, math) == null, "Report.Binding.Chapter")) return false;
             if (!Known(baseline, "Report.Baseline") || !Snapshot(report.InitialSnapshot, baseline, "Report.InitialSnapshot") ||
                 !Eq(report.InitialSnapshot, new BattleSnapshot(baseline, ExactRational.Create(0, 1, math)), "Report.InitialSnapshot") ||
                 !Need(report.Operations.Count > 0, "Report.Operations") || !Eq(wholeHp, report.WholeLevelInitialEnemyHp, "Report.WholeLevelInitialEnemyHp")) return false;
@@ -315,6 +319,8 @@ namespace FightMatch.Core
         {
             var before = r.BeforeSnapshot; var after = r.AfterSnapshot; var stage = r.StageDecision; var source = r.Request;
             var entry = before.Baseline.Entry;
+            if (CandidateChapterBattleRules.HasStateContract(entry))
+                return Need(CandidateBattleOperations.CheckRecord(binding, r, path, math) == null, path + ".Chapter");
             if (!Need(ReferenceEquals(stage.BeforeSnapshot, before) && r.OccurredAtUnixMilliseconds.Sign >= 0 &&
                 Same(source.PlayerId, entry.PlayerId) && Same(source.AttemptId, entry.AttemptId) &&
                 source.ExpectedSceneRevision == before.SceneRevision && source.Pair != null &&
@@ -560,6 +566,7 @@ namespace FightMatch.Core
         {
             if (!Need(s?.Board?.Face != null && s.Random?.Stream != null && ReferenceEquals(s.Baseline, baseline), path)) return false;
             var entry = baseline.Entry;
+            if (!Need(CandidateChapterBattleRules.ValidState(s, math), path + ".ChapterState")) return false;
             if (!Need(s.CurrentFaceIndex >= 0 && s.CurrentFaceIndex < entry.Level.Faces.Count &&
                 ReferenceEquals(s.Board.Face, entry.Level.Faces[s.CurrentFaceIndex]), path + ".Face")) return false;
             if (!Need(s.SceneRevision.Sign > 0 && s.EffectiveActionsCompleted.Sign >= 0 && s.EnemyPhasesCompleted.Sign >= 0 &&

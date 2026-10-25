@@ -15,7 +15,7 @@ namespace FightMatch.Core.Tests
         {
             var source = PublishedContentTestData.Fixture(); var warrior = source.Growth;
             source.SchemaVersion = 2; source.PackageId = "fixture:chapter"; source.RuleVersion = ChapterRuleDefinitions.RuleVersion;
-            source.RequiredCapabilities = ContentConsumerCapabilities.Current.Capabilities.ToList();
+            source.RequiredCapabilities = ChapterRuleDefinitions.LegacyCapabilities.ToList();
             source.Growths = new List<GrowthDefinitionInput> { warrior, new GrowthDefinitionInput { ClassId = "class:mage", ClassKind = CharacterClassKind.Mage,
                 PassiveDefinitionId = "passive:arcane-penetration", BaseStats = new StatsInput { MaxHp = Q(72), Attack = Q(22), PhysicalDefense = Q(4),
                     MagicDefense = Q(12), Evasion = Q(0), AttackRange = 2 }, GrowthHp = warrior.GrowthHp, GrowthAttack = warrior.GrowthAttack,

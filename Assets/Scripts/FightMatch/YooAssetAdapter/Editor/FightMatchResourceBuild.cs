@@ -20,6 +20,9 @@ namespace FightMatch.YooAssetAdapter.Editor
     {
         internal const string PlanPath = "Assets/FightMatch/ResourceBuild/FightMatchResourcePlan.json";
         internal const string ChapterPlanPath = "Assets/FightMatch/ResourceBuild/FightMatchChapterOneResourcePlan.json";
+        internal const string ChapterR3PlanPath = "Assets/FightMatch/ResourceBuild/FightMatchChapterOneR3ResourcePlan.json";
+        private const string ChapterR3OutputRoot = "TestArtifacts/FightMatch/CH1-IMPL-001/host-resources/r3";
+        private const string ChapterR3Package = "FightMatchChapterOneR3";
         private const string OutputRoot = "TestArtifacts/FightMatch/RUNTIME-INTEGRATION-001/build";
         private const string ChapterOutputRoot = "TestArtifacts/FightMatch/CH1-IMPL-001/host-resources/r2";
         private const string Package = "FightMatchMain";
@@ -56,13 +59,20 @@ namespace FightMatch.YooAssetAdapter.Editor
         [MenuItem("FightMatch/Resources/Build ChapterOne Android")]
         public static void BuildChapterAndroid() => Build(BuildTarget.Android, true);
 
+        [MenuItem("FightMatch/Resources/Build ChapterOne R3 Mac")]
+        public static void BuildChapterR3Mac() => Build(BuildTarget.StandaloneOSX, true, true);
+        [MenuItem("FightMatch/Resources/Build ChapterOne R3 Windows")]
+        public static void BuildChapterR3Windows() => Build(BuildTarget.StandaloneWindows64, true, true);
+        [MenuItem("FightMatch/Resources/Build ChapterOne R3 Android")]
+        public static void BuildChapterR3Android() => Build(BuildTarget.Android, true, true);
+
         // This is a normal Editor build: it never changes a scene, Player setting, collector setting or Player staging.
         public static void Build(BuildTarget target) => Build(target, false);
-        private static void Build(BuildTarget target, bool chapter)
+        private static void Build(BuildTarget target, bool chapter, bool revisionThree = false)
         {
             var platform = Platform(target);
-            var planBytes = ReadBounded(chapter ? ChapterPlanPath : PlanPath, 32768);
-            var plan = ReadPlan(planBytes, chapter);
+            var planBytes = ReadBounded(revisionThree ? ChapterR3PlanPath : chapter ? ChapterPlanPath : PlanPath, 32768);
+            var plan = ReadPlan(planBytes, chapter, revisionThree);
             var input = plan.entries.Select(e => ReadBounded(e.source, 16777216)).ToArray();
             if (input.Sum(x => (long)x.Length) > 33554432 || Hash(input[6]) != plan.textArtifactSha256 ||
                 Hash(input[7]) != plan.textManifestSha256) throw new InvalidDataException("Formal input identity differs.");
@@ -72,7 +82,7 @@ namespace FightMatch.YooAssetAdapter.Editor
                 File.WriteAllBytes(plan.entries[i].importPath, input[i]);
                 AssetDatabase.ImportAsset(plan.entries[i].importPath, ImportAssetOptions.ForceSynchronousImport);
             }
-            var output = Path.GetFullPath((chapter ? ChapterOutputRoot : OutputRoot) + "/" + platform);
+            var output = Path.GetFullPath((revisionThree ? ChapterR3OutputRoot : chapter ? ChapterOutputRoot : OutputRoot) + "/" + platform);
             var map = new FixedRawMap(plan.entries, plan.packageName);
             var parameters = new RawFileBuildParameters
             {
@@ -108,7 +118,7 @@ namespace FightMatch.YooAssetAdapter.Editor
             var builtin = output + "/builtin/" + plan.packageName;
             File.WriteAllBytes(builtin + "/fm-text-source.receipt.json", input[7]);
             var inventory = Directory.GetFiles(builtin, "*", SearchOption.AllDirectories).OrderBy(x => x, StringComparer.Ordinal)
-                .Select(path => Obj("source", path, "playerPath", PlayerRoot(target, chapter) + "/" +
+                .Select(path => Obj("source", path, "playerPath", (revisionThree ? PlayerRootR3(target) : PlayerRoot(target, chapter)) + "/" +
                     path.Substring(builtin.Length + 1).Replace('\\', '/'), "length", new FileInfo(path).Length,
                     "sha256", Hash(ReadBounded(path, 268435456)))).ToArray();
             File.WriteAllBytes(output + "/inventory.json", Encode(Obj("schemaVersion", 1, "platform", platform,
@@ -119,26 +129,29 @@ namespace FightMatch.YooAssetAdapter.Editor
             Debug.Log("FightMatch BuiltIn output: " + output + "; independent boot pin candidate=" + Hash(boot));
         }
 
-        internal static Plan ReadPlan(byte[] bytes, bool chapter = false)
+        internal static Plan ReadPlan(byte[] bytes, bool chapter = false) => ReadPlan(bytes, chapter, false);
+        internal static Plan ReadChapterR3Plan(byte[] bytes) => ReadPlan(bytes, true, true);
+        private static Plan ReadPlan(byte[] bytes, bool chapter, bool revisionThree)
         {
             var plan = JsonUtility.FromJson<Plan>(new UTF8Encoding(false, true).GetString(bytes));
-            if (plan == null || plan.schemaVersion != 1 || plan.packageName != (chapter ? ChapterPackage : Package) || plan.appProtocol != 1 ||
+            if (plan == null || plan.schemaVersion != 1 || plan.packageName != (revisionThree ? ChapterR3Package : chapter ? ChapterPackage : Package) || plan.appProtocol != 1 ||
                 plan.entries == null || plan.entries.Length != 8 || plan.requiredCapabilities == null ||
                 !plan.requiredCapabilities.SequenceEqual(new[] { "resource-schema-v1" }) ||
-                plan.textArtifactSha256 != (chapter ? "038a9fed918495f04bb259ab48bf157d55df0e1a81a37e649dd7469c1953177c" :
+                plan.textArtifactSha256 != (revisionThree ? "84ba6486967374b3ae81cbc98d236b18ca415e9730142299fa156d4b1c3bbcdc" : chapter ? "038a9fed918495f04bb259ab48bf157d55df0e1a81a37e649dd7469c1953177c" :
                     "f48264f9ce94cd3bb2ef8d1b6a0be7b241916144b6d5764d11633bb6d6e456bc") ||
-                plan.textManifestSha256 != (chapter ? "4072b5f149e609b8fdb810ebc9c1fb46d5bda6374bf77a12d872188ce091a8b5" :
+                plan.textManifestSha256 != (revisionThree ? "3eca44d82c5f6e23492a5125578ad94f19c5bc5fadf61dc527944d260bd8cad2" : chapter ? "4072b5f149e609b8fdb810ebc9c1fb46d5bda6374bf77a12d872188ce091a8b5" :
                     "18437127bc2e2d7371f97da0990de933f0193fe202539593ef19338d47123667"))
                 throw new InvalidDataException("Unsupported resource build plan.");
-            if (chapter && (plan.packageVersion != "chapter-one-trial-r2" || plan.resourceSetPrefix != "fm.ch1.trial.r2" ||
-                plan.appBuildIdentity != "fightmatch-ch1-trial-r2" || plan.authorizationEvidenceId != "CH1-IMPL-001" ||
-                plan.operationId != "build:fightmatch:chapter-one-trial-r2"))
+            var revision = revisionThree ? "r3" : "r2";
+            if (chapter && (plan.packageVersion != "chapter-one-trial-" + revision || plan.resourceSetPrefix != "fm.ch1.trial." + revision ||
+                plan.appBuildIdentity != "fightmatch-ch1-trial-" + revision || plan.authorizationEvidenceId != "CH1-IMPL-001" ||
+                plan.operationId != "build:fightmatch:chapter-one-trial-" + revision))
                 throw new InvalidDataException("Unexpected chapter build identity.");
             for (var i = 0; i < 8; i++)
             {
-                var expected = i < 6 ? (chapter ? "Assets/StreamingAssets/FightMatchChapterOne/" : "Assets/StreamingAssets/FightMatch/") :
-                    (chapter ? "Generated/FightMatch/Localization/ChapterOneTrial-r2/" : "Generated/FightMatch/Localization/");
-                var imported = i < 6 ? expected : (chapter ? "Assets/FightMatch/ResourceBuild/Inputs/ChapterOneTrial-r2/" : "Assets/FightMatch/ResourceBuild/Inputs/");
+                var expected = i < 6 ? (revisionThree ? "Assets/StreamingAssets/FightMatchChapterOne-r3/" : chapter ? "Assets/StreamingAssets/FightMatchChapterOne/" : "Assets/StreamingAssets/FightMatch/") :
+                    (chapter ? "Generated/FightMatch/Localization/ChapterOneTrial-" + revision + "/" : "Generated/FightMatch/Localization/");
+                var imported = i < 6 ? expected : (chapter ? "Assets/FightMatch/ResourceBuild/Inputs/ChapterOneTrial-" + revision + "/" : "Assets/FightMatch/ResourceBuild/Inputs/");
                 var entry = plan.entries[i];
                 if (entry == null || entry.assetId != Ids[i] || entry.source != expected + Names[i] || entry.importPath != imported + Names[i])
                     throw new InvalidDataException("Unexpected raw input mapping.");
@@ -153,6 +166,8 @@ namespace FightMatch.YooAssetAdapter.Editor
             throw new ArgumentException("Unsupported BuiltIn platform.", nameof(target));
         internal static string PlayerRoot(BuildTarget target, bool chapter = false) =>
             "Assets/StreamingAssets/FightMatchResources/" + Platform(target) + "/" + (chapter ? ChapterPackage : Package);
+        internal static string PlayerRootR3(BuildTarget target) =>
+            "Assets/StreamingAssets/FightMatchResources/" + Platform(target) + "/" + ChapterR3Package;
         private static string SetId(Plan plan, string platform) => plan.resourceSetPrefix + "." + platform.ToLowerInvariant();
 
         private sealed class FixedRawMap : IBuildTask, IAssetIgnoreRule
@@ -213,7 +228,7 @@ namespace FightMatch.YooAssetAdapter.Editor
                 "sourcePlanSha256", Hash(planBytes), "textSourceReceiptSha256", Hash(input[7]));
             var binding = JsonUtility.FromJson<Receipt>(Encoding.UTF8.GetString(input[4])).Binding;
             var businessSet = JsonUtility.FromJson<Release>(Encoding.UTF8.GetString(input[5])).ReleaseSetId;
-            var chapter = plan.packageName == ChapterPackage;
+            var chapter = plan.packageName == ChapterPackage || plan.packageName == ChapterR3Package;
             if (plan.packageName != Package && !chapter || businessSet != (chapter ? "release-set:chapter-one-trial" : "release-set:fightmatch-demo-r1"))
                 throw new InvalidDataException("Unexpected business release.");
             if (chapter && (binding == null || binding.PackageId != "fightmatch:chapter-one-trial" || binding.RuleVersion != "ch1-slice-r1" ||

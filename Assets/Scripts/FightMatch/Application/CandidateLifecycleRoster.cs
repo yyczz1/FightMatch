@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography;
 using FightMatch.Core;
 
@@ -71,9 +72,13 @@ namespace FightMatch.Application
                     return Reject("StaleContext", "EnterFormation.CharacterRevision");
             var entry = business.Roster.PrepareEntry(input.TimeSample, codec);
             if (!entry.IsAccepted) return Reject(entry);
+            PublishedRuleDefinitions definitions = null;
             if ((int)business.Format >= 4)
             {
-                var supported = CandidatePermanentGrowth.CheckBattleCapability(entry.Value.Roster, codec);
+                var resolved = CandidateLifecyclePreparation.PermanentDefinitions(request.Content, codec);
+                if (!resolved.IsAccepted) return Reject(resolved);
+                definitions = resolved.Value;
+                var supported = CandidatePermanentGrowth.CheckBattleCapability(entry.Value.Roster, definitions, codec);
                 if (!supported.IsAccepted) return Reject(supported);
             }
             var context = CandidateLifecyclePreparation.Context(request.Intent.Context);
@@ -84,6 +89,17 @@ namespace FightMatch.Application
             if (!checkedEntry.IsAccepted) return Reject(checkedEntry.RejectionCode.ToString(), checkedEntry.FieldPath);
             var level = request.Content.Levels.FirstOrDefault(x => x.LevelId == input.LevelId && x.LevelVersion == input.LevelVersion);
             if (level == null) return Reject("UnsupportedBinding", "Level");
+            if (request.Content.Chapter?.HasTauntBossState == true)
+            {
+                if (business.Format != CandidateBusinessFormat.PublishedChapterV5 || definitions == null)
+                    return Reject("UnsupportedBinding", "EnterFormation.ChapterState");
+                var levelBinding = DefinitionBinding.Prepare(definitions.Binding, level.LevelId,
+                    BigInteger.Parse(level.LevelVersion, System.Globalization.CultureInfo.InvariantCulture), codec);
+                if (!levelBinding.IsAccepted) return Reject(levelBinding);
+                var admission = CandidatePermanentProgression.CheckTeachingAdmission(business, levelBinding.Value,
+                    definitions, codec, request.Content.SourceDefinitions);
+                if (!admission.IsAccepted) return Reject(admission);
+            }
             var actors = new List<CandidateInventoryActorInput>(); var members = new List<MemberInput>();
             foreach (var participant in entry.Value.Participants)
             {
@@ -107,6 +123,9 @@ namespace FightMatch.Application
                     OriginalSlot = participant.OriginalSlot, Level = stats.Level, IsReady = stats.IsReady, StatsOrigin = stats.StatsOrigin,
                     StatsContext = CandidateLifecyclePreparation.Context(stats.Context), Stats = CopyStats(stats.Stats),
                     EntryHp = stats.EntryHp, LearnedSkills = learned,
+                    BattleSkills = learned.Select(id => request.Content.Chapter.FindSkill(id)).Select(skill =>
+                        new ChapterBattleSkillInput { SkillId = skill.SkillId, RecordVersion = skill.RecordVersion,
+                            BattleCapabilityId = skill.BattleCapabilityId, CooldownTurns = skill.CooldownTurns }).ToList(),
                     Crit = mage ? null : new WarriorCritInput { PassiveDefinitionId = stats.PassiveDefinitionId,
                         TargetProbability = probability, C = coefficient.C, Multiplier = stats.CritMultiplier },
                     Penetration = !mage ? null : new ArcanePenetrationInput { PassiveDefinitionId = stats.PassiveDefinitionId,
@@ -117,7 +136,9 @@ namespace FightMatch.Application
             // This value is a disposable capability preview; no battle identity or entropy has been allocated.
             var battleInput = new BattleEntryInput { PlayerId = business.PlayerId, ChallengeId = request.OperationId,
                 AttemptId = request.OperationId, EntryBaselineId = request.OperationId, Context = context,
-                Level = CopyLevel(level), CarryMode = EntryCarryMode.Empty, RequiredFeatures = new List<string>(), Members = members };
+                Level = CopyLevel(level), CarryMode = EntryCarryMode.Empty,
+                RequiredFeatures = request.Content.Chapter?.HasTauntBossState == true
+                    ? new List<string> { ChapterRuleDefinitions.StateFeatureId } : new List<string>(), Members = members };
             var preview = PrepareEntry(battleInput, level, codec);
             if (!preview.IsAccepted) return Reject(preview.RejectionCode.ToString(), preview.FieldPath);
             var inventoryPreview = CandidateInventory.Freeze(business.Inventory, new CandidateInventoryFreezeIntent {

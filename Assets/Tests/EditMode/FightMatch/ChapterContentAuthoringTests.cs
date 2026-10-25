@@ -66,6 +66,55 @@ namespace FightMatch.Core.Tests
         }
 
         [Test]
+        public void ActualR3PreparationHasItsOwnJobEvidenceAndUnreviewedPublicationGate()
+        {
+            var result = ChapterContentAuthoring.PrepareR3();
+            Assert.IsTrue(result.IsAccepted, result.RejectionCode + " " + result.FieldPath);
+            var r3 = result.Prepared;
+            Assert.AreEqual("3", r3.Revision.ToString());
+            Assert.AreEqual(r3.Revision, r3.Job.Revision);
+            Assert.IsTrue(r3.Job.IsCurrent);
+            Assert.AreEqual(16, r3.DefinitionBindings.Count);
+            Assert.AreEqual(8, r3.Definitions.Chapter.RequiredCapabilities.Count);
+            Assert.IsTrue(r3.Definitions.Chapter.HasTauntBossState);
+            Assert.AreEqual(ChapterParameterStatus.Trial, r3.ParameterStatus);
+            Assert.AreEqual("fightmatch:chapter-one-trial", r3.Binding.PackageId);
+            Assert.AreEqual("release-set:chapter-one-trial", r3.ReleaseSetId);
+            var output = ChapterContentAuthoring.PreparationFilesR3(r3);
+            CollectionAssert.AreEquivalent(files.Keys, output.Keys);
+            CollectionAssert.AreEqual(r3.PayloadBytes, output["prepared.fmpackage.bytes"]);
+            var validation = PublishedContentCodec.Decode<ValidationRecord>(output["prepared.fmvalidation.bytes"], 65536,
+                ContentConsumerCapabilities.Current, ChapterContentTestData.Math());
+            Assert.AreEqual(validation.EvidenceSha256, PublishedContentCodec.Sha256(output["chapter-evidence.json"]));
+            var summary = Encoding.UTF8.GetString(output["result.json"]);
+            StringAssert.Contains("\"GeometryValidatedLevels\":16", summary);
+            StringAssert.Contains("\"ExactParameterRows\":31", summary);
+            StringAssert.Contains("\"BattleReplayPerformed\":false", summary);
+            StringAssert.Contains("c7c034446902183a407d3a7c0a763d671d1af84476e9c63890ad8e6644201bb4", summary);
+            var review = PublishedContentTestData.Take(PublishedContentCodec.DecodeReview(output["review-template.json"], PublishedContentTestData.StoreBudget()));
+            Assert.AreEqual("UNREVIEWED", review.Verdict);
+            var store = new PublishedContentTestData.MemoryStorage();
+            var refused = new PublishedContentCatalog(store, ContentConsumerCapabilities.Current).Publish(r3, r3.Validation,
+                review, r3.Job, "fixture:refused-r3-publish", PublishedContentTestData.StoreBudget());
+            Assert.IsFalse(refused.IsAccepted); Assert.AreEqual("ReviewRequired", refused.RejectionCode);
+            Assert.AreEqual(0, store.Writes); Assert.IsEmpty(store.Blobs);
+            Assert.Throws<ContentFailure>(() => ChapterContentAuthoring.PreparationFiles(r3));
+            Assert.AreEqual("3127954bccf58fee33f983c6a5c37a307f282da5d6d66ab48fc687596cf25544", prepared.PayloadSha256);
+            Assert.AreNotEqual(ChapterContentAuthoring.PrepareRoot, ChapterContentAuthoring.R3PrepareRoot);
+            Assert.AreNotEqual(ChapterContentAuthoring.ReleaseRoot, ChapterContentAuthoring.R3ReleaseRoot);
+        }
+
+        [Test]
+        public void R3FixedEntryRejectsSourceAndProfileOverridesBeforeReadingInputs()
+        {
+            Assert.Throws<ContentFailure>(() => ChapterContentAuthoring.RunR3Arguments(new[] {
+                "-fmChapterMode", "publish", "-fmSource", "fixture:other" }));
+            Assert.Throws<ContentFailure>(() => ChapterContentAuthoring.RunR3Arguments(new[] {
+                "-fmChapterMode", "prepare", "-fmRevision", "2" }));
+            Assert.Throws<ContentFailure>(() => ChapterContentAuthoring.RunR3Arguments(new[] { "-fmChapterMode", "other" }));
+        }
+
+        [Test]
         public void IsolatedFixtureExportUsesExactReviewAndAllSixFilesForColdAdmission()
         {
             var source = ChapterContentTestData.Source(); var job = new DemoContentDraft(source.DraftId).BeginJob();

@@ -75,7 +75,7 @@ namespace FightMatch.Application
                         exceptionType: original.ExceptionType, exceptionMessage: original.ExceptionMessage);
                 return RestoreFailure("RecoveryBlocked", diagnostic);
             }
-            var resolution = CheckPlayerRoots(observation, budget.Codec);
+            var resolution = CheckPlayerRoots(observation, budget.Codec, out var verifiedCurrent);
             if (resolution != null) return RestoreFailure(resolution.Code, resolution);
             if (observation.HasUnresolvedCandidate || observation.Status == SaveHeadStatus.Pending)
             {
@@ -98,7 +98,18 @@ namespace FightMatch.Application
             }
             var loaded = store.Load(budget);
             if (!loaded.IsAccepted) return RestoreFailure(loaded.Code, CandidateApplicationDiagnostic.From(loaded));
-            var decoded = DecodeApplication(loaded.Value, budget.Codec);
+            SaveCodecResult<CandidateApplicationSnapshot> decoded;
+            if (verifiedCurrent != null)
+            {
+                var descriptor = SaveEnvelopeCodec.Write(Stream.Null, loaded.Value, budget.Codec);
+                if (!descriptor.IsAccepted)
+                    return RestoreFailure(descriptor.RejectionCode, CandidateApplicationDiagnostic.From(descriptor, "Decode"));
+                if (!SameDescriptor(descriptor.Value, verifiedCurrent.Value.Descriptor, budget) ||
+                    !SameDescriptor(descriptor.Value, observation.Current?.Descriptor, budget))
+                    return RestoreFailure("StaleContext", new CandidateApplicationDiagnostic("StaleContext", "Recovery.Current"));
+                decoded = verifiedCurrent;
+            }
+            else decoded = DecodeApplication(loaded.Value, budget.Codec);
             if (!decoded.IsAccepted)
                 return RestoreFailure(decoded.RejectionCode, CandidateApplicationDiagnostic.From(decoded, "Decode"));
             if (!SameDescriptor(decoded.Value.Descriptor, observation.Current?.Descriptor, budget))
@@ -146,7 +157,12 @@ namespace FightMatch.Application
             : CandidateApplicationSaveCodec.DecodePublished(envelope, playerSession.Resolved, budget); }
 
         private CandidateApplicationDiagnostic CheckPlayerRoots(SaveRecoveryView roots, SaveCodecBudget budget)
+        { return CheckPlayerRoots(roots, budget, out _); }
+
+        private CandidateApplicationDiagnostic CheckPlayerRoots(SaveRecoveryView roots, SaveCodecBudget budget,
+            out SaveCodecResult<CandidateApplicationSnapshot> verifiedCurrent)
         {
+            verifiedCurrent = null;
             if (playerSession == null) return null;
             var resolution = playerSession.ResolveRoots(roots, budget); if (resolution != null) return resolution;
             try
@@ -168,6 +184,7 @@ namespace FightMatch.Application
                     var decoded = DecodeApplication(envelope, budget);
                     if (!decoded.IsAccepted) return CandidateApplicationDiagnostic.From(decoded, "Recovery.Root");
                     var admission = playerSession.CheckSnapshot(decoded.Value, budget); if (admission != null) return admission;
+                    if (ReferenceEquals(root, roots.Current)) verifiedCurrent = decoded;
                 }
                 return null;
             }

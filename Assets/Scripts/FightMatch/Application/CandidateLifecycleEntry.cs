@@ -106,8 +106,13 @@ namespace FightMatch.Application
                     Pairs = f.Pairs.Select(p => new PairInput { PairId = p.PairId, GeometryColorId = p.GeometryColorId,
                         EndpointA = p.EndpointA, EndpointB = p.EndpointB, Enemy = new EnemyInput { EnemyInstanceKey = p.Enemy.EnemyInstanceKey,
                             EnemyDefinitionId = p.Enemy.EnemyDefinitionId, OriginalSlot = p.Enemy.OriginalSlot, StableOrder = p.Enemy.StableOrder,
-                            Behavior = p.Enemy.Behavior, Stats = CopyStats(p.Enemy.Stats), IntentCycle = p.Enemy.IntentCycle.Select(i => new EnemyIntentInput
-                            { Kind = i.Kind, Targeting = i.Targeting, DamageKind = i.DamageKind, DamageCoefficient = i.DamageCoefficient }).ToList() } }).ToList() }).ToList() };
+                            Behavior = p.Enemy.Behavior, InitialIntentCursor = p.Enemy.InitialIntentCursor,
+                            WindTargetEnemyInstanceKey = p.Enemy.WindTargetEnemyInstanceKey,
+                            WindUses = p.Enemy.WindUses, WindFraction = p.Enemy.WindFraction,
+                            Stats = CopyStats(p.Enemy.Stats), IntentCycle = p.Enemy.IntentCycle.Select(i => new EnemyIntentInput
+                            { Kind = i.Kind, Targeting = i.Targeting, DamageKind = i.DamageKind, DamageCoefficient = i.DamageCoefficient,
+                                AttackOverride = i.AttackOverride, AttackRange = i.AttackRange,
+                                ExhaustedFallbackIndex = i.ExhaustedFallbackIndex, NextActionVulnerability = i.NextActionVulnerability }).ToList() } }).ToList() }).ToList() };
         }
     }
 }

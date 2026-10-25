@@ -125,6 +125,10 @@ namespace FightMatch.Core
         public int OriginalSlot { get; }
         public int StableOrder { get; }
         public EnemyBehavior Behavior { get; }
+        public BigInteger? InitialIntentCursor { get;  }
+        public string WindTargetEnemyInstanceKey { get;  }
+        public int? WindUses { get;  }
+        public ExactRational WindFraction { get;  }
         public PreparedStats Stats { get; }
         public IReadOnlyList<PreparedEnemyIntent> IntentCycle { get; }
 
@@ -135,6 +139,10 @@ namespace FightMatch.Core
             OriginalSlot = input.OriginalSlot;
             StableOrder = input.StableOrder;
             Behavior = input.Behavior;
+            InitialIntentCursor = input.InitialIntentCursor;
+            WindTargetEnemyInstanceKey = input.WindTargetEnemyInstanceKey;
+            WindUses = input.WindUses;
+            WindFraction = input.WindFraction;
             Stats = new PreparedStats(input.Stats);
             IntentCycle = input.IntentCycle.ConvertAll(intent => new PreparedEnemyIntent(intent)).AsReadOnly();
         }
@@ -146,6 +154,10 @@ namespace FightMatch.Core
         public EnemyTargeting Targeting { get; }
         public EntryDamageKind? DamageKind { get; }
         public ExactRational DamageCoefficient { get; }
+        public ExactRational AttackOverride { get;  }
+        public int? AttackRange { get;  }
+        public int? ExhaustedFallbackIndex { get;  }
+        public ExactRational NextActionVulnerability { get;  }
 
         internal PreparedEnemyIntent(EnemyIntentInput input)
         {
@@ -153,6 +165,10 @@ namespace FightMatch.Core
             Targeting = input.Targeting;
             DamageKind = input.DamageKind;
             DamageCoefficient = input.DamageCoefficient;
+            AttackOverride = input.AttackOverride;
+            AttackRange = input.AttackRange;
+            ExhaustedFallbackIndex = input.ExhaustedFallbackIndex;
+            NextActionVulnerability = input.NextActionVulnerability;
         }
     }
 
@@ -188,6 +204,7 @@ namespace FightMatch.Core
         public PreparedRuleContext StatsContext { get; }
         public PreparedStats Stats { get; }
         public ExactRational EntryHp { get; }
+        public IReadOnlyList<PreparedChapterBattleSkill> BattleSkills { get; }
         public IReadOnlyList<string> LearnedSkills { get; }
         public PreparedWarriorCrit Crit { get; }
         public PreparedArcanePenetration Penetration { get; }
@@ -204,6 +221,7 @@ namespace FightMatch.Core
             StatsContext = RuleContextChecks.Freeze(input.StatsContext);
             Stats = new PreparedStats(input.Stats);
             EntryHp = input.EntryHp;
+            BattleSkills = (input.BattleSkills ?? new List<ChapterBattleSkillInput>()).ConvertAll(x => new PreparedChapterBattleSkill(x)).AsReadOnly();
             LearnedSkills = new List<string>(input.LearnedSkills).AsReadOnly();
             Crit = input.Crit == null ? null : new PreparedWarriorCrit(input.Crit);
             Penetration = input.Penetration == null ? null : new PreparedArcanePenetration(input.Penetration);

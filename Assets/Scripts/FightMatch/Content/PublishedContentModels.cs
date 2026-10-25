@@ -83,9 +83,7 @@ namespace FightMatch.Content
             Capabilities = new List<string>(capabilities).AsReadOnly(); MaxSourceBytes = maxSourceBytes;
             MaxCollectionEntries = maxCollectionEntries; MaxStringCodeUnits = maxStringCodeUnits;
         }
-        public static ContentConsumerCapabilities Current => new ContentConsumerCapabilities(new[] {
-            "NC01.ExactRational", "RC01.PCG32.PRD", "PC01.ExactParameterEvidence", "SC01.sc01-pcg32-le128-v1",
-            "CH1.MageTauntBoss", "CH1.Milestones", "CH1.BusinessV5" });
+        public static ContentConsumerCapabilities Current => new ContentConsumerCapabilities(ChapterRuleDefinitions.StateCapabilities);
         internal void Check(PublishedSource source)
         {
             ContentChecks.Need(source.SchemaVersion == 1 || source.SchemaVersion == 2, "UnsupportedSchema", "SchemaVersion");
@@ -97,7 +95,9 @@ namespace FightMatch.Content
                 ContentChecks.Need(source.Growth.PenetrationBase == null && source.Growth.PenetrationStep == null &&
                     source.Growth.PenetrationCap == null && source.Growth.IgnoreFraction == null, "UnsupportedBinding", "Growth.Penetration");
             ContentChecks.Root(source.RequiredCapabilities, "RequiredCapabilities");
-            var required = source.SchemaVersion == 1 ? Current.Capabilities.Take(4).ToArray() : Current.Capabilities.ToArray();
+            var required = source.SchemaVersion == 1 ? ChapterRuleDefinitions.LegacyCapabilities.Take(4).ToArray() :
+                (source.RequiredCapabilities.Contains(ChapterRuleDefinitions.StateFeatureId) ?
+                    ChapterRuleDefinitions.StateCapabilities : ChapterRuleDefinitions.LegacyCapabilities).ToArray();
             ContentChecks.Need(source.RequiredCapabilities.Count == required.Length && required.All(source.RequiredCapabilities.Contains) &&
                 source.RequiredCapabilities.All(Capabilities.Contains), "UnsupportedCapability", "RequiredCapabilities");
         }

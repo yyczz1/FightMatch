@@ -4,7 +4,7 @@ using System.Numerics;
 namespace FightMatch.Core
 {
     public enum CandidateBattleOperationKind { Attack, Link }
-    public enum CandidateBattleFactKind { DirectAttack, EnemyIntent, Stage }
+    public enum CandidateBattleFactKind { DirectAttack, EnemyIntent, Stage, SkillCast, Cooldown, Vulnerability }
     public enum CandidateContributionKind { DamageDealtHp, DamageTakenHp }
     public enum CandidateConsumptionCoverage { EmptyCarryNoUse }
 
@@ -15,6 +15,15 @@ namespace FightMatch.Core
         public BattleDamageFact DirectAttack { get; }
         public CandidateEnemyIntentFact EnemyIntent { get; }
         public CandidateStageFact Stage { get; }
+        public ChapterSkillCastFact SkillCast { get; }
+        public ChapterCooldownFact Cooldown { get; }
+        public ChapterVulnerabilityFact Vulnerability { get; }
+        internal CandidateBattleOrderedFact(int index, ChapterSkillCastFact cast)
+        { Index = index; Kind = CandidateBattleFactKind.SkillCast; SkillCast = cast; }
+        internal CandidateBattleOrderedFact(int index, ChapterCooldownFact cooldown)
+        { Index = index; Kind = CandidateBattleFactKind.Cooldown; Cooldown = cooldown; }
+        internal CandidateBattleOrderedFact(int index, ChapterVulnerabilityFact vulnerability)
+        { Index = index; Kind = CandidateBattleFactKind.Vulnerability; Vulnerability = vulnerability; }
         internal CandidateBattleOrderedFact(int index, BattleDamageFact direct)
         { Index = index; Kind = CandidateBattleFactKind.DirectAttack; DirectAttack = direct; }
         internal CandidateBattleOrderedFact(int index, CandidateEnemyIntentFact enemy)

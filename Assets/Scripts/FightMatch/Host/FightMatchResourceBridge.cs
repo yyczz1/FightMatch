@@ -34,6 +34,11 @@ namespace FightMatch.Host
         internal const string ChapterTextSha256 = "038a9fed918495f04bb259ab48bf157d55df0e1a81a37e649dd7469c1953177c";
         internal const string ChapterTextManifestSha256 = "4072b5f149e609b8fdb810ebc9c1fb46d5bda6374bf77a12d872188ce091a8b5";
         internal const int ChapterTextBytes = 128809, ChapterTextManifestBytes = 906;
+        internal const string ChapterR3TextSha256 = "84ba6486967374b3ae81cbc98d236b18ca415e9730142299fa156d4b1c3bbcdc";
+        internal const string ChapterR3TextManifestSha256 = "3eca44d82c5f6e23492a5125578ad94f19c5bc5fadf61dc527944d260bd8cad2";
+        internal const int ChapterR3TextBytes = 145357, ChapterR3TextManifestBytes = 906;
+        private static bool ChapterSet(string set, string revision) => set == "fm.ch1.trial." + revision + ".macos" ||
+            set == "fm.ch1.trial." + revision + ".windows" || set == "fm.ch1.trial." + revision + ".android";
         private static readonly string[] AssetIds =
         {
             "fm.content.source", "fm.content.package", "fm.content.validation", "fm.content.review",
@@ -67,6 +72,9 @@ namespace FightMatch.Host
                 cancellationToken.ThrowIfCancellationRequested();
                 var inspection = await runtime.InspectAsync(epoch, cancellationToken);
                 Need(inspection.IsAccepted, inspection.Diagnostic?.SafeCode ?? "RES_STALE");
+                var r2 = ChapterSet(inspection.ReleaseSetId, "r2");
+                var r3 = ChapterSet(inspection.ReleaseSetId, "r3");
+                Need(chapter ? r2 || r3 : !r2 && !r3, "RES_SCHEMA");
                 var budget = new AssetAcquireBudget(16777216, 1, 16, 16);
                 var contentBudget = new ContentStoreBudget(new ExactMathBudget(maxPrimitiveSteps: 64000000));
                 var files = new byte[AssetIds.Length][];
@@ -84,11 +92,11 @@ namespace FightMatch.Host
                     files[i] = Read(result.Lease.Asset, Math.Min(limit, 33554432 - total), cancellationToken);
                     total += files[i].Length;
                 }
-                Need(files[7].Length == (chapter ? ChapterTextManifestBytes : 791) &&
-                    Hash(files[7]) == (chapter ? ChapterTextManifestSha256 : TextManifestSha256), "RES_TEXT");
-                Need(!chapter || files[6].Length == ChapterTextBytes, "RES_TEXT");
-                Need(FightMatchLocalizationCatalogParser.TryParse(files[6], chapter ? ChapterTextSha256 : TextSha256,
-                    chapter ? 279 : 264, out var text, out _), "RES_TEXT");
+                Need(files[7].Length == (r3 ? ChapterR3TextManifestBytes : chapter ? ChapterTextManifestBytes : 791) &&
+                    Hash(files[7]) == (r3 ? ChapterR3TextManifestSha256 : chapter ? ChapterTextManifestSha256 : TextManifestSha256), "RES_TEXT");
+                Need(!chapter || files[6].Length == (r3 ? ChapterR3TextBytes : ChapterTextBytes), "RES_TEXT");
+                Need(FightMatchLocalizationCatalogParser.TryParse(files[6], r3 ? ChapterR3TextSha256 : chapter ? ChapterTextSha256 : TextSha256,
+                    r3 ? 310 : chapter ? 279 : 264, out var text, out _), "RES_TEXT");
                 cancellationToken.ThrowIfCancellationRequested();
                 if (textOnly) return new FightMatchResourceBridgeResult(null, text, inspection.ReleaseSetId, null);
                 var storage = FirstReleaseContentStorage.Create(files[0], files[1], files[2], files[3], files[4], files[5],

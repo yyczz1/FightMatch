@@ -149,9 +149,15 @@ namespace FightMatch.Application
             }
             else if (target.Kind == PlayerNavigationTargetKind.Detail)
             {
-                if (route != PlayerNavigationRoute.CraftList && route != PlayerNavigationRoute.Bag && route != PlayerNavigationRoute.Team)
+                if (route != PlayerNavigationRoute.CraftList && route != PlayerNavigationRoute.Bag && route != PlayerNavigationRoute.Team &&
+                    route != PlayerNavigationRoute.Preparation)
                     return Refuse("InvalidNavigationTransition");
                 if (!Supported(target.PermanentKind)) return Refuse("UnsupportedBinding", "Navigation.PermanentKind");
+                if (target.CharacterId != null)
+                {
+                    if (read.Head.Business.Roster.Find(target.CharacterId) == null) return Refuse("InconsistentBinding", "CharacterId");
+                    character = target.CharacterId;
+                }
                 if (character == null) return Refuse("ActorSelectionRequired");
                 if (target.PermanentKind == CandidatePermanentKind.Craft &&
                     player.QueryPermanent(character).Definitions?.Find(CandidatePermanentDefinitionKind.Recipe, target.DefinitionId) == null)
@@ -163,6 +169,28 @@ namespace FightMatch.Application
             ClearDraft(); diagnostic = null; status = null; host = null; revision++; return View();
         }
 
+        // Only an explicit map selection issues the entry gift. Reads and return refreshes never call this command.
+        public PlayerNavigationView EnterPreparation(PlayerNavigationTarget target, PlayerNavigationContext context,
+            FightMatch.Platform.SaveStoreBudget budget)
+        {
+            if (target?.Kind != PlayerNavigationTargetKind.Preparation) return Refuse("UnsupportedNavigationTarget");
+            var current = Navigate(target, context, budget.Codec);
+            if (current.Route != PlayerNavigationRoute.Preparation || current.Status != null ||
+                current.Teaching == null || current.Teaching.Gift != null) return current;
+            draftPage = PlayerNavigationRoute.Preparation;
+            draftKind = PlayerNavigationDraftKind.Permanent;
+            var prepared = player.PrepareTeachingEntry(current.Teaching.Definition.Level, current.Context.CommitId, budget.Codec);
+            if (!prepared.IsAccepted) return Refuse(prepared.Code, prepared.Diagnostic?.FieldPath ?? "Teaching.Entry");
+            operation.Begin(current.Read.Head, CandidateApplicationKind.PermanentRequest, prepared.Request.Intent.GetPermanent());
+            var token = new PlayerNavigationToken(this, revision, confirmation);
+            if (!operation.TryConsume(token.Confirmation) || !AcceptPrepared(token, prepared.Request))
+                return Refuse("StaleNavigationContext");
+            executing = true;
+            try { Receive(token, lifecycle.Submit(request, budget)); }
+            finally { executing = false; }
+            return Query(budget.Codec);
+        }
+
         internal static PlayerPermanentDraft BuildPermanentDraft(PlayerPermanentDraft input,
             PlayerNavigationContext context, SaveCodecBudget budget)
         {
@@ -170,13 +198,15 @@ namespace FightMatch.Application
             if (input.SelectedInputs != null && input.SelectedInputs.Count > budget.MaxCollectionEntries)
                 throw new ArgumentOutOfRangeException(nameof(input.SelectedInputs));
             return new PlayerPermanentDraft { ExpectedCommitId = context.CommitId, Kind = input.Kind,
-                CharacterId = input.Kind == CandidatePermanentKind.Craft ? null : input.CharacterId,
+                CharacterId = input.Kind == CandidatePermanentKind.Craft || input.Kind == CandidatePermanentKind.ConfirmTeachingExplanation ? null : input.CharacterId,
                 DefinitionId = input.DefinitionId, Quantity = input.Quantity, Enabled = input.Enabled,
                 PreferenceRevision = input.PreferenceRevision, StepId = input.StepId,
                 SelectedInputs = input.SelectedInputs == null ? null : new List<CandidatePermanentPortion>(input.SelectedInputs).AsReadOnly() };
         }
         private static bool Supported(CandidatePermanentKind kind) => kind == CandidatePermanentKind.Craft ||
-            kind == CandidatePermanentKind.Equip || kind == CandidatePermanentKind.SetPreference;
+            kind == CandidatePermanentKind.Equip || kind == CandidatePermanentKind.SetPreference ||
+            kind == CandidatePermanentKind.UseExperienceCards || kind == CandidatePermanentKind.LearnSkill ||
+            kind == CandidatePermanentKind.ConfirmTeachingExplanation;
 
         public PlayerNavigationView Preview(PlayerNavigationDraft draft, PlayerNavigationContext context, SaveCodecBudget budget)
         {
@@ -201,7 +231,7 @@ namespace FightMatch.Application
                 var input = draft.Permanent;
                 if (input == null || !Supported(input.Kind)) return Refuse("UnsupportedBinding", "Navigation.PermanentKind");
                 if (character == null) return Refuse("ActorSelectionRequired");
-                if (input.Kind != CandidatePermanentKind.Craft && input.CharacterId != character)
+                if (input.Kind != CandidatePermanentKind.Craft && input.Kind != CandidatePermanentKind.ConfirmTeachingExplanation && input.CharacterId != character)
                     return Refuse("StaleContext", "Navigation.TargetCharacter");
                 if (input.SelectedInputs != null && input.SelectedInputs.Count > budget.MaxCollectionEntries)
                     return Refuse("Limit", "Permanent.SelectedInputs");
@@ -268,6 +298,8 @@ namespace FightMatch.Application
                 if (kind == PlayerNavigationTargetKind.BattleSelectionRequested && level == null) return Refuse("LevelSelectionRequired");
                 if (kind == PlayerNavigationTargetKind.BattleSelectionRequested && read.Head.Business.ActiveHistory != null)
                     return Refuse("ActiveAttemptConflict");
+                if (kind == PlayerNavigationTargetKind.BattleSelectionRequested && View().TeachingAdmissionReason != null)
+                    return Refuse(View().TeachingAdmissionReason);
                 if (kind == PlayerNavigationTargetKind.ResumeBattleRequested && read.Head.Business.ActiveHistory == null) return Refuse("NoActiveBattle");
             }
             revision++; host = new PlayerNavigationHostRequest(kind, Context(), app); status = kind.ToString(); return View();

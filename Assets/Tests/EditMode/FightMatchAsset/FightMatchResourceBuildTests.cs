@@ -80,6 +80,46 @@ namespace FightMatch.AssetAccess.Tests
         }
 
         [Test]
+        public void R3PlanUsesOnlyItsNewPathsAndExact310TextPins()
+        {
+            var bytes = File.ReadAllBytes(FightMatchResourceBuild.ChapterR3PlanPath);
+            var plan = FightMatchResourceBuild.ReadChapterR3Plan(bytes);
+            var r2 = FightMatchResourceBuild.ReadPlan(File.ReadAllBytes(FightMatchResourceBuild.ChapterPlanPath), true);
+            Assert.AreEqual("FightMatchChapterOneR3", plan.packageName);
+            Assert.AreEqual("chapter-one-trial-r3", plan.packageVersion);
+            Assert.AreEqual(8, plan.entries.Length);
+            Assert.AreEqual(plan.textArtifactSha256, FightMatchResourceBuild.Hash(File.ReadAllBytes(plan.entries[6].source)));
+            Assert.AreEqual(plan.textManifestSha256, FightMatchResourceBuild.Hash(File.ReadAllBytes(plan.entries[7].source)));
+            Assert.IsFalse(plan.entries.Select(e => e.importPath).Intersect(r2.entries.Select(e => e.importPath)).Any());
+            Assert.IsFalse(plan.entries.Select(e => e.importPath).Intersect(Plan().entries.Select(e => e.importPath)).Any());
+            Assert.Throws<InvalidDataException>(() => FightMatchResourceBuild.ReadPlan(bytes, true));
+            Assert.Throws<InvalidDataException>(() => FightMatchResourceBuild.ReadChapterR3Plan(File.ReadAllBytes(FightMatchResourceBuild.ChapterPlanPath)));
+            foreach (var changed in new[] { Encoding.UTF8.GetString(bytes).Replace("FightMatchChapterOneR3", "FightMatchChapterOne"),
+                Encoding.UTF8.GetString(bytes).Replace("FightMatchChapterOne-r3/", "FightMatchChapterOne/"),
+                Encoding.UTF8.GetString(bytes).Replace("ChapterOneTrial-r3/", "ChapterOneTrial-r2/") })
+                Assert.Throws<InvalidDataException>(() => FightMatchResourceBuild.ReadChapterR3Plan(Encoding.UTF8.GetBytes(changed)));
+        }
+
+        [TestCase(BuildTarget.StandaloneOSX, "macOS")]
+        [TestCase(BuildTarget.StandaloneWindows64, "windows")]
+        [TestCase(BuildTarget.Android, "android")]
+        public void R3EncoderKeepsAllEightMappingsInItsOwnRuntimePackage(BuildTarget target, string platform)
+        {
+            var bytes = File.ReadAllBytes(FightMatchResourceBuild.ChapterR3PlanPath);
+            var plan = FightMatchResourceBuild.ReadChapterR3Plan(bytes);
+            var boot = FightMatchResourceBuild.CreateBoot(plan, bytes, platform, ChapterEncoderInputs(plan),
+                Enumerable.Range(0, 8).Select(i => "chapter-r3-fixture-" + i + ".bytes").ToArray(), "test-manifest.bytes", TestManifest);
+            Assert.IsTrue(FightMatchResourceReleaseSet.TryDecodePinned(boot, FightMatchResourceBuild.Hash(boot), out var decoded, out var code), code);
+            Assert.AreEqual("fm.ch1.trial.r3." + platform.ToLowerInvariant(), decoded.ReleaseSetId);
+            Assert.AreEqual("release-set:chapter-one-trial", decoded.BusinessReleaseSetId);
+            var root = FightMatchResourceBuild.PlayerRootR3(target);
+            Assert.AreEqual("Assets/StreamingAssets/FightMatchResources/" + platform + "/FightMatchChapterOneR3", root);
+            Assert.AreEqual(root, YooAssetRuntimeFactory.BuiltInRoot("Assets/StreamingAssets", platform, "FightMatchChapterOneR3"));
+            Assert.AreNotEqual(root, FightMatchResourceBuild.PlayerRoot(target, true));
+            Assert.AreNotEqual(root, FightMatchResourceBuild.PlayerRoot(target));
+        }
+
+        [Test]
         public void BuildMapIsDeterministicAndKeepsEightExactSources()
         {
             var plan = Plan(); var a = Boot(); var b = Boot();

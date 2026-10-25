@@ -106,6 +106,9 @@ namespace FightMatch.Application
                     { CharacterId = m.CharacterId, ClassId = m.ClassId, ClassKind = m.ClassKind, OriginalSlot = m.OriginalSlot,
                         Level = m.Level, IsReady = m.IsReady, StatsOrigin = m.StatsOrigin, StatsContext = CandidateLifecyclePreparation.Context(m.StatsContext),
                         Stats = CopyStats(m.Stats), EntryHp = m.EntryHp, LearnedSkills = new List<string>(m.LearnedSkills),
+                        BattleSkills = m.BattleSkills.Select(skill => new ChapterBattleSkillInput {
+                            SkillId = skill.SkillId, RecordVersion = skill.RecordVersion,
+                            BattleCapabilityId = skill.BattleCapabilityId, CooldownTurns = skill.CooldownTurns }).ToList(),
                         Crit = m.Crit == null ? null : new WarriorCritInput { PassiveDefinitionId = m.Crit.PassiveDefinitionId, TargetProbability = m.Crit.TargetProbability,
                             C = m.Crit.C, Multiplier = m.Crit.Multiplier },
                         Penetration = m.Penetration == null ? null : new ArcanePenetrationInput { PassiveDefinitionId = m.Penetration.PassiveDefinitionId,

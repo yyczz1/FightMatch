@@ -29,7 +29,9 @@ namespace FightMatch.Core
                 if (row.EntryKind != CandidateProgressionEntryKind.Ordinary)
                     return DefinitionReject(c, row.EntryKind == CandidateProgressionEntryKind.Unspecified ? MissingField : UnsupportedBinding, p + ".EntryKind");
                 if (row.RequiredFeatures == null) return DefinitionReject(c, MissingField, p + ".RequiredFeatures");
-                if (row.RequiredFeatures.Count != 0) return DefinitionReject(c, UnsupportedBinding, p + ".RequiredFeatures");
+                if (row.RequiredFeatures.Count != 0 && !(input.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion &&
+                    row.RequiredFeatures.Count == 1 && row.RequiredFeatures[0] == ChapterRuleDefinitions.StateFeatureId))
+                    return DefinitionReject(c, UnsupportedBinding, p + ".RequiredFeatures");
                 if (row.UnlockKind == CandidateProgressionUnlockKind.Unspecified) return DefinitionReject(c, MissingField, p + ".UnlockKind");
                 if (!row.HasPrerequisite) return DefinitionReject(c, MissingField, p + ".UnlockAfterLevelId");
                 if (row.UnlockKind == CandidateProgressionUnlockKind.InitiallyOpen)

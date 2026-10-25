@@ -33,6 +33,7 @@ namespace FightMatch.Core
         private static void CheckPreparedNumbers(PreparedBattleEntry entry, ExactMathBudget budget)
         {
             RuleContextChecks.CheckBudget(entry, budget);
+            if (CandidateChapterBattleRules.HasStateContract(entry)) CandidateBattleReportFingerprint.Check(entry, budget);
             budget.CheckInteger(entry.Level.RecommendedLevel);
             foreach (var face in entry.Level.Faces)
                 foreach (var pair in face.Pairs)

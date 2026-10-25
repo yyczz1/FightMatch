@@ -323,15 +323,25 @@ namespace FightMatch.AssetAccess
                 "mappingDescriptorSha256", "packageName", "platform", "requiredScopeHashes",
                 "yooAssetPackageVersion", "yooManifestPackageVersion");
             var packageName = Text(resources["packageName"]);
-            var chapter = packageName == "FightMatchChapterOne";
+            var chapterR3 = packageName == "FightMatchChapterOneR3";
+            var chapter = packageName == "FightMatchChapterOne" || chapterR3;
             Need((packageName == "FightMatchMain" || chapter) && Text(resources["yooAssetPackageVersion"]) == "3.0.6", Schema);
             var platform = PlatformName(resources["platform"]);
             if (chapter)
                 Need(businessId == "release-set:chapter-one-trial" && Text(binding["PackageId"]) == "fightmatch:chapter-one-trial" &&
                     Text(binding["RuleVersion"]) == "ch1-slice-r1" && Text(binding["NumericContractVersion"]) == "RC01" &&
-                    Text(binding["RandomContractVersion"]) == "PC01+SC01" && set == "fm.ch1.trial.r2." + platform.ToLowerInvariant() &&
-                    Text(resources["yooManifestPackageVersion"]) == "chapter-one-trial-r2", Schema);
+                    Text(binding["RandomContractVersion"]) == "PC01+SC01" && set == (chapterR3 ? "fm.ch1.trial.r3." : "fm.ch1.trial.r2.") + platform.ToLowerInvariant() &&
+                    Text(resources["yooManifestPackageVersion"]) == (chapterR3 ? "chapter-one-trial-r3" : "chapter-one-trial-r2"), Schema);
             else Need(businessId != "release-set:chapter-one-trial" && Text(binding["RuleVersion"]) != "ch1-slice-r1", Schema);
+            if (chapter)
+                Need(Number(text["artifactLength"], FileLimit) == (chapterR3 ? 145357 : 128809) &&
+                    Number(text["manifestLength"], SmallFileLimit) == 906 &&
+                    Text(text["artifactSha256"]) == (chapterR3 ?
+                        "84ba6486967374b3ae81cbc98d236b18ca415e9730142299fa156d4b1c3bbcdc" :
+                        "038a9fed918495f04bb259ab48bf157d55df0e1a81a37e649dd7469c1953177c") &&
+                    Text(text["manifestSha256"]) == (chapterR3 ?
+                        "3eca44d82c5f6e23492a5125578ad94f19c5bc5fadf61dc527944d260bd8cad2" :
+                        "4072b5f149e609b8fdb810ebc9c1fb46d5bda6374bf77a12d872188ce091a8b5"), Schema);
             Id(resources["yooManifestPackageVersion"]);
             Path(resources["manifestName"]);
             Number(resources["manifestLength"], FileLimit);

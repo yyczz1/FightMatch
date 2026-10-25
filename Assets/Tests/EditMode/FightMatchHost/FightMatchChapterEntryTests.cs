@@ -104,6 +104,64 @@ namespace FightMatch.Host.Tests
             }
         }
 
+        [TestCase("macos")]
+        [TestCase("windows")]
+        [TestCase("android")]
+        public void R3SharedTextAdmitsTheExact310PairWithoutBusinessReads(string platform)
+        {
+            using (var runtime = R3TextRuntime("fm.ch1.trial.r3." + platform))
+            {
+                var task = FightMatchResourceBridge.OpenSharedTextAsync(runtime, 1, CancellationToken.None);
+                Assert.IsTrue(task.IsCompleted);
+                var result = task.GetAwaiter().GetResult();
+                Assert.IsTrue(result.IsTextReady, result.DiagnosticCode);
+                Assert.IsNull(result.Catalog);
+                CollectionAssert.AreEqual(new[] { "fm.text.full.artifact", "fm.text.full.manifest" }, runtime.Requests);
+                Assert.IsTrue(runtime.Leases.All(x => x.IsReleased));
+                foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+                    Assert.IsTrue(result.TextSource.Resolve("fm.name.skill.warrior_taunt", locale,
+                        Array.Empty<KeyValuePair<string, string>>()).IsSuccess);
+            }
+        }
+
+        [TestCase("fm.ch1.trial.r3.ios", "RES_SCHEMA")]
+        [TestCase("fixture.chapter.text", "RES_SCHEMA")]
+        [TestCase("fm.ch1.trial.r2.macos", "RES_TEXT")]
+        public void R3SharedTextRejectsUnknownOrCrossRevisionSets(string set, string expected)
+        {
+            using (var runtime = R3TextRuntime(set))
+            {
+                var task = FightMatchResourceBridge.OpenSharedTextAsync(runtime, 1, CancellationToken.None);
+                Assert.IsTrue(task.IsCompleted);
+                var result = task.GetAwaiter().GetResult();
+                Assert.AreEqual(expected, result.DiagnosticCode);
+                Assert.IsNull(result.TextSource); Assert.IsNull(result.Catalog);
+                Assert.IsTrue(runtime.Leases.All(x => x.IsReleased));
+                if (expected == "RES_SCHEMA") Assert.IsEmpty(runtime.Requests);
+            }
+        }
+
+        [Test]
+        public void R2TextCannotBeAdmittedUnderAnR3Set()
+        {
+            using (var runtime = new TextRuntime { InspectionSet = "fm.ch1.trial.r3.macos" })
+            {
+                var task = FightMatchResourceBridge.OpenSharedTextAsync(runtime, 1, CancellationToken.None);
+                Assert.IsTrue(task.IsCompleted);
+                Assert.AreEqual("RES_TEXT", task.GetAwaiter().GetResult().DiagnosticCode);
+                Assert.IsTrue(runtime.Leases.All(x => x.IsReleased));
+            }
+        }
+
+        private static TextRuntime R3TextRuntime(string set)
+        {
+            var runtime = new TextRuntime { InspectionSet = set };
+            var root = Path.Combine(HostRig.Project, "Generated/FightMatch/Localization/ChapterOneTrial-r3");
+            runtime.Data["fm.text.full.artifact"] = File.ReadAllBytes(Path.Combine(root, "fm-text-v1.json"));
+            runtime.Data["fm.text.full.manifest"] = File.ReadAllBytes(Path.Combine(root, "fm-text-v1.manifest.json"));
+            return runtime;
+        }
+
         [Test]
         public void StartupReusesBothButtonsAndRejectsRepeatedOrStaleSelectionCallbacks()
         {
@@ -251,7 +309,8 @@ namespace FightMatch.Host.Tests
 
         private sealed class TextRuntime : IFightMatchResourceRuntime, IFightMatchAssetProvider
         {
-            internal const string Set = "fixture.chapter.text";
+            internal const string Set = "fm.ch1.trial.r2.macos";
+            internal string InspectionSet = Set;
             internal readonly Dictionary<string, byte[]> Data = new Dictionary<string, byte[]> {
                 { "fm.text.full.artifact", File.ReadAllBytes(Path.Combine(TextRoot, "fm-text-v1.json")) },
                 { "fm.text.full.manifest", File.ReadAllBytes(Path.Combine(TextRoot, "fm-text-v1.manifest.json")) } };
@@ -261,7 +320,7 @@ namespace FightMatch.Host.Tests
             internal Task Stopped => stopped.Task;
             public IFightMatchAssetProvider Assets => this;
             public Task<ResourceInspection> InspectAsync(long epoch, CancellationToken token) => Task.FromResult(
-                ResourceInspection.Accepted(new string('1', 32), new string('2', 32), Set, epoch, 0, 0, false, ResourceNetworkKind.Offline));
+                ResourceInspection.Accepted(new string('1', 32), new string('2', 32), InspectionSet, epoch, 0, 0, false, ResourceNetworkKind.Offline));
             public Task<ResourceTransportResult> PrepareAsync(ResourceDownloadPermit permit, IProgress<ResourceProgress> progress,
                 CancellationToken token) => Task.FromResult(ResourceTransportResult.Verified(permit, new string('3', 32)));
             public Task<FightMatchAssetAcquireResult<T>> AcquireAsync<T>(FightMatchAssetId id, string set, AssetAcquireBudget budget, long epoch) where T : class

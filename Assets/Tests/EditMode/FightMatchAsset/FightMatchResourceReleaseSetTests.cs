@@ -270,19 +270,77 @@ namespace FightMatch.AssetAccess.Tests
         }
 
         // Codec metadata fixture only. Changing these fields does not create reviewed CH1 business files.
-        private static Map ChapterDescriptorFixture()
+        private static Map ChapterDescriptorFixture(bool revisionThree = false)
         {
             var root = Build();
-            O(root, "descriptor")["releaseSetId"] = "fm.ch1.trial.r2.android";
-            O(root, "descriptor", "resources")["packageName"] = "FightMatchChapterOne";
-            O(root, "descriptor", "resources")["yooManifestPackageVersion"] = "chapter-one-trial-r2";
+            var package = revisionThree ? "FightMatchChapterOneR3" : "FightMatchChapterOne";
+            var set = revisionThree ? "fm.ch1.trial.r3.android" : "fm.ch1.trial.r2.android";
+            O(root, "descriptor")["releaseSetId"] = set;
+            O(root, "descriptor", "resources")["packageName"] = package;
+            O(root, "descriptor", "resources")["yooManifestPackageVersion"] = revisionThree ? "chapter-one-trial-r3" : "chapter-one-trial-r2";
             O(root, "descriptor", "businessContent")["businessReleaseSetId"] = "release-set:chapter-one-trial";
             O(root, "descriptor", "businessContent", "binding")["PackageId"] = "fightmatch:chapter-one-trial";
             O(root, "descriptor", "businessContent", "binding")["RuleVersion"] = "ch1-slice-r1";
             foreach (var entry in A(root, "mapping", "entries").Cast<Map>())
-            { entry["packageName"] = "FightMatchChapterOne"; entry["releaseSetId"] = "fm.ch1.trial.r2.android"; }
+            { entry["packageName"] = package; entry["releaseSetId"] = set; }
+            ChapterText(root, revisionThree);
             Rebind(root); return root;
         }
+        private static void ChapterText(Map root, bool revisionThree)
+        {
+            var artifact = revisionThree ? "84ba6486967374b3ae81cbc98d236b18ca415e9730142299fa156d4b1c3bbcdc" :
+                "038a9fed918495f04bb259ab48bf157d55df0e1a81a37e649dd7469c1953177c";
+            var manifest = revisionThree ? "3eca44d82c5f6e23492a5125578ad94f19c5bc5fadf61dc527944d260bd8cad2" :
+                "4072b5f149e609b8fdb810ebc9c1fb46d5bda6374bf77a12d872188ce091a8b5";
+            var length = revisionThree ? 145357L : 128809L;
+            var text = O(root, "descriptor", "text");
+            text["artifactSha256"] = artifact; text["artifactLength"] = length;
+            text["manifestSha256"] = manifest; text["manifestLength"] = 906L;
+            foreach (var item in new[] { Physical(root, "raw/text"), Entry(root, "fm.text.full.artifact") })
+            {
+                var mapping = item.ContainsKey("assetId");
+                item[mapping ? "contentLength" : "length"] = length;
+                item[mapping ? "contentSha256" : "sha256"] = artifact;
+            }
+            foreach (var item in new[] { Physical(root, "raw/text-manifest"), Physical(root, "inputs/text.receipt"),
+                O(text, "sourceReceipt"), Entry(root, "fm.text.full.manifest") })
+            {
+                var mapping = item.ContainsKey("assetId");
+                item[mapping ? "contentLength" : "length"] = 906L;
+                item[mapping ? "contentSha256" : "sha256"] = manifest;
+            }
+        }
+
+        [Test]
+        public void ChapterR3PackageAdmitsItsFixed310TextAndIndependentPackage()
+        {
+            var accepted = Accept(Bytes(ChapterDescriptorFixture(true)));
+            Assert.AreEqual("fm.ch1.trial.r3.android", accepted.ReleaseSetId);
+            Assert.AreEqual("release-set:chapter-one-trial", accepted.BusinessReleaseSetId);
+        }
+
+        [TestCase("package")]
+        [TestCase("version")]
+        [TestCase("set")]
+        [TestCase("text")]
+        public void ChapterR3PackageRejectsInternallyConsistentR2Mixes(string change)
+        {
+            var root = ChapterDescriptorFixture(true);
+            if (change == "text") ChapterText(root, false);
+            else if (change == "version") O(root, "descriptor", "resources")["yooManifestPackageVersion"] = "chapter-one-trial-r2";
+            else if (change == "package")
+            {
+                O(root, "descriptor", "resources")["packageName"] = "FightMatchChapterOne";
+                foreach (var entry in A(root, "mapping", "entries").Cast<Map>()) entry["packageName"] = "FightMatchChapterOne";
+            }
+            else
+            {
+                O(root, "descriptor")["releaseSetId"] = "fm.ch1.trial.r2.android";
+                foreach (var entry in A(root, "mapping", "entries").Cast<Map>()) entry["releaseSetId"] = "fm.ch1.trial.r2.android";
+            }
+            Rebind(root); Reject(root, "RES_SCHEMA", false);
+        }
+
         [Test]
         public void ChapterPackageAdmitsOnlyItsExactBusinessAndMappingIdentity()
         {

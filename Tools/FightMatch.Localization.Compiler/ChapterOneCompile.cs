@@ -11,34 +11,43 @@ internal static partial class Program
     private const string ChapterTextRaw = "TestArtifacts/FightMatch/CH1-IMPL-001/host-text/luban-r2/fm-text-v1.json";
     private const string ChapterTextOutput = "Generated/FightMatch/Localization/ChapterOneTrial-r2/";
     private const int ChapterTextCount = 279;
+    private const string ChapterR3TextSourceSha256 = "42823e4e841aba88e0ca2740a561c326252fc80c3c23e08d3572426a37ffcab8";
+    private const string ChapterR3TextRaw = "TestArtifacts/FightMatch/CH1-IMPL-001/b03-b04/text/luban-r3/fm-text-v1.json";
+    private const string ChapterR3TextOutput = "Generated/FightMatch/Localization/ChapterOneTrial-r3/";
+    private const int ChapterR3TextCount = 310;
 
     // Data projection only. It does not invoke tools, historical validation runs or publication.
-    private static int RunCompileChapterOne(string[] args)
+    private static int RunCompileChapterOne(string[] args, bool revisionThree = false)
     {
+        var expectedSourceSha = revisionThree ? ChapterR3TextSourceSha256 : ChapterTextSourceSha256;
+        var fixedRaw = revisionThree ? ChapterR3TextRaw : ChapterTextRaw;
+        var fixedOutput = revisionThree ? ChapterR3TextOutput : ChapterTextOutput;
+        var expectedCount = revisionThree ? ChapterR3TextCount : ChapterTextCount;
+        var sourceRevision = revisionThree ? "chapter-one-trial-r3" : "chapter-one-trial-r2";
         var options = ParseOptions(args, 1, "--source", "--luban-json", "--artifact", "--manifest");
         var root = Path.GetFullPath(Directory.GetCurrentDirectory());
         var sourcePath = ChapterTextPath(root, options["--source"], ChapterTextSource);
-        var rawPath = ChapterTextPath(root, options["--luban-json"], ChapterTextRaw);
-        var artifactPath = ChapterTextPath(root, options["--artifact"], ChapterTextOutput + "fm-text-v1.json");
-        var manifestPath = ChapterTextPath(root, options["--manifest"], ChapterTextOutput + "fm-text-v1.manifest.json");
+        var rawPath = ChapterTextPath(root, options["--luban-json"], fixedRaw);
+        var artifactPath = ChapterTextPath(root, options["--artifact"], fixedOutput + "fm-text-v1.json");
+        var manifestPath = ChapterTextPath(root, options["--manifest"], fixedOutput + "fm-text-v1.manifest.json");
         Require(!File.Exists(artifactPath) && !Directory.Exists(artifactPath) &&
             !File.Exists(manifestPath) && !Directory.Exists(manifestPath), "chapter text output already exists");
 
-        var source = ParseAndValidateFormal(sourcePath, ChapterTextCount);
-        Require(source.Sha256 == ChapterTextSourceSha256, "chapter text source identity differs");
+        var source = ParseAndValidateFormal(sourcePath, expectedCount);
+        Require(source.Sha256 == expectedSourceSha, "chapter text source identity differs");
         var raw = File.ReadAllBytes(rawPath);
-        var rows = ParseRaw(raw, ChapterTextCount);
+        var rows = ParseRaw(raw, expectedCount);
         ValidateOneToOne(source.Rows, rows);
         var canonical = BuildCanonical(rows);
         ValidateRoundTrip(canonical, rows);
         var canonicalSha = Sha256(canonical);
-        var manifest = BuildChapterTextManifest(source, rows, Sha256(raw), canonicalSha);
+        var manifest = BuildChapterTextManifest(source, rows, Sha256(raw), canonicalSha, sourceRevision);
         Require(Sha256File(sourcePath) == source.Sha256 && Sha256File(rawPath) == Sha256(raw),
             "chapter text input changed during projection");
 
         Directory.CreateDirectory(Path.GetDirectoryName(artifactPath)!);
-        ChapterTextPath(root, options["--artifact"], ChapterTextOutput + "fm-text-v1.json");
-        ChapterTextPath(root, options["--manifest"], ChapterTextOutput + "fm-text-v1.manifest.json");
+        ChapterTextPath(root, options["--artifact"], fixedOutput + "fm-text-v1.json");
+        ChapterTextPath(root, options["--manifest"], fixedOutput + "fm-text-v1.manifest.json");
         WriteChapterTextNew(artifactPath, canonical);
         WriteChapterTextNew(manifestPath, manifest);
         Console.Out.WriteLine($"PROJECTED chapter-one rows={rows.Count} canonical={canonicalSha} manifest={Sha256(manifest)}; publication not invoked");
@@ -65,7 +74,7 @@ internal static partial class Program
     }
 
     private static byte[] BuildChapterTextManifest(FormalSource source, IReadOnlyList<LocalizationRow> rows,
-        string rawSha, string artifactSha)
+        string rawSha, string artifactSha, string sourceRevision)
     {
         var severities = SeverityCounts(rows);
         var buffer = new ArrayBufferWriter<byte>();
@@ -81,7 +90,7 @@ internal static partial class Program
             writer.WriteEndObject();
             writer.WriteString("sdkVersion", SdkVersion);
             writer.WriteString("sourceAuthority", ChapterTextSource);
-            writer.WriteString("sourceRevision", "chapter-one-trial-r2");
+            writer.WriteString("sourceRevision", sourceRevision);
             writer.WriteString("formalSourceSha256", source.Sha256);
             writer.WriteString("lubanJsonSha256", rawSha);
             writer.WriteString("canonicalArtifactSha256", artifactSha);

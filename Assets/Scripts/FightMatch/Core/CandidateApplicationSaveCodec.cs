@@ -32,7 +32,7 @@ namespace FightMatch.Core
                 var roster = (int)candidate.Business.Format >= 3;
                 var permanent = (int)candidate.Business.Format >= 4;
                 var chapter = candidate.Business.Format == CandidateBusinessFormat.PublishedChapterV5;
-                var requirements = Requirements(records, resolved, budget, published != null, roster, permanent, chapter);
+                var requirements = Requirements(records, resolved, budget, published != null, roster, permanent, chapter, published);
                 var measure = new BusinessFields(Stream.Null, false, budget) { Resolved = published, StrictUnicode = published != null, SchemaVersion = chapter ? 5U : permanent ? 4U : roster ? 3U : 0U };
                 Body(measure, candidate.Business.PlayerId, records, candidate.Continuation, out _);
                 // Body offsets, lengths and hashes are fixed-width metadata. An empty M02 measures
@@ -70,6 +70,7 @@ namespace FightMatch.Core
                 Need(envelope.RequiredSliceContracts.Count == 6 && envelope.SliceDirectory.Count == 6 && envelope.Bodies.Length == 6,
                     "Envelope.Slices", "UnsupportedSchema");
                 var chapter = published != null && envelope.RequiredSliceContracts[0].SchemaVersion == 5;
+                if (chapter) foreach (var slice in envelope.SliceDirectory) BusinessRequirements.CheckKnownFeatures(slice.Requirements, published);
                 var roster = published != null && (envelope.RequiredSliceContracts[0].SchemaVersion == 3 || envelope.RequiredSliceContracts[0].SchemaVersion == 4 || chapter);
                 var permanent = published != null && (envelope.RequiredSliceContracts[0].SchemaVersion == 4 || chapter);
                 for (var i = 0; i < 6; i++)
@@ -97,7 +98,7 @@ namespace FightMatch.Core
                 var resolved = new CandidateApplicationReferences(business, budget).Validate(records);
                 if (records.Count == 1) CandidateApplicationProtocol.Initial(business, records[0].Intent);
                 CandidateApplicationProtocol.CheckContinuation(business, records, continuation);
-                var expectedRequirements = Requirements(records, resolved, budget, published != null, roster, permanent, chapter);
+                var expectedRequirements = Requirements(records, resolved, budget, published != null, roster, permanent, chapter, published);
                 if (chapter) BusinessRequirements.CheckFeatures(envelope.SliceDirectory[0].Requirements, expectedRequirements, "M02");
                 Need(BusinessRequirements.Same(expectedRequirements, envelope.SliceDirectory[0].Requirements),
                     "M02.Requirements", "InconsistentBinding");
@@ -305,7 +306,7 @@ namespace FightMatch.Core
                         Need(definitions != null, p + ".Permanent.Definitions", "UnsupportedBinding");
                         definitions.CheckQuote(quote, f.Budget);
                         CandidatePermanentProgression.CheckHistory(quote,
-                            values.Select(x => (x.Intent.OperationId, x.Intent.GetPermanent())), definitions);
+                            values.Select(x => (x.Intent.OperationId, x.Intent.GetPermanent())), definitions, f.Resolved);
                     }
                 }
                 Need(wire.Intent.FormatVersion <= (f.SchemaVersion >= 3 ? f.SchemaVersion : 2), p + ".Intent.FormatVersion", "UnsupportedSchema");
@@ -359,16 +360,19 @@ namespace FightMatch.Core
         }
 
         private static SaveRequirements Requirements(IReadOnlyList<CandidateApplicationRecord> records,
-            Dictionary<string, CandidateApplicationResolution> resolved, SaveCodecBudget budget, bool published, bool roster, bool permanent, bool chapter)
+            Dictionary<string, CandidateApplicationResolution> resolved, SaveCodecBudget budget, bool published, bool roster, bool permanent, bool chapter, PublishedSaveContext definitions)
         {
             var bindings = new List<SaveBinding>();
             var contexts = new List<PreparedRuleContext>();
             var rules = new List<string>();
             var numeric = new List<string>();
             var random = new List<string>();
+            var stateRequired = false;
             foreach (var row in records)
             {
                 var c = row.Intent.Context;
+                if (c is PreparedPublishedRuleContext original && definitions?.FindExact(original.Binding)?.Chapter?.HasTauntBossState == true)
+                    stateRequired = true;
                 var begin = resolved[row.OperationId].Begin;
                 var teaching = row.Intent.GetPermanent()?.TeachingLevel;
                 var binding = RuleContextChecks.SaveBinding(c, budget, teaching?.LevelId ?? begin?.Level.LevelId, teaching?.CanonicalLevelVersion ?? begin?.Level.LevelVersion);
@@ -387,7 +391,7 @@ namespace FightMatch.Core
                 if (!random.Contains(c.RandomContractVersion)) random.Add(c.RandomContractVersion);
             }
             return new SaveRequirements(bindings.AsReadOnly(), rules.AsReadOnly(), numeric.AsReadOnly(), random.AsReadOnly(),
-                Array.AsReadOnly(chapter ? new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1", "CH1.BusinessV5" } : permanent ? new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1" } : roster ? new[] { "fm.player.application.v1", "fm.player.roster.v1" } : new[] { published ? "fm.player.application.v1" : "fm.candidate.application.v1" }));
+                Array.AsReadOnly(chapter ? (stateRequired ? new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1", "CH1.BusinessV5", ChapterRuleDefinitions.StateFeatureId } : new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1", "CH1.BusinessV5" }) : permanent ? new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1" } : roster ? new[] { "fm.player.application.v1", "fm.player.roster.v1" } : new[] { published ? "fm.player.application.v1" : "fm.candidate.application.v1" }));
         }
     }
 }

@@ -150,9 +150,17 @@ namespace FightMatch.Core
                 case PreparedEnemy v:
                     Record("EnemyInstanceKey", v.EnemyInstanceKey, "EnemyDefinitionId", v.EnemyDefinitionId,
                         "OriginalSlot", v.OriginalSlot, "StableOrder", v.StableOrder, "Behavior", v.Behavior,
-                        "Stats", v.Stats, "IntentCycle", v.IntentCycle); return;
+                        "Stats", v.Stats, "IntentCycle", v.IntentCycle);
+                    if (v.InitialIntentCursor.HasValue || v.WindUses.HasValue || v.WindFraction != null || v.WindTargetEnemyInstanceKey != null)
+                        Record("InitialIntentCursor", v.InitialIntentCursor, "WindTargetEnemyInstanceKey", v.WindTargetEnemyInstanceKey,
+                            "WindUses", v.WindUses, "WindFraction", v.WindFraction);
+                    return;
                 case PreparedEnemyIntent v:
-                    Record("Kind", v.Kind, "Targeting", v.Targeting, "DamageKind", v.DamageKind, "DamageCoefficient", v.DamageCoefficient); return;
+                    Record("Kind", v.Kind, "Targeting", v.Targeting, "DamageKind", v.DamageKind, "DamageCoefficient", v.DamageCoefficient);
+                    if (v.AttackOverride != null || v.AttackRange.HasValue || v.ExhaustedFallbackIndex.HasValue || v.NextActionVulnerability != null)
+                        Record("AttackOverride", v.AttackOverride, "AttackRange", v.AttackRange,
+                            "ExhaustedFallbackIndex", v.ExhaustedFallbackIndex, "NextActionVulnerability", v.NextActionVulnerability);
+                    return;
                 case PreparedStats v:
                     Record("MaxHp", v.MaxHp, "Attack", v.Attack, "PhysicalDefense", v.PhysicalDefense,
                         "MagicDefense", v.MagicDefense, "Evasion", v.Evasion, "AttackRange", v.AttackRange); return;
@@ -162,7 +170,9 @@ namespace FightMatch.Core
                         Record("CharacterId", v.CharacterId, "ClassId", v.ClassId, "ClassKind", v.ClassKind,
                             "OriginalSlot", v.OriginalSlot, "Level", v.Level, "IsReady", v.IsReady, "StatsOrigin", v.StatsOrigin,
                             "StatsContext", v.StatsContext, "Stats", v.Stats, "EntryHp", v.EntryHp,
-                            "LearnedSkills", v.LearnedSkills, "Crit", v.Crit, "Penetration", v.Penetration); return;
+                            "LearnedSkills", v.LearnedSkills, "Crit", v.Crit, "Penetration", v.Penetration);
+                        if (v.BattleSkills.Count != 0) Record("BattleSkills", v.BattleSkills);
+                        return;
                     }
                     Record("CharacterId", v.CharacterId, "ClassId", v.ClassId, "ClassKind", v.ClassKind,
                         "OriginalSlot", v.OriginalSlot, "Level", v.Level, "IsReady", v.IsReady, "StatsOrigin", v.StatsOrigin,
@@ -175,13 +185,17 @@ namespace FightMatch.Core
                     Record("EntryBaselineId", v.Baseline.Entry.EntryBaselineId, "SceneRevision", ignoreRevision ? BigInteger.Zero : v.SceneRevision,
                         "EffectiveActionsCompleted", v.EffectiveActionsCompleted, "EnemyPhasesCompleted", v.EnemyPhasesCompleted,
                         "CurrentFaceIndex", v.CurrentFaceIndex, "Phase", v.Phase, "CarryMode", v.CarryMode,
-                        "Board", v.Board, "Members", v.Members, "Enemies", v.Enemies, "Random", v.Random, "Contributions", v.Contributions); return;
+                        "Board", v.Board, "Members", v.Members, "Enemies", v.Enemies, "Random", v.Random, "Contributions", v.Contributions);
+                    if (CandidateChapterBattleRules.HasStateContract(v.Baseline.Entry)) Record("ChapterState", v.ChapterState);
+                    return;
                 case BattleBoardState v: Record("FaceId", v.Face.FaceId, "LockedRoutes", v.LockedRoutes, "PendingLinks", v.PendingLinks); return;
                 case BattleLockedRoute v: Record("PairKey", v.PairKey, "Route", v.Route); return;
                 case BattleMemberState v: Record("CombatantKey", v.CombatantKey, "OriginalSlot", v.OriginalSlot, "Hp", v.Hp); return;
                 case BattleEnemyState v:
                     Record("CombatantKey", v.CombatantKey, "PairKey", v.PairKey, "OriginalSlot", v.OriginalSlot,
-                        "StableOrder", v.StableOrder, "Hp", v.Hp, "IntentCursor", v.IntentCursor); return;
+                        "StableOrder", v.StableOrder, "Hp", v.Hp, "IntentCursor", v.IntentCursor);
+                    if (v.Enemy.InitialIntentCursor.HasValue || v.RemainingWindUses.HasValue) Record("RemainingWindUses", v.RemainingWindUses);
+                    return;
                 case BattleContributionTotals v:
                     Record("CombatantKey", v.CombatantKey, "EffectiveDamageDealtHp", v.EffectiveDamageDealtHp,
                         "EffectiveDamageTakenHp", v.EffectiveDamageTakenHp); return;
@@ -203,7 +217,9 @@ namespace FightMatch.Core
                         "Conditions", v.Conditions, "DirectFacts", v.DirectAttack == null ? (object)Array.Empty<BattleDamageFact>() : v.DirectAttack.DamageFacts,
                         "EnemyFacts", v.EnemyPhase == null ? (object)Array.Empty<CandidateEnemyIntentFact>() : v.EnemyPhase.OrderedIntents,
                         "StageFacts", v.StageDecision.OrderedFacts, "ContributionSegments", v.ContributionSegments,
-                        "ConsumptionCoverage", v.ConsumptionCoverage); return;
+                        "ConsumptionCoverage", v.ConsumptionCoverage);
+                    if (CandidateChapterBattleRules.HasStateContract(v.BeforeSnapshot.Baseline.Entry)) Record("OrderedFacts", v.OrderedFacts);
+                    return;
                 case CandidateStageSource v:
                     Record("PlayerId", v.PlayerId, "AttemptId", v.AttemptId, "OperationId", v.OperationId,
                         "ExpectedSceneRevision", v.ExpectedSceneRevision, "Actor", v.Actor, "Pair", v.Pair, "Route", v.Route); return;
@@ -220,7 +236,9 @@ namespace FightMatch.Core
                             "Multiplier", v.Multiplier, "RawDamage", v.RawDamage, "MitigatedDamage", v.MitigatedDamage, "RoundedDamage", v.RoundedDamage,
                             "BlockPrevented", v.BlockPrevented, "ShieldAbsorbed", v.ShieldAbsorbed, "HpBefore", v.HpBefore,
                             "HpAfter", v.HpAfter, "HpLoss", v.HpLoss, "Overflow", v.Overflow, "DefeatedTarget", v.DefeatedTarget,
-                            "Crit", v.Crit, "Penetration", v.Penetration); return;
+                            "Crit", v.Crit, "Penetration", v.Penetration);
+                        if (CandidateChapterBattleRules.HasStateContract(v.Baseline.Entry)) Record("Vulnerability", v.Vulnerability);
+                        return;
                     }
                     Record("Baseline", v.Baseline.Entry.EntryBaselineId, "PlayerId", v.PlayerId, "AttemptId", v.AttemptId,
                         "FaceId", v.FaceId, "OperationId", v.OperationId, "SceneRevision", v.SceneRevision,
@@ -249,7 +267,10 @@ namespace FightMatch.Core
                         "OperationId", v.OperationId, "FaceId", v.FaceId, "SceneRevision", v.SceneRevision,
                         "ActionOrdinal", v.ActionOrdinal, "EnemyPhaseOrdinal", v.EnemyPhaseOrdinal, "SegmentIndex", v.SegmentIndex,
                         "EnemyKey", v.EnemyKey, "Pair", v.Pair, "StableOrder", v.StableOrder, "IntentKind", v.IntentKind,
-                        "CursorBefore", v.CursorBefore, "CursorAfter", v.CursorAfter, "Damage", v.Damage); return;
+                        "CursorBefore", v.CursorBefore, "CursorAfter", v.CursorAfter, "Damage", v.Damage);
+                    if (CandidateChapterBattleRules.HasStateContract(v.Baseline.Entry))
+                        Record("ExecutedIntentIndex", v.ExecutedIntentIndex, "TauntCaster", v.TauntCaster, "Wind", v.Wind);
+                    return;
                 case CandidateEnemyDamageFact v:
                     Record("ActorEnemy", v.ActorEnemy, "TargetMember", v.TargetMember, "DamageKind", v.DamageKind,
                         "Attack", v.Attack, "DamageCoefficient", v.DamageCoefficient, "PhysicalDefense", v.PhysicalDefense,
@@ -266,12 +287,46 @@ namespace FightMatch.Core
                 // These three fragment shapes are only for internal exact comparisons, not additional report fields.
                 case CandidateEnemyPhaseFrame v:
                     Record("EnemyPhaseOrdinal", v.EnemyPhaseOrdinal, "Members", v.Members, "Enemies", v.Enemies,
-                        "Contributions", v.Contributions, "Random", v.Random, "OrderedIntents", v.OrderedIntents); return;
+                        "Contributions", v.Contributions, "Random", v.Random, "OrderedIntents", v.OrderedIntents);
+                    if (CandidateChapterBattleRules.HasStateContract(v.DirectAttack.BeforeSnapshot.Baseline.Entry))
+                        Record("ChapterState", v.ChapterState, "CooldownFacts", v.CooldownFacts, "VulnerabilityFacts", v.VulnerabilityFacts);
+                    return;
                 case CandidateStageDecision v:
                     Record("Kind", v.Source.Kind, "Source", v.Source, "FinalHp", v.FinalHp, "Board", v.Board,
                         "NextFaceIndex", v.NextFaceIndex, "NextPhase", v.NextPhase, "NextFace", v.NextFace, "OrderedFacts", v.OrderedFacts); return;
                 case CandidateFinalHpValues v: Record("MemberHp", v.MemberHp, "EnemyHp", v.EnemyHp); return;
                 case CandidateHpValue v: Record("CombatantKey", v.CombatantKey, "Hp", v.Hp); return;
+                case PreparedChapterBattleSkill v:
+                    Record("SkillId", v.SkillId, "RecordVersion", v.RecordVersion, "BattleCapabilityId", v.BattleCapabilityId, "CooldownTurns", v.CooldownTurns); return;
+                case ChapterMemberSkillState v:
+                    Record("CombatantKey", v.CombatantKey, "SkillId", v.SkillId, "CooldownRemaining", v.CooldownRemaining); return;
+                case ChapterTauntState v:
+                    Record("TargetEnemyKey", v.TargetEnemyKey, "CasterKey", v.CasterKey, "AppliesToEnemyPhaseOrdinal", v.AppliesToEnemyPhaseOrdinal); return;
+                case ChapterVulnerabilityWindow v:
+                    Record("TargetEnemyKey", v.TargetEnemyKey, "Multiplier", v.Multiplier, "EffectiveActionOrdinal", v.EffectiveActionOrdinal); return;
+                case ChapterBattleState v:
+                    Record("FaceEnemyPhasesCompleted", v.FaceEnemyPhasesCompleted, "MemberSkills", v.MemberSkills,
+                        "Taunts", v.Taunts, "Vulnerabilities", v.Vulnerabilities); return;
+                case ChapterSkillCastFact v:
+                    Record("CasterKey", v.CasterKey, "TargetEnemyKey", v.TargetEnemyKey, "Skill", v.Skill,
+                        "CooldownBefore", v.CooldownBefore, "CooldownAfter", v.CooldownAfter, "EnemyPhaseOrdinal", v.EnemyPhaseOrdinal); return;
+                case ChapterCooldownFact v:
+                    Record("CombatantKey", v.CombatantKey, "SkillId", v.SkillId, "Before", v.Before, "After", v.After); return;
+                case ChapterVulnerabilityFact v: Record("Change", v.Change, "Window", v.Window); return;
+                case ChapterWindFact v:
+                    Record("TargetEnemyKey", v.TargetEnemyKey, "Fraction", v.Fraction, "MaximumHp", v.MaximumHp,
+                        "HpBefore", v.HpBefore, "HpAfter", v.HpAfter, "ActualHealing", v.ActualHealing,
+                        "UsesBefore", v.UsesBefore, "UsesAfter", v.UsesAfter); return;
+                case CandidateBattleOrderedFact v:
+                    Record("Index", v.Index, "Kind", v.Kind, "DirectAttack", v.DirectAttack, "EnemyIntent", v.EnemyIntent,
+                        "Stage", v.Stage, "SkillCast", v.SkillCast, "Cooldown", v.Cooldown, "Vulnerability", v.Vulnerability); return;
+                case CandidateCombatFrame v:
+                    Record("Action", v.Action, "Members", v.Members, "Enemies", v.Enemies, "Random", v.Random,
+                        "Contributions", v.Contributions, "DamageFacts", v.DamageFacts, "ChapterState", v.ChapterState, "SkillCasts", v.SkillCasts); return;
+                case CandidateAttackSource v:
+                    Record("PlayerId", v.PlayerId, "AttemptId", v.AttemptId, "OperationId", v.OperationId,
+                        "ExpectedSceneRevision", v.ExpectedSceneRevision, "ActionOrdinal", v.ActionOrdinal,
+                        "Actor", v.Actor, "Pair", v.Pair, "Route", v.Route); return;
                 case IEnumerable values:
                     var rows = new List<object>(); foreach (var row in values) rows.Add(row);
                     output.WriteByte(5); Length(rows.Count); foreach (var row in rows) Value(row); return;
@@ -294,12 +349,16 @@ namespace FightMatch.Core
                 case EnemyBehavior.Unspecified: return "Unspecified";
                 case EnemyBehavior.NormalStrike: return "NormalStrike";
                 case EnemyBehavior.ChargeHeavy: return "ChargeHeavy";
+                case EnemyBehavior.ChapterCycle: return "ChapterCycle";
                 case EnemyIntentKind.Unspecified: return "Unspecified";
                 case EnemyIntentKind.Charge: return "Charge";
                 case EnemyIntentKind.Strike: return "Strike";
+                case EnemyIntentKind.Rest: return "Rest";
+                case EnemyIntentKind.Wind: return "Wind";
                 case EnemyTargeting.Unspecified: return "Unspecified";
                 case EnemyTargeting.FirstLiving: return "FirstLiving";
                 case EnemyTargeting.LastLegalLiving: return "LastLegalLiving";
+                case EnemyTargeting.PreferMage: return "PreferMage";
                 case EntryDamageKind.Unspecified: return "Unspecified";
                 case EntryDamageKind.Physical: return "Physical";
                 case EntryDamageKind.Magic: return "Magic";
@@ -318,6 +377,9 @@ namespace FightMatch.Core
                 case CandidateBattleFactKind.DirectAttack: return "DirectAttack";
                 case CandidateBattleFactKind.EnemyIntent: return "EnemyIntent";
                 case CandidateBattleFactKind.Stage: return "Stage";
+                case CandidateBattleFactKind.SkillCast: return "SkillCast";
+                case CandidateBattleFactKind.Cooldown: return "Cooldown";
+                case CandidateBattleFactKind.Vulnerability: return "Vulnerability";
                 case CandidateContributionKind.DamageDealtHp: return "DamageDealtHp";
                 case CandidateContributionKind.DamageTakenHp: return "DamageTakenHp";
                 case CandidateConsumptionCoverage.EmptyCarryNoUse: return "EmptyCarryNoUse";
@@ -330,6 +392,8 @@ namespace FightMatch.Core
                 case CandidateStageFactKind.PendingLinkRemoved: return "PendingLinkRemoved";
                 case CandidateStageFactKind.FaceChanged: return "FaceChanged";
                 case CandidateStageFactKind.PhaseSelected: return "PhaseSelected";
+                case ChapterVulnerabilityChange.Created: return "Created";
+                case ChapterVulnerabilityChange.Expired: return "Expired";
                 default: throw new ArgumentException("Unknown value in the fixed FMBR01 schema.", nameof(value));
             }
         }

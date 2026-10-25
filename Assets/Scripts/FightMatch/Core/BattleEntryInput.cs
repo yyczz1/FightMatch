@@ -7,9 +7,9 @@ namespace FightMatch.Core
     public enum EntryCarryMode { Unspecified, Empty, NonEmpty }
     public enum CharacterClassKind { Unspecified, Warrior, Mage = 2 }
     public enum BaseStatsOrigin { Unspecified, ComputedBaseStats }
-    public enum EnemyBehavior { Unspecified, NormalStrike, ChargeHeavy }
-    public enum EnemyIntentKind { Unspecified, Charge, Strike }
-    public enum EnemyTargeting { Unspecified, FirstLiving, LastLegalLiving }
+    public enum EnemyBehavior { Unspecified, NormalStrike, ChargeHeavy, ChapterCycle }
+    public enum EnemyIntentKind { Unspecified, Charge, Strike, Rest, Wind }
+    public enum EnemyTargeting { Unspecified, FirstLiving, LastLegalLiving, PreferMage }
     public enum EntryDamageKind { Unspecified, Physical, Magic }
 
     // Callers must not modify any part of this input during PrepareCandidate.
@@ -77,6 +77,10 @@ namespace FightMatch.Core
         public int OriginalSlot { get => originalSlot; set { originalSlot = value; HasSlot = true; } }
         public int StableOrder { get => stableOrder; set { stableOrder = value; HasOrder = true; } }
         public EnemyBehavior Behavior { get; set; }
+        public BigInteger? InitialIntentCursor { get; set; }
+        public string WindTargetEnemyInstanceKey { get; set; }
+        public int? WindUses { get; set; }
+        public ExactRational WindFraction { get; set; }
         public StatsInput Stats { get; set; }
         public List<EnemyIntentInput> IntentCycle { get; set; }
         internal bool HasSlot { get; private set; }
@@ -95,6 +99,10 @@ namespace FightMatch.Core
             get => damageCoefficient;
             set { damageCoefficient = value; HasDamageCoefficient = true; }
         }
+        public ExactRational AttackOverride { get; set; }
+        public int? AttackRange { get; set; }
+        public int? ExhaustedFallbackIndex { get; set; }
+        public ExactRational NextActionVulnerability { get; set; }
         internal bool HasDamageKind { get; private set; }
         internal bool HasDamageCoefficient { get; private set; }
     }
@@ -123,6 +131,7 @@ namespace FightMatch.Core
         public RuleContext StatsContext { get; set; }
         public StatsInput Stats { get; set; }
         public ExactRational EntryHp { get; set; }
+        public List<ChapterBattleSkillInput> BattleSkills { get; set; }
         public List<string> LearnedSkills { get; set; }
         public WarriorCritInput Crit { get; set; }
         public ArcanePenetrationInput Penetration { get; set; }

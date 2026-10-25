@@ -119,6 +119,8 @@ namespace FightMatch.Core
                         CandidateContributionKind.DamageDealtHp, hit.HpLoss, facts.Count));
                     facts.Add(new CandidateBattleOrderedFact(facts.Count, hit));
                 }
+            if (direct != null)
+                foreach (var cast in direct.SkillCasts) facts.Add(new CandidateBattleOrderedFact(facts.Count, cast));
             if (enemy != null)
                 foreach (var intent in enemy.OrderedIntents)
                 {
@@ -128,6 +130,11 @@ namespace FightMatch.Core
                             intent.Damage.TargetMember, CandidateContributionKind.DamageTakenHp, intent.Damage.HpLoss, facts.Count));
                     facts.Add(new CandidateBattleOrderedFact(facts.Count, intent));
                 }
+            if (enemy != null)
+            {
+                foreach (var cooldown in enemy.CooldownFacts) facts.Add(new CandidateBattleOrderedFact(facts.Count, cooldown));
+                foreach (var vulnerability in enemy.VulnerabilityFacts) facts.Add(new CandidateBattleOrderedFact(facts.Count, vulnerability));
+            }
             foreach (var fact in stage.OrderedFacts) facts.Add(new CandidateBattleOrderedFact(facts.Count, fact));
             return new CandidateBattleOperationRecord(kind, time, before, after, conditions, direct, enemy, stage, facts, contributions);
         }
@@ -145,11 +152,15 @@ namespace FightMatch.Core
                         stage.NextFace.FaceId, pair.PairId), pair.Enemy));
                 enemies = next.AsReadOnly();
             }
+            var chapter = enemy == null ? before.ChapterState : enemy.ChapterState;
+            if (chapter != null && stage.DidFlipFace)
+                chapter = new ChapterBattleState(BigInteger.Zero, chapter.MemberSkills, Array.Empty<ChapterTauntState>(),
+                    Array.Empty<ChapterVulnerabilityWindow>());
             var increment = enemy == null ? BigInteger.Zero : BigInteger.One;
             return new BattleSnapshot(before.Baseline, math.Add(before.SceneRevision, BigInteger.One),
                 math.Add(before.EffectiveActionsCompleted, increment), math.Add(before.EnemyPhasesCompleted, increment),
                 stage.NextFaceIndex, stage.NextPhase, stage.Board, enemy == null ? before.Members : enemy.Members,
-                enemies, enemy == null ? before.Random : enemy.Random, enemy == null ? before.Contributions : enemy.Contributions);
+                enemies, enemy == null ? before.Random : enemy.Random, enemy == null ? before.Contributions : enemy.Contributions, chapter);
         }
 
         private static CandidateBattleResult CheckRun(CandidateBattleRun run, ExactMathBudget math)
@@ -187,7 +198,7 @@ namespace FightMatch.Core
             return null;
         }
 
-        private static CandidateBattleResult CheckRecord(CandidateRandomBinding binding, CandidateBattleOperationRecord record,
+        internal static CandidateBattleResult CheckRecord(CandidateRandomBinding binding, CandidateBattleOperationRecord record,
             string path, ExactMathBudget math)
         {
             var before = record.BeforeSnapshot; var source = record.Request;
@@ -208,14 +219,15 @@ namespace FightMatch.Core
                     return Reject("InconsistentBinding", path + ".DirectAttack");
                 var fragmentState = new BattleSnapshot(before.Baseline, before.SceneRevision, before.EffectiveActionsCompleted,
                     before.EnemyPhasesCompleted, before.CurrentFaceIndex, before.Phase, before.Board, record.EnemyPhase.Members,
-                    record.EnemyPhase.Enemies, record.EnemyPhase.Random, record.EnemyPhase.Contributions);
+                    record.EnemyPhase.Enemies, record.EnemyPhase.Random, record.EnemyPhase.Contributions, record.EnemyPhase.ChapterState);
                 var fragmentRejection = SnapshotReferences(fragmentState, before.Baseline, path + ".EnemyPhase", math);
                 if (fragmentRejection != null) return fragmentRejection;
                 foreach (var intent in record.EnemyPhase.OrderedIntents)
                 {
                     if (intent == null) return Reject("IncompleteHistory", path + ".EnemyPhase.OrderedIntents");
                     if (!ReferenceEquals(intent.Baseline, before.Baseline)) return Reject("InconsistentBinding", path + ".EnemyPhase.Baseline");
-                    if (intent.IntentKind != EnemyIntentKind.Charge && intent.IntentKind != EnemyIntentKind.Strike)
+                    if (!CandidateChapterBattleRules.HasStateContract(before.Baseline.Entry) &&
+                        intent.IntentKind != EnemyIntentKind.Charge && intent.IntentKind != EnemyIntentKind.Strike)
                         return Reject("UnsupportedBinding", path + ".EnemyPhase.IntentKind");
                 }
                 var action = direct.Action;
@@ -259,7 +271,9 @@ namespace FightMatch.Core
             {
                 var a = expected.OrderedFacts[i]; var b = record.OrderedFacts[i];
                 if (b == null || b.Index != i || b.Kind != a.Kind || !ReferenceEquals(a.DirectAttack, b.DirectAttack) ||
-                    !ReferenceEquals(a.EnemyIntent, b.EnemyIntent) || !ReferenceEquals(a.Stage, b.Stage))
+                    !ReferenceEquals(a.EnemyIntent, b.EnemyIntent) || !ReferenceEquals(a.Stage, b.Stage) ||
+                    !ReferenceEquals(a.SkillCast, b.SkillCast) || !ReferenceEquals(a.Cooldown, b.Cooldown) ||
+                    !ReferenceEquals(a.Vulnerability, b.Vulnerability))
                     return Reject("IncompleteHistory", path + ".OrderedFacts");
                 math.CheckInteger(b.Index);
             }
@@ -296,7 +310,7 @@ namespace FightMatch.Core
             return null;
         }
 
-        private static CandidateBattleResult CheckBinding(CandidateRandomBinding binding, ExactMathBudget math)
+        internal static CandidateBattleResult CheckBinding(CandidateRandomBinding binding, ExactMathBudget math)
         {
             if (binding.Start?.Baseline?.Entry == null || binding.Start.Snapshot == null) return Reject("MissingField", "Binding.Start");
             if (string.IsNullOrWhiteSpace(binding.SourceCapabilityId)) return Reject("MissingField", "Binding.SourceCapabilityId");
@@ -454,11 +468,15 @@ namespace FightMatch.Core
                 {
                     var e = pair.Enemy; var intents = new List<EnemyIntentInput>();
                     foreach (var intent in e.IntentCycle) intents.Add(new EnemyIntentInput { Kind = intent.Kind, Targeting = intent.Targeting,
-                        DamageKind = intent.DamageKind, DamageCoefficient = intent.DamageCoefficient });
+                        DamageKind = intent.DamageKind, DamageCoefficient = intent.DamageCoefficient,
+                        AttackOverride = intent.AttackOverride, AttackRange = intent.AttackRange,
+                        ExhaustedFallbackIndex = intent.ExhaustedFallbackIndex, NextActionVulnerability = intent.NextActionVulnerability });
                     f.Pairs.Add(new PairInput { PairId = pair.PairId, GeometryColorId = pair.GeometryColorId,
                         EndpointA = pair.EndpointA, EndpointB = pair.EndpointB, Enemy = new EnemyInput { EnemyInstanceKey = e.EnemyInstanceKey,
                             EnemyDefinitionId = e.EnemyDefinitionId, OriginalSlot = e.OriginalSlot, StableOrder = e.StableOrder,
-                            Behavior = e.Behavior, Stats = Stats(e.Stats), IntentCycle = intents } });
+                            Behavior = e.Behavior, Stats = Stats(e.Stats), IntentCycle = intents,
+                            InitialIntentCursor = e.InitialIntentCursor, WindTargetEnemyInstanceKey = e.WindTargetEnemyInstanceKey,
+                            WindUses = e.WindUses, WindFraction = e.WindFraction } });
                 }
                 level.Faces.Add(f);
             }
@@ -466,6 +484,7 @@ namespace FightMatch.Core
             foreach (var m in entry.Members) members.Add(new MemberInput { CharacterId = m.CharacterId, ClassId = m.ClassId,
                 ClassKind = m.ClassKind, OriginalSlot = m.OriginalSlot, Level = m.Level, IsReady = m.IsReady, StatsOrigin = m.StatsOrigin,
                 StatsContext = Context(m.StatsContext), Stats = Stats(m.Stats), EntryHp = m.EntryHp, LearnedSkills = new List<string>(m.LearnedSkills),
+                BattleSkills = CopySkills(m.BattleSkills),
                 Crit = m.Crit == null ? null : new WarriorCritInput { PassiveDefinitionId = m.Crit.PassiveDefinitionId, TargetProbability = m.Crit.TargetProbability,
                     C = m.Crit.C, Multiplier = m.Crit.Multiplier },
                 Penetration = m.Penetration == null ? null : new ArcanePenetrationInput { PassiveDefinitionId = m.Penetration.PassiveDefinitionId,
@@ -474,6 +493,15 @@ namespace FightMatch.Core
                 EntryBaselineId = entry.EntryBaselineId, Context = Context(entry.Context), Level = level, Members = members,
                 CarryMode = entry.CarryMode, RequiredFeatures = new List<string>(entry.RequiredFeatures) };
         }
+        internal static List<ChapterBattleSkillInput> CopySkills(IReadOnlyList<PreparedChapterBattleSkill> skills)
+        {
+            var inputs = new List<ChapterBattleSkillInput>();
+            foreach (var skill in skills)
+                inputs.Add(new ChapterBattleSkillInput { SkillId = skill.SkillId, RecordVersion = skill.RecordVersion,
+                    BattleCapabilityId = skill.BattleCapabilityId, CooldownTurns = skill.CooldownTurns });
+            return inputs;
+        }
+
         private static RuleContext Context(PreparedRuleContext c)
         { return RuleContextChecks.Copy(c); }
         private static StatsInput Stats(PreparedStats s)

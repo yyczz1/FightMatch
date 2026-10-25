@@ -24,12 +24,13 @@ namespace FightMatch.Core.Tests
         internal readonly FightMatch.Presentation.PlayerNavigationView View;
         internal readonly LocalizationService Localization;
         internal EventSystem EventSystem { get; }
-        internal NavigationPanel(PlayerNavigationController controller)
+        internal NavigationPanel(PlayerNavigationController controller, Action<GameObject> prepareRoot = null)
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/UI/FightMatch/Runtime/FightMatchRuntimeRoot.prefab");
             Assert.IsNotNull(prefab, "The saved uGUI RuntimeRoot prefab is required.");
             Assert.IsFalse(prefab.activeSelf, "The serialized RuntimeRoot must bind before activation.");
             root = UnityEngine.Object.Instantiate(prefab);
+            prepareRoot?.Invoke(root);
             foreach (var behaviour in root.GetComponents<MonoBehaviour>()) behaviour.enabled = false;
             foreach (var id in root.GetComponentsInChildren<FightMatchViewId>(true))
             {

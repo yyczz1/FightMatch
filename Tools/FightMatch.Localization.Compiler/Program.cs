@@ -69,6 +69,7 @@ internal static partial class Program
                 "generate" => RunGenerate(args),
                 "compile" => RunCompile(args),
                 "compile-chapter-one" => RunCompileChapterOne(args),
+                "compile-chapter-one-r3" => RunCompileChapterOne(args, true),
                 "self-test" => RunSelfTests(args),
                 "negative" => RunNegative(args),
                 _ => throw new ContractException("FMLOC000", $"unknown mode: {args[0]}")

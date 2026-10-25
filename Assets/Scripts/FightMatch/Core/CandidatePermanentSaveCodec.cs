@@ -258,7 +258,8 @@ namespace FightMatch.Core
                 EntryKind = (CandidateProgressionEntryKind)f.Enum((int)(x?.EntryKind ?? 0), 1, 1, p + ".EntryKind"),
                 UnlockKind = (CandidateProgressionUnlockKind)f.Enum((int)(x?.UnlockKind ?? 0), 1, 2, p + ".UnlockKind"),
                 UnlockAfterLevelId = f.Text(x?.UnlockAfterLevelId, p + ".UnlockAfterLevelId", true), RequiredFeatures = f.Strings(x?.RequiredFeatures, p + ".RequiredFeatures") };
-            Need(input.RequiredFeatures.Count == 0, p + ".RequiredFeatures", "UnsupportedBinding");
+            Need(input.RequiredFeatures.Count == 0 || f.SchemaVersion == 5 && input.RequiredFeatures.Count == 1 &&
+                input.RequiredFeatures[0] == ChapterRuleDefinitions.StateFeatureId, p + ".RequiredFeatures", "UnsupportedBinding");
             Need((input.UnlockKind == CandidateProgressionUnlockKind.InitiallyOpen) == (input.UnlockAfterLevelId == null), p + ".UnlockAfterLevelId");
             return f.Reading ? new CandidateProgressionLevel(input) : x;
         }

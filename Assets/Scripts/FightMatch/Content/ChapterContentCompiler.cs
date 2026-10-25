@@ -35,6 +35,9 @@ namespace FightMatch.Content
             chapter.Cards.Sort((a, b) => StringComparer.Ordinal.Compare(a.ItemId, b.ItemId));
             chapter.Skills.Sort((a, b) => StringComparer.Ordinal.Compare(a.SkillId, b.SkillId));
             chapter.Teachings.Sort((a, b) => StringComparer.Ordinal.Compare(a.TutorialId, b.TutorialId));
+            var stateful = s.RequiredCapabilities.Contains(ChapterRuleDefinitions.StateFeatureId);
+            Need(stateful || chapter.Skills.Count == 0 && chapter.Teachings.Count == 0,
+                "UnsupportedCapability", "Chapter.TeachingAndSkill");
             foreach (var source in s.Sources)
                 Need(source != null && !string.IsNullOrWhiteSpace(source.Path) && !string.IsNullOrWhiteSpace(source.Locator) &&
                     PublishedContentCatalog.IsSha(source.Sha256) && (source.Bytes == null || PublishedContentCodec.Sha256(source.Bytes) == source.Sha256),
@@ -56,6 +59,7 @@ namespace FightMatch.Content
                     {
                         var e = face.Pairs[i]?.Enemy; Root(e, "PairEnemy.Enemy");
                         Need(enemies.Add(e.EnemyInstanceKey), "InconsistentBinding", "PairEnemy.EnemyInstanceKey");
+                        CheckEnemy(e, face, stateful, math);
                     }
                     Need(face.Pairs.Select(p => p.Enemy.OriginalSlot).OrderBy(x => x).SequenceEqual(Enumerable.Range(0, face.Pairs.Count)) &&
                         face.Pairs.Select(p => p.Enemy.StableOrder).OrderBy(x => x).SequenceEqual(Enumerable.Range(0, face.Pairs.Count)),
@@ -69,6 +73,68 @@ namespace FightMatch.Content
         private static int Compare(string a, string b, string c, string d)
         { var first = StringComparer.Ordinal.Compare(a, c); return first == 0 ? StringComparer.Ordinal.Compare(b, d) : first; }
 
+        private static void CheckEnemy(EnemyInput enemy, FaceInput face, bool stateful, ExactMathBudget math)
+        {
+            Root(enemy.IntentCycle, "Enemy.IntentCycle");
+            if (!stateful)
+            {
+                Need(enemy.InitialIntentCursor == null && enemy.WindTargetEnemyInstanceKey == null &&
+                    enemy.WindUses == null && enemy.WindFraction == null, "UnsupportedCapability", "Enemy.ChapterState");
+                foreach (var intent in enemy.IntentCycle)
+                {
+                    Root(intent, "Enemy.Intent");
+                    Need(intent.AttackOverride == null && intent.AttackRange == null && intent.ExhaustedFallbackIndex == null &&
+                        intent.NextActionVulnerability == null, "UnsupportedCapability", "Enemy.Intent.ChapterState");
+                }
+                return;
+            }
+            Need(enemy.Behavior == EnemyBehavior.ChapterCycle && enemy.InitialIntentCursor.HasValue &&
+                enemy.InitialIntentCursor.Value >= 0 && enemy.InitialIntentCursor.Value < enemy.IntentCycle.Count,
+                "InvalidValue", "Enemy.InitialIntentCursor");
+            var wind = false;
+            foreach (var intent in enemy.IntentCycle)
+            {
+                Root(intent, "Enemy.Intent");
+                if (intent.Kind == EnemyIntentKind.Strike)
+                {
+                    Need(intent.DamageKind == EntryDamageKind.Physical && intent.DamageCoefficient != null &&
+                        intent.DamageCoefficient.Numerator.Sign >= 0 && intent.AttackRange.HasValue && intent.AttackRange > 0 &&
+                        intent.ExhaustedFallbackIndex == null && (intent.AttackOverride == null || intent.AttackOverride.Numerator.Sign >= 0),
+                        "InvalidValue", "Enemy.Intent.Strike");
+                    Need(intent.Targeting == EnemyTargeting.FirstLiving || intent.Targeting == EnemyTargeting.LastLegalLiving ||
+                        intent.Targeting == EnemyTargeting.PreferMage, "UnsupportedCapability", "Enemy.Intent.Targeting");
+                    Need(intent.NextActionVulnerability == null || intent.NextActionVulnerability.Compare(ExactRational.Create(1, 1, math), math) > 0,
+                        "InvalidValue", "Enemy.Intent.NextActionVulnerability");
+                    continue;
+                }
+                Need(intent.Kind == EnemyIntentKind.Charge || intent.Kind == EnemyIntentKind.Rest || intent.Kind == EnemyIntentKind.Wind,
+                    "UnsupportedCapability", "Enemy.Intent.Kind");
+                Need(intent.Targeting == EnemyTargeting.Unspecified && intent.DamageKind == null && intent.DamageCoefficient == null &&
+                    intent.AttackOverride == null && intent.AttackRange == null && intent.NextActionVulnerability == null,
+                    "InvalidValue", "Enemy.Intent.NonStrike");
+                if (intent.Kind != EnemyIntentKind.Wind)
+                {
+                    Need(intent.ExhaustedFallbackIndex == null, "InvalidValue", "Enemy.Intent.ExhaustedFallbackIndex");
+                    continue;
+                }
+                wind = true;
+                Need(intent.ExhaustedFallbackIndex.HasValue && intent.ExhaustedFallbackIndex.Value >= 0 &&
+                    intent.ExhaustedFallbackIndex.Value < enemy.IntentCycle.Count &&
+                    enemy.IntentCycle[intent.ExhaustedFallbackIndex.Value]?.Kind == EnemyIntentKind.Strike,
+                    "InvalidValue", "Enemy.Intent.ExhaustedFallbackIndex");
+            }
+            if (wind)
+            {
+                Need(enemy.WindTargetEnemyInstanceKey != enemy.EnemyInstanceKey &&
+                    face.Pairs.Any(pair => pair?.Enemy != null && pair.Enemy.EnemyInstanceKey == enemy.WindTargetEnemyInstanceKey) &&
+                    enemy.WindUses.HasValue && enemy.WindUses > 0 && enemy.WindFraction != null && enemy.WindFraction.Numerator.Sign > 0 &&
+                    enemy.WindFraction.Compare(ExactRational.Create(1, 1, math), math) <= 0,
+                    "InconsistentBinding", "Enemy.Wind");
+            }
+            else Need(enemy.WindTargetEnemyInstanceKey == null && enemy.WindUses == null && enemy.WindFraction == null,
+                "InvalidValue", "Enemy.Wind");
+        }
+
         internal static PublishedContentCompiler.BuildResult Build(PublishedSource source, ContentBinding binding, DemoContentJob job,
             ContentConsumerCapabilities caps, ExactMathBudget math)
         {
@@ -80,7 +146,8 @@ namespace FightMatch.Content
                 var prepared = CandidateCharacterGrowth.PrepareDefinition(input, math);
                 Need(prepared.IsAccepted, prepared.RejectionCode.ToString(), "CharacterGrowth." + prepared.FieldPath); growths.Add(prepared.Definition);
             }
-            var chapter = ChapterRuleDefinitions.Prepare(binding, source.Chapter.Passives, source.Chapter.CharacterUnlocks, source.Chapter.FirstClearItems, budget);
+            var chapter = ChapterRuleDefinitions.Prepare(binding, source.Chapter.Passives, source.Chapter.CharacterUnlocks,
+                source.Chapter.FirstClearItems, SkillInputs(source), TeachingInputs(source, binding, budget), source.RequiredCapabilities, budget);
             Need(chapter.IsAccepted, chapter.RejectionCode, chapter.FieldPath);
             var parameters = ProveParameters(source, chapter.Value, job, math); result.Parameters = parameters;
             var inventoryInput = Copy(source.Inventory, caps, math); inventoryInput.Context = context;
@@ -107,7 +174,8 @@ namespace FightMatch.Content
                         TargetProbability = stats.TargetProbability, C = parameters[(int)BigInteger.Min(p.Level, 31) - 1].C, Multiplier = stats.CritMultiplier } };
                 var input = new BattleEntryInput { Context = candidate, PlayerId = "validation:player", ChallengeId = "validation:challenge:" + l.Level.LevelId,
                     AttemptId = "validation:attempt:" + l.Level.LevelId, EntryBaselineId = "validation:baseline:" + l.Level.LevelId,
-                    Level = l.Level, Members = new List<MemberInput> { member }, CarryMode = EntryCarryMode.Empty, RequiredFeatures = new List<string>() };
+                    Level = l.Level, Members = new List<MemberInput> { member }, CarryMode = EntryCarryMode.Empty,
+                    RequiredFeatures = chapter.Value.HasTauntBossState ? new List<string> { ChapterRuleDefinitions.StateFeatureId } : new List<string>() };
                 var draft = new BattleEntryPreparer().PrepareCandidate(input, math);
                 Need(draft.IsAccepted, draft.RejectionCode.ToString(), "Level." + draft.FieldPath);
                 var db = DefinitionBinding.Prepare(binding, l.Level.LevelId, BigInteger.Parse(l.Level.LevelVersion, CultureInfo.InvariantCulture), budget);
@@ -132,6 +200,37 @@ namespace FightMatch.Content
         }
         private static T Copy<T>(T input, ContentConsumerCapabilities caps, ExactMathBudget math)
         { return PublishedContentCodec.Decode<T>(PublishedContentCodec.Encode(input, caps.MaxSourceBytes, caps, math), caps.MaxSourceBytes, caps, math); }
+        private static List<ChapterSkillDefinitionInput> SkillInputs(PublishedSource source)
+        {
+            var result = new List<ChapterSkillDefinitionInput>();
+            foreach (var skill in source.Chapter.Skills)
+            {
+                Need(skill.CooldownTurns >= 0 && skill.CooldownTurns <= int.MaxValue, "InvalidValue", "Skill.CooldownTurns");
+                result.Add(new ChapterSkillDefinitionInput {
+                    SkillId = skill.SkillId, RecordVersion = skill.RecordVersion, ClassId = skill.ClassId,
+                    CostItemId = skill.CostItemId, BattleCapabilityId = skill.BattleCapabilityId,
+                    MinimumLevel = skill.MinimumLevel, CostCount = skill.CostCount, CooldownTurns = (int)skill.CooldownTurns
+                });
+            }
+            return result;
+        }
+
+        private static List<ChapterTeachingDefinitionInput> TeachingInputs(PublishedSource source, ContentBinding binding, SaveCodecBudget budget)
+        {
+            var result = new List<ChapterTeachingDefinitionInput>();
+            foreach (var teaching in source.Chapter.Teachings)
+            {
+                var level = DefinitionBinding.Prepare(binding, teaching.LevelId, teaching.LevelVersion, budget);
+                Need(level.IsAccepted, level.RejectionCode, level.FieldPath);
+                result.Add(new ChapterTeachingDefinitionInput {
+                    TutorialId = teaching.TutorialId, RecordVersion = teaching.RecordVersion, Level = level.Value,
+                    ClassId = teaching.ClassId, SkillId = teaching.SkillId, GiftItemId = teaching.GiftItemId,
+                    LearningStepId = teaching.LearningStepId, ExplanationStepId = teaching.ExplanationStepId,
+                    GiftOnceKey = teaching.GiftOnceKey, GiftCount = teaching.GiftCount, ExplanationTextKey = teaching.ExplanationTextKey
+                });
+            }
+            return result;
+        }
         private static List<DemoParameterEvidence> ProveParameters(PublishedSource source, ChapterRuleDefinitions chapter, DemoContentJob job, ExactMathBudget math)
         {
             var result = new List<DemoParameterEvidence>();
@@ -187,8 +286,17 @@ namespace FightMatch.Content
                 records.Add(new CandidatePermanentDefinitionInput { Kind = CandidatePermanentDefinitionKind.Card, Id = card.ItemId,
                     RecordVersion = card.RecordVersion, UnitExperience = card.UnitExperience });
             }
-            // A data row alone never activates an unavailable skill or tutorial consumer.
-            Need(source.Chapter.Skills.Count == 0 && source.Chapter.Teachings.Count == 0, "UnsupportedCapability", "Chapter.TeachingAndSkill");
+            foreach (var skill in basis.Chapter.Skills)
+                records.Add(new CandidatePermanentDefinitionInput {
+                    Kind = CandidatePermanentDefinitionKind.Skill, Id = skill.SkillId, RecordVersion = skill.RecordVersion,
+                    ClassId = skill.ClassId, ItemId = skill.CostItemId, BattleCapabilityId = skill.BattleCapabilityId
+                });
+            foreach (var teaching in basis.Chapter.Teachings)
+                records.Add(new CandidatePermanentDefinitionInput {
+                    Kind = CandidatePermanentDefinitionKind.Teaching, Id = teaching.TutorialId, RecordVersion = teaching.RecordVersion,
+                    ClassId = teaching.ClassId, ItemId = teaching.GiftItemId, SkillId = teaching.SkillId, Level = teaching.Level,
+                    LearningStepId = teaching.LearningStepId, ExplanationStepId = teaching.ExplanationStepId, GiftOnceKey = teaching.GiftOnceKey
+                });
             var permanent = CandidatePermanentDefinitions.Prepare(basis.Binding, records, budget);
             Need(permanent.IsAccepted, permanent.RejectionCode, permanent.FieldPath);
             var attached = PublishedRuleDefinitions.PreparePermanent(basis, permanent.Value, budget);

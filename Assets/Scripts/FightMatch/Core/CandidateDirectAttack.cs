@@ -55,7 +55,17 @@ namespace FightMatch.Core
             var livingOrdinal = 1;
             foreach (var enemy in before.Enemies)
                 if (enemy.Hp.Numerator.Sign > 0 && enemy.OriginalSlot < target.OriginalSlot) livingOrdinal++;
-            if (livingOrdinal > actor.Member.Stats.AttackRange) return Reject(OutOfRange, "Pair");
+            if (livingOrdinal > actor.Member.Stats.AttackRange)
+            {
+                if (CandidateChapterBattleRules.ReadyTaunt(before, actor) == null) return Reject(OutOfRange, "Pair");
+                if (!CandidateChapterBattleRules.ValidPrd(entry, before.Random, math) ||
+                    !CandidateBattleReportFingerprint.Equal(before.Random.Stream.Initial.State, binding.Battle.Initial.Initial.State, math) ||
+                    !CandidateBattleReportFingerprint.Equal(before.Random.Stream.Initial.Increment, binding.Battle.Initial.Initial.Increment, math))
+                    return Reject(InconsistentBinding, "Before.Random");
+                var onlySkill = new CandidateAttackSource(request, math.Add(before.EffectiveActionsCompleted, BigInteger.One));
+                return new CandidateDirectAttackResult(CandidateChapterBattleRules.FinishDirect(binding, before, onlySkill,
+                    before.Enemies, before.Random, before.Contributions, Array.Empty<BattleDamageFact>(), math), null);
+            }
 
             // Evasion is explicitly zero in this supported domain, so even floor-zero damage is a real hit.
             CandidateCritFact critFact = null;
@@ -87,7 +97,10 @@ namespace FightMatch.Core
             var defense = penetrationFact == null ? target.Enemy.Stats.PhysicalDefense : target.Enemy.Stats.MagicDefense;
             if (penetrationFact != null && penetrationFact.Triggered)
                 defense = defense.Multiply(one.Subtract(actor.Member.Penetration.IgnoreMagicDefenseFraction, math), math);
+            var vulnerability = CandidateChapterBattleRules.Vulnerability(before, target.CombatantKey,
+                math.Add(before.EffectiveActionsCompleted, BigInteger.One));
             var raw = actor.Member.Stats.Attack.Multiply(multiplier, math);
+            if (vulnerability != null) raw = raw.Multiply(vulnerability.Multiplier, math);
             var mitigated = raw.Multiply(hundred, math).Divide(hundred.Add(defense, math), math);
             var rounded = mitigated.Floor(math);
             var incoming = ExactRational.Create(rounded, 1, math);
@@ -97,21 +110,21 @@ namespace FightMatch.Core
             var action = new CandidateAttackSource(request, math.Add(before.EffectiveActionsCompleted, BigInteger.One));
             var fact = new BattleDamageFact(before, action, target, actor.Member.Stats.Attack, multiplier,
                 raw, mitigated, rounded, hpAfter, hpLoss, overflow, zero, critFact, penetrationFact,
-                penetrationFact == null ? null : defense);
+                penetrationFact == null ? null : defense, vulnerability);
             var enemies = new List<BattleEnemyState>();
             foreach (var enemy in before.Enemies)
                 enemies.Add(enemy.CombatantKey.Equals(target.CombatantKey)
-                    ? new BattleEnemyState(enemy.CombatantKey, enemy.PairKey, enemy.Enemy, hpAfter, enemy.IntentCursor) : enemy);
+                    ? new BattleEnemyState(enemy.CombatantKey, enemy.PairKey, enemy.Enemy, hpAfter, enemy.IntentCursor, enemy.RemainingWindUses) : enemy);
             var contributions = new List<BattleContributionTotals>();
             foreach (var total in before.Contributions)
                 contributions.Add(total.CombatantKey.Equals(actor.CombatantKey)
                     ? new BattleContributionTotals(total.CombatantKey, total.EffectiveDamageDealtHp.Add(hpLoss, math),
                         total.EffectiveDamageTakenHp) : total);
-            return new CandidateDirectAttackResult(new CandidateCombatFrame(binding, before, action, enemies,
-                random, contributions, fact), fact);
+            return new CandidateDirectAttackResult(CandidateChapterBattleRules.FinishDirect(binding, before, action, enemies,
+                random, contributions, new[] { fact }, math), fact);
         }
 
-        private static CandidateDirectAttackResult CheckState(BattleSnapshot before, CandidateAttackRequest request,
+        internal static CandidateDirectAttackResult CheckState(BattleSnapshot before, CandidateAttackRequest request,
             ExactMathBudget math, out BattleMemberState actor, out BattleEnemyState target)
         {
             actor = null; target = null;
@@ -120,10 +133,11 @@ namespace FightMatch.Core
             if (before.EffectiveActionsCompleted.Sign < 0) return Reject(InvalidValue, "Before.EffectiveActionsCompleted");
             if (before.EnemyPhasesCompleted.Sign < 0) return Reject(InvalidValue, "Before.EnemyPhasesCompleted");
             var entry = before.Baseline.Entry;
-            if (before.CarryMode != EntryCarryMode.Empty || entry.CarryMode != EntryCarryMode.Empty || entry.RequiredFeatures.Count != 0)
+            if (before.CarryMode != EntryCarryMode.Empty || entry.CarryMode != EntryCarryMode.Empty || !CandidateChapterBattleRules.ValidFeatures(entry))
                 return Reject(InconsistentBinding, "Before.CarryMode");
             if (before.CurrentFaceIndex < 0 || before.CurrentFaceIndex >= entry.Level.Faces.Count)
                 return Reject(InvalidValue, "Before.CurrentFaceIndex");
+            if (!CandidateChapterBattleRules.ValidState(before, math)) return Reject(InconsistentBinding, "Before.ChapterState");
             var face = entry.Level.Faces[before.CurrentFaceIndex];
             if (!ReferenceEquals(before.Board.Face, face)) return Reject(InconsistentBinding, "Before.Board.Face");
             if (before.Board.PendingLinks.Count != 0) return Reject(InvalidPhase, "Before.Board.PendingLinks");
@@ -137,7 +151,7 @@ namespace FightMatch.Core
                     if (row.CombatantKey.Equals(BattleCombatantKey.ForParticipant(entry.AttemptId, member.CharacterId))) original = member;
                 if (original == null || !memberKeys.Add(row.CombatantKey) || !ReferenceEquals(original, row.Member))
                     return Reject(InconsistentBinding, path);
-                if (!CandidateChapterBattleRules.Supports(original, entry.Context) || original.LearnedSkills.Count != 0 ||
+                if (!CandidateChapterBattleRules.Supports(original, entry.Context) || !CandidateChapterBattleRules.SkillsSupported(original, entry) ||
                     !original.Stats.Evasion.Numerator.IsZero) return Reject(InconsistentBinding, path + ".Member");
                 if (!HpInRange(row.Hp, original.Stats.MaxHp, math)) return Reject(InvalidValue, path + ".Hp");
                 if (row.CombatantKey.Equals(request.Actor)) actor = row;
@@ -199,6 +213,7 @@ namespace FightMatch.Core
         {
             var entry = baseline.Entry;
             RuleContextChecks.CheckBudget(entry, math);
+            if (CandidateChapterBattleRules.HasStateContract(entry)) CandidateBattleReportFingerprint.Check(entry, math);
             math.CheckInteger(entry.Level.RecommendedLevel);
             foreach (var member in entry.Members) CheckMember(member, math);
             foreach (var face in entry.Level.Faces) CheckFace(face, math);

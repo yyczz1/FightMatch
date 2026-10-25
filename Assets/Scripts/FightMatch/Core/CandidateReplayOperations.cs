@@ -270,6 +270,9 @@ namespace FightMatch.Core
                     if (row?.StageDecision?.Source == null || row.BeforeSnapshot == null || row.AfterSnapshot == null)
                         return Reject("IncompleteHistory", "Input.RecordedReport.Operations");
             }
+            if (CandidateChapterBattleRules.HasStateContract(run.Baseline.Entry) &&
+                CandidateBattleOperations.CheckRecord(run.Binding, record, "Input.RecordedOperation", math) != null)
+                return Reject("IncompleteHistory", "Input.RecordedOperation.Chapter");
             Check(record, math); Check(record.StageDecision, math); Check(record.EnemyPhase, math); Check(input.RecordedReport, math);
             return null;
         }

@@ -43,7 +43,7 @@ namespace FightMatch.Core
             foreach (var baseline in battle.Baselines.Rows) c.Entry(baseline);
             foreach (var binding in battle.Bindings.Rows) c.Binding(binding);
             foreach (var state in battle.Snapshots.Rows) c.Snapshot(state, "M06.Snapshot");
-            foreach (var record in battle.Records.Rows) c.Record(record);
+            foreach (var record in battle.Records.Rows) c.Record(record, battle.BindingFor(record));
             foreach (var report in battle.Reports.Rows)
             { var checks = new RewardChecks(budget.Math); Need(new RewardReportChecks(checks).Report(report), "M06." + checks.Path, "IncompleteHistory"); }
             foreach (var run in battle.Runs.Rows) c.Run(run);
@@ -452,12 +452,21 @@ namespace FightMatch.Core
             Eq(initial.Random.Stream, b.Battle.Initial, "M06.Binding.InitialSnapshot.Random"); Eq(initial.Random.PrdStates, baseline.PrdInitialStates, "M06.Binding.InitialSnapshot.Prd");
             Need(ReferenceEquals(initial.Random.Stream, b.Battle.Initial), "M06.Binding.InitialSnapshot.Random", "InconsistentBinding");
             foreach (var member in initial.Members) Eq(member.Hp, member.Member.EntryHp, "M06.Binding.InitialSnapshot.Hp");
-            foreach (var enemy in initial.Enemies) { Eq(enemy.Hp, enemy.Enemy.Stats.MaxHp, "M06.Binding.InitialSnapshot.EnemyHp"); Need(enemy.IntentCursor.IsZero, "M06.Binding.InitialSnapshot.IntentCursor"); }
+            foreach (var enemy in initial.Enemies)
+            {
+                Eq(enemy.Hp, enemy.Enemy.Stats.MaxHp, "M06.Binding.InitialSnapshot.EnemyHp");
+                Need(enemy.IntentCursor == (CandidateChapterBattleRules.HasStateContract(baseline.Entry)
+                    ? enemy.Enemy.InitialIntentCursor ?? BigInteger.Zero : BigInteger.Zero), "M06.Binding.InitialSnapshot.IntentCursor");
+                Need(enemy.RemainingWindUses == (CandidateChapterBattleRules.HasStateContract(baseline.Entry)
+                    ? enemy.Enemy.WindUses : null), "M06.Binding.InitialSnapshot.RemainingWindUses");
+            }
+            Eq(initial.ChapterState, CandidateChapterBattleRules.InitialState(baseline.Entry), "M06.Binding.InitialSnapshot.ChapterState");
             foreach (var total in initial.Contributions) Need(total.EffectiveDamageDealtHp.Numerator.IsZero && total.EffectiveDamageTakenHp.Numerator.IsZero, "M06.Binding.InitialSnapshot.Contributions");
         }
         private void Snapshot(BattleSnapshot x, string p)
         {
             var entry = x.Baseline.Entry; var face = entry.Level.Faces[x.CurrentFaceIndex];
+            Need(CandidateChapterBattleRules.ValidState(x, math), p + ".ChapterState", "IncompleteHistory");
             Need(x.SceneRevision > 0 && x.EffectiveActionsCompleted >= 0 && x.EnemyPhasesCompleted >= 0 && x.EffectiveActionsCompleted == x.EnemyPhasesCompleted &&
                 x.Members.Count == entry.ReadyParticipants.Count && x.Enemies.Count == face.Pairs.Count && x.Contributions.Count == x.Members.Count && x.Random.PrdStates.Count == x.Members.Count,
                 p + ".Coverage", "IncompleteHistory");
@@ -522,11 +531,19 @@ namespace FightMatch.Core
             }
             Eq(range.BeforeSnapshot, restored.CurrentSnapshot, "M06.Rollback.RestoredRun", true);
         }
-        private void Record(CandidateBattleOperationRecord r)
+        private void Record(CandidateBattleOperationRecord r, CandidateRandomBinding binding)
         {
             var p = "M06.Record[" + r.OperationId + "]"; var before = r.BeforeSnapshot; var after = r.AfterSnapshot; var stage = r.StageDecision; var source = r.Request;
             Need(ReferenceEquals(stage.BeforeSnapshot, before) && ReferenceEquals(before.Baseline, after.Baseline) && source.PlayerId == s.PlayerId && source.AttemptId == before.Baseline.Entry.AttemptId &&
                 source.ExpectedSceneRevision == before.SceneRevision && after.SceneRevision == math.Add(before.SceneRevision, 1), p + ".Source", "IncompleteHistory");
+            if (CandidateChapterBattleRules.HasStateContract(before.Baseline.Entry))
+            {
+                if (r.Conditions != null) Need(r.Conditions.PreferenceRevision <= s.Inventory.PreferenceRevision,
+                    p + ".PreferenceRevision", "IncompleteHistory");
+                var checkedRecord = CandidateBattleOperations.CheckRecord(binding, r, p, math);
+                Need(checkedRecord == null, checkedRecord?.FieldPath ?? p, "IncompleteHistory");
+                return;
+            }
             var locked = new List<FlowPathData>(); foreach (var route in before.Board.LockedRoutes) locked.Add(new FlowPathData {
                 colorId = CandidateBattleSaveCodec.PairDefinition(before.Baseline, route.PairKey, p).GeometryColorId, cells = new List<FlowPos>(route.Route) });
             Route(before, source.Pair, source.Route, locked, p + ".Route");

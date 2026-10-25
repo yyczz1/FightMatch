@@ -364,16 +364,72 @@ namespace FightMatch.Presentation
         internal static string Level(LocalizationService service, string id, string version = "1") =>
             NavigationBindings.Level(service, id, version);
         internal static BattleTextLine EnemyName(LocalizationService service, PreparedEnemy enemy) => new BattleTextLine(
-            "fm.battle.enemy.numbered_name", Arg("enemyName", Resolve(service, enemy?.EnemyDefinitionId == "enemy:clockwork-infantry" ?
-                "fm.name.enemy.clockwork_infantry" : enemy?.EnemyDefinitionId == "enemy:heavy-tin-soldier" ? "fm.name.enemy.heavy_tin_soldier" :
-                enemy?.EnemyDefinitionId == "enemy:tin-armor-guard" ? "fm.name.enemy.tin_armor_guard" : string.Empty)),
+            "fm.battle.enemy.numbered_name", Arg("enemyName", Resolve(service, EnemyNameKey(enemy?.EnemyDefinitionId))),
             Arg("enemyNumber", enemy == null ? null : Number(enemy.OriginalSlot + 1))).For(enemy == null ? null : EnemyIdentity(enemy) + ":name");
+        private static string EnemyNameKey(string id)
+        {
+            switch (id)
+            {
+                case "enemy:clockwork-infantry": return "fm.name.enemy.clockwork_infantry";
+                case "enemy:heavy-tin-soldier": return "fm.name.enemy.heavy_tin_soldier";
+                case "enemy:tin-armor-guard": return "fm.name.enemy.tin_armor_guard";
+                case "enemy:spring-thrower": return "fm.name.enemy.spring_thrower";
+                case "enemy:mechanic": return "fm.name.enemy.mechanic";
+                case "enemy:bear-shell": return "fm.name.enemy.bear_shell";
+                case "enemy:heavy-guard": return "fm.name.enemy.heavy_guard";
+                case "enemy:bear-core": return "fm.name.enemy.bear_core";
+                default: return string.Empty;
+            }
+        }
         internal static string EnemyIdentity(PreparedEnemy enemy) => enemy == null ? null : "enemy:" + enemy.EnemyDefinitionId + ":" + Number(enemy.OriginalSlot);
         internal static string Enemy(LocalizationService service, PreparedEnemy enemy) => EnemyName(service, enemy).Resolve(service);
         internal static string Character(LocalizationService service, BattleSnapshot snapshot, BattleCombatantKey key) =>
             Character(service, snapshot?.Members.FirstOrDefault(x => x.CombatantKey.Equals(key))?.Member);
         internal static string Enemy(LocalizationService service, BattleSnapshot snapshot, BattlePairKey pair) =>
             Enemy(service, snapshot?.Enemies.FirstOrDefault(x => x.PairKey.Equals(pair))?.Enemy);
+        internal static string Enemy(LocalizationService service, BattleSnapshot snapshot, BattleCombatantKey key) =>
+            Enemy(service, snapshot?.Enemies.FirstOrDefault(x => x.CombatantKey.Equals(key))?.Enemy);
+        internal static string Skill(LocalizationService service, string id) =>
+            Resolve(service, id == "skill:warrior-taunt" ? "fm.name.skill.warrior_taunt" : string.Empty);
+        internal static BattleTextLine SkillCooldown(LocalizationService service, string skillId, int? remaining)
+        {
+            if (!remaining.HasValue) return null;
+            return remaining.Value == 0 ? new BattleTextLine("fm.battle.skill.ready", Arg("skillName", Skill(service, skillId))) :
+                new BattleTextLine("fm.battle.skill.cooldown", Arg("skillName", Skill(service, skillId)), Arg("remainingTurns", Number(remaining.Value)));
+        }
+        internal static BattleTextLine EnemyIntent(LocalizationService service, PreparedEnemy enemy, CandidatePlaybackActor actor)
+        {
+            var key = actor.Hp.Numerator.IsZero ? "fm.battle.intent.defeated" : string.Empty;
+            if (!actor.Hp.Numerator.IsZero && actor.IntentCursor.HasValue)
+            {
+                var intent = enemy.IntentCycle[(int)(actor.IntentCursor.Value % enemy.IntentCycle.Count)];
+                if (intent.Kind == EnemyIntentKind.Wind && actor.RemainingWindUses == 0)
+                    intent = enemy.IntentCycle[intent.ExhaustedFallbackIndex.Value];
+                key = IntentKey(intent);
+            }
+            var name = Resolve(service, key);
+            if (actor.IsVulnerable && !actor.Hp.Numerator.IsZero)
+            {
+                var vulnerability = Resolve(service, "fm.battle.enemy.vulnerable");
+                name = name == null || vulnerability == null ? null : name + "\n" + vulnerability;
+            }
+            return new BattleTextLine("fm.battle.hud.enemy_intent", Arg("intentName", name));
+        }
+        private static string IntentKey(PreparedEnemyIntent intent)
+        {
+            switch (intent.Kind)
+            {
+                case EnemyIntentKind.Charge: return "fm.battle.intent.charge";
+                case EnemyIntentKind.Rest: return "fm.battle.intent.rest";
+                case EnemyIntentKind.Wind: return "fm.battle.intent.wind";
+                case EnemyIntentKind.Strike:
+                    if (intent.AttackRange > 1) return "fm.battle.intent.ranged";
+                    if (intent.AttackRange.HasValue && intent.DamageCoefficient != null &&
+                        intent.DamageCoefficient.Numerator > intent.DamageCoefficient.Denominator) return "fm.battle.intent.heavy";
+                    return "fm.battle.intent.strike";
+                default: return string.Empty;
+            }
+        }
         internal static string PhaseName(LocalizationService service, BattlePhase? phase)
         {
             string key;
@@ -578,7 +634,16 @@ namespace FightMatch.Presentation
                     Arg("characterName", Character(service, original.BeforeSnapshot, hit.Actor)),
                     Arg("enemyName", Enemy(service, original.BeforeSnapshot, hit.Pair)), Arg("hpBefore", Hp(hit.HpBefore)), Arg("hpAfter", Hp(hit.HpAfter)));
             }
-            else if (fact.Kind == CandidateBattleFactKind.EnemyIntent && fact.EnemyIntent.IntentKind == EnemyIntentKind.Strike && fact.EnemyIntent.Damage != null)
+            else if (fact.Kind == CandidateBattleFactKind.EnemyIntent && fact.EnemyIntent.Wind != null)
+            {
+                var intent = fact.EnemyIntent;
+                var wind = intent.Wind;
+                line = new BattleTextLine("fm.battle.playback.wind",
+                    Arg("enemyName", Enemy(service, original.BeforeSnapshot, intent.Pair)),
+                    Arg("targetName", Enemy(service, original.BeforeSnapshot, wind.TargetEnemyKey)),
+                    Arg("hpBefore", Hp(wind.HpBefore)), Arg("hpAfter", Hp(wind.HpAfter)), Arg("remainingUses", Number(wind.UsesAfter)));
+            }
+            else if (fact.Kind == CandidateBattleFactKind.EnemyIntent && fact.EnemyIntent.Damage != null)
             {
                 var hit = fact.EnemyIntent;
                 line = new BattleTextLine("fm.battle.playback.enemy_strike",
@@ -588,6 +653,17 @@ namespace FightMatch.Presentation
             else if (fact.Kind == CandidateBattleFactKind.Stage) line = Stage(service, fact.Stage, original.BeforeSnapshot);
             else if (fact.Kind == CandidateBattleFactKind.EnemyIntent && fact.EnemyIntent.IntentKind == EnemyIntentKind.Charge)
                 line = new BattleTextLine("fm.battle.playback.enemy_charge", Arg("enemyName", Enemy(service, original.BeforeSnapshot, fact.EnemyIntent.Pair)));
+            else if (fact.Kind == CandidateBattleFactKind.EnemyIntent && fact.EnemyIntent.IntentKind == EnemyIntentKind.Rest)
+                line = new BattleTextLine("fm.battle.playback.enemy_rest", Arg("enemyName", Enemy(service, original.BeforeSnapshot, fact.EnemyIntent.Pair)));
+            else if (fact.Kind == CandidateBattleFactKind.SkillCast)
+                line = new BattleTextLine("fm.battle.playback.taunt",
+                    Arg("characterName", Character(service, original.BeforeSnapshot, fact.SkillCast.CasterKey)),
+                    Arg("enemyName", Enemy(service, original.BeforeSnapshot, fact.SkillCast.TargetEnemyKey)));
+            else if (fact.Kind == CandidateBattleFactKind.Cooldown)
+                line = SkillCooldown(service, fact.Cooldown.SkillId, fact.Cooldown.After);
+            else if (fact.Kind == CandidateBattleFactKind.Vulnerability)
+                line = new BattleTextLine(fact.Vulnerability.Change == ChapterVulnerabilityChange.Created ?
+                    "fm.battle.enemy.vulnerable" : "fm.battle.playback.current_state");
             else line = Unknown();
             return new BattleTextLine("fm.battle.playback.beat_row", Arg("beatNumber", Number(fact.Index + 1)), Arg("beat", line.Resolve(service)));
         }

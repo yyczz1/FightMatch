@@ -51,10 +51,19 @@ namespace FightMatch.Core
         public BattleRandomSnapshot Random { get; }
         public IReadOnlyList<BattleContributionTotals> Contributions { get; }
         public IReadOnlyList<BattleDamageFact> DamageFacts { get; }
+        public ChapterBattleState ChapterState { get; }
+        public IReadOnlyList<ChapterSkillCastFact> SkillCasts { get; }
 
         internal CandidateCombatFrame(CandidateRandomBinding binding, BattleSnapshot before,
             CandidateAttackSource action, IEnumerable<BattleEnemyState> enemies, BattleRandomSnapshot random,
             IEnumerable<BattleContributionTotals> contributions, BattleDamageFact fact)
+            : this(binding, before, action, enemies, random, contributions, new[] { fact }, null,
+                System.Array.Empty<ChapterSkillCastFact>()) { }
+
+        internal CandidateCombatFrame(CandidateRandomBinding binding, BattleSnapshot before,
+            CandidateAttackSource action, IEnumerable<BattleEnemyState> enemies, BattleRandomSnapshot random,
+            IEnumerable<BattleContributionTotals> contributions, IEnumerable<BattleDamageFact> facts,
+            ChapterBattleState chapterState, IEnumerable<ChapterSkillCastFact> skillCasts)
         {
             Binding = binding;
             BeforeSnapshot = before;
@@ -63,7 +72,9 @@ namespace FightMatch.Core
             Enemies = new List<BattleEnemyState>(enemies).AsReadOnly();
             Random = random;
             Contributions = new List<BattleContributionTotals>(contributions).AsReadOnly();
-            DamageFacts = new List<BattleDamageFact> { fact }.AsReadOnly();
+            DamageFacts = new List<BattleDamageFact>(facts).AsReadOnly();
+            ChapterState = chapterState;
+            SkillCasts = new List<ChapterSkillCastFact>(skillCasts).AsReadOnly();
         }
     }
 

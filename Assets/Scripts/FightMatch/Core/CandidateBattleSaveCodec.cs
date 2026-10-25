@@ -17,6 +17,14 @@ namespace FightMatch.Core
         private readonly SaveCodecBudget budget;
         private BusinessFields f;
         internal CandidateBattleSaveCodec(SaveCodecBudget budget) { this.budget = budget; }
+        internal CandidateRandomBinding BindingFor(CandidateBattleOperationRecord record) => recordBindings[Records.Index(record)];
+        private static bool HasState(BattleEntryBaseline baseline) => CandidateChapterBattleRules.HasStateContract(baseline.Entry);
+        private ChapterBattleState ChapterState(ChapterBattleState value, BattleEntryBaseline baseline, string path)
+        {
+            if (HasState(baseline)) return new CandidateChapterSaveCodec(f).State(value, baseline.Entry, path);
+            Need(value == null, path, "UnsupportedBinding");
+            return null;
+        }
         internal void Collect(CandidateBusinessSnapshot snapshot)
         {
             var h = snapshot.ActiveHistory;
@@ -108,7 +116,8 @@ namespace FightMatch.Core
             var enemies = Enemies(x?.Enemies, baseline, p + ".Enemies"); var random = Random(x?.Random, baseline, p + ".Random");
             var contributions = f.List(x?.Contributions, Totals, p + ".Contributions");
             Need(face >= 0 && face < baseline.Entry.Level.Faces.Count && ReferenceEquals(board.Face, baseline.Entry.Level.Faces[face]), p + ".CurrentFaceIndex", "InconsistentBinding");
-            return f.Reading ? new BattleSnapshot(baseline, revision, actions, phases, face, phase, board, members, enemies, random, contributions) : x;
+            var chapter = ChapterState(x?.ChapterState, baseline, p + ".ChapterState");
+            return f.Reading ? new BattleSnapshot(baseline, revision, actions, phases, face, phase, board, members, enemies, random, contributions, chapter) : x;
         }
         private CandidateRandomBinding Binding(CandidateRandomBinding x, string p)
         {
@@ -151,7 +160,15 @@ namespace FightMatch.Core
                 Need(key.Equals(BattleCombatantKey.ForEnemy(baseline.Entry.AttemptId, pair.FaceId, id)) && id == enemy.EnemyInstanceKey &&
                     (f.Reading || ReferenceEquals(row.Enemy, enemy)), path + ".Enemy", "InconsistentBinding");
                 var hp = f.Rational(row?.Hp, path + ".Hp"); var cursor = f.Integer(row?.IntentCursor ?? 0, path + ".IntentCursor");
-                return f.Reading ? new BattleEnemyState(key, pair, enemy, hp, cursor) : row; }, p);
+                int? uses = null;
+                if (HasState(baseline))
+                {
+                    if (f.Flag(row?.RemainingWindUses != null, path + ".RemainingWindUses"))
+                        uses = f.I(row?.RemainingWindUses ?? 0, path + ".RemainingWindUses.Value");
+                    Need(uses.HasValue == enemy.WindUses.HasValue && (!uses.HasValue || uses >= 0 && uses <= enemy.WindUses), path + ".RemainingWindUses");
+                }
+                else Need(row?.RemainingWindUses == null, path + ".RemainingWindUses", "UnsupportedBinding");
+                return f.Reading ? new BattleEnemyState(key, pair, enemy, hp, cursor, uses) : row; }, p);
         }
         private BattleRandomSnapshot Random(BattleRandomSnapshot x, BattleEntryBaseline baseline, string p)
         {
@@ -201,7 +218,15 @@ namespace FightMatch.Core
             else Need(ReferenceEquals(random, after.Random), p + ".Random", "InconsistentBinding");
             var totals = f.List(x?.Contributions, Totals, p + ".Contributions");
             var facts = f.List(x?.DamageFacts, (v, vp) => Damage(v, before, action, random, vp), p + ".DamageFacts");
-            Need(facts.Count == 1, p + ".DamageFacts", "UnsupportedBinding");
+            if (HasState(before.Baseline))
+            {
+                var codec = new CandidateChapterSaveCodec(f);
+                var chapter = codec.State(x?.ChapterState, before.Baseline.Entry, p + ".ChapterState");
+                var casts = f.List(x?.SkillCasts, (v, vp) => codec.Cast(v, before.Baseline.Entry, vp), p + ".SkillCasts");
+                Need(facts.Count <= 1 && casts.Count <= 1 && facts.Count + casts.Count > 0, p + ".ActionFacts", "IncompleteHistory");
+                return f.Reading ? new CandidateCombatFrame(binding, before, action, enemies, random, totals, facts, chapter, casts) : x;
+            }
+            Need(facts.Count == 1 && (f.Reading || x.ChapterState == null && x.SkillCasts.Count == 0), p + ".DamageFacts", "UnsupportedBinding");
             return f.Reading ? new CandidateCombatFrame(binding, before, action, enemies, random, totals, facts[0]) : x;
         }
         private CandidateCritFact CritFact(CandidateCritFact x, BattleSnapshot before, BattleRandomSnapshot after, string p)
@@ -261,10 +286,18 @@ namespace FightMatch.Core
                 Value(x?.MagicDefense, target.Enemy.Stats.MagicDefense, p + ".MagicDefense");
                 var effective = f.Rational(x?.EffectiveMagicDefense, p + ".EffectiveMagicDefense");
                 if (!f.Reading) Need(x.Crit == null, p + ".Crit", "InconsistentBinding");
-                return f.Reading ? new BattleDamageFact(before, action, target, attack, multiplier, raw, mitigated, rounded, hp, loss, overflow, zero, null, penetration, effective) : x;
+                var window = DamageWindow(x, before.Baseline, p);
+                return f.Reading ? new BattleDamageFact(before, action, target, attack, multiplier, raw, mitigated, rounded, hp, loss, overflow, zero, null, penetration, effective, window) : x;
             }
             var crit = CritFact(x?.Crit, before, random, p + ".Crit");
-            return f.Reading ? new BattleDamageFact(before, action, target, attack, multiplier, raw, mitigated, rounded, hp, loss, overflow, zero, crit) : x;
+            var vulnerability = DamageWindow(x, before.Baseline, p);
+            return f.Reading ? new BattleDamageFact(before, action, target, attack, multiplier, raw, mitigated, rounded, hp, loss, overflow, zero, crit, vulnerability: vulnerability) : x;
+        }
+        private ChapterVulnerabilityWindow DamageWindow(BattleDamageFact value, BattleEntryBaseline baseline, string path)
+        {
+            if (HasState(baseline)) return f.Optional(value?.Vulnerability, new CandidateChapterSaveCodec(f).Window, path + ".Vulnerability");
+            Need(value?.Vulnerability == null, path + ".Vulnerability", "UnsupportedBinding");
+            return null;
         }
         private CandidateEnemyPhaseFrame EnemyPhase(CandidateEnemyPhaseFrame x, CandidateCombatFrame direct, string p)
         {
@@ -274,6 +307,16 @@ namespace FightMatch.Core
             var members = Members(x?.Members, direct.BeforeSnapshot.Baseline, p + ".Members"); var enemies = Enemies(x?.Enemies, direct.BeforeSnapshot.Baseline, p + ".Enemies");
             var totals = f.List(x?.Contributions, Totals, p + ".Contributions"); var ordinal = f.Integer(x?.EnemyPhaseOrdinal ?? 0, p + ".EnemyPhaseOrdinal", 1);
             var facts = f.List(x?.OrderedIntents, (v, vp) => EnemyFact(v, direct, ordinal, vp), p + ".OrderedIntents");
+            if (HasState(direct.BeforeSnapshot.Baseline))
+            {
+                var codec = new CandidateChapterSaveCodec(f);
+                var entry = direct.BeforeSnapshot.Baseline.Entry;
+                var chapter = codec.State(x?.ChapterState, entry, p + ".ChapterState");
+                var cooldowns = f.List(x?.CooldownFacts, (v, vp) => codec.Cooldown(v, entry, vp), p + ".CooldownFacts");
+                var windows = f.List(x?.VulnerabilityFacts, codec.Vulnerability, p + ".VulnerabilityFacts");
+                return f.Reading ? new CandidateEnemyPhaseFrame(direct, ordinal, members, enemies, totals, facts, chapter, cooldowns, windows) : x;
+            }
+            Need(f.Reading || x.ChapterState == null && x.CooldownFacts.Count == 0 && x.VulnerabilityFacts.Count == 0, p + ".ChapterState", "UnsupportedBinding");
             return f.Reading ? new CandidateEnemyPhaseFrame(direct, ordinal, members, enemies, totals, facts) : x;
         }
         private CandidateEnemyIntentFact EnemyFact(CandidateEnemyIntentFact x, CandidateCombatFrame direct, BigInteger phase, string p)
@@ -287,22 +330,37 @@ namespace FightMatch.Core
             var enemy = CandidatePermanentSaveCodec.Find(direct.Enemies, e => e.CombatantKey.Equals(key), p + ".EnemyKey");
             Need(pair.Equals(enemy.PairKey) && face == pair.FaceId, p + ".Pair", "InconsistentBinding");
             Need(f.I(x?.StableOrder ?? 0, p + ".StableOrder") == enemy.StableOrder, p + ".StableOrder", "InconsistentBinding");
-            var kind = (EnemyIntentKind)f.Enum((int)(x?.IntentKind ?? 0), 1, 2, p + ".IntentKind");
+            var state = HasState(baseline);
+            var kind = (EnemyIntentKind)f.Enum((int)(x?.IntentKind ?? 0), 1, state ? 4 : 2, p + ".IntentKind");
             Number(x?.CursorBefore ?? 0, enemy.IntentCursor, p + ".CursorBefore"); var cursor = f.Integer(x?.CursorAfter ?? 0, p + ".CursorAfter");
-            var damage = f.Optional(x?.Damage, (v, vp) => EnemyDamage(v, direct, enemy, vp), p + ".Damage");
-            return f.Reading ? new CandidateEnemyIntentFact(direct, phase, index, enemy, kind, cursor, damage) : x;
+            int? executed = null;
+            if (state)
+            {
+                executed = f.I(x?.ExecutedIntentIndex ?? -1, p + ".ExecutedIntentIndex");
+                Need(executed >= 0 && executed < enemy.Enemy.IntentCycle.Count, p + ".ExecutedIntentIndex");
+            }
+            var attack = executed.HasValue ? enemy.Enemy.IntentCycle[executed.Value].AttackOverride ?? enemy.Enemy.Stats.Attack : enemy.Enemy.Stats.Attack;
+            var damage = f.Optional(x?.Damage, (v, vp) => EnemyDamage(v, direct, enemy, attack, vp), p + ".Damage");
+            BattleCombatantKey taunt = null; ChapterWindFact wind = null;
+            if (state)
+            {
+                taunt = f.Optional(x?.TauntCaster, f.Combatant, p + ".TauntCaster");
+                wind = f.Optional(x?.Wind, new CandidateChapterSaveCodec(f).Wind, p + ".Wind");
+            }
+            else Need(f.Reading || x.TauntCaster == null && x.Wind == null && x.ExecutedIntentIndex == null, p + ".ChapterFacts", "UnsupportedBinding");
+            return f.Reading ? new CandidateEnemyIntentFact(direct, phase, index, enemy, kind, cursor, damage, executed, taunt, wind) : x;
         }
-        private CandidateEnemyDamageFact EnemyDamage(CandidateEnemyDamageFact x, CandidateCombatFrame direct, BattleEnemyState enemy, string p)
+        private CandidateEnemyDamageFact EnemyDamage(CandidateEnemyDamageFact x, CandidateCombatFrame direct, BattleEnemyState enemy, ExactRational attack, string p)
         {
             f.Required(x, p); var actor = f.Combatant(x?.ActorEnemy, p + ".ActorEnemy"); var key = f.Combatant(x?.TargetMember, p + ".TargetMember");
             Need(actor.Equals(enemy.CombatantKey), p + ".ActorEnemy", "InconsistentBinding"); var member = MemberDefinition(direct.BeforeSnapshot.Baseline.Entry, key, p + ".TargetMember");
-            Value(x?.Attack, enemy.Enemy.Stats.Attack, p + ".Attack"); var coefficient = f.Rational(x?.DamageCoefficient, p + ".DamageCoefficient");
+            Value(x?.Attack, attack, p + ".Attack"); var coefficient = f.Rational(x?.DamageCoefficient, p + ".DamageCoefficient");
             Value(x?.PhysicalDefense, member.Stats.PhysicalDefense, p + ".PhysicalDefense"); var raw = f.Rational(x?.RawDamage, p + ".RawDamage");
             var mitigated = f.Rational(x?.MitigatedDamage, p + ".MitigatedDamage"); var rounded = f.Integer(x?.RoundedDamage ?? 0, p + ".RoundedDamage");
             var zero = Zero(); Value(x?.BlockPrevented, zero, p + ".BlockPrevented"); Value(x?.ShieldAbsorbed, zero, p + ".ShieldAbsorbed");
             var hpBefore = f.Rational(x?.HpBefore, p + ".HpBefore"); var hp = f.Rational(x?.HpAfter, p + ".HpAfter");
             var loss = f.Rational(x?.HpLoss, p + ".HpLoss"); var overflow = f.Rational(x?.Overflow, p + ".Overflow");
-            return f.Reading ? new CandidateEnemyDamageFact(enemy, new BattleMemberState(key, member, hpBefore), coefficient, raw, mitigated, rounded, hp, loss, overflow, zero) : x;
+            return f.Reading ? new CandidateEnemyDamageFact(enemy, new BattleMemberState(key, member, hpBefore), coefficient, raw, mitigated, rounded, hp, loss, overflow, zero, attack) : x;
         }
         private CandidateStageDecision Stage(CandidateStageDecision x, BattleSnapshot before, string p)
         {
@@ -338,11 +396,17 @@ namespace FightMatch.Core
         }
         private CandidateBattleOrderedFact Ordered(CandidateBattleOrderedFact x, CandidateCombatFrame direct, CandidateEnemyPhaseFrame enemy, CandidateStageDecision stage, string p)
         {
-            f.Required(x, p); var index = f.I(x?.Index ?? 0, p + ".Index"); var kind = (CandidateBattleFactKind)f.Enum((int)(x?.Kind ?? 0), 0, 2, p + ".Kind");
+            f.Required(x, p); var index = f.I(x?.Index ?? 0, p + ".Index"); var kind = (CandidateBattleFactKind)f.Enum((int)(x?.Kind ?? 0), 0, HasState(stage.BeforeSnapshot.Baseline) ? 5 : 2, p + ".Kind");
             if (kind == CandidateBattleFactKind.DirectAttack)
             { Need(direct != null && (f.Reading || x.EnemyIntent == null && x.Stage == null), p); return new CandidateBattleOrderedFact(index, LocalRef(direct.DamageFacts, x?.DirectAttack, p)); }
             if (kind == CandidateBattleFactKind.EnemyIntent)
             { Need(enemy != null && (f.Reading || x.DirectAttack == null && x.Stage == null), p); return new CandidateBattleOrderedFact(index, LocalRef(enemy.OrderedIntents, x?.EnemyIntent, p)); }
+            if (kind == CandidateBattleFactKind.SkillCast)
+            { Need(direct != null, p); return new CandidateBattleOrderedFact(index, LocalRef(direct.SkillCasts, x?.SkillCast, p)); }
+            if (kind == CandidateBattleFactKind.Cooldown)
+            { Need(enemy != null, p); return new CandidateBattleOrderedFact(index, LocalRef(enemy.CooldownFacts, x?.Cooldown, p)); }
+            if (kind == CandidateBattleFactKind.Vulnerability)
+            { Need(enemy != null, p); return new CandidateBattleOrderedFact(index, LocalRef(enemy.VulnerabilityFacts, x?.Vulnerability, p)); }
             Need(f.Reading || x.DirectAttack == null && x.EnemyIntent == null, p); return new CandidateBattleOrderedFact(index, LocalRef(stage.OrderedFacts, x?.Stage, p));
         }
         private T LocalRef<T>(IReadOnlyList<T> values, T value, string p) where T : class

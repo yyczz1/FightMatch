@@ -297,7 +297,17 @@ namespace FightMatch.Application
                     Number(p.EndpointA.x, b); Number(p.EndpointA.y, b); Number(p.EndpointB.x, b); Number(p.EndpointB.y, b);
                     var e = p.Enemy; Text(e.EnemyInstanceKey, "Enemy.Key", b); Text(e.EnemyDefinitionId, "Enemy.Id", b);
                     Number(e.OriginalSlot, b); Number(e.StableOrder, b); Stats(e.Stats, b); Count(e.IntentCycle, "Enemy.Intents", b);
-                    foreach (var intent in e.IntentCycle) if (intent.DamageCoefficient != null) Rational(intent.DamageCoefficient, b);
+                    if (e.InitialIntentCursor.HasValue) Number(e.InitialIntentCursor.Value, b);
+                    if (e.WindUses.HasValue) Number(e.WindUses.Value, b);
+                    if (e.WindFraction != null) Rational(e.WindFraction, b);
+                    foreach (var intent in e.IntentCycle)
+                    {
+                        if (intent.DamageCoefficient != null) Rational(intent.DamageCoefficient, b);
+                        if (intent.AttackOverride != null) Rational(intent.AttackOverride, b);
+                        if (intent.AttackRange.HasValue) Number(intent.AttackRange.Value, b);
+                        if (intent.ExhaustedFallbackIndex.HasValue) Number(intent.ExhaustedFallbackIndex.Value, b);
+                        if (intent.NextActionVulnerability != null) Rational(intent.NextActionVulnerability, b);
+                    }
                 }
             }
         }
