@@ -285,3 +285,29 @@ PR27 `8853fd17`独审已完成，review5641811975／状态6394230892 completed�
 同入口澄清再次被自动审批拒绝，理由明确不接受工具读取的跨聊天授权，仍依据本聊天旧N07的一次180秒限制；原文见`approval-rejection-02.json`。Unity仍0次，09-fix01／10均NOT_RUN，未拆调用或换执行者绕过。含澄清准备183.214084秒，B03/B04实际累计3017.489589／3600秒、余582.510411秒，旧预算保持。主程已在当前人类聊天提出唯一直接许可问题：原C一次≤120秒教学补验，通过后一次真实r3整链，准备／运行／收尾合计不超过此余量，失败即停；答复前不继续依赖该许可的运行，中央无需重复问。
 
 剩余运行受阻不阻止交回已验证P2修正：`review-candidate-06/`仅冻结相对PR27 `8853fd17`的四个源码／测试文件及本实施记录，保留已过四UI、Boss单例UTP与其余有效证据，同时明确教学单行修正尚未补验、真实r3链未跑、原字体漂移及本地fixture差异。仅由中央更新原draft PR27，QA接新的准确head独审；不能沿旧head的NEEDS_FIX宣称修正已接收，也不宣称整轮完成。
+
+中央已实际推送candidate06五文件／197628字节到同一draft PR27：新head `936f2b173fde52327c2d17f1ab6dd3391f69da69`，父`8853fd17b8c7ff80f5ea8f43d88a8c99c992dd37`，PR base仍`7a226936751ab265609b0fdc751207648bdffffb`。manifest SHA `37a539216041653007af8764f78c8a0654e393716a84fb4d7c068b5562013cd7`与远端五件一致，master／普通index保持、不合并；回执`TestArtifacts/FightMatch/Versioning/20261025-ch1-teaching-boss/p2/publication.json`。中央已交QA唯一接新head独审，不自动解决旧P2；当前尚未接收新审查结论。剩余运行只待主程当前聊天的直接人类许可，中央不重复问或另派执行。
+
+2026-10-25 19:01:04（上海），用户在中央已说明运行拒绝的上下文中直接要求“继续任务”。主程及原C实际读取人类turn `01a172b8-9eec-7da1-bd98-b93b85a66502`／message `01a172b8-a7df-7303-b2ae-b6ca593b4ff8`，原文及前一答复保存在`b03-b04/editmode-09-fix01/direct-human-continue-20261025.json`。C仅沿原exec入口提交一次新请求，本次获准并启动教学补验、timeout120秒；启动时实时余459.755831秒，整个新段仍含准备／运行／收尾共用原余582.510411秒，绝对截止以`continue-request-20261025.json`为准。旧两次拒绝不覆盖，不再询问已获准的普通步骤；条件actual-r3须等本例1XML通过、135／600／44保持且进程退出，结果尚待实际收件。
+
+`editmode-09-fix01`已实际1通过／0失败／0跳过，主程核标准XML及完整UTP End Passed，单例10.222004秒；Unity exit0、57.795887秒并退出，135／600／44后检无差异，字体与证据前像逐字节相同。此次输入中的最终教学测试SHA与PR27 `936f2b17`一致，修正只删Restart非法EndTimeSample，原失败仍保留；不外推本机fixture差异或整树。累计3198.175017／3600秒、余401.824982秒。条件满足后原C仅启动`editmode-10`真实r3新档整链一次，timeout371.775571秒、预留至少30秒收尾；尚未接收整链结果，资源／Scene未运行。
+
+PR27新head独审已完成，QA于19:03（上海）收回，主程亦读取原始[状态6394230892](https://github.com/yyczz1/FightMatch/pull/27#issuecomment-6394230892)及[回执6394590011](https://github.com/yyczz1/FightMatch/pull/27#issuecomment-6394590011)：完整commit `936f2b173fde52327c2d17f1ab6dd3391f69da69`，completed、两findings字段false，完成14:53:36（上海），未发现重大问题。代码审查门满足，旧8853fd17的P2／NEEDS_FIX历史保留，未手工resolve；该结论不代替真实整链、内容批准或Scene／Play验收。
+
+`editmode-10`于371.826088秒触及原实时上限，exitCode=null，无XML且UTP只有Begin／无End，整体为`STOPPED_TIMEOUT`。标准日志确认正常结算L1—L6，最后战士Lv3／XP102；没有L7完成证据，更不能声称L8法师、16教学或Boss真实链通过。135／600／44及字体均保持，C确认无Editor并停写，释放源码冻结；无额外重试／采样／资源／Scene／Git。最终总回执为`b03-b04/editmode-09-fix01/continue-sequence-result.json`：含准备收尾561.963311秒，B03/B04累计3579.452900／3600秒，余20.547100秒，旧B01/B02及r3生成预算保持。剩余额度不足以新启验证，不改名重置。
+
+继续在原CH1任务内做性能修正准备：该真实链的业务保存采用既有MemorySave，Unity测试发现／导入后已逐关推进，不能简单归因磁盘；逐关观察时刻并非精确阶段计时，耗时占比仍待证明。原save作者只读检查正常Submit／恢复／codec的确定重复工作，先给最小文件／方法范围、保持守卫的理由和一个短测量方案；不先加跨操作缓存、删除历史、放宽断言或调整作者数值。主程接具体方案后再登记允许写入范围，所需新执行额度待方案可审时集中处理，不再申请原样重跑长链。
+
+QA actual turn `01a172b9-e473-7361-99e4-9d6ccbad5aec`已按既有r2的19字段ContentReviewEvidence合同签发r3限定内容批准：`host-content/r3/approved-review.json`，5131字节，SHA `49e08ceec0630b45f3eab2601ad307096c9dedb15caf0eaa88a3e8c00dfe5817`。主程核实际文件身份，Verdict=ACCEPT仅覆盖此Trial准备内容的来源／字段映射／几何／参数，准确绑定revision3、16个LevelBinding与原source／payload／validation；作者为真实C prepare turn `01a17199-23c1-74e3-977d-2befcbb5dfa3`。原8件未改、模板仍UNREVIEWED、BattleReplayPerformed=false。原合同无需先把真实链或画面标通过，本内容批准不自动触发发布／资源／Scene，也不代替PR26缺失独审或真实r3整链验收。
+
+### 恢复流程最小修正准备（同任务，尚未实测）
+
+原save只读提出并由主程登记实施范围：仅`Assets/Scripts/FightMatch/Application/CandidateApplicationRecovery.cs`和`Assets/Tests/EditMode/FightMatch/PlayerSaveRecoveryTests.cs`，两者真实前像均与PR27 `936f2b17`逐字节相同，保存于`b03-b04/corrections/recovery-current-reuse-01/before/`。作者仅修改／静态检查，不运行Unity、测试、编译或Git；C已退出，原执行预算不重置。
+
+具体改变：`CheckPlayerRoots`完整解码及玩家准入后，可向本次`RestoreCore`返回当前root的已验证快照；保留原`store.Load`读回，以现有`SaveEnvelopeCodec.Write(Stream.Null, …)`计算全字节Descriptor，并同时核对已验证快照及原观察的Purpose／Player／Generation／Commit／Parent／TotalLength／SHA后，复用该次结果。所有旧根／父根／候选根仍逐个检查，原CheckSnapshot／原operation Lookup及最终WithVerifiedRecovery文件证据与能力gate保持；无PlayerSession的路径继续原Decode，不保存跨调用缓存。重新读到的内容或head不同必须拒绝，不能仅凭commitId或View旧对象复用。
+
+验收是正常恢复结果／奖励语义不变、确定的读取间文件突变不能发布、旧绑定与损坏拒绝及最终重查保持。新增至多一个定向突变测试，复用现有RetainedRoots／UnknownWriteAndReopen等短用例；测试只用本地存储decorator，不添加生产诊断hook。静态调用次数预测为正常Submit的完整ApplicationDecode从2N＋3减至2N＋2，表示局部冗余消除，尚无性能通过结论，亦不足以断言长链超时解决。进一步比例测量与必要新执行额度待准确候选和短验证范围就绪后集中处理，不默认重跑长链。
+
+候选已完成并停写，实际只改`CandidateApplicationRecovery.cs`，19833字节／SHA `924b435b3e1d076054363baec910a7c2bc3b3a2e7af07689f23baf1f4a446f75`；测试文件与前像逐字节相同。现有存储接口没有稳定的“根校验完毕”测试接缝，故未加入依赖私有方法名／StackTrace／固定读次数的专用race测试，不添加生产hook。主程已读准确`change.patch`（SHA `7d487ef6af00803d64111583d86764264176a6c73cf55e48d2926f86c27e0432`），原Load、全摘要双重绑定、全部恢复根和发布前复查均保留；未编译、未实测。原有并发证据变化／旧根与能力绑定／坏head禁止重建／Unknown后奖励只发一次及教学完整恢复共5方法13实例，作为最小必要复验，准确filter与守卫映射在同目录`candidate.json`（SHA `441cfdd2f70ccda4426ac2ef0c24c50f260d057e845191bd5517d9779430be60`）。
+
+本次只将该源码及实施记录冻结为`review-candidate-07`，交中央沿既有权限更新原draft PR27、QA接准确新head独审，不合并。源码审查可独立继续；新源码不能继承旧head测试通过。准备申请额外300秒的短验证额度（最多两次Unity启动，首次13实例，必要修正后仅复验受影响项），含准备／运行／收尾；此处仅为待人类批准方案，旧3579.452900／3600及余20.547100保持，不自行扩额，不包含真实r3长链、资源／Scene或设备运行。该局部修正尚不能解释／解决全部长链耗时。
