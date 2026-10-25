@@ -15,21 +15,14 @@ namespace FightMatch.Core.Tests
     public sealed class ChapterTeachingLifecycleTests
     {
         [Test]
-        public void NormalUnlockThenGiftLearningAndExplanationCompleteBeforeAnyTeachingAttempt()
+        public void TeachingGiftUnknownRecoveryPreservesLearningAcrossRollbackAndRestart()
         {
-            var fixture = new ChapterTeachingFixture();
+            var fixture = new ChapterTeachingFixture(initiallyOpenBoss: true);
             MemorySave storage;
             PublishedContentTestData.MemoryStorage locator;
             string learningOperation;
             using (var rig = new ChapterTeachingRig(fixture))
             {
-                for (var level = 1; level <= 15; level++)
-                {
-                    rig.Enter(level);
-                    rig.Win();
-                    rig.Settle();
-                }
-                Assert.AreEqual(2, rig.Head.Business.Roster.Characters.Count);
                 var before = rig.Head;
                 var files = CopyFiles(rig.Storage.Files);
                 Assert.AreEqual("TeachingGiftRequired", rig.PrepareEntry(16).Code);
@@ -119,8 +112,11 @@ namespace FightMatch.Core.Tests
         internal readonly PublishedContentCatalog Catalog;
         internal readonly ResolvedPublication Publication;
         internal static string LevelId(int number) => "level:ch01-" + number.ToString("00");
-        internal ChapterTeachingFixture(bool initiallyOpenBoss = false, int initialWarriorLevel = 5, bool actualAuthoring = false)
+        internal ChapterTeachingFixture(bool initiallyOpenBoss = false, int initialWarriorLevel = 5, bool actualAuthoring = false,
+            bool earlyMageCardReward = false)
         {
+            if (actualAuthoring && earlyMageCardReward)
+                throw new ArgumentException("Early Mage and card rewards are only available in the synthetic fixture.", nameof(earlyMageCardReward));
             if (actualAuthoring)
             {
                 var read = ChapterContentTables.Read("Generated/FightMatch/ChapterOneTrial/r3", "Config/FightMatch/ChapterOneTrial-r3",
@@ -169,6 +165,12 @@ namespace FightMatch.Core.Tests
                 GiftOnceKey = "Level16EntryGift", GiftCount = 1, ExplanationTextKey = "fm.ch1.tutorial.taunt.explanation" });
             Source.Chapter.CharacterUnlocks[0].AfterLevelId = LevelId(8);
             Source.Chapter.FirstClearItems[0].LevelId = LevelId(8);
+            if (earlyMageCardReward)
+            {
+                Source.Chapter.CharacterUnlocks[0].AfterLevelId = LevelId(1);
+                Source.Chapter.FirstClearItems[0].LevelId = LevelId(1);
+                Source.Chapter.FirstClearItems[0].Amount = 3;
+            }
             Source.Chapter.FirstClearItems.Add(new ChapterFirstClearItemInput { LevelId = LevelId(16), ItemId = "item:profession-certificate", Amount = 1 });
             Source.Levels.Clear();
             Source.Progression.Levels.Clear();
@@ -367,7 +369,7 @@ namespace FightMatch.Core.Tests
             var request = Prepared(Session.PrepareLifecycle(new PlayerLifecycleDraft { ExpectedCommitId = Head.Header.CommitId,
                 Kind = CandidateApplicationKind.RestartAttempt, RestartAttempt = new CandidateApplicationEndInput {
                     AttemptId = entry.AttemptId, ChallengeId = entry.ChallengeId, EntryBaselineId = entry.EntryBaselineId,
-                    ExpectedSceneRevision = state.SceneRevision }, EndTimeSample = PlayerRosterTestData.Time() }, Codec()));
+                    ExpectedSceneRevision = state.SceneRevision } }, Codec()));
             Is(Lifecycle.Submit(request, Budget()));
         }
         internal void TryUseCardsToNextLevel(string itemId = "item:xp-card-50")

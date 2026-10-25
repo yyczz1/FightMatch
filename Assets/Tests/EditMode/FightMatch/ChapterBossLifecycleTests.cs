@@ -119,9 +119,11 @@ namespace FightMatch.Core.Tests
                     if (level == 8) rig.AddMageToFormation();
                     if (level == 4 || level == 8 || level == 12) rig.TryUseCardsToNextLevel();
                     var warrior = rig.Head.Business.Roster.Find(rig.WarriorId);
-                    TestContext.WriteLine("r3 cleared " + level + ": warrior Lv" + warrior.Level + " XP " + warrior.Experience +
-                        "; commit " + rig.Head.Header.CommitId);
+                    UnityEngine.Debug.LogFormat(UnityEngine.LogType.Log, UnityEngine.LogOption.NoStacktrace, null,
+                        "[CH1-R3-PROGRESS] Cleared level {0}: warrior Lv{1} XP {2}; commit {3}",
+                        level, warrior.Level, warrior.Experience, rig.Head.Header.CommitId);
                 }
+                Assert.AreEqual(2, rig.Head.Business.Roster.Characters.Count);
                 rig.TryUseCardsToNextLevel();
                 Assert.GreaterOrEqual(rig.Head.Business.Roster.Find(rig.WarriorId).Level, new BigInteger(5),
                     "The real rewards/cards must satisfy the teaching level gate; this test does not inject levels.");

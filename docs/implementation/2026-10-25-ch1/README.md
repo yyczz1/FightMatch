@@ -265,3 +265,23 @@ r3实际prepare可独立于长战斗测试：真实Prepare及Authoring对应测�
 字体helper修正已收：本机TMP标准SetupNewAtlasTexture倍增数组，当前8槽中后3槽合法预留；只克隆已赋值槽并保持索引，严格检查主图集、活动图集及glyph引用。单文件新SHA `4f3bf15e7c07d601c497340666d041968da95b89d04a0cc63504406b0430ed7e`，原失败前像与diff在`b03-b04/corrections/font-isolation-01/`。`source-freeze-07.json` SHA `9f0a54822ccf3aed1fb979557622b77ca3a757f7cbce9debf4a2253fb6f3128f`只变该源，仍原3600秒预算。中央已确认candidate04未产生提交／推送／PR，保持冻结历史，等待最终候选。
 
 `editmode-06-fix01`实际10通过／0失败／0跳过，Unity exit0、61.308045秒并退出；135／600／44保持，字体与06前像逐字节一致。原10失败及04字体漂移不覆盖；当前有效唯一检查为03的2例＋04中未受影响84例＋本次10例，即96个不同用例通过，三个长例仍待完整结果。累计1950.338806／3600秒，余1649.661194秒；C已按合同继续07两个synthetic长例。若某Win阶段超过60秒，允许仅对同一C-owned Unity PID作一次系统sample的3秒只读CPU采样，纳入原预算、不延长调用；失败无采样重试，不采其他应用。08实际r3链仍以上一段完整通过为前提。
+
+中央已据最终`review-candidate-05` manifest SHA `40a12a10140cf47588b1129acdc64f7275a39012b4cf7bcd19cd638eb9add913`发布[PR27](https://github.com/yyczz1/FightMatch/pull/27)：head `8853fd17b8c7ff80f5ea8f43d88a8c99c992dd37`，base PR26 `7a226936751ab265609b0fdc751207648bdffffb`，分支`codex/ch1-teaching-boss`，draft未合并。136路径／2103402字节逐项来自冻结副本，远端一致；普通master125b849与索引保持。主程已挂接，QA由中央交接唯一触发／接回准确head独审，三个长例与Scene／Play缺口及本机fixture差异均在PR明列。实际发布回执见`TestArtifacts/FightMatch/Versioning/20261025-ch1-teaching-boss/publication.json`，不将发布认作审查或集成通过。
+
+`editmode-07`原600秒监督最终timeout600.086589秒、exitCode=null，无整批XML；但标准UTP完整记录Boss冷恢复／两次挑战／结算用例End Passed、270.136619秒。第二个synthetic教学长例推进至第13关win后settle前，未完成；08 actual-r3整链按条件NOT_RUN。135／600／44保持、Unity退出，累计2573.974181／3600秒，余1026.025819秒。系统sample仅一次3秒（工具4.294162秒、exit0），同PID18078／argv已核；Rosetta栈大多未符号化，不能可靠命名业务函数。主程请QA按标准完成事件接收已结束的一例，整批超时保持，不重跑已完成270秒用例来凑XML。
+
+下一步先由原save只读核Application提交／恢复、combat只读核历史校验与synthetic前置重复覆盖，构造最小可测预测，不在未知根因下写缓存／弱化守卫／改作者数值。剩余真实链及教学独有断言仍未验证；现有3600预算不扩大，不以重命名阶段重置。PR27 head不变，源码独审原请求6394228610、状态6394230892已绑定8853fd17且running／findings null，尚无最终发现。QA只在本次新证据里程碑接回一次原审查，不重复触发；r3批准和Scene执行仍未发生。
+
+QA已直接核07同PID18078的标准UTF Begin／End及本机Success=4映射，接收Boss单例270.136619秒的限定复用；表述为96项XML＋1项独立UTP完成证据，整批无XML／timeout、教学未完成和08未跑保持。无需为后一例超时重跑该已完成Boss用例。只读调用关系显示保存恢复会遍历所有仍存在的旧提交，每次正常Submit在已有N份snapshot时可能多次完整解码，各snapshot又含累计历史；战内CheckRun／Archive也会重复核已有Records。其耗时占比未实测，不据此改缓存、清理旧档或放宽任何恢复守卫。
+
+PR27 `8853fd17`独审已完成，review5641811975／状态6394230892 completed且findings=true；唯一[P2](https://github.com/yyczz1/FightMatch/pull/27#discussion_r4369867689)指出16关经验卡入口强制教学战士，覆盖玩家选中的Mage，阻断既定T2/G01用卡路径。QA本head唯一集成判定`NEEDS_FIX`。原save仅修`Presentation/PlayerNavigationView.cs`及`ChapterTeachingNavigationTests.cs`：明确选择优先、未选时保持教学默认战士，学习按钮仍固定战士；补Lv4／Lv5两种真实uGUI选择／取消／确认及学习／回刷行为，只复验新2＋旧2，不重跑播放8例或整批。
+
+教学长例去除重复准备但不减少整体验收：combat将其改名`TeachingGiftUnknownRecoveryPreservesLearningAcrossRollbackAndRestart`，使用既有initiallyOpenBoss夹具，保留Gift Unknown／Resolve、重复提交、学习消耗与冷恢复、独立说明、rollback及restart全部独有断言；原双角色断言移动到actual-r3正常1→15之后，由真实链唯一承担正常解锁、L8 Mage和每关正常入场／结算，仍待实际结果。两测试临时DEBUG日志已清除，真实链只保留标准每关进度。精准差量及旧含日志前像在`diagnostics/lifecycle-focus/`。为P2快速可达前置，既有fixture增加默认false的synthetic-only earlyMageCardReward：true只将Mage和经验卡首通来源移L1并给3卡，通过正常Application取得；真实作者组合拒绝，默认及真实表均不改，不作为真实L8验收。后续只测聚焦教学与P2受影响4例，再在原剩余1026.025819秒内独立actual-r3链。
+
+`editmode-09`实际XML为4通过／1失败：P2新增Lv4／Lv5两例及原导航两例均通过，聚焦教学在Restart因测试helper错误携带`EndTimeSample`失败。Unity65.130866秒、exit2，135候选／600输入／44保护及字体保持；累计2725.231376／3600秒。原combat仅删除Restart请求的该一行，产品守卫和独有断言保持；前像及准确diff在`b03-b04/corrections/teaching-restart-01/`，最终测试源SHA `c5845dbbcfafdc29ef0648ab6765a7d55cb02bb488f3c39f22029eaf4e56d71e`。已过四项不重跑，actual-r3链仍NOT_RUN。
+
+`editmode-09-fix01`首次执行请求在启动前被自动审批拒绝，Unity0次，补验和条件actual-r3均NOT_RUN；原因引用旧N07的一次／180秒／禁止重试限制。原文及计时保存在`b03-b04/editmode-09-fix01/approval-rejection-01.json`，含本次准备后实际累计2834.275505／3600秒、余765.724495秒，不能使用freeze09内此前的余874秒。主程已从中央`read_thread`直接核人类2026-10-25T01:57:19Z的CH1继续实现／仅补受影响验证授权（turn `01a170c6-cdaf-74d0-b9b6-709641639061`、message `01a170c6-d0cc-74a1-b745-1e462eae70ca`），准确原文存同目录`direct-human-authority.json`。只交同一C沿原入口澄清一次：聚焦教学单例最多120秒，通过后才接真实r3单例，全段含准备收尾不超过实际余765.724495秒，真实链timeout按实时余量减至少30秒；不另加900秒、不换入口、不扩大原总预算。若再拒绝即停并报告，当前不把授权核实写成运行通过。
+
+同入口澄清再次被自动审批拒绝，理由明确不接受工具读取的跨聊天授权，仍依据本聊天旧N07的一次180秒限制；原文见`approval-rejection-02.json`。Unity仍0次，09-fix01／10均NOT_RUN，未拆调用或换执行者绕过。含澄清准备183.214084秒，B03/B04实际累计3017.489589／3600秒、余582.510411秒，旧预算保持。主程已在当前人类聊天提出唯一直接许可问题：原C一次≤120秒教学补验，通过后一次真实r3整链，准备／运行／收尾合计不超过此余量，失败即停；答复前不继续依赖该许可的运行，中央无需重复问。
+
+剩余运行受阻不阻止交回已验证P2修正：`review-candidate-06/`仅冻结相对PR27 `8853fd17`的四个源码／测试文件及本实施记录，保留已过四UI、Boss单例UTP与其余有效证据，同时明确教学单行修正尚未补验、真实r3链未跑、原字体漂移及本地fixture差异。仅由中央更新原draft PR27，QA接新的准确head独审；不能沿旧head的NEEDS_FIX宣称修正已接收，也不宣称整轮完成。

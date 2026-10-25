@@ -208,7 +208,7 @@ namespace FightMatch.Presentation
                 bindings.CloneButton(buttonTemplate, preparationSection, FightMatchViewId.Row("teaching.Card." + card.Id), localization,
                     "fm.operation.use_experience_cards", controller.NavigationHandler(new PlayerNavigationTarget {
                         Kind = PlayerNavigationTargetKind.Detail, PermanentKind = CandidatePermanentKind.UseExperienceCards,
-                        CharacterId = learner.CharacterId, DefinitionId = card.Id }));
+                        CharacterId = view.Context.SelectedCharacterId ?? learner.CharacterId, DefinitionId = card.Id }));
             if (progress.Learning != null)
             {
                 Row(preparationSection, "teaching.Explanation", teaching.ExplanationTextKey);
