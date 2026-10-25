@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module name="">
+  <bean name="CardRow">
+    <var name="item_id" type="string" />
+    <var name="record_version" type="string" />
+    <var name="unit_experience" type="string" />
+  </bean>
+  <table name="TbCard" value="CardRow" mode="list" input="Card.csv" output="Card" group="client" />
+  <bean name="CharacterGrowthRow">
+    <var name="class_id" type="string" />
+    <var name="class_kind" type="string" />
+    <var name="passive_id" type="string" />
+    <var name="base_hp" type="string" />
+    <var name="base_attack" type="string" />
+    <var name="base_pdef" type="string" />
+    <var name="base_mdef" type="string" />
+    <var name="evasion" type="string" />
+    <var name="attack_range" type="string" />
+    <var name="growth_hp" type="string" />
+    <var name="growth_attack" type="string" />
+    <var name="growth_defense" type="string" />
+    <var name="xp_base" type="string" />
+    <var name="xp_linear" type="string" />
+    <var name="xp_quadratic" type="string" />
+    <var name="recovery_ms" type="string" />
+  </bean>
+  <table name="TbCharacterGrowth" value="CharacterGrowthRow" mode="list" input="CharacterGrowth.csv" output="CharacterGrowth" group="client" />
+  <bean name="CharacterUnlockRow">
+    <var name="class_id" type="string" />
+    <var name="after_level_id" type="string" />
+    <var name="initial_level_source" type="string" />
+    <var name="initial_xp" type="string" />
+    <var name="initial_active_skill_ids" type="string" />
+  </bean>
+  <table name="TbCharacterUnlock" value="CharacterUnlockRow" mode="list" input="CharacterUnlock.csv" output="CharacterUnlock" group="client" />
+  <bean name="DefaultRouteCellRow">
+    <var name="level_id" type="string" />
+    <var name="face_id" type="string" />
+    <var name="pair_id" type="string" />
+    <var name="cell_order" type="string" />
+    <var name="row" type="string" />
+    <var name="column" type="string" />
+  </bean>
+  <table name="TbDefaultRouteCell" value="DefaultRouteCellRow" mode="list" input="DefaultRouteCell.csv" output="DefaultRouteCell" group="client" />
+  <bean name="EnemyActionRow">
+    <var name="action_set_id" type="string" />
+    <var name="action_index" type="string" />
+    <var name="kind" type="string" />
+    <var name="targeting" type="string" />
+    <var name="damage_kind" type="string" />
+    <var name="attack_override" type="string" />
+    <var name="coefficient" type="string" />
+    <var name="range" type="string" />
+    <var name="exhausted_fallback_index" type="string" />
+    <var name="next_action_vulnerability" type="string" />
+  </bean>
+  <table name="TbEnemyAction" value="EnemyActionRow" mode="list" input="EnemyAction.csv" output="EnemyAction" group="client" />
+  <bean name="FaceRow">
+    <var name="level_id" type="string" />
+    <var name="face_id" type="string" />
+    <var name="face_order" type="string" />
+    <var name="width" type="string" />
+    <var name="height" type="string" />
+  </bean>
+  <table name="TbFace" value="FaceRow" mode="list" input="Face.csv" output="Face" group="client" />
+  <bean name="FirstClearItemRow">
+    <var name="level_id" type="string" />
+    <var name="item_id" type="string" />
+    <var name="amount" type="string" />
+  </bean>
+  <table name="TbFirstClearItem" value="FirstClearItemRow" mode="list" input="FirstClearItem.csv" output="FirstClearItem" group="client" />
+  <bean name="ItemRow">
+    <var name="item_id" type="string" />
+    <var name="kind" type="string" />
+    <var name="equip_class_id" type="string" />
+  </bean>
+  <table name="TbItem" value="ItemRow" mode="list" input="Item.csv" output="Item" group="client" />
+  <bean name="LevelRow">
+    <var name="level_id" type="string" />
+    <var name="level_version" type="string" />
+    <var name="recommended_level" type="string" />
+    <var name="unlock_rule_id" type="string" />
+    <var name="unlock_kind" type="string" />
+    <var name="unlock_after_level_id" type="string" />
+    <var name="reward_id" type="string" />
+    <var name="tutorial_id" type="string" />
+  </bean>
+  <table name="TbLevel" value="LevelRow" mode="list" input="Level.csv" output="Level" group="client" />
+  <bean name="PairEnemyRow">
+    <var name="level_id" type="string" />
+    <var name="face_id" type="string" />
+    <var name="pair_id" type="string" />
+    <var name="color_id" type="string" />
+    <var name="a_row" type="string" />
+    <var name="a_col" type="string" />
+    <var name="b_row" type="string" />
+    <var name="b_col" type="string" />
+    <var name="enemy_instance_key" type="string" />
+    <var name="enemy_definition_id" type="string" />
+    <var name="original_slot" type="string" />
+    <var name="stable_order" type="string" />
+    <var name="max_hp" type="string" />
+    <var name="attack" type="string" />
+    <var name="physical_defense" type="string" />
+    <var name="magic_defense" type="string" />
+    <var name="evasion" type="string" />
+    <var name="attack_range" type="string" />
+    <var name="action_set_id" type="string" />
+    <var name="initial_cursor" type="string" />
+    <var name="wind_target_instance_key" type="string" />
+    <var name="wind_uses" type="string" />
+    <var name="wind_fraction" type="string" />
+  </bean>
+  <table name="TbPairEnemy" value="PairEnemyRow" mode="list" input="PairEnemy.csv" output="PairEnemy" group="client" />
+  <bean name="PassiveRow">
+    <var name="passive_id" type="string" />
+    <var name="class_id" type="string" />
+    <var name="kind" type="string" />
+    <var name="p_base" type="string" />
+    <var name="p_step" type="string" />
+    <var name="p_cap" type="string" />
+    <var name="crit_multiplier" type="string" />
+    <var name="ignore_magic_defense_fraction" type="string" />
+  </bean>
+  <table name="TbPassive" value="PassiveRow" mode="list" input="Passive.csv" output="Passive" group="client" />
+  <bean name="ReleaseRow">
+    <var name="package_id" type="string" />
+    <var name="draft_id" type="string" />
+    <var name="revision" type="string" />
+    <var name="source_schema" type="string" />
+    <var name="rule_version" type="string" />
+    <var name="numeric_version" type="string" />
+    <var name="random_version" type="string" />
+    <var name="required_capabilities" type="string" />
+    <var name="release_set_id" type="string" />
+    <var name="parameter_status" type="string" />
+    <var name="source_locator" type="string" />
+  </bean>
+  <table name="TbRelease" value="ReleaseRow" mode="list" input="Release.csv" output="Release" group="client" />
+  <bean name="RewardRow">
+    <var name="reward_id" type="string" />
+    <var name="record_version" type="string" />
+    <var name="level_id" type="string" />
+    <var name="level_version" type="string" />
+    <var name="base_experience" type="string" />
+    <var name="damage_weight" type="string" />
+    <var name="taken_weight" type="string" />
+    <var name="curve_base" type="string" />
+    <var name="curve_log" type="string" />
+    <var name="reference_hp_divisor" type="string" />
+    <var name="level_penalty_base" type="string" />
+    <var name="overlevel_grace" type="string" />
+    <var name="zero_contribution_policy" type="string" />
+    <var name="drop_mode" type="string" />
+  </bean>
+  <table name="TbReward" value="RewardRow" mode="list" input="Reward.csv" output="Reward" group="client" />
+  <bean name="RewardMaterialRow">
+    <var name="reward_id" type="string" />
+    <var name="item_id" type="string" />
+    <var name="amount" type="string" />
+  </bean>
+  <table name="TbRewardMaterial" value="RewardMaterialRow" mode="list" input="RewardMaterial.csv" output="RewardMaterial" group="client" />
+  <bean name="SkillRow">
+    <var name="skill_id" type="string" />
+    <var name="record_version" type="string" />
+    <var name="class_id" type="string" />
+    <var name="cost_item_id" type="string" />
+    <var name="battle_capability_id" type="string" />
+    <var name="minimum_level" type="string" />
+    <var name="cost_count" type="string" />
+    <var name="cooldown_turns" type="string" />
+  </bean>
+  <table name="TbSkill" value="SkillRow" mode="list" input="Skill.csv" output="Skill" group="client" />
+  <bean name="SourceMetadataRow">
+    <var name="path" type="string" />
+    <var name="locator" type="string" />
+    <var name="sha256" type="string" />
+  </bean>
+  <table name="TbSourceMetadata" value="SourceMetadataRow" mode="list" input="SourceMetadata.csv" output="SourceMetadata" group="client" />
+  <bean name="TeachingRow">
+    <var name="tutorial_id" type="string" />
+    <var name="record_version" type="string" />
+    <var name="level_id" type="string" />
+    <var name="level_version" type="string" />
+    <var name="class_id" type="string" />
+    <var name="skill_id" type="string" />
+    <var name="gift_item_id" type="string" />
+    <var name="learning_step_id" type="string" />
+    <var name="explanation_step_id" type="string" />
+    <var name="gift_once_key" type="string" />
+    <var name="gift_count" type="string" />
+    <var name="explanation_text_key" type="string" />
+  </bean>
+  <table name="TbTeaching" value="TeachingRow" mode="list" input="Teaching.csv" output="Teaching" group="client" />
+</module>

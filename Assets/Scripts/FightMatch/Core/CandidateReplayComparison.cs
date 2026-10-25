@@ -84,7 +84,7 @@ namespace FightMatch.Core
                 AttackSource(p + ".DirectAttack.Action", da.Action, db.Action);
                 // Random evidence precedes damage: every rejected word, then stream states/counters.
                 S(p + ".DirectAttack.DamageFacts", da.DamageFacts, db.DamageFacts,
-                    (q, x, y) => Crit(q + ".Crit", x.Crit, y.Crit));
+                    (q, x, y) => { Crit(q + ".Crit", x.Crit, y.Crit); Penetration(q + ".Penetration", x.Penetration, y.Penetration); });
                 Random(p + ".DirectAttack.Random", da.Random, db.Random);
             }
             Random(p + ".AfterSnapshot.Random", a.AfterSnapshot.Random, b.AfterSnapshot.Random);
@@ -163,6 +163,7 @@ namespace FightMatch.Core
             R(p + ".EntryHp", a.EntryHp, b.EntryHp);
             S(p + ".LearnedSkills", a.LearnedSkills, b.LearnedSkills, (q, x, y) => V(q, x, y));
             CritParameters(p + ".Crit", a.Crit, b.Crit);
+            PenetrationParameters(p + ".Penetration", a.Penetration, b.Penetration);
         }
 
         private void Intent(string p, PreparedEnemyIntent a, PreparedEnemyIntent b)
@@ -252,6 +253,7 @@ namespace FightMatch.Core
             if (!Open(p, a, b)) return;
             Combatant(p + ".CombatantKey", a.CombatantKey, b.CombatantKey);
             CritParameters(p + ".Crit", a.Crit, b.Crit);
+            PenetrationParameters(p + ".Penetration", a.Penetration, b.Penetration);
             V(p + ".FailureCount", a.FailureCount, b.FailureCount);
         }
 
@@ -398,6 +400,29 @@ namespace FightMatch.Core
             S(p + ".Route", a.Route, b.Route, Position);
         }
 
+        private void PenetrationParameters(string p, PreparedArcanePenetration a, PreparedArcanePenetration b)
+        {
+            if (!Open(p, a, b)) return;
+            V(p + ".PassiveDefinitionId", a.PassiveDefinitionId, b.PassiveDefinitionId);
+            R(p + ".TargetProbability", a.TargetProbability, b.TargetProbability);
+            R(p + ".C", a.C, b.C);
+            R(p + ".IgnoreMagicDefenseFraction", a.IgnoreMagicDefenseFraction, b.IgnoreMagicDefenseFraction);
+        }
+
+        private void Penetration(string p, CandidatePenetrationFact a, CandidatePenetrationFact b)
+        {
+            if (!Open(p, a, b)) return;
+            Combatant(p + ".Actor", a.Actor, b.Actor); Combatant(p + ".Target", a.Target, b.Target);
+            V(p + ".OpportunityOrdinal", a.OpportunityOrdinal, b.OpportunityOrdinal);
+            PenetrationParameters(p + ".Parameters", a.Parameters, b.Parameters);
+            R(p + ".Probability", a.Probability, b.Probability);
+            V(p + ".FailureCountBefore", a.FailureCountBefore, b.FailureCountBefore);
+            V(p + ".FailureCountAfter", a.FailureCountAfter, b.FailureCountAfter);
+            V(p + ".Triggered", a.Triggered, b.Triggered);
+            S(p + ".Words", a.Words, b.Words, (q, x, y) => V(q, x, y));
+            Stream(p + ".StreamBefore", a.StreamBefore, b.StreamBefore); Stream(p + ".StreamAfter", a.StreamAfter, b.StreamAfter);
+        }
+
         private void Crit(string p, CandidateCritFact a, CandidateCritFact b)
         {
             if (!Open(p, a, b)) return;
@@ -443,6 +468,12 @@ namespace FightMatch.Core
             R(p + ".Overflow", a.Overflow, b.Overflow);
             V(p + ".DefeatedTarget", a.DefeatedTarget, b.DefeatedTarget);
             Crit(p + ".Crit", a.Crit, b.Crit);
+            if (CandidateChapterBattleRules.IsChapter(a.Baseline.Entry.Context) || CandidateChapterBattleRules.IsChapter(b.Baseline.Entry.Context))
+            {
+                R(p + ".MagicDefense", a.MagicDefense, b.MagicDefense);
+                R(p + ".EffectiveMagicDefense", a.EffectiveMagicDefense, b.EffectiveMagicDefense);
+                Penetration(p + ".Penetration", a.Penetration, b.Penetration);
+            }
         }
 
         private void EnemyDamage(string p, CandidateEnemyDamageFact a, CandidateEnemyDamageFact b)

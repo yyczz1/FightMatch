@@ -73,12 +73,12 @@ namespace FightMatch.Core
             var difference = RuleContextChecks.Difference(RuleContextChecks.Copy(state.Definition.Context), context, "Context", Math);
             return difference == null || Fail(InconsistentBinding, difference);
         }
-        internal bool Actor(CandidateInventoryActorInput input, string path)
+        internal bool Actor(CandidateInventoryActorInput input, string path, bool chapter = false)
         {
             if (input == null) return Fail(MissingField, path);
             if (!Text(input.CharacterId, path + ".CharacterId") || !Text(input.ClassId, path + ".ClassId")) return false;
             if (input.ClassKind == CharacterClassKind.Unspecified) return Fail(MissingField, path + ".ClassKind");
-            if (input.ClassKind != CharacterClassKind.Warrior) return Fail(UnsupportedBinding, path + ".ClassKind");
+            if (input.ClassKind != CharacterClassKind.Warrior && !(chapter && input.ClassKind == CharacterClassKind.Mage)) return Fail(UnsupportedBinding, path + ".ClassKind");
             if (!Number(input.OriginalSlot, path + ".OriginalSlot")) return false;
             return input.OriginalSlot.Value <= 2 || Fail(InvalidValue, path + ".OriginalSlot");
         }

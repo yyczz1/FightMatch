@@ -177,7 +177,7 @@ namespace FightMatch.Core
             foreach (var b in new byte[] { 70, 77, 80, 82, 79, 70, 48 })
                 Need(f.U(b, 1, "CreateRecord.Magic") == b, "CreateRecord.Magic", "UnsupportedCreateRecord");
             var format = f.U((ulong)(48 + (value?.RecordFormatVersion ?? 1)), 1, "CreateRecord.Magic") - 48;
-            Need(format == 1 || format == 2, "CreateRecord.Magic", "UnsupportedCreateRecord");
+            Need(format == 1 || format == 2 || format == 4, "CreateRecord.Magic", "UnsupportedCreateRecord");
             Need(f.U(format, 4, "CreateRecord.RecordFormatVersion") == format, "CreateRecord.RecordFormatVersion", "UnsupportedCreateRecord");
             var player = f.Text(value?.PlayerId, "CreateRecord.PlayerId"); var operation = f.Text(value?.OperationId, "CreateRecord.OperationId");
             var binding = ((PublishedRuleContext)f.PublishedContext(value?.ContentBinding, "CreateRecord.ContentBinding")).Binding;

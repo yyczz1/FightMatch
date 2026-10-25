@@ -125,7 +125,8 @@ namespace FightMatch.Core
             {
                 var character = id == null ? null : roster.Find(id);
                 if (character == null || !character.IsReady) continue;
-                Need(character.Definition.ClassKind == CharacterClassKind.Warrior,
+                Need(character.Definition.ClassKind == CharacterClassKind.Warrior ||
+                    character.Definition.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion && character.Definition.ClassKind == CharacterClassKind.Mage,
                     "Permanent.Battle.Class", "UnsupportedBattleCapability");
                 foreach (var effect in roster.GetPermanentEffects())
                     Need(effect.Quote.Kind != CandidatePermanentKind.LearnSkill || effect.Quote.CharacterId != id,

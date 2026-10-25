@@ -232,12 +232,20 @@ namespace FightMatch.Core
                         record.EnemyPhase.Contributions, run.Baseline, "Input.RecordedOperation.EnemyPhase");
                 if (bad != null) return bad;
                 foreach (var hit in direct.DamageFacts)
-                    if (hit?.Crit?.Parameters == null || hit.Crit.StreamBefore?.Initial == null || hit.Crit.StreamBefore.Current == null ||
-                        hit.Crit.StreamAfter?.Initial == null || hit.Crit.StreamAfter.Current == null || hit.Crit.Probability == null ||
-                        hit.Attack == null || hit.PhysicalDefense == null || hit.Multiplier == null || hit.RawDamage == null || hit.MitigatedDamage == null ||
+                {
+                    if (hit == null || hit.Attack == null || hit.PhysicalDefense == null || hit.Multiplier == null || hit.RawDamage == null || hit.MitigatedDamage == null ||
                         hit.BlockPrevented == null || hit.ShieldAbsorbed == null || hit.HpBefore == null || hit.HpAfter == null || hit.HpLoss == null || hit.Overflow == null)
                         return Reject("IncompleteHistory", "Input.RecordedOperation.DirectAttack.DamageFacts");
-                    else if (!ReferenceEquals(hit.Baseline, run.Baseline)) return Reject("InconsistentBinding", "Input.RecordedOperation.DirectAttack.DamageFacts.Baseline");
+                    if (CandidateChapterBattleRules.IsChapter(run.Baseline.Entry.Context))
+                    {
+                        if (!CandidateChapterBattleRules.ValidateDirectFrame(direct, math))
+                            return Reject("IncompleteHistory", "Input.RecordedOperation.DirectAttack.Chapter");
+                    }
+                    else if (hit.Crit?.Parameters == null || hit.Crit.StreamBefore?.Initial == null || hit.Crit.StreamBefore.Current == null ||
+                        hit.Crit.StreamAfter?.Initial == null || hit.Crit.StreamAfter.Current == null || hit.Crit.Probability == null)
+                        return Reject("IncompleteHistory", "Input.RecordedOperation.DirectAttack.DamageFacts");
+                    if (!ReferenceEquals(hit.Baseline, run.Baseline)) return Reject("InconsistentBinding", "Input.RecordedOperation.DirectAttack.DamageFacts.Baseline");
+                }
                 foreach (var intent in record.EnemyPhase.OrderedIntents)
                     if (intent == null) return Reject("IncompleteHistory", "Input.RecordedOperation.EnemyPhase.OrderedIntents");
                     else if (!ReferenceEquals(intent.Baseline, run.Baseline)) return Reject("InconsistentBinding", "Input.RecordedOperation.EnemyPhase.OrderedIntents.Baseline");
@@ -302,7 +310,8 @@ namespace FightMatch.Core
             foreach (var prd in random.PrdStates)
             {
                 if (prd?.CombatantKey == null) return Reject("MissingField", path + ".Random.PrdStates");
-                var found = false; foreach (var member in baseline.Entry.ReadyParticipants) if (ReferenceEquals(member.Crit, prd.Crit)) found = true;
+                var found = false; foreach (var member in baseline.Entry.ReadyParticipants) if (CandidateChapterBattleRules.SamePassive(prd, member) &&
+                    BattleCombatantKey.ForParticipant(baseline.Entry.AttemptId, member.CharacterId).Equals(prd.CombatantKey)) found = true;
                 if (!found) return Reject("InconsistentBinding", path + ".Random.PrdStates.Crit");
             }
             foreach (var total in totals)

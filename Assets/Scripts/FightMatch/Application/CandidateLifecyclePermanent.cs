@@ -9,8 +9,14 @@ namespace FightMatch.Application
             var context = content.Context as PreparedPublishedRuleContext;
             var basis = PublishedRuleDefinitions.Prepare(context?.Binding, content.Growths, content.Inventory,
                 content.Progression, content.Levels, content.Rewards, budget);
-            if (!basis.IsAccepted || content.GetPermanentDefinitions() == null) return basis;
-            return PublishedRuleDefinitions.PreparePermanent(basis.Value, content.GetPermanentDefinitions(), budget);
+            if (!basis.IsAccepted) return basis;
+            if (content.Chapter != null)
+            {
+                basis = PublishedRuleDefinitions.PrepareChapter(basis.Value, content.Chapter, budget);
+                if (!basis.IsAccepted) return basis;
+            }
+            return content.GetPermanentDefinitions() == null ? basis :
+                PublishedRuleDefinitions.PreparePermanent(basis.Value, content.GetPermanentDefinitions(), budget);
         }
     }
 

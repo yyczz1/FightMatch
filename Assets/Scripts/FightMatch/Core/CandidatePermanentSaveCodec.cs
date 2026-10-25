@@ -44,14 +44,21 @@ namespace FightMatch.Core
                 return f.Reading ? definition : x;
             }
             var input = new GrowthDefinitionInput { Context = f.Context(x?.Context, p + ".Context"), ClassId = f.Text(x?.ClassId, p + ".ClassId"),
-                ClassKind = (CharacterClassKind)f.Enum((int)(x?.ClassKind ?? 0), 1, f.SchemaVersion == 4 ? 2 : 1, p + ".ClassKind"), PassiveDefinitionId = f.Text(x?.PassiveDefinitionId, p + ".PassiveDefinitionId"),
+                ClassKind = (CharacterClassKind)f.Enum((int)(x?.ClassKind ?? 0), 1, f.SchemaVersion >= 4 ? 2 : 1, p + ".ClassKind"), PassiveDefinitionId = f.Text(x?.PassiveDefinitionId, p + ".PassiveDefinitionId"),
                 BaseStats = f.Stats(x?.BaseStats, p + ".BaseStats"), GrowthHp = f.Rational(x?.GrowthHp, p + ".GrowthHp"),
                 GrowthAttack = f.Rational(x?.GrowthAttack, p + ".GrowthAttack"), GrowthDefense = f.Rational(x?.GrowthDefense, p + ".GrowthDefense"),
-                CritBase = f.Rational(x?.CritBase, p + ".CritBase", f.SchemaVersion == 4), CritStep = f.Rational(x?.CritStep, p + ".CritStep", f.SchemaVersion == 4),
-                CritCap = f.Rational(x?.CritCap, p + ".CritCap", f.SchemaVersion == 4), CritMultiplier = f.Rational(x?.CritMultiplier, p + ".CritMultiplier", f.SchemaVersion == 4),
+                CritBase = f.Rational(x?.CritBase, p + ".CritBase", f.SchemaVersion >= 4), CritStep = f.Rational(x?.CritStep, p + ".CritStep", f.SchemaVersion >= 4),
+                CritCap = f.Rational(x?.CritCap, p + ".CritCap", f.SchemaVersion >= 4), CritMultiplier = f.Rational(x?.CritMultiplier, p + ".CritMultiplier", f.SchemaVersion >= 4),
                 XpBase = f.Integer(x?.XpBase ?? 0, p + ".XpBase"), XpLinear = f.Integer(x?.XpLinear ?? 0, p + ".XpLinear"),
                 XpQuadratic = f.Integer(x?.XpQuadratic ?? 0, p + ".XpQuadratic"), RecoveryDurationMilliseconds = f.Rational(x?.RecoveryDurationMilliseconds, p + ".RecoveryDuration") };
-            var result = f.SchemaVersion == 4 ? CandidateCharacterGrowth.PreparePermanentDefinition(input, f.Budget.Math) : CandidateCharacterGrowth.PrepareDefinition(input, f.Budget.Math);
+            if (f.SchemaVersion == 5)
+            {
+                input.PenetrationBase = f.Rational(x?.PenetrationBase, p + ".PenetrationBase", true);
+                input.PenetrationStep = f.Rational(x?.PenetrationStep, p + ".PenetrationStep", true);
+                input.PenetrationCap = f.Rational(x?.PenetrationCap, p + ".PenetrationCap", true);
+                input.IgnoreFraction = f.Rational(x?.IgnoreFraction, p + ".IgnoreFraction", true);
+            }
+            var result = f.SchemaVersion >= 4 ? CandidateCharacterGrowth.PreparePermanentDefinition(input, f.Budget.Math) : CandidateCharacterGrowth.PrepareDefinition(input, f.Budget.Math);
             Need(result.IsAccepted, p + "." + result.FieldPath, result.RejectionCode.ToString()); return f.Reading ? result.Definition : x;
         }
         private CandidateBaseExperienceReceipt ExperienceReceipt(CandidateBaseExperienceReceipt x, string p)
@@ -114,7 +121,7 @@ namespace FightMatch.Core
                 return f.Reading ? new CandidateInventoryEndReceipt(original, input, remaining, rewards, grant) : end;
             }, p + ".Ends");
             var revision = f.Integer(x?.StateRevision ?? 0, p + ".StateRevision", 1); var preference = f.Integer(x?.PreferenceRevision ?? 0, p + ".PreferenceRevision", 1);
-            var ledger = f.SchemaVersion == 4 ? new CandidatePermanentCodec(f).Ledger(x?.GetPermanentLedger(), p + ".Permanent") : null;
+            var ledger = f.SchemaVersion >= 4 ? new CandidatePermanentCodec(f).Ledger(x?.GetPermanentLedger(), p + ".Permanent") : null;
             if (!f.Reading) return x;
             return f.SchemaVersion >= 3
                 ? new CandidateInventoryState(definition, player, holdings, loadouts, carry, grants, ends, revision, preference, true, ledger)
@@ -156,7 +163,7 @@ namespace FightMatch.Core
         private CandidateInventoryActor Actor(CandidateInventoryActor x, string p)
         {
             f.Required(x, p); var input = new CandidateInventoryActorInput { CharacterId = f.Text(x?.CharacterId, p + ".CharacterId"),
-                ClassId = f.Text(x?.ClassId, p + ".ClassId"), ClassKind = (CharacterClassKind)f.Enum((int)(x?.ClassKind ?? 0), 1, 1, p + ".ClassKind"),
+                ClassId = f.Text(x?.ClassId, p + ".ClassId"), ClassKind = (CharacterClassKind)f.Enum((int)(x?.ClassKind ?? 0), 1, f.SchemaVersion == 5 ? 2 : 1, p + ".ClassKind"),
                 OriginalSlot = f.I(x?.OriginalSlot ?? 0, p + ".OriginalSlot") };
             Need(input.OriginalSlot >= 0 && input.OriginalSlot <= 2, p + ".OriginalSlot"); return f.Reading ? new CandidateInventoryActor(input) : x;
         }
@@ -188,7 +195,7 @@ namespace FightMatch.Core
             var challenges = f.List(x?.Challenges, (challenge, cp) =>
             {
                 f.Required(challenge, cp); var id = f.Text(challenge?.ChallengeId, cp + ".ChallengeId");
-                var teaching = f.SchemaVersion == 4 ? f.Optional(challenge?.GetTeachingBinding(), new CandidatePermanentCodec(f).Level, cp + ".TeachingBinding") : null;
+                var teaching = f.SchemaVersion >= 4 ? f.Optional(challenge?.GetTeachingBinding(), new CandidatePermanentCodec(f).Level, cp + ".TeachingBinding") : null;
                 if (!f.Reading && f.Resolved != null) Need(challenge.Attempts.Count > 0 || teaching != null, cp + ".Attempts", "InconsistentBinding");
                 var levelContext = !f.Reading && f.Resolved != null ? challenge.Attempts.Count > 0
                     ? challenge.Attempts[0].Begin.Context : new PreparedPublishedRuleContext(teaching.Content) : null;
@@ -214,8 +221,9 @@ namespace FightMatch.Core
                 if (!f.Reading) Need(ReferenceEquals(clear, open.SourceClear), op + ".SourceClear", "ReceiptConflict");
                 return f.Reading ? new CandidateProgressionOpenFact(owner, level, RuleContextChecks.Freeze(originalContext), clear) : open;
             }, p + ".OpenFacts");
-            var effects = f.SchemaVersion == 4 ? new CandidatePermanentCodec(f).Effects(x?.GetPermanentEffects(), p + ".Permanent", 5) : null;
-            return f.Reading ? new CandidateProgressionState(player, definition, revision, opens, clears, challenges, effects) : x;
+            var effects = f.SchemaVersion >= 4 ? new CandidatePermanentCodec(f).Effects(x?.GetPermanentEffects(), p + ".Permanent", 5) : null;
+            var chapter = f.SchemaVersion == 5 ? new CandidateChapterSaveCodec(f).Effects(x?.GetChapterEffects(), clears, p + ".Chapter") : null;
+            return f.Reading ? new CandidateProgressionState(player, definition, revision, opens, clears, challenges, effects, chapter) : x;
         }
         private CandidateProgressionDefinition ProgressionDefinition(CandidateProgressionDefinition x, string p)
         {
@@ -273,7 +281,7 @@ namespace FightMatch.Core
         {
             f.Required(x, p);
             var participant = new CandidateProgressionParticipant(f.Text(x?.CharacterId, p + ".CharacterId"),
-                f.Text(x?.ClassId, p + ".ClassId"), (CharacterClassKind)f.Enum((int)(x?.ClassKind ?? 0), 1, 1, p + ".ClassKind"),
+                f.Text(x?.ClassId, p + ".ClassId"), (CharacterClassKind)f.Enum((int)(x?.ClassKind ?? 0), 1, f.SchemaVersion == 5 ? 2 : 1, p + ".ClassKind"),
                 f.Integer(x?.CharacterRevision ?? 0, p + ".CharacterRevision", 1), f.I(x?.OriginalSlot ?? 0, p + ".OriginalSlot"));
             Need(participant.OriginalSlot >= 0 && participant.OriginalSlot <= 2, p + ".OriginalSlot");
             return f.Reading ? participant : x;

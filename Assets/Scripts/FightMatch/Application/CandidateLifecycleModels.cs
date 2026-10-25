@@ -18,6 +18,7 @@ namespace FightMatch.Application
         private CandidatePermanentDefinitions permanent;
         public CandidatePermanentDefinitions GetPermanentDefinitions() { return permanent; }
         public void SetPermanentDefinitions(CandidatePermanentDefinitions value) { permanent = value; }
+        public ChapterRuleDefinitions Chapter { get; set; }
         public CandidateGrowthDefinition Growth { get; set; }
         public IReadOnlyList<CandidateGrowthDefinition> Growths { get; set; }
         public CandidateInventoryDefinition Inventory { get; set; }
@@ -31,6 +32,7 @@ namespace FightMatch.Application
     {
         private readonly CandidatePermanentDefinitions permanent;
         public CandidatePermanentDefinitions GetPermanentDefinitions() { return permanent; }
+        public ChapterRuleDefinitions Chapter { get; }
         public IReadOnlyList<CandidateGrowthDefinition> Growths { get; }
         public CandidateGrowthDefinition Growth => Growths.Count == 1 ? Growths[0] : throw new InvalidOperationException("AmbiguousCharacter");
         public CandidateGrowthDefinition FindGrowth(string classId)
@@ -45,7 +47,7 @@ namespace FightMatch.Application
         public IReadOnlyList<CandidateCritCoefficient> CritCoefficients { get; }
         internal CandidateLifecycleContent(CandidateLifecycleContentInput input)
         {
-            permanent = input.GetPermanentDefinitions();
+            permanent = input.GetPermanentDefinitions(); Chapter = input.Chapter;
             Growths = new List<CandidateGrowthDefinition>(input.Growths ?? new[] { input.Growth }).AsReadOnly(); Inventory = input.Inventory; Progression = input.Progression;
             Levels = new List<PreparedLevel>(input.Levels).AsReadOnly();
             Rewards = new List<CandidateRewardDefinition>(input.Rewards).AsReadOnly();

@@ -23,7 +23,11 @@ namespace FightMatch.Application
             var query = application.QueryView();
             if (Refused(query)) return new CandidateBattlePrepareResult(null, query.Diagnostic);
             if (executing) return new CandidateBattlePrepareResult(null, new CandidateApplicationDiagnostic("Busy", "Application"));
-            return CandidateBattleRequestFactory.Prepare(draft, budget);
+            var head = query.View.PublishedSnapshot;
+            var format = query.View.IsPublishedHeadVerified && head != null && draft != null &&
+                head.Header.CommitId == draft.ExpectedCommitId && head.Business.Format == CandidateBusinessFormat.PublishedChapterV5
+                ? 5U : (uint?)null;
+            return CandidateBattleRequestFactory.Prepare(draft, budget, format);
         }
 
         public CandidateBattleCallResult Submit(PreparedCandidateBattleRequest request, SaveStoreBudget budget, int maxRandomWords = 4096)

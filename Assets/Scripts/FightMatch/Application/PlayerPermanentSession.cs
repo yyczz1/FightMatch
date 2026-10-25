@@ -82,7 +82,7 @@ namespace FightMatch.Application
                     OperationId = Guid.NewGuid().ToString("N"),
                     ExpectedCommitId = head.Header.CommitId,
                     Kind = CandidateApplicationKind.PermanentRequest,
-                    FormatVersion = 4,
+                    FormatVersion = (uint)head.Business.Format,
                     Context = CandidateLifecyclePreparation.Context(head.Business.Progression.Definition.Context)
                 };
                 input.SetPermanent(preview.Quote);

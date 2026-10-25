@@ -527,7 +527,7 @@ namespace FightMatch.Presentation
             if (fact.Kind == CandidateBattleFactKind.DirectAttack)
             {
                 var hit = fact.DirectAttack;
-                line = new BattleTextLine(hit.Crit.Triggered ? "fm.battle.playback.critical_hit" : "fm.battle.playback.direct_hit",
+                line = new BattleTextLine(hit.Crit?.Triggered == true ? "fm.battle.playback.critical_hit" : "fm.battle.playback.direct_hit",
                     Arg("characterName", Character(service, original.BeforeSnapshot, hit.Actor)),
                     Arg("enemyName", Enemy(service, original.BeforeSnapshot, hit.Pair)), Arg("hpBefore", Hp(hit.HpBefore)), Arg("hpAfter", Hp(hit.HpAfter)));
             }

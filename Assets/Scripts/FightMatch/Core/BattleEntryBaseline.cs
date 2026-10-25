@@ -37,12 +37,20 @@ namespace FightMatch.Core
     {
         public BattleCombatantKey CombatantKey { get; }
         public PreparedWarriorCrit Crit { get; }
+        public PreparedArcanePenetration Penetration { get; }
         public BigInteger FailureCount { get; }
 
         internal BattlePrdState(BattleCombatantKey combatantKey, PreparedWarriorCrit crit, BigInteger failureCount)
         {
             CombatantKey = combatantKey;
             Crit = crit;
+            FailureCount = failureCount;
+        }
+
+        internal BattlePrdState(BattleCombatantKey combatantKey, PreparedArcanePenetration penetration, BigInteger failureCount)
+        {
+            CombatantKey = combatantKey;
+            Penetration = penetration;
             FailureCount = failureCount;
         }
     }

@@ -299,7 +299,7 @@ namespace FightMatch.Core
             for (var i = 0; i < state.Members.Count; i++)
             {
                 var prd = state.Random.PrdStates[i]; var member = state.Members[i];
-                if (prd == null || !prd.CombatantKey.Equals(member.CombatantKey) || !ReferenceEquals(prd.Crit, member.Member.Crit))
+                if (prd == null || !prd.CombatantKey.Equals(member.CombatantKey) || !CandidateChapterBattleRules.SamePassive(prd, member.Member))
                     return Reject(InconsistentBinding, "Snapshot.Random.PrdStates");
             }
             Check(state, math); return null;
@@ -385,7 +385,14 @@ namespace FightMatch.Core
                     return Reject(UnsupportedBinding, "Record.ContributionSegments");
             if (record.DirectAttack != null)
                 foreach (var hit in record.DirectAttack.DamageFacts)
-                    if (hit?.Crit?.StreamBefore == null || hit.Crit.StreamAfter == null || hit.DamageKind != EntryDamageKind.Physical)
+                    if (CandidateChapterBattleRules.IsChapter(record.BeforeSnapshot.Baseline.Entry.Context))
+                    {
+                        if (hit == null || (hit.DamageKind == EntryDamageKind.Magic
+                            ? hit.Penetration?.StreamBefore == null || hit.Penetration.StreamAfter == null || hit.Crit != null
+                            : hit.Crit?.StreamBefore == null || hit.Crit.StreamAfter == null || hit.Penetration != null))
+                            return Reject(IncompleteHistory, "Record.DirectFacts");
+                    }
+                    else if (hit?.Crit?.StreamBefore == null || hit.Crit.StreamAfter == null || hit.DamageKind != EntryDamageKind.Physical)
                         return Reject(IncompleteHistory, "Record.DirectFacts");
             if (record.EnemyPhase != null)
                 foreach (var fact in record.EnemyPhase.OrderedIntents)

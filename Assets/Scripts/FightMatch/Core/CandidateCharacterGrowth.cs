@@ -20,7 +20,7 @@ namespace FightMatch.Core
             var c = new GrowthChecks(budget);
             if (!c.Context(input.Context, "Context") || !c.Text(input.ClassId, "ClassId") ||
                 !c.Text(input.PassiveDefinitionId, "PassiveDefinitionId")) return new CandidateGrowthDefinitionResult(c);
-            if (input.ClassKind != CharacterClassKind.Warrior && (!permanent || input.ClassKind != CharacterClassKind.Mage))
+            if (input.ClassKind != CharacterClassKind.Warrior && ((!permanent && !CandidateChapterBattleRules.IsChapter(input.Context)) || input.ClassKind != CharacterClassKind.Mage))
             { c.Fail(input.ClassKind == CharacterClassKind.Unspecified ? MissingField : UnsupportedBinding, "ClassKind"); return new CandidateGrowthDefinitionResult(c); }
             var s = input.BaseStats;
             if (s == null) { c.Fail(MissingField, "BaseStats"); return new CandidateGrowthDefinitionResult(c); }
@@ -47,6 +47,18 @@ namespace FightMatch.Core
                 c.Fail(UnsupportedBinding, "Mage.CombatDefinition");
                 return new CandidateGrowthDefinitionResult(c);
             }
+            var chapter = CandidateChapterBattleRules.IsChapter(input.Context);
+            if (input.ClassKind == CharacterClassKind.Mage && chapter)
+            {
+                if (!c.Number(input.PenetrationBase, "PenetrationBase", true, true) ||
+                    !c.Number(input.PenetrationStep, "PenetrationStep") ||
+                    !c.Number(input.PenetrationCap, "PenetrationCap", true, true) ||
+                    !c.Number(input.IgnoreFraction, "IgnoreFraction", false, true)) return new CandidateGrowthDefinitionResult(c);
+                if (input.PenetrationBase.Compare(input.PenetrationCap, budget) > 0)
+                { c.Fail(InvalidValue, "PenetrationCap"); return new CandidateGrowthDefinitionResult(c); }
+            }
+            else if (input.PenetrationBase != null || input.PenetrationStep != null || input.PenetrationCap != null || input.IgnoreFraction != null)
+            { c.Fail(UnsupportedBinding, "Penetration"); return new CandidateGrowthDefinitionResult(c); }
             return new CandidateGrowthDefinitionResult(new CandidateGrowthDefinition(input));
         }
 
@@ -115,6 +127,19 @@ namespace FightMatch.Core
             var probability = d.CritBase.Add(d.CritStep.Multiply(offset, budget), budget);
             if (probability.Compare(d.CritCap, budget) > 0) probability = d.CritCap;
             return new CandidateComputedStats(state, stats, probability);
+        }
+
+        public static ExactRational ComputePenetrationProbability(CandidateCharacterState state, ExactMathBudget budget)
+        {
+            if (state == null) throw new ArgumentNullException(nameof(state));
+            if (budget == null) throw new ArgumentNullException(nameof(budget));
+            new GrowthChecks(budget).CheckState(state);
+            var definition = state.Definition;
+            if (definition.ClassKind != CharacterClassKind.Mage || !CandidateChapterBattleRules.IsChapter(definition.Context) || definition.PenetrationBase == null)
+                throw new ArgumentException("The character has no chapter penetration definition.", nameof(state));
+            var offset = ExactRational.Create(budget.Subtract(state.Level, BigInteger.One), BigInteger.One, budget);
+            var probability = definition.PenetrationBase.Add(definition.PenetrationStep.Multiply(offset, budget), budget);
+            return probability.Compare(definition.PenetrationCap, budget) > 0 ? definition.PenetrationCap : probability;
         }
 
         internal static void Accumulate(CandidateCharacterState state, BigInteger amount, ExactMathBudget budget,

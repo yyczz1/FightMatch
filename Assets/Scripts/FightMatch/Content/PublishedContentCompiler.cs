@@ -15,7 +15,7 @@ namespace FightMatch.Content
             ContentConsumerCapabilities capabilities, ExactMathBudget budget)
         {
             return new PreparedPublicationResult(PublicationResult<PreparedPublication>.Run(() => {
-                Root(input, "Source"); Root(job, "Job"); Root(capabilities, "Capabilities"); Root(budget, "Math"); job.Check();
+                Root(input, "Source"); Root(job, "Job"); Root(capabilities, "Capabilities"); Root(budget, "Math"); job.Check(); capabilities.Check(input);
                 var encoded = PublishedContentCodec.Encode(input, capabilities.MaxSourceBytes, capabilities, budget);
                 Need(input.OriginalBytes == null || input.OriginalBytes.Length <= capabilities.MaxSourceBytes, "BudgetExceeded", "OriginalSourceBytes");
                 var original = input.OriginalBytes != null && input.OriginalCanonicalSha == PublishedContentCodec.Sha256(encoded)
@@ -30,7 +30,7 @@ namespace FightMatch.Content
                     Revision = source.Revision, SourceBytes = original.Length, SourceSha256 = PublishedContentCodec.Sha256(original),
                     PayloadBytes = payload.Length, PayloadSha256 = PublishedContentCodec.Sha256(payload),
                     DefinitionBindings = build.LevelBindings.Select(DefinitionBindingRecord.From).ToList(),
-                    EvidenceSha256 = PublishedContentCodec.Sha256(EvidenceBytes(build.Replays, budget)) };
+                    EvidenceSha256 = PublishedContentCodec.Sha256(EvidenceBytes(build, budget)) };
                 var validation = PublishedContentCodec.Encode(evidence, 65536, capabilities, budget); job.Check();
                 return new PreparedPublication(source, job, binding, build.Definitions, build.Profile, build.LevelBindings,
                     original, payload, validation, build.Replays);
@@ -45,8 +45,10 @@ namespace FightMatch.Content
         internal static void Normalize(PublishedSource s, ContentConsumerCapabilities caps, ExactMathBudget math)
         {
             caps.Check(s); Text(s.PackageId, "PackageId"); Text(s.DraftId, "DraftId"); Need(s.Revision.Sign > 0, "InvalidValue", "Revision");
-            Root(s.Growth, "Growth"); Root(s.Inventory, "Inventory"); Root(s.Progression, "Progression"); Root(s.NewProfile, "NewProfile");
-            Need(s.Growth.Context == null && s.Inventory.Context == null && s.Progression.Context == null, "UnsupportedBinding", "CompilerOwnedContext");
+            var growths = s.SchemaVersion == 1 ? new List<GrowthDefinitionInput> { s.Growth } : s.Growths;
+            Root(growths, "Growths"); Need(growths.Count > 0 && growths.All(g => g != null), "MissingField", "Growths");
+            Root(s.Inventory, "Inventory"); Root(s.Progression, "Progression"); Root(s.NewProfile, "NewProfile");
+            Need(growths.All(g => g.Context == null) && s.Inventory.Context == null && s.Progression.Context == null, "UnsupportedBinding", "CompilerOwnedContext");
             Root(s.Levels, "Levels"); Need(s.Levels.Count > 0, "MissingField", "Levels");
             Root(s.Inventory.Items, "Inventory.Items"); Root(s.Progression.Levels, "Progression.Levels"); Root(s.Sources, "Sources");
             Root(s.SourceNotes, "SourceNotes"); Need(s.SourceNotes.Count > 0, "MissingField", "SourceNotes");
@@ -72,7 +74,7 @@ namespace FightMatch.Content
             s.Sources.Sort((a, b) => StringComparer.Ordinal.Compare(a.Path + ":" + a.Locator, b.Path + ":" + b.Locator));
             s.RequiredCapabilities.Sort(StringComparer.Ordinal);
             var p = s.NewProfile; Text(p.Id, "NewProfile.Id"); Text(p.CharacterId, "NewProfile.CharacterId");
-            Need(p.RecordVersion.Sign > 0 && p.Level.Sign > 0 && p.Experience.Sign >= 0 && p.ClassId == s.Growth.ClassId,
+            Need(p.RecordVersion.Sign > 0 && p.Level.Sign > 0 && p.Experience.Sign >= 0 && growths.Any(g => p.ClassId == g.ClassId),
                 "InconsistentBinding", "NewProfile.Identity");
             Root(p.EmptySlots, "NewProfile.EmptySlots"); Root(p.Inventory, "NewProfile.Inventory"); Root(p.Carry, "NewProfile.Carry");
             Root(p.LearnedActiveSkills, "NewProfile.Skills"); Root(p.OpenLevels, "NewProfile.OpenLevels"); Root(p.Hp, "NewProfile.Hp");
@@ -84,16 +86,20 @@ namespace FightMatch.Content
                 p.OpenLevels.OrderBy(x => x, StringComparer.Ordinal).SequenceEqual(s.Progression.Levels.Where(l => l.UnlockKind == CandidateProgressionUnlockKind.InitiallyOpen)
                 .Select(l => l.LevelId).OrderBy(x => x, StringComparer.Ordinal)), "InconsistentBinding", "NewProfile.OpenLevels");
             p.OpenLevels.Sort(StringComparer.Ordinal); p.EmptySlots.Sort();
+            if (s.SchemaVersion == 2) ChapterContentCompiler.Normalize(s, caps, math);
         }
         internal sealed class BuildResult
         {
             internal PublishedRuleDefinitions Definitions; internal NewProfileDefinition Profile;
+            internal object ChapterEvidence;
+            internal IReadOnlyList<DemoParameterEvidence> Parameters;
             internal readonly List<DefinitionBinding> LevelBindings = new List<DefinitionBinding>();
             internal readonly List<DemoContentReplayResult> Replays = new List<DemoContentReplayResult>();
         }
         internal static BuildResult Build(PublishedSource source, ContentBinding binding, DemoContentJob job,
             ContentConsumerCapabilities caps, ExactMathBudget math, bool replay)
         {
+            if (source.SchemaVersion == 2) return ChapterContentCompiler.Build(source, binding, job, caps, math);
             var result = new BuildResult(); var context = new PublishedRuleContext(binding);
             var growthInput = Copy(source.Growth, caps, math); growthInput.Context = context;
             var growth = CandidateCharacterGrowth.PrepareDefinition(growthInput, math); Need(growth.IsAccepted, growth.RejectionCode.ToString(), growth.FieldPath);
@@ -144,6 +150,7 @@ namespace FightMatch.Content
             }
             var definitions = PublishedRuleDefinitions.Prepare(binding, growth.Definition, inventory.Definition, progression.Definition, levels, rewards, new SaveCodecBudget(math));
             Need(definitions.IsAccepted, definitions.RejectionCode, definitions.FieldPath); result.Definitions = definitions.Value;
+            result.Parameters = result.Replays.Count > 0 ? result.Replays[0].Candidate.Parameters : Array.Empty<DemoParameterEvidence>();
             result.Profile = new NewProfileDefinition(p, PublishedContentCodec.Encode(p, caps.MaxSourceBytes, caps, math)); return result;
         }
         private static T Copy<T>(T value, ContentConsumerCapabilities caps, ExactMathBudget math)
@@ -167,11 +174,17 @@ namespace FightMatch.Content
                 OccurredAtUnixMilliseconds = 1000 + snapshot.EffectiveActionsCompleted, Actor = snapshot.Members[0].CombatantKey,
                 Pair = enemy.PairKey, Route = new List<FlowPos>(route.Cells) };
         }
+        internal static byte[] EvidenceBytes(BuildResult built, ExactMathBudget math)
+        {
+            if (built.ChapterEvidence == null) return EvidenceBytes(built.Replays, math);
+            return PublishedContentCodec.Encode(built.ChapterEvidence, 16 * 1024 * 1024,
+                new ContentConsumerCapabilities(ContentConsumerCapabilities.Current.Capabilities, maxCollectionEntries: 65536), math);
+        }
         internal static byte[] EvidenceBytes(IReadOnlyList<DemoContentReplayResult> replays, ExactMathBudget math)
         {
             return PublishedContentCodec.Encode(replays.Select(r => new { Parameters = r.Candidate.Parameters, Geometry = r.Candidate.Routes,
                 r.Binding, r.SeedBytes, r.Run, r.RecordedReplays, r.Reward }).ToList(), 16 * 1024 * 1024,
-                new ContentConsumerCapabilities(ContentConsumerCapabilities.Current.Capabilities, maxCollectionEntries: 65536), math);
+                new ContentConsumerCapabilities(ContentConsumerCapabilities.Current.Capabilities, maxCollectionEntries: 65536), math, 1);
         }
     }
     internal sealed class ValidationRecord

@@ -45,6 +45,7 @@ namespace FightMatch.Application
             if (!ended.IsAccepted) return Reject(ended.RejectionCode.ToString(), ended.FieldPath);
             var roster = business.Roster; var rewards = business.Rewards;
             IReadOnlyList<CandidateRewardMaterial> materials = Array.Empty<CandidateRewardMaterial>();
+            CandidateFixedBaseReward settledReward = null;
             if (win)
             {
                 var definition = request.Content.Rewards.FirstOrDefault(x => x.RewardDefinitionId == victory.RewardDefinitionId && x.Version == victory.RewardDefinitionVersion);
@@ -56,7 +57,7 @@ namespace FightMatch.Application
                             EntryBaselineId = entry.EntryBaselineId, SettlementId = settlement, FinalReportFingerprint = run.FinalReport.Fingerprint,
                             ExpectedStateRevision = rewards.StateRevision }, scope);
                 if (!fixedReward.IsAccepted) return Reject(fixedReward.RejectionCode.ToString(), fixedReward.FieldPath);
-                rewards = fixedReward.Next; materials = fixedReward.BaseReward.Materials;
+                rewards = fixedReward.Next; settledReward = fixedReward.BaseReward; materials = fixedReward.BaseReward.Materials;
                 foreach (var xp in fixedReward.BaseReward.Experience)
                 {
                     var character = roster.Find(xp.CharacterId);
@@ -86,6 +87,16 @@ namespace FightMatch.Application
                 SettlementId = settlement, NewAttemptId = nextAttempt, Remaining = new List<CandidateInventoryRemainingInput>(),
                 Rewards = materials.Select(x => new CandidateInventoryQuantityInput { ItemId = x.ItemId, Quantity = x.Amount }).ToList() }, business.Inventory.StateRevision, math);
             if (!inventoryEnd.IsAccepted) return Reject(inventoryEnd.RejectionCode.ToString(), inventoryEnd.FieldPath);
+            var inventory = inventoryEnd.Next; var progression = ended.Next;
+            if (win && business.Format == CandidateBusinessFormat.PublishedChapterV5)
+            {
+                var definitions = CandidateLifecyclePreparation.PermanentDefinitions(request.Content, codec);
+                if (!definitions.IsAccepted) return Reject(definitions);
+                var chapter = CandidateChapterMilestones.ApplyVictory(business, roster, inventory, progression, settledReward,
+                    definitions.Value, request.OperationId, Guid.NewGuid().ToString("N"), codec);
+                if (!chapter.IsAccepted) return Reject(chapter);
+                roster = chapter.Value.Roster; inventory = chapter.Value.Inventory; progression = chapter.Value.Progression;
+            }
             CandidateBattleHistory history = null;
             if (restart)
             {
@@ -95,8 +106,10 @@ namespace FightMatch.Application
                     { CharacterId = m.CharacterId, ClassId = m.ClassId, ClassKind = m.ClassKind, OriginalSlot = m.OriginalSlot,
                         Level = m.Level, IsReady = m.IsReady, StatsOrigin = m.StatsOrigin, StatsContext = CandidateLifecyclePreparation.Context(m.StatsContext),
                         Stats = CopyStats(m.Stats), EntryHp = m.EntryHp, LearnedSkills = new List<string>(m.LearnedSkills),
-                        Crit = new WarriorCritInput { PassiveDefinitionId = m.Crit.PassiveDefinitionId, TargetProbability = m.Crit.TargetProbability,
-                            C = m.Crit.C, Multiplier = m.Crit.Multiplier } }).ToList() };
+                        Crit = m.Crit == null ? null : new WarriorCritInput { PassiveDefinitionId = m.Crit.PassiveDefinitionId, TargetProbability = m.Crit.TargetProbability,
+                            C = m.Crit.C, Multiplier = m.Crit.Multiplier },
+                        Penetration = m.Penetration == null ? null : new ArcanePenetrationInput { PassiveDefinitionId = m.Penetration.PassiveDefinitionId,
+                            TargetProbability = m.Penetration.TargetProbability, C = m.Penetration.C, IgnoreMagicDefenseFraction = m.Penetration.IgnoreMagicDefenseFraction } }).ToList() };
                 var prepared = PrepareEntry(input, entry.Level, codec);
                 if (!prepared.IsAccepted) return Reject(prepared.RejectionCode.ToString(), prepared.FieldPath);
                 var bytes = new byte[48]; var domains = new[] { run.Binding.Battle, run.Binding.BaseReward, run.Binding.Bonus };
@@ -106,7 +119,7 @@ namespace FightMatch.Application
                     MappingId = run.Binding.MappingId }, codec, out var rejected);
                 if (rejected != null) return rejected;
             }
-            return Complete(new CandidateBusinessInput(request.PlayerId, roster, inventoryEnd.Next, ended.Next, rewards,
+            return Complete(new CandidateBusinessInput(request.PlayerId, roster, inventory, progression, rewards,
                 history, business.RetainedRuns, business.RetainedRollbacks, business.Format), new CandidateApplicationResultInput
                 { EndReceiptId = endId, SettlementId = settlement, NewAttemptId = nextAttempt }, codec);
         }

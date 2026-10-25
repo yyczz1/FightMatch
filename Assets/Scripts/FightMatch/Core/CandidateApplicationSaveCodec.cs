@@ -30,20 +30,21 @@ namespace FightMatch.Core
                 var resolved = new CandidateApplicationReferences(candidate.Business, budget).Validate(records);
                 CandidateApplicationProtocol.CheckContinuation(candidate.Business, records, candidate.Continuation);
                 var roster = (int)candidate.Business.Format >= 3;
-                var permanent = candidate.Business.Format == CandidateBusinessFormat.PublishedPermanentV4;
-                var requirements = Requirements(records, resolved, budget, published != null, roster, permanent);
-                var measure = new BusinessFields(Stream.Null, false, budget) { Resolved = published, StrictUnicode = published != null, SchemaVersion = permanent ? 4U : roster ? 3U : 0U };
+                var permanent = (int)candidate.Business.Format >= 4;
+                var chapter = candidate.Business.Format == CandidateBusinessFormat.PublishedChapterV5;
+                var requirements = Requirements(records, resolved, budget, published != null, roster, permanent, chapter);
+                var measure = new BusinessFields(Stream.Null, false, budget) { Resolved = published, StrictUnicode = published != null, SchemaVersion = chapter ? 5U : permanent ? 4U : roster ? 3U : 0U };
                 Body(measure, candidate.Business.PlayerId, records, candidate.Continuation, out _);
                 // Body offsets, lengths and hashes are fixed-width metadata. An empty M02 measures
                 // the exact six-slice metadata before allocating the additional application body.
                 var slices = Slices(five, 0);
-                slices.Insert(0, new SaveSliceInput { Contract = Contract(0, published != null, roster, permanent), Bytes = new byte[0], Requirements = requirements });
+                slices.Insert(0, new SaveSliceInput { Contract = Contract(0, published != null, roster, permanent, chapter), Bytes = new byte[0], Requirements = requirements });
                 var measured = Envelope(five, slices, budget);
                 var length = Take(SaveEnvelopeCodec.Write(Stream.Null, measured, budget), "Envelope.Measure").TotalLength;
                 SaveCodecFailure.Limit(length + measure.Used, budget.MaxEnvelopeBytes, "Envelope.TotalLength", "EnvelopeBytes");
                 var body = new byte[(int)measure.Used];
                 using (var stream = new MemoryStream(body, true))
-                    Body(new BusinessFields(stream, false, budget) { Resolved = published, StrictUnicode = published != null, SchemaVersion = permanent ? 4U : roster ? 3U : 0U }, candidate.Business.PlayerId, records, candidate.Continuation, out _);
+                    Body(new BusinessFields(stream, false, budget) { Resolved = published, StrictUnicode = published != null, SchemaVersion = chapter ? 5U : permanent ? 4U : roster ? 3U : 0U }, candidate.Business.PlayerId, records, candidate.Continuation, out _);
                 slices[0].Bytes = body;
                 return Envelope(five, slices, budget);
             });
@@ -68,12 +69,13 @@ namespace FightMatch.Core
                 }
                 Need(envelope.RequiredSliceContracts.Count == 6 && envelope.SliceDirectory.Count == 6 && envelope.Bodies.Length == 6,
                     "Envelope.Slices", "UnsupportedSchema");
-                var roster = published != null && (envelope.RequiredSliceContracts[0].SchemaVersion == 3 || envelope.RequiredSliceContracts[0].SchemaVersion == 4);
-                var permanent = published != null && envelope.RequiredSliceContracts[0].SchemaVersion == 4;
+                var chapter = published != null && envelope.RequiredSliceContracts[0].SchemaVersion == 5;
+                var roster = published != null && (envelope.RequiredSliceContracts[0].SchemaVersion == 3 || envelope.RequiredSliceContracts[0].SchemaVersion == 4 || chapter);
+                var permanent = published != null && (envelope.RequiredSliceContracts[0].SchemaVersion == 4 || chapter);
                 for (var i = 0; i < 6; i++)
                 {
-                    CheckContract(envelope.RequiredSliceContracts[i], i, published != null, roster, permanent);
-                    CheckContract(envelope.SliceDirectory[i].Contract, i, published != null, roster, permanent);
+                    CheckContract(envelope.RequiredSliceContracts[i], i, published != null, roster, permanent, chapter);
+                    CheckContract(envelope.SliceDirectory[i].Contract, i, published != null, roster, permanent, chapter);
                     SaveCodecFailure.Limit((ulong)envelope.Bodies[i].Length, budget.MaxEnvelopeBytes, "Slices", "EnvelopeBytes");
                 }
                 var descriptor = Take(SaveEnvelopeCodec.Write(Stream.Null, envelope, budget), "Envelope");
@@ -81,7 +83,7 @@ namespace FightMatch.Core
                 CandidateApplicationContinuation continuation;
                 using (var stream = new MemoryStream(envelope.Bodies[0], false))
                 {
-                    var fields = new BusinessFields(stream, true, budget, (ulong)stream.Length) { Resolved = published, StrictUnicode = published != null, SchemaVersion = permanent ? 4U : roster ? 3U : 0U };
+                    var fields = new BusinessFields(stream, true, budget, (ulong)stream.Length) { Resolved = published, StrictUnicode = published != null, SchemaVersion = chapter ? 5U : permanent ? 4U : roster ? 3U : 0U };
                     wire = Body(fields, envelope.PlayerId, null, null, out continuation);
                     fields.End("M02");
                 }
@@ -95,11 +97,13 @@ namespace FightMatch.Core
                 var resolved = new CandidateApplicationReferences(business, budget).Validate(records);
                 if (records.Count == 1) CandidateApplicationProtocol.Initial(business, records[0].Intent);
                 CandidateApplicationProtocol.CheckContinuation(business, records, continuation);
-                Need(BusinessRequirements.Same(Requirements(records, resolved, budget, published != null, roster, permanent), envelope.SliceDirectory[0].Requirements),
+                var expectedRequirements = Requirements(records, resolved, budget, published != null, roster, permanent, chapter);
+                if (chapter) BusinessRequirements.CheckFeatures(envelope.SliceDirectory[0].Requirements, expectedRequirements, "M02");
+                Need(BusinessRequirements.Same(expectedRequirements, envelope.SliceDirectory[0].Requirements),
                     "M02.Requirements", "InconsistentBinding");
                 using (var canonical = new MemoryStream())
                 {
-                    Body(new BusinessFields(canonical, false, budget) { Resolved = published, StrictUnicode = published != null, SchemaVersion = permanent ? 4U : roster ? 3U : 0U }, business.PlayerId, records, continuation, out _);
+                    Body(new BusinessFields(canonical, false, budget) { Resolved = published, StrictUnicode = published != null, SchemaVersion = chapter ? 5U : permanent ? 4U : roster ? 3U : 0U }, business.PlayerId, records, continuation, out _);
                     Need(CandidateApplicationIntentCodec.SameBytes(canonical.ToArray(), envelope.Bodies[0]), "M02.CanonicalLayout", "Malformed");
                 }
                 return new CandidateApplicationSnapshot(business, records, continuation, header, descriptor);
@@ -156,9 +160,9 @@ namespace FightMatch.Core
                 Need(row.Generation == i + 1 && index.Generation == row.Generation && row.CommitId == index.CommitId &&
                     index.ParentCommitId == (i == 0 ? null : records[i - 1].CommitId) && commits.Add(index.CommitId) &&
                     index.OperationIds.Count == 1 && index.OperationIds[0] == row.OperationId, "CommitIndex.Entry", "IncompleteOperationHistory");
-                if (row.Intent.Kind == CandidateApplicationKind.MigrateRoster || row.Intent.Kind == CandidateApplicationKind.MigratePermanent)
+                if (row.Intent.Kind == CandidateApplicationKind.MigrateRoster || row.Intent.Kind == CandidateApplicationKind.MigratePermanent || row.Intent.Kind == CandidateApplicationKind.MigrateChapter)
                 {
-                    var source = row.Intent.Data.MigrateRoster ?? row.Intent.GetPermanentMigration();
+                    var source = row.Intent.Data.MigrateRoster ?? row.Intent.GetPermanentMigration() ?? row.Intent.GetChapterMigration();
                     Need(i > 0 && source.SourceGeneration == i && source.SourceDescriptorLength == header.CommitIndex[i - 1].SnapshotLength &&
                         SameDigest(source.SourceDescriptorSha256, header.CommitIndex[i - 1].SnapshotSha256),
                         "Migration.SourceDescriptor", "InconsistentBinding");
@@ -180,10 +184,10 @@ namespace FightMatch.Core
                 "Header.CommitId", "InconsistentBinding");
         }
 
-        private static RequiredSliceContract Contract(int i, bool published, bool roster, bool permanent) { return new RequiredSliceContract(SliceIds[i], "M0" + (i + 2), permanent && i < 4 ? 4U : roster && i < 4 ? 3U : published ? 2U : 1U); }
-        private static void CheckContract(RequiredSliceContract actual, int i, bool published, bool roster, bool permanent)
+        private static RequiredSliceContract Contract(int i, bool published, bool roster, bool permanent, bool chapter) { return new RequiredSliceContract(SliceIds[i], "M0" + (i + 2), chapter ? 5U : permanent && i < 4 ? 4U : roster && i < 4 ? 3U : published ? 2U : 1U); }
+        private static void CheckContract(RequiredSliceContract actual, int i, bool published, bool roster, bool permanent, bool chapter)
         {
-            Need(actual.SchemaVersion == (permanent && i < 4 ? 4 : roster && i < 4 ? 3 : published ? 2 : 1) && actual.SliceId == SliceIds[i] && actual.OwnerId == "M0" + (i + 2),
+            Need(actual.SchemaVersion == (chapter ? 5 : permanent && i < 4 ? 4 : roster && i < 4 ? 3 : published ? 2 : 1) && actual.SliceId == SliceIds[i] && actual.OwnerId == "M0" + (i + 2),
                 "Slices[" + i + "].Contract", "UnsupportedSchema");
         }
 
@@ -225,7 +229,8 @@ namespace FightMatch.Core
                 }
                 var migration = Intent.Kind == CandidateApplicationKind.MigrateRoster ? new CandidateRosterMigrationReceipt(Intent) : null;
                 return new CandidateApplicationRecord(Intent, new CandidateApplicationResult(Result, null, formation, migration,
-                    recoveries.Count == 0 && Intent.Kind != CandidateApplicationKind.EnterFormation ? null : recoveries, Permanent), Generation, CommitId);
+                    recoveries.Count == 0 && Intent.Kind != CandidateApplicationKind.EnterFormation ? null : recoveries, Permanent,
+                    Intent.Kind == CandidateApplicationKind.MigrateChapter ? new CandidateChapterMigrationReceipt(Intent) : null), Generation, CommitId);
             }
         }
 
@@ -340,6 +345,8 @@ namespace FightMatch.Core
                     wire.Permanent = new CandidatePermanentCodec(f).Result(input?.GetPermanent(), p + ".Permanent");
                 if (kind == CandidateApplicationKind.MigratePermanent)
                     Need(f.U(3, 4, p + ".Migration.From") == 3 && f.U(4, 4, p + ".Migration.To") == 4, p + ".Migration", "UnsupportedSchema");
+                if (kind == CandidateApplicationKind.MigrateChapter)
+                    Need(f.U(4, 4, p + ".Migration.From") == 4 && f.U(5, 4, p + ".Migration.To") == 5, p + ".Migration", "UnsupportedSchema");
                 values.Add(wire);
             }
             var routes = f.U(route == null ? 0UL : 1UL, 4, "M02.Continuation.Count");
@@ -352,7 +359,7 @@ namespace FightMatch.Core
         }
 
         private static SaveRequirements Requirements(IReadOnlyList<CandidateApplicationRecord> records,
-            Dictionary<string, CandidateApplicationResolution> resolved, SaveCodecBudget budget, bool published, bool roster, bool permanent)
+            Dictionary<string, CandidateApplicationResolution> resolved, SaveCodecBudget budget, bool published, bool roster, bool permanent, bool chapter)
         {
             var bindings = new List<SaveBinding>();
             var contexts = new List<PreparedRuleContext>();
@@ -380,7 +387,7 @@ namespace FightMatch.Core
                 if (!random.Contains(c.RandomContractVersion)) random.Add(c.RandomContractVersion);
             }
             return new SaveRequirements(bindings.AsReadOnly(), rules.AsReadOnly(), numeric.AsReadOnly(), random.AsReadOnly(),
-                Array.AsReadOnly(permanent ? new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1" } : roster ? new[] { "fm.player.application.v1", "fm.player.roster.v1" } : new[] { published ? "fm.player.application.v1" : "fm.candidate.application.v1" }));
+                Array.AsReadOnly(chapter ? new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1", "CH1.BusinessV5" } : permanent ? new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1" } : roster ? new[] { "fm.player.application.v1", "fm.player.roster.v1" } : new[] { published ? "fm.player.application.v1" : "fm.candidate.application.v1" }));
         }
     }
 }

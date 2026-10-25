@@ -117,6 +117,7 @@ namespace FightMatch.Content
             Need(set.SchemaVersion == 1, "UnsupportedSchema", "ReleaseSet.SchemaVersion");
             Need(set.Scope == scope && set.ReleaseSetId == expectedReleaseSetId && set.Binding != null, "RecoveryBlocked", "ReleaseSet.Identity");
             var binding = set.Binding.Take(budget.Math); publication = ResolveReadOnly(binding, consumer, budget);
+            Need(publication.ReleaseSetId == null || publication.ReleaseSetId == set.ReleaseSetId, "InconsistentBinding", "ReleaseSet.ChapterIdentity");
             Need(PublishedContentCodec.Sha256(publication.ReceiptBytes.ToArray()) == set.PublicationReceiptSha256, "RecoveryBlocked", "ReleaseSet.Receipt"); return binding;
         }
         private ResolvedPublication ResolveReadOnly(ContentBinding binding, ContentConsumerCapabilities consumer, ContentStoreBudget budget)
@@ -172,12 +173,12 @@ namespace FightMatch.Content
                 "RecoveryBlocked", "Validation.Binding");
             var job = new DemoContentDraft("exact-read:" + source.DraftId).BeginJob();
             var built = PublishedContentCompiler.Build(source, expected, job, consumer, budget.Math, true);
-            Need(SameLevels(v.DefinitionBindings, built.LevelBindings) && v.EvidenceSha256 == PublishedContentCodec.Sha256(PublishedContentCompiler.EvidenceBytes(built.Replays, budget.Math)),
+            Need(SameLevels(v.DefinitionBindings, built.LevelBindings) && v.EvidenceSha256 == PublishedContentCodec.Sha256(PublishedContentCompiler.EvidenceBytes(built, budget.Math)),
                 "RecoveryBlocked", "Validation.Evidence");
             var review = PublishedContentCodec.Decode<ContentReviewEvidence>(reviewBytes, 65536, consumer, budget.Math);
             CheckReview(review, expected, r.DraftId, r.Revision, original.Length, r.SourceSha256, payload.Length, r.PayloadSha256,
                 validationBytes.Length, r.ValidationSha256, built.LevelBindings, budget.Math);
-            var publication = new ResolvedPublication(built.Definitions, built.Profile, index, built.Replays[0].Candidate.Parameters, built.Replays);
+            var publication = new ResolvedPublication(built.Definitions, built.Profile, index, built.Parameters, built.Replays, source.Chapter?.ReleaseSetId, source.Chapter?.ParameterStatus);
             if (reuse) readAdmission = new ReadAdmission(expected, consumer, budget, index, payload, original, validationBytes, reviewBytes,
                 budget.Math.PrimitiveStepsUsed - suffixStart, publication);
             return publication;

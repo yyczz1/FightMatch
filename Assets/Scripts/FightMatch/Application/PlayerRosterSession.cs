@@ -14,9 +14,11 @@ namespace FightMatch.Application
                 .Concat(new[] { "application", "character", "inventory", "progression" }
                     .Select((name, i) => new RequiredSliceContract("fm.m0" + (i + 2) + "." + name, "M0" + (i + 2), 3)))
                 .Concat(new[] { "application", "character", "inventory", "progression" }
-                    .Select((name, i) => new RequiredSliceContract("fm.m0" + (i + 2) + "." + name, "M0" + (i + 2), 4))).ToArray());
+                    .Select((name, i) => new RequiredSliceContract("fm.m0" + (i + 2) + "." + name, "M0" + (i + 2), 4)))
+                .Concat(new[] { "application", "character", "inventory", "progression", "battle", "rewards" }
+                    .Select((name, i) => new RequiredSliceContract("fm.m0" + (i + 2) + "." + name, "M0" + (i + 2), 5))).ToArray());
         public static IReadOnlyList<string> RequiredRecoveryFeatures { get; } =
-            Array.AsReadOnly(new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1" });
+            Array.AsReadOnly(new[] { "fm.player.application.v1", "fm.player.roster.v1", "fm.player.permanent.v1", "CH1.BusinessV5" });
 
         public PreparedPlayerProfileResult PrepareNewRosterProfile(PublishedContentCatalog catalog, string releaseSetId, SaveCodecBudget budget)
         { return PrepareProfile(catalog, releaseSetId, budget, true); }
@@ -45,7 +47,7 @@ namespace FightMatch.Application
         private CandidateApplicationIntentInput RosterIntent(CandidateApplicationSnapshot snapshot, CandidateApplicationKind kind)
         {
             return new CandidateApplicationIntentInput { PlayerId = snapshot.Business.PlayerId, ExpectedCommitId = snapshot.Header.CommitId,
-                OperationId = Guid.NewGuid().ToString("N"), Kind = kind, FormatVersion = 3,
+                OperationId = Guid.NewGuid().ToString("N"), Kind = kind, FormatVersion = kind == CandidateApplicationKind.MigrateRoster ? 3U : (uint)snapshot.Business.Format,
                 Context = CandidateLifecyclePreparation.Context(snapshot.Business.Progression.Definition.Context) };
         }
         private CandidateLifecyclePrepareResult PrepareRoster(CandidateApplicationSnapshot snapshot, CandidateApplicationIntentInput input, SaveCodecBudget budget)
@@ -69,7 +71,7 @@ namespace FightMatch.Application
             {
                 Need(draft != null, "MissingField", "Draft");
                 var head = RosterHead(draft.ExpectedCommitId, false);
-                if (head.Business.Format == CandidateBusinessFormat.PublishedPermanentV4)
+                if ((int)head.Business.Format >= 4)
                     Take(CandidatePermanentGrowth.CheckBattleCapability(Take(head.Business.Roster.PrepareEntry(time, budget)).Roster, budget));
                 var input = RosterIntent(head, CandidateApplicationKind.EnterFormation);
                 input.EnterFormation = new CandidateFormationEntryInput { LevelId = draft.LevelId, LevelVersion = draft.LevelVersion,

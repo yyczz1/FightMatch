@@ -166,7 +166,7 @@ namespace FightMatch.Core
             {
                 case CandidateApplicationKind.InitializeProfile:
                     var initial = intent.FormatVersion >= 3 ? input.RosterInitialize.Characters : new[] { input.InitializeProfile };
-                    Need(initial.Count == business.Roster.Characters.Count, "InitializeProfile.Characters", "InconsistentBinding");
+                    Need(initial.Count + business.Progression.GetChapterEffects().Count(x => x.Kind == CandidateChapterMilestoneKind.AcquireClass) == business.Roster.Characters.Count, "InitializeProfile.Characters", "InconsistentBinding");
                     foreach (var init in initial)
                     {
                         var character = business.Roster.Find(init.CharacterId);
@@ -195,8 +195,10 @@ namespace FightMatch.Core
                 case CandidateApplicationKind.PermanentRequest:
                     PermanentRecord(record);
                     break;
+                case CandidateApplicationKind.MigrateChapter:
+                    throw new SaveCodecFailure("MigrationMappingRequired", "Chapter.Migration.DefinitionMapping");
                 case CandidateApplicationKind.MigratePermanent:
-                    Need(business.Format == CandidateBusinessFormat.PublishedPermanentV4 &&
+                    Need((int)business.Format >= 4 &&
                         intent.GetPermanentMigration() != null, "Permanent.Migration", "UnsupportedSchema");
                     break;
                 case CandidateApplicationKind.MigrateRoster:
@@ -255,7 +257,7 @@ namespace FightMatch.Core
 
         private void PermanentRecord(CandidateApplicationRecord record)
         {
-            Need(business.Format == CandidateBusinessFormat.PublishedPermanentV4, "Permanent.Format", "UnsupportedSchema");
+            Need((int)business.Format >= 4, "Permanent.Format", "UnsupportedSchema");
             var q = record.Intent.GetPermanent();
             var actual = record.Result.GetPermanent();
             var expected = CandidatePermanentProtocol.Result(business, record.Intent);
@@ -488,7 +490,7 @@ namespace FightMatch.Core
                     actual.OperationId == entry.SupersededBy.OperationId && actual.SceneRevision == entry.SupersededBy.SceneRevision),
                     "Records.SupersededBy", "InconsistentBinding");
             }
-            if (business.Format == CandidateBusinessFormat.PublishedPermanentV4)
+            if ((int)business.Format >= 4)
             {
                 foreach (var effects in new[] { business.Roster.GetPermanentEffects(), business.Inventory.GetPermanentLedger().Effects, business.Progression.GetPermanentEffects() })
                     foreach (var effect in effects) Need(byId.TryGetValue(effect.OperationId, out var owner) &&
@@ -497,6 +499,9 @@ namespace FightMatch.Core
                 Need(business.Inventory.GetPermanentLedger().Sources.Count == 0, "Permanent.HeldSourceIndex", "UnsupportedSourceProof");
                 CandidatePermanentInventory.Held(business, records, budget);
             }
+            foreach (var effect in business.Progression.GetChapterEffects())
+                Need(byId.TryGetValue(effect.OperationId, out var owner) && owner.Intent.Kind == CandidateApplicationKind.SettleVictory &&
+                    owner.Result.SettlementId == effect.SettlementId, "Chapter.Records.Coverage", "IncompleteOperationHistory");
             CandidateRosterProtocol.History(business, records, budget);
             OwnerHistory(records, resolved);
             return resolved;
@@ -513,16 +518,17 @@ namespace FightMatch.Core
         private void OwnerHistory(IReadOnlyList<CandidateApplicationRecord> records, Dictionary<string, CandidateApplicationResolution> resolved)
         {
             var characterRevisions = new Dictionary<string, BigInteger>(StringComparer.Ordinal);
-            foreach (var character in business.Roster.Characters) characterRevisions.Add(character.CharacterId, BigInteger.One);
+
             var inventoryRevision = BigInteger.One;
             var progressionRevision = BigInteger.One;
             var rewardRevision = BigInteger.One;
             var preferenceRevision = BigInteger.One;
-            var permanent = business.Format == CandidateBusinessFormat.PublishedPermanentV4;
+            var permanent = (int)business.Format >= 4;
             var loadouts = business.Inventory.Loadouts.ToDictionary(x => x.Actor.CharacterId,
                 x => new CandidateInventoryLoadout(x.Actor, null, BigInteger.Zero, null));
             var initial = records[0].Intent;
             var recipes = initial.FormatVersion >= 3 ? initial.Data.RosterInitialize.Characters : new[] { initial.Data.InitializeProfile };
+            foreach (var recipe in recipes) characterRevisions.Add(recipe.CharacterId, BigInteger.One);
             var levels = recipes.ToDictionary(x => x.CharacterId, x => (x.InitialLevel.Value, x.InitialExperience.Value));
             var periods = new Dictionary<(string, string), CandidateRecoveryPeriod>();
             var priorOperations = new HashSet<string>(StringComparer.Ordinal);
@@ -569,7 +575,7 @@ namespace FightMatch.Core
                     Need(q.InventoryRevision == inventoryRevision && q.PreferenceRevision == preferenceRevision &&
                         q.ProgressionRevision == progressionRevision, "Permanent.History.Owners", "StaleContext");
                     if (q.CharacterId != null)
-                        Need(q.CharacterRevision == characterRevisions[q.CharacterId] && q.BeforeLevel == levels[q.CharacterId].Item1 &&
+                        Need(characterRevisions.ContainsKey(q.CharacterId) && levels.ContainsKey(q.CharacterId) && q.CharacterRevision == characterRevisions[q.CharacterId] && q.BeforeLevel == levels[q.CharacterId].Item1 &&
                             q.BeforeExperience == levels[q.CharacterId].Item2, "Permanent.History.Character", "StaleContext");
                     if (receipt.CharacterEffectOperation != null)
                     {
@@ -592,6 +598,10 @@ namespace FightMatch.Core
                             : new CandidateInventoryLoadout(old.Actor, old.ItemId, old.L, q.Enabled);
                     }
                 }
+                if (row.Intent.Kind == CandidateApplicationKind.SetFormation)
+                    foreach (var characterId in row.Intent.Data.SetFormation.Slots)
+                        Need(characterId == null || characterRevisions.ContainsKey(characterId),
+                            "Chapter.History.FormationOwnership", "IncompleteOperationHistory");
                 if (row.Intent.Kind == CandidateApplicationKind.EnterFormation)
                 {
                     var entry = row.Intent.Data.EnterFormation;
@@ -635,7 +645,7 @@ namespace FightMatch.Core
                 if (row.Intent.Kind == CandidateApplicationKind.EnterAttempt || row.Intent.Kind == CandidateApplicationKind.EnterFormation)
                 {
                     foreach (var participant in result.Begin.Participants)
-                        Need(participant.CharacterRevision == characterRevisions[participant.CharacterId] &&
+                        Need(characterRevisions.ContainsKey(participant.CharacterId) && participant.CharacterRevision == characterRevisions[participant.CharacterId] &&
                             !periods.Any(x => x.Key.Item1 == participant.CharacterId && !x.Value.IsCompleted),
                             "Records.EnterAttempt.CharacterRevision", "InconsistentBinding");
                     if (row.Intent.Kind == CandidateApplicationKind.EnterFormation)
@@ -674,6 +684,14 @@ namespace FightMatch.Core
                             ExactRational.Create(0, 1, budget.Math), end.TimeSample.Anomaly, budget.Math));
                     }
                 }
+                foreach (var acquired in business.Progression.GetChapterEffects().Where(x =>
+                    x.OperationId == row.OperationId && x.Kind == CandidateChapterMilestoneKind.AcquireClass))
+                {
+                    Need(result.Reward != null && result.End.IsFirstClear && acquired.SettlementId == result.Reward.SettlementId &&
+                        !characterRevisions.ContainsKey(acquired.CharacterId), "Chapter.History.AcquireClass", "IncompleteOperationHistory");
+                    characterRevisions.Add(acquired.CharacterId, BigInteger.One);
+                    levels.Add(acquired.CharacterId, (acquired.InitialLevel.Value, BigInteger.Zero));
+                }
                 priorOperations.Add(row.OperationId);
             }
             Need(inventoryRevision == business.Inventory.StateRevision && progressionRevision == business.Progression.StateRevision &&
@@ -686,7 +704,7 @@ namespace FightMatch.Core
             var periodCount = 0;
             foreach (var character in business.Roster.Characters)
             {
-                Need(characterRevisions[character.CharacterId] == character.StateRevision, "Records.OwnerRevisions", "IncompleteOperationHistory");
+                Need(characterRevisions.ContainsKey(character.CharacterId) && characterRevisions[character.CharacterId] == character.StateRevision, "Records.OwnerRevisions", "IncompleteOperationHistory");
                 if (permanent) Need(character.Level == levels[character.CharacterId].Item1 && character.Experience == levels[character.CharacterId].Item2, "Permanent.History.Experience");
                 periodCount += character.RecoveryPeriods.Count;
                 foreach (var period in character.RecoveryPeriods)

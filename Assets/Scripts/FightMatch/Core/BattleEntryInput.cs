@@ -9,8 +9,8 @@ namespace FightMatch.Core
     public enum BaseStatsOrigin { Unspecified, ComputedBaseStats }
     public enum EnemyBehavior { Unspecified, NormalStrike, ChargeHeavy }
     public enum EnemyIntentKind { Unspecified, Charge, Strike }
-    public enum EnemyTargeting { Unspecified, FirstLiving }
-    public enum EntryDamageKind { Unspecified, Physical }
+    public enum EnemyTargeting { Unspecified, FirstLiving, LastLegalLiving }
+    public enum EntryDamageKind { Unspecified, Physical, Magic }
 
     // Callers must not modify any part of this input during PrepareCandidate.
     public sealed class BattleEntryInput
@@ -125,6 +125,7 @@ namespace FightMatch.Core
         public ExactRational EntryHp { get; set; }
         public List<string> LearnedSkills { get; set; }
         public WarriorCritInput Crit { get; set; }
+        public ArcanePenetrationInput Penetration { get; set; }
         internal bool HasSlot { get; private set; }
         internal bool HasReadiness { get; private set; }
     }

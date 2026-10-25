@@ -111,7 +111,8 @@ namespace FightMatch.Application
                 var publication = For(snapshot.Business.Progression.Definition.Context);
                 return CandidateLifecyclePreparation.Prepare(new CandidateLifecycleDraft { PlayerId = snapshot.Business.PlayerId,
                     ExpectedCommitId = draft.ExpectedCommitId, Kind = draft.Kind, Content = Content(publication, budget), EnterAttempt = draft.EnterAttempt,
-                    ExitAttempt = draft.ExitAttempt, RestartAttempt = draft.RestartAttempt, AdvanceRecovery = draft.AdvanceRecovery, EndTimeSample = draft.EndTimeSample }, budget, true);
+                    ExitAttempt = draft.ExitAttempt, RestartAttempt = draft.RestartAttempt, AdvanceRecovery = draft.AdvanceRecovery, EndTimeSample = draft.EndTimeSample }, budget, true,
+                    snapshot.Business.Format == CandidateBusinessFormat.PublishedChapterV5 ? 5U : (uint?)null);
             });
         }
         public CandidateLifecyclePrepareResult PrepareVictory(CandidateTimeSample time, SaveCodecBudget budget)
@@ -188,7 +189,7 @@ namespace FightMatch.Application
         private static CandidateLifecycleContentInput Content(ResolvedPublication publication, SaveCodecBudget budget)
         {
             Need(publication.Parameters.Count <= budget.MaxCollectionEntries, "Limit", "Content.Parameters");
-            var content = new CandidateLifecycleContentInput { Growths = publication.Definitions.Growths, Inventory = publication.Definitions.Inventory,
+            var content = new CandidateLifecycleContentInput { Chapter = publication.Definitions.Chapter, Growths = publication.Definitions.Growths, Inventory = publication.Definitions.Inventory,
                 Progression = publication.Definitions.Progression, Levels = publication.Definitions.Levels, Rewards = publication.Definitions.Rewards,
                 CritCoefficients = publication.Parameters.Select(p => new CandidateCritCoefficient(p.Target, p.C)).ToArray() };
             content.SetPermanentDefinitions(publication.Definitions.GetPermanentDefinitions());

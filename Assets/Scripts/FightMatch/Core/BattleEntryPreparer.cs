@@ -46,6 +46,7 @@ namespace FightMatch.Core
         private sealed class Validation
         {
             private readonly ExactMathBudget budget;
+            private bool chapter;
             internal BattleEntryPreparationResult Rejection { get; private set; }
 
             internal Validation(ExactMathBudget budget) { this.budget = budget; }
@@ -59,6 +60,7 @@ namespace FightMatch.Core
                 if (input.CarryMode != EntryCarryMode.Empty) return Fail(UnsupportedBinding, "CarryMode");
                 if (!Empty(input.RequiredFeatures, "RequiredFeatures") || !Context(input.Context, "Context"))
                     return false;
+                chapter = CandidateChapterBattleRules.IsChapter(input.Context);
                 if (!Level(input.Level)) return false;
                 if (input.Members == null) return Fail(MissingField, "Members");
                 var characters = new HashSet<string>(StringComparer.Ordinal);
@@ -75,7 +77,9 @@ namespace FightMatch.Core
                         !Text(member.ClassId, path + ".ClassId") ||
                         !Unique(classes, member.ClassId, path + ".ClassId")) return false;
                     if (member.ClassKind == CharacterClassKind.Unspecified) return Fail(MissingField, path + ".ClassKind");
-                    if (member.ClassKind != CharacterClassKind.Warrior) return Fail(UnsupportedBinding, path + ".ClassKind");
+                    if (member.ClassKind != CharacterClassKind.Warrior &&
+                        !(CandidateChapterBattleRules.IsChapter(input.Context) && member.ClassKind == CharacterClassKind.Mage))
+                        return Fail(UnsupportedBinding, path + ".ClassKind");
                     if (!member.HasSlot) return Fail(MissingField, path + ".OriginalSlot");
                     if (member.OriginalSlot < 0 || member.OriginalSlot > 2) return Fail(InvalidValue, path + ".OriginalSlot");
                     if (!Unique(slots, member.OriginalSlot, path + ".OriginalSlot") ||
@@ -88,7 +92,7 @@ namespace FightMatch.Core
                         !Stats(member.Stats, path + ".Stats") || !Number(member.EntryHp, path + ".EntryHp", true))
                         return false;
                     if (member.EntryHp.Compare(member.Stats.MaxHp, budget) > 0) return Fail(InvalidValue, path + ".EntryHp");
-                    if (!Empty(member.LearnedSkills, path + ".LearnedSkills") || !Crit(member.Crit, path + ".Crit"))
+                    if (!Empty(member.LearnedSkills, path + ".LearnedSkills") || !Passive(member, path))
                         return false;
                     ready |= member.IsReady;
                 }
@@ -193,7 +197,8 @@ namespace FightMatch.Core
                         ? EnemyIntentKind.Charge : EnemyIntentKind.Strike;
                     if (intent.Kind != expectedKind) return Fail(InvalidValue, p + ".Kind");
                     if (intent.Targeting == EnemyTargeting.Unspecified) return Fail(MissingField, p + ".Targeting");
-                    if (intent.Targeting != EnemyTargeting.FirstLiving) return Fail(UnsupportedBinding, p + ".Targeting");
+                    if (intent.Targeting != EnemyTargeting.FirstLiving && !(chapter && intent.Targeting == EnemyTargeting.LastLegalLiving))
+                        return Fail(UnsupportedBinding, p + ".Targeting");
                     if (!intent.HasDamageKind) return Fail(MissingField, p + ".DamageKind");
                     if (intent.Kind == EnemyIntentKind.Charge)
                     {
@@ -226,6 +231,19 @@ namespace FightMatch.Core
                     !Number(stats.Evasion, path + ".Evasion", false, true)) return false;
                 if (!stats.Evasion.Numerator.IsZero) return Fail(UnsupportedBinding, path + ".Evasion");
                 return stats.AttackRange > 0 || Fail(InvalidValue, path + ".AttackRange");
+            }
+
+            private bool Passive(MemberInput member, string path)
+            {
+                if (member.ClassKind == CharacterClassKind.Warrior)
+                    return (member.Penetration == null || Fail(UnsupportedBinding, path + ".Penetration")) && Crit(member.Crit, path + ".Crit");
+                if (member.Crit != null) return Fail(UnsupportedBinding, path + ".Crit");
+                var passive = member.Penetration;
+                if (passive == null) return Fail(MissingField, path + ".Penetration");
+                return Text(passive.PassiveDefinitionId, path + ".Penetration.PassiveDefinitionId") &&
+                    Number(passive.TargetProbability, path + ".Penetration.TargetProbability", true, true) &&
+                    Number(passive.C, path + ".Penetration.C", true, true) &&
+                    Number(passive.IgnoreMagicDefenseFraction, path + ".Penetration.IgnoreMagicDefenseFraction", false, true);
             }
 
             private bool Crit(WarriorCritInput crit, string path)

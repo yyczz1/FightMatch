@@ -24,7 +24,7 @@ namespace FightMatch.Application
     public sealed class PlayerRosterView
     {
         public CandidateBusinessFormat? Format { get; }
-        public bool IsMaterialized => Format == CandidateBusinessFormat.PublishedRosterV3 || Format == CandidateBusinessFormat.PublishedPermanentV4;
+        public bool IsMaterialized => Format == CandidateBusinessFormat.PublishedRosterV3 || Format == CandidateBusinessFormat.PublishedPermanentV4 || Format == CandidateBusinessFormat.PublishedChapterV5;
         public IReadOnlyList<CandidateCharacterState> Characters { get; }
         public IReadOnlyList<string> Slots { get; }
         public BigInteger? FormationRevision { get; }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using static FightMatch.Core.BusinessFields;
 
@@ -34,6 +35,7 @@ namespace FightMatch.Core
                 Need((basis == null) == (intent.Kind == CandidateApplicationKind.InitializeProfile), "Intent.Kind", "UnsupportedBinding");
                 Need(intent.PlayerId == nextBusiness.PlayerId && (basis == null || basis.Business.PlayerId == intent.PlayerId), "Intent.PlayerId", "InconsistentBinding");
                 Need(intent.ExpectedCommitId == basis?.Header.CommitId, "Intent.ExpectedCommitId", "StaleContext");
+                if (intent.Kind == CandidateApplicationKind.MigrateChapter) CandidateChapterSaveCodec.RejectUnmappedMigration(basis, intent);
                 var business = Retain(basis?.Business, nextBusiness, budget);
                 var completion = Result(intent, result, business, budget);
                 var records = basis == null ? new List<CandidateApplicationRecord>() : new List<CandidateApplicationRecord>(basis.Records);
@@ -150,7 +152,8 @@ namespace FightMatch.Core
             var formation = kind == CandidateApplicationKind.SetFormation ? CandidateRosterProtocol.Formation(business, intent.OperationId) : null;
             var migration = kind == CandidateApplicationKind.MigrateRoster ? new CandidateRosterMigrationReceipt(intent) : null;
             return new CandidateApplicationResult(input, recovery, formation, migration, input.RecoveryResults == null ? null : recoveries,
-                CandidatePermanentProtocol.Result(business, intent));
+                CandidatePermanentProtocol.Result(business, intent),
+                kind == CandidateApplicationKind.MigrateChapter ? new CandidateChapterMigrationReceipt(intent) : null);
         }
 
         internal static void Initial(CandidateBusinessSnapshot s, PreparedCandidateApplicationIntent intent)
@@ -174,7 +177,7 @@ namespace FightMatch.Core
             foreach (var loadout in inventory.Loadouts) Need(loadout.ItemId == null && loadout.Enabled == null && loadout.L.IsZero,
                 "InitializeProfile.Inventory", "InconsistentBinding");
             foreach (var holding in inventory.Holdings) Need(holding.T.IsZero, "InitializeProfile.Holdings", "InconsistentBinding");
-            Need(s.Progression.StateRevision.IsOne && s.Progression.Challenges.Count == 0 && s.Progression.FirstClears.Count == 0,
+            Need(s.Progression.StateRevision.IsOne && s.Progression.Challenges.Count == 0 && s.Progression.FirstClears.Count == 0 && s.Progression.GetChapterEffects().Count == 0,
                 "InitializeProfile.Progression", "InconsistentBinding");
             foreach (var open in s.Progression.OpenFacts)
                 Need(open.Level.UnlockKind == CandidateProgressionUnlockKind.InitiallyOpen, "InitializeProfile.OpenFacts", "InconsistentBinding");
@@ -194,6 +197,7 @@ namespace FightMatch.Core
             PreparedCandidateApplicationIntent intent, CandidateApplicationResultInput actual, CandidateApplicationResolution result, SaveCodecBudget budget)
         {
             var before = basis.Business;
+            if (intent.Kind == CandidateApplicationKind.MigrateChapter) CandidateChapterSaveCodec.RejectUnmappedMigration(basis, intent);
             if (CandidatePermanentProtocol.Transition(basis, after, intent, budget)) return;
             if (CandidateRosterProtocol.Transition(basis, after, intent, budget)) return;
             var kind = intent.Kind;
@@ -204,14 +208,32 @@ namespace FightMatch.Core
             var end = kind == CandidateApplicationKind.ExitAttempt || kind == CandidateApplicationKind.RestartAttempt || win;
             Same(before.Format == after.Format && ReferenceEquals(before.Inventory.Definition, after.Inventory.Definition) &&
                 ReferenceEquals(before.Progression.Definition, after.Progression.Definition), "Definitions");
-            Same(before.Roster.Characters.Count == after.Roster.Characters.Count && before.Roster.FormationRevision == after.Roster.FormationRevision &&
+            var chapterAdded = after.Progression.GetChapterEffects().Where(x => x.OperationId == intent.OperationId).ToList();
+            Prefix(before.Progression.GetChapterEffects(), after.Progression.GetChapterEffects(), chapterAdded.Count, "Chapter.Effects");
+            Same(chapterAdded.Count == 0 || win && after.Format == CandidateBusinessFormat.PublishedChapterV5, "Chapter.Kind");
+            foreach (var effect in chapterAdded)
+                Same(ReferenceEquals(effect.SourceClear.End, result.End) && result.End.IsFirstClear &&
+                    effect.SettlementId == actual.SettlementId, "Chapter.Source");
+            var acquisitions = chapterAdded.Where(x => x.Kind == CandidateChapterMilestoneKind.AcquireClass).ToList();
+            foreach (var acquired in acquisitions)
+            {
+                var created = after.Roster.Find(acquired.CharacterId);
+                Same(before.Roster.Find(acquired.CharacterId) == null && !before.Roster.Characters.Any(x => x.ClassId == acquired.ClassId) &&
+                    created != null && created.ClassId == acquired.ClassId && created.Level == acquired.InitialLevel && created.Experience.IsZero &&
+                    created.StateRevision.IsOne && created.IsReady && created.BaseRewards.Count == 0 && created.ProcessedEnds.Count == 0 &&
+                    created.RecoveryPeriods.Count == 0 && !after.Roster.GetPermanentEffects().Any(x => x.Quote.CharacterId == created.CharacterId), "Chapter.InitialCharacter");
+                var loadout = after.Inventory.FindLoadout(acquired.CharacterId);
+                Same(loadout != null && loadout.ItemId == null && loadout.Enabled == null && loadout.L.IsZero, "Chapter.InitialLoadout");
+            }
+            Same(before.Roster.Characters.Count + acquisitions.Count == after.Roster.Characters.Count && before.Roster.FormationRevision == after.Roster.FormationRevision &&
                 CandidateRosterState.SameSlots(before.Roster.Formation, after.Roster.Formation), "Roster");
             Prefix(before.Roster.FormationReceipts, after.Roster.FormationReceipts, 0, "FormationReceipts");
-            Same(before.Inventory.Loadouts.Count == after.Inventory.Loadouts.Count &&
+            Same(before.Inventory.Loadouts.Count + acquisitions.Count == after.Inventory.Loadouts.Count &&
                 before.Inventory.PreferenceRevision == after.Inventory.PreferenceRevision, "Preference");
             for (var i = 0; i < before.Inventory.Loadouts.Count; i++)
             {
-                var oldLoadout = before.Inventory.Loadouts[i]; var loadout = after.Inventory.Loadouts[i];
+                var oldLoadout = before.Inventory.Loadouts[i]; var loadout = after.Inventory.FindLoadout(oldLoadout.Actor.CharacterId);
+                Same(loadout != null, "Preference.Character");
                 Same(oldLoadout.Actor.CharacterId == loadout.Actor.CharacterId && oldLoadout.ItemId == loadout.ItemId &&
                     oldLoadout.Enabled == loadout.Enabled && oldLoadout.L == loadout.L, "Preference");
             }

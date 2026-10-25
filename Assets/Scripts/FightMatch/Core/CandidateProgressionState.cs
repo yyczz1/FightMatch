@@ -98,6 +98,8 @@ namespace FightMatch.Core
     public sealed class CandidateProgressionState
     {
         private readonly IReadOnlyList<CandidatePermanentEffect> permanentEffects;
+        private readonly IReadOnlyList<CandidateChapterMilestoneEffect> chapterEffects;
+        public IReadOnlyList<CandidateChapterMilestoneEffect> GetChapterEffects() { return chapterEffects; }
         public IReadOnlyList<CandidatePermanentEffect> GetPermanentEffects() { return permanentEffects; }
         public string PlayerId { get; }
         public CandidateProgressionDefinition Definition { get; }
@@ -111,9 +113,11 @@ namespace FightMatch.Core
         }
         internal CandidateProgressionState(string player, CandidateProgressionDefinition definition, BigInteger revision,
             IEnumerable<CandidateProgressionOpenFact> open, IEnumerable<CandidateProgressionFirstClear> clears,
-            IEnumerable<CandidateProgressionChallenge> challenges, IEnumerable<CandidatePermanentEffect> effects = null)
+            IEnumerable<CandidateProgressionChallenge> challenges, IEnumerable<CandidatePermanentEffect> effects = null,
+            IEnumerable<CandidateChapterMilestoneEffect> chapter = null)
         {
             permanentEffects = new List<CandidatePermanentEffect>(effects ?? new CandidatePermanentEffect[0]).AsReadOnly();
+            chapterEffects = new List<CandidateChapterMilestoneEffect>(chapter ?? new CandidateChapterMilestoneEffect[0]).AsReadOnly();
             PlayerId = player; Definition = definition; StateRevision = revision;
             OpenFacts = new List<CandidateProgressionOpenFact>(open).AsReadOnly(); FirstClears = new List<CandidateProgressionFirstClear>(clears).AsReadOnly();
             Challenges = new List<CandidateProgressionChallenge>(challenges).AsReadOnly();

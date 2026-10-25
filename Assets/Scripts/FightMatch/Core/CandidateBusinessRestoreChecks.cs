@@ -66,7 +66,7 @@ namespace FightMatch.Core
             foreach (var challenge in state.Challenges)
             {
                 Need(challenges.Add(challenge.ChallengeId) && (challenge.Attempts.Count > 0 ||
-                    s.Format == CandidateBusinessFormat.PublishedPermanentV4 && challenge.GetTeachingBinding() != null), "M05.Challenges", "ReceiptConflict");
+                    (int)s.Format >= 4 && challenge.GetTeachingBinding() != null), "M05.Challenges", "ReceiptConflict");
                 if (!challenge.IsClosed) Need(openChallenges.Add(challenge.Level.LevelId), "M05.Challenges.Level", "ReceiptConflict");
                 CandidateProgressionEndReceipt victory = null;
                 for (var i = 0; i < challenge.Attempts.Count; i++)
@@ -197,7 +197,7 @@ namespace FightMatch.Core
                 Carry(x.ActiveCarry, "M04.ActiveCarry"); Need(carried.Add(x.ActiveCarry.AttemptId), "M04.ActiveCarry", "ReceiptConflict");
                 foreach (var actor in x.ActiveCarry.ReadyParticipants) Need(x.FindLoadout(actor.CharacterId).L.IsZero, "M04.ActiveCarry.Loadout", "ReceiptConflict");
             }
-            if (s.Format == CandidateBusinessFormat.PublishedPermanentV4)
+            if ((int)s.Format >= 4)
             {
                 foreach (var source in x.GetPermanentLedger().Sources)
                 {
@@ -226,7 +226,7 @@ namespace FightMatch.Core
             var growth = s.Roster.GetPermanentEffects();
             var inventory = s.Inventory.GetPermanentLedger();
             var progression = s.Progression.GetPermanentEffects();
-            if (s.Format != CandidateBusinessFormat.PublishedPermanentV4)
+            if ((int)s.Format < 4)
             {
                 Need(growth.Count == 0 && inventory.Sources.Count == 0 && inventory.Effects.Count == 0 && progression.Count == 0,
                     "Permanent.Legacy", "UnsupportedSchema");
@@ -396,9 +396,10 @@ namespace FightMatch.Core
                     Eq(experience.Context, reward.Definition.Context, "M03.BaseRewards.Context");
                 }
                 if (reward == null) continue;
-                Need(inventory.Rewards.Count == reward.Materials.Count && inventory.OriginalCarry.Rows.Count == 0, "M04.Ends.Rewards", "ReceiptConflict");
-                foreach (var material in reward.Materials)
-                { var row = CandidatePermanentSaveCodec.Find(inventory.Rewards, x => x.ItemId == material.ItemId, "M04.Ends.Rewards"); Need(row.Quantity == material.Amount, "M04.Ends.Rewards.Amount", "ReceiptConflict"); }
+                var vector = CandidateChapterSaveCodec.RewardVector(s, reward, math);
+                Need(inventory.Rewards.Count == vector.Count && inventory.OriginalCarry.Rows.Count == 0, "M04.Ends.Rewards", "ReceiptConflict");
+                foreach (var material in vector)
+                { var row = CandidatePermanentSaveCodec.Find(inventory.Rewards, x => x.ItemId == material.ItemId, "M04.Ends.Rewards"); Need(row.Quantity == material.Quantity, "M04.Ends.Rewards.Amount", "ReceiptConflict"); }
                 Eq(inventory.RewardReceipt.Context, reward.Definition.Context, "M04.Ends.RewardReceipt.Context");
             }
             foreach (var character in s.Roster.Characters)
@@ -419,7 +420,7 @@ namespace FightMatch.Core
                 Need(ReferenceEquals(e.Members[i], m) && m.CharacterId == a.CharacterId && m.ClassId == a.ClassId && m.ClassKind == a.ClassKind &&
                     m.OriginalSlot == a.OriginalSlot, "M06.Baseline.Participant", "InconsistentBinding");
                 var prd = baseline.PrdInitialStates[i];
-                Need(prd.CombatantKey.Equals(BattleCombatantKey.ForParticipant(e.AttemptId, m.CharacterId)) && ReferenceEquals(prd.Crit, m.Crit) &&
+                Need(prd.CombatantKey.Equals(BattleCombatantKey.ForParticipant(e.AttemptId, m.CharacterId)) && ReferenceEquals(prd.Crit, m.Crit) && ReferenceEquals(prd.Penetration, m.Penetration) &&
                     prd.FailureCount.IsZero, "M06.Baseline.PrdInitialStates", "InconsistentBinding");
             }
         }
@@ -464,7 +465,7 @@ namespace FightMatch.Core
             {
                 var m = x.Members[i]; var key = BattleCombatantKey.ForParticipant(entry.AttemptId, entry.ReadyParticipants[i].CharacterId);
                 Need(ReferenceEquals(m.Member, entry.ReadyParticipants[i]) && m.CombatantKey.Equals(key) && x.Contributions[i].CombatantKey.Equals(key) && x.Random.PrdStates[i].CombatantKey.Equals(key) &&
-                    ReferenceEquals(x.Random.PrdStates[i].Crit, m.Member.Crit), p + ".Members", "InconsistentBinding");
+                    ReferenceEquals(x.Random.PrdStates[i].Crit, m.Member.Crit) && ReferenceEquals(x.Random.PrdStates[i].Penetration, m.Member.Penetration), p + ".Members", "InconsistentBinding");
                 Hp(m.Hp, m.Member.Stats.MaxHp, p + ".Members.Hp"); Nonnegative(x.Contributions[i].EffectiveDamageDealtHp, p + ".Contributions.Dealt"); Nonnegative(x.Contributions[i].EffectiveDamageTakenHp, p + ".Contributions.Taken");
             }
             for (var i = 0; i < x.Enemies.Count; i++)
@@ -547,8 +548,15 @@ namespace FightMatch.Core
                     p + ".DirectAttack.Identity", "IncompleteHistory");
                 Eq(hit.Attack, actor.Member.Stats.Attack, p + ".DirectAttack.Attack"); Eq(hit.PhysicalDefense, target.Enemy.Stats.PhysicalDefense, p + ".DirectAttack.Defense");
                 Eq(hit.HpBefore, target.Hp, p + ".DirectAttack.HpBefore"); Damage(hit.HpBefore, hit.HpAfter, hit.HpLoss, hit.Overflow, hit.RoundedDamage, hit.BlockPrevented, hit.ShieldAbsorbed, p + ".DirectAttack");
-                Crit(hit.Crit, actor, hit, before, d.Random, p + ".Crit"); Eq(hit.Multiplier, hit.Crit.Triggered ? actor.Member.Crit.Multiplier : One(), p + ".Multiplier");
-                DamageNumbers(hit.Attack, hit.Multiplier, hit.PhysicalDefense, hit.RawDamage, hit.MitigatedDamage, hit.RoundedDamage, p + ".DirectAttack");
+                if (before.Baseline.Entry.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion)
+                    Need(CandidateChapterBattleRules.ValidateDirectFrame(d, math), p + ".Chapter.DirectAttack", "IncompleteHistory");
+                else
+                {
+                    Need(hit.Penetration == null, p + ".Legacy.Penetration", "UnsupportedBinding");
+                    Crit(hit.Crit, actor, hit, before, d.Random, p + ".Crit");
+                    Eq(hit.Multiplier, hit.Crit.Triggered ? actor.Member.Crit.Multiplier : One(), p + ".Multiplier");
+                    DamageNumbers(hit.Attack, hit.Multiplier, hit.PhysicalDefense, hit.RawDamage, hit.MitigatedDamage, hit.RoundedDamage, p + ".DirectAttack");
+                }
                 var distance = 1; foreach (var enemy in before.Enemies) if (enemy.Hp.Numerator.Sign > 0 && enemy.OriginalSlot < target.OriginalSlot) distance++;
                 Need(distance <= actor.Member.Stats.AttackRange, p + ".AttackRange", "IncompleteHistory");
                 Ordered(r, ordered, CandidateBattleFactKind.DirectAttack, hit, p);
@@ -572,6 +580,13 @@ namespace FightMatch.Core
                     var front = Front(d.Members, hp);
                     Need(i < alive.Count && front != null, p + ".EnemyPhase.Coverage", "IncompleteHistory"); var intent = e.OrderedIntents[i]; var enemy = alive[i];
                     var definition = enemy.Enemy.IntentCycle[(int)math.Remainder(enemy.IntentCursor, enemy.Enemy.IntentCycle.Count)];
+                    if (before.Baseline.Entry.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion && definition.Targeting == EnemyTargeting.LastLegalLiving)
+                    {
+                        var living = new List<BattleMemberState>();
+                        foreach (var member in d.Members) if (hp[member.CombatantKey].Numerator.Sign > 0) living.Add(member);
+                        living.Sort((a, b) => a.OriginalSlot.CompareTo(b.OriginalSlot));
+                        front = living[Math.Min(living.Count, enemy.Enemy.Stats.AttackRange) - 1];
+                    }
                     Need(intent.EnemyKey.Equals(enemy.CombatantKey) && intent.SegmentIndex == i && intent.IntentKind == definition.Kind && intent.CursorBefore == enemy.IntentCursor &&
                         intent.CursorAfter == math.Add(enemy.IntentCursor, 1), p + ".EnemyPhase.Intent", "IncompleteHistory");
                     Ordered(r, ordered, CandidateBattleFactKind.EnemyIntent, intent, p); cursors.Add(enemy.CombatantKey, intent.CursorAfter);

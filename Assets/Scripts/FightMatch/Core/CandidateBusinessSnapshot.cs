@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace FightMatch.Core
 {
-    public enum CandidateBusinessFormat { CandidateV1 = 1, PublishedV2 = 2, PublishedRosterV3 = 3, PublishedPermanentV4 = 4 }
+    public enum CandidateBusinessFormat { CandidateV1 = 1, PublishedV2 = 2, PublishedRosterV3 = 3, PublishedPermanentV4 = 4, PublishedChapterV5 = 5 }
     // All five owners are required, including an explicitly absent active history.
     public sealed class CandidateBusinessInput
     {

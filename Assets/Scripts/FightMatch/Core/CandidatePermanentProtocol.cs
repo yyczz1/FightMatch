@@ -17,7 +17,7 @@ namespace FightMatch.Core
                 Need(basis != null && definitions != null && draft != null, "Permanent", "MissingField");
                 var business = basis.Business;
                 Need(basis.Continuation == null, "Permanent.Continuation", "ResolutionRequired");
-                Need(business.Format == CandidateBusinessFormat.PublishedPermanentV4, "Permanent.Format", "MigrationRequired");
+                Need((int)business.Format >= 4, "Permanent.Format", "MigrationRequired");
                 Need(business.Inventory.Definition.Context is PreparedPublishedRuleContext context &&
                     context.Binding.Same(definitions.Binding), "Permanent.Binding", "InconsistentBinding");
                 Need((int)draft.Kind >= 1 && (int)draft.Kind <= 7, "Permanent.Kind", "UnsupportedBinding");
@@ -139,7 +139,7 @@ namespace FightMatch.Core
                 var roster = CandidatePermanentGrowth.Apply(basis.Business.Roster, effect, permanent, budget);
                 var inventory = CandidatePermanentInventory.Apply(basis, effect, budget);
                 var progression = CandidatePermanentProgression.Apply(basis.Business, effect, permanent, budget);
-                return Copy(basis.Business, roster, inventory, progression, CandidateBusinessFormat.PublishedPermanentV4, budget);
+                return Copy(basis.Business, roster, inventory, progression, basis.Business.Format, budget);
             });
         }
 
@@ -190,7 +190,7 @@ namespace FightMatch.Core
         {
             if (intent.Kind != CandidateApplicationKind.PermanentRequest && intent.Kind != CandidateApplicationKind.MigratePermanent) return false;
             var before = basis.Business;
-            Need(basis.Continuation == null && after.Format == CandidateBusinessFormat.PublishedPermanentV4 &&
+            Need(basis.Continuation == null && (int)after.Format >= 4 &&
                 ReferenceEquals(before.Rewards, after.Rewards) && ReferenceEquals(before.ActiveHistory, after.ActiveHistory),
                 "Permanent.Transition", "InconsistentBinding");
             if (intent.Kind == CandidateApplicationKind.MigratePermanent)
@@ -215,7 +215,8 @@ namespace FightMatch.Core
                 "Permanent.Transition.Owners", "InconsistentBinding");
             Need(ReferenceEquals(before.Progression.Definition, after.Progression.Definition) &&
                 before.Progression.OpenFacts.SequenceEqual(after.Progression.OpenFacts) &&
-                before.Progression.FirstClears.SequenceEqual(after.Progression.FirstClears), "Permanent.Transition.Progression");
+                before.Progression.FirstClears.SequenceEqual(after.Progression.FirstClears) &&
+                before.Progression.GetChapterEffects().SequenceEqual(after.Progression.GetChapterEffects()), "Permanent.Transition.Progression");
             if (q.Kind != CandidatePermanentKind.BeginTeachingGift)
                 Need(before.Progression.Challenges.SequenceEqual(after.Progression.Challenges), "Permanent.Transition.Challenges");
             else

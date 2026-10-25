@@ -267,7 +267,8 @@ namespace FightMatch.Core
                 if (!c.Same(state.PlayerId, character.PlayerId, "Participant.PlayerId") ||
                     !c.ContextFields(state.Definition.Context, stats.Context, "Participant.Context")) return false;
                 if (!character.IsReady) return c.Fail(NoReadyMember, "Participant.IsReady");
-                if (stats.ClassKind != CharacterClassKind.Warrior) return c.Fail(UnsupportedBinding, "Participant.ClassKind");
+                if (stats.ClassKind != CharacterClassKind.Warrior && !(state.Definition.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion &&
+                    stats.ClassKind == CharacterClassKind.Mage)) return c.Fail(UnsupportedBinding, "Participant.ClassKind");
                 if (!ids.Add(character.CharacterId) || !classes.Add(character.ClassId) || !slots.Add(entry.OriginalSlot) ||
                     entry.OriginalSlot < 0 || entry.OriginalSlot > 2) return c.Fail(InconsistentBinding, "Participants");
                 c.Math.CheckInteger(character.StateRevision);
@@ -292,7 +293,8 @@ namespace FightMatch.Core
             if (Open(state, request.LevelId) == null) return c.Fail(Locked, "LevelId");
             if (state.ActiveAttempt != null) return c.Fail(ActiveAttemptConflict, "AttemptId");
             if (!c.Same(state.PlayerId, stats.PlayerId, "Character.PlayerId") || !c.Same(request.CharacterId, stats.CharacterId, "CharacterId")) return false;
-            if (stats.ClassKind != CharacterClassKind.Warrior) return c.Fail(UnsupportedBinding, "Character.ClassKind");
+            if (stats.ClassKind != CharacterClassKind.Warrior && !(state.Definition.Context.RuleVersion == ChapterRuleDefinitions.RuleVersion &&
+                stats.ClassKind == CharacterClassKind.Mage)) return c.Fail(UnsupportedBinding, "Character.ClassKind");
             var context = stats.Context;
             if (!c.ContextFields(state.Definition.Context, context, "Character.Context") ||
                 !c.Revision(character.StateRevision, request.ExpectedCharacterRevision.Value, "ExpectedCharacterRevision")) return false;
@@ -317,7 +319,7 @@ namespace FightMatch.Core
         }
         private static CandidateProgressionState Change(CandidateProgressionState state, IEnumerable<CandidateProgressionChallenge> challenges,
             IEnumerable<CandidateProgressionOpenFact> open, IEnumerable<CandidateProgressionFirstClear> clears, ExactMathBudget budget)
-        { return new CandidateProgressionState(state.PlayerId, state.Definition, budget.Add(state.StateRevision, BigInteger.One), open, clears, challenges, state.GetPermanentEffects()); }
+        { return new CandidateProgressionState(state.PlayerId, state.Definition, budget.Add(state.StateRevision, BigInteger.One), open, clears, challenges, state.GetPermanentEffects(), state.GetChapterEffects()); }
         private static List<CandidateProgressionOpenFact> Successors(CandidateProgressionState state, string level)
         {
             var result = new List<CandidateProgressionOpenFact>();

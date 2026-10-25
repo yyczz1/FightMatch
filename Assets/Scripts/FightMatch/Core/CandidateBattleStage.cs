@@ -298,7 +298,7 @@ namespace FightMatch.Core
             before.Baseline.RandomInitials.Battle.Validate(math);
             before.Baseline.RandomInitials.BaseReward.Validate(math);
             before.Baseline.RandomInitials.Bonus.Validate(math);
-            foreach (var prd in before.Baseline.PrdInitialStates) { math.CheckInteger(prd.FailureCount); CheckCrit(prd.Crit, math); }
+            foreach (var prd in before.Baseline.PrdInitialStates) { math.CheckInteger(prd.FailureCount); CandidateChapterBattleRules.CheckPassiveNumbers(prd.Crit, prd.Penetration, math); }
             math.CheckInteger(before.SceneRevision); math.CheckInteger(before.EffectiveActionsCompleted);
             math.CheckInteger(before.EnemyPhasesCompleted); math.CheckInteger(before.CurrentFaceIndex);
             CheckFace(before.Board.Face, math); CheckCells(route, math);
@@ -321,7 +321,7 @@ namespace FightMatch.Core
                 CheckNumber(row.Hp, math); math.CheckInteger(row.IntentCursor); CheckEnemy(row.Enemy, math);
             }
             before.Random.Stream.Validate(math);
-            foreach (var prd in before.Random.PrdStates) { math.CheckInteger(prd.FailureCount); CheckCrit(prd.Crit, math); }
+            foreach (var prd in before.Random.PrdStates) { math.CheckInteger(prd.FailureCount); CandidateChapterBattleRules.CheckPassiveNumbers(prd.Crit, prd.Penetration, math); }
             foreach (var row in before.Contributions)
             { CheckNumber(row.EffectiveDamageDealtHp, math); CheckNumber(row.EffectiveDamageTakenHp, math); }
             return null;
@@ -330,7 +330,7 @@ namespace FightMatch.Core
         private static void CheckMember(PreparedMember member, ExactMathBudget math)
         {
             math.CheckInteger(member.Level); RuleContextChecks.CheckBudget(member.StatsContext, math); math.CheckInteger(member.OriginalSlot);
-            CheckStats(member.Stats, math); CheckNumber(member.EntryHp, math); CheckCrit(member.Crit, math);
+            CheckStats(member.Stats, math); CheckNumber(member.EntryHp, math); CandidateChapterBattleRules.CheckPassiveNumbers(member.Crit, member.Penetration, math);
         }
         private static void CheckFace(PreparedFace face, ExactMathBudget math)
         {

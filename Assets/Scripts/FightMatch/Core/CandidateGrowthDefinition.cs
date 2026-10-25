@@ -24,6 +24,10 @@ namespace FightMatch.Core
         public ExactRational CritStep { get; set; }
         public ExactRational CritCap { get; set; }
         public ExactRational CritMultiplier { get; set; }
+        public ExactRational PenetrationBase { get; set; }
+        public ExactRational PenetrationStep { get; set; }
+        public ExactRational PenetrationCap { get; set; }
+        public ExactRational IgnoreFraction { get; set; }
         public BigInteger? XpBase { get; set; }
         public BigInteger? XpLinear { get; set; }
         public BigInteger? XpQuadratic { get; set; }
@@ -44,6 +48,10 @@ namespace FightMatch.Core
         public ExactRational CritStep { get; }
         public ExactRational CritCap { get; }
         public ExactRational CritMultiplier { get; }
+        public ExactRational PenetrationBase { get; }
+        public ExactRational PenetrationStep { get; }
+        public ExactRational PenetrationCap { get; }
+        public ExactRational IgnoreFraction { get; }
         public BigInteger XpBase { get; }
         public BigInteger XpLinear { get; }
         public BigInteger XpQuadratic { get; }
@@ -58,6 +66,8 @@ namespace FightMatch.Core
             GrowthHp = input.GrowthHp; GrowthAttack = input.GrowthAttack; GrowthDefense = input.GrowthDefense;
             CritBase = input.CritBase; CritStep = input.CritStep; CritCap = input.CritCap;
             CritMultiplier = input.CritMultiplier;
+            PenetrationBase = input.PenetrationBase; PenetrationStep = input.PenetrationStep;
+            PenetrationCap = input.PenetrationCap; IgnoreFraction = input.IgnoreFraction;
             XpBase = input.XpBase.Value; XpLinear = input.XpLinear.Value; XpQuadratic = input.XpQuadratic.Value;
             RecoveryDurationMilliseconds = input.RecoveryDurationMilliseconds;
         }
@@ -134,6 +144,8 @@ namespace FightMatch.Core
             {
                 Check(definition.CritBase); Check(definition.CritStep); Check(definition.CritCap); Check(definition.CritMultiplier);
             }
+            if (definition.PenetrationBase != null)
+            { Check(definition.PenetrationBase); Check(definition.PenetrationStep); Check(definition.PenetrationCap); Check(definition.IgnoreFraction); }
             Budget.CheckInteger(definition.XpBase); Budget.CheckInteger(definition.XpLinear); Budget.CheckInteger(definition.XpQuadratic);
             Check(definition.RecoveryDurationMilliseconds);
         }

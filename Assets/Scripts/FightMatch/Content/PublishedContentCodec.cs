@@ -26,7 +26,7 @@ namespace FightMatch.Content
         {
             return PublicationResult<PublishedSource>.Run(() => {
                 var value = Decode<PublishedSource>(bytes, limits.MaxSourceBytes, limits, math);
-                Need(value.SchemaVersion == 1, "UnsupportedSchema", "SchemaVersion");
+                Need(value.SchemaVersion == 1 || value.SchemaVersion == 2, "UnsupportedSchema", "SchemaVersion");
                 value.OriginalBytes = (byte[])bytes.Clone(); value.OriginalCanonicalSha = Sha256(Encode(value, limits.MaxSourceBytes, limits, math));
                 return value;
             });
@@ -42,14 +42,14 @@ namespace FightMatch.Content
         { return PublicationResult<byte[]>.Run(() => Encode(review, Math.Min(65536, budget.MaxRecordBytes), ContentConsumerCapabilities.Current, budget.Math)); }
         public static PublicationResult<byte[]> EncodeReleaseSet(ContentReleaseSet release, ContentStoreBudget budget)
         { return PublicationResult<byte[]>.Run(() => Encode(release, Math.Min(65536, budget.MaxRecordBytes), ContentConsumerCapabilities.Current, budget.Math)); }
-        internal static byte[] Encode(object value, int maxBytes, ContentConsumerCapabilities limits, ExactMathBudget math)
+        internal static byte[] Encode(object value, int maxBytes, ContentConsumerCapabilities limits, ExactMathBudget math, int sourceSchema = 0)
         {
             Root(limits, "Limits"); Root(math, "Math");
             try
             {
                 using (var stream = new MemoryStream())
                 {
-                    Write(stream, Project(value, limits, math, 0, new ProjectionBudget(maxBytes)), maxBytes, limits, 0);
+                    Write(stream, Project(value, limits, math, 0, new ProjectionBudget(maxBytes, sourceSchema != 0 ? sourceSchema : (value as PublishedSource)?.SchemaVersion ?? 0)), maxBytes, limits, 0);
                     return stream.ToArray();
                 }
             }
@@ -83,11 +83,31 @@ namespace FightMatch.Content
         }
         private static PropertyInfo[] Properties(Type type) => type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.GetIndexParameters().Length == 0).OrderBy(p => p.Name, StringComparer.Ordinal).ToArray();
+        // A source schema owns its nested field graph. New optional battle/growth fields never rewrite a Schema1 payload.
+        private static PropertyInfo[] SourceProperties(Type type, PropertyInfo[] properties, int schema)
+        {
+            if (type == typeof(PublishedSource))
+                return properties.Where(p => schema == 1 ? p.Name != "Growths" && p.Name != "Chapter" : p.Name != "Growth").ToArray();
+            if (schema != 1) return properties;
+            if (type == typeof(GrowthDefinitionInput) || type == typeof(CandidateGrowthDefinition))
+                return properties.Where(p => p.Name != "PenetrationBase" && p.Name != "PenetrationStep" &&
+                    p.Name != "PenetrationCap" && p.Name != "IgnoreFraction").ToArray();
+            if (type == typeof(MemberInput) || type == typeof(PreparedMember) || type == typeof(BattlePrdState))
+                return properties.Where(p => p.Name != "Penetration").ToArray();
+            if (type == typeof(BattleDamageFact))
+                return properties.Where(p => p.Name != "MagicDefense" && p.Name != "EffectiveMagicDefense" && p.Name != "Penetration").ToArray();
+            if (type == typeof(EnemyInput))
+                return properties.Where(p => new[] { "EnemyInstanceKey", "EnemyDefinitionId", "OriginalSlot", "StableOrder", "Behavior", "Stats", "IntentCycle" }.Contains(p.Name)).ToArray();
+            if (type == typeof(EnemyIntentInput))
+                return properties.Where(p => new[] { "Kind", "Targeting", "DamageKind", "DamageCoefficient" }.Contains(p.Name)).ToArray();
+            return properties;
+        }
         private sealed class ProjectionBudget
         {
             private long remaining;
             private readonly Dictionary<Type, PropertyInfo[]> properties = new Dictionary<Type, PropertyInfo[]>();
-            internal ProjectionBudget(int bytes) { remaining = bytes; }
+            internal readonly int SourceSchema;
+            internal ProjectionBudget(int bytes, int sourceSchema) { remaining = bytes; SourceSchema = sourceSchema; }
             internal void Take(long count) { Need(count <= remaining, "BudgetExceeded", "ProjectionBytes"); remaining -= count; }
             internal PropertyInfo[] PropertiesFor(Type type)
             {
@@ -125,10 +145,10 @@ namespace FightMatch.Content
                 { Need(list.Count < limits.MaxCollectionEntries, "BudgetExceeded", "Collection"); list.Add(Project(item, limits, math, depth + 1, work)); }
                 return list;
             }
-            foreach (var p in work.PropertiesFor(value.GetType())) { work.Take(Utf8.GetByteCount(p.Name)); result.Add(p.Name, Project(p.GetValue(value), limits, math, depth + 1, work)); }
+            foreach (var p in SourceProperties(value.GetType(), work.PropertiesFor(value.GetType()), work.SourceSchema)) { work.Take(Utf8.GetByteCount(p.Name)); result.Add(p.Name, Project(p.GetValue(value), limits, math, depth + 1, work)); }
             Need(result.Count > 0, "UnsupportedSchema", "Type"); return result;
         }
-        private static object ConvertValue(object node, Type type, ContentConsumerCapabilities limits, ExactMathBudget math, int depth)
+        private static object ConvertValue(object node, Type type, ContentConsumerCapabilities limits, ExactMathBudget math, int depth, int sourceSchema = 0)
         {
             Need(depth <= 64, "BudgetExceeded", "Depth");
             var optional = Nullable.GetUnderlyingType(type);
@@ -149,28 +169,34 @@ namespace FightMatch.Content
             {
                 Need(node is List<object>, "InvalidValue", "Array"); var list = (List<object>)node;
                 Need(list.Count <= limits.MaxCollectionEntries, "BudgetExceeded", "Array"); var element = type == typeof(byte[]) ? typeof(byte) : type.GetGenericArguments()[0];
-                if (type == typeof(byte[])) return list.Select(n => (byte)ConvertValue(n, element, limits, math, depth + 1)).ToArray();
-                var target = (IList)Activator.CreateInstance(type); foreach (var n in list) target.Add(ConvertValue(n, element, limits, math, depth + 1)); return target;
+                if (type == typeof(byte[])) return list.Select(n => (byte)ConvertValue(n, element, limits, math, depth + 1, sourceSchema)).ToArray();
+                var target = (IList)Activator.CreateInstance(type); foreach (var n in list) target.Add(ConvertValue(n, element, limits, math, depth + 1, sourceSchema)); return target;
             }
             Need(node is SortedDictionary<string, object>, "InvalidValue", type.Name); var fields = (SortedDictionary<string, object>)node;
             if (type == typeof(ExactRational))
             {
                 Need(fields.Count == 2 && fields.ContainsKey("numerator") && fields.ContainsKey("denominator"), "InvalidSchema", "Rational");
-                var n = (BigInteger)ConvertValue(fields["numerator"], typeof(BigInteger), limits, math, depth + 1);
-                var d = (BigInteger)ConvertValue(fields["denominator"], typeof(BigInteger), limits, math, depth + 1);
+                var n = (BigInteger)ConvertValue(fields["numerator"], typeof(BigInteger), limits, math, depth + 1, sourceSchema);
+                var d = (BigInteger)ConvertValue(fields["denominator"], typeof(BigInteger), limits, math, depth + 1, sourceSchema);
                 Need(d.Sign > 0, "InvalidValue", "Denominator"); var r = ExactRational.Create(n, d, math);
                 Need(r.Numerator == n && r.Denominator == d, "NonCanonical", "Rational"); return r;
             }
             if (type == typeof(FlowPos))
             {
                 Need(fields.Count == 2 && fields.ContainsKey("x") && fields.ContainsKey("y"), "InvalidSchema", "Cell");
-                return new FlowPos((int)ConvertValue(fields["x"], typeof(int), limits, math, depth + 1), (int)ConvertValue(fields["y"], typeof(int), limits, math, depth + 1));
+                return new FlowPos((int)ConvertValue(fields["x"], typeof(int), limits, math, depth + 1, sourceSchema), (int)ConvertValue(fields["y"], typeof(int), limits, math, depth + 1, sourceSchema));
             }
             Need(!type.IsAbstract && (type.Namespace == "FightMatch.Content" || type.Namespace == "FightMatch.Core"), "UnsupportedSchema", type.Name);
-            var properties = Properties(type); Need(properties.All(p => p.SetMethod?.IsPublic == true), "UnsupportedSchema", type.Name);
+            if (type == typeof(PublishedSource))
+            {
+                Need(fields.TryGetValue("SchemaVersion", out var schema) && schema is JsonNumber, "InvalidSchema", "SchemaVersion");
+                var token = ((JsonNumber)schema).Text;
+                Need(token == "1" || token == "2", "UnsupportedSchema", "SchemaVersion"); sourceSchema = token == "1" ? 1 : 2;
+            }
+            var properties = SourceProperties(type, Properties(type), sourceSchema); Need(properties.All(p => p.SetMethod?.IsPublic == true), "UnsupportedSchema", type.Name);
             Need(fields.Count == properties.Length && properties.All(p => fields.ContainsKey(p.Name)), "InvalidSchema", type.Name);
             var instance = Activator.CreateInstance(type);
-            foreach (var property in properties) property.SetValue(instance, ConvertValue(fields[property.Name], property.PropertyType, limits, math, depth + 1));
+            foreach (var property in properties) property.SetValue(instance, ConvertValue(fields[property.Name], property.PropertyType, limits, math, depth + 1, sourceSchema));
             return instance;
         }
         private static BigInteger Integer(string token, ExactMathBudget math)

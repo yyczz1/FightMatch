@@ -21,6 +21,8 @@ namespace FightMatch.Content
         public List<DemoContentSourceInput> Sources { get; set; }
         public List<string> SourceNotes { get; set; }
         public GrowthDefinitionInput Growth { get; set; }
+        public List<GrowthDefinitionInput> Growths { get; set; }
+        public ChapterContentInput Chapter { get; set; }
         public CandidateInventoryDefinitionInput Inventory { get; set; }
         public CandidateProgressionDefinitionInput Progression { get; set; }
         public List<PublishedLevelInput> Levels { get; set; }
@@ -82,15 +84,21 @@ namespace FightMatch.Content
             MaxCollectionEntries = maxCollectionEntries; MaxStringCodeUnits = maxStringCodeUnits;
         }
         public static ContentConsumerCapabilities Current => new ContentConsumerCapabilities(new[] {
-            "NC01.ExactRational", "RC01.PCG32.PRD", "PC01.ExactParameterEvidence", "SC01.sc01-pcg32-le128-v1" });
+            "NC01.ExactRational", "RC01.PCG32.PRD", "PC01.ExactParameterEvidence", "SC01.sc01-pcg32-le128-v1",
+            "CH1.MageTauntBoss", "CH1.Milestones", "CH1.BusinessV5" });
         internal void Check(PublishedSource source)
         {
-            ContentChecks.Need(source.SchemaVersion == 1, "UnsupportedSchema", "SchemaVersion");
-            ContentChecks.Need(source.RuleVersion == "demo-r1" && source.NumericContractVersion == "RC01" &&
+            ContentChecks.Need(source.SchemaVersion == 1 || source.SchemaVersion == 2, "UnsupportedSchema", "SchemaVersion");
+            ContentChecks.Need((source.SchemaVersion == 1 ? source.RuleVersion == "demo-r1" : source.RuleVersion == ChapterRuleDefinitions.RuleVersion) && source.NumericContractVersion == "RC01" &&
                 source.RandomContractVersion == "PC01+SC01", "UnsupportedBinding", "ContractVersions");
+            ContentChecks.Need(source.SchemaVersion == 1 ? source.Growths == null && source.Chapter == null : source.Growth == null,
+                "UnsupportedSchema", "Source.Fields");
+            if (source.SchemaVersion == 1 && source.Growth != null)
+                ContentChecks.Need(source.Growth.PenetrationBase == null && source.Growth.PenetrationStep == null &&
+                    source.Growth.PenetrationCap == null && source.Growth.IgnoreFraction == null, "UnsupportedBinding", "Growth.Penetration");
             ContentChecks.Root(source.RequiredCapabilities, "RequiredCapabilities");
-            var required = Current.Capabilities;
-            ContentChecks.Need(source.RequiredCapabilities.Count == required.Count && required.All(source.RequiredCapabilities.Contains) &&
+            var required = source.SchemaVersion == 1 ? Current.Capabilities.Take(4).ToArray() : Current.Capabilities.ToArray();
+            ContentChecks.Need(source.RequiredCapabilities.Count == required.Length && required.All(source.RequiredCapabilities.Contains) &&
                 source.RequiredCapabilities.All(Capabilities.Contains), "UnsupportedCapability", "RequiredCapabilities");
         }
     }
@@ -140,6 +148,8 @@ namespace FightMatch.Content
         public ContentBinding Binding { get; }
         public PublishedRuleDefinitions Definitions { get; }
         public NewProfileDefinition NewProfile { get; }
+        public ChapterParameterStatus? ParameterStatus { get; }
+        public string ReleaseSetId { get; }
         public IReadOnlyList<DefinitionBinding> DefinitionBindings { get; }
         public IReadOnlyList<byte> SourceBytes { get; }
         public IReadOnlyList<byte> PayloadBytes { get; }
@@ -150,6 +160,7 @@ namespace FightMatch.Content
         internal PreparedPublication(PublishedSource source, DemoContentJob job, ContentBinding binding, PublishedRuleDefinitions definitions,
             NewProfileDefinition profile, List<DefinitionBinding> levels, byte[] original, byte[] payload, byte[] validation, List<DemoContentReplayResult> replays)
         {
+            ParameterStatus = source.Chapter?.ParameterStatus; ReleaseSetId = source.Chapter?.ReleaseSetId;
             Job = job; DraftId = source.DraftId; Revision = source.Revision; Binding = binding; Definitions = definitions; NewProfile = profile;
             DefinitionBindings = levels.AsReadOnly(); SourceBytes = Array.AsReadOnly(original); PayloadBytes = Array.AsReadOnly(payload);
             SourceSha256 = PublishedContentCodec.Sha256(original); PayloadSha256 = PublishedContentCodec.Sha256(payload);
@@ -215,6 +226,8 @@ namespace FightMatch.Content
         private readonly IReadOnlyList<DemoContentReplayResult> defaultReferences;
         public IReadOnlyList<DemoContentReplayResult> GetDefaultReferences() => defaultReferences;
         public ContentBinding Binding => Definitions.Binding;
+        public string ReleaseSetId { get; }
+        public ChapterParameterStatus? ParameterStatus { get; }
         public PublishedRuleDefinitions Definitions { get; }
         public NewProfileDefinition NewProfile { get; }
         public IReadOnlyList<byte> ReceiptBytes { get; }
@@ -222,8 +235,10 @@ namespace FightMatch.Content
         internal ResolvedPublication(PublishedRuleDefinitions definitions, NewProfileDefinition profile, byte[] receipt)
             : this(definitions, profile, receipt, Array.Empty<DemoParameterEvidence>()) { }
         internal ResolvedPublication(PublishedRuleDefinitions definitions, NewProfileDefinition profile, byte[] receipt,
-            IReadOnlyList<DemoParameterEvidence> parameters, IReadOnlyList<DemoContentReplayResult> references = null)
+            IReadOnlyList<DemoParameterEvidence> parameters, IReadOnlyList<DemoContentReplayResult> references = null,
+            string releaseSetId = null, ChapterParameterStatus? parameterStatus = null)
         { Definitions = definitions; NewProfile = profile; ReceiptBytes = new List<byte>(receipt).AsReadOnly();
+            ReleaseSetId = releaseSetId; ParameterStatus = parameterStatus;
             Parameters = new List<DemoParameterEvidence>(parameters).AsReadOnly();
             defaultReferences = new List<DemoContentReplayResult>(references ?? Array.Empty<DemoContentReplayResult>()).AsReadOnly(); }
     }

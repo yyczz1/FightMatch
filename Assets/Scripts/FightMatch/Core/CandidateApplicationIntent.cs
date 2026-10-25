@@ -21,13 +21,17 @@ namespace FightMatch.Core
         SetFormation = 11,
         EnterFormation = 12,
         PermanentRequest = 13,
-        MigratePermanent = 14
+        MigratePermanent = 14,
+        MigrateChapter = 15
     }
 
     public sealed class CandidateApplicationIntentInput
     {
         internal CandidatePermanentQuote Permanent;
         internal CandidateRosterMigrationInput PermanentMigration;
+        internal CandidateRosterMigrationInput ChapterMigration;
+        public void SetChapterMigration(CandidateRosterMigrationInput value) { ChapterMigration = value; }
+        public CandidateRosterMigrationInput GetChapterMigration() { return ChapterMigration; }
         public void SetPermanent(CandidatePermanentQuote value) { Permanent = value; }
         public CandidatePermanentQuote GetPermanent() { return Permanent; }
         public void SetPermanentMigration(CandidateRosterMigrationInput value) { PermanentMigration = value; }
@@ -166,6 +170,16 @@ namespace FightMatch.Core
         public CandidateRosterMigrationInput GetPermanentMigration()
         {
             var source = Data.PermanentMigration;
+            return source == null ? null : new CandidateRosterMigrationInput
+            {
+                SourceGeneration = source.SourceGeneration,
+                SourceDescriptorLength = source.SourceDescriptorLength,
+                SourceDescriptorSha256 = new List<byte>(source.SourceDescriptorSha256).AsReadOnly()
+            };
+        }
+        public CandidateRosterMigrationInput GetChapterMigration()
+        {
+            var source = Data.ChapterMigration;
             return source == null ? null : new CandidateRosterMigrationInput
             {
                 SourceGeneration = source.SourceGeneration,
