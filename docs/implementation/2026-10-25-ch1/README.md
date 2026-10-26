@@ -311,3 +311,98 @@ QA actual turn `01a172b9-e473-7361-99e4-9d6ccbad5aec`已按既有r2的19字段Co
 候选已完成并停写，实际只改`CandidateApplicationRecovery.cs`，19833字节／SHA `924b435b3e1d076054363baec910a7c2bc3b3a2e7af07689f23baf1f4a446f75`；测试文件与前像逐字节相同。现有存储接口没有稳定的“根校验完毕”测试接缝，故未加入依赖私有方法名／StackTrace／固定读次数的专用race测试，不添加生产hook。主程已读准确`change.patch`（SHA `7d487ef6af00803d64111583d86764264176a6c73cf55e48d2926f86c27e0432`），原Load、全摘要双重绑定、全部恢复根和发布前复查均保留；未编译、未实测。原有并发证据变化／旧根与能力绑定／坏head禁止重建／Unknown后奖励只发一次及教学完整恢复共5方法13实例，作为最小必要复验，准确filter与守卫映射在同目录`candidate.json`（SHA `441cfdd2f70ccda4426ac2ef0c24c50f260d057e845191bd5517d9779430be60`）。
 
 本次只将该源码及实施记录冻结为`review-candidate-07`，交中央沿既有权限更新原draft PR27、QA接准确新head独审，不合并。源码审查可独立继续；新源码不能继承旧head测试通过。准备申请额外300秒的短验证额度（最多两次Unity启动，首次13实例，必要修正后仅复验受影响项），含准备／运行／收尾；此处仅为待人类批准方案，旧3579.452900／3600及余20.547100保持，不自行扩额，不包含真实r3长链、资源／Scene或设备运行。该局部修正尚不能解释／解决全部长链耗时。
+
+candidate07已实际更新原draft PR27为`2e74c989724acceaf47135725a02a4dd16265b5c`，直接父`936f2b173fde52327c2d17f1ab6dd3391f69da69`、PR base仍`7a226936751ab265609b0fdc751207648bdffffb`；准确2路径118225字节，manifest SHA `03c438448eaaba8daf8d7e25d37b2520645e5152e21e8481457d2470400bec92`，远端核同，master／普通index保持、不合并。中央已交QA唯一接新head复审，发布回执在`TestArtifacts/FightMatch/Versioning/20261025-ch1-teaching-boss/recovery-current-reuse/publication.json`。13项短验证的待批准输入已准备为`b03-b04/corrections/recovery-current-reuse-01/proposed-verification-inputs.json`，SHA `48d8c625bac72776975fe0d7c55c8d98c51c72b227efd84f1169ff49fd5804f1`，136候选／600输入／44保护，仅替换新增源码身份并移除旧actual-r3条件运行；明确PENDING_DIRECT_HUMAN_APPROVAL，无隐含启动权。主程已提出唯一额外300秒请求，答复前不派C或执行新验证。
+
+### 恢复修正的新增300秒短验证（2026-10-26）
+
+PR27 head `2e74c989724acceaf47135725a02a4dd16265b5c`的独立GitHub审查已由QA接回：[6397173825](https://github.com/yyczz1/FightMatch/pull/27#issuecomment-6397173825)，完整head对应状态completed、两findings字段false，未发现重大问题。源码门有效，但当时未运行的13项不追认为通过。
+
+用户随后在中央直接批准追加300秒、最多两次Unity启动，首次13项，第二次仅必要修正后的受影响复验，全部准备／运行／收尾计时，不重跑长链、不做资源／场景／设备。主程及原C实际读取人类turn `01a175a5-7884-7ff3-8b9a-3b84cd7d4f20`／message `01a175a5-7c6a-7740-8e62-3f181347080c`，原文保存在`b03-b04/corrections/recovery-current-reuse-01/verification-01/direct-human-authority.json`。原C actual turn `01a175a9-740a-71e2-8782-c6ad4b892967`沿原exec审批入口获准执行，两次没有新权限拒绝。原待批清单保持SHA `48d8c625bac72776975fe0d7c55c8d98c51c72b227efd84f1169ff49fd5804f1`，由本次直接授权补足执行权。
+
+首轮标准XML实际9/9 Passed，未达到预定13项：主程准备的清单将`SaveRecoveryTests`命名空间误写为`FightMatch.Core.Tests`，而源码实际为`FightMatch.Tests`，故该方法4个实例未匹配。首轮缺口及原XML完整保留，不称13项全跑。主程据源码第16、208—209行纠正执行筛选，第二次只运行`FightMatch.Tests.SaveRecoveryTests.SameHeadDoesNotAuthorizeAfterFileOrPendingEvidenceChanges`的4实例，4/4 Passed；没有改产品或测试源码、原清单，也未重跑已过9项。两轮分别exit0、无timeout或编译错误，Unity运行62.158020秒与21.162891秒。
+
+主程读取两份原始XML及实际回执，确认合计恰为既定5方法13实例，0失败／跳过；两轮各自136候选／600输入／44保护前后无差异，字体与证据前像逐字节相同，Editor残留0。源码19833字节／SHA `924b435b3e1d076054363baec910a7c2bc3b3a2e7af07689f23baf1f4a446f75`仍与已审head相同。总回执`verification-01/combined-result.json` SHA `28201f0ab0b3e7e7d4b7b48df18a7434f5582ff8fd80cede59940946bea1569c`；两XML分别SHA `44173b49c8ef40c964a346364e440c21cb7dacb679f36519a127c0358be5071d`与`85f8f09e4ad8ffb1bea814383acf526fa2ad7ce4ea5dd6d2e6d6f4cd336e994d`。
+
+新增段含准备、等待必要修正、运行和收尾实际231.704897／300秒，余68.295103秒；两启动已用完，C已停写，无第三次。旧B03/B04累计3579.452900／3600及余20.547100独立原样保留，不相加、不重置。只有执行筛选纠正，无源码delta，不需另发代码独审。已将原始证据交QA接准确head的限定集成判定；本轮不作为性能基准，不能宣称实际r3长链超时解决，也不覆盖未跑的发布／资源／Scene／Play／设备或PR26缺失独审。原字体漂移和本地fixture差异仍按历史准确边界保留。
+
+QA actual turn `01a175ae-155f-7593-b9b2-a218d8931f1f`已直接复核两XML的13个不同实例、相关源码／测试身份、两轮原始process及保护回执，并在[validation.md](validation.md)签发本恢复修正唯一集成判定：**ACCEPT**，限定PR27 `2e74c989724acceaf47135725a02a4dd16265b5c`的同次Restore已验证current复用及既有守卫回归。依据为准确head独审6397173825及本次9＋4通过证据。此限定接收补齐该修正的待验证缺口；性能收益、实际r3长链、资源／Scene／设备、PR26缺审及完整CH1仍不在接收范围。已回中央本轮里程碑，无新源码需发布、无合并。
+
+### 后续短性能定位方案（2026-10-26，仅准备，未授权运行）
+
+目标是先取得可读的阶段成本与调用次数，再决定最小修改；本段不宣称找到真实r3长链超时根因。原300秒段已经闭环，余68.295103秒不挪用，原3600秒累计也不改变。本次只读既有日志／源码并追加此方案，没有启动Unity、修改产品／测试、增加诊断框架或准备私有hook。
+
+已有证据：editmode-10进程开始epoch1792926558.863559，标准UTP Begin为1792926579855ms，相隔20.991441秒；371.826088秒总运行中测试已实际推进至L6。因此不能把整段归因Unity启动，但L1—L6进度行没有精确逐阶段时间。测试使用MemorySave，不能将业务存储成本等同外置盘I/O。原Boss用例270.136619秒只证明其完整单例耗时。聚焦教学在旧源码10.222004秒、新源码10.625236秒，属于不同运行中的单个样本，既不能量化优化收益，也不能据此下退化结论。
+
+优先复用现有完整短用例：`FightMatch.Core.Tests.ChapterStateSaveCompatibilityTests.SkillOnlyFactsWindAndCooldownSurviveActualApplicationColdRecovery`。原editmode-04 XML为5.089720秒Passed；该历史批次字体漂移边界仍保留，此数字仅用于安排测量规模。用例包含一次合成内容fixture、创建档、教学正常提交、进入战斗、两次真实Battle.Submit、销毁Application后以原MemorySave和locator重新OpenExisting，并核对战斗历史字节。没有故障注入、1→16前置或资源／Scene操作。测试源码SHA `e858e34d7f24b2c192d01a12610ab1c579da7a8cc16470f405488309b37fbd96`，保持现有文件不动；产品使用已审已收的PR27 `2e74c989724acceaf47135725a02a4dd16265b5c`恢复源码SHA `924b435b3e1d076054363baec910a7c2bc3b3a2e7af07689f23baf1f4a446f75`及已明确的本地fixture差异。
+
+| 要区分的成本 | 标准CPU Profiler中的范围 | 记录与边界 |
+| --- | --- | --- |
+| Editor启动／发现与测试前置 | 进程启动→UTP Begin；测试树内`ChapterTeachingFixture..ctor`和首次`ChapterTeachingRig..ctor`分开 | 前者含导入／发现；内容Prepare／内存Publish归fixture，新档CreateNew另列；不把它们算作普通战斗提交 |
+| 正常Submit | 两个`ChapterTeachingRig.Act`调用下的Prepare与`CandidateApplicationRuntime.Submit`分别读数；教学Lifecycle.Submit另列 | 每次记录inclusive、self和调用数；Submit包含builder／编码／写前检查／写后Restore，不用整段Submit减一个异输入Restore来猜份额 |
+| 冷恢复 | 第二个rig构造中`PlayerSessionSystem.OpenExisting`→Application.Open／RestoreCore | 同一fixture、同一已有MemorySave／locator，无内容fixture重建；区分外层locator／content resolve与RestoreCore子树 |
+| 历史校验 | Submit或冷恢复子树中的`CheckPlayerRoots`→`DecodeApplication`→Application／Business Decode；业务历史里的`CandidateBattleOperations.CheckRun`／`CheckRecord`及`CandidateBusinessRestoreChecks.Record` | 分别记录保留root解码次数与单个run历史遍历次数／inclusive及self；恢复扫描中的`ObserveRecovery`／哈希／ReadRequirements另列。父子inclusive不能相加，两次Attack只作调用规模线索，不据短样本推断长链增长律 |
+
+读取这些方法仅为分析标准Profiler调用树，不反射调用私有方法、修改访问级别、添加日志hook或改变守卫。若某方法被内联／未出现或EditorLoop未采集，写明不可分辨，不能把缺失样本当零成本。若热点在fixture，则先缩小测量前置；若在正常Submit／冷恢复，则按对应调用树选择具体层；若全根解码或记录验证占主要份额，再提出保持全部守卫的精确差量。没有成本数据前不加缓存、不清理历史、不调整作者数值。
+
+执行提案供中央集中安排，尚未下发C：复用原标准EditMode命令，只保留上述准确单filter／原`-automated -projectRepositoryPath`，新增Unity2022.3官方参数`-profiler-enable -deepprofiling -profiler-log-file <evidence>/capture.raw`。目标为Editor CPU；读取时必须展开EditorLoop而非只看PlayMode样本。先前系统sample仅有Rosetta未知栈，本方案改用托管方法采样。官方[命令行文档](https://docs.unity3d.com/2022.3/Documentation/Manual/EditorCommandLineArguments.html)支持这三个参数；[Profiler说明](https://docs.unity3d.com/2022.3/Documentation/Manual/profiler-profiling-applications.html)明确Deep Profiling存在额外开销，故本轮只用于定位与计数，不作无采样延迟基准或性能改善证明。不增大默认Profiler内存，不安装插件／工具，不使用Player专属capture-frame-count假装限制Editor。
+
+建议单独一次性额度为**420秒、最多两次Unity启动**，与所有旧段独立：准备／保护检查至多90秒，第一次采集至多180秒，第二次仅用于一次只读Profiler读取尝试至多120秒，至少30秒收尾；各步用实际总余量扣收尾，未使用额度不转为重跑。第二次不运行测试，也不是采样重试。深度采样后的总耗时不与旧5.089720秒作速度比例。预计短用例比整链小很多，但尚未在本机验证deep采集开销，180秒是停止上限而非完成保证。
+
+第一步仅作无需打开Profiler的采集检查：Unity退出／退出码、XML恰1个目标实例Passed、对应UTP Begin和End、capture.raw存在且非空，记录raw长度及SHA，并核日志有无采样丢失诊断和输入／保护状态。此时只称“采集文件已产出，内容尚未读取”，不宣称raw有效或存在目标托管调用树。零匹配、测试失败、超时、raw缺失／空文件或已报丢样则结束，保留所有原始文件，不追加采样；没有丢样日志本身也不证明raw内容完整。
+
+第二步的现成入口是`mcp__cua_repl.js`控制Unity原生应用：在第二次Editor只读启动后，仅一次`cua.getApp("/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app")`连接尝试（工具调用timeout不超过30秒，计入120秒读取段），取得真实UI后，从实际菜单进入标准Profiler，使用Load载入上述capture.raw，选择CPU Usage的Timeline／Hierarchy并展开EditorLoop，按目标用例调用树抄取表格和截图。只操作Profiler，关闭录制，不进入Play或操作／保存Scene；工具返回的可见UI是后续点击依据。**此前Unity CUA两次长连接失败，当前没有新的成功连接或Profiler可读证据，故自动读取尚未证明可达。** 本次准备不调用CUA探测。将连接、Load及读取合计限定为一次有界尝试：连接失败／超时、无可用UI、Load失败或读不到目标帧即停止，不重新连接、改入口、盲点菜单或制作raw解析器；保留raw路径、长度、SHA和失败原因交人工用标准Profiler读取，不让人工重新采样，也不把人工读取等待计作已经完成的自动交付。
+
+只有第二步（或后续实际人工读取）才检查raw可加载、目标用例与托管调用树存在、目标帧未丢失、各阶段是否能区分，并填写inclusive／self／调用数。无法区分的方法标未取得数据；没有可读调用树时交付状态为“已采集，待人工读取”，成本定位仍未完成。第二次失败后不使用剩余额度作第三次启动或另种工具试验。
+
+允许未来新建的仅是证据目录`TestArtifacts/FightMatch/CH1-IMPL-001/b03-b04/performance-diagnosis-01/`下的`command.txt`、`results.xml`、`Editor.log`、`stdout.log`、`stderr.log`、`capture.raw`、`precheck.json`、`postcheck.json`、`result.json`、`profiler-readback.png`和`timings.md`。产品／测试／meta无需修改；保留现有136候选／600输入／44保护和字体／存档／Scene前后检查，继续外置盘现成Editor及缓存，不操作Scene、Play、资源、设备或Git。没有实际raw前不创建新测量框架或调用内部解析API。
+
+交付标准是可定位的原始capture＋单例XML＋阶段表：各阶段有证据帧／调用路径、inclusive/self毫秒、调用数及无法归类部分，且保护与预算闭合。此合成短用例只检查长链共用的保存／历史代码路径；若其调用规模不足以解释真实r3累计变慢，下一步必须依据本次热点提出一个有界的实际r3前缀或固定档样本方案，不能把短用例当成已复现完整性能问题，也不自动续跑。方案及现有缺口一次交中央，与PR26服务门集中安排；本段不是新运行权限。
+
+### 420秒性能采集实际结果（2026-10-26，已停止，待人工读样本）
+
+用户在中央turn `01a1761e-4a4e-7ef2-ae1a-43f52d375435`／message `01a1761e-4a98-7de0-8f16-7eb1732d953f`直接回答异步问题`call_ad6733049f02437e893c369153f1cbb0`第0项“允许这段短时性能定位”。主程及原C实际读取该人类原文，沿原入口执行上述420秒／两启动合同。首次派发回合持续无工具记录，主程恢复同一C后，C确认前回合没有工具／准备／Unity执行；实际准备起点epoch1792983450.3135061，绝对截止1792983870.3135061，保存在`b03-b04/performance-diagnosis-01/execution-start.json`，不把历史余额合入。
+
+原C采集turn `01a17623-abf0-7eb3-b67c-5824cc4330e4`取得准确短用例1/1 XML Passed，0失败／跳过，单例25.276988秒，UTP Begin／End对应，第一Unity进程67.912742秒、exit0，无明确丢样日志。`results.xml` SHA `ca2299026b22b2d5bed84900cbc4c6119a2d19aea3899c9f80367148c66ee4be`。这是Deep Profiling下的运行，不与旧5.089720秒作速度对比。`capture.raw`实际1822355309字节，C前后SHA `765c60a6c1f1e93f67ad2670c033920037c14a782d1d781085048f578fc22db4`；主程核文件长度、XML及源码身份，采集文件产出门满足，但raw内容有效性尚未建立。
+
+第二次Editor仅按合同准备标准Profiler只读读取，原进程监督在120.083662秒结束，exitCode=null，结束UTC03:02:42.470219。唯一CUA getApp请求使用准确外置Unity.app路径、timeout_ms30000，实际工具原文为`aborted by user after 134.5s`，未返回app／UI／文档、未发Load、未读取任何帧或托管调用树。主程在只读阶段到120秒且仍无UI时中断该执行回合，取消挂起请求；当时聊天状态为waitingOnApproval。这里“by user”是工具原始措辞，实际是主程调用interrupt_agent止住尝试，不是人类撤销许可；也没有证据把它改称CUA API异常或自动审批明确拒绝。没有重连、换入口或新解析器。
+
+原C仅在收尾turn `01a17629-94da-7bd3-a25c-1d1f88e3d8e3`收取原监督回执并完成后检，确认136候选／600输入／44保护及字体保持、raw保持、无Editor残留。总回执`result.json` SHA `873ce69a76d047b76cba59caedd954663fa20ccbc43718e5d00f4f7bc44dd25a`，实际闭合421.206353／420秒，超额1.206353秒；另一次CUA请求实际等待134.5秒，超过约定30秒，不能以请求参数为30000ms冒称实际守时。两个实际Unity启动，第二次无测试，无第三次；上述执行边界偏差原样保留。旧3579.452900／3600与上一短验证231.704897／300及各自余额／启动计数独立保持。
+
+当前交付为**已采集，待人工使用标准Profiler读取**。准确原始文件位于`TestArtifacts/FightMatch/CH1-IMPL-001/b03-b04/performance-diagnosis-01/capture.raw`；人工在现有Unity标准Profiler关闭Record，Load该文件，CPU Usage的Timeline／Hierarchy展开EditorLoop，按前表辨认fixture／CreateNew、正常Submit、冷OpenExisting／RestoreCore和历史验证。无需重新采样。四阶段inclusive／self／调用数全部仍为未取得，不能宣称热点、性能改善或真实r3长链超时修复。`timings.md`保留该读取指引；原始证据已交QA作限定收件，等待其诊断交付判定。本轮不再自动启动Unity／CUA，不操作资源／Scene／Play／设备／Git。
+
+QA actual `01a1762d-21a2-7723-9875-c068b066b42d`已在[validation.md](validation.md)签发本诊断交付唯一判定：**NEEDS_FIX**。可接采集产物产生与准确单例1/1通过证据；raw内容有效性、四阶段inclusive／self／调用数和热点未取得，需人工标准Profiler读取。QA核XML／UTP、源码／测试身份、现成执行及保护回执和raw实际长度，采用C前后同一raw摘要而未重复散列大文件；两项实际超时偏差保持。该判定不撤销此前13项恢复修正的限定ACCEPT，不证明实际r3长链通过，也不赋予自动再开Unity／采样权限。已交中央最终性能状态及准确人工Load路径。
+
+### 公开API读取旧采样（2026-10-26，单次结束）
+
+用户在中央turn `01a17713-c058-7811-be57-d00ee3a09cf3`／message `01a17713-c083-7393-b1ca-03393fa66c42`要求由AI继续处理；中央通过`exec-b9927e09-ddb1-409c-89dd-01d4074d713b`派发新的一次公开API读档，自限240秒／一次启动，数字不是用户逐字指定。原C actual turn `01a1771e-0a55-7fc1-bbdb-c7388e4e0eba`完成准备、唯一运行及清理，共221.481060秒；Unity运行31.231534秒、exit0、无编译错误。`ProfilerDriver.LoadProfile`返回true，用时3.687703秒，帧范围0..0、2个有效视图；有界扫描记录100001个样本后，临时入口第57行对空样本名调用`IndexOf`触发`NullReferenceException`。这是本次读取入口的缺陷，不是Unity不能加载raw的证据。扫描曾截断，目标存在性、四阶段成本及热点均UNKNOWN，无Hierarchy结果；exit0不能代替诊断成功。
+
+原始[回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/b03-b04/performance-diagnosis-01/api-readback/result.json) SHA `df9ff279638a67ac932f3bb44515a017020fa587fc21e8fc9a7d1ebecb7c301a`；`readback.json`保留异常。临时cs／meta已清除，仅证据目录留副本；136候选／600输入／44保护、字体及raw长度保持，无Editor残留，未重复散列raw。没有重试、重采样、测试、资源／Scene／设备或Git写入，旧各段计时原样保留。人工Profiler不是唯一读取路线，也不是全部开发的前置；本次仍未完成成本定位，不改变旧诊断NEEDS_FIX和13项恢复修正ACCEPT。r3发布／六件冷载、三平台资源及Scene接线在技术上不依赖采样；应沿各自前置和新限定执行安排推进，真实整链与页面验收仍独立未完成。
+
+中央随后将上述API诊断内部累计自限修订为420秒，保留首轮221.481060秒，仅允许一次必要修正和受影响复读；这不是用户另批420秒，也不混入旧采集段。`api-readback/fix01/`候选已补空名计数／UNKNOWN及帧线程位置，取消必须先在有限raw扫描中找到目标才读Hierarchy的条件，并保持原raw路径。离线编译首次缺netstandard引用，补齐后又遇默认csc.rsp重复System类型；保留两次失败记录，最终使用现有本地引用和`-noconfig`编译exit0。因已无足够运行与清理余量，未恢复Assets临时文件、未启动第二次Unity；热点和阶段成本仍UNKNOWN，不把静态编译当运行通过。
+
+本修正准备／静态收尾实际199.687907秒，API诊断两轮累计**421.168967／420秒，超限1.168967秒**，实际Unity启动累计仍为1次。修正[回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/b03-b04/performance-diagnosis-01/api-readback/fix01/result.json) SHA `30ab02ac12b47635ea0719bf6c7a30433a3f654f6dc0b538361afcc010f60641`；其中早期`staticCompileExitCode=1`／error保留失败，最终结果以`staticCompileFinalExitCode=0`及`static-compile-final.json`为准。首轮result/readback摘要未变，136／600／44保护及raw长度保持，后检无Editor；主程核临时cs/meta仍不存在。旧采集段421.206353秒／两启动等记录完全独立保持。本段停止，无第三轮、无新测试或Git审查。
+
+中央随后为已编译候选安排最多120秒的实际复制／第二次读取／清理窗口，API总自限改为600秒；历史累计421.168967秒保留，不触动用户原采集段。第二次Unity实际28.167345秒、exit0、无异常，Load=true／3.617179秒；frame0有4个有效视图，主线程59044461样本，本次有限raw扫描1139条、3个无名条目，Hierarchy达到150000项上限，目标和相关热点行均未取得。此证据确认公开API可加载并读取有限调用树；由于截断，不能证明目标不存在、不能给四阶段成本或认定长链性能已解决。
+
+本执行段含收尾73.412276／120秒，API任务累计494.581243／600秒、实际两次Unity启动；此前各次失败和超限记录保持。最终[回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/b03-b04/performance-diagnosis-01/api-readback/fix01/execution02-result.json) SHA `e58bcd57813d2ac8e11342640cf9919ffe447100037f467e582b7227ca3380ab`，`fix01/readback.json` SHA `1da76408f41b8398e14eaea173287c4ea14d9ed4ea7d959417c8b4056447f921`。136／600／44和raw长度保持，无Editor，临时cs/meta已删除；原脚本失败及静态编译证据未覆盖。诊断结束，无第三次启动，无新采样／测试／产品修改。成本定位仍未完成；独立r3发布、资源、Scene及真实整链验收沿各自前置继续安排。
+
+### r3本地发布／六件冷载（2026-10-26，独立执行包）
+
+Owner／唯一执行收件为主程，原C串行执行，主测试接最终最小内容证据；中央只接里程碑／冻结发布差量／真实阻塞。依据用户继续CH1实现及本轮由AI独立处理的既有授权，中央明确派发本包；480秒／最多3次Unity为中央自限，不是用户逐字数字。起点与绝对截止已写`TestArtifacts/FightMatch/CH1-IMPL-001/host/publication-r3-01/execution-start.json`，含主程本次准备、C前检、三模式及收尾；每模式一次、单次最多120秒，至少30秒收尾，所有旧计时独立保留。
+
+固定输入为已审PR27 head `2e74c989724acceaf47135725a02a4dd16265b5c`相关现成源码及已说明的本地差异、既有136候选／600输入清单；r3作者集合SHA `867a9ab630e8d6d6201fe3d5d8b71c8db4cdec016c5b348967242523eebf7462`，Generated集合`c7c034446902183a407d3a7c0a763d671d1af84476e9c63890ad8e6644201bb4`。`host-content/r3/approved-review.json`为实际QA批准，5131字节／SHA `49e08ceec0630b45f3eab2601ad307096c9dedb15caf0eaa88a3e8c00dfe5817`；prepare八件复用且保持。source／payload均87698字节／SHA `9b751d12b9cea307774020f524e779d5763b93a95067e125e0eb00c5d5a469c7`，validation1375字节／SHA `d305e1c25dcf5577cfd8e696cda999c3fdc29190666a29fcd92ed581343303fd`。内容为修订3／16关／Trial；不重生成、不改UNREVIEWED模板或BattleReplayPerformed=false历史。
+
+实现核准的产物根为`TestArtifacts/FightMatch/CH1-IMPL-001/host-content/r3/publication/`：新增`publication-result.json`、`export-manifest.json`、`cold-load-result.json`及`publication-store/`内既有Catalog按本固定绑定生成的source、payload、validation、review、operation、receipt、binding、release八条不可变记录（确定键的`.blob`、写入时`.work`和`writer.lock`）；没有根路径差异。正式导出仅`Assets/StreamingAssets/FightMatchChapterOne-r3/`下`first-release.fmsource.json`、`first-release.fmpackage.bytes`、`first-release.fmvalidation.bytes`、`first-release.fmreview.json`、`first-release.fmpublish.json`、`first-release.fmrelease.json`，各自Unity生成`.meta`及该新目录`.meta`。主程前检publication根、导出目录和其meta均不存在；C再次核对，不覆盖未知同名产物。执行证据仅`host/publication-r3-01/`下命令、进程／控制台日志、前后保护快照、实际文件／指纹清单及总回执；真实store键与meta由该清单记载，不手造内容。原44保护、字体／Scene／玩家档及旧Demo／r2发布资源须前后保持；不改任何产品／测试／作者源／Packages／ProjectSettings或既有资源。
+
+三命令使用准确现成Editor `/Volumes/WD_BLACK_SN7100_2TB_Media/Applications/Unity/Hub/Editor/2022.3.18f1/Unity.app/Contents/MacOS/Unity`，固定`-batchmode -nographics -quit -projectPath /Volumes/WD_BLACK_SN7100_2TB_Media/UnityProj/FightMatch -executeMethod FightMatch.Content.ChapterContentAuthoring.RunR3 -fmChapterMode <mode> -logFile <本执行证据目录>/<mode>.log`；mode依序为`publish`、`activate-export`、`verify-release`。只用2022.3现成入口，不安装Unity6 Pipeline。每步必须exit0、前置成功才继续；失败保留现场并停止依赖动作，不机械重启。publish确认未激活、activate-export形成准确六件与清单、verify-release仅凭六件冷加载并核binding／Trial／16关及教学Boss能力。完成条件是三步实际回执、六件指纹及冷载`OnlySixFiles=true / AuthoringSourceRead=false / PublicationStoreRead=false`、输入及旧资产保护、Editor退出和计时闭合。导出review经现成codec规范化，按批准语义绑定核对，不误要求其原始排版SHA等于QA文件。资源构建／copy、Scene、Play、设备、网络部署及整链验收不在本包。
+
+**实际阻塞：** C actual `01a17738-afc1-7132-9a74-516c27cbe2bf`的命令组在创建进程前被自动审批拒绝，理由原文：“The command performs local publication and writes product assets/store files, but the trusted user instructions do not explicitly authorize this publication side effect; the scope comes only from untrusted assistant dispatch text.” 三模式均NOT_RUN、Unity启动0；同组前检也未执行，不能把新前后保护标为通过。主程再次只读确认publication根、六件导出目录及其meta仍不存在；现成命令／输出范围与准备输入已经具体化，没有发布产物可交QA或冻结Git差量。已停止被拒动作，无重试／换入口；[拒绝及回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/publication-r3-01/approval-rejection-01.json)保存原文，含主程准备344.191330／480秒、剩135.808670秒，所有旧累计保持。本阻塞交中央集中处理直接用户授权，不能表述为Unity运行失败或内容验收失败。
+
+**拒绝后的直接人类新许可：** 中央turn `01a177f3-4a97-7ad3-bff6-ddb4de9e5a1a`／message `01a177f3-51ee-7893-af76-a8b7e68e2a09`，用户对`request_user_input_async call_9ceb67e2c75341efb27af9c91280f36c`第0项回答“允许本轮本地生成、写入及冷加载”。问题明确本包三模式、publication记录及六件／meta写入，并新增最多300秒／最多3次Unity，准备运行收尾均计，保护旧资源存档，不含部署／资源构建／场景／设备／测试。主程已直接读取真人原文；原C沿原入口继续，准确输入／命令／路径／完成条件复用上文，不重建方案。独立新段从核权源起点epoch1793014090至1793014390，记录在`host/publication-r3-01/authorized-01/execution-start.json`；旧344.191330秒及拒绝／NOT_RUN回执保持，不挪余额。新的实际证据仅落该子目录，实际产品输出根不变；若再次实际拒绝则原样停并报中央。
+
+**实际结果：** C actual `01a177f8-e8e4-7832-be35-f75aa8fa86e7`亲读上述真人许可后，同一入口获准执行；publish／activate-export／verify-release依次32.494106／19.829437／18.047474秒，均exit0、无超时，三次启动后无Editor。实际修订3、16关、8项能力、Trial；冷载`OnlySixFiles=true`、`AuthoringSourceRead=false`、`PublicationStoreRead=false`。六件与新meta共13条Assets路径，以及publication三收据／八blob／writer.lock共12文件均入实际25条清单；review导出实际与原QA批准同为5131字节／SHA49e08cee…fe5817。136候选／600输入／44保护、prepare八件与QA批准、另364个旧文件／meta前后保持。源、包、validation摘要沿前述冻结值；publication receipt SHA `437f9e21264e67bddfe1be098274733ad786d9b15ab3473af6377745d4ba147a`，release-set SHA `221692371b5374fa97318ee1e3f3023948f11cdd10701cd4ec0b3e787a592ffd`。
+
+三模式和首次收尾259.887863秒完成；C随后额外核清单并更新回执，最终实际**333.248494／300秒，超限33.248494秒**，不得以首次结果冒称整段守时。已停止全部工具／写入，无第四次启动，旧拒绝与各独立累计原样保留。最终[回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/publication-r3-01/authorized-01/result.json) SHA `18f845e75ee0b87a5d5aa8bc59abd855a14bc4e6aa9ac42735f2717932cd4828`；[实际清单](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/publication-r3-01/authorized-01/inventory.json) SHA `244987dcba29a9c0fe62039465db1198a3c03676205f1c07552d6080401bd08a`。主程已核三原始process、冷载、六件／meta及总回执，交QA限定内容收件并保留执行偏差。此为本地数据发布／冷载成功，不代表r3真实整链、三平台资源、Scene／Play、设备、最终平衡或线上交付通过；本包没有这些操作或新代码／测试。
+
+QA actual `01a177ff-07e7-7892-b1ef-2a3826ea9dc1`在[validation.md](validation.md#2026-10-26r3本地发布与六件冷载限定收件)给本批唯一集成判定：**ACCEPT，仅本地发布／激活导出／六件冷载功能，不认可整段执行守时**。QA逐项核六件、25项产物、364旧文件及prepare／批准，复用准确head2e74c989的GitHub独审和原内容批准。publish.log第636行曾报已删除诊断脚本FightMatchProfilerReadback.cs的CS2001，随后同一进程重建编译图并在747行完成PUBLISHED、944行正常退出；该中间失败保留，不能称全程无编译错误。主程收件完毕，将13条新Assets／meta与本记录冻结为`TestArtifacts/FightMatch/CH1-IMPL-001/review-candidate-08/`，基于PR27 head2e74c989交中央精确14路径发布差量；不提交／推送／合并本机Git，不混入字体、fixture WIP或诊断脚本。资源构建／copy和Scene仍是后续独立执行范围。
