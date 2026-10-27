@@ -1,0 +1,4288 @@
+{
+  "schemaVersion": 1,
+  "locales": [
+    "en",
+    "zh-Hans"
+  ],
+  "entries": [
+    {
+      "key": "fm.battle.action.accepted",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "valid_path_submitted_once",
+      "texts": {
+        "en": "Action submitted.",
+        "zh-Hans": "行动已提交。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "同一手势只出现一次。"
+    },
+    {
+      "key": "fm.battle.enemy.numbered_name",
+      "screen": "battle",
+      "element": "display_name_template",
+      "stateOrTrigger": "same_enemy_definition_needs_instance_distinction",
+      "texts": {
+        "en": "{enemyName} {enemyNumber}",
+        "zh-Hans": "{enemyName} {enemyNumber}"
+      },
+      "parameters": [
+        "enemyName",
+        "enemyNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "L1 EnemyInstanceKey A/B 分别以 OriginalSlot+1 显示为 1/2；A、B、PairId 与 FaceId 不进入玩家文案。"
+    },
+    {
+      "key": "fm.battle.enemy.vulnerable",
+      "screen": "battle",
+      "element": "status",
+      "stateOrTrigger": "enemy_next_action_vulnerability_active",
+      "texts": {
+        "en": "Vulnerable (Next Action)",
+        "zh-Hans": "易伤（下一次行动）"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅真实易伤窗口有效时显示；下一完整有效玩家行动即到期，不等待下一次击中核心。"
+    },
+    {
+      "key": "fm.battle.exit.confirm_button",
+      "screen": "battle_management",
+      "element": "button",
+      "stateOrTrigger": "exit_battle_previewed",
+      "texts": {
+        "en": "Exit This Battle",
+        "zh-Hans": "确认退出本局"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "必须在预览后才可提交。"
+    },
+    {
+      "key": "fm.battle.exit.preview_body",
+      "screen": "battle_management",
+      "element": "dialog_body",
+      "stateOrTrigger": "exit_battle_requested",
+      "texts": {
+        "en": "This ends the current attempt and returns to the map. It will not start a new battle or grant rewards for this attempt.",
+        "zh-Hans": "将结束当前尝试并返回地图。不会自动开始新战斗，也不会发放本局奖励。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不等同关闭应用。"
+    },
+    {
+      "key": "fm.battle.exit.preview_title",
+      "screen": "battle_management",
+      "element": "dialog_title",
+      "stateOrTrigger": "exit_battle_requested",
+      "texts": {
+        "en": "Exit This Battle?",
+        "zh-Hans": "退出本局？"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "明确对象是当前战斗。"
+    },
+    {
+      "key": "fm.battle.gesture.cancelled",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "pointer_cancelled",
+      "texts": {
+        "en": "Path canceled. No action was submitted.",
+        "zh-Hans": "连线已取消，未提交行动。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "覆盖系统取消与主动取消。"
+    },
+    {
+      "key": "fm.battle.gesture.crossed",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "path_crosses_locked_route",
+      "texts": {
+        "en": "The path cannot cross an existing path.",
+        "zh-Hans": "路线不能与已有路线交叉。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "零提交。"
+    },
+    {
+      "key": "fm.battle.gesture.focus_lost",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "input_focus_lost",
+      "texts": {
+        "en": "Path interrupted. No action was submitted.",
+        "zh-Hans": "连线已中止，未提交行动。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "失焦、页面失活均不得提交。"
+    },
+    {
+      "key": "fm.battle.gesture.instruction",
+      "screen": "battle",
+      "element": "instruction",
+      "stateOrTrigger": "ready_for_input",
+      "texts": {
+        "en": "Start at a colored endpoint and drag through adjacent horizontal or vertical cells to its matching endpoint.",
+        "zh-Hans": "从同色端点开始，沿横竖相邻格拖到配对端点。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不暗示需要铺满棋盘。"
+    },
+    {
+      "key": "fm.battle.gesture.invalid_start",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "pointer_started_off_endpoint",
+      "texts": {
+        "en": "Start the path from an endpoint.",
+        "zh-Hans": "请从端点开始连线。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "松手不提交行动。"
+    },
+    {
+      "key": "fm.battle.gesture.not_adjacent",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "path_skips_cell",
+      "texts": {
+        "en": "Paths can only move through adjacent horizontal or vertical cells.",
+        "zh-Hans": "只能连接横竖相邻的格子。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不改变已提交历史。"
+    },
+    {
+      "key": "fm.battle.gesture.playback_locked",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "presentation_lock_active",
+      "texts": {
+        "en": "Battle playback is in progress. Skip to the current state to continue.",
+        "zh-Hans": "战斗表现播放中。可跳到当前战局后继续操作。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不得在完整反馈门关闭前提交下一行动。"
+    },
+    {
+      "key": "fm.battle.gesture.second_pointer_ignored",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "second_pointer_added",
+      "texts": {
+        "en": "The second touch was ignored. Continue with the original touch.",
+        "zh-Hans": "已忽略第二个触点，请继续使用原触点。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "首指身份稳定，第二指不抢占。"
+    },
+    {
+      "key": "fm.battle.gesture.wrong_endpoint",
+      "screen": "battle",
+      "element": "feedback",
+      "stateOrTrigger": "path_ends_at_wrong_endpoint",
+      "texts": {
+        "en": "Connect to the matching endpoint of the same color.",
+        "zh-Hans": "请连接到同色的配对端点。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "零提交。"
+    },
+    {
+      "key": "fm.battle.hud.enemy_hp",
+      "screen": "battle",
+      "element": "hud_label",
+      "stateOrTrigger": "battle_active",
+      "texts": {
+        "en": "{enemyName}  {currentHp}/{maxHp}",
+        "zh-Hans": "{enemyName}  {currentHp}/{maxHp}"
+      },
+      "parameters": [
+        "currentHp",
+        "enemyName",
+        "maxHp"
+      ],
+      "severity": "info",
+      "qaNotes": "敌人名由独立本地化键解析。"
+    },
+    {
+      "key": "fm.battle.hud.enemy_intent",
+      "screen": "battle",
+      "element": "hud_label",
+      "stateOrTrigger": "enemy_intent_visible",
+      "texts": {
+        "en": "Intent: {intentName}",
+        "zh-Hans": "意图：{intentName}"
+      },
+      "parameters": [
+        "intentName"
+      ],
+      "severity": "info",
+      "qaNotes": "不显示内部意图枚举。"
+    },
+    {
+      "key": "fm.battle.hud.member_hp",
+      "screen": "battle",
+      "element": "hud_label",
+      "stateOrTrigger": "battle_active",
+      "texts": {
+        "en": "{characterName}  {currentHp}/{maxHp}",
+        "zh-Hans": "{characterName}  {currentHp}/{maxHp}"
+      },
+      "parameters": [
+        "characterName",
+        "currentHp",
+        "maxHp"
+      ],
+      "severity": "info",
+      "qaNotes": "角色名、生命值均由当前战斗只读视图提供。"
+    },
+    {
+      "key": "fm.battle.hud.phase",
+      "screen": "battle",
+      "element": "hud_label",
+      "stateOrTrigger": "battle_active",
+      "texts": {
+        "en": "Phase {currentPhase}/{totalPhases}",
+        "zh-Hans": "阶段 {currentPhase}/{totalPhases}"
+      },
+      "parameters": [
+        "currentPhase",
+        "totalPhases"
+      ],
+      "severity": "info",
+      "qaNotes": "L1 当前应为单阶段；键可复用同一产品后续内容。"
+    },
+    {
+      "key": "fm.battle.intent.charge",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "enemy_intent_Charge_visible",
+      "texts": {
+        "en": "Charge",
+        "zh-Hans": "蓄力"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "非固定 L1 发布意图；仅真实 Charge 状态或批准测试夹具可用。"
+    },
+    {
+      "key": "fm.battle.intent.defeated",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "enemy_hp_reaches_zero",
+      "texts": {
+        "en": "Defeated",
+        "zh-Hans": "已击倒"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "由敌人 HP=0 的显示状态选择，不映射 EnemyIntentKind；替换播放帧中的硬编码文本。"
+    },
+    {
+      "key": "fm.battle.intent.heavy",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "enemy_heavy_strike_intent_visible",
+      "texts": {
+        "en": "Heavy Strike",
+        "zh-Hans": "重砸"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "用于真实重砸Strike配置；不另造保存意图枚举，伤害与易伤均读实际规则。"
+    },
+    {
+      "key": "fm.battle.intent.ranged",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "enemy_ranged_strike_intent_visible",
+      "texts": {
+        "en": "Ranged Attack",
+        "zh-Hans": "远程攻击"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "用于真实远程Strike配置；不另造保存意图枚举，不改变范围或目标规则。"
+    },
+    {
+      "key": "fm.battle.intent.rest",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "enemy_intent_Rest_visible",
+      "texts": {
+        "en": "Rest",
+        "zh-Hans": "休整"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射实际Rest意图，不借用Charge名称。"
+    },
+    {
+      "key": "fm.battle.intent.strike",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "enemy_intent_Strike_visible",
+      "texts": {
+        "en": "Attack",
+        "zh-Hans": "攻击"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 EnemyIntentKind.Strike；当前 L1 两名发条步兵唯一发布意图。"
+    },
+    {
+      "key": "fm.battle.intent.wind",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "enemy_intent_Wind_visible",
+      "texts": {
+        "en": "Wind Up",
+        "zh-Hans": "上弦"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射实际Wind意图；用尽后按真实fallback显示，不从名称推断恢复或扣次。"
+    },
+    {
+      "key": "fm.battle.member.select_prompt",
+      "screen": "battle",
+      "element": "instruction",
+      "stateOrTrigger": "no_member_selected",
+      "texts": {
+        "en": "Select a living party member first.",
+        "zh-Hans": "先选择一名存活成员。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "当前仅战士可选。"
+    },
+    {
+      "key": "fm.battle.member.selected",
+      "screen": "battle",
+      "element": "status",
+      "stateOrTrigger": "member_selected",
+      "texts": {
+        "en": "Acting: {characterName}",
+        "zh-Hans": "当前行动：{characterName}"
+      },
+      "parameters": [
+        "characterName"
+      ],
+      "severity": "info",
+      "qaNotes": "选择与画线颜色须一致。"
+    },
+    {
+      "key": "fm.battle.phase.await_action",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "battle_phase_AwaitAction_visible",
+      "texts": {
+        "en": "Awaiting Action",
+        "zh-Hans": "等待行动"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 BattlePhase.AwaitAction；当前 L1 开局及首个有效行动后可达。"
+    },
+    {
+      "key": "fm.battle.phase.await_links",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "battle_phase_AwaitLinks_visible",
+      "texts": {
+        "en": "Awaiting Route Links",
+        "zh-Hans": "等待补充路线"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非固定 L1 正常链；供现有批准的多阶段可见测试和未来真实发布内容使用。"
+    },
+    {
+      "key": "fm.battle.phase.await_rescue",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "battle_phase_AwaitRescue_visible",
+      "texts": {
+        "en": "Awaiting Rescue",
+        "zh-Hans": "等待救援"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "全员倒下且业务进入 AwaitRescue 时使用；不宣称战斗已经关闭。"
+    },
+    {
+      "key": "fm.battle.phase.closed",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "battle_phase_Closed_visible",
+      "texts": {
+        "en": "Battle Closed",
+        "zh-Hans": "战斗已结束"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只映射已结束阶段；不等同已结算奖励。"
+    },
+    {
+      "key": "fm.battle.phase.label",
+      "screen": "battle",
+      "element": "hud_label",
+      "stateOrTrigger": "business_battle_phase_visible",
+      "texts": {
+        "en": "Battle state: {phaseName}",
+        "zh-Hans": "战斗状态：{phaseName}"
+      },
+      "parameters": [
+        "phaseName"
+      ],
+      "severity": "info",
+      "qaNotes": "phaseName 只能来自本表明确 BattlePhase 映射，不得使用 enum.ToString()。"
+    },
+    {
+      "key": "fm.battle.phase.won_pending_settlement",
+      "screen": "battle",
+      "element": "dynamic_value",
+      "stateOrTrigger": "battle_phase_WonPendingSettlement_visible",
+      "texts": {
+        "en": "Victory Saved — Settlement Pending",
+        "zh-Hans": "胜利已保存，待结算"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 BattlePhase.WonPendingSettlement；当前 L1 清除第二名敌人后可达。"
+    },
+    {
+      "key": "fm.battle.playback.action_submitted",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "accepted_action_waits_for_playback",
+      "texts": {
+        "en": "Action submitted. Preparing playback.",
+        "zh-Hans": "行动已提交，准备播放"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "当前 L1 每次合法攻击提交后可达；不代表奖励已结算。"
+    },
+    {
+      "key": "fm.battle.playback.beat_row",
+      "screen": "battle",
+      "element": "playback_label",
+      "stateOrTrigger": "ordered_fact_is_playing",
+      "texts": {
+        "en": "Beat {beatNumber}: {beat}",
+        "zh-Hans": "第 {beatNumber} 个反馈：{beat}"
+      },
+      "parameters": [
+        "beat",
+        "beatNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "beatNumber 使用玩家侧 1 起序号；不得显示零起 OriginalFactIndex。"
+    },
+    {
+      "key": "fm.battle.playback.critical_hit",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "direct_attack_with_critical",
+      "texts": {
+        "en": "{characterName} critically hit {enemyName}: {hpBefore} → {hpAfter}",
+        "zh-Hans": "{characterName} 暴击 {enemyName}：{hpBefore} → {hpAfter}"
+      },
+      "parameters": [
+        "characterName",
+        "enemyName",
+        "hpAfter",
+        "hpBefore"
+      ],
+      "severity": "info",
+      "qaNotes": "CandidateBattleFactKind.DirectAttack 且 Crit.Triggered=true；L1 战士暴击自然可达。"
+    },
+    {
+      "key": "fm.battle.playback.current_state",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "playback_not_running_or_final_frame",
+      "texts": {
+        "en": "Current Battle State",
+        "zh-Hans": "当前战局"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "替换 CandidateBattlePlaybackFrame 的默认硬编码节拍。"
+    },
+    {
+      "key": "fm.battle.playback.direct_hit",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "direct_attack_without_critical",
+      "texts": {
+        "en": "{characterName} hit {enemyName}: {hpBefore} → {hpAfter}",
+        "zh-Hans": "{characterName} 命中 {enemyName}：{hpBefore} → {hpAfter}"
+      },
+      "parameters": [
+        "characterName",
+        "enemyName",
+        "hpAfter",
+        "hpBefore"
+      ],
+      "severity": "info",
+      "qaNotes": "CandidateBattleFactKind.DirectAttack 且 Crit.Triggered=false；名称先由稳定 ID 映射。"
+    },
+    {
+      "key": "fm.battle.playback.enemy_charge",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "enemy_Charge_fact_visible",
+      "texts": {
+        "en": "{enemyName} began charging.",
+        "zh-Hans": "{enemyName} 开始蓄力。"
+      },
+      "parameters": [
+        "enemyName"
+      ],
+      "severity": "warning",
+      "qaNotes": "历史事件使用过去时；不得借用当前意图标签。"
+    },
+    {
+      "key": "fm.battle.playback.enemy_rest",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "committed_enemy_rest_fact_visible",
+      "texts": {
+        "en": "{enemyName} rested.",
+        "zh-Hans": "{enemyName} 休整。"
+      },
+      "parameters": [
+        "enemyName"
+      ],
+      "severity": "info",
+      "qaNotes": "只播放已提交休整事实；enemyName本地化，不额外推进敌方阶段。"
+    },
+    {
+      "key": "fm.battle.playback.enemy_strike",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "enemy_Strike_deals_damage",
+      "texts": {
+        "en": "{enemyName} attacked {characterName}: {hpBefore} → {hpAfter}",
+        "zh-Hans": "{enemyName} 攻击 {characterName}：{hpBefore} → {hpAfter}"
+      },
+      "parameters": [
+        "characterName",
+        "enemyName",
+        "hpAfter",
+        "hpBefore"
+      ],
+      "severity": "info",
+      "qaNotes": "CandidateBattleFactKind.EnemyIntent 且 EnemyIntentKind.Strike、Damage 非空；当前 L1 首次击倒前一名敌人后由存活敌人触发。"
+    },
+    {
+      "key": "fm.battle.playback.face_changed",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "committed_face_change_fact_visible",
+      "texts": {
+        "en": "Entered board {faceNumber}.",
+        "zh-Hans": "进入第 {faceNumber} 面。"
+      },
+      "parameters": [
+        "faceNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "faceNumber使用玩家可见的一起始面序号；只播放已提交翻面，不另发奖励或推进敌方行动。"
+    },
+    {
+      "key": "fm.battle.playback.interrupted",
+      "screen": "battle",
+      "element": "warning",
+      "stateOrTrigger": "playback_scheduler_failed_and_latest_state_is_shown",
+      "texts": {
+        "en": "Playback was interrupted. The latest battle state is now shown. Diagnostic code: {errorCode}",
+        "zh-Hans": "表现播放已中断，现已显示最新战局。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "warning",
+      "qaNotes": "不得显示异常文本，也不得把表现故障写成保存失败。"
+    },
+    {
+      "key": "fm.battle.playback.penetrating_hit",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "ordinary_magic_hit_with_arcane_penetration",
+      "texts": {
+        "en": "{characterName} hit {enemyName} with Arcane Penetration: {hpBefore} → {hpAfter}",
+        "zh-Hans": "{characterName} 奥术穿透命中 {enemyName}：{hpBefore} → {hpAfter}"
+      },
+      "parameters": [
+        "characterName",
+        "enemyName",
+        "hpAfter",
+        "hpBefore"
+      ],
+      "severity": "info",
+      "qaNotes": "仅播放已提交的普通魔攻穿透触发事实；穿透修正本次魔防，不用于物防、火球或DOT，显示实际HP前后值。"
+    },
+    {
+      "key": "fm.battle.playback.skip_button",
+      "screen": "battle",
+      "element": "button",
+      "stateOrTrigger": "presentation_lock_active",
+      "texts": {
+        "en": "Skip to Current State",
+        "zh-Hans": "跳到当前战局"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只跳表现，不改变已提交业务事实。"
+    },
+    {
+      "key": "fm.battle.playback.taunt",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "committed_taunt_fact_visible",
+      "texts": {
+        "en": "{characterName} taunted {enemyName}.",
+        "zh-Hans": "{characterName} 嘲讽了 {enemyName}。"
+      },
+      "parameters": [
+        "characterName",
+        "enemyName"
+      ],
+      "severity": "info",
+      "qaNotes": "只播放已提交嘲讽事实；角色与敌人名均本地化，普通击杀未施放时不得伪造。"
+    },
+    {
+      "key": "fm.battle.playback.wind",
+      "screen": "battle",
+      "element": "playback_beat",
+      "stateOrTrigger": "committed_wind_attempt_fact_visible",
+      "texts": {
+        "en": "{enemyName} attempted to wind up {targetName}: {hpBefore} → {hpAfter}; {remainingUses} uses left.",
+        "zh-Hans": "{enemyName} 尝试为 {targetName} 上弦：{hpBefore} → {hpAfter}，剩余 {remainingUses} 次。"
+      },
+      "parameters": [
+        "enemyName",
+        "hpAfter",
+        "hpBefore",
+        "remainingUses",
+        "targetName"
+      ],
+      "severity": "info",
+      "qaNotes": "enemyName及targetName本地化；hpBefore、hpAfter和remainingUses取真实事实，满血或死目标零恢复不能伪装扣次。"
+    },
+    {
+      "key": "fm.battle.restart.confirm_button",
+      "screen": "battle_management",
+      "element": "button",
+      "stateOrTrigger": "restart_previewed",
+      "texts": {
+        "en": "Restart from Original Entry",
+        "zh-Hans": "确认按原开局重来"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不先把本次倒下转局外恢复。"
+    },
+    {
+      "key": "fm.battle.restart.preview_body",
+      "screen": "battle_management",
+      "element": "dialog_body",
+      "stateOrTrigger": "restart_requested",
+      "texts": {
+        "en": "This ends the current attempt and starts a new one from the original party, progression, carry loadout, and random state. The unfinished attempt grants no rewards.",
+        "zh-Hans": "将结束当前尝试，并按原入场阵容、成长、携带与随机初态开始新尝试。本次未完成的战斗不会发放奖励。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "保持永久成长、已确认用卡/学习与当前偏好；具体业务由原规则处理。"
+    },
+    {
+      "key": "fm.battle.restart.preview_title",
+      "screen": "battle_management",
+      "element": "dialog_title",
+      "stateOrTrigger": "restart_requested",
+      "texts": {
+        "en": "Restart from the Original Entry?",
+        "zh-Hans": "按原开局重来？"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "与退出本局、退出应用严格区分。"
+    },
+    {
+      "key": "fm.battle.skill.cooldown",
+      "screen": "battle",
+      "element": "status",
+      "stateOrTrigger": "skill_cooldown_positive",
+      "texts": {
+        "en": "{skillName}: {remainingTurns} cooldown turns remaining",
+        "zh-Hans": "{skillName}：剩余冷却 {remainingTurns} 回合"
+      },
+      "parameters": [
+        "remainingTurns",
+        "skillName"
+      ],
+      "severity": "info",
+      "qaNotes": "skillName取本地化技能名，remainingTurns取真实保存CD且为正；CD为0使用就绪键。"
+    },
+    {
+      "key": "fm.battle.skill.ready",
+      "screen": "battle",
+      "element": "status",
+      "stateOrTrigger": "skill_cooldown_zero",
+      "texts": {
+        "en": "{skillName}: Ready",
+        "zh-Hans": "{skillName}：已就绪"
+      },
+      "parameters": [
+        "skillName"
+      ],
+      "severity": "info",
+      "qaNotes": "skillName取本地化技能名；CD为0时显示，不保证当前行动必然施放或绕过其他准入。"
+    },
+    {
+      "key": "fm.battle.stage.face_changed",
+      "screen": "battle",
+      "element": "stage_feedback",
+      "stateOrTrigger": "stage_fact_FaceChanged",
+      "texts": {
+        "en": "Entered phase {currentPhase} of {totalPhases}.",
+        "zh-Hans": "进入第 {currentPhase}/{totalPhases} 阶段。"
+      },
+      "parameters": [
+        "currentPhase",
+        "totalPhases"
+      ],
+      "severity": "info",
+      "qaNotes": "玩家侧序号从 1 开始；不显示 FaceId。"
+    },
+    {
+      "key": "fm.battle.stage.pending_link_added",
+      "screen": "battle",
+      "element": "stage_feedback",
+      "stateOrTrigger": "stage_fact_PendingLinkAdded",
+      "texts": {
+        "en": "Route to {enemyName} now needs a link.",
+        "zh-Hans": "已加入通往 {enemyName} 的待补路线。"
+      },
+      "parameters": [
+        "enemyName"
+      ],
+      "severity": "info",
+      "qaNotes": "表达待补状态，不宣称路线已固定。"
+    },
+    {
+      "key": "fm.battle.stage.pending_link_removed",
+      "screen": "battle",
+      "element": "stage_feedback",
+      "stateOrTrigger": "stage_fact_PendingLinkRemoved",
+      "texts": {
+        "en": "Required link to {enemyName} completed.",
+        "zh-Hans": "已完成通往 {enemyName} 的待补路线。"
+      },
+      "parameters": [
+        "enemyName"
+      ],
+      "severity": "info",
+      "qaNotes": "只表示待补项移除；实际固定状态继续读业务快照。"
+    },
+    {
+      "key": "fm.battle.stage.phase_selected",
+      "screen": "battle",
+      "element": "stage_feedback",
+      "stateOrTrigger": "stage_fact_PhaseSelected",
+      "texts": {
+        "en": "Battle state changed to: {phaseName}",
+        "zh-Hans": "战斗状态变为：{phaseName}"
+      },
+      "parameters": [
+        "phaseName"
+      ],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateStageFactKind.PhaseSelected；phaseName 继续走明确 BattlePhase 映射。"
+    },
+    {
+      "key": "fm.battle.stage.route_locked",
+      "screen": "battle",
+      "element": "stage_feedback",
+      "stateOrTrigger": "stage_fact_RouteLocked",
+      "texts": {
+        "en": "Route to {enemyName} locked in.",
+        "zh-Hans": "已固定通往 {enemyName} 的路线。"
+      },
+      "parameters": [
+        "enemyName"
+      ],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateStageFactKind.RouteLocked；L1 两次直接击倒均可达。"
+    },
+    {
+      "key": "fm.battle.stage.temporary_route_removed",
+      "screen": "battle",
+      "element": "stage_feedback",
+      "stateOrTrigger": "stage_fact_TemporaryRouteRemoved",
+      "texts": {
+        "en": "Temporary route to {enemyName} removed.",
+        "zh-Hans": "已移除通往 {enemyName} 的临时路线。"
+      },
+      "parameters": [
+        "enemyName"
+      ],
+      "severity": "info",
+      "qaNotes": "不得写成已固定路线被删除；敌人名须来自受控本地化。"
+    },
+    {
+      "key": "fm.ch1.tutorial.taunt.explanation",
+      "screen": "chapter_teaching",
+      "element": "body",
+      "stateOrTrigger": "taunt_purpose_explanation_visible",
+      "texts": {
+        "en": "The Bear King's ranged attacks prefer a living Mage in range. Connect its endpoints with the Warrior: if the boss is still alive and Taunt is ready, Taunt activates automatically. During that enemy phase, the boss prefers the Warrior if the Warrior is a legal living target. Taunt expires after that phase, including a charge or rest phase.",
+        "zh-Hans": "熊王的远程攻击优先瞄准法师。战士完成连线时，若熊王仍存活且嘲讽已就绪，就会自动施放，使熊王在本次敌方阶段优先攻击仍存活且在其射程内的战士。嘲讽在该阶段结束后失效；蓄力或休整也会使其到期。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "Teaching.explanation_text_key的精确引用；用途确认独立于学习，不把展示说明当作步骤完成或Attempt建立。"
+    },
+    {
+      "key": "fm.common.action.back",
+      "screen": "common_navigation",
+      "element": "button",
+      "stateOrTrigger": "subpage_back",
+      "texts": {
+        "en": "Back",
+        "zh-Hans": "返回"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "子页返回上一合法页面，不等同退出应用。"
+    },
+    {
+      "key": "fm.common.action.cancel",
+      "screen": "common_navigation",
+      "element": "button",
+      "stateOrTrigger": "cancel_available",
+      "texts": {
+        "en": "Cancel",
+        "zh-Hans": "取消"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "取消后不得产生业务变化。"
+    },
+    {
+      "key": "fm.common.action.close",
+      "screen": "common_navigation",
+      "element": "button",
+      "stateOrTrigger": "overlay_close",
+      "texts": {
+        "en": "Close",
+        "zh-Hans": "关闭"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "关闭浮层，不提交业务操作。"
+    },
+    {
+      "key": "fm.common.action.confirm",
+      "screen": "common_navigation",
+      "element": "button",
+      "stateOrTrigger": "confirm_available",
+      "texts": {
+        "en": "Confirm",
+        "zh-Hans": "确认"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅用于无歧义的普通确认；危险动作使用专用键。"
+    },
+    {
+      "key": "fm.common.action.refresh",
+      "screen": "common_navigation",
+      "element": "button",
+      "stateOrTrigger": "current_read_model_can_refresh",
+      "texts": {
+        "en": "Refresh",
+        "zh-Hans": "刷新"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只重新查询当前菜单读模型；不得创建、重试或确认保存请求。"
+    },
+    {
+      "key": "fm.common.action.review_changes",
+      "screen": "common_navigation",
+      "element": "button",
+      "stateOrTrigger": "proposed_change_can_be_reviewed",
+      "texts": {
+        "en": "Review Proposed Changes",
+        "zh-Hans": "查看拟议变更"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "打开审核页但不提交；队伍和永久变更预览可复用。"
+    },
+    {
+      "key": "fm.common.business_attention",
+      "screen": "common_navigation",
+      "element": "warning",
+      "stateOrTrigger": "business_request_requires_attention",
+      "texts": {
+        "en": "This request needs attention before you can continue. Diagnostic code: {errorCode}",
+        "zh-Hans": "当前请求需要处理后才能继续。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "warning",
+      "qaNotes": "errorCode 必须来自 N-D04 受控分类；不得显示异常消息、类型或内部 ID。"
+    },
+    {
+      "key": "fm.common.field.quantity",
+      "screen": "common_form",
+      "element": "field_label",
+      "stateOrTrigger": "quantity_field_visible",
+      "texts": {
+        "en": "Quantity",
+        "zh-Hans": "数量"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只作字段标签；实际数值和校验由绑定提供。"
+    },
+    {
+      "key": "fm.common.nav.adventure",
+      "screen": "common_navigation",
+      "element": "tab",
+      "stateOrTrigger": "navigation_available",
+      "texts": {
+        "en": "Adventure",
+        "zh-Hans": "冒险"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "短标签；不得显示未发布关卡数量。"
+    },
+    {
+      "key": "fm.common.nav.inventory",
+      "screen": "common_navigation",
+      "element": "tab",
+      "stateOrTrigger": "navigation_available",
+      "texts": {
+        "en": "Inventory",
+        "zh-Hans": "背包"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "活动战斗存在时仍可进入只读页面。"
+    },
+    {
+      "key": "fm.common.nav.party",
+      "screen": "common_navigation",
+      "element": "tab",
+      "stateOrTrigger": "navigation_available",
+      "texts": {
+        "en": "Party",
+        "zh-Hans": "队伍"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "活动战斗存在时仍可进入只读页面。"
+    },
+    {
+      "key": "fm.common.state.changed_review_again",
+      "screen": "common_navigation",
+      "element": "inline_warning",
+      "stateOrTrigger": "review_context_became_stale",
+      "texts": {
+        "en": "The related state changed. Review it again before confirming.",
+        "zh-Hans": "相关状态已变化。请重新查看后再确认。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "用于过期预览或上下文；不显示修订号、token 或时间戳。"
+    },
+    {
+      "key": "fm.common.state.loading",
+      "screen": "common_navigation",
+      "element": "status",
+      "stateOrTrigger": "read_in_progress",
+      "texts": {
+        "en": "Loading…",
+        "zh-Hans": "正在读取…"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "读取期间不开放冲突写操作。"
+    },
+    {
+      "key": "fm.common.state.review_required",
+      "screen": "common_navigation",
+      "element": "inline_warning",
+      "stateOrTrigger": "final_confirmation_requested_without_review",
+      "texts": {
+        "en": "Review this action before final confirmation.",
+        "zh-Hans": "请先审核本次操作，再进行最终确认。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "覆盖 PreviewRequired 与 EndConfirmationRequired；不替代具体预览正文。"
+    },
+    {
+      "key": "fm.common.state.unavailable_reason",
+      "screen": "common_navigation",
+      "element": "status",
+      "stateOrTrigger": "action_unavailable",
+      "texts": {
+        "en": "Unavailable: {reason}",
+        "zh-Hans": "当前无法执行：{reason}"
+      },
+      "parameters": [
+        "reason"
+      ],
+      "severity": "warning",
+      "qaNotes": "reason 由受控原因文本提供，不直接显示内部枚举。"
+    },
+    {
+      "key": "fm.crafting.no_recipes",
+      "screen": "crafting",
+      "element": "empty_state",
+      "stateOrTrigger": "no_published_recipes",
+      "texts": {
+        "en": "No recipes are published for the current content.",
+        "zh-Hans": "当前内容暂无已发布配方。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "产品状态，不使用红色错误语气。"
+    },
+    {
+      "key": "fm.crafting.title",
+      "screen": "crafting",
+      "element": "heading",
+      "stateOrTrigger": "crafting_visible",
+      "texts": {
+        "en": "Crafting",
+        "zh-Hans": "合成"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "保留正式目录关系，不造 Demo 专用功能。"
+    },
+    {
+      "key": "fm.diagnostic.missing_binding",
+      "screen": "diagnostic",
+      "element": "error",
+      "stateOrTrigger": "visible_text_has_no_runtime_binding",
+      "texts": {
+        "en": "Text failed to load. Diagnostic code: {errorCode}",
+        "zh-Hans": "文本未正确加载。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "blocking",
+      "qaNotes": "不能回退到 prefab 成品文案掩盖漏绑定。"
+    },
+    {
+      "key": "fm.diagnostic.missing_glyph",
+      "screen": "diagnostic",
+      "element": "error",
+      "stateOrTrigger": "font_glyph_missing",
+      "texts": {
+        "en": "A font character is missing. Diagnostic code: {errorCode}",
+        "zh-Hans": "字体缺少字符。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "blocking",
+      "qaNotes": "中英文实际遍历时阻断验收。"
+    },
+    {
+      "key": "fm.diagnostic.missing_key",
+      "screen": "diagnostic",
+      "element": "error",
+      "stateOrTrigger": "localization_key_missing",
+      "texts": {
+        "en": "Missing text: {localizationKey}",
+        "zh-Hans": "缺少文本：{localizationKey}"
+      },
+      "parameters": [
+        "localizationKey"
+      ],
+      "severity": "blocking",
+      "qaNotes": "测试构建需可定位；正式策略由主程冻结。"
+    },
+    {
+      "key": "fm.diagnostic.parameter_mismatch",
+      "screen": "diagnostic",
+      "element": "error",
+      "stateOrTrigger": "localized_template_parameters_invalid",
+      "texts": {
+        "en": "Text parameters do not match: {localizationKey}",
+        "zh-Hans": "文本参数不匹配：{localizationKey}"
+      },
+      "parameters": [
+        "localizationKey"
+      ],
+      "severity": "blocking",
+      "qaNotes": "不得吞掉参数或拼接补救。"
+    },
+    {
+      "key": "fm.diagnostic.placeholder",
+      "screen": "diagnostic",
+      "element": "prefab_default_text",
+      "stateOrTrigger": "binding_not_run",
+      "texts": {
+        "en": "【if you see this, it is a bug.】",
+        "zh-Hans": "【if you see this, it is a bug.】"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "所有玩家可见 prefab 文本默认值；实际游玩可见即阻断验收。"
+    },
+    {
+      "key": "fm.entry.active_battle.blocked",
+      "screen": "battle_entry",
+      "element": "error",
+      "stateOrTrigger": "active_battle_conflict",
+      "texts": {
+        "en": "A battle is already in progress. You cannot start another one.",
+        "zh-Hans": "已有进行中的战斗，不能开始新战斗。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "同时提供继续当前战斗按钮。"
+    },
+    {
+      "key": "fm.entry.binding_unsupported",
+      "screen": "battle_entry",
+      "element": "error",
+      "stateOrTrigger": "content_binding_not_supported",
+      "texts": {
+        "en": "This level version is not supported by the current game version. Return to the map.",
+        "zh-Hans": "此关卡版本暂不受当前游戏版本支持。请返回地图。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "不暴露 DefinitionBinding 等内部名。"
+    },
+    {
+      "key": "fm.entry.check.button",
+      "screen": "battle_entry",
+      "element": "button",
+      "stateOrTrigger": "selection_complete",
+      "texts": {
+        "en": "Check Entry Conditions",
+        "zh-Hans": "确认入场条件"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "先核条件，再开放正式入场。"
+    },
+    {
+      "key": "fm.entry.conditions.ready",
+      "screen": "battle_entry",
+      "element": "status",
+      "stateOrTrigger": "entry_conditions_passed",
+      "texts": {
+        "en": "Entry conditions met.",
+        "zh-Hans": "入场条件已满足。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不得代表保存已提交，后续仍走正式入口。"
+    },
+    {
+      "key": "fm.entry.conditions_failed",
+      "screen": "battle_entry",
+      "element": "error",
+      "stateOrTrigger": "entry_conditions_rejected",
+      "texts": {
+        "en": "Cannot enter yet: {reason}",
+        "zh-Hans": "暂时无法入场：{reason}"
+      },
+      "parameters": [
+        "reason"
+      ],
+      "severity": "warning",
+      "qaNotes": "reason 使用受控本地化原因键。"
+    },
+    {
+      "key": "fm.entry.enter.button",
+      "screen": "battle_entry",
+      "element": "button",
+      "stateOrTrigger": "entry_conditions_passed",
+      "texts": {
+        "en": "Start Battle",
+        "zh-Hans": "开始战斗"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "绑定当前发布定义和实际选择。"
+    },
+    {
+      "key": "fm.entry.level.label",
+      "screen": "battle_entry",
+      "element": "label",
+      "stateOrTrigger": "entry_visible",
+      "texts": {
+        "en": "Level: {levelName}",
+        "zh-Hans": "关卡：{levelName}"
+      },
+      "parameters": [
+        "levelName"
+      ],
+      "severity": "info",
+      "qaNotes": "levelName 来自当前发布定义。"
+    },
+    {
+      "key": "fm.entry.member.select_prompt",
+      "screen": "battle_entry",
+      "element": "instruction",
+      "stateOrTrigger": "no_member_selected",
+      "texts": {
+        "en": "Select a living party member who is ready to fight.",
+        "zh-Hans": "选择一名存活且可出战的成员。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不能自动替玩家选人并直接入场。"
+    },
+    {
+      "key": "fm.entry.member.selected",
+      "screen": "battle_entry",
+      "element": "status",
+      "stateOrTrigger": "member_selected",
+      "texts": {
+        "en": "Selected: {characterName}",
+        "zh-Hans": "已选择：{characterName}"
+      },
+      "parameters": [
+        "characterName"
+      ],
+      "severity": "info",
+      "qaNotes": "当前选择清楚可见。"
+    },
+    {
+      "key": "fm.entry.member_missing",
+      "screen": "battle_entry",
+      "element": "inline_warning",
+      "stateOrTrigger": "entry_requested_without_member",
+      "texts": {
+        "en": "No party member is selected.",
+        "zh-Hans": "尚未选择出战成员。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "零业务提交。"
+    },
+    {
+      "key": "fm.entry.party.label",
+      "screen": "battle_entry",
+      "element": "label",
+      "stateOrTrigger": "entry_visible",
+      "texts": {
+        "en": "Party: {partySummary}",
+        "zh-Hans": "出战队伍：{partySummary}"
+      },
+      "parameters": [
+        "partySummary"
+      ],
+      "severity": "info",
+      "qaNotes": "当前 L1 允许一名战士和两个空槽。"
+    },
+    {
+      "key": "fm.entry.save_pending.blocked",
+      "screen": "battle_entry",
+      "element": "error",
+      "stateOrTrigger": "pending_save_blocks_entry",
+      "texts": {
+        "en": "A previous save is still awaiting confirmation. You cannot start a new battle yet.",
+        "zh-Hans": "上一项保存仍待确认，暂时不能开始新战斗。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "提供前往保存恢复入口，不诱导新请求。"
+    },
+    {
+      "key": "fm.entry.title",
+      "screen": "battle_entry",
+      "element": "heading",
+      "stateOrTrigger": "entry_visible",
+      "texts": {
+        "en": "Battle Preparation",
+        "zh-Hans": "入场准备"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "进入战斗前显示关卡、阵容和条件。"
+    },
+    {
+      "key": "fm.exit_app.body",
+      "screen": "exit_application",
+      "element": "dialog_body",
+      "stateOrTrigger": "root_back_pressed",
+      "texts": {
+        "en": "Confirmed saved progress will be kept. Any unfinished save will be handled the next time you launch the game.",
+        "zh-Hans": "已确认保存的进度会保留。未完成的保存将在下次启动时继续处理。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不把关闭应用当业务提交。"
+    },
+    {
+      "key": "fm.exit_app.confirm_button",
+      "screen": "exit_application",
+      "element": "button",
+      "stateOrTrigger": "exit_app_previewed",
+      "texts": {
+        "en": "Exit App",
+        "zh-Hans": "退出应用"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "与退出本局文案严格区分。"
+    },
+    {
+      "key": "fm.exit_app.stay_button",
+      "screen": "exit_application",
+      "element": "button",
+      "stateOrTrigger": "exit_app_previewed",
+      "texts": {
+        "en": "Stay in Game",
+        "zh-Hans": "留在游戏"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "取消后保留当前页面和上下文。"
+    },
+    {
+      "key": "fm.exit_app.title",
+      "screen": "exit_application",
+      "element": "dialog_title",
+      "stateOrTrigger": "root_back_pressed",
+      "texts": {
+        "en": "Exit the App?",
+        "zh-Hans": "退出应用？"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "仅根页返回触发。"
+    },
+    {
+      "key": "fm.first_clear_reward.character",
+      "screen": "conditional_first_clear_reward",
+      "element": "reward_row",
+      "stateOrTrigger": "published_level_has_first_clear_character",
+      "texts": {
+        "en": "First clear grants {characterName}.",
+        "zh-Hans": "首次通关可获得 {characterName}"
+      },
+      "parameters": [
+        "characterName"
+      ],
+      "severity": "info",
+      "qaNotes": "用于准备页首通奖励说明；8关法师获得不代表自动填入阵容，结果仍以联合提交为准。"
+    },
+    {
+      "key": "fm.first_clear_reward.item",
+      "screen": "conditional_first_clear_reward",
+      "element": "reward_row",
+      "stateOrTrigger": "published_level_has_first_clear_reward",
+      "texts": {
+        "en": "First clear grants {itemName} ×{amount}",
+        "zh-Hans": "首次通关可获得 {itemName} ×{amount}"
+      },
+      "parameters": [
+        "amount",
+        "itemName"
+      ],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；实际结算仍读真实结果，Q14 的 16 关跨档重叠只可保留一张证。"
+    },
+    {
+      "key": "fm.first_clear_reward.title",
+      "screen": "conditional_first_clear_reward",
+      "element": "section_heading",
+      "stateOrTrigger": "published_level_has_first_clear_reward",
+      "texts": {
+        "en": "First-Clear Reward",
+        "zh-Hans": "首次通关奖励"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；仅当发布定义确有首通奖励时在准备／奖励说明区域常设显示，不以弹窗或飘字替代。"
+    },
+    {
+      "key": "fm.font_licenses.open_button",
+      "screen": "legal_shared",
+      "element": "button",
+      "stateOrTrigger": "font_license_entry_visible",
+      "texts": {
+        "en": "View Font Licenses",
+        "zh-Hans": "查看字体许可"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不在本草稿编造许可证正文或归属。"
+    },
+    {
+      "key": "fm.font_licenses.title",
+      "screen": "legal_shared",
+      "element": "heading",
+      "stateOrTrigger": "font_license_view_opened",
+      "texts": {
+        "en": "Font Licenses",
+        "zh-Hans": "字体许可"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只定义入口标题；实际许可正文必须来自获准字体资料。"
+    },
+    {
+      "key": "fm.growth.cards.change_preview",
+      "screen": "permanent_growth",
+      "element": "body",
+      "stateOrTrigger": "use_experience_cards_quote_ready",
+      "texts": {
+        "en": "{characterName}: Target level {targetLevel}; fixed XP gain {fixedXp}. Actual growth: level {beforeLevel} ({beforeXp} XP within that level) → level {afterLevel} ({afterXp} XP within that level).",
+        "zh-Hans": "{characterName}：目标等级 {targetLevel}；固定获得 {fixedXp} XP。实际成长：等级 {beforeLevel}（该等级内经验 {beforeXp} XP）→ 等级 {afterLevel}（该等级内经验 {afterXp} XP）。"
+      },
+      "parameters": [
+        "afterLevel",
+        "afterXp",
+        "beforeLevel",
+        "beforeXp",
+        "characterName",
+        "fixedXp",
+        "targetLevel"
+      ],
+      "severity": "info",
+      "qaNotes": "七参数依次为本地化角色名及Quote.Quantity/FixedExperience/BeforeLevel/BeforeExperience/FinalLevel/FinalExperience；前后XP分别为各自等级内经验，目标等级不作卡数。审核标题复用fm.inventory.change_preview.title{operationName}。"
+    },
+    {
+      "key": "fm.growth.cards.cost_preview",
+      "screen": "permanent_growth",
+      "element": "heading",
+      "stateOrTrigger": "use_experience_cards_quote_ready",
+      "texts": {
+        "en": "Will Consume",
+        "zh-Hans": "将消耗"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "下方复用fm.inventory.item.row；itemName取Quote.Costs[].ItemId的本地化名称，amount取真实Quantity。"
+    },
+    {
+      "key": "fm.growth.target_level.label",
+      "screen": "permanent_growth",
+      "element": "field_label",
+      "stateOrTrigger": "use_experience_cards_draft_visible",
+      "texts": {
+        "en": "Target Level",
+        "zh-Hans": "目标等级"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "输入字段映射Draft.Quantity，含义为目标等级；不得改成经验卡数量。"
+    },
+    {
+      "key": "fm.guest_local_only.back_button",
+      "screen": "conditional_guest_disclosure",
+      "element": "button",
+      "stateOrTrigger": "guest_disclosure_visible",
+      "texts": {
+        "en": "Back",
+        "zh-Hans": "返回"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "返回不创建资料。"
+    },
+    {
+      "key": "fm.guest_local_only.body",
+      "screen": "conditional_guest_disclosure",
+      "element": "dialog_body",
+      "stateOrTrigger": "before_local_guest_profile_creation",
+      "texts": {
+        "en": "Guest credentials and progress are stored only on this device. If all copies are lost, they cannot be recovered; recovery codes, manual backups, and guest recovery requests are not available.",
+        "zh-Hans": "游客凭据和资料只保存在本机。如果它们全部丢失，将无法找回；当前不提供恢复码、手动备份或游客申诉。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "创建前必须明确；不许诺后置正式账号能力。"
+    },
+    {
+      "key": "fm.guest_local_only.continue_button",
+      "screen": "conditional_guest_disclosure",
+      "element": "button",
+      "stateOrTrigger": "guest_disclosure_visible",
+      "texts": {
+        "en": "Continue and Create",
+        "zh-Hans": "了解并继续创建"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "只继续本机资料创建。"
+    },
+    {
+      "key": "fm.guest_local_only.title",
+      "screen": "conditional_guest_disclosure",
+      "element": "dialog_title",
+      "stateOrTrigger": "before_local_guest_profile_creation",
+      "texts": {
+        "en": "Local Profile Cannot Be Recovered",
+        "zh-Hans": "本机资料无法找回"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "创建前复用；不是当前 L1 正常试玩过程中的独立账号页。"
+    },
+    {
+      "key": "fm.history.action_row",
+      "screen": "battle_history",
+      "element": "history_row",
+      "stateOrTrigger": "L1_attack_history_visible",
+      "texts": {
+        "en": "{actionNumber}. {characterName}: {operationName} → {enemyName}",
+        "zh-Hans": "{actionNumber}. {characterName}：{operationName} → {enemyName}"
+      },
+      "parameters": [
+        "actionNumber",
+        "characterName",
+        "enemyName",
+        "operationName"
+      ],
+      "severity": "info",
+      "qaNotes": "当前 L1 历史仅有 CandidateBattleOperationKind.Attack；不显示 FaceId、PairId 或 OperationId。"
+    },
+    {
+      "key": "fm.history.link_row",
+      "screen": "battle_history",
+      "element": "history_row",
+      "stateOrTrigger": "link_history_visible",
+      "texts": {
+        "en": "{actionNumber}. {operationName} → {enemyName}",
+        "zh-Hans": "{actionNumber}. {operationName} → {enemyName}"
+      },
+      "parameters": [
+        "actionNumber",
+        "enemyName",
+        "operationName"
+      ],
+      "severity": "info",
+      "qaNotes": "Link 无攻击者，不得伪造 characterName；操作名使用 fm.operation.link。"
+    },
+    {
+      "key": "fm.history.snapshot.pending_links",
+      "screen": "battle_history",
+      "element": "status",
+      "stateOrTrigger": "undo_snapshot_has_pending_links",
+      "texts": {
+        "en": "Pending route links: {pendingLinkCount}",
+        "zh-Hans": "待补路线 {pendingLinkCount} 条"
+      },
+      "parameters": [
+        "pendingLinkCount"
+      ],
+      "severity": "info",
+      "qaNotes": "与已固定路线计数分行；不得合并后改变两种业务事实。"
+    },
+    {
+      "key": "fm.history.snapshot.routes",
+      "screen": "battle_history",
+      "element": "status",
+      "stateOrTrigger": "undo_snapshot_preview_visible",
+      "texts": {
+        "en": "Locked routes: {lockedRouteCount}",
+        "zh-Hans": "已固定路线 {lockedRouteCount} 条"
+      },
+      "parameters": [
+        "lockedRouteCount"
+      ],
+      "severity": "info",
+      "qaNotes": "计数来自 BeforeSnapshot；成员／敌人生命复用 battle HUD 模板，阶段复用明确映射；当前 L1 不显示不可达的待补路线状态。"
+    },
+    {
+      "key": "fm.history.snapshot.title",
+      "screen": "battle_history",
+      "element": "section_heading",
+      "stateOrTrigger": "undo_snapshot_preview_visible",
+      "texts": {
+        "en": "Battle State After Undo",
+        "zh-Hans": "回退后战局"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "与 fm.history.undo_preview 和逐项历史行共同显示，不复制内部快照身份。"
+    },
+    {
+      "key": "fm.history.title",
+      "screen": "battle_history",
+      "element": "overlay_title",
+      "stateOrTrigger": "history_opened",
+      "texts": {
+        "en": "Action History",
+        "zh-Hans": "行动记录"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "短按历史项只打开预览。"
+    },
+    {
+      "key": "fm.history.undo.blocked_by_save",
+      "screen": "battle_history",
+      "element": "error",
+      "stateOrTrigger": "save_result_unconfirmed",
+      "texts": {
+        "en": "The save result is not confirmed yet. Recover the original request before undoing actions.",
+        "zh-Hans": "保存结果尚未确认，暂时不能回退。请先恢复原请求。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "不得打开新的冲突动作。"
+    },
+    {
+      "key": "fm.history.undo.confirm_button",
+      "screen": "battle_history",
+      "element": "button",
+      "stateOrTrigger": "undo_range_previewed",
+      "texts": {
+        "en": "Undo These Actions",
+        "zh-Hans": "确认回退这些行动"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "只撤预览范围，不撤永久成长或已到账权益。"
+    },
+    {
+      "key": "fm.history.undo.keep_button",
+      "screen": "battle_history",
+      "element": "button",
+      "stateOrTrigger": "undo_range_previewed",
+      "texts": {
+        "en": "Keep Current Battle",
+        "zh-Hans": "保留当前战局"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "取消预览零变化。"
+    },
+    {
+      "key": "fm.history.undo_preview",
+      "screen": "battle_history",
+      "element": "dialog_body",
+      "stateOrTrigger": "undo_range_previewed",
+      "texts": {
+        "en": "This will undo the latest {actionCount} actions and restore the previewed battle state.",
+        "zh-Hans": "将回退最近 {actionCount} 次行动，并恢复到预览中的战斗状态。"
+      },
+      "parameters": [
+        "actionCount"
+      ],
+      "severity": "warning",
+      "qaNotes": "范围必须来自实际历史谱系。"
+    },
+    {
+      "key": "fm.initial_download.cancel_button",
+      "screen": "conditional_initial_download",
+      "element": "button",
+      "stateOrTrigger": "required_content_download_can_cancel",
+      "texts": {
+        "en": "Cancel Download",
+        "zh-Hans": "取消下载"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；首次缺包可因此继续阻断进入。"
+    },
+    {
+      "key": "fm.initial_download.failed",
+      "screen": "conditional_initial_download",
+      "element": "error",
+      "stateOrTrigger": "required_content_download_failed",
+      "texts": {
+        "en": "The download did not complete. Currently available content was preserved. Try again. Diagnostic code: {errorCode}",
+        "zh-Hans": "下载未完成。已保留当前可用内容，请重试。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "error",
+      "qaNotes": "非当前 L1 正常链；不得声称 YooAsset 断点续传已验证或删除原可用集合。"
+    },
+    {
+      "key": "fm.initial_download.start_button",
+      "screen": "conditional_initial_download",
+      "element": "button",
+      "stateOrTrigger": "required_content_download_ready",
+      "texts": {
+        "en": "Start Download",
+        "zh-Hans": "开始下载"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "非当前 L1 正常链；若使用移动数据必须先进入单次确认。"
+    },
+    {
+      "key": "fm.initial_download.summary",
+      "screen": "conditional_initial_download",
+      "element": "dialog_body",
+      "stateOrTrigger": "bootstrap_missing_required_content",
+      "texts": {
+        "en": "Game content download: {totalSize} total, {remainingSize} remaining. Current network: {networkName}.",
+        "zh-Hans": "需要下载 {totalSize} 的游戏内容，剩余 {remainingSize}。当前网络：{networkName}。"
+      },
+      "parameters": [
+        "networkName",
+        "remainingSize",
+        "totalSize"
+      ],
+      "severity": "warning",
+      "qaNotes": "非当前 L1 正常链；总量、剩余量和网络来自实际下载状态。"
+    },
+    {
+      "key": "fm.initial_download.title",
+      "screen": "conditional_initial_download",
+      "element": "dialog_title",
+      "stateOrTrigger": "bootstrap_missing_required_content",
+      "texts": {
+        "en": "Download Game Content",
+        "zh-Hans": "下载游戏内容"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；只预留首次主要内容下载提示，不扩成下载管理页。"
+    },
+    {
+      "key": "fm.input.nonnegative_integer",
+      "screen": "common_form",
+      "element": "inline_warning",
+      "stateOrTrigger": "quantity_is_not_a_nonnegative_integer",
+      "texts": {
+        "en": "Enter a whole number of 0 or greater with no extra leading zeros. If the number is too long or exceeds the allowed range, enter a smaller value.",
+        "zh-Hans": "请输入 0 或更大的整数；除 0 外不要以 0 开头。数字过长或超过允许范围时，请输入更小的值。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "适用于批准测试覆盖的数量控件；覆盖多余前导零、过长和超限输入，不回显原始无效字符串。"
+    },
+    {
+      "key": "fm.inventory.active_battle.locked",
+      "screen": "inventory",
+      "element": "warning",
+      "stateOrTrigger": "active_battle_exists",
+      "texts": {
+        "en": "A battle is in progress. You can view the inventory, but you cannot change equipment.",
+        "zh-Hans": "战斗进行中，当前只能查看背包，不能更换装备。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "合法且已批准的偏好是否可改由业务准入决定，不一概禁用。"
+    },
+    {
+      "key": "fm.inventory.change_preview.title",
+      "screen": "inventory",
+      "element": "dialog_title",
+      "stateOrTrigger": "permanent_change_review_opened",
+      "texts": {
+        "en": "Review Permanent Change: {operationName}",
+        "zh-Hans": "审核永久变更：{operationName}"
+      },
+      "parameters": [
+        "operationName"
+      ],
+      "severity": "warning",
+      "qaNotes": "operationName 必须来自明确映射；当前 L1 仅清空装备审核可达。偏好入口可见，但没有已发布且已装备物品时，偏好修改和审核不可达。"
+    },
+    {
+      "key": "fm.inventory.character_required",
+      "screen": "inventory",
+      "element": "inline_warning",
+      "stateOrTrigger": "character_not_selected",
+      "texts": {
+        "en": "Select a character first.",
+        "zh-Hans": "请先选择角色。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "用于需要明确角色的装备或偏好操作。"
+    },
+    {
+      "key": "fm.inventory.empty",
+      "screen": "inventory",
+      "element": "empty_state",
+      "stateOrTrigger": "inventory_has_no_items",
+      "texts": {
+        "en": "Your inventory is empty. Items earned from levels will appear here.",
+        "zh-Hans": "背包还是空的。完成关卡后可在这里查看获得的物品。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "新档正常空态，不写成错误。"
+    },
+    {
+      "key": "fm.inventory.equipment.clear_preview",
+      "screen": "inventory",
+      "element": "dialog_body",
+      "stateOrTrigger": "clear_equipment_review_opened",
+      "texts": {
+        "en": "All equipment will be removed from {characterName}. Nothing is saved until you confirm.",
+        "zh-Hans": "将清空 {characterName} 的全部装备。确认后才会保存。"
+      },
+      "parameters": [
+        "characterName"
+      ],
+      "severity": "warning",
+      "qaNotes": "角色名必须本地化；不得在预览时先改库存或装备。"
+    },
+    {
+      "key": "fm.inventory.item.row",
+      "screen": "inventory",
+      "element": "row",
+      "stateOrTrigger": "item_visible",
+      "texts": {
+        "en": "{itemName} ×{amount}",
+        "zh-Hans": "{itemName} ×{amount}"
+      },
+      "parameters": [
+        "amount",
+        "itemName"
+      ],
+      "severity": "info",
+      "qaNotes": "物品名由独立本地化键解析，不拼接内部 ItemId。"
+    },
+    {
+      "key": "fm.inventory.no_equipment",
+      "screen": "inventory",
+      "element": "empty_state",
+      "stateOrTrigger": "selected_character_has_no_equipment",
+      "texts": {
+        "en": "{characterName} has no equipment.",
+        "zh-Hans": "{characterName} 当前没有装备。"
+      },
+      "parameters": [
+        "characterName"
+      ],
+      "severity": "info",
+      "qaNotes": "不显示假装备。"
+    },
+    {
+      "key": "fm.inventory.preference.saved",
+      "screen": "inventory",
+      "element": "toast",
+      "stateOrTrigger": "preference_saved",
+      "texts": {
+        "en": "Preference saved.",
+        "zh-Hans": "偏好已保存。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅在原保存确认成功后显示。"
+    },
+    {
+      "key": "fm.inventory.quantity.available",
+      "screen": "inventory",
+      "element": "label",
+      "stateOrTrigger": "item_visible",
+      "texts": {
+        "en": "Available: {amount}",
+        "zh-Hans": "可用：{amount}"
+      },
+      "parameters": [
+        "amount"
+      ],
+      "severity": "info",
+      "qaNotes": "来自真实库存视图。"
+    },
+    {
+      "key": "fm.inventory.quantity.equipped",
+      "screen": "inventory",
+      "element": "label",
+      "stateOrTrigger": "item_visible",
+      "texts": {
+        "en": "Equipped: {amount}",
+        "zh-Hans": "已装备：{amount}"
+      },
+      "parameters": [
+        "amount"
+      ],
+      "severity": "info",
+      "qaNotes": "当前 L1 新档通常为 0。"
+    },
+    {
+      "key": "fm.inventory.quantity.held",
+      "screen": "inventory",
+      "element": "label",
+      "stateOrTrigger": "item_visible",
+      "texts": {
+        "en": "Owned: {amount}",
+        "zh-Hans": "持有：{amount}"
+      },
+      "parameters": [
+        "amount"
+      ],
+      "severity": "info",
+      "qaNotes": "amount 为真实总量。"
+    },
+    {
+      "key": "fm.inventory.quantity.reserved",
+      "screen": "inventory",
+      "element": "label",
+      "stateOrTrigger": "item_visible",
+      "texts": {
+        "en": "Reserved: {amount}",
+        "zh-Hans": "已预留：{amount}"
+      },
+      "parameters": [
+        "amount"
+      ],
+      "severity": "info",
+      "qaNotes": "不得把预留量算入可用量。"
+    },
+    {
+      "key": "fm.inventory.title",
+      "screen": "inventory",
+      "element": "heading",
+      "stateOrTrigger": "inventory_visible",
+      "texts": {
+        "en": "Inventory",
+        "zh-Hans": "背包"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "显示真实库存切片。"
+    },
+    {
+      "key": "fm.language.changed",
+      "screen": "language_shared",
+      "element": "feedback",
+      "stateOrTrigger": "language_change_applied",
+      "texts": {
+        "en": "Language changed to English.",
+        "zh-Hans": "语言已切换为简体中文。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "两列分别描述切到各自语言后的画面；无需参数。"
+    },
+    {
+      "key": "fm.language.entry.label",
+      "screen": "language_shared",
+      "element": "label",
+      "stateOrTrigger": "language_entry_visible",
+      "texts": {
+        "en": "Language",
+        "zh-Hans": "语言"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅提供共用文本合同；承载页面由主程冻结。"
+    },
+    {
+      "key": "fm.language.option.en",
+      "screen": "language_shared",
+      "element": "option",
+      "stateOrTrigger": "language_choice_visible",
+      "texts": {
+        "en": "English",
+        "zh-Hans": "英语"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "语言名称按目标语言显示。"
+    },
+    {
+      "key": "fm.language.option.zh_cn",
+      "screen": "language_shared",
+      "element": "option",
+      "stateOrTrigger": "language_choice_visible",
+      "texts": {
+        "en": "Simplified Chinese",
+        "zh-Hans": "简体中文"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "语言名称按目标语言显示，避免当前语言未知时不可辨认。"
+    },
+    {
+      "key": "fm.language.save_failed",
+      "screen": "language_shared",
+      "element": "error",
+      "stateOrTrigger": "language_change_applied_preference_save_failed",
+      "texts": {
+        "en": "Language changed for this session, but the preference was not saved. Try again. Diagnostic code: {errorCode}",
+        "zh-Hans": "语言已在本次会话中切换，但偏好未保存。请重试。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "error",
+      "qaNotes": "本次会话继续使用已选择语言；不得借用业务存档恢复入口，重试只保存语言偏好。"
+    },
+    {
+      "key": "fm.language.save_unknown",
+      "screen": "language_shared",
+      "element": "error",
+      "stateOrTrigger": "language_preference_commit_result_unknown",
+      "texts": {
+        "en": "Language changed for this session, but we could not confirm whether the language preference was saved. Save this language again. Diagnostic code: {errorCode}",
+        "zh-Hans": "语言已在本次会话中切换，但无法确认语言偏好是否已保存。请重新保存此语言。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "error",
+      "qaNotes": "仅用于原子替换已发生后复读、解析或比对失败，或回滚无法证明旧字节已恢复；本次会话继续使用新语言，重试只幂等写入同一 desired locale，不进入 PlayerSave 或业务 save recovery。"
+    },
+    {
+      "key": "fm.language.saved",
+      "screen": "language_shared",
+      "element": "feedback",
+      "stateOrTrigger": "language_preference_saved",
+      "texts": {
+        "en": "Language preference saved.",
+        "zh-Hans": "语言选择已保存。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "必须跨重启保留后才显示。"
+    },
+    {
+      "key": "fm.map.active_battle.banner",
+      "screen": "adventure_map",
+      "element": "banner",
+      "stateOrTrigger": "active_battle_exists",
+      "texts": {
+        "en": "A battle is already in progress. You can still browse, but you cannot start a new battle.",
+        "zh-Hans": "已有一场进行中的战斗。你仍可查看页面，但不能开始新战斗。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "地图、队伍、背包保持可读。"
+    },
+    {
+      "key": "fm.map.active_battle.continue_button",
+      "screen": "adventure_map",
+      "element": "button",
+      "stateOrTrigger": "active_battle_exists",
+      "texts": {
+        "en": "Continue Current Battle",
+        "zh-Hans": "继续当前战斗"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "必须返回原活动战斗。"
+    },
+    {
+      "key": "fm.map.level.available",
+      "screen": "adventure_map",
+      "element": "badge",
+      "stateOrTrigger": "level_open",
+      "texts": {
+        "en": "Available",
+        "zh-Hans": "可挑战"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅用于已发布且开放的关卡。"
+    },
+    {
+      "key": "fm.map.level.card_title",
+      "screen": "adventure_map",
+      "element": "card_title",
+      "stateOrTrigger": "published_level_visible",
+      "texts": {
+        "en": "Level {levelNumber}",
+        "zh-Hans": "第 {levelNumber} 关"
+      },
+      "parameters": [
+        "levelNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "levelNumber 来自发布定义；当前应为 1。"
+    },
+    {
+      "key": "fm.map.level.cleared",
+      "screen": "adventure_map",
+      "element": "badge",
+      "stateOrTrigger": "level_has_completed_first_clear",
+      "texts": {
+        "en": "Cleared",
+        "zh-Hans": "已通关"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "读取已完成的首通事实；胜利待结算或未知提交不能提前显示已通关。"
+    },
+    {
+      "key": "fm.map.level.enter_button",
+      "screen": "adventure_map",
+      "element": "button",
+      "stateOrTrigger": "level_open",
+      "texts": {
+        "en": "Prepare",
+        "zh-Hans": "进入准备"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "点击进入正式入场准备，不直接开战。"
+    },
+    {
+      "key": "fm.map.level.locked",
+      "screen": "adventure_map",
+      "element": "badge",
+      "stateOrTrigger": "published_level_locked",
+      "texts": {
+        "en": "Locked",
+        "zh-Hans": "未解锁"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅用于已发布但未满足正式开放条件的关卡，不据显示文案修改进度。"
+    },
+    {
+      "key": "fm.map.level.requires_clear",
+      "screen": "adventure_map",
+      "element": "requirement",
+      "stateOrTrigger": "published_level_waits_for_prerequisite_clear",
+      "texts": {
+        "en": "Clear {levelName} to unlock.",
+        "zh-Hans": "通关 {levelName} 后解锁"
+      },
+      "parameters": [
+        "levelName"
+      ],
+      "severity": "info",
+      "qaNotes": "levelName来自真实前置LevelId的本地化名称；只提示整关首通条件，不提供跳关。"
+    },
+    {
+      "key": "fm.map.no_next_level",
+      "screen": "adventure_map",
+      "element": "empty_state",
+      "stateOrTrigger": "no_published_open_next_level",
+      "texts": {
+        "en": "This content segment is complete. No published next level is currently available.",
+        "zh-Hans": "本内容段结束，暂无已发布且开放的下一关。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "正常产品空态，不使用错误语气。"
+    },
+    {
+      "key": "fm.map.no_published_levels",
+      "screen": "adventure_map",
+      "element": "empty_state",
+      "stateOrTrigger": "no_published_level_definition",
+      "texts": {
+        "en": "No published levels are currently available.",
+        "zh-Hans": "当前没有可用的已发布关卡。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不得显示 L2 或隔离样例 L3。"
+    },
+    {
+      "key": "fm.map.title",
+      "screen": "adventure_map",
+      "element": "heading",
+      "stateOrTrigger": "map_visible",
+      "texts": {
+        "en": "Adventure Map",
+        "zh-Hans": "冒险地图"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "当前仅显示已发布且开放的 L1。"
+    },
+    {
+      "key": "fm.mobile_data.body",
+      "screen": "conditional_mobile_data",
+      "element": "dialog_body",
+      "stateOrTrigger": "download_would_use_mobile_data",
+      "texts": {
+        "en": "Continuing will use mobile data. {remainingSize} remains. This approval will not apply to future downloads.",
+        "zh-Hans": "继续下载将使用移动数据，剩余 {remainingSize}。本次同意不会用于以后的下载。"
+      },
+      "parameters": [
+        "remainingSize"
+      ],
+      "severity": "warning",
+      "qaNotes": "非当前 L1 正常链；未确认前下载不得继续。"
+    },
+    {
+      "key": "fm.mobile_data.cancel_button",
+      "screen": "conditional_mobile_data",
+      "element": "button",
+      "stateOrTrigger": "mobile_data_confirmation_required",
+      "texts": {
+        "en": "Cancel Download",
+        "zh-Hans": "取消下载"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；取消后保留原可用集合。"
+    },
+    {
+      "key": "fm.mobile_data.continue_button",
+      "screen": "conditional_mobile_data",
+      "element": "button",
+      "stateOrTrigger": "mobile_data_confirmation_required",
+      "texts": {
+        "en": "Continue with Mobile Data",
+        "zh-Hans": "使用移动数据继续"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "非当前 L1 正常链；只授权当前这一次下载。"
+    },
+    {
+      "key": "fm.mobile_data.title",
+      "screen": "conditional_mobile_data",
+      "element": "dialog_title",
+      "stateOrTrigger": "download_would_use_mobile_data",
+      "texts": {
+        "en": "Use Mobile Data?",
+        "zh-Hans": "使用移动数据？"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "非当前 L1 正常链；首次使用或 Wi-Fi 中途切换后均须暂停并逐次确认。"
+    },
+    {
+      "key": "fm.mobile_data.wait_button",
+      "screen": "conditional_mobile_data",
+      "element": "button",
+      "stateOrTrigger": "mobile_data_confirmation_required",
+      "texts": {
+        "en": "Wait for Wi-Fi",
+        "zh-Hans": "等待 Wi-Fi"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；不得后台继续消耗移动数据。"
+    },
+    {
+      "key": "fm.name.character.mage",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "character_class_mage_visible",
+      "texts": {
+        "en": "Mage",
+        "zh-Hans": "法师"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "按权威ClassId class:mage映射，不根据动态CharacterId或阵容槽位猜职业。"
+    },
+    {
+      "key": "fm.name.character.w",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "character_class_warrior_visible",
+      "texts": {
+        "en": "Warrior",
+        "zh-Hans": "战士"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "按权威ClassId class:warrior映射战士名称；CharacterId W是原Demo角色实例，不用于判定职业，不显示原ID。"
+    },
+    {
+      "key": "fm.name.enemy.bear_core",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_bear_core_visible",
+      "texts": {
+        "en": "Bear King's Core",
+        "zh-Hans": "熊王核心"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射EnemyDefinitionId enemy:bear-core；易伤标签另取真实保存状态。"
+    },
+    {
+      "key": "fm.name.enemy.bear_shell",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_bear_shell_visible",
+      "texts": {
+        "en": "Bear King's Shell",
+        "zh-Hans": "熊王护壳"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射EnemyDefinitionId enemy:bear-shell；第一面护壳，不作为独立关卡或奖励。"
+    },
+    {
+      "key": "fm.name.enemy.clockwork_infantry",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_definition_clockwork_infantry_visible",
+      "texts": {
+        "en": "Clockwork Infantry",
+        "zh-Hans": "发条步兵"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 EnemyDefinitionId enemy:clockwork-infantry；当前 L1 的 A/B 两个实例共用此定义名。"
+    },
+    {
+      "key": "fm.name.enemy.heavy_guard",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_heavy_guard_visible",
+      "texts": {
+        "en": "Heavy Hammer Guard",
+        "zh-Hans": "重锤护卫"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射EnemyDefinitionId enemy:heavy-guard；第二面护卫。"
+    },
+    {
+      "key": "fm.name.enemy.heavy_tin_soldier",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_heavy_tin_soldier_visible",
+      "texts": {
+        "en": "Heavy Tin Soldier",
+        "zh-Hans": "重锤锡兵"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射EnemyDefinitionId enemy:heavy-tin-soldier；同类实例编号复用已有模板，不显示内部ID。"
+    },
+    {
+      "key": "fm.name.enemy.mechanic",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_mechanic_visible",
+      "texts": {
+        "en": "Winding Mechanic",
+        "zh-Hans": "上弦小工"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射EnemyDefinitionId enemy:mechanic；普通H与Boss小工共用名称，绑定目标及余次取各自真实状态。"
+    },
+    {
+      "key": "fm.name.enemy.spring_thrower",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_spring_thrower_visible",
+      "texts": {
+        "en": "Spring Thrower",
+        "zh-Hans": "弹簧投球手"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射EnemyDefinitionId enemy:spring-thrower；后排目标不等同法师职业。"
+    },
+    {
+      "key": "fm.name.enemy.tin_armor_guard",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "enemy_tin_armor_guard_visible",
+      "texts": {
+        "en": "Tin Armor Guard",
+        "zh-Hans": "锡甲卫兵"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射EnemyDefinitionId enemy:tin-armor-guard；6—9的抗性变化由真实属性表达，不另造职业或破甲状态。"
+    },
+    {
+      "key": "fm.name.item.profession_certificate",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "item_profession_certificate_visible",
+      "texts": {
+        "en": "Class Certificate",
+        "zh-Hans": "职业之证"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射ItemId item:profession-certificate；首次入场赠物与16关首通奖励分别由真实永久记录表达，不重复发放。"
+    },
+    {
+      "key": "fm.name.item.tin",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "item_tin_visible",
+      "texts": {
+        "en": "Tin Sheet",
+        "zh-Hans": "锡片"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 ItemId item:tin；L1 结算实际到账 2。"
+    },
+    {
+      "key": "fm.name.item.wood",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "item_wood_visible",
+      "texts": {
+        "en": "Wood",
+        "zh-Hans": "木材"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 ItemId item:wood；L1 发布定义数量为 0，仅在真实库存或受控摘要需要时解析，不虚构到账行。"
+    },
+    {
+      "key": "fm.name.item.xp_card_50",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "item_xp_card_50_visible",
+      "texts": {
+        "en": "XP Card (50 XP)",
+        "zh-Hans": "经验卡（50经验）"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射ItemId item:xp-card-50及当前50经验Card定义；显示名称不自动使用经验卡。"
+    },
+    {
+      "key": "fm.name.level.ch01_01",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "level_ch01_01_visible",
+      "texts": {
+        "en": "Level 1",
+        "zh-Hans": "第 1 关"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 LevelId level:ch01-01 / LevelVersion 1；不把尚无正式单关标题的首章主题拼成新标题。"
+    },
+    {
+      "key": "fm.name.skill.warrior_taunt",
+      "screen": "shared_dynamic_value",
+      "element": "display_name",
+      "stateOrTrigger": "skill_warrior_taunt_visible",
+      "texts": {
+        "en": "Taunt",
+        "zh-Hans": "嘲讽"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "映射SkillId skill:warrior-taunt；显示名称不代表已学会或已施放。"
+    },
+    {
+      "key": "fm.operation.advance_recovery",
+      "screen": "shared_dynamic_value",
+      "element": "dynamic_value",
+      "stateOrTrigger": "advance_recovery_operation_visible",
+      "texts": {
+        "en": "Advance Recovery",
+        "zh-Hans": "推进恢复"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 AdvanceRecovery；当前剩余时间另读业务状态。"
+    },
+    {
+      "key": "fm.operation.attack",
+      "screen": "shared_dynamic_value",
+      "element": "dynamic_value",
+      "stateOrTrigger": "attack_operation_visible",
+      "texts": {
+        "en": "Attack",
+        "zh-Hans": "攻击"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.Attack 与 CandidateBattleOperationKind.Attack；供历史、参考和原保存说明复用。"
+    },
+    {
+      "key": "fm.operation.begin_teaching_gift",
+      "screen": "shared_dynamic_value",
+      "element": "button_or_operation_name",
+      "stateOrTrigger": "begin_teaching_gift_operation_visible",
+      "texts": {
+        "en": "Claim First-Entry Gift",
+        "zh-Hans": "领取首次入场赠物"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "领取首次入场赠物的操作及Pending中性名称，不表示已到账；永久提交完成后才显示fm.teaching.taunt.gift_received。"
+    },
+    {
+      "key": "fm.operation.clear_equipment",
+      "screen": "shared_dynamic_value",
+      "element": "button_or_operation_name",
+      "stateOrTrigger": "clear_equipment_visible",
+      "texts": {
+        "en": "Clear Equipment",
+        "zh-Hans": "清空装备"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "同时用于清空装备入口、页标题和已识别的真实永久操作名；不得代替装备具体物品。"
+    },
+    {
+      "key": "fm.operation.enter_attempt",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_EnterAttempt_visible",
+      "texts": {
+        "en": "Start Battle",
+        "zh-Hans": "开始战斗"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.EnterAttempt；当前 L1 正常链可达。"
+    },
+    {
+      "key": "fm.operation.enter_formation",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_EnterFormation_visible",
+      "texts": {
+        "en": "Confirm Entry Party",
+        "zh-Hans": "确认入场阵容"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.EnterFormation；当前 L1 入场链可达时使用。"
+    },
+    {
+      "key": "fm.operation.exit_attempt",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_ExitAttempt_visible",
+      "texts": {
+        "en": "Exit This Battle",
+        "zh-Hans": "退出本局"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.ExitAttempt；不得与退出应用混用。"
+    },
+    {
+      "key": "fm.operation.initialize_profile",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_InitializeProfile_visible",
+      "texts": {
+        "en": "Create Local Profile",
+        "zh-Hans": "创建本机资料"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.InitializeProfile；只用于说明原保存操作，OperationId 保持内部身份。"
+    },
+    {
+      "key": "fm.operation.link",
+      "screen": "shared_dynamic_value",
+      "element": "dynamic_value",
+      "stateOrTrigger": "link_operation_visible",
+      "texts": {
+        "en": "Add Route Link",
+        "zh-Hans": "补充路线"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射无需攻击者的 Link 操作；不得借用 Attack。"
+    },
+    {
+      "key": "fm.operation.restart_attempt",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_RestartAttempt_visible",
+      "texts": {
+        "en": "Restart from Original Entry",
+        "zh-Hans": "按原开局重来"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.RestartAttempt；当前 L1 战斗管理链可达。"
+    },
+    {
+      "key": "fm.operation.rollback",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_Rollback_visible",
+      "texts": {
+        "en": "Undo Actions",
+        "zh-Hans": "回退行动"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.Rollback；当前 L1 历史回退链可达。"
+    },
+    {
+      "key": "fm.operation.set_formation",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_SetFormation_visible",
+      "texts": {
+        "en": "Change Party",
+        "zh-Hans": "调整队伍"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.SetFormation；当前 L1 队伍确认链可达。"
+    },
+    {
+      "key": "fm.operation.set_item_preference",
+      "screen": "shared_dynamic_value",
+      "element": "button_or_operation_name",
+      "stateOrTrigger": "item_preference_settings_visible",
+      "texts": {
+        "en": "Change Item Use Preference",
+        "zh-Hans": "调整道具使用偏好"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "当前 L1 可见设置入口及真实 SetPreference 操作共用；没有装备时依业务准入禁用，不伪造物品。"
+    },
+    {
+      "key": "fm.operation.settle_victory",
+      "screen": "save_recovery",
+      "element": "dynamic_value",
+      "stateOrTrigger": "application_kind_SettleVictory_visible",
+      "texts": {
+        "en": "Settle Base Rewards",
+        "zh-Hans": "结算基础奖励"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "精确映射 CandidateApplicationKind.SettleVictory；当前 L1 胜利门可达。"
+    },
+    {
+      "key": "fm.operation.use_experience_cards",
+      "screen": "shared_dynamic_value",
+      "element": "button_or_operation_name",
+      "stateOrTrigger": "use_experience_cards_operation_visible",
+      "texts": {
+        "en": "Use XP Cards",
+        "zh-Hans": "使用经验卡"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "用于使用经验卡入口、审核及原保存操作/Pending中性名称；Draft.Quantity是目标等级，不表示输入卡数或已消耗。"
+    },
+    {
+      "key": "fm.party.active_battle.locked",
+      "screen": "party",
+      "element": "warning",
+      "stateOrTrigger": "active_battle_exists",
+      "texts": {
+        "en": "A battle is in progress. You can view the party, but you cannot change the lineup.",
+        "zh-Hans": "战斗进行中，当前只能查看队伍，不能调整阵容。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "与可读页面并存。"
+    },
+    {
+      "key": "fm.party.change.confirm_button",
+      "screen": "party",
+      "element": "button",
+      "stateOrTrigger": "party_change_previewed",
+      "texts": {
+        "en": "Confirm Change",
+        "zh-Hans": "确认调整"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "只有确认后提交。"
+    },
+    {
+      "key": "fm.party.change_preview.body",
+      "screen": "party",
+      "element": "dialog_body",
+      "stateOrTrigger": "party_change_requested",
+      "texts": {
+        "en": "Your party will change from “{beforeParty}” to “{afterParty}”.",
+        "zh-Hans": "队伍将从“{beforeParty}”调整为“{afterParty}”。"
+      },
+      "parameters": [
+        "afterParty",
+        "beforeParty"
+      ],
+      "severity": "warning",
+      "qaNotes": "参数集合相同；显示顺序可随语言改变。"
+    },
+    {
+      "key": "fm.party.change_preview.title",
+      "screen": "party",
+      "element": "dialog_title",
+      "stateOrTrigger": "party_change_requested",
+      "texts": {
+        "en": "Confirm Party Change",
+        "zh-Hans": "确认队伍调整"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "必须先显示修改前后。"
+    },
+    {
+      "key": "fm.party.duplicate_member",
+      "screen": "party",
+      "element": "inline_warning",
+      "stateOrTrigger": "same_character_selected_for_multiple_slots",
+      "texts": {
+        "en": "The same character cannot occupy more than one party slot.",
+        "zh-Hans": "同一角色不能占用多个队伍槽位。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "保留测试保护的三槽编辑语义；不得自动删除另一槽。"
+    },
+    {
+      "key": "fm.party.member.experience",
+      "screen": "party",
+      "element": "label",
+      "stateOrTrigger": "member_visible",
+      "texts": {
+        "en": "XP {currentXp}/{requiredXp}",
+        "zh-Hans": "经验 {currentXp}/{requiredXp}"
+      },
+      "parameters": [
+        "currentXp",
+        "requiredXp"
+      ],
+      "severity": "info",
+      "qaNotes": "两种语言参数集合必须一致。"
+    },
+    {
+      "key": "fm.party.member.health",
+      "screen": "party",
+      "element": "label",
+      "stateOrTrigger": "member_visible",
+      "texts": {
+        "en": "HP {currentHp}/{maxHp}",
+        "zh-Hans": "生命 {currentHp}/{maxHp}"
+      },
+      "parameters": [
+        "currentHp",
+        "maxHp"
+      ],
+      "severity": "info",
+      "qaNotes": "不得从表现动画推算业务生命。"
+    },
+    {
+      "key": "fm.party.member.level",
+      "screen": "party",
+      "element": "label",
+      "stateOrTrigger": "member_visible",
+      "texts": {
+        "en": "{characterName} · Level {level}",
+        "zh-Hans": "{characterName} · 等级 {level}"
+      },
+      "parameters": [
+        "characterName",
+        "level"
+      ],
+      "severity": "info",
+      "qaNotes": "角色名与等级均由数据绑定。"
+    },
+    {
+      "key": "fm.party.member.ready",
+      "screen": "party",
+      "element": "status",
+      "stateOrTrigger": "member_deployable",
+      "texts": {
+        "en": "Ready",
+        "zh-Hans": "可出战"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "当前 L1 新档战士应为可出战。"
+    },
+    {
+      "key": "fm.party.member.recovering",
+      "screen": "party",
+      "element": "status",
+      "stateOrTrigger": "member_recovering",
+      "texts": {
+        "en": "Recovering · {remainingTime} remaining",
+        "zh-Hans": "恢复中 · 剩余 {remainingTime}"
+      },
+      "parameters": [
+        "remainingTime"
+      ],
+      "severity": "info",
+      "qaNotes": "remainingTime 使用主程冻结的本地化时长格式。"
+    },
+    {
+      "key": "fm.party.no_deployable",
+      "screen": "party",
+      "element": "empty_state",
+      "stateOrTrigger": "no_deployable_member",
+      "texts": {
+        "en": "No party member is ready. Adjust your party or wait for recovery.",
+        "zh-Hans": "当前没有可出战成员。请调整队伍或等待角色恢复。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不给临时免费复活或自动补人。"
+    },
+    {
+      "key": "fm.party.select.button",
+      "screen": "party",
+      "element": "button",
+      "stateOrTrigger": "member_selectable",
+      "texts": {
+        "en": "Select",
+        "zh-Hans": "选择"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只改变当前选择，不静默改阵容。"
+    },
+    {
+      "key": "fm.party.slot.empty",
+      "screen": "party",
+      "element": "slot",
+      "stateOrTrigger": "slot_has_no_character",
+      "texts": {
+        "en": "Empty Slot",
+        "zh-Hans": "空位"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不得为展示临时补角色。"
+    },
+    {
+      "key": "fm.party.title",
+      "screen": "party",
+      "element": "heading",
+      "stateOrTrigger": "party_visible",
+      "texts": {
+        "en": "Party",
+        "zh-Hans": "队伍"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "显示固定三槽和真实状态。"
+    },
+    {
+      "key": "fm.party.upgrade_required",
+      "screen": "party",
+      "element": "inline_warning",
+      "stateOrTrigger": "legacy_party_requires_local_data_upgrade",
+      "texts": {
+        "en": "Upgrade your local data before changing this party.",
+        "zh-Hans": "请先升级本机资料，再调整这个队伍。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "旧资料兼容提示不出现版本号；升级入口复用 fm.profile.data_upgrade.title。"
+    },
+    {
+      "key": "fm.profile.chapter_trial.create.confirm_body",
+      "screen": "profile_start",
+      "element": "dialog_body",
+      "stateOrTrigger": "chapter_trial_create_requested",
+      "texts": {
+        "en": "Create Chapter One Trial progress on this device? Your original Demo data stays unchanged. Trial progress is stored locally and cannot be recovered if all device data is lost.",
+        "zh-Hans": "将在此设备创建第一章试行资料，原Demo资料不变。试行资料仅保存在本机，设备数据全部丢失后无法找回。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "只用于试行根尚无资料的正常创建确认；复用原建档协议，不从旧玩家档复制或伪造首通。"
+    },
+    {
+      "key": "fm.profile.continue.button",
+      "screen": "profile_start",
+      "element": "button",
+      "stateOrTrigger": "local_profile_ready",
+      "texts": {
+        "en": "Continue",
+        "zh-Hans": "继续游戏"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "已有资料直接读取，不新建。"
+    },
+    {
+      "key": "fm.profile.create.button",
+      "screen": "profile_start",
+      "element": "button",
+      "stateOrTrigger": "no_local_profile",
+      "texts": {
+        "en": "Create Local Profile",
+        "zh-Hans": "创建本机资料"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "点击后进入明确建档确认，不直接静默覆盖。"
+    },
+    {
+      "key": "fm.profile.create.confirm_body",
+      "screen": "profile_start",
+      "element": "dialog_body",
+      "stateOrTrigger": "create_requested",
+      "texts": {
+        "en": "This creates one profile on this device. It is stored locally and cannot be recovered if all device data is lost.",
+        "zh-Hans": "将在此设备创建一份新资料。资料只保存在本机，若设备数据全部丢失将无法找回。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "落实游客凭据仅本机的已定限制；不扩做账号页。"
+    },
+    {
+      "key": "fm.profile.create.confirm_button",
+      "screen": "profile_start",
+      "element": "button",
+      "stateOrTrigger": "create_confirmation_ready",
+      "texts": {
+        "en": "Create Profile",
+        "zh-Hans": "确认创建"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "成功前不得显示地图或第二份资料。"
+    },
+    {
+      "key": "fm.profile.create.confirm_title",
+      "screen": "profile_start",
+      "element": "dialog_title",
+      "stateOrTrigger": "create_requested",
+      "texts": {
+        "en": "Create a local profile?",
+        "zh-Hans": "创建本机资料？"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "确认对象必须是本机资料。"
+    },
+    {
+      "key": "fm.profile.create_unknown.body",
+      "screen": "profile_start",
+      "element": "error",
+      "stateOrTrigger": "creation_result_unknown",
+      "texts": {
+        "en": "The creation result is not confirmed yet. We are checking the original request; do not create another profile.",
+        "zh-Hans": "创建结果尚未确认。正在核定原请求，请勿再次创建。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "保存不确定不得写成普通失败。"
+    },
+    {
+      "key": "fm.profile.creation_pending.body",
+      "screen": "profile_start",
+      "element": "warning",
+      "stateOrTrigger": "previous_creation_incomplete",
+      "texts": {
+        "en": "The previous profile creation is not confirmed yet. Continue that request or reload the profile.",
+        "zh-Hans": "上次创建尚未确认完成。请继续原创建或重新读取资料。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不得给出创建第二份资料的入口。"
+    },
+    {
+      "key": "fm.profile.creation_pending.continue_button",
+      "screen": "profile_start",
+      "element": "button",
+      "stateOrTrigger": "previous_creation_incomplete",
+      "texts": {
+        "en": "Continue Original Creation",
+        "zh-Hans": "继续原创建"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "必须绑定原请求身份。"
+    },
+    {
+      "key": "fm.profile.data_upgrade.body",
+      "screen": "profile_upgrade",
+      "element": "dialog_body",
+      "stateOrTrigger": "compatible_local_data_upgrade_reviewed",
+      "texts": {
+        "en": "Your local data must be updated before you continue. The update converts the existing profile and does not create a second copy of your progress.",
+        "zh-Hans": "需要更新本机资料后才能继续。更新只转换现有资料，不会创建第二份进度。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "覆盖已批准的自然旧资料升级；不显示 V3、V4 或迁移类型名。"
+    },
+    {
+      "key": "fm.profile.data_upgrade.title",
+      "screen": "profile_upgrade",
+      "element": "button_or_operation_name",
+      "stateOrTrigger": "compatible_local_data_upgrade_available",
+      "texts": {
+        "en": "Upgrade Local Data",
+        "zh-Hans": "升级本机资料"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "自然资料迁移入口及其原保存操作名共用；玩家文案不出现格式版本号。"
+    },
+    {
+      "key": "fm.profile.empty.body",
+      "screen": "profile_start",
+      "element": "empty_state",
+      "stateOrTrigger": "no_local_profile",
+      "texts": {
+        "en": "No local profile yet. Create one to begin your adventure.",
+        "zh-Hans": "还没有本机资料。创建后即可开始冒险。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "清洁测试根仅显示一个创建入口。"
+    },
+    {
+      "key": "fm.profile.existing.body",
+      "screen": "profile_start",
+      "element": "status",
+      "stateOrTrigger": "local_profile_found",
+      "texts": {
+        "en": "Local profile found.",
+        "zh-Hans": "已找到本机资料。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "后续读取实际资料状态。"
+    },
+    {
+      "key": "fm.profile.load_failed.body",
+      "screen": "profile_start",
+      "element": "error",
+      "stateOrTrigger": "profile_read_failed",
+      "texts": {
+        "en": "Could not load the local profile. Reload to try again. Diagnostic code: {errorCode}",
+        "zh-Hans": "无法读取本机资料。请重新读取。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "error",
+      "qaNotes": "诊断码为辅助信息，主文案不暴露内部类名。"
+    },
+    {
+      "key": "fm.profile.reload.button",
+      "screen": "profile_start",
+      "element": "button",
+      "stateOrTrigger": "read_or_creation_recheck_available",
+      "texts": {
+        "en": "Reload",
+        "zh-Hans": "重新读取"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "重新读取不等同重做原写入。"
+    },
+    {
+      "key": "fm.profile.title",
+      "screen": "profile_start",
+      "element": "heading",
+      "stateOrTrigger": "profile_root_visible",
+      "texts": {
+        "en": "Local Profile",
+        "zh-Hans": "本机资料"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "本轮仅本机游客资料，不出现账号或云档入口。"
+    },
+    {
+      "key": "fm.profile.unclaimed_data.blocking",
+      "screen": "profile_start",
+      "element": "error",
+      "stateOrTrigger": "unclaimed_data_detected",
+      "texts": {
+        "en": "Unassigned data was found and preserved. Check it before continuing.",
+        "zh-Hans": "发现尚未归属的数据。已保留数据，请先检查后再继续。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "不可清档或自动认领；阻止新建覆盖。"
+    },
+    {
+      "key": "fm.reference.close_button",
+      "screen": "default_reference",
+      "element": "button",
+      "stateOrTrigger": "reference_open",
+      "texts": {
+        "en": "Close Reference",
+        "zh-Hans": "关闭参考"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "关闭小窗和棋盘覆盖。"
+    },
+    {
+      "key": "fm.reference.closed_for_input",
+      "screen": "default_reference",
+      "element": "feedback",
+      "stateOrTrigger": "real_drag_threshold_crossed",
+      "texts": {
+        "en": "Reference closed. Continue your path.",
+        "zh-Hans": "已关闭参考，继续当前连线。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不得吞掉触发关闭的真实拖线。"
+    },
+    {
+      "key": "fm.reference.condition.carry_empty",
+      "screen": "default_reference",
+      "element": "condition_row",
+      "stateOrTrigger": "reference_has_empty_carry_and_items_disabled",
+      "texts": {
+        "en": "Carry: none; items: off",
+        "zh-Hans": "携带：无；道具：关闭"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "当前 L1 参考的 EntryCarryMode.Empty 与 ItemUseEnabled=false；不显示偏好修订号。"
+    },
+    {
+      "key": "fm.reference.condition.level",
+      "screen": "default_reference",
+      "element": "condition_row",
+      "stateOrTrigger": "reference_opened",
+      "texts": {
+        "en": "Level: {levelName}",
+        "zh-Hans": "关卡：{levelName}"
+      },
+      "parameters": [
+        "levelName"
+      ],
+      "severity": "info",
+      "qaNotes": "levelName 精确来自 LevelId 映射；不显示 package ID、版本哈希或原 LevelId。"
+    },
+    {
+      "key": "fm.reference.condition.member",
+      "screen": "default_reference",
+      "element": "condition_row",
+      "stateOrTrigger": "reference_opened",
+      "texts": {
+        "en": "Starting slot {slotNumber}: {characterName}, level {level}, skills: {skillSummary}",
+        "zh-Hans": "原槽 {slotNumber}：{characterName}，等级 {level}，技能：{skillSummary}"
+      },
+      "parameters": [
+        "characterName",
+        "level",
+        "skillSummary",
+        "slotNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "当前 L1 参考为 W、原槽 1、等级 1、无已学技能；slotNumber 以 OriginalSlot+1 显示。"
+    },
+    {
+      "key": "fm.reference.condition.random_verified",
+      "screen": "default_reference",
+      "element": "condition_row",
+      "stateOrTrigger": "reference_uses_verified_starting_random_conditions",
+      "texts": {
+        "en": "Random conditions: verified starting conditions only",
+        "zh-Hans": "随机条件：仅已验证的开局条件"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "替代隔离 seed 原字节；明确参考范围但不暴露 seed、随机流或 package 身份。"
+    },
+    {
+      "key": "fm.reference.conditions",
+      "screen": "default_reference",
+      "element": "body",
+      "stateOrTrigger": "reference_opened",
+      "texts": {
+        "en": "Applies when: {conditions}",
+        "zh-Hans": "适用条件：{conditions}"
+      },
+      "parameters": [
+        "conditions"
+      ],
+      "severity": "info",
+      "qaNotes": "conditions 必须列阵容、等级、技能、道具及随机前提的受控摘要。"
+    },
+    {
+      "key": "fm.reference.difference.level",
+      "screen": "default_reference",
+      "element": "difference_row",
+      "stateOrTrigger": "current_member_level_differs_from_reference",
+      "texts": {
+        "en": "{characterName}'s level differs: current {currentLevel}; reference {referenceLevel}",
+        "zh-Hans": "{characterName} 等级不同：当前 {currentLevel}；参考 {referenceLevel}"
+      },
+      "parameters": [
+        "characterName",
+        "currentLevel",
+        "referenceLevel"
+      ],
+      "severity": "warning",
+      "qaNotes": "L1 重打成长后自然可达；不显示 CharacterId。"
+    },
+    {
+      "key": "fm.reference.difference.member_absent",
+      "screen": "default_reference",
+      "element": "difference_row",
+      "stateOrTrigger": "reference_character_not_owned_in_current_profile",
+      "texts": {
+        "en": "The current profile does not have reference character {characterName}; the reference level is {referenceLevel}.",
+        "zh-Hans": "当前资料中没有参考角色 {characterName}；参考等级为 {referenceLevel}。"
+      },
+      "parameters": [
+        "characterName",
+        "referenceLevel"
+      ],
+      "severity": "warning",
+      "qaNotes": "只显示受控角色名；不得显示 CharacterId 或编造当前等级 0。"
+    },
+    {
+      "key": "fm.reference.difference.party",
+      "screen": "default_reference",
+      "element": "difference_row",
+      "stateOrTrigger": "current_party_differs_from_reference",
+      "texts": {
+        "en": "Party differs: current {currentParty}; reference {referenceParty}",
+        "zh-Hans": "阵容不同：当前 {currentParty}；参考 {referenceParty}"
+      },
+      "parameters": [
+        "currentParty",
+        "referenceParty"
+      ],
+      "severity": "warning",
+      "qaNotes": "当前 L1 可通过移动唯一战士槽位触发；两侧摘要只含本地化角色名和玩家侧槽号。"
+    },
+    {
+      "key": "fm.reference.difference.party_empty",
+      "screen": "default_reference",
+      "element": "difference_row",
+      "stateOrTrigger": "current_party_is_empty",
+      "texts": {
+        "en": "The current party is empty.",
+        "zh-Hans": "当前队伍为空。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不得伪造占位角色或零级成员。"
+    },
+    {
+      "key": "fm.reference.difference.random",
+      "screen": "default_reference",
+      "element": "difference_row",
+      "stateOrTrigger": "current_run_uses_independent_randomness",
+      "texts": {
+        "en": "The current battle uses independent randomness, so its outcome may differ from the reference.",
+        "zh-Hans": "当前战斗使用独立随机结果，参考结果可能不同。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "替换隔离 seed 比较；不承诺相同暴击或伤害结果。"
+    },
+    {
+      "key": "fm.reference.difference.state",
+      "screen": "default_reference",
+      "element": "difference_row",
+      "stateOrTrigger": "current_scene_is_not_reference_start",
+      "texts": {
+        "en": "The reference starts at battle entry; the current battle state may have changed.",
+        "zh-Hans": "参考从开局开始；当前局面可能已经变化。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "替换 SceneRevision 数值；不把内部修订号呈现给玩家。"
+    },
+    {
+      "key": "fm.reference.differences.title",
+      "screen": "default_reference",
+      "element": "section_heading",
+      "stateOrTrigger": "reference_opened",
+      "texts": {
+        "en": "Differences from Current State",
+        "zh-Hans": "与当前状态的差异"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "差异逐项使用受控模板；不得拼接内部修订或 ID。"
+    },
+    {
+      "key": "fm.reference.play_button",
+      "screen": "default_reference",
+      "element": "button",
+      "stateOrTrigger": "reference_ready",
+      "texts": {
+        "en": "Play Reference",
+        "zh-Hans": "播放参考"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "免费且可重复查看。"
+    },
+    {
+      "key": "fm.reference.replay_button",
+      "screen": "default_reference",
+      "element": "button",
+      "stateOrTrigger": "reference_finished",
+      "texts": {
+        "en": "Replay",
+        "zh-Hans": "重新播放"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "重复播放不收费、不提交行动。"
+    },
+    {
+      "key": "fm.reference.scope_notice",
+      "screen": "default_reference",
+      "element": "notice",
+      "stateOrTrigger": "reference_opened",
+      "texts": {
+        "en": "This previews a verified starting path only. The battle state above will not change.",
+        "zh-Hans": "仅预览已验证的开局走线；上方战斗状态不会改变。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不预演攻击、技能或血量。"
+    },
+    {
+      "key": "fm.reference.step.link_row",
+      "screen": "default_reference",
+      "element": "step_button",
+      "stateOrTrigger": "reference_link_step_visible",
+      "texts": {
+        "en": "{stepNumber}. Add a route link to {enemyName}",
+        "zh-Hans": "{stepNumber}. 补充通往 {enemyName} 的路线"
+      },
+      "parameters": [
+        "enemyName",
+        "stepNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "非固定 L1 默认参考；只在受控参考确有 Link 步骤时显示。"
+    },
+    {
+      "key": "fm.reference.step.row",
+      "screen": "default_reference",
+      "element": "step_button",
+      "stateOrTrigger": "reference_attack_step_visible",
+      "texts": {
+        "en": "{stepNumber}. {characterName} attacks {enemyName}",
+        "zh-Hans": "{stepNumber}. {characterName} 攻击 {enemyName}"
+      },
+      "parameters": [
+        "characterName",
+        "enemyName",
+        "stepNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "当前 L1 默认参考仅含 Attack 步骤；不显示 FaceId、PairId、OperationId 或 enum.ToString()。"
+    },
+    {
+      "key": "fm.reference.step.select_prompt",
+      "screen": "default_reference",
+      "element": "instruction",
+      "stateOrTrigger": "reference_opened_before_step_selection",
+      "texts": {
+        "en": "Select a verified step to preview its reference overlay.",
+        "zh-Hans": "选择一个已验证步骤，仅播放参考覆盖。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只影响参考表现，不提交战斗操作或报告播放 token。"
+    },
+    {
+      "key": "fm.reference.title",
+      "screen": "default_reference",
+      "element": "overlay_title",
+      "stateOrTrigger": "reference_opened",
+      "texts": {
+        "en": "Verified Starting Reference",
+        "zh-Hans": "已验证的开局默认参考"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "明确是开局参考，不是当前局面必胜提示。"
+    },
+    {
+      "key": "fm.reference.unavailable",
+      "screen": "default_reference",
+      "element": "error",
+      "stateOrTrigger": "reference_not_available",
+      "texts": {
+        "en": "The starting reference is unavailable for this level. You can continue playing. Diagnostic code: {errorCode}",
+        "zh-Hans": "当前关卡的默认参考不可用。请继续自行挑战。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "warning",
+      "qaNotes": "不伪装在线解析或广告结果。"
+    },
+    {
+      "key": "fm.reference.value.none",
+      "screen": "default_reference",
+      "element": "dynamic_value",
+      "stateOrTrigger": "empty_reference_value",
+      "texts": {
+        "en": "None",
+        "zh-Hans": "无"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅用于参考条件中的真实空技能／空携带摘要，不代替页面空态。"
+    },
+    {
+      "key": "fm.result.already_settled",
+      "screen": "battle_result",
+      "element": "notice",
+      "stateOrTrigger": "settlement_reopened",
+      "texts": {
+        "en": "Base rewards for this battle are already settled and will not be granted again.",
+        "zh-Hans": "本次基础奖励已结算，不会重复发放。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "关闭重开后也必须一致。"
+    },
+    {
+      "key": "fm.result.base_reward_section",
+      "screen": "battle_result",
+      "element": "section_heading",
+      "stateOrTrigger": "settlement_completed",
+      "texts": {
+        "en": "Base Rewards",
+        "zh-Hans": "基础奖励"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "当前 L1 不展示首通额外奖励区。"
+    },
+    {
+      "key": "fm.result.character_acquired",
+      "screen": "battle_result",
+      "element": "reward_row",
+      "stateOrTrigger": "character_acquisition_completed_with_settlement",
+      "texts": {
+        "en": "{characterName} acquired.",
+        "zh-Hans": "已获得 {characterName}"
+      },
+      "parameters": [
+        "characterName"
+      ],
+      "severity": "info",
+      "qaNotes": "仅在原结算联合提交完成且存在真实职业获得结果时显示；不把法师计入8关原参与者经验，不自动改Formation。"
+    },
+    {
+      "key": "fm.result.inventory_button",
+      "screen": "battle_result",
+      "element": "button",
+      "stateOrTrigger": "settlement_completed",
+      "texts": {
+        "en": "View Current Inventory",
+        "zh-Hans": "查看当前背包"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "可核对锡片实际到账。"
+    },
+    {
+      "key": "fm.result.item_reward",
+      "screen": "battle_result",
+      "element": "reward_row",
+      "stateOrTrigger": "material_applied",
+      "texts": {
+        "en": "Gained {itemName} ×{amount}",
+        "zh-Hans": "获得 {itemName} ×{amount}"
+      },
+      "parameters": [
+        "amount",
+        "itemName"
+      ],
+      "severity": "info",
+      "qaNotes": "L1 预期锡片 2；物品名独立本地化。"
+    },
+    {
+      "key": "fm.result.level",
+      "screen": "battle_result",
+      "element": "label",
+      "stateOrTrigger": "settlement_completed",
+      "texts": {
+        "en": "Level: {levelName}",
+        "zh-Hans": "关卡：{levelName}"
+      },
+      "parameters": [
+        "levelName"
+      ],
+      "severity": "info",
+      "qaNotes": "当前应为 L1 发布名称。"
+    },
+    {
+      "key": "fm.result.map_button",
+      "screen": "battle_result",
+      "element": "button",
+      "stateOrTrigger": "settlement_completed",
+      "texts": {
+        "en": "Back to Map",
+        "zh-Hans": "回地图"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "返回后继续显示无下一关事实。"
+    },
+    {
+      "key": "fm.result.member.original_slot",
+      "screen": "battle_result",
+      "element": "status_row",
+      "stateOrTrigger": "original_member_receipt_visible",
+      "texts": {
+        "en": "{characterName}'s original entry slot: {slotNumber}",
+        "zh-Hans": "{characterName} 的原入场槽位：{slotNumber}"
+      },
+      "parameters": [
+        "characterName",
+        "slotNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "slotNumber 使用 OriginalSlot+1；不得用当前队伍位置替换。"
+    },
+    {
+      "key": "fm.result.member_fallen",
+      "screen": "battle_result",
+      "element": "status_row",
+      "stateOrTrigger": "member_fallen_after_victory",
+      "texts": {
+        "en": "{characterName} fell. Recovery: {recoveryStatus}",
+        "zh-Hans": "{characterName} 已倒下，恢复状态：{recoveryStatus}"
+      },
+      "parameters": [
+        "characterName",
+        "recoveryStatus"
+      ],
+      "severity": "info",
+      "qaNotes": "不免费复活倒下角色。"
+    },
+    {
+      "key": "fm.result.member_xp",
+      "screen": "battle_result",
+      "element": "reward_row",
+      "stateOrTrigger": "member_base_xp_applied",
+      "texts": {
+        "en": "{characterName} gained {amount} base XP",
+        "zh-Hans": "{characterName} 获得 {amount} 基础经验"
+      },
+      "parameters": [
+        "amount",
+        "characterName"
+      ],
+      "severity": "info",
+      "qaNotes": "L1 新档预期战士获得 20；不得硬编码到模板。"
+    },
+    {
+      "key": "fm.result.no_first_clear_bonus",
+      "screen": "battle_result",
+      "element": "notice",
+      "stateOrTrigger": "no_first_clear_bonus",
+      "texts": {
+        "en": "This level has no additional first-clear reward.",
+        "zh-Hans": "本关没有额外首通奖励。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "不得虚构首通证或广告倍增。"
+    },
+    {
+      "key": "fm.result.no_reward.body",
+      "screen": "battle_result",
+      "element": "notice",
+      "stateOrTrigger": "completed_original_attempt_has_no_base_reward",
+      "texts": {
+        "en": "{levelName} ended without a base reward settlement.",
+        "zh-Hans": "{levelName} 已结束，本次没有结算基础奖励。"
+      },
+      "parameters": [
+        "levelName"
+      ],
+      "severity": "info",
+      "qaNotes": "用于已完成的无奖励原结果；不得借用已结算或首通奖励文案。"
+    },
+    {
+      "key": "fm.result.no_reward.title",
+      "screen": "battle_result",
+      "element": "heading",
+      "stateOrTrigger": "completed_original_attempt_has_no_base_reward",
+      "texts": {
+        "en": "{operationName} Result",
+        "zh-Hans": "{operationName}结果"
+      },
+      "parameters": [
+        "operationName"
+      ],
+      "severity": "info",
+      "qaNotes": "operationName 只允许退出本局或按原开局重来等真实原操作；标题不把动作本身冒充结算。"
+    },
+    {
+      "key": "fm.result.party_button",
+      "screen": "battle_result",
+      "element": "button",
+      "stateOrTrigger": "settlement_completed",
+      "texts": {
+        "en": "View Current Party",
+        "zh-Hans": "查看当前队伍"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "读取结算后的当前资料。"
+    },
+    {
+      "key": "fm.result.recovery_started",
+      "screen": "battle_result",
+      "element": "dynamic_value",
+      "stateOrTrigger": "historical_end_started_recovery",
+      "texts": {
+        "en": "Recovery started at that time for {duration}.",
+        "zh-Hans": "当时已开始恢复，时长 {duration}。"
+      },
+      "parameters": [
+        "duration"
+      ],
+      "severity": "info",
+      "qaNotes": "只陈述原结束事件；不得把 duration 写成当前剩余时间。"
+    },
+    {
+      "key": "fm.result.replay_button",
+      "screen": "battle_result",
+      "element": "button",
+      "stateOrTrigger": "settlement_completed",
+      "texts": {
+        "en": "Challenge This Level Again",
+        "zh-Hans": "重新入场挑战本关"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "重新走正式入场，不复制上一局奖励或历史。"
+    },
+    {
+      "key": "fm.result.title",
+      "screen": "battle_result",
+      "element": "heading",
+      "stateOrTrigger": "settlement_completed",
+      "texts": {
+        "en": "Battle Results",
+        "zh-Hans": "战斗结果"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅在实际结算完成后显示到账。"
+    },
+    {
+      "key": "fm.save_recovery.blocking_notice",
+      "screen": "save_recovery",
+      "element": "notice",
+      "stateOrTrigger": "conflicting_actions_blocked",
+      "texts": {
+        "en": "New profiles, new battles, and other conflicting actions are blocked until this is resolved.",
+        "zh-Hans": "处理完成前，已阻止新资料、新战斗和其他冲突操作。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "PQA-09 的可观察门。"
+    },
+    {
+      "key": "fm.save_recovery.candidate_row",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "observed_candidate_available",
+      "texts": {
+        "en": "Original save option {candidateNumber}",
+        "zh-Hans": "可继续的原保存 {candidateNumber}"
+      },
+      "parameters": [
+        "candidateNumber"
+      ],
+      "severity": "info",
+      "qaNotes": "candidateNumber 为当前稳定排序后的 1 起显示序号；按钮仍以内部 CommitId 绑定，文案不暴露提交哈希。"
+    },
+    {
+      "key": "fm.save_recovery.checking",
+      "screen": "save_recovery",
+      "element": "status",
+      "stateOrTrigger": "original_result_lookup_in_progress",
+      "texts": {
+        "en": "Checking the original save result…",
+        "zh-Hans": "正在核定原保存结果…"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "查询必须绑定原请求。"
+    },
+    {
+      "key": "fm.save_recovery.confirm_result_button",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "original_result_requires_confirmation",
+      "texts": {
+        "en": "Confirm Original Result",
+        "zh-Hans": "确认原保存结果"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "确认已查到的原结果，不新建业务操作。"
+    },
+    {
+      "key": "fm.save_recovery.continue_candidate_button",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "original_candidate_can_continue",
+      "texts": {
+        "en": "Continue Selected Original Save",
+        "zh-Hans": "继续选中的原保存"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "使用同一候选身份。"
+    },
+    {
+      "key": "fm.save_recovery.end_uncommitted_button",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "safe_to_end_uncommitted_request",
+      "texts": {
+        "en": "End Uncommitted Request",
+        "zh-Hans": "结束未提交请求"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "仅业务明确证明安全时出现；不能简写为退出。"
+    },
+    {
+      "key": "fm.save_recovery.end_uncommitted_confirm",
+      "screen": "save_recovery",
+      "element": "dialog_body",
+      "stateOrTrigger": "end_uncommitted_requested",
+      "texts": {
+        "en": "Only the original request confirmed as uncommitted will be ended. Saved or uncertain requests will not be discarded.",
+        "zh-Hans": "仅结束已确认未提交的原请求。已保存或结果未知的请求不会被丢弃。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "与退出本局和退出应用不同。"
+    },
+    {
+      "key": "fm.save_recovery.ended_uncommitted",
+      "screen": "save_recovery",
+      "element": "status",
+      "stateOrTrigger": "original_request_proven_uncommitted_and_ended",
+      "texts": {
+        "en": "The original request confirmed as uncommitted has ended.",
+        "zh-Hans": "已结束确认未提交的原请求。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只在安全结束完成后显示；不得用于失败、未知或已保存请求。"
+    },
+    {
+      "key": "fm.save_recovery.failed",
+      "screen": "save_recovery",
+      "element": "error",
+      "stateOrTrigger": "original_save_failed",
+      "texts": {
+        "en": "The original save did not complete. You can safely retry the same request. Diagnostic code: {errorCode}",
+        "zh-Hans": "原保存未完成。你可以安全地重试同一个请求。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "error",
+      "qaNotes": "仅在明确失败时允许重试。"
+    },
+    {
+      "key": "fm.save_recovery.lookup_button",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "original_result_lookup_available",
+      "texts": {
+        "en": "Check Original Result",
+        "zh-Hans": "查询原结果"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不是查询最近一项或页面残留。"
+    },
+    {
+      "key": "fm.save_recovery.operation_summary",
+      "screen": "save_recovery",
+      "element": "status",
+      "stateOrTrigger": "original_save_operation_identified",
+      "texts": {
+        "en": "Pending action: {operationName}",
+        "zh-Hans": "待处理行动：{operationName}"
+      },
+      "parameters": [
+        "operationName"
+      ],
+      "severity": "warning",
+      "qaNotes": "operationName 由当前 L1 CandidateApplicationKind 明确映射；OperationId 仅留作内部绑定。"
+    },
+    {
+      "key": "fm.save_recovery.refresh_button",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "recovery_state_can_refresh",
+      "texts": {
+        "en": "Refresh Recovery Status",
+        "zh-Hans": "刷新处理状态"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "重新读取同一原请求的恢复状态；不得借此发起新请求。"
+    },
+    {
+      "key": "fm.save_recovery.result_required",
+      "screen": "save_recovery",
+      "element": "inline_warning",
+      "stateOrTrigger": "result_return_requested_without_verified_result",
+      "texts": {
+        "en": "Get the verified original save result before continuing.",
+        "zh-Hans": "请先取得已核定的原保存结果。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不得把未核定结果当作成功返回。"
+    },
+    {
+      "key": "fm.save_recovery.retry_before_resolve",
+      "screen": "save_recovery",
+      "element": "inline_warning",
+      "stateOrTrigger": "failed_original_request_must_be_retried",
+      "texts": {
+        "en": "Retry the same original request before continuing.",
+        "zh-Hans": "请先重试同一个原请求，再继续处理。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "仅已确认失败且业务要求重试时使用；未知结果不得使用。"
+    },
+    {
+      "key": "fm.save_recovery.retry_button",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "original_save_confirmed_failed",
+      "texts": {
+        "en": "Retry Original Save",
+        "zh-Hans": "重试原保存"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "仅明确失败时可用；复用原请求身份。"
+    },
+    {
+      "key": "fm.save_recovery.return_to_original_flow",
+      "screen": "save_recovery",
+      "element": "inline_warning",
+      "stateOrTrigger": "action_owned_by_original_flow",
+      "texts": {
+        "en": "Return to the original flow to continue handling this request.",
+        "zh-Hans": "请返回原流程继续处理这项请求。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "不把路由所有权错误说成保存失败。"
+    },
+    {
+      "key": "fm.save_recovery.review_end_button",
+      "screen": "save_recovery",
+      "element": "button",
+      "stateOrTrigger": "uncommitted_request_end_can_be_reviewed",
+      "texts": {
+        "en": "Review Ending Request",
+        "zh-Hans": "审核结束请求"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "先进入安全结束审核；最终动作仍使用 fm.save_recovery.end_uncommitted_button。"
+    },
+    {
+      "key": "fm.save_recovery.select_candidate",
+      "screen": "save_recovery",
+      "element": "inline_warning",
+      "stateOrTrigger": "observed_candidate_not_selected",
+      "texts": {
+        "en": "Select an original save option from the list first.",
+        "zh-Hans": "请先从列表中选择一个原保存选项。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "列表只包含已观察候选；选择不等于核定原结果，不得显示 CommitId。"
+    },
+    {
+      "key": "fm.save_recovery.select_operation",
+      "screen": "save_recovery",
+      "element": "inline_warning",
+      "stateOrTrigger": "original_operation_not_selected",
+      "texts": {
+        "en": "Select the original action to handle first.",
+        "zh-Hans": "请先选择要处理的原行动。"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "选择必须绑定实际原请求；不得按页面最近项猜测。"
+    },
+    {
+      "key": "fm.save_recovery.title",
+      "screen": "save_recovery",
+      "element": "heading",
+      "stateOrTrigger": "save_attention_required",
+      "texts": {
+        "en": "Save Needs Attention",
+        "zh-Hans": "保存需要处理"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "普通失败与结果未知均进入同一可恢复入口，但状态文案不同。"
+    },
+    {
+      "key": "fm.save_recovery.unknown",
+      "screen": "save_recovery",
+      "element": "error",
+      "stateOrTrigger": "original_save_result_unknown",
+      "texts": {
+        "en": "The original save result is not confirmed yet. We are checking it; conflicting actions are blocked in the meantime.",
+        "zh-Hans": "原保存结果尚未确认。正在核定原结果，期间不能开始冲突操作。"
+      },
+      "parameters": [],
+      "severity": "blocking",
+      "qaNotes": "不得把 Unknown 写成 Failed。"
+    },
+    {
+      "key": "fm.save_result.confirmed",
+      "screen": "save_recovery",
+      "element": "status",
+      "stateOrTrigger": "original_operation_confirmed_saved",
+      "texts": {
+        "en": "Confirmed saved: {operationName}",
+        "zh-Hans": "已确认保存：{operationName}"
+      },
+      "parameters": [
+        "operationName"
+      ],
+      "severity": "info",
+      "qaNotes": "operationName 来自 N-D01 的受控映射；不得显示 OperationId。"
+    },
+    {
+      "key": "fm.save_result.notification_failed",
+      "screen": "save_recovery",
+      "element": "warning",
+      "stateOrTrigger": "save_confirmed_but_ui_notification_failed",
+      "texts": {
+        "en": "The save was confirmed, but the screen notification did not finish. Reopen the page to view the saved result. Diagnostic code: {errorCode}",
+        "zh-Hans": "保存已确认，但画面通知未完成。重新打开页面可查看已保存结果。诊断码：{errorCode}"
+      },
+      "parameters": [
+        "errorCode"
+      ],
+      "severity": "warning",
+      "qaNotes": "不得把已确认保存改写成失败，也不得提示重试原保存。"
+    },
+    {
+      "key": "fm.save_result.title",
+      "screen": "save_recovery",
+      "element": "heading",
+      "stateOrTrigger": "original_save_result_verified",
+      "texts": {
+        "en": "Original Save Result Confirmed",
+        "zh-Hans": "原保存结果已确认"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅核定原请求结果后显示；未知状态不得使用。"
+    },
+    {
+      "key": "fm.startup.mode.body",
+      "screen": "startup_mode",
+      "element": "body",
+      "stateOrTrigger": "startup_mode_selection_visible",
+      "texts": {
+        "en": "The original Demo and Chapter One Trial use separate progress. Your original Demo data is preserved.",
+        "zh-Hans": "原Demo与第一章试行使用独立进度，原Demo资料会保留。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "两个固定资料根复用相同业务；选择入口不迁移、复制或清除已有资料。"
+    },
+    {
+      "key": "fm.startup.mode.chapter_one_trial",
+      "screen": "startup_mode",
+      "element": "button",
+      "stateOrTrigger": "chapter_one_trial_entry_available",
+      "texts": {
+        "en": "Chapter One Trial",
+        "zh-Hans": "第一章试行"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "路由到已批准的第一章试行入口；已有试行资料继续原资料，无资料仍走明确建档确认。"
+    },
+    {
+      "key": "fm.startup.mode.demo",
+      "screen": "startup_mode",
+      "element": "button",
+      "stateOrTrigger": "original_demo_entry_available",
+      "texts": {
+        "en": "Continue Original Demo",
+        "zh-Hans": "继续原Demo资料"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "路由到原Demo固定资料根；不把按钮点击当成已读取或已保存。"
+    },
+    {
+      "key": "fm.startup.mode.title",
+      "screen": "startup_mode",
+      "element": "heading",
+      "stateOrTrigger": "startup_mode_selection_visible",
+      "texts": {
+        "en": "Choose a Play Mode",
+        "zh-Hans": "选择游玩入口"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "仅用于已批准的原Demo／第一章试行两个开发入口，不作为多账号产品界面。"
+    },
+    {
+      "key": "fm.teaching.taunt.explanation_confirm",
+      "screen": "chapter_teaching",
+      "element": "button",
+      "stateOrTrigger": "taunt_purpose_confirmation_available",
+      "texts": {
+        "en": "I Understand",
+        "zh-Hans": "已了解用途"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "显式确认用途说明，沿独立永久教学步骤提交；全部条件满足后才正式入场。"
+    },
+    {
+      "key": "fm.teaching.taunt.gift_received",
+      "screen": "chapter_teaching",
+      "element": "status",
+      "stateOrTrigger": "teaching_gift_permanent_commit_completed",
+      "texts": {
+        "en": "First-entry gift received: {itemName} ×{amount}.",
+        "zh-Hans": "已领取首次入场赠物：{itemName} ×{amount}。"
+      },
+      "parameters": [
+        "amount",
+        "itemName"
+      ],
+      "severity": "info",
+      "qaNotes": "仅在首次入场赠物永久提交完成后显示；itemName取本地化物品名，amount取真实赠物数量，Pending不得显示已领取。"
+    },
+    {
+      "key": "fm.teaching.taunt.learn_button",
+      "screen": "chapter_teaching",
+      "element": "button",
+      "stateOrTrigger": "taunt_learning_available",
+      "texts": {
+        "en": "Learn Taunt",
+        "zh-Hans": "学习嘲讽"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "显式进入学习确认；满足等级或领证不自动学习。"
+    },
+    {
+      "key": "fm.teaching.taunt.learn_confirm",
+      "screen": "chapter_teaching",
+      "element": "dialog_body",
+      "stateOrTrigger": "taunt_learning_quote_ready",
+      "texts": {
+        "en": "Spend {itemName} ×{amount} for {characterName} to learn Taunt?",
+        "zh-Hans": "确认消耗 {itemName} ×{amount}，让 {characterName} 学习嘲讽？"
+      },
+      "parameters": [
+        "amount",
+        "characterName",
+        "itemName"
+      ],
+      "severity": "warning",
+      "qaNotes": "characterName及itemName取本地化名称，amount取真实学习成本；确认沿永久提交协议，未知结果不重复扣除。"
+    },
+    {
+      "key": "fm.teaching.taunt.learned",
+      "screen": "chapter_teaching",
+      "element": "status",
+      "stateOrTrigger": "taunt_learning_permanent_commit_completed_or_already_valid",
+      "texts": {
+        "en": "{characterName} has learned Taunt.",
+        "zh-Hans": "{characterName} 已学会嘲讽。"
+      },
+      "parameters": [
+        "characterName"
+      ],
+      "severity": "info",
+      "qaNotes": "只显示已提交或已有合法学习事实；characterName取本地化角色名，已有学习不得再次收费。"
+    },
+    {
+      "key": "fm.teaching.taunt.requires_level",
+      "screen": "chapter_teaching",
+      "element": "requirement",
+      "stateOrTrigger": "warrior_below_taunt_learning_level",
+      "texts": {
+        "en": "To learn Taunt, {characterName} must reach level {requiredLevel}. Use an XP card you own or earn XP in an unlocked level.",
+        "zh-Hans": "学习嘲讽需要 {characterName} 达到等级 {requiredLevel}。可使用已有经验卡，或返回已开放关卡获取经验。"
+      },
+      "parameters": [
+        "characterName",
+        "requiredLevel"
+      ],
+      "severity": "warning",
+      "qaNotes": "characterName取本地化角色名，requiredLevel取技能学习条件；只提示正常用卡或回刷，不自动升级或消耗卡。"
+    },
+    {
+      "key": "fm.teaching.taunt.title",
+      "screen": "chapter_teaching",
+      "element": "heading",
+      "stateOrTrigger": "level16_teaching_visible",
+      "texts": {
+        "en": "Pre-battle Lesson: Taunt",
+        "zh-Hans": "战前教学：嘲讽"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只用于16关入场教学；学习与用途说明保持独立步骤。"
+    },
+    {
+      "key": "fm.update_ready.body",
+      "screen": "conditional_update_ready",
+      "element": "dialog_body",
+      "stateOrTrigger": "downloaded_update_reaches_natural_page_boundary",
+      "texts": {
+        "en": "A new version has been downloaded. Restart to apply it, or keep using the current version for now.",
+        "zh-Hans": "新版本已下载。重启后应用更新，也可以稍后继续使用当前版本。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；稍后不改变当前存档／内容绑定，也不得写成新版已经启用。"
+    },
+    {
+      "key": "fm.update_ready.later_button",
+      "screen": "conditional_update_ready",
+      "element": "button",
+      "stateOrTrigger": "downloaded_update_reaches_natural_page_boundary",
+      "texts": {
+        "en": "Later",
+        "zh-Hans": "稍后"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；选择后继续当前版本。"
+    },
+    {
+      "key": "fm.update_ready.restart_button",
+      "screen": "conditional_update_ready",
+      "element": "button",
+      "stateOrTrigger": "downloaded_update_reaches_natural_page_boundary",
+      "texts": {
+        "en": "Restart and Update",
+        "zh-Hans": "重启并更新"
+      },
+      "parameters": [],
+      "severity": "warning",
+      "qaNotes": "非当前 L1 正常链；具体重启能力和平台流程须由技术方案验证。"
+    },
+    {
+      "key": "fm.update_ready.title",
+      "screen": "conditional_update_ready",
+      "element": "dialog_title",
+      "stateOrTrigger": "downloaded_update_reaches_natural_page_boundary",
+      "texts": {
+        "en": "Update Ready",
+        "zh-Hans": "更新已准备好"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "非当前 L1 正常链；仅在地图等自然页面边界显示，不在战斗中打断。"
+    },
+    {
+      "key": "fm.victory.pending.title",
+      "screen": "victory_pending",
+      "element": "heading",
+      "stateOrTrigger": "victory_saved_settlement_pending",
+      "texts": {
+        "en": "Victory saved. Base rewards are ready to settle.",
+        "zh-Hans": "胜利已保存，基础奖励待结算"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "先保存胜利，后由玩家明确继续结算。"
+    },
+    {
+      "key": "fm.victory.playback.skip_button",
+      "screen": "victory_pending",
+      "element": "button",
+      "stateOrTrigger": "final_playback_pending",
+      "texts": {
+        "en": "Skip Final Sequence",
+        "zh-Hans": "跳过末段表现"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "只影响表现。"
+    },
+    {
+      "key": "fm.victory.playback_pending",
+      "screen": "victory_pending",
+      "element": "status",
+      "stateOrTrigger": "final_playback_pending",
+      "texts": {
+        "en": "The final sequence is still playing. You can watch it or skip the presentation.",
+        "zh-Hans": "末段表现尚未完成。可继续观看或跳过表现。"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "表现状态不改变胜利事实。"
+    },
+    {
+      "key": "fm.victory.settle.button",
+      "screen": "victory_pending",
+      "element": "button",
+      "stateOrTrigger": "base_settlement_available",
+      "texts": {
+        "en": "Continue to Base Rewards",
+        "zh-Hans": "继续基础奖励结算"
+      },
+      "parameters": [],
+      "severity": "info",
+      "qaNotes": "唯一开放结算的按钮。"
+    },
+    {
+      "key": "fm.victory.settle.unavailable",
+      "screen": "victory_pending",
+      "element": "notice",
+      "stateOrTrigger": "base_settlement_not_available",
+      "texts": {
+        "en": "Rewards are not ready to settle: {reason}",
+        "zh-Hans": "暂时无法结算：{reason}"
+      },
+      "parameters": [
+        "reason"
+      ],
+      "severity": "warning",
+      "qaNotes": "reason 为受控文本；不得自动结算。"
+    }
+  ]
+}

@@ -406,3 +406,26 @@ Owner／唯一执行收件为主程，原C串行执行，主测试接最终最�
 三模式和首次收尾259.887863秒完成；C随后额外核清单并更新回执，最终实际**333.248494／300秒，超限33.248494秒**，不得以首次结果冒称整段守时。已停止全部工具／写入，无第四次启动，旧拒绝与各独立累计原样保留。最终[回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/publication-r3-01/authorized-01/result.json) SHA `18f845e75ee0b87a5d5aa8bc59abd855a14bc4e6aa9ac42735f2717932cd4828`；[实际清单](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/publication-r3-01/authorized-01/inventory.json) SHA `244987dcba29a9c0fe62039465db1198a3c03676205f1c07552d6080401bd08a`。主程已核三原始process、冷载、六件／meta及总回执，交QA限定内容收件并保留执行偏差。此为本地数据发布／冷载成功，不代表r3真实整链、三平台资源、Scene／Play、设备、最终平衡或线上交付通过；本包没有这些操作或新代码／测试。
 
 QA actual `01a177ff-07e7-7892-b1ef-2a3826ea9dc1`在[validation.md](validation.md#2026-10-26r3本地发布与六件冷载限定收件)给本批唯一集成判定：**ACCEPT，仅本地发布／激活导出／六件冷载功能，不认可整段执行守时**。QA逐项核六件、25项产物、364旧文件及prepare／批准，复用准确head2e74c989的GitHub独审和原内容批准。publish.log第636行曾报已删除诊断脚本FightMatchProfilerReadback.cs的CS2001，随后同一进程重建编译图并在747行完成PUBLISHED、944行正常退出；该中间失败保留，不能称全程无编译错误。主程收件完毕，将13条新Assets／meta与本记录冻结为`TestArtifacts/FightMatch/CH1-IMPL-001/review-candidate-08/`，基于PR27 head2e74c989交中央精确14路径发布差量；不提交／推送／合并本机Git，不混入字体、fixture WIP或诊断脚本。资源构建／copy和Scene仍是后续独立执行范围。
+
+
+### 2026-10-27：r3资源与Scene连续接入（执行中）
+
+主程直接亲读中央真人 turn `01a17d24-75c0-7531-9806-7acc3680f766`／message `01a17d24-8984-7bb1-89c3-d53ace6028a7`，结合2026-10-25持续实施授权和既定任务，接续已准备方案；不再把内部拆包作为重复许可门。旧N07为已执行历史，不重新派发；旧300秒发布段及333.248494秒偏差保持。当前固定PR28 `bf76a06c04ae5ea92423252ff73feb546376cd9a`及已限定ACCEPT的r3六件／冷载。原C `/root/ch1_executor`（`01a170eb-eb44-73c0-b1e4-8b9f9dc7c53e/local`）唯一运行Unity，主程唯一接C／组织QA检查点，中央只接里程碑与发布差量。
+
+沿现成 BuildChapterR3Mac→Windows→Android；三实际inventory、boot身份／pin及copy白名单经QA限定只读核对后，复制每平台14叶和三boot，现成BindR3一次保存并同进程复开。精确允许：`host-resources/r3/{macOS,windows,android}/`标准产物；`Assets/FightMatch/ResourceBuild/Inputs/ChapterOneTrial-r3/`两文本及自然meta；`Assets/StreamingAssets/FightMatchResources/{macOS,windows,android}/FightMatchChapterOneR3/`三真实inventory列明的叶及自然meta；`Assets/FightMatch/ResourceBuild/fm-resource-boot-chapter-{macos,windows,android}-r3.json`及自然meta；既有`Assets/Scenes/FightMatchDemo.unity`只三个chapter boot结构。Scene.meta、旧Demo三结构、源码／测试／字体／配置／玩家档与旧资源保持。证据仅`TestArtifacts/FightMatch/CH1-IMPL-001/host/resource-scene-r3-01/`，不重跑旧测试／诊断，无GUI／Play、Player build、设备、下载、网络发布或Git写入。
+
+内部执行上限900秒／最多4次Unity／各≤120秒，不是用户逐字新批数字。保守从主程本轮恢复开始epoch1793101028计，截止1793101928，涵盖上下文核对、准备、等待、运行和必要收尾；不重置、不挪用旧额度。主程发给C时约余600秒，必须预留实际退出和一次最终回执，关闭后不追加无必要封签。失败／达到内部上限即停止依赖步骤，保存实际结果；如实际工具拒绝则记录准确动作和原文，不换入口绕过。此条不是执行成功或Scene验收证据。
+
+
+**本段实际闭合，资源构建通过、Scene尚未执行：** C actual `01a17d2b-b280-7593-9676-e618446a4129`三次构建分别37.194024／32.480758／38.785152秒，均exit0且无超时；QA actual `01a17d30-7bca-7e23-9a57-e5cc637b61e5`已逐字节核三boot及42叶，检查点ACCEPT。准备／上下文恢复与QA交接占用大部分内部时限，copy前剩余不足约定收尾储备，现成收尾脚本按时间断言停止；copy0、Scene NOT_RUN、第四次Unity未启动。全段866.188849／900秒，136／600／44、364旧文件与r3发布保持，Editor为空。本轮无实际审批拒绝，不能归因为Unity故障或用户未授权。见[最终回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/resource-scene-r3-01/result.json)及[三构建检查点](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/resource-scene-r3-01/build-checkpoint.json)。当前只收敛剩余45文件复制、现成BindR3及保护收尾，不重跑已通过构建；旧段已关闭，不能改写计时或复用为新的执行时限。
+
+
+**剩余步骤接续：** 中央沿同一持续实施权源确认直接完成已核45文件复制和原计划第4次BindR3，不要求用户再次批准数字。保留已关闭866.188849秒原段；剩余小段内部上限600秒（epoch1793102068至1793102668，含必要准备／执行／收尾）、仅一次Unity≤120秒、全任务总启动不超过4。原C机械复用已备`complete_scene.py`及QA检查点，新证据只写原目录的`continuation-01/`；旧证据不覆盖、三构建不重跑。产品路径与Scene三字段白名单不变，实际原生保存复开和保护结果待收；主程再冻结准确差量，QA只补该剩余证据。
+
+
+**剩余步骤实际完成：** 原C actual `01a17d36-9f63-7191-b82c-41a44a0dcffa` completed，45项准确复制成功，BindR3唯一一次耗时17.472521秒、exit0、未超时；保存并同进程复开原生验证通过。真实Scene相对前像仅新增三个chapter boot结构12行，旧Demo三结构和其它内容保持；Scene现14259字节／SHA `6609e503786f5f11882092f155a32c8ac38c9f6c1296d71ed41a408e05b883f9`。全部45叶及自然meta匹配，实际可发布清单为98新增Assets路径加该Scene。136／600／44（仅Scene明许例外）、364旧文件及r3发布保持，无Editor。续段135.350714／600秒，全任务总Unity4次；原866.188849秒闭合段不改写、不合并冒称900秒内完成。
+
+[最终执行回执](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/resource-scene-r3-01/continuation-01/result.json) SHA `42e1e94581c7eec43039c1d601bd310d7356304ce891434df018ea2420238dbf`；[99项产品清单](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/resource-scene-r3-01/continuation-01/product-inventory.json)及[唯一Scene差量](../../../TestArtifacts/FightMatch/CH1-IMPL-001/host/resource-scene-r3-01/continuation-01/scene.diff)。主程已核实际原始回执及差量，产品副本冻结到candidate09，固定base PR28 `bf76a06c04ae5ea92423252ff73feb546376cd9a`；没有源／测试增量，未作Git写入。当前仅资源与Scene本地功能证据，未启动GUI／Play／设备，真实r3新档至法师8／9、16教学和双Boss整链仍未验。后续先补真实Host第一章入口／资源启动及页面，复用已过业务用例；历史整链超时不机械重跑或据局部通过改绿。
+
+
+**QA限定收件已闭环：** QA actual `01a17d39-3802-7122-ba23-2953b8f9272c/local`已在[validation](validation.md#2026-10-27r3复制与scene保存的本地限定收件)给唯一判定 **ACCEPT，仅现成bf76a06c源码下的资源复制／meta完整性、Scene三处绑定及同进程保存复开功能**。新资产／Scene准确新head的GitHub独审仍待中央发布后由QA唯一接收，不把本地功能结论代替新head门。候选`review-candidate-09`固定100路径（99产品＋本记录）、base `bf76a06c04ae5ea92423252ff73feb546376cd9a`，不含字体／fixture WIP、诊断脚本或执行证据。主程将manifest与验证边界交中央发布draft，不合并。
