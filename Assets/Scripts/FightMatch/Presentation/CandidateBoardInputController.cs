@@ -20,7 +20,7 @@ namespace FightMatch.Presentation
     public sealed class CandidateBoardInputController
     {
         private readonly CandidateBattleApplicationSystem system;
-        private readonly SaveStoreBudget budget;
+        private readonly Func<SaveStoreBudget> createBudget;
         private readonly RouteGesture gesture = new RouteGesture();
         private double threshold = 6;
         private CandidateDemoView pressedView;
@@ -53,9 +53,13 @@ namespace FightMatch.Presentation
         public event Action<CandidateRollbackRange> RollbackConfirmationRequired;
 
         public CandidateBoardInputController(CandidateBattleApplicationSystem system, SaveStoreBudget budget)
+            : this(system, budget, () => budget) { }
+
+        internal CandidateBoardInputController(CandidateBattleApplicationSystem system, SaveStoreBudget budget, Func<SaveStoreBudget> createBudget)
         {
             this.system = system ?? throw new ArgumentNullException(nameof(system));
-            this.budget = budget ?? throw new ArgumentNullException(nameof(budget));
+            if (budget == null) throw new ArgumentNullException(nameof(budget));
+            this.createBudget = createBudget ?? throw new ArgumentNullException(nameof(createBudget));
             Refresh();
         }
 
@@ -236,31 +240,34 @@ namespace FightMatch.Presentation
                 draft.Link = new CandidateApplicationLinkInput { AttemptId = intent.Context.AttemptId,
                     ExpectedSceneRevision = intent.Context.SceneRevision, Pair = pair, Route = intent.Cells.ToList() };
             }
-            Submit(draft, true);
+            Submit(draft, createBudget(), true);
         }
 
         private void Preview(CandidateDemoView basis, GestureIntent intent)
         {
+            var evaluation = createBudget();
             var locator = new CandidateHistoryLocator { PlayerId = basis.ApplicationView.PlayerId, AttemptId = intent.Context.AttemptId,
                 ExpectedSceneRevision = intent.Context.SceneRevision, Pair = BattlePairKey.Create(intent.Context.AttemptId, intent.Context.FaceId, intent.PairId),
                 Kind = intent.OriginKind == OriginKind.Endpoint ? CandidateHistoryLocatorKind.EndpointLatestAttack : CandidateHistoryLocatorKind.LockedRouteKillingAttack };
-            LastPreview = system.PreviewRollback(locator, basis.CommitId, budget.Codec);
+            LastPreview = system.PreviewRollback(locator, basis.CommitId, evaluation.Codec);
             Status = LastPreview.Code; Apply(LastPreview.View);
             if (!LastPreview.IsAccepted) { Changed?.Invoke(); return; }
             RollbackPreview = LastPreview.Range; confirmationView = basis; confirmationLocator = locator;
-            if (RollbackPreview.Entries.Count == 1) { ConfirmRollback(); return; }
+            if (RollbackPreview.Entries.Count == 1) { ConfirmRollback(evaluation); return; }
             Status = "RollbackConfirmationRequired"; Changed?.Invoke();
             RollbackConfirmationRequired?.Invoke(RollbackPreview);
         }
 
-        public CandidateBattleCallResult ConfirmRollback()
+        public CandidateBattleCallResult ConfirmRollback() { return ConfirmRollback(createBudget()); }
+
+        private CandidateBattleCallResult ConfirmRollback(SaveStoreBudget evaluation)
         {
             var range = RollbackPreview; var basis = confirmationView; var locator = confirmationLocator;
             Refresh();
             if (range == null || RollbackPreview != range || !SameHead(basis, View) || !View.Rollback.IsAvailable)
             { ClearConfirmation(); Status = "StaleContext"; Changed?.Invoke(); return null; }
-            var checkedRange = confirmationAnchor == null ? system.PreviewRollback(locator, basis.CommitId, budget.Codec) :
-                system.PreviewHistoryRollback(confirmationAnchor, basis.CommitId, budget.Codec);
+            var checkedRange = confirmationAnchor == null ? system.PreviewRollback(locator, basis.CommitId, evaluation.Codec) :
+                system.PreviewHistoryRollback(confirmationAnchor, basis.CommitId, evaluation.Codec);
             if (!checkedRange.IsAccepted || checkedRange.Range.AttemptId != range.AttemptId || checkedRange.Range.SceneRevision != range.SceneRevision ||
                 checkedRange.Range.OperationId != range.OperationId || checkedRange.Range.HistoryAnchorId != range.HistoryAnchorId ||
                 !checkedRange.Range.Entries.Select(x => x.OperationId).SequenceEqual(range.Entries.Select(x => x.OperationId)))
@@ -270,16 +277,19 @@ namespace FightMatch.Presentation
                 HistoryAnchorId = range.HistoryAnchorId, TargetOperationId = range.OperationId,
                 ConfirmedRemovedOperationIds = range.Entries.Select(x => x.OperationId).ToList() };
             ClearConfirmation();
-            return Submit(draft);
+            return Submit(draft, evaluation);
         }
 
         public void CancelRollback() { ClearConfirmation(); Status = null; Changed?.Invoke(); }
         private void ClearConfirmation() { RollbackPreview = null; confirmationView = null; confirmationLocator = null; confirmationAnchor = null; }
 
         public CandidateBattlePreviewResult SelectHistoryAnchor(string anchor, string expectedCommitId)
+        { return SelectHistoryAnchor(anchor, expectedCommitId, createBudget()); }
+
+        internal CandidateBattlePreviewResult SelectHistoryAnchor(string anchor, string expectedCommitId, SaveStoreBudget evaluation)
         {
             Refresh();
-            LastPreview = system.PreviewHistoryRollback(anchor, expectedCommitId, budget.Codec);
+            LastPreview = system.PreviewHistoryRollback(anchor, expectedCommitId, evaluation.Codec);
             Status = LastPreview.Code; Apply(LastPreview.View);
             if (!LastPreview.IsAccepted) { Changed?.Invoke(); return LastPreview; }
             CancelGesture(); ClearConfirmation();
@@ -302,20 +312,20 @@ namespace FightMatch.Presentation
                 Context = RuleContextChecks.Copy(c) };
         }
 
-        private CandidateBattleCallResult Submit(CandidateBattleDraft draft, bool gestureRequest = false)
+        private CandidateBattleCallResult Submit(CandidateBattleDraft draft, SaveStoreBudget evaluation, bool gestureRequest = false)
         {
-            LastPreparation = system.Prepare(draft, budget.Codec);
+            LastPreparation = system.Prepare(draft, evaluation.Codec);
             if (!LastPreparation.IsAccepted) { Status = LastPreparation.Code; Refresh(); return null; }
             LastRequest = LastPreparation.Request;
             if (gestureRequest)
             { armedFeedbackOperation = LastRequest.OperationId; armedFeedbackBytes = LastRequest.Intent.CanonicalBytes.ToArray(); }
-            return Receive(system.Submit(LastRequest, budget));
+            return Receive(system.Submit(LastRequest, evaluation));
         }
 
-        public CandidateBattleCallResult RetryLast() { return LastRequest == null ? null : Receive(system.Retry(LastRequest, budget)); }
-        public CandidateBattleCallResult ResolveLast() { return LastRequest == null ? null : Receive(system.Resolve(LastRequest, budget)); }
-        public CandidateBattleCallResult EndLast() { return LastRequest == null ? null : Receive(system.End(LastRequest, budget)); }
-        public CandidateBattleCallResult QueryLastOperation() { return LastRequest == null ? null : Receive(system.QueryOperation(LastRequest, budget)); }
+        public CandidateBattleCallResult RetryLast() { return LastRequest == null ? null : Receive(system.Retry(LastRequest, createBudget())); }
+        public CandidateBattleCallResult ResolveLast() { return LastRequest == null ? null : Receive(system.Resolve(LastRequest, createBudget())); }
+        public CandidateBattleCallResult EndLast() { return LastRequest == null ? null : Receive(system.End(LastRequest, createBudget())); }
+        public CandidateBattleCallResult QueryLastOperation() { return LastRequest == null ? null : Receive(system.QueryOperation(LastRequest, createBudget())); }
         public CandidateBattleCallResult RebuildLatest() { CancelGesture(); ClearConfirmation(); return Receive(system.RebuildLatest()); }
 
         private CandidateBattleCallResult Receive(CandidateBattleCallResult result)

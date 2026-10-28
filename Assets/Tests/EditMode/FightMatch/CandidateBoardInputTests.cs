@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -22,6 +23,110 @@ namespace FightMatch.Core.Tests
 {
     public sealed class CandidateBoardInputTests
     {
+        [Test]
+        public void CH1_L5_PendingRetryRollbackAndOriginalQueryUseIndependentEvaluations()
+        {
+            using (var r = new BattleApplicationRig())
+            {
+                var template = new SaveStoreBudget(new SaveCodecBudget(new ExactMathBudget(maxPrimitiveSteps: 0)));
+                var evaluations = new List<SaveStoreBudget>();
+                var input = new CandidateBoardInputController(r.System, template, () => {
+                    var next = B(); evaluations.Add(next); return next;
+                });
+                Assert.IsTrue(input.SelectMember("W")); var initial = r.State; var records = r.Head.Records.Count;
+                r.Runtime.Storage.Base.Arm("Snapshot.Flush.after", null);
+                DrawBudgetRoute(input, r.AttackDraft().Attack.Route);
+                Is(input.LastResult, "SaveFailed"); Assert.IsTrue(r.Runtime.Storage.Base.FaultUsed); Assert.AreEqual(1, evaluations.Count);
+                var pendingRequest = input.LastRequest; var pendingBytes = pendingRequest.Intent.CanonicalBytes.ToArray();
+                var pendingCommit = input.View.ApplicationView.PendingCommitId;
+                Assert.AreEqual(pendingRequest.OperationId, input.View.ApplicationView.PendingOperationId);
+                Assert.IsNotNull(pendingCommit); Assert.IsFalse(input.LastResult.Application.IsCommitted);
+                Assert.AreEqual(records, r.Head.Records.Count);
+                var attackUsed = evaluations[0].Codec.Math.PrimitiveStepsUsed; Assert.Greater(attackUsed, 0);
+                var pendingDisk = r.Runtime.Disk(); var pendingCalls = r.Runtime.Storage.Base.Calls;
+                input.Refresh(); Assert.AreSame(pendingRequest, input.LastRequest);
+                CollectionAssert.AreEqual(pendingBytes, input.LastRequest.Intent.CanonicalBytes);
+                Assert.AreEqual(pendingCommit, input.View.ApplicationView.PendingCommitId);
+                r.Runtime.SameDisk(pendingDisk); Assert.AreEqual(pendingCalls, r.Runtime.Storage.Base.Calls);
+                var retried = Is(input.RetryLast(), "Completed"); Assert.AreEqual(2, evaluations.Count);
+                Assert.IsTrue(retried.Application.IsCommitted); Assert.AreEqual(pendingCommit, retried.Application.OriginalCommitId);
+                Assert.AreSame(pendingRequest, input.LastRequest); CollectionAssert.AreEqual(pendingBytes, input.LastRequest.Intent.CanonicalBytes);
+                Assert.IsNull(input.View.ApplicationView.PendingOperationId); Assert.AreEqual(records + 1, r.Head.Records.Count);
+                Assert.AreEqual(1, r.Runtime.Storage.Base.RealMarkerPromotionsFor(pendingCommit));
+                Assert.AreEqual(attackUsed, evaluations[0].Codec.Math.PrimitiveStepsUsed);
+                var retryUsed = evaluations[1].Codec.Math.PrimitiveStepsUsed; Assert.Greater(retryUsed, 0);
+                Is(r.System.ReportPresentationCompleted(input.LastResult.Presentation.Token), "PresentationCompleted"); input.Refresh();
+                var cell = r.State.Board.LockedRoutes.Single().Route[1]; var point = BudgetPointer(cell);
+                input.Down(point, 6); input.Up(point);
+                Is(input.LastResult, "Completed"); Assert.AreEqual(CandidateApplicationKind.Rollback, input.LastRequest.Kind);
+                Assert.AreEqual(3, evaluations.Count, "Tap preview, automatic confirmation, recheck, prepare and submit share one evaluation.");
+                Assert.AreEqual(attackUsed, evaluations[0].Codec.Math.PrimitiveStepsUsed);
+                Assert.AreEqual(retryUsed, evaluations[1].Codec.Math.PrimitiveStepsUsed);
+                Assert.Greater(evaluations[2].Codec.Math.PrimitiveStepsUsed, 0);
+                Assert.AreEqual(records + 2, r.Head.Records.Count); Same(initial.Members, r.State.Members); Same(initial.Enemies, r.State.Enemies);
+                var original = input.LastRequest; var bytes = original.Intent.CanonicalBytes.ToArray();
+                var commit = input.LastResult.Application.OriginalCommitId; var head = r.Head; var disk = r.Runtime.Disk();
+                var writes = r.Runtime.Storage.Base.WriteCalls; var rollbackUsed = evaluations[2].Codec.Math.PrimitiveStepsUsed;
+                var lookup = Is(input.QueryLastOperation(), "Completed");
+                Assert.IsTrue(lookup.Application.IsCommitted); Assert.AreEqual(commit, lookup.Application.OriginalCommitId);
+                Assert.AreSame(original, input.LastRequest); CollectionAssert.AreEqual(bytes, input.LastRequest.Intent.CanonicalBytes);
+                Assert.AreEqual(4, evaluations.Count); Assert.AreEqual(rollbackUsed, evaluations[2].Codec.Math.PrimitiveStepsUsed);
+                Assert.AreEqual(0, template.Codec.Math.PrimitiveStepsUsed);
+                Assert.AreSame(head, r.Head); r.Runtime.SameDisk(disk); Assert.AreEqual(writes, r.Runtime.Storage.Base.WriteCalls);
+            }
+        }
+
+        [Test]
+        public void CH1_L5_PrepareAndSubmitCannotAcquireSeparateBudgets()
+        {
+            using (var r = new BattleApplicationRig())
+            {
+                var probe = B(); var draft = r.AttackDraft();
+                Assert.IsTrue(r.System.Prepare(draft, probe.Codec).IsAccepted);
+                var steps = checked((int)probe.Codec.Math.PrimitiveStepsUsed); Assert.Greater(steps, 0);
+                var limited = new SaveStoreBudget(new SaveCodecBudget(new ExactMathBudget(maxPrimitiveSteps: steps)));
+                var allocations = 0;
+                var input = new CandidateBoardInputController(r.System, B(), () => ++allocations == 1 ? limited : B());
+                var head = r.Head; var disk = r.Runtime.Disk(); var calls = r.Runtime.Storage.Base.Calls;
+                Assert.IsTrue(input.SelectMember("W")); DrawBudgetRoute(input, draft.Attack.Route);
+                Assert.IsTrue(input.LastPreparation.IsAccepted, input.LastPreparation.Code);
+                Assert.AreSame(input.LastPreparation.Request, input.LastRequest);
+                Is(input.LastResult, "Limit"); Assert.AreEqual("PrimitiveSteps", input.LastResult.Application.Diagnostic.LimitReason);
+                Assert.IsFalse(input.LastResult.Application.IsCommitted); Assert.IsNull(input.View.ApplicationView.PendingOperationId);
+                Assert.AreEqual(1, allocations, "A fresh second meter would incorrectly let submission continue after preparation exhausted this one.");
+                Assert.AreEqual(steps, limited.Codec.Math.PrimitiveStepsUsed);
+                Assert.AreEqual((ulong)steps + 1, input.LastResult.Application.Diagnostic.RequiredAtLeast);
+                Assert.AreEqual((ulong)steps, input.LastResult.Application.Diagnostic.Allowed);
+                Assert.AreSame(head, r.Head); r.Runtime.SameDisk(disk); Assert.AreEqual(calls, r.Runtime.Storage.Base.Calls);
+            }
+        }
+
+        [Test]
+        public void CH1_L5_PublicInputConstructorRetainsFixedLowBudgetRejection()
+        {
+            using (var r = new BattleApplicationRig())
+            {
+                var budget = new SaveStoreBudget(new SaveCodecBudget(new ExactMathBudget(maxPrimitiveSteps: 0)));
+                var input = new CandidateBoardInputController(r.System, budget);
+                var head = r.Head; var disk = r.Runtime.Disk(); var calls = r.Runtime.Storage.Base.Calls;
+                Assert.IsTrue(input.SelectMember("W")); DrawBudgetRoute(input, r.AttackDraft().Attack.Route);
+                Assert.AreEqual("Limit", input.LastPreparation.Code); Assert.AreEqual("PrimitiveSteps", input.LastPreparation.Diagnostic.LimitReason);
+                Assert.IsNull(input.LastRequest); Assert.IsNull(input.LastResult); Assert.IsNull(input.View.ApplicationView.PendingOperationId);
+                Assert.AreEqual(0, budget.Codec.Math.PrimitiveStepsUsed);
+                Assert.AreEqual(1UL, input.LastPreparation.Diagnostic.RequiredAtLeast);
+                Assert.AreEqual(0UL, input.LastPreparation.Diagnostic.Allowed);
+                Assert.AreSame(head, r.Head); r.Runtime.SameDisk(disk); Assert.AreEqual(calls, r.Runtime.Storage.Base.Calls);
+            }
+        }
+
+        private static PointerSample BudgetPointer(FlowPos cell) => new PointerSample(1, cell.x * 20, cell.y * 20, cell);
+        private static void DrawBudgetRoute(CandidateBoardInputController input, IReadOnlyList<FlowPos> route)
+        {
+            input.Down(BudgetPointer(route[0]), 6);
+            foreach (var cell in route.Skip(1)) input.Move(BudgetPointer(cell));
+            input.Up(BudgetPointer(route[route.Count - 1]));
+        }
+
         [UnityTest]
         public IEnumerator IQOO_UI01_SelectedMemberOutlineSurvivesFocusRefreshAndLocaleWithoutBusinessWrite()
         {

@@ -18,7 +18,7 @@ namespace FightMatch.Presentation
     // Owned by the application host, never by a VisualElement tree.
     public sealed class PlayerBattleController : IDisposable
     {
-        private readonly SaveStoreBudget budget;
+        private readonly Func<SaveStoreBudget> createBudget;
         private readonly Func<CandidateTimeSample> clock;
         private long pageEpoch;
         private bool disposed, refreshing;
@@ -36,13 +36,18 @@ namespace FightMatch.Presentation
 
         public PlayerBattleController(PlayerSessionSystem player, CandidateBattleApplicationSystem battle, SaveStoreBudget budget,
             Func<CandidateTimeSample> clock = null)
+            : this(player, battle, budget, clock, () => budget) { }
+
+        internal PlayerBattleController(PlayerSessionSystem player, CandidateBattleApplicationSystem battle, SaveStoreBudget budget,
+            Func<CandidateTimeSample> clock, Func<SaveStoreBudget> createBudget)
         {
             if (player == null || battle == null || budget == null) throw new ArgumentNullException();
-            this.budget = budget; this.clock = clock ?? new LocalPlayerClock().Read;
-            Session = player.GetBattleSession(); Input = new CandidateBoardInputController(battle, budget);
+            this.createBudget = createBudget ?? throw new ArgumentNullException(nameof(createBudget));
+            this.clock = clock ?? new LocalPlayerClock().Read;
+            Session = player.GetBattleSession(); Input = new CandidateBoardInputController(battle, budget, createBudget);
             Playback = new CandidateBattlePlaybackController(Input, battle);
             Input.Changed += OnChanged; Playback.Changed += OnChanged;
-            View = Session.Query(budget.Codec);
+            View = Session.Query(createBudget().Codec);
         }
         public PlayerBattlePageToken BindPage()
         { if (disposed) throw new ObjectDisposedException(nameof(PlayerBattleController));
@@ -52,13 +57,13 @@ namespace FightMatch.Presentation
         private void OnChanged()
         {
             if (disposed || refreshing) return;
-            Publish(Session.Query(budget.Codec));
+            Publish(Session.Query(createBudget().Codec));
         }
         public BattleView Refresh()
         {
             if (disposed) return View;
             BattleView actual; refreshing = true;
-            try { Input.Refresh(); actual = Session.Query(budget.Codec); }
+            try { Input.Refresh(); actual = Session.Query(createBudget().Codec); }
             finally { refreshing = false; }
             return Publish(actual);
         }
@@ -82,34 +87,36 @@ namespace FightMatch.Presentation
             Changed?.Invoke(); return View;
         }
         public BattleView AcceptHost(PlayerNavigationHostRequest request)
-        { return disposed ? View : Receive(Session.AcceptHost(request, clock, budget)); }
+        { return disposed ? View : Receive(Session.AcceptHost(request, clock, createBudget())); }
         public BattleView PreviewEnd(PlayerBattlePageToken page, CandidateApplicationKind kind, PlayerBattleContext context)
-        { return !Owns(page) ? View : Receive(Session.PreviewEnd(kind, context, budget.Codec)); }
+        { return !Owns(page) ? View : Receive(Session.PreviewEnd(kind, context, createBudget().Codec)); }
         public BattleView Confirm(PlayerBattlePageToken page, PlayerBattleConfirmation confirmation)
-        { return !Owns(page) ? View : Receive(Session.Confirm(confirmation, clock, budget)); }
+        { return !Owns(page) ? View : Receive(Session.Confirm(confirmation, clock, createBudget())); }
         public BattleView Cancel(PlayerBattlePageToken page, PlayerBattleConfirmation confirmation)
-        { return !Owns(page) ? View : Receive(Session.Cancel(confirmation, budget.Codec)); }
+        { return !Owns(page) ? View : Receive(Session.Cancel(confirmation, createBudget().Codec)); }
         public BattleView Settle(PlayerBattlePageToken page, PlayerBattleContext context)
-        { return !Owns(page) ? View : Receive(Session.Settle(context, clock, budget)); }
+        { return !Owns(page) ? View : Receive(Session.Settle(context, clock, createBudget())); }
         public BattleView Continue(PlayerBattlePageToken page, PlayerBattleRecoveryAction action,
             PreparedCandidateApplicationIntent original, PlayerBattleContext context)
-        { return !Owns(page) ? View : Receive(Session.Continue(action, original, context, budget)); }
+        { return !Owns(page) ? View : Receive(Session.Continue(action, original, context, createBudget())); }
         public BattleView ResumeObserved(PlayerBattlePageToken page, string commit, PlayerBattleContext context)
-        { return !Owns(page) ? View : Receive(Session.ResumeObserved(commit, context, budget)); }
+        { return !Owns(page) ? View : Receive(Session.ResumeObserved(commit, context, createBudget())); }
         public BattleView OpenOriginalResult(string operation, PlayerBattleContext context)
-        { return disposed ? View : Receive(Session.OpenOriginalResult(operation, context, budget)); }
+        { return disposed ? View : Receive(Session.OpenOriginalResult(operation, context, createBudget())); }
         public BattleView ReturnTo(PlayerBattlePageToken page, PlayerNavigationTargetKind target, PlayerBattleContext context)
-        { return !Owns(page) ? View : Receive(Session.ReturnTo(target, context, budget.Codec)); }
+        { return !Owns(page) ? View : Receive(Session.ReturnTo(target, context, createBudget().Codec)); }
         public BattleView Replay(PlayerBattlePageToken page, string level, string version, PlayerBattleContext context)
-        { return !Owns(page) ? View : Receive(Session.Replay(level, version, context, clock, budget)); }
+        { return !Owns(page) ? View : Receive(Session.Replay(level, version, context, clock, createBudget())); }
         public CandidateBattlePreviewResult SelectHistory(PlayerBattlePageToken page, string anchor, PlayerBattleContext context)
         {
-            if (!Owns(page) || !Current(context)) return null;
-            return Input.SelectHistoryAnchor(anchor, context.CommitId);
+            if (!Owns(page)) return null;
+            var evaluation = createBudget();
+            if (!Current(context, evaluation)) return null;
+            return Input.SelectHistoryAnchor(anchor, context.CommitId, evaluation);
         }
-        private bool Current(PlayerBattleContext context)
+        private bool Current(PlayerBattleContext context, SaveStoreBudget evaluation)
         {
-            var current = Session.Query(budget.Codec);
+            var current = Session.Query(evaluation.Codec);
             return context != null && current.Context.Revision == context.Revision && ReferenceEquals(context.Head, current.Context.Head) &&
                 ReferenceEquals(context, View.Context) && current.Status != "Busy" && current.Status != "WrongThread" && current.Status != "Disposed";
         }
@@ -120,7 +127,7 @@ namespace FightMatch.Presentation
         public PlayerDefaultReferenceResult ReadReference(PlayerBattlePageToken page, string level, string version, ContentBinding binding)
         {
             if (!Owns(page)) return null;
-            return Session.ReadDefaultReference(level, version, binding, View.Context, budget.Codec);
+            return Session.ReadDefaultReference(level, version, binding, View.Context, createBudget().Codec);
         }
         public void SkipPlayback(PlayerBattlePageToken page) { if (Owns(page)) Playback.SkipToFinal(); }
         public void RebuildLatest(PlayerBattlePageToken page) { if (Owns(page)) Input.RebuildLatest(); }

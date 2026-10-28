@@ -13,6 +13,49 @@ namespace FightMatch.Host.Tests
     public sealed class FightMatchHostRoutingLifetimeTests
     {
         [Test]
+        public void CH1_L5_HostKeepsOneCreationIntentAndDoesNotSpendItsLimitTemplate()
+        {
+            using (var rig = new HostRig(create: false))
+            {
+                var template = rig.Session.Budget;
+                ExactRational.Create(7, 3, template.Codec.Math);
+                var spent = template.Codec.Math.PrimitiveStepsUsed;
+                Assert.Greater(spent, 0);
+                Assert.AreEqual(64000000, template.Codec.Math.MaxPrimitiveSteps);
+                rig.Session.ObserveStartup();
+                Assert.IsTrue(rig.Session.CanCreate, rig.Session.Status);
+                rig.Profile.FailCreateAfterWrite = true;
+                rig.Session.CreateProfile();
+                Assert.AreEqual("CreateIntentWriteUnknown", rig.Session.Status);
+                Assert.AreEqual(LocalPlayerProfileState.CreateIntentRecorded, rig.Session.Observation.State);
+                var original = rig.Session.OriginalProfile;
+                Assert.IsNotNull(original);
+                var canonical = original.Intent.CanonicalBytes.ToArray();
+                Assert.AreEqual(spent, template.Codec.Math.PrimitiveStepsUsed);
+                rig.Session.ContinueCreation();
+                Assert.AreSame(original, rig.Session.OriginalProfile);
+                CollectionAssert.AreEqual(canonical, original.Intent.CanonicalBytes);
+                Assert.AreEqual(LocalPlayerProfileState.Active, rig.Session.Observation.State, rig.Session.Status);
+                Assert.IsTrue(rig.Session.Application.QueryView().View.IsPublishedHeadVerified);
+                Assert.AreEqual(1, rig.Head.Records.Count(x => x.OperationId == original.OperationId));
+                rig.Enter();
+                var head = rig.Head; var files = rig.Files();
+                for (var i = 0; i < 6; i++)
+                {
+                    rig.Session.Navigation.Refresh();
+                    rig.Session.Battle.Input.Refresh();
+                    var view = rig.Session.Battle.Refresh();
+                    Assert.IsTrue(view.Read.IsAvailable, view.Read.Code);
+                    Assert.AreEqual(CandidateApplicationPhase.Ready, view.Read.Application.Phase);
+                    Assert.AreSame(head, rig.Head);
+                }
+                Assert.AreSame(template, rig.Session.Budget);
+                Assert.AreEqual(spent, template.Codec.Math.PrimitiveStepsUsed);
+                rig.SameFiles(files);
+            }
+        }
+
+        [Test]
         public void H01_DuplicateOwnerCannotTakeOverOrDeinitializeTheActiveArchitecture()
         {
             using (var rig = new HostRig())

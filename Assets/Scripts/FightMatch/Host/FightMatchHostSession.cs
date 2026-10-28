@@ -43,6 +43,7 @@ namespace FightMatch.Host
         private bool busy, disposed, preparationAttempted, routing, bridgedCommittedRoute;
         private FightMatchHostPage beforeQuit;
         public string ProductRoot { get; }
+        // The host copies these limits for each evaluation without consuming this template.
         public SaveStoreBudget Budget { get; }
         public CandidateApplicationSystem Application { get; }
         public PlayerSessionSystem Player { get; }
@@ -88,8 +89,8 @@ namespace FightMatch.Host
                 architecture = FightMatchDemoArchitecture.Interface;
                 Application = architecture.GetSystem<CandidateApplicationSystem>();
                 Player = architecture.GetSystem<PlayerSessionSystem>();
-                Navigation = new PlayerNavigationController(Player, Budget);
-                Battle = new PlayerBattleController(Player, architecture.GetSystem<CandidateBattleApplicationSystem>(), Budget);
+                Navigation = new PlayerNavigationController(Player, Budget, NewEvaluationBudget);
+                Battle = new PlayerBattleController(Player, architecture.GetSystem<CandidateBattleApplicationSystem>(), Budget, null, NewEvaluationBudget);
                 Navigation.Changed += NavigationChanged;
                 Navigation.HostRequested += AcceptHost;
                 Battle.Changed += BattleChanged;
@@ -99,6 +100,15 @@ namespace FightMatch.Host
                 Dispose();
                 throw;
             }
+        }
+
+        private SaveStoreBudget NewEvaluationBudget()
+        {
+            var codec = Budget.Codec;
+            return new SaveStoreBudget(new SaveCodecBudget(
+                new ExactMathBudget(codec.Math.MaxIntegerBits, codec.Math.MaxPrimitiveSteps),
+                codec.MaxEnvelopeBytes, codec.MaxMetadataBytes, codec.MaxCollectionEntries,
+                codec.MaxStringCodeUnits, codec.MaxNumericTokenBytes), Budget.MaxMarkerBytes, Budget.MaxDirectoryEntries);
         }
 
         private static SaveRecoveryCapabilities Capabilities(ResolvedPublication publication)
@@ -142,10 +152,10 @@ namespace FightMatch.Host
             }
         }
 
-        private bool ReadLocator()
+        private bool ReadLocator(SaveStoreBudget budget)
         {
             CanCreate = false;
-            var read = locator.Read(Budget);
+            var read = locator.Read(budget);
             Status = read.Code;
             if (!read.IsAccepted)
             {
@@ -168,7 +178,8 @@ namespace FightMatch.Host
         {
             Execute(() =>
             {
-                if (!ReadLocator()) return;
+                var budget = NewEvaluationBudget();
+                if (!ReadLocator(budget)) return;
                 Page = FightMatchHostPage.Startup;
                 if (Observation.State == LocalPlayerProfileState.Absent)
                 {
@@ -185,9 +196,9 @@ namespace FightMatch.Host
                 if (current.Phase == CandidateApplicationPhase.Unconfigured)
                 {
                     storage = storage ?? storageFactory(Observation.ActiveProfile.PlayerId);
-                    LastCall = Player.OpenExisting(Observation.ActiveProfile, storage, catalog, capabilities, Budget);
+                    LastCall = Player.OpenExisting(Observation.ActiveProfile, storage, catalog, capabilities, budget);
                 }
-                else LastCall = Application.Restore(Budget);
+                else LastCall = Application.Restore(budget);
                 RefreshOpened();
             });
         }
@@ -197,20 +208,21 @@ namespace FightMatch.Host
             if (OriginalProfile != null) { ContinueCreation(); return; }
             Execute(() =>
             {
-                if (preparationAttempted || !ReadLocator()) return;
+                var budget = NewEvaluationBudget();
+                if (preparationAttempted || !ReadLocator(budget)) return;
                 if (Observation.State != LocalPlayerProfileState.Absent || !EmptyRoot())
                 {
                     Status = "UnclaimedData";
                     return;
                 }
                 preparationAttempted = true;
-                var prepared = Player.PrepareNewRosterProfile(catalog, SelectedReleaseSetId, Budget.Codec);
+                var prepared = Player.PrepareNewRosterProfile(catalog, SelectedReleaseSetId, budget.Codec);
                 Status = prepared.Code;
                 if (!prepared.IsAccepted) return;
                 OriginalProfile = prepared.Request;
                 storage = storageFactory(OriginalProfile.PlayerId);
-                LastCall = Player.CreateNew(OriginalProfile, storage, locator, capabilities, Budget);
-                CompleteCreationRead();
+                LastCall = Player.CreateNew(OriginalProfile, storage, locator, capabilities, budget);
+                CompleteCreationRead(budget);
             });
         }
 
@@ -218,11 +230,12 @@ namespace FightMatch.Host
         {
             Execute(() =>
             {
-                if (!ReadLocator()) return;
+                var budget = NewEvaluationBudget();
+                if (!ReadLocator(budget)) return;
                 if (OriginalProfile == null)
                 {
                     if (Observation.CreateRecord == null) { Status = "ObserveRequired"; return; }
-                    var recovered = Player.RecoverCreateIntent(Observation, catalog, Budget.Codec);
+                    var recovered = Player.RecoverCreateIntent(Observation, catalog, budget.Codec);
                     Status = recovered.Code;
                     if (!recovered.IsAccepted) return;
                     OriginalProfile = recovered.Request;
@@ -232,17 +245,17 @@ namespace FightMatch.Host
                 if (Observation.State == LocalPlayerProfileState.Absent)
                 {
                     if (!EmptyRoot()) { Status = "UnclaimedData"; return; }
-                    LastCall = Player.CreateNew(OriginalProfile, storage, locator, capabilities, Budget);
+                    LastCall = Player.CreateNew(OriginalProfile, storage, locator, capabilities, budget);
                 }
-                else LastCall = Player.ContinueCreate(OriginalProfile, Observation, storage, locator, capabilities, Budget);
-                CompleteCreationRead();
+                else LastCall = Player.ContinueCreate(OriginalProfile, Observation, storage, locator, capabilities, budget);
+                CompleteCreationRead(budget);
             });
         }
 
-        private void CompleteCreationRead()
+        private void CompleteCreationRead(SaveStoreBudget budget)
         {
             var actual = LastCall;
-            if (!ReadLocator()) return;
+            if (!ReadLocator(budget)) return;
             if (Observation.State == LocalPlayerProfileState.Active && actual.View.IsPublishedHeadVerified)
                 RefreshOpened();
             else

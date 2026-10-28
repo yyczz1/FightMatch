@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using FightMatch.Application;
 using FightMatch.Presentation;
+using FightMatch.Platform;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 using static FightMatch.Core.Tests.PlayerSessionTestData;
@@ -13,6 +15,77 @@ namespace FightMatch.Core.Tests
 {
     public sealed class PlayerBattlePresentationTests
     {
+        [Test]
+        public void CH1_L5_RefreshQueriesUseIndependentBudgetsWithoutBusinessWrites()
+        {
+            using (var r = new NavigationRig())
+            {
+                r.Enter();
+                var probe = Budget(); Assert.IsTrue(r.Player.QueryNavigation(probe.Codec).IsAvailable);
+                var steps = checked((int)probe.Codec.Math.PrimitiveStepsUsed); Assert.Greater(steps, 0);
+                var template = new SaveStoreBudget(new SaveCodecBudget(new ExactMathBudget(maxPrimitiveSteps: steps)));
+                var evaluations = new List<SaveStoreBudget>();
+                System.Func<SaveStoreBudget> create = () => {
+                    var next = new SaveStoreBudget(new SaveCodecBudget(new ExactMathBudget(maxPrimitiveSteps: steps)));
+                    evaluations.Add(next); return next;
+                };
+                using (var navigation = new PlayerNavigationController(r.Player, template, create))
+                using (var battle = new PlayerBattleController(r.Player, r.Battle, template, null, create))
+                {
+                    var head = r.Head; var files = r.Files(); var writes = r.Storage.Inner.SnapshotCreates; var published = r.Publications;
+                    for (var i = 0; i < 6; i++)
+                    {
+                        var used = evaluations.Select(x => x.Codec.Math.PrimitiveStepsUsed).ToArray();
+                        navigation.Refresh(); battle.Input.Refresh(); battle.Refresh();
+                        Assert.IsTrue(navigation.View.Read.IsAvailable, navigation.View.Read.Code);
+                        Assert.IsTrue(battle.View.Read.IsAvailable, battle.View.Read.Code);
+                        Assert.AreEqual(PlayerBattleRoute.Battle, battle.View.Route);
+                        CollectionAssert.AreEqual(used, evaluations.Take(used.Length).Select(x => x.Codec.Math.PrimitiveStepsUsed));
+                    }
+                    Assert.IsTrue(evaluations.All(x => x.Codec.Math.PrimitiveStepsUsed > 0 && x.Codec.Math.PrimitiveStepsUsed <= steps));
+                    Assert.AreEqual(0, template.Codec.Math.PrimitiveStepsUsed);
+                    var count = evaluations.Count;
+                    Assert.AreEqual(template.Codec.Math.MaxIntegerBits, navigation.IntegerBitLimit);
+                    Assert.AreEqual(template.Codec.MaxNumericTokenBytes, navigation.NumericTokenLimit);
+                    Assert.AreEqual(count, evaluations.Count, "Reading display limits is not an evaluation.");
+                    Assert.AreSame(head, r.Head); SameFiles(files, r.Storage.Inner.Files);
+                    Assert.AreEqual(writes, r.Storage.Inner.SnapshotCreates); Assert.AreEqual(published, r.Publications);
+                }
+            }
+        }
+
+        [Test]
+        public void CH1_L5_HistorySelectionSharesItsQueryBudgetWithPreview()
+        {
+            using (var r = new Rig())
+            {
+                r.Enter(); var attack = r.Battle.Submit(r.AttackRequest(), Budget()); Is(attack.Application);
+                r.Battle.ReportPresentationCompleted(attack.Presentation.Token);
+                SaveStoreBudget nextEvaluation = null;
+                System.Func<SaveStoreBudget> create = () => {
+                    var next = nextEvaluation ?? Budget(); nextEvaluation = null; return next;
+                };
+                using (var battle = new PlayerBattleController(r.Session, r.Battle, Budget(), null, create))
+                {
+                    var page = battle.BindPage(); var context = battle.View.Context;
+                    var probe = Budget(); Assert.IsTrue(battle.Session.Query(probe.Codec).Read.IsAvailable);
+                    var steps = checked((int)probe.Codec.Math.PrimitiveStepsUsed); Assert.Greater(steps, 0);
+                    var limited = new SaveStoreBudget(new SaveCodecBudget(new ExactMathBudget(maxPrimitiveSteps: steps)));
+                    var head = r.Head; var files = CopyFiles(r.Storage.Files); var writes = r.Storage.SnapshotCreates;
+                    nextEvaluation = limited;
+                    var preview = battle.SelectHistory(page, battle.HistoryEntries.Last().HistoryAnchorId, context);
+                    Assert.IsNotNull(preview); Assert.AreEqual("Limit", preview.Code);
+                    Assert.AreEqual("PrimitiveSteps", preview.Diagnostic.LimitReason);
+                    Assert.AreEqual(steps, limited.Codec.Math.PrimitiveStepsUsed);
+                    Assert.AreEqual((ulong)steps + 1, preview.Diagnostic.RequiredAtLeast);
+                    Assert.AreEqual((ulong)steps, preview.Diagnostic.Allowed);
+                    Assert.IsNull(battle.Input.RollbackPreview); Assert.IsNull(battle.Input.LastRequest);
+                    Assert.IsTrue(battle.View.Read.IsAvailable, "Nested display refresh has its own budget.");
+                    Assert.AreSame(head, r.Head); SameFiles(files, r.Storage.Files); Assert.AreEqual(writes, r.Storage.SnapshotCreates);
+                }
+            }
+        }
+
         private static readonly string[] IqooUiRecoveryStates = { "SaveFailed", "CommitUnknown" };
         private bool iqooEnteredPlayMode;
 
