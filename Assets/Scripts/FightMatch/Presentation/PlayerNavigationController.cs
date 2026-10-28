@@ -10,6 +10,7 @@ namespace FightMatch.Presentation
     {
         private readonly PlayerNavigationSession session;
         private readonly SaveStoreBudget budget;
+        private readonly Func<SaveStoreBudget> createBudget;
         private long epoch;
         private bool closed;
         private PlayerNavigationHostRequest delivered;
@@ -18,15 +19,19 @@ namespace FightMatch.Presentation
         public event Action<PlayerNavigationHostRequest> HostRequested;
 
         public PlayerNavigationController(PlayerSessionSystem player, SaveStoreBudget budget)
+            : this(player, budget, () => budget) { }
+
+        internal PlayerNavigationController(PlayerSessionSystem player, SaveStoreBudget budget, Func<SaveStoreBudget> createBudget)
         {
             if (player == null) throw new ArgumentNullException(nameof(player));
             this.budget = budget ?? throw new ArgumentNullException(nameof(budget));
+            this.createBudget = createBudget ?? throw new ArgumentNullException(nameof(createBudget));
             session = player.GetNavigationSession();
-            View = session.Query(budget.Codec);
+            View = session.Query(createBudget().Codec);
         }
         public void Refresh()
         {
-            if (!closed) Apply(session.Query(budget.Codec), false);
+            if (!closed) Apply(session.Query(createBudget().Codec), false);
         }
         private void Apply(NavigationView next, bool dispatch)
         {
@@ -45,8 +50,12 @@ namespace FightMatch.Presentation
                 DefinitionId = target.DefinitionId, PermanentKind = target.PermanentKind,
                 CommitId = target.CommitId, OperationId = target.OperationId };
             var context = View.Context; var binding = epoch;
-            return () => { if (!closed && binding == epoch) Apply(frozen.Kind == PlayerNavigationTargetKind.Preparation ?
-                session.EnterPreparation(frozen, context, budget) : session.Navigate(frozen, context, budget.Codec), true); };
+            return () => {
+                if (closed || binding != epoch) return;
+                var evaluation = createBudget();
+                Apply(frozen.Kind == PlayerNavigationTargetKind.Preparation ?
+                    session.EnterPreparation(frozen, context, evaluation) : session.Navigate(frozen, context, evaluation.Codec), true);
+            };
         }
         public Action PreviewHandler(Func<PlayerNavigationDraft> draft)
         {
@@ -55,13 +64,13 @@ namespace FightMatch.Presentation
             return () => {
                 if (closed || binding != epoch) return;
                 var value = draft();
-                if (value != null) Apply(session.Preview(value, context, budget.Codec), false);
+                if (value != null) Apply(session.Preview(value, context, createBudget().Codec), false);
             };
         }
         public Action ActionHandler(PlayerNavigationAction action)
         {
             var token = View.Token; var binding = epoch;
-            return () => { if (!closed && binding == epoch) Apply(session.Act(action, token, budget), true); };
+            return () => { if (!closed && binding == epoch) Apply(session.Act(action, token, createBudget()), true); };
         }
         public int IntegerBitLimit => budget.Codec.Math.MaxIntegerBits;
         public int NumericTokenLimit => budget.Codec.MaxNumericTokenBytes;
