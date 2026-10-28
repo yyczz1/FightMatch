@@ -248,13 +248,14 @@ namespace FightMatch.Core.Tests
         internal static void Rejected<T>(SaveCodecResult<T> result, string code = null)
         { Assert.IsFalse(result.IsAccepted); Assert.IsNull(result.Value); Assert.IsNotEmpty(result.RejectionCode); Assert.IsNotEmpty(result.FieldPath); if (code != null) Assert.AreEqual(code, result.RejectionCode); }
         internal static void Same(object x, object y) { Assert.IsTrue(CandidateBattleReportFingerprint.Equal(x, y, Math()), "Exact independent FMBR01 comparison"); }
-        internal static BusinessSaveScenario New(int level = 1, int faces = 1, int entryLevel = 1, int hp = 100)
+        internal static BusinessSaveScenario New(int level = 1, int faces = 1, int entryLevel = 1, int hp = 100, string classId = "warrior")
         {
             var fixture = DemoContentFixture.CaptureSource(level, 1, SourceCoordinateConvention.OneBasedBottomLeft);
             var s = new BusinessSaveScenario { Level = level, Context = new CandidateContext { DraftId = "isolated:015b", DraftRevision = 1,
                 ContentFingerprint = "candidate-only", RuleVersion = "candidate-r1", NumericContractVersion = "exact-r1", RandomContractVersion = "pcg-r1",
                 SourceNotes = new List<string> { fixture.SourcePath + ":" + fixture.SourceSha256, fixture.CoordinateTransform, "explicit conditional C=1/1000", "explicit conditional C=1/1000" } } };
-            var growth = CandidateCharacterGrowth.PrepareDefinition(Growth(s.Context, hp), Math()); Assert.IsTrue(growth.IsAccepted, growth.FieldPath);
+            var growthInput = Growth(s.Context, hp); growthInput.ClassId = classId;
+            var growth = CandidateCharacterGrowth.PrepareDefinition(growthInput, Math()); Assert.IsTrue(growth.IsAccepted, growth.FieldPath);
             var character = CandidateCharacterGrowth.CreateCandidate(growth.Definition, "player:015b", "W", entryLevel, entryLevel == 4 ? 157 : 0, 2, Math());
             Assert.IsTrue(character.IsAccepted, character.FieldPath); s.Character = character.Next;
             var inventory = CandidateInventory.PrepareDefinition(new CandidateInventoryDefinitionInput { Context = s.Context, Items = new List<CandidateInventoryItemInput> {

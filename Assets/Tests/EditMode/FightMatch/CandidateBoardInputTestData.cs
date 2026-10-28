@@ -305,9 +305,9 @@ namespace FightMatch.Core.Tests
         internal CandidateBoardInputController Controller => UI.Controller;
         internal CandidateBoardElement Board => UI.Board;
         internal float CellSize = 40;
-        internal BoardPanelRig(int level = 1, int hp = 100)
+        internal BoardPanelRig(int level = 1, int hp = 100, string classId = "warrior")
         {
-            Battle = new BattleApplicationRig(hp: hp, level: level);
+            Battle = new BattleApplicationRig(hp: hp, level: level, classId: classId);
             try
             {
                 Canvas = new BattleUguiRoot(); UI = Canvas.Input(); UI.Attach(Battle.System, B(), Canvas.Localization);

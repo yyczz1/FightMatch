@@ -671,9 +671,12 @@ namespace FightMatch.Core.Tests
         [UnityTest]
         public IEnumerator CH1_L5_RecoveryBlockedKeepsOriginalAttackAndBilingualBlockingNotice()
         {
-            using (var r = new BoardPanelRig())
+            using (var r = new BoardPanelRig(classId: "class:warrior"))
             {
-                yield return r.Ready(); Assert.IsTrue(r.Controller.SelectMember("W")); var head = r.Battle.Head;
+                yield return r.Ready(); Assert.IsTrue(r.Controller.SelectMember("W"));
+                Assert.AreEqual("class:warrior", r.Battle.State.Members.Single().Member.ClassId);
+                Assert.IsNull(r.Canvas.Localization.BindingDiagnostic, "The normal ready view must bind before injecting a recovery fault.");
+                var head = r.Battle.Head;
                 r.Battle.Runtime.Storage.Base.Arm("Snapshot.Flush.after", null);
                 r.Draw(); Is(r.Controller.LastResult, "SaveFailed");
                 Assert.IsTrue(r.Battle.Runtime.Storage.Base.FaultUsed);
@@ -696,9 +699,12 @@ namespace FightMatch.Core.Tests
         [UnityTest]
         public IEnumerator CH1_L5_RestoreRequiredKeepsCommittedAttackAndBilingualBlockingNotice()
         {
-            using (var r = new BoardPanelRig())
+            using (var r = new BoardPanelRig(classId: "class:warrior"))
             {
-                yield return r.Ready(); Assert.IsTrue(r.Controller.SelectMember("W")); var head = r.Battle.Head;
+                yield return r.Ready(); Assert.IsTrue(r.Controller.SelectMember("W"));
+                Assert.AreEqual("class:warrior", r.Battle.State.Members.Single().Member.ClassId);
+                Assert.IsNull(r.Canvas.Localization.BindingDiagnostic, "The normal ready view must bind before injecting a recovery fault.");
+                var head = r.Battle.Head;
                 r.Battle.Runtime.Storage.PublishedCommit = null; var loadBlocked = false;
                 try
                 {
