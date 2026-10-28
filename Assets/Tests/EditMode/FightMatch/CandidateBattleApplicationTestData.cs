@@ -19,16 +19,16 @@ namespace FightMatch.Core.Tests
         internal CandidateApplicationSnapshot Head => Runtime.Head;
         internal BattleSnapshot State => Head.Business.ActiveHistory.CurrentRun.CurrentSnapshot;
 
-        internal BattleApplicationRig(bool ready = true, int hp = 100, string root = null, int level = 1)
+        internal BattleApplicationRig(bool ready = true, int hp = 100, string root = null, int level = 1, string classId = "warrior")
         {
             Runtime = new ApplicationRuntimeRig(root);
             System = Runtime.Architecture.GetSystem<CandidateBattleApplicationSystem>();
             try
             {
                 if (!ready) return;
-                if (hp != 100 || level != 1)
+                if (hp != 100 || level != 1 || classId != "warrior")
                 {
-                    var domain = New(level, hp: hp);
+                    var domain = New(level, hp: hp, classId: classId);
                     Runtime.Domain.Context = domain.Context;
                     Runtime.Domain.Use(Prepare(domain));
                     Runtime.Domain.EntryInput = domain.EntryInput;
