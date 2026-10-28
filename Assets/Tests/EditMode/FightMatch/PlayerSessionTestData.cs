@@ -233,6 +233,7 @@ namespace FightMatch.Core.Tests
         {
             internal readonly Dictionary<string, byte[]> Files = new Dictionary<string, byte[]>(StringComparer.Ordinal);
             internal string Fault; internal int SnapshotCreates; internal bool Exists; private bool leased;
+            internal string CleanupFault; internal int IndexedDeleteCalls;
             public SaveStorageProfile Profile { get; }
             internal MemorySave(string player) { Profile = new SaveStorageProfile(player, SavePurpose.PlayerSave, "isolated-memory:" + player, SaveFaultModel.EditorProcessCrash); }
             public IDisposable AcquireWriterLease(bool createDirectory)
@@ -267,7 +268,13 @@ namespace FightMatch.Core.Tests
                 if (Fault == "marker-after" && finalName.EndsWith(".commit")) { Fault = null; throw new IOException("marker persisted, outcome unknown"); }
             }
             public void DeleteUncommitted(string name) { Files.Remove(name); }
-            public void DeleteIndexedOld(string name) { Files.Remove(name); }
+            public void DeleteIndexedOld(string name)
+            {
+                IndexedDeleteCalls++;
+                if (CleanupFault == "before") { CleanupFault = null; throw new IOException("before indexed deletion"); }
+                Files.Remove(name);
+                if (CleanupFault == "after") { CleanupFault = null; throw new IOException("after indexed deletion"); }
+            }
         }
         internal sealed class NoCurrentStorage : IContentPublicationStorage
         {

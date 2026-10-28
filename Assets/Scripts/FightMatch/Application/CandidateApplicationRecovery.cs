@@ -147,6 +147,15 @@ namespace FightMatch.Application
                     notificationFailure = CandidateApplicationDiagnostic.From("NotificationFailure", "Published", error);
                 }
             }
+            if (playerSession != null && next.Phase == CandidateApplicationPhase.Ready)
+            {
+                // Business publication is complete. Maintenance cannot change its outcome.
+                var cleaned = store.Cleanup(observation, budget);
+                if (!cleaned.IsAccepted)
+                    maintenanceDiagnostic = new CandidateApplicationDiagnostic(cleaned.Code, cleaned.FieldPath,
+                        cleaned.LimitReason, cleaned.RequiredAtLeast, cleaned.Allowed, cleaned.Diagnostic?.Stage,
+                        cleaned.Diagnostic?.ExceptionType, cleaned.Diagnostic?.ExceptionMessage);
+            }
             return completed == null ? Result(next.Phase.ToString()) :
                 Result("Completed", committed: true, commit: completed.OriginalCommitId,
                     lookup: completed, lookupViewCommit: next.PublishedSnapshot.Header.CommitId);

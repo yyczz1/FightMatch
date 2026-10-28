@@ -97,10 +97,12 @@ namespace FightMatch.Application
         public CandidateApplicationView View { get; }
         public CandidateApplicationDiagnostic Diagnostic { get; }
         public CandidateApplicationDiagnostic NotificationFailure { get; }
+        public CandidateApplicationDiagnostic MaintenanceDiagnostic { get; }
 
         internal CandidateApplicationCallResult(string code, bool committed, string commit,
             CandidateApplicationLookup lookup, string lookupViewCommit, CandidateApplicationView view,
-            CandidateApplicationDiagnostic diagnostic, CandidateApplicationDiagnostic notificationFailure)
+            CandidateApplicationDiagnostic diagnostic, CandidateApplicationDiagnostic notificationFailure,
+            CandidateApplicationDiagnostic maintenanceDiagnostic = null)
         {
             Code = code;
             IsCommitted = committed;
@@ -110,6 +112,7 @@ namespace FightMatch.Application
             View = view;
             Diagnostic = diagnostic;
             NotificationFailure = notificationFailure;
+            MaintenanceDiagnostic = maintenanceDiagnostic;
         }
     }
 

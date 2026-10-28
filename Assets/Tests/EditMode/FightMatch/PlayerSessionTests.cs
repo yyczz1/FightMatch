@@ -137,6 +137,96 @@ namespace FightMatch.Core.Tests
                 Assert.IsTrue(r.Lifecycle.QueryView().ContentBinding.Same(fixture.V2.Binding));
             }
         }
+        [Test] public void VerifiedPlayerHeadRetainsTwoPhysicalGenerationsAndAllOperationHistory()
+        {
+            using (var r = new Rig())
+            {
+                var initial = r.Head.Header.CommitId;
+                r.Enter(); var entered = r.Head.Header.CommitId;
+                var call = r.Battle.Submit(r.AttackRequest(), Budget()); Is(call.Application);
+                Assert.IsNull(call.Application.MaintenanceDiagnostic);
+                Assert.AreEqual(entered, r.Head.Header.ParentCommitId);
+                Assert.AreEqual(3, r.Head.Header.CommitIndex.Count); Assert.AreEqual(3, r.Head.Records.Count);
+                AssertPhysicalHeadAndParent(r);
+                var files = CopyFiles(r.Storage.Files); var writes = r.Storage.SnapshotCreates;
+                var create = TakeCore(PlayerProfileCreateRecordCodec.RestoreIntent(r.Profile.CreateRecord, Codec()));
+                var found = Is(r.Application.QueryOperation(create, Budget()));
+                Assert.AreEqual(initial, found.OriginalCommitId);
+                Assert.AreEqual(r.Head.Header.CommitId, found.LookupViewCommitId);
+                Assert.AreEqual(writes, r.Storage.SnapshotCreates); SameFiles(files, r.Storage.Files);
+            }
+        }
+        [TestCase("before")]
+        [TestCase("after")]
+        public void CleanupInterruptionPreservesCompletedResultAndNextRestoreFinishesMaintenance(string fault)
+        {
+            using (var r = new Rig())
+            {
+                var initial = r.Head.Header.CommitId;
+                r.Enter(); var parent = CopyFiles(r.Storage.Files);
+                r.Storage.CleanupFault = fault;
+                var call = r.Battle.Submit(r.AttackRequest(), Budget()); Is(call.Application);
+                Assert.IsTrue(call.Application.IsCommitted);
+                Assert.AreEqual(CandidateApplicationPhase.Ready, call.Application.View.Phase);
+                Assert.IsTrue(call.Application.View.IsPublishedHeadVerified);
+                Assert.IsNull(call.Application.Diagnostic);
+                var diagnostic = call.Application.MaintenanceDiagnostic;
+                Assert.IsNotNull(diagnostic); Assert.AreEqual("CleanupInterrupted", diagnostic.Code);
+                Assert.AreEqual("System.IO.IOException", diagnostic.ExceptionType);
+                StringAssert.EndsWith(".Delete", diagnostic.Stage);
+                CollectionAssert.AreEqual(parent["c-" + r.Head.Header.ParentCommitId + ".snapshot"],
+                    r.Storage.Files["c-" + r.Head.Header.ParentCommitId + ".snapshot"]);
+                CollectionAssert.AreEqual(parent["c-" + r.Head.Header.ParentCommitId + ".commit"],
+                    r.Storage.Files["c-" + r.Head.Header.ParentCommitId + ".commit"]);
+                Assert.IsTrue(r.Storage.Files.ContainsKey("c-" + initial + ".snapshot"));
+                Assert.AreEqual(fault == "before", r.Storage.Files.ContainsKey("c-" + initial + ".commit"));
+                var head = r.Head.Header.CommitId; var bytes = r.Storage.Files["c-" + head + ".snapshot"];
+                var writes = r.Storage.SnapshotCreates;
+                var restored = Is(r.Application.Restore(Budget()), "Ready");
+                Assert.IsNull(restored.MaintenanceDiagnostic); Assert.IsTrue(restored.View.IsPublishedHeadVerified);
+                Assert.AreEqual(head, r.Head.Header.CommitId); Assert.AreEqual(writes, r.Storage.SnapshotCreates);
+                CollectionAssert.AreEqual(bytes, r.Storage.Files["c-" + head + ".snapshot"]);
+                AssertPhysicalHeadAndParent(r);
+            }
+        }
+        [Test] public void UnknownPlayerCommitDoesNotCleanUntilOriginalOperationIsResolved()
+        {
+            using (var r = new Rig())
+            {
+                r.Enter(); var attacked = r.Battle.Submit(r.AttackRequest(), Budget()); Is(attacked.Application);
+                if (attacked.Presentation != null) r.Battle.ReportPresentationCompleted(attacked.Presentation.Token);
+                var before = CopyFiles(r.Storage.Files); var deletes = r.Storage.IndexedDeleteCalls;
+                var exit = r.EndRequest(false); r.Storage.Fault = "marker-after";
+                var unknown = r.Lifecycle.Submit(exit, Budget()); Is(unknown, "CommitUnknown");
+                Assert.IsNull(unknown.MaintenanceDiagnostic); Assert.AreEqual(deletes, r.Storage.IndexedDeleteCalls);
+                foreach (var file in before) CollectionAssert.AreEqual(file.Value, r.Storage.Files[file.Key], file.Key);
+                var writes = r.Storage.SnapshotCreates;
+                var resolved = Is(r.Lifecycle.Resolve(exit, Budget()));
+                Assert.IsNull(resolved.MaintenanceDiagnostic); Assert.IsTrue(resolved.View.IsPublishedHeadVerified);
+                Assert.AreEqual(writes, r.Storage.SnapshotCreates);
+                Assert.AreEqual(4, r.Head.Records.Count); AssertPhysicalHeadAndParent(r);
+            }
+        }
+        [Test] public void DamagedRequiredParentStillBlocksPlayerRestoreWithoutCleanup()
+        {
+            using (var r = new Rig())
+            {
+                r.Enter(); Is(r.Battle.Submit(r.AttackRequest(), Budget()).Application);
+                var parent = r.Storage.Files["c-" + r.Head.Header.ParentCommitId + ".snapshot"];
+                parent[parent.Length - 1] ^= 127;
+                var files = CopyFiles(r.Storage.Files); var deletes = r.Storage.IndexedDeleteCalls;
+                var restored = Is(r.Application.Restore(Budget()), "RecoveryBlocked");
+                Assert.AreEqual(CandidateApplicationPhase.RecoveryBlocked, restored.View.Phase);
+                Assert.IsFalse(restored.View.IsPublishedHeadVerified); Assert.IsNull(restored.MaintenanceDiagnostic);
+                Assert.AreEqual(deletes, r.Storage.IndexedDeleteCalls); SameFiles(files, r.Storage.Files);
+            }
+        }
+        private static void AssertPhysicalHeadAndParent(Rig r)
+        {
+            var head = r.Head.Header;
+            CollectionAssert.AreEquivalent(new[] { "writer.lock", "c-" + head.CommitId + ".snapshot", "c-" + head.CommitId + ".commit",
+                "c-" + head.ParentCommitId + ".snapshot", "c-" + head.ParentCommitId + ".commit" }, r.Storage.Files.Keys);
+        }
         [Test] public void DeviceClockHasProcessScopedMonotonicEvidenceAndReadingViewsDoesNotWrite()
         {
             var first = new LocalPlayerClock().Read(); var second = new LocalPlayerClock().Read();
