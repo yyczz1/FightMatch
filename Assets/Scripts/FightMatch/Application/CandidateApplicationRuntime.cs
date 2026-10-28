@@ -37,6 +37,7 @@ namespace FightMatch.Application
         private bool active;
         private bool disposed;
         private CandidateApplicationDiagnostic notificationFailure;
+        private CandidateApplicationDiagnostic maintenanceDiagnostic;
         private volatile CandidateApplicationView view;
 
         internal CandidateApplicationRuntime(Action<CandidateApplicationPublished> publish)
@@ -54,7 +55,7 @@ namespace FightMatch.Application
             string lookupViewCommit = null)
         {
             return new CandidateApplicationCallResult(code, committed, commit, lookup, lookupViewCommit,
-                View, diagnostic, notificationFailure);
+                View, diagnostic, notificationFailure, maintenanceDiagnostic);
         }
 
         private CandidateApplicationCallResult Reject(string code, string path)
@@ -76,6 +77,7 @@ namespace FightMatch.Application
             if (refusal != null) return refusal;
             active = true;
             notificationFailure = null;
+            maintenanceDiagnostic = null;
             try { return action(); }
             catch (ExactMathLimitException error)
             {
