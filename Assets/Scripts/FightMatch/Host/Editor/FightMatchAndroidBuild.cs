@@ -255,7 +255,9 @@ namespace FightMatch.Host.Editor
             var template = Rect("Template", rect); template.anchorMin = Vector2.zero; template.anchorMax = new Vector2(1, 0);
             template.pivot = new Vector2(.5f, 1); template.sizeDelta = new Vector2(0, 240);
             Surface(template, new Color(.10f, .13f, .17f), true);
-            var viewport = Rect("Viewport", template, true); viewport.gameObject.AddComponent<UnityEngine.UI.RectMask2D>();
+            var viewport = Rect("Viewport", template, true);
+            Surface(viewport, Color.black, true);
+            viewport.gameObject.AddComponent<UnityEngine.UI.Mask>().showMaskGraphic = false;
             var content = Rect("Content", viewport); content.anchorMin = new Vector2(0, 1); content.anchorMax = Vector2.one;
             content.pivot = new Vector2(.5f, 1); content.sizeDelta = new Vector2(0, 56);
             var item = Rect("Item", content); item.anchorMin = new Vector2(0, 1); item.anchorMax = Vector2.one;
@@ -276,6 +278,28 @@ namespace FightMatch.Host.Editor
             Id(rect.gameObject, id);
             return dropdown;
         }
+        public static void ApplyFormationDropdownMaskCorrection()
+        {
+            var root = PrefabUtility.LoadPrefabContents(UguiPrefab);
+            try
+            {
+                const string partyPath = "RuntimeCanvas/SafeAreaRoot/ScreenLayer/NavigationPage/NavigationScroll/Viewport/Content/PartySection/";
+                foreach (var name in new[] { "FrontSlot", "MiddleSlot", "RearSlot" })
+                {
+                    var viewport = root.transform.Find(partyPath + name + "/Template/Viewport");
+                    Require(viewport != null, "Formation dropdown viewport: " + name);
+                    var mask = viewport.GetComponent<UnityEngine.UI.Mask>();
+                    var image = viewport.GetComponent<UnityEngine.UI.Image>();
+                    Require(mask != null && image != null && !mask.showMaskGraphic, "Formation dropdown requires its hidden stencil mask: " + name);
+                    // The stencil writer must remain opaque; showMaskGraphic hides its color.
+                    var color = image.color; color.a = 1; image.color = color;
+                }
+                Require(PrefabUtility.SaveAsPrefabAsset(root, UguiPrefab) != null, "formation-dropdown-fix01 prefab save");
+                Debug.Log("formation-dropdown-fix01 corrected the three formation dropdown viewport masks in " + UguiPrefab);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
         private static void Stretch(RectTransform rect)
         { rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one; rect.offsetMin = rect.offsetMax = Vector2.zero; }
         private static RectTransform Modal(string name, Transform parent, string id = null)
