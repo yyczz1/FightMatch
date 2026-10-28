@@ -564,6 +564,101 @@ namespace FightMatch.Core.Tests
         }
 
         [UnityTest]
+        public IEnumerator CH1_L5_RecoveryBlockedKeepsOriginalAttackAndBilingualBlockingNotice()
+        {
+            using (var r = new BoardPanelRig())
+            {
+                yield return r.Ready(); Assert.IsTrue(r.Controller.SelectMember("W")); var head = r.Battle.Head;
+                r.Battle.Runtime.Storage.Base.Arm("Snapshot.Flush.after", null);
+                r.Draw(); Is(r.Controller.LastResult, "SaveFailed");
+                Assert.IsTrue(r.Battle.Runtime.Storage.Base.FaultUsed);
+                var original = r.Controller.LastRequest; var canonical = original.Intent.CanonicalBytes.ToArray();
+                var commit = r.Controller.View.ApplicationView.PendingCommitId; var readBlocked = false;
+                try
+                {
+                    r.Battle.Runtime.Storage.BeforeOpen = _ => { readBlocked = true; throw new IOException("CH1-L5 original candidate lookup blocked"); };
+                    Is(r.Controller.ResolveLast(), "RecoveryBlocked");
+                }
+                finally { r.Battle.Runtime.Storage.BeforeOpen = null; }
+                Assert.IsTrue(readBlocked);
+                Assert.AreSame(original, r.Controller.LastRequest);
+                CollectionAssert.AreEqual(canonical, original.Intent.CanonicalBytes);
+                Assert.AreEqual(commit, r.Controller.View.ApplicationView.PendingCommitId);
+                AssertRecoveryBlockingNoticeWithoutBusinessWrites(r, CandidateApplicationPhase.RecoveryBlocked, false, head);
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator CH1_L5_RestoreRequiredKeepsCommittedAttackAndBilingualBlockingNotice()
+        {
+            using (var r = new BoardPanelRig())
+            {
+                yield return r.Ready(); Assert.IsTrue(r.Controller.SelectMember("W")); var head = r.Battle.Head;
+                r.Battle.Runtime.Storage.PublishedCommit = null; var loadBlocked = false;
+                try
+                {
+                    // Existing B15_05 boundary: the marker is committed before the fourth enumeration loads it.
+                    r.Battle.Runtime.Storage.AfterMarkerEnumeration = count =>
+                    {
+                        if (count != 4) return;
+                        loadBlocked = true; throw new IOException("CH1-L5 committed candidate load blocked");
+                    };
+                    r.Draw();
+                }
+                finally { r.Battle.Runtime.Storage.AfterMarkerEnumeration = null; }
+                Assert.IsTrue(loadBlocked);
+                Is(r.Controller.LastResult, "CommittedRestoreRequired");
+                AssertRecoveryBlockingNoticeWithoutBusinessWrites(r, CandidateApplicationPhase.RestoreRequired, true, head);
+            }
+        }
+
+        private static void AssertRecoveryBlockingNoticeWithoutBusinessWrites(BoardPanelRig r,
+            CandidateApplicationPhase phase, bool committed, CandidateApplicationSnapshot head)
+        {
+            var input = r.Controller; var result = input.LastResult; var prepared = input.LastRequest;
+            Assert.IsNotNull(prepared); Assert.IsNotNull(result.Application.Diagnostic);
+            Assert.AreEqual(phase, input.View.Phase);
+            Assert.AreEqual(phase.ToString(), input.View.AttackFor("W").Reason);
+            Assert.AreEqual("W", input.SelectedCharacterId);
+            Assert.AreSame(head, input.View.PublishedSnapshot);
+            Assert.AreEqual(committed, result.Application.IsCommitted);
+            Assert.IsNull(result.Presentation); Assert.IsNull(input.View.PresentationToken);
+            var commit = input.View.ApplicationView.PendingCommitId; var canonical = prepared.Intent.CanonicalBytes.ToArray();
+            Assert.IsNotNull(commit);
+            Assert.AreEqual(commit, result.Application.OriginalCommitId);
+            Assert.AreEqual(prepared.OperationId, input.View.ApplicationView.PendingOperationId);
+            Assert.AreEqual(committed ? 1 : 0, r.Battle.Runtime.Storage.Base.RealMarkerPromotionsFor(commit));
+            Assert.AreEqual(committed, File.Exists(r.Battle.Runtime.Path(MarkerName(commit))));
+            if (committed) Assert.IsTrue(File.Exists(r.Battle.Runtime.Path(SnapshotName(commit))));
+            var files = r.Battle.Runtime.Disk(); var calls = r.Battle.Runtime.Storage.Base.Calls;
+            var writes = r.Battle.Runtime.Storage.Base.WriteCalls;
+            foreach (var locale in new[] { LocaleId.En, LocaleId.ZhHans })
+            {
+                r.Canvas.Localization.SetLocale(locale); input.Refresh(); UnityEngine.Canvas.ForceUpdateCanvases();
+                var line = BattleCopyAssert.Localized(r.UI, "board-availability:fm.save_recovery.blocking_notice",
+                    r.Canvas.Localization, "fm.save_recovery.blocking_notice");
+                Assert.IsTrue(line.gameObject.activeInHierarchy);
+                Assert.IsNull(r.Canvas.Localization.BindingDiagnostic);
+                Assert.AreSame(prepared, input.LastRequest); Assert.AreSame(result, input.LastResult);
+                CollectionAssert.AreEqual(canonical, input.LastRequest.Intent.CanonicalBytes);
+                Assert.AreEqual(prepared.OperationId, input.View.ApplicationView.PendingOperationId);
+                Assert.AreEqual(commit, input.View.ApplicationView.PendingCommitId);
+                Assert.AreEqual(committed, input.LastResult.Application.IsCommitted);
+                Assert.AreEqual(phase, input.View.Phase);
+                Assert.AreEqual(phase.ToString(), input.View.AttackFor("W").Reason);
+                Assert.AreSame(head, input.View.PublishedSnapshot);
+                // This correction must not turn unrecognized Input reasons into generic recovery copy.
+                var unknown = BattleText.Reason(BattleTextDomain.Input, "FutureUnmappedInputReason");
+                var diagnostic = r.Canvas.Localization.Resolve(unknown.Key, unknown.Arguments);
+                Assert.IsFalse(diagnostic.IsSuccess); Assert.AreEqual("InvalidLocalizationKey", diagnostic.DiagnosticCode);
+            }
+            Assert.AreEqual(calls, r.Battle.Runtime.Storage.Base.Calls);
+            Assert.AreEqual(writes, r.Battle.Runtime.Storage.Base.WriteCalls);
+            Assert.AreEqual(committed ? 1 : 0, r.Battle.Runtime.Storage.Base.RealMarkerPromotionsFor(commit));
+            r.Battle.Runtime.SameDisk(files);
+        }
+
+        [UnityTest]
         public IEnumerator B16B06_PlayLatchOldTokenAndRebuildNeverQueueOrSettleRewards()
         {
             using (var r = new BoardPanelRig())
