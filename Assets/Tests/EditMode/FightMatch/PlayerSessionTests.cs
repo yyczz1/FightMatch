@@ -207,6 +207,23 @@ namespace FightMatch.Core.Tests
                 Assert.AreEqual(4, r.Head.Records.Count); AssertPhysicalHeadAndParent(r);
             }
         }
+        [TestCase("snapshot")]
+        [TestCase("commit")]
+        public void DamagedCompleteOldCopyStillBlocksPlayerRestoreWithoutCleanup(string extension)
+        {
+            using (var r = new Rig())
+            {
+                var initial = r.Head.Header.CommitId;
+                r.Enter(); r.Storage.CleanupFault = "before";
+                var call = r.Battle.Submit(r.AttackRequest(), Budget()); Is(call.Application);
+                Assert.AreEqual("CleanupInterrupted", call.Application.MaintenanceDiagnostic.Code);
+                var old = r.Storage.Files["c-" + initial + "." + extension]; old[40] ^= 1;
+                var files = CopyFiles(r.Storage.Files); var deletes = r.Storage.IndexedDeleteCalls;
+                var restored = Is(r.Application.Restore(Budget()), "RecoveryBlocked");
+                Assert.IsFalse(restored.View.IsPublishedHeadVerified); Assert.IsNull(restored.MaintenanceDiagnostic);
+                Assert.AreEqual(deletes, r.Storage.IndexedDeleteCalls); SameFiles(files, r.Storage.Files);
+            }
+        }
         [Test] public void DamagedRequiredParentStillBlocksPlayerRestoreWithoutCleanup()
         {
             using (var r = new Rig())

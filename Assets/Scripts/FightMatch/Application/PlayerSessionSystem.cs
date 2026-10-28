@@ -141,7 +141,8 @@ namespace FightMatch.Application
                 Need(view.EvidenceComplete && view.RequirementsComplete, "RecoveryBlocked", "Recovery.Complete");
                 // Interrupted maintenance may leave an older indexed half-pair. The exact parent is still required.
                 var parent = view.Current?.Descriptor.ParentCommitId;
-                Need(!view.RedundancyDegraded || parent != null && view.RetainedRoots.Any(root =>
+                Need(!view.RedundancyDegraded || view.Diagnostics.All(diagnostic => diagnostic.Code == "RedundancyDegraded") &&
+                    parent != null && view.RetainedRoots.Any(root =>
                     root.Kind == SaveRecoveryRootKind.Backup && root.Descriptor.CommitId == parent),
                     "RecoveryBlocked", "Recovery.RetainedRoots");
                 var resolved = new List<ResolvedPublication>(); resolved.Add(ResolveRecord(CreateRecord, catalog));
