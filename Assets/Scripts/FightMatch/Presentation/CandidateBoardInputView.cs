@@ -233,7 +233,8 @@ namespace FightMatch.Presentation
                     x.Member.CharacterId == Controller.SelectedCharacterId)?.Member))));
             if (view.PresentationToken != null) feedback.Add(new BattleTextLine("fm.battle.gesture.playback_locked"));
             else if (view.Phase == CandidateApplicationPhase.PendingPreparation || view.Phase == CandidateApplicationPhase.SaveFailed ||
-                view.Phase == CandidateApplicationPhase.CommitUnknown) feedback.Add(new BattleTextLine("fm.save_recovery.blocking_notice"));
+                view.Phase == CandidateApplicationPhase.CommitUnknown || view.Phase == CandidateApplicationPhase.RecoveryBlocked ||
+                view.Phase == CandidateApplicationPhase.RestoreRequired) feedback.Add(new BattleTextLine("fm.save_recovery.blocking_notice"));
             else if (state == null) { }
             else if (state?.Phase == BattlePhase.WonPendingSettlement) feedback.Add(new BattleTextLine("fm.victory.pending.title"));
             else if (view.Link.IsAvailable) feedback.Add(new BattleTextLine("fm.battle.gesture.instruction"));

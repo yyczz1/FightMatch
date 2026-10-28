@@ -164,6 +164,13 @@ namespace FightMatch.Core.Tests
             var serialized = new SerializedObject(owner); var field = serialized.FindProperty(property);
             Assert.IsNotNull(field, property); field.objectReferenceValue = value; serialized.ApplyModifiedPropertiesWithoutUndo();
         }
+        private static void SetArray(UnityEngine.Object owner, string name, UnityEngine.Object[] values)
+        {
+            var serialized = new SerializedObject(owner); var property = serialized.FindProperty(name);
+            Assert.IsNotNull(property, name); property.arraySize = values.Length;
+            for (var i = 0; i < values.Length; i++) property.GetArrayElementAtIndex(i).objectReferenceValue = values[i];
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
         private static LocalizedTmpText Text(Transform parent, string name)
         {
             var rect = Container(parent, name); rect.sizeDelta = new Vector2(500, 48);
@@ -186,12 +193,31 @@ namespace FightMatch.Core.Tests
         internal CandidateBoardInputView Input(Transform parent = null)
         {
             var root = Container(parent ?? Root.transform, "Input"); var view = root.gameObject.AddComponent<CandidateBoardInputView>();
-            foreach (var name in new[] { "phase", "save", "enemies", "availability" })
+            foreach (var name in new[] { "phase", "save", "availability" })
             {
-                var id = name == "phase" ? "phase-status" : name == "save" ? "save-status" : name == "enemies" ? "enemy-status" : "input-status";
+                var id = name == "phase" ? "phase-status" : name == "save" ? "save-status" : "input-status";
                 Set(view, name, Text(root, id));
             }
-            var members = Container(root, "Members"); Set(view, "members", members);
+            foreach (var family in new[] { "ally", "enemy", "member" })
+            {
+                var slots = new RectTransform[3]; var names = new LocalizedTmpText[3];
+                var hp = new LocalizedTmpText[3]; var intent = new LocalizedTmpText[3];
+                for (var slot = 0; slot < 3; slot++)
+                {
+                    slots[slot] = Container(root, family + "-slot-" + slot);
+                    slots[slot].anchoredPosition = new Vector2(300 + slot * 76, 0);
+                    slots[slot].sizeDelta = new Vector2(72, 72);
+                    if (family == "member") continue;
+                    names[slot] = Text(slots[slot], family + "-name-" + slot);
+                    hp[slot] = Text(slots[slot], family + "-hp-" + slot);
+                    intent[slot] = Text(slots[slot], family + "-intent-" + slot);
+                }
+                SetArray(view, family == "member" ? "memberSlots" : family + "StageSlots", slots);
+                if (family != "member")
+                {
+                    SetArray(view, family + "Names", names); SetArray(view, family + "Hp", hp); SetArray(view, family + "Intent", intent);
+                }
+            }
             var template = Button(root, "member-template"); template.gameObject.SetActive(false); Set(view, "memberTemplate", template);
             Set(view, "retry", Button(root, "retry-save", "fm.action.battle.retry"));
             Set(view, "resolve", Button(root, "resolve-save", "fm.action.battle.resolve"));
